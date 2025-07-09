@@ -1,0 +1,63 @@
+@use 'variables' as * ;
+@use 'mixins' as * ;
+@use 'palette' as * ;
+
+// Estilos generales de tipografía
+body {
+  @include roboto-font($base-font-size, 400);
+  color: $text-color;
+  line-height: 1.5;
+}
+
+h1 {
+  @include montserrat-font(2.5rem, 600);
+  color: $heading-color;
+  line-height: 1.2;
+}
+
+h2 {
+  @include montserrat-font(2rem, 600);
+  color: $heading-color;
+  line-height: 1.2;
+  margin: 0 0 1rem 0;
+}
+
+h3 {
+  @include montserrat-font(1.5rem, 600);
+  color: $heading-color;
+  line-height: 1.2;
+}
+
+h4 {
+  @include montserrat-font(1.25rem, 600);
+  color: $heading-color;
+  line-height: 1.2;
+}
+
+p {
+  @include roboto-font(1rem, 400);
+  color: $text-color;
+  line-height: 1.5;
+  margin-bottom: 0.25rem;
+}
+
+.p1 {
+  @include roboto-font(1.1rem, 400);
+  color: $text-color;
+  line-height: 1.55;
+  margin-bottom: 0.5rem;
+}
+
+.p2 {
+  @include roboto-font(1.15rem, 400);
+  color: $text-color;
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+}
+
+.p3 {
+  @include roboto-font(1.25rem, 400);
+  color: $text-color;
+  line-height: 1.65;
+  margin-bottom: 1.5rem;
+}
