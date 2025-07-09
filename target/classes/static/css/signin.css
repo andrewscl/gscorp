@@ -1,0 +1,116 @@
+.signin-page {
+  font-family: sans-serif;
+  background-color: #f8f9fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  margin: 0;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+.signin-page .signin-container {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 0.3rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  width: 90%;
+  max-width: 400px;
+}
+.signin-page .signin-container h2 {
+  text-align: center;
+  color: #343a40;
+  margin-bottom: 1.5rem;
+}
+.signin-page .signin-container .alert {
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.3rem;
+}
+.signin-page .signin-container .alert.alert-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+.signin-page .signin-container .alert.alert-info {
+  color: #0c5460;
+  background-color: #d1ecf1;
+  border-color: #bee5eb;
+}
+.signin-page .signin-container .alert.alert-success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+.signin-page .signin-container form {
+  display: flex;
+  flex-direction: column;
+}
+.signin-page .signin-container form .form-group {
+  margin-bottom: 1rem;
+}
+.signin-page .signin-container form .form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #343a40;
+  font-weight: bold;
+}
+.signin-page .signin-container form .form-group .form-control {
+  padding: 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.3rem;
+  transition: all 0.3s ease-in-out;
+  width: 100%;
+  box-sizing: border-box;
+}
+.signin-page .signin-container form .form-group .form-control:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+.signin-page .signin-container form .form-group .password-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+.signin-page .signin-container form .form-group .password-input .form-control {
+  flex-grow: 1;
+  border-right: none;
+  border-radius: 0.3rem 0 0 0.3rem;
+}
+.signin-page .signin-container form .btn-primary {
+  background-color: #007bff;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease-in-out;
+  width: 100%;
+  box-sizing: border-box;
+}
+.signin-page .signin-container form .btn-primary:hover {
+  background-color: #0062cc;
+}
+.signin-page .signin-container form .btn-primary:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+}
+.signin-page .signin-container p.login-link {
+  margin-top: 1.5rem;
+  text-align: center;
+  color: #6c757d;
+}
+.signin-page .signin-container p.login-link a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+.signin-page .signin-container p.login-link a:hover {
+  text-decoration: underline;
+}/*# sourceMappingURL=signin.css.map */

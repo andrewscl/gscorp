@@ -1,0 +1,122 @@
+<div th:fragment="index">
+    
+    <!-- Slideshow -->
+    <div th:replace="~{/public/fragments/slideshow-video :: slideshow-video}"></div>
+
+    <!-- Bienvenida -->
+    <section class="text-container-big">
+      <div class="container">
+        <h1>Bienvenido a GSCorp</h1>
+        <p class="p3">Somos un grupo empresarial comprometido con la innovación
+                  y el desarrollo sostenible. Con presencia en múltiples
+                  sectores, nuestra misión es generar valor a través de
+                  inversiones estratégicas y gestión eficiente.</p>
+      </div>
+    </section>
+
+    <!-- Texto + Imagen -->
+    <section class="text-image-right">
+            <div class="container">
+                <div class="text-content">
+                    <h2>Creemos en un mundo diferente</h2>
+                    <p class="p2">Con 20 años de experiencia acompañando a empresas y
+                      personas, hemos consolidado una perspectiva estratégica
+                      que nos permite entregar servicios con altos estándares
+                      de calidad, atención al detalle y un enfoque centrado en
+                      generar impacto real y sostenible.</p>
+                </div>
+                <div class="image-content">
+                    <img th:src="@{/img/The-Boat-Race.jpg}" alt="Innovación empresarial">
+                </div>
+            </div>
+    </section>
+
+    <section class="text-container-medium">
+      <h2>Nuestras soluciones</h2>
+      <p class="p2">Participamos en diversos sectores entregando soluciones integrales</p>
+    </section>
+
+        <!-- Industrias -->
+    <section class="industries-section">
+          <div class="column">
+            <img th:src="@{/img/industries/security.jpg}" alt="Manufactura">
+            <h4>Seguridad privada</h4>
+            <p>Soluciones integrales para la protección de personas, bienes e instalaciones.</p>
+          </div>
+
+          <div class="column">
+            <img th:src="@{/img/industries/clean.jpg}" alt="Salud">
+            <h4>Aseo y Mantención</h4>
+            <p>Eficiencia y alta calidad garantizando espacios limpios,
+                seguros y en óptimas condiciones.</p>
+          </div>
+
+          <div class="column">
+            <img th:src="@{/img/industries/outsourcing.jpg}" alt="Educación">
+            <h4>Outsourcing</h4>
+            <p>Servicios de Recursos Humanos de apoyo en diversas especializaciones.</p>
+          </div>
+
+          <div class="column">
+            <img th:src="@{/img/industries/commerce.jpg}" alt="Agricultura">
+            <h4>Commerce</h4>
+            <p>Gestionamos productos y servicios.</p>
+          </div>
+    </section>
+
+    <hr>
+
+    <section class="text-video-left">
+            <div class="container">
+                <div class="text-content">
+                    <h2>Cuidamos a quienes hacen que todo funcione</h2>
+                    <p class="p2">Con 20 años de experiencia acompañando a empresas
+                      y personas, hemos consolidado una perspectiva
+                      estratégica que nos permite entregar servicios
+                      con altos estándares de calidad, atención al detalle</p>
+                </div>
+
+                <video class="video-content" autoplay muted loop playsinline>
+                  <source th:src="@{/videos/successful.mp4}" type="video/mp4">
+                </video>
+
+            </div>
+    </section>
+
+    <hr>
+
+    <section class="text-container-medium">
+          <h2>Grupo</h2>
+          <p class="p2">Estructurada en líneas de negocio especializadas, GSCorp esta 
+            conformada por profesionales altamente calificados, que proveen 
+            servicios integrales en el ámbito de servicios empresariales.</p>
+          <p class="p2">Con un gobierno corporativo sólido, un equipo de excelencia y 
+            una estrategia enfocada en la innovación y la sostenibilidad, 
+            ha permitido abordar con eficiencia y rigor los desafíos más exigentes.</p>
+          <p class="p2">El trabajo coordinado entre nuestras distintas lineas de servicio 
+            garantiza una visión integral, reflejada en la calidad, la credibilidad 
+            y la excelencia que entregamos cada día.</p>
+    </section>
+
+        <!-- Grupo -->
+    <section class="group-section">
+          <div class="column">
+            <img th:src="@{/img/groups/gssecurity.png}" alt="Security">
+            <p>Soluciones integrales para la protección de personas, bienes e instalaciones.</p>
+          </div>
+          <div class="column">
+            <img th:src="@{/img/groups/gsclean.png}" alt="Clean">
+            <p>Eficiencia y alta calidad garantizando espacios limpios,
+                seguros y en óptimas condiciones.</p>
+          </div>
+          <div class="column">
+            <img th:src="@{/img/groups/gsoutsourcing.png}" alt="Outsourcing">
+            <p>Servicios de Recursos Humanos de apoyo en diversas especializaciones.</p>
+          </div>
+          <div class="column">
+            <img th:src="@{/img/groups/gscommerce.png}" alt="Commerce">
+            <p>Gestionamos productos y servicios.</p>
+          </div>
+    </section>
+
+</div>

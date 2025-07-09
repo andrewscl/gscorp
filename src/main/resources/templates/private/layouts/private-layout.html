@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+        th:fragment="layout(private)">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSCorp Administrator</title>
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+    <link rel="stylesheet" th:href="@{/css/private-dashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/users-table.css}">
+    <link rel="stylesheet" th:href="@{/css/contacts-table.css}">
+    <link rel="stylesheet" th:href="@{/css/roles-table.css}">
+    <link rel="stylesheet" th:href="@{/css/new-role.css}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body data-layout="private">
+
+    <aside class="sidebar" id="sidebar" th:insert=
+        "~{private/fragments/private-menu-fragment :: privateMenuSidebar}"></aside>
+
+    <div class="main-content">
+        <header class="topbar" th:insert=
+            "~{private/fragments/private-menu-fragment :: privateMenuTopbar}"></header>
+
+        <section id="content" class="content"> 
+            <div th:replace="${private}"></div>
+        </section>
+    </div>
+
+    <script type="module" src="/js/init-router.js"></script>
+
+</body>
+</html>

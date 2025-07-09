@@ -1,0 +1,26 @@
+<div th:fragment="usersTable">
+    <h2>Usuarios</h2>
+    <div class="user-table-container">
+        <table class="users-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>username</th>
+                    <th>password</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.username}"></td>
+                    <td th:text="${user.password}"></td>
+                    <td class="actions">
+                        <a th:href="@{/users/view/{id}(id=${user.id})}">Ver</a>
+                        <a th:href="@{/users/edit/{id}(id=${user.id})}">Editar</a>
+                        <button th:onclick="'eliminarEmpleado(' + ${user.id} + ')'">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

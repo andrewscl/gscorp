@@ -1,0 +1,24 @@
+@use 'variables' as *;
+
+
+@mixin roboto-font($size: 1rem, $weight: 400) {
+    font-family: $primary-font;
+    font-size: $size;
+    font-weight: $weight;
+    letter-spacing: 0.02em;
+}
+
+@mixin montserrat-font($size: 1rem, $weight: 600) {
+    font-family: $heading-font;
+    font-size: $size;
+    font-weight: $weight;
+    letter-spacing: 0.02em;
+}
+
+@mixin custom-hr($height: 0.15rem, $color: $cool-gray-200, $margin: 4rem, $radius: 0) {
+  height: $height;
+  background-color: $color;
+  border: none;
+  margin: $margin;
+  border-radius: $radius;
+}
