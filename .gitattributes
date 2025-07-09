@@ -1,0 +1,10 @@
+* text=auto
+
+# Fuerza LF para archivos de texto comunes
+*.css text eol=lf
+*.html text eol=lf
+*.js text eol=lf
+*.java text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.properties text eol=lf

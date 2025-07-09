@@ -1,0 +1,44 @@
+@use '../base/mixins' as *;
+@use '../base/variables' as *;
+@use '../base/palette' as *;
+@use '../base/typography' as *;
+@use '../base/fragment-mixins' as *;
+
+.security-image{
+  @include parcial-image (
+    $height: 80vh,
+    $width: 100vw);
+}
+
+.text-container-big {
+    @include text-container-big ();
+    h1 {
+      margin: 0 0 1.5rem 0;
+    }
+}
+
+.text-image-right {
+    @include text-image(
+    $bg-color: $cool-gray-700,
+    $height: 60vh,
+    $text-width: 40%,
+    $image-width: 60%,
+    $text-color: white,
+    $orden-text: 1,
+    $order-image:2
+  )
+}
+
+.text-container-medium {
+    @include text-container (
+    $margin: 7.5vh 0 0 0,
+    $padding: 0 50vw 0 5vw);
+}
+
+.servicios-seguridad {
+    @include column-layout-img(
+    $columns: 3, 
+    $gap: 8rem, 
+    $padding: 2rem 5vw,
+    $background-color: white)
+}

@@ -1,0 +1,109 @@
+body[data-layout=private] {
+  display: flex;
+  min-height: 100vh;
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+  background-color: #f5f7fa;
+}
+body[data-layout=private] .sidebar {
+  width: 10%;
+  background-color: #1f2937;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+body[data-layout=private] .sidebar .logo-container {
+  text-align: center;
+  margin-bottom: 2rem;
+  height: 6vh;
+}
+body[data-layout=private] .sidebar .logo-container .logo {
+  max-width: 150px;
+  height: auto;
+  max-height: 100%;
+}
+body[data-layout=private] .sidebar .menu {
+  flex-grow: 1;
+}
+body[data-layout=private] .sidebar .menu .menu-item,
+body[data-layout=private] .sidebar .menu summary {
+  display: block;
+  padding: 0.75rem 1rem;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+body[data-layout=private] .sidebar .menu .menu-item:hover,
+body[data-layout=private] .sidebar .menu summary:hover {
+  background-color: #374151;
+}
+body[data-layout=private] .sidebar .menu .menu-group {
+  margin-bottom: 1rem;
+}
+body[data-layout=private] .sidebar .menu .menu-group .submenu {
+  padding-left: 1rem;
+}
+body[data-layout=private] .sidebar .menu .menu-group .submenu .submenu-item {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: #d1d5db;
+  text-decoration: none;
+  border-radius: 4px;
+}
+body[data-layout=private] .sidebar .menu .menu-group .submenu .submenu-item:hover {
+  background-color: #4b5563;
+  color: white;
+}
+body[data-layout=private] .sidebar .toggle-sidebar {
+  margin-top: auto;
+  background: none;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+body[data-layout=private] .main-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+body[data-layout=private] .main-content .topbar {
+  background-color: #ffffff;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+body[data-layout=private] .main-content .topbar .title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #111827;
+}
+body[data-layout=private] .main-content .topbar .user-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+body[data-layout=private] .main-content .topbar .user-actions .user-name {
+  font-weight: 500;
+  color: #374151;
+}
+body[data-layout=private] .main-content .topbar .user-actions .logout-btn {
+  color: #ef4444;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+body[data-layout=private] .main-content .topbar .user-actions .logout-btn:hover {
+  text-decoration: underline;
+}
+body[data-layout=private] .main-content .content {
+  flex-grow: 1;
+  padding: 2rem;
+  background-color: #f9fafb;
+}/*# sourceMappingURL=private-dashboard.css.map */

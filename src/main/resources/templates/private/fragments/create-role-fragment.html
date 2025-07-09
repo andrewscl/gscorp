@@ -1,0 +1,20 @@
+<div th:fragment="createRole">
+    <div class="form-container">
+        <h2>Crear Nuevo Rol</h2>
+
+        <form id="createRoleForm">
+            <div class="form-group">
+                <label for="name">Nombre del Rol:</label>
+                <input type="text" id="name" name="name" required />
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Crear Rol</button>
+            </div>
+        </form>
+
+        <div id="roleFormMessage" class="form-message"></div>
+    </div>
+
+    <script type="module" src="/js/private/create-role.js"></script>
+</div>
