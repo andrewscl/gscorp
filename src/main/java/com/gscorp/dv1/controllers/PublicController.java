@@ -42,6 +42,11 @@ public class PublicController {
         return "public/views/contact-view";
     }
 
+    @GetMapping("/us")
+    public String showUsPage () {
+        return "public/views/us-view";
+    }
+
     @GetMapping("/values")
     public String showValuesPage () {
         return "public/views/values-view";

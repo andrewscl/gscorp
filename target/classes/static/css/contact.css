@@ -1,0 +1,260 @@
+body {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.5;
+}
+
+h1 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #1e293b;
+  line-height: 1.2;
+}
+
+h2 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #1e293b;
+  line-height: 1.2;
+  margin: 0 0 1rem 0;
+}
+
+h3 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #1e293b;
+  line-height: 1.2;
+}
+
+h4 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #1e293b;
+  line-height: 1.2;
+}
+
+p {
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.5;
+  margin-bottom: 0.25rem;
+}
+
+.p1 {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.55;
+  margin-bottom: 0.5rem;
+}
+
+.p2 {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+}
+
+.p3 {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.65;
+  margin-bottom: 1.5rem;
+}
+
+.contact-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.contact-wrapper .overlay-text-image {
+  width: 100vw;
+  height: 80vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  min-width: 100%;
+  position: relative;
+}
+.contact-wrapper .overlay-text-image img {
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.contact-wrapper .overlay-text-image .overlay-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-width: 40%;
+  padding: 25rem 5rem 15rem 5rem;
+}
+.contact-wrapper .overlay-text-image .overlay-text h1 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 3rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: white;
+  margin-bottom: 2rem;
+}
+.contact-wrapper .contact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5rem;
+  padding: 2rem 6rem 6rem 6rem;
+}
+.contact-wrapper .contact-grid .column {
+  display: flex;
+  flex-direction: column;
+}
+.contact-wrapper .contact-grid .column.column-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.contact-wrapper .contact-grid .column.column-info .contact-info {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+  gap: 0.25rem;
+}
+.contact-wrapper .contact-grid .column.column-info .contact-info li {
+  display: flex;
+  align-items: flex-start;
+}
+.contact-wrapper .contact-grid .column.column-info .contact-info li i {
+  font-size: 1.25rem;
+  color: #1e293b;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+.contact-wrapper .contact-grid .column.column-info .contact-info li .p1 {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+.contact-wrapper .contact-grid .column.column-info .contact-info li .p1:hover {
+  color: #3b82f6;
+}
+.contact-wrapper .contact-grid .column.column-info .contact-map iframe {
+  width: 100%;
+  height: 250px;
+  border-radius: 0.75rem;
+  border: none;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+.contact-wrapper .contact-grid .column.column-form .contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.contact-wrapper .contact-grid .column.column-form .contact-form .form-group {
+  display: flex;
+  flex-direction: column;
+}
+.contact-wrapper .contact-grid .column.column-form .contact-form .form-group label {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+.contact-wrapper .contact-grid .column.column-form .contact-form .form-group input,
+.contact-wrapper .contact-grid .column.column-form .contact-form .form-group textarea,
+.contact-wrapper .contact-grid .column.column-form .contact-form .form-group select {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.3s ease;
+}
+.contact-wrapper .contact-grid .column.column-form .contact-form .form-group input:focus,
+.contact-wrapper .contact-grid .column.column-form .contact-form .form-group textarea:focus,
+.contact-wrapper .contact-grid .column.column-form .contact-form .form-group select:focus {
+  outline: none;
+  border-color: #0a66c2;
+  box-shadow: 0 0 0 3px rgba(10, 102, 194, 0.2);
+}
+.contact-wrapper .contact-grid .column.column-form .contact-form .form-group textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+.contact-wrapper .contact-grid .column.column-form .contact-form button {
+  align-self: flex-start;
+  padding: 0.75rem 1.5rem;
+  background-color: #0a66c2;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.contact-wrapper .contact-grid .column.column-form .contact-form button:hover {
+  background-color: #084d92;
+}
+.contact-wrapper .toast-container {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  pointer-events: none;
+}
+.contact-wrapper .toast-container .toast {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  padding: 1rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.4;
+  min-width: 280px;
+  max-width: 90vw;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  pointer-events: auto;
+}
+.contact-wrapper .toast-container .toast.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.contact-wrapper .toast-container .toast.success {
+  background-color: #e6f4ea;
+  color: #1b5e20;
+  border: 1px solid #b7e4c7;
+}
+.contact-wrapper .toast-container .toast.error {
+  background-color: #fce8e6;
+  color: #b3261e;
+  border: 1px solid #f4c7c3;
+}/*# sourceMappingURL=contact.css.map */
