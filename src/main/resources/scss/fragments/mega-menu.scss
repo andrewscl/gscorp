@@ -22,6 +22,9 @@ $background-transparent: transparent;
             .nav-links {
                 .nav-item{
                     a{
+                        .arrow-icon{
+                          color: $primary-color;
+                        }
                         &:hover {
                             color: $accent-blue;
                         }

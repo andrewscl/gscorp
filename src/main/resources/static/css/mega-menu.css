@@ -95,6 +95,9 @@ p {
 .navbar.transparent {
   background-color: transparent;
 }
+.navbar.transparent .mega-menu-content .nav-links .nav-item a .arrow-icon {
+  color: #1e293b;
+}
 .navbar.transparent .mega-menu-content .nav-links .nav-item a:hover {
   color: #3b82f6;
 }
