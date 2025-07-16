@@ -17,6 +17,11 @@ public class PublicController {
         return "public/views/index-view";
     }
 
+    @GetMapping("/services")
+    public String showServicesPage () {
+        return "public/views/services-view";
+    }
+
     @GetMapping("/security")
     public String showSecurityPage () {
         return "public/views/security-view";
