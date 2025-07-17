@@ -35,11 +35,18 @@
             <div th:replace="${index}"></div>
     </section>
 
+    <section th:replace="~{shared/fragments/chat :: chat}"></section>
+
     <footer th:if="${showFooter}" th:replace="~{public/fragments/footer :: footer}">[header]</footer>
 
     <script type="module" src="/js/init-router.js"></script>
     <script type="module" src="/js/slideshow-video.js"></script>
     <script type="module" src="/js/mega-menu.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2/dist/stomp.min.js"></script>
+    <script src="/js/chat.js"></script>
+
 
 
 </body>
