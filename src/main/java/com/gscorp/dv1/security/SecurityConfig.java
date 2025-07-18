@@ -34,7 +34,7 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authz -> authz
-                .requestMatchers("/", "/auth/**", "/public/**",
+                .requestMatchers("/", "/auth/**", "/public/**", "/chat/**",
                     "/css/**", "/js/**", "/img/**", "/videos/**", "/favicon.ico",
                     "/webjars/**", "/error", "/icons/**", "/shell/**").permitAll() //publicas
                 .requestMatchers("/private/**", "/api/**").authenticated() //requiere JWT valido
