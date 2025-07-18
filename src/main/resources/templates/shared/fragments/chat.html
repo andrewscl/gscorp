@@ -1,12 +1,18 @@
 <div th:fragment="chat">
-    <div id="chat">
-        <div id="chat-messages" style="height:200px; overflow-y:auto; border:1px solid #ccc;"></div>
-        <input type="text" id="message" placeholder="Escribe un mensaje...">
-        <button onclick="sendMessage()">Enviar</button>
+    <div id="chat-widget">
+        <div id="chat-button">💬</div>
+
+        <div id="chat-container" class="hidden">
+            <div id="chat-header">Chat de contacto</div>
+            <div id="chat-messages"></div>
+            <div id="chat-input">
+                <input type="text" id="message" placeholder="Escribe un mensaje...">
+                <button id="send-btn">Enviar</button>
+            </div>
+        </div>
     </div>
 
-<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/stompjs@2/dist/stomp.min.js"></script>
-<script src="/js/chat.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2/dist/stomp.min.js"></script>
+    <script src="/js/chat.js"></script>
 </div>
