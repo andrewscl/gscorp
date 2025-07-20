@@ -1,20 +1,2 @@
-import { navigateTo } from './navigation-handler.js';
-
-let routerInitialized = false;
-
-export function setupRouter () {
-  if (routerInitialized) return; //Evita una doble inicialización
-  routerInitialized = true;
-
-  console.log("Router activado");
-
-  document.addEventListener('click', e => {
-    const link = e.target.closest('[data-path]');
-    if (link) {
-      e.preventDefault();
-      const path = link.dataset.path;
-      const target = link.dataset.target || path;
-      if(target) navigateTo(target);
-    }
-  });
-}
+import{f as v}from"./auth.js";const w="modulepreload",y=function(t){return"/"+t},m={},E=function(c,n,a){let u=Promise.resolve();if(n&&n.length>0){let f=function(e){return Promise.all(e.map(i=>Promise.resolve(i).then(l=>({status:"fulfilled",value:l}),l=>({status:"rejected",reason:l}))))};document.getElementsByTagName("link");const o=document.querySelector("meta[property=csp-nonce]"),r=o?.nonce||o?.getAttribute("nonce");u=f(n.map(e=>{if(e=y(e),e in m)return;m[e]=!0;const i=e.endsWith(".css"),l=i?'[rel="stylesheet"]':"";if(document.querySelector(`link[href="${e}"]${l}`))return;const s=document.createElement("link");if(s.rel=i?"stylesheet":w,i||(s.as="script"),s.crossOrigin="",s.href=e,r&&s.setAttribute("nonce",r),document.head.appendChild(s),i)return new Promise((g,p)=>{s.addEventListener("load",g),s.addEventListener("error",()=>p(new Error(`Unable to preload CSS for ${e}`)))})}))}function d(o){const r=new Event("vite:preloadError",{cancelable:!0});if(r.payload=o,window.dispatchEvent(r),!r.defaultPrevented)throw o}return u.then(o=>{for(const r of o||[])r.status==="rejected"&&d(r.reason);return c().catch(d)})};let h=!1;function b(){h||(h=!0,console.log("Router activado"),document.addEventListener("click",t=>{const c=t.target.closest("[data-path]");if(c){t.preventDefault();const n=c.dataset.path,a=c.dataset.target||n;a&&L(a)}}))}async function L(t,c=!1){const n=S(t),a=document.body.getAttribute("data-layout");if(t==="/public/home"){console.warn("[navigateTo] Redirigiendo a index-view para /public/home"),window.location.href="/public/home";return}if(!c&&n!==a){console.warn(`[navigateTo] Cambio de layout: 
+                        ${a} -> ${n}`);const o=localStorage.getItem("jwt");if((n==="private"||n==="admin")&&o){sessionStorage.setItem("postLoginTarget",t),window.location.href=`/shell/${n}`;return}sessionStorage.setItem("postLoginTarget",t),window.location.href=`/shell/${n}`;return}try{const o=await P(t,n);if(!o)throw new Error("No content");const r=document.getElementById("content");if(!r)throw new Error("No se encontró el contenedor #content");r.innerHTML=o,r.querySelectorAll('script[type="module"]').forEach(e=>{const i=document.createElement("script");i.type="module",e.src?i.src=e.src:i.textContent=e.textContent,document.body.appendChild(i)}),window.history.pushState({},"",t),b(),console.log(`[navigateTo] Ruta cargada dinámicamente: ${t}`),t==="/public/contact"&&E(()=>import("./contact.js"),[]).then(({setupContact:e})=>{e(),console.log("[navigateTo] setupContact activado")})}catch(o){console.error(`[navigateTo] Error: ${o.message}`),alert("Error al navegar a la ruta solicitada.")}}function S(t){return t.startsWith("/auth/")?"auth":t.startsWith("/private/")||t.startsWith("/admin/")?"private":"public"}async function P(t,c){const n=localStorage.getItem("jwt");return c==="private"&&n?v(t).then(a=>a.ok?a.text():null):fetch(t).then(a=>a.ok?a.text():null)}export{S as d,L as n,b as s};
