@@ -8,9 +8,6 @@
 /* Altura consistente para la barra */
 :root { --nav-h: 8vh; }
 
-/* Empuja el contenido para que no quede bajo la barra fija */
-.content { padding-top: var(--nav-h); }
-
 $background-transparent: transparent;
 
 .navbar {
@@ -25,6 +22,7 @@ $background-transparent: transparent;
     background-color: transparent;
     .mega-menu-content {
       .nav-links .nav-item a {
+        color: white;
         .arrow-icon { color: $primary-color; }
         &:hover { color: $accent-blue; }
       }
