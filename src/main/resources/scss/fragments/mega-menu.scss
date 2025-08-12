@@ -109,7 +109,7 @@ $background-transparent: transparent;
 
       .nav-item {
         display: flex;
-        height: 10vh;
+        height: var(--nav-h);
         align-items: center;
 
         a {
@@ -118,7 +118,7 @@ $background-transparent: transparent;
           color: white;
           transition: color 0.2s ease;
           align-items: center;
-
+          
           .arrow-icon {
             transition: transform 0.3s ease;
             color: $accent-blue;

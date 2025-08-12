@@ -205,7 +205,7 @@ p {
 }
 .navbar .mega-menu-content .nav-links .nav-item {
   display: flex;
-  height: 10vh;
+  height: var(--nav-h);
   align-items: center;
 }
 .navbar .mega-menu-content .nav-links .nav-item a {
