@@ -11,6 +11,14 @@
 .text-container-big h1 {
   margin: 0 0 1.5rem 0;
 }
+@media (max-width: 768px) {
+  .text-container-big h1 {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+}
 
 .text-image-right {
   background-color: #1f2937;
