@@ -198,18 +198,19 @@ p {
 .navbar .mega-menu-content .nav-links {
   margin: 0;
   padding: 0;
-  height: var(--nav-h);
+  height: auto;
   list-style: none;
   display: flex;
   gap: 2rem;
-  align-items: stretch;
+  align-items: center;
   justify-content: center;
   cursor: default;
 }
 .navbar .mega-menu-content .nav-links .nav-item {
   display: flex;
-  height: 100%;
+  height: var(--nav-h);
   align-items: center;
+  /* SOLO desktop: abrir mega-menu por hover */
 }
 .navbar .mega-menu-content .nav-links .nav-item a {
   font-family: "Roboto", sans-serif;
@@ -221,10 +222,22 @@ p {
   transition: color 0.2s ease;
   align-items: center;
   height: 100%;
+  padding: 0 0.75rem;
+  gap: 0.35rem;
 }
 .navbar .mega-menu-content .nav-links .nav-item a .arrow-icon {
   transition: transform 0.3s ease;
   color: #3b82f6;
+}
+@media (hover: hover) and (pointer: fine) {
+  .navbar .mega-menu-content .nav-links .nav-item:hover > a .arrow-icon {
+    transform: rotate(180deg);
+  }
+  .navbar .mega-menu-content .nav-links .nav-item:hover > .mega-menu {
+    display: flex;
+    animation: fadeInDown 0.3s ease-in-out;
+    z-index: 1001; /* sobre el contenido; navbar está en 1000 */
+  }
 }
 .navbar .mega-menu-content .nav-links .nav-item .mega-menu {
   background-color: #fafaf9;
@@ -303,16 +316,6 @@ p {
   box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
 }
 
-/* --------- SOLO DESKTOP: abrir mega-menu por hover --------- */
-@media (hover: hover) and (pointer: fine) {
-  .nav-item:hover a .arrow-icon {
-    transform: rotate(180deg);
-  }
-  .nav-item:hover .mega-menu {
-    display: flex;
-    animation: fadeInDown 0.3s ease-in-out;
-  }
-}
 /* --------- MÓVIL --------- */
 @media (max-width: 768px) {
   html.no-scroll {
