@@ -205,6 +205,7 @@ p {
   /* SOLO desktop: abrir mega-menu por hover */
 }
 .navbar .mega-menu-content .nav-links .nav-item a {
+  display: flex;
   font-family: "Roboto", sans-serif;
   font-size: 1.2rem;
   font-weight: 500;

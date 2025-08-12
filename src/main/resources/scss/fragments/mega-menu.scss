@@ -124,6 +124,7 @@ $background-transparent: transparent;
         align-items: center;
 
         a {
+          display: flex;
           @include roboto-font(1.2rem, 500);
           text-decoration: none;
           color: white;
