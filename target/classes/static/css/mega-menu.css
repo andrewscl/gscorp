@@ -117,6 +117,7 @@ p {
 }
 .navbar.transparent .mega-menu-content .menu-toggle {
   color: white;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.45));
 }
 .navbar.solid {
   background-color: #ffffff;
@@ -127,7 +128,7 @@ p {
 .navbar.solid .mega-menu-content .nav-links .nav-item a:hover {
   color: #3b82f6;
 }
-.navbar.solid .mega-menu-content .menutoggle {
+.navbar.solid .mega-menu-content .menu-toggle {
   color: #1e293b;
 }
 .navbar .mega-menu-content {

@@ -28,7 +28,10 @@ $background-transparent: transparent;
         .arrow-icon { color: $primary-color; }
         &:hover { color: $accent-blue; }
       }
-      .menu-toggle { color: white; }
+      .menu-toggle {
+        color: white;
+        filter: drop-shadow(0 0 1px rgba(0,0,0,.45));
+       }
     }
   }
 
@@ -40,7 +43,7 @@ $background-transparent: transparent;
         color: $primary-color;
         &:hover { color: $accent-blue; }
       }
-      .menutoggle { color: $primary-color;}
+      .menu-toggle { color: $primary-color;}
     }
   }
 
