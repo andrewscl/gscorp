@@ -6,14 +6,14 @@ import { setupRouter } from './router.js';
     const targetLayout = detectLayout(path);
     const currentLayout = document.body.getAttribute('data-layout');
 
-/*    const isPublicHome = path === "/public/home";
+    const isPublicHome = path === "/public/home";
     // 🔁 Si es /public/home, redirigimos a index-view que carga layout + fragmento
     if (isPublicHome) {
         console.warn("[navigateTo] Redirigiendo a index-view para /public/home");
         window.location.href = "/public/home"; // o la ruta que hayas definido
         return;
     }
-*/
+
 
     const changeLayout = targetLayout !== currentLayout;
 
