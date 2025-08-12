@@ -5,207 +5,184 @@
 @use '../base/mega-menu-backgrounds' as *;
 @use '../base/mega-menu-contact' as *;
 
+/* Altura consistente para la barra */
+:root { --nav-h: 8vh; }
+
+/* Empuja el contenido para que no quede bajo la barra fija */
+.content { padding-top: var(--nav-h); }
+
 $background-transparent: transparent;
 
 .navbar {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 8vh;
-    z-index: 1000;
-    transition: background-color 0.4s, box-shadow 0.4s;
+  position: fixed;
+  top: 0; left: 0; width: 100%;
+  height: var(--nav-h);
+  z-index: 1000;
+  transition: background-color 0.4s, box-shadow 0.4s;
 
-    // Estado transparente inicial
-    &.transparent {
-      background-color: transparent;
-        .mega-menu-content {
-            .nav-links {
-                .nav-item{
-                    a{
-                        .arrow-icon{
-                          color: $primary-color;
-                        }
-                        &:hover {
-                            color: $accent-blue;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    // Estado con fondo sólido al hacer scroll
-    &.solid {
-    background-color: $background-white;
-        .mega-menu-content {
-            .nav-links {
-                .nav-item{
-                    a{
-                        color: $primary-color;
-                        &:hover {
-                            color: $accent-blue;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
+  /* Estado transparente inicial */
+  &.transparent {
+    background-color: transparent;
     .mega-menu-content {
+      .nav-links .nav-item a {
+        .arrow-icon { color: $primary-color; }
+        &:hover { color: $accent-blue; }
+      }
+    }
+  }
+
+  /* Estado con fondo sólido al hacer scroll */
+  &.solid {
+    background-color: $background-white;
+    .mega-menu-content {
+      .nav-links .nav-item a {
+        color: $primary-color;
+        &:hover { color: $accent-blue; }
+      }
+    }
+  }
+
+  .mega-menu-content {
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 8vh;
+    height: var(--nav-h);
     padding: 0 5vw;
     box-sizing: border-box;
-        .logo-container{
-          height: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          .logo{
-            transition: opacity 0.3s ease;
-            opacity: 1;
-            height: auto;
-            max-height: 8vh;
-            &.hidden{
-              opacity: 0;
-            }
-          }        
-        }
 
-        .menu-toggle {
-          display: none;
-          font-size: 2rem;
-          cursor: pointer;
-          color: white;
-        }
-
-        .nav-links {
-          list-style: none;
-          display: flex;
-          gap: 2rem;
-          align-items: center;
-          justify-content: center;
-          cursor: default;
-
-          .nav-item {
-            display: flex;
-            height: 10vh;
-            align-items: center;
-            a {
-              @include roboto-font(1.2rem, 500);
-              text-decoration: none;
-              color: white;
-              transition: color 0.2s ease;
-              align-items: center;
-                .arrow-icon {
-                  transition: transform 0.3s ease;
-                  color: $accent-blue;
-                }
-
-            }
-            .mega-menu {
-              @include mega-menu-corporate ();
-              position: fixed;
-              top: 8vh;
-              left: 0;
-              width: 100vw;
-              display: none;
-              justify-content: left;
-              padding: 5vh 0 5vh 10vw;
-              min-height: 30vh;
-              .mega-column {
-                height: 100%;
-                display: grid;
-                padding: 0 2vw;
-                .h2{
-                  @include montserrat-font(1.15rem, 400);
-                  color: $heading-color;
-                  margin-bottom: 1rem;
-                }
-                a {
-                  @include roboto-font(1rem, 300);
-                  color: $primary-color;
-                  margin-bottom: 0.3rem;
-                }
-                .menu-link{
-                  &:hover{
-                    color: $hover-color;
-                  }
-                }
-              }
-              &.mega-menu-contact{
-                @include mega-menu-contact();
-              }
-            }
-          }
-          .nav-item:hover {
-            a{
-              .arrow-icon{
-                transform: rotate(180deg);
-              }
-            }
-            .mega-menu{
-              display: flex;
-              animation: fadeInDown 0.3s ease-in-out;
-            }
-          }
-        }
-
+    .logo-container {
+      height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      .logo {
+        transition: opacity 0.3s ease;
+        opacity: 1;
+        height: auto; max-height: var(--nav-h);
+        &.hidden { opacity: 0; }
+      }
     }
 
-}
-
-// Responsividad para móviles
-@media (max-width: 768px) {
-  .navbar {
-    flex-wrap: wrap;
-
     .menu-toggle {
-      display: block;
+      display: none;
+      font-size: 2rem;
+      cursor: pointer;
+      color: white;
     }
 
     .nav-links {
-      flex-direction: column;
-      position: absolute;
-      top: 70px;
-      right: 0;
-      width: 100%;
-      background-color: white;
-      display: none;
-      padding: 1rem 2rem;
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      justify-content: center;
+      cursor: default;
 
-      &.open {
+      .nav-item {
         display: flex;
-      }
+        height: 10vh;
+        align-items: center;
 
-      li a {
-        color: $primary-color;
-      }
+        a {
+          @include roboto-font(1.2rem, 500);
+          text-decoration: none;
+          color: white;
+          transition: color 0.2s ease;
+          align-items: center;
 
-      .mega-menu {
-        position: static;
-        flex-direction: column;
-        width: 100%;
-        background-color: transparent;
-        border: none;
-        padding: 1rem 0;
+          .arrow-icon {
+            transition: transform 0.3s ease;
+            color: $accent-blue;
+          }
+        }
+
+        .mega-menu {
+          @include mega-menu-corporate();
+          position: fixed;
+          top: var(--nav-h);
+          left: 0;
+          width: 100vw;
+          display: none;
+          justify-content: left;
+          padding: 5vh 0 5vh 10vw;
+          min-height: 30vh;
+
+          .mega-column {
+            height: 100%;
+            display: grid;
+            padding: 0 2vw;
+
+            .h2 { @include montserrat-font(1.15rem, 400); color: $heading-color; margin-bottom: 1rem; }
+            a   { @include roboto-font(1rem, 300); color: $primary-color; margin-bottom: 0.3rem; }
+
+            .menu-link:hover { color: $hover-color; }
+          }
+
+          &.mega-menu-contact { @include mega-menu_contact(); }
+        }
       }
     }
   }
 }
 
-// Animación de entrada para dropdown
+/* --------- SOLO DESKTOP: abrir mega-menu por hover --------- */
+@media (hover: hover) and (pointer: fine) {
+  .nav-item:hover {
+    a .arrow-icon { transform: rotate(180deg); }
+    .mega-menu { display: flex; animation: fadeInDown 0.3s ease-in-out; }
+  }
+}
+
+/* --------- MÓVIL --------- */
+@media (max-width: 768px) {
+  html.no-scroll { overflow: hidden; }
+
+  .navbar { flex-wrap: wrap; }
+
+  .navbar .mega-menu-content {
+    .menu-toggle { display: block; }
+
+    /* Panel móvil: fijo debajo de la barra, con scroll propio */
+    #nav-links {
+      position: fixed;
+      top: var(--nav-h);
+      left: 0; right: 0;
+      max-height: calc(100dvh - var(--nav-h));
+      overflow-y: auto;
+      background-color: #fff;
+      display: none;
+      padding: 1rem 2rem;
+      z-index: 999; /* por debajo de la barra (1000) */
+      flex-direction: column;
+
+      &.open { display: flex; }
+
+      li a { color: $primary-color; }
+
+      /* En móvil, el mega-panel interno no flota ni ocupa toda la pantalla */
+      .mega-menu {
+        position: static;
+        width: 100%;
+        min-height: unset;
+        padding: 0.75rem 0;
+        background-color: transparent;
+        border: none;
+        display: none; /* cerrado por defecto */
+      }
+    }
+  }
+
+  /* En móvil NO abrir por hover (solo por toque/clase) */
+  @media (hover: none) {
+    .nav-item:hover .mega-menu { display: none; }
+  }
+
+  /* Si activas submenús por toque, se mostrarán con esta clase */
+  .nav-item.open-sub .mega-menu { display: flex; }
+}
+
+/* Animación de entrada para dropdown */
 @keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
