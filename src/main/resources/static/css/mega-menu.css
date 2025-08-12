@@ -196,16 +196,19 @@ p {
   transform: translateY(-7px) rotate(-45deg);
 }
 .navbar .mega-menu-content .nav-links {
+  margin: 0;
+  padding: 0;
+  height: var(--nav-h);
   list-style: none;
   display: flex;
   gap: 2rem;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   cursor: default;
 }
 .navbar .mega-menu-content .nav-links .nav-item {
   display: flex;
-  height: var(--nav-h);
+  height: 100%;
   align-items: center;
 }
 .navbar .mega-menu-content .nav-links .nav-item a {
@@ -217,6 +220,7 @@ p {
   color: white;
   transition: color 0.2s ease;
   align-items: center;
+  height: 100%;
 }
 .navbar .mega-menu-content .nav-links .nav-item a .arrow-icon {
   transition: transform 0.3s ease;
