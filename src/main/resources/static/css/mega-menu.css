@@ -140,21 +140,12 @@ p {
   box-sizing: border-box;
 }
 .navbar .mega-menu-content .logo-container {
-  grid-column: 1;
-  justify-self: start;
-}
-.navbar .mega-menu-content .nav-links {
-  grid-column: 2;
-}
-.navbar .mega-menu-content .menu-toggle {
-  grid-column: 3;
-  justify-self: end;
-}
-.navbar .mega-menu-content .logo-container {
   height: 100%;
+  grid-column: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+  justify-self: start;
 }
 .navbar .mega-menu-content .logo-container .logo {
   transition: opacity 0.3s ease;
@@ -166,6 +157,7 @@ p {
   opacity: 0;
 }
 .navbar .mega-menu-content .menu-toggle {
+  grid-column: 3;
   display: none; /* se muestra en móvil (ya lo activas en @media) */
   width: 40px;
   height: 40px;
@@ -174,7 +166,8 @@ p {
   background: transparent; /* sin gris del navegador */
   cursor: pointer;
   appearance: none;
-  color: white; /* usa currentColor para las barras */
+  color: white;
+  justify-self: end; /* usa currentColor para las barras */
 }
 .navbar .mega-menu-content .menu-toggle span {
   display: block;
@@ -196,7 +189,8 @@ p {
 .navbar .mega-menu-content .nav-links {
   margin: 0;
   padding: 0;
-  height: auto;
+  grid-column: 2;
+  height: 100%;
   list-style: none;
   display: flex;
   gap: 2rem;
@@ -206,7 +200,7 @@ p {
 }
 .navbar .mega-menu-content .nav-links .nav-item {
   display: flex;
-  height: var(--nav-h);
+  height: 100%;
   align-items: center;
   /* SOLO desktop: abrir mega-menu por hover */
 }
@@ -220,8 +214,6 @@ p {
   transition: color 0.2s ease;
   align-items: center;
   height: 100%;
-  padding: 0 0.75rem;
-  gap: 0.35rem;
 }
 .navbar .mega-menu-content .nav-links .nav-item a .arrow-icon {
   transition: transform 0.3s ease;
