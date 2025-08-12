@@ -218,7 +218,7 @@ p {
   transition: background-color 0.3s ease;
 }
 .contact-wrapper .contact-grid .column.column-form .contact-form button:hover {
-  background-color: #084d92;
+  background-color: rgb(7.5, 76.5, 145.5);
 }
 .contact-wrapper .toast-container {
   position: fixed;
