@@ -6,14 +6,14 @@ import { setupRouter } from './router.js';
     const targetLayout = detectLayout(path);
     const currentLayout = document.body.getAttribute('data-layout');
 
-    const isPublicHome = path === "/public/home";
-
+/*    const isPublicHome = path === "/public/home";
     // 🔁 Si es /public/home, redirigimos a index-view que carga layout + fragmento
     if (isPublicHome) {
         console.warn("[navigateTo] Redirigiendo a index-view para /public/home");
         window.location.href = "/public/home"; // o la ruta que hayas definido
         return;
     }
+*/
 
     const changeLayout = targetLayout !== currentLayout;
 
@@ -89,9 +89,13 @@ async function fetchHtml(path, layout) {
 
     const token = localStorage.getItem("jwt");
 
+    // Agrega el flag por querystring
+    const sep = path.includes('?') ? '&' : '?' ;
+    const url = `${path}${sep}fragment=1`;
+
     if (layout === 'private' && token) {
-        return fetchWithAuth(path).then(res => res.ok ? res.text() : null);
+        return fetchWithAuth(url).then(res => res.ok ? res.text() : null);
     }
 
-    return fetch(path).then(res => res.ok ? res.text() : null);
+    return fetch(url).then(res => res.ok ? res.text() : null);
 }

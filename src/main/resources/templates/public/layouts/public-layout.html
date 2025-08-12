@@ -30,15 +30,15 @@
 
 <body data-layout="public">
 
-    <header th:if="${showMegamenu}" th:replace="~{public/fragments/mega-menu :: mega-menu}">[header]</header>
+    <header th:replace="~{public/fragments/mega-menu :: mega-menu}">[header]</header>
 
     <section id="content" class="content">
-            <div th:replace="${index}"></div>
+            <div th:replace="~{__${index}__}"></div>
     </section>
 
     <section th:replace="~{shared/fragments/chat :: chat}"></section>
 
-    <footer th:if="${showFooter}" th:replace="~{public/fragments/footer :: footer}">[header]</footer>
+    <footer th:replace="~{public/fragments/footer :: footer}">[header]</footer>
 
     <script type="module" src="/js/init-router.js"></script>
     <script type="module" src="/js/slideshow-video.js"></script>
