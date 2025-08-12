@@ -293,4 +293,53 @@ img, video {
   .text-container-medium h2 {
     font-size: clamp(1.3rem, 4.5vw, 1.6rem);
   }
+}
+/* --- Más ancho de texto en móviles --- */
+/* base: reduce el gutter en móviles */
+@media (max-width: 600px) {
+  :root {
+    --gutter: 4vw;
+  } /* antes 5vw */
+}
+/* pantallas muy pequeñas */
+@media (max-width: 430px) {
+  :root {
+    --gutter: 3.5vw;
+  }
+}
+@media (max-width: 380px) {
+  :root {
+    --gutter: 3vw;
+  }
+}
+/* aplica el gutter reducido a todos los contenedores de texto */
+@media (max-width: 600px) {
+  /* corrige el typo previo en tu archivo */
+  .text-video-left .container {
+    gap: 2rem;
+  } /* (antes tenías "2 rem") */
+  .text-container-big .container,
+  .text-container-medium,
+  .text-image-right .container,
+  .text-video-left .container {
+    padding-left: var(--gutter);
+    padding-right: var(--gutter);
+  }
+  /* anula padding asimétrico del mixin (ese 0 50vw 0 10vw) en móvil */
+  .text-container-medium {
+    padding: 0 var(--gutter) !important;
+  }
+  /* asegura 100% de ancho del bloque de texto cuando se apila */
+  .text-image-right .text-content,
+  .text-video-left .text-content {
+    width: 100%;
+    max-width: none;
+  }
+  /* quita topes de ancho en párrafos/titulares si tus mixins los ponen */
+  .text-container-big .container,
+  .text-container-medium,
+  .text-content,
+  .p2, .p3 {
+    max-width: none;
+  }
 }/*# sourceMappingURL=index.css.map */
