@@ -104,6 +104,9 @@ p {
 .navbar.transparent {
   background-color: transparent;
 }
+.navbar.transparent .mega-menu-content .logo-container .texto-logo {
+  color: white;
+}
 .navbar.transparent .mega-menu-content .nav-links .nav-item a {
   color: white;
 }
@@ -119,6 +122,9 @@ p {
 }
 .navbar.solid {
   background-color: #ffffff;
+}
+.navbar.solid .mega-menu-content .logo-container .texto-logo {
+  color: #1f2937;
 }
 .navbar.solid .mega-menu-content .nav-links .nav-item a {
   color: #1e293b;
@@ -158,10 +164,11 @@ p {
 }
 .navbar .mega-menu-content .logo-container .texto-logo {
   max-height: var(--nav-h);
-  font-family: "Montserrat", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 1.5rem;
   font-weight: 600;
   letter-spacing: 0.02em;
+  color: white;
 }
 .navbar .mega-menu-content .menu-toggle {
   grid-column: 3;
