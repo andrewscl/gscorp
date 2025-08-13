@@ -21,6 +21,11 @@ $background-transparent: transparent;
   &.transparent {
     background-color: transparent;
     .mega-menu-content {
+      .logo-container{
+        .texto-logo{
+          color: white;
+        }
+      }
       .nav-links { 
           .nav-item {
             a {
@@ -43,6 +48,11 @@ $background-transparent: transparent;
   &.solid {
     background-color: $background-white;
     .mega-menu-content {
+      .logo-container{
+        .texto-logo{
+          color: $cool-gray-800;
+        }
+      }
       .nav-links .nav-item a {
         color: $primary-color;
         &:hover { color: $accent-blue; }
@@ -77,7 +87,8 @@ $background-transparent: transparent;
       }
       .texto-logo{
         max-height: var(--nav-h);
-        @include montserrat-font(1.5rem, 600);
+        @include roboto-font(1.5rem, 600);
+        color: white;
       }
     }
 

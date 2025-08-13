@@ -7,6 +7,7 @@ export function setupMegamenu () {
   const navbar = document.getElementById("navbar");
   const btn    = document.getElementById("menu-toggle");
   const links  = document.getElementById("nav-links");
+
   if (!navbar) return;
 
   // Fondo transparente/solid al hacer scroll
@@ -17,6 +18,7 @@ export function setupMegamenu () {
       lastScrolled = scrolled;
       navbar.classList.toggle("solid", scrolled);
       navbar.classList.toggle("transparent", !scrolled);
+
     }
   };
   window.addEventListener("scroll", onScroll);
