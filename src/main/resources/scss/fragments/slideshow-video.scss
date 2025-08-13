@@ -70,6 +70,15 @@
 
     &.prev { left: 20px; }
     &.next { right: 20px; }
+
+    @media (max-width: 768px){
+      &.prev{
+        display: hide;
+      }
+      &.next{
+        display: hide;
+      }
+    }
   }
 
   .dots {

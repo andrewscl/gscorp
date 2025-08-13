@@ -7,7 +7,7 @@
 @media (max-width: 768px) {
   .text-container-big{
       h1 {
-        @include montserrat-font(1.25rem, 600);
+        @include montserrat-font(1.5rem, 600);
       }
       .p3 {
         @include montserrat-font(1rem, 500);
@@ -21,6 +21,18 @@
     h1 {
       margin: 0 0 1.5rem 0;
     }
+}
+
+.text-image-right {
+    @include text-image(
+    $bg-color: $cool-gray-800,
+    $height: 60vh,
+    $text-width: 40%,
+    $image-width: 60%,
+    $text-color: white,
+    $orden-text: 1,
+    $order-image:2
+    )
 }
 
 //Móviles
@@ -50,18 +62,6 @@
       }
     }
   }
-}
-
-.text-image-right {
-    @include text-image(
-    $bg-color: $cool-gray-800,
-    $height: 60vh,
-    $text-width: 40%,
-    $image-width: 60%,
-    $text-color: white,
-    $orden-text: 1,
-    $order-image:2
-    )
 }
 
 .text-container-medium {
