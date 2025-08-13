@@ -73,10 +73,10 @@
 
     @media (max-width: 768px){
       &.prev{
-        display: hide;
+        display: none ;
       }
       &.next{
-        display: hide;
+        display: none;
       }
     }
   }

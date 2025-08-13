@@ -79,10 +79,10 @@
 }
 @media (max-width: 768px) {
   .slideshow-video-container .nav.prev {
-    display: hide;
+    display: none;
   }
   .slideshow-video-container .nav.next {
-    display: hide;
+    display: none;
   }
 }
 .slideshow-video-container .dots {

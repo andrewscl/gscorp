@@ -46,8 +46,8 @@
       height: auto;
       gap: 1rem;
       .image-content{
-        order: 1;
-        width: 100%;
+        order: 1 !important;
+        width: 100% !important;
         padding: 0;
         img{
           width: 100%;
@@ -57,8 +57,8 @@
         }
       }
       .text-content{
-        order: 2;
-        width: 100%;
+        order: 2 !important;
+        width: 100% !important;
       }
     }
   }
