@@ -7,10 +7,17 @@
     @include text-container-big ();
     h1 {
       margin: 0 0 1.5rem 0;
-      @media (max-width: 768px) {
-        @include montserrat-font(1.5rem, 600);
-      }
     }
+    @media (max-width: 768px) {
+      h1 {
+        @include montserrat-font(1.25rem, 600);
+      }
+      .p3 {
+        @include montserrat-font(1rem, 500);
+      }
+
+    }
+
 }
 
 .text-image-right {
