@@ -87,7 +87,7 @@ $background-transparent: transparent;
       }
       .texto-logo{
         max-height: var(--nav-h);
-        @include roboto-font(1.5rem, 600);
+        @include roboto-font(1.5rem, 500);
         color: white;
       }
     }
