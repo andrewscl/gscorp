@@ -11,6 +11,9 @@
   margin: 0 0 1.5rem 0;
 }
 @media (max-width: 768px) {
+  .text-container-big {
+    padding: 0 5vw 0 5vw;
+  }
   .text-container-big h1 {
     font-family: "Montserrat", sans-serif;
     font-size: 1.25rem;

@@ -46,6 +46,20 @@
 .slideshow-video-container .slide.video-slide .slide-texts .delay-5 {
   animation-delay: 5s;
 }
+@media (max-width: 768px) {
+  .slideshow-video-container .slide.video-slide .slide-texts h1 {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .slideshow-video-container .slide.video-slide .slide-texts h3 {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.25rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+}
 .slideshow-video-container .nav {
   position: absolute;
   top: 50%;
