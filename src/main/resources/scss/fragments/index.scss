@@ -3,6 +3,13 @@
 @use '../base/palette' as *;
 @use '../base/fragment-mixins' as *;
 
+.text-container-big {
+    @include text-container-big ();
+    h1 {
+      margin: 0 0 1.5rem 0;
+    }
+}
+
 //Móviles
 @media (max-width: 768px) {
   .text-container-big{
@@ -14,13 +21,6 @@
       }
       padding: 0 5vw 0 5vw !important;
   }
-}
-
-.text-container-big {
-    @include text-container-big ();
-    h1 {
-      margin: 0 0 1.5rem 0;
-    }
 }
 
 .text-image-right {
@@ -59,6 +59,7 @@
       .text-content{
         order: 2 !important;
         width: 100% !important;
+        height: auto;
       }
     }
   }
