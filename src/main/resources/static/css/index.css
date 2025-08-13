@@ -1,3 +1,17 @@
+.text-container-big {
+  padding: 0 45vw 0 5vw;
+  margin: 1.5rem 0 2rem 0;
+}
+.text-container-big .container {
+  height: 100%;
+  width: 100%;
+  display: block;
+  align-items: center;
+}
+.text-container-big h1 {
+  margin: 0 0 1.5rem 0;
+}
+
 @media (max-width: 768px) {
   .text-container-big {
     padding: 0 5vw 0 5vw !important;
@@ -15,20 +29,6 @@
     letter-spacing: 0.02em;
   }
 }
-.text-container-big {
-  padding: 0 45vw 0 5vw;
-  margin: 1.5rem 0 2rem 0;
-}
-.text-container-big .container {
-  height: 100%;
-  width: 100%;
-  display: block;
-  align-items: center;
-}
-.text-container-big h1 {
-  margin: 0 0 1.5rem 0;
-}
-
 .text-image-right {
   background-color: #1f2937;
   height: 60vh;
@@ -103,6 +103,7 @@
   .text-image-right .container .text-content {
     order: 2 !important;
     width: 100% !important;
+    height: auto;
   }
 }
 .text-container-medium {
