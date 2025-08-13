@@ -165,8 +165,8 @@ p {
 .navbar .mega-menu-content .logo-container .texto-logo {
   max-height: var(--nav-h);
   font-family: "Roboto", sans-serif;
-  font-size: 1.5rem;
-  font-weight: 500;
+  font-size: 1.375rem;
+  font-weight: 600;
   letter-spacing: 0.02em;
   color: white;
 }
