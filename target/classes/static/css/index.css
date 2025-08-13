@@ -90,8 +90,8 @@
     gap: 1rem;
   }
   .text-image-right .container .image-content {
-    order: 1;
-    width: 100%;
+    order: 1 !important;
+    width: 100% !important;
     padding: 0;
   }
   .text-image-right .container .image-content img {
@@ -101,8 +101,8 @@
     object-fit: cover;
   }
   .text-image-right .container .text-content {
-    order: 2;
-    width: 100%;
+    order: 2 !important;
+    width: 100% !important;
   }
 }
 .text-container-medium {
