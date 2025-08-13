@@ -29,6 +29,30 @@
   margin: 0 0 1.5rem 0;
 }
 
+@media (max-width: 768px) {
+  .text-image-right {
+    height: auto;
+    max-height: none;
+  }
+  .text-image-right .container {
+    flex-direction: column;
+    height: auto;
+    gap: 1rem;
+  }
+  .text-image-right .container .image-content {
+    order: 1;
+    width: 100%;
+    padding: 0;
+  }
+  .text-image-right .container .image-content img {
+    height: auto;
+    aspect-ratio: 16/9;
+  }
+  .text-image-right .container .text-content {
+    order: 2;
+    width: 100%;
+  }
+}
 .text-image-right {
   background-color: #1f2937;
   height: 60vh;

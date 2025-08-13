@@ -23,6 +23,32 @@
     }
 }
 
+//Móviles
+@media (max-width: 768px) {
+  .text-image-right{
+    height: auto;
+    max-height: none;
+    .container{
+      flex-direction: column;
+      height: auto;
+      gap: 1rem;
+      .image-content{
+        order: 1;
+        width: 100%;
+        padding: 0;
+        img{
+          height: auto;
+          aspect-ratio: 16/9;
+        }
+      }
+      .text-content{
+        order: 2;
+        width: 100%;
+      }
+    }
+  }
+}
+
 .text-image-right {
     @include text-image(
     $bg-color: $cool-gray-800,
