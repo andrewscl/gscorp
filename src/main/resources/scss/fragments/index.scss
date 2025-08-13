@@ -29,6 +29,7 @@
     height: auto;
     max-height: none;
     .container{
+      display: flex;
       flex-direction: column;
       height: auto;
       gap: 1rem;
@@ -37,8 +38,10 @@
         width: 100%;
         padding: 0;
         img{
+          width: 100%;
           height: auto;
           aspect-ratio: 16/9;
+          object-fit: cover;
         }
       }
       .text-content{
