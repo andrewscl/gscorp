@@ -35,6 +35,7 @@
     max-height: none;
   }
   .text-image-right .container {
+    display: flex;
     flex-direction: column;
     height: auto;
     gap: 1rem;
@@ -45,8 +46,10 @@
     padding: 0;
   }
   .text-image-right .container .image-content img {
+    width: 100%;
     height: auto;
     aspect-ratio: 16/9;
+    object-fit: cover;
   }
   .text-image-right .container .text-content {
     order: 2;
