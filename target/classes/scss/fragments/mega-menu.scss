@@ -12,6 +12,8 @@ $background-transparent: transparent;
 
 .navbar {
   position: fixed;
+  margin: 0;
+  padding: 0;
   top: 0; left: 0; width: 100%;
   height: var(--nav-h);
   z-index: 1000;
@@ -84,6 +86,9 @@ $background-transparent: transparent;
         height: auto;
         max-height: var(--nav-h);
         &.hidden { opacity: 0; }
+        &:hover{
+          cursor: pointer;
+        }
       }
       .texto-logo{
         max-height: var(--nav-h);
