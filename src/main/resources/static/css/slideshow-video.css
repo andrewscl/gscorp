@@ -77,6 +77,14 @@
 .slideshow-video-container .nav.next {
   right: 20px;
 }
+@media (max-width: 768px) {
+  .slideshow-video-container .nav.prev {
+    display: hide;
+  }
+  .slideshow-video-container .nav.next {
+    display: hide;
+  }
+}
 .slideshow-video-container .dots {
   position: absolute;
   bottom: 20px;
