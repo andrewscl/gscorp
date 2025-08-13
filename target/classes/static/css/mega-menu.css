@@ -156,6 +156,13 @@ p {
 .navbar .mega-menu-content .logo-container .logo.hidden {
   opacity: 0;
 }
+.navbar .mega-menu-content .logo-container .texto-logo {
+  max-height: var(--nav-h);
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
 .navbar .mega-menu-content .menu-toggle {
   grid-column: 3;
   display: none; /* se muestra en móvil (ya lo activas en @media) */

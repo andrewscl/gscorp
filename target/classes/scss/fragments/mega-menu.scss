@@ -75,6 +75,10 @@ $background-transparent: transparent;
         max-height: var(--nav-h);
         &.hidden { opacity: 0; }
       }
+      .texto-logo{
+        max-height: var(--nav-h);
+        @include montserrat-font(1.5rem, 600);
+      }
     }
 
     .menu-toggle {
