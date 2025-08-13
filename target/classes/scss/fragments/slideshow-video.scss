@@ -43,6 +43,16 @@
         .delay-3 { animation-delay: 3s; }
         .delay-4 { animation-delay: 4s; }
         .delay-5 { animation-delay: 5s; }
+
+        @media (max-width: 768px) {
+          h1 {
+            @include montserrat-font(1.5rem, 600);
+          }
+          h3 {
+            @include montserrat-font(1.25rem, 500);
+          }
+        }
+
       }
     }
   }
