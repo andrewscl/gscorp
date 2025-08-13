@@ -3,21 +3,24 @@
 @use '../base/palette' as *;
 @use '../base/fragment-mixins' as *;
 
-.text-container-big {
-    @include text-container-big ();
-    h1 {
-      margin: 0 0 1.5rem 0;
-    }
-    @media (max-width: 768px) {
+//Móviles
+@media (max-width: 768px) {
+  .text-container-big{
       h1 {
         @include montserrat-font(1.25rem, 600);
       }
       .p3 {
         @include montserrat-font(1rem, 500);
       }
-      padding: 0 5vw 0 5vw;
-    }
+      padding: 0 5vw 0 5vw !important;
+  }
+}
 
+.text-container-big {
+    @include text-container-big ();
+    h1 {
+      margin: 0 0 1.5rem 0;
+    }
 }
 
 .text-image-right {
