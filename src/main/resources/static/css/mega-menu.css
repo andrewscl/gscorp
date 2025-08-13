@@ -92,6 +92,8 @@ p {
 
 .navbar {
   position: fixed;
+  margin: 0;
+  padding: 0;
   top: 0;
   left: 0;
   width: 100%;
@@ -161,6 +163,9 @@ p {
 }
 .navbar .mega-menu-content .logo-container .logo.hidden {
   opacity: 0;
+}
+.navbar .mega-menu-content .logo-container .logo:hover {
+  cursor: pointer;
 }
 .navbar .mega-menu-content .logo-container .texto-logo {
   max-height: var(--nav-h);
