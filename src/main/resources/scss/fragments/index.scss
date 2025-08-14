@@ -37,6 +37,20 @@
 
 //Móviles
 @media (max-width: 768px) {
+    @include text-image(
+    $bg-color: $cool-gray-800,
+    $height: 60vh,
+    $text-width: 40%,
+    $image-width: 60%,
+    $text-color: white,
+    $orden-text: 2,
+    $order-image:1
+    )
+}
+
+
+/*Móviles
+@media (max-width: 768px) {
   .text-image-right{
     height: auto;
     max-height: none;
@@ -67,7 +81,7 @@
       }
     }
   }
-}
+}*/
 
 .text-container-medium {
     @include text-container (
