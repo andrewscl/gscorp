@@ -126,6 +126,7 @@ p {
   align-items: stretch;
   justify-content: space-between;
   height: 100%;
+  width: 100%;
   gap: 2rem;
 }
 .text-image-right .container .text-content {

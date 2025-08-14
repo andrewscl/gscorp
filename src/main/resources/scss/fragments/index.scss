@@ -27,6 +27,7 @@
     @include text-image(
     $bg-color: $cool-gray-800,
     $height: 60vh,
+    $max-height: 60vh,
     $text-width: 40%,
     $image-width: 60%,
     $text-color: white,
