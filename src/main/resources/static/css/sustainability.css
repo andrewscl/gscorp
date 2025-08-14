@@ -188,9 +188,11 @@ p {
   opacity: 0.8;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
-.ethics-code .container .image-content img:hover {
-  opacity: 1;
-  transform: scale(1.05);
+@media (hover: hover) {
+  .ethics-code .container .image-content img:hover {
+    opacity: 1;
+    transform: scale(1.05);
+  }
 }
 @media (max-width: 768px) {
   .ethics-code {
@@ -198,12 +200,11 @@ p {
     max-height: none;
   }
   .ethics-code .container {
-    flex-direction: column;
+    flex-direction: column-reverse;
     height: auto;
     gap: 1rem;
   }
   .ethics-code .image-content {
-    order: 1;
     width: 100%;
     padding: 0;
   }
@@ -213,7 +214,6 @@ p {
     object-fit: cover;
   }
   .ethics-code .text-content {
-    order: 2;
     width: 100%;
     padding: 0 5vw 1rem;
   }
