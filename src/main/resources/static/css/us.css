@@ -198,10 +198,15 @@ p {
 }
 @media (max-width: 768px) {
   .text-image-left {
+    width: 100%;
+    max-width: none;
     height: auto;
     max-height: none;
+    box-sizing: border-box;
   }
   .text-image-left .container {
+    width: 100%;
+    max-width: none;
     flex-direction: column-reverse;
     height: auto;
     gap: 1rem;

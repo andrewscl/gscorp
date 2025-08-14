@@ -72,10 +72,15 @@
 
   /* ==== Móvil: imagen arriba, texto abajo ==== */
   @media( max-width: $stack-bp) {
+    width: 100%;
+    max-width: none;
     height: auto;
     max-height: none;
+    box-sizing: border-box;
 
     .container {
+      width: 100%;
+      max-width: none;
       flex-direction: column-reverse;
       height: auto;
       gap: $m-gap;
@@ -86,6 +91,7 @@
       padding: 0;
 
       img{
+        
         height: auto;
         aspect-ratio: $m-aspect;
         object-fit: cover;
