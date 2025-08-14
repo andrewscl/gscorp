@@ -72,9 +72,11 @@
   opacity: 0.8;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
-.text-image-right .container .image-content img:hover {
-  opacity: 1;
-  transform: scale(1.05);
+@media (hover: hover) {
+  .text-image-right .container .image-content img:hover {
+    opacity: 1;
+    transform: scale(1.05);
+  }
 }
 @media (max-width: 768px) {
   .text-image-right {
@@ -82,12 +84,11 @@
     max-height: none;
   }
   .text-image-right .container {
-    flex-direction: column;
+    flex-direction: column-reverse;
     height: auto;
     gap: 1rem;
   }
   .text-image-right .image-content {
-    order: 1;
     width: 100%;
     padding: 0;
   }
@@ -97,7 +98,6 @@
     object-fit: cover;
   }
   .text-image-right .text-content {
-    order: 2;
     width: 100%;
     padding: 0 5vw 1rem;
   }
