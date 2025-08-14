@@ -18,8 +18,6 @@
   $stack-bp: 768px,     // breakpoint para apilar
   $m-text-width: 100%,  // ancho del texro en móviles
   $m-image-width: 100%, // ancho imagen en móvil
-  $m-order-text: 2,     // texto abajo
-  $m-order-image: 1,    // imagen arriba
   $m-gap: 1rem,         // separación vertical en móvil
   $m-padding-x: 5vw,
   $m-aspect: 1.7777778
@@ -65,7 +63,7 @@
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         opacity: 0.8;
         transition: transform 0.3s ease, opacity 0.3s ease;
-        &:hover { opacity: 1; transform: scale(1.05); }
+        @media (hover: hover) {&:hover { opacity: 1; transform: scale(1.05); } }
       }
     }
   }
@@ -76,13 +74,12 @@
     max-height: none;
 
     .container {
-      flex-direction: column;
+      flex-direction: column-reverse;
       height: auto;
       gap: $m-gap;
     }
 
     .image-content{
-      order: $m-order-image;
       width: $m-image-width;
       padding: 0;
 
