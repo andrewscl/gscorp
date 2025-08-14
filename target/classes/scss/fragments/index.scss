@@ -37,6 +37,7 @@
 
 //Móviles
 @media (max-width: 768px) {
+  .text-image-right{
     @include text-image(
     $bg-color: $cool-gray-800,
     $height: 60vh,
@@ -46,42 +47,9 @@
     $orden-text: 2,
     $order-image:1
     )
+  }
 }
 
-
-/*Móviles
-@media (max-width: 768px) {
-  .text-image-right{
-    height: auto;
-    max-height: none;
-
-    .container{
-      display: flex;
-      flex-direction: column;
-      height: auto;
-      gap: 1rem;
-      .image-content{
-        order: 1 !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        padding: 0;
-        img{
-          width: 100%;
-          max-width: 100% !important;
-          height: auto;
-          aspect-ratio: 16/9;
-          object-fit: cover;
-        }
-      }
-      .text-content{
-        order: 2 !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        height: auto;
-      }
-    }
-  }
-}*/
 
 .text-container-medium {
     @include text-container (
