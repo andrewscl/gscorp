@@ -1,3 +1,4 @@
+@charset "UTF-8";
 body {
   font-family: "Roboto", sans-serif;
   font-size: 16px;
@@ -150,6 +151,7 @@ p {
   height: auto;
   max-height: none;
   margin-bottom: 1.5rem;
+  /* ==== Móvil: imagen arriba, texto abajo ==== */
 }
 .ethics-code .container {
   display: flex;
@@ -167,10 +169,7 @@ p {
   justify-content: center;
   order: 1;
 }
-.ethics-code .container .text-content h2 {
-  color: #334155;
-}
-.ethics-code .container .text-content p {
+.ethics-code .container .text-content h2, .ethics-code .container .text-content p {
   color: #334155;
 }
 .ethics-code .container .image-content {
@@ -192,4 +191,30 @@ p {
 .ethics-code .container .image-content img:hover {
   opacity: 1;
   transform: scale(1.05);
+}
+@media (max-width: 768px) {
+  .ethics-code {
+    height: auto;
+    max-height: none;
+  }
+  .ethics-code .container {
+    flex-direction: column;
+    height: auto;
+    gap: 1rem;
+  }
+  .ethics-code .image-content {
+    order: 1;
+    width: 100%;
+    padding: 0;
+  }
+  .ethics-code .image-content img {
+    height: auto;
+    aspect-ratio: 1.7777778;
+    object-fit: cover;
+  }
+  .ethics-code .text-content {
+    order: 2;
+    width: 100%;
+    padding: 0 5vw 1rem;
+  }
 }/*# sourceMappingURL=sustainability.css.map */

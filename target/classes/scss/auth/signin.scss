@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 $primary-color: #007bff;
 $secondary-color: #6c757d;
 $light-color: #f8f9fa;
@@ -114,7 +116,7 @@ $transition: all 0.3s ease-in-out;
         box-sizing: border-box;
 
         &:hover {
-          background-color: darken($primary-color, 10%);
+          background-color: color.adjust($primary-color, $lightness: -10%);
         }
 
         &:focus {

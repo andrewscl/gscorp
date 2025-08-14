@@ -1,7 +1,7 @@
 {
   "name": "frontend",
   "version": "1.0.0",
-  "type": "module",   
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -11,5 +11,8 @@
     "@stomp/stompjs": "^7.1.1",
     "sockjs-client": "^1.6.1",
     "vite": "^7.0.5"
+  },
+  "devDependencies": {
+    "sass": "^1.90.0"
   }
 }
