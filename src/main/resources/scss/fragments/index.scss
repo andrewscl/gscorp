@@ -31,25 +31,18 @@
     $image-width: 60%,
     $text-color: white,
     $orden-text: 1,
-    $order-image:2
-    )
+    $order-image:2,
+    /* --- Móvil --- */
+    $stack-bp: 768px,     // breakpoint para apilar
+    $m-text-width: 100%,  // ancho del texto en móviles
+    $m-image-width: 100%, // ancho imagen en móvil
+    $m-order-text: 2,     // texto abajo
+    $m-order-image: 1,    // imagen arriba
+    $m-gap: 1rem,         // separación vertical en móvil
+    $m-padding-x: 5vw,
+    $m-aspect: 1.7777778
+    );
 }
-
-//Móviles
-@media (max-width: 768px) {
-  .text-image-right{
-    @include text-image(
-    $bg-color: $cool-gray-800,
-    $height: 60vh,
-    $text-width: 40%,
-    $image-width: 60%,
-    $text-color: white,
-    $orden-text: 2,
-    $order-image:1
-    )
-  }
-}
-
 
 .text-container-medium {
     @include text-container (
@@ -62,7 +55,7 @@
     $columns: 4, 
     $gap: 3rem, 
     $padding: 0 5vw 0 5vw,
-    $background-color: white)
+    $background-color: white);
 }
 
 hr{

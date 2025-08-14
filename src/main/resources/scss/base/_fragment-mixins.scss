@@ -1,6 +1,7 @@
 @use 'mixins' as * ;
 @use 'variables' as *;
 @use 'palette' as *;
+@use 'sass:color';
 
 @mixin text-image(
   $bg-color: $cool-gray-800,
@@ -12,7 +13,17 @@
   $padding-image: 0,
   $border-radius: 0,
   $orden-text: 1,
-  $order-image: 2) {
+  $order-image: 2,
+  /* --- Móvil --- */
+  $stack-bp: 768px,     // breakpoint para apilar
+  $m-text-width: 100%,  // ancho del texro en móviles
+  $m-image-width: 100%, // ancho imagen en móvil
+  $m-order-text: 2,     // texto abajo
+  $m-order-image: 1,    // imagen arriba
+  $m-gap: 1rem,         // separación vertical en móvil
+  $m-padding-x: 5vw,
+  $m-aspect: 1.7777778
+  ) {
   background-color: $bg-color;
   height: $height;
   max-height: $max-height;
@@ -34,17 +45,13 @@
       justify-content: center;
       order: $orden-text;
 
-      h2 {
-        color: $text-color;
-      }
-
-      p {
+      h2, p {
         color: $text-color;
       }
     }
 
     .image-content {
-      padding: $padding-image; 
+      padding: $padding-image;
       width: $image-width;
       order: $order-image;
       display: flex;
@@ -58,11 +65,38 @@
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         opacity: 0.8;
         transition: transform 0.3s ease, opacity 0.3s ease;
-        &:hover {
-          opacity: 1;
-          transform: scale(1.05);
-        }
+        &:hover { opacity: 1; transform: scale(1.05); }
       }
+    }
+  }
+
+  /* ==== Móvil: imagen arriba, texto abajo ==== */
+  @media( max-width: $stack-bp) {
+    height: auto;
+    max-height: none;
+
+    .container {
+      flex-direction: column;
+      height: auto;
+      gap: $m-gap;
+    }
+
+    .image-content{
+      order: $m-order-image;
+      width: $m-image-width;
+      padding: 0;
+
+      img{
+        height: auto;
+        aspect-ratio: $m-aspect;
+        object-fit: cover;
+      }
+    }
+
+    .text-content{
+      order: $m-order-text;
+      width: $m-text-width;
+      padding: 0 $m-padding-x $m-gap;
     }
   }
 }
@@ -274,7 +308,7 @@
       transition: background-color 0.3s ease;
 
       &:hover {
-        background-color: darken($primary-color, 10%);
+        background-color: color.adjust($primary-color, $lightness: -10%);
       }
     }
   }
