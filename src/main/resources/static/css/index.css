@@ -131,11 +131,31 @@
 .text-container-medium {
   padding: 0 50vw 0 10vw;
   margin: 1.5rem 0 2.5rem 0;
-}
-.text-container-medium .container {
   height: 100%;
   display: block;
   align-items: center;
+  /* ==== Móvil: imagen arriba, texto abajo ==== */
+}
+@media (max-width: 768px) {
+  .text-container-medium {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    max-height: none;
+    box-sizing: border-box;
+  }
+  .text-container-medium h2 {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .text-container-medium .p2 {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
 }
 
 .industries-section {

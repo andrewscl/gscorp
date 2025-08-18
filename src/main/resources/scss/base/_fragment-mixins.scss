@@ -234,8 +234,8 @@
 }
 
 @mixin text-container (
-  $margin: 2rem 0,
-  $padding: 0 5rem 0 5rem) {
+  $margin: 2rem 0 4rem 0,
+  $padding: 0 5rem 0 5rem,) {
   padding: $padding;
   margin: $margin;
   height: 100%;
@@ -243,7 +243,7 @@
   align-items: center;
 
   /* ==== Móvil: imagen arriba, texto abajo ==== */
-  @media( max-width: $stack-bp) {
+  @media( max-width: 768px) {
   width: 100%;
   max-width: 100%;
   height: auto;
