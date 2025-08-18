@@ -235,7 +235,7 @@
 
 @mixin text-container (
   $margin: 2rem 0 4rem 0,
-  $padding: 0 5rem 0 5rem,) {
+  $padding: 0 5rem 0 5rem) {
   padding: $padding;
   margin: $margin;
   height: 100%;
@@ -247,7 +247,7 @@
   @media( max-width: 768px) {
   width: 100%;
   max-width: 100%;
-  min-width: 100%;
+  $padding: 0 5rem 0 5rem
   height: auto;
   max-height: none;
   box-sizing: border-box;
