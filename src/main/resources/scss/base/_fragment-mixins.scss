@@ -219,24 +219,26 @@
 
 
 @mixin column-layout-img(
-  $columns: 3, 
-  $gap: 4rem, 
+  $columns: 4,                   // ← pide 4 columnas en desktop
+  $gap: 4rem,
   $padding: 4rem 5vw,
   $background-color: white,
-  
-  // Desktop
-  $img-max-h: 22.5vh,
-  $img-radius: .5rem,
-  $img-fit: contain,
 
-  //movil
-  $stack-bp: 768px,
-  $m-img-max-w: clamp(140px, 60vw, 260px),
-  $m-img-max-h: 20vh,
-  $m-center: true       //centra imagen + texto en movil
-  ) {
+  // Imagen desktop
+  $img-radius: .5rem,
+  $img-fit: contain,             // logos → contain (fotos → cover)
+  $img-aspect: 1.33333333,              // fija una “caja” uniforme; null para no forzar
+
+  // Breakpoints
+  $bp-tablet: 1024px,
+  $bp-mobile: 768px,
+
+  // Imagen móvil
+  $m-img-aspect: 1.33333333,            // misma “caja” en móvil
+  $m-center: true                // centra contenido en móvil
+) {
   display: grid;
-  grid-template-columns: repeat($columns, 1fr);
+  grid-template-columns: repeat($columns, minmax(0, 1fr)); // ← clave
   gap: $gap;
   padding: $padding;
   background-color: $background-color;
@@ -247,17 +249,22 @@
     flex-direction: column;
     align-items: flex-start;
     text-align: left;
+    min-width: 0;                   // ← permite encoger
 
     img {
       display: block;
       width: 100%;
       height: auto;
-      max-height: $img-max-h;
       margin-bottom: .5rem;
       border-radius: $img-radius;
       object-fit: $img-fit;
+
+      @if $img-aspect != null {
+        aspect-ratio: $img-aspect;  // alturas uniformes en desktop
+      }
     }
-    h4{
+
+    h4 {
       width: 100%;
       margin: 0;
       text-align: center;
@@ -265,14 +272,14 @@
   }
 
   // Responsive grid
-  @media (max-width: 1024px) {
-    grid-template-columns: repeat(2, 1fr);
+  @media (max-width: $bp-tablet) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  @media (max-width: $stack-bp) {
+  @media (max-width: $bp-mobile) {
     grid-template-columns: 1fr;
-    .column{
-      //Centrado en movil
+
+    .column {
       @if $m-center {
         align-items: center;
         text-align: center;
@@ -281,15 +288,17 @@
         text-align: left;
       }
 
-      img{
-        width: auto;
-        max-width: $m-img-max-w;
-        max-height: $m-img-max-h;
-        object-fit: $img-fit;
+      img {
+        width: 100%;               // todas la misma anchura
+        max-width: 100%;
+        height: auto;
+        aspect-ratio: $m-img-aspect; // y misma altura relativa
+        object-fit: contain;       // no recorta logos
       }
     }
   }
 }
+
 
 @mixin column-layout(
   $columns: 3, 

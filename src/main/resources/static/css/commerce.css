@@ -242,7 +242,7 @@ p {
 
 .servicios-aseo {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8rem;
   padding: 2rem 5vw;
   background-color: white;
@@ -253,15 +253,16 @@ p {
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
+  min-width: 0;
 }
 .servicios-aseo .column img {
   display: block;
   width: 100%;
   height: auto;
-  max-height: 22.5vh;
   margin-bottom: 0.5rem;
   border-radius: 0.5rem;
   object-fit: contain;
+  aspect-ratio: 1.33333333;
 }
 .servicios-aseo .column h4 {
   width: 100%;
@@ -270,7 +271,7 @@ p {
 }
 @media (max-width: 1024px) {
   .servicios-aseo {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 @media (max-width: 768px) {
@@ -282,9 +283,10 @@ p {
     text-align: center;
   }
   .servicios-aseo .column img {
-    width: auto;
-    max-width: clamp(140px, 60vw, 260px);
-    max-height: 20vh;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 1.33333333;
     object-fit: contain;
   }
 }/*# sourceMappingURL=commerce.css.map */
