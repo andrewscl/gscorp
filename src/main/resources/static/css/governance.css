@@ -207,7 +207,7 @@ p {
   .text-image-governance .container {
     width: 100%;
     max-width: none;
-    flex-direction: column;
+    flex-direction: column-reverse;
     height: auto;
     gap: 1rem;
   }
