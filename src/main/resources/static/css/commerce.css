@@ -246,6 +246,7 @@ p {
   gap: 8rem;
   padding: 2rem 5vw;
   background-color: white;
+  box-sizing: border-box;
 }
 .servicios-aseo .column {
   display: flex;
@@ -254,12 +255,13 @@ p {
   text-align: left;
 }
 .servicios-aseo .column img {
+  display: block;
   width: 100%;
   height: auto;
   max-height: 22.5vh;
   margin-bottom: 0.5rem;
   border-radius: 0.5rem;
-  object-fit: fill;
+  object-fit: contain;
 }
 .servicios-aseo .column h4 {
   width: 100%;
@@ -274,5 +276,15 @@ p {
 @media (max-width: 768px) {
   .servicios-aseo {
     grid-template-columns: 1fr;
+  }
+  .servicios-aseo .column {
+    align-items: center;
+    text-align: center;
+  }
+  .servicios-aseo .column img {
+    width: auto;
+    max-width: clamp(140px, 60vw, 260px);
+    max-height: 20vh;
+    object-fit: contain;
   }
 }/*# sourceMappingURL=commerce.css.map */

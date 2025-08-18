@@ -119,17 +119,35 @@
 }
 
 @mixin card-grid(
-  $columns: 3, 
-  $gap: 3rem, 
-  $padding: 4rem 5vw) {
+  $columns: 3,
+  $gap: 3rem,
+  $padding: 4rem 5vw,
+  // Colores
+  $bg: $background-alt,
+  $card-bg: $background-white,
+  // Imagen (desktop)
+  $img-max-h: 200px,
+  $img-radius: .75rem,
+  $img-fit: cover,          // cambia a 'contain' si son logos
+  $img-aspect: null,        // ej: 4/3 o 1/1; si null, no fuerza relación
+  // Breakpoints
+  $bp-tablet: 1024px,
+  $bp-mobile: 768px,
+  // Imagen (móvil)
+  $m-img-max-w: clamp(140px, 70vw, 280px),
+  $m-img-max-h: 180px,
+  $m-img-fit: null,         // si null, usa $img-fit
+  $m-center: true           // centra imagen+texto en móvil
+) {
   display: grid;
   grid-template-columns: repeat($columns, 1fr);
   gap: $gap;
   padding: $padding;
-  background-color: $background-alt;
+  background-color: $bg;
+  box-sizing: border-box;
 
   .column {
-    background-color: $background-white;
+    background-color: $card-bg;
     padding: 2rem;
     border-radius: 1rem;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
@@ -137,42 +155,92 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform .3s ease, box-shadow .3s ease;
 
     &:hover {
       transform: translateY(-6px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 8px 24px rgba(0,0,0,.15);
     }
 
     img {
+      display: block;
       width: 100%;
-      max-height: 200px;
-      object-fit: cover;
-      border-radius: 0.75rem;
+      height: auto;
+      max-height: $img-max-h;
+      object-fit: $img-fit;
+      border-radius: $img-radius;
       margin-bottom: 1.5rem;
+
+      @if $img-aspect != null {
+        aspect-ratio: $img-aspect;
+        /* Cuando forzamos aspecto, dejamos que el ancho mande */
+        max-height: none;
+      }
     }
   }
 
-  // Responsividad
-  @media (max-width: 1024px) {
+  // Responsivo grid
+  @media (max-width: $bp-tablet) {
     grid-template-columns: repeat(2, 1fr);
   }
-
-  @media (max-width: 768px) {
+  @media (max-width: $bp-mobile) {
     grid-template-columns: 1fr;
+
+    .column {
+      @if $m-center {
+        align-items: center;
+        text-align: center;
+      } @else {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+      img {
+        $use-fit: if($m-img-fit != null, $m-img-fit, $img-fit);
+
+        /* En móvil controlamos tamaño con max-width/height */
+        width: auto;
+        max-width: $m-img-max-w;
+        max-height: $m-img-max-h;
+        object-fit: $use-fit;
+        align-self: if($m-center, center, flex-start);
+
+        @if $img-aspect != null {
+          /* Si quieres mantener aspecto también en móvil */
+          width: 100%;
+          max-width: none;
+          height: auto;
+          aspect-ratio: $img-aspect;
+        }
+      }
+    }
   }
 }
+
 
 @mixin column-layout-img(
   $columns: 3, 
   $gap: 4rem, 
   $padding: 4rem 5vw,
-  $background-color: white) {
+  $background-color: white,
+  
+  // Desktop
+  $img-max-h: 22.5vh,
+  $img-radius: .5rem,
+  $img-fit: contain,
+
+  //movil
+  $stack-bp: 768px,
+  $m-img-max-w: clamp(140px, 60vw, 260px),
+  $m-img-max-h: 20vh,
+  $m-center: true       //centra imagen + texto en movil
+  ) {
   display: grid;
   grid-template-columns: repeat($columns, 1fr);
   gap: $gap;
   padding: $padding;
   background-color: $background-color;
+  box-sizing: border-box;
 
   .column {
     display: flex;
@@ -181,12 +249,13 @@
     text-align: left;
 
     img {
+      display: block;
       width: 100%;
       height: auto;
-      max-height: 22.5vh;
-      margin-bottom: 0.5rem;
-      border-radius: 0.5rem;
-      object-fit: fill;
+      max-height: $img-max-h;
+      margin-bottom: .5rem;
+      border-radius: $img-radius;
+      object-fit: $img-fit;
     }
     h4{
       width: 100%;
@@ -195,13 +264,30 @@
     }
   }
 
-  // Responsive behavior
+  // Responsive grid
   @media (max-width: 1024px) {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: $stack-bp) {
     grid-template-columns: 1fr;
+    .column{
+      //Centrado en movil
+      @if $m-center {
+        align-items: center;
+        text-align: center;
+      } @else {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+      img{
+        width: auto;
+        max-width: $m-img-max-w;
+        max-height: $m-img-max-h;
+        object-fit: $img-fit;
+      }
+    }
   }
 }
 
