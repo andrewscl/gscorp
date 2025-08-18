@@ -236,8 +236,8 @@
 //Bloque de texto alineado a la izquierda responsive
 @mixin text-container (
   $maxw: 72rem,
-  $gutter-desktop: clamp(24px 6vw, 80px),   //padding lateral desktop
-  $gutter-mobile: clamp(16px 5vw, 40px),    //padding lateral movil
+  $gutter-desktop: clamp(24px, 6vw, 80px),   //padding lateral desktop
+  $gutter-mobile: clamp(16px, 5vw, 40px),    //padding lateral movil
   $stack-bp: 768px
   ) {
     box-sizing: border-box;

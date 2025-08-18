@@ -212,23 +212,19 @@ p {
 }
 
 .text-container-medium {
-  padding: 0 50vw 0 5vw;
-  margin: 7.5vh 0 0 0;
-  height: 100%;
+  box-sizing: border-box;
   width: 100%;
-  display: block;
-  align-items: center;
+  max-width: 72rem;
+  margin: 2rem auto 4rem;
+  padding-inline: clamp(24px, 6vw, 80px);
+  text-align: left;
   /* ==== Móvil: imagen arriba, texto abajo ==== */
 }
 @media (max-width: 768px) {
   .text-container-medium {
-    width: 100%;
-    max-width: 100%;
-    min-width: 100%;
-    padding: 0 5rem 0 5rem;
-    height: auto;
-    max-height: none;
-    box-sizing: border-box;
+    padding-inline: clamp(16px, 5vw, 40px);
+    padding-left: max(clamp(16px, 5vw, 40px), env(safe-area-inset-left));
+    padding-right: max(clamp(16px, 5vw, 40px), env(safe-area-inset-right));
   }
   .text-container-medium h2 {
     font-family: "Montserrat", sans-serif;

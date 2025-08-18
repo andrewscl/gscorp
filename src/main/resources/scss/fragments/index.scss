@@ -40,8 +40,11 @@
 
 .text-container-medium {
   @include text-container (
-  $margin: 1.5rem 0 2.5rem 0,
-  $padding: 0 50vw 0 10vw);
+  $maxw: 72rem,
+  $gutter-desktop: clamp(24px, 6vw, 80px),   //padding lateral desktop
+  $gutter-mobile: clamp(16px, 5vw, 40px),    //padding lateral movil
+  $stack-bp: 768px
+  );
 }
 
 .industries-section {

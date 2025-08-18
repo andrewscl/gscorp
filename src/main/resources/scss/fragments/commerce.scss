@@ -33,8 +33,11 @@
 
 .text-container-medium {
     @include text-container (
-    $margin: 7.5vh 0 0 0,
-    $padding: 0 50vw 0 5vw);
+  $maxw: 72rem,
+  $gutter-desktop: clamp(24px, 6vw, 80px),   //padding lateral desktop
+  $gutter-mobile: clamp(16px, 5vw, 40px),    //padding lateral movil
+  $stack-bp: 768px
+  );
 }
 
 .servicios-aseo {
