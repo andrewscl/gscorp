@@ -357,7 +357,11 @@
   $video-width: 60%,
   $orden-text: 1,
   $order-video: 2,
-  $title-content: 1rem
+  $title-content: 1rem,
+  /* Movil */
+  $stack-bp: 768px,
+  $m-padding-x: 5vw,
+  $m-gap: 1rem
   ){
   height: $height;
   max-height: $max-height;
@@ -368,7 +372,7 @@
     align-items: stretch; // asegura que ambos contenedores tengan 100% del alto
     justify-content: space-between;
     height: 100%;
-    gap: 2 rem;
+    gap: 2rem;
     padding: 0 0 0 3vw;
     .text-content {
       width: $text-width;
@@ -392,16 +396,34 @@
     }
   }
 
-  /* ==== Móvil: imagen arriba, texto abajo ==== */
-  @media( max-width: 768px) {
+  /* ==== Móvil: video arriba, texto abajo ==== */
+  @media( max-width: $stack-bp) {
     height: auto;
     max-height: none;
     .container {
-      display: column-reverse;
+      display: flex;
+      flex-direction: column;
+      gap: $m-gap;
+      padding: 0;
+
+      .video-content{
+        order: 0;
+        width: 90%;
+        max-width: 90%;
+        padding: 0;
+        overflow: hidden;
+      }
 
       .text-content{
-        width: 90%;
-        padding: 0;
+        order: 1;
+        flex: 1 1 auto;
+        width: 100%;
+
+        padding-inline: $m-padding-x;
+        padding-top: 0;
+        padding-bottom: 0;
+        max-width: 100%;
+        overflow-wrap: anywhere;
 
         h2{
           @include montserrat-font(1.5rem, 600);
@@ -410,10 +432,7 @@
           @include montserrat-font(1rem, 500);
         }
       }
-      .video-content{
-        width: 90%;
-        max-width: 90%;
-      }
+
 
     }
 

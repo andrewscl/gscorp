@@ -209,14 +209,14 @@ hr {
 .text-video-left {
   height: 60vh;
   max-height: 60vh;
-  /* ==== Móvil: imagen arriba, texto abajo ==== */
+  /* ==== Móvil: video arriba, texto abajo ==== */
 }
 .text-video-left .container {
   display: flex;
   align-items: stretch;
   justify-content: space-between;
   height: 100%;
-  gap: 2 rem;
+  gap: 2rem;
   padding: 0 0 0 3vw;
 }
 .text-video-left .container .text-content {
@@ -245,11 +245,27 @@ hr {
     max-height: none;
   }
   .text-video-left .container {
-    display: column-reverse;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0;
+  }
+  .text-video-left .container .video-content {
+    order: 0;
+    width: 90%;
+    max-width: 90%;
+    padding: 0;
+    overflow: hidden;
   }
   .text-video-left .container .text-content {
-    width: 90%;
-    padding: 0;
+    order: 1;
+    flex: 1 1 auto;
+    width: 100%;
+    padding-inline: 5vw;
+    padding-top: 0;
+    padding-bottom: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
   }
   .text-video-left .container .text-content h2 {
     font-family: "Montserrat", sans-serif;
@@ -262,10 +278,6 @@ hr {
     font-size: 1rem;
     font-weight: 500;
     letter-spacing: 0.02em;
-  }
-  .text-video-left .container .video-content {
-    width: 90%;
-    max-width: 90%;
   }
 }
 
