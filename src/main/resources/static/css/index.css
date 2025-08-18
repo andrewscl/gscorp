@@ -93,8 +93,6 @@
     flex-direction: column-reverse;
     height: auto;
     gap: 1rem;
-    overflow-x: hidden;
-    padding: 0 1rem 0 1rem;
   }
   .text-image-right .container .image-content {
     width: 100%;
@@ -109,7 +107,6 @@
   }
   .text-image-right .container .text-content {
     width: 100%;
-    padding: 0 5vw 1rem;
   }
   .text-image-right .container .text-content h2 {
     font-family: "Montserrat", sans-serif;
@@ -249,6 +246,9 @@ hr {
 }
 @media (max-width: 768px) {
   .group-section {
+    grid-template-columns: 1fr;
+  }
+}/*# sourceMappingURL=index.css.map */ {
     grid-template-columns: 1fr;
   }
 }/*# sourceMappingURL=index.css.map */

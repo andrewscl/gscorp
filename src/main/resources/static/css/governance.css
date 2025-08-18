@@ -209,8 +209,6 @@ p {
     flex-direction: column-reverse;
     height: auto;
     gap: 1rem;
-    overflow-x: hidden;
-    padding: 0 1rem 0 1rem;
   }
   .text-image-governance .container .image-content {
     width: 100%;
@@ -225,7 +223,6 @@ p {
   }
   .text-image-governance .container .text-content {
     width: 100%;
-    padding: 0 5vw 1rem;
   }
   .text-image-governance .container .text-content h2 {
     font-family: "Montserrat", sans-serif;
@@ -244,5 +241,7 @@ p {
   margin-bottom: 3rem;
 }
 .text-image-governance .container .text-content p {
+  margin: 0;
+}/*# sourceMappingURL=governance.css.map */er .text-content p {
   margin: 0;
 }/*# sourceMappingURL=governance.css.map */
