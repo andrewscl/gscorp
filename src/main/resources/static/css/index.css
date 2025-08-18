@@ -112,7 +112,6 @@
     max-width: 100%;
     overflow: hidden;
     padding: 0;
-    margin-inline: 5vw;
   }
   .text-image-right .container .text-content h2 {
     font-family: "Montserrat", sans-serif;
@@ -254,4 +253,4 @@ hr {
   .group-section {
     grid-template-columns: 1fr;
   }
-}/*# sourceMappingURL=index.css.map */
+}/*# sourceMappingURL=index.css.map */pingURL=index.css.map */
