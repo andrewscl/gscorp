@@ -225,10 +225,9 @@ p {
   .text-image-left .container .text-content {
     width: 100%;
     min-width: 0;
-    max-width: 100%;
+    max-width: 90%;
     overflow: hidden;
     padding: 0;
-    padding-inline: 5vw;
     margin: 0;
   }
   .text-image-left .container .text-content h2 {
@@ -243,4 +242,4 @@ p {
     font-weight: 500;
     letter-spacing: 0.02em;
   }
-}/*# sourceMappingURL=history.css.map */
+}/*# sourceMappingURL=history.css.map */pingURL=history.css.map */

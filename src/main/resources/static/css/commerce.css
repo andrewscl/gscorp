@@ -192,10 +192,9 @@ p {
   .text-image-right .container .text-content {
     width: 100%;
     min-width: 0;
-    max-width: 100%;
+    max-width: 90%;
     overflow: hidden;
     padding: 0;
-    padding-inline: 5vw;
     margin: 0;
   }
   .text-image-right .container .text-content h2 {
@@ -257,4 +256,4 @@ p {
   .servicios-aseo {
     grid-template-columns: 1fr;
   }
-}/*# sourceMappingURL=commerce.css.map */
+}/*# sourceMappingURL=commerce.css.map */ingURL=commerce.css.map */

@@ -225,10 +225,9 @@ p {
   .text-image-governance .container .text-content {
     width: 100%;
     min-width: 0;
-    max-width: 100%;
+    max-width: 90%;
     overflow: hidden;
     padding: 0;
-    padding-inline: 5vw;
     margin: 0;
   }
   .text-image-governance .container .text-content h2 {
@@ -249,4 +248,4 @@ p {
 }
 .text-image-governance .container .text-content p {
   margin: 0;
-}/*# sourceMappingURL=governance.css.map */
+}/*# sourceMappingURL=governance.css.map */gURL=governance.css.map */
