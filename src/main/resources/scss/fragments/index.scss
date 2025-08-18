@@ -49,21 +49,24 @@
 
 .industries-section {
   @include column-layout-img(
-  $columns: 4,                   // ← pide 4 columnas en desktop
-  $gap: 4rem,
-  $padding: 4rem 5vw,
+  $columns: 4,                 // 4 columnas en desktop
+  $gap: 2rem,
+  $padding: 3rem 6vw,
   $background-color: white,
-  // Imagen desktop
+
+  // Imagen
+  $img-fit: contain,           // logos → contain; fotos → cover
+  $img-aspect: 1.3333333,            // relación uniforme (caja)
   $img-radius: .5rem,
-  $img-fit: contain,             // logos → contain (fotos → cover)
-  $img-aspect: 1.33333333,              // fija una “caja” uniforme; null para no forzar
+
+  // Texto
+  $p-lines: 3,                 // nº de líneas visibles
+  $p-line-height: 1.4,         // line-height del párrafo
+
   // Breakpoints
   $bp-tablet: 1024px,
-  $bp-mobile: 768px,
-  // Imagen móvil
-  $m-img-aspect: 1.33333333,            // misma “caja” en móvil
-  $m-center: true                // centra contenido en móvil
-);
+  $bp-mobile: 768px
+  );
 }
 
 hr{

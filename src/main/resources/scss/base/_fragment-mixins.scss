@@ -219,85 +219,90 @@
 
 
 @mixin column-layout-img(
-  $columns: 4,                   // ← pide 4 columnas en desktop
-  $gap: 4rem,
-  $padding: 4rem 5vw,
+  $columns: 4,                 // 4 columnas en desktop
+  $gap: 2rem,
+  $padding: 3rem 6vw,
   $background-color: white,
 
-  // Imagen desktop
+  // Imagen
+  $img-fit: contain,           // logos → contain; fotos → cover
+  $img-aspect: 1.3333333,            // relación uniforme (caja)
   $img-radius: .5rem,
-  $img-fit: contain,             // logos → contain (fotos → cover)
-  $img-aspect: 1.33333333,              // fija una “caja” uniforme; null para no forzar
+
+  // Texto
+  $p-lines: 3,                 // nº de líneas visibles
+  $p-line-height: 1.4,         // line-height del párrafo
 
   // Breakpoints
   $bp-tablet: 1024px,
-  $bp-mobile: 768px,
-
-  // Imagen móvil
-  $m-img-aspect: 1.33333333,            // misma “caja” en móvil
-  $m-center: true                // centra contenido en móvil
+  $bp-mobile: 768px
 ) {
   display: grid;
-  grid-template-columns: repeat($columns, minmax(0, 1fr)); // ← clave
+  grid-template-columns: repeat($columns, minmax(0, 1fr)); // evita que “rompa” la fila
   gap: $gap;
   padding: $padding;
   background-color: $background-color;
+  align-items: stretch;   // estira todas las tarjetas a la misma altura
   box-sizing: border-box;
 
   .column {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    min-width: 0;         // permite encoger
+    height: 100%;         // llena la celda de grid
     text-align: left;
-    min-width: 0;                   // ← permite encoger
+    align-items: center;  // imagen centrada; cambia a flex-start si prefieres
 
-    img {
-      display: block;
+    /* Caja de imagen con ratio fijo */
+    .media {
       width: 100%;
-      height: auto;
-      margin-bottom: .5rem;
+      aspect-ratio: $img-aspect;
       border-radius: $img-radius;
-      object-fit: $img-fit;
+      overflow: hidden;
+      margin-bottom: 1rem;
+      background: #fff; // útil si los logos tienen transparencia
 
-      @if $img-aspect != null {
-        aspect-ratio: $img-aspect;  // alturas uniformes en desktop
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: $img-fit;
+        display: block;
       }
     }
 
-    h4 {
-      width: 100%;
-      margin: 0;
-      text-align: center;
+    p {
+      // tipografía y altura mínima uniforme (por si el clamp no está soportado)
+      line-height: $p-line-height;
+      min-height: calc(#{$p-lines} * 1em * #{$p-line-height});
+
+      // recorte del overflow
+      overflow: hidden; // (o 'clip' si prefieres)
+
+      /* Estándar */
+      line-clamp: $p-lines;
+
+      /* Legacy WebKit (Safari viejos/Chromium antiguos) */
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: $p-lines;
     }
+
   }
 
-  // Responsive grid
+  /* Responsivo */
   @media (max-width: $bp-tablet) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
   @media (max-width: $bp-mobile) {
     grid-template-columns: 1fr;
 
     .column {
-      @if $m-center {
-        align-items: center;
-        text-align: center;
-      } @else {
-        align-items: flex-start;
-        text-align: left;
-      }
-
-      img {
-        width: 100%;               // todas la misma anchura
-        max-width: 100%;
-        height: auto;
-        aspect-ratio: $m-img-aspect; // y misma altura relativa
-        object-fit: contain;       // no recorta logos
-      }
+      align-items: center; // o flex-start si quieres texto alineado a la izq
+      text-align: center;  // cambia a left si prefieres
     }
   }
 }
+
 
 
 @mixin column-layout(

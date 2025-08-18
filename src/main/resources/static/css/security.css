@@ -246,28 +246,43 @@ p {
   gap: 8rem;
   padding: 2rem 5vw;
   background-color: white;
+  align-items: stretch;
   box-sizing: border-box;
+  /* Responsivo */
 }
 .servicios-seguridad .column {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
   min-width: 0;
+  height: 100%;
+  text-align: left;
+  align-items: center;
+  /* Caja de imagen con ratio fijo */
 }
-.servicios-seguridad .column img {
-  display: block;
+.servicios-seguridad .column .media {
   width: 100%;
-  height: auto;
-  margin-bottom: 0.5rem;
+  aspect-ratio: 1.3333333;
   border-radius: 0.5rem;
-  object-fit: contain;
-  aspect-ratio: 1.33333333;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  background: #fff;
 }
-.servicios-seguridad .column h4 {
+.servicios-seguridad .column .media img {
   width: 100%;
-  margin: 0;
-  text-align: center;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.servicios-seguridad .column p {
+  line-height: 1.4;
+  min-height: calc(3 * 1em * 1.4);
+  overflow: hidden;
+  /* Estándar */
+  line-clamp: 3;
+  /* Legacy WebKit (Safari viejos/Chromium antiguos) */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 }
 @media (max-width: 1024px) {
   .servicios-seguridad {
@@ -281,12 +296,5 @@ p {
   .servicios-seguridad .column {
     align-items: center;
     text-align: center;
-  }
-  .servicios-seguridad .column img {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    aspect-ratio: 1.33333333;
-    object-fit: contain;
   }
 }/*# sourceMappingURL=security.css.map */
