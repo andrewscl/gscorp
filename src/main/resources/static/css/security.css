@@ -190,7 +190,6 @@ p {
   }
   .text-image-right .container .text-content {
     width: 100%;
-    margin: 0 2rem 0 2rem;
   }
   .text-image-right .container .text-content h2 {
     font-family: "Montserrat", sans-serif;
@@ -251,4 +250,4 @@ p {
   .servicios-seguridad {
     grid-template-columns: 1fr;
   }
-}/*# sourceMappingURL=security.css.map */
+}/*# sourceMappingURL=security.css.map */pingURL=security.css.map */
