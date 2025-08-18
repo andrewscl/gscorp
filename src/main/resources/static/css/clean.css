@@ -190,6 +190,8 @@ p {
   }
   .text-image-right .container .text-content {
     width: 100%;
+    min-width: 100%;
+    overflow: hidden;
   }
   .text-image-right .container .text-content h2 {
     font-family: "Montserrat", sans-serif;
@@ -250,4 +252,4 @@ p {
   .servicios-aseo {
     grid-template-columns: 1fr;
   }
-}/*# sourceMappingURL=clean.css.map */MappingURL=clean.css.map */
+}/*# sourceMappingURL=clean.css.map */

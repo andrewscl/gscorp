@@ -223,6 +223,8 @@ p {
   }
   .ethics-code .container .text-content {
     width: 100%;
+    min-width: 100%;
+    overflow: hidden;
   }
   .ethics-code .container .text-content h2 {
     font-family: "Montserrat", sans-serif;
@@ -236,4 +238,4 @@ p {
     font-weight: 500;
     letter-spacing: 0.02em;
   }
-}/*# sourceMappingURL=sustainability.css.map */L=sustainability.css.map */
+}/*# sourceMappingURL=sustainability.css.map */

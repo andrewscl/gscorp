@@ -223,6 +223,8 @@ p {
   }
   .text-image-left .container .text-content {
     width: 100%;
+    min-width: 100%;
+    overflow: hidden;
   }
   .text-image-left .container .text-content h2 {
     font-family: "Montserrat", sans-serif;
@@ -236,4 +238,4 @@ p {
     font-weight: 500;
     letter-spacing: 0.02em;
   }
-}/*# sourceMappingURL=services.css.map */pingURL=services.css.map */
+}/*# sourceMappingURL=services.css.map */
