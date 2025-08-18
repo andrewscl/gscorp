@@ -233,25 +233,26 @@
   }
 }
 
+//Bloque de texto alineado a la izquierda responsive
 @mixin text-container (
-  $margin: 2rem 0 4rem 0,
-  $padding: 0 5rem 0 5rem) {
-  padding: $padding;
-  margin: $margin;
-  height: 100%;
-  width: 100%;
-  display: block;
-  align-items: center;
+  $maxw: 72rem,
+  $gutter-desktop: clamp(24px 6vw, 80px),   //padding lateral desktop
+  $gutter-mobile: clamp(16px 5vw, 40px),    //padding lateral movil
+  $stack-bp: 768px
+  ) {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: $maxw;
+    margin: 2rem auto 4rem;     //Bloque centrado
+    padding-inline: $gutter-desktop;
+    text-align: left;
 
   /* ==== Móvil: imagen arriba, texto abajo ==== */
-  @media( max-width: 768px) {
-  width: 100%;
-  max-width: 100%;
-  min-width: 100%;
-  padding: 0 5rem 0 5rem;
-  height: auto;
-  max-height: none;
-  box-sizing: border-box;
+  @media( max-width: $stack-bp) {
+    padding-inline: $gutter-mobile;
+    //safe area (iphone notch)
+    padding-left: max(#{$gutter-mobile}, env(safe-area-inset-left));
+    padding-right: max(#{$gutter-mobile}, env(safe-area-inset-right));
 
     h2{
       @include montserrat-font(1.5rem, 600);
