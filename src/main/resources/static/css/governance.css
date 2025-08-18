@@ -228,7 +228,7 @@ p {
     max-width: 90%;
     overflow: hidden;
     padding: 0;
-    margin: 0;
+    margin: 0 0 0 5%;
   }
   .text-image-governance .container .text-content h2 {
     font-family: "Montserrat", sans-serif;
@@ -248,4 +248,4 @@ p {
 }
 .text-image-governance .container .text-content p {
   margin: 0;
-}/*# sourceMappingURL=governance.css.map */gURL=governance.css.map */
+}/*# sourceMappingURL=governance.css.map */

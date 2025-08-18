@@ -195,7 +195,7 @@ p {
     max-width: 90%;
     overflow: hidden;
     padding: 0;
-    margin: 0;
+    margin: 0 0 0 5%;
   }
   .text-image-right .container .text-content h2 {
     font-family: "Montserrat", sans-serif;
@@ -256,4 +256,4 @@ p {
   .servicios-seguridad {
     grid-template-columns: 1fr;
   }
-}/*# sourceMappingURL=security.css.map */ingURL=security.css.map */
+}/*# sourceMappingURL=security.css.map */
