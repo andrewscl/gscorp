@@ -48,11 +48,21 @@
 }
 
 .industries-section {
-    @include column-layout-img(
-    $columns: 4, 
-    $gap: 3rem, 
-    $padding: 0 5vw 0 5vw,
-    $background-color: white);
+  @include column-layout-img(
+  $columns: 3, 
+  $gap: 4rem, 
+  $padding: 4rem 5vw,
+  $background-color: white,
+  // Desktop
+  $img-max-h: 22.5vh,
+  $img-radius: .5rem,
+  $img-fit: contain,
+  //movil
+  $stack-bp: 768px,
+  $m-img-max-w: clamp(140px, 70vw, 260px),
+  $m-img-max-h: 20vh,
+  $m-center: true       //centra imagen + texto en movil
+  );
 }
 
 hr{
@@ -90,7 +100,7 @@ hr{
   $bp-mobile: 768px,
   // Imagen (móvil)
   $m-img-max-w: clamp(140px, 70vw, 280px),
-  $m-img-max-h: 120px,
+  $m-img-max-h: 140px,
   $m-img-fit: contain,         // si null, usa $img-fit
   $m-center: true           // centra imagen+texto en móvil
 );
