@@ -403,27 +403,26 @@
     .container {
       display: flex;
       flex-direction: column;
-      gap: $m-gap;
-      padding: 0;
+      padding-inline: $m-padding-x;
+      width: 100%;
+      box-sizing: border-box;
 
       .video-content{
         order: 0;
-        width: 90%;
-        max-width: 90%;
+        width: 100%;
+        max-width: none;
         padding: 0;
         overflow: hidden;
       }
 
       .text-content{
         order: 1;
-        flex: 1 1 auto;
         width: 100%;
-
-        padding-inline: $m-padding-x;
-        padding-top: 0;
-        padding-bottom: 0;
+        padding: 0;
         max-width: 100%;
+        min-width: 0;
         overflow-wrap: anywhere;
+        word-break: break-word;
 
         h2{
           @include montserrat-font(1.5rem, 600);
@@ -432,7 +431,6 @@
           @include montserrat-font(1rem, 500);
         }
       }
-
 
     }
 
