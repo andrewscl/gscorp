@@ -91,22 +91,22 @@
   .text-image-right .container {
     width: 100%;
     max-width: none;
-    flex-direction: column-reverse;
+    flex-direction: column;
     height: auto;
     gap: 1rem;
   }
-  .text-image-right .image-content {
+  .text-image-right .container .image-content {
     width: 100%;
     padding: 0;
   }
-  .text-image-right .image-content img {
+  .text-image-right .container .image-content img {
     width: 100%;
     max-width: 100%;
     height: auto;
     aspect-ratio: 1.7777778;
     object-fit: cover;
   }
-  .text-image-right .text-content {
+  .text-image-right .container .text-content {
     width: 100%;
     padding: 0 5vw 1rem;
   }

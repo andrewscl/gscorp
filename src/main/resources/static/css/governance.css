@@ -207,22 +207,22 @@ p {
   .text-image-governance .container {
     width: 100%;
     max-width: none;
-    flex-direction: column-reverse;
+    flex-direction: column;
     height: auto;
     gap: 1rem;
   }
-  .text-image-governance .image-content {
+  .text-image-governance .container .image-content {
     width: 100%;
     padding: 0;
   }
-  .text-image-governance .image-content img {
+  .text-image-governance .container .image-content img {
     width: 100%;
     max-width: 100%;
     height: auto;
     aspect-ratio: 1.7777778;
     object-fit: cover;
   }
-  .text-image-governance .text-content {
+  .text-image-governance .container .text-content {
     width: 100%;
     padding: 0 5vw 1rem;
   }

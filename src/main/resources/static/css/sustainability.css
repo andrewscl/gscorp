@@ -207,22 +207,22 @@ p {
   .ethics-code .container {
     width: 100%;
     max-width: none;
-    flex-direction: column-reverse;
+    flex-direction: column;
     height: auto;
     gap: 1rem;
   }
-  .ethics-code .image-content {
+  .ethics-code .container .image-content {
     width: 100%;
     padding: 0;
   }
-  .ethics-code .image-content img {
+  .ethics-code .container .image-content img {
     width: 100%;
     max-width: 100%;
     height: auto;
     aspect-ratio: 1.7777778;
     object-fit: cover;
   }
-  .ethics-code .text-content {
+  .ethics-code .container .text-content {
     width: 100%;
     padding: 0 5vw 1rem;
   }

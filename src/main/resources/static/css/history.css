@@ -207,22 +207,22 @@ p {
   .text-image-left .container {
     width: 100%;
     max-width: none;
-    flex-direction: column-reverse;
+    flex-direction: column;
     height: auto;
     gap: 1rem;
   }
-  .text-image-left .image-content {
+  .text-image-left .container .image-content {
     width: 100%;
     padding: 0;
   }
-  .text-image-left .image-content img {
+  .text-image-left .container .image-content img {
     width: 100%;
     max-width: 100%;
     height: auto;
     aspect-ratio: 1.7777778;
     object-fit: cover;
   }
-  .text-image-left .text-content {
+  .text-image-left .container .text-content {
     width: 100%;
     padding: 0 5vw 1rem;
   }
