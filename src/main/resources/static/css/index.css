@@ -113,6 +113,7 @@
     overflow: hidden;
     padding: 0;
     padding-inline: 5vw;
+    margin: 0;
   }
   .text-image-right .container .text-content h2 {
     font-family: "Montserrat", sans-serif;
