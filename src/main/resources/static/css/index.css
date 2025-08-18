@@ -107,6 +107,7 @@
   }
   .text-image-right .container .text-content {
     width: 100%;
+    margin: 0 2rem 0 2rem;
   }
   .text-image-right .container .text-content h2 {
     font-family: "Montserrat", sans-serif;
@@ -246,9 +247,6 @@ hr {
 }
 @media (max-width: 768px) {
   .group-section {
-    grid-template-columns: 1fr;
-  }
-}/*# sourceMappingURL=index.css.map */ {
     grid-template-columns: 1fr;
   }
 }/*# sourceMappingURL=index.css.map */

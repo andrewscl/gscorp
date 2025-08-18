@@ -99,6 +99,7 @@
 
       .text-content{
       width: $m-text-width;
+      margin: 0 2rem 0 2rem;
       //padding: 0 $m-padding-x $m-gap;
         h2{
           @include montserrat-font(1.5rem, 600);
