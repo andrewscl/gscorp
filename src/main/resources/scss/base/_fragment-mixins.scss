@@ -80,6 +80,7 @@
 
     .container {
       width: 100%;
+      max-width: 100%;
       flex-direction: column-reverse;
       height: auto;
       gap: $m-gap;
@@ -102,6 +103,7 @@
       min-width: 0;
       max-width: 100%;
       overflow: hidden;
+      padding: 0;
         h2{
           @include montserrat-font(1.5rem, 600);
         }

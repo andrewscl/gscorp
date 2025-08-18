@@ -90,6 +90,7 @@
   }
   .text-image-right .container {
     width: 100%;
+    max-width: 100%;
     flex-direction: column-reverse;
     height: auto;
     gap: 1rem;
@@ -107,8 +108,10 @@
   }
   .text-image-right .container .text-content {
     width: 100%;
-    min-width: 100%;
+    min-width: 0;
+    max-width: 100%;
     overflow: hidden;
+    padding: 0;
   }
   .text-image-right .container .text-content h2 {
     font-family: "Montserrat", sans-serif;
@@ -250,4 +253,4 @@ hr {
   .group-section {
     grid-template-columns: 1fr;
   }
-}/*# sourceMappingURL=index.css.map */L=index.css.map */
+}/*# sourceMappingURL=index.css.map */
