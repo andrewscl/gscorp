@@ -370,7 +370,6 @@
     height: 100%;
     gap: 2 rem;
     padding: 0 0 0 3vw;
-
     .text-content {
       width: $text-width;
       padding: 0 5vw 0 2vw;
@@ -382,7 +381,6 @@
         margin-bottom: $title-content;
       }
     }
-
     .video-content {
       width: $video-width;
       order: $order-video;
@@ -392,8 +390,22 @@
       border-radius: 1rem;
       overflow: hidden;
     }
+  }
+
+  /* ==== Móvil: imagen arriba, texto abajo ==== */
+  @media( max-width: 768px) {
+    display: column;
+
+
+    h2{
+      @include montserrat-font(1.5rem, 600);
+    }
+    .p2{
+      @include montserrat-font(1rem, 500);
+    }
 
   }
+
 }
 
 

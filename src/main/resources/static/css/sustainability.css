@@ -116,6 +116,7 @@ p {
 .text-video-left {
   height: auto;
   max-height: none;
+  /* ==== Móvil: imagen arriba, texto abajo ==== */
 }
 .text-video-left .container {
   display: flex;
@@ -144,6 +145,23 @@ p {
   padding: 0 1rem 0 1rem;
   border-radius: 1rem;
   overflow: hidden;
+}
+@media (max-width: 768px) {
+  .text-video-left {
+    display: column;
+  }
+  .text-video-left h2 {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .text-video-left .p2 {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
 }
 
 .ethics-code {
