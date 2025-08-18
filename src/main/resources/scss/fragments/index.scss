@@ -81,7 +81,7 @@ hr{
   $bg: $background-alt,
   $card-bg: $background-white,
   // Imagen (desktop)
-  $img-max-h: 180px,
+  $img-max-h: 160px,
   $img-radius: .75rem,
   $img-fit: contain,          // cambia a 'contain' si son logos
   $img-aspect: null,        // ej: 4/3 o 1/1; si null, no fuerza relación
@@ -90,7 +90,7 @@ hr{
   $bp-mobile: 768px,
   // Imagen (móvil)
   $m-img-max-w: clamp(140px, 70vw, 280px),
-  $m-img-max-h: 160px,
+  $m-img-max-h: 120px,
   $m-img-fit: contain,         // si null, usa $img-fit
   $m-center: true           // centra imagen+texto en móvil
 );
