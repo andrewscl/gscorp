@@ -99,7 +99,8 @@
 
       .text-content{
       width: $m-text-width;
-      min-width: 100%;
+      min-width: 0;
+      max-width: 100%;
       overflow: hidden;
         h2{
           @include montserrat-font(1.5rem, 600);
