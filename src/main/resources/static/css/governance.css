@@ -147,20 +147,23 @@ p {
   overflow: hidden;
 }
 @media (max-width: 768px) {
-  .text-video-governance {
+  .text-video-governance .container {
     display: column;
   }
-  .text-video-governance h2 {
+  .text-video-governance .container .text-content h2 {
     font-family: "Montserrat", sans-serif;
     font-size: 1.5rem;
     font-weight: 600;
     letter-spacing: 0.02em;
   }
-  .text-video-governance .p2 {
+  .text-video-governance .container .text-content .p2 {
     font-family: "Montserrat", sans-serif;
     font-size: 1rem;
     font-weight: 500;
     letter-spacing: 0.02em;
+  }
+  .text-video-governance .container .video-content {
+    width: 100%;
   }
 }
 

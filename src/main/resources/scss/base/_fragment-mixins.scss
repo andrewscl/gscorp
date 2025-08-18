@@ -394,14 +394,22 @@
 
   /* ==== Móvil: imagen arriba, texto abajo ==== */
   @media( max-width: 768px) {
-    display: column;
+    .container {
+      display: column;
 
+      .text-content{
 
-    h2{
-      @include montserrat-font(1.5rem, 600);
-    }
-    .p2{
-      @include montserrat-font(1rem, 500);
+        h2{
+          @include montserrat-font(1.5rem, 600);
+        }
+        .p2{
+          @include montserrat-font(1rem, 500);
+        }
+      }
+      .video-content{
+        width: 100%;
+      }
+
     }
 
   }
