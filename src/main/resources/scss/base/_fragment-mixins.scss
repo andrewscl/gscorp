@@ -83,6 +83,8 @@
       flex-direction: column-reverse;
       height: auto;
       gap: $m-gap;
+      overflow-x: hidden;
+      padding: 0 1rem 0 1rem;
 
       .image-content{
       width: $m-image-width;

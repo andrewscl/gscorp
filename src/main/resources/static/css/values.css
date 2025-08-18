@@ -209,6 +209,8 @@ p {
     flex-direction: column-reverse;
     height: auto;
     gap: 1rem;
+    overflow-x: hidden;
+    padding: 0 1rem 0 1rem;
   }
   .ethics-code .container .image-content {
     width: 100%;
