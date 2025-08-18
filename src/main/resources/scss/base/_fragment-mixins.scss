@@ -73,14 +73,13 @@
   /* ==== Móvil: imagen arriba, texto abajo ==== */
   @media( max-width: $stack-bp) {
     width: 100%;
-    max-width: none;
+    max-width: 100%;
     height: auto;
     max-height: none;
     box-sizing: border-box;
 
     .container {
       width: 100%;
-      max-width: none;
       flex-direction: column-reverse;
       height: auto;
       gap: $m-gap;
@@ -101,7 +100,14 @@
       .text-content{
       width: $m-text-width;
       padding: 0 $m-padding-x $m-gap;
-    }
+        h2{
+          @include montserrat-font(1.5rem, 600);
+        }
+        .p2{
+          @include montserrat-font(1rem, 500);
+        }
+
+      }
     }
 
   }

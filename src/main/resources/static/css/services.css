@@ -199,14 +199,13 @@ p {
 @media (max-width: 768px) {
   .text-image-left {
     width: 100%;
-    max-width: none;
+    max-width: 100%;
     height: auto;
     max-height: none;
     box-sizing: border-box;
   }
   .text-image-left .container {
     width: 100%;
-    max-width: none;
     flex-direction: column-reverse;
     height: auto;
     gap: 1rem;
@@ -225,5 +224,17 @@ p {
   .text-image-left .container .text-content {
     width: 100%;
     padding: 0 5vw 1rem;
+  }
+  .text-image-left .container .text-content h2 {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .text-image-left .container .text-content .p2 {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
   }
 }/*# sourceMappingURL=services.css.map */
