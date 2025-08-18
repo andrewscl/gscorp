@@ -175,7 +175,7 @@
 .industries-section .column img {
   display: block;
   width: 100%;
-  height: auto;
+  height: 22vh;
   margin-bottom: 0.5rem;
   border-radius: 0.5rem;
   object-fit: contain;
@@ -202,7 +202,7 @@
   .industries-section .column img {
     width: 100%;
     max-width: 100%;
-    height: auto;
+    height: 22vh;
     aspect-ratio: 1.33333333;
     object-fit: contain;
   }

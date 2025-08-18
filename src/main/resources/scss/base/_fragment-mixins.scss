@@ -254,7 +254,7 @@
     img {
       display: block;
       width: 100%;
-      height: auto;
+      height: 22vh;
       margin-bottom: .5rem;
       border-radius: $img-radius;
       object-fit: $img-fit;
@@ -291,7 +291,7 @@
       img {
         width: 100%;               // todas la misma anchura
         max-width: 100%;
-        height: auto;
+        height: 22vh;
         aspect-ratio: $m-img-aspect; // y misma altura relativa
         object-fit: contain;       // no recorta logos
       }
