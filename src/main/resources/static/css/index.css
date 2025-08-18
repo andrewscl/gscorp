@@ -245,10 +245,11 @@ hr {
     max-height: none;
   }
   .text-video-left .container {
-    display: block;
+    display: column-reverse;
   }
   .text-video-left .container .text-content {
-    width: 100%;
+    width: 90%;
+    padding: 0;
   }
   .text-video-left .container .text-content h2 {
     font-family: "Montserrat", sans-serif;
@@ -263,8 +264,8 @@ hr {
     letter-spacing: 0.02em;
   }
   .text-video-left .container .video-content {
-    width: 80%;
-    max-width: 80%;
+    width: 90%;
+    max-width: 90%;
   }
 }
 

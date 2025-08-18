@@ -152,10 +152,11 @@ p {
     max-height: none;
   }
   .text-video-right .container {
-    display: block;
+    display: column-reverse;
   }
   .text-video-right .container .text-content {
-    width: 100%;
+    width: 90%;
+    padding: 0;
   }
   .text-video-right .container .text-content h2 {
     font-family: "Montserrat", sans-serif;
@@ -170,7 +171,7 @@ p {
     letter-spacing: 0.02em;
   }
   .text-video-right .container .video-content {
-    width: 80%;
-    max-width: 80%;
+    width: 90%;
+    max-width: 90%;
   }
 }/*# sourceMappingURL=organization.css.map */

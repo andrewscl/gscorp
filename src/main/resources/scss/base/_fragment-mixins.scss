@@ -397,10 +397,11 @@
     height: auto;
     max-height: none;
     .container {
-      display: block;
+      display: column-reverse;
 
       .text-content{
-        width: 100%;
+        width: 90%;
+        padding: 0;
 
         h2{
           @include montserrat-font(1.5rem, 600);
@@ -410,8 +411,8 @@
         }
       }
       .video-content{
-        width: 80%;
-        max-width: 80%;
+        width: 90%;
+        max-width: 90%;
       }
 
     }
