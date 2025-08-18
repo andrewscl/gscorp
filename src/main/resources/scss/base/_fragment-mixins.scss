@@ -395,7 +395,7 @@
   /* ==== Móvil: imagen arriba, texto abajo ==== */
   @media( max-width: 768px) {
     .container {
-      display: column;
+      display: block;
 
       .text-content{
 

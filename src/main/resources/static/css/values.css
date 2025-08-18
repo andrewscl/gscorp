@@ -148,7 +148,7 @@ p {
 }
 @media (max-width: 768px) {
   .text-video-left .container {
-    display: column;
+    display: block;
   }
   .text-video-left .container .text-content h2 {
     font-family: "Montserrat", sans-serif;
@@ -263,4 +263,4 @@ p {
     font-weight: 500;
     letter-spacing: 0.02em;
   }
-}/*# sourceMappingURL=values.css.map */
+}/*# sourceMappingURL=values.css.map *//
