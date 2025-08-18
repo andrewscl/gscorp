@@ -147,8 +147,15 @@ p {
   overflow: hidden;
 }
 @media (max-width: 768px) {
+  .text-video-governance {
+    height: auto;
+    max-height: none;
+  }
   .text-video-governance .container {
     display: block;
+  }
+  .text-video-governance .container .text-content {
+    width: 100%;
   }
   .text-video-governance .container .text-content h2 {
     font-family: "Montserrat", sans-serif;
@@ -163,7 +170,8 @@ p {
     letter-spacing: 0.02em;
   }
   .text-video-governance .container .video-content {
-    width: 100%;
+    width: 80%;
+    max-width: 80%;
   }
 }
 
@@ -269,4 +277,4 @@ p {
 }
 .text-image-governance .container .text-content p {
   margin: 0;
-}/*# sourceMappingURL=governance.css.map *//
+}/*# sourceMappingURL=governance.css.map */

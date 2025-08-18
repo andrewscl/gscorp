@@ -147,8 +147,15 @@ p {
   overflow: hidden;
 }
 @media (max-width: 768px) {
+  .text-video-right {
+    height: auto;
+    max-height: none;
+  }
   .text-video-right .container {
     display: block;
+  }
+  .text-video-right .container .text-content {
+    width: 100%;
   }
   .text-video-right .container .text-content h2 {
     font-family: "Montserrat", sans-serif;
@@ -163,7 +170,8 @@ p {
     letter-spacing: 0.02em;
   }
   .text-video-right .container .video-content {
-    width: 100%;
+    width: 80%;
+    max-width: 80%;
   }
 }
 
@@ -263,4 +271,4 @@ p {
     font-weight: 500;
     letter-spacing: 0.02em;
   }
-}/*# sourceMappingURL=us.css.map *//
+}/*# sourceMappingURL=us.css.map */
