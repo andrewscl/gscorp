@@ -104,6 +104,7 @@
       max-width: 100%;
       overflow: hidden;
       padding: 0;
+      margin-inline: $m-padding-x;
         h2{
           @include montserrat-font(1.5rem, 600);
         }
