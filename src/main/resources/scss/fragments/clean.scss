@@ -49,8 +49,15 @@
 
 .servicios-aseo {
     @include column-layout-img(
-    $columns: 3, 
-    $gap: 8rem, 
-    $padding: 2rem 5vw,
-    $background-color: white)
+  $columns: 3,                 // 4 columnas en desktop
+  $gap: 2rem,
+  $padding: 3rem 6vw,
+  $background-color: white,
+  // Imagen
+  $img-fit: cover,           // logos → contain; fotos → cover
+  $img-radius: .5rem,
+  // Breakpoints
+  $bp-tablet: 1024px,
+  $bp-mobile: 768px
+  );
 }
