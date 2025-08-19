@@ -225,7 +225,7 @@
   $background-color: white,
 
   // Imagen
-  $img-fit: contain,           // logos → contain; fotos → cover
+  $img-fit: cover,           // logos → contain; fotos → cover
   $img-aspect: 1.3333333,            // relación uniforme (caja)
   $img-radius: .5rem,
 
@@ -261,7 +261,6 @@
       overflow: hidden;
       margin-bottom: 1rem;
       background: #fff; // útil si los logos tienen transparencia
-
       img {
         width: 100%;
         height: 100%;

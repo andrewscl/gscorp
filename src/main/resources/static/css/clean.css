@@ -270,7 +270,7 @@ p {
 .servicios-aseo .column .media img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   display: block;
 }
 .servicios-aseo .column p {
@@ -297,4 +297,4 @@ p {
     align-items: center;
     text-align: center;
   }
-}/*# sourceMappingURL=clean.css.map */
+}/*# sourceMappingURL=clean.css.map */*/
