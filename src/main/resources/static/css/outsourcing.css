@@ -242,6 +242,7 @@ p {
 
 .servicios-aseo {
   display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)); /* 4 columnas iguales */
   gap: 8rem;
   padding: 2rem 5vw;
   background-color: white;
@@ -283,11 +284,7 @@ p {
     align-items: center;
     text-align: center;
   }
-}/*# sourceMappingURL=outsourcing.css.map */
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-}
-@media (max-width: 1024px) {
+}/*# sourceMappingURL=outsourcing.css.map */: 1024px) {
   .servicios-aseo {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }

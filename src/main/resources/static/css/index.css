@@ -159,6 +159,7 @@
 
 .industries-section {
   display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr)); /* 4 columnas iguales */
   gap: 2rem;
   padding: 3rem 6vw;
   background-color: white;
@@ -338,10 +339,7 @@ hr {
     object-fit: contain;
     align-self: center;
   }
-}/*# sourceMappingURL=index.css.map */   grid-template-columns: 1fr;
-  }
-  .group-section .column {
-    align-items: center;
+}/*# sourceMappingURL=index.css.map */: center;
     text-align: center;
   }
   .group-section .column img {

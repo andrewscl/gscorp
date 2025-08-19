@@ -231,6 +231,7 @@
   $bp-mobile: 768px
 ) {
   display: grid;
+  grid-template-columns: repeat($columns, minmax(0, 1fr)); /* 4 columnas iguales */
   gap: $gap;
   padding: $padding;
   background-color: $background-color;
