@@ -213,7 +213,7 @@ p {
 
 .servicios {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr)); /* 4 columnas iguales */
+  grid-template-columns: repeat(3, minmax(0, 1fr)); /* 4 columnas iguales */
   gap: 2rem;
   padding: 3rem 6vw;
   background-color: white;
