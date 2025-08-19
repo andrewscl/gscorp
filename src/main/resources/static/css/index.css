@@ -186,7 +186,7 @@
 .industries-section .column .media img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   display: block;
 }
 @media (max-width: 1024px) {
@@ -331,16 +331,6 @@ hr {
   .group-section .column {
     align-items: center;
     text-align: center;
-  }
-  .group-section .column img {
-    /* En móvil controlamos tamaño con max-width/height */
-    width: auto;
-    max-width: clamp(140px, 70vw, 280px);
-    max-height: 140px;
-    object-fit: contain;
-    align-self: center;
-  }
-}/*# sourceMappingURL=index.css.map */nter;
   }
   .group-section .column img {
     /* En móvil controlamos tamaño con max-width/height */
