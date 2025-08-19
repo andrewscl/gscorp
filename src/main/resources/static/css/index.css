@@ -203,6 +203,10 @@
     text-align: center;
   }
 }
+.industries-section .column .h4:hover {
+  cursor: pointer;
+  color: #3b82f6;
+}
 
 hr {
   height: 0.15rem;
@@ -331,16 +335,6 @@ hr {
   .group-section .column {
     align-items: center;
     text-align: center;
-  }
-  .group-section .column img {
-    /* En móvil controlamos tamaño con max-width/height */
-    width: auto;
-    max-width: clamp(140px, 70vw, 280px);
-    max-height: 140px;
-    object-fit: contain;
-    align-self: center;
-  }
-}/*# sourceMappingURL=index.css.map */center;
   }
   .group-section .column img {
     /* En móvil controlamos tamaño con max-width/height */
