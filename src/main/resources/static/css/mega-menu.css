@@ -349,6 +349,8 @@ p {
     width: 100%;
     max-width: 100%;
     padding: 0 2rem;
+    gap: 0.25rem;
+    height: auto;
     max-height: calc(100dvh - var(--nav-h));
     overflow-y: auto;
     background-color: #fff;
@@ -362,6 +364,8 @@ p {
   }
   .navbar .mega-menu-content #nav-links li a {
     color: #1e293b;
+    height: auto;
+    padding-block: 0.6rem;
   }
   .navbar .mega-menu-content #nav-links .mega-menu {
     position: static;

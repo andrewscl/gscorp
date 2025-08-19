@@ -218,7 +218,8 @@ $background-transparent: transparent;
       width: 100%;
       max-width: 100%;
       padding: 0 2rem;
-
+      gap: .25rem;
+      height: auto;
       max-height: calc(100dvh - var(--nav-h));
       overflow-y: auto;
       background-color: #fff;
@@ -228,7 +229,13 @@ $background-transparent: transparent;
 
       &.open { display: flex; }
 
-      li a { color: $primary-color; }
+      li {
+        a {
+          color: $primary-color;
+          height: auto;
+          padding-block: .6rem;
+        }
+      }
 
       /* En móvil, el mega-panel interno no flota ni ocupa toda la pantalla */
       .mega-menu {

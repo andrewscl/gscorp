@@ -340,4 +340,14 @@ hr {
     object-fit: contain;
     align-self: center;
   }
+}/*# sourceMappingURL=index.css.map */center;
+  }
+  .group-section .column img {
+    /* En móvil controlamos tamaño con max-width/height */
+    width: auto;
+    max-width: clamp(140px, 70vw, 280px);
+    max-height: 140px;
+    object-fit: contain;
+    align-self: center;
+  }
 }/*# sourceMappingURL=index.css.map */
