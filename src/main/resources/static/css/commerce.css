@@ -85,14 +85,14 @@ p {
   margin-bottom: 1.5rem;
 }
 
-.outsourcing-image {
+.commerce-image {
   width: 100vw;
   height: 80vh;
   max-width: 100vw;
   max-height: 100vh;
   min-width: 100%;
 }
-.outsourcing-image img {
+.commerce-image img {
   width: 100%;
   max-width: 100%;
   height: 100%;
