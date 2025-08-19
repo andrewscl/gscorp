@@ -5,10 +5,21 @@ import { setupSlideshow } from './slideshow-video.js';
 import { setupChat } from './chat/chat.js';
 
 function doScrollTo(pathLike) {
-  // Doble rAF: asegura que el DOM del fragmento ya está pintado
+  // si el menú móvil dejó bloqueado el scroll, lo limpiamos
+  document.documentElement.classList.remove('no-scroll');
+  document.body.classList.remove('no-scroll');
+
+  // doble rAF: asegura que el DOM del fragmento ya se pintó
   requestAnimationFrame(() => requestAnimationFrame(() => {
     const url  = new URL(pathLike || location.href, location.origin);
     const hash = url.hash?.slice(1);
+
+    // target principal: ventana
+    const scrollWindow = () => window.scrollTo({ top: 0, behavior: 'auto' });
+
+    // si usas contenedor con overflow (por ejemplo #content)
+    const content = document.getElementById('content');
+    const canScrollContent = content && getComputedStyle(content).overflowY !== 'visible';
 
     if (hash) {
       const el = document.getElementById(decodeURIComponent(hash));
@@ -17,12 +28,27 @@ function doScrollTo(pathLike) {
         return;
       }
     }
-    // Sin hash o no existe el elemento → arriba del todo
-    window.scrollTo({ top: 0, behavior: 'auto' }); // “auto” evita doble suavizado
+
+    // sin hash o no existe → arriba
+    if (canScrollContent) {
+      content.scrollTo({ top: 0, behavior: 'auto' });
+    }
+    scrollWindow();
   }));
 }
 
 window.initRouter = () => {
+
+  // 1) BIND de listeners ANTES de cualquier navegación
+  if (!window.__routeScrollBound) {
+    document.addEventListener('route:loaded', (e) => {
+      const path = e.detail?.path || (location.pathname + location.hash);
+      doScrollTo(path);
+    });
+    // opcional: cuando el usuario usa Atrás/Adelante
+    window.addEventListener('popstate', () => doScrollTo(location.href));
+    window.__routeScrollBound = true;
+  }
 
   console.log("Router reinicializado");
   setupRouter();
@@ -42,12 +68,6 @@ window.initRouter = () => {
   setupMegamenu();
   setupSlideshow();
   setupChat();
-
-  //Scroll hacia arriba al cargar un nuevo fragmento o pagina 
-  document.addEventListener('route:loaded', (e) => {
-    const path = e.detail?.path || (location.pathname + location.hash);
-    doScrollTo(path);
-  });
 
 }
 
