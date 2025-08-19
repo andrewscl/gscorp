@@ -60,16 +60,22 @@ import { setupRouter } from './router.js';
             document.body.appendChild(newScript);
         });
 
+        //despacha el evento para hacer scroll
+        const finish = () => {
+            document.dispatchEvent(new CustomEvent('route:loaded', {detail:{path}}));
+        };
+
         window.history.pushState({}, '', path);
         setupRouter();
         console.log(`[navigateTo] Ruta cargada dinámicamente: ${path}`);
 
         if(path === '/public/contact'){
             import ('./contact.js')
-                .then(({setupContact}) => {
-                setupContact();
-                console.log(`[navigateTo] setupContact activado`);
-            })
+                .then(({setupContact}) => {setupContact(); finish();
+                console.log(`[navigateTo] setupContact activado y finish enviado`);})
+                .catch(()=>finish());
+        } else {
+            finish();
         }
 
     } catch (err) {

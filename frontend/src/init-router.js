@@ -4,6 +4,23 @@ import { setupMegamenu } from './mega-menu.js';
 import { setupSlideshow } from './slideshow-video.js';
 import { setupChat } from './chat/chat.js';
 
+function doScrollTo(pathLike) {
+  // Doble rAF: asegura que el DOM del fragmento ya está pintado
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    const url  = new URL(pathLike || location.href, location.origin);
+    const hash = url.hash?.slice(1);
+
+    if (hash) {
+      const el = document.getElementById(decodeURIComponent(hash));
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
+      }
+    }
+    // Sin hash o no existe el elemento → arriba del todo
+    window.scrollTo({ top: 0, behavior: 'auto' }); // “auto” evita doble suavizado
+  }));
+}
 
 window.initRouter = () => {
 
@@ -25,6 +42,12 @@ window.initRouter = () => {
   setupMegamenu();
   setupSlideshow();
   setupChat();
+
+  //Scroll hacia arriba al cargar un nuevo fragmento o pagina 
+  document.addEventListener('route:loaded', (e) => {
+    const path = e.detail?.path || (location.pathname + location.hash);
+    doScrollTo(path);
+  });
 
 }
 
