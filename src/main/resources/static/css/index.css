@@ -181,6 +181,7 @@
   border-radius: 0.5rem;
   overflow: hidden;
   margin-bottom: 1rem;
+  aspect-ratio: 1.33333333;
 }
 .industries-section .column .media img {
   width: 100%;
@@ -339,8 +340,7 @@ hr {
     object-fit: contain;
     align-self: center;
   }
-}/*# sourceMappingURL=index.css.map */: center;
-    text-align: center;
+}/*# sourceMappingURL=index.css.map */nter;
   }
   .group-section .column img {
     /* En móvil controlamos tamaño con max-width/height */

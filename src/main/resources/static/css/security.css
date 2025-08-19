@@ -264,6 +264,7 @@ p {
   border-radius: 0.5rem;
   overflow: hidden;
   margin-bottom: 1rem;
+  aspect-ratio: 1.33333333;
 }
 .servicios-seguridad .column .media img {
   width: 100%;
@@ -284,8 +285,7 @@ p {
     align-items: center;
     text-align: center;
   }
-}/*# sourceMappingURL=security.css.map */x) {
-  .servicios-seguridad {
+}/*# sourceMappingURL=security.css.map */{
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

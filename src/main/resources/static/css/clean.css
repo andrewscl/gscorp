@@ -264,6 +264,7 @@ p {
   border-radius: 0.5rem;
   overflow: hidden;
   margin-bottom: 1rem;
+  aspect-ratio: 1.33333333;
 }
 .servicios-aseo .column .media img {
   width: 100%;
@@ -284,8 +285,7 @@ p {
     align-items: center;
     text-align: center;
   }
-}/*# sourceMappingURL=clean.css.map */-width: 1024px) {
-  .servicios-aseo {
+}/*# sourceMappingURL=clean.css.map */os-aseo {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
