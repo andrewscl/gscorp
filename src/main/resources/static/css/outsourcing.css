@@ -240,17 +240,17 @@ p {
   }
 }
 
-.servicios-aseo {
+.servicios-outsourcing {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr)); /* 4 columnas iguales */
-  gap: 8rem;
-  padding: 2rem 5vw;
+  gap: 2rem;
+  padding: 3rem 6vw;
   background-color: white;
   align-items: stretch;
   box-sizing: border-box;
   /* Responsivo */
 }
-.servicios-aseo .column {
+.servicios-outsourcing .column {
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -259,41 +259,29 @@ p {
   align-items: center;
   /* Caja de imagen con ratio fijo */
 }
-.servicios-aseo .column .media {
+.servicios-outsourcing .column .media {
   width: 100%;
   border-radius: 0.5rem;
   overflow: hidden;
   margin-bottom: 1rem;
   aspect-ratio: 1.33333333;
 }
-.servicios-aseo .column .media img {
+.servicios-outsourcing .column .media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 @media (max-width: 1024px) {
-  .servicios-aseo {
+  .servicios-outsourcing {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 @media (max-width: 768px) {
-  .servicios-aseo {
+  .servicios-outsourcing {
     grid-template-columns: 1fr;
   }
-  .servicios-aseo .column {
-    align-items: center;
-    text-align: center;
-  }
-}/*# sourceMappingURL=outsourcing.css.map */o {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-@media (max-width: 768px) {
-  .servicios-aseo {
-    grid-template-columns: 1fr;
-  }
-  .servicios-aseo .column {
+  .servicios-outsourcing .column {
     align-items: center;
     text-align: center;
   }
