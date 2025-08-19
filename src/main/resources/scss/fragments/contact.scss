@@ -25,6 +25,11 @@
         color: white;
         margin-bottom: 2rem;
       }
+      @media( max-width: 768px){
+          h1 {
+            @include montserrat-font(1.5rem, 600);
+          }
+      }
     }
   }
 
@@ -33,9 +38,13 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 5rem;
     padding: 2rem 6rem 6rem 6rem;
+
     .column {
       display: flex;
       flex-direction: column;
+
+      .column-form { grid-area: form; }
+      .column-info { grid-area: info; }
 
       &.column-info {
         display: flex;
@@ -91,7 +100,9 @@
 
     @media( max-width: 768px) {
       grid-template-columns: 1fr;
-      grid-template-areas: "form" "info";
+      grid-template-areas:
+        "info"
+        "form" ;
       gap: 2rem;
       padding: 1.5rem clamp(16px, 5vw, 32px) 3rem;
     }

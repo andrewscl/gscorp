@@ -117,6 +117,14 @@ p {
   color: white;
   margin-bottom: 2rem;
 }
+@media (max-width: 768px) {
+  .contact-wrapper .overlay-text-image .overlay-text h1 {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+}
 .contact-wrapper .contact-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -126,6 +134,12 @@ p {
 .contact-wrapper .contact-grid .column {
   display: flex;
   flex-direction: column;
+}
+.contact-wrapper .contact-grid .column .column-form {
+  grid-area: form;
+}
+.contact-wrapper .contact-grid .column .column-info {
+  grid-area: info;
 }
 .contact-wrapper .contact-grid .column.column-info {
   display: flex;
@@ -223,7 +237,7 @@ p {
 @media (max-width: 768px) {
   .contact-wrapper .contact-grid {
     grid-template-columns: 1fr;
-    grid-template-areas: "form" "info";
+    grid-template-areas: "info" "form";
     gap: 2rem;
     padding: 1.5rem clamp(16px, 5vw, 32px) 3rem;
   }
