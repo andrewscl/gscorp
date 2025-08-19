@@ -220,6 +220,14 @@ p {
 .contact-wrapper .contact-grid .column.column-form .contact-form button:hover {
   background-color: rgb(7.5, 76.5, 145.5);
 }
+@media (max-width: 768px) {
+  .contact-wrapper .contact-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas: "form" "info";
+    gap: 2rem;
+    padding: 1.5rem clamp(16px, 5vw, 32px) 3rem;
+  }
+}
 .contact-wrapper .toast-container {
   position: fixed;
   top: 1rem;
