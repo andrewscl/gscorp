@@ -40,7 +40,7 @@
 
 .servicios-seguridad {
     @include column-layout-img(
-  $columns: 4,                 // 4 columnas en desktop
+  $columns: 3,                 // 4 columnas en desktop
   $gap: 2rem,
   $padding: 3rem 6vw,
   $background-color: white,
