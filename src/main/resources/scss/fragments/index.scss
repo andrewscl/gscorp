@@ -53,16 +53,9 @@
   $gap: 2rem,
   $padding: 3rem 6vw,
   $background-color: white,
-
   // Imagen
   $img-fit: contain,           // logos → contain; fotos → cover
-  $img-aspect: 1.3333333,            // relación uniforme (caja)
   $img-radius: .5rem,
-
-  // Texto
-  $p-lines: 3,                 // nº de líneas visibles
-  $p-line-height: 1.4,         // line-height del párrafo
-
   // Breakpoints
   $bp-tablet: 1024px,
   $bp-mobile: 768px

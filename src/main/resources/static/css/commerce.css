@@ -242,7 +242,6 @@ p {
 
 .servicios-aseo {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8rem;
   padding: 2rem 5vw;
   background-color: white;
@@ -261,11 +260,9 @@ p {
 }
 .servicios-aseo .column .media {
   width: 100%;
-  aspect-ratio: 1.3333333;
   border-radius: 0.5rem;
   overflow: hidden;
   margin-bottom: 1rem;
-  background: #fff;
 }
 .servicios-aseo .column .media img {
   width: 100%;
@@ -273,14 +270,20 @@ p {
   object-fit: cover;
   display: block;
 }
-.servicios-aseo .column p {
-  line-height: 1.4;
-  min-height: calc(3 * 1em * 1.4);
-  overflow: hidden;
-  /* Estándar */
-  line-clamp: 3;
-  /* Legacy WebKit (Safari viejos/Chromium antiguos) */
-  display: -webkit-box;
+@media (max-width: 1024px) {
+  .servicios-aseo {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 768px) {
+  .servicios-aseo {
+    grid-template-columns: 1fr;
+  }
+  .servicios-aseo .column {
+    align-items: center;
+    text-align: center;
+  }
+}/*# sourceMappingURL=commerce.css.map */ox;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
 }
@@ -297,4 +300,4 @@ p {
     align-items: center;
     text-align: center;
   }
-}/*# sourceMappingURL=commerce.css.map */*/
+}/*# sourceMappingURL=commerce.css.map */
