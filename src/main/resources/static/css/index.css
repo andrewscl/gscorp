@@ -203,7 +203,7 @@
     text-align: center;
   }
 }
-.industries-section .column .h4:hover {
+.industries-section .column h4:hover {
   cursor: pointer;
   color: #3b82f6;
 }

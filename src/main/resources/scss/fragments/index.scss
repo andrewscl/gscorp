@@ -61,7 +61,7 @@
   $bp-mobile: 768px
   );
   .column{
-    .h4{
+    h4{
       &:hover{
         cursor: pointer;
         color: $accent-blue;
