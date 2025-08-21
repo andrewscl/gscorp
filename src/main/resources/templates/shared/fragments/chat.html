@@ -1,15 +1,26 @@
 <div th:fragment="chat">
-    <div id="chat-widget">
-        <div id="chat-button">💬</div>
 
-        <div id="chat-container" class="hidden">
-            <div id="chat-header">Chat de contacto</div>
-            <div id="chat-messages"></div>
-            <div id="chat-input">
-                <input type="text" id="message" placeholder="Escribe un mensaje...">
-                <button id="send-btn">Enviar</button>
-            </div>
-        </div>
+<div id="chat-widget">
+  <button id="chat-button" aria-controls="chat-container" aria-expanded="false">
+    Chat
+  </button>
+
+  <div id="chat-container" class="hidden" role="dialog" aria-label="Chat de soporte">
+    <div class="chat-header">
+      <strong>Chat</strong>
+      <button id="chat-close" aria-label="Cerrar">×</button>
     </div>
+
+    <!-- Mensajes -->
+    <div id="chat-messages" aria-live="polite"></div>
+
+    <!-- Input -->
+    <div class="chat-input">
+      <input id="message" type="text" placeholder="Escribe tu mensaje…" />
+      <button id="send-btn">Enviar</button>
+    </div>
+  </div>
+</div>
+
 
 </div>
