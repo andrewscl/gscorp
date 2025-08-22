@@ -13,25 +13,13 @@ function generateGuestName() {
 const SHOW_WELCOME_ON_EACH_OPEN = true;
 
 // Reset UI del chat al cerrar (soft por defecto)
-function resetChatUI({ hard = false } = {}) {
-  // Quitar mini-form si existe
+function resetChatUI() {
   document.getElementById('lead-form')?.remove();
-
-  // Limpiar input
   const input = document.getElementById('message');
   if (input) input.value = '';
-
-  // Reponer bienvenida en el próximo open
-  if (SHOW_WELCOME_ON_EACH_OPEN) {
-    sessionStorage.removeItem('chat_welcome_shown');
-  }
-
-  // Hard reset: limpiar también el historial
-  if (hard) {
-    const msgs = document.getElementById('chat-messages');
-    if (msgs) msgs.innerHTML = '';
-  }
+  sessionStorage.removeItem('chat_welcome_shown'); // para que se re-muestre en la próxima
 }
+
 
 function scrollMessagesBottom() {
   const container = document.getElementById("chat-messages");
@@ -52,21 +40,29 @@ function showMessage(msg) {
   scrollMessagesBottom();
 }
 
-function showSystemMessage(text) {
+function showSystemMessage(text, { key } = {}) {
   const container = document.getElementById("chat-messages");
   if (!container) return;
+
+  if (key && container.querySelector(`.message.system[data-key="${key}"]`)) return;
+
   const div = document.createElement("div");
   div.className = "message system";
+  if (key) div.dataset.key = key;
   div.textContent = text;
   container.appendChild(div);
-  scrollMessagesBottom();
+  container.scrollTop = container.scrollHeight;
 }
 
 function maybeShowWelcome() {
+  // muestra solo si no se mostró en esta apertura
   if (sessionStorage.getItem('chat_welcome_shown')) return;
-  showSystemMessage("👋 ¡Hola! Contáctanos, estamos para ayudarte.");
+  showSystemMessage("👋 ¡Hola! Contáctanos, estamos para ayudarte.", { key: 'welcome' });
   sessionStorage.setItem('chat_welcome_shown', '1');
 }
+
+// Quita maybeShowWelcome() de onConnect y déjalo solo al abrir desde el botón.
+
 
 /* ---------- STOMP ---------- */
 function connectChat() {
@@ -90,7 +86,6 @@ function connectChat() {
         showMessage(data);
       });
 
-      maybeShowWelcome();
     },
     onStompError: (frame) => {
       console.error('STOMP error:', frame.headers['message'], frame.body);
