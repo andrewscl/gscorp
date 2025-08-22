@@ -4,21 +4,56 @@ import SockJS from 'sockjs-client';
 let stompClient = null;
 let username = null;
 
+/* ---------- Helpers ---------- */
 function generateGuestName() {
   return "Invitado-" + Math.random().toString(36).slice(2, 6).toUpperCase();
 }
 
+function scrollMessagesBottom() {
+  const container = document.getElementById("chat-messages");
+  if (container) container.scrollTop = container.scrollHeight;
+}
+
+function showMessage(msg) {
+  const container = document.getElementById("chat-messages");
+  if (!container) return;
+
+  const div = document.createElement("div");
+  div.className = "message";
+  const hora = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString() : '';
+  div.textContent = hora
+    ? `[${hora}] ${msg.from || 'Agente'}: ${msg.content}`
+    : `${msg.from || 'Agente'}: ${msg.content}`;
+  container.appendChild(div);
+  scrollMessagesBottom();
+}
+
+function showSystemMessage(text) {
+  const container = document.getElementById("chat-messages");
+  if (!container) return;
+  const div = document.createElement("div");
+  div.className = "message system";
+  div.textContent = text;
+  container.appendChild(div);
+  scrollMessagesBottom();
+}
+
+function maybeShowWelcome() {
+  if (sessionStorage.getItem('chat_welcome_shown')) return;
+  showSystemMessage("👋 ¡Hola! Contáctanos, estamos para ayudarte.");
+  sessionStorage.setItem('chat_welcome_shown', '1');
+}
+
+/* ---------- STOMP ---------- */
 function connectChat() {
   console.log("🔌 connectChat");
 
   const token = localStorage.getItem("jwt");
   username = token ? null : (localStorage.getItem("chat_username") || null);
 
-  // crea el socket según si hay token o no
   const socket = new SockJS(token ? `/chat?token=${token}` : "/chat");
 
-  // evita reconexiones múltiples
-  if (stompClient?.active) return;
+  if (stompClient?.active) return; // evita reconexiones múltiples
 
   stompClient = new Client({
     webSocketFactory: () => socket,
@@ -31,7 +66,6 @@ function connectChat() {
         showMessage(data);
       });
 
-      // muestra bienvenida si aún no se mostró en esta sesión
       maybeShowWelcome();
     },
     onStompError: (frame) => {
@@ -42,39 +76,12 @@ function connectChat() {
     }
   });
 
+  // exposicion opcional (si en otro lado consultas window.stompClient)
+  window.stompClient = stompClient;
   stompClient.activate();
 }
 
-function showMessage(msg) {
-  const container = document.getElementById("chat-messages");
-  if (!container) return;
-
-  const div = document.createElement("div");
-  div.className = "message";
-  const hora = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString() : '';
-  div.textContent = hora ? `[${hora}] ${msg.from || 'Agente'}: ${msg.content}` : `${msg.from || 'Agente'}: ${msg.content}`;
-  container.appendChild(div);
-  container.scrollTop = container.scrollHeight;
-}
-
-// Mensaje “sistema” (bienvenida)
-function showSystemMessage(text) {
-  const container = document.getElementById("chat-messages");
-  if (!container) return;
-  const div = document.createElement("div");
-  div.className = "message system";
-  div.textContent = text;
-  container.appendChild(div);
-  container.scrollTop = container.scrollHeight;
-}
-
-// Mostrar bienvenida solo una vez por sesión
-function maybeShowWelcome() {
-  if (sessionStorage.getItem('chat_welcome_shown')) return;
-  showSystemMessage("👋 ¡Hola! Contáctanos, estamos para ayudarte.");
-  sessionStorage.setItem('chat_welcome_shown', '1');
-}
-
+/* ---------- Envío de mensajes ---------- */
 function sendMessage() {
   const input = document.getElementById("message");
   const content = input?.value.trim();
@@ -94,12 +101,107 @@ function sendMessage() {
     body: JSON.stringify(msg)
   });
 
-  // pinta mi propio mensaje
-  showMessage(msg);
-
+  showMessage(msg); // pinta mi propio mensaje
   input.value = "";
 }
 
+/* ---------- CTA: Conoce nuestros servicios (form) ---------- */
+function renderServicesForm() {
+  const wrap = document.getElementById("chat-messages");
+  if (!wrap) return;
+
+  const existing = wrap.querySelector("#lead-form");
+  if (existing) { existing.querySelector('input, textarea')?.focus(); scrollMessagesBottom(); return; }
+
+  const form = document.createElement("form");
+  form.id = "lead-form";
+  form.className = "message lead-form";
+  form.innerHTML = `
+    <div class="lead-form__title">Conoce nuestros servicios</div>
+
+    <label class="lead-form__field">
+      <span>Nombre</span>
+      <input type="text" name="name" required placeholder="Tu nombre">
+    </label>
+
+    <label class="lead-form__field">
+      <span>Correo</span>
+      <input type="email" name="email" required placeholder="tucorreo@dominio.com">
+    </label>
+
+    <label class="lead-form__field">
+      <span>Teléfono</span>
+      <input type="tel" name="phone" required placeholder="+56 9 1234 5678">
+    </label>
+
+    <label class="lead-form__field">
+      <span>Comentario</span>
+      <textarea name="comment" rows="3" required placeholder="Cuéntanos qué necesitas"></textarea>
+    </label>
+
+    <div class="lead-form__actions">
+      <button type="submit" class="btn-primary">Enviar solicitud</button>
+      <button type="button" class="btn-ghost" id="lead-cancel">Cancelar</button>
+    </div>
+  `;
+
+  wrap.appendChild(form);
+  scrollMessagesBottom();
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const fd = new FormData(form);
+    const name = fd.get("name")?.toString().trim() || "";
+    const email = fd.get("email")?.toString().trim() || "";
+    const phone = fd.get("phone")?.toString().trim() || "";
+    const comment = fd.get("comment")?.toString().trim() || "";
+
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!name || !emailOk || !phone || !comment) {
+      showSystemMessage("Por favor completa todos los campos correctamente.");
+      return;
+    }
+
+    const msg = {
+      type: "lead",
+      topic: "servicios",
+      name, email, phone, comment,
+      timestamp: new Date().toISOString()
+    };
+
+    try {
+      if (stompClient && stompClient.connected) {
+        stompClient.publish({
+          destination: "/app/send-message",
+          body: JSON.stringify(msg)
+        });
+      }
+    } catch (err) {
+      console.warn("No se pudo enviar por STOMP, continúo local:", err);
+    }
+
+    showSystemMessage("✅ ¡Gracias! Hemos recibido tu solicitud. Te contactaremos pronto.");
+
+    const container = document.getElementById("chat-messages");
+    const copy = document.createElement("div");
+    copy.className = "message me";
+    copy.textContent = `Solicitud enviada: ${name}, ${email}, ${phone}. Comentario: ${comment}`;
+    container.appendChild(copy);
+    scrollMessagesBottom();
+
+    form.remove();
+  });
+
+  form.querySelector("#lead-cancel")?.addEventListener("click", () => {
+    form.remove();
+    showSystemMessage("Formulario cancelado.");
+  });
+
+  form.querySelector('input[name="name"]')?.focus();
+}
+
+/* ---------- Setup ---------- */
 export function setupChat() {
   console.log("🔌 Chat inicializado");
 
@@ -113,7 +215,7 @@ export function setupChat() {
   const chatContainer = document.getElementById("chat-container");
   const closeBtn = document.getElementById("chat-close");
 
-  // 👉 Conectamos SOLO cuando el usuario abre el widget
+  // Conectamos SOLO cuando el usuario abre el widget
   if (toggleBtn && chatContainer) {
     toggleBtn.addEventListener("click", () => {
       const wasHidden = chatContainer.classList.contains("hidden");
@@ -130,8 +232,8 @@ export function setupChat() {
           }
           username = name;
         }
-        connectChat();          // ← aquí conecta
-        maybeShowWelcome();     // ← y muestra el mensaje (si no se mostró)
+        connectChat();
+        maybeShowWelcome();
       }
     });
   }
@@ -148,6 +250,13 @@ export function setupChat() {
   if (input) {
     input.addEventListener("keyup", (e) => {
       if (e.key === "Enter") sendMessage();
+    });
+  }
+
+  const ctaBtn = document.getElementById("cta-services");
+  if (ctaBtn) {
+    ctaBtn.addEventListener("click", () => {
+      renderServicesForm();
     });
   }
 }

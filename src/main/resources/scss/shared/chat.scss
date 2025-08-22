@@ -221,6 +221,104 @@ $shadow-lg:    0 24px 60px rgba(2,6,23,.22);
         &:focus-visible { outline: 3px solid rgba($brand,.35); outline-offset: 3px; }
       }
     }
+
+    .chat-actions {
+      padding: .6rem .8rem;
+      border-top: 1px solid rgba(15,23,42,.08);
+      background: rgba(255,255,255,.64);
+      display: flex; justify-content: center;
+
+      .cta-btn {
+        appearance: none;
+        border: 0;
+        border-radius: 10px;
+        padding: .6rem .9rem;
+        background: $brand;
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 6px 16px rgba(10,102,194,.25);
+        transition: background-color .2s ease, transform .1s ease, box-shadow .2s ease;
+
+        &:hover { background: $brand-600; }
+        &:active { transform: translateY(1px); }
+        &:focus-visible { outline: 3px solid rgba($brand,.35); outline-offset: 3px; }
+      }
+    }
+
+    /* tarjeta del formulario dentro de mensajes */
+    .lead-form {
+      background: #fff;
+      border: 1px solid rgba(15,23,42,.08);
+      border-radius: 12px;
+      padding: .8rem;
+      box-shadow: 0 1px 0 rgba(2,6,23,.06);
+      max-inline-size: 100%;
+
+      .lead-form__title {
+        font-weight: 700; margin-bottom: .5rem; color: $text;
+      }
+
+      .lead-form__field {
+        display: grid; gap: .35rem; margin-bottom: .6rem;
+
+        span { font-size: .85rem; color: $text-2; }
+        input, textarea {
+          width: 100%;
+          padding: .55rem .65rem;
+          border-radius: 10px;
+          border: 1px solid rgba(15,23,42,.14);
+          background: #fff; color: $text;
+          transition: border-color .2s ease, box-shadow .2s ease;
+
+          &::placeholder { color: $text-2; }
+          &:focus { outline: none; border-color: rgba($brand,.55); box-shadow: 0 0 0 4px rgba($brand,.12); }
+        }
+      }
+
+      .lead-form__actions {
+        display: flex; gap: .5rem; justify-content: flex-end; margin-top: .4rem;
+
+        .btn-primary {
+          appearance: none; border: 0; border-radius: 10px;
+          padding: .55rem .8rem; background: $brand; color: #fff; font-weight: 600; cursor: pointer;
+          box-shadow: 0 6px 16px rgba(10,102,194,.22);
+          transition: background-color .2s ease, transform .1s ease;
+          &:hover { background: $brand-600; }
+          &:active { transform: translateY(1px); }
+          &:focus-visible { outline: 3px solid rgba($brand,.35); outline-offset: 3px; }
+        }
+        .btn-ghost {
+          appearance: none; border: 1px solid rgba(15,23,42,.18);
+          border-radius: 10px; padding: .55rem .8rem; background: transparent; color: $text; cursor: pointer;
+          transition: background-color .2s ease, border-color .2s ease;
+          &:hover { background: rgba(15,23,42,.04); }
+          &:focus-visible { outline: 3px solid rgba($brand,.25); outline-offset: 3px; }
+        }
+      }
+    }
+  }
+}
+
+/* Dark mode opcional */
+@media (prefers-color-scheme: dark) {
+  #chat-widget {
+    #chat-container {
+      .chat-actions { background: rgba(12,18,32,.7); border-top-color: rgba(255,255,255,.08); }
+      .lead-form {
+        background: #0f172a; border-color: rgba(255,255,255,.12);
+        .lead-form__title { color: #e2e8f0; }
+        .lead-form__field {
+          span { color: #94a3b8; }
+          input, textarea {
+            background: #0b1220; color: #e2e8f0; border-color: rgba(255,255,255,.12);
+            &::placeholder { color: #9aa7bd; }
+          }
+        }
+        .btn-ghost { color: #e2e8f0; border-color: rgba(255,255,255,.18); }
+      }
+    }
+
   }
 
   /* ---------- Responsive ---------- */
