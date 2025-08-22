@@ -9,6 +9,30 @@ function generateGuestName() {
   return "Invitado-" + Math.random().toString(36).slice(2, 6).toUpperCase();
 }
 
+// Si quieres que siempre aparezca la bienvenida al reabrir:
+const SHOW_WELCOME_ON_EACH_OPEN = true;
+
+// Reset UI del chat al cerrar (soft por defecto)
+function resetChatUI({ hard = false } = {}) {
+  // Quitar mini-form si existe
+  document.getElementById('lead-form')?.remove();
+
+  // Limpiar input
+  const input = document.getElementById('message');
+  if (input) input.value = '';
+
+  // Reponer bienvenida en el próximo open
+  if (SHOW_WELCOME_ON_EACH_OPEN) {
+    sessionStorage.removeItem('chat_welcome_shown');
+  }
+
+  // Hard reset: limpiar también el historial
+  if (hard) {
+    const msgs = document.getElementById('chat-messages');
+    if (msgs) msgs.innerHTML = '';
+  }
+}
+
 function scrollMessagesBottom() {
   const container = document.getElementById("chat-messages");
   if (container) container.scrollTop = container.scrollHeight;
@@ -215,33 +239,39 @@ export function setupChat() {
   const chatContainer = document.getElementById("chat-container");
   const closeBtn = document.getElementById("chat-close");
 
-  // Conectamos SOLO cuando el usuario abre el widget
-  if (toggleBtn && chatContainer) {
-    toggleBtn.addEventListener("click", () => {
-      const wasHidden = chatContainer.classList.contains("hidden");
-      chatContainer.classList.toggle("hidden");
-      toggleBtn.setAttribute('aria-expanded', String(wasHidden));
+// Handlers
+if (toggleBtn && chatContainer) {
+  toggleBtn.addEventListener("click", () => {
+    const wasHidden = chatContainer.classList.contains("hidden");
+    chatContainer.classList.toggle("hidden");
+    toggleBtn.setAttribute('aria-expanded', String(wasHidden));
 
-      if (wasHidden) {
-        const token = localStorage.getItem("jwt");
-        if (!token) {
-          let name = localStorage.getItem("chat_username");
-          if (!name) {
-            name = generateGuestName();
-            localStorage.setItem("chat_username", name);
-          }
-          username = name;
+    if (wasHidden) {
+      // Se está ABRIENDO
+      const token = localStorage.getItem("jwt");
+      if (!token) {
+        let name = localStorage.getItem("chat_username");
+        if (!name) {
+          name = generateGuestName();
+          localStorage.setItem("chat_username", name);
         }
-        connectChat();
-        maybeShowWelcome();
+        username = name;
       }
-    });
-  }
-
-  closeBtn?.addEventListener('click', () => {
-    chatContainer?.classList.add('hidden');
-    toggleBtn?.setAttribute('aria-expanded', 'false');
+      connectChat();
+      maybeShowWelcome();
+    } else {
+      // Se está CERRANDO
+      resetChatUI(); // soft reset
+    }
   });
+}
+
+closeBtn?.addEventListener('click', () => {
+  resetChatUI(); // soft reset
+  chatContainer?.classList.add('hidden');
+  toggleBtn?.setAttribute('aria-expanded', 'false');
+});
+
 
   const sendBtn = document.getElementById("send-btn");
   if (sendBtn) sendBtn.addEventListener("click", sendMessage);
