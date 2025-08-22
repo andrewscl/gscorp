@@ -22,30 +22,45 @@ $shadow-lg:    0 24px 60px rgba(2,6,23,.22);
   #chat-button {
     inline-size: 56px;
     block-size: 56px;
+    padding: 0;
     border: 0;
-    border-radius: 50%;
+    border-radius: 16px;           /* cuadrado con bordes redondeados */
     background: $brand;
-    color: #fff;
+    color: #fff;                    /* el SVG usa currentColor */
     display: grid;
     place-items: center;
     cursor: pointer;
-    box-shadow: $shadow-lg;
-    transition: transform .18s ease, box-shadow .25s ease, background-color .2s ease;
+    position: relative;             /* para .badge opcional */
+    box-shadow: 0 18px 44px rgba(10,102,194,.28);
+    transition: transform .16s ease, box-shadow .22s ease, background-color .2s ease;
     will-change: transform;
+    backface-visibility: hidden;
+    transform: translateZ(0);
 
-    svg, i { font-size: 22px; }
+    .icon {
+      inline-size: 24px;
+      block-size: 24px;
+      display: block;
 
-    &:hover { background: $brand-600; box-shadow: 0 28px 68px rgba(10,102,194,.34); }
-    &:active { transform: translateY(1px) scale(.98); }
-    &:focus-visible { outline: 3px solid rgba($brand,.35); outline-offset: 3px; }
-
-    /* Estado abierto (JS debe setear aria-expanded="true") */
-    &[aria-expanded="true"] {
-      background: linear-gradient(180deg, $brand, $brand-600);
-      transform: rotate(0deg) scale(1.02);
+      .bubble { fill: currentColor; }
+      .dot {
+        animation: dotPulse 1.6s ease-in-out infinite;
+        &:nth-of-type(2) { animation-delay: .15s; }
+        &:nth-of-type(3) { animation-delay: .3s; }
+      }
     }
 
-    /* Insignia opcional (no leído) */
+    &:hover   { background: $brand-600; box-shadow: 0 22px 52px rgba(10,102,194,.36); }
+    &:active  { transform: translateY(1px) scale(.98); }
+    &:focus-visible { outline: 3px solid rgba($brand,.35); outline-offset: 3px; }
+
+    /* Estado abierto (tu JS debe setear aria-expanded="true") */
+    &[aria-expanded="true"] {
+      background: linear-gradient(180deg,$brand,$brand-600);
+      transform: scale(1.02);
+    }
+
+    /* Badge opcional (no leídos) */
     .badge {
       position: absolute;
       top: -2px; right: -2px;
@@ -54,6 +69,17 @@ $shadow-lg:    0 24px 60px rgba(2,6,23,.22);
       background: #ef4444;
       box-shadow: 0 0 0 2px #fff;
     }
+  }
+
+  /* Responsive: botón un pelín más pequeño en móviles */
+  @media (max-width: 480px) {
+    #chat-button { inline-size: 52px; block-size: 52px; border-radius: 14px; }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    #chat-button { transition: none; }
+    #chat-button .icon .dot { animation: none; }
   }
 
   /* ---------- Panel del chat ---------- */
@@ -266,3 +292,9 @@ $shadow-lg:    0 24px 60px rgba(2,6,23,.22);
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+@keyframes dotPulse {
+  0%, 80%, 100% { opacity: .35; transform: translateY(0); }
+  40%           { opacity: 1;   transform: translateY(-1px); }
+}
+

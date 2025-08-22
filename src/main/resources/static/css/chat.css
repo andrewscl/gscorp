@@ -7,6 +7,8 @@
   z-index: 10000;
   font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Helvetica Neue", sans-serif;
   /* ---------- Botón flotante ---------- */
+  /* Responsive: botón un pelín más pequeño en móviles */
+  /* Reduced motion */
   /* ---------- Panel del chat ---------- */
   /* ---------- Responsive ---------- */
   /* ---------- Reduced Motion ---------- */
@@ -14,25 +16,43 @@
 #chat-widget #chat-button {
   inline-size: 56px;
   block-size: 56px;
+  padding: 0;
   border: 0;
-  border-radius: 50%;
+  border-radius: 16px; /* cuadrado con bordes redondeados */
   background: #0a66c2;
-  color: #fff;
+  color: #fff; /* el SVG usa currentColor */
   display: grid;
   place-items: center;
   cursor: pointer;
-  box-shadow: 0 24px 60px rgba(2, 6, 23, 0.22);
-  transition: transform 0.18s ease, box-shadow 0.25s ease, background-color 0.2s ease;
+  position: relative; /* para .badge opcional */
+  box-shadow: 0 18px 44px rgba(10, 102, 194, 0.28);
+  transition: transform 0.16s ease, box-shadow 0.22s ease, background-color 0.2s ease;
   will-change: transform;
-  /* Estado abierto (JS debe setear aria-expanded="true") */
-  /* Insignia opcional (no leído) */
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  /* Estado abierto (tu JS debe setear aria-expanded="true") */
+  /* Badge opcional (no leídos) */
 }
-#chat-widget #chat-button svg, #chat-widget #chat-button i {
-  font-size: 22px;
+#chat-widget #chat-button .icon {
+  inline-size: 24px;
+  block-size: 24px;
+  display: block;
+}
+#chat-widget #chat-button .icon .bubble {
+  fill: currentColor;
+}
+#chat-widget #chat-button .icon .dot {
+  animation: dotPulse 1.6s ease-in-out infinite;
+}
+#chat-widget #chat-button .icon .dot:nth-of-type(2) {
+  animation-delay: 0.15s;
+}
+#chat-widget #chat-button .icon .dot:nth-of-type(3) {
+  animation-delay: 0.3s;
 }
 #chat-widget #chat-button:hover {
   background: #0a5bb0;
-  box-shadow: 0 28px 68px rgba(10, 102, 194, 0.34);
+  box-shadow: 0 22px 52px rgba(10, 102, 194, 0.36);
 }
 #chat-widget #chat-button:active {
   transform: translateY(1px) scale(0.98);
@@ -43,7 +63,7 @@
 }
 #chat-widget #chat-button[aria-expanded=true] {
   background: linear-gradient(180deg, #0a66c2, #0a5bb0);
-  transform: rotate(0deg) scale(1.02);
+  transform: scale(1.02);
 }
 #chat-widget #chat-button .badge {
   position: absolute;
@@ -54,6 +74,21 @@
   border-radius: 50%;
   background: #ef4444;
   box-shadow: 0 0 0 2px #fff;
+}
+@media (max-width: 480px) {
+  #chat-widget #chat-button {
+    inline-size: 52px;
+    block-size: 52px;
+    border-radius: 14px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #chat-widget #chat-button {
+    transition: none;
+  }
+  #chat-widget #chat-button .icon .dot {
+    animation: none;
+  }
 }
 #chat-widget #chat-container {
   margin-block-start: 12px;
@@ -315,5 +350,15 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+@keyframes dotPulse {
+  0%, 80%, 100% {
+    opacity: 0.35;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-1px);
   }
 }/*# sourceMappingURL=chat.css.map */
