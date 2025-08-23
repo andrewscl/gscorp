@@ -25,6 +25,7 @@ public class Contact {
     private Long id;
     private String name;
     private String email;
+    private String telefono;
 
     @Column(columnDefinition = "TEXT")
     private String message;

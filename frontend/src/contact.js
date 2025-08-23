@@ -29,9 +29,10 @@ export function setupContact(){
 
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
+    const phone = document.getElementById("phone").value;
     const message = document.getElementById("message").value;
 
-    const data = { name, email, message};
+    const data = { name, email, phone, message};
     console.log("Datos enviados: " + data);
 
     try {

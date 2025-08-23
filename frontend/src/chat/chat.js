@@ -140,22 +140,22 @@ function renderServicesForm() {
 
     <label class="lead-form__field">
       <span>Nombre</span>
-      <input type="text" name="name" required placeholder="Tu nombre">
+      <input id="lead-name" type="text" name="name" required placeholder="Tu nombre">
     </label>
 
     <label class="lead-form__field">
       <span>Correo</span>
-      <input type="email" name="email" required placeholder="tucorreo@dominio.com">
+      <input id="lead-email" type="email" name="email" required placeholder="tucorreo@dominio.com">
     </label>
 
     <label class="lead-form__field">
       <span>Teléfono</span>
-      <input type="tel" name="phone" required placeholder="+56 9 1234 5678">
+      <input id="lead-phone" type="tel" name="phone" required placeholder="+56 9 1234 5678">
     </label>
 
     <label class="lead-form__field">
       <span>Comentario</span>
-      <textarea name="comment" rows="3" required placeholder="Cuéntanos qué necesitas"></textarea>
+      <textarea id="lead-message" name="message" rows="3" required placeholder="Cuéntanos qué necesitas"></textarea>
     </label>
 
     <div class="lead-form__actions">
@@ -164,53 +164,100 @@ function renderServicesForm() {
     </div>
   `;
 
+
   wrap.appendChild(form);
   scrollMessagesBottom();
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-    const fd = new FormData(form);
-    const name = fd.get("name")?.toString().trim() || "";
-    const email = fd.get("email")?.toString().trim() || "";
-    const phone = fd.get("phone")?.toString().trim() || "";
-    const comment = fd.get("comment")?.toString().trim() || "";
+  // 1) Tomar valores
+  const name    = document.getElementById("lead-name")?.value.trim() || "";
+  const email   = document.getElementById("lead-email")?.value.trim() || "";
+  const phone   = document.getElementById("lead-phone")?.value.trim() || "";
+  const message = document.getElementById("lead-message")?.value.trim() || "";
 
-    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    if (!name || !emailOk || !phone || !comment) {
-      showSystemMessage("Por favor completa todos los campos correctamente.");
-      return;
+  // 2) Validación simple
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if (!name || !emailOk || !phone || !message) {
+    showSystemMessage("Por favor completa todos los campos correctamente.");
+    return;
+  }
+
+  // 3) Deshabilitar mientras envía
+  const submitBtn = form.querySelector(".btn-primary");
+  const cancelBtn = form.querySelector("#lead-cancel");
+  const restore = () => {
+    if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = "Enviar solicitud"; }
+    if (cancelBtn)  cancelBtn.disabled = false;
+  };
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Enviando…"; }
+  if (cancelBtn)  cancelBtn.disabled = true;
+
+  // 4) Construir payload para tu API
+  const data = {
+    name, email, phone, message,
+    source: "chat",                                 // útil para tu ContactService
+    path: location.pathname + location.search + location.hash,
+    title: document.title,
+    tz: Intl.DateTimeFormat().resolvedOptions().timeZone
+  };
+
+  // 5) Headers y CSRF (si usas Spring Security con cookies)
+  const csrfToken  = document.querySelector('meta[name="_csrf"]')?.content;
+  const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.content;
+
+  const headers = { "Content-Type": "application/json", "X-Requested-With": "XMLHttpRequest" };
+  if (csrfToken && csrfHeader) headers[csrfHeader] = csrfToken;
+
+  try {
+    // 6) Enviar a tu API
+    const response = await fetch("/public/api/contact", {
+      method: "POST",
+      headers,
+      body: JSON.stringify(data),
+      credentials: "same-origin"
+    });
+
+    if (!response.ok) {
+      const text = await response.text().catch(() => "");
+      throw new Error(`HTTP ${response.status}${text ? `: ${text}` : ""}`);
     }
 
-    const msg = {
-      type: "lead",
-      topic: "servicios",
-      name, email, phone, comment,
-      timestamp: new Date().toISOString()
-    };
-
-    try {
-      if (stompClient && stompClient.connected) {
-        stompClient.publish({
-          destination: "/app/send-message",
-          body: JSON.stringify(msg)
-        });
-      }
-    } catch (err) {
-      console.warn("No se pudo enviar por STOMP, continúo local:", err);
-    }
-
+    // 7) Feedback en UI
     showSystemMessage("✅ ¡Gracias! Hemos recibido tu solicitud. Te contactaremos pronto.");
 
     const container = document.getElementById("chat-messages");
     const copy = document.createElement("div");
     copy.className = "message me";
-    copy.textContent = `Solicitud enviada: ${name}, ${email}, ${phone}. Comentario: ${comment}`;
+    copy.textContent = `Solicitud enviada: ${name}, ${email}, ${phone}. Mensaje: ${message}`;
     container.appendChild(copy);
-    scrollMessagesBottom();
 
+    // 8) Opcional: Analytics
+    if (window.dataLayer) {
+      window.dataLayer.push({
+        event: "lead_submit",
+        lead_topic: "servicios",
+        lead_email: email,
+        lead_phone: phone
+      });
+    }
+
+    // 9) Cerrar/eliminar form y limpiar
     form.remove();
-  });
+    // Si deseas cerrar el chat al enviar:
+    // resetChatUI({ hard: true });
+    // document.getElementById("chat-container")?.classList.add("hidden");
+    // document.getElementById("chat-button")?.setAttribute("aria-expanded", "false");
+
+  } catch (err) {
+    console.error(err);
+    showSystemMessage("❌ Ocurrió un problema al enviar. Intenta nuevamente.");
+  } finally {
+    restore();
+  }
+});
+
 
   form.querySelector("#lead-cancel")?.addEventListener("click", () => {
     form.remove();
