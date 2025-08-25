@@ -345,7 +345,7 @@
   }
 }
 
-@mixin parcial-image (
+/*@mixin parcial-image (
     $height: 100vh,
     $width: 100vw){
     width: $width;
@@ -388,6 +388,71 @@
         background-color: color.adjust($primary-color, $lightness: -10%);
       }
     }
+  }
+}*/
+
+// fallback por si no existen
+$primary-color: #0d6efd !default;
+$radius: .5rem !default;
+
+@mixin parcial-image($height: 100vh, $width: 100%) {
+  // OJO: usar 100% en vez de 100vw evita desbordes por la barra de scroll
+  position: relative;   // <-- clave para que el absolute ancle aquí
+  width: $width;
+  height: $height;
+  max-width: 100%;
+  max-height: 100vh;
+
+  img {
+    width: 100%;
+    height: 100%;
+    display: block;     // elimina gaps
+    object-fit: cover;
+  }
+
+  .overlay-content {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 1.5rem;              // mismo margen que tus secciones
+    transform: translateY(-50%); // sin translateX
+    text-align: left;
+    max-width: min(720px, 80%);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    h1 { color: #fff; margin: 0; }
+    .p3 { color: #fff; margin: 0; }
+
+    // Más específica que bootstrap
+    .btn.btn-primary {
+      align-self: flex-start;
+      padding: 0.75rem 1.5rem;
+      background-color: $primary-color;
+      border-color: $primary-color;
+      color: #fff;
+      border: none;
+      border-radius: $radius;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color .3s ease, border-color .3s ease;
+
+      &:hover {
+        background-color: color.scale($primary-color, $lightness: -10%);
+        border-color: color.scale($primary-color, $lightness: -10%);
+      }
+    }
+  }
+
+  // (opcional) velo para contraste del texto
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, rgba(0,0,0,.45), rgba(0,0,0,.25));
+    pointer-events: none;
   }
 }
 

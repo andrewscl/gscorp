@@ -8,6 +8,20 @@
   @include parcial-image (
     $height: 80vh,
     $width: 100vw);
+    // Responsive fino
+  @media (max-width: 768px) {
+    .security-image {
+      height: 70vh;
+      .overlay-content {
+        top: auto;
+        bottom: 1.25rem;
+        transform: none;
+        left: 1rem;
+        right: 1rem;
+        max-width: 100%;
+      }
+    }
+  }
 }
 
 .text-container-big {
