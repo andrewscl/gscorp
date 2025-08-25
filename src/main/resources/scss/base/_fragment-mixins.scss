@@ -359,6 +359,15 @@
         height: 100%;
         object-fit: cover;
     }
+    .overlay-content {
+    position: absolute;
+    top: 50%; // centrado vertical
+    left: 50%; // centrado horizontal
+    transform: translate(-50%, -50%); // ajuste para centrar
+    color: white; // texto en blanco
+    text-align: center;
+    max-width: 80%; // opcional: evita que el texto se desborde
+  }
 }
 
 @mixin corporate-form($primary-color: #0a66c2, $radius: 0.5rem) {
