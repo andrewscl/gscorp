@@ -103,9 +103,14 @@ p {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: white;
-  text-align: center;
+  text-align: left;
   max-width: 80%;
+}
+.clean-image .overlay-content h1 {
+  color: white;
+}
+.clean-image .overlay-content .p3 {
+  color: white;
 }
 
 .text-container-big {
