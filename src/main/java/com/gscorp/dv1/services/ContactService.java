@@ -28,9 +28,11 @@ public class ContactService {
         String htmlBody = """
                 <h2>Nuevo mensaje recibido</h2>
                 <p><strong>Nombre:</strong> %s</p>
+                <p><strong>Telefono:</strong> %s</p>
                 <p><strong>Correo:</strong> %s</p>
                 <p><strong>Mensaje:</strong> %s</p>
-                """.formatted(contact.getName(), 
+                """.formatted(contact.getName(),
+                                contact.getPhone(), 
                                 contact.getEmail(), 
                                 contact.getMessage());
 
