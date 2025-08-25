@@ -78,6 +78,11 @@ public class PublicController {
         return render("public/views/sustainability-view", model, req);
     }
 
+    @GetMapping("/presential-security")
+    public String showPresentialSecurityPage (Model model, HttpServletRequest req) {
+        return render("public/views/presential-security-view", model, req);
+    }
+
     // ==== helper: decide layout + view (deep link) vs solo view (SPA) ====
     private String render(String view, Model model, HttpServletRequest req){
         // si el SPA hace fetch con este header, devuelve solo el view

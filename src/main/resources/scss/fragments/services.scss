@@ -42,4 +42,13 @@
   $bp-tablet: 1024px,
   $bp-mobile: 768px
   );
+  .column{
+    h4{
+      &:hover{
+        cursor: pointer;
+        color: $accent-blue;
+      }
+    }
+  }
+
 }
