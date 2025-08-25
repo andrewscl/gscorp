@@ -101,7 +101,7 @@ p {
 .security-image .overlay-content {
   position: absolute;
   z-index: 1;
-  top: 50%;
+  top: 60%;
   left: 5rem;
   transform: translateY(-50%);
   text-align: left;

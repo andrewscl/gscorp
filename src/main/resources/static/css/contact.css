@@ -105,7 +105,7 @@ p {
 .contact-wrapper .overlay-text-image .overlay-content {
   position: absolute;
   z-index: 1;
-  top: 50%;
+  top: 60%;
   left: 5rem;
   transform: translateY(-50%);
   text-align: left;
@@ -282,48 +282,6 @@ p {
   .contact-wrapper .contact-grid {
     grid-template-columns: 1fr;
     grid-template-areas: "info" "form";
-    gap: 2rem;
-    padding: 1.5rem clamp(16px, 5vw, 32px) 3rem;
-  }
-}
-.contact-wrapper .toast-container {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  pointer-events: none;
-}
-.contact-wrapper .toast-container .toast {
-  opacity: 0;
-  transform: translateY(-10px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  padding: 1rem 1.5rem;
-  border-radius: 0.5rem;
-  font-size: 0.95rem;
-  font-weight: 500;
-  line-height: 1.4;
-  min-width: 280px;
-  max-width: 90vw;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  pointer-events: auto;
-}
-.contact-wrapper .toast-container .toast.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.contact-wrapper .toast-container .toast.success {
-  background-color: #e6f4ea;
-  color: #1b5e20;
-  border: 1px solid #b7e4c7;
-}
-.contact-wrapper .toast-container .toast.error {
-  background-color: #fce8e6;
-  color: #b3261e;
-  border: 1px solid #f4c7c3;
-}/*# sourceMappingURL=contact.css.map */"info" "form";
     gap: 2rem;
     padding: 1.5rem clamp(16px, 5vw, 32px) 3rem;
   }

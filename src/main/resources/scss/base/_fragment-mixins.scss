@@ -367,7 +367,7 @@ $radius: .5rem !default;
   .overlay-content {
     position: absolute;
     z-index: 1;
-    top: 50%;
+    top: 60%;
     left: 5rem;              // mismo margen que tus secciones
     transform: translateY(-50%); // sin translateX
     text-align: left;

@@ -101,7 +101,7 @@ p {
 .sustainability-image .overlay-content {
   position: absolute;
   z-index: 1;
-  top: 50%;
+  top: 60%;
   left: 5rem;
   transform: translateY(-50%);
   text-align: left;
@@ -285,50 +285,6 @@ p {
 @media (max-width: 768px) {
   .ethics-code {
     width: 100%;
-    max-width: 100%;
-    height: auto;
-    max-height: none;
-    box-sizing: border-box;
-  }
-  .ethics-code .container {
-    width: 100%;
-    max-width: 100%;
-    flex-direction: column-reverse;
-    height: auto;
-    gap: 1rem;
-  }
-  .ethics-code .container .image-content {
-    width: 100%;
-    padding: 0;
-  }
-  .ethics-code .container .image-content img {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    aspect-ratio: 1.7777778;
-    object-fit: cover;
-  }
-  .ethics-code .container .text-content {
-    width: 100%;
-    min-width: 0;
-    max-width: 90%;
-    overflow: hidden;
-    padding: 0;
-    margin: 0 0 0 5%;
-  }
-  .ethics-code .container .text-content h2 {
-    font-family: "Montserrat", sans-serif;
-    font-size: 1.5rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-  }
-  .ethics-code .container .text-content .p2 {
-    font-family: "Montserrat", sans-serif;
-    font-size: 1rem;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-  }
-}/*# sourceMappingURL=sustainability.css.map */  width: 100%;
     max-width: 100%;
     height: auto;
     max-height: none;

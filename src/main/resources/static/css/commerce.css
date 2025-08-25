@@ -101,7 +101,7 @@ p {
 .commerce-image .overlay-content {
   position: absolute;
   z-index: 1;
-  top: 50%;
+  top: 60%;
   left: 5rem;
   transform: translateY(-50%);
   text-align: left;
@@ -285,51 +285,6 @@ p {
 }
 
 .servicios-commerce {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr)); /* 4 columnas iguales */
-  gap: 2rem;
-  padding: 3rem 6vw;
-  background-color: white;
-  align-items: stretch;
-  box-sizing: border-box;
-  /* Responsivo */
-}
-.servicios-commerce .column {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  height: 100%;
-  text-align: left;
-  align-items: center;
-  /* Caja de imagen con ratio fijo */
-}
-.servicios-commerce .column .media {
-  width: 100%;
-  border-radius: 0.5rem;
-  overflow: hidden;
-  margin-bottom: 1rem;
-  aspect-ratio: 1.33333333;
-}
-.servicios-commerce .column .media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-@media (max-width: 1024px) {
-  .servicios-commerce {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-@media (max-width: 768px) {
-  .servicios-commerce {
-    grid-template-columns: 1fr;
-  }
-  .servicios-commerce .column {
-    align-items: center;
-    text-align: center;
-  }
-}/*# sourceMappingURL=commerce.css.map */rvicios-commerce {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr)); /* 4 columnas iguales */
   gap: 2rem;

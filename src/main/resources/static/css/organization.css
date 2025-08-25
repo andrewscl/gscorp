@@ -101,7 +101,7 @@ p {
 .organization-image .overlay-content {
   position: absolute;
   z-index: 1;
-  top: 50%;
+  top: 60%;
   left: 5rem;
   transform: translateY(-50%);
   text-align: left;
@@ -187,50 +187,6 @@ p {
   display: flex;
   align-items: stretch;
   padding: 0 1rem 0 1rem;
-  border-radius: 1rem;
-  overflow: hidden;
-}
-@media (max-width: 768px) {
-  .text-video-right {
-    height: auto;
-    max-height: none;
-  }
-  .text-video-right .container {
-    display: flex;
-    flex-direction: column;
-    padding-inline: 5vw;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  .text-video-right .container .video-content {
-    order: 0;
-    width: 100%;
-    max-width: none;
-    padding: 0;
-    overflow: hidden;
-  }
-  .text-video-right .container .text-content {
-    order: 1;
-    width: 100%;
-    padding: 0;
-    max-width: 100%;
-    min-width: 0;
-    overflow-wrap: anywhere;
-    word-break: break-word;
-  }
-  .text-video-right .container .text-content h2 {
-    font-family: "Montserrat", sans-serif;
-    font-size: 1.5rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-  }
-  .text-video-right .container .text-content .p2 {
-    font-family: "Montserrat", sans-serif;
-    font-size: 1rem;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-  }
-}/*# sourceMappingURL=organization.css.map */m 0 1rem;
   border-radius: 1rem;
   overflow: hidden;
 }

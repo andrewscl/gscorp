@@ -101,7 +101,7 @@ p {
 .services-image .overlay-content {
   position: absolute;
   z-index: 1;
-  top: 50%;
+  top: 60%;
   left: 5rem;
   transform: translateY(-50%);
   text-align: left;
@@ -256,55 +256,6 @@ p {
 }
 
 .servicios {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr)); /* 4 columnas iguales */
-  gap: 2rem;
-  padding: 3rem 6vw;
-  background-color: white;
-  align-items: stretch;
-  box-sizing: border-box;
-  /* Responsivo */
-}
-.servicios .column {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  height: 100%;
-  text-align: left;
-  align-items: center;
-  /* Caja de imagen con ratio fijo */
-}
-.servicios .column .media {
-  width: 100%;
-  border-radius: 0.5rem;
-  overflow: hidden;
-  margin-bottom: 1rem;
-  aspect-ratio: 1.33333333;
-}
-.servicios .column .media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-@media (max-width: 1024px) {
-  .servicios {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-@media (max-width: 768px) {
-  .servicios {
-    grid-template-columns: 1fr;
-  }
-  .servicios .column {
-    align-items: center;
-    text-align: center;
-  }
-}
-.servicios .column h4:hover {
-  cursor: pointer;
-  color: #3b82f6;
-}/*# sourceMappingURL=services.css.map */s {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr)); /* 4 columnas iguales */
   gap: 2rem;

@@ -344,46 +344,4 @@ hr {
     object-fit: contain;
     align-self: center;
   }
-}/*# sourceMappingURL=index.css.map */der-radius: 1rem;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.group-section .column:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-}
-.group-section .column img {
-  display: block;
-  width: 100%;
-  height: auto;
-  max-height: 160px;
-  object-fit: contain;
-  border-radius: 0.75rem;
-  margin-bottom: 1.5rem;
-}
-@media (max-width: 1024px) {
-  .group-section {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (max-width: 768px) {
-  .group-section {
-    grid-template-columns: 1fr;
-  }
-  .group-section .column {
-    align-items: center;
-    text-align: center;
-  }
-  .group-section .column img {
-    /* En móvil controlamos tamaño con max-width/height */
-    width: auto;
-    max-width: clamp(140px, 70vw, 280px);
-    max-height: 140px;
-    object-fit: contain;
-    align-self: center;
-  }
 }/*# sourceMappingURL=index.css.map */
