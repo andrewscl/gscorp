@@ -72,7 +72,7 @@ public class PrivateController {
     @PostMapping("/mp-licitations/sync")
     public String syncLicitations(Model model) {
         sync.syncTodayLicitations();
-        return "redirect:/mp-licitations";
+        return "private/views/licitations-table-view";
     }
 
 }
