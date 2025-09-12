@@ -4,15 +4,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gscorp.dv1.repositories.ContactRepository;
 import com.gscorp.dv1.repositories.LicitationRepository;
 import com.gscorp.dv1.repositories.RoleRepository;
 import com.gscorp.dv1.repositories.UserRepository;
+import com.gscorp.dv1.services.MpSyncService;
+
+import lombok.AllArgsConstructor;
 
 @Controller
 @RequestMapping("/private")
+@AllArgsConstructor
 public class PrivateController {
 
     @Autowired
@@ -27,6 +32,8 @@ public class PrivateController {
     @Autowired
     private LicitationRepository licitationRepository;
 
+    @Autowired
+    private final MpSyncService sync;
 
     @GetMapping("/dashboard")
     public String getPrivateDashboardView(Model model) {
@@ -62,5 +69,10 @@ public class PrivateController {
         return "private/views/licitations-table-view";
     }
 
+    @PostMapping("/mp-licitations/sync")
+    public String syncLicitations(Model model) {
+        sync.syncTodayLicitations();
+        return "redirect:/mp-licitations";
+    }
 
 }

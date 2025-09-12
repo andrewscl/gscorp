@@ -1,5 +1,11 @@
 <div th:fragment="licitationsTable">
-    <h2>Contacto</h2>
+    <h2>Licitaciones Mercado Publico</h2>
+
+    <form th:action="@{/private/mp-licitations/sync}" method="post" style="margin-bottom:1rem;">
+    <input type="hidden"/>
+    <button type="submit" class="btn-sync">Actualizar</button>
+    </form>    
+
     <div class="licitations-table-container">
         <table class="licitation-table">
             <thead>
