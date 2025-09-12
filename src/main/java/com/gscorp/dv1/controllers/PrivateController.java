@@ -69,7 +69,7 @@ public class PrivateController {
         return "private/views/licitations-table-view";
     }
 
-    @PostMapping("/mp-licitations/sync")
+    @GetMapping("/mp-licitations/sync")
     public String syncLicitations(Model model) {
         sync.syncTodayLicitations();
         return "private/views/licitations-table-view";
