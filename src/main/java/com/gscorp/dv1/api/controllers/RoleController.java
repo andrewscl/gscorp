@@ -1,4 +1,4 @@
-package com.gscorp.dv1.Api;
+package com.gscorp.dv1.api.controllers;
 
 
 import org.springframework.http.ResponseEntity;

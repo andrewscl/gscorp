@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gscorp.dv1.repositories.ContactRepository;
+import com.gscorp.dv1.repositories.LicitationRepository;
 import com.gscorp.dv1.repositories.RoleRepository;
 import com.gscorp.dv1.repositories.UserRepository;
 
@@ -22,6 +23,10 @@ public class PrivateController {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private LicitationRepository licitationRepository;
+
 
     @GetMapping("/dashboard")
     public String getPrivateDashboardView(Model model) {
@@ -50,5 +55,12 @@ public class PrivateController {
         model.addAttribute("contacts", contactRepository.findAll());
         return "private/views/contacts-table-view";
     }
+
+    @GetMapping("/mp-licitations")
+    public String getLicitationsTableView(Model model) {
+        model.addAttribute("licitations", licitationRepository.findAll());
+        return "private/views/licitations-table-view";
+    }
+
 
 }

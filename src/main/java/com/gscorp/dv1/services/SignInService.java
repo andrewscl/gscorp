@@ -4,8 +4,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
-import com.gscorp.dv1.Auth.AuthRequest;
-import com.gscorp.dv1.Auth.AuthResponse;
+import com.gscorp.dv1.auth.AuthRequest;
+import com.gscorp.dv1.auth.AuthResponse;
 import com.gscorp.dv1.security.JwtService;
 
 import lombok.RequiredArgsConstructor;

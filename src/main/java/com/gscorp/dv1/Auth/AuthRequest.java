@@ -1,4 +1,4 @@
-package com.gscorp.dv1.Auth;
+package com.gscorp.dv1.auth;
 
 import lombok.Data;
 

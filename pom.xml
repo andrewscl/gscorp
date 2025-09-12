@@ -139,6 +139,22 @@
 			<artifactId>jakarta.mail</artifactId>
 			<version>2.0.1</version> <!-- versión moderna y compatible -->
 		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.retry</groupId>
+			<artifactId>spring-retry</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+
+		<!-- Cliente HTTP reactivo (WebClient) -->
+		<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
 
 	</dependencies>
 

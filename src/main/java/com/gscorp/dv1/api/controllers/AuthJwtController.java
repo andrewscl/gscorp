@@ -1,4 +1,4 @@
-package com.gscorp.dv1.Api;
+package com.gscorp.dv1.api.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gscorp.dv1.Auth.AuthRequest;
-import com.gscorp.dv1.Auth.AuthResponse;
+import com.gscorp.dv1.auth.AuthRequest;
+import com.gscorp.dv1.auth.AuthResponse;
 import com.gscorp.dv1.entities.User;
 import com.gscorp.dv1.services.SignInService;
 import com.gscorp.dv1.services.SignUpService;
