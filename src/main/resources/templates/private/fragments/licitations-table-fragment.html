@@ -1,10 +1,7 @@
 <div th:fragment="licitationsTable">
     <h2>Licitaciones Mercado Publico</h2>
 
-    <form th:action="@{/private/mp-licitations/sync}" method="post" style="margin-bottom:1rem;">
-    <input type="hidden"/>
-    <button type="submit" class="btn-sync">Actualizar</button>
-    </form>    
+    <button id="btnSync" class="btn-sync" data-path="/private/mp-licitations/sync">Actualizar</button>
 
     <div class="licitations-table-container">
         <table class="licitation-table">
