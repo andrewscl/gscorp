@@ -1,3 +1,5 @@
+import {navigateTo} from './navigation-handler.js'
+
 console.log("signin.js cargado correctamente");
 
 // Enfocar el primer campo (nombre de usuario) al cargar la página
@@ -58,11 +60,8 @@ async function login(){
         //Guardar el token en local storage
         localStorage.setItem("jwt", token);
 
-        // pide /private pero vía SPA (con fetch + Authorization)
-        sessionStorage.setItem('postLoginTarget', '/private');
-
         // carga el shell privado
-        window.location.replace('/shell/private');
+        await navigateTo('/private');
 
     } catch (error) {
         alert("Error al iniciar sesión: " + error.message);
