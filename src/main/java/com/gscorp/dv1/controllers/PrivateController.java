@@ -15,7 +15,7 @@ import com.gscorp.dv1.services.MpSyncService;
 import lombok.AllArgsConstructor;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/private")
 @AllArgsConstructor
 public class PrivateController {
 
