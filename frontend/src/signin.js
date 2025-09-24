@@ -62,7 +62,7 @@ async function login(){
         sessionStorage.setItem('postLoginTarget', '/private');
 
         // carga el shell privado
-        window.location.replace = '/shell/private';
+        window.location.href = '/shell/private';
 
     } catch (error) {
         alert("Error al iniciar sesión: " + error.message);
