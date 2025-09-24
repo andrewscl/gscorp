@@ -39,7 +39,7 @@ public class SecurityConfig {
                     "/webjars/**", "/error", "/icons/**", "/shell/**").permitAll() //publicas
                 .requestMatchers("/private/**", "/api/**").authenticated() //requiere JWT valido
                 .requestMatchers("/admin/**").
-                    hasAuthority("ROLE_ADMIN") //requiere rol ADMIN en el JWT
+                    hasAuthority("ROLE_ADMINISTRATOR") //requiere rol ADMIN en el JWT
                 .anyRequest().authenticated())
             .authenticationProvider(authenticationProvider())
             .addFilterBefore(jwtAuthenticationFilter,
