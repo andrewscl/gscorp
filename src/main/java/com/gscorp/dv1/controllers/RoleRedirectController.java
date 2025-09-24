@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class RoleRedirectController {
 
-    @GetMapping("/private")
+    @GetMapping({"/private", "/private/"})
     public String redirectByRole(Authentication auth,
                 @RequestParam(value="fragment", required=false)
                     String fragment) {
