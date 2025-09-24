@@ -85,9 +85,9 @@ import { setupRouter } from './router.js';
 }
 
 export function detectLayout(path) {
-  if (path.startsWith('/auth/')) return 'auth';
-  if (path.startsWith('/private/')) return 'private';
-  if (path.startsWith('/admin/')) return 'private'; // o 'admin' si tienes un layout exclusivo
+  if (path === '/auth' || path.startsWith('/auth/')) return 'auth';
+  if (path === '/private' || path.startsWith('/private/')) return 'private';
+  if (path === '/admin' || path.startsWith('/admin/')) return 'private'; // o 'admin' si tienes un layout exclusivo
   return 'public';
 }
 
