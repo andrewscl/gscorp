@@ -1,5 +1,3 @@
-import { navigateTo } from './navigation-handler.js';
-
 console.log("signin.js cargado correctamente");
 
 // Enfocar el primer campo (nombre de usuario) al cargar la página
@@ -39,7 +37,7 @@ async function login(){
 
     try {
         /*Para realizar la solicitud fetch, se envía una solicitud POST
-        a /auth/login con los datos de inicio de sesión
+        a /auth/signin con los datos de inicio de sesión
         (usuario y contraseña) en formato JSON.*/
         const response = await fetch("/auth/signin", {
             method: "POST",
@@ -60,51 +58,13 @@ async function login(){
         //Guardar el token en local storage
         localStorage.setItem("jwt", token);
 
-        //decodifica el token para determinar el rol
-        const payload = parseJwt(token);
-        const roles = payload?.roles || [];
+        // pide /private pero vía SPA (con fetch + Authorization)
+        sessionStorage.setItem('postLoginTarget', '/private');
 
-        let targetUrl = "/private/dashboard"; //Ruta por defecto.
-
-        if(roles.includes("ROLE_ADMIN")){
-            targetUrl = "/admin/dashboard"
-        } else if (roles.includes("ROLE_CLIENT")){
-            targetUrl = "/private/home"
-        }
-        console.log("Llamando a navigateTo con:", targetUrl);
-
-        //si se requiere cambiar de layout, guardar destino para que init-router lo procese.
-        if ( targetUrl.startsWith('/private/') || 
-                    targetUrl.startsWith('/admin/')) {
-            sessionStorage.setItem('postLoginTarget', targetUrl);
-        }
-
-        //redigir al shell para cargar el layout
-        const nextLayout = detectLayout(targetUrl);
-        window.location.href = `/shell/${nextLayout}`;
+        // carga el shell privado
+        window.location.replace = '/shell/private';
 
     } catch (error) {
         alert("Error al iniciar sesión: " + error.message);
     }
-};
-
-//función auxiliar para decodificar el token
-function parseJwt(token) {
-    try {
-        const base64Url = token.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join(''));
-        return JSON.parse(jsonPayload);
-    } catch (e) {
-        console.error("Error al decodificar el token", e);
-        return null;
-    }
-}
-
-function detectLayout (path) {
-    if(path.startsWith('/auth/')) return 'auth';
-    if(path.startsWith('/private/')) return 'private';
-    if(path.startsWith('/admin/')) return 'admin';
 }
