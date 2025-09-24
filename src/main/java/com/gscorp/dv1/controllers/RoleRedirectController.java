@@ -22,13 +22,7 @@ public class RoleRedirectController {
         String suffix = isFragment ? "?fragment=1": "";
 
         if(has(auth, "ROLE_ADMINISTRATOR"))
-            return prefix + "private/dashboard" + suffix;
-
-        if(has(auth, "ROLE_OPS"))
-            return prefix + "ops/dashboard" + suffix;
-
-        if(has(auth, "ROLE_CLIENT"))
-            return prefix + "client/dashboard" + suffix;
+            return "private/views/private-dashboard-view";
 
         return prefix + "private/dashboard" + suffix;
 
