@@ -1,7 +1,9 @@
 <div th:fragment="content">
 
-    <h2>Usuarios</h2>
+    <div class="users-header">
+        <h2>Usuarios</h2>
         <button class="btn-primary" id="createUserBtn">Crear Usuario</button>
+    </div>
 
     <div class="user-table-container">
         <table class="users-table">
@@ -16,7 +18,6 @@
                 <tr th:each="user : ${users}">
                     <td th:text="${user.id}"></td>
                     <td th:text="${user.username}"></td>
-                    <td th:text="${user.password}"></td>
                     <td class="actions">
                         <a>Ver</a>
                         <a>Editar</a>
