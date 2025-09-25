@@ -18,6 +18,17 @@
                 <tr th:each="user : ${users}">
                     <td th:text="${user.id}"></td>
                     <td th:text="${user.username}"></td>
+
+                    <!-- Tags de roles-->
+                    <td>
+                        <span class="tag"
+                                th:each="r : ${user.roles}"
+                                th:text="${r.role}">ADMINISTRATOR</span>
+
+                        <!-- Mensaje si no tiene roles -->
+                        <em th:if="${#lists.isEmpty(user.roles)}" class="muted">Sin roles</em>
+                    </td>
+
                     <td class="actions">
                         <a>Ver</a>
                         <a>Editar</a>
@@ -64,7 +75,7 @@
     </div>
     </div>
 
-    <script type="module" src="/js/admin-users.js"></script>
+    <script type="module" src="/js/private/admin-users.js"></script>
 
 </div>
 
