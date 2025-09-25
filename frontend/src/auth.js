@@ -3,7 +3,7 @@ agregar token JWT a las solicitudes protegidas*/
 export async function fetchWithAuth(url, options = {}) {
 
     const token = localStorage.getItem("jwt");
-    console.log("Enviando solicitud protegida con token:", token);
+    console.log("Enviando solicitud protegida con token:");
 
     if(!token) {
         throw new Error("No token found");
