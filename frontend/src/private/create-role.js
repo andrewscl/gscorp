@@ -36,7 +36,7 @@ function createRole () {
             await navigateTo("/private/roles");
 
         } catch (error) {
-            alert ("Error: " + err.message);
+            alert ("Error: " + error.message);
         }
     });
 

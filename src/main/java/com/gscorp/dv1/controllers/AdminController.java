@@ -42,6 +42,7 @@ public class AdminController {
     @GetMapping("/users")
     public String getUsersTableView(Model model) {
         model.addAttribute("users", userRepository.findAll());
+        model.addAttribute("roles", roleRepository.findAll());
         return "private/admin/views/users-table-view";
     }
 
