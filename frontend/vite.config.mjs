@@ -18,6 +18,7 @@ export default defineConfig({
         'slideshow-video': path.resolve(__dirname, './src/slideshow-video.js'),
         'chat/chat': path.resolve(__dirname, './src/chat/chat.js'),
         'private/create-role': path.resolve(__dirname, './src/private/create-role.js'),
+        'private/create-user': path.resolve(__dirname, './src/private/create-user.js'),
       },
       output: {
         entryFileNames: '[name].js'
