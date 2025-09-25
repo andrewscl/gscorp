@@ -1,6 +1,7 @@
-<div th:fragment="usersTable">
+<section th:fragment="content">
+
     <h2>Usuarios</h2>
-    <a class="h2" href="#" data-path="/auth/signup">Signup</a>
+        <button class="btn-primary" id="createUserBtn">Crear Usuario</button>
 
     <div class="user-table-container">
         <table class="users-table">
@@ -17,12 +18,52 @@
                     <td th:text="${user.username}"></td>
                     <td th:text="${user.password}"></td>
                     <td class="actions">
-                        <a th:href="@{/users/view/{id}(id=${user.id})}">Ver</a>
-                        <a th:href="@{/users/edit/{id}(id=${user.id})}">Editar</a>
-                        <button th:onclick="'eliminarEmpleado(' + ${user.id} + ')'">Eliminar</button>
+                        <a th:href="">Ver</a>
+                        <a th:href="">Editar</a>
+                        <button th:onclick="">Eliminar</button>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
-</div>
+
+    <!-- Modal Crear Usuario -->
+    <div id="createUserModal" class="modal hidden" aria-hidden="true" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-header">
+        <h3>Crear usuario</h3>
+        <button type="button" class="modal-close" id="closeCreateUser">&times;</button>
+        </div>
+
+        <form id="createUserForm" class="modal-body">
+        <div class="form-group">
+            <label for="newUsername">Nombre de usuario</label>
+            <input type="text" id="newUsername" name="username" required />
+        </div>
+
+        <div class="form-group">
+            <label for="newPassword">Contraseña</label>
+            <input type="password" id="newPassword" name="password" required />
+        </div>
+
+        <div class="form-group">
+            <label>Roles</label>
+            <div id="roleChoices"><!-- JS insertará checkboxes --></div>
+            <small>Si no seleccionas ninguno, se asignará <strong>CLIENT</strong> por defecto.</small>
+        </div>
+
+        <div class="modal-footer">
+            <button type="submit" class="btn-primary">Crear</button>
+            <button type="button" class="btn-secondary" id="cancelCreateUser">Cancelar</button>
+        </div>
+
+        <div class="form-error" id="createUserError"></div>
+        <div class="form-ok" id="createUserOk" style="display:none;">Usuario creado ✅</div>
+        </form>
+    </div>
+    </div>
+
+    <script type="module" src="/js/admin-users.js"></script>
+
+</section>
+
