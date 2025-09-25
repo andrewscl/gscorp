@@ -33,7 +33,7 @@ public class RoleRedirectController {
         if(has(auth, "ROLE_RRHH"))
             return prefix + "private/rrhh/dashboard" + suffix;
 
-        return prefix + "private/dashboard" + suffix;
+        return prefix + "private/default/dashboard" + suffix;
 
     }
 
