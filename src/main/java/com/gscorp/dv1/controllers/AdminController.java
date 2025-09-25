@@ -15,9 +15,9 @@ import com.gscorp.dv1.services.MpSyncService;
 import lombok.AllArgsConstructor;
 
 @Controller
-@RequestMapping("/private")
+@RequestMapping("/private/admin")
 @AllArgsConstructor
-public class PrivateController {
+public class AdminController {
 
     @Autowired
     private UserRepository userRepository;
@@ -36,42 +36,42 @@ public class PrivateController {
 
     @GetMapping("/dashboard")
     public String getPrivateDashboardView(Model model) {
-        return "private/views/private-dashboard-view";
+        return "private/admin/views/admin-dashboard-view";
     }
 
     @GetMapping("/users")
     public String getUsersTableView(Model model) {
         model.addAttribute("users", userRepository.findAll());
-        return "private/views/users-table-view";
+        return "private/admin/views/users-table-view";
     }
 
     @GetMapping("/roles")
     public String getRolesTableView(Model model) {
         model.addAttribute("roles", roleRepository.findAll());
-        return "private/views/roles-table-view";
+        return "private/admin/views/roles-table-view";
     }
 
     @GetMapping("/roles/create")
     public String createRoleView() {
-        return "private/views/create-role-view";
+        return "private/admin/views/create-role-view";
     }
 
     @GetMapping("/contacts")
     public String getContactsTableView(Model model) {
         model.addAttribute("contacts", contactRepository.findAll());
-        return "private/views/contacts-table-view";
+        return "private/admin/views/contacts-table-view";
     }
 
     @GetMapping("/mp-licitations")
     public String getLicitationsTableView(Model model) {
         model.addAttribute("licitations", licitationRepository.findAll());
-        return "private/views/licitations-table-view";
+        return "private/admin/views/licitations-table-view";
     }
 
     @GetMapping("/mp-licitations/sync")
     public String syncLicitations(Model model) {
         sync.syncTodayLicitations();
-        return "private/views/licitations-table-view";
+        return "private/admin/views/licitations-table-view";
     }
 
 }

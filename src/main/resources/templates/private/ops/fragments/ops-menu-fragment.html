@@ -1,4 +1,4 @@
-<div th:fragment="privateMenuSidebar">
+<div th:fragment="opsSidebar">
     <div id="logo-container" class="logo-container">
         <img id="logo" class="logo" th:src="@{/img/logo-sin-nombre.png}" alt="Logo" />
     </div>
@@ -6,20 +6,20 @@
     <nav class="menu">
         <a class="menu-item">Inicio</a>
         <details class="menu-group">
-            <summary class="menu-item">Administración</summary>
+            <summary class="menu-item">Comercial</summary>
             <div class="submenu">
                 <a class="submenu-item" href="#"
-                    data-path="/private/users">Usuarios</a>
+                    data-path="">Contactos</a>
                 <a class="submenu-item" href="#"
-                    data-path="/private/roles">Roles</a>
+                    data-path="">Prospectos</a>
             </div>
         </details>
         <details class="menu-group">
-            <summary class="menu-item">Información</summary>
+            <summary class="menu-item">Licitaciones</summary>
             <div class="submenu">
 
                 <a class="submenu-item" href="#"
-                    data-path="/private/contacts">Contactos</a>
+                    data-path="">En proceso</a>
                 <a class="submenu-item">-</a>
 
                 <a class="submenu-item" href="#"
@@ -36,7 +36,7 @@
     <button class="toggle-sidebar" id="toggleSidebar">☰</button>
 </div>
 
-<div th:fragment="privateMenuTopbar">
+<div th:fragment="opsTopbar">
     <h1 class="title">Panel de Administración</h1>
     <div class="user-actions">
         <span class="user-name">admin</span>

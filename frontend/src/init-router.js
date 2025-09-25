@@ -3,6 +3,7 @@ import { setupRouter } from './router.js';
 import { setupMegamenu } from './mega-menu.js';
 import { setupSlideshow } from './slideshow-video.js';
 import { setupChat } from './chat/chat.js';
+import { fetchWithAuth } from './auth.js';
 
 function doScrollTo(pathLike) {
   // si el menú móvil dejó bloqueado el scroll, lo limpiamos
@@ -37,7 +38,42 @@ function doScrollTo(pathLike) {
   }));
 }
 
-window.initRouter = () => {
+//Carga sidebar y topbar cuando el shell es "private"
+async function loadChromeIfNeeded(){
+  if(document.body.getAttribute('data-layout') != 'private')
+    return;
+
+  try{
+    const[sbRes, tbRes] = await Promise.all([
+      fetchWithAuth('/private/sidebar?fragment=1'),
+      fetchWithAuth('/private/topbar?fragment=1')
+    ]);
+
+    if(sbRes.status === 401 || tbRes.status === 401){
+      localStorage.removeItem('jwt');
+      window.location.href = '/auth/signin';
+      return;
+    }
+
+    if(sbRes.ok) {
+      const html = await sbRes.text();
+      const sb = document.getElementById('sidebar');
+      if (sb) sb.innerHTML = html;
+      document.dispatchEvent(new CustomEvent('sidebar:loaded'));
+    }
+
+    if(tbRes.ok) {
+      const html = await tbRes.text();
+      const tb = document.querySelector('.topbar');
+      if (tb) tb.innerHTML = html;
+      document.dispatchEvent(new CustomEvent('topbar:loaded'));
+    }
+  } catch (e) {
+    console.warn('[init-router] No se pudieron cargar sidebar/topbar', e);
+  }
+}
+
+window.initRouter = async () => {
 
   // 1) BIND de listeners ANTES de cualquier navegación
   if (!window.__routeScrollBound) {
@@ -52,6 +88,9 @@ window.initRouter = () => {
 
   console.log("Router reinicializado");
   setupRouter();
+
+  //Carga chrome del rol si estamos en shell/private
+  await loadChromeIfNeeded();
 
   const target = sessionStorage.getItem("postLoginTarget");
 

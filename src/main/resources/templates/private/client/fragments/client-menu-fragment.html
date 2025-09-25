@@ -1,4 +1,4 @@
-<div th:fragment="privateMenuSidebar">
+<div th:fragment="clientSidebar">
     <div id="logo-container" class="logo-container">
         <img id="logo" class="logo" th:src="@{/img/logo-sin-nombre.png}" alt="Logo" />
     </div>
@@ -6,27 +6,25 @@
     <nav class="menu">
         <a class="menu-item">Inicio</a>
         <details class="menu-group">
-            <summary class="menu-item">Comercial</summary>
+            <summary class="menu-item">Dotación</summary>
             <div class="submenu">
                 <a class="submenu-item" href="#"
-                    data-path="">Contactos</a>
+                    data-path="">Ver personal</a>
                 <a class="submenu-item" href="#"
                     data-path="">Prospectos</a>
             </div>
         </details>
         <details class="menu-group">
-            <summary class="menu-item">Licitaciones</summary>
+            <summary class="menu-item">Indicadores</summary>
             <div class="submenu">
 
                 <a class="submenu-item" href="#"
-                    data-path="">En proceso</a>
+                    data-path="">Rondas de vigilancia</a>
                 <a class="submenu-item">-</a>
 
                 <a class="submenu-item" href="#"
-                    data-path="/private/mp-licitations">Licitaciones MP</a>
+                    data-path="/private/mp-licitations">Cobertura de Servicios</a>
                 <a class="submenu-item">-</a>
-
-
 
             </div>
         </details>
@@ -36,10 +34,10 @@
     <button class="toggle-sidebar" id="toggleSidebar">☰</button>
 </div>
 
-<div th:fragment="privateMenuTopbar">
-    <h1 class="title">Panel de Administración</h1>
+<div th:fragment="clientTopbar">
+    <h1 class="title">Clientes</h1>
     <div class="user-actions">
-        <span class="user-name">admin</span>
+        <span class="user-name">Cliente</span>
         <a class="logout-btn">Cerrar sesión</a>
     </div>
 </div>

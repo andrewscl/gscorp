@@ -18,16 +18,29 @@
 
 <body data-layout="private">
 
-    <aside class="sidebar" id="sidebar" th:insert=
-        "~{private/fragments/private-menu-fragment :: privateMenuSidebar}"></aside>
+    <!-- Fragmento vacio reutilizable-->>
+    <th:block th:fragment="empty"></th:block>
+
+    <aside class="sidebar" id="sidebar">
+        <div th:if="{sidebar != null}" th:replace="${sidebar}"></div>
+        <div th:unless="{sidebar != null}"
+             th:replace="~{private/layouts/private-layout :: empty}"></div>
+    </aside>
 
     <div class="main-content">
-        <header class="topbar" th:insert=
-            "~{private/fragments/private-menu-fragment :: privateMenuTopbar}"></header>
 
-        <section id="content" class="content"> 
-            <div th:replace="${private}"></div>
+        <header class="topbar">
+            <div th:if="{topbar != null}" th:replace="${topbar}"></div>
+            <div th:unless="{topbar != null}"
+                th:replace="~{private/layouts/private-layout :: empty}"></div>
+        </header>
+
+        <section id="content" class="content">
+            <div th:if="{private != null}" th:replace="${private}"></div>
+            <div th:unless="{private != null}"
+                th:replace="~{private/layouts/private-layout :: empty}"></div>
         </section>
+
     </div>
 
     <script type="module" src="/js/init-router.js"></script>
