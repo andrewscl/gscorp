@@ -52,11 +52,6 @@ public class AdminController {
         return "private/admin/views/roles-table-view";
     }
 
-    @GetMapping("/roles/create")
-    public String createRoleView() {
-        return "private/admin/views/create-role-view";
-    }
-
     @GetMapping("/contacts")
     public String getContactsTableView(Model model) {
         model.addAttribute("contacts", contactRepository.findAll());
