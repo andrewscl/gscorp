@@ -1,6 +1,8 @@
 import { fetchWithAuth } from '../auth.js';
 import { navigateTo } from '../navigation-handler.js';
 
+console.log("create-user.js cargado");
+
 const qs  = (s) => document.querySelector(s);
 const qsa = (s) => Array.from(document.querySelectorAll(s));
 
