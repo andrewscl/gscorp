@@ -32,8 +32,18 @@
                     </td>
 
                     <td class="actions">
-                        <a href="#" th:data-path="@{/private/admin/users/show/{id}(id=${user.id})}">Ver</a>
-                        <a href="#" th:data-path="@{/private/admin/users/edit/{id}(id=${user.id})}">Editar</a>
+                        <button type="button"
+                                class="btn-link"
+                                th:attr="data-path=@{/private/admin/users/show/{id}(id=${user.id})}">
+                            Ver
+                        </button>
+
+                        <button type="button"
+                                class="btn-link"
+                                th:attr="data-path=@{/private/admin/users/edit/{id}(id=${user.id})}">
+                            Editar
+                        </button>
+
                     </td>
                 </tr>
             </tbody>
