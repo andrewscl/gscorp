@@ -28,7 +28,7 @@ function closeModal() {
 }
 
 async function fetchRoles() {
-  const res = await fetchWithAuth('/private/admin/api/roles');
+  const res = await fetchWithAuth('/api/roles/all');
   if (!res.ok) throw new Error('No se pudieron cargar los roles');
   return res.json(); // [{id, name}]
 }

@@ -1,8 +1,13 @@
 package com.gscorp.dv1.services;
 
+import java.util.List;
+
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gscorp.dv1.repositories.RoleRepository;
+import com.gscorp.dv1.api.dto.RoleDto;
 import com.gscorp.dv1.entities.Role;
 
 import lombok.RequiredArgsConstructor;
@@ -16,6 +21,14 @@ public class RoleService {
     public void saveRole (Role role){
         role.setRole(role.getRole().toUpperCase());
         roleRepository.save(role);
+    }
+
+    @Transactional(readOnly = true)
+    public List<RoleDto> getAllDtos(){
+        return roleRepository.findAll(Sort.by("role").ascending())
+                    .stream()
+                    .map(r -> new RoleDto(r.getId(), r.getRole()))
+                    .toList();
     }
 
 }
