@@ -50,7 +50,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
         final String username;
 
         System.out.println("Solicitud entrante: " + request.getRequestURI());
-        System.out.println("Authorization header: " + authHeader);
+        //System.out.println("Authorization header: " + authHeader);
         
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")){
