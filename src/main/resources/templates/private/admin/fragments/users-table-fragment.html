@@ -11,28 +11,29 @@
                 <tr>
                     <th>ID</th>
                     <th>username</th>
+                    <th>mail</th>
                     <th>role</th>
+                    <th>acciones</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="user : ${users}">
                     <td th:text="${user.id}"></td>
                     <td th:text="${user.username}"></td>
+                    <td th:text="${user.mail}"></td>
 
                     <!-- Tags de roles-->
                     <td>
                         <span class="tag"
                                 th:each="r : ${user.roles}"
                                 th:text="${r.role}">ADMINISTRATOR</span>
-
                         <!-- Mensaje si no tiene roles -->
                         <em th:if="${#lists.isEmpty(user.roles)}" class="muted">Sin roles</em>
                     </td>
 
                     <td class="actions">
-                        <a>Ver</a>
-                        <a>Editar</a>
-                        <button>Eliminar</button>
+                        <a href="#" th:data-path="@{/private/admin/users/show/{id}(id=${user.id})}">Ver</a>
+                        <a href="#" th:data-path="@{/private/admin/users/edit/{id}(id=${user.id})}">Editar</a>
                     </td>
                 </tr>
             </tbody>

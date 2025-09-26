@@ -1,4 +1,4 @@
-package com.gscorp.dv1.repositories;
+package com.gscorp.dv1.users.infrastructure;
 
 import java.util.List;
 import java.util.Optional;

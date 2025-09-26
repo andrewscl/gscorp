@@ -4,13 +4,13 @@ import { navigateTo } from '../navigation-handler.js';
 const qs  = (s) => document.querySelector(s);
 const qsa = (s) => Array.from(document.querySelectorAll(s));
 
+/* --- Modal --- */
 function openModal() {
   const m = qs('#createUserModal');
   if (!m) return;
   m.classList.remove('hidden');
   m.setAttribute('aria-hidden', 'false');
   document.body.classList.add('no-scroll');
-  // focus inicial
   setTimeout(() => qs('#newUsername')?.focus(), 0);
 }
 
@@ -27,10 +27,11 @@ function closeModal() {
   qs('#roleChoices')?.replaceChildren();
 }
 
+/* --- Roles --- */
 async function fetchRoles() {
-  const res = await fetchWithAuth('/api/roles/all');
+  const res = await fetchWithAuth('/api/roles/all'); // deja este endpoint si así está en tu backend
   if (!res.ok) throw new Error('No se pudieron cargar los roles');
-  return res.json(); // [{id, name}]
+  return res.json(); // [{ id, name }]
 }
 
 function renderRoles(roles) {
@@ -48,6 +49,7 @@ function renderRoles(roles) {
   });
 }
 
+/* --- Abrir modal y cargar roles --- */
 async function onClickCreate() {
   try {
     openModal();
@@ -58,6 +60,7 @@ async function onClickCreate() {
   }
 }
 
+/* --- Crear usuario --- */
 async function onSubmitCreate(e) {
   e.preventDefault();
   const username = qs('#newUsername')?.value.trim();
@@ -70,7 +73,7 @@ async function onSubmitCreate(e) {
   ok.style.display = 'none';
 
   try {
-    const res = await fetchWithAuth('/private/admin/api/users', {
+    const res = await fetchWithAuth('/api/users/create', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({ username, password, roleIds })
@@ -91,22 +94,7 @@ async function onSubmitCreate(e) {
   }
 }
 
-function bindDelete() {
-  qsa('.btn-danger[data-user-id]').forEach(btn => {
-    btn.addEventListener('click', async () => {
-      const id = btn.getAttribute('data-user-id');
-      if (!confirm(`¿Eliminar usuario ${id}?`)) return;
-      try {
-        const res = await fetchWithAuth(`/private/admin/api/users/${id}`, { method: 'DELETE' });
-        if (!res.ok) throw new Error('No se pudo eliminar');
-        navigateTo('/private/admin/users');
-      } catch (e) {
-        alert(e.message);
-      }
-    });
-  });
-}
-
+/* --- Bindings --- */
 function bindModal() {
   qs('#createUserBtn')?.addEventListener('click', onClickCreate);
   qs('#closeCreateUser')?.addEventListener('click', closeModal);
@@ -115,7 +103,7 @@ function bindModal() {
   document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') closeModal(); });
 }
 
+/* --- init --- */
 (function init() {
   bindModal();
-  bindDelete();
 })();

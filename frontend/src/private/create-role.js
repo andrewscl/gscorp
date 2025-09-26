@@ -33,7 +33,7 @@ function createRole () {
                 throw new Error(err || "Registro fallido");
             }
 
-            await navigateTo("/private/roles");
+            await navigateTo("/private/admin/roles");
 
         } catch (error) {
             alert ("Error: " + error.message);

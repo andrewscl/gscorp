@@ -1,4 +1,4 @@
-package com.gscorp.dv1.api.dto;
+package com.gscorp.dv1.users.web.dto;
 
 import java.util.Set;
 

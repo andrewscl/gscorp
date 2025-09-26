@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.gscorp.dv1.repositories.ContactRepository;
 import com.gscorp.dv1.repositories.LicitationRepository;
 import com.gscorp.dv1.repositories.RoleRepository;
-import com.gscorp.dv1.repositories.UserRepository;
 import com.gscorp.dv1.services.MpSyncService;
+import com.gscorp.dv1.users.infrastructure.UserRepository;
 
 import lombok.AllArgsConstructor;
 

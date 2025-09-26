@@ -1,4 +1,4 @@
-package com.gscorp.dv1.services;
+package com.gscorp.dv1.users.application;
 
 import java.util.HashSet;
 import java.util.List;
@@ -6,12 +6,13 @@ import java.util.List;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.gscorp.dv1.api.dto.CreateUserRequest;
 import com.gscorp.dv1.entities.Role;
 import com.gscorp.dv1.entities.User;
 import com.gscorp.dv1.repositories.RoleRepository;
-import com.gscorp.dv1.repositories.UserRepository;
+import com.gscorp.dv1.users.infrastructure.UserRepository;
+import com.gscorp.dv1.users.web.dto.CreateUserRequest;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,6 +24,7 @@ public class UserServiceImpl implements UserService{
     private final RoleRepository roleRepo;
     private final PasswordEncoder encoder;
 
+    //Crear usuario
     public Long createUser (CreateUserRequest req){
         if(req.username()==null || req.username().isBlank())
             throw new IllegalArgumentException("username requerido");
@@ -51,5 +53,29 @@ public class UserServiceImpl implements UserService{
         return userRepo.save(u).getId();
         
     }
-    
+
+    //Eliminar usuario
+    @Override
+    @Transactional
+    public void deleteById(Long id) {
+        if (!userRepo.existsById(id)) {
+            throw new IllegalArgumentException("Usuario no encontrado");
+        }
+        try {
+            userRepo.deleteById(id);
+        } catch (DataIntegrityViolationException ex) {
+            throw new IllegalStateException("No se puede eliminar: el usuario tiene referencias");
+        }
+    }
+
+    @Override
+    public List<User> findAll(){
+        return userRepo.findAll();
+    }
+
+    @Override
+    public User findById(Long id){
+        return userRepo.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+    }
 }
