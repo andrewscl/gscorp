@@ -32,7 +32,7 @@
                     </td>
 
                     <td class="actions">
-                        <a href="#" th:data-path="@{/private/admin/users/show/{id}(id=${user.id})}">Ver</a>
+                        <a href="#" data-path="/private/admin/users/show/" + ${user.id}>Ver</a>
                         <a href="#" th:data-path="@{/private/admin/users/edit/{id}(id=${user.id})}">Editar</a>
                     </td>
                 </tr>
