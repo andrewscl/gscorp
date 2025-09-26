@@ -1,4 +1,4 @@
-package com.gscorp.dv1.api.controllers;
+package com.gscorp.dv1.roles.web;
 
 
 import java.util.List;
@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gscorp.dv1.api.dto.RoleDto;
 import com.gscorp.dv1.entities.Role;
-import com.gscorp.dv1.services.RoleService;
+import com.gscorp.dv1.roles.application.RoleService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/roles")
 @RequiredArgsConstructor
-public class RoleController {
+public class RoleRestController {
 
     private final RoleService roleService;
 
