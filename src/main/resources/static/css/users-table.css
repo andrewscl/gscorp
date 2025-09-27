@@ -161,6 +161,7 @@
   font-weight: 500;
 }
 .modal .modal-body .form-group input[type=text],
+.modal .modal-body .form-group input[type=mail],
 .modal .modal-body .form-group input[type=password] {
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 10px;
@@ -169,6 +170,7 @@
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 .modal .modal-body .form-group input[type=text]:focus,
+.modal .modal-body .form-group input[type=mail]:focus,
 .modal .modal-body .form-group input[type=password]:focus {
   outline: none;
   border-color: #2563eb;

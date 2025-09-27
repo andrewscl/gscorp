@@ -193,6 +193,7 @@ $success: #16a34a;  // verde ok
       label { font-weight: 500; }
 
       input[type="text"],
+      input[type="mail"],
       input[type="password"] {
         border: 1px solid rgba(0,0,0,.15);
         border-radius: 10px;
