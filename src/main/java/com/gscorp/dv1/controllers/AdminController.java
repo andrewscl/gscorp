@@ -43,13 +43,13 @@ public class AdminController {
     public String getUsersTableView(Model model) {
         model.addAttribute("users", userRepository.findAll());
         model.addAttribute("roles", roleRepository.findAll());
-        return "private/admin/views/users-table-view";
+        return "private/admin/users/views/users-table-view";
     }
 
     @GetMapping("/roles")
     public String getRolesTableView(Model model) {
         model.addAttribute("roles", roleRepository.findAll());
-        return "private/admin/views/roles-table-view";
+        return "private/admin/roles/views/roles-table-view";
     }
 
     @GetMapping("/contacts")
