@@ -560,7 +560,7 @@ $radius: .5rem !default;
 // ------------------------------
 // Mixin para vistas de detalle (User, Role, etc.)
 // ------------------------------
-@mixin view-section {
+@mixin view-section (){
   padding: 2rem;
   background-color: #fff;
   border-radius: 0.75rem;
