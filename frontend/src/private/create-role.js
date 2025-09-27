@@ -1,85 +1,94 @@
 import { fetchWithAuth } from '../auth.js';
 import { navigateTo } from '../navigation-handler.js';
 
-const $ = (s) => document.querySelector(s);
+console.log("create-role.js cargado");
 
+const qs  = (s) => document.querySelector(s);
+
+/* --- Modal --- */
 function openModal() {
-  const modal = $('#createRoleModal');
-  modal?.classList.remove('hidden');
-  modal?.setAttribute('aria-hidden', 'false');
-  $('#newRole')?.focus();
+  const m = qs('#createRoleModal');
+  if (!m) return;
+  m.classList.remove('hidden');
+  m.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('no-scroll');
+  setTimeout(() => qs('#newRole')?.focus(), 0);
 }
 
 function closeModal() {
-  const modal = $('#createRoleModal');
-  modal?.classList.add('hidden');
-  modal?.setAttribute('aria-hidden', 'true');
-  // limpia mensajes
-  $('#createRoleError').textContent = '';
-  $('#createRoleOk').style.display = 'none';
-  $('#createRoleForm')?.reset();
+  const m = qs('#createRoleModal');
+  if (!m) return;
+  m.classList.add('hidden');
+  m.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('no-scroll');
+
+  qs('#createRoleForm')?.reset();
+  qs('#createRoleError').textContent = '';
+  const ok = qs('#createRoleOk');
+  if (ok) ok.style.display = 'none';
 }
 
-function normalizeRole(value) {
-  // Trim + uppercase con underscores
-  return value.trim().replace(/\s+/g, '_').toUpperCase();
-}
-
-async function createRole(e) {
+/* --- Crear rol --- */
+async function onSubmitCreate(e) {
   e.preventDefault();
-  const errorBox = $('#createRoleError');
-  const okBox = $('#createRoleOk');
-  errorBox.textContent = '';
-  okBox.style.display = 'none';
+  const err = qs('#createRoleError');
+  const ok  = qs('#createRoleOk');
+  if (err) err.textContent = '';
+  if (ok) ok.style.display = 'none';
 
-  let role = $('#newRole')?.value || '';
-  role = normalizeRole(role);
-
+  let role = qs('#newRole')?.value?.trim();
   if (!role) {
-    errorBox.textContent = 'El nombre del rol es obligatorio.';
+    if (err) err.textContent = 'El nombre del rol es obligatorio.';
     return;
   }
 
+  // Opcional: normaliza a MAYÚSCULAS con underscores
+  // role = role.replace(/\s+/g, '_').toUpperCase();
+
   try {
-    const resp = await fetchWithAuth('/api/roles/create', {
+    const res = await fetchWithAuth('/api/roles/create', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ role })
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ role, name: role })
     });
 
-    if (!resp.ok) {
-      const payload = await resp.json().catch(() => ({}));
-      const msg = payload?.message || `Error al crear el rol (HTTP ${resp.status}).`;
-      throw new Error(msg);
+    if (!res.ok) {
+      const msg = await res.text();
+      throw new Error(msg || `No se pudo crear el rol (HTTP ${res.status})`);
     }
 
-    okBox.style.display = 'block';
-
-    // Opcional: cierra rápido y recarga la tabla actual
+    if (ok) ok.style.display = 'block';
     setTimeout(() => {
       closeModal();
-      // vuelve a la vista actual para refrescar lista
-      navigateTo('/private/admin/roles', true);
+      navigateTo('/private/admin/roles'); // refresca listado
     }, 600);
-
-  } catch (err) {
-    errorBox.textContent = err.message || 'No se pudo crear el rol.';
+  } catch (e2) {
+    if (err) err.textContent = e2.message || 'No se pudo crear el rol.';
   }
 }
 
-function wireUp() {
-  $('#createRoleBtn')?.addEventListener('click', openModal);
-  $('#closeCreateRole')?.addEventListener('click', closeModal);
-  $('#cancelCreateRole')?.addEventListener('click', closeModal);
-  $('#createRoleForm')?.addEventListener('submit', createRole);
-
-  // Cerrar al presionar ESC o click fuera del diálogo
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeModal();
+/* --- Bindings --- */
+function bindModal() {
+  qs('#createRoleBtn')?.addEventListener('click', (ev) => {
+    // por si el botón tuviera data-path
+    ev.preventDefault?.();
+    openModal();
   });
-  $('#createRoleModal')?.addEventListener('click', (e) => {
+  qs('#closeCreateRole')?.addEventListener('click', closeModal);
+  qs('#cancelCreateRole')?.addEventListener('click', closeModal);
+  qs('#createRoleForm')?.addEventListener('submit', onSubmitCreate);
+
+  document.addEventListener('keydown', (ev) => {
+    if (ev.key === 'Escape') closeModal();
+  });
+
+  // cerrar al click fuera del diálogo (si tu markup lo permite)
+  qs('#createRoleModal')?.addEventListener('click', (e) => {
     if (e.target?.id === 'createRoleModal') closeModal();
   });
 }
 
-document.addEventListener('DOMContentLoaded', wireUp);
+/* --- init --- */
+(function init() {
+  bindModal();
+})();
