@@ -24,7 +24,7 @@ public class RoleServiceimpl implements RoleService{
     }
 
     @Transactional(readOnly = true)
-    public List<RoleDto> getAllDtos(){
+    public List<RoleDto> getAllRoles(){
         return roleRepository.findAll(Sort.by("role").ascending())
                     .stream()
                     .map(r -> new RoleDto(r.getId(), r.getRole()))

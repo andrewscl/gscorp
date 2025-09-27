@@ -8,5 +8,5 @@ import com.gscorp.dv1.entities.Role;
 public interface RoleService {
     void saveRole (Role role);
     Role findById (Long id);
-    List<RoleDto> getAllDtos();
+    List<RoleDto> getAllRoles();
 }
