@@ -1,5 +1,4 @@
 import { fetchWithAuth } from './auth.js';
-import { setupRouter } from './router.js';
 
     export async function navigateTo(path, force = false) {
 
@@ -45,38 +44,20 @@ import { setupRouter } from './router.js';
         if (!container) 
                 throw new Error("No se encontró el contenedor #content");
 
+        document.dispatchEvent(new CustomEvent('fragment:will-unload', { detail: { path } }));
+
         container.innerHTML = html;
 
-        //Reinsertar scripts embebidos (fragments)
-        const scripts = container.querySelectorAll('script[type="module"]');
-        scripts.forEach(script => {
-            const newScript = document.createElement('script');
-            newScript.type = 'module';
-            if (script.src) {
-                newScript.src = script.src;
-            } else {
-                newScript.textContent = script.textContent;
-            }
-            document.body.appendChild(newScript);
-        });
+        // Ejecuta los módulos embebidos del fragmento de forma controlada
+        await executeFragmentModules(container, path);
+        await maybeLoadExtras(path, container);
 
-        //despacha el evento para hacer scroll
-        const finish = () => {
-            document.dispatchEvent(new CustomEvent('route:loaded', {detail:{path}}));
-        };
-
+        // Actualiza la URL y dispara el evento de ruta cargada
         window.history.pushState({}, '', path);
-        setupRouter();
         console.log(`[navigateTo] Ruta cargada dinámicamente: ${path}`);
-
-        if(path === '/public/contact'){
-            import ('./contact.js')
-                .then(({setupContact}) => {setupContact(); finish();
-                console.log(`[navigateTo] setupContact activado y finish enviado`);})
-                .catch(()=>finish());
-        } else {
-            finish();
-        }
+        
+        // 🔔 Un solo evento para scroll y demás hooks
+        document.dispatchEvent(new CustomEvent('route:loaded', { detail: { path } }));
 
     } catch (err) {
         console.error(`[navigateTo] Error: ${err.message}`);
@@ -105,3 +86,34 @@ async function fetchHtml(path, layout) {
 
     return fetch(url).then(res => res.ok ? res.text() : null);
 }
+
+async function executeFragmentModules(container, path) {
+  const scripts = container.querySelectorAll('script[type="module"]');
+
+  for (const s of scripts) {
+    if (s.src) {
+      // Forzar re-ejecución del módulo usando cache-buster
+      const u = new URL(s.src, location.origin);
+      u.searchParams.set('v', Date.now());
+      const mod = await import(u.href);
+      if (typeof mod.init === 'function') mod.init({ container, path });
+    } else {
+      // Ejecutar módulo inline como Blob (aislado)
+      const blobUrl = URL.createObjectURL(new Blob([s.textContent], { type: 'text/javascript' }));
+      const mod = await import(blobUrl);
+      URL.revokeObjectURL(blobUrl);
+      if (typeof mod.init === 'function') mod.init({ container, path });
+    }
+  }
+}
+
+async function maybeLoadExtras(path, container) {
+  if (path === '/public/contact') {
+    const { setupContact } = await import(`./contact.js?v=${Date.now()}`);
+    if (typeof setupContact === 'function') {
+      await setupContact({ container, path });
+    }
+  }
+  // aquí puedes ir agregando más rutas especiales si hace falta
+}
+
