@@ -4,6 +4,7 @@ import java.util.Set;
 
 public record CreateUserRequest (
     String username,
+    String mail,
     String password,
     Set<Long> roleIds
 ){}
