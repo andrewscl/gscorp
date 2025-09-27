@@ -24,14 +24,14 @@ public class RoleController {
 
     @GetMapping("/show/{id}")
     public String showRole(@PathVariable Long id, Model model){
-        var role = roleService.findById(id);
+        var role = roleService.findByIdWithUsers(id);
         model.addAttribute("role", role);
         return "private/admin/roles/views/view-role-view";
     }
 
     @GetMapping("/edit/{id}")
     public String editRole(@PathVariable Long id, Model model){
-        var role = roleService.findById(id);
+        var role = roleService.findByIdWithUsers(id);
         model.addAttribute("role", role);
         return "private/admin/roles/views/edit-role-view";
     }

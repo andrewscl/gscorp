@@ -37,4 +37,10 @@ public class RoleServiceimpl implements RoleService{
             .orElseThrow(()-> new IllegalArgumentException("Role no encontrado"));
     }
 
+    @Override
+    public Role findByIdWithUsers (Long id){
+        return roleRepository.findByIdWithUsers(id)
+            .orElseThrow(()-> new IllegalArgumentException("Rol no encontrado" + id));
+    }
+
 }
