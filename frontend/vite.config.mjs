@@ -19,6 +19,7 @@ export default defineConfig({
         'chat/chat': path.resolve(__dirname, './src/chat/chat.js'),
         'private/create-role': path.resolve(__dirname, './src/private/create-role.js'),
         'private/create-user': path.resolve(__dirname, './src/private/create-user.js'),
+        'private/admin/users/view-user': path.resolve(__dirname, './src/private/admin/users/view-user.js'),
       },
       output: {
         entryFileNames: '[name].js'

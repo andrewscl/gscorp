@@ -1,3 +1,4 @@
+@charset "UTF-8";
 body {
   font-family: "Roboto", sans-serif;
   font-size: 16px;
@@ -85,7 +86,6 @@ p {
 }
 
 .view-section {
-  /* look & layout (siempre claro) */
   background: #fff;
   color: #0f172a;
   border: 1px solid #e5e7eb;
@@ -94,10 +94,10 @@ p {
   max-width: 820px;
   margin: 0 auto;
   padding: 1.25rem clamp(1rem, 2vw, 2rem);
-  /* filas label/valor con altura uniforme */
-  /* bloque de roles SOLO dentro del card */
-  /* link volver SOLO si es hijo directo */
-  /* responsive */
+  /* Filas label/valor con altura uniforme */
+  /* Bloque de roles (añade class="roles-block" en tu HTML) */
+  /* Acciones (añade class="actions" en tu HTML) */
+  /* Responsive */
 }
 .view-section > h2 {
   margin: 0 0 1rem;
@@ -107,7 +107,7 @@ p {
 }
 .view-section > p {
   display: grid;
-  grid-template-columns: 12rem 1fr;
+  grid-template-columns: 10rem 1fr;
   align-items: center;
   column-gap: 1rem;
   padding: 0.6rem 0;
@@ -131,9 +131,10 @@ p {
 }
 .view-section > .roles-block {
   margin-top: 1rem;
+  margin-bottom: 1.25rem;
   border-top: 1px dashed #e2e8f0;
   padding-top: 1rem;
-  /* chips locales (no afectan tablas) */
+  /* Chips locales (no afectan tablas) */
 }
 .view-section > .roles-block > strong {
   display: block;
@@ -141,7 +142,7 @@ p {
   font-weight: 600;
   color: #334155;
 }
-.view-section > .roles-block .detail-chip, .view-section > .roles-block .tag {
+.view-section > .roles-block .tag {
   display: inline-flex;
   align-items: center;
   height: 2rem;
@@ -159,23 +160,44 @@ p {
   color: #64748b;
   font-size: 0.95rem;
 }
-.view-section > .back-link {
+.view-section > .actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  /* Botones locales dentro de la vista */
+}
+.view-section > .actions .vs-btn, .view-section > .actions .btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-top: 1.25rem;
-  padding: 0.5rem 0.75rem;
-  color: #2563eb;
-  text-decoration: none;
+  justify-content: center;
+  padding: 0.55rem 0.9rem;
+  border-radius: 10px;
   font-weight: 600;
-  border-radius: 8px;
-  transition: background-color 0.18s ease, color 0.18s ease;
+  font-size: 0.95rem;
+  line-height: 1;
+  border: 1px solid transparent;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.06s ease, background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
-.view-section > .back-link:hover {
-  background-color: rgba(37, 99, 235, 0.08);
-}
-.view-section > .back-link:active {
+.view-section > .actions .vs-btn:active, .view-section > .actions .btn:active {
   transform: translateY(0.5px);
+}
+.view-section > .actions .vs-secondary, .view-section > .actions .btn.secondary {
+  background: #f8fafc;
+  color: #1e293b;
+  border-color: #e2e8f0;
+}
+.view-section > .actions .vs-secondary:hover, .view-section > .actions .btn.secondary:hover {
+  background: #eef2f7;
+}
+.view-section > .actions .vs-danger, .view-section > .actions .btn.danger {
+  background: #ef4444;
+  color: #fff;
+}
+.view-section > .actions .vs-danger:hover, .view-section > .actions .btn.danger:hover {
+  background: #dc2626;
 }
 @media (max-width: 640px) {
   .view-section > p {
