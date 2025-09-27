@@ -557,6 +557,89 @@ $radius: .5rem !default;
 
 }
 
+// ------------------------------
+// Mixin para vistas de detalle (User, Role, etc.)
+// ------------------------------
+@mixin view-section {
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  max-width: 700px;
+  margin: 0 auto;
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #1e293b; // slate-800
+    border-bottom: 2px solid #e2e8f0; // slate-200
+    padding-bottom: 0.5rem;
+  }
+
+  p {
+    margin: 0.75rem 0;
+    font-size: 1rem;
+    line-height: 1.5;
+
+    strong {
+      display: inline-block;
+      min-width: 120px;
+      color: #334155; // slate-700
+      font-weight: 600;
+    }
+
+    span {
+      color: #0f172a; // slate-900
+    }
+  }
+
+  div {
+    margin-top: 1.25rem;
+
+    strong {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .tag {
+      display: inline-block;
+      background-color: #e0f2fe; // sky-100
+      color: #0369a1;           // sky-700
+      padding: 0.25rem 0.75rem;
+      margin: 0.25rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      border-radius: 9999px;
+    }
+
+    em {
+      color: #64748b; // slate-500
+      font-size: 0.9rem;
+    }
+  }
+
+  a {
+    display: inline-block;
+    margin-top: 2rem;
+    color: #2563eb; // blue-600
+    text-decoration: none;
+    font-weight: 500;
+    border: 1px solid transparent;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: #2563eb;
+      color: #fff;
+    }
+  }
+}
+
+
 
 
 

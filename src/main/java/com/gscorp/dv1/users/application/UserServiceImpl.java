@@ -35,6 +35,7 @@ public class UserServiceImpl implements UserService{
 
         var u = new User();
         u.setUsername(req.username());
+        u.setMail(req.mail());
         u.setPassword(encoder.encode(req.password()));
         u.setRoles(new HashSet<>());
 
