@@ -1,5 +1,5 @@
-import { fetchWithAuth } from '../auth.js';
-import { navigateTo } from '../navigation-handler.js';
+import { fetchWithAuth } from '../../../auth.js';
+import { navigateTo } from '../../../navigation-handler.js';
 
 console.log("create-user.js cargado");
 
