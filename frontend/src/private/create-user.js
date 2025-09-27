@@ -66,6 +66,7 @@ async function onClickCreate() {
 async function onSubmitCreate(e) {
   e.preventDefault();
   const username = qs('#newUsername')?.value.trim();
+  const mail = qs('#newMail')?.value.trim();
   const password = qs('#newPassword')?.value;
   const roleIds = qsa('input[name="roleId"]:checked').map(i => Number(i.value));
 
@@ -78,7 +79,7 @@ async function onSubmitCreate(e) {
     const res = await fetchWithAuth('/api/users/create', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ username, password, roleIds })
+      body: JSON.stringify({ username, mail, password, roleIds })
     });
 
     if (!res.ok) {
