@@ -5,5 +5,5 @@
 @use '../base/fragment-mixins' as *;
 
 .view-section{
-    @include view-section ($label-width: 160px);
+    @include view-section ($label-width: 12rem);
 }
