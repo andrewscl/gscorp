@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gscorp.dv1.entities.Role;
 import com.gscorp.dv1.entities.User;
-import com.gscorp.dv1.repositories.RoleRepository;
+import com.gscorp.dv1.roles.infrastructure.RoleRepository;
 import com.gscorp.dv1.users.infrastructure.UserRepository;
 import com.gscorp.dv1.users.web.dto.CreateUserRequest;
 

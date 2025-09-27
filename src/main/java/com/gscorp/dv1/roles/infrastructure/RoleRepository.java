@@ -1,4 +1,4 @@
-package com.gscorp.dv1.repositories;
+package com.gscorp.dv1.roles.infrastructure;
 
 import java.util.Optional;
 

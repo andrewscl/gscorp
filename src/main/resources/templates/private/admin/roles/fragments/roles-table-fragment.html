@@ -1,0 +1,66 @@
+<div th:fragment="content">
+
+  <div class="roles-header">
+    <h2>Roles</h2>
+    <button class="btn-primary" id="createRoleBtn">Crear Rol</button>
+  </div>
+
+  <div class="role-table-container">
+    <table class="roles-table">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Role</th>
+          <th>acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="role : ${roles}">
+          <td th:text="${role.id}"></td>
+          <td th:text="${role.role}"></td>
+          <td class="actions">
+            <button type="button"
+                    class="btn-link"
+                    th:attr="data-path=@{/private/admin/roles/show/{id}(id=${role.id})}">
+              Ver
+            </button>
+
+            <button type="button"
+                    class="btn-link"
+                    th:attr="data-path=@{/private/admin/roles/edit/{id}(id=${role.id})}">
+              Editar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal Crear Rol -->
+  <div id="createRoleModal" class="modal hidden" aria-hidden="true" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3>Crear rol</h3>
+        <button type="button" class="modal-close" id="closeCreateRole">&times;</button>
+      </div>
+
+      <form id="createRoleForm" class="modal-body">
+        <div class="form-group">
+          <label for="newRole">Nombre del rol</label>
+          <input type="text" id="newRole" name="role" placeholder="E.g. ADMIN, MANAGER, CLIENT" required />
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn-primary">Crear</button>
+          <button type="button" class="btn-secondary" id="cancelCreateRole">Cancelar</button>
+        </div>
+
+        <div class="form-error" id="createRoleError"></div>
+        <div class="form-ok" id="createRoleOk" style="display:none;">Rol creado ✅</div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="/js/private/create-role.js"></script>
+</div>
+

@@ -6,9 +6,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gscorp.dv1.repositories.RoleRepository;
 import com.gscorp.dv1.api.dto.RoleDto;
 import com.gscorp.dv1.entities.Role;
+import com.gscorp.dv1.roles.infrastructure.RoleRepository;
 
 import lombok.RequiredArgsConstructor;
 
