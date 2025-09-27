@@ -557,85 +557,140 @@ $radius: .5rem !default;
 
 }
 
-// ------------------------------
-// Mixin para vistas de detalle (User, Role, etc.)
-// ------------------------------
-@mixin view-section (){
-  padding: 2rem;
-  background-color: #fff;
-  border-radius: 0.75rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  max-width: 700px;
+// Mixin moderno para vistas de detalle (User / Role / etc.)
+@mixin view-section($label-width: 160px) {
+  /* Tokens */
+  --bg: #ffffff;
+  --fg: #0f172a;   /* slate-900 */
+  --muted: #64748b;/* slate-500 */
+  --line: #e2e8f0; /* slate-200 */
+  --title: #1e293b;/* slate-800 */
+  --brand: #2563eb;/* blue-600 */
+  --badge-bg: #e0f2fe; /* sky-100 */
+  --badge-fg: #0369a1; /* sky-700 */
+
+  padding: 1.75rem clamp(1rem, 2vw, 2rem);
+  background-color: var(--bg);
+  color: var(--fg);
+  border-radius: 14px;
+  box-shadow: 0 6px 24px rgba(15, 23, 42, 0.06);
+  max-width: 820px;
   margin: 0 auto;
 
+  /* Título */
   h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 1.5rem;
-    color: #1e293b; // slate-800
-    border-bottom: 2px solid #e2e8f0; // slate-200
-    padding-bottom: 0.5rem;
+    font-size: clamp(1.25rem, 1.5vw, 1.6rem);
+    font-weight: 700;
+    color: var(--title);
+    margin: 0 0 1rem;
   }
 
-  p {
-    margin: 0.75rem 0;
-    font-size: 1rem;
-    line-height: 1.5;
+  /* Fila label/valor (altura uniforme) */
+  > p {
+    display: grid;
+    grid-template-columns: $label-width 1fr;
+    align-items: center;              /* ← uniforma altura de fila */
+    column-gap: 1rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--line);
+    line-height: 1.35;
+
+    &:last-of-type { border-bottom: 0; }
 
     strong {
-      display: inline-block;
-      min-width: 120px;
-      color: #334155; // slate-700
       font-weight: 600;
+      color: #334155; /* slate-700 */
+      /* asegura ancho fijo y misma base-line */
+      min-height: 1.9rem;
+      display: flex;
+      align-items: center;
     }
 
     span {
-      color: #0f172a; // slate-900
+      color: var(--fg);
+      min-height: 1.9rem;
+      display: flex;
+      align-items: center;
+      word-break: break-word;
     }
   }
 
-  div {
-    margin-top: 1.25rem;
+  /* Bloque de colecciones (roles, etc.) */
+  > div {
+    margin-top: 1rem;
+    border-top: 1px dashed var(--line);
+    padding-top: 1rem;
 
     strong {
       display: block;
-      margin-bottom: 0.5rem;
       font-weight: 600;
       color: #334155;
+      margin-bottom: 0.5rem;
     }
 
+    /* Badges/tags responsivos */
     .tag {
-      display: inline-block;
-      background-color: #e0f2fe; // sky-100
-      color: #0369a1;           // sky-700
-      padding: 0.25rem 0.75rem;
-      margin: 0.25rem;
-      font-size: 0.875rem;
-      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      height: 2rem;                   /* ← altura consistente */
+      padding: 0 0.75rem;
+      margin: 0.25rem 0.4rem 0 0;
       border-radius: 9999px;
+      background: var(--badge-bg);
+      color: var(--badge-fg);
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: .2px;
+      white-space: nowrap;
     }
 
     em {
-      color: #64748b; // slate-500
-      font-size: 0.9rem;
+      color: var(--muted);
+      font-size: 0.95rem;
     }
   }
 
-  a {
-    display: inline-block;
-    margin-top: 2rem;
-    color: #2563eb; // blue-600
+  /* Acción “volver” como botón texto */
+  a[data-path] {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    margin-top: 1.25rem;
+    padding: .5rem 0.75rem;
+    color: var(--brand);
     text-decoration: none;
-    font-weight: 500;
-    border: 1px solid transparent;
-    border-radius: 0.5rem;
-    padding: 0.5rem 1rem;
-    transition: all 0.2s ease;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: background-color .18s ease, color .18s ease;
 
-    &:hover {
-      background-color: #2563eb;
-      color: #fff;
+    &:hover { background-color: rgba(37, 99, 235, .08); }
+    &:active { transform: translateY(0.5px); }
+  }
+
+  /* Responsive: apila label/valor en móvil */
+  @media (max-width: 640px) {
+    > p {
+      grid-template-columns: 1fr;
+      row-gap: .25rem;
+
+      strong { opacity: .85; }
+      span   { padding-left: 0; }
     }
+  }
+
+  /* (Opcional) Dark mode automático */
+  @media (prefers-color-scheme: dark) {
+    --bg: #0b1220;
+    --fg: #e5e7eb;   /* gray-200 */
+    --muted: #94a3b8;/* slate-400 */
+    --line: #1f2937; /* gray-800 */
+    --title: #e2e8f0;/* slate-200 */
+    --badge-bg: #0b3246;
+    --badge-fg: #7dd3fc;
+
+    box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+
+    a[data-path]:hover { background-color: rgba(37, 99, 235, .18); }
   }
 }
 
