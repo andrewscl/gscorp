@@ -559,7 +559,7 @@ $radius: .5rem !default;
 
 // Mixin para vista de detalle (Usuario / Rol)
 // Uso: .view-section { @include view-section-detail(10rem); }
-@mixin view-section($label-width: 10rem) {
+@mixin detail-section($label-width: 10rem) {
   & {
     background: #fff;
     color: #0f172a;                // slate-900
@@ -636,7 +636,7 @@ $radius: .5rem !default;
       display: flex;
       flex-wrap: wrap;
       gap: .75rem;
-      margin-top: .5rem;
+      margin-top: 1rem;
 
       /* Botones locales dentro de la vista */
       .vs-btn, .btn {
