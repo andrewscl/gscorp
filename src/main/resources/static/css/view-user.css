@@ -85,7 +85,7 @@ p {
   margin-bottom: 1.5rem;
 }
 
-.view-section {
+.detail-section {
   background: #fff;
   color: #0f172a;
   border: 1px solid #e5e7eb;
@@ -99,13 +99,13 @@ p {
   /* Acciones (añade class="actions" en tu HTML) */
   /* Responsive */
 }
-.view-section > h2 {
+.detail-section > h2 {
   margin: 0 0 1rem;
   font-size: clamp(1.25rem, 1.5vw, 1.6rem);
   font-weight: 700;
   color: #1e293b;
 }
-.view-section > p {
+.detail-section > p {
   display: grid;
   grid-template-columns: 10rem 1fr;
   align-items: center;
@@ -113,36 +113,36 @@ p {
   padding: 0.6rem 0;
   border-bottom: 1px solid #e2e8f0;
 }
-.view-section > p:last-of-type {
+.detail-section > p:last-of-type {
   border-bottom: 0;
 }
-.view-section > p > strong, .view-section > p > span {
+.detail-section > p > strong, .detail-section > p > span {
   min-height: 1.9rem;
   display: flex;
   align-items: center;
 }
-.view-section > p > strong {
+.detail-section > p > strong {
   color: #334155;
   font-weight: 600;
 }
-.view-section > p > span {
+.detail-section > p > span {
   color: #0f172a;
   word-break: break-word;
 }
-.view-section > .roles-block {
+.detail-section > .roles-block {
   margin-top: 1rem;
   margin-bottom: 1.25rem;
   border-top: 1px dashed #e2e8f0;
   padding-top: 1rem;
   /* Chips locales (no afectan tablas) */
 }
-.view-section > .roles-block > strong {
+.detail-section > .roles-block > strong {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 600;
   color: #334155;
 }
-.view-section > .roles-block .tag {
+.detail-section > .roles-block .tag {
   display: inline-flex;
   align-items: center;
   height: 2rem;
@@ -156,18 +156,18 @@ p {
   letter-spacing: 0.2px;
   white-space: nowrap;
 }
-.view-section > .roles-block em {
+.detail-section > .roles-block em {
   color: #64748b;
   font-size: 0.95rem;
 }
-.view-section > .actions {
+.detail-section > .actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   /* Botones locales dentro de la vista */
 }
-.view-section > .actions .vs-btn, .view-section > .actions .btn {
+.detail-section > .actions .vs-btn, .detail-section > .actions .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -181,26 +181,26 @@ p {
   cursor: pointer;
   transition: transform 0.06s ease, background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
-.view-section > .actions .vs-btn:active, .view-section > .actions .btn:active {
+.detail-section > .actions .vs-btn:active, .detail-section > .actions .btn:active {
   transform: translateY(0.5px);
 }
-.view-section > .actions .vs-secondary, .view-section > .actions .btn.secondary {
+.detail-section > .actions .vs-secondary, .detail-section > .actions .btn.secondary {
   background: #f8fafc;
   color: #1e293b;
   border-color: #e2e8f0;
 }
-.view-section > .actions .vs-secondary:hover, .view-section > .actions .btn.secondary:hover {
+.detail-section > .actions .vs-secondary:hover, .detail-section > .actions .btn.secondary:hover {
   background: #eef2f7;
 }
-.view-section > .actions .vs-danger, .view-section > .actions .btn.danger {
+.detail-section > .actions .vs-danger, .detail-section > .actions .btn.danger {
   background: #ef4444;
   color: #fff;
 }
-.view-section > .actions .vs-danger:hover, .view-section > .actions .btn.danger:hover {
+.detail-section > .actions .vs-danger:hover, .detail-section > .actions .btn.danger:hover {
   background: #dc2626;
 }
 @media (max-width: 640px) {
-  .view-section > p {
+  .detail-section > p {
     grid-template-columns: 1fr;
     row-gap: 0.25rem;
   }
