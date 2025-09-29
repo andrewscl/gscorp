@@ -1,0 +1,45 @@
+<div th:fragment="sidebar">
+    <div id="logo-container" class="logo-container">
+        <img id="logo" class="logo" th:src="@{/img/logo-sin-nombre.png}" alt="Logo" />
+    </div>
+
+    <nav class="menu">
+        <a class="menu-item">Inicio</a>
+        <details class="menu-group">
+            <summary class="menu-item">Comercial</summary>
+            <div class="submenu">
+                <a class="submenu-item" href="#"
+                    data-path="">Contactos</a>
+                <a class="submenu-item" href="#"
+                    data-path="">Prospectos</a>
+            </div>
+        </details>
+        <details class="menu-group">
+            <summary class="menu-item">Licitaciones</summary>
+            <div class="submenu">
+
+                <a class="submenu-item" href="#"
+                    data-path="">En proceso</a>
+                <a class="submenu-item">-</a>
+
+                <a class="submenu-item" href="#"
+                    data-path="/private/mp-licitations">Licitaciones MP</a>
+                <a class="submenu-item">-</a>
+
+
+
+            </div>
+        </details>
+        <a class="menu-item" href="#"
+                    data-path="/public/home">GSCorp</a>
+    </nav>
+    <button class="toggle-sidebar" id="toggleSidebar">☰</button>
+</div>
+
+<div th:fragment="topbar">
+    <h1 class="title">Operaciones</h1>
+    <div class="user-actions">
+        <span class="user-name">operaciones</span>
+        <a class="logout-btn">Cerrar sesión</a>
+    </div>
+</div>

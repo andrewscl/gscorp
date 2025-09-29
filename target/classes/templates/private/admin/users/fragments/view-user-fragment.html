@@ -1,0 +1,20 @@
+<section th:fragment="content" class="detail-section">
+  <h2>Usuario</h2>
+
+  <p><strong>ID:</strong> <span th:text="${user.id}"></span></p>
+  <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
+  <p><strong>Mail:</strong> <span th:text="${user.mail}"></span></p>
+
+  <div class="roles-block">
+    <strong>Roles:</strong>
+    <span th:each="r : ${user.roles}" th:text="${r.role}" class="tag"></span>
+    <em th:if="${#lists.isEmpty(user.roles)}">Sin roles</em>
+  </div>
+
+  <div class="actions">
+    <a class="vs-btn vs-secondary"
+        href="#" data-path="/private/admin/users">
+          Volver al listado</a>
+  </div>
+
+</section>

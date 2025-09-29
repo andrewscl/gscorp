@@ -1,0 +1,63 @@
+@use '../base/mixins' as *;
+@use '../base/variables' as *;
+@use '../base/palette' as *;
+@use '../base/typography' as *;
+@use '../base/fragment-mixins' as *;
+
+.clean-image{
+  @include parcial-image (
+    $height: 80vh,
+    $width: 100vw);
+}
+
+.text-container-big {
+    @include text-container-big ();
+    h1 {
+      margin: 0 0 1.5rem 0;
+    }
+}
+
+.text-image-right{
+    @include text-image(
+    $bg-color: $cool-gray-700,
+    $height: 60vh,
+    $text-width: 40%,
+    $image-width: 60%,
+    $text-color: white,
+    $padding-image: 0,
+    $border-radius: 0,
+    $orden-text: 1,
+    $order-image:2,
+    /* --- Móvil --- */
+    $stack-bp: 768px,     // breakpoint para apilar
+    $m-text-width: 100%,  // ancho del texto en móviles
+    $m-image-width: 100%, // ancho imagen en móvil
+    $m-gap: 1rem,         // separación vertical en móvil
+    $m-padding-x: 5vw,
+    $m-aspect: 1.7777778
+  );
+}
+
+.text-container-medium {
+    @include text-container (
+  $maxw: 72rem,
+  $gutter-desktop: clamp(24px, 6vw, 80px),   //padding lateral desktop
+  $gutter-mobile: clamp(16px, 5vw, 40px),    //padding lateral movil
+  $stack-bp: 768px
+  );
+}
+
+.servicios-aseo {
+    @include column-layout-img(
+  $columns: 3,                 // 4 columnas en desktop
+  $gap: 2rem,
+  $padding: 3rem 6vw,
+  $background-color: white,
+  // Imagen
+  $img-fit: cover,           // logos → contain; fotos → cover
+  $img-radius: .5rem,
+  // Breakpoints
+  $bp-tablet: 1024px,
+  $bp-mobile: 768px
+  );
+}

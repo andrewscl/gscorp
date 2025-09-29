@@ -1,0 +1,97 @@
+<div th:fragment="content">
+
+    <div class="users-header">
+        <h2>Usuarios</h2>
+        <button class="btn-primary" id="createUserBtn">Crear Usuario</button>
+    </div>
+
+    <div class="user-table-container">
+        <table class="users-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>username</th>
+                    <th>mail</th>
+                    <th>role</th>
+                    <th>acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.username}"></td>
+                    <td th:text="${user.mail}"></td>
+
+                    <!-- Tags de roles-->
+                    <td>
+                        <span class="tag"
+                                th:each="r : ${user.roles}"
+                                th:text="${r.role}">ADMINISTRATOR</span>
+                        <!-- Mensaje si no tiene roles -->
+                        <em th:if="${#lists.isEmpty(user.roles)}" class="muted">Sin roles</em>
+                    </td>
+
+                    <td class="actions">
+                        <button type="button"
+                                class="btn-link"
+                                th:attr="data-path=@{/private/admin/users/show/{id}(id=${user.id})}">
+                            Ver
+                        </button>
+
+                        <button type="button"
+                                class="btn-link"
+                                th:attr="data-path=@{/private/admin/users/edit/{id}(id=${user.id})}">
+                            Editar
+                        </button>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal Crear Usuario -->
+    <div id="createUserModal" class="modal hidden" aria-hidden="true" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-header">
+        <h3>Crear usuario</h3>
+        <button type="button" class="modal-close" id="closeCreateUser">&times;</button>
+        </div>
+
+        <form id="createUserForm" class="modal-body">
+        <div class="form-group">
+            <label for="newUsername">Nombre de usuario</label>
+            <input type="text" id="newUsername" name="username" required />
+        </div>
+
+        <div class="form-group">
+            <label for="newMail">Mail</label>
+            <input type="mail" id="newMail" name="mail" />
+        </div>
+
+        <div class="form-group">
+            <label for="newPassword">Contraseña</label>
+            <input type="password" id="newPassword" name="password" required />
+        </div>
+
+        <div class="form-group">
+            <label>Roles</label>
+            <div id="roleChoices"><!-- JS insertará checkboxes --></div>
+            <small>Si no seleccionas ninguno, se asignará <strong>CLIENT</strong> por defecto.</small>
+        </div>
+
+        <div class="modal-footer">
+            <button type="submit" class="btn-primary">Crear</button>
+            <button type="button" class="btn-secondary" id="cancelCreateUser">Cancelar</button>
+        </div>
+
+        <div class="form-error" id="createUserError"></div>
+        <div class="form-ok" id="createUserOk" style="display:none;">Usuario creado ✅</div>
+        </form>
+    </div>
+    </div>
+
+    <script type="module" src="/js/private/admin/users/create-user.js"></script>
+
+</div>
+

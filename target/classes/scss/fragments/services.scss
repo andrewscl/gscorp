@@ -1,0 +1,54 @@
+@use '../base/mixins' as *;
+@use '../base/variables' as *;
+@use '../base/palette' as *;
+@use '../base/typography' as *;
+@use '../base/fragment-mixins' as *;
+
+.services-image{
+  @include parcial-image (
+    $height: 80vh,
+    $width: 100vw);
+}
+
+.text-container-big {
+    @include text-container-big ();
+    h1 {
+      margin: 0 0 1.5rem 0;
+    }
+}
+
+.text-image-left{
+    @include text-image(
+    $bg-color: $cool-gray-700,
+    $height: 60vh,
+    $text-width: 40%,
+    $image-width: 60%,
+    $text-color: white,
+    $orden-text: 1,
+    $order-image:2
+  )
+}
+
+.servicios{
+  @include column-layout-img(
+  $columns: 3,                 // 4 columnas en desktop
+  $gap: 2rem,
+  $padding: 3rem 6vw,
+  $background-color: white,
+  // Imagen
+  $img-fit: cover,           // logos → contain; fotos → cover
+  $img-radius: .5rem,
+  // Breakpoints
+  $bp-tablet: 1024px,
+  $bp-mobile: 768px
+  );
+  .column{
+    h4{
+      &:hover{
+        cursor: pointer;
+        color: $accent-blue;
+      }
+    }
+  }
+
+}

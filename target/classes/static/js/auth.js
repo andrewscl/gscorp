@@ -1,0 +1,1 @@
+async function a(t,e={}){const o=localStorage.getItem("jwt");if(console.log("Enviando solicitud protegida con token:"),!o)throw new Error("No token found");const n={...e.headers,Authorization:`Bearer ${o}`};return await fetch(t,{...e,headers:n})}export{a as f};
