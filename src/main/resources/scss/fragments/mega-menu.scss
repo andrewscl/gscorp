@@ -264,3 +264,12 @@ $background-transparent: transparent;
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+/* Rotar flecha cuando el submenú está abierto (móvil) */
+@media (max-width: 768px) {
+  .nav-item.open-sub > a .arrow-icon { transform: rotate(180deg); }
+}
+
+/* Por si algún <a> padre no tiene href, aseguramos cursor */
+.nav-item.has-mega-menu > a { cursor: pointer; }
+
