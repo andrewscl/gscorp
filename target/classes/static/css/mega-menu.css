@@ -348,17 +348,19 @@ p {
     box-sizing: border-box;
     width: 100%;
     max-width: 100%;
-    padding: 0 2rem;
+    padding-inline: clamp(12px, 4vw, 24px); /* evita sumar > 100% */
     gap: 0.25rem;
     height: auto;
     max-height: calc(100dvh - var(--nav-h));
     overflow-y: auto;
+    overflow-x: hidden; /* 👈 corta desborde lateral */
     background-color: #fff;
     display: none;
     z-index: 999; /* por debajo de la barra (1000) */
     flex-direction: column;
-    /* En móvil, el mega-panel interno no flota ni ocupa toda la pantalla */
-    /* 👇 FIX: cuando el <li> tiene .open-sub, abrir el mega-menú en móvil */
+    -webkit-overflow-scrolling: touch;
+    /* Mega-panel interno en modo columna y sin anchos duros */
+    /* 👇 Abrir mega-menú cuando el <li> tiene .open-sub */
   }
   .navbar .mega-menu-content #nav-links.open {
     display: flex;
@@ -367,21 +369,48 @@ p {
     color: #1e293b;
     height: auto;
     padding-block: 0.6rem;
+    white-space: normal;
+    overflow-wrap: anywhere; /* corta textos largos */
   }
   .navbar .mega-menu-content #nav-links .mega-menu {
     position: static;
+    box-sizing: border-box;
     width: 100%;
+    max-width: 100%;
     min-height: unset;
-    padding: 0.75rem 0;
+    padding: 0.5rem 0;
     background-color: transparent;
     border: none;
     display: none; /* cerrado por defecto */
+    flex-direction: column; /* 👈 apilar columnas */
+    align-items: stretch;
+    gap: 0.5rem;
+    overflow-x: hidden;
+    /* Contenido responsivo */
+  }
+  .navbar .mega-menu-content #nav-links .mega-menu .mega-column {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.25rem 0; /* sin padding lateral en móvil */
+    row-gap: 0.25rem;
+    /* si alguna variante usa grid con widths fijos, puedes forzar:
+       // display: block;
+    */
+  }
+  .navbar .mega-menu-content #nav-links .mega-menu img, .navbar .mega-menu-content #nav-links .mega-menu iframe {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+  .navbar .mega-menu-content #nav-links .mega-menu .h2 {
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
   .navbar .mega-menu-content #nav-links .nav-item.open-sub > .mega-menu {
     display: flex;
   }
   /* En móvil NO abrir por hover (solo por toque/clase) */
-  /* Si activas submenús por toque, se mostrarán con esta clase (fallback genérico) */
+  /* Fallback genérico por si algo queda fuera del selector anterior */
 }
 @media (max-width: 768px) and (hover: none) {
   .nav-item:hover .mega-menu {
@@ -393,6 +422,7 @@ p {
     display: flex;
   }
 }
+/* (Mantén) Animación de entrada para dropdown */
 /* Animación de entrada para dropdown */
 @keyframes fadeInDown {
   from {
@@ -403,14 +433,4 @@ p {
     opacity: 1;
     transform: translateY(0);
   }
-}
-/* Rotar flecha cuando el submenú está abierto (móvil) */
-@media (max-width: 768px) {
-  .nav-item.open-sub > a .arrow-icon {
-    transform: rotate(180deg);
-  }
-}
-/* Por si algún <a> padre no tiene href, aseguramos cursor */
-.nav-item.has-mega-menu > a {
-  cursor: pointer;
 }/*# sourceMappingURL=mega-menu.css.map */
