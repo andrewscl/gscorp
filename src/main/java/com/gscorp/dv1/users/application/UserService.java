@@ -2,7 +2,7 @@ package com.gscorp.dv1.users.application;
 
 import java.util.List;
 
-import com.gscorp.dv1.entities.User;
+import com.gscorp.dv1.users.infrastructure.User;
 import com.gscorp.dv1.users.web.dto.CreateUserRequest;
 
 public interface UserService {

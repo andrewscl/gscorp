@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gscorp.dv1.auth.AuthRequest;
 import com.gscorp.dv1.auth.AuthResponse;
-import com.gscorp.dv1.entities.User;
 import com.gscorp.dv1.services.SignInService;
 import com.gscorp.dv1.services.SignUpService;
+import com.gscorp.dv1.users.infrastructure.User;
 
 import lombok.RequiredArgsConstructor;
 

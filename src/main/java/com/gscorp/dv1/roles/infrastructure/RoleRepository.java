@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.gscorp.dv1.entities.Role;
+import com.gscorp.dv1.roles.infrastructure.Role;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {

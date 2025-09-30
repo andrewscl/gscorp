@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.gscorp.dv1.security.SecurityUser;
+import com.gscorp.dv1.users.infrastructure.User;
 import com.gscorp.dv1.users.infrastructure.UserRepository;
-import com.gscorp.dv1.entities.User;
 
 import lombok.RequiredArgsConstructor;
 

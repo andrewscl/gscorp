@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.gscorp.dv1.entities.User;
+import com.gscorp.dv1.users.infrastructure.User;
 
 import lombok.AllArgsConstructor;
 
