@@ -6,11 +6,20 @@ export function setupMegamenu () {
   const navbar = document.getElementById("navbar");
   const btn    = document.getElementById("menu-toggle");
   const links  = document.getElementById("nav-links");
-  if (!navbar) return;
+  if (!navbar || !links) return;
 
   const isMobile = () => window.matchMedia("(max-width: 768px)").matches;
 
-  // Fondo transparente/solid al hacer scroll
+  // --- 0) Altura real del navbar -> CSS var (px exactos)
+  function updateNavHeightVar() {
+    const h = navbar.offsetHeight || 0;
+    document.documentElement.style.setProperty("--nav-h-px", h + "px");
+  }
+  updateNavHeightVar();
+  window.addEventListener("resize", updateNavHeightVar);
+  window.addEventListener("orientationchange", updateNavHeightVar);
+
+  // --- 1) Estado transparente/solid en scroll
   let lastScrolled = false;
   const onScroll = () => {
     const scrolled = window.scrollY > 60;
@@ -23,107 +32,82 @@ export function setupMegamenu () {
   window.addEventListener("scroll", onScroll);
   onScroll();
 
-  // Utilidades submenús
-  const parentAnchors = Array.from(document.querySelectorAll(".nav-item.has-mega-menu > a"));
-  const closeAllSubmenus = (exceptLi) => {
-    document.querySelectorAll(".nav-item.has-mega-menu.open-sub").forEach(li => {
-      if (li !== exceptLi) {
-        li.classList.remove("open-sub");
-        const a = li.querySelector(":scope > a");
-        a?.setAttribute("aria-expanded", "false");
-      }
-    });
+  // --- 2) Hamburguesa
+  btn?.setAttribute("aria-controls", "nav-links");
+  btn?.setAttribute("aria-expanded", "false");
+  btn?.setAttribute("aria-label", "Abrir menú");
+
+  const openMenu = () => {
+    links.classList.add("open");
+    btn?.classList.add("is-open");
+    btn?.setAttribute("aria-expanded", "true");
+    btn?.setAttribute("aria-label", "Cerrar menú");
+    document.documentElement.classList.add("no-scroll");
   };
-
-  // Toggle contenedor móvil (hamburguesa)
-  let close; // definimos close antes para usarla abajo
-  if (btn && links) {
-    btn.setAttribute("aria-controls", "nav-links");
-    btn.setAttribute("aria-expanded", "false");
-    btn.setAttribute("aria-label", "Abrir menú");
-
-    const open = () => {
-      links.classList.add("open");
-      btn.classList.add("is-open");
-      btn.setAttribute("aria-expanded", "true");
-      btn.setAttribute("aria-label", "Cerrar menú");
-      document.documentElement.classList.add("no-scroll");
-    };
-
-    close = () => {
-      links.classList.remove("open");
-      btn.classList.remove("is-open");
-      btn.setAttribute("aria-expanded", "false");
-      btn.setAttribute("aria-label", "Abrir menú");
-      document.documentElement.classList.remove("no-scroll");
-      closeAllSubmenus(); // <- cierra submenús también
-    };
-
-    const toggle = () => (links.classList.contains("open") ? close() : open());
-    btn.addEventListener("click", toggle);
-
-    // Cerrar al navegar, pero NO si el click fue en el <a> PADRE de un mega-menu en móvil
-    links.addEventListener("click", (e) => {
-      const a = e.target.closest("a");
-      if (!a) return;
-
-      const li = a.closest(".nav-item.has-mega-menu");
-      const isParentMega = li && li.querySelector(":scope > a") === a;
-
-      if (isMobile() && isParentMega) {
-        // lo maneja el toggler de submenú (abajo)
-        e.preventDefault();
-        return;
-      }
-
-      // si es SPA, evitar el salto a '#'
-      if (a.hasAttribute("data-path")) e.preventDefault();
-      close();
-    });
-
-    // Click fuera del navbar cierra todo
-    document.addEventListener("click", (e) => {
-      if (!links.classList.contains("open")) return;
-      if (e.target.closest("#navbar")) return;
-      close();
-    });
-
-    document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
-    window.addEventListener("resize", () => { if (!isMobile()) close(); });
-    window.addEventListener("popstate", close);
-  }
-
-  // === Submenús (móvil): el <a> padre actúa como botón ===
-  parentAnchors.forEach(a => {
-    a.setAttribute("aria-haspopup", "true");
-    a.setAttribute("aria-expanded", "false");
-
-    a.addEventListener("click", (e) => {
-      if (!isMobile()) return; // en desktop manda el hover
-      e.preventDefault();
-      const li = a.closest(".nav-item.has-mega-menu");
-      const willOpen = !li.classList.contains("open-sub");
-      closeAllSubmenus(li);
-      li.classList.toggle("open-sub", willOpen);
-      a.setAttribute("aria-expanded", String(willOpen));
-    });
-
-    // Accesibilidad teclado en móvil
-    a.addEventListener("keydown", (e) => {
-      if (!isMobile()) return;
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        a.click();
-      }
-    });
+  const closeMenu = () => {
+    links.classList.remove("open");
+    btn?.classList.remove("is-open");
+    btn?.setAttribute("aria-expanded", "false");
+    btn?.setAttribute("aria-label", "Abrir menú");
+    document.documentElement.classList.remove("no-scroll");
+    // cierra todos los submenús
+    links.querySelectorAll(".nav-item.has-mega-menu.open-sub")
+         .forEach(li => li.classList.remove("open-sub"));
+  };
+  btn?.addEventListener("click", () => {
+    links.classList.contains("open") ? closeMenu() : openMenu();
   });
 
-  // Exponer por si lo necesitas
-  window.setupMegamenu = setupMegamenu;
+  // --- 3) Delegación de clicks (sobrevive a cambios SPA)
+  links.addEventListener("click", (e) => {
+    const a = e.target.closest("a");
+    if (!a) return;
+
+    const li = a.closest(".nav-item.has-mega-menu");
+    const isParentOfMega = li && li.querySelector(":scope > a") === a;
+
+    if (isMobile() && isParentOfMega) {
+      // acordeón en móvil: abre uno y cierra los demás
+      e.preventDefault();
+      const willOpen = !li.classList.contains("open-sub");
+      links.querySelectorAll(".nav-item.has-mega-menu.open-sub")
+           .forEach(other => { if (other !== li) other.classList.remove("open-sub"); });
+      li.classList.toggle("open-sub", willOpen);
+      return; // NO cerrar el panel en este click
+    }
+
+    // cualquier enlace interno (item del mega) => cierra todo el panel
+    if (a.closest(".mega-menu")) {
+      // si usas router SPA y data-path:
+      if (a.hasAttribute("data-path")) e.preventDefault();
+      closeMenu();
+      // opcional: desplaza al top para que no tape el título
+      window.scrollTo({ top: 0 });
+      return;
+    }
+
+    // enlaces simples (sin mega) también cierran el panel
+    if (a.hasAttribute("data-path")) {
+      e.preventDefault();
+      closeMenu();
+      // aquí llamarías a navigateTo(a.dataset.path)
+    } else {
+      closeMenu();
+    }
+  });
+
+  // --- 4) Cierre por click fuera / Escape / navegación
+  document.addEventListener("click", (e) => {
+    if (!links.classList.contains("open")) return;
+    if (e.target.closest("#navbar")) return;
+    closeMenu();
+  });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeMenu(); });
+  window.addEventListener("popstate", closeMenu);
 }
 
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", () => setupMegamenu());
+  document.addEventListener("DOMContentLoaded", setupMegamenu);
 } else {
   setupMegamenu();
 }
