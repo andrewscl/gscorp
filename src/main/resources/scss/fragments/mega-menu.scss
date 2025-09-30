@@ -247,6 +247,9 @@ $background-transparent: transparent;
         border: none;
         display: none; /* cerrado por defecto */
       }
+
+      /* 👇 FIX: cuando el <li> tiene .open-sub, abrir el mega-menú en móvil */
+      .nav-item.open-sub > .mega-menu { display: flex; }
     }
   }
 
@@ -255,7 +258,7 @@ $background-transparent: transparent;
     .nav-item:hover .mega-menu { display: none; }
   }
 
-  /* Si activas submenús por toque, se mostrarán con esta clase */
+  /* Si activas submenús por toque, se mostrarán con esta clase (fallback genérico) */
   .nav-item.open-sub .mega-menu { display: flex; }
 }
 
@@ -272,4 +275,5 @@ $background-transparent: transparent;
 
 /* Por si algún <a> padre no tiene href, aseguramos cursor */
 .nav-item.has-mega-menu > a { cursor: pointer; }
+
 

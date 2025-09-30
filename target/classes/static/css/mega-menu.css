@@ -358,6 +358,7 @@ p {
     z-index: 999; /* por debajo de la barra (1000) */
     flex-direction: column;
     /* En móvil, el mega-panel interno no flota ni ocupa toda la pantalla */
+    /* 👇 FIX: cuando el <li> tiene .open-sub, abrir el mega-menú en móvil */
   }
   .navbar .mega-menu-content #nav-links.open {
     display: flex;
@@ -376,8 +377,11 @@ p {
     border: none;
     display: none; /* cerrado por defecto */
   }
+  .navbar .mega-menu-content #nav-links .nav-item.open-sub > .mega-menu {
+    display: flex;
+  }
   /* En móvil NO abrir por hover (solo por toque/clase) */
-  /* Si activas submenús por toque, se mostrarán con esta clase */
+  /* Si activas submenús por toque, se mostrarán con esta clase (fallback genérico) */
 }
 @media (max-width: 768px) and (hover: none) {
   .nav-item:hover .mega-menu {
