@@ -204,6 +204,11 @@ $background-transparent: transparent;
 @media (max-width: 768px) {
   html.no-scroll { overflow: hidden; }
 
+  /* Compensación de header fijo para cualquier scroll (hash/scrollIntoView) */
+  html { scroll-padding-top: calc(var(--nav-h) + 12px); }
+  :target,
+  :where(h1, h2, h3)[id] { scroll-margin-top: calc(var(--nav-h) + 12px); }
+
   .navbar { flex-wrap: wrap; }
 
   .navbar .mega-menu-content {
@@ -211,9 +216,9 @@ $background-transparent: transparent;
 
     /* Panel móvil: fijo debajo de la barra, con scroll propio */
     #nav-links {
-      /* Vars reutilizables para full-bleed y alturas táctiles */
+      /* Vars para full-bleed y alturas táctiles */
       --panel-pad: clamp(12px, 4vw, 24px);
-      --tap-h: 52px;         /* ajusta a 48–56 según gusto */
+      --tap-h: 52px;
       --row-pad-x: 12px;
 
       position: fixed;
@@ -223,38 +228,38 @@ $background-transparent: transparent;
       box-sizing: border-box;
       width: 100%;
       max-width: 100%;
-      padding-inline: var(--panel-pad); /* evita sumar > 100% */
+      padding-inline: var(--panel-pad);
       gap: .25rem;
       height: auto;
       max-height: calc(100dvh - var(--nav-h));
       overflow-y: auto;
-      overflow-x: hidden; /* 👈 corta desborde lateral */
+      overflow-x: hidden;
       background-color: #fff;
       display: none;
-      z-index: 999; /* por debajo de la barra (1000) */
+      z-index: 999; /* navbar está en 1000 */
       flex-direction: column;
       -webkit-overflow-scrolling: touch;
 
       &.open { display: flex; }
 
-      /* ===== Layout vertical del item en móvil (título arriba, panel abajo) ===== */
+      /* ===== Layout vertical del item: título arriba, panel abajo ===== */
       .nav-item {
-        display: block;       /* ← sobrescribe el flex de desktop */
+        display: block; /* sobrescribe flex de desktop */
         height: auto;
         align-items: stretch;
-        &.has-mega-menu { border-bottom: 1px solid rgba(0,0,0,.06); } /* separador sutil */
+
+        &.has-mega-menu { border-bottom: 1px solid rgba(0,0,0,.06); }
       }
 
-      /* Título (anchor padre): alto táctil + full-bleed */
+      /* Título (anchor padre) full-bleed + alto táctil */
       > .nav-item > a {
         display: flex;
         width: 100%;
         align-items: center;
-        justify-content: space-between; /* texto izq, flecha der */
+        justify-content: space-between;
         min-height: var(--tap-h);
         padding-block: 10px;
-        /* FULL-BLEED: expandir el renglón hasta bordes de pantalla */
-        margin-inline: calc(-1 * var(--panel-pad));
+        margin-inline: calc(-1 * var(--panel-pad)); /* full-bleed */
         padding-inline: calc(var(--panel-pad) + var(--row-pad-x));
         background: transparent;
         border-radius: 0;
@@ -266,11 +271,9 @@ $background-transparent: transparent;
       }
 
       /* Panel del mega-menú debajo del título */
-      > .nav-item > .mega-menu {
-        margin-top: .25rem;   /* separación visual bajo el título */
-      }
+      > .nav-item > .mega-menu { margin-top: .25rem; }
 
-      /* Mega-panel interno en modo columna y sin anchos duros */
+      /* Mega-panel interno en columna y sin anchos duros */
       .mega-menu {
         position: static;
         box-sizing: border-box;
@@ -281,7 +284,7 @@ $background-transparent: transparent;
         background-color: transparent;
         border: none;
         display: none;              /* cerrado por defecto */
-        flex-direction: column;     /* 👈 apilar columnas */
+        flex-direction: column;     /* apilar columnas */
         align-items: stretch;
         gap: 0;                     /* filas contiguas tipo lista */
         overflow-x: hidden;
@@ -293,15 +296,14 @@ $background-transparent: transparent;
           row-gap: .25rem;
         }
 
-        /* Cada opción interna: alto táctil + full-bleed */
+        /* Opciones internas: alto táctil + full-bleed */
         a {
           display: flex;
           align-items: center;
           width: 100%;
           min-height: var(--tap-h);
           padding-block: 12px;
-          /* FULL-BLEED en opciones internas */
-          margin-inline: calc(-1 * var(--panel-pad));
+          margin-inline: calc(-1 * var(--panel-pad)); /* full-bleed */
           padding-inline: calc(var(--panel-pad) + var(--row-pad-x));
           white-space: normal;
           overflow-wrap: anywhere;
@@ -309,11 +311,11 @@ $background-transparent: transparent;
           color: $primary-color;
           border-bottom: 1px solid rgba(0,0,0,.06);
 
-          &:hover   { background: rgba(0,0,0,.03); }
-          &:active  { background: rgba(0,0,0,.06); }
+          &:hover  { background: rgba(0,0,0,.03); }
+          &:active { background: rgba(0,0,0,.06); }
         }
 
-        /* Encabezados dentro del mega (por ejemplo .h2) */
+        /* Encabezados dentro del mega */
         .h2 {
           font-weight: 600;
           border-bottom: none;
@@ -324,9 +326,18 @@ $background-transparent: transparent;
         img, iframe { max-width: 100%; height: auto; display: block; }
       }
 
-      /* 👇 Abrir mega-menú cuando el <li> tiene .open-sub */
+      /* Abrir mega-menú cuando el <li> tiene .open-sub */
       .nav-item.open-sub > .mega-menu { display: flex; }
     }
+  }
+
+  /* Offset para el contenido de tus vistas (evita que el título quede tapado) */
+  /* Usa las que apliquen a tu layout: detail-section ya existe en tus vistas */
+  main,
+  .page-content,
+  .content-root,
+  .detail-section {
+    padding-top: calc(var(--nav-h) + 12px);
   }
 
   /* En móvil NO abrir por hover (solo por toque/clase) */
@@ -334,9 +345,10 @@ $background-transparent: transparent;
     .nav-item:hover .mega-menu { display: none; }
   }
 
-  /* Fallback genérico por si algo queda fuera del selector anterior */
+  /* Fallback genérico */
   .nav-item.open-sub .mega-menu { display: flex; }
 }
+
 
 /* (Deja fuera de este bloque móvil tu @keyframes y el rotate de la flecha)
    .nav-item.open-sub > a .arrow-icon { transform: rotate(180deg); }
