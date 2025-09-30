@@ -199,6 +199,7 @@ $background-transparent: transparent;
   }
 }
 
+
 /* --------- MÓVIL --------- */
 @media (max-width: 768px) {
   html.no-scroll { overflow: hidden; }
@@ -217,38 +218,60 @@ $background-transparent: transparent;
       box-sizing: border-box;
       width: 100%;
       max-width: 100%;
-      padding: 0 2rem;
+      padding-inline: clamp(12px, 4vw, 24px); /* evita sumar > 100% */
       gap: .25rem;
       height: auto;
       max-height: calc(100dvh - var(--nav-h));
       overflow-y: auto;
+      overflow-x: hidden; /* 👈 corta desborde lateral */
       background-color: #fff;
       display: none;
       z-index: 999; /* por debajo de la barra (1000) */
       flex-direction: column;
+      -webkit-overflow-scrolling: touch;
 
       &.open { display: flex; }
 
-      li {
-        a {
-          color: $primary-color;
-          height: auto;
-          padding-block: .6rem;
-        }
+      li a {
+        color: $primary-color;
+        height: auto;
+        padding-block: .6rem;
+        white-space: normal;
+        overflow-wrap: anywhere; /* corta textos largos */
       }
 
-      /* En móvil, el mega-panel interno no flota ni ocupa toda la pantalla */
+      /* Mega-panel interno en modo columna y sin anchos duros */
       .mega-menu {
         position: static;
+        box-sizing: border-box;
         width: 100%;
+        max-width: 100%;
         min-height: unset;
-        padding: 0.75rem 0;
+        padding: .5rem 0;
         background-color: transparent;
         border: none;
-        display: none; /* cerrado por defecto */
+        display: none;              /* cerrado por defecto */
+        flex-direction: column;     /* 👈 apilar columnas */
+        align-items: stretch;
+        gap: .5rem;
+        overflow-x: hidden;
+
+        .mega-column {
+          box-sizing: border-box;
+          width: 100%;
+          padding: .25rem 0;        /* sin padding lateral en móvil */
+          row-gap: .25rem;
+          /* si alguna variante usa grid con widths fijos, puedes forzar:
+             // display: block;
+          */
+        }
+
+        /* Contenido responsivo */
+        img, iframe { max-width: 100%; height: auto; display: block; }
+        .h2 { white-space: normal; overflow-wrap: anywhere; }
       }
 
-      /* 👇 FIX: cuando el <li> tiene .open-sub, abrir el mega-menú en móvil */
+      /* 👇 Abrir mega-menú cuando el <li> tiene .open-sub */
       .nav-item.open-sub > .mega-menu { display: flex; }
     }
   }
@@ -258,22 +281,17 @@ $background-transparent: transparent;
     .nav-item:hover .mega-menu { display: none; }
   }
 
-  /* Si activas submenús por toque, se mostrarán con esta clase (fallback genérico) */
+  /* Fallback genérico por si algo queda fuera del selector anterior */
   .nav-item.open-sub .mega-menu { display: flex; }
 }
+
+/* (Mantén) Animación de entrada para dropdown */
+// @keyframes fadeInDown { ... }  ← deja tu versión actual fuera del bloque
+
+
 
 /* Animación de entrada para dropdown */
 @keyframes fadeInDown {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-
-/* Rotar flecha cuando el submenú está abierto (móvil) */
-@media (max-width: 768px) {
-  .nav-item.open-sub > a .arrow-icon { transform: rotate(180deg); }
-}
-
-/* Por si algún <a> padre no tiene href, aseguramos cursor */
-.nav-item.has-mega-menu > a { cursor: pointer; }
-
-
