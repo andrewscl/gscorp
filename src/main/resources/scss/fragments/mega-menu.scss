@@ -261,9 +261,6 @@ $background-transparent: transparent;
           width: 100%;
           padding: .25rem 0;        /* sin padding lateral en móvil */
           row-gap: .25rem;
-          /* si alguna variante usa grid con widths fijos, puedes forzar:
-             // display: block;
-          */
         }
 
         /* Contenido responsivo */
@@ -276,6 +273,35 @@ $background-transparent: transparent;
     }
   }
 
+  /* ===== Layout vertical del item en móvil (título arriba, panel abajo) ===== */
+  #nav-links .nav-item {
+    display: block;       /* ← sobrescribe el flex de desktop */
+    height: auto;
+    align-items: stretch;
+  }
+
+  #nav-links .nav-item > a {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between; /* texto izquierda, flecha derecha */
+    padding: .75rem 0;
+  }
+
+  #nav-links .nav-item > .mega-menu {
+    margin-top: .25rem;   /* separación visual bajo el título */
+  }
+
+  #nav-links .mega-menu .mega-column {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* opcional: separadores entre grupos del acordeón */
+  #nav-links .nav-item.has-mega-menu {
+    border-bottom: 1px solid rgba(0,0,0,.06);
+  }
+
   /* En móvil NO abrir por hover (solo por toque/clase) */
   @media (hover: none) {
     .nav-item:hover .mega-menu { display: none; }
@@ -285,8 +311,6 @@ $background-transparent: transparent;
   .nav-item.open-sub .mega-menu { display: flex; }
 }
 
-/* (Mantén) Animación de entrada para dropdown */
-// @keyframes fadeInDown { ... }  ← deja tu versión actual fuera del bloque
 
 
 
