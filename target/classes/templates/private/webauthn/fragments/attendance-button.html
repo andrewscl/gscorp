@@ -1,0 +1,23 @@
+<!-- Botón de asistencia con WebAuthn + geolocalización -->
+<section th:fragment="attendanceButton" class="card" style="padding:1rem;max-width:520px">
+    <h3 style="margin-top:0">Asistencia</h3>
+
+    <div id="att-status" style="margin:.5rem 0;color:#444">Listo para marcar.</div>
+
+    <div id="att-widget"
+        data-register-options="/passkeys/register/options"
+        data-register-verify="/passkeys/register/verify"
+        data-punch-options="/api/attendance/punch/options"
+        data-punch-verify="/api/attendance/punch/verify"
+        style="display:flex; gap:.5rem; flex-wrap:wrap">
+        <button id="att-punch" class="btn btn-primary" type="button">Marcar asistencia</button>
+        <button id="att-register" class="btn btn-secondary" type="button">Registrar passkey</button>
+    </div>
+
+    <small style="display:block;margin-top:.5rem;color:#666">
+        Se solicitará tu ubicación y una verificación biométrica/PIN del dispositivo.
+    </small>
+
+    <script type="module" th:src="@{/js/private/webauthn/webauthn-attendance.js}" defer></script>
+
+</section>

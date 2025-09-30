@@ -3,7 +3,7 @@ package com.gscorp.dv1.services;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.gscorp.dv1.entities.User;
+import com.gscorp.dv1.users.infrastructure.User;
 import com.gscorp.dv1.users.infrastructure.UserRepository;
 
 import lombok.RequiredArgsConstructor;

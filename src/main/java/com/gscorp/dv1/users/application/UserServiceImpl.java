@@ -8,9 +8,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gscorp.dv1.entities.Role;
-import com.gscorp.dv1.entities.User;
+import com.gscorp.dv1.roles.infrastructure.Role;
 import com.gscorp.dv1.roles.infrastructure.RoleRepository;
+import com.gscorp.dv1.users.infrastructure.User;
 import com.gscorp.dv1.users.infrastructure.UserRepository;
 import com.gscorp.dv1.users.web.dto.CreateUserRequest;
 
