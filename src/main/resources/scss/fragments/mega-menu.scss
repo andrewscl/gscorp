@@ -203,11 +203,9 @@ $background-transparent: transparent;
 /* --------- MÓVIL --------- */
 @media (max-width: 768px) {
   html.no-scroll { overflow: hidden; }
-
-  /* Compensación de header fijo para cualquier scroll (hash/scrollIntoView) */
-  html { scroll-padding-top: calc(var(--nav-h) + 12px); }
-  :target,
-  :where(h1, h2, h3)[id] { scroll-margin-top: calc(var(--nav-h) + 12px); }
+  /* Offset simple para que el primer título no quede bajo el navbar */
+  html { scroll-padding-top: var(--nav-h); }
+  body::before { content:""; display:block; height: var(--nav-h); }
 
   .navbar { flex-wrap: wrap; }
 
@@ -216,19 +214,18 @@ $background-transparent: transparent;
 
     /* Panel móvil: fijo debajo de la barra, con scroll propio */
     #nav-links {
-      /* Vars para full-bleed y alturas táctiles */
+      /* Vars para full-bleed y altura táctil */
       --panel-pad: clamp(12px, 4vw, 24px);
-      --tap-h: 52px;
       --row-pad-x: 12px;
+      --tap-h: 52px;
 
       position: fixed;
       top: var(--nav-h);
-      left: 0;
-      right: 0;
+      left: 0; right: 0;
       box-sizing: border-box;
-      width: 100%;
-      max-width: 100%;
-      padding-inline: var(--panel-pad);
+      width: 100%; max-width: 100%;
+      padding-left: max(var(--panel-pad), env(safe-area-inset-left));
+      padding-right: max(var(--panel-pad), env(safe-area-inset-right));
       gap: .25rem;
       height: auto;
       max-height: calc(100dvh - var(--nav-h));
@@ -236,118 +233,115 @@ $background-transparent: transparent;
       overflow-x: hidden;
       background-color: #fff;
       display: none;
-      z-index: 999; /* navbar está en 1000 */
+      z-index: 999;  /* navbar está en 1000 */
       flex-direction: column;
       -webkit-overflow-scrolling: touch;
 
       &.open { display: flex; }
 
-      /* ===== Layout vertical del item: título arriba, panel abajo ===== */
-      .nav-item {
-        display: block; /* sobrescribe flex de desktop */
+      /* ===== Item vertical: título arriba, panel debajo ===== */
+      > .nav-item {
+        display: block;    /* sobrescribe el flex de desktop */
         height: auto;
         align-items: stretch;
 
         &.has-mega-menu { border-bottom: 1px solid rgba(0,0,0,.06); }
-      }
 
-      /* Título (anchor padre) full-bleed + alto táctil */
-      > .nav-item > a {
-        display: flex;
-        width: 100%;
-        align-items: center;
-        justify-content: space-between;
-        min-height: var(--tap-h);
-        padding-block: 10px;
-        margin-inline: calc(-1 * var(--panel-pad)); /* full-bleed */
-        padding-inline: calc(var(--panel-pad) + var(--row-pad-x));
-        background: transparent;
-        border-radius: 0;
-        color: $primary-color;
-        white-space: normal;
-        overflow-wrap: anywhere;
-
-        .arrow-icon { margin-left: auto; }
-      }
-
-      /* Panel del mega-menú debajo del título */
-      > .nav-item > .mega-menu { margin-top: .25rem; }
-
-      /* Mega-panel interno en columna y sin anchos duros */
-      .mega-menu {
-        position: static;
-        box-sizing: border-box;
-        width: 100%;
-        max-width: 100%;
-        min-height: unset;
-        padding: .5rem 0;
-        background-color: transparent;
-        border: none;
-        display: none;              /* cerrado por defecto */
-        flex-direction: column;     /* apilar columnas */
-        align-items: stretch;
-        gap: 0;                     /* filas contiguas tipo lista */
-        overflow-x: hidden;
-
-        .mega-column {
-          box-sizing: border-box;
-          width: 100%;
-          padding: 0;               /* sin padding lateral en móvil */
-          row-gap: .25rem;
-        }
-
-        /* Opciones internas: alto táctil + full-bleed */
-        a {
+        /* Título (anchor padre): alto táctil + full-bleed */
+        > a {
           display: flex;
-          align-items: center;
           width: 100%;
+          align-items: center;
+          justify-content: space-between;
           min-height: var(--tap-h);
-          padding-block: 12px;
-          margin-inline: calc(-1 * var(--panel-pad)); /* full-bleed */
-          padding-inline: calc(var(--panel-pad) + var(--row-pad-x));
+          padding-block: 10px;
+
+          /* FULL-BLEED hasta el borde, respetando safe-areas */
+          margin-left: calc(-1 * max(var(--panel-pad), env(safe-area-inset-left)));
+          margin-right: calc(-1 * max(var(--panel-pad), env(safe-area-inset-right)));
+          padding-left: calc(max(var(--panel-pad), env(safe-area-inset-left)) + var(--row-pad-x));
+          padding-right: calc(max(var(--panel-pad), env(safe-area-inset-right)) + var(--row-pad-x));
+
+          background: transparent;
+          border-radius: 0;
+          color: $primary-color;
           white-space: normal;
           overflow-wrap: anywhere;
-          text-decoration: none;
-          color: $primary-color;
-          border-bottom: 1px solid rgba(0,0,0,.06);
 
-          &:hover  { background: rgba(0,0,0,.03); }
-          &:active { background: rgba(0,0,0,.06); }
+          .arrow-icon { margin-left: auto; }
         }
 
-        /* Encabezados dentro del mega */
-        .h2 {
-          font-weight: 600;
-          border-bottom: none;
-          padding-block: 14px;
+        /* Panel del mega por debajo del título */
+        > .mega-menu {
+          /* 🔧 RESET móvil: sin fixed ni grid/flex de desktop */
+          position: static;
+          top: auto; left: auto;
+          width: 100%; max-width: 100%;
+          margin: .25rem 0 0 0;
+          padding: 0;
+          background: transparent;
+          border: 0;
+          overflow: visible;
+
+          display: none;        /* cerrado por defecto; se abre con .open-sub */
+
+          /* Apilar contenido en vertical (lista) */
+          .mega-column {
+            display: block;
+            width: 100%;
+            min-width: 0;
+            padding: 0;
+            margin: 0 0 .5rem 0;
+          }
+
+          /* Cabeceras fuera de .mega-column (ej: "Nuestros servicios") */
+          > .h2,
+          > .h2.menu-link {
+            display: block;
+            margin: 0 0 .5rem 0;
+            padding: 12px 0;
+            white-space: normal;
+            overflow-wrap: anywhere;
+            border-bottom: 1px solid rgba(0,0,0,.06);
+          }
+
+          /* Opciones internas: alto táctil + full-bleed */
+          a {
+            display: block;
+            width: 100%;
+            min-height: var(--tap-h);
+            padding-block: 12px;
+
+            margin-left: calc(-1 * max(var(--panel-pad), env(safe-area-inset-left)));
+            margin-right: calc(-1 * max(var(--panel-pad), env(safe-area-inset-right)));
+            padding-left: calc(max(var(--panel-pad), env(safe-area-inset-left)) + var(--row-pad-x));
+            padding-right: calc(max(var(--panel-pad), env(safe-area-inset-right)) + var(--row-pad-x));
+
+            white-space: normal;
+            overflow-wrap: anywhere;
+            text-decoration: none;
+            color: $primary-color;
+            border-bottom: 1px solid rgba(0,0,0,.06);
+
+            &:hover  { background: rgba(0,0,0,.03); }
+            &:active { background: rgba(0,0,0,.06); }
+          }
+
+          img, iframe { max-width: 100%; height: auto; display: block; }
         }
 
-        /* Contenido responsivo */
-        img, iframe { max-width: 100%; height: auto; display: block; }
+        /* Abrir el mega cuando el LI tiene .open-sub (lo pone tu JS) */
+        &.open-sub > .mega-menu { display: block; }
       }
-
-      /* Abrir mega-menú cuando el <li> tiene .open-sub */
-      .nav-item.open-sub > .mega-menu { display: flex; }
     }
   }
 
-  /* Offset para el contenido de tus vistas (evita que el título quede tapado) */
-  /* Usa las que apliquen a tu layout: detail-section ya existe en tus vistas */
-  main,
-  .page-content,
-  .content-root,
-  .detail-section {
-    padding-top: calc(var(--nav-h) + 12px);
-  }
-
-  /* En móvil NO abrir por hover (solo por toque/clase) */
+  /* En móvil NO abrir por hover */
   @media (hover: none) {
     .nav-item:hover .mega-menu { display: none; }
   }
-
-  /* Fallback genérico */
-  .nav-item.open-sub .mega-menu { display: flex; }
 }
+
 
 
 /* (Deja fuera de este bloque móvil tu @keyframes y el rotate de la flecha)
