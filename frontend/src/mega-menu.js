@@ -10,10 +10,12 @@ export function setupMegamenu () {
 
   const isMobile = () => window.matchMedia("(max-width: 768px)").matches;
 
-  // --- 0) Altura real del navbar -> CSS var (px exactos)
+  // --- 0) Altura real del navbar -> CSS vars (px exactos)
   function updateNavHeightVar() {
     const h = navbar.offsetHeight || 0;
+    // Mantén ambas por compatibilidad con tu SCSS
     document.documentElement.style.setProperty("--nav-h-px", h + "px");
+    document.documentElement.style.setProperty("--nav-h",    h + "px"); // <-- asegura top consistente
   }
   updateNavHeightVar();
   window.addEventListener("resize", updateNavHeightVar);
@@ -32,7 +34,7 @@ export function setupMegamenu () {
   window.addEventListener("scroll", onScroll);
   onScroll();
 
-  // --- 2) Hamburguesa
+  // --- 2) Hamburguesa (panel sólo del menú)
   btn?.setAttribute("aria-controls", "nav-links");
   btn?.setAttribute("aria-expanded", "false");
   btn?.setAttribute("aria-label", "Abrir menú");
@@ -53,12 +55,15 @@ export function setupMegamenu () {
     // cierra todos los submenús
     links.querySelectorAll(".nav-item.has-mega-menu.open-sub")
          .forEach(li => li.classList.remove("open-sub"));
+    // resetea aria de títulos padres
+    links.querySelectorAll(".nav-item.has-mega-menu > a[aria-expanded]")
+         .forEach(a => a.setAttribute("aria-expanded", "false"));
   };
   btn?.addEventListener("click", () => {
     links.classList.contains("open") ? closeMenu() : openMenu();
   });
 
-  // --- 3) Delegación de clicks (sobrevive a cambios SPA)
+  // --- 3) Delegación de clicks (sobrevive a cambios SPA) + acordeón móvil
   links.addEventListener("click", (e) => {
     const a = e.target.closest("a");
     if (!a) return;
@@ -66,34 +71,57 @@ export function setupMegamenu () {
     const li = a.closest(".nav-item.has-mega-menu");
     const isParentOfMega = li && li.querySelector(":scope > a") === a;
 
+    // A) Click en título padre (sólo móvil): abre/cierra su mega y cierra los demás
     if (isMobile() && isParentOfMega) {
-      // acordeón en móvil: abre uno y cierra los demás
       e.preventDefault();
+      // accesibilidad
+      a.setAttribute("aria-haspopup", "true");
       const willOpen = !li.classList.contains("open-sub");
+      // cierra otros
       links.querySelectorAll(".nav-item.has-mega-menu.open-sub")
            .forEach(other => { if (other !== li) other.classList.remove("open-sub"); });
+      // toggle actual
       li.classList.toggle("open-sub", willOpen);
+      a.setAttribute("aria-expanded", String(willOpen));
       return; // NO cerrar el panel en este click
     }
 
-    // cualquier enlace interno (item del mega) => cierra todo el panel
+    // B) Click en una opción interna del mega-menú: cerrar panel y navegar (si SPA)
     if (a.closest(".mega-menu")) {
-      // si usas router SPA y data-path:
-      if (a.hasAttribute("data-path")) e.preventDefault();
+      if (a.hasAttribute("data-path")) {
+        e.preventDefault();
+        const path = a.getAttribute("data-path");
+        try {
+          if (path && typeof window.navigateTo === "function") {
+            window.navigateTo(path);
+          } else if (path) {
+            // fallback: cambiar location si no hay router
+            window.location.href = path;
+          }
+        } catch (_) { /* noop */ }
+      }
+      // cerrar panel sin mover el resto de la página
       closeMenu();
-      // opcional: desplaza al top para que no tape el título
-      window.scrollTo({ top: 0 });
       return;
     }
 
-    // enlaces simples (sin mega) también cierran el panel
+    // C) Enlaces simples del menú (sin mega): cerrar panel y navegar si data-path
     if (a.hasAttribute("data-path")) {
       e.preventDefault();
+      const path = a.getAttribute("data-path");
       closeMenu();
-      // aquí llamarías a navigateTo(a.dataset.path)
-    } else {
-      closeMenu();
+      try {
+        if (path && typeof window.navigateTo === "function") {
+          window.navigateTo(path);
+        } else if (path) {
+          window.location.href = path;
+        }
+      } catch (_) { /* noop */ }
+      return;
     }
+
+    // Por defecto, cerrar panel
+    closeMenu();
   });
 
   // --- 4) Cierre por click fuera / Escape / navegación
@@ -104,6 +132,16 @@ export function setupMegamenu () {
   });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeMenu(); });
   window.addEventListener("popstate", closeMenu);
+
+  // --- 5) Limpieza al cambiar de breakpoint (evita estados trabados)
+  let wasMobile = isMobile();
+  window.addEventListener("resize", () => {
+    const nowMobile = isMobile();
+    if (nowMobile !== wasMobile) {
+      closeMenu(); // cierra panel y submenús al cruzar el breakpoint
+      wasMobile = nowMobile;
+    }
+  });
 }
 
 if (document.readyState === "loading") {

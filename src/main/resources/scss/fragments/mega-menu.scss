@@ -199,148 +199,131 @@ $background-transparent: transparent;
   }
 }
 
-
 /* --------- MÓVIL --------- */
 @media (max-width: 768px) {
-  html.no-scroll { overflow: hidden; }
-  /* Offset simple para que el primer título no quede bajo el navbar */
-  html { scroll-padding-top: var(--nav-h); }
-  body::before { content:""; display:block; height: var(--nav-h); }
-
   .navbar { flex-wrap: wrap; }
+  .navbar .mega-menu-content .menu-toggle { display: block; }
 
-  .navbar .mega-menu-content {
-    .menu-toggle { display: block; }
+  /* Panel móvil: fijo justo debajo del header; solo afecta al menú */
+  .navbar .mega-menu-content #nav-links {
+    /* Vars para full-bleed y tacto */
+    --panel-pad: clamp(12px, 4vw, 24px);
+    --row-pad-x: 12px;
+    --tap-h: 52px;
 
-    /* Panel móvil: fijo debajo de la barra, con scroll propio */
-    #nav-links {
-      /* Vars para full-bleed y altura táctil */
-      --panel-pad: clamp(12px, 4vw, 24px);
-      --row-pad-x: 12px;
-      --tap-h: 52px;
+    position: fixed;
+    top: var(--nav-h);                  /* 👈 debajo del header fijo */
+    left: 0; right: 0;
+    width: 100%; max-width: 100%;
 
-      position: fixed;
-      top: var(--nav-h);
-      left: 0; right: 0;
-      box-sizing: border-box;
-      width: 100%; max-width: 100%;
-      padding-left: max(var(--panel-pad), env(safe-area-inset-left));
-      padding-right: max(var(--panel-pad), env(safe-area-inset-right));
-      gap: .25rem;
-      height: auto;
-      max-height: calc(100dvh - var(--nav-h));
-      overflow-y: auto;
-      overflow-x: hidden;
-      background-color: #fff;
-      display: none;
-      z-index: 999;  /* navbar está en 1000 */
-      flex-direction: column;
-      -webkit-overflow-scrolling: touch;
+    /* respetar safe-areas */
+    padding-left: max(var(--panel-pad), env(safe-area-inset-left));
+    padding-right: max(var(--panel-pad), env(safe-area-inset-right));
 
-      &.open { display: flex; }
+    box-sizing: border-box;
+    height: auto;
+    max-height: calc(100dvh - var(--nav-h));  /* panel scrollable */
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #fff;
+    z-index: 999;                          /* navbar está en 1000 */
+    display: none;
+    flex-direction: column;
+    -webkit-overflow-scrolling: touch;
 
-      /* ===== Item vertical: título arriba, panel debajo ===== */
-      > .nav-item {
-        display: block;    /* sobrescribe el flex de desktop */
-        height: auto;
-        align-items: stretch;
+    &.open { display: flex; }
 
-        &.has-mega-menu { border-bottom: 1px solid rgba(0,0,0,.06); }
+    /* ===== Item vertical: título arriba, panel debajo ===== */
+    > .nav-item {
+      display: block;                      /* anula el flex de desktop */
+      border-bottom: 1px solid rgba(0,0,0,.06);
 
-        /* Título (anchor padre): alto táctil + full-bleed */
-        > a {
-          display: flex;
-          width: 100%;
-          align-items: center;
-          justify-content: space-between;
+      /* Título (anchor padre): alto táctil + full-bleed en el panel */
+      > a {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: var(--tap-h);
+        color: $primary-color;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        padding-block: 10px;
+
+        /* FULL-BLEED dentro del panel */
+        margin-left: calc(-1 * max(var(--panel-pad), env(safe-area-inset-left)));
+        margin-right: calc(-1 * max(var(--panel-pad), env(safe-area-inset-right)));
+        padding-left: calc(max(var(--panel-pad), env(safe-area-inset-left)) + var(--row-pad-x));
+        padding-right: calc(max(var(--panel-pad), env(safe-area-inset-right)) + var(--row-pad-x));
+
+        .arrow-icon { margin-left: auto; transition: transform .2s ease; }
+      }
+      &.open-sub > a .arrow-icon { transform: rotate(180deg); }
+
+      /* Panel del mega por debajo del título, apilado y a todo el ancho */
+      > .mega-menu {
+        position: static;                  /* 👈 nada de fixed aquí */
+        display: none;                     /* cerrado por defecto */
+        margin: .25rem 0 0;
+        padding: 0;
+        background: transparent;
+        border: 0;
+        overflow: visible;
+
+        /* Cabecera suelta (ej. "Nuestros servicios") ocupa fila propia */
+        > .h2,
+        > .h2.menu-link {
+          display: block;
+          margin: 0 0 .5rem 0;
+          padding: 12px 0;
+          white-space: normal;
+          overflow-wrap: anywhere;
+          border-bottom: 1px solid rgba(0,0,0,.06);
+
+          /* full-bleed */
+          margin-left: calc(-1 * max(var(--panel-pad), env(safe-area-inset-left)));
+          margin-right: calc(-1 * max(var(--panel-pad), env(safe-area-inset-right)));
+          padding-left: calc(max(var(--panel-pad), env(safe-area-inset-left)) + var(--row-pad-x));
+          padding-right: calc(max(var(--panel-pad), env(safe-area-inset-right)) + var(--row-pad-x));
+        }
+
+        /* Columnas apiladas (una bajo otra) */
+        .mega-column {
+          display: block; width: 100%;
+          min-width: 0;
+          padding: 0; margin: 0 0 .5rem 0;
+        }
+
+        /* Opciones internas: alto táctil + full-bleed dentro del panel */
+        a {
+          display: block; width: 100%;
           min-height: var(--tap-h);
-          padding-block: 10px;
+          text-decoration: none; color: $primary-color;
+          white-space: normal; overflow-wrap: anywhere;
+          padding-block: 12px;
+          border-bottom: 1px solid rgba(0,0,0,.06);
 
-          /* FULL-BLEED hasta el borde, respetando safe-areas */
           margin-left: calc(-1 * max(var(--panel-pad), env(safe-area-inset-left)));
           margin-right: calc(-1 * max(var(--panel-pad), env(safe-area-inset-right)));
           padding-left: calc(max(var(--panel-pad), env(safe-area-inset-left)) + var(--row-pad-x));
           padding-right: calc(max(var(--panel-pad), env(safe-area-inset-right)) + var(--row-pad-x));
 
-          background: transparent;
-          border-radius: 0;
-          color: $primary-color;
-          white-space: normal;
-          overflow-wrap: anywhere;
-
-          .arrow-icon { margin-left: auto; }
+          &:hover  { background: rgba(0,0,0,.03); }
+          &:active { background: rgba(0,0,0,.06); }
         }
 
-        /* Panel del mega por debajo del título */
-        > .mega-menu {
-          /* 🔧 RESET móvil: sin fixed ni grid/flex de desktop */
-          position: static;
-          top: auto; left: auto;
-          width: 100%; max-width: 100%;
-          margin: .25rem 0 0 0;
-          padding: 0;
-          background: transparent;
-          border: 0;
-          overflow: visible;
-
-          display: none;        /* cerrado por defecto; se abre con .open-sub */
-
-          /* Apilar contenido en vertical (lista) */
-          .mega-column {
-            display: block;
-            width: 100%;
-            min-width: 0;
-            padding: 0;
-            margin: 0 0 .5rem 0;
-          }
-
-          /* Cabeceras fuera de .mega-column (ej: "Nuestros servicios") */
-          > .h2,
-          > .h2.menu-link {
-            display: block;
-            margin: 0 0 .5rem 0;
-            padding: 12px 0;
-            white-space: normal;
-            overflow-wrap: anywhere;
-            border-bottom: 1px solid rgba(0,0,0,.06);
-          }
-
-          /* Opciones internas: alto táctil + full-bleed */
-          a {
-            display: block;
-            width: 100%;
-            min-height: var(--tap-h);
-            padding-block: 12px;
-
-            margin-left: calc(-1 * max(var(--panel-pad), env(safe-area-inset-left)));
-            margin-right: calc(-1 * max(var(--panel-pad), env(safe-area-inset-right)));
-            padding-left: calc(max(var(--panel-pad), env(safe-area-inset-left)) + var(--row-pad-x));
-            padding-right: calc(max(var(--panel-pad), env(safe-area-inset-right)) + var(--row-pad-x));
-
-            white-space: normal;
-            overflow-wrap: anywhere;
-            text-decoration: none;
-            color: $primary-color;
-            border-bottom: 1px solid rgba(0,0,0,.06);
-
-            &:hover  { background: rgba(0,0,0,.03); }
-            &:active { background: rgba(0,0,0,.06); }
-          }
-
-          img, iframe { max-width: 100%; height: auto; display: block; }
-        }
-
-        /* Abrir el mega cuando el LI tiene .open-sub (lo pone tu JS) */
-        &.open-sub > .mega-menu { display: block; }
+        img, iframe { max-width: 100%; height: auto; display: block; }
       }
+
+      /* abrir el mega-menú del item activo */
+      &.open-sub > .mega-menu { display: block; }
     }
   }
 
   /* En móvil NO abrir por hover */
-  @media (hover: none) {
-    .nav-item:hover .mega-menu { display: none; }
-  }
+  @media (hover: none) { .nav-item:hover .mega-menu { display: none; } }
 }
+
+
 
 
 
