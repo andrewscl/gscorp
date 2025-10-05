@@ -12,7 +12,7 @@ export function setupMegamenu () {
 
   // --- 0) Altura real del navbar -> CSS vars (px exactos)
   function updateNavHeightVar() {
-    const h = navbar.offsetHeight || 0;
+    const h = Math.round(navbar.getBoundingClientRect().height) || 0;
     // Mantén ambas por compatibilidad con tu SCSS
     document.documentElement.style.setProperty("--nav-h-px", h + "px");
     document.documentElement.style.setProperty("--nav-h",    h + "px"); // <-- asegura top consistente
@@ -28,6 +28,10 @@ export function setupMegamenu () {
     document.fonts.ready.then(updateNavHeightVar).catch(()=>{});
   }
 
+  // un par de ticks para when-late
+  setTimeout(updateNavHeightVar, 0);
+  setTimeout(updateNavHeightVar, 250);
+
   // --- 1) Estado transparente/solid en scroll
   let lastScrolled = false;
   const onScroll = () => {
@@ -36,6 +40,7 @@ export function setupMegamenu () {
       lastScrolled = scrolled;
       navbar.classList.toggle("solid", scrolled);
       navbar.classList.toggle("transparent", !scrolled);
+      updateNavHeightVar();
     }
   };
   window.addEventListener("scroll", onScroll);
@@ -52,6 +57,7 @@ export function setupMegamenu () {
     btn?.setAttribute("aria-expanded", "true");
     btn?.setAttribute("aria-label", "Cerrar menú");
     document.documentElement.classList.add("no-scroll");
+    updateNavHeightVar();
   };
   const closeMenu = () => {
     links.classList.remove("open");
@@ -70,6 +76,12 @@ export function setupMegamenu () {
     links.classList.contains("open") ? closeMenu() : openMenu();
   });
 
+  // ARIA inicial para padres con mega
+  links.querySelectorAll('.nav-item.has-mega-menu > a').forEach(a => {
+    a.setAttribute('aria-haspopup', 'true');
+    a.setAttribute('aria-expanded', 'false');
+  });
+
 // --- 3) Delegación de clicks (sobrevive a cambios SPA) + acordeón móvil
 links.addEventListener("click", (e) => {
   const a = e.target.closest("a");
@@ -84,16 +96,6 @@ links.addEventListener("click", (e) => {
     e.stopPropagation();
 
     const isOpen = li.classList.contains("open-sub");
-
-    // Cierra otros
-    links.querySelectorAll(".nav-item.has-mega-menu.open-sub")
-         .forEach(other => {
-           if (other !== li) {
-             other.classList.remove("open-sub");
-             const pa = other.querySelector(":scope > a[aria-expanded]");
-             pa && pa.setAttribute("aria-expanded", "false");
-           }
-         });
 
     // Toggle actual
     li.classList.toggle("open-sub", !isOpen);

@@ -326,61 +326,58 @@ p {
   box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
 }
 
-/* --------- MÓVIL --------- */
+/* ===== MÓVIL ===== */
 @media (max-width: 768px) {
   .navbar {
     flex-wrap: wrap;
   }
+  .navbar .mega-menu-content {
+    /* Drawer del menú móvil (debajo del header fijo) */
+  }
   .navbar .mega-menu-content .menu-toggle {
     display: block;
   }
-  /* Panel móvil: fijo justo debajo del header; solo afecta al menú */
   .navbar .mega-menu-content #nav-links {
-    /* Vars para full-bleed y tacto */
     --panel-pad: clamp(12px, 4vw, 24px);
     --row-pad-x: 12px;
     --tap-h: 52px;
     position: fixed;
-    top: var(--nav-h-px); /* 👈 debajo del header fijo */
+    top: var(--nav-h-px, 64px); /* altura real del header (fallback 64px) */
     left: 0;
     right: 0;
     width: 100%;
     max-width: 100%;
-    /* respetar safe-areas */
     padding-left: max(var(--panel-pad), env(safe-area-inset-left));
     padding-right: max(var(--panel-pad), env(safe-area-inset-right));
     box-sizing: border-box;
-    height: auto;
-    max-height: calc(100dvh - var(--nav-h)); /* panel scrollable */
+    max-height: calc(100dvh - var(--nav-h-px, 64px)); /* scroll interno */
     overflow-y: auto;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
     background: #fff;
-    z-index: 999; /* navbar está en 1000 */
+    z-index: 1002; /* navbar suele estar ~1000 */
     display: none;
     flex-direction: column;
-    -webkit-overflow-scrolling: touch;
-    /* ===== Item vertical: título arriba, panel debajo ===== */
+    /* Item vertical: título + panel debajo */
   }
   .navbar .mega-menu-content #nav-links.open {
     display: flex;
   }
   .navbar .mega-menu-content #nav-links > .nav-item {
-    display: block; /* anula el flex de desktop */
+    display: block;
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-    /* Título (anchor padre): alto táctil + full-bleed en el panel */
-    /* Panel del mega por debajo del título, apilado y a todo el ancho */
-    /* abrir el mega-menú del item activo */
+    /* Título (padre). Forzamos color en móvil (no heredar blanco). */
+    /* Panel del mega debajo del título (acordeón) */
+    /* Mostrar panel al abrir el item */
   }
   .navbar .mega-menu-content #nav-links > .nav-item > a {
     display: flex;
     align-items: center;
     justify-content: space-between;
     min-height: var(--tap-h);
-    color: #1e293b;
-    white-space: normal;
-    overflow-wrap: anywhere;
     padding-block: 10px;
-    /* FULL-BLEED dentro del panel */
+    color: #1e293b;
+    /* Full-bleed dentro del panel */
     margin-left: calc(-1 * max(var(--panel-pad), env(safe-area-inset-left)));
     margin-right: calc(-1 * max(var(--panel-pad), env(safe-area-inset-right)));
     padding-left: calc(max(var(--panel-pad), env(safe-area-inset-left)) + var(--row-pad-x));
@@ -394,24 +391,20 @@ p {
     transform: rotate(180deg);
   }
   .navbar .mega-menu-content #nav-links > .nav-item > .mega-menu {
-    position: static; /* 👈 nada de fixed aquí */
+    position: static;
     display: none; /* cerrado por defecto */
     margin: 0.25rem 0 0;
     padding: 0;
     background: transparent;
     border: 0;
     overflow: visible;
-    /* Cabecera suelta (ej. "Nuestros servicios") ocupa fila propia */
-    /* Columnas apiladas (una bajo otra) */
-    /* Opciones internas: alto táctil + full-bleed dentro del panel */
+    /* Cabecera suelta (ej: "Nuestros servicios") */
+    /* Opciones internas */
   }
-  .navbar .mega-menu-content #nav-links > .nav-item > .mega-menu > .h2,
-  .navbar .mega-menu-content #nav-links > .nav-item > .mega-menu > .h2.menu-link {
+  .navbar .mega-menu-content #nav-links > .nav-item > .mega-menu > .h2, .navbar .mega-menu-content #nav-links > .nav-item > .mega-menu > .h2.menu-link {
     display: block;
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 0.5rem;
     padding: 12px 0;
-    white-space: normal;
-    overflow-wrap: anywhere;
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
     /* full-bleed */
     margin-left: calc(-1 * max(var(--panel-pad), env(safe-area-inset-left)));
@@ -430,11 +423,9 @@ p {
     display: block;
     width: 100%;
     min-height: var(--tap-h);
+    padding-block: 12px;
     text-decoration: none;
     color: #1e293b;
-    white-space: normal;
-    overflow-wrap: anywhere;
-    padding-block: 12px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
     margin-left: calc(-1 * max(var(--panel-pad), env(safe-area-inset-left)));
     margin-right: calc(-1 * max(var(--panel-pad), env(safe-area-inset-right)));
@@ -455,17 +446,13 @@ p {
   .navbar .mega-menu-content #nav-links > .nav-item.open-sub > .mega-menu {
     display: block;
   }
-  /* En móvil NO abrir por hover */
+  /* En móvil NO abrir por hover (solo tap) */
 }
 @media (max-width: 768px) and (hover: none) {
   .nav-item:hover .mega-menu {
     display: none;
   }
 }
-/* (Deja fuera de este bloque móvil tu @keyframes y el rotate de la flecha)
-   .nav-item.open-sub > a .arrow-icon { transform: rotate(180deg); }
-   @keyframes fadeInDown { ... }
-*/
 /* Animación de entrada para dropdown */
 @keyframes fadeInDown {
   from {
