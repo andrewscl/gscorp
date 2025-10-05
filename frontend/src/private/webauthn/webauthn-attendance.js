@@ -2,6 +2,7 @@
 (function () {
   const byId = (id) => document.getElementById(id);
 
+  //Utilidades
   function setStatus(text, isError = false) {
     const el = byId('att-status');
     if (!el) return;
