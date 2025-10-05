@@ -1,0 +1,99 @@
+.attendance {
+  padding: 1rem;
+  max-width: 520px;
+  margin-inline: auto;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+}
+.attendance h3 {
+  margin: 0 0 0.75rem 0;
+  line-height: 1.2;
+  font-size: 1.125rem;
+}
+@media (min-width: 768px) {
+  .attendance h3 {
+    font-size: 1.25rem;
+  }
+}
+.attendance #att-status {
+  margin: 0.5rem 0;
+  color: #444;
+  font-size: 0.95rem;
+  min-height: 1.25rem;
+}
+.attendance #att-status.is-error {
+  color: #b00020;
+}
+.attendance #att-status.is-ok {
+  color: #0a7a30;
+}
+.attendance #att-widget {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: stretch;
+}
+.attendance #att-widget .btn {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  transition: transform 0.08s ease, box-shadow 0.12s ease;
+}
+.attendance #att-widget .btn:focus-visible {
+  outline: 2px solid rgba(0, 123, 255, 0.6);
+  outline-offset: 2px;
+}
+.attendance #att-widget .btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.attendance #att-widget .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+@media (min-width: 480px) {
+  .attendance #att-widget {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .attendance #att-widget .btn {
+    flex: 1 1 calc(50% - 0.25rem);
+  }
+}
+@media (min-width: 768px) {
+  .attendance #att-widget {
+    flex-wrap: nowrap;
+  }
+  .attendance #att-widget .btn {
+    flex: 0 0 auto;
+    min-width: 12rem;
+  }
+}
+.attendance small {
+  display: block;
+  margin-top: 0.5rem;
+  color: #666;
+  line-height: 1.35;
+  font-size: 0.85rem;
+}
+@media (min-width: 768px) {
+  .attendance small {
+    font-size: 0.9rem;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  .attendance {
+    background: #121212;
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: none;
+  }
+  .attendance #att-status {
+    color: #ddd;
+  }
+  .attendance small {
+    color: #aaa;
+  }
+}/*# sourceMappingURL=attendance-button.css.map */
