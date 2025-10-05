@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .requestMatchers("/", "/auth/**", "/public/**", "/chat/**",
                     "/css/**", "/js/**", "/assets/**", "/img/**", "/videos/**", "/favicon.ico",
                     "/webjars/**", "/error", "/icons/**", "/shell/**").permitAll() //publicas
-                .requestMatchers("/private/**", "/api/**").authenticated() //requiere JWT valido
+                .requestMatchers("/private/**", "/passkeys/**","/api/**").authenticated() //requiere JWT valido
                 .requestMatchers("/admin/**").
                     hasAuthority("ROLE_ADMINISTRATOR") //requiere rol ADMIN en el JWT
                 .anyRequest().authenticated())
