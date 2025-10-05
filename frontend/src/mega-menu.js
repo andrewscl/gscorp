@@ -63,66 +63,62 @@ export function setupMegamenu () {
     links.classList.contains("open") ? closeMenu() : openMenu();
   });
 
-  // --- 3) Delegación de clicks (sobrevive a cambios SPA) + acordeón móvil
-  links.addEventListener("click", (e) => {
-    const a = e.target.closest("a");
-    if (!a) return;
+// --- 3) Delegación de clicks (sobrevive a cambios SPA) + acordeón móvil
+links.addEventListener("click", (e) => {
+  const a = e.target.closest("a");
+  if (!a) return;
 
-    const li = a.closest(".nav-item.has-mega-menu");
-    const isParentOfMega = li && li.querySelector(":scope > a") === a;
+  const li = a.closest(".nav-item.has-mega-menu");
+  const isParentOfMega = li && li.querySelector(":scope > a") === a;
 
-    // A) Click en título padre (sólo móvil): abre/cierra su mega y cierra los demás
-    if (isMobile() && isParentOfMega) {
-      e.preventDefault();
-      // accesibilidad
-      a.setAttribute("aria-haspopup", "true");
-      const willOpen = !li.classList.contains("open-sub");
-      // cierra otros
-      links.querySelectorAll(".nav-item.has-mega-menu.open-sub")
-           .forEach(other => { if (other !== li) other.classList.remove("open-sub"); });
-      // toggle actual
-      li.classList.toggle("open-sub", willOpen);
-      a.setAttribute("aria-expanded", String(willOpen));
-      return; // NO cerrar el panel en este click
-    }
+  // A) En móvil: el título padre SIEMPRE togglea su submenú (no navega)
+  if (isMobile() && isParentOfMega) {
+    e.preventDefault();
+    e.stopPropagation();
 
-    // B) Click en una opción interna del mega-menú: cerrar panel y navegar (si SPA)
-    if (a.closest(".mega-menu")) {
-      if (a.hasAttribute("data-path")) {
-        e.preventDefault();
-        const path = a.getAttribute("data-path");
-        try {
-          if (path && typeof window.navigateTo === "function") {
-            window.navigateTo(path);
-          } else if (path) {
-            // fallback: cambiar location si no hay router
-            window.location.href = path;
-          }
-        } catch (_) { /* noop */ }
-      }
-      // cerrar panel sin mover el resto de la página
-      closeMenu();
-      return;
-    }
+    const isOpen = li.classList.contains("open-sub");
 
-    // C) Enlaces simples del menú (sin mega): cerrar panel y navegar si data-path
+    // Cierra otros
+    links.querySelectorAll(".nav-item.has-mega-menu.open-sub")
+         .forEach(other => {
+           if (other !== li) {
+             other.classList.remove("open-sub");
+             const pa = other.querySelector(":scope > a[aria-expanded]");
+             pa && pa.setAttribute("aria-expanded", "false");
+           }
+         });
+
+    // Toggle actual
+    li.classList.toggle("open-sub", !isOpen);
+    a.setAttribute("aria-expanded", String(!isOpen));
+    return; // no cerramos el panel
+  }
+
+  // B) Click dentro del mega: cerrar panel y navegar (SPA si corresponde)
+  if (a.closest(".mega-menu")) {
     if (a.hasAttribute("data-path")) {
       e.preventDefault();
       const path = a.getAttribute("data-path");
       closeMenu();
-      try {
-        if (path && typeof window.navigateTo === "function") {
-          window.navigateTo(path);
-        } else if (path) {
-          window.location.href = path;
-        }
-      } catch (_) { /* noop */ }
-      return;
+      if (path && typeof window.navigateTo === "function") window.navigateTo(path);
+      else if (path) window.location.href = path;
+    } else {
+      closeMenu();
     }
+    return;
+  }
 
-    // Por defecto, cerrar panel
+  // C) Enlace simple (sin mega): cerrar panel y navegar si data-path
+  if (a.hasAttribute("data-path")) {
+    e.preventDefault();
+    const path = a.getAttribute("data-path");
     closeMenu();
-  });
+    if (path && typeof window.navigateTo === "function") window.navigateTo(path);
+    else if (path) window.location.href = path;
+    return;
+  }
+});
+
 
   // --- 4) Cierre por click fuera / Escape / navegación
   document.addEventListener("click", (e) => {
