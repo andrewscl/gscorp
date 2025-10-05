@@ -212,7 +212,7 @@ $background-transparent: transparent;
     --tap-h: 52px;
 
     position: fixed;
-    top: var(--nav-h);                  /* 👈 debajo del header fijo */
+    top: var(--nav-h-px);                  /* 👈 debajo del header fijo */
     left: 0; right: 0;
     width: 100%; max-width: 100%;
 

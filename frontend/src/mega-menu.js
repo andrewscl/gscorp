@@ -21,6 +21,13 @@ export function setupMegamenu () {
   window.addEventListener("resize", updateNavHeightVar);
   window.addEventListener("orientationchange", updateNavHeightVar);
 
+  window.addEventListener("load", updateNavHeightVar);
+  document.addEventListener("route:loaded", updateNavHeightVar);
+  document.addEventListener("topbar:loaded", updateNavHeightVar);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(updateNavHeightVar).catch(()=>{});
+  }
+
   // --- 1) Estado transparente/solid en scroll
   let lastScrolled = false;
   const onScroll = () => {
