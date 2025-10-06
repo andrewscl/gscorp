@@ -199,8 +199,7 @@ $background-transparent: transparent;
   }
 }
 
-
-/* ===== MÓVIL ===== */
+/* ====== MÓVIL ====== */
 @media (max-width: 768px) {
   .navbar {
     flex-wrap: wrap;
@@ -208,14 +207,14 @@ $background-transparent: transparent;
     .mega-menu-content {
       .menu-toggle { display: block; }
 
-      /* Drawer del menú móvil (debajo del header fijo) */
+      /* Drawer del menú (debajo del header) */
       #nav-links {
         --panel-pad: clamp(12px, 4vw, 24px);
         --row-pad-x: 12px;
         --tap-h: 52px;
 
         position: fixed;
-        top: var(--nav-h-px, 64px); /* altura real del header (fallback 64px) */
+        top: var(--nav-h-px, 64px); /* altura real del header (fallback) */
         left: 0; right: 0;
         width: 100%;
         max-width: 100%;
@@ -223,33 +222,28 @@ $background-transparent: transparent;
         padding-right: max(var(--panel-pad), env(safe-area-inset-right));
         box-sizing: border-box;
 
-        max-height: calc(100dvh - var(--nav-h-px, 64px)); /* scroll interno */
+        max-height: calc(100dvh - var(--nav-h-px, 64px));
         overflow-y: auto;
         overflow-x: hidden;
         -webkit-overflow-scrolling: touch;
 
         background: #fff;
-        z-index: 1002;        /* navbar suele estar ~1000 */
+        z-index: 1002;
         display: none;
         flex-direction: column;
 
         &.open { display: flex; }
 
-        /* Item vertical: título + panel debajo */
         > .nav-item {
           display: block;
           border-bottom: 1px solid rgba(0,0,0,.06);
 
-          /* Título (padre). Forzamos color en móvil (no heredar blanco). */
+          /* Título padre (forzar color en móvil) */
           > a {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            min-height: var(--tap-h);
-            padding-block: 10px;
-            color: $primary-color;
+            display: flex; align-items: center; justify-content: space-between;
+            min-height: var(--tap-h); padding-block: 10px; color: $primary-color;
 
-            /* Full-bleed dentro del panel */
+            /* Full-bleed horizontal dentro del panel */
             margin-left:  calc(-1 * max(var(--panel-pad), env(safe-area-inset-left)));
             margin-right: calc(-1 * max(var(--panel-pad), env(safe-area-inset-right)));
             padding-left:  calc(max(var(--panel-pad), env(safe-area-inset-left)) + var(--row-pad-x));
@@ -257,27 +251,24 @@ $background-transparent: transparent;
 
             .arrow-icon { margin-left: auto; transition: transform .2s ease; }
           }
-
           &.open-sub > a .arrow-icon { transform: rotate(180deg); }
 
-          /* Panel del mega debajo del título (acordeón) */
+          /* ===== Mega-panel (acordeón) =====
+             Resets fuertes para borrar estilos de desktop */
           > .mega-menu {
-            position: static;
-            display: none;        /* cerrado por defecto */
-            margin: .25rem 0 0;
-            padding: 0;
-            background: transparent;
-            border: 0;
-            overflow: visible;
+            position: static !important;
+            top: auto !important; left: auto !important; width: 100% !important;
+            margin: .25rem 0 0 !important; padding: 0 !important;
+            min-height: 0 !important; background: transparent !important;
+            border: 0 !important; box-shadow: none !important;
+            z-index: auto !important; display: none; overflow: visible;
 
-            /* Cabecera suelta (ej: "Nuestros servicios") */
+            /* Cabecera suelta dentro del panel */
             > .h2, > .h2.menu-link {
-              display: block;
-              margin: 0 0 .5rem;
-              padding: 12px 0;
+              display: block; margin: 0 0 .5rem; padding: 12px 0;
               border-bottom: 1px solid rgba(0,0,0,.06);
 
-              /* full-bleed */
+              /* full-bleed horizontal */
               margin-left:  calc(-1 * max(var(--panel-pad), env(safe-area-inset-left)));
               margin-right: calc(-1 * max(var(--panel-pad), env(safe-area-inset-right)));
               padding-left:  calc(max(var(--panel-pad), env(safe-area-inset-left)) + var(--row-pad-x));
@@ -285,23 +276,16 @@ $background-transparent: transparent;
             }
 
             .mega-column {
-              display: block;
-              width: 100%;
-              min-width: 0;
-              padding: 0;
-              margin: 0 0 .5rem 0;
+              display: block; width: 100%; min-width: 0;
+              padding: 0; margin: 0 0 .5rem;
             }
 
-            /* Opciones internas */
             a {
-              display: block;
-              width: 100%;
-              min-height: var(--tap-h);
-              padding-block: 12px;
-              text-decoration: none;
-              color: $primary-color;
+              display: block; width: 100%; min-height: var(--tap-h);
+              padding-block: 12px; text-decoration: none; color: $primary-color;
               border-bottom: 1px solid rgba(0,0,0,.06);
 
+              /* full-bleed horizontal */
               margin-left:  calc(-1 * max(var(--panel-pad), env(safe-area-inset-left)));
               margin-right: calc(-1 * max(var(--panel-pad), env(safe-area-inset-right)));
               padding-left:  calc(max(var(--panel-pad), env(safe-area-inset-left)) + var(--row-pad-x));
@@ -314,19 +298,18 @@ $background-transparent: transparent;
             img, iframe { max-width: 100%; height: auto; display: block; }
           }
 
-          /* Mostrar panel al abrir el item */
-          &.open-sub > .mega-menu { display: block; }
+          /* Mostrar mega-panel del item activo */
+          &.open-sub > .mega-menu { display: block !important; }
         }
       }
     }
   }
 
-  /* En móvil NO abrir por hover (solo tap) */
+  /* En móvil NO abrir por hover */
   @media (hover: none) {
-    .nav-item:hover .mega-menu { display: none; }
+    .nav-item:hover .mega-menu { display: none !important; }
   }
 }
-
 
 
 
