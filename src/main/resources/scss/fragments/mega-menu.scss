@@ -322,6 +322,42 @@ $background-transparent: transparent;
     justify-content: space-between;
   }
 
+  .navbar .mega-menu-content #nav-links {
+
+    /* 1) Destaca el título del item abierto */
+    > .nav-item.open-sub > a {
+      background: linear-gradient(to bottom, rgba(0,0,0,.03), rgba(0,0,0,0));
+    }
+
+    /* 2) El panel del mega parece "tarjeta" y no se confunde con el siguiente item */
+    > .nav-item > .mega-menu {
+      /* ya tienes position:static y resets; aquí el look */
+      background: #f8fafc;                           /* tono suave */
+      border: 1px solid rgba(0,0,0,.06);
+      border-radius: 10px;
+      padding: 8px 12px;
+      margin: 6px 0 10px;                            /* aire antes del siguiente item */
+      box-shadow: 0 1px 2px rgba(0,0,0,.04);
+    }
+
+    /* 3) Extra separación con una línea antes del siguiente item */
+    > .nav-item.open-sub + .nav-item {
+      border-top: 1px solid rgba(0,0,0,.08);
+      margin-top: 6px;                                /* pequeño gap entre bloques */
+    }
+
+    /* 4) Interior más “anidado” para que se perciba subordinado */
+    > .nav-item > .mega-menu .mega-column a {
+      padding-left: 14px;                              /* leve indentación */
+      border-left: 2px solid rgba(0,0,0,.05);
+    }
+
+    /* 5) Asegura que el título del siguiente item NO herede fondo del panel */
+    > .nav-item > a {
+      background: #fff;
+    }
+  }
+
   /* En móvil NO abrir por hover */
   @media (hover: none) {
     .nav-item:hover .mega-menu { display: none !important; }
