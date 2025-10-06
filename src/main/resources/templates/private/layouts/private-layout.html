@@ -24,22 +24,26 @@
     <th:block th:fragment="empty"></th:block>
 
     <aside class="sidebar" id="sidebar">
-        <div th:if="{sidebar != null}" th:replace="${sidebar}"></div>
-        <div th:unless="{sidebar != null}"
+        <div th:if="${sidebar != null}" th:replace="${sidebar}"></div>
+        <div th:unless="${sidebar != null}"
              th:replace="~{private/layouts/private-layout :: empty}"></div>
     </aside>
+
+    <!-- justo DESPUÉS del <aside class="sidebar" ...> -->
+    <div id="sidebar-scrim" class="sidebar-scrim" hidden></div>
+
 
     <div class="main-content">
 
         <header class="topbar">
-            <div th:if="{topbar != null}" th:replace="${topbar}"></div>
-            <div th:unless="{topbar != null}"
+            <div th:if="${topbar != null}" th:replace="${topbar}"></div>
+            <div th:unless="${topbar != null}"
                 th:replace="~{private/layouts/private-layout :: empty}"></div>
         </header>
 
         <section id="content" class="content">
-            <div th:if="{private != null}" th:replace="${private}"></div>
-            <div th:unless="{private != null}"
+            <div th:if="${private != null}" th:replace="${private}"></div>
+            <div th:unless="${private != null}"
                 th:replace="~{private/layouts/private-layout :: empty}"></div>
         </section>
 
