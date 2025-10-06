@@ -1,15 +1,19 @@
 @charset "UTF-8";
+/* =============== LAYOUT PRIVADO (DESKTOP BASE) =============== */
 body[data-layout=private] {
   display: flex;
   min-height: 100vh;
   margin: 0;
   font-family: "Roboto", sans-serif;
   background-color: #f5f7fa;
+  /* -------- Sidebar (desktop) -------- */
+  /* -------- Main content + Topbar -------- */
+  /* -------- Scrim (cortina de fondo para el drawer) -------- */
 }
 body[data-layout=private] .sidebar {
   width: 260px;
   background-color: #1f2937;
-  color: white;
+  color: #fff;
   display: flex;
   flex-direction: column;
   padding: 1rem;
@@ -31,7 +35,7 @@ body[data-layout=private] .sidebar .menu .menu-item,
 body[data-layout=private] .sidebar .menu summary {
   display: block;
   padding: 0.75rem 1rem;
-  color: white;
+  color: #fff;
   text-decoration: none;
   border-radius: 4px;
   cursor: pointer;
@@ -56,12 +60,12 @@ body[data-layout=private] .sidebar .menu .menu-group .submenu .submenu-item {
 }
 body[data-layout=private] .sidebar .menu .menu-group .submenu .submenu-item:hover {
   background-color: #4b5563;
-  color: white;
+  color: #fff;
 }
 body[data-layout=private] .sidebar .toggle-sidebar {
   margin-top: auto;
   background: none;
-  color: white;
+  color: #fff;
   border: none;
   cursor: pointer;
   font-size: 1.2rem;
@@ -76,8 +80,9 @@ body[data-layout=private] .main-content .topbar {
   padding: 1rem 2rem;
   border-bottom: 1px solid #e5e7eb;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  align-items: center; /* ⬅️ alineación vertical */
+  gap: 12px; /* espacio entre título y bloque derecho */
+  /* Bloque derecho (acciones + burger) se va al extremo derecho */
 }
 body[data-layout=private] .main-content .topbar .title {
   margin: 0;
@@ -85,23 +90,42 @@ body[data-layout=private] .main-content .topbar .title {
   font-weight: bold;
   color: #111827;
 }
-body[data-layout=private] .main-content .topbar .user-actions {
+body[data-layout=private] .main-content .topbar .topbar-right {
+  margin-left: auto; /* ⬅️ empuja a la derecha */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* Burger oculto en desktop, visible en móvil (abajo en @media) */
+}
+body[data-layout=private] .main-content .topbar .topbar-right .user-actions {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
-body[data-layout=private] .main-content .topbar .user-actions .user-name {
+body[data-layout=private] .main-content .topbar .topbar-right .user-actions .user-name {
   font-weight: 500;
   color: #374151;
 }
-body[data-layout=private] .main-content .topbar .user-actions .logout-btn {
+body[data-layout=private] .main-content .topbar .topbar-right .user-actions .logout-btn {
   color: #ef4444;
   text-decoration: none;
   font-weight: 600;
   cursor: pointer;
 }
-body[data-layout=private] .main-content .topbar .user-actions .logout-btn:hover {
+body[data-layout=private] .main-content .topbar .topbar-right .user-actions .logout-btn:hover {
   text-decoration: underline;
+}
+body[data-layout=private] .main-content .topbar .topbar-right .topbar-burger {
+  display: none;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1.25rem;
+  line-height: 1;
+  align-items: center;
+  justify-content: center;
 }
 body[data-layout=private] .main-content .content {
   flex-grow: 1;
@@ -112,60 +136,53 @@ body[data-layout=private] .sidebar-scrim {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.35);
-  z-index: 999; /* por debajo de .sidebar (que está en 1001) */
+  z-index: 999; /* por debajo de .sidebar (1001) */
   display: none; /* oculto por defecto */
 }
 
-/* ====== MÓVIL / TABLET: sidebar como drawer ====== */
+/* =============== MÓVIL / TABLET: SIDEBAR COMO DRAWER =============== */
 @media (max-width: 1024px) {
   body[data-layout=private] {
-    /* El botón burger sólo en móvil */
-    /* La sidebar pasa a OFF-CANVAS */
-    /* Cuando está abierta… */
-    /* Scrim (cortina clicable) */
+    /* Mostrar el burger en móvil dentro del bloque derecho */
+    /* (Opcional) ocultar acciones de usuario en pantallas pequeñas */
+    /* Sidebar off-canvas a la izquierda */
+    /* Al abrir (agrega .sidebar-open al <body>) */
+    /* Scrim visible al abrir (si gestionas con [hidden]) */
+    /* Si NO usas [hidden], usa estas dos en su lugar:
+    .sidebar-scrim { display: none; }
+    &.sidebar-open .sidebar-scrim { display: block; }
+    */
     /* El main no reserva espacio de sidebar en móvil */
   }
-  body[data-layout=private] .main-content .topbar .topbar-burger {
+  body[data-layout=private] .main-content .topbar .topbar-right .topbar-burger {
     display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border: 0;
-    background: transparent;
-    cursor: pointer;
-    font-size: 1.25rem;
-    line-height: 1;
+  }
+  body[data-layout=private] .main-content .topbar .topbar-right .user-actions {
+    display: none;
   }
   body[data-layout=private] .sidebar {
     position: fixed;
     top: 0;
     left: 0;
     height: 100dvh;
-    width: min(82vw, 320px); /* ancho cómodo en móvil */
-    transform: translateX(-100%); /* oculta a la izquierda */
+    width: min(82vw, 320px);
+    transform: translateX(-100%); /* oculta */
     transition: transform 0.25s ease;
-    z-index: 1001; /* sobre scrim (999) */
+    z-index: 1001; /* sobre scrim */
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+    will-change: transform;
   }
   body[data-layout=private].sidebar-open {
-    overflow: hidden; /* evita scroll del fondo */
+    overflow: hidden; /* bloquea scroll del fondo */
   }
   body[data-layout=private].sidebar-open .sidebar {
     transform: translateX(0);
   }
-  body[data-layout=private].sidebar-open .sidebar-scrim[hidden] {
-    display: block;
-  }
-  body[data-layout=private] .sidebar-scrim {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.35);
-    z-index: 999;
-    display: block;
-  }
   body[data-layout=private] .sidebar-scrim[hidden] {
     display: none;
+  }
+  body[data-layout=private].sidebar-open .sidebar-scrim[hidden] {
+    display: block;
   }
   body[data-layout=private] .main-content {
     width: 100%;
