@@ -496,34 +496,6 @@ p {
     background: #fff;
   }
 }
-@media (max-width: 768px) {
-  .navbar .mega-menu-content #nav-links > .nav-item {
-    position: relative; /* crea stacking context local */
-  }
-  /* El título SIEMPRE visible y encima */
-  .navbar .mega-menu-content #nav-links > .nav-item > a {
-    position: relative;
-    z-index: 2; /* ⬅️ por sobre su .mega-menu */
-    background: #fff; /* fondo sólido para no “perderse” */
-    color: #1e293b; /* asegura contraste */
-  }
-  /* El panel queda debajo del título (sin solapar) */
-  .navbar .mega-menu-content #nav-links > .nav-item > .mega-menu {
-    position: relative !important;
-    z-index: 1 !important; /* ⬅️ por debajo del <a> */
-    margin-top: 8px !important; /* aire bajo el título */
-    padding: 8px 12px !important;
-    background: #f8fafc !important;
-    border: 1px solid rgba(0, 0, 0, 0.06) !important;
-    border-radius: 10px !important;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-  }
-  /* Separación clara con el siguiente nav-link */
-  .navbar .mega-menu-content #nav-links > .nav-item.open-sub {
-    margin-bottom: 8px; /* empuja al siguiente item */
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  }
-}
 /* Animación de entrada para dropdown */
 @keyframes fadeInDown {
   from {
