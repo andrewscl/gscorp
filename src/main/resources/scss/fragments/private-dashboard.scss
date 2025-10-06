@@ -1,3 +1,4 @@
+/* =============== LAYOUT PRIVADO (DESKTOP BASE) =============== */
 body[data-layout="private"] {
   display: flex;
   min-height: 100vh;
@@ -5,10 +6,11 @@ body[data-layout="private"] {
   font-family: 'Roboto', sans-serif;
   background-color: #f5f7fa;
 
+  /* -------- Sidebar (desktop) -------- */
   .sidebar {
     width: 260px;
     background-color: #1f2937;
-    color: white;
+    color: #fff;
     display: flex;
     flex-direction: column;
     padding: 1rem;
@@ -19,7 +21,6 @@ body[data-layout="private"] {
       height: 6vh;
 
       .logo {
-        //width: 80%;
         max-width: 150px;
         height: auto;
         max-height: 100%;
@@ -33,15 +34,13 @@ body[data-layout="private"] {
       summary {
         display: block;
         padding: 0.75rem 1rem;
-        color: white;
+        color: #fff;
         text-decoration: none;
         border-radius: 4px;
         cursor: pointer;
         font-weight: 500;
 
-        &:hover {
-          background-color: #374151;
-        }
+        &:hover { background-color: #374151; }
       }
 
       .menu-group {
@@ -57,10 +56,7 @@ body[data-layout="private"] {
             text-decoration: none;
             border-radius: 4px;
 
-            &:hover {
-              background-color: #4b5563;
-              color: white;
-            }
+            &:hover { background-color: #4b5563; color: #fff; }
           }
         }
       }
@@ -69,13 +65,14 @@ body[data-layout="private"] {
     .toggle-sidebar {
       margin-top: auto;
       background: none;
-      color: white;
+      color: #fff;
       border: none;
       cursor: pointer;
       font-size: 1.2rem;
     }
   }
 
+  /* -------- Main content + Topbar -------- */
   .main-content {
     flex-grow: 1;
     display: flex;
@@ -86,8 +83,8 @@ body[data-layout="private"] {
       padding: 1rem 2rem;
       border-bottom: 1px solid #e5e7eb;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      align-items: center;     /* ⬅️ alineación vertical */
+      gap: 12px;               /* espacio entre título y bloque derecho */
 
       .title {
         margin: 0;
@@ -96,25 +93,35 @@ body[data-layout="private"] {
         color: #111827;
       }
 
-      .user-actions {
+      /* Bloque derecho (acciones + burger) se va al extremo derecho */
+      .topbar-right {
+        margin-left: auto;     /* ⬅️ empuja a la derecha */
         display: flex;
         align-items: center;
-        gap: 1rem;
+        gap: 10px;
 
-        .user-name {
-          font-weight: 500;
-          color: #374151;
+        .user-actions {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+
+          .user-name { font-weight: 500; color: #374151; }
+          .logout-btn {
+            color: #ef4444;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            &:hover { text-decoration: underline; }
+          }
         }
 
-        .logout-btn {
-          color: #ef4444;
-          text-decoration: none;
-          font-weight: 600;
-          cursor: pointer;
-
-          &:hover {
-            text-decoration: underline;
-          }
+        /* Burger oculto en desktop, visible en móvil (abajo en @media) */
+        .topbar-burger {
+          display: none;
+          width: 40px; height: 40px;
+          border: 0; background: transparent; cursor: pointer;
+          font-size: 1.25rem; line-height: 1;
+          align-items: center; justify-content: center;
         }
       }
     }
@@ -126,59 +133,58 @@ body[data-layout="private"] {
     }
   }
 
+  /* -------- Scrim (cortina de fondo para el drawer) -------- */
   .sidebar-scrim {
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,.35);
-    z-index: 999;      /* por debajo de .sidebar (que está en 1001) */
-    display: none;     /* oculto por defecto */
+    z-index: 999;            /* por debajo de .sidebar (1001) */
+    display: none;           /* oculto por defecto */
   }
-
 }
 
-/* ====== MÓVIL / TABLET: sidebar como drawer ====== */
+/* =============== MÓVIL / TABLET: SIDEBAR COMO DRAWER =============== */
 @media (max-width: 1024px) {
   body[data-layout="private"] {
-    /* El botón burger sólo en móvil */
-    .main-content .topbar .topbar-burger {
+    /* Mostrar el burger en móvil dentro del bloque derecho */
+    .main-content .topbar .topbar-right .topbar-burger {
       display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px; height: 40px;
-      border: 0; background: transparent; cursor: pointer;
-      font-size: 1.25rem; line-height: 1;
     }
 
-    /* La sidebar pasa a OFF-CANVAS */
+    /* (Opcional) ocultar acciones de usuario en pantallas pequeñas */
+    .main-content .topbar .topbar-right .user-actions {
+      display: none;
+    }
+
+    /* Sidebar off-canvas a la izquierda */
     .sidebar {
       position: fixed;
       top: 0; left: 0;
       height: 100dvh;
-      width: min(82vw, 320px);      /* ancho cómodo en móvil */
-      transform: translateX(-100%); /* oculta a la izquierda */
+      width: min(82vw, 320px);
+      transform: translateX(-100%);     /* oculta */
       transition: transform .25s ease;
-      z-index: 1001;                /* sobre scrim (999) */
+      z-index: 1001;                    /* sobre scrim */
       box-shadow: 0 10px 24px rgba(0,0,0,.2);
+      will-change: transform;
     }
 
-    /* Cuando está abierta… */
+    /* Al abrir (agrega .sidebar-open al <body>) */
     &.sidebar-open {
       .sidebar { transform: translateX(0); }
-      .sidebar-scrim[hidden] { display: block; }
-      overflow: hidden; /* evita scroll del fondo */
+      overflow: hidden;                 /* bloquea scroll del fondo */
     }
 
-    /* Scrim (cortina clicable) */
-    .sidebar-scrim {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,.35);
-      z-index: 999;
-      display: block;
-    }
+    /* Scrim visible al abrir (si gestionas con [hidden]) */
     .sidebar-scrim[hidden] { display: none; }
+    &.sidebar-open .sidebar-scrim[hidden] { display: block; }
+
+    /* Si NO usas [hidden], usa estas dos en su lugar:
+    .sidebar-scrim { display: none; }
+    &.sidebar-open .sidebar-scrim { display: block; }
+    */
 
     /* El main no reserva espacio de sidebar en móvil */
     .main-content { width: 100%; }
   }
 }
-
