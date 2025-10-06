@@ -8,7 +8,7 @@ body[data-layout="private"] {
 
   /* -------- Sidebar (desktop) -------- */
   .sidebar {
-    width: 260px;
+    width: 10vw;
     background-color: #1f2937;
     color: #fff;
     display: flex;
@@ -143,17 +143,26 @@ body[data-layout="private"] {
   }
 }
 
-/* =============== MÓVIL / TABLET: SIDEBAR COMO DRAWER =============== */
+/* =============== MÓVIL / TABLET: SIDEBAR COMO DRAWER (SCSS anidado) =============== */
 @media (max-width: 1024px) {
   body[data-layout="private"] {
-    /* Mostrar el burger en móvil dentro del bloque derecho */
-    .main-content .topbar .topbar-right .topbar-burger {
-      display: inline-flex;
-    }
 
-    /* (Opcional) ocultar acciones de usuario en pantallas pequeñas */
-    .main-content .topbar .topbar-right .user-actions {
-      display: none;
+    /* Topbar: mostrar el burger y (opcional) ocultar acciones */
+    .main-content {
+      .topbar {
+        .topbar-right {
+          .topbar-burger {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px; height: 40px;
+            border: 0; background: transparent; cursor: pointer;
+            font-size: 1.25rem; line-height: 1;
+          }
+        }
+      }
+      /* El main no reserva espacio de sidebar en móvil */
+      width: 100%;
     }
 
     /* Sidebar off-canvas a la izquierda */
@@ -169,22 +178,25 @@ body[data-layout="private"] {
       will-change: transform;
     }
 
-    /* Al abrir (agrega .sidebar-open al <body>) */
-    &.sidebar-open {
-      .sidebar { transform: translateX(0); }
-      overflow: hidden;                 /* bloquea scroll del fondo */
+    /* Scrim oculto por defecto en móvil */
+    .sidebar-scrim {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.35);
+      z-index: 999;
+      display: none;
     }
 
-    /* Scrim visible al abrir (si gestionas con [hidden]) */
-    .sidebar-scrim[hidden] { display: none; }
-    &.sidebar-open .sidebar-scrim[hidden] { display: block; }
+    /* Al abrir (agrega .sidebar-open al <body> desde JS) */
+    &.sidebar-open {
+      overflow: hidden;            /* bloquea scroll del fondo */
+      .sidebar { transform: translateX(0); }
+      .sidebar-scrim { display: block; }
 
-    /* Si NO usas [hidden], usa estas dos en su lugar:
-    .sidebar-scrim { display: none; }
-    &.sidebar-open .sidebar-scrim { display: block; }
-    */
-
-    /* El main no reserva espacio de sidebar en móvil */
-    .main-content { width: 100%; }
+      /* Si usas el atributo [hidden] en el scrim y no lo quitas por JS,
+         puedes forzar su visibilidad así (mejor quitar el atributo): */
+      // .sidebar-scrim[hidden] { display: block !important; }
+    }
   }
 }
+
