@@ -11,7 +11,7 @@ body[data-layout=private] {
   /* -------- Scrim (cortina de fondo para el drawer) -------- */
 }
 body[data-layout=private] .sidebar {
-  width: 260px;
+  width: 10vw;
   background-color: #1f2937;
   color: #fff;
   display: flex;
@@ -140,25 +140,36 @@ body[data-layout=private] .sidebar-scrim {
   display: none; /* oculto por defecto */
 }
 
-/* =============== MÓVIL / TABLET: SIDEBAR COMO DRAWER =============== */
+/* =============== MÓVIL / TABLET: burger junto al título =============== */
 @media (max-width: 1024px) {
   body[data-layout=private] {
-    /* Mostrar el burger en móvil dentro del bloque derecho */
-    /* (Opcional) ocultar acciones de usuario en pantallas pequeñas */
-    /* Sidebar off-canvas a la izquierda */
-    /* Al abrir (agrega .sidebar-open al <body>) */
-    /* Scrim visible al abrir (si gestionas con [hidden]) */
-    /* Si NO usas [hidden], usa estas dos en su lugar:
-    .sidebar-scrim { display: none; }
-    &.sidebar-open .sidebar-scrim { display: block; }
-    */
-    /* El main no reserva espacio de sidebar en móvil */
+    /* Sidebar como drawer */
+  }
+  body[data-layout=private] .main-content .topbar {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* espacio entre título y burger */
+  }
+  body[data-layout=private] .main-content .topbar .title {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+  body[data-layout=private] .main-content .topbar .topbar-right {
+    margin-left: 0; /* ⬅️ anula el empuje a la derecha de desktop */
+    display: flex;
+    align-items: center;
   }
   body[data-layout=private] .main-content .topbar .topbar-right .topbar-burger {
-    display: inline-flex;
-  }
-  body[data-layout=private] .main-content .topbar .topbar-right .user-actions {
-    display: none;
+    display: inline-flex; /* visible en móvil */
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    font-size: 1.25rem;
+    line-height: 1;
   }
   body[data-layout=private] .sidebar {
     position: fixed;
@@ -166,25 +177,27 @@ body[data-layout=private] .sidebar-scrim {
     left: 0;
     height: 100dvh;
     width: min(82vw, 320px);
-    transform: translateX(-100%); /* oculta */
+    transform: translateX(-100%);
     transition: transform 0.25s ease;
-    z-index: 1001; /* sobre scrim */
+    z-index: 1001;
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
-    will-change: transform;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  body[data-layout=private] .sidebar-scrim {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 1000;
+    display: none;
   }
   body[data-layout=private].sidebar-open {
-    overflow: hidden; /* bloquea scroll del fondo */
+    overflow: hidden;
   }
   body[data-layout=private].sidebar-open .sidebar {
     transform: translateX(0);
   }
-  body[data-layout=private] .sidebar-scrim[hidden] {
-    display: none;
-  }
-  body[data-layout=private].sidebar-open .sidebar-scrim[hidden] {
+  body[data-layout=private].sidebar-open .sidebar-scrim {
     display: block;
-  }
-  body[data-layout=private] .main-content {
-    width: 100%;
   }
 }/*# sourceMappingURL=private-dashboard.css.map */
