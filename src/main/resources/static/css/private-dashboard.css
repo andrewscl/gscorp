@@ -140,7 +140,7 @@ body[data-layout=private] .sidebar-scrim {
   display: none; /* oculto por defecto */
 }
 
-/* =============== MÓVIL / TABLET: burger junto al título =============== */
+/* =============== MÓVIL / TABLET: burger a la derecha y sin wrap =============== */
 @media (max-width: 1024px) {
   body[data-layout=private] {
     /* Sidebar como drawer */
@@ -148,14 +148,22 @@ body[data-layout=private] .sidebar-scrim {
   body[data-layout=private] .main-content .topbar {
     display: flex;
     align-items: center;
-    gap: 8px; /* espacio entre título y burger */
+    justify-content: space-between; /* título a la izq, burger a la der */
+    flex-wrap: nowrap; /* ⬅️ evita que el burger salte de línea */
+    gap: 8px;
   }
   body[data-layout=private] .main-content .topbar .title {
     margin: 0;
     font-size: 1.25rem;
+    flex: 1 1 auto; /* ocupa el espacio disponible */
+    min-width: 0; /* permite elipsis si se acorta */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   body[data-layout=private] .main-content .topbar .topbar-right {
-    margin-left: 0; /* ⬅️ anula el empuje a la derecha de desktop */
+    margin-left: auto; /* ⬅️ asegura que se pegue a la derecha */
+    flex: 0 0 auto;
     display: flex;
     align-items: center;
   }
