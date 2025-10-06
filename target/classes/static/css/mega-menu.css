@@ -439,6 +439,23 @@ p {
   .navbar .mega-menu-content #nav-links > .nav-item.open-sub > .mega-menu {
     display: block !important;
   }
+  .navbar .mega-menu-content #nav-links {
+    /* el panel en móvil NO tiene altura fija */
+    height: auto !important;
+    align-items: stretch !important; /* en vertical, que las filas no “centren” */
+  }
+  .navbar .mega-menu-content #nav-links > .nav-item {
+    height: auto !important; /* anula height:100% heredado de desktop */
+    display: block !important;
+  }
+  .navbar .mega-menu-content #nav-links > .nav-item > a {
+    height: auto !important; /* clave: el <a> deja de medir 100% del panel */
+    min-height: var(--tap-h, 52px);
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
   /* En móvil NO abrir por hover */
 }
 @media (max-width: 768px) and (hover: none) {
