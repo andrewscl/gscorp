@@ -6,7 +6,7 @@ body[data-layout="private"] {
   background-color: #f5f7fa;
 
   .sidebar {
-    width: 10%;
+    width: 260px;
     background-color: #1f2937;
     color: white;
     display: flex;
@@ -125,4 +125,60 @@ body[data-layout="private"] {
       background-color: #f9fafb;
     }
   }
+
+  .sidebar-scrim {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.35);
+    z-index: 999;      /* por debajo de .sidebar (que está en 1001) */
+    display: none;     /* oculto por defecto */
+  }
+
 }
+
+/* ====== MÓVIL / TABLET: sidebar como drawer ====== */
+@media (max-width: 1024px) {
+  body[data-layout="private"] {
+    /* El botón burger sólo en móvil */
+    .main-content .topbar .topbar-burger {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px; height: 40px;
+      border: 0; background: transparent; cursor: pointer;
+      font-size: 1.25rem; line-height: 1;
+    }
+
+    /* La sidebar pasa a OFF-CANVAS */
+    .sidebar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 100dvh;
+      width: min(82vw, 320px);      /* ancho cómodo en móvil */
+      transform: translateX(-100%); /* oculta a la izquierda */
+      transition: transform .25s ease;
+      z-index: 1001;                /* sobre scrim (999) */
+      box-shadow: 0 10px 24px rgba(0,0,0,.2);
+    }
+
+    /* Cuando está abierta… */
+    &.sidebar-open {
+      .sidebar { transform: translateX(0); }
+      .sidebar-scrim[hidden] { display: block; }
+      overflow: hidden; /* evita scroll del fondo */
+    }
+
+    /* Scrim (cortina clicable) */
+    .sidebar-scrim {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.35);
+      z-index: 999;
+      display: block;
+    }
+    .sidebar-scrim[hidden] { display: none; }
+
+    /* El main no reserva espacio de sidebar en móvil */
+    .main-content { width: 100%; }
+  }
+}
+

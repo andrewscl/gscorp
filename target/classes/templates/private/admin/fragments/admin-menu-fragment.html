@@ -35,10 +35,17 @@
     <button class="toggle-sidebar" id="toggleSidebar">☰</button>
 </div>
 
-<div th:fragment="topbar">
+<div th:fragment="topbar">  
+    <button class="topbar-burger" id="topbarToggleSidebar"
+          aria-label="Abrir menú"
+            aria-expanded="false">☰</button>
+
     <h1 class="title">Administración</h1>
     <div class="user-actions">
         <span class="user-name">admin</span>
         <a class="logout-btn">Cerrar sesión</a>
     </div>
+
+    <script type="module" src="/js/private/menu/private-menu.js"></script>
+
 </div>

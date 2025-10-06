@@ -1,3 +1,4 @@
+@charset "UTF-8";
 body[data-layout=private] {
   display: flex;
   min-height: 100vh;
@@ -6,7 +7,7 @@ body[data-layout=private] {
   background-color: #f5f7fa;
 }
 body[data-layout=private] .sidebar {
-  width: 10%;
+  width: 260px;
   background-color: #1f2937;
   color: white;
   display: flex;
@@ -106,4 +107,67 @@ body[data-layout=private] .main-content .content {
   flex-grow: 1;
   padding: 2rem;
   background-color: #f9fafb;
+}
+body[data-layout=private] .sidebar-scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 999; /* por debajo de .sidebar (que está en 1001) */
+  display: none; /* oculto por defecto */
+}
+
+/* ====== MÓVIL / TABLET: sidebar como drawer ====== */
+@media (max-width: 1024px) {
+  body[data-layout=private] {
+    /* El botón burger sólo en móvil */
+    /* La sidebar pasa a OFF-CANVAS */
+    /* Cuando está abierta… */
+    /* Scrim (cortina clicable) */
+    /* El main no reserva espacio de sidebar en móvil */
+  }
+  body[data-layout=private] .main-content .topbar .topbar-burger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+  body[data-layout=private] .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100dvh;
+    width: min(82vw, 320px); /* ancho cómodo en móvil */
+    transform: translateX(-100%); /* oculta a la izquierda */
+    transition: transform 0.25s ease;
+    z-index: 1001; /* sobre scrim (999) */
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+  }
+  body[data-layout=private].sidebar-open {
+    overflow: hidden; /* evita scroll del fondo */
+  }
+  body[data-layout=private].sidebar-open .sidebar {
+    transform: translateX(0);
+  }
+  body[data-layout=private].sidebar-open .sidebar-scrim[hidden] {
+    display: block;
+  }
+  body[data-layout=private] .sidebar-scrim {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 999;
+    display: block;
+  }
+  body[data-layout=private] .sidebar-scrim[hidden] {
+    display: none;
+  }
+  body[data-layout=private] .main-content {
+    width: 100%;
+  }
 }/*# sourceMappingURL=private-dashboard.css.map */
