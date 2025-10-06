@@ -326,76 +326,71 @@ p {
   box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
 }
 
-/* ====== MÓVIL ====== */
+/* ====== MÓVIL (limpio y sin solapes) ====== */
 @media (max-width: 768px) {
   .navbar {
     flex-wrap: wrap;
-  }
-  .navbar .mega-menu-content {
-    /* Drawer del menú (debajo del header) */
   }
   .navbar .mega-menu-content .menu-toggle {
     display: block;
   }
   .navbar .mega-menu-content #nav-links {
+    /* Panel fijo bajo el header */
     --panel-pad: clamp(12px, 4vw, 24px);
-    --row-pad-x: 12px;
     --tap-h: 52px;
     position: fixed;
-    top: var(--nav-h-px, 64px); /* altura real del header (fallback) */
+    top: var(--nav-h-px, 64px);
     left: 0;
     right: 0;
     width: 100%;
     max-width: 100%;
-    padding-left: max(var(--panel-pad), env(safe-area-inset-left));
-    padding-right: max(var(--panel-pad), env(safe-area-inset-right));
     box-sizing: border-box;
-    max-height: calc(100dvh - var(--nav-h-px, 64px));
+    padding-inline: max(var(--panel-pad), env(safe-area-inset-left));
+    background: #fff;
+    z-index: 1002;
+    /* Altura y scroll del panel */
+    /* Si lo quieres más compacto, usa esta en lugar de la anterior: */
+    max-height: min(85dvh, 100dvh - var(--nav-h-px, 64px));
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
-    background: #fff;
-    z-index: 1002;
     display: none;
     flex-direction: column;
+    /* Fila (item raíz) */
   }
   .navbar .mega-menu-content #nav-links.open {
     display: flex;
   }
   .navbar .mega-menu-content #nav-links > .nav-item {
+    position: relative;
     display: block;
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-    /* Título padre (forzar color en móvil) */
-    /* ===== Mega-panel (acordeón) =====
-       Resets fuertes para borrar estilos de desktop */
-    /* Mostrar mega-panel del item activo */
+    /* Panel del mega (acordeón) */
+    /* Mostrar panel del item activo */
   }
-  .navbar .mega-menu-content #nav-links > .nav-item > a {
+  .navbar .mega-menu-content #nav-links > .nav-item > a { /* Título padre (tappable) */
     display: flex;
     align-items: center;
     justify-content: space-between;
     min-height: var(--tap-h);
-    padding-block: 10px;
+    padding: 10px 0; /* sin márgenes negativos: NO full-bleed */
     color: #1e293b;
-    /* Full-bleed horizontal dentro del panel */
-    margin-left: calc(-1 * max(var(--panel-pad), env(safe-area-inset-left)));
-    margin-right: calc(-1 * max(var(--panel-pad), env(safe-area-inset-right)));
-    padding-left: calc(max(var(--panel-pad), env(safe-area-inset-left)) + var(--row-pad-x));
-    padding-right: calc(max(var(--panel-pad), env(safe-area-inset-right)) + var(--row-pad-x));
+    text-decoration: none;
   }
   .navbar .mega-menu-content #nav-links > .nav-item > a .arrow-icon {
-    margin-left: auto;
+    margin-left: 12px;
     transition: transform 0.2s ease;
   }
   .navbar .mega-menu-content #nav-links > .nav-item.open-sub > a .arrow-icon {
     transform: rotate(180deg);
   }
   .navbar .mega-menu-content #nav-links > .nav-item > .mega-menu {
+    /* Resets contundentes vs desktop */
     position: static !important;
     top: auto !important;
     left: auto !important;
     width: 100% !important;
-    margin: 0.25rem 0 0 !important;
+    margin: 6px 0 0 !important;
     padding: 0 !important;
     min-height: 0 !important;
     background: transparent !important;
@@ -404,39 +399,31 @@ p {
     z-index: auto !important;
     display: none;
     overflow: visible;
-    /* Cabecera suelta dentro del panel */
+    /* Cabecera dentro del panel */
+    /* Opciones internas */
   }
   .navbar .mega-menu-content #nav-links > .nav-item > .mega-menu > .h2, .navbar .mega-menu-content #nav-links > .nav-item > .mega-menu > .h2.menu-link {
     display: block;
     margin: 0 0 0.5rem;
-    padding: 12px 0;
+    padding: 10px 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-    /* full-bleed horizontal */
-    margin-left: calc(-1 * max(var(--panel-pad), env(safe-area-inset-left)));
-    margin-right: calc(-1 * max(var(--panel-pad), env(safe-area-inset-right)));
-    padding-left: calc(max(var(--panel-pad), env(safe-area-inset-left)) + var(--row-pad-x));
-    padding-right: calc(max(var(--panel-pad), env(safe-area-inset-right)) + var(--row-pad-x));
+    color: #1e293b;
+    text-decoration: none;
   }
   .navbar .mega-menu-content #nav-links > .nav-item > .mega-menu .mega-column {
     display: block;
     width: 100%;
-    min-width: 0;
     padding: 0;
     margin: 0 0 0.5rem;
   }
   .navbar .mega-menu-content #nav-links > .nav-item > .mega-menu a {
     display: block;
     width: 100%;
-    min-height: var(--tap-h);
-    padding-block: 12px;
-    text-decoration: none;
+    min-height: 44px; /* accesible */
+    padding: 10px 0;
     color: #1e293b;
+    text-decoration: none;
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-    /* full-bleed horizontal */
-    margin-left: calc(-1 * max(var(--panel-pad), env(safe-area-inset-left)));
-    margin-right: calc(-1 * max(var(--panel-pad), env(safe-area-inset-right)));
-    padding-left: calc(max(var(--panel-pad), env(safe-area-inset-left)) + var(--row-pad-x));
-    padding-right: calc(max(var(--panel-pad), env(safe-area-inset-right)) + var(--row-pad-x));
   }
   .navbar .mega-menu-content #nav-links > .nav-item > .mega-menu a:hover {
     background: rgba(0, 0, 0, 0.03);
