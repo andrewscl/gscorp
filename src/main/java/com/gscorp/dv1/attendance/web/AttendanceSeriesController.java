@@ -1,5 +1,4 @@
-// AttendanceSeriesController.java
-package com.gscorp.dv1.attendance.api;
+package com.gscorp.dv1.attendance.web;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -10,8 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import com.gscorp.dv1.attendance.api.dto.SeriesPoint;
-import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepository;
+import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
+import com.gscorp.dv1.attendance.web.dto.SeriesAttendancePunch;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,10 +19,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AttendanceSeriesController {
 
-  private final AttendancePunchRepository repo;
+  private final AttendancePunchRepo repo;
 
   @GetMapping("/series")
-  public ResponseEntity<List<SeriesPoint>> series(
+  public ResponseEntity<List<SeriesAttendancePunch>> series(
       Authentication auth,
       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
@@ -39,11 +38,11 @@ public class AttendanceSeriesController {
     ));
 
     // Rellenar días faltantes para que el gráfico no “salte”
-    var out = new ArrayList<SeriesPoint>();
+    var out = new ArrayList<SeriesAttendancePunch>();
     LocalDate d = from;
     while (!d.isAfter(to)) {
       String key = d.toString(); // YYYY-MM-DD
-      out.add(new SeriesPoint(key, map.getOrDefault(key, 0L)));
+      out.add(new SeriesAttendancePunch(key, map.getOrDefault(key, 0L)));
       d = d.plusDays(1);
     }
     return ResponseEntity.ok(out);
