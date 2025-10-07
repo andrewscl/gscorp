@@ -1,0 +1,20 @@
+<!-- Botón de asistencia (sin WebAuthn) -->
+<section th:fragment="attendanceButton" class="card attendance" style="max-width:520px;padding:1rem">
+  <h3 style="margin-top:0">Asistencia</h3>
+
+  <div id="att-status" style="margin:.5rem 0;color:#444">Listo para marcar.</div>
+
+  <div id="att-widget"
+       data-punch-endpoint="/api/attendance/punch"
+       style="display:flex;gap:.5rem;flex-wrap:wrap">
+    <button id="att-in"  class="btn btn-primary"   type="button">Marcar entrada</button>
+    <button id="att-out" class="btn btn-secondary" type="button">Marcar salida</button>
+  </div>
+
+  <small style="display:block;margin-top:.5rem;color:#666">
+    Se solicitará tu ubicación (GPS) para validar la marcación.
+  </small>
+
+  <!-- Módulo JS (ruta pública compilada por Vite) -->
+  <script type="module" th:src="@{/js/private/attendance/attendance.js}" defer></script>
+</section>
