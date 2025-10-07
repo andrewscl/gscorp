@@ -2,6 +2,9 @@ package com.gscorp.dv1.attendance.infrastructure;
 
 import java.time.OffsetDateTime;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,7 +30,10 @@ public class AttendancePunch {
   @Column(nullable=false) Boolean locationOk;
   Double distanceM;
   @Column(columnDefinition="text") String deviceInfo;
-  @Column(columnDefinition="inet") String ip;
+
+  @JdbcTypeCode(SqlTypes.INET)
+  @Column(columnDefinition="inet")
+  String ip;
 
   @PrePersist void onCreate(){ if (ts == null) ts = OffsetDateTime.now(); }
   
