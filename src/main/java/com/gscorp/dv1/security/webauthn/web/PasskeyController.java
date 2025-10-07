@@ -38,42 +38,48 @@ public class PasskeyController {
   private final WebAuthnManager webAuthn;
   private final ObjectConverter objectConverter;
 
-  @PostMapping(value = "/register/options", produces = MediaType.APPLICATION_JSON_VALUE)
-  public Map<String, Object> registerOptions(HttpServletRequest req, Authentication auth) {
-    Long userId = currentUserId(auth);
-    String rpId = effectiveRpId(req);
-    var challenge = new DefaultChallenge();
+    @PostMapping(value = "/register/options", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String, Object> registerOptions(HttpServletRequest req, Authentication auth) {
+        Long userId = currentUserId(auth);
+        String rpId = effectiveRpId(req);
+        var challenge = new DefaultChallenge();
 
-    HttpSession session = req.getSession(true);
-    session.setAttribute(REG_CHALLENGE, challenge);
-    session.setAttribute(REG_USER_ID, userId);
+        HttpSession session = req.getSession(true);
+        session.setAttribute(REG_CHALLENGE, challenge);
+        session.setAttribute(REG_USER_ID, userId);
 
-    var pubKeyCredParams = List.of(
-      Map.of("type", "public-key", "alg", -7),   // ES256
-      Map.of("type", "public-key", "alg", -257)  // RS256
-    );
+        var pubKeyCredParams = List.of(
+            Map.of("type","public-key","alg",-7),    // ES256
+            Map.of("type","public-key","alg",-257)   // RS256
+        );
 
-    // excludeCredentials: evita registrar misma credencial otra vez
-    var exclude = repo.findByUserId(userId).stream().map(c -> Map.of(
-      "type","public-key",
-      "id",  b64u(c.getCredentialId())
-    )).toList();
+        var exclude = repo.findByUserId(userId).stream().map(c -> Map.of(
+            "type","public-key",
+            "id",  b64u(c.getCredentialId())
+        )).toList();
 
-    return Map.of(
-      "rp", Map.of("id", rpId, "name", "GSCorp"),
-      "user", Map.of(
-        "id", b64u(Long.toString(userId).getBytes(StandardCharsets.UTF_8)),
-        "name", "user-" + userId,
-        "displayName", "User " + userId
-      ),
-      "challenge", b64u(challenge.getValue()),
-      "pubKeyCredParams", pubKeyCredParams,
-      "attestation", "none",
-      "authenticatorSelection", Map.of("residentKey", "preferred", "userVerification", "required"),
-      "excludeCredentials", exclude,
-      "timeout", 60000
-    );
-  }
+        return Map.of(
+            "rp", Map.of("id", rpId, "name", "GSCorp"),
+            "user", Map.of(
+                "id", b64u(Long.toString(userId).getBytes(StandardCharsets.UTF_8)),
+                "name", "user-" + userId,
+                "displayName", "User " + userId
+            ),
+            "challenge", b64u(challenge.getValue()),
+            "pubKeyCredParams", pubKeyCredParams,
+            "attestation", "none",
+            // 👇 fuerza passkey en el dispositivo (Face ID / Touch ID)
+            "authenticatorSelection", Map.of(
+                "authenticatorAttachment", "platform",
+                "residentKey", "preferred",     // o "required" si quieres DC obligatoria
+                "userVerification", "required"
+            ),
+            "excludeCredentials", exclude,
+            "timeout", 60000
+        );
+    }
+
+
 
     @PostMapping(value = "/register/verify", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> registerVerify(@RequestBody String attestationJSON,
