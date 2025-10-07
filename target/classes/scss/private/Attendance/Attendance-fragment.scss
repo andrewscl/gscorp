@@ -1,0 +1,139 @@
+/* attendance-fragment.scss */
+.attendance.card {
+  /* Tokens locales */
+  --att-gap: .5rem;
+  --att-pad: 16px;
+  --att-radius: 12px;
+  --att-bg: #fff;
+  --att-border: 1px solid rgba(17,24,39,.08);
+  --att-shadow: 0 6px 20px rgba(0,0,0,.06);
+  --att-text: #111827;
+  --att-muted: #6b7280;
+  --att-ok: #059669;
+  --att-warn: #d97706;
+  --att-err: #b91c1c;
+
+  max-width: 520px;              /* coincide con tu inline */
+  padding: var(--att-pad);       /* coincide con tu inline */
+  background: var(--att-bg);
+  border: var(--att-border);
+  border-radius: var(--att-radius);
+  box-shadow: var(--att-shadow);
+  color: var(--att-text);
+
+  h3 {
+    margin: 0 0 .5rem 0;
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--att-text);
+  }
+
+  #att-status {
+    margin: .5rem 0;
+    color: #444; /* por defecto */
+    font-size: .95rem;
+
+    &.is-ok    { color: var(--att-ok); }
+    &.is-warn  { color: var(--att-warn); }
+    &.is-error { color: var(--att-err); }
+  }
+
+  #att-widget {
+    display: flex;
+    gap: var(--att-gap);
+    flex-wrap: wrap;
+
+    .btn {
+      /* Botón compacto y elegante */
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      min-height: 40px;          /* más bajo que uno “clásico” */
+      padding: .5rem .9rem;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      font-weight: 600;
+      line-height: 1.1;
+      cursor: pointer;
+      transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
+
+      &:active { transform: translateY(1px); }
+      &:disabled {
+        opacity: .6;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+
+      &.btn-primary {
+        background: #1f6feb;     /* azul moderno */
+        color: #fff;
+        box-shadow: 0 6px 14px rgba(31,111,235,.25);
+
+        &:hover { box-shadow: 0 8px 18px rgba(31,111,235,.32); }
+        &:focus-visible { outline: 2px solid rgba(31,111,235,.4); outline-offset: 2px; }
+      }
+
+      &.btn-secondary {
+        background: #f3f4f6;
+        color: #111827;
+        border-color: rgba(0,0,0,.06);
+
+        &:hover { background: #e9edf2; }
+        &:focus-visible { outline: 2px solid rgba(0,0,0,.12); outline-offset: 2px; }
+      }
+
+      /* Spinner opcional cuando uses aria-busy="true" */
+      &[aria-busy="true"] {
+        position: relative;
+        pointer-events: none;
+        opacity: .9;
+
+        &::after {
+          content: "";
+          position: absolute;
+          right: 10px;
+          top: 50%;
+          width: 1em; height: 1em;
+          border: 2px solid currentColor;
+          border-right-color: transparent;
+          border-radius: 50%;
+          transform: translateY(-50%);
+          animation: att-spin 800ms linear infinite;
+        }
+      }
+    }
+  }
+
+  small {
+    display: block;
+    margin-top: .5rem;
+    color: var(--att-muted);
+    font-size: .85rem;
+  }
+
+  /* Estado “ocupado” del bloque entero (opcional) */
+  &.is-busy {
+    pointer-events: none;
+    opacity: .8;
+  }
+
+  /* Móvil: apila botones y estira a 100% */
+  @media (max-width: 480px) {
+    --att-pad: 14px;
+
+    #att-widget {
+      flex-direction: column;
+
+      .btn {
+        width: 100%;
+      }
+    }
+  }
+}
+
+/* Animación del spinner */
+@keyframes att-spin {
+  to { transform: translateY(-50%) rotate(360deg); }
+}
