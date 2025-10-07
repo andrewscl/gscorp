@@ -1,30 +1,29 @@
-/*Función reutilizable para rutas protegidas.
-agregar token JWT a las solicitudes protegidas*/
-export async function fetchWithAuth(url, options = {}) {
+// /js/auth.js
+export async function fetchWithAuth(url, init = {}) {
+  const token = localStorage.getItem('jwt');
 
-    const token = localStorage.getItem("jwt");
-    console.log("Enviando solicitud protegida con token:");
+  // Fusiona headers sin pisar los existentes
+  const headers = new Headers(init.headers || {});
+  if (!headers.has('Accept')) headers.set('Accept', 'application/json');
+  if (token) headers.set('Authorization', `Bearer ${token}`);
 
-    if(!token) {
-        throw new Error("No token found");
-    }
+  // Incluye cookies/sesión si las usas (no molesta si no)
+  const opts = {
+    credentials: init.credentials ?? 'same-origin',
+    ...init,
+    headers
+  };
 
-    /*Se agregan los encabezados necesarios para la solicitud.
-    En el caso de las solicitudes autenticadas, se añade el
-    token en el campo Authorization con el formato Bearer 
-    <token>*/
+  const res = await fetch(url, opts);
 
-    const headers = {
-        ...options.headers,
-        "Authorization": `Bearer ${token}`,
-    };
+  // Si el backend devuelve 401, limpia y manda a login
+  if (res.status === 401) {
+    localStorage.removeItem('jwt');
+    // opcional: guarda ruta actual para volver luego
+    try { sessionStorage.setItem('postLoginTarget', location.pathname + location.search + location.hash); } catch {}
+    window.location.href = '/auth/signin';
+    return new Response(null, { status: 401 });
+  }
 
-    /*Se realiza la solicitud fetch con los encabezados que
-    incluyen el token.*/ 
-    const response = await fetch (url, {
-        ...options,
-        headers,
-    });
-
-    return response;
+  return res;
 }
