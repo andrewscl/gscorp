@@ -1,76 +1,87 @@
-/* Employee dashboard (fragmento #dashboard-root) */
+/* Employee dashboard – compacto y elegante */
 #dashboard-root {
-  /* Paleta rápida (puedes cambiarlas o mapear a tus variables) */
-  --tile-bg: linear-gradient(135deg, #2563eb, #1d4ed8);
-  --tile-hover: linear-gradient(135deg, #1e40af, #1d4ed8);
-  --tile-text: #fff;
-  --card-bg: #fff;
+  --gap: clamp(10px, 1.6vw, 16px);
 
-  padding: clamp(12px, 2vw, 24px);
+  padding: var(--gap);
   display: grid;
-  gap: clamp(12px, 1.6vw, 20px);
+  gap: var(--gap);
 
   > h5 {
     margin: 0;
     font-weight: 700;
-    font-size: clamp(18px, 2vw, 22px);
+    font-size: clamp(18px, 2vw, 20px);
     color: #111827;
-    letter-spacing: .2px;
   }
 
   .control-asistencia {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: var(--gap);
 
-    /* Responsive: 1 col (teléfono), 2 (tablet), 3 (desktop) */
-    @media (min-width: 520px) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    @media (min-width: 900px) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    @media (min-width: 560px) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    @media (min-width: 960px) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
-    /* El enlace .h2 se ve como botón/tarjeta */
+    /* El link .h2 luce como botón bajo perfil */
     .h2 {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      text-decoration: none;
-      border-radius: 14px;
-      padding: 14px 16px;
-      min-height: 64px;
+      gap: .5rem;
 
-      background: var(--tile-bg);
-      color: var(--tile-text);
+      height: 46px;                 /* compacto */
+      padding: 0 14px;              /* sin exceso vertical */
+      border-radius: 12px;
+      background: #fff;
+      color: #0f172a;
+      text-decoration: none;
       font-weight: 600;
+      font-size: .95rem;
       letter-spacing: .2px;
 
-      box-shadow: 0 6px 14px rgba(37, 99, 235, .18);
+      border: 1px solid rgba(15,23,42,.10);
+      box-shadow: 0 1px 2px rgba(15,23,42,.04);
       transition:
-        transform .15s ease,
-        box-shadow .15s ease,
         background .2s ease,
-        filter .2s ease;
+        border-color .15s ease,
+        box-shadow .15s ease,
+        transform .08s ease;
 
       &:hover {
+        background: #f8fafc;
+        border-color: rgba(15,23,42,.16);
+        box-shadow: 0 2px 6px rgba(15,23,42,.08);
         transform: translateY(-1px);
-        background: var(--tile-hover);
-        box-shadow: 0 10px 20px rgba(37, 99, 235, .22);
-        filter: saturate(1.05);
       }
       &:active {
         transform: translateY(0);
-        box-shadow: 0 4px 10px rgba(0,0,0,.12);
+        box-shadow: 0 1px 2px rgba(0,0,0,.08) inset;
       }
       &:focus {
         outline: none;
-        box-shadow: 0 0 0 3px rgba(59,130,246,.35);
+        box-shadow: 0 0 0 3px rgba(37,99,235,.25);
+      }
+
+      .icon {
+        inline-size: 1.1rem;
+        block-size: 1.1rem;
+        display: inline-block;
       }
     }
-  }
 
-  /* Por si luego agregas más bloques como tarjetas */
-  .card {
-    background: var(--card-bg);
-    border-radius: 16px;
-    padding: 16px;
-    box-shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+    /* Variantes opcionales */
+    .h2.is-primary {
+      background: #1d4ed8; color: #fff; border-color: transparent;
+      &:hover { background: #1e40af; box-shadow: 0 4px 12px rgba(29,78,216,.22); }
+      &:focus { box-shadow: 0 0 0 3px rgba(29,78,216,.35); }
+    }
+
+    .h2.is-ghost {
+      background: transparent;
+      border-color: rgba(15,23,42,.18);
+      &:hover { background: rgba(2,6,23,.03); }
+    }
+
+    /* Aún más pequeño si quieres: .h2--sm */
+    .h2.h2--sm { height: 40px; padding: 0 12px; border-radius: 10px; font-size: .9rem; }
   }
 }
