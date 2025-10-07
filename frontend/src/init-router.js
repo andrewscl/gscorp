@@ -44,12 +44,13 @@ async function loadChromeIfNeeded(){
     return;
 
   try{
-    const[sbRes, tbRes] = await Promise.all([
+    const[sbRes, tbRes, dbRes] = await Promise.all([
       fetchWithAuth('/private/sidebar?fragment=1'),
-      fetchWithAuth('/private/topbar?fragment=1')
+      fetchWithAuth('/private/topbar?fragment=1'),
+      fetchWithAuth('/private/dashboard?fragment=1')
     ]);
 
-    if(sbRes.status === 401 || tbRes.status === 401){
+    if(sbRes.status === 401 || tbRes.status === 401 || dbRes.status === 401){
       localStorage.removeItem('jwt');
       window.location.href = '/auth/signin';
       return;
@@ -68,6 +69,14 @@ async function loadChromeIfNeeded(){
       if (tb) tb.innerHTML = html;
       document.dispatchEvent(new CustomEvent('topbar:loaded'));
     }
+
+    if(dbRes.ok) {
+      const html = await dbRes.text();
+      const db = document.querySelector('.content');
+      if (db) db.innerHTML = html;
+      document.dispatchEvent(new CustomEvent('content:loaded'));
+    }
+
   } catch (e) {
     console.warn('[init-router] No se pudieron cargar sidebar/topbar', e);
   }

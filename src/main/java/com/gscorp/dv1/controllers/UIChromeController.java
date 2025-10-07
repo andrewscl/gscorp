@@ -49,6 +49,26 @@ public class UIChromeController {
         return "private/default/fragments/default-menu-fragment :: topbar";
     }
 
+    @GetMapping("/dashboard")
+    public String dashboard(Authentication auth) {
+        if (has(auth,"ROLE_ADMINISTRATOR"))
+            return "private/admin/fragments/admin-dashboard-fragment :: content";
+
+        if (has(auth,"ROLE_OPS"))
+            return "private/ops/fragments/ops-dashboard-fragment :: content";
+
+        if (has(auth,"ROLE_CLIENT"))
+            return "private/client/fragments/client-dashboard-fragment :: content";
+
+        if (has(auth,"ROLE_RRHH"))
+            return "private/rrhh/fragments/rrhh-dashboard-fragment :: content";
+
+        if (has(auth,"ROLE_EMPLOYEE"))
+            return "private/employee/fragments/employee-dashboard-fragment :: content";
+            
+        return "private/default/fragments/default-menu-fragment :: topbar";
+    }
+
     private boolean has(Authentication a, String role) {
         return a != null && a.getAuthorities().stream()
                  .anyMatch(ga -> ga.getAuthority().equals(role));
