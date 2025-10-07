@@ -1,6 +1,7 @@
-// dashboard.ts (solo diferencias clave)
+// /src/private/dashboard.ts
 import { echarts } from '../lib/echarts-setup';
 
+// Igual que siempre
 async function fetchWithAuth(url: string, init: RequestInit = {}) {
   const token = localStorage.getItem('jwt');
   const headers = new Headers(init.headers || {});
@@ -17,19 +18,20 @@ export async function init({ container }: { container: HTMLElement }) {
   if (root.dataset.echartsInit === '1') return;
   root.dataset.echartsInit = '1';
 
-  const el = root.querySelector('#chart-attendance') as HTMLDivElement; // 👈
-  if (!el) return;
+  // 👈 Asegúrate de buscar el id correcto
+  const el = root.querySelector('#chart-attendance') as HTMLDivElement;
+  if (!el) { console.warn('[attendance chart] #chart-attendance no existe'); return; }
 
+  // Rango del mes corriente
   const periodo = getPeriodoISO();
   const from = `${periodo}-01`;
   const to   = lastDay(periodo);
 
   let data: Point[] = [];
   try {
-    const res = await fetchWithAuth(
-      `/api/attendance/series?from=${from}&to=${to}&action=IN` // 👈 nuevas series
-    );
+    const res = await fetchWithAuth(`/api/attendance/series?from=${from}&to=${to}&action=IN`);
     if (res.ok) data = await res.json();
+    else console.warn('[attendance chart] API status:', res.status, await res.text().catch(()=>'')); // debug
   } catch (e) {
     console.warn('[attendance chart] fetch error', e);
   }
@@ -41,11 +43,11 @@ export async function init({ container }: { container: HTMLElement }) {
   const chart = echarts.init(el, undefined, { renderer: 'canvas' });
   chart.setOption({
     tooltip: { trigger: 'axis' },
+    legend: { show: true },
     grid: { left: 40, right: 16, top: 24, bottom: 32 },
     xAxis: { type: 'category', boundaryGap: false, data: labels },
     yAxis: { type: 'value' },
     series: [{ name: 'Entradas', type: 'line', smooth: true, areaStyle: {}, data: values }],
-    legend: { show: true },
     graphic: hasData ? { elements: [] } : {
       elements: [{ type: 'text', left: 'center', top: 'middle',
         style: { text: 'Sin datos', fill: '#9ca3af', fontSize: 14 } }]
@@ -64,7 +66,23 @@ export async function init({ container }: { container: HTMLElement }) {
   document.addEventListener('fragment:will-unload', onUnload, { once: true });
 }
 
-/* helpers */
+/* Bootstrap seguro: funciona tanto si llegas por router como por carga directa */
+function bootstrap() {
+  const container = document.getElementById('dashboard-root') || document.body;
+  init({ container });
+}
+
+// Si tu SPA dispara este evento cuando insertas el fragmento, re-inicializa:
+document.addEventListener('content:loaded', bootstrap);
+
+// Fallback: inicializa al cargar el DOM
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', bootstrap);
+} else {
+  bootstrap();
+}
+
+/* Helpers */
 function getPeriodoISO(d = new Date()) {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
 }
