@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
 import com.gscorp.dv1.repositories.ContactRepository;
 import com.gscorp.dv1.repositories.LicitationRepository;
 import com.gscorp.dv1.roles.infrastructure.RoleRepository;
@@ -34,9 +33,6 @@ public class AdminController {
 
     @Autowired
     private final MpSyncService sync;
-
-    @Autowired
-    private final AttendancePunchRepo attendanceRepo;
 
     @GetMapping("/dashboard")
     public String getPrivateDashboardView(Model model) {
@@ -72,12 +68,6 @@ public class AdminController {
     public String syncLicitations(Model model) {
         sync.syncTodayLicitations();
         return "private/admin/views/licitations-table-view";
-    }
-
-    @GetMapping("/attendance")
-    public String getAttendanceTableFragment(Model model) {
-        model.addAttribute("attendance", attendanceRepo.findAll());
-        return "private/attendance/views/attendance-table-view";
     }
 
 }
