@@ -21,6 +21,7 @@ export default defineConfig({
         'private/admin/users/create-user': path.resolve(__dirname, './src/private/admin/users/create-user.js'),
         'private/admin/users/edit-user': path.resolve(__dirname, './src/private/admin/users/edit-user.js'),
         'private/attendance/attendance': path.resolve(__dirname, './src/private/attendance/attendance.js'),
+        'private/attendance/attendance-table': path.resolve(__dirname, './src/private/attendance/attendance-table.js'),
         'private/menu/private-menu': path.resolve(__dirname, './src/private/menu/private-menu.js'),
       },
       output: {
