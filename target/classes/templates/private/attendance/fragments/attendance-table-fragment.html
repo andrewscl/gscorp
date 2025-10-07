@@ -1,0 +1,79 @@
+<div th:fragment="attendanceTable" id="attendance-content">
+
+  <!-- Cabecera -->
+  <div class="att-header">
+    <h2>Asistencia</h2>
+
+    <!-- Widget de marcación -->
+    <div id="att-widget"
+         class="att-actions"
+         data-punch-endpoint="/api/attendance/punch">
+      <button id="att-in"  class="btn-primary"   type="button">Marcar entrada</button>
+      <button id="att-out" class="btn-secondary" type="button">Marcar salida</button>
+    </div>
+  </div>
+
+  <!-- Estado / feedback -->
+  <div class="att-status-row">
+    <span id="att-status" class="att-status">Listo para marcar.</span>
+    <small class="att-hint">Se solicitará tu ubicación (GPS) para validar la marcación.</small>
+  </div>
+
+  <!-- Filtros simples (opcional) -->
+  <form class="att-filters" method="get" th:action="@{/private/attendance}">
+    <label>
+      Desde
+      <input type="date" name="from" th:value="${from}">
+    </label>
+    <label>
+      Hasta
+      <input type="date" name="to" th:value="${to}">
+    </label>
+    <button class="btn-secondary" type="submit">Filtrar</button>
+  </form>
+
+  <!-- Tabla de marcaciones -->
+  <div class="att-table-container">
+    <table class="att-table">
+      <thead>
+        <tr>
+          <th>Fecha / hora</th>
+          <th>Acción</th>
+          <th>Ubicación (lat, lon)</th>
+          <th>Precisión (m)</th>
+          <th>OK</th>
+          <th>Distancia (m)</th>
+          <th>IP</th>
+          <th>Dispositivo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:if="${#lists.isEmpty(punches)}">
+          <td colspan="8" class="empty">Sin registros de asistencia en el periodo seleccionado.</td>
+        </tr>
+
+        <tr th:each="p : ${punches}">
+          <td th:text="${#temporals.format(p.ts, 'yyyy-MM-dd HH:mm')}">2025-10-07 09:05</td>
+          <td>
+            <span th:text="${p.action == 'IN' ? 'Entrada' : 'Salida'}"></span>
+          </td>
+          <td>
+            <span th:text="${p.lat}">-33.45</span>,
+            <span th:text="${p.lon}">-70.66</span>
+          </td>
+          <td th:text="${p.accuracyM}">8.0</td>
+          <td>
+            <span th:text="${p.locationOk ? 'Sí' : 'No'}"
+                  th:classappend="${p.locationOk} ? ' ok' : ' bad'">Sí</span>
+          </td>
+          <td th:text="${p.distanceM}">0.0</td>
+          <td th:text="${p.ip}">203.0.113.10</td>
+          <td th:text="${p.deviceInfo}">iPhone 14 / iOS</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- JS de marcación (usa geolocalización + POST a /api/attendance/punch) -->
+  <script type="module" src="/js/private/attendance/attendance.js"></script>
+</div>
