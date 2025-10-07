@@ -1,0 +1,76 @@
+/* Employee dashboard (fragmento #dashboard-root) */
+#dashboard-root {
+  /* Paleta rápida (puedes cambiarlas o mapear a tus variables) */
+  --tile-bg: linear-gradient(135deg, #2563eb, #1d4ed8);
+  --tile-hover: linear-gradient(135deg, #1e40af, #1d4ed8);
+  --tile-text: #fff;
+  --card-bg: #fff;
+
+  padding: clamp(12px, 2vw, 24px);
+  display: grid;
+  gap: clamp(12px, 1.6vw, 20px);
+
+  > h5 {
+    margin: 0;
+    font-weight: 700;
+    font-size: clamp(18px, 2vw, 22px);
+    color: #111827;
+    letter-spacing: .2px;
+  }
+
+  .control-asistencia {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+
+    /* Responsive: 1 col (teléfono), 2 (tablet), 3 (desktop) */
+    @media (min-width: 520px) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    @media (min-width: 900px) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    /* El enlace .h2 se ve como botón/tarjeta */
+    .h2 {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      border-radius: 14px;
+      padding: 14px 16px;
+      min-height: 64px;
+
+      background: var(--tile-bg);
+      color: var(--tile-text);
+      font-weight: 600;
+      letter-spacing: .2px;
+
+      box-shadow: 0 6px 14px rgba(37, 99, 235, .18);
+      transition:
+        transform .15s ease,
+        box-shadow .15s ease,
+        background .2s ease,
+        filter .2s ease;
+
+      &:hover {
+        transform: translateY(-1px);
+        background: var(--tile-hover);
+        box-shadow: 0 10px 20px rgba(37, 99, 235, .22);
+        filter: saturate(1.05);
+      }
+      &:active {
+        transform: translateY(0);
+        box-shadow: 0 4px 10px rgba(0,0,0,.12);
+      }
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(59,130,246,.35);
+      }
+    }
+  }
+
+  /* Por si luego agregas más bloques como tarjetas */
+  .card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  }
+}
