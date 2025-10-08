@@ -7,15 +7,15 @@ import com.gscorp.dv1.guards.infrastructure.GuardRepo;
 
 import lombok.RequiredArgsConstructor;
 
-    @Service
-    @RequiredArgsConstructor
-    public class GuardService {
+@Service
+@RequiredArgsConstructor
+public class GuardService {
 
     private final GuardRepo repo;
 
     @Transactional(readOnly = true)
     public Long activeByClient(Long clientId) {
-        return repo.activeByClient(clientId);
+        return repo.countBySite_Client_IdAndActiveTrue(clientId);
     }
     
 }
