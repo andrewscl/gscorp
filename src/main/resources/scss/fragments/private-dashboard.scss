@@ -9,7 +9,6 @@ body[data-layout="private"] {
   display: flex;
   min-height: 100vh;
   margin: 0;
-  font-family: 'Roboto', sans-serif;
   background-color: #f5f7fa;
 
   /* -------- Sidebar (desktop) -------- */
@@ -38,7 +37,7 @@ body[data-layout="private"] {
 
       .menu-item,
       summary {
-        @include roboto-font(1.15rem, 400);
+        @include roboto-font(1.1rem, 300);
         display: block;
         padding: 0.75rem 1rem;
         color: #fff;
@@ -61,7 +60,7 @@ body[data-layout="private"] {
             color: #d1d5db;
             text-decoration: none;
             border-radius: 4px;
-            @include roboto-font(1.15rem, 300);
+            @include roboto-font(1rem, 200);
 
             &:hover { background-color: #4b5563; color: #fff; }
           }
