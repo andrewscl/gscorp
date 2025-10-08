@@ -23,6 +23,7 @@ export default defineConfig({
         'private/attendance/attendance': path.resolve(__dirname, './src/private/attendance/attendance.js'),
         'private/attendance/attendance-table': path.resolve(__dirname, './src/private/attendance/attendance-table.js'),
         'private/menu/private-menu': path.resolve(__dirname, './src/private/menu/private-menu.js'),
+        'private/client/client-dashboard': path.resolve(__dirname, './src/private/client/client-dashboard.js'),
       },
       output: {
         entryFileNames: '[name].js'

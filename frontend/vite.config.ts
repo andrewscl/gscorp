@@ -7,7 +7,9 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        'private/dashboard': 'src/private/dashboard.ts', // entrada nombrada
+        'private/dashboard': 'src/private/dashboard.ts',
+        'private/client': 'src/private/client/client-dashboard.ts',
+         // entrada nombrada
       },
       output: {
         entryFileNames: '[name].js',                    // nombre estable
