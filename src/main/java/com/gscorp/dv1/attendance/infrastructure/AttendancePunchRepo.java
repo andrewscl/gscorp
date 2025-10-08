@@ -15,6 +15,16 @@ public interface AttendancePunchRepo extends JpaRepository <AttendancePunch, Lon
 
     Optional<AttendancePunch> findFirstByUserIdOrderByTsDesc(Long userId);
     List<AttendancePunch> findByUserIdAndTsBetweenOrderByTsAsc(Long userId, OffsetDateTime from, OffsetDateTime to);
+    // Para colaborador (por usuario + fecha):
+    List<AttendancePunch> findByUserIdAndTsBetweenOrderByTsDesc(Long userId, OffsetDateTime from, OffsetDateTime to);
+    // Alternativa admin (global por fecha):
+    List<AttendancePunch> findByTsBetweenOrderByTsDesc(OffsetDateTime from, OffsetDateTime to);
+    
+    /** Proyección tipada para series: alias deben ser 'day' y 'cnt' */
+    interface DayCount {
+        String getDay();
+        Long   getCnt();
+    }
 
     /** Serie diaria: cuenta de marcaciones por día (opcionalmente filtrando por acción y usuario). */
     @Query(value = """
@@ -26,19 +36,11 @@ public interface AttendancePunchRepo extends JpaRepository <AttendancePunch, Lon
         group by day
         order by day
     """, nativeQuery = true)
-    List<Object[]> countByDay(
+    List<DayCount> countByDay(
         @Param("from") LocalDate from,
         @Param("to")   LocalDate to,
         @Param("action") String action,     // 'IN' | 'OUT' | null (todas)
         @Param("userId") Long userId        // null = todos
     );
-
-    // Para colaborador (por usuario + fecha):
-    List<AttendancePunch> findByUserIdAndTsBetweenOrderByTsDesc(
-    Long userId, OffsetDateTime from, OffsetDateTime to);
-
-    // Alternativa admin (global por fecha):
-    List<AttendancePunch> findByTsBetweenOrderByTsDesc(
-    OffsetDateTime from, OffsetDateTime to);
     
 }
