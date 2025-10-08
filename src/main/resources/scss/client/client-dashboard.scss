@@ -1,0 +1,18 @@
+.dashboard {
+  .kpis {
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 16px;
+    .kpi-card { background:#fff; border-radius:12px; box-shadow:0 1px 4px rgba(0,0,0,.06); padding:14px;
+      h4 { margin:0 0 6px; font-weight:600; color:#1f2937; }
+      .val { font-size:1.4rem; font-weight:700; color:#111827; }
+    }
+  }
+  .charts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    .card { background:#fff; border-radius:12px; box-shadow:0 1px 4px rgba(0,0,0,.06); padding:14px;
+      h5 { margin:0 0 8px; color:#374151; }
+    }
+  }
+  @media (max-width: 900px) {
+    .kpis { grid-template-columns: 1fr; }
+    .charts { grid-template-columns: 1fr; }
+  }
+}
