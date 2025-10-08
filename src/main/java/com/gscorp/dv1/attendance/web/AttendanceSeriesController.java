@@ -28,28 +28,35 @@ public class AttendanceSeriesController {
       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
       @RequestParam(required = false) String action // "IN" | "OUT" | null
   ) {
-    // SUGERENCIA: para empleados, filtra por el userId del token
-    Long userId = currentUserId(auth); // implementa esto con tu SecurityUser/JWT
+    Long userId = currentUserId(auth); // ajusta según tu seguridad
+    String normalizedAction = normalizeAction(action);
 
-    var rows = repo.countByDay(from, to, action, userId); // cada row: [String day, BigInteger cnt]
+    // Ahora devuelve List<AttendancePunchRepo.DayCount>
+    var rows = repo.countByDay(from, to, normalizedAction, userId);
+
+    // Mapeo usando getters de la proyección
     Map<String, Long> map = rows.stream().collect(Collectors.toMap(
-        r -> (String) r[0],
-        r -> ((Number) r[1]).longValue()
+        AttendancePunchRepo.DayCount::getDay,
+        dc -> Optional.ofNullable(dc.getCnt()).orElse(0L)
     ));
 
-    // Rellenar días faltantes para que el gráfico no “salte”
+    // Rellenar días faltantes
     var out = new ArrayList<SeriesAttendancePunch>();
-    LocalDate d = from;
-    while (!d.isAfter(to)) {
+    for (LocalDate d = from; !d.isAfter(to); d = d.plusDays(1)) {
       String key = d.toString(); // YYYY-MM-DD
       out.add(new SeriesAttendancePunch(key, map.getOrDefault(key, 0L)));
-      d = d.plusDays(1);
     }
     return ResponseEntity.ok(out);
   }
 
+  private static String normalizeAction(String a) {
+    if (a == null) return null;
+    var t = a.trim();
+    return t.isEmpty() ? null : t.toUpperCase(); // "IN"/"OUT"
+  }
+
   private Long currentUserId(Authentication auth) {
-    // TODO: devuelve el id real del usuario autenticado (p.ej. ((SecurityUser)auth.getPrincipal()).getId())
+    // TODO: retorna el id real del usuario autenticado
     return 1L;
   }
 }
