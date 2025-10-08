@@ -119,7 +119,7 @@ body[data-layout=private] .sidebar .menu {
 body[data-layout=private] .sidebar .menu .menu-item,
 body[data-layout=private] .sidebar .menu summary {
   font-family: "Roboto", sans-serif;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 300;
   letter-spacing: 0.02em;
   display: block;
@@ -147,7 +147,7 @@ body[data-layout=private] .sidebar .menu .menu-group .submenu .submenu-item {
   border-radius: 4px;
   font-family: "Roboto", sans-serif;
   font-size: 1rem;
-  font-weight: 200;
+  font-weight: 300;
   letter-spacing: 0.02em;
 }
 body[data-layout=private] .sidebar .menu .menu-group .submenu .submenu-item:hover {
