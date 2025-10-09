@@ -8,7 +8,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         'private/dashboard': 'src/private/dashboard.ts',
-        'private/client': 'src/private/client/client-dashboard.ts',
+        'private/client': 'src/private/clients/client-dashboard.ts',
          // entrada nombrada
       },
       output: {
