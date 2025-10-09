@@ -52,11 +52,12 @@ public class Client {
   @Column(nullable=false)
   private Boolean active = true;   // ✅ se respeta en el builder
 
-  // Relación inversa del ManyToMany definido en User.clients
+  // Relación inversa del ManyToMany definido en User.roles
   @Builder.Default
-  @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+  @ManyToMany(mappedBy = "clients", fetch = FetchType.LAZY)
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
   private Set<User> users = new HashSet<>();
 
+  
 }
