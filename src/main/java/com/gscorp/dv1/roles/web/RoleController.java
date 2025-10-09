@@ -11,7 +11,7 @@ import com.gscorp.dv1.roles.application.RoleService;
 import lombok.RequiredArgsConstructor;
 
 @Controller
-@RequestMapping("/private/admin/roles")
+@RequestMapping("/private/roles")
 @RequiredArgsConstructor
 public class RoleController {
 
@@ -26,14 +26,14 @@ public class RoleController {
     public String showRole(@PathVariable Long id, Model model){
         var role = roleService.findWithUsersById(id);
         model.addAttribute("role", role);
-        return "private/admin/roles/views/view-role-view";
+        return "private/roles/views/view-role-view";
     }
 
     @GetMapping("/edit/{id}")
     public String editRole(@PathVariable Long id, Model model){
         var role = roleService.findWithUsersById(id);
         model.addAttribute("role", role);
-        return "private/admin/roles/views/edit-role-view";
+        return "private/roles/views/edit-role-view";
     }
 
 }

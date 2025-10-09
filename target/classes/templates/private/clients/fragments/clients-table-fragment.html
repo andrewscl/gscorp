@@ -33,13 +33,13 @@
           <td class="actions">
             <button type="button"
                     class="btn-link"
-                    th:attr="data-path=@{/private/admin/clients/show/{id}(id=${c.id})}">
+                    th:attr="data-path=@{/private/clients/show/{id}(id=${c.id})}">
               Ver
             </button>
 
             <button type="button"
                     class="btn-link"
-                    th:attr="data-path=@{/private/admin/clients/edit/{id}(id=${c.id})}">
+                    th:attr="data-path=@{/private/clients/edit/{id}(id=${c.id})}">
               Editar
             </button>
           </td>
@@ -98,5 +98,5 @@
     </div>
   </div>
 
-  <script type="module" src="/js/private/admin/clients/create-client.js"></script>
+  <script type="module" src="/js/private/clients/create-client.js"></script>
 </div>
