@@ -51,12 +51,37 @@ function renderRoles(roles) {
   });
 }
 
+/* --- Clients --- */
+async function fetchClients() {
+  const res = await fetchWithAuth('/api/clients/all'); // deja este endpoint si así está en tu backend
+  if (!res.ok) throw new Error('No se pudieron cargar los clientes');
+  return res.json(); // [{ id, name }]
+}
+
+function renderClients(clients) {
+  const box = qs('#clientChoices');
+  box.innerHTML = '';
+  roles.forEach(c => {
+    const id = `client_${c.id}`;
+    const label = document.createElement('label');
+    label.className = 'client-option';
+    label.innerHTML = `
+      <input type="checkbox" name="clientId" value="${c.id}" id="${id}"/>
+      <span>${c.name}</span>
+    `;
+    box.appendChild(label);
+  });
+}
+
+
 /* --- Abrir modal y cargar roles --- */
 async function onClickCreate() {
   try {
     openModal();
     const roles = await fetchRoles();
     renderRoles(roles);
+    const clients = await fetchClients();
+    renderClients(clients);
   } catch (e) {
     qs('#createUserError').textContent = e.message;
   }
