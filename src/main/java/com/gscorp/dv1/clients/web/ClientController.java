@@ -33,14 +33,14 @@ public class ClientController {
     public String showClient(@PathVariable Long id, Model model){
         var client = clientService.findById(id);
         model.addAttribute("client", client);
-        return "private/admin/clients/views/view-client-view";
+        return "private/clients/views/view-client-view";
     }
 
     @GetMapping("/edit/{id}")
     public String editClient(@PathVariable Long id, Model model){
         var client = clientService.findById(id);
         model.addAttribute("client", client);
-        return "private/admin/clients/views/edit-client-view";
+        return "private/clients/views/edit-client-view";
     }
 
 }
