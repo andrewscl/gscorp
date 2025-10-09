@@ -1,6 +1,9 @@
 package com.gscorp.dv1.clients.web;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +40,12 @@ public class ClientRestController {
         return ResponseEntity.created(location).body(
             new ClientDto(saved.getId(), saved.getName(), saved.getTaxId(), saved.getContactEmail(), saved.getActive())
         );
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<ClientDto>> getAllClients() {
+        List<ClientDto> clients = clientService.getAllClients();
+        return ResponseEntity.ok(clients);
     }
 
 }
