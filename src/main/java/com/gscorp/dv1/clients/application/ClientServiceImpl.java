@@ -18,29 +18,26 @@ public class ClientServiceImpl implements ClientService{
 
     private final ClientRepo clientRepo;
 
+    @Override
+    @Transactional
     public Client saveClient (Client client){
-        clientRepo.save(client);
-        return client;
+        return clientRepo.save(client);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Client findById (Long id){
         return clientRepo.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Client no encontrado"));
     }
 
-    @Transactional
+    @Override
+    @Transactional(readOnly = true)
     public List<ClientDto> getAllClients (){
         return clientRepo.findAll(Sort.by("client").ascending())
                     .stream()
                     .map(c -> new ClientDto(c.getId(), c.getName(), c.getLegalName(), c.getTaxId(), c.getActive()))
                     .toList();
-    }
-
-    @Override
-    public Client findByIdWithUsers(Long id){
-        return clientRepo.findByIdWithUsers(id)
-            .orElseThrow(() -> new IllegalArgumentException("Client no encontrado"));
     }
 
 }

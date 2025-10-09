@@ -9,5 +9,5 @@ public interface RoleService {
     void saveRole (Role role);
     Role findById (Long id);
     List<RoleDto> getAllRoles();
-    Role findByIdWithUsers(Long id);
+    Role findWithUsersById(Long id);
 }

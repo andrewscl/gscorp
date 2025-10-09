@@ -38,8 +38,8 @@ public class RoleServiceimpl implements RoleService{
     }
 
     @Override
-    public Role findByIdWithUsers (Long id){
-        return roleRepository.findByIdWithUsers(id)
+    public Role findWithUsersById (Long id){
+        return roleRepository.findWithUsersById(id)
             .orElseThrow(()-> new IllegalArgumentException("Rol no encontrado" + id));
     }
 

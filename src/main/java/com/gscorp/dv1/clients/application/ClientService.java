@@ -10,6 +10,5 @@ public interface ClientService {
     Client saveClient (Client client);
     Client findById (Long id);
     List<ClientDto> getAllClients();
-    Client findByIdWithUsers(Long id);
     
 }
