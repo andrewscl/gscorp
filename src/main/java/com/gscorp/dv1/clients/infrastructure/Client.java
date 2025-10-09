@@ -27,8 +27,17 @@ public class Client {
   @Column(nullable=false, length=160)
   private String name;
 
+  @Column(nullable=false, length=200)
+  private String legalName;
+
   @Column(length=32)
   private String taxId;
+
+  @Column(length=100)
+  private String contactEmail;
+
+  @Column(length=30)
+  private String contactPhone;
 
   @Builder.Default
   @Column(nullable=false)

@@ -3,6 +3,7 @@ package com.gscorp.dv1.users.infrastructure;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.gscorp.dv1.clients.infrastructure.Client;
 import com.gscorp.dv1.roles.infrastructure.Role;
 
 import jakarta.persistence.Entity;
@@ -39,5 +40,13 @@ public class User {
         inverseJoinColumns = @JoinColumn(name="role_id")
     )
     private Set<Role> roles = new HashSet<>();
+
+    @ManyToMany (fetch = FetchType.LAZY) //Carga los clientes a los que el usuario tiene acceso.
+    @JoinTable (
+        name = "users_clients",
+        joinColumns = @JoinColumn(name="user_id"),
+        inverseJoinColumns = @JoinColumn(name="client_id")
+    )
+    private Set<Client> clients = new HashSet<>();
 
 }
