@@ -128,7 +128,7 @@ async function onSubmitCreate(e) {
     ok.style.display = 'block';
     setTimeout(() => {
       closeModal();
-      navigateTo('/private/admin/users'); // refresca listado
+      navigateTo('/private/users/table-view'); // refresca listado
     }, 600);
   } catch (e) {
     err.textContent = e.message;
