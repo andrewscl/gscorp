@@ -20,9 +20,6 @@ import lombok.AllArgsConstructor;
 public class AdminController {
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private ContactRepository contactRepository;
 
     @Autowired
@@ -37,13 +34,6 @@ public class AdminController {
     @GetMapping("/dashboard")
     public String getPrivateDashboardView(Model model) {
         return "private/admin/views/admin-dashboard-view";
-    }
-
-    @GetMapping("/users")
-    public String getUsersTableView(Model model) {
-        model.addAttribute("users", userRepository.findAll());
-        model.addAttribute("roles", roleRepository.findAll());
-        return "private/users/views/users-table-view";
     }
 
     @GetMapping("/roles")
