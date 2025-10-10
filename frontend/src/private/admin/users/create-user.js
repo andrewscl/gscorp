@@ -27,6 +27,7 @@ function closeModal() {
   qs('#createUserError').textContent = '';
   qs('#createUserOk').style.display = 'none';
   qs('#roleChoices')?.replaceChildren();
+  qs('#clientChoices')?.replaceChildren();
 }
 
 /* --- Roles --- */
@@ -61,7 +62,7 @@ async function fetchClients() {
 function renderClients(clients) {
   const box = qs('#clientChoices');
   box.innerHTML = '';
-  roles.forEach(c => {
+  clients.forEach(c => {
     const id = `client_${c.id}`;
     const label = document.createElement('label');
     label.className = 'client-option';
