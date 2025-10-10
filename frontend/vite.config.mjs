@@ -24,6 +24,7 @@ export default defineConfig({
         'private/attendance/attendance-table': path.resolve(__dirname, './src/private/attendance/attendance-table.js'),
         'private/menu/private-menu': path.resolve(__dirname, './src/private/menu/private-menu.js'),
         'private/clients/create-client': path.resolve(__dirname, './src/private/clients/create-client.js'),
+        'private/sites/create-site': path.resolve(__dirname, './src/private/sites/create-site.js'),
       },
       output: {
         entryFileNames: '[name].js'
