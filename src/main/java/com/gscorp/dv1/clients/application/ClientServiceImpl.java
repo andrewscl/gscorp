@@ -34,7 +34,7 @@ public class ClientServiceImpl implements ClientService{
     @Override
     @Transactional(readOnly = true)
     public List<ClientDto> getAllClients (){
-        return clientRepo.findAll(Sort.by("client").ascending())
+        return clientRepo.findAll(Sort.by("name").ascending())
                     .stream()
                     .map(c -> new ClientDto(c.getId(), c.getName(), c.getLegalName(), c.getTaxId(), c.getActive()))
                     .toList();
