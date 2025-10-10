@@ -11,4 +11,5 @@ public interface UserService {
     List<User> findAll();
     User findById(Long id);
     User findWithClientsById(Long id);
+    List<User> findAllWithRolesAndClients();
 }
