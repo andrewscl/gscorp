@@ -5,13 +5,13 @@
   <p><strong>Username:</strong> <span th:text="${client.name}"></span></p>
   <p><strong>Razón social:</strong> <span th:text="${client.legalName}"></span></p>
   <p><strong>RUT:</strong> <span th:text="${client.taxId}"></span></p>
-  <p><strong>Email:</strong> <span th:text="${client.Email}"></span></p>
-  <p><strong>Telefono:</strong> <span th:text="${client.clientPhone}"></span></p>
+  <p><strong>Email:</strong> <span th:text="${client.contactEmail}"></span></p>
+  <p><strong>Telefono:</strong> <span th:text="${client.contactPhone}"></span></p>
   <p><strong>Estado:</strong> <span th:text="${client.active}"></span></p>
 
   <div class="users-block">
     <strong>Usuarios:</strong>
-    <span th:each="r : ${client.users}" th:text="${r.user}" class="tag"></span>
+    <span th:each="c : ${client.users}" th:text="${c.user}" class="tag"></span>
     <em th:if="${#lists.isEmpty(client.users)}">Sin usuarios</em>
   </div>
 

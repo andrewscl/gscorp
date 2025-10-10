@@ -26,9 +26,18 @@
                     <td>
                         <span class="tag"
                                 th:each="r : ${user.roles}"
-                                th:text="${r.role}">ADMINISTRATOR</span>
+                                th:text="${r.role}"></span>
                         <!-- Mensaje si no tiene roles -->
                         <em th:if="${#lists.isEmpty(user.roles)}" class="muted">Sin roles</em>
+                    </td>
+
+                    <!-- Tags de clients-->
+                    <td>
+                        <span class="tag"
+                                th:each="c : ${user.clients}"
+                                th:text="${c.client}"></span>
+                        <!-- Mensaje si no tiene clientes -->
+                        <em th:if="${#lists.isEmpty(user.clients)}" class="muted">Sin clientes</em>
                     </td>
 
                     <td class="actions">
