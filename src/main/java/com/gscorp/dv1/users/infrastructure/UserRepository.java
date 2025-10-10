@@ -16,8 +16,8 @@ public interface UserRepository extends JpaRepository<User, Long>{
     @Query("SELECT u FROM User u")
     List<User> findAllUsers();
 
-    @EntityGraph(attributePaths = "clients")
-    Optional<User> findWithClientsById(Long id);
+    @EntityGraph(attributePaths = {"roles", "clients"})
+    Optional<User> findWithRolesAndClientsById(Long id);
 
     @EntityGraph(attributePaths = {"roles", "clients"})
     @Query("select u from User u")

@@ -25,14 +25,14 @@ public class UserController {
 
     @GetMapping("/show/{id}")
     public String showUser(@PathVariable Long id, Model model){
-        var user = userService.findWithClientsById(id);
+        var user = userService.findWithRolesAndClientsById(id);
         model.addAttribute("user", user);
         return "private/users/views/view-user-view";
     }
 
     @GetMapping("/edit/{id}")
     public String editUser(@PathVariable Long id, Model model){
-        var user = userService.findWithClientsById(id);
+        var user = userService.findWithRolesAndClientsById(id);
         model.addAttribute("user", user);
         return "private/users/views/edit-user-view";
     }
