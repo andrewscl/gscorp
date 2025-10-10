@@ -74,7 +74,6 @@ function renderClients(clients) {
   });
 }
 
-
 /* --- Abrir modal y cargar roles --- */
 async function onClickCreate() {
   try {

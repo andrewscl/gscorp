@@ -10,7 +10,7 @@
   <p><strong>Estado:</strong> <span th:text="${client.active}"></span></p>
 
   <div class="roles-block">
-    <strong>Usuarios:</strong>
+    <strong>Clientes:</strong>
     <span th:each="r : ${client.users}" th:text="${r.user}" class="tag"></span>
     <em th:if="${#lists.isEmpty(client.users)}">Sin usuarios</em>
   </div>
