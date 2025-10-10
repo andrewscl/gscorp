@@ -31,14 +31,14 @@ public class ClientController {
 
     @GetMapping("/show/{id}")
     public String showClient(@PathVariable Long id, Model model){
-        var client = clientService.findById(id);
+        var client = clientService.findWithUsersById(id);
         model.addAttribute("client", client);
         return "private/clients/views/view-client-view";
     }
 
     @GetMapping("/edit/{id}")
     public String editClient(@PathVariable Long id, Model model){
-        var client = clientService.findById(id);
+        var client = clientService.findWithUsersById(id);
         model.addAttribute("client", client);
         return "private/clients/views/edit-client-view";
     }
