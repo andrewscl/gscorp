@@ -33,6 +33,7 @@ function closeModal() {
 async function onSubmitCreate(e) {
   e.preventDefault();
 
+  
   const name        = qs('#clientName')?.value?.trim();
   const legalName   = qs('#clientLegalName')?.value?.trim() || null;
   const taxId       = qs('#clientTaxId')?.value?.trim() || null;
