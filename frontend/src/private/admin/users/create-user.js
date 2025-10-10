@@ -94,22 +94,35 @@ async function onSubmitCreate(e) {
   const mail = qs('#newMail')?.value.trim();
   const password = qs('#newPassword')?.value;
   const roleIds = qsa('input[name="roleId"]:checked').map(i => Number(i.value));
+  const clientIds = qsa('input[name="clientId"]:checked').map(i => Number(i.value));
 
   const err = qs('#createUserError');
   const ok  = qs('#createUserOk');
+  const submitBtn = e.submitter || qs('#createUserForm button[type="submit"]');
+
   err.textContent = '';
   ok.style.display = 'none';
+
+ // Validaciones mínimas
+  if (!username) { err.textContent = 'El nombre de usuario es obligatorio.'; return; }
+  if (!password) { err.textContent = 'La contraseña es obligatoria.'; return; }
+
+  submitBtn && (submitBtn.disabled = true);
 
   try {
     const res = await fetchWithAuth('/api/users/create', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ username, mail, password, roleIds })
+      body: JSON.stringify({ username, mail, password, roleIds, clientIds })
     });
 
     if (!res.ok) {
-      const msg = await res.text();
-      throw new Error(msg || 'No se pudo crear el usuario');
+      // Intenta leer texto/JSON de error
+      let msg = '';
+      try { msg = await res.text(); } catch {}
+      if (!msg) msg = `Error ${res.status}`;
+      if (res.status === 409) msg = 'El usuario ya existe.';
+      throw new Error(msg);
     }
 
     ok.style.display = 'block';
@@ -117,8 +130,10 @@ async function onSubmitCreate(e) {
       closeModal();
       navigateTo('/private/admin/users'); // refresca listado
     }, 600);
-  } catch (e2) {
-    err.textContent = e2.message;
+  } catch (e) {
+    err.textContent = e.message;
+  } finally {
+    submitBtn && (submitBtn.disabled = false);
   }
 }
 
