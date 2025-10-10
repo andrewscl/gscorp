@@ -40,4 +40,10 @@ public class ClientServiceImpl implements ClientService{
                     .toList();
     }
 
+    @Override
+    public Client findWithUsersById (Long id){
+        return clientRepo.findWithUsersById(id)
+            .orElseThrow(()-> new IllegalArgumentException("Cliente no encontrado" + id));
+    }
+
 }

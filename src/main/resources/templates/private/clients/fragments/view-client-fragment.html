@@ -11,7 +11,7 @@
 
   <div class="users-block">
     <strong>Usuarios:</strong>
-    <span th:each="r : ${client.users}" th:text="${r.user}" class="tag"></span>
+    <span th:each="c : ${client.users}" th:text="${c.user}" class="tag"></span>
     <em th:if="${#lists.isEmpty(client.users)}">Sin usuarios</em>
   </div>
 
@@ -24,7 +24,5 @@
         id="deleteUserBtn" th:attr="data-id=${client.id}">
           Eliminar usuario</button>
   </div>
-
-  <script type="module" src="/js/private/admin/users/edit-user.js"></script>
 
 </section>
