@@ -1,113 +1,111 @@
 // /js/private/menu/private-menu.js
-import { navigateTo } from '../../navigation-handler.js'; // ajusta ruta si es necesario
+import { navigateTo } from '../../navigation-handler.js';
 
 (function () {
-  const ROOT_ATTR = 'data-layout';
-  const LAYOUT_PRIVATE = 'private';
+  const LAYOUT = 'private';
 
-  function ensureScrim() {
-    let scrim = document.getElementById('sidebar-scrim');
-    if (!scrim) {
-      scrim = document.createElement('div');
-      scrim.id = 'sidebar-scrim';
-      scrim.className = 'sidebar-scrim';
-      document.body.appendChild(scrim);
+  /** Utils **/
+  const isPrivate = () => document.body?.dataset?.layout === LAYOUT;
+  const ensureScrim = () => {
+    let s = document.getElementById('sidebar-scrim');
+    if (!s) {
+      s = document.createElement('div');
+      s.id = 'sidebar-scrim';
+      s.className = 'sidebar-scrim';
+      document.body.appendChild(s);
     }
-    return scrim;
-  }
-
-  function closeDrawer() {
-    const root = document.body;
-    root.classList.remove('sidebar-open');
-    const btnTop = document.getElementById('topbarToggleSidebar');
-    btnTop?.setAttribute('aria-expanded', 'false');
-  }
-
-  function openDrawer() {
-    const root = document.body;
-    root.classList.add('sidebar-open');
-    const btnTop = document.getElementById('topbarToggleSidebar');
-    btnTop?.setAttribute('aria-expanded', 'true');
-  }
-
-  function toggleDrawer() {
-    const root = document.body;
-    if (root.classList.contains('sidebar-open')) closeDrawer();
+    return s;
+  };
+  const openDrawer = () => {
+    if (!isPrivate()) return;
+    document.body.classList.add('sidebar-open');
+    document.getElementById('topbarToggleSidebar')?.setAttribute('aria-expanded','true');
+  };
+  const closeDrawer = () => {
+    if (!isPrivate()) return;
+    document.body.classList.remove('sidebar-open');
+    document.getElementById('topbarToggleSidebar')?.setAttribute('aria-expanded','false');
+  };
+  const toggleDrawer = () => {
+    if (document.body.classList.contains('sidebar-open')) closeDrawer();
     else openDrawer();
-  }
+  };
 
-  // Vincula burger, scrim y acordeón UNA VEZ por carga de sidebar
-  function bindSidebar() {
-    if (document.body.getAttribute(ROOT_ATTR) !== LAYOUT_PRIVATE) return;
+  /** 1) Delegación global de navegación SPA **/
+  document.addEventListener('click', async (e) => {
+    if (!isPrivate()) return;
+    const link = e.target.closest('[data-path]');
+    if (!link) return;
 
-    const menu = document.querySelector('.sidebar .menu');
+    e.preventDefault();
+    const path = link.getAttribute('data-path');
+    if (!path) return;
+
+    // Colapsa otros <details> abiertos del sidebar (si existen)
     const sidebar = document.querySelector('.sidebar');
-    const btnTopbar = document.getElementById('topbarToggleSidebar');
-    const btnInside = document.getElementById('toggleSidebar');
-    const scrim = ensureScrim();
+    if (sidebar) {
+      sidebar.querySelectorAll('details.menu-group[open]').forEach(d => d.open = false);
+    }
 
-    if (!menu || !sidebar) return;
+    // Cierra drawer en móvil
+    closeDrawer();
 
-    // Evita doble-bind en la MISMA instancia de sidebar
-    if (sidebar.__bound) return;
-    sidebar.__bound = true;
+    // Navega por SPA
+    try {
+      await navigateTo(path, false);
+    } catch (err) {
+      console.error('[private-menu] navigateTo error', err);
+      alert('No se pudo navegar a la ruta solicitada.');
+    }
+  });
 
-    // Burger / scrim
-    btnTopbar?.addEventListener('click', toggleDrawer);
-    btnInside?.addEventListener('click', toggleDrawer);
+  /** 2) Delegación para acordeón (<details>) – sólo uno abierto **/
+  document.addEventListener('toggle', (e) => {
+    if (!isPrivate()) return;
+    const d = e.target;
+    if (!(d instanceof HTMLDetailsElement)) return;
+    if (!d.classList.contains('menu-group')) return;
+    if (!d.open) return;
+
+    const menu = d.closest('.menu');
+    if (!menu) return;
+    menu.querySelectorAll('details.menu-group[open]').forEach(other => {
+      if (other !== d) other.open = false;
+    });
+  });
+
+  /** 3) Burger + scrim con MutationObserver (funciona aunque reemplaces innerHTML) **/
+  const bindBurgerOnce = (btn) => {
+    if (!btn || btn.__bound) return;
+    btn.__bound = true;
+    btn.addEventListener('click', toggleDrawer);
+  };
+
+  const bindInsideTogglerOnce = (btn) => {
+    if (!btn || btn.__bound) return;
+    btn.__bound = true;
+    btn.addEventListener('click', toggleDrawer);
+  };
+
+  const scrim = ensureScrim();
+  if (!scrim.__bound) {
+    scrim.__bound = true;
     scrim.addEventListener('click', closeDrawer);
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDrawer(); });
-
-    // Acordeón: un <details> abierto a la vez
-    menu.addEventListener('toggle', (e) => {
-      const d = e.target;
-      if (!(d instanceof HTMLDetailsElement) || !d.open) return;
-      menu.querySelectorAll('details.menu-group[open]').forEach((other) => {
-        if (other !== d) other.open = false;
-      });
-    });
-
-    // Delegación de clicks en data-path (SPA)
-    menu.addEventListener('click', async (e) => {
-      const link = e.target.closest('[data-path]');
-      if (!link) return;
-      e.preventDefault();
-      const path = link.dataset.path;
-      if (!path) return;
-
-      // UX: cierra grupos y drawer antes de navegar
-      menu.querySelectorAll('details.menu-group[open]').forEach((d) => (d.open = false));
-      closeDrawer();
-
-      try {
-        await navigateTo(path, false);
-      } catch (err) {
-        console.error('[private-menu] navigateTo error', err);
-      }
-    });
   }
-
-  // Vincula elementos de topbar (burger) tras cargarse el fragmento
-  function bindTopbar() {
-    if (document.body.getAttribute(ROOT_ATTR) !== LAYOUT_PRIVATE) return;
-    const btnTopbar = document.getElementById('topbarToggleSidebar');
-    if (!btnTopbar || btnTopbar.__bound) return;
-    btnTopbar.__bound = true;
-    btnTopbar.addEventListener('click', toggleDrawer);
-  }
-
-  // Cierra el drawer después de navegar
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDrawer(); });
   document.addEventListener('route:loaded', closeDrawer);
 
-  // Re-bind SIEMPRE que vuelvas a cargar los fragmentos
-  document.addEventListener('sidebar:loaded', bindSidebar);
-  document.addEventListener('topbar:loaded', bindTopbar);
+  // Observa el body por si llegan/ cambian los fragmentos
+  const mo = new MutationObserver(() => {
+    if (!isPrivate()) return;
+    // Burger en topbar
+    bindBurgerOnce(document.getElementById('topbarToggleSidebar'));
+    // Botón dentro de la sidebar (opcional)
+    bindInsideTogglerOnce(document.getElementById('toggleSidebar'));
+  });
+  mo.observe(document.body, { childList: true, subtree: true });
 
-  // Primer intento al cargar la página (por si el layout ya trae los fragments)
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => { bindSidebar(); bindTopbar(); }, { once: true });
-  } else {
-    bindSidebar();
-    bindTopbar();
-  }
+  // Intento inicial (por si ya están en DOM)
+  bindBurgerOnce(document.getElementById('topbarToggleSidebar'));
+  bindInsideTogglerOnce(document.getElementById('toggleSidebar'));
 })();
