@@ -12,7 +12,7 @@
   </div>
 
   <div class="clients-block">
-    <strong>Roles:</strong>
+    <strong>Clientes:</strong>
     <span th:each="c : ${user.clients}" th:text="${c.name}" class="tag"></span>
     <em th:if="${#lists.isEmpty(user.clients)}">Sin clientes</em>
   </div>

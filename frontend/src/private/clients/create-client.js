@@ -68,7 +68,7 @@ async function onSubmitCreate(e) {
     setTimeout(() => {
       closeModal();
       // Vuelve al listado
-      navigateTo('/private/admin/clients');
+      navigateTo('/private/clients/table-view');
     }, 600);
   } catch (e2) {
     if (err) err.textContent = e2.message;
