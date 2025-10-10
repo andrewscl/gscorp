@@ -35,7 +35,7 @@
                     <td>
                         <span class="tag"
                                 th:each="c : ${user.clients}"
-                                th:text="${c.client}"></span>
+                                th:text="${c.name}"></span>
                         <!-- Mensaje si no tiene clientes -->
                         <em th:if="${#lists.isEmpty(user.clients)}" class="muted">Sin clientes</em>
                     </td>

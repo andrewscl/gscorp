@@ -85,4 +85,9 @@ public class UserServiceImpl implements UserService{
         return userRepo.findWithClientsById(id)
             .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado" + id));
     }
+
+    @Override
+    public List<User> findAllWithRolesAndClients(){
+        return userRepo.findAllWithRolesAndClients();
+    }
 }

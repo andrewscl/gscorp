@@ -17,6 +17,12 @@ public class UserController {
     
     private final UserService userService;
 
+    @GetMapping("/table-view")
+    public String getUsersTableView(Model model) {
+        model.addAttribute("users", userService.findAllWithRolesAndClients());
+        return "private/users/views/users-table-view";
+    }
+
     @GetMapping("/show/{id}")
     public String showUser(@PathVariable Long id, Model model){
         var user = userService.findWithClientsById(id);
