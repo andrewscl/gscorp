@@ -37,9 +37,10 @@ public class ClientRestController {
             .build();
         var saved = clientService.saveClient(entity);  // que devuelva el guardado
         var location = ucb.path("/api/clients/{id}").buildAndExpand(saved.getId()).toUri();
-        return ResponseEntity.created(location).body(
-            new ClientDto(saved.getId(), saved.getName(), saved.getTaxId(), saved.getContactEmail(), saved.getActive())
-        );
+
+        var dto = new ClientDto(saved.getId(), saved.getName(), saved.getTaxId(), saved.getContactEmail(), saved.getActive());
+
+        return ResponseEntity.created(location).body(dto);
     }
 
     @GetMapping("/all")

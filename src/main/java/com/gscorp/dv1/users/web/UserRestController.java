@@ -31,7 +31,7 @@ public class UserRestController {
         public ResponseEntity<?> createUser(@RequestBody CreateUserRequest req) {
             Long id = userService.createUser(req);
             return ResponseEntity
-                    .created(URI.create("/api/users" + id)).build();
+                    .created(URI.create("/api/users/" + id)).build();
         }
 
         @DeleteMapping("/{id}")
