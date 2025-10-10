@@ -21,7 +21,7 @@ if (btn) {
       }
 
       // vuelta al listado
-      navigateTo('/private/admin/users', true);
+      navigateTo('/private/users/table-view', true);
     } catch (e) {
       alert(e.message || 'Error al eliminar el usuario.');
       btn.disabled = false;
