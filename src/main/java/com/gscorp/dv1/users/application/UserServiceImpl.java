@@ -8,6 +8,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gscorp.dv1.clients.infrastructure.Client;
+import com.gscorp.dv1.clients.infrastructure.ClientRepo;
 import com.gscorp.dv1.roles.infrastructure.Role;
 import com.gscorp.dv1.roles.infrastructure.RoleRepository;
 import com.gscorp.dv1.users.infrastructure.User;
@@ -22,6 +24,7 @@ public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepo;
     private final RoleRepository roleRepo;
+    private final ClientRepo clientRepo;
     private final PasswordEncoder encoder;
 
     //Crear usuario
@@ -38,6 +41,7 @@ public class UserServiceImpl implements UserService{
         u.setMail(req.mail());
         u.setPassword(encoder.encode(req.password()));
         u.setRoles(new HashSet<>());
+        u.setClients(new HashSet<>());
 
         if (req.roleIds()!=null && !req.roleIds().isEmpty()) {
             List<Role> roles = roleRepo.findAllById(req.roleIds());
@@ -49,6 +53,18 @@ public class UserServiceImpl implements UserService{
             Role def = roleRepo.findByRole("CLIENT")
                 .orElseThrow(() ->new IllegalStateException("Rol Client no existe"));
             u.getRoles().add(def);
+        }
+
+        if (req.clientIds()!=null && !req.clientIds().isEmpty()) {
+            List<Client> clients = clientRepo.findAllById(req.clientIds());
+            if(clients.isEmpty())
+                throw new IllegalArgumentException("Clientes invalidos");
+            u.getClients().addAll(clients);
+        } else {
+            /*Cliente por defecto
+            Client def = clientRepo.findByName("CLIENT")
+                .orElseThrow(() ->new IllegalStateException("Rol Client no existe"));
+            u.getRoles().add(def);*/
         }
 
         return userRepo.save(u).getId();
