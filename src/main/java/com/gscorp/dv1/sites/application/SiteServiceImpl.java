@@ -35,7 +35,7 @@ public class SiteServiceImpl implements SiteService{
     public List<SiteDto>getAllSites(){
         return siteRepository.findAll()
                     .stream()
-                    .map(r-> new SiteDto(r.getId(), r.getName(), r.getCode(), r.getAddress()))
+                    .map(r-> new SiteDto(r.getClient(),r.getId(), r.getName(), r.getCode(), r.getAddress()))
                     .toList();
     }
 
