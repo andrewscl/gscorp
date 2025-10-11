@@ -23,7 +23,7 @@ public class SiteController {
         return "private/sites/views/sites-table-view";
     }
 
-    @GetMapping("/show/{id}")
+/*     @GetMapping("/show/{id}")
     public String showSite (@PathVariable Long id, Model model){
         var site = siteService.findById(id);
         model.addAttribute("site", site);
@@ -35,6 +35,6 @@ public class SiteController {
         var site = siteService.findById(id);
         model.addAttribute("site", site);
         return "private/sites/views/edit-site-view";
-    }
+    }*/
 
 }
