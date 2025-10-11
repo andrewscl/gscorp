@@ -4,6 +4,119 @@
 @use '../base/typography' as *;
 @use '../base/fragment-mixins' as *;
 
-.detail-section{
-    @include detail-section ($label-width: 10rem);
+.detail-section {
+  padding: 2rem;
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+
+  h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #234;
+  }
+
+  p {
+    margin: 0 0 1rem 0;
+    font-size: 1rem;
+
+    strong {
+      color: #345;
+    }
+    span {
+      color: #789;
+      font-weight: 500;
+    }
+  }
+
+  .card.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    background: #f6f8fa;
+    padding: 2rem;
+    border-radius: .75rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: .25rem;
+
+      label {
+        font-size: 1rem;
+        color: #234;
+        font-weight: 500;
+      }
+
+      input, select {
+        padding: .5rem .75rem;
+        border: 1px solid #ccd;
+        border-radius: .4rem;
+        font-size: .98rem;
+        transition: border-color .2s;
+        &:focus {
+          border-color: #345;
+        }
+      }
+
+      small {
+        color: #789;
+        font-size: .92rem;
+      }
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .75rem;
+    }
+  }
+
+  .actions {
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+
+    .vs-btn {
+      padding: .6rem 1.2rem;
+      border-radius: .4rem;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      transition: background .2s, color .2s;
+
+      &.vs-primary {
+        background: #4177f6;
+        color: #fff;
+        &:hover { background: #305ed3; }
+      }
+      &.vs-secondary {
+        background: #edf0f3;
+        color: #234;
+        &:hover { background: #d3d7dd; }
+      }
+      &.vs-danger {
+        background: #e74c3c;
+        color: #fff;
+        &:hover { background: #c0392b; }
+      }
+    }
+  }
+
+  .form-error {
+    color: #e74c3c;
+    font-size: 1rem;
+    margin-top: .8rem;
+  }
+  .form-ok {
+    color: #219150;
+    font-size: 1rem;
+    margin-top: .8rem;
+    display: none;
+  }
 }
