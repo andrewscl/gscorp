@@ -6,7 +6,7 @@
   <p><strong>ID:</strong> <span th:text="${site.id}"></span></p>
 
   <form id="editSiteForm" class="card form">
-    <!-- Client -->
+    <!-- Site -->
     <div class="form-group">
       <label for="siteClient">Cliente</label>
       <select id="siteClient" name="clientId" required>
@@ -15,7 +15,7 @@
                 th:value="${cl.id}"
                 th:selected="${site.client != null} ? ${cl.id} == ${site.client.id} : false"
                 th:text="${cl.name}">
-          Cliente
+          Sitio
         </option>
       </select>
       <small>Un sitio pertenece a un único cliente.</small>

@@ -1,0 +1,9 @@
+@use '../base/mixins' as *;
+@use '../base/variables' as *;
+@use '../base/palette' as *;
+@use '../base/typography' as *;
+@use '../base/fragment-mixins' as *;
+
+.detail-section{
+    @include detail-section ($label-width: 10rem);
+}

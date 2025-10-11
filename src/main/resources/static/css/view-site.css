@@ -1,0 +1,207 @@
+@charset "UTF-8";
+body {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.5;
+}
+
+h1 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #1e293b;
+  line-height: 1.2;
+}
+
+h2 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #1e293b;
+  line-height: 1.2;
+  margin: 0 0 1rem 0;
+}
+
+h3 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #1e293b;
+  line-height: 1.2;
+}
+
+h4 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #1e293b;
+  line-height: 1.2;
+}
+
+p {
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.5;
+  margin-bottom: 0.25rem;
+}
+
+.p1 {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.55;
+  margin-bottom: 0.5rem;
+}
+
+.p2 {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+}
+
+.p3 {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.65;
+  margin-bottom: 1.5rem;
+}
+
+.detail-section {
+  background: #fff;
+  color: #0f172a;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 1.25rem clamp(1rem, 2vw, 2rem);
+  /* Filas label/valor con altura uniforme */
+  /* Bloque de roles (añade class="roles-block" en tu HTML) */
+  /* Acciones (añade class="actions" en tu HTML) */
+  /* Responsive */
+}
+.detail-section > h2 {
+  margin: 0 0 1rem;
+  font-size: clamp(1.25rem, 1.5vw, 1.6rem);
+  font-weight: 700;
+  color: #1e293b;
+}
+.detail-section > p {
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  align-items: center;
+  column-gap: 1rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+.detail-section > p:last-of-type {
+  border-bottom: 0;
+}
+.detail-section > p > strong, .detail-section > p > span {
+  min-height: 1.9rem;
+  display: flex;
+  align-items: center;
+}
+.detail-section > p > strong {
+  color: #334155;
+  font-weight: 600;
+}
+.detail-section > p > span {
+  color: #0f172a;
+  word-break: break-word;
+}
+.detail-section > .roles-block {
+  margin-top: 1rem;
+  margin-bottom: 1.25rem;
+  border-top: 1px dashed #e2e8f0;
+  padding-top: 1rem;
+  /* Chips locales (no afectan tablas) */
+}
+.detail-section > .roles-block > strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #334155;
+}
+.detail-section > .roles-block .tag {
+  display: inline-flex;
+  align-items: center;
+  height: 2rem;
+  padding: 0 0.75rem;
+  margin: 0.25rem 0.4rem 0 0;
+  border-radius: 9999px;
+  background: #e0f2fe;
+  color: #0369a1;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+.detail-section > .roles-block em {
+  color: #64748b;
+  font-size: 0.95rem;
+}
+.detail-section > .actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  /* Botones locales dentro de la vista */
+}
+.detail-section > .actions .vs-btn, .detail-section > .actions .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem 0.9rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1;
+  border: 1px solid transparent;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.06s ease, background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.detail-section > .actions .vs-btn:active, .detail-section > .actions .btn:active {
+  transform: translateY(0.5px);
+}
+.detail-section > .actions .vs-secondary, .detail-section > .actions .btn.secondary {
+  background: #f8fafc;
+  color: #1e293b;
+  border-color: #e2e8f0;
+}
+.detail-section > .actions .vs-secondary:hover, .detail-section > .actions .btn.secondary:hover {
+  background: #eef2f7;
+}
+.detail-section > .actions .vs-danger, .detail-section > .actions .btn.danger {
+  background: #ef4444;
+  color: #fff;
+}
+.detail-section > .actions .vs-danger:hover, .detail-section > .actions .btn.danger:hover {
+  background: #dc2626;
+}
+@media (max-width: 640px) {
+  .detail-section > p {
+    grid-template-columns: 1fr;
+    row-gap: 0.25rem;
+  }
+}/*# sourceMappingURL=view-site.css.map */
