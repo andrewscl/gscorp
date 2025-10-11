@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 import com.gscorp.dv1.sites.infrastructure.Site;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
 
-import jakarta.transaction.Transactional;
-
 @Service
 public interface SiteService {
     Site saveSite (Site site);
