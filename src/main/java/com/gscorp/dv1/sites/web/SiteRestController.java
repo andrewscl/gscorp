@@ -63,7 +63,7 @@ public class SiteRestController {
         //Respuesta
         var location = ucb.path("/api/sites/{id}").buildAndExpand(saved.getId()).toUri();
 
-        var dto = new SiteDto(saved.getClient(),saved.getId(), saved.getName(), saved.getCode(), saved.getAddress());
+        var dto = new SiteDto(saved.getId(), saved.getClient().getId(), saved.getName(), saved.getCode(), saved.getAddress());
 
         return ResponseEntity.created(location).body(dto);
 
