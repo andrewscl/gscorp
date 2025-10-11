@@ -11,7 +11,7 @@
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
-    background: #f6f8fa;
+    background: #fff; // fondo blanco, igual al mixin
     border-radius: 10px;
     box-shadow: 0 1px 4px rgba(15,23,42,.04);
     padding: 2rem 1.5rem;
@@ -32,18 +32,18 @@
       input[type="text"],
       input[type="number"] {
         padding: .48rem .9rem;
-        border: 1px solid #e2e8f0;
+        border: 1px solid #e5e7eb; // igual al mixin
         border-radius: 8px;
         font-size: 1rem;
-        background: #f8fafc;
-        color: #0f172a;
+        background: #f8fafc; // slate-50
+        color: #0f172a; // slate-900
         transition: border-color .2s;
         &:focus {
           border-color: #0369a1; // sky-700
         }
         &[readonly], &:disabled {
-          background: #ececec;
-          color: #64748b;
+          background: #f1f5f9; // slate-100
+          color: #64748b; // slate-500
           cursor: not-allowed;
         }
       }
@@ -53,6 +53,9 @@
         width: 1.1rem;
         height: 1.1rem;
         margin-right: .4rem;
+        background: #f1f5f9; // slate-100
+        border: 1px solid #e5e7eb;
+        cursor: not-allowed;
       }
 
       small {
@@ -64,10 +67,10 @@
       span#siteClient {
         padding: .48rem .9rem;
         border-radius: 8px;
-        background: #ececec;
-        color: #1e293b;
+        background: #f1f5f9; // fondo aún más claro
+        color: #1e293b; // slate-800
         font-size: 1rem;
-        border: 1px solid #e2e8f0;
+        border: 1px solid #e5e7eb;
         min-height: 2.25rem;
         display: flex;
         align-items: center;
@@ -106,16 +109,16 @@
     }
 
     .vs-secondary, .btn.secondary {
-      background: #f8fafc;
-      color: #1e293b;
-      border-color: #e2e8f0;
+      background: #f8fafc;    // slate-50
+      color: #1e293b;         // slate-800
+      border-color: #e2e8f0;  // slate-200
       &:hover { background: #eef2f7; }
     }
 
     .vs-danger, .btn.danger {
-      background: #ef4444;
+      background: #ef4444;    // red-500
       color: #fff;
-      &:hover { background: #dc2626; }
+      &:hover { background: #dc2626; } // red-600
     }
   }
 
