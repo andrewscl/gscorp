@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SiteController {
 
-    SiteService siteService;
+    private final SiteService siteService;
 
     @GetMapping("/table-view")
     public String getSitesTableView(Model model) {
