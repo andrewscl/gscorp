@@ -69,7 +69,9 @@ public class SiteRestController {
                 saved.getName(),
                 saved.getCode(),
                 saved.getAddress(),
-                saved.getClient().getName());
+                saved.getClient().getName(),
+                saved.getTimeZone(),
+                saved.getActive());
         return ResponseEntity.created(location).body(dto);
 
         }
