@@ -1,3 +1,9 @@
+@use '../base/mixins' as *;
+@use '../base/variables' as *;
+@use '../base/palette' as *;
+@use '../base/typography' as *;
+@use '../base/fragment-mixins' as *;
+
 .detail-section {
   padding: 2rem;
   background: #fff;
@@ -49,15 +55,9 @@
         border: 1px solid #ccd;
         border-radius: .4rem;
         font-size: .98rem;
-        background: #e9eff5;
         transition: border-color .2s;
         &:focus {
           border-color: #345;
-        }
-        &[readonly], &:disabled {
-          background: #ececec;
-          color: #aaa;
-          cursor: not-allowed;
         }
       }
 
@@ -90,10 +90,20 @@
       text-decoration: none;
       transition: background .2s, color .2s;
 
+      &.vs-primary {
+        background: #4177f6;
+        color: #fff;
+        &:hover { background: #305ed3; }
+      }
       &.vs-secondary {
         background: #edf0f3;
         color: #234;
         &:hover { background: #d3d7dd; }
+      }
+      &.vs-danger {
+        background: #e74c3c;
+        color: #fff;
+        &:hover { background: #c0392b; }
       }
     }
   }
