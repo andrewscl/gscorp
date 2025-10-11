@@ -32,7 +32,7 @@ public class SiteServiceImpl implements SiteService{
 
     @Override
     public List<SiteDto>getAllSites(){
-        return siteRepository.findAll()
+        return siteRepository.findAllWithClients()
                     .stream()
                     .map(r-> new SiteDto(r.getId(), r.getClient().getId(),
                                     r.getName(), r.getCode(), r.getAddress(), r.getClient().getName()))
