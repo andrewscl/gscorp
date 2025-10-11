@@ -11,21 +11,21 @@
     <div class="form-group">
       <label for="siteName">Nombre</label>
       <input id="siteName" name="name" type="text"
-             th:value="${site.name}" required />
+             th:value="${site.name}" readonly />
     </div>
 
     <!-- Código -->
     <div class="form-group">
       <label for="siteCode">Código</label>
       <input id="siteCode" name="code" type="text"
-             th:value="${site.code}" placeholder="Opcional" />
+             th:value="${site.code}" placeholder="Opcional" readonly />
     </div>
 
     <!-- Dirección -->
     <div class="form-group">
       <label for="siteAddress">Dirección</label>
       <input id="siteAddress" name="address" type="text"
-             th:value="${site.address}" placeholder="Calle 123, Comuna" />
+             th:value="${site.address}" placeholder="Calle 123, Comuna" readonly />
     </div>
 
     <!-- Coordenadas -->
@@ -33,12 +33,12 @@
       <div class="form-group">
         <label for="siteLat">Latitud</label>
         <input id="siteLat" name="lat" type="number" step="any"
-               th:value="${site.lat}" placeholder="-33.45" />
+               th:value="${site.lat}" placeholder="-33.45" readonly />
       </div>
       <div class="form-group">
         <label for="siteLon">Longitud</label>
         <input id="siteLon" name="lon" type="number" step="any"
-               th:value="${site.lon}" placeholder="-70.66" />
+               th:value="${site.lon}" placeholder="-70.66" readonly />
       </div>
     </div>
 
@@ -46,14 +46,14 @@
     <div class="form-group">
       <label for="siteTz">Zona horaria</label>
       <input id="siteTz" name="timeZone" type="text"
-             th:value="${site.timeZone}" placeholder="America/Santiago" />
+             th:value="${site.timeZone}" placeholder="America/Santiago" readonly />
       <small>Usa un identificador IANA válido (ej: America/Santiago).</small>
     </div>
 
     <!-- Activo -->
     <div class="form-group" style="display:flex;align-items:center;gap:.5rem">
       <input id="siteActive" name="active" type="checkbox"
-             th:checked="${site.active}" />
+             th:checked="${site.active}" disabled />
       <label for="siteActive" style="margin:0">Activo</label>
     </div>
 
@@ -61,7 +61,7 @@
     <div class="form-group">
       <label for="siteClient">Cliente</label>
       <span id="siteClient" name="client"
-        th:text="${site.client != null ? site.client.name : '—'}"></span>
+        th:text="${site.client != null ? site.client.name : '—'}" class="readonly-field"></span>
     </div>
 
     <!-- Acciones -->

@@ -5,64 +5,66 @@
 @use '../base/fragment-mixins' as *;
 
 .detail-section {
-  padding: 2rem;
-  background: #fff;
-  border-radius: 1rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-
-  h2 {
-    margin-bottom: 1.5rem;
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: #234;
-  }
-
-  p {
-    margin: 0 0 1rem 0;
-    font-size: 1rem;
-
-    strong {
-      color: #345;
-    }
-    span {
-      color: #789;
-      font-weight: 500;
-    }
-  }
+  @include detail-section(9.5rem);
 
   .card.form {
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
-    background: #f6f8fa;
-    padding: 2rem;
-    border-radius: .75rem;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    background: #fff; // fondo blanco, igual al mixin
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(15,23,42,.04);
+    padding: 2rem 1.5rem;
+    margin: 0;
+    border: none;
 
     .form-group {
       display: flex;
       flex-direction: column;
-      gap: .25rem;
+      gap: .2rem;
 
       label {
         font-size: 1rem;
-        color: #234;
-        font-weight: 500;
+        color: #334155; // slate-700
+        font-weight: 600;
       }
 
-      input, select {
-        padding: .5rem .75rem;
-        border: 1px solid #ccd;
-        border-radius: .4rem;
-        font-size: .98rem;
+      input[type="text"],
+      input[type="number"],
+      select {
+        padding: .48rem .9rem;
+        border: 1px solid #e5e7eb; // igual al mixin
+        border-radius: 8px;
+        font-size: 1rem;
+        background: #f8fafc; // slate-50
+        color: #0f172a; // slate-900
         transition: border-color .2s;
         &:focus {
-          border-color: #345;
+          border-color: #0369a1; // sky-700
+        }
+        &[readonly], &:disabled {
+          background: #f1f5f9; // slate-100
+          color: #64748b;
+          cursor: not-allowed;
         }
       }
 
+      select {
+        appearance: none;
+        min-width: 6rem;
+      }
+
+      input[type="checkbox"] {
+        accent-color: #0369a1;
+        width: 1.1rem;
+        height: 1.1rem;
+        margin-right: .4rem;
+        background: #f1f5f9; // slate-100
+        border: 1px solid #e5e7eb;
+      }
+
       small {
-        color: #789;
+        color: #64748b; // slate-500
         font-size: .92rem;
       }
     }
@@ -76,40 +78,49 @@
 
   .actions {
     display: flex;
-    gap: .5rem;
     flex-wrap: wrap;
-    margin-top: 1.5rem;
+    gap: .75rem;
+    margin-top: 1rem;
 
-    .vs-btn {
-      padding: .6rem 1.2rem;
-      border-radius: .4rem;
-      font-size: 1rem;
-      font-weight: 500;
-      cursor: pointer;
-      border: none;
+    .vs-btn, .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: .55rem .9rem;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: .95rem;
+      line-height: 1;
+      border: 1px solid transparent;
       text-decoration: none;
-      transition: background .2s, color .2s;
+      cursor: pointer;
+      transition: transform .06s ease, background-color .15s ease, border-color .15s ease, color .15s ease;
 
-      &.vs-primary {
-        background: #4177f6;
-        color: #fff;
-        &:hover { background: #305ed3; }
-      }
-      &.vs-secondary {
-        background: #edf0f3;
-        color: #234;
-        &:hover { background: #d3d7dd; }
-      }
-      &.vs-danger {
-        background: #e74c3c;
-        color: #fff;
-        &:hover { background: #c0392b; }
-      }
+      &:active { transform: translateY(0.5px); }
+    }
+
+    .vs-primary, .btn.primary {
+      background: #4177f6; // azul principal
+      color: #fff;
+      &:hover { background: #305ed3; }
+    }
+
+    .vs-secondary, .btn.secondary {
+      background: #f8fafc;    // slate-50
+      color: #1e293b;         // slate-800
+      border-color: #e2e8f0;  // slate-200
+      &:hover { background: #eef2f7; }
+    }
+
+    .vs-danger, .btn.danger {
+      background: #ef4444;    // red-500
+      color: #fff;
+      &:hover { background: #dc2626; } // red-600
     }
   }
 
   .form-error {
-    color: #e74c3c;
+    color: #ef4444;
     font-size: 1rem;
     margin-top: .8rem;
   }
@@ -118,5 +129,15 @@
     font-size: 1rem;
     margin-top: .8rem;
     display: none;
+  }
+
+  @media (max-width: 640px) {
+    .card.form {
+      padding: 1rem .5rem;
+    }
+    .form-row {
+      grid-template-columns: 1fr;
+      row-gap: .5rem;
+    }
   }
 }
