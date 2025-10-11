@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SiteServiceImpl implements SiteService{
 
-    SiteRepository siteRepository;
+    private final SiteRepository siteRepository;
 
     @Override
     @Transactional
