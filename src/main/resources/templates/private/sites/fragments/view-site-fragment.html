@@ -60,8 +60,8 @@
     <!-- Cliente -->
     <div class="form-group">
       <label for="siteClient">Cliente</label>
-      <span id="siteClient" name="client" type="text"
-             th:value="${site.client.name}"></span>
+      <span id="siteClient" name="client"
+        th:text="${site.client != null ? site.client.name : '—'}"></span>
     </div>
 
     <!-- Acciones -->
