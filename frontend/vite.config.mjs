@@ -25,6 +25,7 @@ export default defineConfig({
         'private/menu/private-menu': path.resolve(__dirname, './src/private/menu/private-menu.js'),
         'private/clients/create-client': path.resolve(__dirname, './src/private/clients/create-client.js'),
         'private/sites/create-site': path.resolve(__dirname, './src/private/sites/create-site.js'),
+        'private/sites/edit-site': path.resolve(__dirname, './src/private/sites/edit-site.js'),
       },
       output: {
         entryFileNames: '[name].js'
