@@ -10,7 +10,6 @@ import com.gscorp.dv1.repositories.ContactRepository;
 import com.gscorp.dv1.repositories.LicitationRepository;
 import com.gscorp.dv1.roles.infrastructure.RoleRepository;
 import com.gscorp.dv1.services.MpSyncService;
-import com.gscorp.dv1.users.infrastructure.UserRepository;
 
 import lombok.AllArgsConstructor;
 
