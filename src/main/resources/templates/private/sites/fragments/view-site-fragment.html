@@ -57,9 +57,11 @@
       <label for="siteActive" style="margin:0">Activo</label>
     </div>
 
+    <!-- Cliente -->
     <div class="form-group">
-      <label>Cliente</label>
-      <span class="readonly-field">[[${site.client.name}]]</span>
+      <label for="siteClient">Cliente</label>
+      <span id="siteClient" name="client" type="text"
+             th:value="${site.client.name}"></span>
     </div>
 
     <!-- Acciones -->
