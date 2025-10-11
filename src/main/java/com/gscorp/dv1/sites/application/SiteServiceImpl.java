@@ -61,4 +61,11 @@ public class SiteServiceImpl implements SiteService{
         }
     }
 
+    @Override
+    public Site findByIdWithClients(Long id){
+        return siteRepository.findByIdWithClients(id)
+                .orElseThrow( ()->
+                    new IllegalArgumentException("Cliente no encontrado" + id));
+    }
+
 }
