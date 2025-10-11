@@ -1,4 +1,5 @@
 // /js/private/menu/private-menu.js
+
 import { navigateTo } from '../../navigation-handler.js';
 
 (function () {
@@ -31,7 +32,7 @@ import { navigateTo } from '../../navigation-handler.js';
     else openDrawer();
   };
 
-  /** 1) Delegación global de navegación SPA **/
+  /** Delegación global de navegación SPA **/
   document.addEventListener('click', async (e) => {
     if (!isPrivate()) return;
     const link = e.target.closest('[data-path]');
@@ -41,13 +42,7 @@ import { navigateTo } from '../../navigation-handler.js';
     const path = link.getAttribute('data-path');
     if (!path) return;
 
-    // Colapsa otros <details> abiertos del sidebar (si existen)
-    const sidebar = document.querySelector('.sidebar');
-    if (sidebar) {
-      sidebar.querySelectorAll('details.menu-group[open]').forEach(d => d.open = false);
-    }
-
-    // Cierra drawer en móvil
+    // Solo cierra drawer en móvil, ya no colapsa <details> abiertos.
     closeDrawer();
 
     // Navega por SPA
@@ -59,13 +54,13 @@ import { navigateTo } from '../../navigation-handler.js';
     }
   });
 
-  /** 2) Delegación para acordeón (<details>) – sólo uno abierto **/
+  /** Delegación para acordeón (<details>) – sólo uno abierto **/
   document.addEventListener('toggle', (e) => {
     if (!isPrivate()) return;
     const d = e.target;
     if (!(d instanceof HTMLDetailsElement)) return;
     if (!d.classList.contains('menu-group')) return;
-    if (!d.open) return;
+    if (!d.open) return; // Solo cuando se abre
 
     const menu = d.closest('.menu');
     if (!menu) return;
@@ -74,7 +69,7 @@ import { navigateTo } from '../../navigation-handler.js';
     });
   });
 
-  /** 3) Burger + scrim con MutationObserver (funciona aunque reemplaces innerHTML) **/
+  /** Burger + scrim con MutationObserver (funciona aunque reemplaces innerHTML) **/
   const bindBurgerOnce = (btn) => {
     if (!btn || btn.__bound) return;
     btn.__bound = true;
