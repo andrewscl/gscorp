@@ -17,7 +17,7 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
     @Query("SELECT s FROM Site s JOIN FETCH s.client")
     List<Site> findAllWithClients();
 
-    @EntityGraph(attributePaths = "clients")
+    @EntityGraph(attributePaths = "client")
     Optional<Site> findByIdWithClients(Long id);
 
     
