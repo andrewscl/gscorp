@@ -64,7 +64,7 @@ public class SiteServiceImpl implements SiteService{
     @Override
     @Transactional(readOnly = true)
     public Site findByIdWithClients(Long id){
-        return siteRepository.findByIdWithClients(id)
+        return siteRepository.findById(id)
                 .orElseThrow( ()->
                     new IllegalArgumentException("Cliente no encontrado" + id));
     }

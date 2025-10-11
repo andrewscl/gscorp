@@ -18,7 +18,7 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
     List<Site> findAllWithClients();
 
     @EntityGraph(attributePaths = "client")
-    Optional<Site> findByIdWithClients(Long id);
+    Optional<Site> findById(Long id);
 
     
 }
