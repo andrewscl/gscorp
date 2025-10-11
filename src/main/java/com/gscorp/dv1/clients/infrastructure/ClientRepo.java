@@ -13,6 +13,6 @@ public interface ClientRepo extends JpaRepository<Client, Long>{
     List<Client> findByActiveTrueOrderByNameAsc();
 
     @EntityGraph(attributePaths = "users")
-    Optional<Client> findWithUsersById (Long id);
+    Optional<Client> findByIdWithUsers (Long id);
     
 }
