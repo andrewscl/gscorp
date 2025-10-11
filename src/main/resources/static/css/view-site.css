@@ -129,20 +129,20 @@ p {
   color: #0f172a;
   word-break: break-word;
 }
-.detail-section > .roles-block {
+.detail-section > .block {
   margin-top: 1rem;
   margin-bottom: 1.25rem;
   border-top: 1px dashed #e2e8f0;
   padding-top: 1rem;
   /* Chips locales (no afectan tablas) */
 }
-.detail-section > .roles-block > strong {
+.detail-section > .block > strong {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 600;
   color: #334155;
 }
-.detail-section > .roles-block .tag {
+.detail-section > .block .tag {
   display: inline-flex;
   align-items: center;
   height: 2rem;
@@ -156,7 +156,7 @@ p {
   letter-spacing: 0.2px;
   white-space: nowrap;
 }
-.detail-section > .roles-block em {
+.detail-section > .block em {
   color: #64748b;
   font-size: 0.95rem;
 }
@@ -335,4 +335,4 @@ p {
     grid-template-columns: 1fr;
     row-gap: 0.5rem;
   }
-}/*# sourceMappingURL=view-site.css.map */
+}/*# sourceMappingURL=view-site.css.map */URL=view-site.css.map */
