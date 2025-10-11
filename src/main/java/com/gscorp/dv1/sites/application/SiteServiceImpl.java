@@ -2,6 +2,7 @@ package com.gscorp.dv1.sites.application;
 
 import java.util.List;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,6 +45,20 @@ public class SiteServiceImpl implements SiteService{
                                     r.getTimeZone(),
                                     r.getActive()))
                     .toList();
+    }
+
+    //Eliminar sitio
+    @Override
+    @Transactional
+    public void deleteById(Long id){
+        if(!siteRepository.existsById(id)){
+            throw new IllegalArgumentException("Site no encontrado");
+        }
+        try{
+            siteRepository.deleteById(id);
+        } catch (DataIntegrityViolationException e){
+            throw new IllegalArgumentException("No se puede eliminar el sitio");
+        }
     }
 
 }

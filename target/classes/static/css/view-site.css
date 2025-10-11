@@ -60,6 +60,17 @@
   color: #789;
   font-size: 0.92rem;
 }
+.detail-section .card.form .form-group .readonly-field {
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.4rem;
+  background: #ececec;
+  color: #234;
+  font-size: 0.98rem;
+  border: 1px solid #ccd;
+  min-height: 2.25rem;
+  display: flex;
+  align-items: center;
+}
 .detail-section .card.form .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
