@@ -10,6 +10,7 @@ import com.gscorp.dv1.sites.web.dto.SiteDto;
 @Service
 public interface SiteService {
     Site saveSite (Site site);
+    void deleteById (Long id);
     Site findById (Long id);
     List<SiteDto> getAllSites();
 }

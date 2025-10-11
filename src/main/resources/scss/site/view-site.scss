@@ -65,6 +65,18 @@
         color: #789;
         font-size: .92rem;
       }
+
+      .readonly-field {
+        padding: .5rem .75rem;
+        border-radius: .4rem;
+        background: #ececec;
+        color: #234;
+        font-size: .98rem;
+        border: 1px solid #ccd;
+        min-height: 2.25rem;
+        display: flex;
+        align-items: center;
+      }
     }
 
     .form-row {
