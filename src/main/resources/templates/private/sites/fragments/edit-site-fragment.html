@@ -1,12 +1,10 @@
-<section th:fragment="content" class="detail-section">
+<section th:fragment="content" class="detail-section edit-site">
 
   <h2>Editar Sitio</h2>
-
-  <!-- Meta / ID -->
-  <p><strong>ID:</strong> <span th:text="${site.id}"></span></p>
+  <p class="meta-id"><strong>ID:</strong> <span th:text="${site.id}"></span></p>
 
   <form id="editSiteForm" class="card form">
-    <!-- Site -->
+
     <div class="form-group">
       <label for="siteClient">Cliente</label>
       <select id="siteClient" name="clientId" required>
@@ -14,36 +12,32 @@
         <option th:each="cl : ${clients}"
                 th:value="${cl.id}"
                 th:selected="${site.client != null} ? ${cl.id} == ${site.client.id} : false"
-                th:text="${cl.name}">
-          Sitio
-        </option>
+                th:text="${cl.name}">Sitio</option>
       </select>
       <small>Un sitio pertenece a un único cliente.</small>
     </div>
 
-    <!-- Nombre -->
+    <hr class="form-separator" />
+
     <div class="form-group">
       <label for="siteName">Nombre</label>
       <input id="siteName" name="name" type="text"
              th:value="${site.name}" required />
     </div>
 
-    <!-- Código -->
     <div class="form-group">
       <label for="siteCode">Código</label>
       <input id="siteCode" name="code" type="text"
              th:value="${site.code}" placeholder="Opcional" />
     </div>
 
-    <!-- Dirección -->
     <div class="form-group">
       <label for="siteAddress">Dirección</label>
       <input id="siteAddress" name="address" type="text"
              th:value="${site.address}" placeholder="Calle 123, Comuna" />
     </div>
 
-    <!-- Coordenadas -->
-    <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+    <div class="form-row coordinates-row">
       <div class="form-group">
         <label for="siteLat">Latitud</label>
         <input id="siteLat" name="lat" type="number" step="any"
@@ -56,7 +50,6 @@
       </div>
     </div>
 
-    <!-- Zona horaria -->
     <div class="form-group">
       <label for="siteTz">Zona horaria</label>
       <input id="siteTz" name="timeZone" type="text"
@@ -64,37 +57,24 @@
       <small>Usa un identificador IANA válido (ej: America/Santiago).</small>
     </div>
 
-    <!-- Activo -->
-    <div class="form-group" style="display:flex;align-items:center;gap:.5rem">
+    <div class="form-group active-row">
       <input id="siteActive" name="active" type="checkbox"
              th:checked="${site.active}" />
       <label for="siteActive" style="margin:0">Activo</label>
     </div>
 
-    <!-- Acciones -->
-    <div class="actions" style="display:flex;gap:.5rem;flex-wrap:wrap">
+    <div class="actions">
       <a class="vs-btn vs-secondary" href="#"
-         data-path="/private/sites/table-view">
-        Volver al listado
-      </a>
-
+         data-path="/private/sites/table-view">Volver al listado</a>
       <button type="submit" class="vs-btn vs-primary"
-              th:attr="data-id=${site.id}">
-        Guardar cambios
-      </button>
-
+              th:attr="data-id=${site.id}">Guardar cambios</button>
       <button type="button" class="vs-btn vs-danger"
               id="deleteSiteBtn"
-              th:attr="data-id=${site.id}">
-        Eliminar sitio
-      </button>
+              th:attr="data-id=${site.id}">Eliminar sitio</button>
     </div>
 
-    <!-- Mensajes -->
     <div id="editSiteError" class="form-error"></div>
     <div id="editSiteOk" class="form-ok" style="display:none;">Cambios guardados ✅</div>
   </form>
-
-  <!-- JS del fragmento -->
   <script type="module" src="/js/private/sites/edit-site.js"></script>
 </section>
