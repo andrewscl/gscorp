@@ -11,7 +11,7 @@
 
   <div class="users-block">
     <strong>Usuarios:</strong>
-    <span th:each="c : ${client.users}" th:text="${c.user}" class="tag"></span>
+    <span th:each="c : ${client.users}" th:text="${c.username}" class="tag"></span>
     <em th:if="${#lists.isEmpty(client.users)}">Sin usuarios</em>
   </div>
 
