@@ -11,7 +11,7 @@ import com.gscorp.dv1.projects.infrastructure.Project;
 @Service
 public interface ProjectService {
     
-    List<Project> findAllWithClients();
+    List<Project> findAllWithClientsAndEmployees();
     Optional<Project> findById (Long id);
     Project findByIdWithClients (Long id);
     Client findClientById (Long clientId);

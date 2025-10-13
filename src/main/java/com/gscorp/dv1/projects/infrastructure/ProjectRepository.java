@@ -14,6 +14,6 @@ public interface ProjectRepository extends JpaRepository<Project, Long>{
     public Optional<Project> findById(Long Id);
 
     @EntityGraph(attributePaths = {"client", "employees"})
-    List<Project> findAllWithClients();
+    List<Project> findAllWithClientsAndEmployees();
 
 }
