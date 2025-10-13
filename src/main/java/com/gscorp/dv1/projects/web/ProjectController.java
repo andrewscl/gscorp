@@ -20,7 +20,7 @@ public class ProjectController {
     @GetMapping("/table-view")
     public String getProjectsTableView (Model model) {
         model.addAttribute("projects",
-                    projectService.findAll());
+                    projectService.findAllWithClients());
         return "private/projects/views/projects-table-view";
     }
 
