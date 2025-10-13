@@ -33,7 +33,7 @@ public class Site {
     Long id;
 
     @ManyToOne(optional=false, fetch=FetchType.LAZY)
-    @JoinColumn(name="project_id", nullable=false)
+    @JoinColumn(name="project_id")
     Project project;
 
     @Column(nullable=false, length=160)
