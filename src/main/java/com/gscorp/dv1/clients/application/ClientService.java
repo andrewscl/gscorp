@@ -14,5 +14,6 @@ public interface ClientService {
     Client findById (Long id);
     List<ClientDto> getAllClients();
     Client findByIdWithUsers (Long id);
+    void deleteById(Long id);
 
 }

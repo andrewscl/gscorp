@@ -2,6 +2,7 @@ package com.gscorp.dv1.clients.application;
 
 import java.util.List;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,6 +46,20 @@ public class ClientServiceImpl implements ClientService{
         return clientRepo.findById(id)
             .orElseThrow(()->
                 new IllegalArgumentException("Usuario no encontrado" + id));
+    }
+
+    //Eliminar cliente
+    @Override
+    @Transactional
+    public void deleteById(Long id) {
+        if (!clientRepo.existsById(id)) {
+            throw new IllegalArgumentException("Cliente no encontrado");
+        }
+        try {
+            clientRepo.deleteById(id);
+        } catch (DataIntegrityViolationException ex) {
+            throw new IllegalStateException("No se puede eliminar: el cliente tiene referencias");
+        }
     }
 
 }
