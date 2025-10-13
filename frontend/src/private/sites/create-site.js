@@ -91,7 +91,6 @@ async function onSubmitCreate(e) {
       body: JSON.stringify({
         projectId,
         name,
-        code,
         address,
         lat,
         lon,

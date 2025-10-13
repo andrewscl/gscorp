@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.gscorp.dv1.projects.application.ProjectService;
 import com.gscorp.dv1.sites.application.SiteService;
 
 import lombok.RequiredArgsConstructor;
@@ -17,9 +18,12 @@ public class SiteController {
 
     private final SiteService siteService;
 
+    private final ProjectService projectService;
+
     @GetMapping("/table-view")
     public String getSitesTableView(Model model) {
         model.addAttribute("sites", siteService.getAllSites());
+        model.addAttribute("projects", projectService.findAllWithClientsAndEmployees());
         return "private/sites/views/sites-table-view";
     }
 
