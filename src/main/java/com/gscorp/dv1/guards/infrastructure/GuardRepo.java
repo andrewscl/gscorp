@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface GuardRepo extends JpaRepository<Guard, Long>{
 
-  Long countBySite_Client_IdAndActiveTrue(Long clientId);
+  Long countBySite_Project_Client_IdAndActiveTrue(Long clientId);
 
   Guard findByUserId(Long userId);
     
