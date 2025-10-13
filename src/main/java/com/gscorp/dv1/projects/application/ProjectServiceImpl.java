@@ -23,8 +23,8 @@ public class ProjectServiceImpl implements ProjectService{
 
     @Override
     @Transactional
-    public List<Project> findAllWithClients (){
-        return projectRepository.findAllWithClients();
+    public List<Project> findAllWithClientsAndEmployees (){
+        return projectRepository.findAllWithClientsAndEmployees();
     }
 
     @Override
