@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.gscorp.dv1.clients.infrastructure.Client;
-import com.gscorp.dv1.clients.infrastructure.ClientRepo;
+import com.gscorp.dv1.projects.infrastructure.Project;
+import com.gscorp.dv1.projects.infrastructure.application.ProjectService;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.infrastructure.Site;
 import com.gscorp.dv1.sites.web.dto.CreateSiteRequest;
@@ -27,17 +27,17 @@ import lombok.RequiredArgsConstructor;
 public class SiteRestController {
 
     private final SiteService siteService;
-    private final ClientRepo clientRepo;
+    private final ProjectService projectService;
 
     @PostMapping("/create")
     public ResponseEntity <SiteDto> createSite(
         @Valid @RequestBody CreateSiteRequest req,
         UriComponentsBuilder ucb){
         
-        //Resolver cliente
-        Long clientId = req.clientId();
-        Client client = clientRepo.findById(clientId)
-                .orElseThrow(() -> new IllegalArgumentException("Cliente no encontrado" + clientId));
+        //Resolver proyecto
+        Long projectId = req.projectId();
+        Project project = projectService.findById(projectId)
+                .orElseThrow(() -> new IllegalArgumentException("Proyecto no encontrado: " + projectId));
 
         //Normalizar campos opcionales
         String tz = (req.timeZone() == null || req.timeZone().isBlank())
@@ -49,7 +49,7 @@ public class SiteRestController {
 
         //Construir entidad
         var entity = Site.builder()
-            .client(client)
+            .project(project)
             .name(req.name().trim())
             .code(req.code())
             .address(req.address())
@@ -67,11 +67,11 @@ public class SiteRestController {
 
         var dto = new SiteDto(
                 saved.getId(),
-                saved.getClient().getId(),
+                saved.getProject().getId(),
+                saved.getProject().getName(),
                 saved.getName(),
                 saved.getCode(),
                 saved.getAddress(),
-                saved.getClient().getName(),
                 saved.getTimeZone(),
                 saved.getActive());
         return ResponseEntity.created(location).body(dto);
@@ -84,5 +84,4 @@ public class SiteRestController {
                 return ResponseEntity.noContent().build();
         }
 
-    
 }

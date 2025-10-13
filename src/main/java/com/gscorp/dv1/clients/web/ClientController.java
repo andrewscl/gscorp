@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gscorp.dv1.clients.application.ClientService;
-import com.gscorp.dv1.clients.infrastructure.ClientRepo;
 
 import lombok.AllArgsConstructor;
 
@@ -18,14 +17,11 @@ import lombok.AllArgsConstructor;
 public class ClientController {
 
     @Autowired
-    private ClientRepo clientRepo;
-
-    @Autowired
     private ClientService clientService;
 
     @GetMapping("/table-view")
     public String getClientsTableView(Model model) {
-        model.addAttribute("clients", clientRepo.findAll());
+        model.addAttribute("clients", clientService.getAllClients());
         return "private/clients/views/clients-table-view";
     }
 
