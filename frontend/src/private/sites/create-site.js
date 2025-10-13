@@ -1,4 +1,3 @@
-// /js/private/sites/create-site.js
 import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
 
@@ -27,25 +26,25 @@ function closeModal() {
   if (ok)  ok.style.display = 'none';
 }
 
-/** (Opcional) Si el <select> viene vacío, intenta cargar clientes vía API */
-async function maybeLoadClients() {
-  const sel = qs('#siteClientId');
+/** (Opcional) Si el <select> viene vacío, intenta cargar proyectos vía API */
+async function maybeLoadProjects() {
+  const sel = qs('#siteProjectId');
   if (!sel) return;
 
-  const hasOptions = sel.querySelectorAll('option').length > 1; // ya hay clientes renderizados por Thymeleaf
+  const hasOptions = sel.querySelectorAll('option').length > 1; // ya hay proyectos renderizados por Thymeleaf
   if (hasOptions) return;
 
   try {
-    const res = await fetchWithAuth('/api/clients/all');
+    const res = await fetchWithAuth('/api/projects/all');
     if (!res.ok) return;
 
     const data = await res.json(); // [{id, name, ...}]
     // Limpia y re-render
-    sel.innerHTML = '<option value="" disabled selected>Selecciona un cliente…</option>';
-    data.forEach(c => {
+    sel.innerHTML = '<option value="" disabled selected>Selecciona un proyecto…</option>';
+    data.forEach(p => {
       const opt = document.createElement('option');
-      opt.value = String(c.id);
-      opt.textContent = c.name;
+      opt.value = String(p.id);
+      opt.textContent = p.name;
       sel.appendChild(opt);
     });
   } catch { /* noop */ }
@@ -53,7 +52,7 @@ async function maybeLoadClients() {
 
 async function onClickCreate() {
   openModal();
-  await maybeLoadClients();
+  await maybeLoadProjects();
 }
 
 async function onSubmitCreate(e) {
@@ -64,7 +63,7 @@ async function onSubmitCreate(e) {
   if (err) err.textContent = '';
   if (ok)  ok.style.display = 'none';
 
-  const clientId = Number(qs('#siteClientId')?.value);
+  const projectId = Number(qs('#siteProjectId')?.value);
   const name     = qs('#siteName')?.value?.trim();
   const code     = qs('#siteCode')?.value?.trim() || null;
   const address  = qs('#siteAddress')?.value?.trim() || null;
@@ -78,8 +77,8 @@ async function onSubmitCreate(e) {
   const lon = lonStr ? Number(lonStr) : null;
 
   // Validaciones mínimas
-  if (!clientId) { err && (err.textContent = 'Debes seleccionar un cliente.'); return; }
-  if (!name)     { err && (err.textContent = 'El nombre es obligatorio.'); return; }
+  if (!projectId) { err && (err.textContent = 'Debes seleccionar un proyecto.'); return; }
+  if (!name)      { err && (err.textContent = 'El nombre es obligatorio.'); return; }
 
   // Deshabilita submit durante el POST
   const submitBtn = e.submitter || qs('#createSiteForm button[type="submit"]');
@@ -90,7 +89,7 @@ async function onSubmitCreate(e) {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({
-        clientId,
+        projectId,
         name,
         code,
         address,
