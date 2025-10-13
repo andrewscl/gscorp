@@ -173,7 +173,9 @@
       }
 
       input[type="text"],
-      input[type="email"] {
+      input[type="email"],
+      input[type="date"],
+      select {
         width: 100%;
         padding: .55rem .7rem;
         border: 1px solid #d1d5db;
@@ -252,10 +254,13 @@
 
         &:nth-child(1)::before { content: "ID"; font-weight: 600; display: block; color:#6b7280; }
         &:nth-child(2)::before { content: "Nombre"; font-weight: 600; display: block; color:#6b7280; }
-        &:nth-child(3)::before { content: "RUT/NIT"; font-weight: 600; display: block; color:#6b7280; }
-        &:nth-child(4)::before { content: "Mail"; font-weight: 600; display: block; color:#6b7280; }
-        &:nth-child(5)::before { content: "Estado"; font-weight: 600; display: block; color:#6b7280; }
-        &:nth-child(6) {
+        &:nth-child(3)::before { content: "Código"; font-weight: 600; display: block; color:#6b7280; }
+        &:nth-child(4)::before { content: "Cliente"; font-weight: 600; display: block; color:#6b7280; }
+        &:nth-child(5)::before { content: "Fecha inicio"; font-weight: 600; display: block; color:#6b7280; }
+        &:nth-child(6)::before { content: "Fecha término"; font-weight: 600; display: block; color:#6b7280; }
+        &:nth-child(7)::before { content: "Estado"; font-weight: 600; display: block; color:#6b7280; }
+        &:nth-child(8)::before { content: "Empleados"; font-weight: 600; display: block; color:#6b7280; }
+        &:nth-child(9) {
           grid-column: 1 / -1;
           margin-top: .25rem;
 
