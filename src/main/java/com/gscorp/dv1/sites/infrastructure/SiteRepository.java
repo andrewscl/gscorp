@@ -11,14 +11,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SiteRepository extends JpaRepository<Site, Long>{
 
-    List<Site> findByClientId(Long clientId);
-    long countByClientId(Long clientId);
+    List<Site> findByProjectId(Long projectId);
+    long countByProjectId(Long projectId);
 
-    @Query("SELECT s FROM Site s JOIN FETCH s.client")
-    List<Site> findAllWithClients();
+    @Query("SELECT s FROM Site s JOIN FETCH s.project")
+    List<Site> findAllWithProjects();
 
-    @EntityGraph(attributePaths = "client")
-    Optional<Site> findById(Long id);
+    @EntityGraph(attributePaths = "project")
+    public Optional<Site> findById(Long id);
 
     
 }

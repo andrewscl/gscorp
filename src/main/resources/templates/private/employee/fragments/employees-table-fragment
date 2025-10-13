@@ -1,0 +1,117 @@
+<div th:fragment="content">
+
+  <div class="employees-header">
+    <h2>Empleados</h2>
+    <button class="btn-primary" id="createEmployeeBtn">Crear Empleado</button>
+  </div>
+
+  <div class="employee-table-container">
+    <table class="employees-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Fotografía</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>RUT/DNI</th>
+          <th>Cargo</th>
+          <th>Mail</th>
+          <th>Estado</th>
+          <th>acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="e : ${employees}">
+          <td th:text="${e.id}"></td>
+          <td>
+            <img th:src="${e.photoUrl}" alt="Foto" class="employee-photo-thumb"
+                 style="width:40px;height:40px;border-radius:50%;object-fit:cover;background:#f3f6fb;border:1px solid #e5e7eb;" />
+          </td>
+          <td th:text="${e.name}"></td>
+          <td th:text="${e.surname}">—</td>
+          <td th:text="${e.nationalId}">—</td>
+          <td th:text="${e.position}">—</td>
+          <td th:text="${e.mail}">—</td>
+          <td>
+            <span class="tag"
+                  th:text="${e.active} ? 'Activo' : 'Inactivo'">Activo</span>
+          </td>
+          <td class="actions">
+            <button type="button"
+                    class="btn-link"
+                    th:attr="data-path=@{/private/employees/show/{id}(id=${e.id})}">
+              Ver
+            </button>
+            <button type="button"
+                    class="btn-link"
+                    th:attr="data-path=@{/private/employees/edit/{id}(id=${e.id})}">
+              Editar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal Crear Empleado -->
+  <div id="createEmployeeModal" class="modal hidden" aria-hidden="true" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3>Crear empleado</h3>
+        <button type="button" class="modal-close" id="closeCreateEmployee">&times;</button>
+      </div>
+
+      <form id="createEmployeeForm" class="modal-body" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="employeeName">Nombre</label>
+          <input type="text" id="employeeName" name="name" placeholder="Nombre" required />
+        </div>
+
+        <div class="form-group">
+          <label for="employeeSurname">Apellido</label>
+          <input type="text" id="employeeSurname" name="surname" placeholder="Apellido" required />
+        </div>
+
+        <div class="form-group">
+          <label for="employeeNationalId">RUT / DNI</label>
+          <input type="text" id="employeeNationalId" name="nationalId" placeholder="00.000.000-0" />
+        </div>
+
+        <div class="form-group">
+          <label for="employeePosition">Cargo</label>
+          <input type="text" id="employeePosition" name="position" placeholder="Cargo o función" />
+        </div>
+
+        <div class="form-group">
+          <label for="employeeMail">Mail</label>
+          <input type="email" id="employeeMail" name="mail" placeholder="empleado@email.com" />
+        </div>
+
+        <div class="form-group">
+          <label for="employeePhone">Teléfono</label>
+          <input type="text" id="employeePhone" name="phone" placeholder="+56 9 1234 5678" />
+        </div>
+
+        <div class="form-group">
+          <label for="employeePhoto">Fotografía</label>
+          <input type="file" id="employeePhoto" name="photo" accept="image/*" />
+        </div>
+
+        <div class="form-group" style="display:flex;align-items:center;gap:.5rem">
+          <input type="checkbox" id="employeeActive" name="active" checked />
+          <label for="employeeActive" style="margin:0">Activo</label>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn-primary">Crear</button>
+          <button type="button" class="btn-secondary" id="cancelCreateEmployee">Cancelar</button>
+        </div>
+
+        <div class="form-error" id="createEmployeeError"></div>
+        <div class="form-ok" id="createEmployeeOk" style="display:none;">Empleado creado ✅</div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="/js/private/employees/create-employee.js"></script>
+</div>

@@ -1,6 +1,7 @@
 package com.gscorp.dv1.sites.application;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -37,11 +38,11 @@ public class SiteServiceImpl implements SiteService{
                     .stream()
                     .map(r-> new SiteDto(
                                     r.getId(),
-                                    r.getClient().getId(),
+                                    r.getProject().getId(),
+                                    r.getProject().getName(),
                                     r.getName(),
                                     r.getCode(),
                                     r.getAddress(),
-                                    r.getClient().getName(),
                                     r.getTimeZone(),
                                     r.getActive()))
                     .toList();
@@ -63,7 +64,7 @@ public class SiteServiceImpl implements SiteService{
 
     @Override
     @Transactional(readOnly = true)
-    public Site findByIdWithClients(Long id){
+    public Site findByIdWithProjects(Long id){
         return siteRepository.findById(id)
                 .orElseThrow( ()->
                     new IllegalArgumentException("Cliente no encontrado" + id));

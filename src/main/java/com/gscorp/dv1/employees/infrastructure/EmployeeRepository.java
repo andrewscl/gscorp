@@ -1,4 +1,4 @@
-package com.gscorp.dv1.employee.infrastructure;
+package com.gscorp.dv1.employees.infrastructure;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
