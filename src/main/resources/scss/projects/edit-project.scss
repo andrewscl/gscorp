@@ -1,3 +1,9 @@
+@use '../base/mixins' as *;
+@use '../base/variables' as *;
+@use '../base/palette' as *;
+@use '../base/typography' as *;
+@use '../base/fragment-mixins' as *;
+
 .detail-section.edit-project {
   background: #fff;
   border: 1px solid #e5e7eb;
@@ -58,6 +64,11 @@
         background: #e0e7ff;
         outline: none;
       }
+      &[readonly], &:disabled {
+        background: #f4f4f5;
+        color: #64748b;
+        cursor: not-allowed;
+      }
     }
 
     select {
@@ -67,7 +78,8 @@
       color: #0f172a;
     }
 
-    .readonly-field {
+    .readonly-field,
+    span {
       padding: .62rem 1rem;
       border-radius: 8px;
       background: #f4f4f5;
@@ -80,6 +92,7 @@
       word-break: break-word;
       user-select: none;
 
+      // estilos para empleados tags
       .tag {
         background: #e0e7ff;
         color: #3730a3;
