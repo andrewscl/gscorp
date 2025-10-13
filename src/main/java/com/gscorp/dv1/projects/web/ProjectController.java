@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.gscorp.dv1.projects.infrastructure.application.ProjectService;
+import com.gscorp.dv1.projects.application.ProjectService;
 
 import lombok.AllArgsConstructor;
 
