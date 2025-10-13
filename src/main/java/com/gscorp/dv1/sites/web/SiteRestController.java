@@ -51,7 +51,6 @@ public class SiteRestController {
         var entity = Site.builder()
             .project(project)
             .name(req.name().trim())
-            .code(req.code())
             .address(req.address())
             .lat(lat)
             .lon(lon)
@@ -70,7 +69,6 @@ public class SiteRestController {
                 saved.getProject().getId(),
                 saved.getProject().getName(),
                 saved.getName(),
-                saved.getCode(),
                 saved.getAddress(),
                 saved.getTimeZone(),
                 saved.getActive());

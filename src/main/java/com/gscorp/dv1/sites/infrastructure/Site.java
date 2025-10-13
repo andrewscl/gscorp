@@ -39,9 +39,6 @@ public class Site {
     @Column(nullable=false, length=160)
     String name;
 
-    @Column(length=160)
-    String code;
-
     @Column(length=240)
     String address;
 

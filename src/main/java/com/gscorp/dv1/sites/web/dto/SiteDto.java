@@ -5,7 +5,6 @@ public record SiteDto (
     Long projectId,
     String projectName,
     String name,
-    String code,
     String address,
     String timeZone,
     Boolean active
