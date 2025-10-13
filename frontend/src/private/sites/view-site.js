@@ -1,3 +1,4 @@
+
 export function init({ container, path }) {
 
   console.log('View-site.js activado');
