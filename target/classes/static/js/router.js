@@ -1,1 +1,0 @@
-import{n}from"./navigation-handler.js";import"./auth.js";let o=!1;function c(){o||(o=!0,console.log("Router activado"),document.addEventListener("click",e=>{const t=e.target.closest("[data-path]");if(t){e.preventDefault();const r=t.dataset.path,a=t.dataset.target||r;a&&n(a)}}))}export{c as s};
