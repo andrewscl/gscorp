@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gscorp.dv1.clients.infrastructure.Client;
-import com.gscorp.dv1.clients.infrastructure.ClientRepo;
+import com.gscorp.dv1.clients.infrastructure.ClientRepository;
 import com.gscorp.dv1.clients.web.dto.ClientDto;
 
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ClientServiceImpl implements ClientService{
 
-    private final ClientRepo clientRepo;
+    private final ClientRepository clientRepo;
 
     @Override
     @Transactional
