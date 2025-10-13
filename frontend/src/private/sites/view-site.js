@@ -25,6 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }).addTo(map);
 
     L.marker([lat, lon], { draggable: false }).addTo(map);
+    console.log('Mapa inicializado OK');
+  } else {
+    console.log('Falta algún elemento');
   }
 
   // Si en el futuro agregas funciones (copiar datos, imprimir, exportar), puedes hacerlo aquí.
