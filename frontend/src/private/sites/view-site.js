@@ -1,4 +1,6 @@
 export function init({ container, path }) {
+
+  console.log('View-site.js activado');
   // Botón "Volver al listado"
   const backBtn = container.querySelector('.vs-btn.vs-secondary[data-path]');
   if (backBtn) {
@@ -10,7 +12,6 @@ export function init({ container, path }) {
   }
 
   // Mapa de solo visualización
-  console.log('view-site inicializado');
   const latInput = container.querySelector('#siteLat');
   const lonInput = container.querySelector('#siteLon');
   const mapDiv = container.querySelector('#siteMap');
