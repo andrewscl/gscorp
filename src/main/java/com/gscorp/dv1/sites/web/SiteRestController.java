@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.gscorp.dv1.projects.application.ProjectService;
 import com.gscorp.dv1.projects.infrastructure.Project;
-import com.gscorp.dv1.projects.infrastructure.application.ProjectService;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.infrastructure.Site;
 import com.gscorp.dv1.sites.web.dto.CreateSiteRequest;
@@ -78,6 +78,7 @@ public class SiteRestController {
 
         }
 
+        //Borrar site
         @DeleteMapping("/{id}")
         public ResponseEntity<Void> delete(@PathVariable Long id){
                 siteService.deleteById(id);
