@@ -1,7 +1,6 @@
 package com.gscorp.dv1.sites.application;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -34,7 +33,7 @@ public class SiteServiceImpl implements SiteService{
 
     @Override
     public List<SiteDto>getAllSites(){
-        return siteRepository.findAllWithClients()
+        return siteRepository.findAllWithProjects()
                     .stream()
                     .map(r-> new SiteDto(
                                     r.getId(),
