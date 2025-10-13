@@ -149,6 +149,8 @@ p {
 .detail-section.edit-project .form-group select {
   min-width: 7rem;
   appearance: none;
+  background: #fff;
+  color: #0f172a;
 }
 .detail-section.edit-project .form-group .readonly-field,
 .detail-section.edit-project .form-group span {
