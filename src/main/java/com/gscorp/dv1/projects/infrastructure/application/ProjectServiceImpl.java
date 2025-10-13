@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gscorp.dv1.clients.infrastructure.Client;
 import com.gscorp.dv1.projects.infrastructure.Project;
 import com.gscorp.dv1.projects.infrastructure.ProjectRepository;
 
