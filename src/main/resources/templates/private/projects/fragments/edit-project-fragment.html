@@ -5,13 +5,11 @@
 
   <form id="editProjectForm" class="card form" th:action="@{/private/projects/edit/{id}(id=${project.id})}" th:method="post">
 
-    <!-- Cliente: selección -->
+    <!-- Cliente solo lectura -->
     <div class="form-group">
-      <label for="projectClient">Cliente</label>
-      <select id="projectClient" name="clientId" required>
-        <option value="" disabled>Seleccione cliente</option>
-        <option th:each="c : ${clients}" th:value="${c.id}" th:text="${c.name}" th:selected="${project.client != null && c.id == project.client.id}"></option>
-      </select>
+      <label>Cliente</label>
+      <span class="readonly-field"
+        th:text="${project.client != null ? project.client.name : '—'}"></span>
       <small>Un proyecto pertenece a un único cliente.</small>
     </div>
 
