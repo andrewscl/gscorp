@@ -5,12 +5,12 @@
 
   <form id="viewSiteForm" class="card form">
 
-    <!-- Cliente solo lectura -->
+    <!-- Proyecto solo lectura -->
     <div class="form-group">
-      <label>Cliente</label>
+      <label>Proyecto</label>
       <span class="readonly-field"
-        th:text="${site.client != null ? site.client.name : '—'}"></span>
-      <small>Un sitio pertenece a un único cliente.</small>
+        th:text="${site.project != null ? site.project.name : '—'}"></span>
+      <small>Un sitio pertenece a un único proyecto.</small>
     </div>
 
     <hr class="form-separator" />
@@ -61,5 +61,5 @@
     <div id="editSiteError" class="form-error"></div>
     <div id="editSiteOk" class="form-ok" style="display:none;">Cambios guardados ✅</div>
   </form>
-  <script type="module" src="/js/private/sites/edit-site.js"></script>
+  <script type="module" src="/js/private/sites/view-site.js"></script>
 </section>
