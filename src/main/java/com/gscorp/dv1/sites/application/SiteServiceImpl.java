@@ -40,7 +40,6 @@ public class SiteServiceImpl implements SiteService{
                                     r.getProject().getId(),
                                     r.getProject().getName(),
                                     r.getName(),
-                                    r.getCode(),
                                     r.getAddress(),
                                     r.getTimeZone(),
                                     r.getActive()))

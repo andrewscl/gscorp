@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Size;
 public record CreateSiteRequest (
     @NotNull Long projectId,
     @NotNull @Size(min=2, max=160) String name,
-    String code,
     String address,
     Double lat,
     Double lon,

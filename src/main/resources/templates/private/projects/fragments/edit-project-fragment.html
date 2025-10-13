@@ -1,0 +1,69 @@
+<section th:fragment="content" class="detail-section edit-project">
+
+  <h2>Editar Proyecto</h2>
+  <p class="meta-id"><strong>ID:</strong> <span th:text="${project.id}"></span></p>
+
+  <form id="editProjectForm" class="card form" th:action="@{/private/projects/edit/{id}(id=${project.id})}" th:method="post">
+
+    <!-- Cliente: selección -->
+    <div class="form-group">
+      <label for="projectClient">Cliente</label>
+      <select id="projectClient" name="clientId" required>
+        <option value="" disabled>Seleccione cliente</option>
+        <option th:each="c : ${clients}" th:value="${c.id}" th:text="${c.name}" th:selected="${project.client != null && c.id == project.client.id}"></option>
+      </select>
+      <small>Un proyecto pertenece a un único cliente.</small>
+    </div>
+
+    <hr class="form-separator" />
+
+    <div class="form-group">
+      <label for="projectName">Nombre</label>
+      <input id="projectName" name="name" type="text"
+             th:value="${project.name}" required />
+    </div>
+
+    <div class="form-group">
+      <label for="projectDescription">Descripción</label>
+      <input id="projectDescription" name="description" type="text"
+             th:value="${project.description}" placeholder="Descripción del proyecto" />
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="projectStartDate">Fecha inicio</label>
+        <input id="projectStartDate" name="startDate" type="date"
+               th:value="${project.startDate}" required />
+      </div>
+      <div class="form-group">
+        <label for="projectEndDate">Fecha término</label>
+        <input id="projectEndDate" name="endDate" type="date"
+               th:value="${project.endDate}" />
+      </div>
+    </div>
+
+    <div class="form-group active-row">
+      <input id="projectActive" name="active" type="checkbox"
+             th:checked="${project.active}" />
+      <label for="projectActive" style="margin:0">Activo</label>
+    </div>
+
+    <div class="form-group">
+      <label>Empleados asignados</label>
+      <span class="readonly-field" th:if="${!#lists.isEmpty(project.employees)}">
+        <span th:each="e : ${project.employees}" th:text="${e.name}" class="tag"></span>
+      </span>
+      <em th:if="${#lists.isEmpty(project.employees)}">Sin empleados asignados</em>
+      <!-- Puedes agregar un selector múltiple si quieres editar empleados -->
+    </div>
+
+    <div class="actions">
+      <button class="vs-btn vs-primary" type="submit">Guardar cambios</button>
+      <a class="vs-btn vs-secondary" href="#" data-path="/private/projects/table-view">Cancelar</a>
+    </div>
+
+    <div id="editProjectError" class="form-error"></div>
+    <div id="editProjectOk" class="form-ok" style="display:none;">Cambios guardados ✅</div>
+  </form>
+  <script type="module" src="/js/private/projects/edit-project.js"></script>
+</section>
