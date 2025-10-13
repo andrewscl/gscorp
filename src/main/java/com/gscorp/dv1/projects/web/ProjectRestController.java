@@ -37,7 +37,6 @@ public class ProjectRestController {
 
             var entity = Project.builder()
                     .name(req.name().trim())
-                    .code(req.code())
                     .description(req.description())
                     .startDate(req.startDate())
                     .endDate(req.endDate())
@@ -51,7 +50,6 @@ public class ProjectRestController {
             var dto = new ProjectDto(
                 saved.getId(),
                 saved.getName(),
-                saved.getCode(),
                 saved.getDescription(),
                 saved.getStartDate(),
                 saved.getEndDate(),

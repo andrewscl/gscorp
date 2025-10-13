@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 public record CreateProjectRequest (
     String name,
-    String code,
     String description,
     LocalDate startDate,
     LocalDate endDate,
