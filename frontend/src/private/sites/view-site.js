@@ -1,6 +1,4 @@
-
-export function init({ container, path }) {
-
+export function initViewSite({ container, path }) {
   console.log('View-site.js activado');
   // Botón "Volver al listado"
   const backBtn = container.querySelector('.vs-btn.vs-secondary[data-path]');
