@@ -6,7 +6,6 @@ public record ProjectDto (
 
     Long id,
     String name,
-    String code,
     String description,
     LocalDate startDate,
     LocalDate endDate,

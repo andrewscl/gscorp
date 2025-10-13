@@ -26,7 +26,6 @@ public class Project {
     private Long id;
 
     private String name;
-    private String code;          // Código interno del proyecto
     private String description;
     private LocalDate startDate;
     private LocalDate endDate;
