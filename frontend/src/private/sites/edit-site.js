@@ -81,30 +81,39 @@ const latInput = document.getElementById('siteLat');
 const lonInput = document.getElementById('siteLon');
 
 if (getLocationBtn && latInput && lonInput) {
-  getLocationBtn.addEventListener('click', () => {
-    if (!navigator.geolocation) {
-      alert("Geolocalización no soportada por tu navegador.");
-      return;
-    }
+  
+getLocationBtn.addEventListener('click', () => {
+  if (!navigator.geolocation) {
+    alert("Geolocalización no soportada por tu navegador.");
+    return;
+  }
 
-    getLocationBtn.disabled = true;
-    getLocationBtn.textContent = "Obteniendo ubicación...";
+  getLocationBtn.disabled = true;
+  getLocationBtn.textContent = "Obteniendo ubicación...";
 
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        latInput.value = position.coords.latitude;
-        lonInput.value = position.coords.longitude;
-        getLocationBtn.textContent = "Ubicación obtenida ✅";
-        setTimeout(() => {
-          getLocationBtn.textContent = "Obtener ubicación actual";
-          getLocationBtn.disabled = false;
-        }, 1500);
-      },
-      (error) => {
-        alert("No se pudo obtener la ubicación: " + error.message);
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      latInput.value = position.coords.latitude;
+      lonInput.value = position.coords.longitude;
+      getLocationBtn.textContent = "Ubicación obtenida ✅";
+      setTimeout(() => {
         getLocationBtn.textContent = "Obtener ubicación actual";
         getLocationBtn.disabled = false;
-      }
-    );
-  });
+      }, 1500);
+      // Mostrar precisión
+      alert(`Precisión estimada: ${Math.round(position.coords.accuracy)} metros`);
+    },
+    (error) => {
+      alert("No se pudo obtener la ubicación: " + error.message);
+      getLocationBtn.textContent = "Obtener ubicación actual";
+      getLocationBtn.disabled = false;
+    },
+    {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 0
+    }
+  );
+});
+
 }
