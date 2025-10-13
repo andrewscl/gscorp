@@ -13,7 +13,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long>{
     @Override
     public Optional<Project> findById(Long Id);
 
-    @EntityGraph(attributePaths = "clients")
+    @EntityGraph(attributePaths = "client")
     List<Project> findAllWithClients();
 
 }
