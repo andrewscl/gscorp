@@ -1,89 +1,3 @@
-body {
-  font-family: "Roboto", sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  color: #334155;
-  line-height: 1.5;
-}
-
-h1 {
-  font-family: "Montserrat", sans-serif;
-  font-size: 2.5rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: #1e293b;
-  line-height: 1.2;
-}
-
-h2 {
-  font-family: "Montserrat", sans-serif;
-  font-size: 2rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: #1e293b;
-  line-height: 1.2;
-  margin: 0 0 1rem 0;
-}
-
-h3 {
-  font-family: "Montserrat", sans-serif;
-  font-size: 1.5rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: #1e293b;
-  line-height: 1.2;
-}
-
-h4 {
-  font-family: "Montserrat", sans-serif;
-  font-size: 1.25rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: #1e293b;
-  line-height: 1.2;
-}
-
-p {
-  font-family: "Roboto", sans-serif;
-  font-size: 1rem;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  color: #334155;
-  line-height: 1.5;
-  margin-bottom: 0.25rem;
-}
-
-.p1 {
-  font-family: "Roboto", sans-serif;
-  font-size: 1.1rem;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  color: #334155;
-  line-height: 1.55;
-  margin-bottom: 0.5rem;
-}
-
-.p2 {
-  font-family: "Roboto", sans-serif;
-  font-size: 1.15rem;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  color: #334155;
-  line-height: 1.6;
-  margin: 0 0 1rem 0;
-}
-
-.p3 {
-  font-family: "Roboto", sans-serif;
-  font-size: 1.25rem;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  color: #334155;
-  line-height: 1.65;
-  margin-bottom: 1.5rem;
-}
-
 .detail-section.edit-project {
   background: #fff;
   border: 1px solid #e5e7eb;
@@ -152,8 +66,7 @@ p {
   background: #fff;
   color: #0f172a;
 }
-.detail-section.edit-project .form-group .readonly-field,
-.detail-section.edit-project .form-group span {
+.detail-section.edit-project .form-group .readonly-field {
   padding: 0.62rem 1rem;
   border-radius: 8px;
   background: #f4f4f5;
@@ -166,8 +79,7 @@ p {
   word-break: break-word;
   user-select: none;
 }
-.detail-section.edit-project .form-group .readonly-field .tag,
-.detail-section.edit-project .form-group span .tag {
+.detail-section.edit-project .form-group .readonly-field .tag {
   background: #e0e7ff;
   color: #3730a3;
   border-radius: 6px;
@@ -179,8 +91,7 @@ p {
   display: inline-block;
   white-space: nowrap;
 }
-.detail-section.edit-project .form-group .readonly-field .tag:last-child,
-.detail-section.edit-project .form-group span .tag:last-child {
+.detail-section.edit-project .form-group .readonly-field .tag:last-child {
   margin-right: 0;
 }
 .detail-section.edit-project .form-group input[type=checkbox] {
