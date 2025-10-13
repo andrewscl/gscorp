@@ -178,8 +178,34 @@ p {
 }
 .detail-section.edit-site .form-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 0.8fr;
   gap: 1.1rem;
+}
+.detail-section.edit-site .form-row .form-group {
+  background: none;
+  padding: 0;
+  border: none;
+}
+.detail-section.edit-site .form-row .form-group #getLocationBtn {
+  align-self: flex-end;
+  margin-top: 1.1rem;
+  min-width: 180px;
+  padding: 0.52rem 1.1rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  color: #1e293b;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.detail-section.edit-site .form-row .form-group #getLocationBtn:hover {
+  background: #f8fafc;
+}
+.detail-section.edit-site .form-row .form-group #getLocationBtn:disabled {
+  background: #f4f4f5;
+  color: #64748b;
+  cursor: not-allowed;
 }
 .detail-section.edit-site .actions {
   display: flex;
@@ -237,6 +263,9 @@ p {
   .detail-section.edit-site .form-row {
     grid-template-columns: 1fr;
     gap: 0.5rem;
+  }
+  .detail-section.edit-site .form-row .form-group #getLocationBtn {
+    width: 100%;
   }
   .detail-section.edit-site .actions {
     flex-direction: column;

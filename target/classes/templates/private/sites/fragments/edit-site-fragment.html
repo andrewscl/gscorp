@@ -5,16 +5,17 @@
 
   <form id="editSiteForm" class="card form">
 
+    <!-- Proyecto selección -->
     <div class="form-group">
-      <label for="siteClient">Cliente</label>
-      <select id="siteClient" name="clientId" required>
-        <option value="" disabled>Selecciona un cliente…</option>
-        <option th:each="cl : ${clients}"
-                th:value="${cl.id}"
-                th:selected="${site.client != null} ? ${cl.id} == ${site.client.id} : false"
-                th:text="${cl.name}">Sitio</option>
+      <label for="siteProject">Proyecto</label>
+      <select id="siteProject" name="projectId" required>
+        <option value="" disabled>Selecciona un proyecto…</option>
+        <option th:each="p : ${projects}"
+                th:value="${p.id}"
+                th:selected="${site.project != null} ? ${p.id} == ${site.project.id} : false"
+                th:text="${p.name}">Proyecto</option>
       </select>
-      <small>Un sitio pertenece a un único cliente.</small>
+      <small>Un sitio pertenece a un único proyecto.</small>
     </div>
 
     <hr class="form-separator" />
@@ -47,6 +48,9 @@
         <label for="siteLon">Longitud</label>
         <input id="siteLon" name="lon" type="number" step="any"
                th:value="${site.lon}" placeholder="-70.66" />
+      </div>
+      <div class="form-group">
+        <button type="button" id="getLocationBtn" class="vs-btn vs-secondary">Obtener ubicación actual</button>
       </div>
     </div>
 

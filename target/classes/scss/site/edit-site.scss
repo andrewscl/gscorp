@@ -56,7 +56,7 @@
       border: 1px solid #e5e7eb;
       border-radius: 8px;
       font-size: 1rem;
-      background: #fff; // <-- fondo blanco!
+      background: #fff;
       color: #0f172a;
       transition: border-color .2s, box-shadow .2s;
       &:focus {
@@ -99,8 +99,30 @@
 
   .form-row {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 0.8fr;
     gap: 1.1rem;
+
+    .form-group {
+      background: none;
+      padding: 0;
+      border: none;
+
+      #getLocationBtn {
+        align-self: flex-end;
+        margin-top: 1.1rem;
+        min-width: 180px;
+        padding: .52rem 1.1rem;
+        font-size: 1rem;
+        border-radius: 8px;
+        border: 1px solid #e2e8f0;
+        background: #fff;
+        color: #1e293b;
+        cursor: pointer;
+        transition: background .15s, color .15s, border-color .15s;
+        &:hover { background: #f8fafc; }
+        &:disabled { background: #f4f4f5; color: #64748b; cursor: not-allowed; }
+      }
+    }
   }
 
   .actions {
@@ -155,6 +177,7 @@
     .form-row {
       grid-template-columns: 1fr;
       gap: .5rem;
+      .form-group #getLocationBtn { width: 100%; }
     }
     .actions {
       flex-direction: column;

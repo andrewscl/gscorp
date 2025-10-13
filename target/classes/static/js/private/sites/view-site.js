@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",()=>{const t=document.querySelector(".vs-btn.vs-secondary[data-path]");t&&t.addEventListener("click",n=>{n.preventDefault();const e=t.getAttribute("data-path");e&&(window.location.href=e)})});

@@ -99,6 +99,7 @@ p {
   font-size: clamp(1.28rem, 1.5vw, 1.7rem);
   font-weight: 700;
   color: #1e293b;
+  letter-spacing: -0.5px;
 }
 .detail-section.view-site .meta-id {
   margin-bottom: 0.8rem;
@@ -189,7 +190,7 @@ p {
   border-top: 1px solid #e5e7eb;
   margin: 1.2rem 0;
 }
-.detail-section.view-site .coordinates-row {
+.detail-section.view-site .form-row {
   background: #f4f4f5;
   border-radius: 8px;
   padding: 1rem 1rem 0.8rem;
@@ -198,7 +199,7 @@ p {
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
-.detail-section.view-site .coordinates-row .form-group {
+.detail-section.view-site .form-row .form-group {
   background: none;
   padding: 0;
   border: none;
@@ -260,7 +261,7 @@ p {
   .detail-section.view-site {
     padding: 1rem 0.5rem;
   }
-  .detail-section.view-site .coordinates-row {
+  .detail-section.view-site .form-row {
     grid-template-columns: 1fr;
     padding: 0.8rem 0.3rem;
     gap: 0.5rem;

@@ -1,6 +1,7 @@
 import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
 
+// Eliminar sitio
 const deleteBtn = document.querySelector('#deleteSiteBtn');
 if (deleteBtn) {
   deleteBtn.addEventListener('click', async () => {
@@ -71,5 +72,39 @@ if (form) {
     } catch (e) {
       errorDiv.textContent = e.message || 'Error al guardar el sitio.';
     }
+  });
+}
+
+// Geolocalización: botón para obtener lat/lon
+const getLocationBtn = document.getElementById('getLocationBtn');
+const latInput = document.getElementById('siteLat');
+const lonInput = document.getElementById('siteLon');
+
+if (getLocationBtn && latInput && lonInput) {
+  getLocationBtn.addEventListener('click', () => {
+    if (!navigator.geolocation) {
+      alert("Geolocalización no soportada por tu navegador.");
+      return;
+    }
+
+    getLocationBtn.disabled = true;
+    getLocationBtn.textContent = "Obteniendo ubicación...";
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        latInput.value = position.coords.latitude;
+        lonInput.value = position.coords.longitude;
+        getLocationBtn.textContent = "Ubicación obtenida ✅";
+        setTimeout(() => {
+          getLocationBtn.textContent = "Obtener ubicación actual";
+          getLocationBtn.disabled = false;
+        }, 1500);
+      },
+      (error) => {
+        alert("No se pudo obtener la ubicación: " + error.message);
+        getLocationBtn.textContent = "Obtener ubicación actual";
+        getLocationBtn.disabled = false;
+      }
+    );
   });
 }
