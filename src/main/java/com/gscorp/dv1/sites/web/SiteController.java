@@ -25,14 +25,14 @@ public class SiteController {
 
     @GetMapping("/show/{id}")
     public String showSite (@PathVariable Long id, Model model){
-        var site = siteService.findByIdWithClients(id);
+        var site = siteService.findByIdWithProjects(id);
         model.addAttribute("site", site);
         return "private/sites/views/view-site-view";
     }
 
     @GetMapping("/edit/{id}")
     public String editSite (@PathVariable Long id, Model model){
-        var site = siteService.findByIdWithClients(id);
+        var site = siteService.findByIdWithProjects(id);
         model.addAttribute("site", site);
         return "private/sites/views/edit-site-view";
     }
