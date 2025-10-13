@@ -9,6 +9,7 @@ import com.gscorp.dv1.employees.infrastructure.Employee;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 public class Project {
 
     @Id
@@ -28,6 +30,8 @@ public class Project {
     private String description;
     private LocalDate startDate;
     private LocalDate endDate;
+
+    @Builder.Default
     private Boolean active = true;
 
     // Relación: Un proyecto pertenece a un único cliente
@@ -42,5 +46,6 @@ public class Project {
         joinColumns = @JoinColumn(name = "project_id"),
         inverseJoinColumns = @JoinColumn(name = "employee_id")
     )
+    @Builder.Default
     private Set<Employee> employees = new HashSet<>();
 }

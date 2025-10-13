@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gscorp.dv1.clients.infrastructure.Client;
-import com.gscorp.dv1.clients.infrastructure.ClientRepo;
+import com.gscorp.dv1.clients.infrastructure.ClientRepository;
 import com.gscorp.dv1.roles.infrastructure.Role;
 import com.gscorp.dv1.roles.infrastructure.RoleRepository;
 import com.gscorp.dv1.users.infrastructure.User;
@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepo;
     private final RoleRepository roleRepo;
-    private final ClientRepo clientRepo;
+    private final ClientRepository clientRepo;
     private final PasswordEncoder encoder;
 
     //Crear usuario
