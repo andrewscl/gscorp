@@ -74,12 +74,14 @@
           <input type="text" id="projectCode" name="code" placeholder="Código interno" />
         </div>
 
+        <!-- Selección de cliente (al cual pertenece el proyecto) -->
         <div class="form-group">
           <label for="projectClient">Cliente</label>
           <select id="projectClient" name="clientId" required>
             <option value="" disabled selected>Seleccione cliente</option>
             <option th:each="c : ${clients}" th:value="${c.id}" th:text="${c.name}"></option>
           </select>
+          <small>El proyecto quedará asignado al cliente seleccionado.</small>
         </div>
 
         <div class="form-group">

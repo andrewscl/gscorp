@@ -15,7 +15,7 @@
           <th>Nombre</th>
           <th>Código</th>
           <th>Dirección</th>
-          <th>Cliente</th>
+          <th>Proyecto</th>
           <th>Zona horaria</th>
           <th>Estado</th>
           <th>acciones</th>
@@ -27,22 +27,18 @@
           <td th:text="${s.name}"></td>
           <td th:text="${s.code}">—</td>
           <td th:text="${s.address}">—</td>
-          <td th:text="${s.clientName != null ? s.clientName : '—'}">—</td>
+          <td th:text="${s.projectName != null ? s.projectName : '—'}">—</td>
           <td th:text="${s.timeZone}">—</td>
-
-          <!-- Tag de estado -->
           <td>
             <span class="tag"
                   th:text="${s.active} ? 'Activo' : 'Inactivo'">Activo</span>
           </td>
-
           <td class="actions">
             <button type="button"
                     class="btn-link"
                     th:attr="data-path=@{/private/sites/show/{id}(id=${s.id})}">
               Ver
             </button>
-
             <button type="button"
                     class="btn-link"
                     th:attr="data-path=@{/private/sites/edit/{id}(id=${s.id})}">
@@ -63,15 +59,15 @@
       </div>
 
       <form id="createSiteForm" class="modal-body">
-        <!-- Cliente -->
+        <!-- Proyecto -->
         <div class="form-group">
-          <label for="siteClientId">Cliente</label>
-          <select id="siteClientId" name="clientId" required>
-            <option value="" disabled selected>Selecciona un cliente…</option>
-            <!-- Asume que el controlador inyecta model.addAttribute("clients", listaDeClientes) -->
-            <option th:each="c : ${clients}" th:value="${c.id}" th:text="${c.name}"></option>
+          <label for="siteProjectId">Proyecto</label>
+          <select id="siteProjectId" name="projectId" required>
+            <option value="" disabled selected>Selecciona un proyecto…</option>
+            <!-- Asume que el controlador inyecta model.addAttribute("projects", listaDeProyectos) -->
+            <option th:each="p : ${projects}" th:value="${p.id}" th:text="${p.name}"></option>
           </select>
-          <small>Si no ves el cliente, créalo primero en <strong>Gestión &rarr; Clientes</strong>.</small>
+          <small>Si no ves el proyecto, créalo primero en <strong>Gestión &rarr; Proyectos</strong>.</small>
         </div>
 
         <!-- Nombre / Código -->
