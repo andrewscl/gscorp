@@ -130,6 +130,17 @@
     }
   }
 
+  // Estilos para el mapa integrado
+  #siteMap {
+    height: 320px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-top: .5rem;
+    margin-bottom: .3rem;
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+  }
+
   .active-row {
     flex-direction: row;
     align-items: center;
@@ -191,6 +202,10 @@
       grid-template-columns: 1fr;
       padding: .8rem .3rem;
       gap: .5rem;
+    }
+    #siteMap {
+      height: 220px;
+      margin-top: .3rem;
     }
     .actions {
       flex-direction: column;
