@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long>{
     
-    @Override
+    @EntityGraph(attributePaths = {"client", "employees"})
     Optional<Project> findById(Long Id);
 
     @EntityGraph(attributePaths = {"client", "employees"})
