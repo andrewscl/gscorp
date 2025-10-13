@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface ProjectRepository extends JpaRepository<Project, Long>{
     
     @Override
-    public Optional<Project> findById(Long Id);
+    Optional<Project> findById(Long Id);
 
     @EntityGraph(attributePaths = {"client", "employees"})
     List<Project> findAllWithClientsAndEmployees();
