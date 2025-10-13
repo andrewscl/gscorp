@@ -4,7 +4,7 @@ import { setupMegamenu } from './mega-menu.js';
 import { setupSlideshow } from './slideshow-video.js';
 import { setupChat } from './chat/chat.js';
 import { fetchWithAuth } from './auth.js';
-import { init } from './private/sites/view-site.js';
+
 
 function doScrollTo(pathLike) {
   // si el menú móvil dejó bloqueado el scroll, lo limpiamos
@@ -109,7 +109,6 @@ window.initRouter = async () => {
   setupMegamenu();
   setupSlideshow();
   setupChat();
-  init();
 
 }
 

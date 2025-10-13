@@ -114,6 +114,12 @@ async function maybeLoadExtras(path, container) {
       await setupContact({ container, path });
     }
   }
+  if (path.startsWith('/private/sites/view-site')) {
+    const { init } = await import(`./private/sites/view-site.js?v=${Date.now()}`);
+    if (typeof init === 'function') {
+      init({ container, path });
+    }
+  }
   // aquí puedes ir agregando más rutas especiales si hace falta
 }
 
