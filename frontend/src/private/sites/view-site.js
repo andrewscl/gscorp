@@ -1,3 +1,5 @@
+import { navigateTo } from '../../navigation-handler.js';
+
 export function init({ container, path }) {
   console.log('View-site.js activado');
   // Botón "Volver al listado"
@@ -6,7 +8,7 @@ export function init({ container, path }) {
     backBtn.addEventListener('click', (e) => {
       e.preventDefault();
       const path = backBtn.getAttribute('data-path');
-      if (path) window.location.href = path;
+      if (path) navigateTo(path);
     });
   }
 
