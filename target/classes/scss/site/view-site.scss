@@ -4,214 +4,220 @@
 @use '../base/typography' as *;
 @use '../base/fragment-mixins' as *;
 
-.detail-section.view-site {
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  box-shadow: 0 4px 14px rgba(15,23,42,.06);
-  color: #0f172a;
-  max-width: 820px;
-  margin: 0 auto;
-  padding: 2rem clamp(1rem, 2vw, 2rem);
+.detail-section {
+  &.view-site {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(15,23,42,.06);
+    color: #0f172a;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 2rem clamp(1rem, 2vw, 2rem);
 
-  h2 {
-    margin-bottom: 1.3rem;
-    font-size: clamp(1.28rem, 1.5vw, 1.7rem);
-    font-weight: 700;
-    color: #1e293b;
-    letter-spacing: -.5px;
-  }
-
-  .meta-id {
-    margin-bottom: .8rem;
-    strong { color: #334155; font-weight: 600; }
-    span   { color: #0f172a; }
-  }
-
-  .card.form {
-    background: none;
-    box-shadow: none;
-    padding: 0;
-    border: none;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: .18rem;
-
-    label {
-      font-size: 1rem;
-      color: #334155;
-      font-weight: 600;
-      margin-bottom: .1rem;
+    h2 {
+      margin-bottom: 1.3rem;
+      font-size: clamp(1.28rem, 1.5vw, 1.7rem);
+      font-weight: 700;
+      color: #1e293b;
+      letter-spacing: -.5px;
     }
 
-    input,
-    select {
-      padding: .62rem 1rem;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      font-size: 1rem;
-      background: #fff;
-      color: #0f172a;
-      transition: border-color .2s, box-shadow .2s;
-      pointer-events: none;
-      &[readonly], &:disabled {
+    .meta-id {
+      margin-bottom: .8rem;
+      strong { color: #334155; font-weight: 600; }
+      span   { color: #0f172a; }
+    }
+
+    .card {
+      &.form {
+        background: none;
+        box-shadow: none;
+        padding: 0;
+        border: none;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: .18rem;
+
+      label {
+        font-size: 1rem;
+        color: #334155;
+        font-weight: 600;
+        margin-bottom: .1rem;
+      }
+
+      input,
+      select {
+        padding: .62rem 1rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 1rem;
+        background: #fff;
+        color: #0f172a;
+        transition: border-color .2s, box-shadow .2s;
+        pointer-events: none;
+        &[readonly], &:disabled {
+          background: #f4f4f5;
+          color: #64748b;
+          cursor: not-allowed;
+          pointer-events: none;
+        }
+      }
+
+      select {
+        min-width: 7rem;
+        appearance: none;
+        pointer-events: none;
+      }
+
+      .readonly-field,
+      span {
+        padding: .62rem 1rem;
+        border-radius: 8px;
         background: #f4f4f5;
-        color: #64748b;
+        color: #1e293b;
+        font-size: 1rem;
+        border: 1px solid #e5e7eb;
+        min-height: 2.25rem;
+        display: flex;
+        align-items: center;
+        word-break: break-word;
+        pointer-events: none;
+        user-select: none;
+      }
+
+      input[type="checkbox"] {
+        accent-color: #4177f6;
+        width: 1.1rem;
+        height: 1.1rem;
+        margin-right: .2rem;
+        background: #fff;
+        border: 1px solid #e5e7eb;
         cursor: not-allowed;
         pointer-events: none;
       }
-    }
 
-    select {
-      min-width: 7rem;
-      appearance: none;
-      pointer-events: none;
-    }
-
-    .readonly-field,
-    span {
-      padding: .62rem 1rem;
-      border-radius: 8px;
-      background: #f4f4f5;
-      color: #1e293b;
-      font-size: 1rem;
-      border: 1px solid #e5e7eb;
-      min-height: 2.25rem;
-      display: flex;
-      align-items: center;
-      word-break: break-word;
-      pointer-events: none;
-      user-select: none;
-    }
-
-    input[type="checkbox"] {
-      accent-color: #4177f6;
-      width: 1.1rem;
-      height: 1.1rem;
-      margin-right: .2rem;
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      cursor: not-allowed;
-      pointer-events: none;
-    }
-
-    small {
-      color: #64748b;
-      font-size: .92rem;
-      margin-top: .18rem;
-    }
-  }
-
-  .form-separator {
-    border: none;
-    border-top: 1px solid #e5e7eb;
-    margin: 1.2rem 0;
-  }
-
-  .form-row {
-    background: #f4f4f5;
-    border-radius: 8px;
-    padding: 1rem 1rem .8rem;
-    margin-bottom: 0;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-
-    .form-group {
-      background: none;
-      padding: 0;
-      border: none;
-    }
-  }
-
-  // Estilos para el mapa integrado
-  #siteMap {
-    height: 320px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    margin-top: .5rem;
-    margin-bottom: .3rem;
-    border: 1px solid #e5e7eb;
-    overflow: hidden;
-  }
-
-  .active-row {
-    flex-direction: row;
-    align-items: center;
-    gap: .5rem;
-
-    input[type="checkbox"] {
-      accent-color: #4177f6;
-      width: 1.1rem;
-      height: 1.1rem;
-      margin-right: .2rem;
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      cursor: not-allowed;
-      pointer-events: none;
-    }
-    label { margin: 0; }
-  }
-
-  .actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: .8rem;
-    margin-top: 1.7rem;
-
-    .vs-btn {
-      padding: .6rem 1.3rem;
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: 1rem;
-      border: 1px solid transparent;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background .15s, color .15s, border-color .15s;
-
-      &.vs-secondary {
-        background: #fff;
-        color: #1e293b;
-        border: 1px solid #e2e8f0;
-        &:hover { background: #f8fafc; }
+      small {
+        color: #64748b;
+        font-size: .92rem;
+        margin-top: .18rem;
       }
     }
-  }
 
-  .form-error {
-    color: #ef4444;
-    font-size: 1rem;
-    margin-top: .8rem;
-  }
-  .form-ok {
-    color: #219150;
-    font-size: 1rem;
-    margin-top: .8rem;
-    display: none;
-  }
+    .form-separator {
+      border: none;
+      border-top: 1px solid #e5e7eb;
+      margin: 1.2rem 0;
+    }
 
-  @media (max-width: 640px) {
-    padding: 1rem .5rem;
     .form-row {
-      grid-template-columns: 1fr;
-      padding: .8rem .3rem;
+      background: #f4f4f5;
+      border-radius: 8px;
+      padding: 1rem 1rem .8rem;
+      margin-bottom: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+
+      .form-group {
+        background: none;
+        padding: 0;
+        border: none;
+      }
+    }
+
+    // Estilos para el mapa integrado
+    #siteMap,
+    .view-site-map {
+      height: 320px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      margin-top: .5rem;
+      margin-bottom: .3rem;
+      border: 1px solid #e5e7eb;
+      overflow: hidden;
+    }
+
+    .active-row {
+      flex-direction: row;
+      align-items: center;
       gap: .5rem;
+
+      input[type="checkbox"] {
+        accent-color: #4177f6;
+        width: 1.1rem;
+        height: 1.1rem;
+        margin-right: .2rem;
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+      label { margin: 0; }
     }
-    #siteMap {
-      height: 220px;
-      margin-top: .3rem;
-    }
+
     .actions {
-      flex-direction: column;
-      align-items: stretch;
-      gap: .5rem;
-      .vs-btn { width: 100%; }
+      display: flex;
+      justify-content: flex-end;
+      gap: .8rem;
+      margin-top: 1.7rem;
+
+      .vs-btn {
+        padding: .6rem 1.3rem;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 1rem;
+        border: 1px solid transparent;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background .15s, color .15s, border-color .15s;
+
+        &.vs-secondary {
+          background: #fff;
+          color: #1e293b;
+          border: 1px solid #e2e8f0;
+          &:hover { background: #f8fafc; }
+        }
+      }
+    }
+
+    .form-error {
+      color: #ef4444;
+      font-size: 1rem;
+      margin-top: .8rem;
+    }
+    .form-ok {
+      color: #219150;
+      font-size: 1rem;
+      margin-top: .8rem;
+      display: none;
+    }
+
+    @media (max-width: 640px) {
+      padding: 1rem .5rem;
+      .form-row {
+        grid-template-columns: 1fr;
+        padding: .8rem .3rem;
+        gap: .5rem;
+      }
+      #siteMap,
+      .view-site-map {
+        height: 220px;
+        margin-top: .3rem;
+      }
+      .actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: .5rem;
+        .vs-btn { width: 100%; }
+      }
     }
   }
 }

@@ -43,7 +43,7 @@
     <!-- Mapa solo visualización -->
     <div class="form-group">
       <label>Ubicación en mapa</label>
-      <div id="siteMap" style="height: 320px; border-radius: 12px; overflow: hidden;"></div>
+      <div id="siteMap" class="view-site-map"></div>
       <small>Visualización de la ubicación geográfica del sitio.</small>
     </div>
 
@@ -69,6 +69,6 @@
     <div id="editSiteOk" class="form-ok" style="display:none;">Cambios guardados ✅</div>
   </form>
 
-  <script type="module" src="/js/private/sites/view-site.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=[[${googlecloudapikey}]]"></script>
 
 </section>

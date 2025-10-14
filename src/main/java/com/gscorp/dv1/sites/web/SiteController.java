@@ -1,12 +1,12 @@
 package com.gscorp.dv1.sites.web;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.gscorp.dv1.projects.application.ProjectService;
 import com.gscorp.dv1.sites.application.SiteService;
 
 import lombok.RequiredArgsConstructor;
@@ -18,12 +18,12 @@ public class SiteController {
 
     private final SiteService siteService;
 
-    private final ProjectService projectService;
+    @Value("${google.cloud.api.key}")
+    private String googleCloudApiKey;
 
     @GetMapping("/table-view")
     public String getSitesTableView(Model model) {
         model.addAttribute("sites", siteService.getAllSites());
-        model.addAttribute("projects", projectService.findAllWithClientsAndEmployees());
         return "private/sites/views/sites-table-view";
     }
 
@@ -31,6 +31,7 @@ public class SiteController {
     public String showSite (@PathVariable Long id, Model model){
         var site = siteService.findByIdWithProjects(id);
         model.addAttribute("site", site);
+        model.addAttribute("googlecloudapikey", googleCloudApiKey);
         return "private/sites/views/view-site-view";
     }
 
@@ -38,6 +39,7 @@ public class SiteController {
     public String editSite (@PathVariable Long id, Model model){
         var site = siteService.findByIdWithProjects(id);
         model.addAttribute("site", site);
+        model.addAttribute("googlecloudapikey", googleCloudApiKey);
         return "private/sites/views/edit-site-view";
     }
 

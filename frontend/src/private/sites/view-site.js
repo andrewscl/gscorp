@@ -2,6 +2,7 @@ import { navigateTo } from '../../navigation-handler.js';
 
 export function init({ container, path }) {
   console.log('View-site.js activado');
+
   // Botón "Volver al listado"
   const backBtn = container.querySelector('.vs-btn.vs-secondary[data-path]');
   if (backBtn) {
@@ -12,28 +13,35 @@ export function init({ container, path }) {
     });
   }
 
-  // Mapa de solo visualización
+  // Mapa Google Maps solo visualización
   const latInput = container.querySelector('#siteLat');
   const lonInput = container.querySelector('#siteLon');
   const mapDiv = container.querySelector('#siteMap');
-  if (mapDiv && latInput && lonInput && window.L) {
+  if (mapDiv && latInput && lonInput && window.google && window.google.maps) {
     // Evita inicializar dos veces si el usuario navega rápido
-    if (mapDiv._leaflet_id) return;
+    if (mapDiv._google_map) return;
 
     const lat = parseFloat(latInput.value) || -33.45;
     const lon = parseFloat(lonInput.value) || -70.66;
     console.log('Usando lat:', lat, 'lon:', lon);
-    const map = L.map(mapDiv).setView([lat, lon], 13);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
-
-    L.marker([lat, lon], { draggable: false }).addTo(map);
-    console.log('Mapa inicializado OK');
+    const map = new google.maps.Map(mapDiv, {
+      center: { lat, lng: lon },
+      zoom: 15, // Ajusta el zoom aquí
+      mapTypeId: 'roadmap',
+      disableDefaultUI: true // oculta controles extra
+    });
+    new google.maps.Marker({ position: { lat, lng: lon }, map: map });
+    mapDiv._google_map = map; // Marca como inicializado
+    console.log('Google Map inicializado OK');
   } else {
-    console.log('Falta algún elemento', { mapDiv, latInput, lonInput, L: window.L });
+    console.log('Falta algún elemento o Google Maps no cargado', { mapDiv, latInput, lonInput, google: window.google });
   }
 
   // Si en el futuro agregas funciones (copiar datos, imprimir, exportar), puedes hacerlo aquí.
 }
+
+// SPA: asegura que init se llama cuando el fragmento se carga
+document.addEventListener('fragment:loaded', (ev) => {
+  const { container, path } = ev.detail || {};
+  if (container) init({ container, path });
+});
