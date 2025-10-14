@@ -2,6 +2,15 @@ import { navigateTo } from '../../navigation-handler.js';
 
 export function init({ container, path }) {
   console.log('View-site.js activado');
+  console.log({
+  latInput: document.getElementById('siteLat'),
+  lonInput: document.getElementById('siteLon'),
+  latValue: document.getElementById('siteLat')?.value,
+  lonValue: document.getElementById('siteLon')?.value,
+  mapDiv: document.getElementById('siteMap'),
+  google: window.google,
+  googleMaps: window.google?.maps
+});
 
   // Botón "Volver al listado"
   const backBtn = container.querySelector('.vs-btn.vs-secondary[data-path]');
