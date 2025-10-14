@@ -1,6 +1,5 @@
 package com.gscorp.dv1.sites.web;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +17,7 @@ public class SiteController {
 
     private final SiteService siteService;
 
-    @Value("${google.cloud.api.key}")
-    private String googleCloudApiKey;
+    private String googleCloudApiKey = System.getenv("GOOGLE_CLOUD_API_KEY");
 
     @GetMapping("/table-view")
     public String getSitesTableView(Model model) {
@@ -42,6 +40,5 @@ public class SiteController {
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
         return "private/sites/views/edit-site-view";
     }
-
 
 }
