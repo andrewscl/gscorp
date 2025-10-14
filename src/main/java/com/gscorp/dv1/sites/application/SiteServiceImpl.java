@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gscorp.dv1.sites.infrastructure.Site;
 import com.gscorp.dv1.sites.infrastructure.SiteRepository;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
+import com.gscorp.dv1.sites.web.dto.UpdateLatLon;
 
 import lombok.RequiredArgsConstructor;
 
@@ -66,6 +67,17 @@ public class SiteServiceImpl implements SiteService{
         return siteRepository.findById(id)
                 .orElseThrow( ()->
                     new IllegalArgumentException("Cliente no encontrado" + id));
+    }
+
+    @Override
+    public Site updateSiteLocation(Long id, UpdateLatLon updateLatLon) {
+        Site site = siteRepository.findById(id)
+                .orElseThrow(() ->
+                new IllegalArgumentException("Site no encontrado" + id));
+
+        site.setLat(updateLatLon.lat());
+        site.setLon(updateLatLon.lon());
+        return siteRepository.save(site);
     }
 
 }

@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.infrastructure.Site;
 import com.gscorp.dv1.sites.web.dto.CreateSiteRequest;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
+import com.gscorp.dv1.sites.web.dto.UpdateLatLon;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -81,6 +83,13 @@ public class SiteRestController {
         public ResponseEntity<Void> delete(@PathVariable Long id){
                 siteService.deleteById(id);
                 return ResponseEntity.noContent().build();
+        }
+        //Actualizar latitud y longitud
+        @PutMapping("/update-location/{id}")
+        public ResponseEntity<Site> updateSiteLocation(@PathVariable Long id,
+        @RequestBody UpdateLatLon updateLatLon){
+               Site updateLocation = siteService.updateSiteLocation(id, updateLatLon);
+                 return ResponseEntity.ok(updateLocation);
         }
 
 }
