@@ -13,7 +13,6 @@ import { fetchWithAuth } from './auth.js';
         return;
     }
 
-
     const changeLayout = targetLayout !== currentLayout;
 
     if (!force && changeLayout) {
