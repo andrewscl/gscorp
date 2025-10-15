@@ -7,9 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gscorp.dv1.repositories.ContactRepository;
-import com.gscorp.dv1.repositories.LicitationRepository;
 import com.gscorp.dv1.roles.infrastructure.RoleRepository;
-import com.gscorp.dv1.services.MpSyncService;
 
 import lombok.AllArgsConstructor;
 
@@ -23,12 +21,6 @@ public class AdminController {
 
     @Autowired
     private RoleRepository roleRepository;
-
-    @Autowired
-    private LicitationRepository licitationRepository;
-
-    @Autowired
-    private final MpSyncService sync;
 
     @GetMapping("/dashboard")
     public String getPrivateDashboardView(Model model) {
@@ -45,18 +37,6 @@ public class AdminController {
     public String getContactsTableView(Model model) {
         model.addAttribute("contacts", contactRepository.findAll());
         return "private/admin/views/contacts-table-view";
-    }
-
-    @GetMapping("/mp-licitations")
-    public String getLicitationsTableView(Model model) {
-        model.addAttribute("licitations", licitationRepository.findAll());
-        return "private/admin/views/licitations-table-view";
-    }
-
-    @GetMapping("/mp-licitations/sync")
-    public String syncLicitations(Model model) {
-        sync.syncTodayLicitations();
-        return "private/admin/views/licitations-table-view";
     }
 
 }
