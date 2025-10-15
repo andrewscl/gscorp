@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gscorp.dv1.api.dto.RoleDto;
 import com.gscorp.dv1.roles.infrastructure.Role;
+import com.gscorp.dv1.roles.web.dto.RoleDto;
 import com.gscorp.dv1.roles.application.RoleService;
 
 import lombok.RequiredArgsConstructor;
