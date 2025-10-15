@@ -4,9 +4,6 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
-import com.gscorp.dv1.licitations.web.dto.AwardedLicitationDto;
-import com.gscorp.dv1.licitations.web.dto.ItemLicitationDto;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -81,10 +78,10 @@ public class Licitation {
 
     // Relación con ítems de la licitación
     @OneToMany(mappedBy = "licitation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<ItemLicitationDto> items;
+    private List<ItemLicitation> items;
 
     // Relación con adjudicados (proveedores adjudicados)
     @OneToMany(mappedBy = "licitation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<AwardedLicitationDto> awarded;    
+    private List<AwardedLicitation> awarded;    
 
 }
