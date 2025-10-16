@@ -94,6 +94,8 @@ function initAttendanceWidget() {
 
   btnIn?.addEventListener('click', () => punch('IN'));
   btnOut?.addEventListener('click', () => punch('OUT'));
+
+  updateAttendanceButtons();
 }
 
 // Auto-init al cargar y cuando tu router inserte el fragmento
@@ -103,3 +105,30 @@ if (document.readyState === 'loading') {
   initAttendanceWidget();
 }
 document.addEventListener('content:loaded', initAttendanceWidget);
+
+async function updateAttendanceButtons() {
+  const btnIn  = document.getElementById('att-in');
+  const btnOut = document.getElementById('att-out');
+
+  // Consulta tu API (ajusta la URL si es necesario)
+  try {
+    const res = await fetch('/api/attendance/last-punch', { credentials: 'same-origin' });
+    if (!res.ok) {
+      // Si falla la consulta, muestra solo entrada por defecto
+      btnIn.style.display = '';
+      btnOut.style.display = 'none';
+      return;
+    }
+    const lastPunch = await res.json();
+    if (!lastPunch || lastPunch.action === 'OUT') {
+      btnIn.style.display = '';
+      btnOut.style.display = 'none';
+    } else if (lastPunch.action === 'IN') {
+      btnIn.style.display = 'none';
+      btnOut.style.display = '';
+    }
+  } catch {
+    btnIn.style.display = '';
+    btnOut.style.display = 'none';
+  }
+}
