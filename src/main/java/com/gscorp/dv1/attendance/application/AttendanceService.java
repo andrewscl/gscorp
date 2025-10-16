@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunch;
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
 import com.gscorp.dv1.sites.infrastructure.Site;
-import com.gscorp.dv1.sites.infrastructure.SiteRepo;
+import com.gscorp.dv1.sites.infrastructure.SiteRepository;
 
 import java.time.*;
 import java.util.Comparator;
@@ -19,7 +19,7 @@ import java.util.Optional;
 public class AttendanceService {
 
   private final AttendancePunchRepo repo;
-  private final SiteRepo siteRepo;
+  private final SiteRepository siteRepo;
 
   private static final double MAX_DIST_METERS = 250.0;
   private static final long   MIN_GAP_SECONDS = 60;
