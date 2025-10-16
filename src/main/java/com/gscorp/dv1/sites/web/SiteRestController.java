@@ -94,12 +94,23 @@ public class SiteRestController {
 
         @PutMapping("/update/{id}")
         public ResponseEntity<?> updateSite(@PathVariable Long id, @RequestBody SiteDto in) {
-                try {
+        try {
                 Site updated = siteService.updateSite(id, in);
-                return ResponseEntity.ok(updated);
-                } catch (Exception e) {
+                // Construye el DTO manualmente:
+                SiteDto dto = new SiteDto(
+                updated.getId(),
+                updated.getProject() != null ? updated.getProject().getId() : null,
+                updated.getProject() != null ? updated.getProject().getName() : null,
+                updated.getName(),
+                updated.getAddress(),
+                updated.getTimeZone(),
+                updated.getActive()
+                );
+                return ResponseEntity.ok(dto);
+        } catch (Exception e) {
+                e.printStackTrace();
                 return ResponseEntity.badRequest().body("No se pudo guardar el sitio: " + e.getMessage());
-                }
+        }
         }
 
 

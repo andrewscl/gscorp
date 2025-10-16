@@ -1,18 +1,13 @@
 package com.gscorp.dv1.sites.web;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gscorp.dv1.projects.application.ProjectService;
 import com.gscorp.dv1.sites.application.SiteService;
-import com.gscorp.dv1.sites.infrastructure.Site;
-import com.gscorp.dv1.sites.web.dto.SiteDto;
 
 import lombok.RequiredArgsConstructor;
 
