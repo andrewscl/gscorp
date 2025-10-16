@@ -29,7 +29,6 @@ public class SiteController {
     public String showSite (@PathVariable Long id, Model model){
         var site = siteService.findByIdWithProjects(id);
         model.addAttribute("site", site);
-        model.addAttribute("googlecloudapikey", googleCloudApiKey);
         return "private/sites/views/view-site-view";
     }
 

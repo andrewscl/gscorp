@@ -2,6 +2,7 @@ package com.gscorp.dv1.controllers;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -10,7 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UIChromeController {
 
     @GetMapping("/sidebar")
-    public String sidebar(Authentication auth) {
+    public String sidebar(Authentication auth, Model model) {
+
+        model.addAttribute("googlecloudapikey",
+            System.getenv("GOOGLE_CLOUD_API_KEY"));
+
         if (has(auth,"ROLE_ADMINISTRATOR"))
             return "private/admin/fragments/admin-menu-fragment :: sidebar";
 
@@ -30,7 +35,11 @@ public class UIChromeController {
     }
 
     @GetMapping("/topbar")
-    public String topbar(Authentication auth) {
+    public String topbar(Authentication auth, Model model) {
+
+        model.addAttribute("googlecloudapikey",
+            System.getenv("GOOGLE_CLOUD_API_KEY"));
+
         if (has(auth,"ROLE_ADMINISTRATOR"))
             return "private/admin/fragments/admin-menu-fragment :: topbar";
 
