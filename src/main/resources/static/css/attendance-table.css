@@ -1,207 +1,100 @@
-@charset "UTF-8";
-/* ===== Asistencia (tabla + acciones) ===== */
-.att-header {
+.attendance-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
 }
-.att-header h2 {
-  font-size: 1.5rem;
-  font-weight: 600;
+.attendance-header h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
   margin: 0;
-  color: #1f2937;
+  color: #334155;
 }
-.att-header .att-actions {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-.att-header .att-actions .btn-primary,
-.att-header .att-actions .btn-secondary {
-  padding: 0.55rem 1rem;
-  border-radius: 0.375rem;
-  font-weight: 500;
-  font-size: 0.95rem;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.2s, box-shadow 0.2s;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
-}
-.att-header .att-actions .btn-primary {
-  background-color: #2563eb;
-  color: #fff;
-}
-.att-header .att-actions .btn-primary:hover {
-  background-color: #1d4ed8;
-}
-.att-header .att-actions .btn-primary:active {
-  background-color: #1e40af;
-}
-.att-header .att-actions .btn-primary:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-.att-header .att-actions .btn-secondary {
-  background-color: #e5e7eb;
-  color: #111827;
-}
-.att-header .att-actions .btn-secondary:hover {
-  background-color: #d1d5db;
-}
-.att-header .att-actions .btn-secondary:active {
-  background-color: #cbd5e1;
-}
-.att-header .att-actions .btn-secondary:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-/* Estado + hint */
-.att-status-row {
+.attendance-header .att-filter {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
+  gap: 1.2rem;
 }
-.att-status-row .att-status {
-  color: #374151;
-  font-weight: 500;
-}
-.att-status-row .att-status.error {
-  color: #b00020;
-}
-.att-status-row .att-hint {
-  color: #6b7280;
-}
-
-/* Filtros */
-.att-filters {
-  display: flex;
-  align-items: end;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
-}
-.att-filters label {
+.attendance-header .att-filter label {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
-  font-size: 0.9rem;
-  color: #6b7280;
-}
-.att-filters label input[type=date] {
-  padding: 0.45rem 0.6rem;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.375rem;
   font-size: 0.95rem;
-  color: #111827;
+  color: #64748b;
 }
-.att-filters label input[type=date]:focus {
-  outline: none;
-  border-color: #93c5fd;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+.attendance-header .att-filter label input[type=date] {
+  margin-top: 0.3em;
+  padding: 0.4em;
+  border-radius: 4px;
+  border: 1px solid #d1d5db;
+  font-size: 1em;
+  background: #f9fafb;
 }
-.att-filters .btn-secondary {
-  padding: 0.55rem 1rem;
-  background-color: #e5e7eb;
-  color: #111827;
+.attendance-header .att-filter .btn-primary {
+  padding: 0.5em 1.3em;
+  margin-left: 0.8em;
+  background-color: #2563eb;
+  color: #fff;
   border: none;
-  border-radius: 0.375rem;
-  font-weight: 500;
+  border-radius: 4px;
+  font-weight: 600;
   cursor: pointer;
-  font-size: 0.95rem;
-  transition: background-color 0.2s;
+  transition: background 0.18s;
 }
-.att-filters .btn-secondary:hover {
-  background-color: #d1d5db;
+.attendance-header .att-filter .btn-primary:hover {
+  background-color: #1e40af;
+}
+.attendance-header .att-filter .quick-range {
+  display: flex;
+  gap: 0.5em;
+  margin-left: 1em;
+}
+.attendance-header .att-filter .quick-range .btn-link {
+  background: none;
+  border: none;
+  color: #2563eb;
+  cursor: pointer;
+  font-size: 0.95em;
+  text-decoration: underline;
+  padding: 0.3em 0.6em;
+  border-radius: 2px;
+}
+.attendance-header .att-filter .quick-range .btn-link:hover {
+  background: #e0e7ff;
+  color: #1e40af;
 }
 
-/* Tabla */
-.att-table-container {
+.attendance-table-container {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px -4px #cbd5e1;
   padding: 1.5rem;
-  background-color: #ffffff;
-  border-radius: 0.75rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-  overflow-x: auto; /* por si hay muchas columnas en móvil */
+  margin-top: 0.8rem;
 }
-.att-table-container .att-table {
+.attendance-table-container .attendance-table {
   width: 100%;
   border-collapse: collapse;
-  font-family: "Roboto", sans-serif;
-  min-width: 820px; /* evita que rompa en pantallas muy angostas */
+  font-size: 1em;
 }
-.att-table-container .att-table thead {
-  background-color: #f3f4f6;
+.attendance-table-container .attendance-table thead {
+  background: #f1f5f9;
 }
-.att-table-container .att-table thead th {
+.attendance-table-container .attendance-table thead th {
+  padding: 0.65em 0.5em;
+  font-weight: 700;
+  color: #64748b;
+  border-bottom: 2px solid #e2e8f0;
   text-align: left;
-  padding: 0.75rem 1rem;
-  font-weight: 600;
-  color: #374151;
-  border-bottom: 2px solid #e5e7eb;
-  white-space: nowrap;
+  font-size: 0.98em;
 }
-.att-table-container .att-table tbody tr {
+.attendance-table-container .attendance-table tbody tr:nth-child(even) {
+  background: #f9fafb;
+}
+.attendance-table-container .attendance-table tbody tr td {
+  padding: 0.6em 0.5em;
   border-bottom: 1px solid #e5e7eb;
+  color: #334155;
 }
-.att-table-container .att-table tbody tr:hover {
-  background-color: #f9fafb;
-}
-.att-table-container .att-table tbody tr td {
-  padding: 0.75rem 1rem;
-  color: #4b5563;
-  font-size: 0.95rem;
-  vertical-align: top;
-  /* badges OK/No */
-  /* verde suave */
-  /* rojo suave */
-}
-.att-table-container .att-table tbody tr td.empty {
+.attendance-table-container .attendance-table tbody tr[th\:if] td {
   text-align: center;
   color: #6b7280;
-  padding: 1.25rem 1rem;
-}
-.att-table-container .att-table tbody tr td .ok,
-.att-table-container .att-table tbody tr td .bad {
-  display: inline-block;
-  padding: 0.2rem 0.5rem;
-  border-radius: 0.375rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  line-height: 1;
-  white-space: nowrap;
-}
-.att-table-container .att-table tbody tr td .ok {
-  background: #dcfce7;
-  color: #166534;
-}
-.att-table-container .att-table tbody tr td .bad {
-  background: #fee2e2;
-  color: #991b1b;
-}
-
-/* Responsivo básico */
-@media (max-width: 768px) {
-  .att-header {
-    align-items: start;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  .att-header .att-actions {
-    width: 100%;
-  }
-  .att-header .att-actions button {
-    flex: 1 1 160px;
-  }
-  .att-status-row {
-    flex-direction: column;
-    align-items: start;
-    gap: 0.35rem;
-  }
-  .att-filters label {
-    flex: 1 1 160px;
-  }
 }/*# sourceMappingURL=attendance-table.css.map */
