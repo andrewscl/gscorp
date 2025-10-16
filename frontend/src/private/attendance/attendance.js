@@ -96,6 +96,7 @@ function initAttendanceWidget() {
   btnOut?.addEventListener('click', () => punch('OUT'));
 
   updateAttendanceButtons();
+  showCurrentLocationOnMap();
 }
 
 // Auto-init al cargar y cuando tu router inserte el fragmento
@@ -131,4 +132,44 @@ async function updateAttendanceButtons() {
     btnIn.style.display = '';
     btnOut.style.display = 'none';
   }
+}
+
+
+function showCurrentLocationOnMap() {
+  const mapDiv = document.getElementById('att-map');
+  if (!mapDiv) return;
+
+  // Limpia el div si ya tenía un mapa
+  if (mapDiv._google_map) {
+    mapDiv._google_map = null;
+    mapDiv.innerHTML = "";
+  }
+
+  if (!navigator.geolocation) {
+    mapDiv.innerHTML = "<div style='padding:1em;text-align:center;color:#888'>Geolocalización no soportada</div>";
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      const lat = pos.coords.latitude;
+      const lon = pos.coords.longitude;
+      if (window.google && window.google.maps) {
+        const map = new google.maps.Map(mapDiv, {
+          center: { lat, lng: lon },
+          zoom: 17,
+          mapTypeId: 'roadmap',
+          disableDefaultUI: true
+        });
+        new google.maps.Marker({ position: { lat, lng: lon }, map: map });
+        mapDiv._google_map = map;
+      } else {
+        mapDiv.innerHTML = "<div style='padding:1em;text-align:center;color:#888'>Google Maps no cargado</div>";
+      }
+    },
+    (err) => {
+      mapDiv.innerHTML = `<div style='padding:1em;text-align:center;color:#b00020'>No se pudo obtener ubicación.<br>${err.message}</div>`;
+    },
+    { enableHighAccuracy: true, timeout: 10000 }
+  );
 }
