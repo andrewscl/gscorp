@@ -1,20 +1,27 @@
-<!-- Botón de asistencia (sin WebAuthn) -->
+<!-- Botón de asistencia + mapa de ubicación -->
 <section th:fragment="attendanceButton" class="card attendance" style="max-width:520px;padding:1rem">
   <h3 style="margin-top:0">Asistencia</h3>
 
   <div id="att-status" style="margin:.5rem 0;color:#444">Listo para marcar.</div>
 
+  <!-- Mapa de ubicación actual -->
+  <div id="att-map-container" style="width:100%;height:220px;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px -4px #cbd5e1;margin-bottom:1rem;background:#f3f4f6">
+    <div id="att-map" style="width:100%;height:100%"></div>
+  </div>
+
   <div id="att-widget"
        data-punch-endpoint="/api/attendance/punch"
        style="display:flex;gap:.5rem;flex-wrap:wrap">
-    <button id="att-in"  class="btn btn-primary"   type="button">Marcar entrada</button>
-    <button id="att-out" class="btn btn-secondary" type="button">Marcar salida</button>
+    <!-- Los botones se mostrarán/ocultarán por JS según estado -->
+    <button id="att-in"  class="btn btn-primary"   type="button" style="display:none">Marcar entrada</button>
+    <button id="att-out" class="btn btn-secondary" type="button" style="display:none">Marcar salida</button>
   </div>
 
   <small style="display:block;margin-top:.5rem;color:#666">
-    Se solicitará tu ubicación (GPS) para validar la marcación.
+    Se solicitará tu ubicación (GPS) para validar la marcación.<br>
+    <span style="color:#888;font-size:0.9em">El mapa muestra tu ubicación actual, solo de referencia.</span>
   </small>
 
-  <!-- Módulo JS (ruta pública compilada por Vite) -->
   <script type="module" th:src="@{/js/private/attendance/attendance.js}" defer></script>
+  <script type="module" th:src="@{/js/private/attendance/attendance-map.js}" defer></script>
 </section>
