@@ -17,6 +17,7 @@ public class AttendanceRestController {
 
   @Data public static class PunchReq { @NotNull Double lat; @NotNull Double lon; Double accuracy; }
 
+  //Registrar asistencia
   @PostMapping("/punch")
   public ResponseEntity<?> punch(@RequestBody PunchReq in, Authentication auth,
                                  @RequestHeader(value="User-Agent", required=false) String ua,
@@ -32,6 +33,23 @@ public class AttendanceRestController {
       "action", saved.getAction(),
       "locationOk", saved.getLocationOk(),
       "distanceMeters", Math.round(saved.getDistanceM()==null?0:saved.getDistanceM())
+    ));
+  }
+
+  // CONSULTAR ÚLTIMA MARCACIÓN DEL USUARIO
+  @GetMapping("/last-punch")
+  public ResponseEntity<?> lastPunch(Authentication auth) {
+    Long userId = currentUserId(auth);
+    var lastOpt = svc.lastPunch(userId);
+    if (lastOpt.isEmpty()) {
+      // No hay marcación aún
+      return ResponseEntity.ok(Map.of());
+    }
+    var last = lastOpt.get();
+    // Puedes retornar solo la acción, o extender la info según requiera el frontend
+    return ResponseEntity.ok(Map.of(
+      "action", last.getAction(),
+      "ts", last.getTs().toString()
     ));
   }
 
