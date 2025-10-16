@@ -1,5 +1,19 @@
-// /js/private/attendance/attendance.js
 import { fetchWithAuth } from '../../auth.js';
+
+// Encuentra el sitio más cercano y su distancia
+function getNearestSite(userLat, userLon, sites) {
+  let nearest = null;
+  let minDistance = Infinity;
+  for (const site of sites) {
+    if (typeof site.lat !== 'number' || typeof site.lon !== 'number') continue;
+    const d = getDistanceMeters(userLat, userLon, site.lat, site.lon);
+    if (d < minDistance) {
+      minDistance = d;
+      nearest = { ...site, distance: d };
+    }
+  }
+  return nearest;
+}
 
 function initAttendanceWidget() {
   const root = document.getElementById('att-widget');
@@ -10,6 +24,9 @@ function initAttendanceWidget() {
   const btnIn    = document.getElementById('att-in');
   const btnOut   = document.getElementById('att-out');
   const endpoint = root.dataset.punchEndpoint || '/api/attendance/punch';
+
+  // La lista de sitios viene serializada en window.attendanceSites
+  const sites = window.attendanceSites || [];
 
   const setStatus = (t, isError = false) => {
     if (!statusEl) return;
@@ -50,28 +67,23 @@ function initAttendanceWidget() {
       setStatus('Obteniendo ubicación...');
       const pos = await getPosition();
 
+      // Determina el sitio más cercano
+      const nearestSite = getNearestSite(pos.coords.latitude, pos.coords.longitude, sites);
 
-    // Obtén coordenadas del sitio desde el DOM
-    const siteLat = parseFloat(root.dataset.siteLat);
-    const siteLon = parseFloat(root.dataset.siteLon);
+      if (!nearestSite || nearestSite.distance > 35) {
+        setStatus(`No puede marcar asistencia: está a ${nearestSite ? nearestSite.distance.toFixed(1) : 'N/A'} metros del sitio más cercano (máx 35m).`, true);
+        disable(false);
+        return;
+      }
 
-    // Calcula distancia
-    const distance = getDistanceMeters(
-      pos.coords.latitude, pos.coords.longitude, siteLat, siteLon
-    );
-
-    // Chequea si está dentro de 35 metros
-    if (distance > 35) {
-      setStatus(`No puede marcar asistencia: está a ${distance.toFixed(1)} metros del sitio (máx 35m).`, true);
-      disable(false);
-      return;
-    }
+      setStatus(`Marcando asistencia en el sitio: ${nearestSite.name}`);
 
       const payload = {
         action, // "IN" | "OUT"
         lat: pos.coords.latitude,
         lon: pos.coords.longitude,
-        accuracy: pos.coords.accuracy
+        accuracy: pos.coords.accuracy,
+        siteId: nearestSite.id
       };
 
       setStatus('Registrando asistencia...');
@@ -160,7 +172,6 @@ async function updateAttendanceButtons() {
     btnOut.style.display = 'none';
   }
 }
-
 
 function showCurrentLocationOnMap() {
   const mapDiv = document.getElementById('att-map');
