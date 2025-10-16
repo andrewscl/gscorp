@@ -40,7 +40,7 @@ public class UIChromeController {
             return "private/admin/fragments/admin-menu-fragment :: topbar";
 
         if (has(auth,"ROLE_ANALYST"))
-            return "private/analyst/fragments/analyst-menu-fragment :: sidebar";
+            return "private/analyst/fragments/analyst-menu-fragment :: topbar";
 
         if (has(auth,"ROLE_OPS"))
             return "private/ops/fragments/ops-menu-fragment :: topbar";
