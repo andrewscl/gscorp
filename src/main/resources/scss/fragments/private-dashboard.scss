@@ -47,17 +47,16 @@ body[data-layout="private"] {
 
       .menu-item,
       summary {
-        @include roboto-font(1.06rem, 500);
+        @include roboto-font(1rem, 500);
         display: flex;
         align-items: center;
         gap: .76rem;
-        padding: 0.75rem 1.1rem;
+        padding: 0.5rem 1rem;
         color: #222e3a;
         background: transparent;
         border-radius: 9px;
         cursor: pointer;
         transition: background .18s, color .18s;
-        font-weight: 500;
         letter-spacing: 0.01em;
         position: relative;
 

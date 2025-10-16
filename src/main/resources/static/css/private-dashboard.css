@@ -130,19 +130,18 @@ body[data-layout=private] .sidebar .menu {
 body[data-layout=private] .sidebar .menu .menu-item,
 body[data-layout=private] .sidebar .menu summary {
   font-family: "Roboto", sans-serif;
-  font-size: 1.06rem;
+  font-size: 1rem;
   font-weight: 500;
   letter-spacing: 0.02em;
   display: flex;
   align-items: center;
   gap: 0.76rem;
-  padding: 0.75rem 1.1rem;
+  padding: 0.5rem 1rem;
   color: #222e3a;
   background: transparent;
   border-radius: 9px;
   cursor: pointer;
   transition: background 0.18s, color 0.18s;
-  font-weight: 500;
   letter-spacing: 0.01em;
   position: relative;
 }
