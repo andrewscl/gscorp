@@ -16,4 +16,5 @@ public interface SiteService {
     List<SiteDto> getAllSites();
     Site findByIdWithProjects(Long id);
     Site updateSiteLocation(Long id, UpdateLatLon updateLatLon);
+    Site updateSite(Long id, SiteDto siteDto);
 }
