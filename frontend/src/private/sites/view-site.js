@@ -1,8 +1,5 @@
 import { navigateTo } from '../../navigation-handler.js';
 
-// Guarda los datos necesarios para inicializar el mapa cuando Google Maps esté listo
-window._pendingMapInit = null;
-
 // Protege el registro del event listener
 if (!window._viewSiteInitRegistered) {
   document.addEventListener('fragment:loaded', (ev) => {
@@ -28,6 +25,13 @@ export function init({ container, path }) {
   const latInput = container.querySelector('#siteLat');
   const lonInput = container.querySelector('#siteLon');
   const mapDiv = container.querySelector('#siteMap');
+
+  // Limpia el marcador de inicialización anterior
+  if (mapDiv && mapDiv._google_map) {
+    mapDiv._google_map = null;
+    if (mapDiv.firstChild) mapDiv.innerHTML = "";
+  }
+
   window._pendingMapInit = { latInput, lonInput, mapDiv };
 
   // Si Google Maps ya está cargado, inicializa el mapa
@@ -42,7 +46,8 @@ window.onGoogleMapsReady = function() {
 
   const { latInput, lonInput, mapDiv } = pending;
   if (mapDiv && latInput && lonInput) {
-    if (mapDiv._google_map) return; // Evita doble inicialización
+    // Evita doble inicialización en el mismo fragmento
+    if (mapDiv._google_map) return;
 
     const lat = parseFloat(latInput.value) || -33.45;
     const lon = parseFloat(lonInput.value) || -70.66;
@@ -56,6 +61,7 @@ window.onGoogleMapsReady = function() {
     mapDiv._google_map = map;
     console.log('Google Map inicializado OK');
   } else {
-    console.log('Falta algún elemento para inicializar el mapa');
+    // No lances error si el fragmento no tiene mapa
+    console.log('Fragmento sin mapa o sin coordenadas, no se inicializa Google Maps');
   }
 };
