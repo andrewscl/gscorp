@@ -26,12 +26,5 @@
     <div id="att-map" style="width:100%;height:100%"></div>
   </div>
 
-    <!-- Serializa la lista de sitios antes de cargar attendance.js 
-    <script th:inline="javascript">
-      /*<![CDATA[*/
-      window.attendanceSites = /*[[${#objects.toJson(sites)}]]*/;
-      /*]]>*/
-    </script>-->
-
   <script type="module" th:src="@{/js/private/attendance/attendance.js}" defer></script>
 </section>
