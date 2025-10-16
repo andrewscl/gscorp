@@ -80,27 +80,38 @@ public class SiteServiceImpl implements SiteService{
         return siteRepository.save(site);
     }
 
-    @Override
-    public Site updateSite(Long id, SiteDto siteDto) {
-        Site site = siteRepository.findById(id)
-            .orElseThrow(() ->
-                    new RuntimeException("No existe el sitio con id " + id));
+@Override
+@Transactional
+public SiteDto updateSite(Long id, SiteDto siteDto) {
+    Site site = siteRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("No existe el sitio con id " + id));
 
-        site.setName(siteDto.name());
-        site.setAddress(siteDto.address());
-        site.setTimeZone(siteDto.timeZone());
-        site.setActive(Boolean.TRUE.equals(siteDto.active()));
+    site.setName(siteDto.name());
+    site.setAddress(siteDto.address());
+    site.setTimeZone(siteDto.timeZone());
+    site.setActive(Boolean.TRUE.equals(siteDto.active()));
 
-        /* Si permites cambiar el proyecto asociado:
-        if (siteDto.projectId() != null) {
-            Project project = projectRepo.findById(siteDto.projectId()).orElse(null);
-            site.setProject(project);
-        }*/
+    // Si permites cambiar el proyecto asociado:
+    // if (siteDto.projectId() != null) {
+    //     Project project = projectRepo.findById(siteDto.projectId()).orElse(null);
+    //     site.setProject(project);
+    // }
 
-        // Si quieres permitir cambiar projectName desde el DTO, normalmente NO lo haces porque es redundante.
-        // site.setProjectName(siteDto.projectName()); // Solo si tu entidad Site tiene ese campo y realmente lo necesitas.
+    siteRepository.save(site);
 
-        return siteRepository.save(site);
-    }
+    // Forzar inicialización mientras la sesión está activa
+    Long projectId = site.getProject() != null ? site.getProject().getId() : null;
+    String projectName = site.getProject() != null ? site.getProject().getName() : null;
+
+    return new SiteDto(
+        site.getId(),
+        projectId,
+        projectName,
+        site.getName(),
+        site.getAddress(),
+        site.getTimeZone(),
+        site.getActive()
+    );
+}
 
 }
