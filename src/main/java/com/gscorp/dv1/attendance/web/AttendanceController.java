@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunch;
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
+import com.gscorp.dv1.sites.application.SiteService;
 
 import lombok.AllArgsConstructor;
 
@@ -27,8 +28,12 @@ public class AttendanceController {
     @Autowired
     private final AttendancePunchRepo attendanceRepo;
 
+    @Autowired
+    private final SiteService siteService;
+
     @GetMapping("/attdc-view")
     public String getAttendanceView (Model model){
+        model.addAttribute("sites", siteService.getAllSites());
         return "private/attendance/views/attendance-view";
     }
 
