@@ -15,6 +15,9 @@ public class UIChromeController {
         if (has(auth,"ROLE_ADMINISTRATOR"))
             return "private/admin/fragments/admin-menu-fragment :: sidebar";
 
+        if (has(auth,"ROLE_ANALYST"))
+            return "private/analyst/fragments/analyst-menu-fragment :: sidebar";
+
         if (has(auth,"ROLE_OPS"))
             return "private/ops/fragments/ops-menu-fragment :: sidebar";
 
@@ -35,6 +38,9 @@ public class UIChromeController {
 
         if (has(auth,"ROLE_ADMINISTRATOR"))
             return "private/admin/fragments/admin-menu-fragment :: topbar";
+
+        if (has(auth,"ROLE_ANALYST"))
+            return "private/analyst/fragments/analyst-menu-fragment :: sidebar";
 
         if (has(auth,"ROLE_OPS"))
             return "private/ops/fragments/ops-menu-fragment :: topbar";

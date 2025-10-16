@@ -24,6 +24,10 @@ public class RoleRedirectController {
         if(has(auth, "ROLE_ADMINISTRATOR"))
             return prefix + "private/admin/dashboard" + suffix;
 
+        if(has(auth, "ROLE_ANALYST"))
+            return prefix + "private/analyst/dashboard" + suffix;
+
+
         if(has(auth, "ROLE_OPS"))
             return prefix + "private/ops/dashboard" + suffix;
 
