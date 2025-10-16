@@ -1,4 +1,3 @@
-// /js/private/attendance/attendance.js
 import { fetchWithAuth } from '../../auth.js';
 
 function initAttendanceWidget() {
@@ -10,6 +9,40 @@ function initAttendanceWidget() {
   const btnIn    = document.getElementById('att-in');
   const btnOut   = document.getElementById('att-out');
   const endpoint = root.dataset.punchEndpoint || '/api/attendance/punch';
+  const mapDiv   = document.getElementById('att-map');
+
+  // Muestra el mapa con la ubicación actual
+  function showCurrentLocationOnMap() {
+    if (!mapDiv) return;
+    if (!navigator.geolocation) {
+      mapDiv.innerHTML = "<div style='padding:1em;text-align:center;color:#888'>Geolocalización no soportada</div>";
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const lat = pos.coords.latitude;
+        const lon = pos.coords.longitude;
+        if (window.google && window.google.maps) {
+          const map = new google.maps.Map(mapDiv, {
+            center: { lat, lng: lon },
+            zoom: 17,
+            mapTypeId: 'roadmap',
+            disableDefaultUI: true
+          });
+          new google.maps.Marker({ position: { lat, lng: lon }, map: map });
+        } else {
+          mapDiv.innerHTML = "<div style='padding:1em;text-align:center;color:#888'>Google Maps no cargado</div>";
+        }
+      },
+      (err) => {
+        mapDiv.innerHTML = `<div style='padding:1em;text-align:center;color:#b00020'>No se pudo obtener ubicación.<br>${err.message}</div>`;
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  }
+
+  showCurrentLocationOnMap();
 
   const setStatus = (t, isError = false) => {
     if (!statusEl) return;
@@ -85,6 +118,11 @@ function initAttendanceWidget() {
       const out = await res.json().catch(() => ({}));
       const hora = out.ts ? new Date(out.ts).toLocaleTimeString('es-CL', { hour12: false }) : '';
       setStatus(`Marcación ${action === 'IN' ? 'de entrada' : 'de salida'}${hora ? ' a las ' + hora : ''} ✅`);
+
+      // Al marcar, actualiza el mapa y los botones
+      showCurrentLocationOnMap();
+      updateAttendanceButtons();
+
     } catch (e) {
       setStatus('Error en marcación: ' + (e?.message || 'desconocido'), true);
     } finally {
@@ -92,8 +130,31 @@ function initAttendanceWidget() {
     }
   }
 
+  // Lógica para mostrar/ocultar botones según la última marcación
+  async function updateAttendanceButtons() {
+    try {
+      const res = await fetch('/api/attendance/last-punch', { credentials: 'same-origin' });
+      if (!res.ok) return;
+      const lastPunch = await res.json();
+      if (!lastPunch || lastPunch.action === "OUT") {
+        btnIn.style.display = '';
+        btnOut.style.display = 'none';
+      } else if (lastPunch.action === "IN") {
+        btnIn.style.display = 'none';
+        btnOut.style.display = '';
+      }
+    } catch {
+      // Por defecto, muestra ambos si no se puede consultar
+      btnIn.style.display = '';
+      btnOut.style.display = '';
+    }
+  }
+
   btnIn?.addEventListener('click', () => punch('IN'));
   btnOut?.addEventListener('click', () => punch('OUT'));
+
+  // Al iniciar, actualiza el estado de botones acorde a la última marcación
+  updateAttendanceButtons();
 }
 
 // Auto-init al cargar y cuando tu router inserte el fragmento
