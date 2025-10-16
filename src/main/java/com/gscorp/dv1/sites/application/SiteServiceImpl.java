@@ -2,12 +2,10 @@ package com.gscorp.dv1.sites.application;
 
 import java.util.List;
 
-import org.hibernate.annotations.DialectOverride.OverridesAnnotation;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gscorp.dv1.projects.infrastructure.Project;
 import com.gscorp.dv1.sites.infrastructure.Site;
 import com.gscorp.dv1.sites.infrastructure.SiteRepository;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
