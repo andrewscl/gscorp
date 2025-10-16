@@ -1,13 +1,18 @@
 package com.gscorp.dv1.sites.web;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gscorp.dv1.projects.application.ProjectService;
 import com.gscorp.dv1.sites.application.SiteService;
+import com.gscorp.dv1.sites.infrastructure.Site;
+import com.gscorp.dv1.sites.web.dto.SiteDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -42,6 +47,16 @@ public class SiteController {
         model.addAttribute("site", site);
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
         return "private/sites/views/edit-site-view";
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateSite(@PathVariable Long id, @RequestBody SiteDto in) {
+        try {
+            Site updated = siteService.updateSite(id, in);
+            return ResponseEntity.ok(updated);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("No se pudo guardar el sitio: " + e.getMessage());
+        }
     }
 
 }
