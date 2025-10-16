@@ -1,5 +1,4 @@
 .attendance.card {
-  /* Tokens locales */
   --att-gap: .5rem;
   --att-pad: 16px;
   --att-radius: 12px;
@@ -11,6 +10,7 @@
   --att-ok: #059669;
   --att-warn: #d97706;
   --att-err: #b91c1c;
+  --att-site: #0077b6;
   max-width: 520px;
   padding: var(--att-pad);
   background: var(--att-bg);
@@ -27,9 +27,10 @@
   color: var(--att-text);
 }
 .attendance.card #att-status {
-  margin: 0.5rem 0;
+  margin: 0.5rem 0 0.2rem 0;
   color: #444;
-  font-size: 0.95rem;
+  font-size: 0.97rem;
+  font-weight: 500;
 }
 .attendance.card #att-status.is-ok {
   color: var(--att-ok);
@@ -40,7 +41,16 @@
 .attendance.card #att-status.is-error {
   color: var(--att-err);
 }
-.attendance.card .att-map-container {
+.attendance.card #att-site-info {
+  margin-bottom: 0.5rem;
+  color: var(--att-site);
+  font-size: 1.01rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: color 0.2s;
+  min-height: 1.1em;
+}
+.attendance.card .att-map-container, .attendance.card #att-map-container {
   width: 100%;
   height: 220px;
   border-radius: 8px;
@@ -49,7 +59,7 @@
   margin-bottom: 1rem;
   background: #f3f4f6;
 }
-.attendance.card .att-map-container #att-map {
+.attendance.card .att-map-container #att-map, .attendance.card #att-map-container #att-map {
   width: 100%;
   height: 100%;
   min-height: 220px;
@@ -144,10 +154,10 @@
   .attendance.card #att-widget .btn {
     width: 100%;
   }
-  .attendance.card .att-map-container {
+  .attendance.card .att-map-container, .attendance.card #att-map-container {
     height: 180px;
   }
-  .attendance.card .att-map-container #att-map {
+  .attendance.card .att-map-container #att-map, .attendance.card #att-map-container #att-map {
     min-height: 180px;
   }
 }
