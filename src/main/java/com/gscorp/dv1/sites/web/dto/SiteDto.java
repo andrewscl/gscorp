@@ -7,5 +7,7 @@ public record SiteDto (
     String name,
     String address,
     String timeZone,
+    Double lat,
+    Double lon,
     Boolean active
 ) {}
