@@ -3,9 +3,15 @@ import { navigateTo } from '../../navigation-handler.js';
 // Guarda los datos necesarios para inicializar el mapa cuando Google Maps esté listo
 window._pendingMapInit = null;
 
-/**
- * Inicializa la vista del sitio y prepara los datos para el mapa.
- */
+// Protege el registro del event listener
+if (!window._viewSiteInitRegistered) {
+  document.addEventListener('fragment:loaded', (ev) => {
+    const { container, path } = ev.detail || {};
+    if (container) init({ container, path });
+  });
+  window._viewSiteInitRegistered = true;
+}
+
 export function init({ container, path }) {
   console.log('View-site.js activado');
   // Botón "Volver al listado"
@@ -30,10 +36,6 @@ export function init({ container, path }) {
   }
 }
 
-/**
- * Esta función será llamada por el callback de Google Maps cuando la API esté lista.
- * Inicializa el mapa utilizando los datos guardados en _pendingMapInit.
- */
 window.onGoogleMapsReady = function() {
   const pending = window._pendingMapInit;
   if (!pending) return;
@@ -57,9 +59,3 @@ window.onGoogleMapsReady = function() {
     console.log('Falta algún elemento para inicializar el mapa');
   }
 };
-
-// SPA: asegura que init se llama cuando el fragmento se carga
-document.addEventListener('fragment:loaded', (ev) => {
-  const { container, path } = ev.detail || {};
-  if (container) init({ container, path });
-});
