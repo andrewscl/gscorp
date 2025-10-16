@@ -30,6 +30,8 @@
         <tr>
           <th>Fecha/Hora</th>
           <th>Acción</th>
+          <th>Lat</th>
+          <th>Lon</th>
           <th>Ubicación OK</th>
           <th>Distancia (m)</th>
           <th>Precisión (m)</th>
@@ -40,6 +42,8 @@
         <tr th:each="p : ${items}">
           <td th:text="${#temporals.format(p.ts, 'yyyy-MM-dd HH:mm')}">2025-10-07 09:00</td>
           <td th:text="${p.action}">IN</td>
+          <td th:text="${p.lat}"></td>
+          <td th:text="${p.lon}"></td>
           <td th:text="${p.locationOk ? 'Sí' : 'No'}">Sí</td>
           <td th:text="${p.distanceM}">12.3</td>
           <td th:text="${p.accuracyM}">8.0</td>
