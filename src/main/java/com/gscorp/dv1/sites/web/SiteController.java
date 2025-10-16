@@ -49,14 +49,4 @@ public class SiteController {
         return "private/sites/views/edit-site-view";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateSite(@PathVariable Long id, @RequestBody SiteDto in) {
-        try {
-            Site updated = siteService.updateSite(id, in);
-            return ResponseEntity.ok(updated);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("No se pudo guardar el sitio: " + e.getMessage());
-        }
-    }
-
 }

@@ -92,4 +92,15 @@ public class SiteRestController {
                  return ResponseEntity.ok(updateLocation);
         }
 
+        @PutMapping("/update/{id}")
+        public ResponseEntity<?> updateSite(@PathVariable Long id, @RequestBody SiteDto in) {
+                try {
+                Site updated = siteService.updateSite(id, in);
+                return ResponseEntity.ok(updated);
+                } catch (Exception e) {
+                return ResponseEntity.badRequest().body("No se pudo guardar el sitio: " + e.getMessage());
+                }
+        }
+
+
 }

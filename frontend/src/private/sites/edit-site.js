@@ -56,7 +56,7 @@ if (form) {
     okDiv.style.display = 'none';
 
     try {
-      const res = await fetchWithAuth(`/api/sites/${id}`, {
+      const res = await fetchWithAuth(`/api/sites/update/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
