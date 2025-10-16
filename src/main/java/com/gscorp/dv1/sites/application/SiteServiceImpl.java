@@ -43,6 +43,8 @@ public class SiteServiceImpl implements SiteService{
                                     r.getName(),
                                     r.getAddress(),
                                     r.getTimeZone(),
+                                    r.getLat(),
+                                    r.getLon(),
                                     r.getActive()))
                     .toList();
     }
@@ -89,7 +91,10 @@ public SiteDto updateSite(Long id, SiteDto siteDto) {
     site.setName(siteDto.name());
     site.setAddress(siteDto.address());
     site.setTimeZone(siteDto.timeZone());
+    site.setLat(siteDto.lat());
+    site.setLon(siteDto.lon());
     site.setActive(Boolean.TRUE.equals(siteDto.active()));
+
 
     // Si permites cambiar el proyecto asociado:
     // if (siteDto.projectId() != null) {
@@ -110,6 +115,8 @@ public SiteDto updateSite(Long id, SiteDto siteDto) {
         site.getName(),
         site.getAddress(),
         site.getTimeZone(),
+        site.getLat(),
+        site.getLon(),
         site.getActive()
     );
 }
