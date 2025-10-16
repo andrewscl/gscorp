@@ -50,6 +50,23 @@ function initAttendanceWidget() {
       setStatus('Obteniendo ubicación...');
       const pos = await getPosition();
 
+
+    // Obtén coordenadas del sitio desde el DOM
+    const siteLat = parseFloat(root.dataset.siteLat);
+    const siteLon = parseFloat(root.dataset.siteLon);
+
+    // Calcula distancia
+    const distance = getDistanceMeters(
+      pos.coords.latitude, pos.coords.longitude, siteLat, siteLon
+    );
+
+    // Chequea si está dentro de 35 metros
+    if (distance > 35) {
+      setStatus(`No puede marcar asistencia: está a ${distance.toFixed(1)} metros del sitio (máx 35m).`, true);
+      disable(false);
+      return;
+    }
+
       const payload = {
         action, // "IN" | "OUT"
         lat: pos.coords.latitude,
@@ -182,4 +199,17 @@ function showCurrentLocationOnMap() {
     },
     { enableHighAccuracy: true, timeout: 10000 }
   );
+}
+
+function getDistanceMeters(lat1, lon1, lat2, lon2) {
+  // Fórmula Haversine
+  const R = 6371000; // Radio tierra en metros
+  const toRad = x => x * Math.PI / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+            Math.sin(dLon/2) * Math.sin(dLon/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return R * c;
 }
