@@ -24,12 +24,22 @@ public class AttendancePunch {
 
   @Id @GeneratedValue(strategy=GenerationType.IDENTITY) Long id;
   @Column(nullable=false) Long userId;
-  @Column(nullable=false) OffsetDateTime ts;
-  Double lat; Double lon; Double accuracyM;
-  @Column(nullable=false, length=8) String action;      // "in" | "out"
+
+  @Column(nullable=false)
+  OffsetDateTime ts;
+
+  Double lat;
+  Double lon;
+  Double accuracyM;
+  
+  @Column(nullable=false, length=8)
+  String action;      // "in" | "out"
+
   @Column(nullable=false) Boolean locationOk;
   Double distanceM;
-  @Column(columnDefinition="text") String deviceInfo;
+
+  @Column(columnDefinition="text")
+  String deviceInfo;
 
   @JdbcTypeCode(SqlTypes.INET)
   @Column(columnDefinition="inet")
