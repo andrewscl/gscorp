@@ -83,8 +83,13 @@ function initAttendanceWidget() {
       }
 
       const out = await res.json().catch(() => ({}));
+      
       const hora = out.ts ? new Date(out.ts).toLocaleTimeString('es-CL', { hour12: false }) : '';
-      setStatus(`Marcación ${action === 'IN' ? 'de entrada' : 'de salida'}${hora ? ' a las ' + hora : ''} ✅`);
+      const distancia = typeof out.distanceMeters === 'number' ? `${out.distanceMeters} metros` : '';
+      setStatus(`Marcación registrada correctamente${hora ? ' a las ' + hora : ''}${distancia ? ' a ' + distancia : ''}. ✅`);
+
+      updateAttendanceButtons();
+
     } catch (e) {
       setStatus('Error en marcación: ' + (e?.message || 'desconocido'), true);
     } finally {
@@ -114,17 +119,22 @@ async function updateAttendanceButtons() {
   // Consulta tu API (ajusta la URL si es necesario)
   try {
     const res = await fetch('/api/attendance/last-punch', { credentials: 'same-origin' });
+
     if (!res.ok) {
       // Si falla la consulta, muestra solo entrada por defecto
       btnIn.style.display = '';
       btnOut.style.display = 'none';
       return;
     }
+
     const lastPunch = await res.json();
-    if (!lastPunch || lastPunch.action === 'OUT') {
+    const action = lastPunch.action ?
+    lastPunch.action.toUpperCase() : null;
+
+    if (!action || action === 'OUT') {
       btnIn.style.display = '';
       btnOut.style.display = 'none';
-    } else if (lastPunch.action === 'IN') {
+    } else if (action === 'IN') {
       btnIn.style.display = 'none';
       btnOut.style.display = '';
     }
