@@ -6,8 +6,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunch;
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
+import com.gscorp.dv1.sites.infrastructure.Site;
+import com.gscorp.dv1.sites.infrastructure.SiteRepo;
 
 import java.time.*;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,14 +19,20 @@ import java.util.Optional;
 public class AttendanceService {
 
   private final AttendancePunchRepo repo;
+  private final SiteRepo siteRepo;
 
-  // Config rápida (muévela a BD)
-  private static final double SITE_LAT = -33.45;
-  private static final double SITE_LON = -70.666;
   private static final double MAX_DIST_METERS = 250.0;
   private static final long   MIN_GAP_SECONDS = 60;
 
-  /** COMANDO: registrar marcación IN/OUT alternada */
+  /** Encuentra el site más cercano a la ubicación dada */
+  public Site findNearestSite(double lat, double lon) {
+    List<Site> allSites = siteRepo.findAll();
+    return allSites.stream()
+        .min(Comparator.comparing(site -> haversineMeters(lat, lon, site.getLat(), site.getLon())))
+        .orElse(null);
+  }
+
+  /** COMANDO: registrar marcación IN/OUT alternada usando el site más cercano */
   @Transactional
   public AttendancePunch punch(Long userId, double lat, double lon, Double acc, String ip, String ua) {
     var now  = OffsetDateTime.now();
@@ -33,10 +42,16 @@ public class AttendanceService {
       return last; // anti doble click
     }
 
-    double dist = haversineMeters(lat, lon, SITE_LAT, SITE_LON);
+    // Busca el site más cercano a la marcación
+    Site nearestSite = findNearestSite(lat, lon);
+    if (nearestSite == null) throw new IllegalStateException("No hay sitios registrados");
+
+    double siteLat = nearestSite.getLat();
+    double siteLon = nearestSite.getLon();
+
+    double dist = haversineMeters(lat, lon, siteLat, siteLon);
     boolean ok  = dist <= MAX_DIST_METERS;
 
-    // Guardamos en MAYÚSCULAS para consistencia con consultas
     String nextAction = (last == null || "OUT".equalsIgnoreCase(last.getAction())) ? "IN" : "OUT";
 
     var p = AttendancePunch.builder()
@@ -47,6 +62,9 @@ public class AttendanceService {
         .locationOk(ok).distanceM(dist)
         .ip(ip).deviceInfo(ua)
         .build();
+
+    // Si quieres guardar el ID del site más cercano, agrega este campo en AttendancePunch y setéalo aquí:
+    // p.setSiteId(nearestSite.getId());
 
     return repo.save(p);
   }
