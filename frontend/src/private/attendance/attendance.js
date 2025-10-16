@@ -15,6 +15,19 @@ function getNearestSite(userLat, userLon, sites) {
   return nearest;
 }
 
+let attendanceSites = [];
+
+async function loadSites() {
+  try {
+    const res = await fetch('/api/attendance/sites', { credentials: 'same-origin' });
+    if (!res.ok) throw new Error(`Error cargando sitios: ${res.status}`);
+    attendanceSites = await res.json();
+  } catch (e) {
+    console.error("No se pudo cargar la lista de sitios:", e);
+    attendanceSites = [];
+  }
+}
+
 function initAttendanceWidget() {
   const root = document.getElementById('att-widget');
   if (!root || root.dataset.attInit === '1') return;
@@ -24,9 +37,6 @@ function initAttendanceWidget() {
   const btnIn    = document.getElementById('att-in');
   const btnOut   = document.getElementById('att-out');
   const endpoint = root.dataset.punchEndpoint || '/api/attendance/punch';
-
-  // La lista de sitios viene serializada en window.attendanceSites
-  const sites = window.attendanceSites || [];
 
   const setStatus = (t, isError = false) => {
     if (!statusEl) return;
@@ -67,8 +77,19 @@ function initAttendanceWidget() {
       setStatus('Obteniendo ubicación...');
       const pos = await getPosition();
 
+      // Espera a que los sitios estén cargados
+      if (!attendanceSites.length) {
+        setStatus('Cargando sitios, por favor espera...', true);
+        await loadSites();
+        if (!attendanceSites.length) {
+          setStatus('No se pudo cargar la lista de sitios.', true);
+          disable(false);
+          return;
+        }
+      }
+
       // Determina el sitio más cercano
-      const nearestSite = getNearestSite(pos.coords.latitude, pos.coords.longitude, sites);
+      const nearestSite = getNearestSite(pos.coords.latitude, pos.coords.longitude, attendanceSites);
 
       if (!nearestSite || nearestSite.distance > 35) {
         setStatus(`No puede marcar asistencia: está a ${nearestSite ? nearestSite.distance.toFixed(1) : 'N/A'} metros del sitio más cercano (máx 35m).`, true);
@@ -135,11 +156,17 @@ function initAttendanceWidget() {
 
 // Auto-init al cargar y cuando tu router inserte el fragmento
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initAttendanceWidget);
+  document.addEventListener('DOMContentLoaded', async () => {
+    await loadSites();
+    initAttendanceWidget();
+  });
 } else {
-  initAttendanceWidget();
+  loadSites().then(initAttendanceWidget);
 }
-document.addEventListener('content:loaded', initAttendanceWidget);
+document.addEventListener('content:loaded', async () => {
+  await loadSites();
+  initAttendanceWidget();
+});
 
 async function updateAttendanceButtons() {
   const btnIn  = document.getElementById('att-in');

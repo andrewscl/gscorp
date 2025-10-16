@@ -2,18 +2,28 @@ package com.gscorp.dv1.attendance.web;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import com.gscorp.dv1.attendance.application.AttendanceService;
+import com.gscorp.dv1.sites.application.SiteService;
+import com.gscorp.dv1.sites.web.dto.SiteDto;
 
+import java.util.List;
 import java.util.Map;
 
-@RestController @RequestMapping("/api/attendance")
+@RestController
+@RequestMapping("/api/attendance")
+@RequiredArgsConstructor
 public class AttendanceRestController {
+
+  private final SiteService siteService;
+  
   private final AttendanceService svc;
-  public AttendanceRestController(AttendanceService svc){ this.svc = svc; }
+
 
   @Data public static class PunchReq { @NotNull Double lat; @NotNull Double lon; Double accuracy; }
 
@@ -55,4 +65,11 @@ public class AttendanceRestController {
 
   private static String firstNonBlank(String ...arr){ for (var s:arr) if (s!=null && !s.isBlank()) return s; return null; }
   private Long currentUserId(Authentication auth){ return 1L; } // TODO: id real desde tu SecurityUser/JWT
+
+  @GetMapping("/sites")
+  @ResponseBody
+  public List<SiteDto> getSitesApi() {
+    return siteService.getAllSites();
+  }
+
 }
