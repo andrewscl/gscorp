@@ -71,8 +71,8 @@
   </form>
 
 <script th:src="'https://maps.googleapis.com/maps/api/js?key=' +
-          ${googlecloudapikey}" async defer></script>
+          ${googlecloudapikey} + '&callback=onGoogleMapsReady'" async defer></script>
 
-  <script type="module" src="/js/private/sites/view-site.js"></script>
+<script type="module" src="/js/private/sites/view-site.js"></script>
 
 </section>
