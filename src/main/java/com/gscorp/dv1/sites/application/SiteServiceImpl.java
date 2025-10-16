@@ -2,10 +2,12 @@ package com.gscorp.dv1.sites.application;
 
 import java.util.List;
 
+import org.hibernate.annotations.DialectOverride.OverridesAnnotation;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gscorp.dv1.projects.infrastructure.Project;
 import com.gscorp.dv1.sites.infrastructure.Site;
 import com.gscorp.dv1.sites.infrastructure.SiteRepository;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
@@ -77,6 +79,29 @@ public class SiteServiceImpl implements SiteService{
 
         site.setLat(updateLatLon.lat());
         site.setLon(updateLatLon.lon());
+        return siteRepository.save(site);
+    }
+
+    @Override
+    public Site updateSite(Long id, SiteDto siteDto) {
+        Site site = siteRepository.findById(id)
+            .orElseThrow(() ->
+                    new RuntimeException("No existe el sitio con id " + id));
+
+        site.setName(siteDto.name());
+        site.setAddress(siteDto.address());
+        site.setTimeZone(siteDto.timeZone());
+        site.setActive(Boolean.TRUE.equals(siteDto.active()));
+
+        /* Si permites cambiar el proyecto asociado:
+        if (siteDto.projectId() != null) {
+            Project project = projectRepo.findById(siteDto.projectId()).orElse(null);
+            site.setProject(project);
+        }*/
+
+        // Si quieres permitir cambiar projectName desde el DTO, normalmente NO lo haces porque es redundante.
+        // site.setProjectName(siteDto.projectName()); // Solo si tu entidad Site tiene ese campo y realmente lo necesitas.
+
         return siteRepository.save(site);
     }
 
