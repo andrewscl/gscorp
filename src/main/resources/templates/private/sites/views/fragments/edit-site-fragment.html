@@ -5,16 +5,13 @@
 
   <form id="editSiteForm" class="card form">
 
-    <!-- Proyecto selección -->
+    <!-- Proyecto solo lectura -->
     <div class="form-group">
-      <label for="siteProject">Proyecto</label>
-      <select id="siteProject" name="projectId" required>
-        <option value="" disabled>Selecciona un proyecto…</option>
-        <option th:each="p : ${projects}"
-                th:value="${p.id}"
-                th:selected="${site.project != null} ? ${p.id} == ${site.project.id} : false"
-                th:text="${p.name}">Proyecto</option>
-      </select>
+      <label>Proyecto</label>
+      <span class="readonly-field"
+        th:text="${site.project != null ? site.project.name : '—'}"></span>
+      <input type="hidden" name="projectId"
+        th:value="${site.project != null ? site.project.id : ''}" />
       <small>Un sitio pertenece a un único proyecto.</small>
     </div>
 
