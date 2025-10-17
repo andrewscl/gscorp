@@ -174,7 +174,7 @@ async function updateAttendanceButtons() {
 
   // Consulta tu API (ajusta la URL si es necesario)
   try {
-    const res = await fetch('/api/attendance/last-punch', { credentials: 'same-origin' });
+    const res = await fetchWithAuth('/api/attendance/last-punch', { credentials: 'same-origin' });
 
     if (!res.ok) {
       // Si falla la consulta, muestra solo entrada por defecto
