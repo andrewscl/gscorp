@@ -21,7 +21,7 @@ import java.util.Map;
 public class AttendanceRestController {
 
   private final SiteService siteService;
-  
+
   private final AttendanceService svc;
 
 
