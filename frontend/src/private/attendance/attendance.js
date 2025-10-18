@@ -42,21 +42,26 @@ async function showCurrentSiteStatus() {
   statusEl.textContent = "Detectando sitio más cercano...";
   try {
     const pos = await new Promise((resolve, reject) =>
-      navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true, timeout: 15000 })
+      navigator.geolocation.getCurrentPosition(resolve, reject,
+                                  { enableHighAccuracy: true, timeout: 15000 })
     );
     if (!attendanceSites.length) {
       if (infoEl) infoEl.textContent = "No hay sitios configurados.";
       return;
     }
-    const nearestSite = getNearestSite(pos.coords.latitude, pos.coords.longitude, attendanceSites);
+    const nearestSite = getNearestSite(pos.coords.latitude,
+                                        pos.coords.longitude, attendanceSites);
+
     if (nearestSite && nearestSite.distance <= 35) {
-      statusEl.textContent = `Estás en el sitio "${nearestSite.name}". Puedes marcar asistencia aquí.`;
+      statusEl.textContent = `Estás en el sitio "${nearestSite.name}".
+          Puedes marcar asistencia aquí.`;
       if (infoEl) {
         infoEl.textContent = `Sitio detectado: ${nearestSite.name}`;
         infoEl.style.color = "#059669";
       }
     } else if (nearestSite) {
-      statusEl.textContent = `El sitio más cercano es "${nearestSite.name}" a ${nearestSite.distance.toFixed(1)} metros. Acércate para marcar.`;
+      statusEl.textContent = `El sitio más cercano es "${nearestSite.name}" a
+                              ${nearestSite.distance.toFixed(1)} metros. Acércate para marcar.`;
       if (infoEl) {
         infoEl.textContent = "";
         infoEl.style.color = "#d97706";
