@@ -17,6 +17,7 @@ function getNearestSite(userLat, userLon, sites) {
 
 let attendanceSites = [];
 
+// Cargar sitios desde API
 async function loadSites() {
   try {
     const res = await fetchWithAuth('/api/attendance/sites', { credentials: 'same-origin' });
@@ -25,6 +26,54 @@ async function loadSites() {
   } catch (e) {
     console.error("No se pudo cargar la lista de sitios:", e);
     attendanceSites = [];
+  }
+}
+
+// Mostrar información de sitio detectado en pantalla
+async function showCurrentSiteStatus() {
+  const statusEl = document.getElementById('att-status');
+  const infoEl = document.getElementById('att-site-info');
+
+  if (!navigator.geolocation) {
+    statusEl.textContent = "Geolocalización no soportada";
+    if (infoEl) infoEl.textContent = "";
+    return;
+  }
+  statusEl.textContent = "Detectando sitio más cercano...";
+  try {
+    const pos = await new Promise((resolve, reject) =>
+      navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true, timeout: 15000 })
+    );
+    if (!attendanceSites.length) {
+      if (infoEl) infoEl.textContent = "No hay sitios configurados.";
+      return;
+    }
+    const nearestSite = getNearestSite(pos.coords.latitude, pos.coords.longitude, attendanceSites);
+    if (nearestSite && nearestSite.distance <= 35) {
+      statusEl.textContent = `Estás en el sitio "${nearestSite.name}". Puedes marcar asistencia aquí.`;
+      if (infoEl) {
+        infoEl.textContent = `Sitio detectado: ${nearestSite.name}`;
+        infoEl.style.color = "#059669";
+      }
+    } else if (nearestSite) {
+      statusEl.textContent = `El sitio más cercano es "${nearestSite.name}" a ${nearestSite.distance.toFixed(1)} metros. Acércate para marcar.`;
+      if (infoEl) {
+        infoEl.textContent = "";
+        infoEl.style.color = "#d97706";
+      }
+    } else {
+      statusEl.textContent = "No se encontró ningún sitio cercano.";
+      if (infoEl) {
+        infoEl.textContent = "";
+        infoEl.style.color = "#b00020";
+      }
+    }
+  } catch (e) {
+    statusEl.textContent = "No se pudo obtener ubicación.";
+    if (infoEl) {
+      infoEl.textContent = "";
+      infoEl.style.color = "#b00020";
+    }
   }
 }
 
@@ -97,11 +146,10 @@ function initAttendanceWidget() {
         showSiteInfo(nearestSite);
         return;
       } else {
-        // Mostrar mensaje de sitio
+        // Mostrar mensaje de sitio permitido
         showSiteInfo(nearestSite);
+        setStatus(`Marcando asistencia en el sitio: ${nearestSite.name}`);
       }
-
-      setStatus(`Marcando asistencia en el sitio: ${nearestSite.name}`);
 
       const payload = {
         action, // "IN" | "OUT"
@@ -156,6 +204,7 @@ function initAttendanceWidget() {
 
   updateAttendanceButtons();
   showCurrentLocationOnMap();
+  showCurrentSiteStatus(); // <-- Mostrar estado al cargar el widget
 }
 
 // Auto-init al cargar y cuando tu router inserte el fragmento
@@ -181,7 +230,6 @@ async function updateAttendanceButtons() {
     const res = await fetchWithAuth('/api/attendance/last-punch', { credentials: 'same-origin' });
 
     if (!res.ok) {
-      // Si falla la consulta, muestra solo entrada por defecto
       btnIn.style.display = '';
       btnOut.style.display = 'none';
       return;
