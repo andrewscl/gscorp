@@ -71,6 +71,7 @@
     display: flex;
     gap: var(--att-gap);
     flex-wrap: wrap;
+    margin-bottom: .5rem;
 
     .btn {
       display: inline-flex;
@@ -156,6 +157,7 @@
     }
 
     .att-map-container, #att-map-container {
+      margin-top: .5rem;
       height: 180px;
       #att-map { min-height: 180px; }
     }

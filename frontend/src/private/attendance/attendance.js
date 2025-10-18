@@ -53,12 +53,10 @@ async function showCurrentSiteStatus() {
                                         pos.coords.longitude, attendanceSites);
 
     if (nearestSite && nearestSite.distance <= 35) {
+      //Actualiza el mensaje principal de estado. (id=""att-status")
       statusEl.textContent = `Estás en el sitio "${nearestSite.name}".
           Puedes marcar asistencia aquí.`;
-      if (infoEl) {
-        infoEl.textContent = `Sitio detectado: ${nearestSite.name}`;
-        infoEl.style.color = "#059669";
-      }
+      statusEl.style.color = "#059669";
     } else if (nearestSite) {
       statusEl.textContent = `El sitio más cercano es "${nearestSite.name}" a
                               ${nearestSite.distance.toFixed(1)} metros. Acércate para marcar.`;
