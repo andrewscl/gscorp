@@ -1,0 +1,24 @@
+<div id="dashboard-root" th:fragment="content">
+  <section class="card maintenance">
+    <h3>Mantenimiento del sistema</h3>
+    <div class="maintenance-actions">
+      <button class="btn btn-primary" data-path="/api/employees/import-csv">
+        <i class="icon-backup"></i>
+        Importar CSV de empleados
+      </button>
+      <button class="btn btn-warning" data-path="/maintenance/cleanup">
+        <i class="icon-cleanup"></i>
+        Limpiar archivos temporales
+      </button>
+      <button class="btn btn-secondary" data-path="/maintenance/restart">
+        <i class="icon-restart"></i>
+        Reiniciar servicios
+      </button>
+      <button class="btn btn-danger" data-path="/maintenance/factory-reset">
+        <i class="icon-reset"></i>
+        Restablecer sistema
+      </button>
+    </div>
+    <div class="maintenance-status" id="maintenance-status"></div>
+  </section>
+</div>
