@@ -34,8 +34,8 @@ public class AdminController {
     }
 
     @GetMapping("/maintenance")
-    public String getMaintenanceTableView(Model model) {
-        return "private/maintenance/views/maintenance-table-view";
+    public String getMaintenanceDashboardView(Model model) {
+        return "private/maintenance/views/maintenance-dashboard-view";
     }
 
     @GetMapping("/contacts")
