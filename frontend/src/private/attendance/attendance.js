@@ -19,7 +19,7 @@ let attendanceSites = [];
 
 async function loadSites() {
   try {
-    const res = await fetch('/api/attendance/sites', { credentials: 'same-origin' });
+    const res = await fetchWithAuth('/api/attendance/sites', { credentials: 'same-origin' });
     if (!res.ok) throw new Error(`Error cargando sitios: ${res.status}`);
     attendanceSites = await res.json();
   } catch (e) {
