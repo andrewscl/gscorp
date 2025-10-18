@@ -69,6 +69,7 @@
   display: flex;
   gap: var(--att-gap);
   flex-wrap: wrap;
+  margin-bottom: 0.5rem;
 }
 .attendance.card #att-widget .btn {
   display: inline-flex;
@@ -155,6 +156,7 @@
     width: 100%;
   }
   .attendance.card .att-map-container, .attendance.card #att-map-container {
+    margin-top: 0.5rem;
     height: 180px;
   }
   .attendance.card .att-map-container #att-map, .attendance.card #att-map-container #att-map {
