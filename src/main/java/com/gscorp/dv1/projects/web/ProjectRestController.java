@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gscorp.dv1.clients.infrastructure.Client;
-import com.gscorp.dv1.projects.infrastructure.Project;
 import com.gscorp.dv1.projects.application.ProjectService;
+import com.gscorp.dv1.projects.infrastructure.Project;
 import com.gscorp.dv1.projects.web.dto.CreateProjectRequest;
 import com.gscorp.dv1.projects.web.dto.ProjectDto;
 
