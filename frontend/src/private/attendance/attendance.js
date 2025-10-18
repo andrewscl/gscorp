@@ -94,7 +94,11 @@ function initAttendanceWidget() {
       if (!nearestSite || nearestSite.distance > 35) {
         setStatus(`No puede marcar asistencia: está a ${nearestSite ? nearestSite.distance.toFixed(1) : 'N/A'} metros del sitio más cercano (máx 35m).`, true);
         disable(false);
+        showSiteInfo(nearestSite);
         return;
+      } else {
+        // Mostrar mensaje de sitio
+        showSiteInfo(nearestSite);
       }
 
       setStatus(`Marcando asistencia en el sitio: ${nearestSite.name}`);
@@ -250,4 +254,22 @@ function getDistanceMeters(lat1, lon1, lat2, lon2) {
             Math.sin(dLon/2) * Math.sin(dLon/2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
   return R * c;
+}
+
+function showSiteInfo(nearestSite) {
+  const infoEl = document.getElementById('att-site-info');
+  if (!infoEl) return;
+
+  if (!nearestSite) {
+    infoEl.textContent = "";
+    return;
+  }
+
+  if (nearestSite.distance <= 35) {
+    infoEl.textContent = `Estás en el sitio "${nearestSite.name}". Puedes marcar asistencia aquí.`;
+    infoEl.style.color = "#059669"; // verde
+  } else {
+    infoEl.textContent = `El sitio más cercano es "${nearestSite.name}" a ${nearestSite.distance.toFixed(1)} metros. Acércate para marcar.`;
+    infoEl.style.color = "#d97706"; // amarillo
+  }
 }
