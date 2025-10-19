@@ -33,11 +33,6 @@ public class AdminController {
         return "private/roles/views/roles-table-view";
     }
 
-    @GetMapping("/maintenance")
-    public String getMaintenanceDashboardView(Model model) {
-        return "private/maintenance/views/maintenance-dashboard-view";
-    }
-
     @GetMapping("/contacts")
     public String getContactsTableView(Model model) {
         model.addAttribute("contacts", contactRepository.findAll());
