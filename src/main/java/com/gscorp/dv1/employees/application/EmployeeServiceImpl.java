@@ -24,7 +24,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     public Employee findByIdWithUserAndProjects(Long id) {
-        return employeeRepository.findByIdWithUserAndProjects(id)
+        return employeeRepository.findById(id)
                 .orElseThrow(() ->
                     new IllegalArgumentException("Employee not found with id: " + id));
     }

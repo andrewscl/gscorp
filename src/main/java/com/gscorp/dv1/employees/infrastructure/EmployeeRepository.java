@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface EmployeeRepository extends JpaRepository<Employee, Long>{
     
     @EntityGraph(attributePaths = {"projects", "user"})
-    Optional<Employee> findByIdWithUserAndProjects(Long id);
+    Optional<Employee> findById(Long id);
 }
