@@ -1,6 +1,7 @@
 package com.gscorp.dv1.sites.application;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import com.gscorp.dv1.sites.web.dto.UpdateLatLon;
 public interface SiteService {
     Site saveSite (Site site);
     void deleteById (Long id);
-    Site findById (Long id);
+    Optional<Site> findById (Long id);
     List<SiteDto> getAllSites();
     Site findByIdWithProjects(Long id);
     Site updateSiteLocation(Long id, UpdateLatLon updateLatLon);

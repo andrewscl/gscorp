@@ -1,4 +1,4 @@
-package com.gscorp.dv1.incidents.infrastructure;
+package com.gscorp.dv1.issues.infrastructure;
 
 import java.time.OffsetDateTime;
 
@@ -30,7 +30,7 @@ import lombok.Setter;
   }
 )
     @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-    public class Incident {
+    public class Issue {
 
     public enum Status { OPEN, IN_PROGRESS, CLOSED }
 
@@ -42,7 +42,7 @@ import lombok.Setter;
 
     @ManyToOne(optional=false, fetch=FetchType.LAZY)
     @JoinColumn(name="type_id", nullable=false)
-    IncidentType type;
+    IssueType type;
 
     @Builder.Default
     @Enumerated(EnumType.STRING) @Column(nullable=false)

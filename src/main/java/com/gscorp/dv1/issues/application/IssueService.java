@@ -1,4 +1,4 @@
-package com.gscorp.dv1.incidents.application;
+package com.gscorp.dv1.issues.application;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -6,18 +6,18 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gscorp.dv1.incidents.infrastructure.IncidentRepo;
+import com.gscorp.dv1.issues.infrastructure.IssueRepository;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class IncidentService {
+public class IssueService {
     
-  private final IncidentRepo repo;
+  private final IssueRepository repo;
 
   @Transactional(readOnly = true)
-  public List<IncidentRepo.DayCount> byDayForClient(Long clientId, LocalDate from, LocalDate to) {
+  public List<IssueRepository.DayCount> byDayForClient(Long clientId, LocalDate from, LocalDate to) {
     return repo.byDayForClient(clientId, from, to);
   }
 
