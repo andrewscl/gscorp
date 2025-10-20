@@ -22,4 +22,17 @@ public class EmployeeServiceImpl implements EmployeeService{
         return employeeRepository.findAll();
     }
 
+    @Override
+    public Employee findByIdWithUserAndProjects(Long id) {
+        return employeeRepository.findByIdWithUserAndProjects(id)
+                .orElseThrow(() ->
+                    new IllegalArgumentException("Employee not found with id: " + id));
+    }
+
+    @Override
+    @Transactional
+    public Employee saveEmployee (Employee employee){
+        return employeeRepository.save(employee);
+    }
+
 }

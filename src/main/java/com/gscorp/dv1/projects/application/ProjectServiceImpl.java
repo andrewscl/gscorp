@@ -2,6 +2,7 @@ package com.gscorp.dv1.projects.application;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -65,6 +66,11 @@ public class ProjectServiceImpl implements ProjectService{
         } catch (DataIntegrityViolationException ex) {
             throw new IllegalStateException("No se puede eliminar: el proyecto tiene referencias");
         }
+    }
+
+    @Override
+    public List<Project> findAllById(Set<Long> ids) {
+        return projectRepository.findAllById(ids);
     }
 
 
