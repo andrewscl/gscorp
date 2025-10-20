@@ -10,28 +10,38 @@
       <thead>
         <tr>
           <th>ID</th>
-          <th>Fotografía</th>
+          <th>Foto</th>
           <th>Nombre</th>
-          <th>Apellido</th>
-          <th>RUT/DNI</th>
+          <th>Apellido Paterno</th>
+          <th>Apellido Materno</th>
           <th>Cargo</th>
           <th>Mail</th>
+          <th>Usuario</th>
+          <th>Proyectos</th>
           <th>Estado</th>
-          <th>acciones</th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr th:each="e : ${employees}">
           <td th:text="${e.id}"></td>
           <td>
-            <img th:src="${e.photoUrl}" alt="Foto" class="employee-photo-thumb"
+            <img th:src="${e.photoUrl != null ? e.photoUrl : '/img/default-avatar.png'}" alt="Foto" class="employee-photo-thumb"
                  style="width:40px;height:40px;border-radius:50%;object-fit:cover;background:#f3f6fb;border:1px solid #e5e7eb;" />
           </td>
           <td th:text="${e.name}"></td>
-          <td th:text="${e.surname}">—</td>
-          <td th:text="${e.nationalId}">—</td>
+          <td th:text="${e.fatherSurname}">—</td>
+          <td th:text="${e.motherSurname}">—</td>
           <td th:text="${e.position}">—</td>
           <td th:text="${e.mail}">—</td>
+          <td>
+            <span th:text="${e.user != null ? e.user.username : '—'}">—</span>
+          </td>
+          <td>
+            <span th:if="${e.projects != null && !e.projects.isEmpty()}"
+                  th:text="${#strings.listJoin(e.projects, ', ', 'name')}"></span>
+            <span th:if="${e.projects == null || e.projects.isEmpty()}">—</span>
+          </td>
           <td>
             <span class="tag"
                   th:text="${e.active} ? 'Activo' : 'Inactivo'">Activo</span>
@@ -66,47 +76,133 @@
           <label for="employeeName">Nombre</label>
           <input type="text" id="employeeName" name="name" placeholder="Nombre" required />
         </div>
-
         <div class="form-group">
-          <label for="employeeSurname">Apellido</label>
-          <input type="text" id="employeeSurname" name="surname" placeholder="Apellido" required />
+          <label for="employeeFatherSurname">Apellido Paterno</label>
+          <input type="text" id="employeeFatherSurname" name="fatherSurname" placeholder="Apellido Paterno" required />
         </div>
-
         <div class="form-group">
-          <label for="employeeNationalId">RUT / DNI</label>
-          <input type="text" id="employeeNationalId" name="nationalId" placeholder="00.000.000-0" />
+          <label for="employeeMotherSurname">Apellido Materno</label>
+          <input type="text" id="employeeMotherSurname" name="motherSurname" placeholder="Apellido Materno" required />
         </div>
-
         <div class="form-group">
-          <label for="employeePosition">Cargo</label>
-          <input type="text" id="employeePosition" name="position" placeholder="Cargo o función" />
+          <label for="employeeRut">RUT / DNI</label>
+          <input type="text" id="employeeRut" name="rut" placeholder="00.000.000-0" />
         </div>
-
         <div class="form-group">
           <label for="employeeMail">Mail</label>
           <input type="email" id="employeeMail" name="mail" placeholder="empleado@email.com" />
         </div>
-
         <div class="form-group">
           <label for="employeePhone">Teléfono</label>
           <input type="text" id="employeePhone" name="phone" placeholder="+56 9 1234 5678" />
         </div>
-
+        <div class="form-group">
+          <label for="employeeSecondaryPhone">Teléfono 2</label>
+          <input type="text" id="employeeSecondaryPhone" name="secondaryPhone" placeholder="+56 2 1234 5678" />
+        </div>
+        <div class="form-group">
+          <label for="employeeGender">Género</label>
+          <input type="text" id="employeeGender" name="gender" placeholder="Masculino/Femenino" />
+        </div>
+        <div class="form-group">
+          <label for="employeeNationality">Nacionalidad</label>
+          <input type="text" id="employeeNationality" name="nationality" placeholder="Nacionalidad" />
+        </div>
+        <div class="form-group">
+          <label for="employeeMaritalStatus">Estado civil</label>
+          <input type="text" id="employeeMaritalStatus" name="maritalStatus" placeholder="Estado civil" />
+        </div>
+        <div class="form-group">
+          <label for="employeeStudyLevel">Nivel de estudios</label>
+          <input type="text" id="employeeStudyLevel" name="studyLevel" placeholder="Nivel de estudios" />
+        </div>
+        <div class="form-group">
+          <label for="employeeProfession">Profesión</label>
+          <input type="text" id="employeeProfession" name="profession" placeholder="Profesión" />
+        </div>
+        <div class="form-group">
+          <label for="employeePrevitionalSystem">Previsional</label>
+          <input type="text" id="employeePrevitionalSystem" name="previtionalSystem" placeholder="Sistema previsional" />
+        </div>
+        <div class="form-group">
+          <label for="employeeHealthSystem">Salud</label>
+          <input type="text" id="employeeHealthSystem" name="healthSystem" placeholder="Sistema de salud" />
+        </div>
+        <div class="form-group">
+          <label for="employeePaymentMethod">Forma de pago</label>
+          <input type="text" id="employeePaymentMethod" name="paymentMethod" placeholder="Forma de pago" />
+        </div>
+        <div class="form-group">
+          <label for="employeeBankName">Banco</label>
+          <input type="text" id="employeeBankName" name="bankName" placeholder="Banco" />
+        </div>
+        <div class="form-group">
+          <label for="employeeBankAccountType">Tipo cuenta</label>
+          <input type="text" id="employeeBankAccountType" name="bankAccountType" placeholder="Tipo cuenta" />
+        </div>
+        <div class="form-group">
+          <label for="employeeBankAccountNumber">N° cuenta</label>
+          <input type="text" id="employeeBankAccountNumber" name="bankAccountNumber" placeholder="N° cuenta" />
+        </div>
+        <div class="form-group">
+          <label for="employeeContractType">Tipo de contrato</label>
+          <input type="text" id="employeeContractType" name="contractType" placeholder="Tipo de contrato" />
+        </div>
+        <div class="form-group">
+          <label for="employeeWorkSchedule">Horario</label>
+          <input type="text" id="employeeWorkSchedule" name="workSchedule" placeholder="Horario" />
+        </div>
+        <div class="form-group">
+          <label for="employeeShiftSystem">Sistema de turnos</label>
+          <input type="text" id="employeeShiftSystem" name="shiftSystem" placeholder="Sistema de turnos" />
+        </div>
+        <div class="form-group">
+          <label for="employeePosition">Cargo</label>
+          <input type="text" id="employeePosition" name="position" placeholder="Cargo o función" />
+        </div>
+        <div class="form-group">
+          <label for="employeeAddress">Dirección</label>
+          <input type="text" id="employeeAddress" name="address" placeholder="Dirección" />
+        </div>
+        <div class="form-group">
+          <label for="employeeHireDate">Fecha de ingreso</label>
+          <input type="date" id="employeeHireDate" name="hireDate" />
+        </div>
+        <div class="form-group">
+          <label for="employeeBirthDate">Fecha de nacimiento</label>
+          <input type="date" id="employeeBirthDate" name="birthDate" />
+        </div>
+        <div class="form-group">
+          <label for="employeeExitDate">Fecha de salida</label>
+          <input type="date" id="employeeExitDate" name="exitDate" />
+        </div>
         <div class="form-group">
           <label for="employeePhoto">Fotografía</label>
           <input type="file" id="employeePhoto" name="photo" accept="image/*" />
         </div>
-
+        <!-- Selección de usuario asociado -->
+        <div class="form-group">
+          <label for="employeeUser">Usuario asociado</label>
+          <select id="employeeUser" name="userId" required>
+            <option value="">Seleccione usuario</option>
+            <option th:each="u : ${users}" th:value="${u.id}" th:text="${u.username} + ' (' + u.mail + ')'" />
+          </select>
+        </div>
+        <!-- Selección de proyectos asociados -->
+        <div class="form-group">
+          <label for="employeeProjects">Proyectos asociados</label>
+          <select id="employeeProjects" name="projectIds" multiple>
+            <option th:each="p : ${projects}" th:value="${p.id}" th:text="${p.name}" />
+          </select>
+        </div>
         <div class="form-group" style="display:flex;align-items:center;gap:.5rem">
           <input type="checkbox" id="employeeActive" name="active" checked />
           <label for="employeeActive" style="margin:0">Activo</label>
         </div>
-
         <div class="modal-footer">
           <button type="submit" class="btn-primary">Crear</button>
           <button type="button" class="btn-secondary" id="cancelCreateEmployee">Cancelar</button>
         </div>
-
         <div class="form-error" id="createEmployeeError"></div>
         <div class="form-ok" id="createEmployeeOk" style="display:none;">Empleado creado ✅</div>
       </form>

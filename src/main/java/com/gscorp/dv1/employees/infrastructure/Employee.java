@@ -16,6 +16,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,6 +25,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 public class Employee {
 
     @Id
@@ -65,6 +67,7 @@ public class Employee {
     private LocalDate birthDate;
     private LocalDate exitDate;
 
+    @Builder.Default
     private Boolean active = true;
 
     private String address;
@@ -73,6 +76,7 @@ public class Employee {
     private User user;
 
     @ManyToMany(mappedBy = "employees", fetch = FetchType.LAZY)
+    @Builder.Default
     private Set<Project> projects = new HashSet<>();
 
 }

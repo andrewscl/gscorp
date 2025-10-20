@@ -2,8 +2,9 @@ package com.gscorp.dv1.projects.web.dto;
 
 import java.time.LocalDate;
 
-public record ProjectDto (
+import com.gscorp.dv1.projects.infrastructure.Project;
 
+public record ProjectDto (
     Long id,
     String name,
     String description,
@@ -11,5 +12,17 @@ public record ProjectDto (
     LocalDate endDate,
     Boolean active,
     Long clientId
-    // Opcional: puedes agregar campos como Set<Long> employeeIds o nombres de empleados si lo necesitas
-) {}
+) {
+    public static ProjectDto fromEntity(Project p) {
+        if (p == null) return null;
+        return new ProjectDto(
+            p.getId(),
+            p.getName(),
+            p.getDescription(),
+            p.getStartDate(),
+            p.getEndDate(),
+            p.getActive(),
+            p.getClient() != null ? p.getClient().getId() : null
+        );
+    }
+}

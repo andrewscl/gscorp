@@ -31,7 +31,7 @@ export default defineConfig({
         'private/projects/create-project': path.resolve(__dirname, './src/private/projects/create-project.js'),
         'private/projects/edit-project': path.resolve(__dirname, './src/private/projects/edit-project.js'),
         'private/projects/view-project': path.resolve(__dirname, './src/private/projects/view-project.js'),
-        'private/maintenance/import-csv': path.resolve(__dirname, './src/private/maintenance/import-csv.js'),
+        'private/employees/create-employee': path.resolve(__dirname, './src/private/employees/create-employee.js'),
       },
       output: {
         entryFileNames: '[name].js'

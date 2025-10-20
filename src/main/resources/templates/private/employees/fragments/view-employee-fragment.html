@@ -1,0 +1,202 @@
+<section th:fragment="content" class="detail-section view-employee">
+
+  <h2>Ver Empleado</h2>
+  <p class="meta-id"><strong>ID:</strong> <span th:text="${employee.id}"></span></p>
+
+  <form id="viewEmployeeForm" class="card form">
+
+    <!-- Fotografía -->
+    <div class="form-group" style="align-items:center;display:flex;gap:1.2rem;">
+      <label>Fotografía</label>
+      <img th:src="${employee.photoUrl != null and #strings.isNotEmpty(employee.photoUrl) ? employee.photoUrl : '/img/default-avatar.png'}" alt="Foto empleado"
+           class="employee-photo-thumb"
+           style="width:60px;height:60px;border-radius:50%;object-fit:cover;background:#f3f6fb;border:1px solid #e5e7eb;user-select:none;pointer-events:none;" />
+    </div>
+
+    <hr class="form-separator" />
+
+    <fieldset>
+      <legend>Identificación</legend>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre</label>
+          <span class="readonly-field" style="user-select:none;" th:text="${employee.name != null ? employee.name : '—'}"></span>
+        </div>
+        <div class="form-group">
+          <label>Apellido Paterno</label>
+          <span class="readonly-field" style="user-select:none;" th:text="${employee.fatherSurname != null ? employee.fatherSurname : '—'}"></span>
+        </div>
+        <div class="form-group">
+          <label>Apellido Materno</label>
+          <span class="readonly-field" style="user-select:none;" th:text="${employee.motherSurname != null ? employee.motherSurname : '—'}"></span>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>RUT / DNI</label>
+          <span class="readonly-field" style="user-select:none;" th:text="${employee.rut != null ? employee.rut : '—'}"></span>
+        </div>
+        <div class="form-group">
+          <label>Nacimiento</label>
+          <span class="readonly-field" style="user-select:none;" th:text="${employee.birthDate != null ? employee.birthDate : '—'}"></span>
+        </div>
+        <div class="form-group">
+          <label>Género</label>
+          <span class="readonly-field" style="user-select:none;" th:text="${employee.gender != null ? employee.gender : '—'}"></span>
+        </div>
+      </div>
+    </fieldset>
+
+    <hr class="form-separator" />
+
+    <fieldset>
+      <legend>Contacto</legend>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Mail</label>
+          <span class="readonly-field" style="user-select:none;" th:text="${employee.mail != null ? employee.mail : '—'}"></span>
+        </div>
+        <div class="form-group">
+          <label>Teléfono</label>
+          <span class="readonly-field" style="user-select:none;" th:text="${employee.phone != null ? employee.phone : '—'}"></span>
+        </div>
+        <div class="form-group">
+          <label>Teléfono 2</label>
+          <span class="readonly-field" style="user-select:none;" th:text="${employee.secondaryPhone != null ? employee.secondaryPhone : '—'}"></span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Dirección</label>
+        <span class="readonly-field" style="user-select:none;" th:text="${employee.address != null ? employee.address : '—'}"></span>
+      </div>
+    </fieldset>
+
+    <hr class="form-separator" />
+
+    <fieldset>
+      <legend>Datos personales</legend>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nacionalidad</label>
+          <span class="readonly-field" style="user-select:none;" th:text="${employee.nationality != null ? employee.nationality : '—'}"></span>
+        </div>
+        <div class="form-group">
+          <label>Estado civil</label>
+          <span class="readonly-field" style="user-select:none;" th:text="${employee.maritalStatus != null ? employee.maritalStatus : '—'}"></span>
+        </div>
+        <div class="form-group">
+          <label>Nivel de estudios</label>
+          <span class="readonly-field" style="user-select:none;" th:text="${employee.studyLevel != null ? employee.studyLevel : '—'}"></span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Profesión</label>
+        <span class="readonly-field" style="user-select:none;" th:text="${employee.profession != null ? employee.profession : '—'}"></span>
+      </div>
+    </fieldset>
+
+    <hr class="form-separator" />
+
+    <fieldset>
+      <legend>Previsión y banco</legend>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Previsional</label>
+          <span class="readonly-field" style="user-select:none;" th:text="${employee.previtionalSystem != null ? employee.previtionalSystem : '—'}"></span>
+        </div>
+        <div class="form-group">
+          <label>Salud</label>
+          <span class="readonly-field" style="user-select:none;" th:text="${employee.healthSystem != null ? employee.healthSystem : '—'}"></span>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Forma de pago</label>
+          <span class="readonly-field" style="user-select:none;" th:text="${employee.paymentMethod != null ? employee.paymentMethod : '—'}"></span>
+        </div>
+        <div class="form-group">
+          <label>Banco</label>
+          <span class="readonly-field" style="user-select:none;" th:text="${employee.bankName != null ? employee.bankName : '—'}"></span>
+        </div>
+        <div class="form-group">
+          <label>Tipo cuenta</label>
+          <span class="readonly-field" style="user-select:none;" th:text="${employee.bankAccountType != null ? employee.bankAccountType : '—'}"></span>
+        </div>
+        <div class="form-group">
+          <label>N° cuenta</label>
+          <span class="readonly-field" style="user-select:none;" th:text="${employee.bankAccountNumber != null ? employee.bankAccountNumber : '—'}"></span>
+        </div>
+      </div>
+    </fieldset>
+
+    <hr class="form-separator" />
+
+    <fieldset>
+      <legend>Contrato y puesto</legend>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Tipo de contrato</label>
+          <span class="readonly-field" style="user-select:none;" th:text="${employee.contractType != null ? employee.contractType : '—'}"></span>
+        </div>
+        <div class="form-group">
+          <label>Horario</label>
+          <span class="readonly-field" style="user-select:none;" th:text="${employee.workSchedule != null ? employee.workSchedule : '—'}"></span>
+        </div>
+        <div class="form-group">
+          <label>Sistema de turnos</label>
+          <span class="readonly-field" style="user-select:none;" th:text="${employee.shiftSystem != null ? employee.shiftSystem : '—'}"></span>
+        </div>
+        <div class="form-group">
+          <label>Cargo</label>
+          <span class="readonly-field" style="user-select:none;" th:text="${employee.position != null ? employee.position : '—'}"></span>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Fecha de ingreso</label>
+          <span class="readonly-field" style="user-select:none;" th:text="${employee.hireDate != null ? employee.hireDate : '—'}"></span>
+        </div>
+        <div class="form-group">
+          <label>Fecha de salida</label>
+          <span class="readonly-field" style="user-select:none;" th:text="${employee.exitDate != null ? employee.exitDate : '—'}"></span>
+        </div>
+      </div>
+    </fieldset>
+
+    <hr class="form-separator" />
+
+    <fieldset>
+      <legend>Asociaciones</legend>
+      <div class="form-group">
+        <label>Usuario asociado</label>
+        <span class="readonly-field" style="user-select:none;"
+          th:text="${employee.user != null ? employee.user.username : '—'}"></span>
+        <small th:if="${employee.user == null}">El empleado no tiene usuario asociado en la plataforma.</small>
+        <small th:if="${employee.user != null}">Este empleado tiene usuario en la plataforma.</small>
+      </div>
+      <div class="form-group">
+        <label>Proyectos asociados</label>
+        <div class="readonly-field" style="max-height:4.5em;overflow:auto;user-select:none;">
+          <span th:text="${employee.projects != null and !employee.projects.isEmpty() ? #strings.listJoin(employee.projects, ', ', 'name') : '—'}"></span>
+        </div>
+        <small>Un empleado puede estar asociado a varios proyectos.</small>
+      </div>
+    </fieldset>
+
+    <div class="form-group active-row" style="user-select:none;">
+      <input id="employeeActive" name="active" type="checkbox"
+             th:checked="${employee.active}" disabled tabindex="-1" />
+      <label for="employeeActive" style="margin:0">Activo</label>
+    </div>
+
+    <div class="actions">
+      <a class="vs-btn vs-secondary" href="#"
+         data-path="/private/employees/table-view" style="user-select:none;">Volver al listado</a>
+    </div>
+
+    <div id="viewEmployeeError" class="form-error"></div>
+    <div id="viewEmployeeOk" class="form-ok" style="display:none;">Empleado actualizado ✅</div>
+  </form>
+
+  <script type="module" src="/js/private/employees/view-employee.js"></script>
+</section>
