@@ -11,7 +11,7 @@ import com.gscorp.dv1.employees.application.EmployeeService;
 import lombok.AllArgsConstructor;
 
 @Controller
-@RequestMapping("/private/employee")
+@RequestMapping("/private/employees")
 @AllArgsConstructor
 public class EmployeeController {
 
