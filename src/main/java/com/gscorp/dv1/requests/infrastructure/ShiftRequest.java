@@ -52,7 +52,6 @@ public class ShiftRequest {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
-    
     private RequestType type;
 
     @Column(name = "start_date", nullable = false)
@@ -69,15 +68,15 @@ public class ShiftRequest {
     @Column(name = "shift_datetime")
     private LocalDateTime shiftDateTime;
 
-    // NEW: Shift start time
+    // Shift start time
     @Column(name = "start_time")
     private LocalTime startTime;
 
-    // NEW: Shift end time
+    // Shift end time
     @Column(name = "end_time")
     private LocalTime endTime;
 
-    // NEW: Shift lunch time
+    // Shift lunch time
     @Column(name = "lunch_time")
     private LocalTime lunchTime;
 
