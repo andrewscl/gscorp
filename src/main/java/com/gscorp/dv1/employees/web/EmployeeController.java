@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gscorp.dv1.employees.application.EmployeeService;
+import com.gscorp.dv1.projects.application.ProjectService;
+import com.gscorp.dv1.users.application.UserService;
 
 import lombok.AllArgsConstructor;
 
@@ -18,6 +20,12 @@ public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
+
+    @Autowired
+    private ProjectService projectService;
+
+    @Autowired
+    private UserService userService;
     
     @GetMapping("/dashboard")
     public String getPrivateDashboardView (Model model) {
@@ -28,6 +36,13 @@ public class EmployeeController {
     public String getEmployeesTableView (Model model) {
         model.addAttribute("employees", employeeService.findAll());
         return "private/employees/views/employees-table-view";
+    }
+
+    @GetMapping("/create")
+    public String getCreateEmployeeView (Model model) {
+        model.addAttribute("projects", projectService.findAll());
+        model.addAttribute("users", userService.findAll());
+        return "private/employees/views/create-employee-view";
     }
 
     @GetMapping("/show/{id}")
