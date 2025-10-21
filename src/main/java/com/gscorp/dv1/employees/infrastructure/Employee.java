@@ -4,15 +4,35 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.gscorp.dv1.bank.infrastructure.Bank;
+import com.gscorp.dv1.enums.BankAccountType;
+import com.gscorp.dv1.enums.ContractType;
+import com.gscorp.dv1.enums.Gender;
+import com.gscorp.dv1.enums.HealthSystem;
+import com.gscorp.dv1.enums.MaritalStatus;
+import com.gscorp.dv1.enums.PaymentMethod;
+import com.gscorp.dv1.enums.PrevitionalSystem;
+import com.gscorp.dv1.enums.ShiftSystem;
+import com.gscorp.dv1.enums.StudyLevel;
+import com.gscorp.dv1.enums.WorkSchedule;
+import com.gscorp.dv1.nationalities.infrastructure.Nationality;
+import com.gscorp.dv1.positions.infrastructure.Position;
+import com.gscorp.dv1.professions.infrastructure.Profession;
 import com.gscorp.dv1.projects.infrastructure.Project;
+import com.gscorp.dv1.shiftpatterns.infrastructure.ShiftPattern;
 import com.gscorp.dv1.users.infrastructure.User;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -40,25 +60,60 @@ public class Employee {
     private String phone;
     private String secondaryPhone;
 
-    private String gender;
-    private String nationality;
-    private String maritalStatus;
-    private String studyLevel;
-    private String profession;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
-    private String previtionalSystem;
-    private String healthSystem;
+    @ManyToOne
+    @JoinColumn(name = "nationality_id")
+    private Nationality nationality;
 
-    private String paymentMethod;
-    private String bankId;
-    private String bankName;
-    private String bankAccountType;
+    @Enumerated(EnumType.STRING)
+    private MaritalStatus maritalStatus;
+
+    @Enumerated(EnumType.STRING)
+    private StudyLevel studyLevel;
+
+    @ManyToMany
+    @JoinTable(
+        name = "employee_profession",
+        joinColumns = @JoinColumn(name = "employee_id"),
+        inverseJoinColumns = @JoinColumn(name = "profession_id")
+    )
+    @Builder.Default
+    private Set<Profession> professions = new HashSet<>();
+
+    @Enumerated(EnumType.STRING)
+    private PrevitionalSystem previtionalSystem;
+
+    @Enumerated(EnumType.STRING)
+    private HealthSystem healthSystem;
+
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
+
+    @ManyToOne
+    @JoinColumn(name = "bank_id")
+    private Bank bank;
+
+    @Enumerated(EnumType.STRING)
+    private BankAccountType bankAccountType;
+
     private String bankAccountNumber;
 
-    private String contractType;
-    private String workSchedule;
-    private String shiftSystem;
-    private String position;
+    @Enumerated(EnumType.STRING)
+    private ContractType contractType;
+
+    @Enumerated(EnumType.STRING)
+    private WorkSchedule workSchedule;
+
+    @Enumerated(EnumType.STRING)
+    private ShiftSystem shiftSystem;
+
+    @Enumerated(EnumType.STRING)
+    private ShiftPattern shiftPattern;
+
+    @OneToOne(mappedBy = "position", fetch = FetchType.LAZY)
+    private Position position;
 
     private String password;
     private String photoUrl;

@@ -18,20 +18,33 @@ async function onSubmitCreate(e) {
   const phone                = qs('#employeePhone')?.value?.trim() || null;
   const secondaryPhone       = qs('#employeeSecondaryPhone')?.value?.trim() || null;
   const gender               = qs('#employeeGender')?.value?.trim() || null;
-  const nationality          = qs('#employeeNationality')?.value?.trim() || null;
+  const nationalityId        = qs('#employeeNationality')?.value?.trim() || null;
   const maritalStatus        = qs('#employeeMaritalStatus')?.value?.trim() || null;
   const studyLevel           = qs('#employeeStudyLevel')?.value?.trim() || null;
-  const profession           = qs('#employeeProfession')?.value?.trim() || null;
+  
+  // Profesiones asociadas (select múltiple)
+  let professionIds = [];
+  const professionsSelect = qs('#employeeProfessions');
+  if (professionsSelect) {
+    professionIds = Array.from(professionsSelect.selectedOptions).map(opt => opt.value).filter(Boolean);
+  }
+
   const previtionalSystem    = qs('#employeePrevitionalSystem')?.value?.trim() || null;
   const healthSystem         = qs('#employeeHealthSystem')?.value?.trim() || null;
   const paymentMethod        = qs('#employeePaymentMethod')?.value?.trim() || null;
-  const bankName             = qs('#employeeBankName')?.value?.trim() || null;
+  const bankId               = qs('#employeeBank')?.value?.trim() || null;
   const bankAccountType      = qs('#employeeBankAccountType')?.value?.trim() || null;
   const bankAccountNumber    = qs('#employeeBankAccountNumber')?.value?.trim() || null;
   const contractType         = qs('#employeeContractType')?.value?.trim() || null;
   const workSchedule         = qs('#employeeWorkSchedule')?.value?.trim() || null;
   const shiftSystem          = qs('#employeeShiftSystem')?.value?.trim() || null;
-  const position             = qs('#employeePosition')?.value?.trim() || null;
+
+  // Patrón de turno (nuevo)
+  const shiftPatternId       = qs('#employeeShiftPattern')?.value?.trim() || null;
+
+  // Cargo (position) (ID)
+  const positionId           = qs('#employeePosition')?.value?.trim() || null;
+  
   const address              = qs('#employeeAddress')?.value?.trim() || null;
   const hireDate             = qs('#employeeHireDate')?.value || null;
   const birthDate            = qs('#employeeBirthDate')?.value || null;
@@ -81,20 +94,21 @@ async function onSubmitCreate(e) {
     formData.append('phone', phone);
     formData.append('secondaryPhone', secondaryPhone);
     formData.append('gender', gender);
-    formData.append('nationality', nationality);
+    formData.append('nationalityId', nationalityId);
     formData.append('maritalStatus', maritalStatus);
     formData.append('studyLevel', studyLevel);
-    formData.append('profession', profession);
+    professionIds.forEach(id => formData.append('professionIds', id)); // MULTI
     formData.append('previtionalSystem', previtionalSystem);
     formData.append('healthSystem', healthSystem);
     formData.append('paymentMethod', paymentMethod);
-    formData.append('bankName', bankName);
+    formData.append('bankId', bankId);
     formData.append('bankAccountType', bankAccountType);
     formData.append('bankAccountNumber', bankAccountNumber);
     formData.append('contractType', contractType);
     formData.append('workSchedule', workSchedule);
     formData.append('shiftSystem', shiftSystem);
-    formData.append('position', position);
+    formData.append('shiftPatternId', shiftPatternId); // NUEVO
+    formData.append('positionId', positionId); // ID
     formData.append('address', address);
     formData.append('hireDate', hireDate);
     formData.append('birthDate', birthDate);
@@ -103,7 +117,7 @@ async function onSubmitCreate(e) {
 
     formData.append('userId', userId);
 
-    // Para múltiples projectIds
+    // Proyectos asociados (MULTI)
     projectIds.forEach(id => formData.append('projectIds', id));
 
     if (photo) formData.append('photo', photo);
