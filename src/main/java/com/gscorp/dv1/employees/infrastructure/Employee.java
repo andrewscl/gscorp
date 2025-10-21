@@ -113,7 +113,8 @@ public class Employee {
     @JoinColumn(name = "shift_pattern_id")
     private ShiftPattern shiftPattern;
 
-    @OneToOne(mappedBy = "position", fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "position_id")
     private Position position;
 
     private String password;
