@@ -67,7 +67,15 @@ function bindCreateBankForm() {
   qs('#createBankForm')?.addEventListener('submit', onSubmitCreateBank);
 }
 
+function bindCancelCreateBank() {
+  qs('#cancelCreateBank')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    navigateTo('/private/banks/table-view');
+  });
+}
+
 /* --- init --- */
 (function init() {
   bindCreateBankForm();
+  bindCancelCreateBank();
 })();

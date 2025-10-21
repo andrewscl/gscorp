@@ -25,6 +25,11 @@ public class BankController {
         return "private/banks/views/banks-table-view";
     }
 
+    @GetMapping("/create")
+    public String createBank(Model model) {
+        return "private/banks/views/create-bank-view";
+    }
+
     @GetMapping("/show/{id}")
     public String showBank(@PathVariable Long id, Model model){
         var bank = bankService.findById(id);
