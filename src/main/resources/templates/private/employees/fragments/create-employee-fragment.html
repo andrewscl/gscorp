@@ -1,12 +1,11 @@
-<div th:fragment="createEmployeeModal">
-  <div id="createEmployeeModal" class="modal hidden" aria-hidden="true" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-header">
+<div th:fragment="createEmployee" class="createEmployee">
+
+      <div class="createEmployeeHeader">
         <h3>Crear empleado</h3>
         <button type="button" class="modal-close" id="closeCreateEmployee">&times;</button>
       </div>
 
-      <form id="createEmployeeForm" class="modal-body" enctype="multipart/form-data">
+      <form id="createEmployeeForm" class="createEmployee-body" enctype="multipart/form-data">
         <div class="form-group">
           <label for="employeeName">Nombre</label>
           <input type="text" id="employeeName" name="name" placeholder="Nombre" required />
@@ -140,9 +139,8 @@
         </div>
         <div class="form-error" id="createEmployeeError"></div>
         <div class="form-ok" id="createEmployeeOk" style="display:none;">Empleado creado ✅</div>
-      </form>
-    </div>
-  </div>
 
-      <script type="module" src="/js/private/employees/create-employee.js"></script>
+      </form>
+
+    <script type="module" src="/js/private/employees/create-employee.js"></script>
 </div>
