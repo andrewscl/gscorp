@@ -109,7 +109,8 @@ public class Employee {
     @Enumerated(EnumType.STRING)
     private ShiftSystem shiftSystem;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
+    @JoinColumn(name = "shift_pattern_id")
     private ShiftPattern shiftPattern;
 
     @OneToOne(mappedBy = "position", fetch = FetchType.LAZY)
