@@ -8,6 +8,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gscorp.dv1.employees.application.EmployeeService;
+import com.gscorp.dv1.enums.BankAccountType;
+import com.gscorp.dv1.enums.ContractType;
+import com.gscorp.dv1.enums.Gender;
+import com.gscorp.dv1.enums.HealthSystem;
+import com.gscorp.dv1.enums.MaritalStatus;
+import com.gscorp.dv1.enums.PaymentMethod;
+import com.gscorp.dv1.enums.PrevitionalSystem;
+import com.gscorp.dv1.enums.ShiftSystem;
+import com.gscorp.dv1.enums.StudyLevel;
+import com.gscorp.dv1.enums.WorkSchedule;
 import com.gscorp.dv1.projects.application.ProjectService;
 import com.gscorp.dv1.users.application.UserService;
 
@@ -42,6 +52,18 @@ public class EmployeeController {
     public String getCreateEmployeeView (Model model) {
         model.addAttribute("projects", projectService.findAll());
         model.addAttribute("users", userService.findAll());
+        model.addAttribute("genders", Gender.values());
+        model.addAttribute("maritalStatuses", MaritalStatus.values());
+        model.addAttribute("studyLevels", StudyLevel.values());
+        model.addAttribute("previsionalSystems", PrevitionalSystem.values());
+        model.addAttribute("healthSystems", HealthSystem.values());
+        model.addAttribute("paymentMethods", PaymentMethod.values());
+        model.addAttribute("bankAccountsTypes", BankAccountType.values());
+        model.addAttribute("contractTypes", ContractType.values());
+        model.addAttribute("workSchedules", WorkSchedule.values());
+        model.addAttribute("shiftSystems", ShiftSystem.values());
+        
+
         return "private/employees/views/create-employee-view";
     }
 
