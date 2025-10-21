@@ -3,7 +3,20 @@ package com.gscorp.dv1.employees.web.dto;
 import java.time.LocalDate;
 import java.util.Set;
 
+import com.gscorp.dv1.enums.BankAccountType;
+import com.gscorp.dv1.enums.ContractType;
+import com.gscorp.dv1.enums.Gender;
+import com.gscorp.dv1.enums.HealthSystem;
+import com.gscorp.dv1.enums.MaritalStatus;
+import com.gscorp.dv1.enums.PaymentMethod;
+import com.gscorp.dv1.enums.PrevitionalSystem;
+import com.gscorp.dv1.enums.ShiftSystem;
+import com.gscorp.dv1.enums.StudyLevel;
+import com.gscorp.dv1.enums.WorkSchedule;
+import com.gscorp.dv1.positions.web.dto.PositionDto;
+import com.gscorp.dv1.professions.web.dto.ProfessionDto;
 import com.gscorp.dv1.projects.web.dto.ProjectDto;
+import com.gscorp.dv1.shiftpatterns.infrastructure.ShiftPattern;
 import com.gscorp.dv1.users.web.dto.UserDto;
 
 public record EmployeeDto(
@@ -15,22 +28,24 @@ public record EmployeeDto(
     String mail,
     String phone,
     String secondaryPhone,
-    String gender,
-    String nationality,
-    String maritalStatus,
-    String studyLevel,
-    String profession,
-    String previtionalSystem,
-    String healthSystem,
-    String paymentMethod,
-    String bankId,
+    Gender gender,
+    Long nationalityId,
+    String nationalityName,
+    MaritalStatus maritalStatus,
+    StudyLevel studyLevel,
+    Set<ProfessionDto> professions,
+    PrevitionalSystem previtionalSystem,
+    HealthSystem healthSystem,
+    PaymentMethod paymentMethod,
+    Long bankId,
     String bankName,
-    String bankAccountType,
+    BankAccountType bankAccountType,
     String bankAccountNumber,
-    String contractType,
-    String workSchedule,
-    String shiftSystem,
-    String position,
+    ContractType contractType,
+    WorkSchedule workSchedule,
+    ShiftSystem shiftSystem,
+    ShiftPattern shiftPattern,
+    PositionDto position,
     String password,
     String photoUrl,
     LocalDate hireDate,

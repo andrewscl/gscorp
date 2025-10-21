@@ -10,10 +10,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.gscorp.dv1.bank.application.BankService;
+import com.gscorp.dv1.bank.infrastructure.Bank;
 import com.gscorp.dv1.employees.application.EmployeeService;
 import com.gscorp.dv1.employees.infrastructure.Employee;
 import com.gscorp.dv1.employees.web.dto.CreateEmployeeRequest;
 import com.gscorp.dv1.employees.web.dto.EmployeeDto;
+import com.gscorp.dv1.nationalities.application.NationalityService;
+import com.gscorp.dv1.nationalities.infrastructure.Nationality;
+import com.gscorp.dv1.positions.application.PositionService;
+import com.gscorp.dv1.positions.infrastructure.Position;
+import com.gscorp.dv1.positions.web.dto.PositionDto;
+import com.gscorp.dv1.professions.application.ProfessionService;
+import com.gscorp.dv1.professions.infrastructure.Profession;
+import com.gscorp.dv1.professions.web.dto.ProfessionDto;
 import com.gscorp.dv1.projects.application.ProjectService;
 import com.gscorp.dv1.projects.infrastructure.Project;
 import com.gscorp.dv1.projects.web.dto.ProjectDto;
@@ -31,6 +41,10 @@ public class EmployeeRestController {
     private final EmployeeService employeeService;
     private final UserService userService;
     private final ProjectService projectService;
+    private final BankService bankService;
+    private final NationalityService nationalityService;
+    private final ProfessionService professionService;
+    private final PositionService positionService;
 
     @PostMapping("/create")
     public ResponseEntity<EmployeeDto> createEmployee(
@@ -45,6 +59,19 @@ public class EmployeeRestController {
             ? projectService.findAllById(req.projectIds()).stream().collect(Collectors.toSet())
             : Set.of();
 
+        // *** Busca el objeto Bank usando el bancoId del request ***
+        Bank bank = (req.bankId() != null) ? bankService.findById(req.bankId()) : null;
+
+        // *** Busca el objeto Nationality usando el nationalityId del request ***
+        Nationality nationality = (req.nationalityId() != null) ? nationalityService.findById(req.nationalityId()) : null;
+
+        Set<Profession> professions = (req.professionIds() != null && !req.professionIds().isEmpty())
+            ? professionService.findAllById(req.professionIds()).stream().collect(Collectors.toSet())
+            : Set.of();
+
+        // *** Busca el objeto Position usando el positionId del request ***
+        Position position = (req.positionId() != null) ? positionService.findById(req.positionId()) : null;
+
         var entity = Employee.builder()
             .name(req.name().trim())
             .fatherSurname(req.fatherSurname())
@@ -54,21 +81,21 @@ public class EmployeeRestController {
             .phone(req.phone())
             .secondaryPhone(req.secondaryPhone())
             .gender(req.gender())
-            .nationality(req.nationality())
+            .nationality(nationality)
             .maritalStatus(req.maritalStatus())
             .studyLevel(req.studyLevel())
-            .profession(req.profession())
+            .professions(professions)
             .previtionalSystem(req.previtionalSystem())
             .healthSystem(req.healthSystem())
             .paymentMethod(req.paymentMethod())
-            .bankId(req.bankId())
-            .bankName(req.bankName())
+            .bank(bank)
             .bankAccountType(req.bankAccountType())
             .bankAccountNumber(req.bankAccountNumber())
             .contractType(req.contractType())
             .workSchedule(req.workSchedule())
             .shiftSystem(req.shiftSystem())
-            .position(req.position())
+            .shiftPattern(req.shiftPattern())
+            .position(position)
             .password(req.password())
             .photoUrl(req.photoUrl())
             .hireDate(req.hireDate())
@@ -93,21 +120,26 @@ public class EmployeeRestController {
             saved.getPhone(),
             saved.getSecondaryPhone(),
             saved.getGender(),
-            saved.getNationality(),
+            saved.getNationality() != null ? saved.getNationality().getId() : null,   // nationalityId
+            saved.getNationality() != null ? saved.getNationality().getName() : null, // nationalityName
             saved.getMaritalStatus(),
             saved.getStudyLevel(),
-            saved.getProfession(),
+            (saved.getProfessions() == null ? Set.<Profession>of() : saved.getProfessions())
+                .stream()
+                .map(prof -> ProfessionDto.fromEntity(prof))
+                .collect(Collectors.toSet()),
             saved.getPrevitionalSystem(),
             saved.getHealthSystem(),
             saved.getPaymentMethod(),
-            saved.getBankId(),
-            saved.getBankName(),
+            saved.getBank() != null ? saved.getBank().getId() : null,   // bankId
+            saved.getBank() != null ? saved.getBank().getName() : null, // bankName
             saved.getBankAccountType(),
             saved.getBankAccountNumber(),
             saved.getContractType(),
             saved.getWorkSchedule(),
             saved.getShiftSystem(),
-            saved.getPosition(),
+            saved.getShiftPattern(),
+            saved.getPosition() != null ? PositionDto.fromEntity(saved.getPosition()) : null, // position
             saved.getPassword(),
             saved.getPhotoUrl(),
             saved.getHireDate(),

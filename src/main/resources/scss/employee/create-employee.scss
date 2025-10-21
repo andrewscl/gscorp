@@ -1,44 +1,34 @@
 .createEmployee {
   background: #fff;
-  border-radius: 14px;
-  max-width: 36rem;
-  margin: 2.5rem auto;
-  box-shadow: 0 8px 32px #0002;
-  padding: 2.2rem 1.7rem;
-  position: relative;
-  animation: modalFadeIn 0.23s;
-  width: 98vw;
-
-  @media (max-width: 700px) {
-    padding: 1.1rem 0.5rem;
-    max-width: 99vw;
-    border-radius: 0.8em;
-  }
+  border-radius: 10px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+  padding: 2rem;
+  max-width: 600px;
+  margin: 2rem auto;
+  font-family: 'Segoe UI', Arial, sans-serif;
 
   .createEmployeeHeader {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    margin-bottom: 1.2rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
 
     h3 {
       margin: 0;
-      font-size: 1.4rem;
+      font-size: 1.5rem;
+      color: #1a237e;
       font-weight: 600;
-      color: #2655a6;
     }
 
     .modal-close {
-      font-size: 2rem;
       background: none;
       border: none;
+      font-size: 2rem;
       color: #888;
       cursor: pointer;
-      line-height: 1;
-      transition: color 0.18s;
-      &:hover, &:focus {
-        color: #1e417c;
-        outline: none;
+      transition: color 0.2s;
+      &:hover {
+        color: #e53935;
       }
     }
   }
@@ -46,125 +36,118 @@
   .createEmployee-body {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1rem;
 
     .form-group {
-      margin-bottom: 0.9rem;
       display: flex;
       flex-direction: column;
+      gap: 0.25rem;
 
       label {
-        font-size: 1em;
-        font-weight: 500;
-        margin-bottom: 0.3em;
-        color: #2655a6;
+        font-size: 1rem;
+        color: #3949ab;
+        margin-bottom: 0.1rem;
       }
-      input, select, textarea {
-        padding: 0.55em;
-        border: 1px solid #e5e7eb;
-        border-radius: 6px;
-        font-size: 1em;
-        background: #f9fafb;
-        transition: border 0.15s, background 0.15s;
-        &:focus {
-          border-color: #2655a6;
-          outline: none;
-          background: #eef6fd;
-        }
-      }
-      input[type="file"] {
-        padding: 0.2em;
-      }
-      input[type="checkbox"] {
-        width: auto;
-        margin-right: 0.5em;
-      }
-      // Responsive
-      @media (max-width: 600px) {
-        label, input, select, textarea {
-          font-size: 0.95em;
-        }
-      }
-    }
 
-    .form-error {
-      color: #b91c1c;
-      margin-top: 0.5em;
-      font-size: 0.97em;
-    }
-    .form-ok {
-      color: #15803d;
-      margin-top: 0.5em;
-      font-size: 0.97em;
+      input[type="text"],
+      input[type="email"],
+      input[type="date"],
+      input[type="file"],
+      select {
+        padding: 0.5rem;
+        border-radius: 5px;
+        border: 1px solid #c5cae9;
+        font-size: 1rem;
+        &:focus {
+          outline: none;
+          border-color: #3949ab;
+          box-shadow: 0 0 3px #c5cae9;
+        }
+      }
+
+      select[multiple] {
+        min-height: 100px;
+      }
+
+      input[type="checkbox"] {
+        width: 1.1rem;
+        height: 1.1rem;
+        accent-color: #3949ab;
+      }
+
+      .input-error {
+        color: #e53935;
+        font-size: 0.9rem;
+        margin-top: 0.2rem;
+      }
     }
   }
 
   .modal-footer {
     display: flex;
-    gap: 0.7rem;
     justify-content: flex-end;
-    margin-top: 1.2rem;
+    gap: 1rem;
+    margin-top: 1.5rem;
 
     .btn-primary {
-      background: #2655a6;
+      background: #3949ab;
       color: #fff;
       border: none;
-      border-radius: 6px;
-      padding: 0.55em 1.8em;
-      font-weight: 600;
-      box-shadow: 0 2px 8px #2655a61a;
+      border-radius: 5px;
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      font-weight: 500;
       cursor: pointer;
-      transition: background 0.18s;
-      &:hover, &:focus {
-        background: #1e417c;
-        outline: none;
+      transition: background 0.2s;
+      &:hover {
+        background: #1a237e;
       }
     }
+
     .btn-secondary {
-      background: #e5e7eb;
-      color: #2655a6;
+      background: #c5cae9;
+      color: #3949ab;
       border: none;
-      border-radius: 6px;
-      padding: 0.55em 1.8em;
-      font-weight: 600;
+      border-radius: 5px;
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      font-weight: 500;
       cursor: pointer;
-      transition: background 0.18s;
-      &:hover, &:focus {
-        background: #e0e7ff;
-        outline: none;
+      transition: background 0.2s;
+      &:hover {
+        background: #b0bec5;
       }
     }
   }
-}
 
-// Animation
-@keyframes modalFadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.97);
+  .form-error {
+    color: #e53935;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    background: #ffcdd2;
+    border-radius: 4px;
+    display: none;
   }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
 
-// Extra: responsividad para selects y botones
-@media (max-width: 500px) {
-  .createEmployee {
-    padding: 0.7rem 0.2rem;
+  .form-ok {
+    color: #388e3c;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    background: #c8e6c9;
+    border-radius: 4px;
+    display: none;
+  }
+
+  @media (max-width: 600px) {
+    padding: 1rem;
+    max-width: 98vw;
+
     .modal-footer {
       flex-direction: column;
+      align-items: stretch;
       gap: 0.5rem;
-      .btn-primary, .btn-secondary {
-        width: 100%;
-        text-align: center;
-        padding-left: 0;
-        padding-right: 0;
-      }
-    }
-    .createEmployee-body .form-group {
-      margin-bottom: 0.7rem;
     }
   }
 }

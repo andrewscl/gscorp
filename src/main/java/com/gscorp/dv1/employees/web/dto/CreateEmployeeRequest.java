@@ -3,6 +3,18 @@ package com.gscorp.dv1.employees.web.dto;
 import java.time.LocalDate;
 import java.util.Set;
 
+import com.gscorp.dv1.enums.BankAccountType;
+import com.gscorp.dv1.enums.ContractType;
+import com.gscorp.dv1.enums.Gender;
+import com.gscorp.dv1.enums.HealthSystem;
+import com.gscorp.dv1.enums.MaritalStatus;
+import com.gscorp.dv1.enums.PaymentMethod;
+import com.gscorp.dv1.enums.PrevitionalSystem;
+import com.gscorp.dv1.enums.ShiftSystem;
+import com.gscorp.dv1.enums.StudyLevel;
+import com.gscorp.dv1.enums.WorkSchedule;
+import com.gscorp.dv1.shiftpatterns.infrastructure.ShiftPattern;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
@@ -30,37 +42,37 @@ public record CreateEmployeeRequest(
 
     String secondaryPhone,
 
-    String gender,
+    Gender gender,
 
-    String nationality,
+    Long nationalityId,
 
-    String maritalStatus,
+    MaritalStatus maritalStatus,
 
-    String studyLevel,
+    StudyLevel studyLevel,
 
-    String profession,
+    Set<Long> professionIds,
 
-    String previtionalSystem,
+    PrevitionalSystem previtionalSystem,
 
-    String healthSystem,
+    HealthSystem healthSystem,
 
-    String paymentMethod,
+    PaymentMethod paymentMethod,
 
-    String bankId,
+    Long bankId,
 
-    String bankName,
-
-    String bankAccountType,
+    BankAccountType bankAccountType,
 
     String bankAccountNumber,
 
-    String contractType,
+    ContractType contractType,
 
-    String workSchedule,
+    WorkSchedule workSchedule,
 
-    String shiftSystem,
+    ShiftSystem shiftSystem,
 
-    String position,
+    ShiftPattern shiftPattern,
+
+    Long positionId,
 
     String password,
 
