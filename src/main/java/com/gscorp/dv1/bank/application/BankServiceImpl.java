@@ -30,4 +30,10 @@ public class BankServiceImpl implements BankService{
         return new HashSet<>(bankRepository.findAll());
     }
 
+    @Override
+    @Transactional
+    public Bank saveBank(Bank bank) {
+        return bankRepository.save(bank);
+    }
+
 }

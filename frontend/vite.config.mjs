@@ -32,6 +32,7 @@ export default defineConfig({
         'private/projects/edit-project': path.resolve(__dirname, './src/private/projects/edit-project.js'),
         'private/projects/view-project': path.resolve(__dirname, './src/private/projects/view-project.js'),
         'private/employees/create-employee': path.resolve(__dirname, './src/private/employees/create-employee.js'),
+        'private/banks/create-bank': path.resolve(__dirname, './src/private/banks/create-bank.js'),
       },
       output: {
         entryFileNames: '[name].js'
