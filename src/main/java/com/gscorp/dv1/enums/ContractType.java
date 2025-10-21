@@ -1,12 +1,12 @@
 package com.gscorp.dv1.enums;
 
 public enum ContractType {
-    INDEFINITE("Indefinido"),
-    FIXED_TERM("Plazo Fijo"),
-    HONORARIOS("Honorarios"),
-    PART_TIME("Part-Time"),
-    PRACTICA("Práctica"),
-    OTRO("Otro");
+    Indefinido("Indefinido"),
+    Plazo_Fijo("Plazo Fijo"),
+    Honorarios("Honorarios"),
+    Part_Time("Part-Time"),
+    Practica("Práctica"),
+    Otro("Otro");
 
     private final String displayName;
 

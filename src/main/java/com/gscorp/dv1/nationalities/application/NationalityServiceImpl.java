@@ -1,5 +1,7 @@
 package com.gscorp.dv1.nationalities.application;
 
+import java.util.Set;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,5 +22,11 @@ public class NationalityServiceImpl implements NationalityService {
         return nationalityRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Nacionalidad no encontrada"));
     }
-    
+
+    @Override
+    @Transactional(readOnly = true)
+    public Set<Nationality> findAll() {
+        return Set.copyOf(nationalityRepository.findAll());
+    }
+
 }

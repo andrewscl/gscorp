@@ -18,4 +18,8 @@ public class PositionServiceImpl implements PositionService {
         return positionRepository.findById(id).orElse(null);
     }
     
+    @Override
+    public java.util.Set<Position> findAll() {
+        return new java.util.HashSet<>(positionRepository.findAll());
+    }
 }

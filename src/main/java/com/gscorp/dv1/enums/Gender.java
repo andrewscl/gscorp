@@ -1,9 +1,9 @@
 package com.gscorp.dv1.enums;
 
 public enum Gender {
-    MALE("Masculino"),
-    FEMALE("Femenino"),
-    OTHER("Otro")   ;
+    Masculino("Masculino"),
+    Femenino("Femenino"),
+    Otro("Otro");
 
     private final String displayName;
 

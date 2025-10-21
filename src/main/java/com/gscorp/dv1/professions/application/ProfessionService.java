@@ -9,4 +9,6 @@ public interface ProfessionService {
     Profession findById(Long id);
 
     Set<Profession> findAllById(Set<Long> ids);
+
+    Set<Profession> findAll();
 }
