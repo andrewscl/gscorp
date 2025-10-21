@@ -1,170 +1,137 @@
-// Palette
-$primary: #2655a6;
-$primary-dark: #1e417c;
-$gray-bg: #f3f6fb;
-$gray-border: #e5e7eb;
-$error: #b91c1c;
-$success: #15803d;
-$shadow-modal: 0 8px 32px #0002;
+.createEmployee {
+  background: #fff;
+  border-radius: 14px;
+  max-width: 36rem;
+  margin: 2.5rem auto;
+  box-shadow: 0 8px 32px #0002;
+  padding: 2.2rem 1.7rem;
+  position: relative;
+  animation: modalFadeIn 0.23s;
+  width: 98vw;
 
-// Modal
-#createEmployeeModal {
-  &.modal {
-    display: none;
-    position: fixed;
-    z-index: 2200;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: #0005;
-    transition: opacity 0.2s;
+  @media (max-width: 700px) {
+    padding: 1.1rem 0.5rem;
+    max-width: 99vw;
+    border-radius: 0.8em;
+  }
 
-    &.hidden {
-      display: none;
+  .createEmployeeHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.2rem;
+
+    h3 {
+      margin: 0;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #2655a6;
     }
-    &[aria-hidden="false"] {
+
+    .modal-close {
+      font-size: 2rem;
+      background: none;
+      border: none;
+      color: #888;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.18s;
+      &:hover, &:focus {
+        color: #1e417c;
+        outline: none;
+      }
+    }
+  }
+
+  .createEmployee-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .form-group {
+      margin-bottom: 0.9rem;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 1;
+      flex-direction: column;
+
+      label {
+        font-size: 1em;
+        font-weight: 500;
+        margin-bottom: 0.3em;
+        color: #2655a6;
+      }
+      input, select, textarea {
+        padding: 0.55em;
+        border: 1px solid #e5e7eb;
+        border-radius: 6px;
+        font-size: 1em;
+        background: #f9fafb;
+        transition: border 0.15s, background 0.15s;
+        &:focus {
+          border-color: #2655a6;
+          outline: none;
+          background: #eef6fd;
+        }
+      }
+      input[type="file"] {
+        padding: 0.2em;
+      }
+      input[type="checkbox"] {
+        width: auto;
+        margin-right: 0.5em;
+      }
+      // Responsive
+      @media (max-width: 600px) {
+        label, input, select, textarea {
+          font-size: 0.95em;
+        }
+      }
     }
 
-    .modal-dialog {
-      background: #fff;
-      border-radius: 14px;
-      max-width: 36rem;
-      width: 98vw;
-      box-shadow: $shadow-modal;
-      padding: 2.2rem 1.7rem;
-      position: relative;
-      animation: modalFadeIn 0.23s;
+    .form-error {
+      color: #b91c1c;
+      margin-top: 0.5em;
+      font-size: 0.97em;
+    }
+    .form-ok {
+      color: #15803d;
+      margin-top: 0.5em;
+      font-size: 0.97em;
+    }
+  }
 
-      @media (max-width: 700px) {
-        padding: 1.1rem 0.5rem;
-        max-width: 99vw;
-        border-radius: 0.8em;
+  .modal-footer {
+    display: flex;
+    gap: 0.7rem;
+    justify-content: flex-end;
+    margin-top: 1.2rem;
+
+    .btn-primary {
+      background: #2655a6;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 0.55em 1.8em;
+      font-weight: 600;
+      box-shadow: 0 2px 8px #2655a61a;
+      cursor: pointer;
+      transition: background 0.18s;
+      &:hover, &:focus {
+        background: #1e417c;
+        outline: none;
       }
-
-      .modal-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 1.2rem;
-
-        h3 {
-          margin: 0;
-          font-size: 1.4rem;
-          font-weight: 600;
-          color: $primary;
-        }
-
-        .modal-close {
-          font-size: 2rem;
-          background: none;
-          border: none;
-          color: #888;
-          cursor: pointer;
-          line-height: 1;
-          transition: color 0.18s;
-          &:hover, &:focus {
-            color: $primary-dark;
-            outline: none;
-          }
-        }
-      }
-
-      .modal-body {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-
-        .form-group {
-          margin-bottom: 0.9rem;
-          display: flex;
-          flex-direction: column;
-
-          label {
-            font-size: 1em;
-            font-weight: 500;
-            margin-bottom: 0.3em;
-            color: $primary;
-          }
-          input, select, textarea {
-            padding: 0.55em;
-            border: 1px solid $gray-border;
-            border-radius: 6px;
-            font-size: 1em;
-            background: #f9fafb;
-            transition: border 0.15s, background 0.15s;
-            &:focus {
-              border-color: $primary;
-              outline: none;
-              background: #eef6fd;
-            }
-          }
-          input[type="file"] {
-            padding: 0.2em;
-          }
-          input[type="checkbox"] {
-            width: auto;
-            margin-right: 0.5em;
-          }
-          // Responsive
-          @media (max-width: 600px) {
-            label, input, select, textarea {
-              font-size: 0.95em;
-            }
-          }
-        }
-
-        .form-error {
-          color: $error;
-          margin-top: 0.5em;
-          font-size: 0.97em;
-        }
-        .form-ok {
-          color: $success;
-          margin-top: 0.5em;
-          font-size: 0.97em;
-        }
-      }
-
-      .modal-footer {
-        display: flex;
-        gap: 0.7rem;
-        justify-content: flex-end;
-        margin-top: 1.2rem;
-
-        .btn-primary {
-          background: $primary;
-          color: #fff;
-          border: none;
-          border-radius: 6px;
-          padding: 0.55em 1.8em;
-          font-weight: 600;
-          box-shadow: 0 2px 8px #2655a61a;
-          cursor: pointer;
-          transition: background 0.18s;
-          &:hover, &:focus {
-            background: $primary-dark;
-            outline: none;
-          }
-        }
-        .btn-secondary {
-          background: $gray-border;
-          color: $primary;
-          border: none;
-          border-radius: 6px;
-          padding: 0.55em 1.8em;
-          font-weight: 600;
-          cursor: pointer;
-          transition: background 0.18s;
-          &:hover, &:focus {
-            background: #e0e7ff;
-            outline: none;
-          }
-        }
+    }
+    .btn-secondary {
+      background: #e5e7eb;
+      color: #2655a6;
+      border: none;
+      border-radius: 6px;
+      padding: 0.55em 1.8em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.18s;
+      &:hover, &:focus {
+        background: #e0e7ff;
+        outline: none;
       }
     }
   }
@@ -184,7 +151,7 @@ $shadow-modal: 0 8px 32px #0002;
 
 // Extra: responsividad para selects y botones
 @media (max-width: 500px) {
-  #createEmployeeModal .modal-dialog {
+  .createEmployee {
     padding: 0.7rem 0.2rem;
     .modal-footer {
       flex-direction: column;
@@ -196,7 +163,7 @@ $shadow-modal: 0 8px 32px #0002;
         padding-right: 0;
       }
     }
-    .modal-body .form-group {
+    .createEmployee-body .form-group {
       margin-bottom: 0.7rem;
     }
   }
