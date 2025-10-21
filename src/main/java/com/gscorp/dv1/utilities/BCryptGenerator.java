@@ -4,9 +4,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class BCryptGenerator {
 
-   public static void main(String[] args) {
+    public static void main(String[] args) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        System.out.println(encoder.encode("DelPiero197808"));
+        String plainPassword = "PassTest"; // Cambia por la contraseña que quieras
+        String hashed = encoder.encode(plainPassword);
+        System.out.println(hashed);
     }
 
 }
