@@ -3,7 +3,7 @@ package com.gscorp.dv1.enums;
 public enum PrevitionalSystem {
     AFP("AFP"),
     IPS("IPS"),
-    OTRO("Otro");
+    Otro("Otro");
 
     private final String displayName;
 

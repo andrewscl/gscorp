@@ -1,5 +1,8 @@
 package com.gscorp.dv1.bank.application;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +22,12 @@ public class BankServiceImpl implements BankService{
     public Bank findById(Long id) {
         return bankRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Banco no encontrado"));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Set<Bank> findAll() {
+        return new HashSet<>(bankRepository.findAll());
     }
 
 }

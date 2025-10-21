@@ -2,10 +2,10 @@ package com.gscorp.dv1.enums;
 
 public enum PaymentMethod {
 
-    TRANSFER("Transferencia"),
-    CASH("Efectivo"),
-    CHECK("Cheque"),
-    VALE_VISTA("Vale Vista");
+    Transferencia("Transferencia"),
+    Efectivo("Efectivo"),
+    Cheque("Cheque"),
+    Vale_Vista("Vale Vista");
 
     private final String displayName;
 

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.gscorp.dv1.bank.application.BankService;
 import com.gscorp.dv1.employees.application.EmployeeService;
 import com.gscorp.dv1.enums.BankAccountType;
 import com.gscorp.dv1.enums.ContractType;
@@ -18,7 +19,11 @@ import com.gscorp.dv1.enums.PrevitionalSystem;
 import com.gscorp.dv1.enums.ShiftSystem;
 import com.gscorp.dv1.enums.StudyLevel;
 import com.gscorp.dv1.enums.WorkSchedule;
+import com.gscorp.dv1.nationalities.application.NationalityService;
+import com.gscorp.dv1.positions.application.PositionService;
+import com.gscorp.dv1.professions.application.ProfessionService;
 import com.gscorp.dv1.projects.application.ProjectService;
+import com.gscorp.dv1.shiftpatterns.application.ShiftPatternService;
 import com.gscorp.dv1.users.application.UserService;
 
 import lombok.AllArgsConstructor;
@@ -36,6 +41,21 @@ public class EmployeeController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private NationalityService nationalityService;
+
+    @Autowired
+    private ProfessionService professionService;
+    
+    @Autowired
+    private BankService bankService;
+
+    @Autowired
+    private ShiftPatternService shiftPatternService;
+
+    @Autowired
+    private PositionService positionService;
     
     @GetMapping("/dashboard")
     public String getPrivateDashboardView (Model model) {
@@ -50,19 +70,24 @@ public class EmployeeController {
 
     @GetMapping("/create")
     public String getCreateEmployeeView (Model model) {
-        model.addAttribute("projects", projectService.findAll());
-        model.addAttribute("users", userService.findAll());
+
         model.addAttribute("genders", Gender.values());
+        model.addAttribute("nationalities", nationalityService.findAll());
         model.addAttribute("maritalStatuses", MaritalStatus.values());
         model.addAttribute("studyLevels", StudyLevel.values());
+        model.addAttribute("professions", professionService.findAll());
         model.addAttribute("previsionalSystems", PrevitionalSystem.values());
         model.addAttribute("healthSystems", HealthSystem.values());
         model.addAttribute("paymentMethods", PaymentMethod.values());
-        model.addAttribute("bankAccountsTypes", BankAccountType.values());
+        model.addAttribute("banks", bankService.findAll());
+        model.addAttribute("bankAccountTypes", BankAccountType.values());
         model.addAttribute("contractTypes", ContractType.values());
         model.addAttribute("workSchedules", WorkSchedule.values());
         model.addAttribute("shiftSystems", ShiftSystem.values());
-        
+        model.addAttribute("shiftPatterns", shiftPatternService.findAll());
+        model.addAttribute("positions", positionService.findAll());
+        model.addAttribute("projects", projectService.findAll());
+        model.addAttribute("users", userService.findAll());        
 
         return "private/employees/views/create-employee-view";
     }

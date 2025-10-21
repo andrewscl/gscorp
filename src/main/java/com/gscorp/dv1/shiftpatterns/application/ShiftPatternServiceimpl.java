@@ -1,5 +1,8 @@
 package com.gscorp.dv1.shiftpatterns.application;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.stereotype.Service;
 
 import com.gscorp.dv1.shiftpatterns.infrastructure.ShiftPattern;
@@ -17,6 +20,11 @@ public class ShiftPatternServiceimpl implements ShiftPatternService {
     public ShiftPattern findById(Long id) {
         return shiftPatternRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Shift Pattern not found with id: " + id));
+    }
+
+    @Override
+    public Set<ShiftPattern> findAll() {
+        return new HashSet<>(shiftPatternRepository.findAll());
     }
     
 }

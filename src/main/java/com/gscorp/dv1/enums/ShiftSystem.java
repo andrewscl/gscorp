@@ -1,11 +1,10 @@
 package com.gscorp.dv1.enums;
 
 public enum ShiftSystem {
-    FIXED("Fijo"),
-    ROTATING("Rotativo"),
-    FLEXIBLE("Flexible"),
-    FREE("Libre"),
-    OTHER("Otro");
+    Fijo("Fijo"),
+    Rotativo("Rotativo"),
+    Flexible("Flexible"),
+    Libre("Libre");
 
     private final String displayName;
 

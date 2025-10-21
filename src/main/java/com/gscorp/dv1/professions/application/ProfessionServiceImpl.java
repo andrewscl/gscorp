@@ -25,4 +25,9 @@ public class ProfessionServiceImpl implements ProfessionService {
     public Set<Profession> findAllById(Set<Long> ids) {
         return new HashSet<>(professionRepository.findAllById(ids));
     }
+
+    @Override
+    public Set<Profession> findAll() {
+        return new HashSet<>(professionRepository.findAll());
+    }
 }
