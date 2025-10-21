@@ -1,0 +1,281 @@
+.employees-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.employees-header h2 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #2655a6;
+  letter-spacing: 0.01em;
+}
+.employees-header .btn-primary {
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  background: #2655a6;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(38, 85, 166, 0.1019607843);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.employees-header .btn-primary:hover, .employees-header .btn-primary:focus {
+  background: #1e417c;
+  box-shadow: 0 4px 16px rgba(38, 85, 166, 0.2);
+}
+
+.employee-table-container {
+  overflow-x: auto;
+  width: 100%;
+  padding-bottom: 1rem;
+}
+
+.employees-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  box-shadow: 0 2px 16px rgba(229, 231, 235, 0.3333333333);
+  font-size: 1rem;
+}
+.employees-table thead tr {
+  background: #f3f6fb;
+}
+.employees-table thead tr th {
+  padding: 1rem 0.75rem;
+  font-weight: 600;
+  font-size: 1rem;
+  border-bottom: 2px solid #e5e7eb;
+  color: #2655a6;
+  text-align: left;
+  letter-spacing: 0.01em;
+}
+.employees-table tbody tr {
+  border-bottom: 1px solid #e5e7eb;
+  transition: background 0.15s;
+}
+.employees-table tbody tr:hover {
+  background: #f8fafc;
+}
+.employees-table tbody tr td {
+  padding: 0.75rem;
+  font-size: 0.98rem;
+  vertical-align: middle;
+}
+.employees-table tbody tr td .employee-photo-thumb {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1333333333);
+}
+.employees-table tbody tr td .tag {
+  display: inline-block;
+  padding: 0.3em 0.8em;
+  border-radius: 1em;
+  background: #e5e7eb;
+  color: #2655a6;
+  font-size: 0.96em;
+  font-weight: 500;
+}
+.employees-table tbody tr td .tag[th-text*=Activo] {
+  background: #d1fae5;
+  color: #15803d;
+}
+.employees-table tbody tr td .tag[th-text*=Inactivo] {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+.employees-table tbody tr td .actions {
+  display: flex;
+  gap: 0.5rem;
+}
+.employees-table tbody tr td .actions .btn-link {
+  padding: 0.3em 1em;
+  background: none;
+  color: #2655a6;
+  border: none;
+  border-radius: 0.5em;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 0.98em;
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s;
+}
+.employees-table tbody tr td .actions .btn-link:hover, .employees-table tbody tr td .actions .btn-link:focus {
+  background: #f3f6fb;
+  color: #1e417c;
+  outline: none;
+}
+@media (max-width: 900px) {
+  .employees-table {
+    font-size: 0.95rem;
+  }
+  .employees-table thead th, .employees-table tbody td {
+    padding: 0.6rem 0.45rem;
+  }
+}
+@media (max-width: 600px) {
+  .employees-table {
+    font-size: 0.9rem;
+  }
+  .employees-table thead th, .employees-table tbody td {
+    padding: 0.45rem 0.3rem;
+  }
+  .employees-table td .actions {
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .employees-table td .employee-photo-thumb {
+    width: 32px !important;
+    height: 32px !important;
+  }
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2200;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3333333333);
+  transition: opacity 0.2s;
+}
+.modal.hidden {
+  display: none;
+}
+.modal[aria-hidden=false] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+}
+.modal .modal-dialog {
+  background: #fff;
+  border-radius: 14px;
+  max-width: 32rem;
+  width: 96vw;
+  box-shadow: 0 6px 32px rgba(0, 0, 0, 0.1333333333);
+  padding: 2rem 1.5rem;
+  position: relative;
+  animation: modalFadeIn 0.23s;
+}
+@media (max-width: 500px) {
+  .modal .modal-dialog {
+    padding: 1rem 0.4rem;
+    max-width: 98vw;
+    border-radius: 0.8em;
+  }
+}
+.modal .modal-dialog .modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+}
+.modal .modal-dialog .modal-header h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #2655a6;
+}
+.modal .modal-dialog .modal-header .modal-close {
+  font-size: 2rem;
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.18s;
+}
+.modal .modal-dialog .modal-header .modal-close:hover, .modal .modal-dialog .modal-header .modal-close:focus {
+  color: #1e417c;
+  outline: none;
+}
+.modal .modal-dialog .modal-body .form-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+.modal .modal-dialog .modal-body .form-group label {
+  font-size: 1em;
+  font-weight: 500;
+  margin-bottom: 0.3em;
+  color: #2655a6;
+}
+.modal .modal-dialog .modal-body .form-group input, .modal .modal-dialog .modal-body .form-group select, .modal .modal-dialog .modal-body .form-group textarea {
+  padding: 0.6em;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 1em;
+  background: #f9fafb;
+  transition: border 0.15s;
+}
+.modal .modal-dialog .modal-body .form-group input:focus, .modal .modal-dialog .modal-body .form-group select:focus, .modal .modal-dialog .modal-body .form-group textarea:focus {
+  border-color: #2655a6;
+  outline: none;
+  background: #eef6fd;
+}
+.modal .modal-dialog .modal-body .form-group input[type=checkbox] {
+  width: auto;
+  margin-right: 0.5em;
+}
+.modal .modal-dialog .modal-body .form-error {
+  color: #b91c1c;
+  margin-top: 0.5em;
+  font-size: 0.97em;
+}
+.modal .modal-dialog .modal-body .form-ok {
+  color: #15803d;
+  margin-top: 0.5em;
+  font-size: 0.97em;
+}
+.modal .modal-dialog .modal-footer {
+  display: flex;
+  gap: 0.7rem;
+  justify-content: flex-end;
+  margin-top: 1.2rem;
+}
+.modal .modal-dialog .modal-footer .btn-primary {
+  background: #2655a6;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.55em 1.8em;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(38, 85, 166, 0.1019607843);
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.modal .modal-dialog .modal-footer .btn-primary:hover, .modal .modal-dialog .modal-footer .btn-primary:focus {
+  background: #1e417c;
+  outline: none;
+}
+.modal .modal-dialog .modal-footer .btn-secondary {
+  background: #e5e7eb;
+  color: #2655a6;
+  border: none;
+  border-radius: 6px;
+  padding: 0.55em 1.8em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.modal .modal-dialog .modal-footer .btn-secondary:hover, .modal .modal-dialog .modal-footer .btn-secondary:focus {
+  background: #e0e7ff;
+  outline: none;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}/*# sourceMappingURL=employees-table.css.map */

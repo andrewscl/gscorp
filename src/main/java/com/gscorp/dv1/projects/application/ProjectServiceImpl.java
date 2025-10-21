@@ -73,5 +73,10 @@ public class ProjectServiceImpl implements ProjectService{
         return projectRepository.findAllById(ids);
     }
 
+    @Override
+    @Transactional
+    public List<Project> findAll() {
+        return projectRepository.findAll();
+    }
 
 }

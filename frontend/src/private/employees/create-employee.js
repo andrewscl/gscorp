@@ -5,29 +5,6 @@ console.log('create-employee.js cargado');
 
 const qs  = (s) => document.querySelector(s);
 
-function openModal() {
-  const m = qs('#createEmployeeModal');
-  if (!m) return;
-  m.classList.remove('hidden');
-  m.setAttribute('aria-hidden', 'false');
-  document.body.classList.add('no-scroll');
-  setTimeout(() => qs('#employeeName')?.focus(), 0);
-}
-
-function closeModal() {
-  const m = qs('#createEmployeeModal');
-  if (!m) return;
-  m.classList.add('hidden');
-  m.setAttribute('aria-hidden', 'true');
-  document.body.classList.remove('no-scroll');
-
-  qs('#createEmployeeForm')?.reset();
-  const msg = qs('#createEmployeeError');
-  const ok  = qs('#createEmployeeOk');
-  if (msg) msg.textContent = '';
-  if (ok)  ok.style.display = 'none';
-}
-
 /* --- Crear empleado --- */
 async function onSubmitCreate(e) {
   e.preventDefault();
@@ -144,7 +121,6 @@ async function onSubmitCreate(e) {
 
     if (ok) ok.style.display = 'block';
     setTimeout(() => {
-      closeModal();
       // Vuelve al listado
       navigateTo('/private/employees/table-view');
     }, 600);
@@ -154,15 +130,11 @@ async function onSubmitCreate(e) {
 }
 
 /* --- Bindings --- */
-function bindModal() {
-  qs('#createEmployeeBtn')?.addEventListener('click', openModal);
-  qs('#closeCreateEmployee')?.addEventListener('click', closeModal);
-  qs('#cancelCreateEmployee')?.addEventListener('click', closeModal);
+function bindCreateEmployeeForm() {
   qs('#createEmployeeForm')?.addEventListener('submit', onSubmitCreate);
-  document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') closeModal(); });
 }
 
 /* --- init --- */
 (function init() {
-  bindModal();
+  bindCreateEmployeeForm();
 })();
