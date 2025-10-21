@@ -27,4 +27,9 @@ public class Bank {
     private String name;
 
     private Long code;
+
+    private String logoUrl;
+
+    @Builder.Default
+    private Boolean active = true;
 }
