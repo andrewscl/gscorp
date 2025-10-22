@@ -96,6 +96,15 @@ window.initRouter = async () => {
 
   const target = sessionStorage.getItem("postLoginTarget");
 
+  if (!target) {
+    // Si no está en sessionStorage, lo tomamos de la URL del shell
+    const params = new URLSearchParams(window.location.search);
+    target = params.get('target');
+    if (target) {
+      sessionStorage.setItem("postLoginTarget", target);
+    }
+  }
+
   if(target) {
     sessionStorage.removeItem("postLoginTarget");
     console.log
