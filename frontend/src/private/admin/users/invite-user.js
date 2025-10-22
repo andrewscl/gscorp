@@ -9,16 +9,14 @@ async function onSubmitInviteUser(e) {
 
   const username = qs('#inviteUsername')?.value?.trim();
   const mail = qs('#inviteMail')?.value?.trim();
-  const roleIds = qs('#inviteRoleIds')?.value?.trim()
-    .split(',')
-    .map(s => s.trim())
-    .filter(Boolean)
-    .map(Number);
-  const clientIds = qs('#inviteClientIds')?.value?.trim()
-    .split(',')
-    .map(s => s.trim())
-    .filter(Boolean)
-    .map(Number);
+
+  // Obtener roles seleccionados (checkboxes)
+  const roleIds = Array.from(document.querySelectorAll('input[name="inviteRoleIds"]:checked'))
+    .map(cb => Number(cb.value));
+
+  // Obtener clientes seleccionados (checkboxes)
+  const clientIds = Array.from(document.querySelectorAll('input[name="inviteClientIds"]:checked'))
+    .map(cb => Number(cb.value));
 
   const err = qs('#inviteUserError');
   const ok = qs('#inviteUserSuccess');
