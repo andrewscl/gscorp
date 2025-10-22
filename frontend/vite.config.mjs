@@ -8,6 +8,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         'auth': path.resolve(__dirname, './src/auth.js'),
+        'auth/define-password': path.resolve(__dirname, './src/auth/define-password.js'),
         'contact': path.resolve(__dirname, './src/contact.js'),
         'init-router': path.resolve(__dirname, './src/init-router.js'),
         'mega-menu': path.resolve(__dirname, './src/mega-menu.js'),
