@@ -14,7 +14,7 @@ import com.gscorp.dv1.shiftpatterns.web.dto.ShiftPatternDto;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/positions")
+@RequestMapping("/api/shift-patterns")
 @RequiredArgsConstructor
 public class ShiftPatternRestController {
 
