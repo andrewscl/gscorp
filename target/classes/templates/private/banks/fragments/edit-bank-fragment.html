@@ -5,7 +5,7 @@
     <strong>ID:</strong> <span th:text="${bank.id}"></span>
   </p>
 
-  <form id="editBankForm" class="card form" th:action="@{/private/banks/save}" th:object="${bank}" method="post" autocomplete="off">
+  <form id="editBankForm" class="card form" data-path="/private/banks/update" th:object="${bank}" method="post" autocomplete="off">
 
     <input type="hidden" th:field="*{id}" />
 
@@ -43,5 +43,5 @@
     <div id="editBankError" class="form-error"></div>
     <div id="editBankOk" class="form-ok" style="display:none;">Cambios guardados ✅</div>
   </form>
-  <script type="module" src="/js/private/banks/edit-bank.js"></script>
+
 </section>
