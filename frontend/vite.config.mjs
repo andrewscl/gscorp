@@ -38,8 +38,8 @@ export default defineConfig({
         'private/shift-patterns/edit-shift-pattern': path.resolve(__dirname, './src/private/shift-patterns/edit-shift-pattern.js'),
         'private/shift-patterns/create-shift-pattern': path.resolve(__dirname, './src/private/shift-patterns/create-shift-pattern.js'),
         'private/professions/create-profession': path.resolve(__dirname, './src/private/professions/create-profession.js'),
-        'private/nationality/edit-nationality': path.resolve(__dirname, './src/private/nationalities/edit-nationality.js'),
-        'private/nationality/create-nationality': path.resolve(__dirname, './src/private/nationalities/create-nationality.js')
+        'private/nationalities/edit-nationality': path.resolve(__dirname, './src/private/nationalities/edit-nationality.js'),
+        'private/nationalities/create-nationality': path.resolve(__dirname, './src/private/nationalities/create-nationality.js')
 
       },
       output: {
