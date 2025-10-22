@@ -53,6 +53,9 @@ import { fetchWithAuth } from './auth.js';
         return;
     }
 
+    console.log({ force, changeLayout, isFirstLoad, targetLayout, currentLayout });
+    console.log("isLayoutLoaded(targetLayout):", isLayoutLoaded(targetLayout));
+
     try {
         const html = await fetchHtml(path, targetLayout);
         if (!html) throw new Error("No content");
