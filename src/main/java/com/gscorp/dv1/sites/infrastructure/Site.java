@@ -1,5 +1,10 @@
 package com.gscorp.dv1.sites.infrastructure;
 
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import com.gscorp.dv1.projects.infrastructure.Project;
 
 import jakarta.persistence.Column;
@@ -51,4 +56,11 @@ public class Site {
     @Builder.Default
     @Column(nullable=false)
     private Boolean active = true;
+
+    // Fechas de auditoría (requieren dependencias Hibernate)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
 }

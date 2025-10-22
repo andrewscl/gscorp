@@ -1,7 +1,11 @@
 package com.gscorp.dv1.roles.infrastructure;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.gscorp.dv1.users.infrastructure.User;
 
@@ -38,5 +42,11 @@ public class Role {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Set<User> users = new HashSet<>();
+
+    // Fechas de auditoría (requieren dependencias Hibernate)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
 }

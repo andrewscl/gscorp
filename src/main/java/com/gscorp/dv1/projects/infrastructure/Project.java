@@ -1,8 +1,12 @@
 package com.gscorp.dv1.projects.infrastructure;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.gscorp.dv1.clients.infrastructure.Client;
 import com.gscorp.dv1.employees.infrastructure.Employee;
@@ -47,4 +51,11 @@ public class Project {
     )
     @Builder.Default
     private Set<Employee> employees = new HashSet<>();
+
+    // Fechas de auditoría (requieren dependencias Hibernate)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
 }

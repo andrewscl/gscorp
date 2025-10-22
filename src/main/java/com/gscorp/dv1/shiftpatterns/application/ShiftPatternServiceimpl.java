@@ -26,5 +26,10 @@ public class ShiftPatternServiceimpl implements ShiftPatternService {
     public Set<ShiftPattern> findAll() {
         return new HashSet<>(shiftPatternRepository.findAll());
     }
+
+    @Override
+    public ShiftPattern saveShiftPattern(ShiftPattern shiftPattern) {
+        return shiftPatternRepository.save(shiftPattern);
+    }
     
 }

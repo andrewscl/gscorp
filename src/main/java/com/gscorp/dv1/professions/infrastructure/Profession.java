@@ -1,7 +1,11 @@
 package com.gscorp.dv1.professions.infrastructure;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.gscorp.dv1.employees.infrastructure.Employee;
 
@@ -32,7 +36,32 @@ public class Profession {
     @Column(nullable = false, unique = true)
     private String name;
 
+    // descripción de la profesión
+    @Column(length = 300)
+    private String description;
+
+    // código interno único
+    @Column(unique = true, length = 50)
+    private String code;
+
+    // estado activo/inactivo
+    @Builder.Default
+    private Boolean active = true;
+
+    // categoría o agrupación
+    private String category;
+
+    // nivel de profesión
+    private Integer level;
+
     @ManyToMany(mappedBy = "professions")
     @Builder.Default
     private Set<Employee> employees = new HashSet<>();
+
+    // Fechas de auditoría (requieren dependencias Hibernate)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
 }

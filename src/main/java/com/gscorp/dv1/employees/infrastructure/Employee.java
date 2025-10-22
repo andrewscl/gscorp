@@ -1,8 +1,12 @@
 package com.gscorp.dv1.employees.infrastructure;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.gscorp.dv1.bank.infrastructure.Bank;
 import com.gscorp.dv1.enums.BankAccountType;
@@ -135,5 +139,12 @@ public class Employee {
     @ManyToMany(mappedBy = "employees", fetch = FetchType.LAZY)
     @Builder.Default
     private Set<Project> projects = new HashSet<>();
+
+    // Fechas de auditoría (requieren dependencias Hibernate)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
 
 }

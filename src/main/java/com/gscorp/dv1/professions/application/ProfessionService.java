@@ -11,4 +11,6 @@ public interface ProfessionService {
     Set<Profession> findAllById(Set<Long> ids);
 
     Set<Profession> findAll();
+
+    Profession saveProfession(Profession profession);
 }

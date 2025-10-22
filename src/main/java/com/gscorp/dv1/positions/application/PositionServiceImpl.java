@@ -22,4 +22,9 @@ public class PositionServiceImpl implements PositionService {
     public java.util.Set<Position> findAll() {
         return new java.util.HashSet<>(positionRepository.findAll());
     }
+
+    @Override
+    public Position savePosition(Position position) {
+        return positionRepository.save(position);
+    }
 }

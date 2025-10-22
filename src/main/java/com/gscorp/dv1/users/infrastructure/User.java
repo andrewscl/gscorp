@@ -1,7 +1,11 @@
 package com.gscorp.dv1.users.infrastructure;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.gscorp.dv1.clients.infrastructure.Client;
 import com.gscorp.dv1.employees.infrastructure.Employee;
@@ -54,5 +58,11 @@ public class User {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id")
     private Employee employee;
+
+    // Fechas de auditoría (requieren dependencias Hibernate)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
 }
