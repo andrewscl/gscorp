@@ -42,7 +42,7 @@ public class UserInvitationRestController {
             <div style="background:#f7f7f9;padding:32px;">
             <div style="max-width:420px;margin:auto;background:white;padding:32px 24px;border-radius:10px;box-shadow:0 2px 12px rgba(30,40,60,0.13);font-family:'Segoe UI','Roboto',Arial,sans-serif;">
                 <div style="text-align:center;margin-bottom:24px;">
-                <img src="https://gscorp.cl/img/logo-mail.png" alt="GSCorp Logo" style="height:56px;max-width:170px;">
+                <img src="https://gscorp.cl/img/logo-mail.png" alt="GSCorp Logo" style="height:90px;max-width:260px;">
                 </div>
                 <h2 style="color:#2d3a4b;margin-bottom:16px;text-align:center;">¡Bienvenido/a a la plataforma!</h2>
                 <p style="font-size:1.06rem;color:#444;">
