@@ -22,14 +22,15 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table (name="dbuser")
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter @Setter
 public class User {
     
     @Id
@@ -38,6 +39,9 @@ public class User {
     private String username;
     private String mail;
     private String password;
+    private Boolean active;
+    private String invitationToken;
+    private LocalDateTime invitationTokenExpiry;
 
     @ManyToMany (fetch = FetchType.EAGER) //Carga los roles junto con el usuario.
     @JoinTable (
