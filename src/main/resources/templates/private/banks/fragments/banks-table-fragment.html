@@ -21,7 +21,7 @@
         <tr th:each="b : ${banks}">
           <td th:text="${b.id}"></td>
           <td>
-            <img th:src="${b.logoUrl != null ? b.logoUrl : '/img/default-bank.png'}"
+            <img th:src="${b.logoUrl != null ? b.logoUrl : '/img/banks/banco-de-chile.png'}"
                  alt="Logo"
                  class="bank-logo-thumb"
                  style="width:40px;height:40px;border-radius:8px;object-fit:contain;background:#f3f6fb;border:1px solid #e5e7eb;" />
@@ -35,12 +35,12 @@
           <td class="actions">
             <button type="button"
                     class="btn-link"
-                    th:attr="data-path=@{/private/maintenance/banks/show/{id}(id=${b.id})}">
+                    th:attr="data-path=@{/private/banks/show/{id}(id=${b.id})}">
               Ver
             </button>
             <button type="button"
                     class="btn-link"
-                    th:attr="data-path=@{/private/maintenance/banks/edit/{id}(id=${b.id})}">
+                    th:attr="data-path=@{/private/banks/edit/{id}(id=${b.id})}">
               Editar
             </button>
           </td>
