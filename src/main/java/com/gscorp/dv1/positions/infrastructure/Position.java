@@ -1,5 +1,10 @@
 package com.gscorp.dv1.positions.infrastructure;
 
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,4 +30,21 @@ public class Position {
 
     @Column(nullable = false, unique = true)
     private String name;
+
+    @Column(length = 300)
+    private String description;
+
+    @Builder.Default
+    private Boolean active = true;
+
+    private String code;
+
+    private Integer level;
+
+    // Fechas de auditoría (requieren dependencias Hibernate)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
 }

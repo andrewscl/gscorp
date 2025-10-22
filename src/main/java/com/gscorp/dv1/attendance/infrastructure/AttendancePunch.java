@@ -1,8 +1,11 @@
 package com.gscorp.dv1.attendance.infrastructure;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
 
 import jakarta.persistence.Column;
@@ -46,5 +49,12 @@ public class AttendancePunch {
   String ip;
 
   @PrePersist void onCreate(){ if (ts == null) ts = OffsetDateTime.now(); }
+
+    // Fechas de auditoría (requieren dependencias Hibernate)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
   
 }

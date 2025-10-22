@@ -1,0 +1,50 @@
+<div th:fragment="content">
+  <div class="shift-patterns-header">
+    <h2>Patrones de Turno</h2>
+    <button class="btn-primary" id="createShiftPatternBtn"
+            data-path="/private/shift-patterns/create">Crear Patrón</button>
+  </div>
+
+  <div class="shift-patterns-table-container">
+    <table class="shift-patterns-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Código</th>
+          <th>Descripción</th>
+          <th>Días Trabajo</th>
+          <th>Días Descanso</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="sp : ${shiftPatterns}">
+          <td th:text="${sp.id}"></td>
+          <td th:text="${sp.name}"></td>
+          <td th:text="${sp.code} ?: '—'">—</td>
+          <td th:text="${sp.description}"></td>
+          <td th:text="${sp.workDays}"></td>
+          <td th:text="${sp.restDays}"></td>
+          <td>
+            <span class="tag"
+                  th:text="${sp.active} ? 'Activo' : 'Inactivo'">Activo</span>
+          </td>
+          <td class="actions">
+            <button type="button"
+                    class="btn-link"
+                    th:attr="data-path=@{/private/shift-patterns/show/{id}(id=${sp.id})}">
+              Ver
+            </button>
+            <button type="button"
+                    class="btn-link"
+                    th:attr="data-path=@{/private/shift-patterns/edit/{id}(id=${sp.id})}">
+              Editar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

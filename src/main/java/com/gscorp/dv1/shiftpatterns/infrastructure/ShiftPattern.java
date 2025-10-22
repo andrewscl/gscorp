@@ -1,5 +1,10 @@
 package com.gscorp.dv1.shiftpatterns.infrastructure;
 
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,5 +38,22 @@ public class ShiftPattern {
     private Long workDays;
 
     @Column(nullable = false)
-    private Long workRestDays;
+    private Long restDays;
+
+    // Identificador corto para el patrón, ej: "4x2"
+    @Column(unique = true, length = 16)
+    private String code;
+
+    // Estado activo/inactivo
+    @Builder.Default
+    private Boolean active = true;
+
+    // Día de inicio del ciclo (ejemplo)
+    private Integer startDay;
+
+    // Fechas de auditoría (requieren dependencias Hibernate)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 }

@@ -9,4 +9,6 @@ public interface ShiftPatternService {
     ShiftPattern findById(Long id);
 
     Set<ShiftPattern> findAll();
+
+    ShiftPattern saveShiftPattern(ShiftPattern shiftPattern);
 }

@@ -30,4 +30,9 @@ public class ProfessionServiceImpl implements ProfessionService {
     public Set<Profession> findAll() {
         return new HashSet<>(professionRepository.findAll());
     }
+
+    @Override
+    public Profession saveProfession(Profession profession) {
+        return professionRepository.save(profession);
+    }
 }
