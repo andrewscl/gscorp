@@ -20,12 +20,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table (name="profession")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@ToString(exclude = "employees")
 @Builder
 public class Profession {
     
