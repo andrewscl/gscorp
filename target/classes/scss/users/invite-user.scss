@@ -49,27 +49,26 @@
     }
 
     button[type="submit"] {
+      @extend .invite-user-btn;
       background: #4f8cff;
-      color: #fff;
-      padding: 0.6rem 1rem;
-      font-size: 1.08rem;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: 500;
       margin-top: 0.2rem;
-      transition: background 0.18s;
-      &:hover,
-      &:focus {
-        background: #336dd8;
-      }
-      &:disabled {
-        opacity: 0.65;
-        cursor: not-allowed;
-      }
     }
   }
 
+  // General button style (for Cancel and future actions)
+  button {
+    @extend .invite-user-btn;
+    background: #bfc9d8;
+    color: #2d3a4b;
+    margin: 0.7rem auto 0 auto;
+    display: block;
+    &:hover,
+    &:focus {
+      background: #a6b0c0;
+    }
+  }
+
+  // Success message
   #inviteUserSuccess {
     color: #27ae60;
     font-size: 1.07rem;
@@ -77,5 +76,20 @@
     text-align: center;
     font-weight: 500;
     display: none;
+  }
+}
+
+// Mixin for consistent button style (can be placed outside above)
+.invite-user-btn {
+  padding: 0.6rem 1.1rem;
+  font-size: 1.08rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.18s, color 0.18s;
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
   }
 }

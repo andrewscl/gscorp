@@ -47,22 +47,16 @@
 }
 .invite-user-container form button[type=submit] {
   background: #4f8cff;
-  color: #fff;
-  padding: 0.6rem 1rem;
-  font-size: 1.08rem;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: 500;
   margin-top: 0.2rem;
-  transition: background 0.18s;
 }
-.invite-user-container form button[type=submit]:hover, .invite-user-container form button[type=submit]:focus {
-  background: #336dd8;
+.invite-user-container button {
+  background: #bfc9d8;
+  color: #2d3a4b;
+  margin: 0.7rem auto 0 auto;
+  display: block;
 }
-.invite-user-container form button[type=submit]:disabled {
-  opacity: 0.65;
-  cursor: not-allowed;
+.invite-user-container button:hover, .invite-user-container button:focus {
+  background: #a6b0c0;
 }
 .invite-user-container #inviteUserSuccess {
   color: #27ae60;
@@ -71,4 +65,18 @@
   text-align: center;
   font-weight: 500;
   display: none;
+}
+
+.invite-user-btn, .invite-user-container form button[type=submit], .invite-user-container button {
+  padding: 0.6rem 1.1rem;
+  font-size: 1.08rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.18s, color 0.18s;
+}
+.invite-user-btn:disabled, .invite-user-container form button[type=submit]:disabled, .invite-user-container button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
 }/*# sourceMappingURL=invite-user.css.map */
