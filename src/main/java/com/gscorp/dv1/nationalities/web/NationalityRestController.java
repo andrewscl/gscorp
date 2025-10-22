@@ -31,11 +31,7 @@ public class NationalityRestController {
         var saved = nationalityService.saveNationality(entity);
         var location = ucb.path("/api/nationalities/{id}").buildAndExpand(saved.getId()).toUri();
 
-        var dto = new NationalityDto(
-                            saved.getId(),
-                            saved.getName(),
-                            saved.getIsoCode()
-                            );
+        var dto = NationalityDto.fromEntity(saved);
 
         return ResponseEntity.created(location).body(dto);
     }
