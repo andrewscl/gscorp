@@ -25,8 +25,8 @@ public class AuthController {
 
     @GetMapping("/define-password")
     public String getDefinePasswordView(@RequestParam("token") String token, Model model) {
-        model.addAttribute("token", token); // Para el fragmento/JS
-        return "auth/views/define-password-view";
+        //Redirige al Shell Auth y pasa el token como parametro
+        return "redirect:/shell/auth?target=/auth/define-password?token=" + token;
     }
 
 }
