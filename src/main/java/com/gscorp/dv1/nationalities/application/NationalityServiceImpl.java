@@ -29,4 +29,10 @@ public class NationalityServiceImpl implements NationalityService {
         return Set.copyOf(nationalityRepository.findAll());
     }
 
+    @Override
+    @Transactional
+    public Nationality saveNationality(Nationality nationality) {
+        return nationalityRepository.save(nationality);
+    }
+
 }

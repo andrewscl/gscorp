@@ -8,5 +8,6 @@ public interface NationalityService {
 
     Nationality findById(Long id);
     Set<Nationality> findAll();
+    Nationality saveNationality(Nationality nationality);
 
 }
