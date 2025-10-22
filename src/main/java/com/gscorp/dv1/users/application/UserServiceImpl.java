@@ -1,7 +1,10 @@
 package com.gscorp.dv1.users.application;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +18,7 @@ import com.gscorp.dv1.roles.infrastructure.RoleRepository;
 import com.gscorp.dv1.users.infrastructure.User;
 import com.gscorp.dv1.users.infrastructure.UserRepository;
 import com.gscorp.dv1.users.web.dto.CreateUserRequest;
+import com.gscorp.dv1.users.web.dto.InviteUserRequest;
 
 import lombok.RequiredArgsConstructor;
 
@@ -105,5 +109,72 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<User> findAllWithRolesAndClients(){
         return userRepo.findAllWithRolesAndClients();
+    }
+
+    @Override
+    public User createInvitedUser(InviteUserRequest request) {
+        User user = new User();
+        user.setUsername(request.username());
+        user.setMail(request.mail());
+        user.setActive(true);
+
+        // Asignar roles
+        Set<Role> roles = new HashSet<>();
+        if (request.roleIds() != null) {
+            for (Long roleId : request.roleIds()) {
+                    roleRepo.findById(roleId).ifPresent(roles::add);
+            }
+        }
+        user.setRoles(roles);
+
+        // Asignar clientes
+        Set<Client> clients = new HashSet<>();
+        if (request.clientIds() != null) {
+            for (Long clientId : request.clientIds()) {
+                clientRepo.findById(clientId).ifPresent(clients::add);
+            }
+        }
+        user.setClients(clients);
+
+        //NO contraseña aun, ni token (El controller gestiona eso)
+        user.setPassword(null);
+        user.setInvitationToken(null);
+        user.setInvitationTokenExpiry(null);
+
+        return userRepo.save(user);
+    }
+
+    //Valida token de invitación (para frontend)
+    @Override
+    public Boolean isInvitationTokenValid(String token) {
+        Optional<User> userOpt = userRepo.findByInvitationToken(token);
+        if (userOpt.isEmpty()) return false;
+        User user = userOpt.get();
+        return user.getInvitationTokenExpiry() != null && 
+               user.getInvitationTokenExpiry().isAfter(LocalDateTime.now());
+    }
+
+    //Define la contraseña a partir del token de invitación
+    @Override
+    public Boolean setPasswordFromInvitation(String token, String password){
+        Optional<User> userOpt = userRepo.findByInvitationToken(token);
+        if (userOpt.isEmpty()) return false;
+        User user = userOpt.get();
+        if (user.getInvitationTokenExpiry() == null || 
+            user.getInvitationTokenExpiry().isBefore(LocalDateTime.now())) {
+            return false;
+        }
+        user.setPassword(encoder.encode(password));
+        //Invalida el token
+        user.setInvitationToken(null);
+        user.setInvitationTokenExpiry(null);
+        user.setActive(true);
+        userRepo.save(user);
+        return true;
+    }
+
+    @Override
+    public void save(User user) {
+        userRepo.save(user);
     }
 }
