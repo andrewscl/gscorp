@@ -23,6 +23,12 @@ public class UserController {
         return "private/users/views/users-table-view";
     }
 
+    @GetMapping("/invite-user")
+    public String getInviteUserView(Model model) {
+        model.addAttribute("users", userService.findAllWithRolesAndClients());
+        return "private/users/views/invite-user-view";
+    }
+
     @GetMapping("/show/{id}")
     public String showUser(@PathVariable Long id, Model model){
         var user = userService.findWithRolesAndClientsById(id);
