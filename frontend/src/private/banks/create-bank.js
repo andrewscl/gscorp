@@ -3,94 +3,85 @@ import { navigateTo } from '../../navigation-handler.js';
 
 const qs  = (s) => document.querySelector(s);
 
-function openModal() {
-  const m = qs('#createBankModal');
-  if (!m) return;
-  m.classList.remove('hidden');
-  m.setAttribute('aria-hidden', 'false');
-  document.body.classList.add('no-scroll');
-  setTimeout(() => qs('#bankName')?.focus(), 0);
-}
-
-function closeModal() {
-  const m = qs('#createBankModal');
-  if (!m) return;
-  m.classList.add('hidden');
-  m.setAttribute('aria-hidden', 'true');
-  document.body.classList.remove('no-scroll');
-
-  qs('#createBankForm')?.reset();
-  const err = qs('#createBankError');
-  const ok  = qs('#createBankOk');
-  if (err) err.textContent = '';
-  if (ok)  ok.style.display = 'none';
-}
-
-async function onClickCreateBank() {
-  openModal();
-}
-
+/* --- Crear banco --- */
 async function onSubmitCreateBank(e) {
   e.preventDefault();
 
+  const name    = qs('#bankName')?.value?.trim();
+  const code    = qs('#bankCode')?.value?.trim();
+  const active  = !!qs('#bankActive')?.checked;
+
+  // Logo (opcional)
+  const logoInput = qs('#bankLogo');
+  let logo = null;
+  if (logoInput && logoInput.files && logoInput.files[0]) {
+    logo = logoInput.files[0];
+  }
+
   const err = qs('#createBankError');
   const ok  = qs('#createBankOk');
   if (err) err.textContent = '';
   if (ok)  ok.style.display = 'none';
 
-  const name     = qs('#bankName')?.value?.trim();
-  const code     = qs('#bankCode')?.value?.trim();
-  const active   = !!qs('#bankActive')?.checked;
-  const logoUrl  = qs('#bankLogoUrl')?.value?.trim() || null; // si tienes campo para URL
-
-  if (!name)      { err && (err.textContent = 'El nombre del banco es obligatorio.'); return; }
-  if (!code)      { err && (err.textContent = 'El código del banco es obligatorio.'); return; }
-
-  // Deshabilita submit durante el POST
-  const submitBtn = e.submitter || qs('#createBankForm button[type="submit"]');
-  submitBtn && (submitBtn.disabled = true);
+  if (!name) {
+    if (err) err.textContent = 'El nombre del banco es obligatorio.';
+    return;
+  }
+  if (!code) {
+    if (err) err.textContent = 'El código del banco es obligatorio.';
+    return;
+  }
 
   try {
+    // FormData para soportar archivo (logo)
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('code', code);
+    formData.append('active', active);
+    if (logo) formData.append('logo', logo);
+
+    // Ajusta el endpoint si tu backend usa otro
     const res = await fetchWithAuth('/api/banks/create', {
       method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({
-        name,
-        code,
-        logoUrl,
-        active
-      })
+      body: formData
     });
 
     if (!res.ok) {
-      let msg = '';
-      try { msg = await res.text(); } catch {}
-      if (!msg) msg = `Error ${res.status}`;
-      throw new Error(msg);
+      const msg = await res.text().catch(() => '');
+      throw new Error(msg || 'No se pudo crear el banco');
     }
 
-    ok && (ok.style.display = 'block');
-
+    if (ok) ok.style.display = 'block';
     setTimeout(() => {
-      closeModal();
       navigateTo('/private/banks/table-view');
     }, 600);
-
   } catch (e2) {
-    err && (err.textContent = e2.message || 'No se pudo crear el banco');
-  } finally {
-    submitBtn && (submitBtn.disabled = false);
+    if (err) err.textContent = e2.message;
   }
 }
 
-function bindModal() {
-  qs('#createBankBtn')?.addEventListener('click', onClickCreateBank);
-  qs('#closeCreateBank')?.addEventListener('click', closeModal);
-  qs('#cancelCreateBank')?.addEventListener('click', closeModal);
+/* --- Bindings --- */
+function bindCreateBankForm() {
   qs('#createBankForm')?.addEventListener('submit', onSubmitCreateBank);
-  document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') closeModal(); });
 }
 
+function bindCancelCreateBank() {
+  qs('#cancelCreateBank')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    navigateTo('/private/banks/table-view');
+  });
+}
+
+function bindCloseCreateBank() {
+  qs('#closeCreateBank')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    navigateTo('/private/banks/table-view');
+  });
+}
+
+/* --- init --- */
 (function init() {
-  bindModal();
+  bindCreateBankForm();
+  bindCancelCreateBank();
+  bindCloseCreateBank();
 })();
