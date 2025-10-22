@@ -5,7 +5,9 @@ public record ShiftPatternDto (
     String name,
     String description,
     Long workDays,
-    Long restDays
+    Long restDays,
+    String code,
+    Integer startDay
 ){
     public static ShiftPatternDto fromEntity(com.gscorp.dv1.shiftpatterns.infrastructure.ShiftPattern sp) {
         if (sp == null) return null;
@@ -14,7 +16,9 @@ public record ShiftPatternDto (
             sp.getName(),
             sp.getDescription(),
             sp.getWorkDays(),
-            sp.getRestDays()
+            sp.getRestDays(),
+            sp.getCode(),
+            sp.getStartDay()
         );
     }
 }

@@ -4,6 +4,8 @@ public record CreateShiftPatternRequest(
     String name,
     String description,
     Long workDays,
-    Long restDays
+    Long restDays,
+    String code,
+    Integer startDay
 ) {}
 
