@@ -20,7 +20,7 @@ public class ShitPatternController {
     @GetMapping("/table-view")
     public String getShiftPatternsTableView(Model model) {
         model.addAttribute("shiftPatterns", shiftPatternService.findAll());
-        return "private/shift-patterns/views/table-view";
+        return "private/shift-patterns/views/shift-patterns-table-view";
     }
 
     @GetMapping("/create")

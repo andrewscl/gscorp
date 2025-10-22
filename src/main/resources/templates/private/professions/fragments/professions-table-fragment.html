@@ -11,11 +11,16 @@
         <tr>
           <th>ID</th>
           <th>Nombre</th>
-          <th th:if="${professions[0]?.description != null}">Descripción</th>
-          <th th:if="${professions[0]?.code != null}">Código</th>
-          <th th:if="${professions[0]?.category != null}">Categoría</th>
-          <th th:if="${professions[0]?.level != null}">Nivel</th>
-          <th th:if="${professions[0]?.active != null}">Estado</th>
+          <th th:if="${professions != null and #lists.size(professions) > 0
+                        and professions[0].description != null}">Descripción</th>
+          <th th:if="${professions != null and #lists.size(professions) > 0
+                        and professions[0].code != null}">Código</th>
+          <th th:if="${professions != null and #lists.size(professions) > 0
+                        and professions[0].category != null}">Categoría</th>
+          <th th:if="${professions != null and #lists.size(professions) > 0
+                        and professions[0].level != null}">Nivel</th>
+          <th th:if="${professions != null and #lists.size(professions) > 0
+                        and professions[0].active != null}">Estado</th>
           <th>Acciones</th>
         </tr>
       </thead>
