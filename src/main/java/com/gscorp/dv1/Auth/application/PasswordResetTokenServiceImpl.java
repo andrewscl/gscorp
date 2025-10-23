@@ -45,4 +45,9 @@ public class PasswordResetTokenServiceImpl implements PasswordResetTokenService 
         tokenRepo.save(token);
     }
 
+    @Override
+    public void deleteByUserId(Long userId) {
+        tokenRepo.deleteByUserId(userId);
+    }
+
 }

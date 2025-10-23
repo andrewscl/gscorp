@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gscorp.dv1.auth.application.PasswordResetTokenService;
 import com.gscorp.dv1.clients.infrastructure.Client;
 import com.gscorp.dv1.clients.infrastructure.ClientRepository;
 import com.gscorp.dv1.roles.infrastructure.Role;
@@ -30,6 +31,7 @@ public class UserServiceImpl implements UserService{
     private final RoleRepository roleRepo;
     private final ClientRepository clientRepo;
     private final PasswordEncoder encoder;
+    private final PasswordResetTokenService passwordResetTokenService;
 
     //Crear usuario
     public Long createUser (CreateUserRequest req){
@@ -79,6 +81,10 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public void deleteById(Long id) {
+
+        //Eliminar los tokens asociados al usuario
+        passwordResetTokenService.deleteByUserId(id);
+
         if (!userRepo.existsById(id)) {
             throw new IllegalArgumentException("Usuario no encontrado");
         }
