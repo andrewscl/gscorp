@@ -1,11 +1,15 @@
 package com.gscorp.dv1.controllers;
 
+
+import java.io.IOException;
+import java.net.URLEncoder;
+
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -24,9 +28,11 @@ public class AuthController {
     }
 
     @GetMapping("/define-password")
-    public String getDefinePasswordView(@RequestParam("token") String token, Model model) {
-        //Redirige al Shell Auth y pasa el token como parametro
-        return "redirect:/shell/auth?target=/auth/define-password?token=" + token;
+    public String redirectToShell(@RequestParam String token,
+                        HttpServletResponse response) throws IOException {
+        String target = "/auth/define-password?token=" + URLEncoder.encode(token, "UTF-8");
+        response.sendRedirect("/shell/auth?target=" + URLEncoder.encode(target, "UTF-8"));
+        return null; // o void
     }
 
 }
