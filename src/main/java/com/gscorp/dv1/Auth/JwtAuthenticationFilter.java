@@ -34,13 +34,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
                             throws ServletException, IOException {
 
         String path = request.getServletPath();
-        if(path.startsWith("/css/") ||
-           path.startsWith("/js/") ||
-           path.startsWith("/img/") ||
-           path.startsWith("/videos/") ||
-           path.startsWith("/favicon.ico/") ||
-           path.startsWith("/webjars/") ||
-           path.startsWith("/icons/")) {
+        if  (path.startsWith("/css/") ||
+            path.startsWith("/js/") ||
+            path.startsWith("/img/") ||
+            path.startsWith("/videos/") ||
+            path.startsWith("/favicon.ico/") ||
+            path.startsWith("/webjars/") ||
+            path.startsWith("/icons/") ||
+
+            //ignorar endpoints publicos
+            path.equals("/auth/define-password") ||
+            path.equals("/auth/set-password") ||
+            path.equals("/auth/signin") ||
+            path.startsWith("/public/")
+
+           ) {
             filterChain.doFilter(request, reponse);
             return;
            }
