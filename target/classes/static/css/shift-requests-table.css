@@ -1,0 +1,321 @@
+/* ===== Shift Requests (tabla + modal) ===== */
+.shift-requests-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.shift-requests-header h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+  color: #1f2937;
+}
+.shift-requests-header .btn-primary {
+  padding: 0.5rem 1rem;
+  background-color: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background-color 0.2s;
+}
+.shift-requests-header .btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+.shift-request-table-container {
+  padding: 1.5rem;
+  background-color: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+.shift-request-table-container .shift-requests-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Roboto", sans-serif;
+}
+.shift-request-table-container .shift-requests-table thead {
+  background-color: #f3f4f6;
+}
+.shift-request-table-container .shift-requests-table thead th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  color: #374151;
+  border-bottom: 2px solid #e5e7eb;
+}
+.shift-request-table-container .shift-requests-table tbody tr {
+  border-bottom: 1px solid #e5e7eb;
+}
+.shift-request-table-container .shift-requests-table tbody tr:hover {
+  background-color: #f9fafb;
+}
+.shift-request-table-container .shift-requests-table tbody tr td {
+  padding: 0.75rem 1rem;
+  color: #4b5563;
+  font-size: 0.95rem;
+  vertical-align: middle;
+}
+.shift-request-table-container .shift-requests-table tbody tr td .tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8rem;
+  border-radius: 0.375rem;
+  background: #e5e7eb;
+  color: #111827;
+  /* Puedes personalizar colores por tipo o status con clases */
+}
+.shift-request-table-container .shift-requests-table tbody tr td .tag.FIXED {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+.shift-request-table-container .shift-requests-table tbody tr td .tag.SPORADIC {
+  background: #fef3c7;
+  color: #92400e;
+}
+.shift-request-table-container .shift-requests-table tbody tr td .tag.PENDING {
+  background: #fef9c3;
+  color: #b45309;
+}
+.shift-request-table-container .shift-requests-table tbody tr td .tag.CONFIRMED {
+  background: #dcfce7;
+  color: #065f46;
+}
+.shift-request-table-container .shift-requests-table tbody tr td .tag.CANCELLED {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+.shift-request-table-container .shift-requests-table tbody tr td.actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.shift-request-table-container .shift-requests-table tbody tr td.actions .btn-link {
+  background-color: #e5e7eb;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  text-decoration: none;
+  color: #111827;
+  transition: background-color 0.2s;
+}
+.shift-request-table-container .shift-requests-table tbody tr td.actions .btn-link:hover {
+  background-color: #d1d5db;
+}
+
+/* ===== Modal Crear Shift Request ===== */
+#createShiftRequestModal.hidden {
+  display: none;
+}
+#createShiftRequestModal .modal-dialog {
+  background: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  max-width: 560px;
+  margin: 10vh auto;
+  overflow: hidden;
+}
+#createShiftRequestModal .modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+#createShiftRequestModal .modal-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+}
+#createShiftRequestModal .modal-header .modal-close {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #6b7280;
+}
+#createShiftRequestModal .modal-header .modal-close:hover {
+  color: #111827;
+}
+#createShiftRequestModal .modal-body {
+  padding: 1rem 1.25rem;
+}
+#createShiftRequestModal .modal-body .form-group {
+  display: grid;
+  gap: 0.4rem;
+  margin-bottom: 0.9rem;
+}
+#createShiftRequestModal .modal-body .form-group label {
+  font-size: 0.9rem;
+  color: #374151;
+  font-weight: 500;
+}
+#createShiftRequestModal .modal-body .form-group input[type=text],
+#createShiftRequestModal .modal-body .form-group input[type=date],
+#createShiftRequestModal .modal-body .form-group input[type=datetime-local],
+#createShiftRequestModal .modal-body .form-group select,
+#createShiftRequestModal .modal-body .form-group textarea {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 0.95rem;
+}
+#createShiftRequestModal .modal-body .form-group input[type=text]:focus,
+#createShiftRequestModal .modal-body .form-group input[type=date]:focus,
+#createShiftRequestModal .modal-body .form-group input[type=datetime-local]:focus,
+#createShiftRequestModal .modal-body .form-group select:focus,
+#createShiftRequestModal .modal-body .form-group textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+#createShiftRequestModal .modal-body .form-group textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+#createShiftRequestModal .modal-body .modal-footer {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-top: 0.75rem;
+}
+#createShiftRequestModal .modal-body .modal-footer .btn-primary,
+#createShiftRequestModal .modal-body .modal-footer .btn-secondary {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+#createShiftRequestModal .modal-body .modal-footer .btn-primary {
+  background: #2563eb;
+  color: #fff;
+}
+#createShiftRequestModal .modal-body .modal-footer .btn-primary:hover {
+  background: #1d4ed8;
+}
+#createShiftRequestModal .modal-body .modal-footer .btn-secondary {
+  background: #e5e7eb;
+  color: #111827;
+}
+#createShiftRequestModal .modal-body .modal-footer .btn-secondary:hover {
+  background: #d1d5db;
+}
+#createShiftRequestModal .modal-body .form-error {
+  margin-top: 0.5rem;
+  color: #b91c1c;
+  font-size: 0.9rem;
+}
+#createShiftRequestModal .modal-body .form-ok {
+  margin-top: 0.5rem;
+  color: #065f46;
+  font-size: 0.9rem;
+}
+
+/* ===== Responsive tweaks ===== */
+@media (max-width: 640px) {
+  .shift-requests-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+  .shift-requests-header .btn-primary {
+    width: 100%;
+  }
+  .shift-request-table-container .shift-requests-table thead {
+    display: none;
+  }
+  .shift-request-table-container .shift-requests-table tbody tr {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.25rem 0.75rem;
+    padding: 0.75rem 0;
+  }
+  .shift-request-table-container .shift-requests-table tbody tr td {
+    padding: 0.25rem 0.25rem;
+  }
+  .shift-request-table-container .shift-requests-table tbody tr td:nth-child(1)::before {
+    content: "ID";
+    font-weight: 600;
+    display: block;
+    color: #6b7280;
+  }
+  .shift-request-table-container .shift-requests-table tbody tr td:nth-child(2)::before {
+    content: "Code";
+    font-weight: 600;
+    display: block;
+    color: #6b7280;
+  }
+  .shift-request-table-container .shift-requests-table tbody tr td:nth-child(3)::before {
+    content: "Site";
+    font-weight: 600;
+    display: block;
+    color: #6b7280;
+  }
+  .shift-request-table-container .shift-requests-table tbody tr td:nth-child(4)::before {
+    content: "Type";
+    font-weight: 600;
+    display: block;
+    color: #6b7280;
+  }
+  .shift-request-table-container .shift-requests-table tbody tr td:nth-child(5)::before {
+    content: "Start Date";
+    font-weight: 600;
+    display: block;
+    color: #6b7280;
+  }
+  .shift-request-table-container .shift-requests-table tbody tr td:nth-child(6)::before {
+    content: "End Date";
+    font-weight: 600;
+    display: block;
+    color: #6b7280;
+  }
+  .shift-request-table-container .shift-requests-table tbody tr td:nth-child(7)::before {
+    content: "Week Days";
+    font-weight: 600;
+    display: block;
+    color: #6b7280;
+  }
+  .shift-request-table-container .shift-requests-table tbody tr td:nth-child(8)::before {
+    content: "Shift DateTime";
+    font-weight: 600;
+    display: block;
+    color: #6b7280;
+  }
+  .shift-request-table-container .shift-requests-table tbody tr td:nth-child(9)::before {
+    content: "Status";
+    font-weight: 600;
+    display: block;
+    color: #6b7280;
+  }
+  .shift-request-table-container .shift-requests-table tbody tr td:nth-child(10)::before {
+    content: "Description";
+    font-weight: 600;
+    display: block;
+    color: #6b7280;
+  }
+  .shift-request-table-container .shift-requests-table tbody tr td:nth-child(11) {
+    grid-column: 1/-1;
+    margin-top: 0.25rem;
+  }
+  .shift-request-table-container .shift-requests-table tbody tr td:nth-child(11)::before {
+    content: "Actions";
+    font-weight: 600;
+    display: block;
+    color: #6b7280;
+    margin-bottom: 0.25rem;
+  }
+  .shift-request-table-container .shift-requests-table tbody tr td.actions {
+    justify-content: flex-start;
+  }
+}/*# sourceMappingURL=shift-requests-table.css.map */
