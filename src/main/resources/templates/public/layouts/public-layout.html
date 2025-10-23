@@ -46,7 +46,7 @@
     <header th:replace="~{public/fragments/mega-menu :: mega-menu}">[header]</header>
 
     <section id="content" class="content">
-            <div th:replace="~{__${index}__}"></div>
+            <div th:replace="~{${index}}"></div>
     </section>
 
     <section th:replace="~{shared/fragments/chat :: chat}"></section>
