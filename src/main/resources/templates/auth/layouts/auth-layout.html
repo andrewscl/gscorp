@@ -18,7 +18,7 @@
 <body data-layout="auth">
 
     <section id="content" class="content">
-        <div th:replace="~{${auth}}"></div>
+        <div th:replace="~{__${auth}__}"></div>
     </section>
 
     <script type="module" src="/js/init-router.js"></script>
