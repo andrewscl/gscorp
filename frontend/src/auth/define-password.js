@@ -34,7 +34,7 @@ async function onSubmitDefinePassword(e) {
   submitBtn && (submitBtn.disabled = true);
 
   try {
-    const res = await fetchWithAuth('/api/users/set-password', {
+    const res = await fetchWithAuth('/auth/api/set-password', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token, password })
@@ -50,7 +50,7 @@ async function onSubmitDefinePassword(e) {
     if (ok) ok.style.display = 'block';
     qs('#definePasswordForm').style.display = 'none';
     setTimeout(() => {
-      navigateTo('/login');
+      navigateTo('/auth/signin');
     }, 1300);
   } catch (e2) {
     if (err) err.textContent = e2.message;
