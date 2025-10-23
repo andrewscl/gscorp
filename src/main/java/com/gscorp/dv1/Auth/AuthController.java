@@ -38,6 +38,13 @@ public class AuthController {
         // 1. Buscar el token
         Optional<PasswordResetToken> opt = passwordResetTokenService.findByToken(token);
 
+        System.out.println("TOKEN RECIBIDO: " + token);
+        System.out.println("TOKEN ENCONTRADO: " + opt);
+        if (opt.isPresent()) {
+            System.out.println("TOKEN EXPIRADO: " + opt.get().isExpired());
+            System.out.println("TOKEN USADO: " + opt.get().isUsed());
+        }
+
         // 2. Validar usando el service
         if (opt.isEmpty() || !passwordResetTokenService.isValid(opt.get())) {
             model.addAttribute("error", "El enlace es inválido o ha expirado.");
