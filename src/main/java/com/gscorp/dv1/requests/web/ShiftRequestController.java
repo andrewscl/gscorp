@@ -40,13 +40,13 @@ public class ShiftRequestController {
     public String showShiftRequest (@PathVariable Long id, Model model){
         var shiftRequest = shiftRequestService.findById(id);
         model.addAttribute("shiftRequest", shiftRequest);
-        return "private/shift-requests/views/view-shift-request-view";
+        return "private/requests/views/view-shift-request-view";
     }
 
     @GetMapping("/edit/{id}")
     public String editShiftRequest (@PathVariable Long id, Model model){
         var shiftRequest = shiftRequestService.findById(id);
         model.addAttribute("shiftRequest", shiftRequest);
-        return "private/shift-requests/views/edit-shift-request-view";
+        return "private/requests/views/edit-shift-request-view";
     }
 }
