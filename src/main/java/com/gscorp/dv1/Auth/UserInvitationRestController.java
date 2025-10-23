@@ -1,7 +1,6 @@
 package com.gscorp.dv1.auth;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
+import java.time.Duration;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gscorp.dv1.auth.application.PasswordResetTokenService;
+import com.gscorp.dv1.auth.infrastructure.PasswordResetToken;
 import com.gscorp.dv1.services.GmailService;
 import com.gscorp.dv1.users.application.UserService;
 import com.gscorp.dv1.users.infrastructure.User;
@@ -23,18 +24,16 @@ public class UserInvitationRestController {
 
     private final UserService userService;
     private final GmailService gmailService;
+    private final PasswordResetTokenService passwordResetTokenService;
 
     @PostMapping("/invite")
     public ResponseEntity<?> inviteUser(@RequestBody InviteUserRequest request) {
         // Crear el usuario invitado
         User user = userService.createInvitedUser(request);
 
-        // Generar token y expiración
-        String token = UUID.randomUUID().toString();
-        user.setInvitationToken(token);
-        user.setInvitationTokenExpiry(LocalDateTime.now().plusHours(24));
-        user.setPassword(null);
-        userService.save(user);
+        // Crear el token de invitación (válido por 24 horas)
+        PasswordResetToken token = passwordResetTokenService.
+                                            createToken(user, Duration.ofHours(24));
 
         // Enviar el correo de invitación con diseño mejorado y logo
         String subject = "Bienvenido a GSCorp";
