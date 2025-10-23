@@ -18,7 +18,7 @@ import com.gscorp.dv1.users.web.dto.SetPasswordRequest;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/auth/api")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthRestController {
 

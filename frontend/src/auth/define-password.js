@@ -34,7 +34,7 @@ async function onSubmitDefinePassword(e) {
   submitBtn && (submitBtn.disabled = true);
 
   try {
-    const res = await fetchWithAuth('/auth/api/set-password', {
+    const res = await fetchWithAuth('/auth/set-password', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token, password })
