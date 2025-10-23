@@ -1,0 +1,82 @@
+<div th:fragment="content" class="createShiftRequest">
+
+  <div class="createShiftRequestHeader">
+    <h3>Crear Solicitud de Turno</h3>
+    <button type="button" class="modal-close" id="closeCreateShiftRequest">&times;</button>
+  </div>
+
+  <form id="createShiftRequestForm" class="createShiftRequest-body">
+    <div class="form-group">
+      <label for="shiftRequestCode">Código</label>
+      <input type="text" id="shiftRequestCode" name="code" placeholder="Código único (ej: TR001)" required />
+    </div>
+    <div class="form-group">
+      <label for="shiftRequestSite">Sitio</label>
+      <select id="shiftRequestSite" name="siteId" required>
+        <option value="">Seleccione sitio</option>
+        <option th:each="s : ${sites}" th:value="${s.id}" th:text="${s.name}"></option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="shiftRequestType">Tipo</label>
+      <select id="shiftRequestType" name="type" required>
+        <option value="">Seleccione tipo</option>
+        <option value="FIXED">Fijo</option>
+        <option value="SPORADIC">Esporádico</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="shiftRequestStartDate">Fecha inicio</label>
+        <input type="date" id="shiftRequestStartDate" name="startDate" required />
+      </div>
+      <div class="form-group">
+        <label for="shiftRequestEndDate">Fecha término</label>
+        <input type="date" id="shiftRequestEndDate" name="endDate" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="shiftRequestWeekDays">Días de la semana (para FIXED)</label>
+      <input type="text" id="shiftRequestWeekDays" name="weekDays" placeholder="Ej: MONDAY,WEDNESDAY" />
+    </div>
+    <div class="form-group">
+      <label for="shiftRequestShiftDateTime">Fecha y Hora del Turno (para SPORADIC)</label>
+      <input type="datetime-local" id="shiftRequestShiftDateTime" name="shiftDateTime" />
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="shiftRequestStartTime">Hora inicio</label>
+        <input type="time" id="shiftRequestStartTime" name="startTime" />
+      </div>
+      <div class="form-group">
+        <label for="shiftRequestEndTime">Hora término</label>
+        <input type="time" id="shiftRequestEndTime" name="endTime" />
+      </div>
+      <div class="form-group">
+        <label for="shiftRequestLunchTime">Hora de colación</label>
+        <input type="time" id="shiftRequestLunchTime" name="lunchTime" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="shiftRequestStatus">Estado</label>
+      <select id="shiftRequestStatus" name="status" required>
+        <option value="">Seleccione estado</option>
+        <option value="PENDING">Pendiente</option>
+        <option value="CONFIRMED">Confirmado</option>
+        <option value="CANCELLED">Cancelado</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="shiftRequestDescription">Descripción</label>
+      <textarea id="shiftRequestDescription" name="description" placeholder="Descripción"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn-primary">Crear</button>
+      <button type="button" class="btn-secondary" id="cancelCreateShiftRequest">Cancelar</button>
+    </div>
+    <div class="form-error" id="createShiftRequestError"></div>
+    <div class="form-ok" id="createShiftRequestOk" style="display:none;">Solicitud de turno creada ✅</div>
+  </form>
+
+  <script type="module" src="/js/private/shift-requests/create-shift-request.js"></script>
+</div>
