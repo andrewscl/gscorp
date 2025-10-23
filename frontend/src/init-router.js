@@ -94,7 +94,7 @@ window.initRouter = async () => {
   //Carga chrome del rol si estamos en shell/private
   await loadChromeIfNeeded();
 
-  const target = sessionStorage.getItem("postLoginTarget");
+  let target = sessionStorage.getItem("postLoginTarget");
 
   if (!target) {
     // Si no está en sessionStorage, lo tomamos de la URL del shell

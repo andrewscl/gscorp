@@ -13,47 +13,18 @@ import { fetchWithAuth } from './auth.js';
         return;
     }
 
-    // Detecta si realmente el layout está cargado
-    function isLayoutLoaded(layout) {
-      // busca un CSS característico de ese layout
-      if (layout === 'auth') {
-        return !!document.querySelector('link[href*="define-password.css"]');
-      }
-      if (layout === 'private') {
-        return !!document.querySelector('link[href*="private-dashboard.css"]');
-      }
-      if (layout === 'public') {
-        return !!document.querySelector('link[href*="index.css"]');
-      }
-      return true;
-    }
-
-    const isFirstLoad = !isLayoutLoaded(targetLayout);
-
     const changeLayout = targetLayout !== currentLayout;
 
-    if (!force && (changeLayout || isFirstLoad)) {
+    if (!force && changeLayout) {
         console.warn(`[navigateTo] Cambio de layout: 
                         ${currentLayout} -> ${targetLayout}`);
-        
-        /*const token = localStorage.getItem("jwt");
-        const isPrivate = 
-                targetLayout ==='private' || targetLayout === 'admin';
-        
-        //Si requiere token, forzamos navigateTo tras layout reload
-        if(isPrivate && token) {
-
-            sessionStorage.setItem("postLoginTarget", path);
-            window.location.href = `/shell/${targetLayout}`;
-            return;
-        }*/
 
         sessionStorage.setItem("postLoginTarget", path);
         window.location.href = `/shell/${targetLayout}`;
         return;
     }
 
-    console.log({ force, changeLayout, isFirstLoad, targetLayout, currentLayout });
+    console.log({ force, changeLayout, targetLayout, currentLayout });
     console.log("isLayoutLoaded(targetLayout):", isLayoutLoaded(targetLayout));
 
     try {
