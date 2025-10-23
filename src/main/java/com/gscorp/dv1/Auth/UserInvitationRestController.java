@@ -67,7 +67,7 @@ public class UserInvitationRestController {
                 </p>
             </div>
             </div>
-            """.formatted(user.getUsername(), token, token, token);
+            """.formatted(user.getUsername(), token.getToken(), token.getToken(), token.getToken());
 
         try {
             gmailService.sendMail(user.getMail(), subject, htmlBody);
