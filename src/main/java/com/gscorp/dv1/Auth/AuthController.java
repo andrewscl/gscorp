@@ -22,13 +22,13 @@ public class AuthController {
     private final PasswordResetTokenService passwordResetTokenService;
 
     @GetMapping("/signup")
-    public String showSignUpForm () {
-        return "auth/views/signup-view";
+    public String showSignUpForm (Model model, HttpServletRequest req) {
+        return render("auth/views/signup-view", model, req);
     }
 
     @GetMapping("/signin")
-    public String showSignInForm () {
-        return "auth/views/signin-view";
+    public String showSignInForm (Model model, HttpServletRequest req) {
+        return render("auth/views/signin-view", model, req);
     }
 
     @GetMapping("/define-password")
