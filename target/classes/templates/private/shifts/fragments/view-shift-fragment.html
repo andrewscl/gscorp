@@ -1,0 +1,41 @@
+<section th:fragment="content" class="detail-section view-shift">
+
+  <h2>Ver Turno</h2>
+  <p class="meta-id"><strong>ID:</strong> <span th:text="${shift.id}"></span></p>
+
+  <form id="viewShiftForm" class="card form">
+
+    <div class="form-group">
+      <label for="shiftSite">Sitio</label>
+      <input id="shiftSite" name="site" type="text"
+             th:value="${shift.site != null ? shift.site.name : '—'}" readonly tabindex="-1" />
+    </div>
+
+    <div class="form-group">
+      <label for="shiftStartTs">Fecha y Hora de Inicio</label>
+      <input id="shiftStartTs" name="startTs" type="datetime-local"
+             th:value="${#dates.format(shift.startTs, 'yyyy-MM-dd\'T\'HH:mm')}" readonly tabindex="-1" />
+    </div>
+
+    <div class="form-group">
+      <label for="shiftEndTs">Fecha y Hora de Término</label>
+      <input id="shiftEndTs" name="endTs" type="datetime-local"
+             th:value="${#dates.format(shift.endTs, 'yyyy-MM-dd\'T\'HH:mm')}" readonly tabindex="-1" />
+    </div>
+
+    <div class="form-group">
+      <label for="shiftPlannedGuards">Guardias Planificados</label>
+      <input id="shiftPlannedGuards" name="plannedGuards" type="number"
+             th:value="${shift.plannedGuards}" readonly tabindex="-1" />
+    </div>
+
+    <div class="actions">
+      <a class="vs-btn vs-secondary" href="#"
+         data-path="/private/shifts/table-view">Volver al listado</a>
+    </div>
+
+    <div id="viewShiftError" class="form-error"></div>
+    <div id="viewShiftOk" class="form-ok" style="display:none;">Cambios guardados ✅</div>
+  </form>
+
+</section>
