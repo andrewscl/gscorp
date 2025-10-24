@@ -183,4 +183,12 @@ public class UserServiceImpl implements UserService{
     public void save(User user) {
         userRepo.save(user);
     }
+
+    @Override
+    public Boolean isAdmin(User user) {
+        return user.getRoles().stream()
+            .anyMatch(role -> role.getRole().
+                                    equals("ADMINISTRATOR"));
+    }
+
 }

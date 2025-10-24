@@ -17,4 +17,6 @@ public interface UserService {
     Boolean isInvitationTokenValid(String token);
     Boolean setPasswordFromInvitation(String token, String password);
     void save(User user);
+
+    Boolean isAdmin(User user);
 }
