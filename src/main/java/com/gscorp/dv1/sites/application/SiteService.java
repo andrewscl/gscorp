@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.gscorp.dv1.sites.infrastructure.Site;
+import com.gscorp.dv1.sites.web.dto.SetSiteCoordinatesDto;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
 import com.gscorp.dv1.sites.web.dto.UpdateLatLon;
 
@@ -15,4 +16,5 @@ public interface SiteService {
     Site findByIdWithProjects(Long id);
     Site updateSiteLocation(Long id, UpdateLatLon updateLatLon);
     SiteDto updateSite(Long id, SiteDto siteDto);
+    SetSiteCoordinatesDto setCoordinates(Long siteId, Double latitude, Double longitude);
 }

@@ -1,15 +1,12 @@
 // Archivo: /js/private/sites/set-coordinates.js
 
-// Asume que Google Maps API ya está cargado en la página
-// El formulario espera: #site-coordinates-form, campos #site-select, #site-latitude, #site-longitude
-// y un mapa en #site-map. El botón "Usar mi ubicación actual": #set-current-location
-
 const LAT_INPUT_ID = 'site-latitude';
 const LON_INPUT_ID = 'site-longitude';
 const SITE_SELECT_ID = 'site-select';
 const MAP_CONTAINER_ID = 'site-map';
 const FORM_ID = 'site-coordinates-form';
 const BTN_GPS_ID = 'set-current-location';
+const BTN_CANCEL_ID = 'cancel-set-coordinates';
 const ERROR_ID = 'site-coordinates-error';
 const OK_ID = 'site-coordinates-ok';
 
@@ -150,6 +147,25 @@ function onSiteChange(sites) {
   });
 }
 
+function resetFormAndMap() {
+  // Limpia campos
+  document.getElementById(LAT_INPUT_ID).value = '';
+  document.getElementById(LON_INPUT_ID).value = '';
+  // Opcional: limpia el marker del mapa
+  if (marker) {
+    marker.setMap(null);
+    marker = null;
+  }
+  // Opcional: centra el mapa en el punto inicial
+  if (map) {
+    map.setCenter({ lat: -33.45, lng: -70.65 });
+  }
+  // Limpia mensajes
+  showError("");
+  const ok = document.getElementById(OK_ID);
+  if (ok) ok.style.display = "none";
+}
+
 // Espera a que Google Maps esté cargado y el DOM listo
 async function initSiteCoordinatesFragment() {
   // Si tienes sites con lat/lon, pásalos aquí
@@ -177,6 +193,15 @@ async function initSiteCoordinatesFragment() {
       e.preventDefault();
       const endpoint = form.dataset.endpoint || '/api/sites/set-coordinates';
       postCoordinates(form, endpoint);
+    });
+  }
+
+  // Botón cancelar: limpia el formulario y resetea el mapa
+  const btnCancel = document.getElementById(BTN_CANCEL_ID);
+  if (btnCancel) {
+    btnCancel.addEventListener('click', (e) => {
+      e.preventDefault();
+      resetFormAndMap();
     });
   }
 }

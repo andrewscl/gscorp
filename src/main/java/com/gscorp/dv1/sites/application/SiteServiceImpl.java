@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gscorp.dv1.sites.infrastructure.Site;
 import com.gscorp.dv1.sites.infrastructure.SiteRepository;
+import com.gscorp.dv1.sites.web.dto.SetSiteCoordinatesDto;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
 import com.gscorp.dv1.sites.web.dto.UpdateLatLon;
 
@@ -121,4 +122,14 @@ public SiteDto updateSite(Long id, SiteDto siteDto) {
     );
 }
 
+    @Override
+    @Transactional
+    public SetSiteCoordinatesDto setCoordinates(Long siteId, Double latitude, Double longitude) {
+        Site site = siteRepository.findById(siteId)
+                .orElseThrow(() -> new IllegalArgumentException("Site no encontrado: " + siteId));
+        site.setLat(latitude);
+        site.setLon(longitude);
+        siteRepository.save(site);
+        return new SetSiteCoordinatesDto(site.getId(), site.getLat(), site.getLon());
+    }
 }
