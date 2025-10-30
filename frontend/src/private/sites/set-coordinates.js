@@ -1,4 +1,7 @@
-// Archivo: /js/private/sites/set-coordinates.js
+import { fetchWithAuth } from '../../auth.js';
+import { navigateTo } from '../../navigation-handler.js';
+
+const qs = (s) => document.querySelector(s);
 
 const LAT_INPUT_ID = 'site-latitude';
 const LON_INPUT_ID = 'site-longitude';
@@ -13,8 +16,8 @@ const OK_ID = 'site-coordinates-ok';
 let map, marker;
 
 function setLatLonFields(lat, lon) {
-  document.getElementById(LAT_INPUT_ID).value = lat.toFixed(7);
-  document.getElementById(LON_INPUT_ID).value = lon.toFixed(7);
+  qs(`#${LAT_INPUT_ID}`).value = lat.toFixed(7);
+  qs(`#${LON_INPUT_ID}`).value = lon.toFixed(7);
 }
 
 function setMarkerPosition(lat, lon) {
@@ -38,14 +41,14 @@ function setMarkerPosition(lat, lon) {
 }
 
 function showError(msg) {
-  const err = document.getElementById(ERROR_ID);
+  const err = qs(`#${ERROR_ID}`);
   if (err) err.textContent = msg || "";
-  const ok = document.getElementById(OK_ID);
+  const ok = qs(`#${OK_ID}`);
   if (ok) ok.style.display = "none";
 }
 
 function showOk(msg) {
-  const ok = document.getElementById(OK_ID);
+  const ok = qs(`#${OK_ID}`);
   if (ok) {
     ok.textContent = msg || "Coordenadas guardadas ✅";
     ok.style.display = "";
@@ -54,7 +57,7 @@ function showOk(msg) {
 }
 
 function initMap(latInit = -33.45, lonInit = -70.65, zoom = 16) {
-  const mapDiv = document.getElementById(MAP_CONTAINER_ID);
+  const mapDiv = qs(`#${MAP_CONTAINER_ID}`);
   if (!mapDiv || !window.google || !google.maps) return;
 
   map = new google.maps.Map(mapDiv, {
@@ -94,7 +97,6 @@ function setCurrentLocation() {
 }
 
 function fillFieldsFromSite(site) {
-  // Si site tiene lat/lon, usa esos valores
   if (site && typeof site.latitude === "number" && typeof site.longitude === "number") {
     setLatLonFields(site.latitude, site.longitude);
     setMarkerPosition(site.latitude, site.longitude);
@@ -117,7 +119,7 @@ async function postCoordinates(form, endpoint) {
 
   try {
     showError("Guardando...");
-    const res = await fetch(endpoint, {
+    const res = await fetchWithAuth(endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify(body),
@@ -128,14 +130,19 @@ async function postCoordinates(form, endpoint) {
       throw new Error(out.error || "Error al guardar coordenadas.");
     }
     showOk("Coordenadas guardadas ✅");
+    setTimeout(() => {
+      // Opcional: navega al listado de sitios o cierra el fragmento/modal
+      // navigateTo('/private/sites/table-view');
+      // O simplemente limpia el form:
+      resetFormAndMap();
+    }, 800);
   } catch (e) {
     showError("No se pudo guardar: " + (e.message || e));
   }
 }
 
 function onSiteChange(sites) {
-  // Si quieres cargar la lat/lon del site seleccionado (si existe), puedes hacerlo aquí
-  const select = document.getElementById(SITE_SELECT_ID);
+  const select = qs(`#${SITE_SELECT_ID}`);
   if (!select) return;
   select.addEventListener('change', () => {
     const siteId = select.value;
@@ -148,32 +155,24 @@ function onSiteChange(sites) {
 }
 
 function resetFormAndMap() {
-  // Limpia campos
-  document.getElementById(LAT_INPUT_ID).value = '';
-  document.getElementById(LON_INPUT_ID).value = '';
-  // Opcional: limpia el marker del mapa
+  qs(`#${LAT_INPUT_ID}`).value = '';
+  qs(`#${LON_INPUT_ID}`).value = '';
   if (marker) {
     marker.setMap(null);
     marker = null;
   }
-  // Opcional: centra el mapa en el punto inicial
   if (map) {
     map.setCenter({ lat: -33.45, lng: -70.65 });
   }
-  // Limpia mensajes
   showError("");
-  const ok = document.getElementById(OK_ID);
+  const ok = qs(`#${OK_ID}`);
   if (ok) ok.style.display = "none";
 }
 
-// Espera a que Google Maps esté cargado y el DOM listo
 async function initSiteCoordinatesFragment() {
-  // Si tienes sites con lat/lon, pásalos aquí
-  // Ejemplo: window.siteList = [{id, name, latitude, longitude}, ...]
   const sites = window.siteList || [];
-  const select = document.getElementById(SITE_SELECT_ID);
+  const select = qs(`#${SITE_SELECT_ID}`);
 
-  // Centra el mapa en el primer sitio con coordenadas, o en Santiago por defecto
   let latInit = -33.45, lonInit = -70.65;
   if (sites.length && typeof sites[0].latitude === "number" && typeof sites[0].longitude === "number") {
     latInit = sites[0].latitude;
@@ -181,13 +180,11 @@ async function initSiteCoordinatesFragment() {
   }
   initMap(latInit, lonInit);
 
-  document.getElementById(BTN_GPS_ID)?.addEventListener('click', setCurrentLocation);
+  qs(`#${BTN_GPS_ID}`)?.addEventListener('click', setCurrentLocation);
 
-  // Al cambiar el sitio, actualizar el marcador si hay coordenadas
   if (sites.length && select) onSiteChange(sites);
 
-  // Al enviar el form, POST coordenadas
-  const form = document.getElementById(FORM_ID);
+  const form = qs(`#${FORM_ID}`);
   if (form) {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -197,16 +194,17 @@ async function initSiteCoordinatesFragment() {
   }
 
   // Botón cancelar: limpia el formulario y resetea el mapa
-  const btnCancel = document.getElementById(BTN_CANCEL_ID);
+  const btnCancel = qs(`#${BTN_CANCEL_ID}`);
   if (btnCancel) {
     btnCancel.addEventListener('click', (e) => {
       e.preventDefault();
       resetFormAndMap();
+      // Opcional: navega al listado o cierra modal/fragment
+      // navigateTo('/private/sites/table-view');
     });
   }
 }
 
-// Reintenta si Google Maps aún no está listo
 function waitGoogleMapsAndInit(retry = 0) {
   if (window.google && window.google.maps) {
     initSiteCoordinatesFragment();

@@ -49,7 +49,6 @@
         }
       }
 
-      /* Botón secundario */
       .btn.btn-secondary {
         background: #f1f5f9;
         color: #2563eb;
@@ -101,6 +100,16 @@
       }
     }
 
+    .modal-footer-cancel {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 0;
+      .btn-secondary {
+        min-width: 140px;
+        margin-top: 0.2rem;
+      }
+    }
+
     .form-error {
       color: #e11d48;
       font-size: .97rem;
@@ -142,6 +151,14 @@
     #site-coordinates-form .form-row {
       flex-direction: column;
       gap: .5rem;
+    }
+    #site-coordinates-form .modal-footer,
+    #site-coordinates-form .modal-footer-cancel {
+      justify-content: stretch;
+    }
+    #site-coordinates-form .modal-footer .btn-primary,
+    #site-coordinates-form .modal-footer-cancel .btn-secondary {
+      width: 100%;
     }
   }
 }
