@@ -35,10 +35,34 @@
         <input type="date" id="shiftRequestEndDate" name="endDate" />
       </div>
     </div>
+
     <div class="form-group">
-      <label for="shiftRequestWeekDays">Días de la semana (para FIXED)</label>
-      <input type="text" id="shiftRequestWeekDays" name="weekDays" placeholder="Ej: MONDAY,WEDNESDAY" />
+      <label>Días de la semana (para FIXED)</label>
+      <div class="weekdays-checkbox-group">
+        <label>
+          <input type="checkbox" name="weekDays" value="MONDAY"> Lunes
+        </label>
+        <label>
+          <input type="checkbox" name="weekDays" value="TUESDAY"> Martes
+        </label>
+        <label>
+          <input type="checkbox" name="weekDays" value="WEDNESDAY"> Miércoles
+        </label>
+        <label>
+          <input type="checkbox" name="weekDays" value="THURSDAY"> Jueves
+        </label>
+        <label>
+          <input type="checkbox" name="weekDays" value="FRIDAY"> Viernes
+        </label>
+        <label>
+          <input type="checkbox" name="weekDays" value="SATURDAY"> Sábado
+        </label>
+        <label>
+          <input type="checkbox" name="weekDays" value="SUNDAY"> Domingo
+        </label>
+      </div>
     </div>
+
     <div class="form-group">
       <label for="shiftRequestShiftDateTime">Fecha y Hora del Turno (para SPORADIC)</label>
       <input type="datetime-local" id="shiftRequestShiftDateTime" name="shiftDateTime" />
