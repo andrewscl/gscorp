@@ -70,8 +70,6 @@
   font-weight: 600;
   background: #e5f3ff;
   color: #075985;
-  /* si usas texto exacto, puedes matchear con :contains() sólo en JS.
-     Si quieres dos estilos, añade una clase .is-active / .is-inactive desde el servidor. */
 }
 .site-table-container .sites-table tbody tr td .tag.is-active {
   background: #dcfce7;
@@ -100,7 +98,7 @@
   background-color: #d1d5db;
 }
 
-/* ====== Modal crear sitio (reusa estilos si ya los tienes) ====== */
+/* ====== Modal crear sitio (corregido para altura y scroll) ====== */
 #createSiteModal.modal {
   position: fixed;
   inset: 0;
@@ -118,6 +116,9 @@
   border-radius: 0.75rem;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
   overflow: hidden;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
 }
 #createSiteModal.modal .modal-header {
   display: flex;
@@ -147,31 +148,8 @@
   padding: 1rem 1.25rem;
   display: grid;
   gap: 0.9rem;
-}
-#createSiteModal.modal .modal-body .form-group {
-  display: grid;
-  gap: 0.35rem;
-}
-#createSiteModal.modal .modal-body .form-group label {
-  font-size: 0.9rem;
-  color: #374151;
-  font-weight: 500;
-}
-#createSiteModal.modal .modal-body .form-group input, #createSiteModal.modal .modal-body .form-group select {
-  width: 100%;
-  padding: 0.55rem 0.7rem;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.5rem;
-  font-size: 0.95rem;
-}
-#createSiteModal.modal .modal-body .form-group input:focus, #createSiteModal.modal .modal-body .form-group select:focus {
-  outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-}
-#createSiteModal.modal .modal-body .form-group small {
-  color: #6b7280;
-  font-size: 0.8rem;
+  overflow-y: auto;
+  max-height: 60vh;
 }
 #createSiteModal.modal .modal-footer {
   display: flex;
@@ -237,5 +215,12 @@
   }
   .site-table-container .sites-table tbody tr td.actions {
     justify-content: flex-start;
+  }
+  #createSiteModal .modal-dialog {
+    width: 98vw;
+    max-height: 99vh;
+  }
+  #createSiteModal .modal-body {
+    max-height: 73vh;
   }
 }/*# sourceMappingURL=site-table.css.map */
