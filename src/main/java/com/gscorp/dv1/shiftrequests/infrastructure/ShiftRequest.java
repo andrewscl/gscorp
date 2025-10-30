@@ -1,4 +1,4 @@
-package com.gscorp.dv1.requests.infrastructure;
+package com.gscorp.dv1.shiftrequests.infrastructure;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

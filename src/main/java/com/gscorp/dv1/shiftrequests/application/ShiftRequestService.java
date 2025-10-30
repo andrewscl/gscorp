@@ -1,9 +1,9 @@
-package com.gscorp.dv1.requests.application;
+package com.gscorp.dv1.shiftrequests.application;
 
 import java.util.List;
 import java.util.Optional;
 
-import com.gscorp.dv1.requests.infrastructure.ShiftRequest;
+import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequest;
 
 public interface ShiftRequestService {
     List<ShiftRequest> findAll();

@@ -1,4 +1,4 @@
-package com.gscorp.dv1.requests.web.dto;
+package com.gscorp.dv1.shiftrequests.web.dto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

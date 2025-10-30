@@ -1,10 +1,10 @@
-package com.gscorp.dv1.requests.web.dto;
+package com.gscorp.dv1.shiftrequests.web.dto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-import com.gscorp.dv1.requests.infrastructure.ShiftRequest;
+import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequest;
 
 public record ShiftRequestDto(
     Long id,

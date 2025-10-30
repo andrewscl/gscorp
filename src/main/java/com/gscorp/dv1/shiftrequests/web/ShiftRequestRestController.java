@@ -1,4 +1,4 @@
-package com.gscorp.dv1.requests.web;
+package com.gscorp.dv1.shiftrequests.web;
 
 import java.util.Optional;
 
@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.gscorp.dv1.requests.application.ShiftRequestService;
-import com.gscorp.dv1.requests.infrastructure.ShiftRequest;
-import com.gscorp.dv1.requests.web.dto.CreateShiftRequestRequest;
-import com.gscorp.dv1.requests.web.dto.ShiftRequestDto;
+import com.gscorp.dv1.shiftrequests.application.ShiftRequestService;
+import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequest;
+import com.gscorp.dv1.shiftrequests.web.dto.CreateShiftRequestRequest;
+import com.gscorp.dv1.shiftrequests.web.dto.ShiftRequestDto;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.infrastructure.Site;
 

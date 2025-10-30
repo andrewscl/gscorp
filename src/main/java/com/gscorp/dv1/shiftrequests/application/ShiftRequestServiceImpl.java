@@ -1,12 +1,12 @@
-package com.gscorp.dv1.requests.application;
+package com.gscorp.dv1.shiftrequests.application;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.gscorp.dv1.requests.infrastructure.ShiftRequest;
-import com.gscorp.dv1.requests.infrastructure.ShiftRequestRepository;
+import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequest;
+import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequestRepository;
 
 import lombok.RequiredArgsConstructor;
 
