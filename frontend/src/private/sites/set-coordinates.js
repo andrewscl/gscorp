@@ -134,7 +134,7 @@ async function postCoordinates(form, endpoint) {
       // Opcional: navega al listado de sitios o cierra el fragmento/modal
       // navigateTo('/private/sites/table-view');
       // O simplemente limpia el form:
-      resetFormAndMap();
+      //resetFormAndMap();
     }, 800);
   } catch (e) {
     showError("No se pudo guardar: " + (e.message || e));
@@ -200,7 +200,7 @@ async function initSiteCoordinatesFragment() {
       e.preventDefault();
       resetFormAndMap();
       // Opcional: navega al listado o cierra modal/fragment
-      // navigateTo('/private/sites/table-view');
+      navigateTo('/private/sites/table-view');
     });
   }
 }
