@@ -53,7 +53,8 @@ function showOk(msg) {
     ok.textContent = msg || "Coordenadas guardadas ✅";
     ok.style.display = "";
   }
-  showError("");
+  const err = qs(`#${ERROR_ID}`);
+  if (err) err.textContent = "";
 }
 
 function initMap(latInit = -33.45, lonInit = -70.65, zoom = 16) {

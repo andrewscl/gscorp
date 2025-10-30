@@ -39,7 +39,8 @@
             </button>
             <button type="button"
                     class="btn-link"
-                    th:attr="data-path=@{/private/sites/edit/{id}(id=${s.id})}">
+                    th:attr="data-path=@{/private/sites/edit/{id}(id=${s.id})}"
+                    th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
               Editar
             </button>
           </td>
