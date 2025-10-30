@@ -21,7 +21,7 @@ import com.gscorp.dv1.sites.infrastructure.Site;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/shift-patterns")
+@RequestMapping("/api/shifts")
 @RequiredArgsConstructor
 public class ShiftRestController {
 
