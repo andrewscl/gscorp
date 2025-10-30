@@ -14,7 +14,7 @@ public class SupervisorsController {
 
     @GetMapping("/dashboard")
     public String getSupervisorsDashboardView (Model model) {
-        return "private/supervisors/views/supervisors-dashboard-view";
+        return "private/supervisors/views/supervisor-dashboard-view";
     }
 
 }
