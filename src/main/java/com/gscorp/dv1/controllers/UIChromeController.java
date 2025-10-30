@@ -30,6 +30,9 @@ public class UIChromeController {
         if (has(auth,"ROLE_EMPLOYEE"))        
             return "private/employee/fragments/employee-menu-fragment :: sidebar";
 
+        if (has(auth,"ROLE_SUPERVISOR"))        
+            return "private/supervisors/fragments/supervisor-menu-fragment :: sidebar";
+
         return "private/default/fragments/default-menu-fragment :: sidebar";
     }
 
@@ -53,7 +56,13 @@ public class UIChromeController {
 
         if (has(auth,"ROLE_EMPLOYEE"))
             return "private/employee/fragments/employee-menu-fragment :: topbar";
-            
+
+        if (has(auth,"ROLE_EMPLOYEE"))
+            return "private/employee/fragments/employee-menu-fragment :: topbar";
+
+        if (has(auth,"ROLE_SUPERVISOR"))
+            return "private/supervisors/fragments/supervisor-menu-fragment :: topbar";
+
         return "private/default/fragments/default-menu-fragment :: topbar";
     }
 
