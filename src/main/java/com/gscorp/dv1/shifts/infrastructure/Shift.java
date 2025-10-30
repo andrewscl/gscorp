@@ -2,10 +2,15 @@ package com.gscorp.dv1.shifts.infrastructure;
 
 import java.time.OffsetDateTime;
 
+import com.gscorp.dv1.enums.ShiftStatus;
+import com.gscorp.dv1.enums.ShiftType;
+import com.gscorp.dv1.requests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.sites.infrastructure.Site;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,10 +43,34 @@ public class Shift {
     @Column(name="start_ts", nullable=false) OffsetDateTime startTs;
     @Column(name="end_ts",   nullable=false) OffsetDateTime endTs;
 
+    @Column(name="code", length=50)
+    String code;
+
+    @Column(name="description", length=500)
+    String description;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="shift_type")
+    private ShiftType shiftType;
+
+    @Column(name="week_days", length=64)
+    String weekDays;
+
+    @Column(name="lunch_time")
+    Integer lunchTime; // en minutos
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="shift_status")
+    private ShiftStatus shiftStatus;
+
     /** Guardia(s) planificados para KPI present/absent. */
 
     @Builder.Default
     @Column(nullable=false)
     private Integer plannedGuards = 1;
+
+    @ManyToOne(optional=true, fetch=FetchType.LAZY)
+    @JoinColumn(name="shift_request_id")
+    ShiftRequest shiftRequest;
 
 }
