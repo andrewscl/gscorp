@@ -1,0 +1,60 @@
+<div th:fragment="content">
+  <div class="site-supervision-visit-header">
+    <h2>Visitas de Supervisión a Instalaciones</h2>
+    <button class="btn-primary" id="createSupervisionVisitBtn"
+            data-path="/private/site-supervision-visits/create">
+      Registrar Visita
+    </button>
+  </div>
+
+  <div class="site-supervision-visit-table-container">
+    <table class="site-supervision-visit-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Supervisor</th>
+          <th>Instalación</th>
+          <th>Fecha y Hora</th>
+          <th th:if="${visits != null and #lists.size(visits) > 0
+                       and visits[0].description != null}">Descripción</th>
+          <th th:if="${visits != null and #lists.size(visits) > 0
+                       and visits[0].photoUrl != null}">Fotografía</th>
+          <th th:if="${visits != null and #lists.size(visits) > 0
+                       and visits[0].videoUrl != null}">Video</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="v : ${visits}">
+          <td th:text="${v.id}"></td>
+          <td th:text="${v.supervisorName}"></td>
+          <td th:text="${v.siteName}"></td>
+          <td th:text="${#temporals.format(v.visitDateTime, 'yyyy-MM-dd HH:mm')}"></td>
+          <td th:if="${v.description != null}" th:text="${v.description}"></td>
+          <td th:if="${v.photoUrl != null}">
+            <a th:href="${v.photoUrl}" target="_blank">
+              <img th:src="${v.photoUrl}" alt="Foto" style="max-width:48px;max-height:48px;border-radius:4px;box-shadow:0 1px 4px #aaa;">
+            </a>
+          </td>
+          <td th:if="${v.videoUrl != null}">
+            <a th:href="${v.videoUrl}" target="_blank">
+              <span class="tag tag-video">Ver video</span>
+            </a>
+          </td>
+          <td class="actions">
+            <button type="button"
+                    class="btn-link"
+                    th:attr="data-path=@{/private/site-supervision-visits/show/{id}(id=${v.id})}">
+              Ver
+            </button>
+            <button type="button"
+                    class="btn-link"
+                    th:attr="data-path=@{/private/site-supervision-visits/edit/{id}(id=${v.id})}">
+              Editar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

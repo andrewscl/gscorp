@@ -22,32 +22,32 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
-@Table(name="shift_assignments")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-public class ShiftAssignment {
+    @Entity
+    @Table(name="shift_assignments")
+    @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+    public class ShiftAssignment {
 
-    @Id @GeneratedValue
-    private Long id;
+        @Id @GeneratedValue
+        private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="shift_id", nullable=false)
-    private Shift shift;
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name="shift_id", nullable=false)
+        private Shift shift;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="employee_id", nullable=false)
-    private Employee employee;
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name="employee_id", nullable=false)
+        private Employee employee;
 
-    // Opcional: código del empleado, si lo necesitas rápido
-    @Column(name="employee_code", length=32)
-    private String employeeCode;
+        // Opcional: código del empleado, si lo necesitas rápido
+        @Column(name="employee_code", length=32)
+        private String employeeCode;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name="shift_assignment_status", length = 20)
-    private ShiftAssignmentStatus status;
+        @Enumerated(EnumType.STRING)
+        @Column(name="shift_assignment_status", length = 20)
+        private ShiftAssignmentStatus status;
 
-    private String note;
+        private String note;
 
-    private OffsetDateTime assignedAt;
+        private OffsetDateTime assignedAt;
 
-}
+    }

@@ -1,0 +1,109 @@
+.site-supervision-visit-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.3rem 1.5rem 1rem 1.5rem;
+
+  h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+  }
+  #createSupervisionVisitBtn {
+    background: #4177f6;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: .6rem 1.3rem;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background .15s;
+    &:hover {
+      background: #275bca;
+    }
+  }
+}
+
+.site-supervision-visit-table-container {
+  padding: 0 1.5rem 1.5rem 1.5rem;
+  overflow-x: auto;
+
+  .site-supervision-visit-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(15,23,42,.08);
+
+    th, td {
+      padding: .85rem 1.1rem;
+      font-size: 1rem;
+      border-bottom: 1px solid #e5e7eb;
+      text-align: left;
+    }
+
+    th {
+      background: #f8fafc;
+      color: #334155;
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    td img {
+      max-width: 48px;
+      max-height: 48px;
+      border-radius: 4px;
+      box-shadow: 0 1px 4px #aaa;
+      background: #f3f4f6;
+    }
+
+    .tag-video {
+      display: inline-block;
+      background: #e0e7ff;
+      color: #3730a3;
+      font-size: .98rem;
+      padding: .25em .7em;
+      border-radius: .5em;
+      font-weight: 500;
+    }
+
+    .actions {
+      display: flex;
+      gap: .6rem;
+
+      .btn-link {
+        background: none;
+        border: none;
+        color: #4177f6;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        padding: 0 .2rem;
+        transition: color .13s;
+        &:hover {
+          color: #e11d48;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .site-supervision-visit-header,
+  .site-supervision-visit-table-container {
+    padding-left: .5rem;
+    padding-right: .5rem;
+  }
+  .site-supervision-visit-table th,
+  .site-supervision-visit-table td {
+    padding: .7rem .5rem;
+    font-size: .93rem;
+  }
+}
