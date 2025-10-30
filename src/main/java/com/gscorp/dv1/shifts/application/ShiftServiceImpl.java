@@ -20,5 +20,10 @@ public class ShiftServiceImpl implements ShiftService {
     public List<Shift> getShifts(Long siteId, OffsetDateTime from, OffsetDateTime to) {
         return shiftRepository.findBySiteIdAndStartTsBetween(siteId, from, to);
     }
+
+    @Override
+    public Shift createShift(Shift shift) {
+        return shiftRepository.save(shift);
+    }
     
 }
