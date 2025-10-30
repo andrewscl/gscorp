@@ -42,8 +42,8 @@ export default defineConfig({
         'private/professions/create-profession': path.resolve(__dirname, './src/private/professions/create-profession.js'),
         'private/nationalities/edit-nationality': path.resolve(__dirname, './src/private/nationalities/edit-nationality.js'),
         'private/nationalities/create-nationality': path.resolve(__dirname, './src/private/nationalities/create-nationality.js'),
-        'private/requests/edit-shift-request': path.resolve(__dirname, './src/private/requests/edit-shift-request.js'),
-        'private/requests/create-shift-request': path.resolve(__dirname, './src/private/requests/create-shift-request.js'),
+        'private/shift-requests/edit-shift-request': path.resolve(__dirname, './src/private/shift-requests/edit-shift-request.js'),
+        'private/shift-requests/create-shift-request': path.resolve(__dirname, './src/private/shift-requests/create-shift-request.js'),
         'private/shifts/create-shift': path.resolve(__dirname, './src/private/shifts/create-shift.js'),
         'private/shifts/create-shifts-bulk': path.resolve(__dirname, './src/private/shifts/create-shifts-bulk.js'),
 
