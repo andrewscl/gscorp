@@ -1,4 +1,3 @@
-@charset "UTF-8";
 .site-coordinates {
   max-width: 520px;
   background: #fff;
@@ -24,7 +23,6 @@
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
-  /* Botón secundario */
 }
 .site-coordinates #site-coordinates-form .form-group label {
   font-size: 0.97rem;
@@ -92,6 +90,15 @@
   background: #1d4ed8;
   box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2);
 }
+.site-coordinates #site-coordinates-form .modal-footer-cancel {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0;
+}
+.site-coordinates #site-coordinates-form .modal-footer-cancel .btn-secondary {
+  min-width: 140px;
+  margin-top: 0.2rem;
+}
 .site-coordinates #site-coordinates-form .form-error {
   color: #e11d48;
   font-size: 0.97rem;
@@ -130,5 +137,13 @@
   .site-coordinates #site-coordinates-form .form-row {
     flex-direction: column;
     gap: 0.5rem;
+  }
+  .site-coordinates #site-coordinates-form .modal-footer,
+  .site-coordinates #site-coordinates-form .modal-footer-cancel {
+    justify-content: stretch;
+  }
+  .site-coordinates #site-coordinates-form .modal-footer .btn-primary,
+  .site-coordinates #site-coordinates-form .modal-footer-cancel .btn-secondary {
+    width: 100%;
   }
 }/*# sourceMappingURL=site-coordinates-form.css.map */
