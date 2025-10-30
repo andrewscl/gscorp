@@ -73,8 +73,6 @@
             background: #e5f3ff;
             color: #075985;
 
-            /* si usas texto exacto, puedes matchear con :contains() sólo en JS.
-               Si quieres dos estilos, añade una clase .is-active / .is-inactive desde el servidor. */
             &.is-active {
               background: #dcfce7;
               color: #166534;
@@ -109,7 +107,7 @@
   }
 }
 
-/* ====== Modal crear sitio (reusa estilos si ya los tienes) ====== */
+/* ====== Modal crear sitio (corregido para altura y scroll) ====== */
 #createSiteModal.modal {
   position: fixed;
   inset: 0;
@@ -126,6 +124,9 @@
     border-radius: .75rem;
     box-shadow: 0 10px 24px rgba(0,0,0,.15);
     overflow: hidden;
+    max-height: 92vh;            // <-- Limita el alto para evitar corte
+    display: flex;
+    flex-direction: column;
   }
 
   .modal-header {
@@ -158,36 +159,8 @@
     padding: 1rem 1.25rem;
     display: grid;
     gap: .9rem;
-
-    .form-group {
-      display: grid;
-      gap: .35rem;
-
-      label {
-        font-size: .9rem;
-        color: #374151;
-        font-weight: 500;
-      }
-
-      input, select {
-        width: 100%;
-        padding: .55rem .7rem;
-        border: 1px solid #e5e7eb;
-        border-radius: .5rem;
-        font-size: .95rem;
-
-        &:focus {
-          outline: none;
-          border-color: #2563eb;
-          box-shadow: 0 0 0 3px rgba(37,99,235,.15);
-        }
-      }
-
-      small {
-        color: #6b7280;
-        font-size: .8rem;
-      }
-    }
+    overflow-y: auto;             // <-- Permite scroll en el contenido
+    max-height: 60vh;             // <-- Ajusta para dejar header/footer visibles
   }
 
   .modal-footer {
@@ -258,5 +231,12 @@
         }
       }
     }
+  }
+  #createSiteModal .modal-dialog {
+    width: 98vw;
+    max-height: 99vh;
+  }
+  #createSiteModal .modal-body {
+    max-height: 73vh;
   }
 }
