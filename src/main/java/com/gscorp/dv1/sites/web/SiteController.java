@@ -44,4 +44,10 @@ public class SiteController {
         return "private/sites/views/edit-site-view";
     }
 
+    @GetMapping("/set-coordinates")
+    public String setSiteCoordinates(Model model) {
+        model.addAttribute("sites", siteService.getAllSites());
+        model.addAttribute("googlecloudapikey", googleCloudApiKey);
+        return "private/sites/views/set-site-coordinates-view";
+    }
 }
