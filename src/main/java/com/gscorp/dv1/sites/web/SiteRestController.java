@@ -17,6 +17,7 @@ import com.gscorp.dv1.projects.infrastructure.Project;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.infrastructure.Site;
 import com.gscorp.dv1.sites.web.dto.CreateSiteRequest;
+import com.gscorp.dv1.sites.web.dto.SetSiteCoordinatesDto;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
 import com.gscorp.dv1.sites.web.dto.UpdateLatLon;
 
@@ -103,6 +104,12 @@ public class SiteRestController {
                         e.printStackTrace();
                         return ResponseEntity.badRequest().body("No se pudo guardar el sitio: " + e.getMessage());
                 }
+        }
+
+        @PostMapping("/set-coordinates")
+        public ResponseEntity<SetSiteCoordinatesDto> setSiteCoordinates(@RequestBody SetSiteCoordinatesDto dto) {
+        SetSiteCoordinatesDto updated = siteService.setCoordinates(dto.siteId(), dto.latitude(), dto.longitude());
+        return ResponseEntity.ok(updated);
         }
 
 }
