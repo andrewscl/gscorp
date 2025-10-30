@@ -4,7 +4,7 @@ import java.time.OffsetDateTime;
 
 import com.gscorp.dv1.enums.ShiftStatus;
 import com.gscorp.dv1.enums.ShiftType;
-import com.gscorp.dv1.requests.infrastructure.ShiftRequest;
+import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.sites.infrastructure.Site;
 
 import jakarta.persistence.Column;
