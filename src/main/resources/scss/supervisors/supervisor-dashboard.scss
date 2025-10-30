@@ -1,0 +1,72 @@
+#dashboard-root {
+  --gap: clamp(12px, 2vw, 18px);
+
+  padding: var(--gap);
+  display: grid;
+  gap: var(--gap);
+
+  .supervisor-button {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--gap);
+
+    .h2 {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+
+      height: 46px;
+      padding: 0 18px;
+      border-radius: 12px;
+      background: #fff;
+      color: #1e293b;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.08rem;
+      letter-spacing: .2px;
+
+      border: 1px solid rgba(30,41,59,.12);
+      box-shadow: 0 1px 3px rgba(30,41,59,.05);
+      transition:
+        background .2s,
+        color .17s,
+        border-color .15s,
+        box-shadow .15s,
+        transform .09s;
+
+      &:hover {
+        background: #f1f5f9;
+        color: #2563eb;
+        border-color: #2563eb33;
+        box-shadow: 0 2px 8px rgba(37,99,235,.10);
+        transform: translateY(-1.5px);
+      }
+      &:active {
+        transform: translateY(0);
+        box-shadow: 0 1px 2px rgba(0,0,0,.09) inset;
+      }
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(37,99,235,.23);
+      }
+    }
+  }
+
+  /* Responsive: dos columnas en pantallas medianas, tres en grandes */
+  @media (min-width: 560px) {
+    .supervisor-button {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 960px) {
+    .supervisor-button {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+}
+
+/* Ajuste de espacio entre botones */
+.supervisor-button + .supervisor-button {
+  margin-top: var(--gap);
+}
