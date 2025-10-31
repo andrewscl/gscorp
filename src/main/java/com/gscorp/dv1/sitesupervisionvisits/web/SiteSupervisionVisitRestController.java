@@ -31,8 +31,8 @@ public class SiteSupervisionVisitRestController {
 
     private final SiteSupervisionVisitService siteSupervisionVisitService;
 
-    @Value("${file.upload-dir}")
-    private String uploadDir;
+/*     @Value("${file.upload-dir}")
+    private String uploadDir;*/
     
     @GetMapping("/sites")
     public List<SiteDto> getSitesApi() {
