@@ -45,7 +45,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     @Override
     @Transactional
     public Optional<Employee> findByUsername(String username) {
-        return employeeRepository.findByUsername(username);
+        return employeeRepository.findByUserUsername(username);
     }
 
 }
