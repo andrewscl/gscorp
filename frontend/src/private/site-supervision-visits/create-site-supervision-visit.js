@@ -163,7 +163,7 @@ function updateNearestSite() {
       btnSave.disabled = true;
     }
   } else {
-    showStatus("No se encontró ningún sitio cercano. Redirigiendo al dashboard...", "#b00020");
+    showStatus("No se encontró ningún sitio cercano. Redirigiendo...", "#b00020");
     showSiteInfo("", "#b00020");
     btnSave.disabled = true;
 
