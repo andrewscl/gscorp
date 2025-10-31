@@ -46,7 +46,9 @@ export default defineConfig({
         'private/shift-requests/create-shift-request': path.resolve(__dirname, './src/private/shift-requests/create-shift-request.js'),
         'private/shifts/create-shift': path.resolve(__dirname, './src/private/shifts/create-shift.js'),
         'private/shifts/create-shifts-bulk': path.resolve(__dirname, './src/private/shifts/create-shifts-bulk.js'),
-        'private/sites/set-coordinates': path.resolve(__dirname, './src/private/sites/set-coordinates.js')
+        'private/sites/set-coordinates': path.resolve(__dirname, './src/private/sites/set-coordinates.js'),
+        'private/site-supervision-visits/view-site-supervision-visit': path.resolve(__dirname, './src/private/site-supervision-visits/view-site-supervision-visit.js'),
+        'private/site-supervision-visits/create-site-supervision-visit': path.resolve(__dirname, './src/private/site-supervision-visits/create-site-supervision-visit.js')
 
       },
       output: {
