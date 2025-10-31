@@ -4,16 +4,20 @@ import { navigateTo } from '../../navigation-handler.js';
 // ========== CONFIGURABLE ==========
 const MAX_DISTANCE_METERS = 35;
 
+// --- Estado / referencias ---
+let supervisorSites = [];
+let noSiteTimeout = null;
+
 // --- Utilidades ---
 function getDistanceMeters(lat1, lon1, lat2, lon2) {
   const R = 6371000;
   const toRad = x => x * Math.PI / 180;
   const dLat = toRad(lat2 - lat1);
   const dLon = toRad(lon2 - lon1);
-  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-            Math.sin(dLon/2) * Math.sin(dLon/2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
 }
 
@@ -31,14 +35,10 @@ function getNearestSite(userLat, userLon, sites) {
   return nearest;
 }
 
-// --- Estado / referencias ---
-let supervisorSites = [];
-let noSiteTimeout = null;
-
 // --- Cargar sitios desde API ---
 async function loadSites() {
   try {
-    const res = await fetchWithAuth('/api/supervisor-visits/sites', { credentials: 'same-origin' });
+    const res = await fetchWithAuth('/api/site-supervision-visits/sites', { credentials: 'same-origin' });
     if (!res.ok) throw new Error(`Error cargando sitios: ${res.status}`);
     supervisorSites = await res.json();
   } catch (e) {
@@ -59,7 +59,6 @@ async function showCurrentSiteStatus() {
     btnSave.disabled = true;
     return;
   }
-
   statusEl.textContent = "Detectando instalación más cercana...";
   infoEl.textContent = "";
 
@@ -69,9 +68,11 @@ async function showCurrentSiteStatus() {
     );
 
     if (!supervisorSites.length) {
-      statusEl.textContent = "No se encontró ningún sitio cercano. Redirigiendo al dashboard...";
+      statusEl.textContent = "No hay sitios configurados.";
       statusEl.style.color = "#b00020";
+      infoEl.textContent = "";
       btnSave.disabled = true;
+      // Redirección después de 3 segundos (opcional)
       if (noSiteTimeout) clearTimeout(noSiteTimeout);
       noSiteTimeout = setTimeout(() => navigateTo("/private/supervisors/dashboard"), 3000);
       return;
@@ -101,7 +102,7 @@ async function showCurrentSiteStatus() {
       infoEl.style.color = "#d97706";
       btnSave.disabled = true;
     } else {
-      statusEl.textContent = "No se encontró ningún sitio cercano. Redirigiendo al dashboard...";
+      statusEl.textContent = "No se encontró ningún sitio cercano.";
       statusEl.style.color = "#b00020";
       infoEl.textContent = "";
       infoEl.style.color = "#b00020";
@@ -110,11 +111,14 @@ async function showCurrentSiteStatus() {
       noSiteTimeout = setTimeout(() => navigateTo("/private/supervisors/dashboard"), 3000);
     }
   } catch (e) {
+    const statusEl = document.getElementById('visit-status');
+    const infoEl = document.getElementById('visit-site-info');
     statusEl.textContent = "No se pudo obtener ubicación.";
     statusEl.style.color = "#b00020";
     infoEl.textContent = "";
     infoEl.style.color = "#b00020";
-    btnSave.disabled = true;
+    const btnSave = document.getElementById('save-visit-btn');
+    if (btnSave) btnSave.disabled = true;
   }
 }
 
@@ -262,19 +266,27 @@ function showCurrentLocationOnMap() {
   );
 }
 
-// --- Auto-init ---
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', async () => {
-    await loadSites();
-    initSupervisorVisitWidget();
-  });
-} else {
-  loadSites().then(initSupervisorVisitWidget);
+// --- Helpers de UI ---
+function showStatus(msg, color = "#444") {
+  const statusDiv = document.getElementById('visit-status');
+  if (!statusDiv) return;
+  statusDiv.textContent = msg || '';
+  statusDiv.style.color = color;
 }
-document.addEventListener('content:loaded', async () => {
+
+// --- Auto-init ---
+async function supervisorVisitWidgetInitAll() {
   await loadSites();
   initSupervisorVisitWidget();
-});
+  await showCurrentSiteStatus();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', supervisorVisitWidgetInitAll);
+} else {
+  supervisorVisitWidgetInitAll();
+}
+document.addEventListener('content:loaded', supervisorVisitWidgetInitAll);
 
 // --- Exponer helpers si necesitas testear ---
 export {
