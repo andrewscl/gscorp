@@ -27,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SiteSupervisionVisitRestController {
 
-    private final SiteService siteService;
+/*     private final SiteService siteService;
 
     private final SiteSupervisionVisitService siteSupervisionVisitService;
 
@@ -84,6 +84,6 @@ public class SiteSupervisionVisitRestController {
                 .buildAndExpand(savedDto.id()).toUri();
 
         return ResponseEntity.created(location).body(savedDto);
-    }
+    }*/
 
 }
