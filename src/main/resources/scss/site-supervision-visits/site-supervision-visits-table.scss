@@ -29,9 +29,11 @@
 .site-supervision-visit-table-container {
   padding: 0 1.5rem 1.5rem 1.5rem;
   overflow-x: auto;
+  width: 100%;
 
   .site-supervision-visit-table {
     width: 100%;
+    min-width: 700px;
     border-collapse: collapse;
     background: #fff;
     border-radius: 12px;
@@ -43,6 +45,9 @@
       font-size: 1rem;
       border-bottom: 1px solid #e5e7eb;
       text-align: left;
+      vertical-align: middle;
+      max-width: 240px;
+      word-break: break-word;
     }
 
     th {
@@ -50,6 +55,9 @@
       color: #334155;
       font-weight: 700;
       letter-spacing: .02em;
+      position: sticky;
+      top: 0;
+      z-index: 2;
     }
 
     tbody tr:last-child td {
@@ -95,15 +103,41 @@
   }
 }
 
-@media (max-width: 600px) {
-  .site-supervision-visit-header,
+@media (max-width: 900px) {
   .site-supervision-visit-table-container {
     padding-left: .5rem;
     padding-right: .5rem;
   }
-  .site-supervision-visit-table th,
-  .site-supervision-visit-table td {
-    padding: .7rem .5rem;
-    font-size: .93rem;
+  .site-supervision-visit-table {
+    min-width: 600px;
+    th, td {
+      font-size: .96rem;
+      padding: .7rem .6rem;
+      max-width: 140px;
+    }
+    td img { max-width: 38px; max-height: 38px; }
+  }
+}
+
+@media (max-width: 600px) {
+  .site-supervision-visit-header,
+  .site-supervision-visit-table-container {
+    padding-left: .3rem;
+    padding-right: .3rem;
+  }
+
+  .site-supervision-visit-table {
+    min-width: 510px;
+    th, td {
+      font-size: .93rem;
+      padding: .6rem .4rem;
+      max-width: 100px;
+    }
+    td img { max-width: 30px; max-height: 30px; }
+    td, th {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 }
