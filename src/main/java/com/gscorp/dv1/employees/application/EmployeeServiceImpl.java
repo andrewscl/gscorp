@@ -1,6 +1,7 @@
 package com.gscorp.dv1.employees.application;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,12 @@ public class EmployeeServiceImpl implements EmployeeService{
     @Transactional
     public Employee saveEmployee (Employee employee){
         return employeeRepository.save(employee);
+    }
+
+    @Override
+    @Transactional
+    public Optional<Employee> findById(Long id) {
+        return employeeRepository.findById(id);
     }
 
 }
