@@ -21,7 +21,7 @@ public class SiteSupervisionVisitController {
     public String createVisit(Model model) {
         model.addAttribute("sites", siteService.getAllSites());
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
-        return "private/site-supervision-visits/views/site-supervision-visits-view";
+        return "private/site-supervision-visits/views/create-site-sup-visit-view";
     }
 
 }
