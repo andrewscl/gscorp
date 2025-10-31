@@ -38,7 +38,7 @@ public class SiteSupervisionVisitRestController {
     public List<SiteDto> getSitesApi() {
         return siteService.getAllSites();
     }
-
+/* 
     @PostMapping("/create")
     public ResponseEntity<SiteSupervisionVisitDto> createSiteSupervisionVisit(
         @RequestParam Long siteId,
@@ -85,5 +85,5 @@ public class SiteSupervisionVisitRestController {
 
         return ResponseEntity.created(location).body(savedDto);
     }
-
+*/
 }
