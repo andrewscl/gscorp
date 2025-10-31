@@ -67,12 +67,18 @@ async function showCurrentSiteStatus() {
     const pos = await new Promise((resolve, reject) =>
       navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true, timeout: 15000 })
     );
+
     if (!supervisorSites.length) {
-      infoEl.textContent = "No hay sitios configurados.";
+      infoEl.textContent = "No hay sitios configurados. Redirigiendo al dashboard...";
       infoEl.style.color = "#b00020";
+      statusEl.textContent = "No se encontró ningún sitio cercano. Redirigiendo al dashboard...";
+      statusEl.style.color = "#b00020";
       btnSave.disabled = true;
+      if (noSiteTimeout) clearTimeout(noSiteTimeout);
+      noSiteTimeout = setTimeout(() => navigateTo("private/supervisors/dashboard"), 3000);
       return;
     }
+
     const nearestSite = getNearestSite(pos.coords.latitude, pos.coords.longitude, supervisorSites);
 
     // Cancelar timeout previo
