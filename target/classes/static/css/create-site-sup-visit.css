@@ -1,5 +1,10 @@
+.card.supervisor-visit, .card.supervisor-visit * {
+  box-sizing: border-box;
+}
+
 .card.supervisor-visit {
   max-width: 520px;
+  width: 100%;
   padding: 1.5rem 1.2rem 1.2rem 1.2rem;
   border-radius: 16px;
   background: #fff;
@@ -35,6 +40,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
+  width: 100%;
 }
 .card.supervisor-visit form#visit-widget .form-group {
   display: flex;
@@ -136,13 +142,17 @@
 
 @media (max-width: 600px) {
   .card.supervisor-visit {
-    max-width: 99vw;
+    max-width: 100vw;
+    width: 100vw;
     padding: 1.1rem 0.5rem 1rem 0.5rem;
     border-radius: 10px;
   }
   .card.supervisor-visit h3 {
     font-size: 1.18rem;
     margin-bottom: 1rem;
+  }
+  .card.supervisor-visit form#visit-widget {
+    width: 100%;
   }
   .card.supervisor-visit form#visit-widget .modal-footer {
     flex-direction: column-reverse;
@@ -154,6 +164,7 @@
     width: 100%;
   }
   .card.supervisor-visit #visit-map-container {
+    width: 100%;
     height: 170px;
     border-radius: 8px;
     margin-bottom: 0.9rem;
