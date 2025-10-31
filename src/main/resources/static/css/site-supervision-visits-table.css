@@ -113,6 +113,18 @@
   }
 }
 @media (max-width: 600px) {
+  .site-supervision-visit-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .site-supervision-visit-header h2 {
+    margin-bottom: 0.8rem;
+  }
+  .site-supervision-visit-header #createSupervisionVisitBtn {
+    margin: 0 0 0.6rem 0;
+    width: 100%;
+    max-width: 320px;
+  }
   .site-supervision-visit-table-container {
     padding-left: 0.3rem;
     padding-right: 0.3rem;
