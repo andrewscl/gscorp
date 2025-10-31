@@ -1,4 +1,5 @@
 import { fetchWithAuth } from '../../auth.js';
+import { navigateTo } from '../../navigation-handler.js';
 
 // ========== CONFIGURABLE ==========
 const MAX_DISTANCE_METERS = 35; // Cambia aquí la distancia máxima permitida
@@ -51,6 +52,7 @@ const descriptionInput = qs('#visit-description');
 // State
 let map, marker, closestSite = null, visitLat = null, visitLon = null, currentDistance = null;
 let supervisorSites = window.siteList || []; // Asume que window.siteList tiene los sitios
+let noSiteTimeout = null; // <-- para redirección si no hay sitio
 
 // Mensajería UI
 function showStatus(msg, color = "#444") {
@@ -144,6 +146,12 @@ function updateNearestSite() {
   closestSite = nearest;
   currentDistance = nearest ? nearest.distance : null;
 
+  // Cancelar timeout previo si existe
+  if (noSiteTimeout) {
+    clearTimeout(noSiteTimeout);
+    noSiteTimeout = null;
+  }
+
   if (nearest) {
     if (nearest.distance <= MAX_DISTANCE_METERS) {
       showStatus(`Estás en el sitio "${nearest.name}". Puedes registrar visita aquí.`, "#059669");
@@ -155,9 +163,14 @@ function updateNearestSite() {
       btnSave.disabled = true;
     }
   } else {
-    showStatus("No se encontró ningún sitio cercano.", "#b00020");
+    showStatus("No se encontró ningún sitio cercano. Redirigiendo al dashboard...", "#b00020");
     showSiteInfo("", "#b00020");
     btnSave.disabled = true;
+
+    // Espera 3 segundos y redirige al dashboard
+    noSiteTimeout = setTimeout(() => {
+      navigateTo("private/supervisors/dashboard");
+    }, 3000);
   }
 }
 
