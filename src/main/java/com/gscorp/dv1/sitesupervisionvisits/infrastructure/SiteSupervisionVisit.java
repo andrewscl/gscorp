@@ -55,4 +55,10 @@ public class SiteSupervisionVisit {
     @Column(length=255)
     private String videoPath;
 
+    @Column(precision = 10, scale = 6) // puedes ajustar la precisión según tus necesidades
+    private Double latitude;
+
+    @Column(precision = 10, scale = 6)
+    private Double longitude;
+
 }
