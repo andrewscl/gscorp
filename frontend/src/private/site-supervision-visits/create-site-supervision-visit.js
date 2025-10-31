@@ -64,7 +64,7 @@ function showSiteInfo(msg, color = "#0077b6") {
   siteInfoDiv.style.color = color;
 }
 
-// Vista previa de foto/video
+// Vista previa de foto/video (opcional, puedes dejarlo si quieres preview pero NO lo envías)
 photoInput?.addEventListener('change', () => {
   photoPreview.innerHTML = '';
   const file = photoInput.files && photoInput.files[0];
@@ -194,24 +194,21 @@ form?.addEventListener('submit', async (e) => {
   showStatus("Registrando visita...", "#0077b6");
   btnSave.disabled = true;
 
-  const formData = new FormData();
-  formData.append('siteId', closestSite.id);
-  formData.append('latitude', visitLat);
-  formData.append('longitude', visitLon);
-  formData.append('description', descriptionInput.value);
-
-  if (photoInput.files && photoInput.files[0]) {
-    formData.append('photo', photoInput.files[0]);
-  }
-  if (videoInput.files && videoInput.files[0]) {
-    formData.append('video', videoInput.files[0]);
-  }
+  // Armar JSON (sin archivos)
+  const payload = {
+    siteId: closestSite.id,
+    latitude: visitLat,
+    longitude: visitLon,
+    description: descriptionInput.value
+    // Si necesitas más campos, agrégalos aquí
+  };
 
   try {
     const endpoint = form.dataset.visitEndpoint || '/api/supervisor-visits/register';
     const res = await fetchWithAuth(endpoint, {
       method: 'POST',
-      body: formData,
+      body: JSON.stringify(payload),
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       credentials: 'same-origin'
     });
     if (!res.ok) {
