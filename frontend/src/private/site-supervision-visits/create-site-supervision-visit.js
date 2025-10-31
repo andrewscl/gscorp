@@ -69,13 +69,11 @@ async function showCurrentSiteStatus() {
     );
 
     if (!supervisorSites.length) {
-      infoEl.textContent = "No hay sitios configurados. Redirigiendo al dashboard...";
-      infoEl.style.color = "#b00020";
       statusEl.textContent = "No se encontró ningún sitio cercano. Redirigiendo al dashboard...";
       statusEl.style.color = "#b00020";
       btnSave.disabled = true;
       if (noSiteTimeout) clearTimeout(noSiteTimeout);
-      noSiteTimeout = setTimeout(() => navigateTo("private/supervisors/dashboard"), 3000);
+      noSiteTimeout = setTimeout(() => navigateTo("/private/supervisors/dashboard"), 3000);
       return;
     }
 
@@ -109,7 +107,7 @@ async function showCurrentSiteStatus() {
       infoEl.style.color = "#b00020";
       btnSave.disabled = true;
       // Redirección después de 3 segundos
-      noSiteTimeout = setTimeout(() => navigateTo("private/supervisors/dashboard"), 3000);
+      noSiteTimeout = setTimeout(() => navigateTo("/private/supervisors/dashboard"), 3000);
     }
   } catch (e) {
     statusEl.textContent = "No se pudo obtener ubicación.";
