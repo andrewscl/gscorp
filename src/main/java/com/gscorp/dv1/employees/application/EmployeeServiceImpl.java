@@ -42,4 +42,10 @@ public class EmployeeServiceImpl implements EmployeeService{
         return employeeRepository.findById(id);
     }
 
+    @Override
+    @Transactional
+    public Optional<Employee> findByUsername(String username) {
+        return employeeRepository.findByUsername(username);
+    }
+
 }
