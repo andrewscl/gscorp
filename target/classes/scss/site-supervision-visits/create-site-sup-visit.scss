@@ -1,0 +1,131 @@
+.card.supervisor-visit {
+  max-width: 520px;
+  padding: 1rem;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 2px 8px -4px #cbd5e1;
+
+  h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+    color: #222;
+    font-weight: 600;
+  }
+
+  #visit-status {
+    margin: 0.5rem 0;
+    color: #444;
+    font-size: 1rem;
+  }
+
+  #visit-site-info {
+    margin-bottom: 0.5rem;
+    color: #0077b6;
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+
+  form#visit-widget {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      margin-top: 1rem;
+
+      label {
+        font-weight: 500;
+        margin-bottom: 0.3rem;
+        color: #354052;
+      }
+
+      input[type="file"] {
+        margin-top: 0.2rem;
+      }
+
+      textarea {
+        width: 100%;
+        min-height: 60px;
+        padding: 0.5rem;
+        border-radius: 6px;
+        border: 1px solid #d1d5db;
+        font-size: 1rem;
+        resize: vertical;
+        background: #f9fafb;
+
+        &:focus {
+          outline: none;
+          border-color: #0077b6;
+          background: #fff;
+        }
+      }
+
+      #visit-photo-preview,
+      #visit-video-preview {
+        margin-top: 0.5rem;
+
+        img, video {
+          max-width: 100%;
+          border-radius: 6px;
+          box-shadow: 0 2px 8px -6px #cbd5e1;
+        }
+      }
+    }
+
+    .modal-footer {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 0.5rem;
+      justify-content: flex-end;
+
+      .btn-primary {
+        background: #0077b6;
+        color: #fff;
+        border: none;
+        padding: 0.6rem 1.4rem;
+        border-radius: 5px;
+        font-weight: 600;
+        transition: background 0.15s;
+
+        &:hover,
+        &:focus {
+          background: #005f8e;
+        }
+      }
+
+      .btn-secondary {
+        background: #f1f5f9;
+        color: #222;
+        border: 1px solid #cbd5e1;
+        padding: 0.6rem 1.4rem;
+        border-radius: 5px;
+        font-weight: 500;
+        transition: background 0.15s, border-color 0.15s;
+
+        &:hover,
+        &:focus {
+          background: #e4e7eb;
+          border-color: #b6bac2;
+        }
+      }
+    }
+  }
+
+  #visit-map-container {
+    width: 100%;
+    height: 220px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px -4px #cbd5e1;
+    margin-bottom: 1rem;
+    background: #f3f4f6;
+
+    #visit-map {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

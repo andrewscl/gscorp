@@ -10,7 +10,7 @@
         enctype="multipart/form-data"
         autocomplete="off">
 
-    <!-- Botón de registro -->
+    <!-- Botón de registro (puedes ocultarlo dinámicamente si hace falta) -->
     <button id="visit-mark" class="btn btn-primary" type="submit" style="display:none">
       Registrar visita
     </button>
@@ -34,6 +34,13 @@
       <input type="file" id="visit-video" name="video" accept="video/*" capture="environment">
       <div id="visit-video-preview" style="margin-top:.5rem;"></div>
     </div>
+
+    <!-- Botones de acción -->
+    <div class="modal-footer" style="margin-top:1.5rem; display:flex; gap:.5rem; justify-content:flex-end;">
+      <button type="submit" class="btn-primary" id="save-visit-btn">Guardar visita</button>
+      <button type="button" class="btn-secondary" id="cancel-visit-btn">Cancelar</button>
+    </div>
+
   </form>
 
   <!-- Mapa de ubicación actual y del sitio -->
@@ -41,5 +48,5 @@
     <div id="visit-map" style="width:100%;height:100%"></div>
   </div>
 
-  <script type="module" th:src="@{/js/private/visits/supervisor-visit.js}" defer></script>
+  <script type="module" th:src="@{/js/private/site-supervision-visits/create-site-supervision-visit.js}" defer></script>
 </section>
