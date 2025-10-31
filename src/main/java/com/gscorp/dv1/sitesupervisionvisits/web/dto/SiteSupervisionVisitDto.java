@@ -19,7 +19,7 @@ public record SiteSupervisionVisitDto(
         if (visit == null) return null;
         return new SiteSupervisionVisitDto(
             visit.getId(),
-            visit.getSupervisor(),
+            visit.getEmployee(),
             visit.getSite(),
             visit.getVisitDateTime(),
             visit.getDescription(),

@@ -25,7 +25,7 @@ import lombok.Setter;
 @Table(name = "site_supervision_visits",
   indexes = {
     @Index(name="ix_visit_site", columnList="site_id"),
-    @Index(name="ix_visit_supervisor", columnList="supervisor_id")
+    @Index(name="ix_visit_employee", columnList="employee_id")
   }
 )
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
@@ -36,8 +36,8 @@ public class SiteSupervisionVisit {
     private Long id;
 
     @ManyToOne(optional=false, fetch=FetchType.LAZY)
-    @JoinColumn(name="supervisor_id", nullable=false)
-    private Employee supervisor;
+    @JoinColumn(name="employee_id", nullable=false)
+    private Employee employee;
 
     @ManyToOne(optional=false, fetch=FetchType.LAZY)
     @JoinColumn(name="site_id", nullable=false)

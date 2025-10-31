@@ -11,5 +11,6 @@ public interface EmployeeService {
     Employee findByIdWithUserAndProjects(Long id);
     Employee saveEmployee(Employee employee);
     Optional<Employee> findById(Long id);
+    Optional<Employee> findByUsername(String username);
     
 }
