@@ -16,7 +16,13 @@ public class SiteSupervisionVisitController {
 
     private final SiteService siteService;
     private final String googleCloudApiKey = System.getenv("GOOGLE_CLOUD_API_KEY");
-    
+
+    @GetMapping("/table-view")
+    public String getSiteSupervisionVisitsTableView(Model model) {
+        model.addAttribute("sites", siteService.getAllSites());
+        return "private/site-supervision-visits/views/site-supervision-visit-table-view";
+    }
+
     @GetMapping("/create")
     public String createVisit(Model model) {
         model.addAttribute("sites", siteService.getAllSites());
