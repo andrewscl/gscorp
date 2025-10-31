@@ -2,28 +2,27 @@ import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
 
 // ========== CONFIGURABLE ==========
-const MAX_DISTANCE_METERS = 35; // Cambia aquí la distancia máxima permitida
+const MAX_DISTANCE_METERS = 35;
 
-// Helper para calcular distancia Haversine en metros
+// --- Utilidades ---
 function getDistanceMeters(lat1, lon1, lat2, lon2) {
   const R = 6371000;
   const toRad = x => x * Math.PI / 180;
   const dLat = toRad(lat2 - lat1);
   const dLon = toRad(lon2 - lon1);
   const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-    Math.sin(dLon/2) * Math.sin(dLon/2);
+            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+            Math.sin(dLon/2) * Math.sin(dLon/2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
   return R * c;
 }
 
-// Encuentra el sitio más cercano y su distancia
 function getNearestSite(userLat, userLon, sites) {
   let nearest = null;
   let minDistance = Infinity;
   for (const site of sites) {
-    if (typeof site.latitude !== 'number' || typeof site.longitude !== 'number') continue;
-    const d = getDistanceMeters(userLat, userLon, site.latitude, site.longitude);
+    if (typeof site.lat !== 'number' || typeof site.lon !== 'number') continue;
+    const d = getDistanceMeters(userLat, userLon, site.lat, site.lon);
     if (d < minDistance) {
       minDistance = d;
       nearest = { ...site, distance: d };
@@ -32,230 +31,251 @@ function getNearestSite(userLat, userLon, sites) {
   return nearest;
 }
 
-// Helper para querySelector
-const qs = (s) => document.querySelector(s);
+// --- Estado / referencias ---
+let supervisorSites = [];
+let noSiteTimeout = null;
 
-// UI elements
-const form = qs('#visit-widget');
-const statusDiv = qs('#visit-status');
-const siteInfoDiv = qs('#visit-site-info');
-const mapContainer = qs('#visit-map-container');
-const mapDiv = qs('#visit-map');
-const btnSave = qs('#save-visit-btn');
-const btnCancel = qs('#cancel-visit-btn');
-const photoInput = qs('#visit-photo');
-const photoPreview = qs('#visit-photo-preview');
-const videoInput = qs('#visit-video');
-const videoPreview = qs('#visit-video-preview');
-const descriptionInput = qs('#visit-description');
-
-// State
-let map, marker, closestSite = null, visitLat = null, visitLon = null, currentDistance = null;
-let supervisorSites = window.siteList || []; // Asume que window.siteList tiene los sitios
-let noSiteTimeout = null; // <-- para redirección si no hay sitio
-
-// Mensajería UI
-function showStatus(msg, color = "#444") {
-  statusDiv.textContent = msg || '';
-  statusDiv.style.color = color;
-}
-function showSiteInfo(msg, color = "#0077b6") {
-  siteInfoDiv.textContent = msg || '';
-  siteInfoDiv.style.color = color;
-}
-
-// Vista previa de foto/video (opcional, puedes dejarlo si quieres preview pero NO lo envías)
-photoInput?.addEventListener('change', () => {
-  photoPreview.innerHTML = '';
-  const file = photoInput.files && photoInput.files[0];
-  if (file) {
-    const url = URL.createObjectURL(file);
-    const img = document.createElement('img');
-    img.src = url;
-    img.style.maxWidth = "180px";
-    img.style.borderRadius = "6px";
-    photoPreview.appendChild(img);
+// --- Cargar sitios desde API ---
+async function loadSites() {
+  try {
+    const res = await fetchWithAuth('/api/supervisor-visits/sites', { credentials: 'same-origin' });
+    if (!res.ok) throw new Error(`Error cargando sitios: ${res.status}`);
+    supervisorSites = await res.json();
+  } catch (e) {
+    console.error("No se pudo cargar la lista de sitios:", e);
+    supervisorSites = [];
   }
-});
-videoInput?.addEventListener('change', () => {
-  videoPreview.innerHTML = '';
-  const file = videoInput.files && videoInput.files[0];
-  if (file) {
-    const url = URL.createObjectURL(file);
-    const video = document.createElement('video');
-    video.src = url;
-    video.controls = true;
-    video.style.maxWidth = "220px";
-    video.style.borderRadius = "6px";
-    videoPreview.appendChild(video);
-  }
-});
-
-// Inicializa el mapa (Google Maps)
-function initMap(lat = -33.45, lon = -70.65, zoom = 16) {
-  if (!mapDiv || !window.google || !google.maps) return;
-
-  map = new google.maps.Map(mapDiv, {
-    center: { lat, lng: lon },
-    zoom: zoom,
-    mapTypeId: 'roadmap',
-    disableDefaultUI: true
-  });
-
-  marker = new google.maps.Marker({
-    map: map,
-    position: { lat, lng: lon },
-    draggable: true,
-    title: "Tu ubicación"
-  });
-
-  marker.addListener('dragend', (e) => {
-    visitLat = e.latLng.lat();
-    visitLon = e.latLng.lng();
-    updateNearestSite();
-  });
 }
 
-// Obtiene la ubicación actual del navegador
-function setCurrentLocation() {
+// --- Mostrar estado y lógica de registro ---
+async function showCurrentSiteStatus() {
+  const statusEl = document.getElementById('visit-status');
+  const infoEl = document.getElementById('visit-site-info');
+  const btnSave = document.getElementById('save-visit-btn');
+
   if (!navigator.geolocation) {
-    showStatus("Tu navegador no soporta geolocalización.", "#b91c1c");
+    statusEl.textContent = "Geolocalización no soportada";
+    infoEl.textContent = "";
+    btnSave.disabled = true;
     return;
   }
-  showStatus("Obteniendo ubicación actual...", "#0077b6");
+
+  statusEl.textContent = "Detectando instalación más cercana...";
+  infoEl.textContent = "";
+
+  try {
+    const pos = await new Promise((resolve, reject) =>
+      navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true, timeout: 15000 })
+    );
+    if (!supervisorSites.length) {
+      infoEl.textContent = "No hay sitios configurados.";
+      infoEl.style.color = "#b00020";
+      btnSave.disabled = true;
+      return;
+    }
+    const nearestSite = getNearestSite(pos.coords.latitude, pos.coords.longitude, supervisorSites);
+
+    // Cancelar timeout previo
+    if (noSiteTimeout) {
+      clearTimeout(noSiteTimeout);
+      noSiteTimeout = null;
+    }
+
+    if (nearestSite && nearestSite.distance <= MAX_DISTANCE_METERS) {
+      statusEl.textContent = `Estás en el sitio "${nearestSite.name}". Puedes registrar visita aquí.`;
+      statusEl.style.color = "#059669";
+      infoEl.textContent = `Sitio: ${nearestSite.name} (${nearestSite.address || ''})`;
+      infoEl.style.color = "#059669";
+      btnSave.disabled = false;
+      btnSave.dataset.siteId = nearestSite.id;
+      btnSave.dataset.latitude = pos.coords.latitude;
+      btnSave.dataset.longitude = pos.coords.longitude;
+    } else if (nearestSite) {
+      statusEl.textContent = `El sitio más cercano es "${nearestSite.name}" a ${nearestSite.distance.toFixed(1)} metros. Acércate para registrar.`;
+      statusEl.style.color = "#d97706";
+      infoEl.textContent = "";
+      infoEl.style.color = "#d97706";
+      btnSave.disabled = true;
+    } else {
+      statusEl.textContent = "No se encontró ningún sitio cercano. Redirigiendo al dashboard...";
+      statusEl.style.color = "#b00020";
+      infoEl.textContent = "";
+      infoEl.style.color = "#b00020";
+      btnSave.disabled = true;
+      // Redirección después de 3 segundos
+      noSiteTimeout = setTimeout(() => navigateTo("private/supervisors/dashboard"), 3000);
+    }
+  } catch (e) {
+    statusEl.textContent = "No se pudo obtener ubicación.";
+    statusEl.style.color = "#b00020";
+    infoEl.textContent = "";
+    infoEl.style.color = "#b00020";
+    btnSave.disabled = true;
+  }
+}
+
+// --- Inicializar widget ---
+function initSupervisorVisitWidget() {
+  const root = document.getElementById('visit-widget');
+  if (!root || root.dataset.svInit === '1') return;
+  root.dataset.svInit = '1';
+
+  const btnSave = document.getElementById('save-visit-btn');
+  const btnCancel = document.getElementById('cancel-visit-btn');
+  const descriptionInput = document.getElementById('visit-description');
+  const photoInput = document.getElementById('visit-photo');
+  const photoPreview = document.getElementById('visit-photo-preview');
+  const videoInput = document.getElementById('visit-video');
+  const videoPreview = document.getElementById('visit-video-preview');
+
+  // Previsualización foto/video
+  photoInput?.addEventListener('change', () => {
+    photoPreview.innerHTML = '';
+    const file = photoInput.files && photoInput.files[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      const img = document.createElement('img');
+      img.src = url;
+      img.style.maxWidth = "180px";
+      img.style.borderRadius = "6px";
+      photoPreview.appendChild(img);
+    }
+  });
+  videoInput?.addEventListener('change', () => {
+    videoPreview.innerHTML = '';
+    const file = videoInput.files && videoInput.files[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      const video = document.createElement('video');
+      video.src = url;
+      video.controls = true;
+      video.style.maxWidth = "220px";
+      video.style.borderRadius = "6px";
+      videoPreview.appendChild(video);
+    }
+  });
+
+  // Registrar visita (NO submit de form, solo botón)
+  btnSave?.addEventListener('click', async (e) => {
+    e.preventDefault();
+
+    const siteId = btnSave.dataset.siteId;
+    const latitude = btnSave.dataset.latitude;
+    const longitude = btnSave.dataset.longitude;
+    const description = descriptionInput.value;
+
+    if (!siteId || !latitude || !longitude) {
+      showCurrentSiteStatus(); // Refresca estado, por seguridad
+      return;
+    }
+
+    btnSave.disabled = true;
+    showStatus("Registrando visita...", "#0077b6");
+
+    const payload = {
+      siteId,
+      latitude,
+      longitude,
+      description
+    };
+
+    try {
+      const endpoint = root.dataset.visitEndpoint || '/api/supervisor-visits/register';
+      const res = await fetchWithAuth(endpoint, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        credentials: 'same-origin'
+      });
+      if (!res.ok) {
+        let out = await res.json().catch(() => ({}));
+        throw new Error(out.error || "Error al registrar visita.");
+      }
+      showStatus("✅ Visita registrada correctamente.", "#15803d");
+      root.reset();
+      photoPreview.innerHTML = '';
+      videoPreview.innerHTML = '';
+      btnSave.disabled = true;
+    } catch (err) {
+      showStatus("No se pudo registrar la visita: " + (err.message || err), "#b91c1c");
+      btnSave.disabled = false;
+    }
+  });
+
+  // Botón cancelar
+  btnCancel?.addEventListener('click', (e) => {
+    e.preventDefault();
+    root.reset();
+    photoPreview.innerHTML = '';
+    videoPreview.innerHTML = '';
+    showStatus("Registro cancelado.", "#b91c1c");
+    btnSave.disabled = true;
+  });
+
+  // Inicializar mapa
+  showCurrentLocationOnMap();
+
+  // Mostrar estado al cargar el widget
+  showCurrentSiteStatus();
+}
+
+// --- Mapita ---
+function showCurrentLocationOnMap() {
+  const mapDiv = document.getElementById('visit-map');
+  if (!mapDiv) return;
+
+  if (mapDiv._google_map) {
+    mapDiv._google_map = null;
+    mapDiv.innerHTML = "";
+  }
+
+  if (!navigator.geolocation) {
+    mapDiv.innerHTML = "<div style='padding:1em;text-align:center;color:#888'>Geolocalización no soportada</div>";
+    return;
+  }
+
   navigator.geolocation.getCurrentPosition(
     (pos) => {
-      visitLat = pos.coords.latitude;
-      visitLon = pos.coords.longitude;
-      map.setCenter({ lat: visitLat, lng: visitLon });
-      marker.setPosition({ lat: visitLat, lng: visitLon });
-      showStatus("Ubicación detectada, buscando sitio más cercano...", "#15803d");
-      updateNearestSite();
+      const lat = pos.coords.latitude;
+      const lon = pos.coords.longitude;
+      if (window.google && window.google.maps) {
+        const mapInstance = new google.maps.Map(mapDiv, {
+          center: { lat, lng: lon },
+          zoom: 17,
+          mapTypeId: 'roadmap',
+          disableDefaultUI: true
+        });
+        new google.maps.Marker({ position: { lat, lng: lon }, map: mapInstance });
+        mapDiv._google_map = mapInstance;
+      } else {
+        mapDiv.innerHTML = "<div style='padding:1em;text-align:center;color:#888'>Google Maps no cargado</div>";
+      }
     },
     (err) => {
-      showStatus("No se pudo obtener la ubicación actual: " + (err.message || err), "#b91c1c");
+      mapDiv.innerHTML = `<div style='padding:1em;text-align:center;color:#b00020'>No se pudo obtener ubicación.<br>${err.message}</div>`;
     },
     { enableHighAccuracy: true, timeout: 10000 }
   );
 }
 
-// Determina el sitio más cercano y actualiza la UI
-function updateNearestSite() {
-  if (!supervisorSites || !visitLat || !visitLon) return;
-  const nearest = getNearestSite(visitLat, visitLon, supervisorSites);
-  closestSite = nearest;
-  currentDistance = nearest ? nearest.distance : null;
-
-  // Cancelar timeout previo si existe
-  if (noSiteTimeout) {
-    clearTimeout(noSiteTimeout);
-    noSiteTimeout = null;
-  }
-
-  if (nearest) {
-    if (nearest.distance <= MAX_DISTANCE_METERS) {
-      showStatus(`Estás en el sitio "${nearest.name}". Puedes registrar visita aquí.`, "#059669");
-      showSiteInfo(`Sitio: ${nearest.name} (${nearest.address || ''})`, "#059669");
-      btnSave.disabled = false;
-    } else {
-      showStatus(`El sitio más cercano es "${nearest.name}" a ${nearest.distance.toFixed(1)} metros. Acércate para registrar.`, "#d97706");
-      showSiteInfo("", "#d97706");
-      btnSave.disabled = true;
-    }
-  } else {
-    showStatus("No se encontró ningún sitio cercano. Redirigiendo...", "#b00020");
-    showSiteInfo("", "#b00020");
-    btnSave.disabled = true;
-
-    // Espera 3 segundos y redirige al dashboard
-    noSiteTimeout = setTimeout(() => {
-      navigateTo("private/supervisors/dashboard");
-    }, 3000);
-  }
-}
-
-// Enviar formulario (registro de visita)
-form?.addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  if (!visitLat || !visitLon) {
-    showStatus("No se ha detectado ubicación válida.", "#b91c1c");
-    return;
-  }
-  if (!closestSite) {
-    showStatus("No se ha detectado sitio cercano.", "#b91c1c");
-    return;
-  }
-  if (typeof currentDistance !== 'number' || currentDistance > MAX_DISTANCE_METERS) {
-    showStatus(`Debes estar a menos de ${MAX_DISTANCE_METERS} metros del sitio para registrar visita.`, "#b91c1c");
-    return;
-  }
-
-  showStatus("Registrando visita...", "#0077b6");
-  btnSave.disabled = true;
-
-  // Armar JSON (sin archivos)
-  const payload = {
-    siteId: closestSite.id,
-    latitude: visitLat,
-    longitude: visitLon,
-    description: descriptionInput.value
-    // Si necesitas más campos, agrégalos aquí
-  };
-
-  try {
-    const endpoint = form.dataset.visitEndpoint || '/api/supervisor-visits/register';
-    const res = await fetchWithAuth(endpoint, {
-      method: 'POST',
-      body: JSON.stringify(payload),
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      credentials: 'same-origin'
-    });
-    if (!res.ok) {
-      let out = await res.json().catch(() => ({}));
-      throw new Error(out.error || "Error al registrar visita.");
-    }
-    showStatus("✅ Visita registrada correctamente.", "#15803d");
-    form.reset();
-    photoPreview.innerHTML = '';
-    videoPreview.innerHTML = '';
-    btnSave.disabled = true;
-  } catch (err) {
-    showStatus("No se pudo registrar la visita: " + (err.message || err), "#b91c1c");
-    btnSave.disabled = false;
-  }
-});
-
-// Botón cancelar
-btnCancel?.addEventListener('click', (e) => {
-  e.preventDefault();
-  form.reset();
-  photoPreview.innerHTML = '';
-  videoPreview.innerHTML = '';
-  showStatus("Registro cancelado.", "#b91c1c");
-  btnSave.disabled = true;
-});
-
-// Inicialización automática cuando Google Maps esté listo
-function waitGoogleMapsAndInit(retry = 0) {
-  if (window.google && window.google.maps) {
-    // Puedes obtener una ubicación inicial, por defecto Santiago
-    let latInit = -33.45, lonInit = -70.65;
-    if (supervisorSites.length && typeof supervisorSites[0].latitude === "number" && typeof supervisorSites[0].longitude === "number") {
-      latInit = supervisorSites[0].latitude;
-      lonInit = supervisorSites[0].longitude;
-    }
-    initMap(latInit, lonInit);
-    setCurrentLocation();
-  } else if (retry < 15) {
-    setTimeout(() => waitGoogleMapsAndInit(retry + 1), 250 + 100 * retry);
-  } else {
-    showStatus('No se pudo cargar el mapa de Google.', "#b91c1c");
-  }
-}
-
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", waitGoogleMapsAndInit);
+// --- Auto-init ---
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', async () => {
+    await loadSites();
+    initSupervisorVisitWidget();
+  });
 } else {
-  waitGoogleMapsAndInit();
+  loadSites().then(initSupervisorVisitWidget);
 }
+document.addEventListener('content:loaded', async () => {
+  await loadSites();
+  initSupervisorVisitWidget();
+});
+
+// --- Exponer helpers si necesitas testear ---
+export {
+  getDistanceMeters,
+  getNearestSite,
+  showCurrentSiteStatus,
+  initSupervisorVisitWidget
+};
