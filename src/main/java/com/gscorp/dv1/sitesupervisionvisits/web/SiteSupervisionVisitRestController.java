@@ -31,14 +31,14 @@ public class SiteSupervisionVisitRestController {
 
     private final SiteSupervisionVisitService siteSupervisionVisitService;
 
-/*     @Value("${file.upload-dir}")
-    private String uploadDir;*/
+    @Value("${file.upload-dir}")
+    private String uploadDir;
     
     @GetMapping("/sites")
     public List<SiteDto> getSitesApi() {
         return siteService.getAllSites();
     }
-/* 
+ 
     @PostMapping("/create")
     public ResponseEntity<SiteSupervisionVisitDto> createSiteSupervisionVisit(
         @RequestParam Long siteId,
@@ -85,5 +85,5 @@ public class SiteSupervisionVisitRestController {
 
         return ResponseEntity.created(location).body(savedDto);
     }
-*/
+
 }
