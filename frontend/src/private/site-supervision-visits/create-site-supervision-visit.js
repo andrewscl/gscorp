@@ -89,8 +89,6 @@ async function showCurrentSiteStatus() {
     if (nearestSite && nearestSite.distance <= MAX_DISTANCE_METERS) {
       statusEl.textContent = `Estás en el sitio "${nearestSite.name}". Puedes registrar visita aquí.`;
       statusEl.style.color = "#059669";
-      infoEl.textContent = `Sitio: ${nearestSite.name} (${nearestSite.address || ''})`;
-      infoEl.style.color = "#059669";
       btnSave.disabled = false;
       btnSave.dataset.siteId = nearestSite.id;
       btnSave.dataset.latitude = pos.coords.latitude;
