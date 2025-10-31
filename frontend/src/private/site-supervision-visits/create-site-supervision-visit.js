@@ -185,11 +185,11 @@ function initSupervisorVisitWidget() {
     formdata.append("description", description);
 
     if (photoInput.files && photoInput.files[0]) {
-      formdata.append("photoPath", photoInput.files[0]);
+      formdata.append("photo", photoInput.files[0]);
     }
 
     if (videoInput.files && videoInput.files[0]) {
-      formdata.append("videoPath", videoInput.files[0]);
+      formdata.append("video", videoInput.files[0]);
     }
 
 
