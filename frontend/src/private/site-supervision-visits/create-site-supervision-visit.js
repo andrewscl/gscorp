@@ -218,6 +218,7 @@ function initSupervisorVisitWidget() {
     videoPreview.innerHTML = '';
     showStatus("Registro cancelado.", "#b91c1c");
     btnSave.disabled = true;
+    navigateTo("/private/supervisors/dashboard")
   });
 
   // Inicializar mapa
