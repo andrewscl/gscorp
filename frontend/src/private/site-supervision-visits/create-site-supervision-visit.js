@@ -178,19 +178,26 @@ function initSupervisorVisitWidget() {
     btnSave.disabled = true;
     showStatus("Registrando visita...", "#0077b6");
 
-    const payload = {
-      siteId,
-      latitude,
-      longitude,
-      description
-    };
+    const formdata = new FormData();
+    formdata.append("siteId", siteId);
+    formdata.append("latitude", latitude);
+    formdata.append("longitude", longitude);
+    formdata.append("description", description);
+
+    if (photoInput.files && photoInput.files[0]) {
+      formdata.append("photoPath", photoInput.files[0]);
+    }
+
+    if (videoInput.files && videoInput.files[0]) {
+      formdata.append("videoPath", videoInput.files[0]);
+    }
+
 
     try {
       const endpoint = root.dataset.visitEndpoint || '/api/site-supervision-visits/create';
       const res = await fetchWithAuth(endpoint, {
         method: 'POST',
-        body: JSON.stringify(payload),
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: formdata,
         credentials: 'same-origin'
       });
       if (!res.ok) {

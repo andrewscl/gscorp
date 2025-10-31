@@ -191,4 +191,9 @@ public class UserServiceImpl implements UserService{
                                     equals("ADMINISTRATOR"));
     }
 
+    @Override
+    public Optional<User> findByUsername(String username) {
+        return userRepo.findByUsername(username);
+    }
+
 }

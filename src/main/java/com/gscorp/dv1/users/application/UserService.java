@@ -1,6 +1,7 @@
 package com.gscorp.dv1.users.application;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.gscorp.dv1.users.infrastructure.User;
 import com.gscorp.dv1.users.web.dto.CreateUserRequest;
@@ -17,6 +18,6 @@ public interface UserService {
     Boolean isInvitationTokenValid(String token);
     Boolean setPasswordFromInvitation(String token, String password);
     void save(User user);
-
     Boolean isAdmin(User user);
+    Optional<User> findByUsername(String username);
 }
