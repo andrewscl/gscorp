@@ -74,7 +74,7 @@ async function showCurrentSiteStatus() {
       btnSave.disabled = true;
       // Redirección después de 3 segundos (opcional)
       if (noSiteTimeout) clearTimeout(noSiteTimeout);
-      noSiteTimeout = setTimeout(() => navigateTo("/private/supervisors/dashboard"), 3000);
+      noSiteTimeout = setTimeout(() => navigateTo("/private/supervisors/table-view"), 3000);
       return;
     }
 
@@ -106,7 +106,7 @@ async function showCurrentSiteStatus() {
       infoEl.style.color = "#b00020";
       btnSave.disabled = true;
       // Redirección después de 3 segundos
-      noSiteTimeout = setTimeout(() => navigateTo("/private/supervisors/dashboard"), 3000);
+      noSiteTimeout = setTimeout(() => navigateTo("/private/supervisors/table-view"), 3000);
     }
   } catch (e) {
     const statusEl = document.getElementById('visit-status');
