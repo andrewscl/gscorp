@@ -188,7 +188,7 @@ function initSupervisorVisitWidget() {
     };
 
     try {
-      const endpoint = root.dataset.visitEndpoint || '/api/supervisor-visits/register';
+      const endpoint = root.dataset.visitEndpoint || '/api/site-supervision-visits/create';
       const res = await fetchWithAuth(endpoint, {
         method: 'POST',
         body: JSON.stringify(payload),

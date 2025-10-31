@@ -47,6 +47,12 @@ public class SiteSupervisionVisit {
     private OffsetDateTime visitDateTime;
 
     @Column(length=500)
-    private String note;
+    private String description;
+
+    @Column(length=255)
+    private String photoPath;
+
+    @Column(length=255)
+    private String videoPath;
 
 }
