@@ -113,9 +113,25 @@
   }
 }
 @media (max-width: 600px) {
-  .site-supervision-visit-table, .site-supervision-visit-table thead, .site-supervision-visit-table tbody, .site-supervision-visit-table tr, .site-supervision-visit-table th, .site-supervision-visit-table td {
+  .site-supervision-visit-table-container {
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
+    overflow-x: visible;
+  }
+  .site-supervision-visit-table,
+  .site-supervision-visit-table thead,
+  .site-supervision-visit-table tbody,
+  .site-supervision-visit-table tr,
+  .site-supervision-visit-table th,
+  .site-supervision-visit-table td {
     display: block;
     width: 100%;
+    min-width: 0 !important;
+  }
+  .site-supervision-visit-table {
+    box-shadow: none;
+    border-radius: 0;
+    min-width: 0 !important;
   }
   .site-supervision-visit-table thead {
     display: none;
@@ -132,6 +148,7 @@
     padding: 0.32rem 1rem;
     position: relative;
     font-size: 1.04em;
+    overflow-wrap: anywhere;
   }
   .site-supervision-visit-table td:before {
     content: attr(data-label) ": ";
