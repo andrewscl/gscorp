@@ -120,10 +120,24 @@
 }
 
 @media (max-width: 600px) {
+  .site-supervision-visit-header {
+    flex-direction: column;
+    align-items: flex-start;
+
+    h2 {
+      margin-bottom: .8rem;
+    }
+    #createSupervisionVisitBtn {
+      margin: 0 0 .6rem 0;
+      width: 100%;
+      max-width: 320px;
+    }
+  }
+
   .site-supervision-visit-table-container {
     padding-left: .3rem;
     padding-right: .3rem;
-    overflow-x: visible; // Elimina barra de scroll horizontal en móvil
+    overflow-x: visible;
   }
   .site-supervision-visit-table,
   .site-supervision-visit-table thead,
