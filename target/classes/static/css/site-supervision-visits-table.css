@@ -1,0 +1,172 @@
+.site-supervision-visit-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.3rem 1.5rem 1rem 1.5rem;
+}
+.site-supervision-visit-header h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+.site-supervision-visit-header #createSupervisionVisitBtn {
+  background: #4177f6;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.6rem 1.3rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.site-supervision-visit-header #createSupervisionVisitBtn:hover {
+  background: #275bca;
+}
+
+.site-supervision-visit-table-container {
+  padding: 0 1.5rem 1.5rem 1.5rem;
+  overflow-x: auto;
+  width: 100%;
+}
+.site-supervision-visit-table-container .site-supervision-visit-table {
+  width: 100%;
+  min-width: 700px;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+}
+.site-supervision-visit-table-container .site-supervision-visit-table th, .site-supervision-visit-table-container .site-supervision-visit-table td {
+  padding: 0.85rem 1.1rem;
+  font-size: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+  vertical-align: middle;
+  max-width: 240px;
+  word-break: break-word;
+}
+.site-supervision-visit-table-container .site-supervision-visit-table th {
+  background: #f8fafc;
+  color: #334155;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.site-supervision-visit-table-container .site-supervision-visit-table tbody tr:last-child td {
+  border-bottom: none;
+}
+.site-supervision-visit-table-container .site-supervision-visit-table td img {
+  max-width: 48px;
+  max-height: 48px;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px #aaa;
+  background: #f3f4f6;
+}
+.site-supervision-visit-table-container .site-supervision-visit-table .tag-video {
+  display: inline-block;
+  background: #e0e7ff;
+  color: #3730a3;
+  font-size: 0.98rem;
+  padding: 0.25em 0.7em;
+  border-radius: 0.5em;
+  font-weight: 500;
+}
+.site-supervision-visit-table-container .site-supervision-visit-table .actions {
+  display: flex;
+  gap: 0.6rem;
+}
+.site-supervision-visit-table-container .site-supervision-visit-table .actions .btn-link {
+  background: none;
+  border: none;
+  color: #4177f6;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0 0.2rem;
+  transition: color 0.13s;
+}
+.site-supervision-visit-table-container .site-supervision-visit-table .actions .btn-link:hover {
+  color: #e11d48;
+}
+
+@media (max-width: 900px) {
+  .site-supervision-visit-table-container {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  .site-supervision-visit-table {
+    min-width: 600px;
+  }
+  .site-supervision-visit-table th, .site-supervision-visit-table td {
+    font-size: 0.96rem;
+    padding: 0.7rem 0.6rem;
+    max-width: 140px;
+  }
+  .site-supervision-visit-table td img {
+    max-width: 38px;
+    max-height: 38px;
+  }
+}
+@media (max-width: 600px) {
+  .site-supervision-visit-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .site-supervision-visit-header h2 {
+    margin-bottom: 0.8rem;
+  }
+  .site-supervision-visit-header #createSupervisionVisitBtn {
+    margin: 0 0 0.6rem 0;
+    width: 100%;
+    max-width: 320px;
+  }
+  .site-supervision-visit-table-container {
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
+    overflow-x: visible;
+  }
+  .site-supervision-visit-table,
+  .site-supervision-visit-table thead,
+  .site-supervision-visit-table tbody,
+  .site-supervision-visit-table tr,
+  .site-supervision-visit-table th,
+  .site-supervision-visit-table td {
+    display: block;
+    width: 100%;
+    min-width: 0 !important;
+  }
+  .site-supervision-visit-table {
+    box-shadow: none;
+    border-radius: 0;
+    min-width: 0 !important;
+  }
+  .site-supervision-visit-table thead {
+    display: none;
+  }
+  .site-supervision-visit-table tr {
+    margin-bottom: 1.2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
+    border-radius: 9px;
+    background: #fff;
+    padding: 0.7rem;
+  }
+  .site-supervision-visit-table td {
+    border-bottom: none;
+    padding: 0.32rem 1rem;
+    position: relative;
+    font-size: 1.04em;
+    overflow-wrap: anywhere;
+  }
+  .site-supervision-visit-table td:before {
+    content: attr(data-label) ": ";
+    font-weight: 700;
+    color: #64748b;
+    display: block;
+    margin-bottom: 3px;
+  }
+}/*# sourceMappingURL=site-supervision-visits-table.css.map */
