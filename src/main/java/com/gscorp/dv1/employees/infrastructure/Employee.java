@@ -97,6 +97,9 @@ public class Employee {
     private HealthSystem healthSystem;
 
     @Enumerated(EnumType.STRING)
+    private HealthEntity healthEntity;
+
+    @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
 
     @ManyToOne

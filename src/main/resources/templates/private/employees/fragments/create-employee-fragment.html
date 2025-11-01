@@ -84,9 +84,9 @@
     </div>
 
     <div class="form-group">
-      <label for="employeePensionEntity">Previsional</label>
+      <label for="employeePensionEntity">Entidad previsional</label>
       <select id="employeePensionEntity" name="pensionEntity" required>
-        <option value="">Seleccione sistema</option>
+        <option value="">Seleccione entidad</option>
         <option th:each="pe : ${pensionEntities}" th:value="${pe}" th:text="${pe.displayName}"></option>
       </select>
     </div>
@@ -96,6 +96,14 @@
       <select id="employeeHealthSystem" name="healthSystem" required>
         <option value="">Seleccione sistema</option>
         <option th:each="hs : ${healthSystems}" th:value="${hs}" th:text="${hs}"></option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="employeeHealthEntity">Entidad de salud</label>
+      <select id="employeeHealthEntity" name="healthEntity" required>
+        <option value="">Seleccione entidad</option>
+        <option th:each="he : ${healthEntities}" th:value="${he}" th:text="${he.displayName}"></option>
       </select>
     </div>
 

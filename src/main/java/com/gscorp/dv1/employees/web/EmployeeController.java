@@ -13,6 +13,7 @@ import com.gscorp.dv1.enums.BankAccountType;
 import com.gscorp.dv1.enums.ContractType;
 import com.gscorp.dv1.enums.Gender;
 import com.gscorp.dv1.enums.HealthSystem;
+import com.gscorp.dv1.enums.HealthEntity;
 import com.gscorp.dv1.enums.MaritalStatus;
 import com.gscorp.dv1.enums.PaymentMethod;
 import com.gscorp.dv1.enums.PensionEntity;
@@ -80,6 +81,7 @@ public class EmployeeController {
         model.addAttribute("previtionalSystems", PrevitionalSystem.values());
         model.addAttribute("pensionEntities", PensionEntity.values());
         model.addAttribute("healthSystems", HealthSystem.values());
+        model.addAttribute("healthEntities", HealthEntity.values());
         model.addAttribute("paymentMethods", PaymentMethod.values());
         model.addAttribute("banks", bankService.findAll());
         model.addAttribute("bankAccountTypes", BankAccountType.values());

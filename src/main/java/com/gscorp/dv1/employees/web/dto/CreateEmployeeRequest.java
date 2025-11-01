@@ -59,6 +59,8 @@ public record CreateEmployeeRequest(
 
     HealthSystem healthSystem,
 
+    HealthEntity healthEntity,
+
     PaymentMethod paymentMethod,
 
     Long bankId,
