@@ -1,6 +1,7 @@
 package com.gscorp.dv1.employees.web.dto;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -98,6 +99,6 @@ public class CreateEmployeeRequest {
 
         private String address;
 
-        private Set<Long> projectIds;
+        private Set<Long> projectIds = new HashSet<>();
 
 }
