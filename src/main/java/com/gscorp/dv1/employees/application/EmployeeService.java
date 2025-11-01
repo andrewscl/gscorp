@@ -18,6 +18,6 @@ public interface EmployeeService {
 
     List<Employee> findAllWithProjects();
 
-    List<Employee> findAllUnassignedToUser();
+    List<Employee> findAllUnassignedEmployees();
     
 }
