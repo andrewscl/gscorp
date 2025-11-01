@@ -87,7 +87,7 @@
         <option value="">Seleccione sistema</option>
         <option th:each="ps : ${previtionalSystems}"
                     th:value="${ps.name()}"
-                      th:text="${ps.displayName()}"></option>
+                      th:text="${ps.displayName}"></option>
       </select>
     </div>
 
@@ -127,7 +127,7 @@
         <option value="">Seleccione método</option>
         <option th:each="pm : ${paymentMethods}"
                     th:value="${pm.name()}"
-                      th:text="${pm.displayName()}"></option>
+                      th:text="${pm.displayName}"></option>
       </select>
     </div>
 
@@ -145,7 +145,7 @@
         <option value="">Seleccione tipo</option>
         <option th:each="bat : ${bankAccountTypes}"
                     th:value="${bat.name()}"
-                      th:text="${bat.displayName()}"></option>
+                      th:text="${bat.displayName}"></option>
       </select>
     </div>
 
@@ -160,7 +160,7 @@
         <option value="">Seleccione tipo</option>
         <option th:each="ct : ${contractTypes}"
                     th:value="${ct.name()}"
-                      th:text="${ct.displayName()}"></option>
+                      th:text="${ct.displayName}"></option>
       </select>
     </div>
 
@@ -170,7 +170,7 @@
         <option value="">Seleccione horario</option>
         <option th:each="ws : ${workSchedules}"
                     th:value="${ws.name()}"
-                      th:text="${ws.displayName()}"></option>
+                      th:text="${ws.displayName}"></option>
       </select>
     </div>
 
@@ -180,7 +180,7 @@
         <option value="">Seleccione sistema</option>
         <option th:each="ss : ${shiftSystems}"
                     th:value="${ss.name()}"
-                      th:text="${ss.displayName()}"></option>
+                      th:text="${ss.displayName}"></option>
       </select>
     </div>
 
