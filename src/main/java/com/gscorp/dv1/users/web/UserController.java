@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gscorp.dv1.clients.application.ClientService;
+import com.gscorp.dv1.employees.application.EmployeeService;
 import com.gscorp.dv1.roles.application.RoleService;
 import com.gscorp.dv1.users.application.UserService;
 
@@ -20,6 +21,7 @@ public class UserController {
     private final UserService userService;
     private final ClientService clientService;
     private final RoleService roleService;
+    private final EmployeeService employeeService;
 
     @GetMapping("/table-view")
     public String getUsersTableView(Model model) {
@@ -32,6 +34,7 @@ public class UserController {
         model.addAttribute("users", userService.findAllWithRolesAndClients());
         model.addAttribute("clients", clientService.getAllClients());
         model.addAttribute("roles", roleService.getAllRoles());
+        model.addAttribute("employees", employeeService.findAllUnassignedEmployees());
         return "private/users/views/invite-user-view";
     }
 
