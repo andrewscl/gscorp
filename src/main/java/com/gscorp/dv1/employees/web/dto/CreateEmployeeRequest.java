@@ -3,12 +3,13 @@ package com.gscorp.dv1.employees.web.dto;
 import java.time.LocalDate;
 import java.util.Set;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.gscorp.dv1.enums.BankAccountType;
 import com.gscorp.dv1.enums.ContractType;
 import com.gscorp.dv1.enums.Gender;
 import com.gscorp.dv1.enums.HealthEntity;
 import com.gscorp.dv1.enums.HealthSystem;
-
 import com.gscorp.dv1.enums.MaritalStatus;
 import com.gscorp.dv1.enums.PaymentMethod;
 import com.gscorp.dv1.enums.PensionEntity;
@@ -24,81 +25,80 @@ import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Pattern;
 
-public record CreateEmployeeRequest(
-    @NotBlank(message = "El nombre es obligatorio")
-    String name,
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
-    @NotBlank(message = "El apellido paterno es obligatorio")
-    String fatherSurname,
+@RequiredArgsConstructor
+@Getter @Setter
+public class CreateEmployeeRequest {
 
-    @NotBlank(message = "El apellido materno es obligatorio")
-    String motherSurname,
+        @NotBlank(message = "El nombre es obligatorio")
+        private String name;
 
-    @NotBlank(message = "El RUT es obligatorio")
-    String rut,
+        @NotBlank(message = "El apellido paterno es obligatorio")
+        private String fatherSurname;
 
-    @Email(message = "El email no es válido")
-    String mail,
+        @NotBlank(message = "El apellido materno es obligatorio")
+        private String motherSurname;
 
-    @Pattern(regexp = "^\\+?\\d{0,3}?[- .]?\\d{1,4}[- .]?\\d{3,4}[- .]?\\d{3,4}$", message = "El teléfono no es válido")
-    String phone,
+        @NotBlank(message = "El RUT es obligatorio")
+        private String rut;
 
-    String secondaryPhone,
+        @Email(message = "El email no es válido")
+        private String mail;
 
-    Gender gender,
+        @Pattern(regexp = "^\\+?\\d{0,3}?[- .]?\\d{1,4}[- .]?\\d{3,4}[- .]?\\d{3,4}$", message = "El teléfono no es válido")
+        private String phone;
 
-    Long nationalityId,
+        private String secondaryPhone;
 
-    MaritalStatus maritalStatus,
+        private Gender gender;
 
-    StudyLevel studyLevel,
+        private Long nationalityId;
 
-    Set<Long> professionIds,
+        private MaritalStatus maritalStatus;
 
-    PrevitionalSystem previtionalSystem,
+        private StudyLevel studyLevel;
 
-    PensionEntity pensionEntity,
+        private Set<Long> professionIds;
 
-    HealthSystem healthSystem,
+        private PrevitionalSystem previtionalSystem;
 
-    HealthEntity healthEntity,
+        private PensionEntity pensionEntity;
 
-    PaymentMethod paymentMethod,
+        private HealthSystem healthSystem;
 
-    Long bankId,
+        private HealthEntity healthEntity;
 
-    BankAccountType bankAccountType,
+        private PaymentMethod paymentMethod;
 
-    String bankAccountNumber,
+        private Long bankId;
 
-    ContractType contractType,
+        private BankAccountType bankAccountType;
 
-    WorkSchedule workSchedule,
+        private String bankAccountNumber;
 
-    ShiftSystem shiftSystem,
+        private ContractType contractType;
 
-    ShiftPattern shiftPattern,
+        private WorkSchedule workSchedule;
 
-    Long positionId,
+        private ShiftSystem shiftSystem;
 
-    String password,
+        private ShiftPattern shiftPattern;
 
-    String photoUrl,
+        private Long positionId;
 
-    @PastOrPresent(message = "La fecha de ingreso debe ser pasada o actual")
-    LocalDate hireDate,
+        private MultipartFile photo;
 
-    @Past(message = "La fecha de nacimiento debe ser pasada")
-    LocalDate birthDate,
+        @PastOrPresent(message = "La fecha de ingreso debe ser pasada o actual")
+        private LocalDate hireDate;
 
-    LocalDate exitDate,
+        @Past(message = "La fecha de nacimiento debe ser pasada")
+        private LocalDate birthDate;
 
-    Boolean active,
+        private String address;
 
-    String address,
+        private Set<Long> projectIds;
 
-    Long userId,
-
-    Set<Long> projectIds
-    
-) {}
+}
