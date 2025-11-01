@@ -88,6 +88,7 @@ public class EmployeeRestController {
             .previtionalSystem(req.previtionalSystem())
             .pensionEntity(req.pensionEntity())
             .healthSystem(req.healthSystem())
+            .healthEntity(req.healthEntity())
             .paymentMethod(req.paymentMethod())
             .bank(bank)
             .bankAccountType(req.bankAccountType())
@@ -132,6 +133,7 @@ public class EmployeeRestController {
             saved.getPrevitionalSystem(),
             saved.getPensionEntity(),
             saved.getHealthSystem(),
+            saved.getHealthEntity(),
             saved.getPaymentMethod(),
             saved.getBank() != null ? saved.getBank().getId() : null,   // bankId
             saved.getBank() != null ? saved.getBank().getName() : null, // bankName

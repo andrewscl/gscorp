@@ -38,6 +38,7 @@ public record EmployeeDto(
     PrevitionalSystem previtionalSystem,
     PensionEntity pensionEntity,
     HealthSystem healthSystem,
+    HealthEntity healthEntity,
     PaymentMethod paymentMethod,
     Long bankId,
     String bankName,
