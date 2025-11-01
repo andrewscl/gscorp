@@ -77,6 +77,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @Transactional
     public Employee createEmployeeFromRequest(CreateEmployeeRequest req) {
         
         //Establecer proyecto
@@ -172,13 +173,15 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .active(true)
                 .build();
 
+        Employee savedEmployee = employeeRepository.save(entity);
+
         //Asignar los proyectos el empleado (relacion inversa)
         for (Project p : projects) {
             System.out.println("Project: " + p.getId());
-            p.getEmployees().add(entity);
+            p.getEmployees().add(savedEmployee);
         }
 
-        return employeeRepository.save(entity);
+        return employeeRepository.save(savedEmployee);
 
     }
 
