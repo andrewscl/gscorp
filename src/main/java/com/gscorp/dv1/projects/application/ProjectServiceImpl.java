@@ -79,7 +79,7 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    @Transactional (readOnly = true)
+    @Transactional
     public List<Project> findEntitiesById(Set<Long> ids) {
         return projectRepository.findAllByIdWithEmployees(ids);
     }
