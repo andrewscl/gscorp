@@ -59,8 +59,8 @@ public class Employee {
     private Long id;
 
     private String name;
-    private String motherSurname;
     private String fatherSurname;
+    private String motherSurname;
     private String rut;
     private String mail;
     private String phone;
@@ -129,7 +129,6 @@ public class Employee {
     @JoinColumn(name = "position_id")
     private Position position;
 
-    private String password;
     private String photoUrl;
 
     private LocalDate hireDate;

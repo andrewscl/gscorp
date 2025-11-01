@@ -2,7 +2,9 @@ package com.gscorp.dv1.employees.web.dto;
 
 import java.time.LocalDate;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import com.gscorp.dv1.employees.infrastructure.Employee;
 import com.gscorp.dv1.enums.BankAccountType;
 import com.gscorp.dv1.enums.ContractType;
 import com.gscorp.dv1.enums.Gender;
@@ -50,14 +52,53 @@ public record EmployeeDto(
     ShiftSystem shiftSystem,
     ShiftPattern shiftPattern,
     PositionDto position,
-    String password,
     String photoUrl,
     LocalDate hireDate,
     LocalDate birthDate,
     LocalDate exitDate,
     Boolean active,
     String address,
-    // Relaciones
     UserDto user,
     Set<ProjectDto> projects
-) {}
+) {
+    public static EmployeeDto fromEntity(Employee e) {
+        return new EmployeeDto(
+            e.getId(),
+            e.getName(),
+            e.getMotherSurname(),
+            e.getFatherSurname(),
+            e.getRut(),
+            e.getMail(),
+            e.getPhone(),
+            e.getSecondaryPhone(),
+            e.getGender(),
+            e.getNationality() != null ? e.getNationality().getId() : null,
+            e.getNationality() != null ? e.getNationality().getName() : null,
+            e.getMaritalStatus(),
+            e.getStudyLevel(),
+            e.getProfessions() != null ? e.getProfessions().stream().map(ProfessionDto::fromEntity).collect(Collectors.toSet()) : Set.of(),
+            e.getPrevitionalSystem(),
+            e.getPensionEntity(),
+            e.getHealthSystem(),
+            e.getHealthEntity(),
+            e.getPaymentMethod(),
+            e.getBank() != null ? e.getBank().getId() : null,
+            e.getBank() != null ? e.getBank().getName() : null,
+            e.getBankAccountType(),
+            e.getBankAccountNumber(),
+            e.getContractType(),
+            e.getWorkSchedule(),
+            e.getShiftSystem(),
+            e.getShiftPattern(),
+            e.getPosition() != null ? PositionDto.fromEntity(e.getPosition()) : null,
+            e.getPhotoUrl(),
+            e.getHireDate(),
+            e.getBirthDate(),
+            e.getExitDate(),
+            e.getActive(),
+            e.getAddress(),
+            e.getUser() != null ? UserDto.fromEntity(e.getUser()) : null,
+            e.getProjects() != null ? e.getProjects().stream().map(ProjectDto::fromEntity).collect(Collectors.toSet()) : Set.of()
+        );
+    }
+}
