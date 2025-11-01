@@ -173,7 +173,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .active(true)
                 .build();
 
-        return entity;
+        return employeeRepository.save(entity);
 
     }
 
