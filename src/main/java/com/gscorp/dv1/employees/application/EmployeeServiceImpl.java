@@ -25,6 +25,7 @@ import com.gscorp.dv1.professions.application.ProfessionService;
 import com.gscorp.dv1.professions.infrastructure.Profession;
 import com.gscorp.dv1.projects.application.ProjectService;
 import com.gscorp.dv1.projects.infrastructure.Project;
+import com.gscorp.dv1.shiftpatterns.infrastructure.ShiftPattern;
 
 import lombok.RequiredArgsConstructor;
 
@@ -102,6 +103,11 @@ public class EmployeeServiceImpl implements EmployeeService {
             ? positionService.findById(req.getPositionId())
             : null;
 
+        ShiftPattern shiftPattern =
+            (req.getShiftPatternId() != null)
+            ? req.getShiftPatternId()
+            : null;
+
         //Gestion de archivo
         String photoUrl = null;
         MultipartFile photo = req.getPhoto();
@@ -154,13 +160,14 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .contractType(req.getContractType())
                 .workSchedule(req.getWorkSchedule())
                 .shiftSystem(req.getShiftSystem())
-                .shiftPattern(req.getShiftPattern())
+                .shiftPattern(shiftPattern)
                 .position(position)
                 .photoUrl(photoUrl)
                 .hireDate(req.getHireDate())
                 .birthDate(req.getBirthDate())
                 .address(req.getAddress())
                 .projects(projects)
+                .active(true)
                 .build();
 
         return entity;
