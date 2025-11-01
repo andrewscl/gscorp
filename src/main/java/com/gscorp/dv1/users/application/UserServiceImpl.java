@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gscorp.dv1.auth.application.PasswordResetTokenService;
 import com.gscorp.dv1.clients.infrastructure.Client;
 import com.gscorp.dv1.clients.infrastructure.ClientRepository;
+import com.gscorp.dv1.employees.infrastructure.Employee;
+import com.gscorp.dv1.employees.infrastructure.EmployeeRepository;
 import com.gscorp.dv1.roles.infrastructure.Role;
 import com.gscorp.dv1.roles.infrastructure.RoleRepository;
 import com.gscorp.dv1.users.infrastructure.User;
@@ -32,6 +34,7 @@ public class UserServiceImpl implements UserService{
     private final ClientRepository clientRepo;
     private final PasswordEncoder encoder;
     private final PasswordResetTokenService passwordResetTokenService;
+    private final EmployeeRepository employeeRepo;
 
     //Crear usuario
     public Long createUser (CreateUserRequest req){
@@ -141,6 +144,19 @@ public class UserServiceImpl implements UserService{
             }
         }
         user.setClients(clients);
+
+        //Asociar empleado
+        if(request.employeeId() != null) {
+            Employee employee = employeeRepo.findById(request.employeeId())
+                .orElseThrow(() -> new IllegalArgumentException(
+                                        "Empleado no encontrado"));
+            if(employee.getUser() != null) {
+                throw new IllegalArgumentException(
+                    "Empleado ya asociado a un usuario");
+            }
+            employeeRepo.findById(request.employeeId())
+                .ifPresent(user::setEmployee);
+        }
 
         //NO contraseña aun, ni token (El controller gestiona eso)
         user.setPassword(null);
