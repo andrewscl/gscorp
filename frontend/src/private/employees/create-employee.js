@@ -32,6 +32,7 @@ async function onSubmitCreate(e) {
   const previtionalSystem    = qs('#employeePrevitionalSystem')?.value?.trim() || null;
   const pensionEntity       = qs('#employeePensionEntity')?.value?.trim() || null;  
   const healthSystem         = qs('#employeeHealthSystem')?.value?.trim() || null;
+  const healthEntity         = qs('#employeeHealthEntity')?.value?.trim() || null;
   const paymentMethod        = qs('#employeePaymentMethod')?.value?.trim() || null;
   const bankId               = qs('#employeeBank')?.value?.trim() || null;
   const bankAccountType      = qs('#employeeBankAccountType')?.value?.trim() || null;
@@ -102,6 +103,7 @@ async function onSubmitCreate(e) {
     formData.append('previtionalSystem', previtionalSystem);
     formData.append('pensionEntity', pensionEntity);
     formData.append('healthSystem', healthSystem);
+    formData.append('healthEntity', healthEntity);
     formData.append('paymentMethod', paymentMethod);
     formData.append('bankId', bankId);
     formData.append('bankAccountType', bankAccountType);
