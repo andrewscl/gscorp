@@ -66,7 +66,8 @@ public class EmployeeController {
 
     @GetMapping("/table-view")
     public String getEmployeesTableView (Model model) {
-        model.addAttribute("employees", employeeService.findAll());
+        model.addAttribute("employees",
+                                            employeeService.findAllWithProjects());
         return "private/employees/views/employees-table-view";
     }
 

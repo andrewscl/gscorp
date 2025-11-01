@@ -15,5 +15,7 @@ public interface EmployeeService {
     Optional<Employee> findByUsername(String username);
 
     Employee createEmployeeFromRequest(CreateEmployeeRequest req);
+
+    List<Employee> findAllWithProjects();
     
 }
