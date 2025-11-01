@@ -38,7 +38,10 @@
             <span th:text="${e.user != null ? e.user.username : '—'}">—</span>
           </td>
           <td>
-            <span th:each="${p : ${e.projects}}" th:text="${p.name}">—</span>
+            <span class="tag"
+                  th:each="p : ${e.projects}"
+                  th:text="${p.name}"></span>
+            <span th:if="${#lists.isEmpty(e.projects)}" class="muted">Sin proyectos</span>
           </td>
           <td>
             <span class="tag"
