@@ -9,6 +9,7 @@ import com.gscorp.dv1.enums.Gender;
 import com.gscorp.dv1.enums.HealthSystem;
 import com.gscorp.dv1.enums.MaritalStatus;
 import com.gscorp.dv1.enums.PaymentMethod;
+import com.gscorp.dv1.enums.PensionEntity;
 import com.gscorp.dv1.enums.PrevitionalSystem;
 import com.gscorp.dv1.enums.ShiftSystem;
 import com.gscorp.dv1.enums.StudyLevel;
@@ -53,6 +54,8 @@ public record CreateEmployeeRequest(
     Set<Long> professionIds,
 
     PrevitionalSystem previtionalSystem,
+
+    PensionEntity pensionEntity,
 
     HealthSystem healthSystem,
 

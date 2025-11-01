@@ -86,6 +86,7 @@ public class EmployeeRestController {
             .studyLevel(req.studyLevel())
             .professions(professions)
             .previtionalSystem(req.previtionalSystem())
+            .pensionEntity(req.pensionEntity())
             .healthSystem(req.healthSystem())
             .paymentMethod(req.paymentMethod())
             .bank(bank)
@@ -129,6 +130,7 @@ public class EmployeeRestController {
                 .map(prof -> ProfessionDto.fromEntity(prof))
                 .collect(Collectors.toSet()),
             saved.getPrevitionalSystem(),
+            saved.getPensionEntity(),
             saved.getHealthSystem(),
             saved.getPaymentMethod(),
             saved.getBank() != null ? saved.getBank().getId() : null,   // bankId
