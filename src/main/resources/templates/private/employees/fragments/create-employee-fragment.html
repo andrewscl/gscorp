@@ -40,7 +40,9 @@
       <label for="employeeGender">Género</label>
       <select id="employeeGender" name="gender" required>
         <option value="">Seleccione género</option>
-        <option th:each="g : ${genders}" th:value="${g}" th:text="${g}"></option>
+        <option th:each="g : ${genders}"
+                  th:value="${g.name()}"
+                    th:text="${g.displayName}"></option>
       </select>
     </div>
 
@@ -56,7 +58,9 @@
       <label for="employeeMaritalStatus">Estado civil</label>
       <select id="employeeMaritalStatus" name="maritalStatus" required>
         <option value="">Seleccione estado civil</option>
-        <option th:each="ms : ${maritalStatuses}" th:value="${ms}" th:text="${ms}"></option>
+        <option th:each="ms : ${maritalStatuses}"
+                    th:value="${ms.name()}"
+                      th:text="${ms.displayName}"></option>
       </select>
     </div>
 
@@ -64,7 +68,9 @@
       <label for="employeeStudyLevel">Nivel de estudios</label>
       <select id="employeeStudyLevel" name="studyLevel" required>
         <option value="">Seleccione nivel</option>
-        <option th:each="sl : ${studyLevels}" th:value="${sl}" th:text="${sl}"></option>
+        <option th:each="sl : ${studyLevels}"
+                    th:value="${sl.name()}"
+                      th:text="${sl.displayName}"></option>
       </select>
     </div>
 
@@ -76,10 +82,12 @@
     </div>
 
     <div class="form-group">
-      <label for="employeePrevitionalSystem">Previsional</label>
+      <label for="employeePrevitionalSystem">Sistema Previsional</label>
       <select id="employeePrevitionalSystem" name="previtionalSystem" required>
         <option value="">Seleccione sistema</option>
-        <option th:each="ps : ${previtionalSystems}" th:value="${ps}" th:text="${ps}"></option>
+        <option th:each="ps : ${previtionalSystems}"
+                    th:value="${ps.name()}"
+                      th:text="${ps.displayName()}"></option>
       </select>
     </div>
 
@@ -87,15 +95,19 @@
       <label for="employeePensionEntity">Entidad previsional</label>
       <select id="employeePensionEntity" name="pensionEntity" required>
         <option value="">Seleccione entidad</option>
-        <option th:each="pe : ${pensionEntities}" th:value="${pe}" th:text="${pe.displayName}"></option>
+        <option th:each="pe : ${pensionEntities}"
+                    th:value="${pe.name()}"
+                      th:text="${pe.displayName}"></option>
       </select>
     </div>
 
     <div class="form-group">
-      <label for="employeeHealthSystem">Salud</label>
+      <label for="employeeHealthSystem">Sistema de Salud</label>
       <select id="employeeHealthSystem" name="healthSystem" required>
         <option value="">Seleccione sistema</option>
-        <option th:each="hs : ${healthSystems}" th:value="${hs}" th:text="${hs}"></option>
+        <option th:each="hs : ${healthSystems}"
+                    th:value="${hs.name()}"
+                      th:text="${hs.displayName}"></option>
       </select>
     </div>
 
@@ -103,7 +115,9 @@
       <label for="employeeHealthEntity">Entidad de salud</label>
       <select id="employeeHealthEntity" name="healthEntity" required>
         <option value="">Seleccione entidad</option>
-        <option th:each="he : ${healthEntities}" th:value="${he}" th:text="${he.displayName}"></option>
+        <option th:each="he : ${healthEntities}"
+                    th:value="${he.name()}"
+                      th:text="${he.displayName}"></option>
       </select>
     </div>
 
@@ -111,7 +125,9 @@
       <label for="employeePaymentMethod">Forma de pago</label>
       <select id="employeePaymentMethod" name="paymentMethod" required>
         <option value="">Seleccione método</option>
-        <option th:each="pm : ${paymentMethods}" th:value="${pm}" th:text="${pm}"></option>
+        <option th:each="pm : ${paymentMethods}"
+                    th:value="${pm.name()}"
+                      th:text="${pm.displayName()}"></option>
       </select>
     </div>
 
@@ -127,7 +143,9 @@
       <label for="employeeBankAccountType">Tipo cuenta</label>
       <select id="employeeBankAccountType" name="bankAccountType" required>
         <option value="">Seleccione tipo</option>
-        <option th:each="bat : ${bankAccountTypes}" th:value="${bat}" th:text="${bat}"></option>
+        <option th:each="bat : ${bankAccountTypes}"
+                    th:value="${bat.name()}"
+                      th:text="${bat.displayName()}"></option>
       </select>
     </div>
 
@@ -140,7 +158,9 @@
       <label for="employeeContractType">Tipo de contrato</label>
       <select id="employeeContractType" name="contractType" required>
         <option value="">Seleccione tipo</option>
-        <option th:each="ct : ${contractTypes}" th:value="${ct}" th:text="${ct}"></option>
+        <option th:each="ct : ${contractTypes}"
+                    th:value="${ct.name()}"
+                      th:text="${ct.displayName()}"></option>
       </select>
     </div>
 
@@ -148,7 +168,9 @@
       <label for="employeeWorkSchedule">Horario</label>
       <select id="employeeWorkSchedule" name="workSchedule" required>
         <option value="">Seleccione horario</option>
-        <option th:each="ws : ${workSchedules}" th:value="${ws}" th:text="${ws}"></option>
+        <option th:each="ws : ${workSchedules}"
+                    th:value="${ws.name()}"
+                      th:text="${ws.displayName()}"></option>
       </select>
     </div>
 
@@ -156,7 +178,9 @@
       <label for="employeeShiftSystem">Sistema de turnos</label>
       <select id="employeeShiftSystem" name="shiftSystem" required>
         <option value="">Seleccione sistema</option>
-        <option th:each="ss : ${shiftSystems}" th:value="${ss}" th:text="${ss}"></option>
+        <option th:each="ss : ${shiftSystems}"
+                    th:value="${ss.name()}"
+                      th:text="${ss.displayName()}"></option>
       </select>
     </div>
 
