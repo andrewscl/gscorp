@@ -32,7 +32,7 @@
           <td th:text="${e.name}"></td>
           <td th:text="${e.fatherSurname}">—</td>
           <td th:text="${e.motherSurname}">—</td>
-          <td th:text="${e.position != null} ? e.position.name : 'Sin cargo'"></td>
+          <td th:text="${e.position != null ? e.position.name : 'Sin cargo'}"></td>
           <td th:text="${e.mail}">—</td>
           <td>
             <span th:text="${e.user != null ? e.user.username : '—'}">—</span>
