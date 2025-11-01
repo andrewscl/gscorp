@@ -147,9 +147,15 @@ async function onSubmitCreate(e) {
   }
 }
 
+function onCancelCreate(e) {
+  e.preventDefault();
+  navigateTo('/private/employees/table-view');
+}
+
 /* --- Bindings --- */
 function bindCreateEmployeeForm() {
   qs('#createEmployeeForm')?.addEventListener('submit', onSubmitCreate);
+  qs('#cancelCreateEmployee')?.addEventListener('click', onCancelCreate);
 }
 
 /* --- init --- */

@@ -1,137 +1,173 @@
-// Variables para colores y sombras
+// Paleta moderna y ligera
 $primary: #2655a6;
 $primary-dark: #1e417c;
-$success-bg: #d1fae5;
-$success-text: #15803d;
-$error-bg: #fee2e2;
-$error-text: #b91c1c;
+$accent: #1bbf83;
+$accent-light: #e0f8ed;
+$danger: #e24d4d;
+$danger-light: #ffeaea;
+$bg-main: #f7fafd;
+$bg-table: #fff;
 $gray-bg: #f3f6fb;
 $gray-border: #e5e7eb;
-$table-shadow: 0 2px 16px #e5e7eb55;
-$modal-shadow: 0 6px 32px #0002;
+$table-shadow: 0 4px 24px #e5e7eb88;
 
-// Pro layout + responsividad + animaciones
+// Cabecera y botón
 .employees-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
+  gap: 1.2rem;
   flex-wrap: wrap;
-  gap: 1rem;
 
   h2 {
     margin: 0;
     font-size: 2rem;
-    font-weight: 600;
+    font-weight: 700;
     color: $primary;
-    letter-spacing: 0.01em;
+    letter-spacing: .02em;
+    background: linear-gradient(90deg, $primary 80%, $accent-light 180%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
   }
 
   .btn-primary {
-    padding: 0.5rem 1.5rem;
-    font-size: 1rem;
-    border-radius: 6px;
-    background: $primary;
+    padding: 0.6rem 1.8rem;
+    font-size: 1.04rem;
+    border-radius: 8px;
+    background: linear-gradient(90deg, $primary 70%, $accent 100%);
     color: #fff;
     border: none;
     cursor: pointer;
-    font-weight: 600;
-    box-shadow: 0 2px 8px #2655a61a;
-    transition: background 0.2s, box-shadow 0.2s;
+    font-weight: 700;
+    box-shadow: 0 2px 12px #2655a640;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.13s;
 
     &:hover, &:focus {
-      background: $primary-dark;
-      box-shadow: 0 4px 16px #2655a633;
+      background: linear-gradient(90deg, $primary-dark 60%, $accent 100%);
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 6px 24px #2655a670;
+      outline: none;
     }
   }
 }
 
-// Responsive table wrapper
+// Tabla responsiva y con shadow elegante
 .employee-table-container {
   overflow-x: auto;
   width: 100%;
-  padding-bottom: 1rem;
+  background: $bg-main;
+  border-radius: 16px;
+  padding: 1.5rem 1.5rem 2rem 1.5rem;
+  box-shadow: $table-shadow;
 }
 
-// Table styles
 .employees-table {
   width: 100%;
-  border-collapse: collapse;
-  background: #fff;
-  box-shadow: $table-shadow;
-  font-size: 1rem;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: $bg-table;
+  border-radius: 15px;
+  overflow: hidden;
+  font-size: 1.03rem;
+  min-width: 900px;
 
   thead {
     tr {
       background: $gray-bg;
+
       th {
-        padding: 1rem 0.75rem;
-        font-weight: 600;
-        font-size: 1rem;
+        position: sticky;
+        top: 0;
+        background: $gray-bg;
+        z-index: 2;
+        padding: 1.2rem 0.85rem;
+        font-weight: 700;
+        font-size: 1.04rem;
         border-bottom: 2px solid $gray-border;
         color: $primary;
         text-align: left;
-        letter-spacing: 0.01em;
+        letter-spacing: .01em;
+        box-shadow: 0 2px 8px #e5e7eb11;
       }
     }
   }
-
   tbody {
     tr {
       border-bottom: 1px solid $gray-border;
-      transition: background 0.15s;
+      transition: background 0.12s, box-shadow 0.15s;
 
       &:hover {
-        background: #f8fafc;
+        background: #e2efff44;
+        box-shadow: 0 2px 16px #1bbf8333;
       }
 
       td {
-        padding: 0.75rem;
-        font-size: 0.98rem;
+        padding: 1rem 0.85rem;
         vertical-align: middle;
+        background: transparent;
+        font-size: 1.03rem;
 
         .employee-photo-thumb {
-          box-shadow: 0 1px 4px #0002;
+          box-shadow: 0 1px 6px #0001;
+          border: 2px solid $primary;
+          width: 44px;
+          height: 44px;
         }
 
         .tag {
           display: inline-block;
-          padding: 0.3em 0.8em;
-          border-radius: 1em;
+          min-width: 70px;
+          padding: 0.32em 0.9em;
+          border-radius: 1.2em;
+          font-size: 1em;
+          font-weight: 600;
+          letter-spacing: .01em;
+          text-align: center;
           background: $gray-border;
-          color: $primary;
-          font-size: 0.96em;
-          font-weight: 500;
+          color: #6b7280;
+          transition: background .15s, color .15s;
+
           &[th-text*="Activo"] {
-            background: $success-bg;
-            color: $success-text;
+            background: $accent-light;
+            color: $accent;
+            border: 1px solid $accent;
           }
           &[th-text*="Inactivo"] {
-            background: $error-bg;
-            color: $error-text;
+            background: $danger-light;
+            color: $danger;
+            border: 1px solid $danger;
           }
         }
 
         .actions {
           display: flex;
-          gap: 0.5rem;
+          gap: 0.6rem;
+          justify-content: flex-start;
 
           .btn-link {
-            padding: 0.3em 1em;
-            background: none;
+            padding: 0.32em 1.2em;
+            background: $gray-bg;
             color: $primary;
             border: none;
-            border-radius: 0.5em;
+            border-radius: 0.6em;
             cursor: pointer;
-            text-decoration: underline;
-            font-size: 0.98em;
-            font-weight: 500;
-            transition: background 0.15s, color 0.15s;
+            text-decoration: none;
+            font-size: 1em;
+            font-weight: 600;
+            transition: background 0.14s, color 0.14s, box-shadow 0.13s;
+            box-shadow: 0 1px 4px #e5e7eb22;
+            border: 1px solid transparent;
 
             &:hover, &:focus {
-              background: $gray-bg;
-              color: $primary-dark;
+              background: $primary;
+              color: #fff;
+              border: 1px solid $primary-dark;
+              box-shadow: 0 2px 10px #2655a62a;
               outline: none;
+              transform: translateY(-1px) scale(1.03);
             }
           }
         }
@@ -139,184 +175,49 @@ $modal-shadow: 0 6px 32px #0002;
     }
   }
 
-  // Responsive: scroll and font size for mobile
-  @media (max-width: 900px) {
-    font-size: 0.95rem;
-    thead th, tbody td {
-      padding: 0.6rem 0.45rem;
-    }
+  // Responsive tweaks
+  @media (max-width: 1100px) {
+    min-width: 750px;
+    thead th, tbody td { padding: 0.85rem 0.6rem; }
   }
-  @media (max-width: 600px) {
-    font-size: 0.90rem;
-    thead th, tbody td {
-      padding: 0.45rem 0.3rem;
-    }
-    td .actions {
-      flex-direction: column;
-      gap: 0.2rem;
-    }
-    td .employee-photo-thumb {
-      width: 32px !important;
-      height: 32px !important;
-    }
+  @media (max-width: 700px) {
+    font-size: 0.98rem;
+    min-width: 540px;
+    thead th, tbody td { padding: 0.6rem 0.3rem; }
+    td .actions { flex-direction: column; gap: 0.25rem; }
+    td .employee-photo-thumb { width: 32px !important; height: 32px !important; }
   }
 }
 
-// Modal styles
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 2200;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: #0005;
-  transition: opacity 0.2s;
-
-  &.hidden {
-    display: none;
-  }
-  &[aria-hidden="false"] {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 1;
-  }
-
-  .modal-dialog {
-    background: #fff;
-    border-radius: 14px;
-    max-width: 32rem;
-    width: 96vw;
-    box-shadow: $modal-shadow;
-    padding: 2rem 1.5rem;
-    position: relative;
-    animation: modalFadeIn 0.23s;
-
-    @media (max-width: 500px) {
-      padding: 1rem 0.4rem;
-      max-width: 98vw;
-      border-radius: 0.8em;
-    }
-
-    .modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1.2rem;
-
-      h3 {
-        margin: 0;
-        font-size: 1.4rem;
-        font-weight: 600;
-        color: $primary;
-      }
-
-      .modal-close {
-        font-size: 2rem;
-        background: none;
-        border: none;
-        color: #888;
-        cursor: pointer;
-        line-height: 1;
-        transition: color 0.18s;
-        &:hover, &:focus {
-          color: $primary-dark;
-          outline: none;
-        }
-      }
-    }
-
-    .modal-body {
-      .form-group {
-        margin-bottom: 1rem;
-        display: flex;
-        flex-direction: column;
-
-        label {
-          font-size: 1em;
-          font-weight: 500;
-          margin-bottom: 0.3em;
-          color: $primary;
-        }
-        input, select, textarea {
-          padding: 0.6em;
-          border: 1px solid $gray-border;
-          border-radius: 6px;
-          font-size: 1em;
-          background: #f9fafb;
-          transition: border 0.15s;
-          &:focus {
-            border-color: $primary;
-            outline: none;
-            background: #eef6fd;
-          }
-        }
-        input[type="checkbox"] {
-          width: auto;
-          margin-right: 0.5em;
-        }
-      }
-      .form-error {
-        color: $error-text;
-        margin-top: 0.5em;
-        font-size: 0.97em;
-      }
-      .form-ok {
-        color: $success-text;
-        margin-top: 0.5em;
-        font-size: 0.97em;
-      }
-    }
-
-    .modal-footer {
-      display: flex;
-      gap: 0.7rem;
-      justify-content: flex-end;
-      margin-top: 1.2rem;
-
-      .btn-primary {
-        background: $primary;
-        color: #fff;
-        border: none;
-        border-radius: 6px;
-        padding: 0.55em 1.8em;
-        font-weight: 600;
-        box-shadow: 0 2px 8px #2655a61a;
-        cursor: pointer;
-        transition: background 0.18s;
-        &:hover, &:focus {
-          background: $primary-dark;
-          outline: none;
-        }
-      }
-      .btn-secondary {
-        background: $gray-border;
-        color: $primary;
-        border: none;
-        border-radius: 6px;
-        padding: 0.55em 1.8em;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background 0.18s;
-        &:hover, &:focus {
-          background: #e0e7ff;
-          outline: none;
-        }
-      }
-    }
+// Badges para status
+.status-badge {
+  display: inline-block;
+  padding: 0.25em 1em;
+  border-radius: 2em;
+  font-size: 0.97em;
+  font-weight: 700;
+  background: $accent-light;
+  color: $accent;
+  border: 1px solid $accent;
+  margin-left: 0.5em;
+  &.inactive {
+    background: $danger-light;
+    color: $danger;
+    border: 1px solid $danger;
   }
 }
 
-// Modal animation
-@keyframes modalFadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+// Scrollbar custom para tablas largas
+.employee-table-container::-webkit-scrollbar {
+  height: 8px;
+  background: #e5e7eb;
+}
+.employee-table-container::-webkit-scrollbar-thumb {
+  background: #bcd1e6;
+  border-radius: 8px;
+}
+
+// Fondo general para el área
+body {
+  background: $bg-main;
 }
