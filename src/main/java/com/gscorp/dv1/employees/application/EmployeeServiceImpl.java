@@ -80,9 +80,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee createEmployeeFromRequest(CreateEmployeeRequest req) {
         
         //Establecer proyecto
+
         Set<Project> projects =
             (req.getProjectIds() != null && !req.getProjectIds().isEmpty())
-            ? new HashSet<>(projectService.findAllById(req.getProjectIds()))
+            ? new HashSet<>(projectService.findEntitiesById(req.getProjectIds()))
             : Set.of();
         
         Bank bank =
