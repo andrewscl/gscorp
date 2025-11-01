@@ -13,6 +13,7 @@ import com.gscorp.dv1.enums.BankAccountType;
 import com.gscorp.dv1.enums.ContractType;
 import com.gscorp.dv1.enums.Gender;
 import com.gscorp.dv1.enums.HealthSystem;
+import com.gscorp.dv1.enums.HealthEntity;
 import com.gscorp.dv1.enums.MaritalStatus;
 import com.gscorp.dv1.enums.PaymentMethod;
 import com.gscorp.dv1.enums.PensionEntity;
