@@ -196,4 +196,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         return null;
     }
 
+    @Override
+    @Transactional
+    public List<Employee> findAllWithProjects() {
+        return employeeRepository.findAllWithProjects();
+    }
+
 }
