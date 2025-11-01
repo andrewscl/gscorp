@@ -7,6 +7,18 @@
     <label for="inviteMail">Email:</label>
     <input type="email" id="inviteMail" required /><br><br>
 
+    <!-- Asignar Empleado -->
+    <label for="inviteEmployeeId">Asignar a empleado:</label>
+    <select name="inviteEmployeeId" id="inviteEmployeeId" required>
+      <option value="" disabled selected>Seleccione un empleado...</option>
+      <th:block th:each="emp : ${employees}">
+        <option th:value="${emp.id}"
+                th:text="${emp.name + ' ' + emp.fatherSurname + ' (' + emp.rut + ')'}"></option>
+      </th:block>
+    </select>
+
+    <br><br>
+
     <!-- Roles: checkboxes -->
     <label>Roles:</label><br>
     <div id="rolesCheckboxes">

@@ -6,7 +6,8 @@ public record InviteUserRequest (
     String username,
     String mail,
     Set<Long> roleIds,
-    Set<Long> clientIds
+    Set<Long> clientIds,
+    Long employeeId
 ){
     
 }
