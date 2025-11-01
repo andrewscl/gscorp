@@ -138,7 +138,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         
         }
 
-        //Armar Dto
         Employee entity = Employee.builder()
                 .name(req.getName().trim())
                 .fatherSurname(req.getFatherSurname())
@@ -175,6 +174,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         //Asignar los proyectos el empleado (relacion inversa)
         for (Project p : projects) {
+            System.out.println("Project: " + p.getId());
             p.getEmployees().add(entity);
         }
 
