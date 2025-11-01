@@ -38,9 +38,9 @@
             <span th:text="${e.user != null ? e.user.username : '—'}">—</span>
           </td>
           <td>
-            <span th:if="${e.projects != null && !e.projects.isEmpty()}"
+            <span th:if="${#lists.isEmpty(e.projects) == false}"
                   th:text="${#strings.listJoin(e.projects, ', ', 'name')}"></span>
-            <span th:if="${e.projects == null || e.projects.isEmpty()}">—</span>
+            <span th:if="${#lists.isEmpty(e.projects)}">—</span>
           </td>
           <td>
             <span class="tag"

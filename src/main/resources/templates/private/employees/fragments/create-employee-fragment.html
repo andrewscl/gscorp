@@ -180,7 +180,7 @@
         <option value="">Seleccione sistema</option>
         <option th:each="ss : ${shiftSystems}"
                     th:value="${ss.name()}"
-                      th:text="${ss.displayName}"></option>
+                      th:text="${ss.displayName()}"></option>
       </select>
     </div>
 
@@ -226,7 +226,7 @@
     <div class="form-group">
       <label for="employeeProjects">Proyectos asociados</label>
       <select id="employeeProjects" name="projectIds" multiple>
-        <option th:each="p : ${projects}" th:value="${p.id}" th:text="${p.name}" />
+        <option th:each="p : ${projects}" th:value="${p.id}" th:text="${p.name}">
       </select>
     </div>
 
