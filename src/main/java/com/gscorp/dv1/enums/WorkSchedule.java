@@ -1,9 +1,9 @@
 package com.gscorp.dv1.enums;
 
 public enum WorkSchedule {
-    Diurno("Diurno"),
-    Nocturno("Nocturno"),
-    Mixto("Mixto"),
+    Dayly("Diurno"),
+    Nightly("Nocturno"),
+    Mixed("Mixto"),
     Flexible("Flexible");
 
     private final String displayName;

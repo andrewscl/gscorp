@@ -1,9 +1,9 @@
 package com.gscorp.dv1.enums;
 
 public enum HealthSystem {
-    Fonasa("Fonasa"),
-    Isapre("Isapre"),
-    Otro("Otro");
+    FONASA("Fonasa"),
+    ISAPRE("Isapre"),
+    OTRO("Otro");
 
     private final String displayName;
 

@@ -1,12 +1,12 @@
 package com.gscorp.dv1.enums;
 
 public enum StudyLevel {
-    Básica("Básica"),
-    Media("Media"),
-    Técnica("Técnica"),
-    Universitaria("Universitaria"),
-    Postgrado("Postgrado"),
-    Doctorado("Doctorado");
+    BASICA("Básica"),
+    MEDIA("Media"),
+    TECNICA("Técnica"),
+    UNIVERSITARIA("Universitaria"),
+    POSTGRADO("Postgrado"),
+    DOCTORADO("Doctorado");
 
     private final String displayName;
 
