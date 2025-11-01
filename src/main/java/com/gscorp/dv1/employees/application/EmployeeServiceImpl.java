@@ -173,6 +173,11 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .active(true)
                 .build();
 
+        //Asignar los proyectos el empleado (relacion inversa)
+        for (Project p : projects) {
+            p.getEmployees().add(entity);
+        }
+
         return employeeRepository.save(entity);
 
     }
