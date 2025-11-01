@@ -25,6 +25,7 @@ import com.gscorp.dv1.professions.application.ProfessionService;
 import com.gscorp.dv1.professions.infrastructure.Profession;
 import com.gscorp.dv1.projects.application.ProjectService;
 import com.gscorp.dv1.projects.infrastructure.Project;
+import com.gscorp.dv1.shiftpatterns.application.ShiftPatternService;
 import com.gscorp.dv1.shiftpatterns.infrastructure.ShiftPattern;
 
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final NationalityService nationalityService;
     private final ProfessionService professionService;
     private final PositionService positionService;
+    private final ShiftPatternService shiftPatternService;
 
     @Value("${file.upload-dir}")
     private String uploadDir;
@@ -105,7 +107,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         ShiftPattern shiftPattern =
             (req.getShiftPatternId() != null)
-            ? req.getShiftPatternId()
+            ? shiftPatternService.findById(req.getShiftPatternId())
             : null;
 
         //Gestion de archivo

@@ -17,7 +17,6 @@ import com.gscorp.dv1.enums.PrevitionalSystem;
 import com.gscorp.dv1.enums.ShiftSystem;
 import com.gscorp.dv1.enums.StudyLevel;
 import com.gscorp.dv1.enums.WorkSchedule;
-import com.gscorp.dv1.shiftpatterns.infrastructure.ShiftPattern;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
