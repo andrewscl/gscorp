@@ -85,7 +85,7 @@ public class CreateEmployeeRequest {
 
         private ShiftSystem shiftSystem;
 
-        private ShiftPattern shiftPattern;
+        private Long shiftPatternId;
 
         private Long positionId;
 

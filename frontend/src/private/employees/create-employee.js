@@ -40,21 +40,11 @@ async function onSubmitCreate(e) {
   const contractType         = qs('#employeeContractType')?.value?.trim() || null;
   const workSchedule         = qs('#employeeWorkSchedule')?.value?.trim() || null;
   const shiftSystem          = qs('#employeeShiftSystem')?.value?.trim() || null;
-
-  // Patrón de turno (nuevo)
   const shiftPatternId       = qs('#employeeShiftPattern')?.value?.trim() || null;
-
-  // Cargo (position) (ID)
   const positionId           = qs('#employeePosition')?.value?.trim() || null;
-  
   const address              = qs('#employeeAddress')?.value?.trim() || null;
   const hireDate             = qs('#employeeHireDate')?.value || null;
   const birthDate            = qs('#employeeBirthDate')?.value || null;
-  const exitDate             = qs('#employeeExitDate')?.value || null;
-  const active               = !!qs('#employeeActive')?.checked;
-
-  // Usuario asociado
-  const userId = qs('#employeeUser')?.value || null;
 
   // Proyectos asociados (select múltiple)
   let projectIds = [];
@@ -80,46 +70,40 @@ async function onSubmitCreate(e) {
     return;
   }
 
-  if (!userId) {
-    if (err) err.textContent = 'Debe seleccionar un usuario asociado.';
-    return;
-  }
-
   try {
     // FormData para soportar archivo y campos complejos
     const formData = new FormData();
     formData.append('name', name);
-    formData.append('fatherSurname', fatherSurname);
-    formData.append('motherSurname', motherSurname);
-    formData.append('rut', rut);
-    formData.append('mail', mail);
-    formData.append('phone', phone);
-    formData.append('secondaryPhone', secondaryPhone);
-    formData.append('gender', gender);
-    formData.append('nationalityId', nationalityId);
-    formData.append('maritalStatus', maritalStatus);
-    formData.append('studyLevel', studyLevel);
-    professionIds.forEach(id => formData.append('professionIds', id)); // MULTI
-    formData.append('previtionalSystem', previtionalSystem);
-    formData.append('pensionEntity', pensionEntity);
-    formData.append('healthSystem', healthSystem);
-    formData.append('healthEntity', healthEntity);
-    formData.append('paymentMethod', paymentMethod);
-    formData.append('bankId', bankId);
-    formData.append('bankAccountType', bankAccountType);
-    formData.append('bankAccountNumber', bankAccountNumber);
-    formData.append('contractType', contractType);
-    formData.append('workSchedule', workSchedule);
-    formData.append('shiftSystem', shiftSystem);
-    formData.append('shiftPatternId', shiftPatternId); // NUEVO
-    formData.append('positionId', positionId); // ID
-    formData.append('address', address);
-    formData.append('hireDate', hireDate);
-    formData.append('birthDate', birthDate);
-    formData.append('exitDate', exitDate);
-    formData.append('active', active);
 
-    formData.append('userId', userId);
+    if (fatherSurname) formData.append('fatherSurname', fatherSurname);
+    if (motherSurname) formData.append('motherSurname', motherSurname);
+    if (rut) formData.append('rut', rut);
+    if (mail) formData.append('mail', mail);
+    if (phone) formData.append('phone', phone);
+    if (secondaryPhone) formData.append('secondaryPhone', secondaryPhone);
+    if (gender) formData.append('gender', gender);
+    if (nationalityId) formData.append('nationalityId', nationalityId);
+    if (maritalStatus) formData.append('maritalStatus', maritalStatus);
+    if (studyLevel) formData.append('studyLevel', studyLevel);
+    if (Array.isArray(professionIds) && professionIds.length > 0) {
+      professionIds.forEach(id => formData.append('professionIds', id)); // MULTI
+    }
+    if (previtionalSystem) formData.append('previtionalSystem', previtionalSystem);
+    if (pensionEntity) formData.append('pensionEntity', pensionEntity);
+    if (healthSystem) formData.append('healthSystem', healthSystem);
+    if (healthEntity) formData.append('healthEntity', healthEntity);
+    if (paymentMethod) formData.append('paymentMethod', paymentMethod);
+    if (bankId) formData.append('bankId', bankId);
+    if (bankAccountType) formData.append('bankAccountType', bankAccountType);
+    if (bankAccountNumber) formData.append('bankAccountNumber', bankAccountNumber);
+    if (contractType) formData.append('contractType', contractType);
+    if (workSchedule) formData.append('workSchedule', workSchedule);
+    if (shiftSystem) formData.append('shiftSystem', shiftSystem);
+    if (shiftPatternId) formData.append('shiftPatternId', shiftPatternId);
+    if (positionId) formData.append('positionId', positionId);
+    if (address) formData.append('address', address);
+    if (hireDate) formData.append('hireDate', hireDate);
+    if (birthDate) formData.append('birthDate', birthDate);
 
     // Proyectos asociados (MULTI)
     projectIds.forEach(id => formData.append('projectIds', id));
