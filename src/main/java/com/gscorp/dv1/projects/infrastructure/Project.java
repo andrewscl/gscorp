@@ -8,6 +8,7 @@ import java.util.Set;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gscorp.dv1.clients.infrastructure.Client;
 import com.gscorp.dv1.employees.infrastructure.Employee;
 
@@ -40,6 +41,7 @@ public class Project {
     // Relación: Un proyecto pertenece a un único cliente
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
+    @JsonIgnore
     private Client client;
 
     // Relación: Un proyecto tiene varios empleados, y un empleado puede estar en varios proyectos
@@ -50,6 +52,7 @@ public class Project {
         inverseJoinColumns = @JoinColumn(name = "employee_id")
     )
     @Builder.Default
+    @JsonIgnore
     private Set<Employee> employees = new HashSet<>();
 
     // Fechas de auditoría (requieren dependencias Hibernate)
