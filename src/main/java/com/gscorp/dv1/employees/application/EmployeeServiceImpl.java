@@ -202,4 +202,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findAllWithProjects();
     }
 
+    @Override
+    @Transactional
+    public List<Employee> findAllUnassignedEmployees() {
+        return employeeRepository.findAllUnassignedEmployees();
+    }
+
+
 }

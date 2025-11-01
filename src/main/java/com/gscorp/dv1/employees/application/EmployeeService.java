@@ -17,5 +17,7 @@ public interface EmployeeService {
     Employee createEmployeeFromRequest(CreateEmployeeRequest req);
 
     List<Employee> findAllWithProjects();
+
+    List<Employee> findAllUnassignedToUser();
     
 }
