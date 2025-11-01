@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.gscorp.dv1.clients.infrastructure.Client;
 import com.gscorp.dv1.projects.infrastructure.Project;
+import com.gscorp.dv1.projects.web.dto.ProjectDto;
 
 public interface ProjectService {
     
@@ -15,6 +16,12 @@ public interface ProjectService {
     Client findClientById (Long clientId);
     Project saveProject (Project project);
     void deleteById(Long id);
-    List<Project> findAllById(Set<Long> ids);
-    List<Project> findAll();
+
+    //Para exponer a Controller
+    List<ProjectDto> findAllById(Set<Long> ids);
+
+    //Para Logica de negocio
+    List<Project> findEntitiesById(Set<Long> ids);
+
+    List<ProjectDto> findAll();
 }

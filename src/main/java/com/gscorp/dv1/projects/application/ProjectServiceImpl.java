@@ -12,6 +12,7 @@ import com.gscorp.dv1.clients.infrastructure.Client;
 import com.gscorp.dv1.clients.infrastructure.ClientRepository;
 import com.gscorp.dv1.projects.infrastructure.Project;
 import com.gscorp.dv1.projects.infrastructure.ProjectRepository;
+import com.gscorp.dv1.projects.web.dto.ProjectDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -69,14 +70,26 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public List<Project> findAllById(Set<Long> ids) {
-        return projectRepository.findAllById(ids);
+    @Transactional (readOnly = true)
+    public List<ProjectDto> findAllById(Set<Long> ids) {
+        List<Project> projects = projectRepository.findAllByIdWithEmployees(ids);
+        return projects.stream()
+                .map(ProjectDto::fromEntity)
+                .toList();
+    }
+
+    @Override
+    @Transactional (readOnly = true)
+    public List<Project> findEntitiesById(Set<Long> ids) {
+        return projectRepository.findAllByIdWithEmployees(ids);
     }
 
     @Override
     @Transactional
-    public List<Project> findAll() {
-        return projectRepository.findAll();
+    public List<ProjectDto> findAll() {
+        return projectRepository.findAll().stream()
+                .map(ProjectDto::fromEntity)
+                .toList();
     }
 
 }
