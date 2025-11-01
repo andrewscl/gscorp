@@ -8,6 +8,7 @@ import java.util.Set;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gscorp.dv1.bank.infrastructure.Bank;
 import com.gscorp.dv1.enums.BankAccountType;
 import com.gscorp.dv1.enums.ContractType;
@@ -141,10 +142,12 @@ public class Employee {
     private String address;
 
     @OneToOne(mappedBy = "employee", fetch = FetchType.LAZY)
+    @JsonIgnore
     private User user;
 
     @ManyToMany(mappedBy = "employees", fetch = FetchType.LAZY)
     @Builder.Default
+    @JsonIgnore
     private Set<Project> projects = new HashSet<>();
 
     // Fechas de auditoría (requieren dependencias Hibernate)
