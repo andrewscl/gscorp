@@ -28,16 +28,19 @@
     }
 
     input[type="text"],
-    input[type="email"] {
+    input[type="email"],
+    select {
       padding: 0.5rem 0.7rem;
       margin-bottom: 1.1rem;
       border: 1px solid #d3d8e4;
       border-radius: 5px;
       font-size: 1rem;
       transition: border-color 0.2s;
+      background: #fafcff;
       &:focus {
         border-color: #4f8cff;
         outline: none;
+        background: #fff;
       }
     }
 
