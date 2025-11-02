@@ -58,7 +58,7 @@ public class SiteSupervisionVisitRestController {
         return ResponseEntity.created(location).body(saved);
     }
 
-    @GetMapping("/visits/series")
+    @GetMapping("/series")
     public List<Point> visitsSeries(
         @RequestParam Long clientId,
         @RequestParam String from,
