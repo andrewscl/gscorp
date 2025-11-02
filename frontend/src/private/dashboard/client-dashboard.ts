@@ -42,7 +42,7 @@ export async function init({ container }: { container: HTMLElement }) {
 
   // -------- KPIs (cards) --------
   try {
-    const kpiRes = await fetchWithAuth(`/api/client/dashboard/kpis?clientId=${clientId}`);
+    const kpiRes = await fetchWithAuth(`/api/clients/dashboard/kpis?clientId=${clientId}`);
     if (kpiRes.ok) {
       const k: KPIs = await kpiRes.json();
       (root.querySelector('#kpi-asistencia-hoy') as HTMLElement).textContent = String(k.asistenciaHoy ?? 0);
@@ -64,7 +64,7 @@ export async function init({ container }: { container: HTMLElement }) {
   // -------- Asistencia (línea con área) --------
   const chAsis = mkChart(elAsis); if (chAsis) charts.push(chAsis);
   try {
-    const res = await fetchWithAuth(`/api/client/attendance/series?clientId=${clientId}&from=${from}&to=${to}&action=IN`);
+    const res = await fetchWithAuth(`/api/clients/attendance/series?clientId=${clientId}&from=${from}&to=${to}&action=IN`);
     if (res.ok) {
       const data: Point[] = await res.json().catch(() => []);
       const labels = data.map(d => d.x);
@@ -84,7 +84,7 @@ export async function init({ container }: { container: HTMLElement }) {
   // -------- Rondas (barra apilada: completadas vs esperadas) --------
   const chRondas = mkChart(elRondas); if (chRondas) charts.push(chRondas);
   try {
-    const res = await fetchWithAuth(`/api/client/patrol/compliance?clientId=${clientId}&from=${from}&to=${to}`);
+    const res = await fetchWithAuth(`/api/clients/patrol/compliance?clientId=${clientId}&from=${from}&to=${to}`);
     if (res.ok) {
       const data: { x: string; expected: number; completed: number }[] = await res.json().catch(() => []);
       const labels = data.map(d => d.x);
@@ -109,7 +109,7 @@ export async function init({ container }: { container: HTMLElement }) {
   // -------- Incidentes (línea simple) --------
   const chInc = mkChart(elInc); if (chInc) charts.push(chInc);
   try {
-    const res = await fetchWithAuth(`/api/client/incidents/series?clientId=${clientId}&from=${from}&to=${to}&status=OPEN`);
+    const res = await fetchWithAuth(`/api/clients/incidents/series?clientId=${clientId}&from=${from}&to=${to}&status=OPEN`);
     if (res.ok) {
       const data: Point[] = await res.json().catch(() => []);
       const labels = data.map(d => d.x);
