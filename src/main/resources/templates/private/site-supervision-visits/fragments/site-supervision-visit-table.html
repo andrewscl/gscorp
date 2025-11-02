@@ -24,21 +24,21 @@
       <tbody>
         <tr th:each="v : ${visits}">
           <td data-label="ID" th:text="${v.id}">—</td>
-          <td data-label="Supervisor" th:text="${v.supervisorName}">—</td>
+          <td data-label="Supervisor" th:text="${v.employeeName}">—</td>
           <td data-label="Instalación" th:text="${v.siteName}">—</td>
           <td data-label="Fecha y Hora" th:text="${#temporals.format(v.visitDateTime, 'yyyy-MM-dd HH:mm')}">—</td>
           <td data-label="Descripción" th:text="${v.description != null ? v.description : '—'}">—</td>
           <td data-label="Fotografía">
-            <a th:href="${v.photoUrl}" target="_blank" th:if="${v.photoUrl}">
-              <img th:src="${v.photoUrl}" alt="Foto">
+            <a th:href="${v.photoPath}" target="_blank" th:if="${v.photoPath}">
+              <img th:src="${v.photoPath}" alt="Foto">
             </a>
-            <span th:if="${v.photoUrl == null}">—</span>
+            <span th:if="${v.photoPath == null}">—</span>
           </td>
           <td data-label="Video">
-            <a th:href="${v.videoUrl}" target="_blank" th:if="${v.videoUrl}">
+            <a th:href="${v.videoPath}" target="_blank" th:if="${v.videoPath}">
               <span class="tag tag-video">Ver video</span>
             </a>
-            <span th:if="${v.videoUrl == null}">—</span>
+            <span th:if="${v.videoPath == null}">—</span>
           </td>
           <td data-label="Acciones" class="actions">
             <button type="button"
