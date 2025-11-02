@@ -21,9 +21,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
     @Query("SELECT e FROM Employee e WHERE e.user IS NULL")
     List<Employee> findAllUnassignedEmployees();
 
-    @EntityGraph(attributePaths = {"user", "projects"})
+    @EntityGraph(attributePaths = {"user", "projects", "position"})
     @Query("SELECT e FROM Employee e")
-    List<Employee> findAllWithUserAndProjects();
+    List<Employee> findAllWithUserAndProjectsAndPosition();
 
 
 }
