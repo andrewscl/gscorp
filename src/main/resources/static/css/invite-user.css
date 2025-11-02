@@ -26,18 +26,22 @@
   font-size: 1rem;
 }
 .invite-user-container form input[type=text],
-.invite-user-container form input[type=email] {
+.invite-user-container form input[type=email],
+.invite-user-container form select {
   padding: 0.5rem 0.7rem;
   margin-bottom: 1.1rem;
   border: 1px solid #d3d8e4;
   border-radius: 5px;
   font-size: 1rem;
   transition: border-color 0.2s;
+  background: #fafcff;
 }
 .invite-user-container form input[type=text]:focus,
-.invite-user-container form input[type=email]:focus {
+.invite-user-container form input[type=email]:focus,
+.invite-user-container form select:focus {
   border-color: #4f8cff;
   outline: none;
+  background: #fff;
 }
 .invite-user-container form #inviteUserError {
   color: #e74c3c;

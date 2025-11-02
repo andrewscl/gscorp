@@ -9,7 +9,7 @@
 
     <!-- Asignar Empleado -->
     <label for="inviteEmployeeId">Asignar a empleado:</label>
-    <select name="inviteEmployeeId" id="inviteEmployeeId" required>
+    <select name="inviteEmployeeId" id="inviteEmployeeId">
       <option value="" disabled selected>Seleccione un empleado...</option>
       <th:block th:each="emp : ${employees}">
         <option th:value="${emp.id}"
