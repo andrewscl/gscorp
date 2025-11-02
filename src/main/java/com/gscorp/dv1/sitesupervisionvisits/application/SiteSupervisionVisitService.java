@@ -12,4 +12,6 @@ public interface SiteSupervisionVisitService {
 
     List<SiteSupervisionVisitDto> getAllSiteSupervisionVisits();
 
+    SiteSupervisionVisitDto findByIdWithEmployeeAndSite(Long id);
+
 }
