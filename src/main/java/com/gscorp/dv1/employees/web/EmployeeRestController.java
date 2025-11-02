@@ -13,6 +13,7 @@ import com.gscorp.dv1.employees.infrastructure.Employee;
 import com.gscorp.dv1.employees.web.dto.CreateEmployeeRequest;
 import com.gscorp.dv1.employees.web.dto.EmployeeDto;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -24,12 +25,14 @@ public class EmployeeRestController {
 
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<EmployeeDto> createEmployee(
-        @jakarta.validation.Valid @ModelAttribute CreateEmployeeRequest req,
+        @Valid @ModelAttribute CreateEmployeeRequest req,
         UriComponentsBuilder ucb
     ) {
 
-        Employee saved = employeeService.createEmployeeFromRequest(req);
-        var location = ucb.path("/api/employees/{id}").buildAndExpand(saved.getId()).toUri();
+        Employee saved = employeeService.
+                                createEmployeeFromRequest(req);
+        var location = ucb.path("/api/employees/{id}")
+                            .buildAndExpand(saved.getId()).toUri();
 
         EmployeeDto dto = EmployeeDto.fromEntity(saved);
 
