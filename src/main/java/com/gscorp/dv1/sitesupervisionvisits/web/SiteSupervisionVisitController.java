@@ -3,6 +3,7 @@ package com.gscorp.dv1.sitesupervisionvisits.web;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gscorp.dv1.sites.application.SiteService;
@@ -32,6 +33,22 @@ public class SiteSupervisionVisitController {
         model.addAttribute("sites", siteService.getAllSites());
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
         return "private/site-supervision-visits/views/create-site-sup-visit-view";
+    }
+
+    @GetMapping("/show/{id}")
+    public String showSiteSupervisionVisit (@PathVariable Long id, Model model){
+        var visit = siteSupervisionVisitService.findByIdWithEmployeeAndSite(id);
+        model.addAttribute("visit", visit);
+        model.addAttribute("googlecloudapikey", googleCloudApiKey);
+        return "private/site-supervision-visits/views/view-site-supervision-visit-view";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editSiteSupervisionVisit (@PathVariable Long id, Model model){
+        var visit = siteSupervisionVisitService.findByIdWithEmployeeAndSite(id);
+        model.addAttribute("visit", visit);
+        model.addAttribute("googlecloudapikey", googleCloudApiKey);
+        return "private/site-supervision-visits/views/edit-site-supervision-visit-view";
     }
 
 }

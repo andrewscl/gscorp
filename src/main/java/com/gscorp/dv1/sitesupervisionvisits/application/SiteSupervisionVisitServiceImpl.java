@@ -108,4 +108,12 @@ public class SiteSupervisionVisitServiceImpl implements SiteSupervisionVisitServ
             .collect(Collectors.toList());
     }
 
+    @Override
+    public SiteSupervisionVisitDto findByIdWithEmployeeAndSite(Long id) {
+        var visit = siteSupervisionVisitRepo.findByIdWithEmployeeAndSite(id)
+            .orElseThrow(() -> 
+                new IllegalArgumentException("Visita de supervisión no encontrada: " + id));
+        return SiteSupervisionVisitDto.fromEntity(visit);
+    }
+
 }
