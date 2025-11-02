@@ -1,6 +1,6 @@
 package com.gscorp.dv1.sitesupervisionvisits.infrastructure;
 
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +27,7 @@ public interface SiteSupervisionVisitRepository
          + "and v.visitDate between :fromDate and :toDate")
     List<SiteSupervisionVisit> findByClientIdAndDateBetween(
         @Param("clientId") Long clientId,
-        @Param("fromDate") LocalDate fromDate,
-        @Param("toDate") LocalDate toDate);
+        @Param("fromDate") OffsetDateTime fromDate,
+        @Param("toDate") OffsetDateTime toDate);
 
 }
