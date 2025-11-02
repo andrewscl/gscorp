@@ -22,7 +22,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr th:each="v : ${visits}">
+        <tr th:each="v : ${siteSupervisionVisits}">
           <td data-label="ID" th:text="${v.id}">—</td>
           <td data-label="Supervisor" th:text="${v.supervisorName}">—</td>
           <td data-label="Instalación" th:text="${v.siteName}">—</td>
