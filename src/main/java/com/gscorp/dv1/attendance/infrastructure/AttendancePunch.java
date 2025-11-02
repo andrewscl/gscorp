@@ -8,11 +8,16 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
 
+import com.gscorp.dv1.sites.infrastructure.Site;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -47,6 +52,10 @@ public class AttendancePunch {
   @JdbcTypeCode(SqlTypes.INET)
   @Column(columnDefinition="inet")
   String ip;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "site_id")
+  private Site site;
 
   @PrePersist void onCreate(){ if (ts == null) ts = OffsetDateTime.now(); }
 

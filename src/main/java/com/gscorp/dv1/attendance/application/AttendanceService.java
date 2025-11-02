@@ -34,7 +34,7 @@ public class AttendanceService {
 
   /** COMANDO: registrar marcación IN/OUT alternada usando el site más cercano */
   @Transactional
-  public AttendancePunch punch(Long userId, double lat, double lon, Double acc, String ip, String ua) {
+  public AttendancePunch punch(Long userId, double lat, double lon, Double acc, String ip, String ua, Site site) {
     var now  = OffsetDateTime.now();
     var last = repo.findFirstByUserIdOrderByTsDesc(userId).orElse(null);
 
@@ -61,6 +61,7 @@ public class AttendanceService {
         .action(nextAction)
         .locationOk(ok).distanceM(dist)
         .ip(ip).deviceInfo(ua)
+        .site(nearestSite)
         .build();
 
     // Si quieres guardar el ID del site más cercano, agrega este campo en AttendancePunch y setéalo aquí:

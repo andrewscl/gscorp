@@ -25,7 +25,13 @@ public class AttendanceRestController {
   private final AttendanceService svc;
 
 
-  @Data public static class PunchReq { @NotNull Double lat; @NotNull Double lon; Double accuracy; }
+  @Data
+  public static class PunchReq { 
+      @NotNull Double lat; 
+      @NotNull Double lon; 
+      Double accuracy; 
+      @NotNull Long siteId; 
+  }
 
   //Registrar asistencia
   @PostMapping("/punch")
@@ -37,12 +43,16 @@ public class AttendanceRestController {
     Long userId = currentUserId(auth);
     String ip = firstNonBlank(cfIp, xff, xri, "0.0.0.0");
 
-    var saved = svc.punch(userId, in.lat, in.lon, in.accuracy, ip, ua);
+    //Buscar el site por ID
+    var site = siteService.findById(in.siteId)
+        .orElseThrow(() -> new IllegalArgumentException("Site ID inválido: " + in.siteId));
+
+    var saved = svc.punch(userId, in.lat, in.lon, in.accuracy, ip, ua, site);
     return ResponseEntity.ok(Map.of(
       "ts", saved.getTs().toString(),
       "action", saved.getAction(),
       "locationOk", saved.getLocationOk(),
-      "distanceMeters", Math.round(saved.getDistanceM()==null?0:saved.getDistanceM())
+      "distanceMeters", Math.round(saved.getDistanceM()==null?0:saved.getDistanceM()),
     ));
   }
 
