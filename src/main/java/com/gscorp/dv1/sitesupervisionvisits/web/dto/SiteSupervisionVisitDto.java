@@ -8,8 +8,10 @@ import com.gscorp.dv1.sitesupervisionvisits.infrastructure.SiteSupervisionVisit;
 
 public record SiteSupervisionVisitDto(
     Long id,
-    Employee supervisor,
-    Site site,
+    Long employeeId,
+    String employeeName,
+    Long siteId,
+    String siteName,
     OffsetDateTime visitDateTime,
     String description,
     String photoPath,
@@ -17,10 +19,15 @@ public record SiteSupervisionVisitDto(
 ) {
     public static SiteSupervisionVisitDto fromEntity(SiteSupervisionVisit visit) {
         if (visit == null) return null;
+            Employee emp = visit.getEmployee();
+            Site site = visit.getSite();
+
         return new SiteSupervisionVisitDto(
             visit.getId(),
-            visit.getEmployee(),
-            visit.getSite(),
+            emp != null ? emp.getId() : null,
+            emp != null ? emp.getName() : null,
+            site != null ? site.getId() : null,
+            site != null ? site.getName() : null,
             visit.getVisitDateTime(),
             visit.getDescription(),
             visit.getPhotoPath(),
