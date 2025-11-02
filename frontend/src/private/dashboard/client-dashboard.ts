@@ -1,7 +1,5 @@
-// frontend/private/client/dashboard.ts
 import { echarts } from '../../lib/echarts-setup';
 
-// Si ya tienes un fetchWithAuth TS, importa el tuyo y borra este helper:
 async function fetchWithAuth(url: string, init: RequestInit = {}) {
   const token = localStorage.getItem('jwt');
   const headers = new Headers(init.headers || {});
@@ -15,7 +13,7 @@ async function fetchWithAuth(url: string, init: RequestInit = {}) {
 }
 
 type Point = { x: string; y: number };
-type KPIs = { asistenciaHoy: number; rondasHoy: number; incidentesAbiertos: number };
+type KPIs = { asistenciaHoy: number; rondasHoy: number; visitasHoy: number; incidentesAbiertos: number };
 
 function firstDayISO(d = new Date()) {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-01`;
@@ -36,18 +34,19 @@ export async function init({ container }: { container: HTMLElement }) {
   const to   = lastDayISO();
 
   // DOM: asegúrate de que existan estos contenedores en tu fragmento
-  const elAsis   = root.querySelector('#chart-asistencia') as HTMLDivElement;
-  const elRondas = root.querySelector('#chart-rondas') as HTMLDivElement;
-  const elInc    = root.querySelector('#chart-incidentes') as HTMLDivElement;
+  const elAsis   = root.querySelector('#chart-att') as HTMLDivElement;
+  const elInc    = root.querySelector('#chart-inc') as HTMLDivElement;
+  const elVisit  = root.querySelector('#chart-visit') as HTMLDivElement;
 
   // -------- KPIs (cards) --------
   try {
     const kpiRes = await fetchWithAuth(`/api/clients/dashboard/kpis?clientId=${clientId}`);
     if (kpiRes.ok) {
       const k: KPIs = await kpiRes.json();
-      (root.querySelector('#kpi-asistencia-hoy') as HTMLElement).textContent = String(k.asistenciaHoy ?? 0);
-      (root.querySelector('#kpi-rondas-hoy') as HTMLElement).textContent    = String(k.rondasHoy ?? 0);
-      (root.querySelector('#kpi-incidentes') as HTMLElement).textContent    = String(k.incidentesAbiertos ?? 0);
+      (root.querySelector('[data-kpi="att"]') as HTMLElement).textContent   = String(k.asistenciaHoy ?? 0);
+      (root.querySelector('[data-kpi="patrol"]') as HTMLElement).textContent = String(k.rondasHoy ?? 0);
+      (root.querySelector('[data-kpi="visit"]') as HTMLElement).textContent  = String(k.visitasHoy ?? 0);
+      (root.querySelector('[data-kpi="inc"]') as HTMLElement).textContent    = String(k.incidentesAbiertos ?? 0);
     }
   } catch (e) {
     // silenciar, que no rompa el dashboard
@@ -64,7 +63,7 @@ export async function init({ container }: { container: HTMLElement }) {
   // -------- Asistencia (línea con área) --------
   const chAsis = mkChart(elAsis); if (chAsis) charts.push(chAsis);
   try {
-    const res = await fetchWithAuth(`/api/clients/attendance/series?clientId=${clientId}&from=${from}&to=${to}&action=IN`);
+    const res = await fetchWithAuth(`/api/attendance/series?clientId=${clientId}&from=${from}&to=${to}&action=IN`);
     if (res.ok) {
       const data: Point[] = await res.json().catch(() => []);
       const labels = data.map(d => d.x);
@@ -81,35 +80,10 @@ export async function init({ container }: { container: HTMLElement }) {
     } else setNoData(chAsis, 'Error de datos');
   } catch { setNoData(chAsis, 'Error de datos'); }
 
-  // -------- Rondas (barra apilada: completadas vs esperadas) --------
-  const chRondas = mkChart(elRondas); if (chRondas) charts.push(chRondas);
-  try {
-    const res = await fetchWithAuth(`/api/clients/patrol/compliance?clientId=${clientId}&from=${from}&to=${to}`);
-    if (res.ok) {
-      const data: { x: string; expected: number; completed: number }[] = await res.json().catch(() => []);
-      const labels = data.map(d => d.x);
-      const expected = data.map(d => d.expected);
-      const completed = data.map(d => d.completed);
-      chRondas?.setOption({
-        tooltip: { trigger: 'axis' },
-        legend: {},
-        grid: { left: 40, right: 16, top: 24, bottom: 32 },
-        xAxis: { type: 'category', data: labels },
-        yAxis: { type: 'value' },
-        series: [
-          { name: 'Completadas', type: 'bar', data: completed },
-          { name: 'Esperadas',   type: 'bar', data: expected }
-        ],
-        graphic: (completed.concat(expected)).some(v => Number(v) > 0) ? { elements: [] } : undefined
-      });
-      if (!(completed.concat(expected)).some(v => Number(v) > 0)) setNoData(chRondas);
-    } else setNoData(chRondas, 'Error de datos');
-  } catch { setNoData(chRondas, 'Error de datos'); }
-
   // -------- Incidentes (línea simple) --------
   const chInc = mkChart(elInc); if (chInc) charts.push(chInc);
   try {
-    const res = await fetchWithAuth(`/api/clients/incidents/series?clientId=${clientId}&from=${from}&to=${to}&status=OPEN`);
+    const res = await fetchWithAuth(`/api/incidents/series?clientId=${clientId}&from=${from}&to=${to}&status=OPEN`);
     if (res.ok) {
       const data: Point[] = await res.json().catch(() => []);
       const labels = data.map(d => d.x);
@@ -126,9 +100,29 @@ export async function init({ container }: { container: HTMLElement }) {
     } else setNoData(chInc, 'Error de datos');
   } catch { setNoData(chInc, 'Error de datos'); }
 
-  // Resize robusto
+  // -------- Visitas por día (línea con área) --------
+  const chVisit = mkChart(elVisit); if (chVisit) charts.push(chVisit);
+  try {
+    const res = await fetchWithAuth(`/api/site-supervision-visits/series?clientId=${clientId}&from=${from}&to=${to}`);
+    if (res.ok) {
+      const data: Point[] = await res.json().catch(() => []);
+      const labels = data.map(d => d.x);
+      const values = data.map(d => d.y);
+      chVisit?.setOption({
+        tooltip: { trigger: 'axis' },
+        grid: { left: 40, right: 16, top: 24, bottom: 32 },
+        xAxis: { type: 'category', boundaryGap: false, data: labels },
+        yAxis: { type: 'value' },
+        series: [{ type: 'line', smooth: true, areaStyle: {}, data: values, color: '#0ea5e9' }],
+        graphic: values.some(v => Number(v) > 0) ? { elements: [] } : undefined
+      });
+      if (!values.some(v => Number(v) > 0)) setNoData(chVisit);
+    } else setNoData(chVisit, 'Error de datos');
+  } catch { setNoData(chVisit, 'Error de datos'); }
+
+  // Resize robusto (asegura que los 3 gráficos se ajusten)
   const ro = new ResizeObserver(() => charts.forEach(c => c?.resize()));
-  [elAsis, elRondas, elInc].forEach(el => el && ro.observe(el));
+  [elAsis, elInc, elVisit].forEach(el => el && ro.observe(el));
 
   // Limpieza al salir del fragmento
   const onUnload = () => {
