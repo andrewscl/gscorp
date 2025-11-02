@@ -18,6 +18,9 @@ async function onSubmitInviteUser(e) {
   const clientIds = Array.from(document.querySelectorAll('input[name="inviteClientIds"]:checked'))
     .map(cb => Number(cb.value));
 
+  //Obtener empleados seleccionados (select)
+  const employeeId = Number(qs('#inviteEmployeeId')?.value) || null;
+
   const err = qs('#inviteUserError');
   const ok = qs('#inviteUserSuccess');
   if (err) err.textContent = '';
@@ -40,7 +43,8 @@ async function onSubmitInviteUser(e) {
         username,
         mail,
         roleIds: roleIds.length ? roleIds : null,
-        clientIds: clientIds.length ? clientIds : null
+        clientIds: clientIds.length ? clientIds : null,
+        employeeId
       })
     });
 
