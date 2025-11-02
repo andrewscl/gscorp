@@ -3,16 +3,16 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   base: '/',
   build: {
-    outDir: '../src/main/resources/static/assets',
+    outDir: '../src/main/resources/static/assets',     // Dónde va el output de Vite (ajustado a Spring Boot)
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        'private/dashboard': 'src/private/dashboard.ts',
-        'private/client': 'src/private/clients/client-dashboard.ts',
-         // entrada nombrada
+        'private/dashboard': 'src/private/dashboard/dashboard.ts',    // Entrada Dashboard
+        'private/client': 'src/private/clients/client-dashboard.ts',  // Entrada Client Dashboard
+        // Puedes agregar más entradas aquí
       },
       output: {
-        entryFileNames: '[name].js',                    // nombre estable
+        entryFileNames: '[name].js',                    // Resultado: private/dashboard.js, private/client.js
         chunkFileNames: 'chunks/[name]-[hash].js',
         assetFileNames: 'assets/[name]-[hash][extname]',
       }
@@ -20,6 +20,6 @@ export default defineConfig({
   },
   server: {
     port: 5173,
-    proxy: { '/api': 'http://localhost:8080' }
+    proxy: { '/api': 'http://localhost:8080' }          // API backend proxy para desarrollo
   }
 });
