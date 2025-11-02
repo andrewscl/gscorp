@@ -96,4 +96,15 @@ public class SiteSupervisionVisitRestController {
         public Point(String x, long y) { this.x = x; this.y = y; }
     }
 
+    @GetMapping("/kpis")
+    public Map<String, Object> getKpis(@RequestParam Long clientId) {
+        LocalDate today = LocalDate.now();
+        long visitasHoy = siteSupervisionVisitService.countByClientIdAndDate(clientId, today);
+
+        return Map.of(
+            "visitasHoy", visitasHoy
+            // agrega los otros KPIs aquí si los necesitas
+        );
+    }
+
 }

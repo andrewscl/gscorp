@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gscorp.dv1.attendance.application.AttendanceService;
+import com.gscorp.dv1.attendance.application.AttendanceServiceImpl;
 import com.gscorp.dv1.clients.application.ClientService;
 import com.gscorp.dv1.clients.infrastructure.Client;
 import com.gscorp.dv1.clients.web.dto.ClientDto;
@@ -29,7 +29,7 @@ import lombok.RequiredArgsConstructor;
 public class ClientRestController {
 
     private final ClientService clientService;
-    private final AttendanceService attendanceService;
+    private final AttendanceServiceImpl attendanceService;
     private final SiteSupervisionVisitService siteSupervisionVisitService;
 
 
