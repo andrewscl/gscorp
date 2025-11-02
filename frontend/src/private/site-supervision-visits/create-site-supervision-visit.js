@@ -209,7 +209,8 @@ function initSupervisorVisitWidget() {
       photoPreview.innerHTML = '';
       videoPreview.innerHTML = '';
       btnSave.disabled = true;
-      noSiteTimeout = setTimeout(() => navigateTo("/private/supervisors/table-view"), 3000);
+      noSiteTimeout = setTimeout(() =>
+              navigateTo("/private/site-supervision-visits/table-view"), 3000);
     } catch (err) {
       showStatus("No se pudo registrar la visita: " + (err.message || err), "#b91c1c");
       btnSave.disabled = false;
