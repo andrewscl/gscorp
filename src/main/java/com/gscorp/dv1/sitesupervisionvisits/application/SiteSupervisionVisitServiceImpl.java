@@ -102,7 +102,7 @@ public class SiteSupervisionVisitServiceImpl implements SiteSupervisionVisitServ
 
     @Override
     public List<SiteSupervisionVisitDto> getAllSiteSupervisionVisits() {
-        return siteSupervisionVisitRepo.findAll()
+        return siteSupervisionVisitRepo.findAllWithEmployeeAndSite()
             .stream()
             .map(SiteSupervisionVisitDto::fromEntity)
             .collect(Collectors.toList());
