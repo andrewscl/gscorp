@@ -9,6 +9,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import com.gscorp.dv1.attendance.application.AttendanceService;
+import com.gscorp.dv1.attendance.application.AttendanceServiceImpl;
+import com.gscorp.dv1.attendance.web.dto.CreateAttendancePunchRequest;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
 
@@ -22,7 +24,8 @@ public class AttendanceRestController {
 
   private final SiteService siteService;
 
-  private final AttendanceService svc;
+  private final AttendanceServiceImpl svc;
+  private final AttendanceService attendanceService;
 
 
   @Data
@@ -43,17 +46,19 @@ public class AttendanceRestController {
     Long userId = currentUserId(auth);
     String ip = firstNonBlank(cfIp, xff, xri, "0.0.0.0");
 
-    //Buscar el site por ID
-    var site = siteService.findById(in.siteId)
-        .orElseThrow(() -> new IllegalArgumentException("Site ID inválido: " + in.siteId));
+    //Construir DTO
+    CreateAttendancePunchRequest dto = new CreateAttendancePunchRequest();
+            dto.setUserId(userId);
+            dto.setLat(in.lat);
+            dto.setLon(in.lon);
+            dto.setAccuracy(in.accuracy);
+            dto.setIp(ip);
+            dto.setDeviceInfo(ua);
+            dto.setSiteId(in.siteId);
 
-    var saved = svc.punch(userId, in.lat, in.lon, in.accuracy, ip, ua, site);
-    return ResponseEntity.ok(Map.of(
-      "ts", saved.getTs().toString(),
-      "action", saved.getAction(),
-      "locationOk", saved.getLocationOk(),
-      "distanceMeters", Math.round(saved.getDistanceM()==null?0:saved.getDistanceM()),
-    ));
+    var saved = attendanceService.punch(dto);
+
+    return ResponseEntity.ok(saved);
   }
 
   // CONSULTAR ÚLTIMA MARCACIÓN DEL USUARIO
