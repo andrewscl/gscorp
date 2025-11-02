@@ -130,4 +130,12 @@ public class SiteSupervisionVisitServiceImpl implements SiteSupervisionVisitServ
             .collect(Collectors.toList());
     }
 
+    @Override
+    public long countByClientIdAndDate(Long clientId, LocalDate date) {
+    ZoneId zone = ZoneId.systemDefault();
+    OffsetDateTime start = date.atStartOfDay(zone).toOffsetDateTime();
+    OffsetDateTime end = date.plusDays(1).atStartOfDay(zone).toOffsetDateTime();
+    return siteSupervisionVisitRepo.countByClientIdAndDateBetween(clientId, start, end);
+}
+
 }

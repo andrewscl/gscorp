@@ -31,4 +31,11 @@ public interface SiteSupervisionVisitRepository
         @Param("toDate") OffsetDateTime toDate
     );
 
+    @Query("select count(v) from SiteSupervisionVisit v " +
+        "where v.site.project.client.id = :clientId " +
+        "and v.visitDateTime >= :fromDate and v.visitDateTime < :toDate")
+    long countByClientIdAndDateBetween(@Param("clientId") Long clientId,
+                                    @Param("fromDate") OffsetDateTime fromDate,
+                                    @Param("toDate") OffsetDateTime toDate);
+
 }
