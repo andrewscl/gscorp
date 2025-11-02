@@ -22,7 +22,7 @@ public class UIChromeController {
             return "private/ops/fragments/ops-menu-fragment :: sidebar";
 
         if (has(auth,"ROLE_CLIENT"))
-            return "private/client/fragments/client-menu-fragment :: sidebar";
+            return "private/clients/fragments/client-menu-fragment :: sidebar";
 
         if (has(auth,"ROLE_RRHH"))        
             return "private/rrhh/fragments/rrhh-menu-fragment :: sidebar";
@@ -49,7 +49,7 @@ public class UIChromeController {
             return "private/ops/fragments/ops-menu-fragment :: topbar";
 
         if (has(auth,"ROLE_CLIENT"))
-            return "private/client/fragments/client-menu-fragment :: topbar";
+            return "private/clients/fragments/client-menu-fragment :: topbar";
 
         if (has(auth,"ROLE_RRHH"))
             return "private/rrhh/fragments/rrhh-menu-fragment :: topbar";
