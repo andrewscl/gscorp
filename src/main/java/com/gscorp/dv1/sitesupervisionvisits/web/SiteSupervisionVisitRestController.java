@@ -48,7 +48,7 @@ public class SiteSupervisionVisitRestController {
                         createSiteSupervisionVisitRequest(req);
 
         var location = ucb.path("/api/site-supervision-visits/{id}")
-                                    .buildAndExpand().toUri();
+                                    .buildAndExpand(saved.id()).toUri();
 
         return ResponseEntity.created(location).body(saved);
     }
