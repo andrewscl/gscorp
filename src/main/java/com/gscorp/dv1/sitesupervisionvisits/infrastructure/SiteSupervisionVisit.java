@@ -49,10 +49,10 @@ public class SiteSupervisionVisit {
     @Column(nullable=false)
     private OffsetDateTime visitDateTime;
 
-    @Column(nullable=false)
+    @Column
     private Double latitude;
 
-    @Column(nullable=false)
+    @Column
     private Double longitude;
 
     @Column(length=500)

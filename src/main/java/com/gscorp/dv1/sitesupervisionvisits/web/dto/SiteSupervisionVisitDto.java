@@ -13,6 +13,8 @@ public record SiteSupervisionVisitDto(
     Long siteId,
     String siteName,
     OffsetDateTime visitDateTime,
+    Double latitude,
+    Double longitude,
     String description,
     String photoPath,
     String videoPath
@@ -29,6 +31,8 @@ public record SiteSupervisionVisitDto(
             site != null ? site.getId() : null,
             site != null ? site.getName() : null,
             visit.getVisitDateTime(),
+            visit.getLatitude(),
+            visit.getLongitude(),
             visit.getDescription(),
             visit.getPhotoPath(),
             visit.getVideoPath()
