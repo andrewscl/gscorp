@@ -39,7 +39,7 @@ public class AttendanceController {
         return "private/attendance/views/attendance-view";
     }
 
-    @GetMapping("/attdc-table")
+    @GetMapping("/table-view")
     public String getAttendanceTableFragment(Model model) {
         model.addAttribute("attendance", attendanceRepo.findAll());
         return "private/attendance/views/attendance-table-view";
