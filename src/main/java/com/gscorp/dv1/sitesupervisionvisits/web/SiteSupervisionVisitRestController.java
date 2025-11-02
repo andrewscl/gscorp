@@ -1,6 +1,10 @@
 package com.gscorp.dv1.sitesupervisionvisits.web;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -9,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -51,6 +56,44 @@ public class SiteSupervisionVisitRestController {
                                     .buildAndExpand(saved.id()).toUri();
 
         return ResponseEntity.created(location).body(saved);
+    }
+
+    @GetMapping("/visits/series")
+    public List<Point> visitsSeries(
+        @RequestParam Long clientId,
+        @RequestParam String from,
+        @RequestParam String to
+    ) {
+        // 1. Parsear fechas
+        LocalDate fromDate = LocalDate.parse(from);
+        LocalDate toDate = LocalDate.parse(to);
+
+        // 2. Consultar visitas del cliente entre fechas
+        List<SiteSupervisionVisitDto> visits = siteSupervisionVisitService
+            .findByClientIdAndDateBetween(clientId, fromDate, toDate);
+
+        // 3. Agrupar por día y contar
+        Map<LocalDate, Long> grouped = visits.stream()
+            .collect(Collectors.groupingBy(
+                dto -> dto.visitDateTime().toLocalDate(),
+                Collectors.counting()
+            ));
+
+        // 4. Formatear como lista de puntos para el frontend
+        List<Point> series = new ArrayList<>();
+        LocalDate d = fromDate;
+        while (!d.isAfter(toDate)) {
+            long y = grouped.getOrDefault(d, 0L);
+            series.add(new Point(d.toString(), y));
+            d = d.plusDays(1);
+        }
+        return series;
+    }
+
+    static class Point {
+        public String x; // fecha (ej: "2025-11-02")
+        public long y;   // cantidad de visitas
+        public Point(String x, long y) { this.x = x; this.y = y; }
     }
 
 }

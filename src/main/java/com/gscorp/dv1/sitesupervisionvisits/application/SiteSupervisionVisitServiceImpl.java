@@ -1,6 +1,7 @@
 package com.gscorp.dv1.sitesupervisionvisits.application;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -114,6 +115,15 @@ public class SiteSupervisionVisitServiceImpl implements SiteSupervisionVisitServ
             .orElseThrow(() -> 
                 new IllegalArgumentException("Visita de supervisión no encontrada: " + id));
         return SiteSupervisionVisitDto.fromEntity(visit);
+    }
+
+    @Override
+    public List<SiteSupervisionVisitDto> findByClientIdAndDateBetween(Long clientId, LocalDate fromDate, LocalDate toDate) {
+        return siteSupervisionVisitRepo
+            .findByClientIdAndDateBetween(clientId, fromDate, toDate)
+            .stream()
+            .map(SiteSupervisionVisitDto::fromEntity)
+            .collect(Collectors.toList());
     }
 
 }
