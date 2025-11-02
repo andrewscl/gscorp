@@ -2,7 +2,9 @@ package com.gscorp.dv1.sitesupervisionvisits.application;
 
 import java.io.File;
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -97,4 +99,13 @@ public class SiteSupervisionVisitServiceImpl implements SiteSupervisionVisitServ
         return SiteSupervisionVisitDto.fromEntity(savedEntity);
 
     }
+
+    @Override
+    public List<SiteSupervisionVisitDto> getAllSiteSupervisionVisits() {
+        return siteSupervisionVisitRepo.findAll()
+            .stream()
+            .map(SiteSupervisionVisitDto::fromEntity)
+            .collect(Collectors.toList());
+    }
+
 }
