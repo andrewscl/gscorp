@@ -1,5 +1,6 @@
 package com.gscorp.dv1.sitesupervisionvisits.infrastructure;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,5 +20,10 @@ public interface SiteSupervisionVisitRepository
     @EntityGraph(attributePaths = {"employee", "site"})
     @Query("select v from SiteSupervisionVisit v where v.id = :id")
     Optional<SiteSupervisionVisit> findByIdWithEmployeeAndSite(Long id);
+
+    @Query("select v from SiteSupervisionVisit v "
+         + "where v.site.client.id = :clientId "
+         + "and v.visitDate between :fromDate and :toDate")
+    List<SiteSupervisionVisit> findByClientIdAndDateBetween(Long clientId, LocalDate fromDate, LocalDate toDate);
 
 }
