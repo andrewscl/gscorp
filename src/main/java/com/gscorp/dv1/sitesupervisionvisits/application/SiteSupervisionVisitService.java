@@ -8,4 +8,6 @@ public interface SiteSupervisionVisitService {
     SiteSupervisionVisitDto createSiteSupervisionVisitRequest(
                                 CreateSiteSupervisionVisitRequest req);
 
+    SiteSupervisionVisitDto getAllSiteSupervisionVisits();
+
 }
