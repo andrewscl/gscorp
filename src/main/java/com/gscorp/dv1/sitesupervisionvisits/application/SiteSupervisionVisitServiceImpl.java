@@ -3,6 +3,7 @@ package com.gscorp.dv1.sitesupervisionvisits.application;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -119,8 +120,11 @@ public class SiteSupervisionVisitServiceImpl implements SiteSupervisionVisitServ
 
     @Override
     public List<SiteSupervisionVisitDto> findByClientIdAndDateBetween(Long clientId, LocalDate fromDate, LocalDate toDate) {
+        ZoneId zone = ZoneId.systemDefault();
+        OffsetDateTime fromDateTime = fromDate.atStartOfDay(zone).toOffsetDateTime();
+        OffsetDateTime toDateTime = toDate.plusDays(1).atStartOfDay(zone).toOffsetDateTime();
         return siteSupervisionVisitRepo
-            .findByClientIdAndDateBetween(clientId, fromDate, toDate)
+            .findByClientIdAndDateBetween(clientId, fromDateTime, toDateTime)
             .stream()
             .map(SiteSupervisionVisitDto::fromEntity)
             .collect(Collectors.toList());
