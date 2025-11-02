@@ -97,4 +97,11 @@ public class AttendanceService {
            * Math.sin(dLon/2)*Math.sin(dLon/2);
     return 2*R*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
   }
+
+  public long countByClientIdAndDate(Long clientId, LocalDate date) {
+    var fromTs = date.atStartOfDay(ZoneId.systemDefault()).toOffsetDateTime();
+    var toTs   = date.plusDays(1).atStartOfDay(ZoneId.systemDefault()).minusNanos(1).toOffsetDateTime();
+    return repo.countByClientIdAndTsBetween(clientId, fromTs, toTs);
+  }
+  
 }

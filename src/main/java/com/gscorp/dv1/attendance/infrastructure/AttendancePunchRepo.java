@@ -42,5 +42,7 @@ public interface AttendancePunchRepo extends JpaRepository <AttendancePunch, Lon
         @Param("action") String action,     // 'IN' | 'OUT' | null (todas)
         @Param("userId") Long userId        // null = todos
     );
+
+    long countByClientIdAndTsBetween(Long clientId, OffsetDateTime from, OffsetDateTime to);
     
 }

@@ -17,5 +17,7 @@ public interface SiteSupervisionVisitService {
 
     List<SiteSupervisionVisitDto> findByClientIdAndDateBetween(Long clientId, LocalDate fromDate, LocalDate toDate);
 
+    long countByClientIdAndDate(Long clientId, LocalDate date);
+
 
 }
