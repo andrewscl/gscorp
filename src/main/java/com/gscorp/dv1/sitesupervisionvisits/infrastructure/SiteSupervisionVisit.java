@@ -2,6 +2,8 @@ package com.gscorp.dv1.sitesupervisionvisits.infrastructure;
 
 import java.time.OffsetDateTime;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.gscorp.dv1.employees.infrastructure.Employee;
 import com.gscorp.dv1.sites.infrastructure.Site;
 
@@ -43,6 +45,7 @@ public class SiteSupervisionVisit {
     @JoinColumn(name="site_id", nullable=false)
     private Site site;
 
+    @CreationTimestamp
     @Column(nullable=false)
     private OffsetDateTime visitDateTime;
 
