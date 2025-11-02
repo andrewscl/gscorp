@@ -22,9 +22,9 @@ public interface SiteSupervisionVisitRepository
     @Query("select v from SiteSupervisionVisit v where v.id = :id")
     Optional<SiteSupervisionVisit> findByIdWithEmployeeAndSite(Long id);
 
-    @Query("select v from SiteSupervisionVisit v "
-        + "where v.site.client.id = :clientId "
-        + "and v.visitDateTime between :fromDate and :toDate")
+    @Query("select v from SiteSupervisionVisit v " +
+        "where v.site.project.client.id = :clientId " +
+        "and v.visitDateTime between :fromDate and :toDate")
     List<SiteSupervisionVisit> findByClientIdAndDateBetween(
         @Param("clientId") Long clientId,
         @Param("fromDate") OffsetDateTime fromDate,
