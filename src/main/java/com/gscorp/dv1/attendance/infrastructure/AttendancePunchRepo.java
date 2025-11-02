@@ -43,6 +43,11 @@ public interface AttendancePunchRepo extends JpaRepository <AttendancePunch, Lon
         @Param("userId") Long userId        // null = todos
     );
 
-    long countByClientIdAndTsBetween(Long clientId, OffsetDateTime from, OffsetDateTime to);
-    
+        @Query("select count(a) from AttendancePunch a " +
+            "where a.site.project.client.id = :clientId " +
+            "and a.ts between :from and :to")
+        long countByClientIdAndTsBetween(@Param("clientId") Long clientId,
+                                        @Param("from") OffsetDateTime from,
+                                        @Param("to") OffsetDateTime to);
+
 }
