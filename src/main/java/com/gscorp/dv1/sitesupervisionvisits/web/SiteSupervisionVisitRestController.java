@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,9 +37,6 @@ public class SiteSupervisionVisitRestController {
 
     private final SiteSupervisionVisitService siteSupervisionVisitService;
 
-    @Value("${file.upload-dir}")
-    private String uploadDir;
-    
     @GetMapping("/sites")
     public List<SiteDto> getSitesApi() {
         return siteService.getAllSites();
