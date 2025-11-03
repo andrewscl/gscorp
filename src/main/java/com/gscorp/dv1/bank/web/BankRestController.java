@@ -1,8 +1,8 @@
 package com.gscorp.dv1.bank.web;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,12 +22,19 @@ public class BankRestController {
 
     @PostMapping("/create")
     public ResponseEntity<BankDto> createBank(
-        @jakarta.validation.Valid @RequestBody CreateBankRequest req,
+        @jakarta.validation.Valid @ModelAttribute CreateBankRequest req,
         org.springframework.web.util.UriComponentsBuilder ucb) {
+
+        //Guardar logo si llega
+        String logoUrl = null;
+        if (req.logo() != null && !req.logo().isEmpty()) {
+            logoUrl = bankService.storeBankLogo(req.logo());
+        }
+
         var entity = Bank.builder()
             .name(req.name().trim())
             .code(req.code())
-            .logoUrl(req.logoUrl())
+            .logoUrl(logoUrl)
             .active(Boolean.TRUE.equals(req.active()))
             .build();
         var saved = bankService.saveBank(entity);  // que devuelva el guardado
