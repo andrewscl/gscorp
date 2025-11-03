@@ -33,19 +33,6 @@
                 th:text="${visit.description}"></textarea>
     </div>
 
-    <div class="form-row coordinates-row">
-      <div class="form-group">
-        <label for="visitLat">Latitud</label>
-        <input id="visitLat" name="latitude" type="number" step="any"
-               th:value="${visit.latitude}" readonly tabindex="-1" />
-      </div>
-      <div class="form-group">
-        <label for="visitLon">Longitud</label>
-        <input id="visitLon" name="longitude" type="number" step="any"
-               th:value="${visit.longitude}" readonly tabindex="-1" />
-      </div>
-    </div>
-
     <!-- Mapa solo visualización -->
     <div class="form-group">
       <label>Ubicación en mapa</label>
