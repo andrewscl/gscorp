@@ -20,7 +20,7 @@ public class PatrolCheckpointController {
     public String getPatrolCheckpointsTableView (Model model) {
         model.addAttribute("sites",
                     siteService.getAllSites());
-        return "private/patrol-checkpoints/views/patrol-checkpoints-table-view";
+        return "private/patrols/views/patrol-checkpoints-table-view";
     }
 
 
