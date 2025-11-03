@@ -14,6 +14,7 @@ async function fetchWithAuth(url: string, init: RequestInit = {}) {
 
 type Point = { x: string; y: number };
 type KPIs = { asistenciaHoy: number; rondasHoy: number; visitasHoy: number; incidentesAbiertos: number };
+type SiteVisitCountDto = { siteId: number; siteName: string; count: number };
 
 function firstDayISO(d = new Date()) {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-01`;
@@ -37,6 +38,7 @@ export async function init({ container }: { container: HTMLElement }) {
   const elAsis   = root.querySelector('#chart-att') as HTMLDivElement;
   const elInc    = root.querySelector('#chart-inc') as HTMLDivElement;
   const elVisit  = root.querySelector('#chart-visit') as HTMLDivElement;
+  const elVisitSite = root.querySelector('#chart-visit-site') as HTMLDivElement;
 
   // -------- KPIs (cards) --------
   try {
@@ -120,9 +122,32 @@ export async function init({ container }: { container: HTMLElement }) {
     } else setNoData(chVisit, 'Error de datos');
   } catch { setNoData(chVisit, 'Error de datos'); }
 
-  // Resize robusto (asegura que los 3 gráficos se ajusten)
+  // -------- Visitas por sitio (barra horizontal) --------
+  const chVisitSite = mkChart(elVisitSite); if (chVisitSite) charts.push(chVisitSite);
+  try {
+    const res = await fetchWithAuth(`/api/site-supervision-visits/series-by-site?clientId=${clientId}&from=${from}&to=${to}`);
+    if (res.ok) {
+      const data: SiteVisitCountDto[] = await res.json().catch(() => []);
+      const labels = data.map(d => d.siteName);
+      const values = data.map(d => d.count);
+      chVisitSite?.setOption({
+        tooltip: { trigger: 'axis' },
+        grid: { left: 60, right: 16, top: 24, bottom: 32 },
+        xAxis: { type: 'value' },
+        yAxis: { type: 'category', data: labels, axisLabel: { interval: 0, fontSize: 12 } },
+        series: [{ type: 'bar', data: values, itemStyle: { color: '#0ea5e9' } }],
+        graphic: values.some(v => Number(v) > 0) ? { elements: [] } : undefined
+      });
+      if (!values.some(v => Number(v) > 0)) setNoData(chVisitSite);
+    } else setNoData(chVisitSite, 'Error de datos');
+  } catch { setNoData(chVisitSite, 'Error de datos'); }
+
+
+
+
+  // Resize robusto (asegura que los 4 gráficos se ajusten)
   const ro = new ResizeObserver(() => charts.forEach(c => c?.resize()));
-  [elAsis, elInc, elVisit].forEach(el => el && ro.observe(el));
+  [elAsis, elInc, elVisit, elVisitSite].forEach(el => el && ro.observe(el));
 
   // Limpieza al salir del fragmento
   const onUnload = () => {

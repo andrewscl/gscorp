@@ -20,6 +20,7 @@ import com.gscorp.dv1.sitesupervisionvisits.infrastructure.SiteSupervisionVisit;
 import com.gscorp.dv1.sitesupervisionvisits.infrastructure.SiteSupervisionVisitRepository;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.CreateSiteSupervisionVisitRequest;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteSupervisionVisitDto;
+import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitCountDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -130,6 +131,11 @@ public class SiteSupervisionVisitServiceImpl implements SiteSupervisionVisitServ
     public List<SiteSupervisionVisitDto> findByClientIdAndDateBetween
                         (Long clientId, OffsetDateTime from, OffsetDateTime to) {
         return siteSupervisionVisitRepo.findDtoByClientIdAndDateBetween(clientId, from, to);
+    }
+
+    @Override
+    public List<SiteVisitCountDto> getVisitsBySite(Long clientId, OffsetDateTime from, OffsetDateTime to) {
+        return siteSupervisionVisitRepo.findVisitsCountBySite(clientId, from, to);
     }
 
 }

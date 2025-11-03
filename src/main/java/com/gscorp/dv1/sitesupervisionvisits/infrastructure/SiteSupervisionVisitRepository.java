@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteSupervisionVisitDto;
+import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitCountDto;
 
 @Repository
 public interface SiteSupervisionVisitRepository
@@ -62,6 +63,24 @@ public interface SiteSupervisionVisitRepository
       AND v.visitDateTime BETWEEN :fromDate AND :toDate
     """)
     List<SiteSupervisionVisitDto> findDtoByClientIdAndDateBetween(
+        @Param("clientId") Long clientId,
+        @Param("fromDate") OffsetDateTime fromDate,
+        @Param("toDate") OffsetDateTime toDate
+    );
+
+    @Query("""
+    SELECT new com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitCountDto(
+        s.id, s.name, COUNT(v)
+    )
+    FROM SiteSupervisionVisit v
+    JOIN v.site s
+    JOIN s.project p
+    WHERE p.client.id = :clientId
+      AND v.visitDateTime BETWEEN :fromDate AND :toDate
+    GROUP BY s.id, s.name
+    ORDER BY COUNT(v) DESC
+    """)
+    List<SiteVisitCountDto> findVisitsCountBySite(
         @Param("clientId") Long clientId,
         @Param("fromDate") OffsetDateTime fromDate,
         @Param("toDate") OffsetDateTime toDate
