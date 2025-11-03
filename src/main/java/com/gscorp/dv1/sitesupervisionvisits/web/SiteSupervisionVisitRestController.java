@@ -1,6 +1,7 @@
 package com.gscorp.dv1.sitesupervisionvisits.web;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -65,8 +66,8 @@ public class SiteSupervisionVisitRestController {
         @RequestParam String to
     ) {
         // 1. Parsear fechas
-        LocalDate fromDate = LocalDate.parse(from);
-        LocalDate toDate = LocalDate.parse(to);
+        OffsetDateTime fromDate = OffsetDateTime.parse(from);
+        OffsetDateTime toDate = OffsetDateTime.parse(to);
 
         // 2. Consultar visitas del cliente entre fechas
         List<SiteSupervisionVisitDto> visits = siteSupervisionVisitService
@@ -79,10 +80,11 @@ public class SiteSupervisionVisitRestController {
                 Collectors.counting()
             ));
 
-        // 4. Formatear como lista de puntos para el frontend
+        // 4. Preparar datos para Echarts
         List<Point> series = new ArrayList<>();
-        LocalDate d = fromDate;
-        while (!d.isAfter(toDate)) {
+        LocalDate d = fromDate.toLocalDate();
+        LocalDate toLocal = toDate.toLocalDate();
+        while (!d.isAfter(toLocal)) {
             long y = grouped.getOrDefault(d, 0L);
             series.add(new Point(d.toString(), y));
             d = d.plusDays(1);
