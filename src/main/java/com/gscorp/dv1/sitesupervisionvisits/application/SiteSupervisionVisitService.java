@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.CreateSiteSupervisionVisitRequest;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteSupervisionVisitDto;
+import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitCountDto;
 
 public interface SiteSupervisionVisitService {
 
@@ -20,6 +21,5 @@ public interface SiteSupervisionVisitService {
 
     List<SiteSupervisionVisitDto> findByClientIdAndDateBetween(Long clientId, OffsetDateTime from, OffsetDateTime to);
 
-
-
+    List<SiteVisitCountDto> getVisitsBySite(Long clientId, OffsetDateTime from, OffsetDateTime to);
 }

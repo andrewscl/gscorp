@@ -24,6 +24,7 @@ import com.gscorp.dv1.sites.web.dto.SiteDto;
 import com.gscorp.dv1.sitesupervisionvisits.application.SiteSupervisionVisitService;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.CreateSiteSupervisionVisitRequest;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteSupervisionVisitDto;
+import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitCountDto;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -111,6 +112,20 @@ public class SiteSupervisionVisitRestController {
             "visitasHoy", visitasHoy
             // agrega los otros KPIs aquí si los necesitas
         );
+    }
+
+    @GetMapping("/series-by-site")
+    public List<SiteVisitCountDto> visitsBySite(
+        @RequestParam Long clientId,
+        @RequestParam String from,
+        @RequestParam String to
+    ) {
+        LocalDate fromDate = LocalDate.parse(from);
+        LocalDate toDate = LocalDate.parse(to);
+        OffsetDateTime fromOffset = fromDate.atStartOfDay(ZoneOffset.systemDefault()).toOffsetDateTime();
+        OffsetDateTime toOffset = toDate.plusDays(1).atStartOfDay(ZoneOffset.systemDefault()).toOffsetDateTime().minusNanos(1);
+
+        return siteSupervisionVisitService.getVisitsBySite(clientId, fromOffset, toOffset);
     }
 
 }
