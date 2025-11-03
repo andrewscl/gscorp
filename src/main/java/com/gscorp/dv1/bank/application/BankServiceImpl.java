@@ -59,8 +59,7 @@ public class BankServiceImpl implements BankService{
             }
             String storedFilename = UUID.randomUUID().toString() + fileExtension;
             //Directorio fisico donde guardar el archivo
-            File dest = new File(
-                            administrationFilesDir + "bank_logos"); 
+            File dest = new File(administrationFilesDir , "bank_logos"); 
             if (!dest.exists()) dest.mkdirs();
             File storedFile = new File(dest, storedFilename);
             logoFile.transferTo(storedFile);

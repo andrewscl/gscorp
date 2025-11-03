@@ -24,7 +24,8 @@
             <img th:src="${b.logoUrl != null ? b.logoUrl : '/img/banks/banco-de-chile.png'}"
                  alt="Logo"
                  class="bank-logo-thumb"
-                 style="width:40px;height:40px;border-radius:8px;object-fit:contain;background:#f3f6fb;border:1px solid #e5e7eb;" />
+                 style="width:40px;height:40px;border-radius:8px;object-fit:contain;
+                                      background:#f3f6fb;border:1px solid #e5e7eb;" />
           </td>
           <td th:text="${b.name}"></td>
           <td th:text="${b.code}">—</td>
