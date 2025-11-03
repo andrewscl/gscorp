@@ -10,6 +10,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteSupervisionVisitDto;
+
 @Repository
 public interface SiteSupervisionVisitRepository
         extends JpaRepository<SiteSupervisionVisit, Long> {
@@ -37,5 +39,32 @@ public interface SiteSupervisionVisitRepository
     long countByClientIdAndDateBetween(@Param("clientId") Long clientId,
                                     @Param("fromDate") OffsetDateTime fromDate,
                                     @Param("toDate") OffsetDateTime toDate);
+
+    @Query("""
+    SELECT new com.gscorp.dv1.sitesupervision.dto.SiteSupervisionVisitDto(
+        v.id,
+        e.id,
+        e.name,
+        s.id,
+        s.name,
+        v.visitDateTime,
+        v.latitude,
+        v.longitude,
+        v.description,
+        v.photoPath,
+        v.videoPath
+    )
+    FROM SiteSupervisionVisit v
+    JOIN v.employee e
+    JOIN v.site s
+    JOIN s.project p
+    WHERE p.client.id = :clientId
+      AND v.visitDateTime BETWEEN :fromDate AND :toDate
+    """)
+    List<SiteSupervisionVisitDto> findDtoByClientIdAndDateBetween(
+        @Param("clientId") Long clientId,
+        @Param("fromDate") OffsetDateTime fromDate,
+        @Param("toDate") OffsetDateTime toDate
+    );
 
 }

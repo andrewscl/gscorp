@@ -119,23 +119,17 @@ public class SiteSupervisionVisitServiceImpl implements SiteSupervisionVisitServ
     }
 
     @Override
-    public List<SiteSupervisionVisitDto> findByClientIdAndDateBetween(Long clientId, LocalDate fromDate, LocalDate toDate) {
-        ZoneId zone = ZoneId.systemDefault();
-        OffsetDateTime fromDateTime = fromDate.atStartOfDay(zone).toOffsetDateTime();
-        OffsetDateTime toDateTime = toDate.plusDays(1).atStartOfDay(zone).toOffsetDateTime();
-        return siteSupervisionVisitRepo
-            .findByClientIdAndDateBetween(clientId, fromDateTime, toDateTime)
-            .stream()
-            .map(SiteSupervisionVisitDto::fromEntity)
-            .collect(Collectors.toList());
-    }
-
-    @Override
     public long countByClientIdAndDate(Long clientId, LocalDate date) {
     ZoneId zone = ZoneId.systemDefault();
     OffsetDateTime start = date.atStartOfDay(zone).toOffsetDateTime();
     OffsetDateTime end = date.plusDays(1).atStartOfDay(zone).toOffsetDateTime();
     return siteSupervisionVisitRepo.countByClientIdAndDateBetween(clientId, start, end);
-}
+    }
+
+    @Override
+    public List<SiteSupervisionVisitDto> findByClientIdAndDateBetween
+                        (Long clientId, OffsetDateTime from, OffsetDateTime to) {
+        return siteSupervisionVisitRepo.findDtoByClientIdAndDateBetween(clientId, from, to);
+    }
 
 }

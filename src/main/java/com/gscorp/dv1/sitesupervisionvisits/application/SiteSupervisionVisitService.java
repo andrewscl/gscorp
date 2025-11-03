@@ -1,6 +1,7 @@
 package com.gscorp.dv1.sitesupervisionvisits.application;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.CreateSiteSupervisionVisitRequest;
@@ -15,9 +16,10 @@ public interface SiteSupervisionVisitService {
 
     SiteSupervisionVisitDto findByIdWithEmployeeAndSite(Long id);
 
-    List<SiteSupervisionVisitDto> findByClientIdAndDateBetween(Long clientId, LocalDate fromDate, LocalDate toDate);
-
     long countByClientIdAndDate(Long clientId, LocalDate date);
+
+    List<SiteSupervisionVisitDto> findByClientIdAndDateBetween(Long clientId, OffsetDateTime from, OffsetDateTime to);
+
 
 
 }
