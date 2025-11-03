@@ -41,7 +41,7 @@ public interface SiteSupervisionVisitRepository
                                     @Param("toDate") OffsetDateTime toDate);
 
     @Query("""
-    SELECT new com.gscorp.dv1.sitesupervision.dto.SiteSupervisionVisitDto(
+    SELECT new com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteSupervisionVisitDto(
         v.id,
         e.id,
         e.name,
