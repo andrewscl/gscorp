@@ -59,6 +59,7 @@ public class SiteSupervisionVisitServiceImpl implements SiteSupervisionVisitServ
                 if(!dest.exists()) dest.mkdirs();
                 File storedFile = new File(dest, storedFilename);
                 photo.transferTo(storedFile);
+                photoPath = "/files/supervision_files/photos/" + storedFilename;
             }
 
             //Videos
@@ -77,6 +78,7 @@ public class SiteSupervisionVisitServiceImpl implements SiteSupervisionVisitServ
                 if(!dest.exists()) dest.mkdirs();
                 File storedFile = new File(dest, storedFilename);
                 video.transferTo(storedFile);
+                videoPath = "/files/supervision_files/videos/" + storedFilename;
             }
         } catch (Exception e) {
             throw new RuntimeException("Error al guardar archivos", e);
