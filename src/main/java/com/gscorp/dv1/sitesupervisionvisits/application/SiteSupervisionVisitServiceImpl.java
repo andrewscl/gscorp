@@ -32,11 +32,8 @@ public class SiteSupervisionVisitServiceImpl implements SiteSupervisionVisitServ
     private final EmployeeService employeeService;
     private final SiteService siteService;
 
-    @Value("${file.supervision_photos-dir}")
-    private String uploadPhotosDir;
-
-    @Value("${file.supervision_videos-dir}")
-    private String uploadVideosDir;
+    @Value("${file.supervision_files-dir}")
+    private String uploadFilesDir;
 
     @Override
     @Transactional
@@ -45,27 +42,41 @@ public class SiteSupervisionVisitServiceImpl implements SiteSupervisionVisitServ
 
         String photoPath = null, videoPath = null;
         try {
+
+            //Fotografias
             MultipartFile photo = req.getPhoto();
             if(photo != null && !photo.isEmpty()) {
-                // Lógica para guardar la foto y obtener la ruta
-                String filename = UUID.randomUUID() + "_" + photo.getOriginalFilename();
-                File dest = new
-                    File(uploadPhotosDir + File.separator + filename);
+                // Generar el nombre del archivo
+                String originalFilename = photo.getOriginalFilename();
+                String fileExtension = "";
+                if (originalFilename != null && originalFilename.contains(".")) {
+                    fileExtension = originalFilename.substring(originalFilename.lastIndexOf('.'));
+                }
+                String storedFilename = UUID.randomUUID().toString() + fileExtension;
 
-                dest.getParentFile().mkdirs();
-                photo.transferTo(dest);
-                photoPath = uploadPhotosDir + "/" + filename;
+                //Directorio fisico donde se guardara el archivo
+                File dest = new File(uploadFilesDir, "photos");
+                if(!dest.exists()) dest.mkdirs();
+                File storedFile = new File(dest, storedFilename);
+                photo.transferTo(storedFile);
             }
+
+            //Videos
             MultipartFile video = req.getVideo();
             if(video != null && !video.isEmpty()) {
-                // Lógica para guardar el video y obtener la ruta
-                String filename = UUID.randomUUID() + "_" + video.getOriginalFilename();
-                File dest = new
-                    File(uploadVideosDir + File.separator + filename);
+                // Generar el nombre del archivo
+                String originalFilename = video.getOriginalFilename();
+                String fileExtension = "";
+                if (originalFilename != null && originalFilename.contains(".")) {
+                    fileExtension = originalFilename.substring(originalFilename.lastIndexOf('.'));
+                }
+                String storedFilename = UUID.randomUUID().toString() + fileExtension;
 
-                dest.getParentFile().mkdirs();
-                video.transferTo(dest);
-                videoPath = uploadVideosDir + "/" + filename;
+                //Directorio fisico donde se guardara el archivo
+                File dest = new File(uploadFilesDir, "videos");
+                if(!dest.exists()) dest.mkdirs();
+                File storedFile = new File(dest, storedFilename);
+                video.transferTo(storedFile);
             }
         } catch (Exception e) {
             throw new RuntimeException("Error al guardar archivos", e);
