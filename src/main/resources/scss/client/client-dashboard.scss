@@ -15,7 +15,7 @@ $kpi-green: #22c55e;
 
 .dashboard {
   max-width: 1200px;
-  margin: 2.5rem auto;
+  margin: 1rem auto;
   padding: 2.5rem 1.5rem 2.5rem 1.5rem;
   background: $accent;
   border-radius: 18px;
@@ -36,7 +36,7 @@ $kpi-green: #22c55e;
       background: $kpi-bg;
       border-radius: 12px;
       box-shadow: $kpi-shadow;
-      padding: 1.3rem 1.2rem; // menos padding para tamaño compacto
+      padding: 1rem 1.2rem; // menos padding para tamaño compacto
       display: flex;
       flex-direction: column;
       align-items: center;

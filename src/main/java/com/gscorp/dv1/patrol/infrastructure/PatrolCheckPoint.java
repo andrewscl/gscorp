@@ -1,5 +1,7 @@
 package com.gscorp.dv1.patrol.infrastructure;
 
+import com.gscorp.dv1.sites.infrastructure.Site;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -24,7 +26,13 @@ import lombok.Setter;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class PatrolCheckPoint {
 
-  @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
+  @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+  Long id;
+
+  // RELACIÓN DIRECTA CON SITIO
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @JoinColumn(name = "site_id", nullable = false)
+  private Site site;
 
   @ManyToOne(optional=false, fetch=FetchType.LAZY)
   @JoinColumn(name="route_id", nullable=false)
