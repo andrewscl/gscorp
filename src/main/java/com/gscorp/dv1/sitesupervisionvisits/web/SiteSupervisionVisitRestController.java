@@ -2,6 +2,7 @@ package com.gscorp.dv1.sitesupervisionvisits.web;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -66,12 +67,16 @@ public class SiteSupervisionVisitRestController {
         @RequestParam String to
     ) {
         // 1. Parsear fechas
-        OffsetDateTime fromDate = OffsetDateTime.parse(from);
-        OffsetDateTime toDate = OffsetDateTime.parse(to);
+        LocalDate fromDate = LocalDate.parse(from);
+        LocalDate toDate = LocalDate.parse(to);
 
+        // Convertir rango completo de días a OffsetDateTime
+        OffsetDateTime fromOffset = fromDate.atStartOfDay(ZoneOffset.systemDefault()).toOffsetDateTime();
+        OffsetDateTime toOffset = toDate.plusDays(1).atStartOfDay(ZoneOffset.systemDefault()).toOffsetDateTime().minusNanos(1);
+        
         // 2. Consultar visitas del cliente entre fechas
         List<SiteSupervisionVisitDto> visits = siteSupervisionVisitService
-            .findByClientIdAndDateBetween(clientId, fromDate, toDate);
+            .findByClientIdAndDateBetween(clientId, fromOffset, toOffset);
 
         // 3. Agrupar por día y contar
         Map<LocalDate, Long> grouped = visits.stream()
@@ -82,9 +87,8 @@ public class SiteSupervisionVisitRestController {
 
         // 4. Preparar datos para Echarts
         List<Point> series = new ArrayList<>();
-        LocalDate d = fromDate.toLocalDate();
-        LocalDate toLocal = toDate.toLocalDate();
-        while (!d.isAfter(toLocal)) {
+        LocalDate d = fromDate;
+        while (!d.isAfter(toDate)) {
             long y = grouped.getOrDefault(d, 0L);
             series.add(new Point(d.toString(), y));
             d = d.plusDays(1);
