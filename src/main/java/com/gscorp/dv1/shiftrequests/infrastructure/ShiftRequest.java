@@ -50,6 +50,8 @@ public class ShiftRequest {
     @JoinColumn(name = "site_id", nullable = false)
     private Site site;
 
+    private Long clientAccountId;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
     private RequestType type;
