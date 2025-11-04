@@ -1,4 +1,4 @@
-<div class="createShiftRequest" id="dashboard-root" th:fragment="content">
+<div class="createShiftRequest" id="dashboard-root" th:fragment="dashboardView">
 
   <div class="createShiftRequestHeader">
     <h3>Crear Solicitud de Turno</h3>
@@ -6,16 +6,75 @@
   </div>
 
   <form id="createShiftRequestForm" class="createShiftRequest-body">
-    <!-- ...otros campos... -->
+    <div class="form-group">
+      <label for="shiftRequestCode">Código</label>
+      <input type="text" id="shiftRequestCode" name="code" placeholder="Código único" required />
+    </div>
+
+    <div class="form-group">
+      <label for="shiftRequestSite">Sitio</label>
+      <select id="shiftRequestSite" name="siteId" required>
+        <option value="">Seleccione sitio</option>
+        <option th:each="s : ${sites}" th:value="${s.id}" th:text="${s.name}"></option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="shiftRequestAccount">Cuenta / Cliente final</label>
+      <select id="shiftRequestAccount" name="accountId" required>
+        <option value="">Seleccione cuenta</option>
+        <option th:each="a : ${accounts}" th:value="${a.id}" th:text="${a.name}"></option>
+        <!-- Si no tienes cuentas en backend, usa un simple input:
+        <input type="text" id="shiftRequestAccount" name="accountName" placeholder="Cuenta o cliente final" required />-->
+      </select>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="shiftRequestStartDate">Fecha inicio</label>
+        <input type="date" id="shiftRequestStartDate" name="startDate" required />
+      </div>
+      <div class="form-group">
+        <label for="shiftRequestEndDate">Fecha término</label>
+        <input type="date" id="shiftRequestEndDate" name="endDate" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="shiftRequestServiceType">Tipo de servicio</label>
+      <select id="shiftRequestServiceType" name="serviceType" required>
+        <option value="">Seleccione tipo de servicio</option>
+        <option value="FIJO">Fijo</option>
+        <option value="ADICIONAL">Adicional</option>
+      </select>
+    </div>
+
     <div class="form-group">
       <label>Horarios por tramos de días</label>
       <div id="shiftDayRanges">
-        <!-- Aquí se agregan los bloques de días -->
+        <!-- Aquí se agregan los bloques de días/vigilancia -->
       </div>
       <button type="button" id="addDayRange" class="btn-mini">+ Añadir tramo de horario</button>
     </div>
-    <small class="dayrange-help">Ej: Lun a Mié 08:00-18:00, Jue a Vie 09:00-17:00, Sáb a Dom 10:00-14:00, etc.</small>
-    <!-- Resto de tu formulario ... -->
+    <small class="dayrange-help">
+      Ej: Lun a Mié 08:00-18:00, Jue a Vie 09:00-17:00, Sáb a Dom 10:00-14:00, etc.
+    </small>
+
+    <div class="form-group">
+      <label for="shiftRequestStatus">Estado</label>
+      <select id="shiftRequestStatus" name="status" required>
+        <option value="">Seleccione estado</option>
+        <option value="PENDING">Pendiente</option>
+        <option value="CONFIRMED">Confirmado</option>
+        <option value="CANCELLED">Cancelado</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="shiftRequestDescription">Descripción</label>
+      <textarea id="shiftRequestDescription" name="description" placeholder="Descripción"></textarea>
+    </div>
+
     <div class="modal-footer">
       <button type="submit" class="btn-primary">Crear</button>
       <button type="button" class="btn-secondary" id="cancelCreateShiftRequest">Cancelar</button>
@@ -23,6 +82,7 @@
     <div class="form-error" id="createShiftRequestError"></div>
     <div class="form-ok" id="createShiftRequestOk" style="display:none;">Solicitud de turno creada ✅</div>
   </form>
+
   <script type="module" src="/js/private/shift-requests/create-shift-request.js"></script>
   <script type="module" src="/js/private/shift-requests/shift-day-ranges.js"></script>
 </div>

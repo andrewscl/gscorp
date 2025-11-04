@@ -48,6 +48,7 @@
   margin-bottom: 0.36rem;
 }
 .createShiftRequest .form-group input, .createShiftRequest .form-group select, .createShiftRequest .form-group textarea {
+  margin-top: 0.04rem;
   width: 100%;
   padding: 0.57rem 0.7rem;
   font-size: 1rem;
