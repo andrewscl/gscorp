@@ -1,154 +1,191 @@
+@charset "UTF-8";
 .createShiftRequest {
-  max-width: 440px;
   background: #fff;
-  border-radius: 0.75rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.13);
-  margin: 0 auto;
-  padding: 0;
+  padding: 2.1rem 1.5rem 2rem 1.5rem;
+  border-radius: 1.2rem;
+  box-shadow: 0 4px 18px rgba(60, 64, 67, 0.09);
+  max-width: 650px;
+  margin: 2rem auto;
+  font-family: "Inter", system-ui, Arial, sans-serif;
+  font-size: 1rem;
+  color: #263147;
+  /* --- Tramos de días y horarios --- */
 }
 .createShiftRequest .createShiftRequestHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 1.2rem 0.5rem 1.2rem;
 }
 .createShiftRequest .createShiftRequestHeader h3 {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: 1.45rem;
   font-weight: 700;
-  color: #1f2937;
+  letter-spacing: -0.02em;
+  color: #277bb7;
 }
 .createShiftRequest .createShiftRequestHeader .modal-close {
-  background: transparent;
   border: none;
-  font-size: 1.5rem;
-  line-height: 1;
+  font-size: 2.1rem;
+  background: transparent;
   cursor: pointer;
-  color: #6b7280;
-  transition: color 0.15s;
+  color: #888;
+  line-height: 1;
+  transition: color 0.22s;
 }
 .createShiftRequest .createShiftRequestHeader .modal-close:hover {
-  color: #111827;
+  color: #e53e3e;
 }
 .createShiftRequest .createShiftRequest-body {
-  padding: 1.2rem;
+  margin-top: 1.3rem;
 }
-.createShiftRequest .createShiftRequest-body .form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  margin-bottom: 1rem;
+.createShiftRequest .form-group {
+  margin-bottom: 1.05rem;
 }
-.createShiftRequest .createShiftRequest-body .form-group label {
-  font-size: 0.95rem;
-  color: #374151;
+.createShiftRequest .form-group label {
   font-weight: 500;
+  color: #374151;
+  display: block;
+  margin-bottom: 0.36rem;
 }
-.createShiftRequest .createShiftRequest-body .form-group input,
-.createShiftRequest .createShiftRequest-body .form-group select,
-.createShiftRequest .createShiftRequest-body .form-group textarea {
-  padding: 0.55rem 0.75rem;
+.createShiftRequest .form-group input, .createShiftRequest .form-group select, .createShiftRequest .form-group textarea {
+  width: 100%;
+  padding: 0.57rem 0.7rem;
+  font-size: 1rem;
   border: 1px solid #d1d5db;
-  border-radius: 0.375rem;
-  font-size: 0.97rem;
-  background: #f9fafb;
-  color: #374151;
-  transition: border-color 0.2s;
+  border-radius: 5px;
+  background: #f3f4f6;
+  transition: border 0.19s;
 }
-.createShiftRequest .createShiftRequest-body .form-group input:focus,
-.createShiftRequest .createShiftRequest-body .form-group select:focus,
-.createShiftRequest .createShiftRequest-body .form-group textarea:focus {
+.createShiftRequest .form-group input:focus, .createShiftRequest .form-group select:focus, .createShiftRequest .form-group textarea:focus {
+  border: 1.3px solid #277bb7;
   outline: none;
-  border-color: #2563eb;
-  background: #fff;
 }
-.createShiftRequest .createShiftRequest-body .form-group textarea {
-  min-height: 70px;
-  resize: vertical;
+.createShiftRequest .form-group textarea {
+  min-height: 3.3rem;
 }
-.createShiftRequest .createShiftRequest-body .weekdays-checkbox-group {
+.createShiftRequest .form-row {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.7rem;
-  margin-top: 0.2rem;
-}
-.createShiftRequest .createShiftRequest-body .weekdays-checkbox-group label {
-  font-size: 0.95rem;
-  font-weight: 400;
-  color: #374151;
-  display: flex;
-  align-items: center;
-  gap: 0.2rem;
-  margin-bottom: 0.2rem;
-}
-.createShiftRequest .createShiftRequest-body .form-row {
-  display: flex;
+  align-items: flex-end;
   gap: 1rem;
+  flex-wrap: wrap;
 }
-.createShiftRequest .createShiftRequest-body .form-row .form-group {
-  flex: 1;
+.createShiftRequest .form-row .form-group {
+  flex: 1 1 140px;
   margin-bottom: 0;
+  min-width: 120px;
 }
-.createShiftRequest .createShiftRequest-body .modal-footer {
+.createShiftRequest #shiftDayRanges .day-range-block {
+  background: #f5f8fc;
+  border-radius: 9px;
+  padding: 0.8rem 0.8rem 0.6rem;
+  margin-bottom: 1.05rem;
+  border: 1.5px solid #e5e7eb;
   display: flex;
-  justify-content: flex-end;
-  gap: 0.7rem;
-  margin-top: 0.5rem;
+  align-items: flex-end;
+  gap: 0.85rem;
+  flex-wrap: wrap;
 }
-.createShiftRequest .createShiftRequest-body .modal-footer .btn-primary,
-.createShiftRequest .createShiftRequest-body .modal-footer .btn-secondary {
-  padding: 0.5rem 1.1rem;
-  border: none;
-  border-radius: 0.375rem;
+.createShiftRequest #shiftDayRanges .day-range-block .form-group {
+  margin-bottom: 0;
+  min-width: 134px;
+}
+.createShiftRequest #shiftDayRanges .day-range-block .remove-day-range {
+  margin-top: 1.1rem;
+  background: #f87171;
+  color: #fff;
   font-weight: 500;
+  font-size: 0.96rem;
+  border-radius: 4.5px;
+  border: none;
+  padding: 0.36rem 0.8rem;
   cursor: pointer;
-  font-size: 0.97rem;
+  transition: background 0.15s;
 }
-.createShiftRequest .createShiftRequest-body .modal-footer .btn-primary {
-  background: #2563eb;
+.createShiftRequest #shiftDayRanges .day-range-block .remove-day-range:hover {
+  background: #d72828;
+}
+.createShiftRequest .btn-mini {
+  font-size: 0.98rem;
+  border: none;
+  background: #3071ef;
+  color: white;
+  padding: 0.45rem 0.88rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 0.2rem;
+  transition: background 0.13s;
+}
+.createShiftRequest .btn-mini:hover {
+  background: #245fd2;
+}
+.createShiftRequest .btn-mini.btn-danger {
+  background: #f87171;
   color: #fff;
 }
-.createShiftRequest .createShiftRequest-body .modal-footer .btn-primary:hover {
-  background: #1d4ed8;
+.createShiftRequest .btn-mini.btn-danger:hover {
+  background: #d72828;
 }
-.createShiftRequest .createShiftRequest-body .modal-footer .btn-secondary {
-  background: #e5e7eb;
-  color: #1f2937;
+.createShiftRequest .dayrange-help {
+  display: block;
+  color: #69668c;
+  margin: -0.48em 0 1.6em 2px;
+  font-size: 0.97rem;
+  font-style: italic;
 }
-.createShiftRequest .createShiftRequest-body .modal-footer .btn-secondary:hover {
-  background: #cbd5e1;
+.createShiftRequest .modal-footer {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  align-items: center;
 }
-.createShiftRequest .createShiftRequest-body .form-error {
-  margin-top: 0.5rem;
-  color: #b91c1c;
-  background: #fee2e2;
-  border-radius: 0.375rem;
-  padding: 0.4rem 0.7rem;
-  font-size: 0.95rem;
+.createShiftRequest .modal-footer .btn-primary, .createShiftRequest .modal-footer .btn-secondary {
+  border: none;
+  border-radius: 5px;
+  padding: 0.59rem 1.3rem;
+  font-weight: 600;
+  font-size: 1.04rem;
+  cursor: pointer;
+  box-shadow: 0 1.5px 7px rgba(110, 110, 123, 0.08);
+  transition: background 0.18s;
 }
-.createShiftRequest .createShiftRequest-body .form-ok {
-  margin-top: 0.5rem;
-  color: #047857;
-  background: #d1fae5;
-  border-radius: 0.375rem;
-  padding: 0.4rem 0.7rem;
-  font-size: 0.95rem;
+.createShiftRequest .modal-footer .btn-primary {
+  background: linear-gradient(90deg, #277bb7 65%, #2ec5ce 100%);
+  color: #fff;
 }
-
-/* Responsive */
-@media (max-width: 520px) {
+.createShiftRequest .modal-footer .btn-primary:hover {
+  background: linear-gradient(90deg, #165d87 60%, #33bdb5 100%);
+}
+.createShiftRequest .modal-footer .btn-secondary {
+  background: #f3f4f6;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+}
+.createShiftRequest .modal-footer .btn-secondary:hover {
+  background: #e9ecf1;
+}
+.createShiftRequest .form-error {
+  color: #ba1e3b;
+  margin-top: 0.6rem;
+  font-weight: 500;
+  min-height: 1.22em;
+}
+.createShiftRequest .form-ok {
+  color: #059669;
+  font-weight: 500;
+  text-align: center;
+  margin-top: 1.5rem;
+}
+@media (max-width: 800px) {
   .createShiftRequest {
-    max-width: 100vw;
-    border-radius: 0;
-  }
-  .createShiftRequest .createShiftRequest-body {
-    padding: 0.8rem;
-  }
-  .createShiftRequest .createShiftRequestHeader {
-    padding: 0.9rem 0.8rem 0.5rem 0.8rem;
+    max-width: 99%;
+    padding: 1.1rem 0.5rem 1.6rem 0.5rem;
   }
   .createShiftRequest .form-row {
     flex-direction: column;
-    gap: 0.2rem;
+    gap: 0.9rem;
+  }
+  .createShiftRequest #shiftDayRanges .day-range-block {
+    flex-direction: column;
+    gap: 0.8rem;
   }
 }/*# sourceMappingURL=create-shift-request.css.map */
