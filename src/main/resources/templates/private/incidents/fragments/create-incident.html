@@ -1,0 +1,68 @@
+<div th:fragment="content">
+  <div class="create-incident-header">
+    <h2>
+      <!-- Icono incidente nuevo -->
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" style="vertical-align:-5px;margin-right:.5rem">
+        <circle cx="11" cy="11" r="10" fill="#fee2e2"/>
+        <path d="M11 7v4m0 4h.01" stroke="#dc2626" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      Crear Incidente
+    </h2>
+    <button type="button" class="btn-secondary" id="goToIncidentTable" style="float:right"
+            data-path="/private/incidents/table-view">
+      <!-- Icono volver -->
+      <svg width="17" height="17" fill="none" style="vertical-align:middle;margin-right:.2rem">
+        <path d="M10.5 4.5L6 8.5l4.5 4" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Volver a la lista
+    </button>
+  </div>
+
+  <div class="create-incident-body">
+    <form id="createIncidentForm" data-path="/api/incidents/create" autocomplete="off">
+      <div class="form-group">
+        <label for="incidentSite">Sitio</label>
+        <select id="incidentSite" name="siteId" required>
+          <option value="" disabled selected>Seleccione sitio</option>
+          <option th:each="s : ${sites}" th:value="${s.id}" th:text="${s.name}"></option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="incidentType">Tipo incidente</label>
+        <select id="incidentType" name="typeId" required>
+          <option value="" disabled selected>Seleccione tipo</option>
+          <option th:each="t : ${incidentTypes}" th:value="${t.id}" th:text="${t.name}"></option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="incidentDescription">Descripción</label>
+        <textarea id="incidentDescription" name="description" placeholder="Detalle del incidente"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="incidentSlaMinutes">SLA objetivo (minutos)</label>
+        <input type="number" id="incidentSlaMinutes" name="slaMinutes" value="30" min="1" />
+      </div>
+      <div class="form-footer" style="margin-top:1.5rem">
+        <button type="submit" class="btn-primary">
+          <!-- Icono guardar -->
+          <svg width="17" height="17" fill="none" style="vertical-align:middle;margin-right:.17rem">
+            <rect x="2.5" y="3.5" width="12" height="12" rx="1.5" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+            <path d="M6.5 7.5h5" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M6.5 10.5h5" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Crear Incidente
+        </button>
+        <button type="button" class="btn-secondary" id="cancelCreateIncident" style="margin-left:0.5rem"
+                data-path="/private/incidents/table-view">
+          <!-- Icono cancelar/volver -->
+          <svg width="17" height="17" fill="none" style="vertical-align:middle;margin-right:.15rem">
+            <path d="M10.5 4.5L6 8.5l4.5 4" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Cancelar
+        </button>
+      </div>
+      <div class="form-error" id="createIncidentError"></div>
+      <div class="form-ok" id="createIncidentOk" style="display:none;">Incidente creado ✅</div>
+    </form>
+  </div>
+</div>

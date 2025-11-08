@@ -1,4 +1,4 @@
-package com.gscorp.dv1.issues.infrastructure;
+package com.gscorp.dv1.incidents.infrastructure;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IssueRepository extends JpaRepository<Issue, Long>{
+public interface IncidentRepository extends JpaRepository<Incident, Long>{
 
  interface DayCount { String getDay(); Long getCnt(); }
 

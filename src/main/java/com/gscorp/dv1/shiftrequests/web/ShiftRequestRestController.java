@@ -1,5 +1,6 @@
 package com.gscorp.dv1.shiftrequests.web;
 
+import java.net.URI;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
@@ -33,32 +34,12 @@ public class ShiftRequestRestController {
         @jakarta.validation.Valid @RequestBody CreateShiftRequestRequest req,
         UriComponentsBuilder ucb) {
 
-        // Busca el site por Id usando Optional
-        Optional<Site> siteOpt = siteService.findById(req.siteId());
-        if (siteOpt.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-        Site site = siteOpt.get();
+        //Crear shiftrequest
+        ShiftRequest shiftRequest = shiftRequestService.create(req);
+        ShiftRequestDto dto = ShiftRequestDto.fromEntity(shiftRequest);
 
-        // Construye la entidad normalmente
-        var entity = ShiftRequest.builder()
-            .code(req.code())
-            .site(site)
-            .type(req.type() != null ? ShiftRequest.RequestType.valueOf(req.type()) : null)
-            .startDate(req.startDate())
-            .endDate(req.endDate())
-            .weekDays(req.weekDays())
-            .shiftDateTime(req.shiftDateTime())
-            .startTime(req.startTime())
-            .endTime(req.endTime())
-            .lunchTime(req.lunchTime())
-            .status(req.status())
-            .description(req.description())
-            .build();
+        URI uri = ucb.path("/api/shift-requests/{id}").buildAndExpand(dto.id()).toUri();
 
-        shiftRequestService.create(entity); // O save(entity), según tu service
-        var dto = ShiftRequestDto.fromEntity(entity);
-        var uri = ucb.path("/api/shift-requests/{id}").buildAndExpand(dto.id()).toUri();
         return ResponseEntity.created(uri).body(dto);
     }
 
@@ -83,18 +64,6 @@ public class ShiftRequestRestController {
             shift.setSite(siteOpt.get());
         }
 
-        // Actualiza los campos editables
-        shift.setCode(req.code());
-        shift.setType(req.type() != null ? ShiftRequest.RequestType.valueOf(req.type().trim().toUpperCase()) : null);
-        shift.setStartDate(req.startDate());
-        shift.setEndDate(req.endDate());
-        shift.setWeekDays(req.weekDays());
-        shift.setShiftDateTime(req.shiftDateTime());
-        shift.setStartTime(req.startTime());
-        shift.setEndTime(req.endTime());
-        shift.setLunchTime(req.lunchTime());
-        shift.setStatus(req.status());
-        shift.setDescription(req.description());
 
         var saved = shiftRequestService.update(shift);
 

@@ -1,4 +1,4 @@
-package com.gscorp.dv1.issues.infrastructure;
+package com.gscorp.dv1.incidents.infrastructure;
 
 import java.time.OffsetDateTime;
 
@@ -15,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,7 +31,7 @@ import lombok.Setter;
   }
 )
     @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-    public class Issue {
+    public class Incident {
 
     public enum Status { OPEN, IN_PROGRESS, CLOSED }
 
@@ -42,7 +43,7 @@ import lombok.Setter;
 
     @ManyToOne(optional=false, fetch=FetchType.LAZY)
     @JoinColumn(name="type_id", nullable=false)
-    IssueType type;
+    IncidentType type;
 
     @Builder.Default
     @Enumerated(EnumType.STRING) @Column(nullable=false)
@@ -58,5 +59,13 @@ import lombok.Setter;
     private Integer slaMinutes = 30;
 
     @Column(columnDefinition="text") String description;
+
+    @Column(name= "created_at", nullable=false, updatable=false)
+    private OffsetDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = OffsetDateTime.now();
+    }
 
 }

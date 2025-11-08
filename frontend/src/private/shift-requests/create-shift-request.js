@@ -39,10 +39,9 @@ function validateNoOverlap(schedules) {
 async function onSubmitCreateShiftRequest(e) {
   e.preventDefault();
 
-  const code = qs('#shiftRequestCode')?.value?.trim();
   const siteId = qs('#shiftRequestSite')?.value;
   const accountId = qs('#shiftRequestAccount')?.value; // Nuevo campo Cuenta
-  const serviceType = qs('#shiftRequestServiceType')?.value; // Nuevo campo Tipo de Servicio
+  const type = qs('#shiftRequestServiceType')?.value; // Nuevo campo Tipo de Servicio
   const startDate = qs('#shiftRequestStartDate')?.value;
   const endDate = qs('#shiftRequestEndDate')?.value || null;
   const status = qs('#shiftRequestStatus')?.value;
@@ -54,10 +53,9 @@ async function onSubmitCreateShiftRequest(e) {
   if (ok) ok.style.display = 'none';
 
   // Validaciones mínimas
-  if (!code)      { if (err) err.textContent = 'El código es obligatorio.'; return; }
   if (!siteId)    { if (err) err.textContent = 'Debe seleccionar un sitio.'; return; }
   if (!accountId) { if (err) err.textContent = 'Debe seleccionar una cuenta.'; return; }
-  if (!serviceType) { if (err) err.textContent = 'Debe seleccionar el tipo de servicio.'; return; }
+  if (!type) { if (err) err.textContent = 'Debe seleccionar el tipo de servicio.'; return; }
   if (!startDate) { if (err) err.textContent = 'La fecha de inicio es obligatoria.'; return; }
   if (!status)    { if (err) err.textContent = 'Debe seleccionar un estado.'; return; }
 
@@ -92,7 +90,7 @@ async function onSubmitCreateShiftRequest(e) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        code, siteId, accountId, serviceType, startDate, endDate, status, description, schedules
+        siteId, type, accountId, startDate, endDate, description, schedules
       })
     });
 

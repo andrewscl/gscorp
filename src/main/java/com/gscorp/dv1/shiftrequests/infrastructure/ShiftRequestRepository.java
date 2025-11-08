@@ -5,5 +5,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long>{
+
+    String findLastCodeBySiteIdAndPrefix(Long siteId, String prefix);
     
 }

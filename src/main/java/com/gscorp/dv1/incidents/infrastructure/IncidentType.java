@@ -1,4 +1,4 @@
-package com.gscorp.dv1.issues.infrastructure;
+package com.gscorp.dv1.incidents.infrastructure;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,7 +19,7 @@ import lombok.Setter;
   uniqueConstraints = @UniqueConstraint(name="uq_inc_types_code", columnNames="code")
 )
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-public class IssueType {
+public class IncidentType {
 
   public enum Severity { LOW, MEDIUM, HIGH }
 
