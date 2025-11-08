@@ -9,6 +9,9 @@
   font-family: 'Inter', system-ui, Arial, sans-serif;
   font-size: 1rem;
   color: #263147;
+  top: 64px;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
 
   .createShiftRequestHeader {
     display: flex;
