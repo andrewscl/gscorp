@@ -13,11 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gscorp.dv1.shiftrequests.application.ShiftRequestService;
-import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.shiftrequests.web.dto.CreateShiftRequestRequest;
 import com.gscorp.dv1.shiftrequests.web.dto.ShiftRequestDto;
-import com.gscorp.dv1.sites.application.SiteService;
-import com.gscorp.dv1.sites.infrastructure.Site;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,7 +24,6 @@ import lombok.RequiredArgsConstructor;
 public class ShiftRequestRestController {
 
     private final ShiftRequestService shiftRequestService;
-    private final SiteService siteService;
 
     @PostMapping("/create")
     public ResponseEntity<ShiftRequestDto> createShiftRequest(
@@ -35,8 +31,7 @@ public class ShiftRequestRestController {
         UriComponentsBuilder ucb) {
 
         //Crear shiftrequest
-        ShiftRequest shiftRequest = shiftRequestService.create(req);
-        ShiftRequestDto dto = ShiftRequestDto.fromEntity(shiftRequest);
+        ShiftRequestDto dto = shiftRequestService.create(req);
 
         URI uri = ucb.path("/api/shift-requests/{id}").buildAndExpand(dto.id()).toUri();
 
@@ -48,26 +43,11 @@ public class ShiftRequestRestController {
         @PathVariable Long id,
         @jakarta.validation.Valid @RequestBody CreateShiftRequestRequest req
     ) {
-        Optional<ShiftRequest> shiftOpt = shiftRequestService.findById(id);
-        if (shiftOpt.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+        Optional<ShiftRequestDto> updatedDtoOpt = shiftRequestService.update(id, req);
 
-        ShiftRequest shift = shiftOpt.get();
-
-        // Si necesitas cambiar el site:
-        if (req.siteId() != null) {
-            Optional<Site> siteOpt = siteService.findById(req.siteId());
-            if (siteOpt.isEmpty()) {
-                return ResponseEntity.badRequest().body(null);
-            }
-            shift.setSite(siteOpt.get());
-        }
-
-
-        var saved = shiftRequestService.update(shift);
-
-        return ResponseEntity.ok(ShiftRequestDto.fromEntity(saved));
+        return updatedDtoOpt
+            .map(ResponseEntity::ok)
+            .orElseGet(() -> ResponseEntity.notFound().build());
     }
     
 }
