@@ -2,7 +2,7 @@ package com.gscorp.dv1.shiftrequests.web.dto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.util.List;
 
 import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequest;
 
@@ -13,14 +13,10 @@ public record ShiftRequestDto(
     String type,
     LocalDate startDate,
     LocalDate endDate,
-    String weekDays,
-    LocalDateTime shiftDateTime,
-    LocalTime startTime,
-    LocalTime endTime,
-    LocalTime lunchTime,
     String status,
     String description,
-    LocalDateTime createdAt
+    LocalDateTime createdAt,
+    List<ShiftScheduleDto> schedules
 ) {
     public static ShiftRequestDto fromEntity(ShiftRequest sr) {
         if (sr == null) return null;
@@ -31,14 +27,15 @@ public record ShiftRequestDto(
             sr.getType() == null ? null : sr.getType().name(),
             sr.getStartDate(),
             sr.getEndDate(),
-            sr.getWeekDays(),
-            sr.getShiftDateTime(),
-            sr.getStartTime(),
-            sr.getEndTime(),
-            sr.getLunchTime(),
             sr.getStatus(),
             sr.getDescription(),
-            sr.getCreatedAt()
+            sr.getCreatedAt(),
+            sr.getSchedules() == null
+                ? List.of()
+                : sr.getSchedules()
+                    .stream()
+                    .map(ShiftScheduleDto::fromEntity)
+                    .toList()
         );
     }
 
