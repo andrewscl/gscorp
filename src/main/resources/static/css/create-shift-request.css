@@ -11,7 +11,12 @@
   color: #263147;
   max-height: 60vh;
   overflow-y: auto;
+  scrollbar-width: hidden; /* Firefox */
+  /* Chrome, Safari, Opera */
   /* --- Tramos de días y horarios --- */
+}
+.createShiftRequest::-webkit-scrollbar {
+  display: none;
 }
 .createShiftRequest .createShiftRequestHeader {
   display: flex;
