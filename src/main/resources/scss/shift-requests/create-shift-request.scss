@@ -10,6 +10,8 @@
   color: #263147;
   max-height: 60vh;
   overflow-y: auto;
+  scrollbar-width: hidden; /* Firefox */
+  &::-webkit-scrollbar { display: none; } /* Chrome, Safari, Opera */
 
   .createShiftRequestHeader {
     display: flex;
