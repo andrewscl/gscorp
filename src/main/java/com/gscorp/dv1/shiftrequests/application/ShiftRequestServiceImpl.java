@@ -7,10 +7,13 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.gscorp.dv1.enums.RequestType;
+import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequestRepository;
 import com.gscorp.dv1.shiftrequests.infrastructure.ShiftSchedule;
 import com.gscorp.dv1.shiftrequests.web.dto.CreateShiftRequestRequest;
+import com.gscorp.dv1.shiftrequests.web.dto.ShiftRequestDto;
+import com.gscorp.dv1.sites.infrastructure.Site;
 import com.gscorp.dv1.sites.infrastructure.SiteRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -21,19 +24,23 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
 
     private final ShiftRequestRepository shiftRequestRepository;
     private final SiteRepository siteRepository;
-    
+
     @Override
-    public List<ShiftRequest> findAll() {
-        return shiftRequestRepository.findAll();
+    public List<ShiftRequestDto> findAll() {
+        List<ShiftRequest> shiftRequests = shiftRequestRepository.findAll();
+        return shiftRequests.stream()
+            .map(ShiftRequestDto::fromEntity)
+            .toList();
     }
 
     @Override
-    public Optional<ShiftRequest> findById(Long id) {
-        return shiftRequestRepository.findById(id);
+    public Optional<ShiftRequestDto> findById(Long id) {
+        return shiftRequestRepository.findById(id)
+            .map(ShiftRequestDto::fromEntity);
     }
 
     @Override
-    public ShiftRequest create(CreateShiftRequestRequest req) {
+    public ShiftRequestDto create(CreateShiftRequestRequest req) {
 
         //Obtener sitio y tipo
         String requestType = req.type();
@@ -69,7 +76,7 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
             .clientAccountId(req.accountId())
             .startDate(req.startDate())
             .endDate(req.endDate())
-            .status("PENDING")
+            .status(ShiftRequestStatus.REQUESTED)
             .description(req.description())
             .build();
 
@@ -88,11 +95,34 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
             shiftRequest.setSchedules(schedules);
         }
 
-        return shiftRequestRepository.save(shiftRequest);
+        return ShiftRequestDto.fromEntity(shiftRequestRepository.save(shiftRequest));
     }
 
     @Override
-    public ShiftRequest update(ShiftRequest shiftRequest) {
-        return shiftRequestRepository.save(shiftRequest);
+    public Optional<ShiftRequestDto> update(Long id, CreateShiftRequestRequest req) {
+        ShiftRequest shiftRequest = shiftRequestRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("ShiftRequest not found"));
+
+        // Mapear los campos del request a la entidad
+        Site siteEntity = (req.siteId() != null) 
+            ? siteRepository.findById(req.siteId())
+                .orElseThrow(() -> new IllegalArgumentException("Site not found"))
+            : null ;
+        shiftRequest.setSite(siteEntity);
+
+        if(req.type() != null) {
+            shiftRequest.setType(RequestType.valueOf(req.type()));
+        }
+
+        shiftRequest.setClientAccountId(req.accountId());
+        shiftRequest.setStartDate(req.startDate());
+        shiftRequest.setEndDate(req.endDate());
+        shiftRequest.setDescription(req.description());
+
+        //Definir status
+        shiftRequest.setStatus(ShiftRequestStatus.REQUESTED);
+
+        ShiftRequest saved = shiftRequestRepository.save(shiftRequest);
+        return Optional.ofNullable(ShiftRequestDto.fromEntity(saved));
     }
 }

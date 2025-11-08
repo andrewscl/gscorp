@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.enums.RequestType;
 import com.gscorp.dv1.sites.infrastructure.Site;
 
@@ -62,8 +63,8 @@ public class ShiftRequest {
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
-    @Column(name = "status", nullable = false)
-    private String status; // PENDING, CONFIRMED, CANCELLED
+    @Enumerated(EnumType.STRING)
+    private ShiftRequestStatus status; // PENDING, CONFIRMED, CANCELLED
 
     @Column(name = "description", length = 1024)
     private String description;
