@@ -4,12 +4,12 @@
   border-radius: 1.2rem;
   box-shadow: 0 4px 18px rgba(60,64,67,0.09);
   max-width: 650px;
-  margin: 0;
+  margin: 2rem auto;
   font-family: 'Inter', system-ui, Arial, sans-serif;
   font-size: 1rem;
   color: #263147;
-  position: fixed;
-  top: 60px;
+  max-height: 60vh;
+  overflow-y: auto;
 
   .createShiftRequestHeader {
     display: flex;
