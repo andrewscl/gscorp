@@ -25,7 +25,6 @@ body[data-layout="private"] {
     border-right: 1px solid #e5e7eb;
     position: fixed;
     left: 0;
-    height: 100vh;
     z-index: 1001;
 
     .logo-container {
@@ -181,6 +180,8 @@ body[data-layout="private"] {
       position: fixed;
       top: 0;
       right: 0;
+      left: 260px;
+      height: 76px;
 
       .title {
         margin: 0;
