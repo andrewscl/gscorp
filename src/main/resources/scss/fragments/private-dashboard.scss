@@ -21,11 +21,9 @@ body[data-layout="private"] {
     padding: 2.2rem 1.3rem 1.1rem 1.3rem;
     box-shadow: 3px 0 24px rgba(44, 62, 80, 0.08);
     border-right: 1px solid #e5e7eb;
-    position: fixed;
+    position: relative;
     left: 0;
-    min-height: 100vh;
     z-index: 1001;
-    overflow-y: auto;
 
     .logo-container {
       text-align: center;
@@ -166,7 +164,7 @@ body[data-layout="private"] {
     display: flex;
     flex-direction: column;
     background: #f9fafb;
-    margin-left: 260px;
+    margin-left: 270px;
     margin-top: 76px;
 
     .topbar {
@@ -180,7 +178,7 @@ body[data-layout="private"] {
       position: fixed;
       top: 0;
       right: 0;
-      left: 260px;
+      left: 270px;
       height: 76px;
       z-index: 1000;
 
