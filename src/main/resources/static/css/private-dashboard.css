@@ -252,6 +252,8 @@ body[data-layout=private] .main-content {
   display: flex;
   flex-direction: column;
   background: #f9fafb;
+  margin-left: 260px;
+  margin-top: 76px;
 }
 body[data-layout=private] .main-content .topbar {
   background: #ffffff;
