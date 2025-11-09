@@ -137,7 +137,7 @@ public SiteDto updateSite(Long id, SiteDto siteDto) {
     @Override
     @Transactional(readOnly = true)
     public List<SiteSelectDto> getAllSitesForClients(List<Long> clientIds) {
-        return siteRepository.findByClientIdIn(clientIds)
+        return siteRepository.findByProject_Client_IdIn(clientIds)
                 .stream()
                 .map(site -> new SiteSelectDto(site.getId(), site.getName()))
                 .toList();
