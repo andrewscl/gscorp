@@ -110,6 +110,7 @@ body[data-layout=private] .sidebar {
   left: 0;
   min-height: 100vh;
   z-index: 1001;
+  overflow-y: auto;
 }
 body[data-layout=private] .sidebar .logo-container {
   text-align: center;
