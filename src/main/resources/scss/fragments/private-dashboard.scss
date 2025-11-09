@@ -1,29 +1,37 @@
-@use '../base/mixins' as *;
-@use '../base/variables' as *;
-@use '../base/palette' as *;
-@use '../base/typography' as *;
-@use '../base/fragment-mixins' as *;
+// =================== Dashboard Private Layout Modern ===================
 
-/* =============== LAYOUT PRIVADO MODERNO =============== */
+// VARIABLES
+$sidebar-width: 260px;
+$topbar-height: 76px;
+$main-bg: linear-gradient(120deg, #f6f8fa 0%, #e7ebf3 100%);
+$sidebar-bg: #f8fafc;
+$sidebar-color: #222e3a;
+$topbar-bg: #fff;
+$content-bg: #f9fafb;
+
+// ------------------ LAYOUT ------------------
 body[data-layout="private"] {
-  display: flex;
   min-height: 100vh;
   margin: 0;
-  background: linear-gradient(120deg, #f6f8fa 0%, #e7ebf3 100%);
+  background: $main-bg;
+  font-family: 'Inter', 'Roboto', Arial, sans-serif;
+  display: flex;
 
-  /* -------- Sidebar -------- */
+  // -------- SIDEBAR FIXED & SCROLLABLE --------
   .sidebar {
-    width: 260px;
-    background: #f8fafc;
-    color: #222e3a;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: $sidebar-width;
+    height: 100vh;
+    background: $sidebar-bg;
+    color: $sidebar-color;
+    border-right: 1px solid #e5e7eb;
+    box-shadow: 3px 0 24px rgba(44, 62, 80, 0.08);
+    z-index: 1001;
     display: flex;
     flex-direction: column;
-    padding: 2.2rem 1.3rem 1.1rem 1.3rem;
-    box-shadow: 3px 0 24px rgba(44, 62, 80, 0.08);
-    border-right: 1px solid #e5e7eb;
-    position: relative;
-    left: 0;
-    z-index: 1001;
+    overflow-y: auto; // menu scroll interno
 
     .logo-container {
       text-align: center;
@@ -46,7 +54,9 @@ body[data-layout="private"] {
 
       .menu-item,
       summary {
-        @include roboto-font(1rem, 500);
+        font-family: 'Roboto', Arial, sans-serif;
+        font-size: 1rem;
+        font-weight: 500;
         display: flex;
         align-items: center;
         gap: .76rem;
@@ -114,7 +124,9 @@ body[data-layout="private"] {
             background: transparent;
             border-radius: 7px;
             text-decoration: none;
-            @include roboto-font(0.95rem, 400);
+            font-family: 'Roboto', Arial, sans-serif;
+            font-size: 0.95rem;
+            font-weight: 400;
             letter-spacing: 0.01em;
             position: relative;
             transition: background .18s, color .18s;
@@ -158,49 +170,47 @@ body[data-layout="private"] {
     }
   }
 
-  /* -------- Main content + Topbar -------- */
+  // -------- MAIN CONTENT + TOPBAR --------
   .main-content {
-    flex-grow: 1;
+    margin-left: $sidebar-width;
+    width: calc(100vw - #{$sidebar-width});
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background: #f9fafb;
-    margin-left: 270px;
-    margin-top: 76px;
+    background: $content-bg;
 
     .topbar {
-      background: #ffffff;
-      padding: 1.2rem 2.3rem;
-      border-bottom: 1px solid #e5e7eb;
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      box-shadow: 0 2px 18px rgba(44, 62, 80, 0.03);
       position: fixed;
       top: 0;
+      left: $sidebar-width;
       right: 0;
-      left: 270px;
-      height: 76px;
-      z-index: 1000;
+      height: $topbar-height;
+      z-index: 1100;
+      background: $topbar-bg;
+      display: flex;
+      align-items: center;
+      padding: 0 2rem;
+      border-bottom: 1px solid #e5e7eb;
+      box-shadow: 0 2px 18px rgba(44,62,80,0.03);
 
       .title {
         margin: 0;
-        font-size: 1.6rem;
+        font-size: 1.45rem;
         font-weight: 700;
-        color: #111827;
-        letter-spacing: -.5px;
+        color: #277bb7;
+        letter-spacing: -.02em;
       }
 
       .topbar-right {
         margin-left: auto;
         display: flex;
         align-items: center;
-        gap: 18px;
+        gap: 1.2rem;
 
         .user-actions {
           display: flex;
           align-items: center;
           gap: 1rem;
-
           .user-name { font-weight: 500; color: #374151; }
           .logout-btn {
             color: #ef4444;
@@ -210,7 +220,6 @@ body[data-layout="private"] {
             &:hover { text-decoration: underline; }
           }
         }
-
         .topbar-burger {
           display: none;
           width: 40px; height: 40px;
@@ -223,14 +232,17 @@ body[data-layout="private"] {
 
     .content {
       flex-grow: 1;
+      margin-top: $topbar-height;
       padding: 2.4rem;
-      background: #f9fafb;
+      background: $content-bg;
       border-radius: 20px 20px 0 0;
       box-shadow: 0 8px 24px rgba(44, 62, 80, 0.05);
+      min-height: calc(100vh - #{$topbar-height});
+      overflow-y: auto;
     }
   }
 
-  /* -------- Scrim -------- */
+  // -------- SCRIM (sidebar overlay en móvil) --------
   .sidebar-scrim {
     position: fixed;
     inset: 0;
@@ -240,69 +252,45 @@ body[data-layout="private"] {
   }
 }
 
-/* =============== RESPONSIVE =============== */
+// ----------- RESPONSIVE / MOBILE -------------
 @media (max-width: 1024px) {
   body[data-layout="private"] {
-    .main-content {
-      .topbar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-wrap: nowrap;
-        gap: 8px;
-
-        .title {
-          margin: 0;
-          font-size: 1.25rem;
-          flex: 1 1 auto;
-          min-width: 0;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-
-        .topbar-right {
-          margin-left: auto;
-          flex: 0 0 auto;
-          display: flex;
-          align-items: center;
-
-          .topbar-burger {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px; height: 40px;
-            border: 0; background: transparent; cursor: pointer;
-            font-size: 1.25rem; line-height: 1;
-          }
-        }
-      }
-    }
-
     .sidebar {
       position: fixed;
       top: 0; left: 0;
+      width: min(83vw, 320px);
       height: 100dvh;
-      width: min(82vw, 320px);
-      transform: translateX(-100%);
-      transition: transform .25s cubic-bezier(.42,.04,.58,1);
-      z-index: 1001;
-      box-shadow: 0 10px 24px rgba(55, 65, 81, 0.17);
       overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
+      box-shadow: 0 10px 24px rgba(55,65,81,0.17);
+      z-index: 1003;
+      transition: transform .25s cubic-bezier(.42,.04,.58,1);
+      transform: translateX(-100%);
+    }
+
+    .main-content {
+      margin-left: 0;
+      width: 100vw;
+      .topbar {
+        left: 0;
+        width: 100vw;
+      }
+      .content {
+        padding: 1.4rem 0.4rem 1.2rem 0.4rem;
+        border-radius: 14px;
+      }
     }
 
     .sidebar-scrim {
       position: fixed; inset: 0;
       background: rgba(0,0,0,.32);
-      z-index: 1000;
+      z-index: 1002;
       display: none;
     }
 
     &.sidebar-open {
-      overflow: hidden;
       .sidebar       { transform: translateX(0); }
       .sidebar-scrim { display: block; }
+      overflow: hidden;
     }
   }
 }
