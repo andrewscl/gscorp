@@ -23,7 +23,9 @@ body[data-layout="private"] {
     padding: 2.2rem 1.3rem 1.1rem 1.3rem;
     box-shadow: 3px 0 24px rgba(44, 62, 80, 0.08);
     border-right: 1px solid #e5e7eb;
-    position: relative;
+    position: fixed;
+    left: 0;
+    height: 100vh;
     z-index: 1001;
 
     .logo-container {
@@ -174,6 +176,9 @@ body[data-layout="private"] {
       align-items: center;
       gap: 18px;
       box-shadow: 0 2px 18px rgba(44, 62, 80, 0.03);
+      position: fixed;
+      top: 0;
+      right: 0;
 
       .title {
         margin: 0;
