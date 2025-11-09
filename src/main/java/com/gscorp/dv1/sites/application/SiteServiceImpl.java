@@ -11,6 +11,7 @@ import com.gscorp.dv1.sites.infrastructure.Site;
 import com.gscorp.dv1.sites.infrastructure.SiteRepository;
 import com.gscorp.dv1.sites.web.dto.SetSiteCoordinatesDto;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
+import com.gscorp.dv1.sites.web.dto.SiteSelectDto;
 import com.gscorp.dv1.sites.web.dto.UpdateLatLon;
 
 import lombok.RequiredArgsConstructor;
@@ -131,5 +132,14 @@ public SiteDto updateSite(Long id, SiteDto siteDto) {
         site.setLon(longitude);
         siteRepository.save(site);
         return new SetSiteCoordinatesDto(site.getId(), site.getLat(), site.getLon());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<SiteSelectDto> getAllSitesForClients(List<Long> clientIds) {
+        return siteRepository.findByClientIdIn(clientIds)
+                .stream()
+                .map(site -> new SiteSelectDto(site.getId(), site.getName()))
+                .toList();
     }
 }

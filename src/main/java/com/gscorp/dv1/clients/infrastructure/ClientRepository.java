@@ -14,5 +14,7 @@ public interface ClientRepository extends JpaRepository<Client, Long>{
 
     @EntityGraph(attributePaths = "users")
     Optional<Client> findById (Long id);
+
+    List<Long> findClientIdsByUserId(Long userId);
     
 }

@@ -62,4 +62,9 @@ public class ClientServiceImpl implements ClientService{
         }
     }
 
+    @Override
+    public List<Long> getClientIdsByUserId(Long userId) {
+        return clientRepo.findClientIdsByUserId(userId);
+    }
+
 }
