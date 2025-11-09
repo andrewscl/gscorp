@@ -108,6 +108,7 @@ body[data-layout=private] .sidebar {
   border-right: 1px solid #e5e7eb;
   position: fixed;
   left: 0;
+  min-height: 100vh;
   z-index: 1001;
 }
 body[data-layout=private] .sidebar .logo-container {
@@ -267,6 +268,7 @@ body[data-layout=private] .main-content .topbar {
   right: 0;
   left: 260px;
   height: 76px;
+  z-index: 1000;
 }
 body[data-layout=private] .main-content .topbar .title {
   margin: 0;
