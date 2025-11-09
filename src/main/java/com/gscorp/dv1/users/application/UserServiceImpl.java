@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -210,6 +211,14 @@ public class UserServiceImpl implements UserService{
     @Override
     public Optional<User> findByUsername(String username) {
         return userRepo.findByUsername(username);
+    }
+
+    @Override
+    public Long getUserIdFromAuthentication(Authentication authentication) {
+        String username = authentication.getName();
+        User user = findByUsername(username)
+              .orElseThrow(() -> new RuntimeException("Usuario no encontrado: " + username));
+        return user.getId();
     }
 
 }
