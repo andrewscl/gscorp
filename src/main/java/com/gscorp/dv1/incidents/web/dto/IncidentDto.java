@@ -1,11 +1,14 @@
 package com.gscorp.dv1.incidents.web.dto;
 
+import com.gscorp.dv1.enums.IncidentType;
+import com.gscorp.dv1.enums.Priority;
 import com.gscorp.dv1.incidents.infrastructure.Incident;
 
 public record IncidentDto (
     Long id,
     Long siteId,
-    Long typeId,
+    IncidentType incidentType,
+    Priority priority,
     String status,
     String openedTs,
     String firstResponseTs,
@@ -17,7 +20,8 @@ public record IncidentDto (
         return new IncidentDto(
             inc.getId(),
             inc.getSite() != null ? inc.getSite().getId() : null,
-            inc.getType() != null ? inc.getType().getId() : null,
+            inc.getIncidentType(),
+            inc.getPriority(),
             inc.getStatus() != null ? inc.getStatus().name() : null,
             inc.getOpenedTs() != null ? inc.getOpenedTs().toString() : null,
             inc.getFirstResponseTs() != null ? inc.getFirstResponseTs().toString() : null,

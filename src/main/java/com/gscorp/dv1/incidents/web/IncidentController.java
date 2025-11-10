@@ -1,6 +1,5 @@
 package com.gscorp.dv1.incidents.web;
 
-import java.security.Principal;
 import java.util.List;
 
 import org.springframework.security.core.Authentication;
@@ -11,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gscorp.dv1.clients.application.ClientService;
+import com.gscorp.dv1.enums.IncidentType;
+import com.gscorp.dv1.enums.Priority;
 import com.gscorp.dv1.incidents.application.IncidentService;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.web.dto.SiteSelectDto;
@@ -40,6 +41,8 @@ public class IncidentController {
         List<Long> clientIds = clientService.getClientIdsByUserId(userId);
         List<SiteSelectDto> sites = siteService.getAllSitesForClients(clientIds);
         model.addAttribute("sites", sites);
+        model.addAttribute("incidentTypes", IncidentType.values());
+        model.addAttribute("priorities", Priority.values());
         return "private/incidents/views/create-incident-view";
     }
 

@@ -2,6 +2,8 @@ package com.gscorp.dv1.incidents.infrastructure;
 
 import java.time.OffsetDateTime;
 
+import com.gscorp.dv1.enums.IncidentType;
+import com.gscorp.dv1.enums.Priority;
 import com.gscorp.dv1.sites.infrastructure.Site;
 
 import jakarta.persistence.Column;
@@ -41,9 +43,13 @@ import lombok.Setter;
     @JoinColumn(name="site_id", nullable=false)
     Site site;
 
-    @ManyToOne(optional=false, fetch=FetchType.LAZY)
-    @JoinColumn(name="type_id", nullable=false)
-    IncidentType type;
+    @Enumerated(EnumType.STRING)
+    @Column(name="type", nullable=false)
+    private IncidentType incidentType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="priority", nullable=false)
+    private Priority priority;
 
     @Builder.Default
     @Enumerated(EnumType.STRING) @Column(nullable=false)
