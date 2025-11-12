@@ -38,7 +38,7 @@ public interface IncidentRepository extends JpaRepository<Incident, Long>{
       s.name,
       i.incidentType,
       i.priority,
-      i.status,
+      i.status.name(),
       i.openedTs,
       i.slaMinutes,
       i.description,
