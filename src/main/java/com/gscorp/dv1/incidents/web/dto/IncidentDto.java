@@ -20,7 +20,7 @@ public class IncidentDto {
     String siteName;
     IncidentType incidentType;
     Priority priority;
-    String status; // recomiendo String si en la query usas i.status.name()
+    String status;
     OffsetDateTime openedTs;
     Integer slaMinutes;
     String description;
