@@ -31,8 +31,10 @@ public class IncidentRestController {
             incidentService.
                         createIncident(req);
 
+        Long id = saved.getId();
+
         var location = ucb.path("/api/incidents/{id}")
-                                    .buildAndExpand(saved.id()).toUri();
+                                    .buildAndExpand(id).toUri();
 
         return ResponseEntity.created(location).body(saved);
     }
