@@ -20,6 +20,7 @@
 
   <div class="create-incident-body">
     <form id="createIncidentForm" autocomplete="off">
+
       <div class="form-group">
         <label for="incidentSite">Sitio</label>
         <select id="incidentSite" name="siteId" required>
@@ -27,13 +28,15 @@
           <option th:each="s : ${sites}" th:value="${s.id}" th:text="${s.name}"></option>
         </select>
       </div>
+
       <div class="form-group">
         <label for="incidentType">Tipo incidente</label>
         <select id="incidentType" name="typeId" required>
           <option value="" disabled selected>Seleccione tipo</option>
-          <option th:each="t : ${incidentTypes}" th:value="${t.id}" th:text="${t.name}"></option>
+          <option th:each="t : ${incidentTypes}" th:value="${t.name()}" th:text="${t}"></option>
         </select>
       </div>
+
       <div class="form-group">
         <label for="incidentDescription">Descripción</label>
         <textarea id="incidentDescription" name="description" placeholder="Detalle del incidente"></textarea>
