@@ -33,7 +33,7 @@
         <label for="incidentType">Tipo incidente</label>
         <select id="incidentType" name="typeId" required>
           <option value="" disabled selected>Seleccione tipo</option>
-          <option th:each="t : ${incidentTypes}" th:value="${t.name()}" th:text="${t}"></option>
+          <option th:each="t : ${incidentTypes}" th:value="${t.name()}" th:text="${t.displayName}"></option>
         </select>
       </div>
 
@@ -46,7 +46,7 @@
         <label for="incidentPriority">Prioridad</label>
         <select id="incidentPriority" name="priority" required>
           <option value="" disabled selected>Seleccione prioridad</option>
-          <option th:each="p : ${priorities}" th:value="${p}" th:text="${p}"></option>
+          <option th:each="p : ${priorities}" th:value="${p.name()}" th:text="${p.displayName}"></option>
         </select>
 
       <div class="form-footer" style="margin-top:1.5rem">
