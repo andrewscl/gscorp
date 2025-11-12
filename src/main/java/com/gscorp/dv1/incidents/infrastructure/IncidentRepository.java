@@ -38,10 +38,13 @@ public interface IncidentRepository extends JpaRepository<Incident, Long>{
       s.name,
       i.incidentType,
       i.priority,
-      i.status.name(),
+      i.status.name(),        -- String para el campo 'status' del DTO
       i.openedTs,
+      i.firstResponseTs,      -- OffsetDateTime
+      i.closedTs,             -- OffsetDateTime
       i.slaMinutes,
       i.description,
+      i.photoPath,            -- String para photoPath
       u.id,
       u.username
     )

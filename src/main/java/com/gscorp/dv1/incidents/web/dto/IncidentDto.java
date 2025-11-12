@@ -5,43 +5,45 @@ import java.time.OffsetDateTime;
 import com.gscorp.dv1.enums.IncidentType;
 import com.gscorp.dv1.enums.Priority;
 import com.gscorp.dv1.incidents.infrastructure.Incident;
+import com.gscorp.dv1.sites.infrastructure.Site;
+import com.gscorp.dv1.users.infrastructure.User;
 
-import lombok.Value;
-
-/**
- * DTO inmutable generado con Lombok.
- * @Value genera getters, equals/hashCode, toString y un constructor all-args público
- * que JPQL puede usar en la expresión constructor "new ...IncidentDto(...)".
- */
-@Value
-public class IncidentDto {
-    Long id;
-    Long siteId;
-    String siteName;
-    IncidentType incidentType;
-    Priority priority;
-    String status;
-    OffsetDateTime openedTs;
-    Integer slaMinutes;
-    String description;
-    Long createdById;
-    String createdByUsername;
-
-    // helper factory si quieres mapear desde la entidad (opcional)
+public record IncidentDto(
+    Long id,
+    Long siteId,
+    String siteName,
+    IncidentType incidentType,
+    Priority priority,
+    String status,
+    OffsetDateTime openedTs,
+    OffsetDateTime firstResponseTs,
+    OffsetDateTime closedTs,
+    Integer slaMinutes,
+    String description,
+    String photoPath,
+    Long createdById,
+    String createdByUsername
+) {
     public static IncidentDto fromEntity(Incident inc) {
         if (inc == null) return null;
+        Site site = inc.getSite();
+        User createdBy = inc.getCreatedBy();
+
         return new IncidentDto(
             inc.getId(),
-            inc.getSite() != null ? inc.getSite().getId() : null,
-            inc.getSite() != null ? inc.getSite().getName() : null,
+            site != null ? site.getId() : null,
+            site != null ? site.getName() : null,
             inc.getIncidentType(),
             inc.getPriority(),
             inc.getStatus() != null ? inc.getStatus().name() : null,
             inc.getOpenedTs(),
+            inc.getFirstResponseTs(),
+            inc.getClosedTs(),
             inc.getSlaMinutes(),
             inc.getDescription(),
-            inc.getCreatedBy() != null ? inc.getCreatedBy().getId() : null,
-            inc.getCreatedBy() != null ? inc.getCreatedBy().getUsername() : null
+            inc.getPhotoPath(),
+            createdBy != null ? createdBy.getId() : null,
+            createdBy != null ? createdBy.getUsername() : null
         );
     }
 }
