@@ -43,7 +43,7 @@ public class IncidentController {
         model.addAttribute("sites", sites);
         model.addAttribute("incidentTypes", IncidentType.values());
         model.addAttribute("priorities", Priority.values());
-        return "private/incidents/views/create-incident-view";ok
+        return "private/incidents/views/create-incident-view";
     }
 
     @GetMapping("/show/{id}")
