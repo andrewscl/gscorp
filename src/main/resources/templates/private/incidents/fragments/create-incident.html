@@ -31,7 +31,7 @@
 
       <div class="form-group">
         <label for="incidentType">Tipo incidente</label>
-        <select id="incidentType" name="typeId" required>
+        <select id="incidentType" name="incidentType" required>
           <option value="" disabled selected>Seleccione tipo</option>
           <option th:each="t : ${incidentTypes}" th:value="${t.name()}" th:text="${t.displayName}"></option>
         </select>
