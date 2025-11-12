@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.gscorp.dv1.incidents.web.dto.IncidentDto;
+
 @Repository
 public interface IncidentRepository extends JpaRepository<Incident, Long>{
 
@@ -27,5 +29,28 @@ public interface IncidentRepository extends JpaRepository<Incident, Long>{
       @Param("clientId") Long clientId,
       @Param("from") LocalDate from,
       @Param("to")   LocalDate to);
-    
+
+
+  @Query("""
+    select new com.gscorp.dv1.incidents.api.dto.IncidentDto(
+      i.id,
+      s.id,
+      s.name,
+      i.incidentType,
+      i.priority,
+      i.status,
+      i.openedTs,
+      i.slaMinutes,
+      i.description,
+      u.id,
+      u.username
+    )
+    from Incident i
+    join i.site s
+    left join i.createdBy u
+    where s.client.id in :clientIds
+    order by i.openedTs desc
+  """)
+  List<IncidentDto> findAllForClients(@Param("clientIds") List<Long> clientIds);
+  
 }

@@ -5,6 +5,7 @@ import java.time.OffsetDateTime;
 import com.gscorp.dv1.enums.IncidentType;
 import com.gscorp.dv1.enums.Priority;
 import com.gscorp.dv1.sites.infrastructure.Site;
+import com.gscorp.dv1.users.infrastructure.User;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -66,6 +67,9 @@ import lombok.Setter;
 
     @Column(columnDefinition="text") String description;
 
+    @Column(length=255)
+    private String photoPath;
+
     @Column(name= "created_at", nullable=false, updatable=false)
     private OffsetDateTime createdAt;
 
@@ -73,5 +77,10 @@ import lombok.Setter;
     protected void onCreate() {
         this.createdAt = OffsetDateTime.now();
     }
+
+    // sólo el extracto modificado/añadido
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "created_by_id", nullable = false)
+    private User createdBy;
 
 }

@@ -13,6 +13,7 @@ import com.gscorp.dv1.clients.application.ClientService;
 import com.gscorp.dv1.enums.IncidentType;
 import com.gscorp.dv1.enums.Priority;
 import com.gscorp.dv1.incidents.application.IncidentService;
+import com.gscorp.dv1.incidents.web.dto.IncidentDto;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.web.dto.SiteSelectDto;
 import com.gscorp.dv1.users.application.UserService;
@@ -30,8 +31,16 @@ public class IncidentController {
     private final ClientService clientService;
 
     @GetMapping("/table-view")
-    public String getIncidentsTableView(Model model) {
-        model.addAttribute("incidents", incidentService.findAll());
+    public String getIncidentsTableView(Model model, Authentication authentication) {
+        Long userId = userService.getUserIdFromAuthentication(authentication);
+        List<Long> clientIds = clientService.getClientIdsByUserId(userId);
+
+        //Si no tiene clientes asociados, retornar vista vacia
+        List<IncidentDto> incidents = clientIds == null || clientIds.isEmpty()
+                                        ? List.of()
+                                        : incidentService.findAllForClients(clientIds);
+
+        model.addAttribute("incidents", incidents);
         return "private/incidents/views/incidents-table-view";
     }
 

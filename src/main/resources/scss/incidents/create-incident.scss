@@ -1,4 +1,6 @@
-/* ===== Formulario: Crear Incidente (con iconos en header y botones) ===== */
+/* ===== Formulario: Crear Incidente (con iconos en header y botones) =====
+   Actualizado: estilos para input file, preview de imagen y hints
+*/
 
 .create-incident-header {
   display: flex;
@@ -72,13 +74,15 @@
 
     select,
     textarea,
-    input[type="number"] {
+    input[type="number"],
+    input[type="file"] {
       width: 100%;
       padding: .55rem .7rem;
       border: 1px solid #d1d5db;
       border-radius: .375rem;
       font-size: .97rem;
       resize: vertical;
+      background: #fff;
 
       &:focus {
         outline: none;
@@ -87,9 +91,84 @@
       }
     }
 
+    /* Estilo específico para el input file moderno */
+    input[type="file"] {
+      padding: .4rem .5rem;
+      /* devolver aspecto nativo + estilizar botón del selector donde sea soportado */
+      &::file-selector-button {
+        margin-right: .6rem;
+        border: none;
+        padding: .38rem .8rem;
+        border-radius: .375rem;
+        background: #e5e7eb;
+        color: #1f2937;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color .15s;
+      }
+      &::file-selector-button:hover {
+        background: #d1d5db;
+      }
+    }
+
     textarea {
       min-height: 80px;
       max-height: 240px;
+    }
+
+    .hint {
+      display: block;
+      font-size: .82rem;
+      color: #6b7280;
+      margin-top: .25rem;
+    }
+
+    /* Preview de imagen */
+    #incidentPhotoPreview {
+      margin-top: .5rem;
+      display: flex;
+      gap: .5rem;
+      align-items: center;
+      flex-wrap: wrap;
+
+      img.preview-img {
+        max-width: 180px;
+        max-height: 120px;
+        width: auto;
+        height: auto;
+        object-fit: cover;
+        border-radius: .5rem;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 1px 3px rgba(0,0,0,.06);
+      }
+
+      .preview-meta {
+        display: flex;
+        flex-direction: column;
+        gap: .25rem;
+        font-size: .85rem;
+        color: #374151;
+      }
+
+      .preview-actions {
+        display: flex;
+        gap: .4rem;
+        align-items: center;
+
+        .btn-remove {
+          background: transparent;
+          border: 1px solid #ef4444;
+          color: #ef4444;
+          padding: .25rem .5rem;
+          border-radius: .375rem;
+          font-size: .85rem;
+          cursor: pointer;
+        }
+
+        .btn-remove:hover {
+          background: rgba(239,68,68,.06);
+        }
+      }
     }
   }
 
@@ -167,4 +246,18 @@
       margin-right: 0;
     }
   }
+
+  /* Preview en móvil: imagen a la izquierda, meta a la derecha */
+  #incidentPhotoPreview {
+    img.preview-img {
+      max-width: 140px;
+      max-height: 90px;
+    }
+    .preview-meta {
+      font-size: .82rem;
+    }
+  }
 }
+
+/* ===== Pequeñas utilidades ===== */
+.hidden { display: none !important; }
