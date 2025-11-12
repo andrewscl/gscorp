@@ -32,7 +32,7 @@ public interface IncidentRepository extends JpaRepository<Incident, Long>{
 
 
   @Query("""
-    select new com.gscorp.dv1.incidents.api.dto.IncidentDto(
+    select new com.gscorp.dv1.incidents.web.dto.IncidentDto(
       i.id,
       s.id,
       s.name,
