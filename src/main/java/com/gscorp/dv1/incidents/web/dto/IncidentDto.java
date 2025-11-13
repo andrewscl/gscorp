@@ -18,7 +18,7 @@ public record IncidentDto(
     OffsetDateTime firstResponseTs,
     OffsetDateTime closedTs,
     String description,
-    String photoPath,
+    String photoPath
 ) {
     public static IncidentDto fromEntity(Incident inc) {
         if (inc == null) return null;
@@ -35,7 +35,7 @@ public record IncidentDto(
             inc.getFirstResponseTs(),
             inc.getClosedTs(),
             inc.getDescription(),
-            inc.getPhotoPath(),
+            inc.getPhotoPath()
         );
     }
 }
