@@ -30,17 +30,13 @@ public interface IncidentRepository extends JpaRepository<Incident, Long>{
       @Param("from") LocalDate from,
       @Param("to")   LocalDate to);
 
-
-  @Query("""
+   @Query("""
     select new com.gscorp.dv1.incidents.web.dto.IncidentDto(
       i.id,
       s.name,
       i.incidentType,
       i.priority,
       i.status.name(),
-      i.openedTs,
-      i.firstResponseTs,
-      i.closedTs,
       i.description,
       i.photoPath
     )
