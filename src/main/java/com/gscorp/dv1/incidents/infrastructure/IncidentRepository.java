@@ -47,7 +47,7 @@ public interface IncidentRepository extends JpaRepository<Incident, Long>{
     JOIN i.site s
     JOIN s.project p
     JOIN p.client c
-    JOIN c.owner u   /* <- reemplaza 'owner' por el nombre real del campo en Client que apunta a User */
+    JOIN c.users u
     WHERE u.id = :userId
     """)
     List<IncidentDto> findIncidentsDtoByUserId(@Param("userId") Long userId);
