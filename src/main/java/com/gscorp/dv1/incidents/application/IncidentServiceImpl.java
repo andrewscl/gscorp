@@ -95,9 +95,10 @@ public class IncidentServiceImpl implements IncidentService {
   }
 
   @Override
-  @Transactional(readOnly = true)
-  public List<IncidentDto> findAllIncidentsDto() {
-    return repo.findAllIncidentsDto();
+  public List<IncidentDto> findIncidentsForUser(Long userId) {
+    if (userId == null) return List.of();
+    List<IncidentDto> incidents = repo.findIncidentsDtoByUserId(userId);
+    return incidents == null ? List.of() : incidents;
   }
 
 }

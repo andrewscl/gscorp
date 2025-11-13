@@ -30,6 +30,26 @@ public interface IncidentRepository extends JpaRepository<Incident, Long>{
       @Param("from") LocalDate from,
       @Param("to")   LocalDate to);
 
-  List<IncidentDto> findAllIncidentsDto();
+   /**
+     * Devuelve todos los IncidentDto asociados a los clients cuyo owner/usuario tiene id = :userId.
+     * Ajusta 'c.owner' según el nombre real del campo en Client que referencia al User.
+     */
+    @Query("""
+    SELECT DISTINCT new com.gscorp.dv1.incidents.web.dto.IncidentDto(
+        i.id,
+        CONCAT(i.incidentType, ''),
+        CONCAT(i.priority, ''),
+        i.description,
+        i.photoPath,
+        CONCAT(i.status, '')
+    )
+    FROM Incident i
+    JOIN i.site s
+    JOIN s.project p
+    JOIN p.client c
+    JOIN c.owner u   /* <- reemplaza 'owner' por el nombre real del campo en Client que apunta a User */
+    WHERE u.id = :userId
+    """)
+    List<IncidentDto> findIncidentsDtoByUserId(@Param("userId") Long userId);
   
 }
