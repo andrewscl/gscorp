@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.gscorp.dv1.incidents.web.dto.IncidentDto;
+import com.gscorp.dv1.incidents.web.dto.IncidentSelectDto;
 
 @Repository
 public interface IncidentRepository extends JpaRepository<Incident, Long>{
@@ -47,5 +48,7 @@ public interface IncidentRepository extends JpaRepository<Incident, Long>{
     order by i.openedTs desc
   """)
   List<IncidentDto> findAllForClients(@Param("clientIds") List<Long> clientIds);
+
+  List<IncidentSelectDto> findAllIncidentSelectDto(Incident inc);
   
 }
