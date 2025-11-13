@@ -2,6 +2,8 @@ package com.gscorp.dv1.incidents.infrastructure;
 
 import java.time.OffsetDateTime;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.gscorp.dv1.enums.IncidentType;
 import com.gscorp.dv1.enums.Priority;
 import com.gscorp.dv1.sites.infrastructure.Site;
@@ -56,9 +58,15 @@ import lombok.Setter;
     @Enumerated(EnumType.STRING) @Column(nullable=false)
     private Status status = Status.OPEN;
 
-    @Column(name="opened_ts", nullable=false) OffsetDateTime openedTs;
-    @Column(name="first_response_ts")         OffsetDateTime firstResponseTs;
-    @Column(name="closed_ts")                 OffsetDateTime closedTs;
+    @CreationTimestamp
+    @Column(name="opened_ts", nullable=false, updatable=false)
+    OffsetDateTime openedTs;
+
+    @Column(name="first_response_ts")
+    OffsetDateTime firstResponseTs;
+
+    @Column(name="closed_ts")
+    OffsetDateTime closedTs;
 
     /** SLA objetivo (min) efectivo del incidente (puede venir de type.defaultSlaMinutes). */
     @Builder.Default
