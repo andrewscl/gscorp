@@ -42,7 +42,7 @@ public interface IncidentRepository extends JpaRepository<Incident, Long>{
       i.firstResponseTs,
       i.closedTs,
       i.description,
-      i.photoPath,
+      i.photoPath
     )
     from Incident i
     join i.site s
