@@ -1,0 +1,100 @@
+.attendance-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+.attendance-header h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0;
+  color: #334155;
+}
+.attendance-header .att-filter {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+.attendance-header .att-filter label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.95rem;
+  color: #64748b;
+}
+.attendance-header .att-filter label input[type=date] {
+  margin-top: 0.3em;
+  padding: 0.4em;
+  border-radius: 4px;
+  border: 1px solid #d1d5db;
+  font-size: 1em;
+  background: #f9fafb;
+}
+.attendance-header .att-filter .btn-primary {
+  padding: 0.5em 1.3em;
+  margin-left: 0.8em;
+  background-color: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.attendance-header .att-filter .btn-primary:hover {
+  background-color: #1e40af;
+}
+.attendance-header .att-filter .quick-range {
+  display: flex;
+  gap: 0.5em;
+  margin-left: 1em;
+}
+.attendance-header .att-filter .quick-range .btn-link {
+  background: none;
+  border: none;
+  color: #2563eb;
+  cursor: pointer;
+  font-size: 0.95em;
+  text-decoration: underline;
+  padding: 0.3em 0.6em;
+  border-radius: 2px;
+}
+.attendance-header .att-filter .quick-range .btn-link:hover {
+  background: #e0e7ff;
+  color: #1e40af;
+}
+
+.attendance-table-container {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px -4px #cbd5e1;
+  padding: 1.5rem;
+  margin-top: 0.8rem;
+}
+.attendance-table-container .attendance-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1em;
+}
+.attendance-table-container .attendance-table thead {
+  background: #f1f5f9;
+}
+.attendance-table-container .attendance-table thead th {
+  padding: 0.65em 0.5em;
+  font-weight: 700;
+  color: #64748b;
+  border-bottom: 2px solid #e2e8f0;
+  text-align: left;
+  font-size: 0.98em;
+}
+.attendance-table-container .attendance-table tbody tr:nth-child(even) {
+  background: #f9fafb;
+}
+.attendance-table-container .attendance-table tbody tr td {
+  padding: 0.6em 0.5em;
+  border-bottom: 1px solid #e5e7eb;
+  color: #334155;
+}
+.attendance-table-container .attendance-table tbody tr[th\:if] td {
+  text-align: center;
+  color: #6b7280;
+}/*# sourceMappingURL=attendance-table.css.map */

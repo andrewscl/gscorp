@@ -1,0 +1,127 @@
+.view-shift-request {
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+.view-shift-request h2 {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 0.8rem;
+}
+.view-shift-request .meta-id {
+  color: #6b7280;
+  font-size: 0.97rem;
+  margin-bottom: 1.5rem;
+}
+.view-shift-request .meta-id strong {
+  color: #374151;
+}
+.view-shift-request .card.form {
+  background: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+.view-shift-request .card.form .form-separator {
+  border: none;
+  border-bottom: 1px solid #e5e7eb;
+  margin: 0.5rem 0 1rem 0;
+}
+.view-shift-request .card.form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 0.2rem;
+}
+.view-shift-request .card.form .form-group label {
+  font-size: 0.95rem;
+  color: #374151;
+  font-weight: 500;
+}
+.view-shift-request .card.form .form-group .readonly-field {
+  background: #f3f4f6;
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.98rem;
+  color: #4b5563;
+}
+.view-shift-request .card.form .form-group input[readonly], .view-shift-request .card.form .form-group textarea[readonly] {
+  background: #f3f4f6;
+  color: #6b7280;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.98rem;
+  resize: none;
+}
+.view-shift-request .card.form .form-group textarea {
+  min-height: 60px;
+  max-height: 160px;
+}
+.view-shift-request .card.form .form-group small {
+  color: #9ca3af;
+  font-size: 0.85rem;
+}
+.view-shift-request .card.form .form-row {
+  display: flex;
+  gap: 1.2rem;
+}
+.view-shift-request .card.form .form-row .form-group {
+  flex: 1;
+  margin-bottom: 0;
+}
+.view-shift-request .card.form .actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.2rem;
+}
+.view-shift-request .card.form .actions .vs-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  border: none;
+  cursor: pointer;
+  font-size: 0.97rem;
+  font-weight: 500;
+  background: #e5e7eb;
+  color: #1f2937;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.view-shift-request .card.form .actions .vs-btn.vs-secondary:hover {
+  background: #cbd5e1;
+}
+.view-shift-request .card.form .form-error {
+  color: #b91c1c;
+  background: #fee2e2;
+  border-radius: 0.375rem;
+  padding: 0.4rem 0.7rem;
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+}
+.view-shift-request .card.form .form-ok {
+  color: #047857;
+  background: #d1fae5;
+  border-radius: 0.375rem;
+  padding: 0.4rem 0.7rem;
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+  .view-shift-request {
+    padding: 1rem 0.3rem;
+  }
+  .view-shift-request .card.form {
+    padding: 1rem 0.5rem;
+  }
+  .view-shift-request .card.form .form-row {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}/*# sourceMappingURL=view-shift-request.css.map */

@@ -1,0 +1,199 @@
+@charset "UTF-8";
+.createShiftRequest {
+  background: #fff;
+  padding: 2.1rem 1.5rem 2rem 1.5rem;
+  border-radius: 1.2rem;
+  box-shadow: 0 4px 18px rgba(60, 64, 67, 0.09);
+  max-width: 650px;
+  margin: 2rem auto;
+  font-family: "Inter", system-ui, Arial, sans-serif;
+  font-size: 1rem;
+  color: #263147;
+  max-height: 60vh;
+  overflow-y: auto;
+  scrollbar-width: hidden; /* Firefox */
+  /* Chrome, Safari, Opera */
+  /* --- Tramos de días y horarios --- */
+}
+.createShiftRequest::-webkit-scrollbar {
+  display: none;
+}
+.createShiftRequest .createShiftRequestHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.createShiftRequest .createShiftRequestHeader h3 {
+  margin: 0;
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #277bb7;
+}
+.createShiftRequest .createShiftRequestHeader .modal-close {
+  border: none;
+  font-size: 2.1rem;
+  background: transparent;
+  cursor: pointer;
+  color: #888;
+  line-height: 1;
+  transition: color 0.22s;
+}
+.createShiftRequest .createShiftRequestHeader .modal-close:hover {
+  color: #e53e3e;
+}
+.createShiftRequest .createShiftRequest-body {
+  margin-top: 1.3rem;
+}
+.createShiftRequest .form-group {
+  margin-bottom: 1.05rem;
+}
+.createShiftRequest .form-group label {
+  font-weight: 500;
+  color: #374151;
+  display: block;
+  margin-bottom: 0.36rem;
+}
+.createShiftRequest .form-group input, .createShiftRequest .form-group select, .createShiftRequest .form-group textarea {
+  margin-top: 0.04rem;
+  width: 100%;
+  padding: 0.57rem 0.7rem;
+  font-size: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 5px;
+  background: #f3f4f6;
+  transition: border 0.19s;
+}
+.createShiftRequest .form-group input:focus, .createShiftRequest .form-group select:focus, .createShiftRequest .form-group textarea:focus {
+  border: 1.3px solid #277bb7;
+  outline: none;
+}
+.createShiftRequest .form-group textarea {
+  min-height: 3.3rem;
+}
+.createShiftRequest .form-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.createShiftRequest .form-row .form-group {
+  flex: 1 1 140px;
+  margin-bottom: 0;
+  min-width: 120px;
+}
+.createShiftRequest #shiftDayRanges .day-range-block {
+  background: #f5f8fc;
+  border-radius: 9px;
+  padding: 0.8rem 0.8rem 0.6rem;
+  margin-bottom: 1.05rem;
+  border: 1.5px solid #e5e7eb;
+  display: flex;
+  align-items: flex-end;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+.createShiftRequest #shiftDayRanges .day-range-block .form-group {
+  margin-bottom: 0;
+  min-width: 134px;
+}
+.createShiftRequest #shiftDayRanges .day-range-block .remove-day-range {
+  margin-top: 1.1rem;
+  background: #f87171;
+  color: #fff;
+  font-weight: 500;
+  font-size: 0.96rem;
+  border-radius: 4.5px;
+  border: none;
+  padding: 0.36rem 0.8rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.createShiftRequest #shiftDayRanges .day-range-block .remove-day-range:hover {
+  background: #d72828;
+}
+.createShiftRequest .btn-mini {
+  font-size: 0.98rem;
+  border: none;
+  background: #3071ef;
+  color: white;
+  padding: 0.45rem 0.88rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 0.2rem;
+  transition: background 0.13s;
+}
+.createShiftRequest .btn-mini:hover {
+  background: #245fd2;
+}
+.createShiftRequest .btn-mini.btn-danger {
+  background: #f87171;
+  color: #fff;
+}
+.createShiftRequest .btn-mini.btn-danger:hover {
+  background: #d72828;
+}
+.createShiftRequest .dayrange-help {
+  display: block;
+  color: #69668c;
+  margin: -0.48em 0 1.6em 2px;
+  font-size: 0.97rem;
+  font-style: italic;
+}
+.createShiftRequest .modal-footer {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  align-items: center;
+}
+.createShiftRequest .modal-footer .btn-primary, .createShiftRequest .modal-footer .btn-secondary {
+  border: none;
+  border-radius: 5px;
+  padding: 0.59rem 1.3rem;
+  font-weight: 600;
+  font-size: 1.04rem;
+  cursor: pointer;
+  box-shadow: 0 1.5px 7px rgba(110, 110, 123, 0.08);
+  transition: background 0.18s;
+}
+.createShiftRequest .modal-footer .btn-primary {
+  background: linear-gradient(90deg, #277bb7 65%, #2ec5ce 100%);
+  color: #fff;
+}
+.createShiftRequest .modal-footer .btn-primary:hover {
+  background: linear-gradient(90deg, #165d87 60%, #33bdb5 100%);
+}
+.createShiftRequest .modal-footer .btn-secondary {
+  background: #f3f4f6;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+}
+.createShiftRequest .modal-footer .btn-secondary:hover {
+  background: #e9ecf1;
+}
+.createShiftRequest .form-error {
+  color: #ba1e3b;
+  margin-top: 0.6rem;
+  font-weight: 500;
+  min-height: 1.22em;
+}
+.createShiftRequest .form-ok {
+  color: #059669;
+  font-weight: 500;
+  text-align: center;
+  margin-top: 1.5rem;
+}
+@media (max-width: 800px) {
+  .createShiftRequest {
+    max-width: 99%;
+    padding: 1.1rem 0.5rem 1.6rem 0.5rem;
+  }
+  .createShiftRequest .form-row {
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+  .createShiftRequest #shiftDayRanges .day-range-block {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+}/*# sourceMappingURL=create-shift-request.css.map */

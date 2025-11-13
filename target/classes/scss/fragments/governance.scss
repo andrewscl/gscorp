@@ -1,0 +1,56 @@
+@use '../base/mixins' as *;
+@use '../base/variables' as *;
+@use '../base/palette' as *;
+@use '../base/typography' as *;
+@use '../base/fragment-mixins' as *;
+
+.governance-image{
+  @include parcial-image (
+  $height: 60vh,
+  $width: 100vw);
+}
+
+.text-container-big {
+    @include text-container-big ();
+    h1 {
+      margin: 0 0 1.5rem 0;
+    }
+}
+
+.text-video-governance {
+  @include text-video (
+  $height: auto,
+  $max-height: none,
+  $text-width: 50%,
+  $video-width: 50%,
+  $orden-text: 2,
+  $order-video: 1,
+  $title-content: 0
+  )
+}
+
+.text-image-governance {
+  @include text-image(
+  $bg-color: none,
+  $height: auto,
+  $max-height: none,
+  $text-width: 50%,
+  $image-width: 50%,
+  $text-color: $text-color,
+  $padding-image: 0 5vw 0 0,
+  $border-radius: 10px,
+  $orden-text: 1,
+  $order-image: 2
+  );
+
+  &{margin-bottom: 3rem;}
+
+  .container{
+    .text-content{
+      p{
+        margin: 0;
+      }
+    }
+  }
+
+}

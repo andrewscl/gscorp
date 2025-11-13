@@ -1,0 +1,90 @@
+<section th:fragment="content" class="detail-section edit-site-supervision-visit">
+
+  <h2>Editar Visita de Supervisión</h2>
+  <p class="meta-id"><strong>ID:</strong> <span th:text="${visit.id}"></span></p>
+
+  <form id="editSiteSupervisionVisitForm" class="card form" method="post" enctype="multipart/form-data"
+        th:action="@{/private/site-supervision-visits/edit/{id}(id=${visit.id})}">
+
+    <!-- Sitio (solo lectura o editable si deseas) -->
+    <div class="form-group">
+      <label for="siteName">Sitio</label>
+      <input id="siteName" name="siteName" type="text"
+             th:value="${visit.siteName}" readonly tabindex="-1" />
+      <small>Instalación supervisada en esta visita.</small>
+    </div>
+
+    <!-- Supervisor (solo lectura o editable si deseas) -->
+    <div class="form-group">
+      <label for="employeeName">Supervisor</label>
+      <input id="employeeName" name="employeeName" type="text"
+             th:value="${visit.employeeName}" readonly tabindex="-1" />
+      <small>Empleado que realizó la visita.</small>
+    </div>
+
+    <div class="form-group">
+      <label for="visitDateTime">Fecha y Hora</label>
+      <input id="visitDateTime" name="visitDateTime" type="text"
+             th:value="${#temporals.format(visit.visitDateTime, 'yyyy-MM-dd HH:mm')}" readonly tabindex="-1" />
+    </div>
+
+    <div class="form-group">
+      <label for="visitDescription">Descripción</label>
+      <textarea id="visitDescription" name="description"
+                th:text="${visit.description}" required></textarea>
+    </div>
+
+    <div class="form-row coordinates-row">
+      <div class="form-group">
+        <label for="visitLat">Latitud</label>
+        <input id="visitLat" name="latitude" type="number" step="any"
+               th:value="${visit.latitude}" required />
+      </div>
+      <div class="form-group">
+        <label for="visitLon">Longitud</label>
+        <input id="visitLon" name="longitude" type="number" step="any"
+               th:value="${visit.longitude}" required />
+      </div>
+    </div>
+
+    <!-- Mapa solo visualización -->
+    <div class="form-group">
+      <label>Ubicación en mapa</label>
+      <div id="visitMap" class="view-site-map"></div>
+      <small>Visualización de la ubicación registrada en la visita.</small>
+    </div>
+
+    <div class="form-group">
+      <label for="photoInput">Fotografía</label>
+      <div th:if="${visit.photoPath != null}">
+        <a th:href="${visit.photoPath}" target="_blank">
+          <img th:src="${visit.photoPath}" alt="Foto de supervisión" style="max-width:180px; border-radius:6px;">
+        </a>
+      </div>
+      <input id="photoInput" name="photo" type="file" accept="image/*" />
+      <small>Puedes subir una nueva foto para reemplazar la existente.</small>
+    </div>
+
+    <div class="form-group">
+      <label for="videoInput">Video</label>
+      <div th:if="${visit.videoPath != null}">
+        <a th:href="${visit.videoPath}" target="_blank">
+          <span class="tag tag-video">Ver video actual</span>
+        </a>
+      </div>
+      <input id="videoInput" name="video" type="file" accept="video/*" />
+      <small>Puedes subir un nuevo video para reemplazar el existente.</small>
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="vs-btn">Guardar cambios</button>
+      <a class="vs-btn vs-secondary" href="#" data-path="/private/site-supervision-visits/table-view">Cancelar</a>
+    </div>
+
+    <div id="editVisitError" class="form-error"></div>
+    <div id="editVisitOk" class="form-ok" style="display:none;">Cambios guardados ✅</div>
+  </form>
+
+  <script type="module" src="/js/private/site-supervision-visits/edit-site-supervision-visit.js"></script>
+
+</section>

@@ -1,0 +1,114 @@
+@use '../base/mixins' as *;
+@use '../base/variables' as *;
+@use '../base/palette' as *;
+@use '../base/fragment-mixins' as *;
+
+.text-container-big {
+    @include text-container-big ();
+    h1 {
+      margin: 0 0 1.5rem 0;
+    }
+}
+
+//Móviles
+@media (max-width: 768px) {
+  .text-container-big{
+      h1 {
+        @include montserrat-font(1.5rem, 600);
+      }
+      .p3 {
+        @include montserrat-font(1rem, 500);
+      }
+      padding: 0 5vw 0 5vw !important;
+  }
+}
+
+.text-image-right {
+    @include text-image(
+    $bg-color: $cool-gray-800,
+    $height: 60vh,
+    $max-height: 60vh,
+    $text-width: 40%,
+    $image-width: 60%,
+    $text-color: white,
+    $padding-image: 0,
+    $border-radius: 0,
+    $orden-text: 1,
+    $order-image: 2
+    );
+}
+
+.text-container-medium {
+  @include text-container (
+  $maxw: 72rem,
+  $gutter-desktop: clamp(24px, 6vw, 80px),   //padding lateral desktop
+  $gutter-mobile: clamp(16px, 5vw, 40px),    //padding lateral movil
+  $stack-bp: 768px
+  );
+}
+
+.industries-section {
+  @include column-layout-img(
+  $columns: 4,                 // 4 columnas en desktop
+  $gap: 2rem,
+  $padding: 3rem 6vw,
+  $background-color: white,
+  // Imagen
+  $img-fit: cover,           // logos → contain; fotos → cover
+  $img-radius: .5rem,
+  // Breakpoints
+  $bp-tablet: 1024px,
+  $bp-mobile: 768px
+  );
+  .column{
+    h4{
+      &:hover{
+        cursor: pointer;
+        color: $accent-blue;
+      }
+    }
+  }
+}
+
+hr{
+  @include 
+    custom-hr(0.15rem, $cool-gray-200, 4rem, 0);
+}
+
+.text-video-left {
+  @include text-video (
+  $height: 60vh,
+  $max-height: 60vh,
+  $text-width: 40%,
+  $video-width: 60%,
+  $orden-text: 2,
+  $order-video: 1,
+  $title-content: 1rem
+  );
+}
+
+.group-section {
+  @include card-grid(
+  $columns: 4,
+  $gap: 2rem,
+  $padding: 3rem 6vw,
+  // Colores
+  $bg: $background-alt,
+  $card-bg: $background-white,
+  // Imagen (desktop)
+  $img-max-h: 160px,
+  $img-radius: .75rem,
+  $img-fit: contain,          // cambia a 'contain' si son logos
+  $img-aspect: null,        // ej: 4/3 o 1/1; si null, no fuerza relación
+  // Breakpoints
+  $bp-tablet: 1024px,
+  $bp-mobile: 768px,
+  // Imagen (móvil)
+  $m-img-max-w: clamp(140px, 70vw, 280px),
+  $m-img-max-h: 140px,
+  $m-img-fit: contain,         // si null, usa $img-fit
+  $m-center: true           // centra imagen+texto en móvil
+);
+}
+
+

@@ -1,0 +1,60 @@
+<div th:fragment="content">
+  <div class="site-supervision-visit-header">
+    <h2>Supervisión de Instalaciones</h2>
+    <button class="btn-primary" id="createSupervisionVisitBtn"
+            data-path="/private/site-supervision-visits/create">
+      Registrar Visita
+    </button>
+  </div>
+
+  <div class="site-supervision-visit-table-container">
+    <table class="site-supervision-visit-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Supervisor</th>
+          <th>Instalación</th>
+          <th>Fecha y Hora</th>
+          <th>Descripción</th>
+          <th>Fotografía</th>
+          <th>Video</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="v : ${visits}">
+          <td data-label="ID" th:text="${v.id}">—</td>
+          <td data-label="Supervisor" th:text="${v.employeeName}">—</td>
+          <td data-label="Instalación" th:text="${v.siteName}">—</td>
+          <td data-label="Fecha y Hora" th:text="${#temporals.format(v.visitDateTime, 'yyyy-MM-dd HH:mm')}">—</td>
+          <td data-label="Descripción" th:text="${v.description != null ? v.description : '—'}">—</td>
+          <td data-label="Fotografía">
+            <a th:href="${v.photoPath}" target="_blank" th:if="${v.photoPath}">
+              <img th:src="${v.photoPath}" alt="Foto">
+            </a>
+            <span th:if="${v.photoPath == null}">—</span>
+          </td>
+          <td data-label="Video">
+            <a th:href="${v.videoPath}" target="_blank" th:if="${v.videoPath}">
+              <span class="tag tag-video">Ver video</span>
+            </a>
+            <span th:if="${v.videoPath == null}">—</span>
+          </td>
+          <td data-label="Acciones" class="actions">
+            <button type="button"
+                    class="btn-link"
+                    th:attr="data-path=@{/private/site-supervision-visits/show/{id}(id=${v.id})}">
+                    Ver
+            </button>
+            <button type="button"
+                    class="btn-link"
+                    th:attr="data-path=@{/private/site-supervision-visits/edit/{id}(id=${v.id})}"
+                    th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
+                    Editar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

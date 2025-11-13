@@ -1,0 +1,18 @@
+<div id="dashboard-root" th:fragment="dashboardView">
+  <h5>Analista</h5>
+
+  <div class="charts">
+    <div class="card"><h5>Asistencias por día</h5><div id="chart-att" style="height:260px"></div></div>
+    <div class="card"><h5>Incidentes por día</h5><div id="chart-inc" style="height:260px"></div></div>
+    <div class="card"><h5>Visitas por día</h5><div id="chart-visit" style="height:260px"></div></div>
+    
+    <div class="card">
+      <h5>Visitas por sitio</h5>
+      <div id="chart-visit-site" style="height:260px"></div>
+    </div>
+    
+  </div>
+
+  <!-- Tu navigation-handler ejecutará init() de este módulo -->
+  <script type="module" src="/assets/private/dashboard.js"></script>
+</div>

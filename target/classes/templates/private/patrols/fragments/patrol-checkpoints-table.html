@@ -1,0 +1,35 @@
+<div class="content">
+  <!-- Selección de sitio -->
+  <div class="site-selector">
+    <label for="select-site">Sitio</label>
+    <select id="select-site" required>
+      <option value="">Seleccione un sitio</option>
+      <!-- Opciones generadas dinámicamente -->
+    </select>
+    <button id="btn-create-checkpoint" disabled>Crear checkpoint</button>
+  </div>
+
+  <!-- Formulario para crear checkpoint (aparece solo si se quiere crear) -->
+  <div id="checkpoint-form-container" style="display:none;">
+    <!-- Aquí va el formulario que ya tienes -->
+  </div>
+
+  <!-- Listado de checkpoints -->
+  <div class="checkpoint-list">
+    <h3>Checkpoints del sitio</h3>
+    <table id="checkpoint-table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Orden</th>
+          <th>Lat/Lon</th>
+          <th>Tolerancia (m)</th>
+          <th>Ruta</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Filas generadas dinámicamente vía JS -->
+      </tbody>
+    </table>
+  </div>
+</div>

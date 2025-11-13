@@ -1,0 +1,179 @@
+// Colores base
+$primary: #2655a6;        // Azul corporativo (para acentos y botones)
+$primary-dark: #1e417c;
+$title: #343a40;          // Gris oscuro para títulos y encabezados
+$secondary: #f5f7fa;
+$success-bg: #d1fae5;
+$success-text: #15803d;
+$error-bg: #fee2e2;
+$error-text: #b91c1c;
+$gray-bg: #f3f6fb;
+$gray-border: #e5e7eb;
+$table-shadow: 0 2px 16px #e5e7eb33;
+
+// Encabezado y botón
+.employees-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+
+  h2 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 600;
+    color: $title; // Gris oscuro elegante
+    letter-spacing: .01em;
+  }
+
+  .btn-primary {
+    padding: 0.55rem 1.7rem;
+    font-size: 1.02rem;
+    border-radius: 7px;
+    background: $primary;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: none;
+    transition: background 0.18s, color 0.18s;
+    outline: none;
+
+    &:hover, &:focus {
+      background: $primary-dark;
+      color: #fff;
+    }
+  }
+}
+
+// Tabla responsiva y elegante
+.employee-table-container {
+  overflow-x: auto;
+  width: 100%;
+  background: $secondary;
+  border-radius: 14px;
+  padding: 1.2rem;
+  box-shadow: $table-shadow;
+}
+
+.employees-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  font-size: 1.01rem;
+  min-width: 900px;
+
+  thead {
+    tr {
+      background: $gray-bg;
+      th {
+        padding: 1.1rem 0.7rem;
+        font-weight: 700;
+        font-size: 1.01rem;
+        border-bottom: 2px solid $gray-border;
+        color: $title; // Gris oscuro para los títulos de columnas
+        text-align: left;
+        letter-spacing: .01em;
+      }
+    }
+  }
+  tbody {
+    tr {
+      border-bottom: 1px solid $gray-border;
+      transition: background 0.12s;
+
+      &:hover {
+        background: #f2f7fd;
+      }
+
+      td {
+        padding: 0.75rem 0.7rem;
+        vertical-align: middle;
+        font-size: 0.99rem;
+
+        .employee-photo-thumb {
+          box-shadow: 0 1px 4px #0001;
+          border: 2px solid $gray-border;
+          width: 42px;
+          height: 42px;
+        }
+
+        .tag {
+          display: inline-block;
+          min-width: 70px;
+          padding: 0.28em 0.85em;
+          border-radius: 1.2em;
+          font-size: 0.97em;
+          font-weight: 600;
+          text-align: center;
+          background: $gray-border;
+          color: $primary;
+          &[th-text*="Activo"] {
+            background: $success-bg;
+            color: $success-text;
+          }
+          &[th-text*="Inactivo"] {
+            background: $error-bg;
+            color: $error-text;
+          }
+        }
+
+        .actions {
+          display: flex;
+          gap: 0.5rem;
+
+          .btn-link {
+            padding: 0.28em 1em;
+            background: none;
+            color: $primary;
+            border: none;
+            border-radius: 0.4em;
+            cursor: pointer;
+            text-decoration: underline;
+            font-size: 0.98em;
+            font-weight: 500;
+            transition: background 0.14s, color 0.14s;
+
+            &:hover, &:focus {
+              background: $gray-bg;
+              color: $primary-dark;
+              outline: none;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Responsive tweaks
+  @media (max-width: 900px) {
+    font-size: 0.97rem;
+    thead th, tbody td { padding: 0.7rem 0.45rem; }
+  }
+  @media (max-width: 600px) {
+    font-size: 0.93rem;
+    thead th, tbody td { padding: 0.45rem 0.3rem; }
+    td .actions { flex-direction: column; gap: 0.2rem; }
+    td .employee-photo-thumb { width: 32px !important; height: 32px !important; }
+  }
+}
+
+// Scrollbar custom para tablas largas
+.employee-table-container::-webkit-scrollbar {
+  height: 8px;
+  background: #e5e7eb;
+}
+.employee-table-container::-webkit-scrollbar-thumb {
+  background: #bcd1e6;
+  border-radius: 8px;
+}
+
+// Fondo general para el área
+body {
+  background: #f6f9fb;
+}

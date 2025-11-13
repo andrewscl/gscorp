@@ -1,0 +1,103 @@
+<div th:fragment="sidebar">
+    <div id="logo-container" class="logo-container">
+        <img id="logo" class="logo" th:src="@{/img/logo-sin-nombre.png}" alt="Logo" />
+    </div>
+
+    <nav class="menu">
+
+        <a class="menu-item" href="#"
+                data-path="/private/admin/dashboard">Inicio</a>
+
+        <details class="menu-group">
+            <summary class="menu-item">Usuarios</summary>
+            <div class="submenu">
+                <a class="submenu-item" href="#"
+                    data-path="/private/users/table-view">Usuarios</a>
+                <a class="submenu-item" href="#"
+                    data-path="/private/admin/roles">Roles</a>
+            </div>
+        </details>
+
+        <details class="menu-group">
+            <summary class="menu-item">Mantenimiento</summary>
+            <div class="submenu">
+                <a class="submenu-item" href="#"
+                    data-path="/private/banks/table-view">Bancos</a>
+                <a class="submenu-item" href="#"
+                    data-path="/private/positions/table-view">Cargos</a>
+                <a class="submenu-item" href="#"
+                    data-path="/private/shift-patterns/table-view">Patrones de turno</a>
+                <a class="submenu-item" href="#"
+                    data-path="/private/professions/table-view">Profesiones</a>
+                <a class="submenu-item" href="#"
+                    data-path="/private/nationalities/table-view">Nacionalidades</a>
+                <a class="submenu-item" href="#"
+                    data-path="/private/patrol-checkpoints/table-view">Puntos de control</a>
+            </div>
+        </details>
+
+        <details class="menu-group">
+            <summary class="menu-item">Gestión</summary>
+            <div class="submenu">
+                <a class="submenu-item" href="#"
+                    data-path="/private/clients/table-view">Clientes</a>
+                <a class="submenu-item" href="#"
+                    data-path="/private/projects/table-view">Proyectos</a>
+                <a class="submenu-item" href="#"
+                    data-path="/private/sites/table-view">Sitios</a>
+                <a class="submenu-item" href="#"
+                    data-path="/private/shift-requests/table-view">Requerimientos</a>
+                <a class="submenu-item" href="#"
+                    data-path="/private/client-accounts/table-view">Cuentas de cliente</a>
+                <a class="submenu-item" href="#"
+                    data-path="/private/planning/table-view">Planificación</a>
+                <a class="submenu-item" href="#"
+                    data-path="/private/attendance/table-view">Cobertura</a>
+                <a class="submenu-item" href="#"
+                    data-path="/private/site-supervision-visits/table-view">Supervisión</a>
+                <a class="submenu-item" href="#"
+                    data-path="/private/incidents/table-view">Incidentes</a>
+
+            </div>
+        </details>
+
+        <details class="menu-group">
+            <summary class="menu-item">Recursos humanos</summary>
+            <div class="submenu">
+                <a class="submenu-item" href="#"
+                    data-path="/private/employees/table-view">Empleados</a>
+                <a class="submenu-item" href="#"
+                    data-path="/private/employees/Licences">Licencias</a>
+                <a class="submenu-item" href="#"
+                    data-path="/private/employees/vacations">Feriado legal</a>
+            </div>
+        </details>
+
+        <details class="menu-group">
+            <summary class="menu-item">Gestión Comercial</summary>
+            <div class="submenu">
+                <a class="submenu-item" href="#"
+                    data-path="/private/admin/contacts">Contactos</a>
+                <a class="submenu-item" href="#"
+                    data-path="/private/admin/mp-licitations">Licitaciones MP</a>
+            </div>
+        </details>
+
+
+        <a class="menu-item" href="#"
+                    data-path="/public/home">GSCorp</a>
+    </nav>
+    <button class="toggle-sidebar" id="toggleSidebar">☰</button>
+</div>
+
+<div th:fragment="topbar">
+
+    <h1 class="title">Administración</h1>
+
+    <div class="topbar-right">
+        <button class="topbar-burger" id="topbarToggleSidebar"
+                    aria-label="Abrir menú"
+                        aria-expanded="false">☰</button>
+    </div>
+
+</div>
