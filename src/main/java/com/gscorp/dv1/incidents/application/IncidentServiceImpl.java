@@ -96,8 +96,8 @@ public class IncidentServiceImpl implements IncidentService {
 
   @Override
   @Transactional(readOnly = true)
-  public List<IncidentDto> findAllForClients(List<Long> clientIds) {
-    return repo.findAllForClients(clientIds);
+  public List<IncidentDto> findAllIncidentsDto() {
+    return repo.findAllIncidentsDto();
   }
 
 }

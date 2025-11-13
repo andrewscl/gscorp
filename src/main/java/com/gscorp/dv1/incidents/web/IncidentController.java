@@ -38,7 +38,7 @@ public class IncidentController {
         //Si no tiene clientes asociados, retornar vista vacia
         List<IncidentDto> incidents = clientIds == null || clientIds.isEmpty()
                                         ? List.of()
-                                        : incidentService.findAllForClients(clientIds);
+                                        : incidentService.findAllIncidentsDto();
 
         model.addAttribute("incidents", incidents);
         return "private/incidents/views/incidents-table-view";

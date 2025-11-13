@@ -13,6 +13,6 @@ public interface IncidentService {
     List<IncidentDto> findAll();
     IncidentDto findById(Long id);
     IncidentDto createIncident(CreateIncidentRequest request);
-    List<IncidentDto> findAllForClients(List<Long> clientIds);
+    List<IncidentDto> findAllIncidentsDto();
 
 }
