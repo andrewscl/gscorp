@@ -1,65 +1,65 @@
 <section th:fragment="content" class="detail-section view-incident">
 
   <h2>Ver Incidente</h2>
-  <p class="meta-id"><strong>ID:</strong> <span th:text="${inc.id}"></span></p>
+  <p class="meta-id"><strong>ID:</strong> <span th:text="${incident.id}"></span></p>
 
   <form id="viewIncidentForm" class="card form">
 
     <!-- Sitio (solo lectura) -->
     <div class="form-group">
       <label>Sitio</label>
-      <span class="readonly-field" th:text="${inc.siteName != null ? inc.siteName : '—'}"></span>
+      <span class="readonly-field" th:text="${incident.siteName != null ? incident.siteName : '—'}"></span>
       <small>Instalación asociada al incidente.</small>
     </div>
 
     <!-- Tipo -->
     <div class="form-group">
       <label>Tipo</label>
-      <span class="readonly-field" th:text="${inc.incidentType != null ? inc.incidentType : '—'}"></span>
+      <span class="readonly-field" th:text="${incident.incidentType != null ? incident.incidentType : '—'}"></span>
     </div>
 
     <!-- Prioridad -->
     <div class="form-group">
       <label>Prioridad</label>
-      <span class="readonly-field" th:text="${inc.priority != null ? inc.priority : '—'}"></span>
+      <span class="readonly-field" th:text="${incident.priority != null ? incident.priority : '—'}"></span>
     </div>
 
     <!-- Estado -->
     <div class="form-group">
       <label>Estado</label>
-      <span class="readonly-field" th:text="${inc.status != null ? inc.status : '—'}"></span>
+      <span class="readonly-field" th:text="${incident.status != null ? incident.status : '—'}"></span>
     </div>
 
     <div class="form-group">
       <label for="openedTs">Apertura</label>
       <input id="openedTs" name="openedTs" type="text"
-             th:value="${inc.openedTs != null ? #temporals.format(inc.openedTs, 'yyyy-MM-dd HH:mm') : '—'}"
+             th:value="${incident.openedTs != null ? #temporals.format(incident.openedTs, 'yyyy-MM-dd HH:mm') : '—'}"
              readonly tabindex="-1" />
     </div>
 
     <div class="form-group">
       <label for="firstResponseTs">Primera respuesta</label>
       <input id="firstResponseTs" name="firstResponseTs" type="text"
-             th:value="${inc.firstResponseTs != null ? #temporals.format(inc.firstResponseTs, 'yyyy-MM-dd HH:mm') : '—'}"
+             th:value="${incident.firstResponseTs != null ? #temporals.format(incident.firstResponseTs, 'yyyy-MM-dd HH:mm') : '—'}"
              readonly tabindex="-1" />
     </div>
 
     <div class="form-group">
       <label for="closedTs">Cierre</label>
       <input id="closedTs" name="closedTs" type="text"
-             th:value="${inc.closedTs != null ? #temporals.format(inc.closedTs, 'yyyy-MM-dd HH:mm') : '—'}"
+             th:value="${incident.closedTs != null ? #temporals.format(incident.closedTs, 'yyyy-MM-dd HH:mm') : '—'}"
              readonly tabindex="-1" />
     </div>
 
     <div class="form-group">
       <label>SLA (min)</label>
-      <span class="readonly-field" th:text="${inc.slaMinutes != null ? inc.slaMinutes : '—'}">—</span>
+      <span class="readonly-field" th:text="${incident.slaMinutes != null ? incident.slaMinutes : '—'}">—</span>
     </div>
 
     <div class="form-group">
       <label>Descripción</label>
       <textarea id="incidentDescription" name="description" readonly tabindex="-1"
-                th:text="${inc.description}"></textarea>
+                th:text="${incident.description}"></textarea>
     </div>
 
     <!-- Fotografía -->
@@ -67,23 +67,23 @@
       <label>Fotografía</label>
 
       <!-- Si es URL absoluta -->
-      <div th:if="${inc.photoPath != null and #strings.startsWith(inc.photoPath, 'http')}">
-        <a th:href="${inc.photoPath}" target="_blank" rel="noopener">
-          <img th:src="${inc.photoPath}" alt="Foto incidente" class="incident-photo-thumb"/>
+      <div th:if="${incident.photoPath != null and #strings.startsWith(incident.photoPath, 'http')}">
+        <a th:href="${incident.photoPath}" target="_blank" rel="noopener">
+          <img th:src="${incident.photoPath}" alt="Foto incidente" class="incident-photo-thumb"/>
         </a>
-        <p><a th:href="${inc.photoPath}" download>Descargar foto</a></p>
+        <p><a th:href="${incident.photoPath}" download>Descargar foto</a></p>
       </div>
 
       <!-- Si es nombre de archivo relativo (servido desde /uploads/{filename}) -->
-      <div th:if="${inc.photoPath != null and not #strings.startsWith(inc.photoPath, 'http')}">
-        <a th:href="@{/uploads/{f}(f=${inc.photoPath})}" target="_blank" rel="noopener">
-          <img th:src="@{/uploads/{f}(f=${inc.photoPath})}" alt="Foto incidente" class="incident-photo-thumb"/>
+      <div th:if="${incident.photoPath != null and not #strings.startsWith(incident.photoPath, 'http')}">
+        <a th:href="@{/uploads/{f}(f=${incident.photoPath})}" target="_blank" rel="noopener">
+          <img th:src="@{/uploads/{f}(f=${incident.photoPath})}" alt="Foto incidente" class="incident-photo-thumb"/>
         </a>
-        <p><a th:href="@{/uploads/{f}(f=${inc.photoPath})}" download>Descargar foto</a></p>
+        <p><a th:href="@{/uploads/{f}(f=${incident.photoPath})}" download>Descargar foto</a></p>
       </div>
 
       <!-- Fallback: sin foto -->
-      <div th:if="${inc.photoPath == null}">
+      <div th:if="${incident.photoPath == null}">
         <span>—</span>
       </div>
     </div>
