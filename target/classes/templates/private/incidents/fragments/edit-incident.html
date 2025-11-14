@@ -1,0 +1,124 @@
+<section th:fragment="content" class="detail-section edit-incident">
+
+  <h2>Editar Incidente</h2>
+  <p class="meta-id"><strong>ID:</strong> <span th:text="${inc.id}"></span></p>
+
+  <form id="editIncidentForm" class="card form" th:action="@{/api/incidents/{id}/update(id=${inc.id})}" method="post" enctype="multipart/form-data">
+
+    <!-- Sitio (solo lectura) -->
+    <div class="form-group">
+      <label>Sitio</label>
+      <span class="readonly-field" th:text="${inc.siteName != null ? inc.siteName : '—'}"></span>
+      <small>Instalación asociada al incidente (no editable aquí).</small>
+    </div>
+
+    <!-- Tipo -->
+    <div class="form-group">
+      <label for="incidentType">Tipo</label>
+      <select id="incidentType" name="incidentType">
+        <option th:each="t : ${incidentTypes}"
+                th:value="${t}"
+                th:text="${t}"
+                th:selected="${t == inc.incidentType}">Tipo</option>
+      </select>
+    </div>
+
+    <!-- Prioridad -->
+    <div class="form-group">
+      <label for="priority">Prioridad</label>
+      <select id="priority" name="priority">
+        <option th:each="p : ${priorities}"
+                th:value="${p}"
+                th:text="${p}"
+                th:selected="${p == inc.priority}">Prioridad</option>
+      </select>
+    </div>
+
+    <!-- Estado -->
+    <div class="form-group">
+      <label for="status">Estado</label>
+      <select id="status" name="status">
+        <option th:each="s : ${statuses}"
+                th:value="${s}"
+                th:text="${s}"
+                th:selected="${s == inc.status}">Estado</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <div class="form-group">
+          <label for="openedTs">Apertura</label>
+          <input id="openedTs" name="openedTs" type="text"
+                 th:value="${inc.openedTs != null ? #temporals.format(inc.openedTs, 'yyyy-MM-dd HH:mm') : '—'}"
+                 readonly tabindex="-1" />
+        </div>
+
+        <div class="form-group">
+          <label for="firstResponseTs">Primera respuesta</label>
+          <input id="firstResponseTs" name="firstResponseTs" type="text"
+                 th:value="${inc.firstResponseTs != null ? #temporals.format(inc.firstResponseTs, 'yyyy-MM-dd HH:mm') : '—'}"
+                 readonly tabindex="-1" />
+        </div>
+
+        <div class="form-group">
+          <label for="closedTs">Cierre</label>
+          <input id="closedTs" name="closedTs" type="text"
+                 th:value="${inc.closedTs != null ? #temporals.format(inc.closedTs, 'yyyy-MM-dd HH:mm') : '—'}"
+                 readonly tabindex="-1" />
+        </div>
+
+        <div class="form-group">
+          <label for="slaMinutes">SLA (min)</label>
+          <input id="slaMinutes" name="slaMinutes" type="number" min="0"
+                 th:value="${inc.slaMinutes}" />
+        </div>
+
+        <div class="form-group">
+          <label for="description">Descripción</label>
+          <textarea id="description" name="description" rows="5"
+                    th:text="${inc.description}"></textarea>
+        </div>
+      </div>
+
+      <!-- Columna foto -->
+      <div class="form-group">
+        <label>Fotografía</label>
+
+        <!-- Preview actual (si existe) -->
+        <div id="photoPreviewContainer" th:if="${inc.photoPath != null}">
+          <a id="photoPreviewLink" th:href="${inc.photoPath}" target="_blank" rel="noopener">
+            <img id="photoPreviewImg" th:src="${inc.photoPath}" alt="Foto incidente" class="incident-photo-thumb"/>
+          </a>
+          <p>
+            <a id="photoDownloadLink" th:href="${inc.photoPath}" download>Descargar foto</a>
+          </p>
+        </div>
+
+        <!-- Preview vacío -->
+        <div id="photoPreviewEmpty" th:if="${inc.photoPath == null}">
+          <span class="no-photo-placeholder">Sin foto</span>
+        </div>
+
+        <!-- Input file -->
+        <div style="margin-top:.5rem">
+          <input id="photoFile" name="photo" type="file" accept="image/*" />
+          <div style="margin-top:.4rem">
+            <label><input id="removePhoto" name="removePhoto" type="checkbox" /> Eliminar foto existente</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="vs-btn vs-secondary" id="cancelBtn" data-path="/private/incidents/table-view">Cancelar</button>
+      <button type="submit" class="vs-btn vs-primary" id="saveBtn">Guardar cambios</button>
+    </div>
+
+    <div id="editIncidentError" class="form-error"></div>
+    <div id="editIncidentOk" class="form-ok" style="display:none;">Cambios guardados ✅</div>
+  </form>
+
+  <script type="module" src="/js/private/incidents/edit-incident.js"></script>
+
+</section>

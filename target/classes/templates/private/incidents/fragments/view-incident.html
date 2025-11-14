@@ -1,0 +1,110 @@
+<section th:fragment="content" class="detail-section view-incident">
+
+  <h2>Ver Incidente</h2>
+  <p class="meta-id"><strong>ID:</strong> <span th:text="${inc.id}"></span></p>
+
+  <form id="viewIncidentForm" class="card form">
+
+    <!-- Sitio (solo lectura) -->
+    <div class="form-group">
+      <label>Sitio</label>
+      <span class="readonly-field" th:text="${inc.siteName != null ? inc.siteName : '—'}"></span>
+      <small>Instalación asociada al incidente.</small>
+    </div>
+
+    <!-- Tipo -->
+    <div class="form-group">
+      <label>Tipo</label>
+      <span class="readonly-field" th:text="${inc.incidentType != null ? inc.incidentType : '—'}"></span>
+    </div>
+
+    <!-- Prioridad -->
+    <div class="form-group">
+      <label>Prioridad</label>
+      <span class="readonly-field" th:text="${inc.priority != null ? inc.priority : '—'}"></span>
+    </div>
+
+    <!-- Estado -->
+    <div class="form-group">
+      <label>Estado</label>
+      <span class="readonly-field" th:text="${inc.status != null ? inc.status : '—'}"></span>
+    </div>
+
+    <div class="form-group">
+      <label for="openedTs">Apertura</label>
+      <input id="openedTs" name="openedTs" type="text"
+             th:value="${inc.openedTs != null ? #temporals.format(inc.openedTs, 'yyyy-MM-dd HH:mm') : '—'}"
+             readonly tabindex="-1" />
+    </div>
+
+    <div class="form-group">
+      <label for="firstResponseTs">Primera respuesta</label>
+      <input id="firstResponseTs" name="firstResponseTs" type="text"
+             th:value="${inc.firstResponseTs != null ? #temporals.format(inc.firstResponseTs, 'yyyy-MM-dd HH:mm') : '—'}"
+             readonly tabindex="-1" />
+    </div>
+
+    <div class="form-group">
+      <label for="closedTs">Cierre</label>
+      <input id="closedTs" name="closedTs" type="text"
+             th:value="${inc.closedTs != null ? #temporals.format(inc.closedTs, 'yyyy-MM-dd HH:mm') : '—'}"
+             readonly tabindex="-1" />
+    </div>
+
+    <div class="form-group">
+      <label>SLA (min)</label>
+      <span class="readonly-field" th:text="${inc.slaMinutes != null ? inc.slaMinutes : '—'}">—</span>
+    </div>
+
+    <div class="form-group">
+      <label>Descripción</label>
+      <textarea id="incidentDescription" name="description" readonly tabindex="-1"
+                th:text="${inc.description}"></textarea>
+    </div>
+
+    <!-- Fotografía -->
+    <div class="form-group">
+      <label>Fotografía</label>
+
+      <!-- Si es URL absoluta -->
+      <div th:if="${inc.photoPath != null and #strings.startsWith(inc.photoPath, 'http')}">
+        <a th:href="${inc.photoPath}" target="_blank" rel="noopener">
+          <img th:src="${inc.photoPath}" alt="Foto incidente" class="incident-photo-thumb"/>
+        </a>
+        <p><a th:href="${inc.photoPath}" download>Descargar foto</a></p>
+      </div>
+
+      <!-- Si es nombre de archivo relativo (servido desde /uploads/{filename}) -->
+      <div th:if="${inc.photoPath != null and not #strings.startsWith(inc.photoPath, 'http')}">
+        <a th:href="@{/uploads/{f}(f=${inc.photoPath})}" target="_blank" rel="noopener">
+          <img th:src="@{/uploads/{f}(f=${inc.photoPath})}" alt="Foto incidente" class="incident-photo-thumb"/>
+        </a>
+        <p><a th:href="@{/uploads/{f}(f=${inc.photoPath})}" download>Descargar foto</a></p>
+      </div>
+
+      <!-- Fallback: sin foto -->
+      <div th:if="${inc.photoPath == null}">
+        <span>—</span>
+      </div>
+    </div>
+
+    <div class="actions">
+      <a class="vs-btn vs-secondary" href="#"
+         data-path="/private/incidents/table-view">Volver al listado</a>
+    </div>
+
+    <div id="viewIncidentError" class="form-error"></div>
+    <div id="viewIncidentOk" class="form-ok" style="display:none;">Datos cargados ✅</div>
+  </form>
+
+  <style>
+    .detail-section.view-incident { max-width:980px; margin:0 auto; }
+    .incident-photo-thumb { max-width:220px; max-height:420px; border-radius:6px; box-shadow:0 2px 8px rgba(0,0,0,.08); }
+    .readonly-field { display:inline-block; padding:.25rem .5rem; background:#fafafa; border:1px solid #eee; border-radius:4px; }
+    textarea[readonly] { width:100%; min-height:100px; background:#fff; border:1px solid #e6e6e6; padding:.5rem; border-radius:4px; resize:vertical; }
+    .form-group { margin-bottom:1rem; }
+  </style>
+
+  <script type="module" src="/js/private/incidents/view-incident.js"></script>
+
+</section>
