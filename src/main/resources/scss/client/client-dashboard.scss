@@ -1,139 +1,231 @@
-// Paleta corporativa sugerida (ajusta según branding)
-$primary: #204080;
-$secondary: #0ea5e9;
-$accent: #f5f8fd;
-$card-bg: #fff;
-$kpi-bg: linear-gradient(135deg, #eaf1fb 0%, #f1f6fc 100%);
-$kpi-shadow: 0 2px 18px rgba(32,64,128,0.08);
-$chart-card-shadow: 0 2px 20px rgba(32,64,128,0.07);
-$text-main: #22304a;
-$text-light: #6e7b91;
+// client-dashboard.scss
+// Estilos modernos para client-dashboard-fragment.html
+// Variables, layout, KPI cards, charts, responsive y modo oscuro ligero.
+
+// -------------------- Variables --------------------
+$bg-page: #f7fafc;
+$card-bg: #ffffff;
+$muted: #6b7280;
+$text-main: #111827;
+$primary: #1f4aa1;
+$accent-2: #f8fafc;
 $kpi-blue: #2563eb;
-$kpi-red: #f43f5e;
-$kpi-cyan: #0ea5e9;
-$kpi-green: #22c55e;
+$kpi-cyan: #06b6d4;
+$kpi-green: #16a34a;
+$kpi-red: #ef4444;
+$shadow-1: 0 6px 18px rgba(16,24,40,0.06);
+$shadow-2: 0 10px 30px rgba(16,24,40,0.08);
 
+// Root CSS variables for runtime overrides
+:root {
+  --bg-page: #{$bg-page};
+  --card-bg: #{$card-bg};
+  --text-main: #{$text-main};
+  --muted: #{$muted};
+  --primary: #{$primary};
+  --accent-2: #{$accent-2};
+  --kpi-blue: #{$kpi-blue};
+  --kpi-cyan: #{$kpi-cyan};
+  --kpi-green: #{$kpi-green};
+  --kpi-red: #{$kpi-red};
+  --shadow-1: #{$shadow-1};
+  --shadow-2: #{$shadow-2};
+}
+
+/* Dark theme toggle: body[data-theme="dark"] */
+body[data-theme="dark"] {
+  --bg-page: #071022;
+  --card-bg: #0b1220;
+  --text-main: #e6eef8;
+  --muted: #98a6bf;
+  --shadow-1: 0 6px 18px rgba(2,6,23,0.6);
+  --shadow-2: 0 10px 30px rgba(2,6,23,0.7);
+}
+
+// -------------------- Utilities --------------------
+%truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin center($align: center) {
+  display: flex;
+  align-items: $align;
+  justify-content: center;
+}
+
+// -------------------- Dashboard layout --------------------
 .dashboard {
-  max-width: 1200px;
-  margin: 1rem auto;
-  padding: 2.5rem 1.5rem 2.5rem 1.5rem;
-  background: $accent;
-  border-radius: 18px;
-  box-shadow: 0 4px 28px rgba(32,64,128,0.07);
-  font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+  max-width: 1240px;
+  margin: 1.25rem auto;
+  padding: 1.75rem;
+  background: var(--accent-2);
+  border-radius: 14px;
+  box-shadow: var(--shadow-2);
+  font-family: Inter, 'Segoe UI', Roboto, system-ui, -apple-system, "Helvetica Neue", Arial;
+  color: var(--text-main);
+  transition: background-color .2s ease, color .2s ease;
+}
 
-  .kpis {
+/* KPI row */
+.kpis {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.kpi-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), var(--card-bg));
+  border-radius: 12px;
+  box-shadow: var(--shadow-1);
+  padding: 0.8rem 1rem;
+  flex: 1 1 200px;
+  min-width: 160px;
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  transition: transform .12s ease, box-shadow .12s ease;
+  overflow: hidden;
+
+  &:hover { transform: translateY(-4px); box-shadow: var(--shadow-2); }
+
+  h4 {
+    margin: 0;
+    font-size: 0.86rem;
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .val {
+    margin-top: 0.05rem;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-main);
+    letter-spacing: -0.01em;
+  }
+
+  /* Small meta text if needed */
+  .kpi-meta {
+    margin-top: 0.25rem;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  /* color accents by KPI (target element holds data-kpi attribute) */
+  &[data-kpi="att"] .val { color: var(--kpi-blue); }
+  &[data-kpi="patrol"] .val { color: var(--kpi-cyan); }
+  &[data-kpi="visit"] .val { color: var(--kpi-green); }
+  &[data-kpi="inc"] .val { color: var(--kpi-red); }
+}
+
+/* -------------------- Charts grid -------------------- */
+.charts {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(3, 1fr);
+  margin-bottom: 1.25rem;
+
+  @media (max-width: 980px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: var(--shadow-1);
+    padding: 0.95rem;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 1.5rem;
-    margin-bottom: 2.2rem; // menos separación respecto a .charts
+    flex-direction: column;
+    min-height: 220px;
+    transition: transform .12s ease, box-shadow .12s ease;
 
-    .kpi-card {
-      flex: 1 1 180px;
-      min-width: 180px;
-      max-width: 260px;
-      background: $kpi-bg;
-      border-radius: 12px;
-      box-shadow: $kpi-shadow;
-      padding: 1rem 1.2rem; // menos padding para tamaño compacto
+    &:hover { transform: translateY(-4px); box-shadow: var(--shadow-2); }
+
+    h5 {
+      margin: 0 0 0.6rem 0;
+      font-size: 1rem;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .chart-header {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      transition: box-shadow 0.2s, transform 0.18s;
-      position: relative;
-      overflow: hidden;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
 
-      h4 {
-        margin: 0 0 0.5rem 0;
-        font-size: 0.97rem;
-        color: $text-main;
-        font-weight: 600;
-        letter-spacing: 0.03em;
-        text-align: center;
-      }
-
-      .val {
-        font-size: 2rem;
-        font-weight: 700;
-        color: $primary;
-        margin-top: 0.1rem;
-        letter-spacing: 0.02em;
-        text-shadow: 0 2px 10px rgba(32,64,128,0.07);
-
-        // Colores por KPI
-        &[data-kpi="att"]    { color: $kpi-blue; }
-        &[data-kpi="patrol"] { color: $kpi-cyan; }
-        &[data-kpi="visit"]  { color: $kpi-green; }
-        &[data-kpi="inc"]    { color: $kpi-red; }
-      }
+      .subtle { color: var(--muted); font-size: 0.88rem; }
+      .controls { display: flex; gap: 0.4rem; align-items: center; }
     }
-  }
 
-  .charts {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px,1fr));
-    gap: 2rem; // un poco menor
+    /* ECharts container: matches your inline heights but provides defaults */
+    > div[id^="chart-"] {
+      width: 100%;
+      height: 240px;
+      min-height: 180px;
+      border-radius: 8px;
+      background: transparent;
+    }
 
-    .card {
-      background: $card-bg;
-      border-radius: 14px;
-      box-shadow: $chart-card-shadow;
-      padding: 1.3rem 1.2rem 1.5rem 1.2rem; // menos padding
-      display: flex;
-      flex-direction: column;
-
-      h5 {
-        font-size: 1.02rem;
-        font-weight: 600;
-        color: $primary;
-        margin-bottom: 0.85rem; // menos separación con el gráfico
-        letter-spacing: 0.02em;
-        text-align: left;
-      }
-
-      // ECharts container
-      > div[id^="chart-"] {
-        width: 100%;
-        min-height: 195px;
-        height: 235px;
-      }
+    /* no-data center helper (for CSS fallback) */
+    .chart-no-data {
+      @include center;
+      color: var(--muted);
+      font-size: 0.95rem;
+      height: 100%;
     }
   }
 }
 
-// Responsive
-@media (max-width: 900px) {
-  .dashboard {
-    padding: 1.2rem 0.4rem;
-
-    .kpis {
-      gap: 1rem;
-      .kpi-card { min-width: 140px; max-width: 100%; padding: 1rem 0.6rem; }
-    }
-    .charts {
-      gap: 1rem;
-      .card { padding: 0.8rem 0.6rem 1rem 0.6rem; }
-    }
-  }
+/* Special sizes for top hourly charts (you set inline style heights but this ensures min) */
+#chart-hourly-attendance,
+#chart-hourly-rounds,
+#chart-hourly-visits {
+  height: 260px !important;
+  min-height: 220px;
 }
 
-@media (max-width: 600px) {
-  .dashboard {
-    .kpis {
-      flex-direction: column;
-      align-items: stretch;
-      .kpi-card { margin-bottom: 0.4rem; }
-    }
-    .charts {
-      grid-template-columns: 1fr;
-    }
-  }
-}
-
-/* NUEVO: Ajuste específico para el gráfico adicional de visitas por sitio */
+/* Weekly charts area */
+#chart-att,
+#chart-visit,
 #chart-visit-site {
-  min-height: 195px;
-  height: 235px;
-  width: 100%;
+  height: 260px !important;
+  min-height: 200px;
+}
+
+/* Visits by site specific tweak: horizontal bars layout friendliness */
+#chart-visit-site {
+  /* ensure labels visible */
+  padding-left: 2px;
+}
+
+/* Utilities */
+.muted { color: var(--muted); }
+.small { font-size: .85rem; }
+.truncate { @extend %truncate; }
+
+/* Accessibility */
+button, a[role="button"] {
+  &:focus { outline: 3px solid rgba(37,99,235,0.18); outline-offset: 2px; border-radius: 6px; }
+}
+
+/* Compact mode: reduce paddings if needed */
+body[data-compact="1"] {
+  .dashboard { padding: 0.9rem; border-radius: 10px; }
+  .kpi-card { padding: 0.6rem; .val { font-size: 1.4rem; } }
+  .card { padding: 0.6rem; > div[id^="chart-"] { height: 200px; } }
+}
+
+/* Print tweaks */
+@media print {
+  .dashboard { box-shadow: none; background: white; }
+  .kpis, .charts { gap: 0.4rem; }
+  .card { box-shadow: none; border: 1px solid #eee; }
 }

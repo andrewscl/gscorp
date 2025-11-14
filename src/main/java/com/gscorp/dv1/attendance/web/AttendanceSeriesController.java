@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
+import com.gscorp.dv1.attendance.web.dto.HourlyCountDto;
 import com.gscorp.dv1.attendance.web.dto.SeriesAttendancePunch;
 
 import lombok.RequiredArgsConstructor;
@@ -49,6 +50,30 @@ public class AttendanceSeriesController {
     return ResponseEntity.ok(out);
   }
 
+
+  /**
+   * Devuelve 24 filas con hour "00".."23" y count por esa hora (según tz).
+   * Ejemplo: GET /api/attendance/hourly?date=2025-11-14&tz=America/Santiago&action=IN
+   */
+  @GetMapping("/hourly")
+  public ResponseEntity<List<HourlyCountDto>> hourly(
+      Authentication auth,
+      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+      @RequestParam(required = false, defaultValue = "UTC") String tz,
+      @RequestParam(required = false) String action
+  ) {
+    Long userId = currentUserId(auth); // ajusta según tu seguridad, puede ser null para todos
+    List<AttendancePunchRepo.HourlyCount> rows = repo.findHourlyCountsForDate(date, tz, normalizeAction(action), userId);
+
+    // Mapear proyección a DTO
+    List<HourlyCountDto> out = rows.stream()
+        .map(r -> new HourlyCountDto(r.getHour(), r.getCnt() == null ? 0L : r.getCnt()))
+        .toList();
+
+    return ResponseEntity.ok(out);
+  }
+
+
   private static String normalizeAction(String a) {
     if (a == null) return null;
     var t = a.trim();
@@ -59,4 +84,8 @@ public class AttendanceSeriesController {
     // TODO: retorna el id real del usuario autenticado
     return 1L;
   }
+
+
+
+  
 }

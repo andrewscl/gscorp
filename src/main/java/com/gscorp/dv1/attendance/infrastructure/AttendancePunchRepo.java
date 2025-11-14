@@ -50,4 +50,44 @@ public interface AttendancePunchRepo extends JpaRepository <AttendancePunch, Lon
                                         @Param("from") OffsetDateTime from,
                                         @Param("to") OffsetDateTime to);
 
+
+    /** Proyección para conteo por hora; alias deben ser 'hour' y 'cnt' */
+    interface HourlyCount {
+        String getHour(); // "00".."23"
+        Long   getCnt();
+    }
+
+    /**
+     * Native query (Postgres): genera series 0..23 y hace LEFT JOIN con conteos agregados por hora.
+     * Parámetros:
+     *  - :date -> LocalDate (YYYY-MM-DD)
+     *  - :tz   -> zona horaria (p.ej. 'America/Santiago') usada con AT TIME ZONE
+     *  - :action -> 'IN'|'OUT' o null
+     *  - :userId -> Long o null (filtrar por usuario si no es null)
+     */
+    @Query(value = """
+    WITH hours AS (SELECT generate_series(0,23) AS hr)
+    SELECT to_char(h.hr, 'FM00') AS hour,
+            COALESCE(a.cnt, 0) AS cnt
+    FROM hours h
+    LEFT JOIN (
+        SELECT (EXTRACT(hour FROM (ap.ts AT TIME ZONE :tz)))::int AS hr,
+            COUNT(*) AS cnt
+        FROM attendance_punches ap
+        WHERE ap.ts >= (:date::date) AT TIME ZONE :tz
+        AND ap.ts <  ((:date::date) + INTERVAL '1 day') AT TIME ZONE :tz
+        AND (:action IS NULL OR ap.action = :action)
+        AND (:userId IS NULL OR ap.user_id = :userId)
+        GROUP BY hr
+    ) a ON a.hr = h.hr
+    ORDER BY h.hr
+    """, nativeQuery = true)
+    List<HourlyCount> findHourlyCountsForDate(
+        @Param("date") LocalDate date,
+        @Param("tz") String tz,
+        @Param("action") String action,
+        @Param("userId") Long userId
+    );
+
+
 }
