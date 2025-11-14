@@ -1,4 +1,4 @@
-import { echarts } from '../../lib/echarts-setup';
+import { echarts } from '../../../lib/echarts-setup';
 import { fetchWithAuth } from './api';
 
 type SiteVisitCountDto = {

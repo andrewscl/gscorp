@@ -1,6 +1,6 @@
-import { initAttendanceChart } from './chart-attendance';
-import { initIncidentsChart } from './chart-incidents';
-import { initVisitsChart } from './chart-visits'; // <--- nuevo!
+import { initAttendanceChart } from './api/chart-attendance';
+import { initIncidentsChart } from './api/chart-incidents';
+import { initVisitsChart } from './api/chart-visits'; // <--- nuevo!
 import { initKpis } from './kpi-helpers';
 
 // Helpers para rango de fechas del mes actual

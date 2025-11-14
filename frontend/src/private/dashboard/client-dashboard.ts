@@ -1,16 +1,11 @@
 import { echarts } from '../../lib/echarts-setup';
+import { initThreeMetrics } from './init-three-metrics';
+import { fetchWithAuth } from './api/api';
 
-async function fetchWithAuth(url: string, init: RequestInit = {}) {
-  const token = localStorage.getItem('jwt');
-  const headers = new Headers(init.headers || {});
-  if (token) headers.set('Authorization', `Bearer ${token}`);
-  const res = await fetch(url, { ...init, headers });
-  if (res.status === 401) {
-    localStorage.removeItem('jwt');
-    window.location.href = '/auth/signin';
-  }
-  return res;
-}
+// llamar initThreeMetrics para los 3 gráficos por hora
+
+
+
 
 type Point = { x: string; y: number };
 type KPIs = { asistenciaHoy: number; rondasHoy: number; visitasHoy: number; incidentesAbiertos: number };
@@ -142,6 +137,15 @@ export async function init({ container }: { container: HTMLElement }) {
     } else setNoData(chVisitSite, 'Error de datos');
   } catch { setNoData(chVisitSite, 'Error de datos'); }
 
+  // -------- Inicializar los 3 gráficos horarios (Asistencias, Rondas, Visitas) --------
+  const today = new Date();
+  const todayISO = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+
+  try {
+    initThreeMetrics(root, todayISO, { refreshMs: 60_000 }); // refresca cada 60s (opcional)
+  } catch (e) {
+    console.warn('[client-dashboard] initThreeMetrics failed', e);
+  }
 
 
 

@@ -1,4 +1,4 @@
-import { fetchWithAuth } from './api';
+import { fetchWithAuth } from './api/api';
 
 /**
  * Inicializa los KPIs del dashboard del cliente.

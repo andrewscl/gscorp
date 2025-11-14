@@ -1,32 +1,32 @@
-import { echarts } from '../../lib/echarts-setup';
+import { echarts } from '../../../lib/echarts-setup';
 import { fetchWithAuth } from './api';
 
 type Point = { x: string; y: number };
 
 /**
- * Inicializa el gráfico de asistencia (Entradas por día) usando ECharts.
+ * Inicializa el gráfico de incidentes por día usando ECharts.
  * @param container - Elemento raíz donde buscar el div del gráfico
  * @param from - Fecha de inicio en formato YYYY-MM-DD
  * @param to - Fecha de término en formato YYYY-MM-DD
  */
-export async function initAttendanceChart(
+export async function initIncidentsChart(
   container: HTMLElement,
   from: string,
   to: string
 ) {
-  const el = container.querySelector('#chart-att') as HTMLDivElement;
+  const el = container.querySelector('#chart-inc') as HTMLDivElement;
   if (!el) {
-    console.warn('[attendance chart] #chart-att no existe');
+    console.warn('[incidents chart] #chart-inc no existe');
     return;
   }
 
   let data: Point[] = [];
   try {
-    const res = await fetchWithAuth(`/api/attendance/series?from=${from}&to=${to}&action=IN`);
+    const res = await fetchWithAuth(`/api/incidents/series?from=${from}&to=${to}`);
     if (res.ok) data = await res.json();
-    else console.warn('[attendance chart] API status:', res.status, await res.text().catch(()=>'')); // debug
+    else console.warn('[incidents chart] API status:', res.status, await res.text().catch(()=>'')); // debug
   } catch (e) {
-    console.warn('[attendance chart] fetch error', e);
+    console.warn('[incidents chart] fetch error', e);
   }
 
   const labels = data.map(p => p.x);
@@ -41,16 +41,18 @@ export async function initAttendanceChart(
     xAxis: { type: 'category', boundaryGap: false, data: labels },
     yAxis: { type: 'value' },
     series: [{
-      name: 'Entradas',
-      type: 'line',
-      smooth: true,
-      areaStyle: {},
+      name: 'Incidentes',
+      type: 'bar',
       data: values,
-      color: '#2563eb'
+      color: '#f43f5e'
     }],
     graphic: hasData ? { elements: [] } : {
-      elements: [{ type: 'text', left: 'center', top: 'middle',
-        style: { text: 'Sin datos', fill: '#9ca3af', fontSize: 14 } }]
+      elements: [{
+        type: 'text',
+        left: 'center',
+        top: 'middle',
+        style: { text: 'Sin datos', fill: '#9ca3af', fontSize: 14 }
+      }]
     }
   });
 
