@@ -4,12 +4,15 @@ import java.io.File;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.gscorp.dv1.enums.IncidentType;
+import com.gscorp.dv1.enums.Priority;
 import com.gscorp.dv1.incidents.infrastructure.Incident;
 import com.gscorp.dv1.incidents.infrastructure.IncidentRepository;
 import com.gscorp.dv1.incidents.web.dto.CreateIncidentRequest;
@@ -98,7 +101,53 @@ public class IncidentServiceImpl implements IncidentService {
   public List<IncidentDto> findIncidentsForUser(Long userId) {
     if (userId == null) return List.of();
     List<IncidentDto> incidents = repo.findIncidentsDtoByUserId(userId);
-    return incidents == null ? List.of() : incidents;
+
+    if ( incidents == null || incidents.isEmpty() ) return List.of();
+
+    return incidents.stream()
+            .map(this::replaceNamesWithLabels)
+            .collect(Collectors.toList());
+  }
+
+  private IncidentDto replaceNamesWithLabels(IncidentDto dto) {
+    if (dto == null) return null;
+
+    String typeLabel = safeIncidentTypeDescription(dto.incidentType());
+    String priorityLabel = safePriorityDisplayName(dto.priority());
+
+    return new IncidentDto(
+        dto.id(),
+        dto.siteName(),
+        typeLabel,
+        priorityLabel,
+        dto.description(),
+        dto.photoPath(),
+        dto.status(),
+        dto.openedTs(),
+        dto.firstResponseTs(),
+        dto.closedTs(),
+        dto.slaMinutes(),
+        dto.createdAt()
+    );
+  }
+
+  private String safeIncidentTypeDescription(String enumName) {
+    if (enumName == null) return null;
+    try {
+        return IncidentType.valueOf(enumName).getDescription();
+    } catch (Exception e) {
+        // Fallback: devolver el valor original si no coincide con ningún enum
+        return enumName;
+    }
+  }
+
+  private String safePriorityDisplayName(String enumName) {
+      if (enumName == null) return null;
+      try {
+          return Priority.valueOf(enumName).getDisplayName();
+      } catch (Exception e) {
+          return enumName;
+      }
   }
 
 }
