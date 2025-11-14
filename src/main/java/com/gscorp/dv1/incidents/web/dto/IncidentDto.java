@@ -26,7 +26,7 @@ public record IncidentDto (
             inc.getId(),
             inc.getSite() != null ? inc.getSite().getName() : null,
             inc.getIncidentType() != null ? inc.getIncidentType().getDescription() : null,
-            inc.getPriority() != null ? inc.getPriority().name() : null,
+            inc.getPriority() != null ? inc.getPriority().getDisplayName() : null,
             inc.getDescription(),
             inc.getPhotoPath(),
             inc.getStatus() != null ? inc.getStatus().name() : null,
