@@ -138,7 +138,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     OffsetDateTime to = endZ.toOffsetDateTime();
 
     // Llamar al repo (consulta nativa que agrupa por hora dentro del rango)
-    var rows = repo.findHourlyCountsForRange(from, to, normalizedAction, userId);
+    var rows = repo.findHourlyCountsForRange(from, to, tz, normalizedAction, userId);
 
     // Mapear proyección a DTO
     return rows.stream()

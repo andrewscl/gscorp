@@ -71,7 +71,7 @@ public interface AttendancePunchRepo extends JpaRepository <AttendancePunch, Lon
             COALESCE(a.cnt, 0) AS cnt
     FROM hours h
     LEFT JOIN (
-        SELECT (EXTRACT(hour FROM ap.ts))::int AS hr,
+        SELECT (EXTRACT(hour FROM (ap.ts AT TIME ZONE :tz)))::int AS hr,
             COUNT(*) AS cnt
         FROM attendance_punches ap
         WHERE ap.ts >= :from
@@ -85,6 +85,7 @@ public interface AttendancePunchRepo extends JpaRepository <AttendancePunch, Lon
     List<HourlyCount> findHourlyCountsForRange(
         @Param("from") OffsetDateTime from,
         @Param("to") OffsetDateTime to,
+        @Param("tz") String tz,
         @Param("action") String action,
         @Param("userId") Long userId
     );
