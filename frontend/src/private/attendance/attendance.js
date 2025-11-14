@@ -1,4 +1,5 @@
 import { fetchWithAuth } from '../../auth.js';
+import { navigateTo } from '../../navigation-handler.js';
 
 // Encuentra el sitio más cercano y su distancia
 function getNearestSite(userLat, userLon, sites) {
@@ -194,6 +195,7 @@ function initAttendanceWidget() {
       setStatus(`Marcación registrada correctamente${hora ? ' a las ' + hora : ''}${distancia ? ' a ' + distancia : ''}. ✅`);
 
       updateAttendanceButtons();
+      setTimeout(() => navigateTo('/private/employees/dashboard'), 600);
 
     } catch (e) {
       setStatus('Error en marcación: ' + (e?.message || 'desconocido'), true);
