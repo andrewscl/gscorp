@@ -1,34 +1,97 @@
-<div class="content">
-  <!-- Selección de sitio -->
-  <div class="site-selector">
-    <label for="select-site">Sitio</label>
-    <select id="select-site" required>
-      <option value="">Seleccione un sitio</option>
-      <!-- Opciones generadas dinámicamente -->
-    </select>
-    <button id="btn-create-checkpoint" disabled>Crear checkpoint</button>
+<!-- Thymeleaf fragment: PatrolCheckPoint table with Site info + Map placeholder.
+     Uses only data-path / data-method / data-confirm / data-external-url for navigation/actions.
+     No href, no <form>, no POST. -->
+<div th:fragment="content">
+  <!-- Site info: será rellenado por JS si el servidor no lo entrega -->
+  <div id="siteInfo"
+       class="site-info"
+       th:attr="data-site-id=${site != null ? site.id : ''}, data-lat=${lat}, data-lng=${lng}">
+    <strong>Sitio:</strong>
+    <span id="siteName" th:text="${site != null ? site.name : '—'}">—</span>
   </div>
 
-  <!-- Formulario para crear checkpoint (aparece solo si se quiere crear) -->
-  <div id="checkpoint-form-container" style="display:none;">
-    <!-- Aquí va el formulario que ya tienes -->
+  <!-- Contenedor de mapa (placeholder). JS debe leer data-lat/data-lng/data-zoom y renderizar aquí. -->
+  <div id="siteMapContainer" style="margin-top:0.5rem;">
+    <div id="siteMap"
+         role="img"
+         aria-label="Mapa de la instalación"
+         th:attr="data-lat=${site != null && site.lat != null ? site.lat : lat}, data-lng=${site != null && site.lon != null ? site.lon : lng}, data-zoom=13"
+         style="width:100%; height:280px; background:#f5f5f5; border:1px solid #ddd;">
+      <noscript>
+        <div style="padding:1rem; color:#666;">Mapa disponible sólo con JavaScript habilitado.</div>
+      </noscript>
+    </div>
+
+    <div class="site-map-actions" style="margin-top:0.5rem;">
+      <button type="button" class="btn-link"
+              th:if="${site != null && site.lat != null && site.lon != null}"
+              th:attr="data-external-url=${'https://www.google.com/maps/search/?api=1&query=' + site.lat + ',' + site.lon}">
+        Abrir en mapa externo
+      </button>
+      <button type="button" class="btn-link" id="siteMapLocateBtn" title="Centrar mapa" data-action="locate">
+        Centrar mapa
+      </button>
+    </div>
   </div>
 
-  <!-- Listado de checkpoints -->
-  <div class="checkpoint-list">
-    <h3>Checkpoints del sitio</h3>
-    <table id="checkpoint-table">
+  <div class="patrol-checkpoint-header" style="margin-top:0.75rem;">
+    <h2>Checkpoints de Ronda</h2>
+    <button class="btn-primary"
+            id="createCheckpointBtn"
+            th:attr="data-path=@{/private/patrol-checkpoints/create}"
+            title="Crear checkpoint">
+      Nuevo Checkpoint
+    </button>
+  </div>
+
+  <div id="patrolCheckpointContainer" class="patrol-checkpoint-table-container" th:attr="data-site-id=${site != null ? site.id : ''}">
+    <table class="patrol-checkpoint-table">
       <thead>
         <tr>
+          <th>ID</th>
           <th>Nombre</th>
-          <th>Orden</th>
-          <th>Lat/Lon</th>
-          <th>Tolerancia (m)</th>
           <th>Ruta</th>
+          <th>Orden</th>
+          <th>Lat</th>
+          <th>Lon</th>
+          <th>Tolerancia (m)</th>
+          <th>Acciones</th>
         </tr>
       </thead>
+
       <tbody>
-        <!-- Filas generadas dinámicamente vía JS -->
+        <tr th:each="cp : ${checkpoints}">
+          <td data-label="ID" th:text="${cp.id}">—</td>
+          <td data-label="Nombre" th:text="${cp.name}">—</td>
+          <td data-label="Ruta" th:text="${cp.route != null ? cp.route.name : '—'}">—</td>
+          <td data-label="Orden" th:text="${cp.orderN != null ? cp.orderN : '—'}">—</td>
+          <td data-label="Lat" th:text="${cp.lat != null ? cp.lat : '—'}">—</td>
+          <td data-label="Lon" th:text="${cp.lon != null ? cp.lon : '—'}">—</td>
+          <td data-label="Tolerancia" th:text="${cp.toleranceM != null ? cp.toleranceM : 30}">30</td>
+
+          <td data-label="Acciones" class="actions">
+            <button type="button" class="btn-link"
+                    th:attr="data-path=@{/private/patrol-checkpoints/show/{id}(id=${cp.id})}">
+              Ver
+            </button>
+
+            <button type="button" class="btn-link"
+                    th:attr="data-path=@{/private/patrol-checkpoints/edit/{id}(id=${cp.id})}"
+                    th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
+              Editar
+            </button>
+
+            <button type="button" class="btn-link"
+                    th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}"
+                    th:attr="data-path=@{/private/patrol-checkpoints/delete/{id}(id=${cp.id})}, data-method='delete', data-confirm='¿Eliminar checkpoint? Esta acción no se puede deshacer.'">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+
+        <tr th:if="${checkpoints == null or #lists.isEmpty(checkpoints)}">
+          <td colspan="8" class="empty">No hay checkpoints configurados para el site seleccionado.</td>
+        </tr>
       </tbody>
     </table>
   </div>
