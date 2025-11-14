@@ -38,8 +38,13 @@
       <tbody>
         <tr th:each="inc : ${incidents}">
           <td th:text="${inc.id}"></td>
-          <td th:text="${inc.site != null ? inc.site.name : '—'}">—</td>
-          <td th:text="${inc.type != null ? inc.type.name : '—'}">—</td>
+
+          <!-- siteName proveniente del DTO -->
+          <td th:text="${inc.siteName != null ? inc.siteName : '—'}">—</td>
+
+          <!-- incidentType (string) proveniente del DTO -->
+          <td th:text="${inc.incidentType != null ? inc.incidentType : '—'}">—</td>
+
           <td>
             <span class="tag"
                   th:classappend="${inc.status == 'OPEN' ? 'open' : (inc.status == 'IN_PROGRESS' ? 'inprogress' : (inc.status == 'CLOSED' ? 'closed' : ''))}">
@@ -69,14 +74,19 @@
               <span th:if="${inc.status != 'OPEN' && inc.status != 'IN_PROGRESS' && inc.status != 'CLOSED'}">—</span>
             </span>
           </td>
+
           <td th:text="${inc.openedTs != null ? #temporals.format(inc.openedTs, 'yyyy-MM-dd HH:mm') : '—'}">—</td>
           <td th:text="${inc.firstResponseTs != null ? #temporals.format(inc.firstResponseTs, 'yyyy-MM-dd HH:mm') : '—'}">—</td>
           <td th:text="${inc.closedTs != null ? #temporals.format(inc.closedTs, 'yyyy-MM-dd HH:mm') : '—'}">—</td>
-          <td th:text="${inc.slaMinutes}"></td>
+
+          <!-- SLA con fallback -->
+          <td th:text="${inc.slaMinutes != null ? inc.slaMinutes : '—'}">—</td>
+
           <td>
             <span th:if="${inc.description != null}" th:text="${inc.description}"></span>
             <em th:if="${inc.description == null}">Sin descripción</em>
           </td>
+
           <td class="actions">
             <button type="button"
                     class="btn-link"

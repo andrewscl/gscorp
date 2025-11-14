@@ -37,11 +37,17 @@ public interface IncidentRepository extends JpaRepository<Incident, Long>{
     @Query("""
     SELECT DISTINCT new com.gscorp.dv1.incidents.web.dto.IncidentDto(
         i.id,
+        s.name,
         CONCAT(i.incidentType, ''),
         CONCAT(i.priority, ''),
         i.description,
         i.photoPath,
-        CONCAT(i.status, '')
+        CONCAT(i.status, ''),
+        i.openedTs,
+        i.firstResponseTs,
+        i.closedTs,
+        i.slaMinutes,
+        i.createdAt
     )
     FROM Incident i
     JOIN i.site s
