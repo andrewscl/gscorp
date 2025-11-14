@@ -221,4 +221,12 @@ public class UserServiceImpl implements UserService{
         return user.getId();
     }
 
+    @Override
+    public boolean isAdmin(Authentication authentication) {
+    Long id = getUserIdFromAuthentication(authentication);
+    if (id == null) return false;
+    return userRepo.findById(id)
+        .map(this::isAdmin)    // reutiliza isAdmin(User user)
+        .orElse(false);
+  }
 }

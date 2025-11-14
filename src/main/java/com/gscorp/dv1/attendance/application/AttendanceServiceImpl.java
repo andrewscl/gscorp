@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunch;
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
 import com.gscorp.dv1.attendance.web.dto.CreateAttendancePunchRequest;
+import com.gscorp.dv1.attendance.web.dto.HourlyCountDto;
 import com.gscorp.dv1.sites.infrastructure.Site;
 import com.gscorp.dv1.sites.infrastructure.SiteRepository;
 
@@ -114,5 +115,43 @@ public class AttendanceServiceImpl implements AttendanceService {
     return punch(dto.getUserId(), dto.getLat(), dto.getLon(),
                   dto.getAccuracy(), dto.getIp(), dto.getDeviceInfo(), site);
   }
-  
+
+
+  @Override
+  @Transactional(readOnly = true)
+  public List<HourlyCountDto> getHourlyCounts(LocalDate date, String tz, String action, Long userId) {
+    // Normalizar action
+    String normalizedAction = normalizeAction(action);
+
+    // Resolver ZoneId con fallback a UTC
+    ZoneId zone;
+    try {
+      zone = (tz == null || tz.isBlank()) ? ZoneId.of("UTC") : ZoneId.of(tz);
+    } catch (Exception ex) {
+      zone = ZoneId.of("UTC");
+    }
+
+    // Calcular ventana [from, to) en la zona solicitada
+    ZonedDateTime startZ = date.atStartOfDay(zone);
+    ZonedDateTime endZ = startZ.plusDays(1);
+    OffsetDateTime from = startZ.toOffsetDateTime();
+    OffsetDateTime to = endZ.toOffsetDateTime();
+
+    // Llamar al repo (consulta nativa que agrupa por hora dentro del rango)
+    var rows = repo.findHourlyCountsForRange(from, to, normalizedAction, userId);
+
+    // Mapear proyección a DTO
+    return rows.stream()
+        .map(r -> new HourlyCountDto(r.getHour(), r.getCnt() == null ? 0L : r.getCnt()))
+        .toList();
+  }
+
+  private static String normalizeAction(String a) {
+    if (a == null) return null;
+    var t = a.trim();
+    return t.isEmpty() ? null : t.toUpperCase();
+  }
+
+
+
 }

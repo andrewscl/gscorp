@@ -23,4 +23,5 @@ public interface UserService {
     Boolean isAdmin(User user);
     Optional<User> findByUsername(String username);
     Long getUserIdFromAuthentication(Authentication authentication);
+    boolean isAdmin(Authentication authentication);
 }

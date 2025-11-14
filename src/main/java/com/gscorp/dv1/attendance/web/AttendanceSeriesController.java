@@ -9,9 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import com.gscorp.dv1.attendance.application.AttendanceService;
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
 import com.gscorp.dv1.attendance.web.dto.HourlyCountDto;
 import com.gscorp.dv1.attendance.web.dto.SeriesAttendancePunch;
+import com.gscorp.dv1.users.application.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +23,8 @@ import lombok.RequiredArgsConstructor;
 public class AttendanceSeriesController {
 
   private final AttendancePunchRepo repo;
+  private final UserService userService;
+  private final AttendanceService attendanceService;
 
   @GetMapping("/series")
   public ResponseEntity<List<SeriesAttendancePunch>> series(
@@ -60,15 +64,20 @@ public class AttendanceSeriesController {
       Authentication auth,
       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
       @RequestParam(required = false, defaultValue = "UTC") String tz,
-      @RequestParam(required = false) String action
+      @RequestParam(required = false) String action,
+      @RequestParam(required = false) Long userId
   ) {
-    Long userId = currentUserId(auth); // ajusta según tu seguridad, puede ser null para todos
-    List<AttendancePunchRepo.HourlyCount> rows = repo.findHourlyCountsForDate(date, tz, normalizeAction(action), userId);
 
-    // Mapear proyección a DTO
-    List<HourlyCountDto> out = rows.stream()
-        .map(r -> new HourlyCountDto(r.getHour(), r.getCnt() == null ? 0L : r.getCnt()))
-        .toList();
+   // Si se pasó userId como query param y el llamador es admin, lo usamos.
+    Long effectiveUserId;
+    if (userId != null && userService.isAdmin(auth)) {
+      effectiveUserId = userId;
+    } else {
+      // Reutilizamos el UserService para extraer el id del Authentication
+      effectiveUserId = userService.getUserIdFromAuthentication(auth);
+    }
+
+    List<HourlyCountDto> out = attendanceService.getHourlyCounts(date, tz, action, effectiveUserId);
 
     return ResponseEntity.ok(out);
   }

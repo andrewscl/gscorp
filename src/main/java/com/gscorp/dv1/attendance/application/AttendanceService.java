@@ -8,6 +8,7 @@ import java.util.Optional;
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunch;
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
 import com.gscorp.dv1.attendance.web.dto.CreateAttendancePunchRequest;
+import com.gscorp.dv1.attendance.web.dto.HourlyCountDto;
 import com.gscorp.dv1.sites.infrastructure.Site;
 
 public interface AttendanceService {
@@ -21,5 +22,6 @@ public interface AttendanceService {
     double haversineMeters(double lat1,double lon1,double lat2,double lon2);
     long countByClientIdAndDate(Long clientId, LocalDate date);
     AttendancePunch punch(CreateAttendancePunchRequest dto);
+    List<HourlyCountDto> getHourlyCounts(LocalDate date, String tz, String action, Long userId);
 
 }
