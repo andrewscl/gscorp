@@ -31,7 +31,6 @@
           <th>Primera resp.</th>
           <th>Cierre</th>
           <th>SLA (min)</th>
-          <th>Descripción</th>
           <th>Acciones</th>
         </tr>
       </thead>
@@ -82,11 +81,6 @@
           <!-- SLA con fallback -->
           <td th:text="${inc.slaMinutes != null ? inc.slaMinutes : '—'}">—</td>
 
-          <td>
-            <span th:if="${inc.description != null}" th:text="${inc.description}"></span>
-            <em th:if="${inc.description == null}">Sin descripción</em>
-          </td>
-
           <td class="actions">
             <button type="button"
                     class="btn-link"
@@ -100,7 +94,8 @@
             </button>
             <button type="button"
                     class="btn-link"
-                    th:attr="data-path=@{/private/incidents/edit/{id}(id=${inc.id})}">
+                    th:attr="data-path=@{/private/incidents/edit/{id}(id=${inc.id})}"
+                    th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
               <!-- Icono editar -->
               <svg width="16" height="16" fill="none" style="vertical-align:middle;margin-right:.19rem">
                 <rect x="3" y="12" width="10" height="2" rx="0.7" fill="#fee2e2"/>
