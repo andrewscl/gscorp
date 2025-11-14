@@ -3,6 +3,7 @@ package com.gscorp.dv1.incidents.infrastructure;
 import java.time.OffsetDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedBy;
 
 import com.gscorp.dv1.enums.IncidentType;
 import com.gscorp.dv1.enums.Priority;
@@ -87,6 +88,7 @@ import lombok.Setter;
     }
 
     // sólo el extracto modificado/añadido
+    @CreatedBy
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "created_by_id", nullable = false)
     private User createdBy;

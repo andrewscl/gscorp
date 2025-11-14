@@ -64,5 +64,15 @@ public class SecurityUser implements UserDetails {
     public boolean isEnabled() {
         return true; // o según tu lógica
     }
+
+    //Exponer del id para AuditorAware
+    public Long getId() {
+        return user != null ? user.getId() : null;
+    }
+
+    //exponer el User si se desea crear desde otros puntos
+    public User getUser() {
+        return user;
+    }
     
 }
