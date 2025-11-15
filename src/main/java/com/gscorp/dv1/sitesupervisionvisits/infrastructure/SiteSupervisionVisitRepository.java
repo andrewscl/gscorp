@@ -106,7 +106,7 @@ public interface SiteSupervisionVisitRepository
     WHERE p.client_id IN (:clientIds)
       AND sv.visit_date_time >= :from
       AND sv.visit_date_time <  :to
-    GROUP BY sv.site_id, s.name, (EXTRACT(hour FROM (sv.visit_date_time AT TIME ZONE :tz)))::int
+    GROUP BY sv.site_id, s.name, to_char(EXTRACT(hour FROM (sv.visit_date_time AT TIME ZONE :tz)))::int
     ORDER BY sv.site_id, hour
     """, nativeQuery = true)
   List<HourlySiteCount> findHourlySiteCountsForRange(
