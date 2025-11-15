@@ -65,17 +65,18 @@ HitsSum hitsSumForClients(
    */
   @Query(value = """
     SELECT
-      sv.site_id                      AS siteId,
-      COALESCE(s.name, '')            AS siteName,
-      to_char( (EXTRACT(hour FROM (sv.ts AT TIME ZONE :tz)))::int, 'FM00') AS hour,
-      COUNT(*)                        AS cnt
-    FROM site_supervision_visits sv
-    LEFT JOIN sites s ON s.id = sv.site_id    -- <<< arreglo: "sites" (plural)
-    WHERE sv.client_id IN (:clientIds)
-      AND sv.ts >= :from
-      AND sv.ts <  :to
-    GROUP BY sv.site_id, s.name, (EXTRACT(hour FROM (sv.ts AT TIME ZONE :tz)))::int
-    ORDER BY sv.site_id, hour
+      pr.site_id                                   AS siteId,
+      COALESCE(s.name, '')                         AS siteName,
+      to_char( (EXTRACT(hour FROM (r.started_ts AT TIME ZONE :tz)))::int, 'FM00') AS hour,
+      COUNT(*)                                     AS cnt
+    FROM patrol_runs r
+    JOIN patrol_routes pr ON pr.id = r.route_id
+    LEFT JOIN sites s ON s.id = pr.site_id
+    WHERE s.client_id IN (:clientIds)
+      AND r.started_ts >= :from
+      AND r.started_ts <  :to
+    GROUP BY pr.site_id, s.name, (EXTRACT(hour FROM (r.started_ts AT TIME ZONE :tz)))::int
+    ORDER BY pr.site_id, hour
     """, nativeQuery = true)
   List<HourlySiteCount> findHourlySiteCountsForRange(
       @Param("from") OffsetDateTime from,
