@@ -233,22 +233,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Long> getClientIdsForUser(Long userId) {
-        if(userId == null) return Collections.emptyList();
-
-        Optional<User> u = userRepo.findById(userId);
-        if(u.isEmpty()) return Collections.emptyList();
-
-        User user = u.get();
-
-        if(user.getClients() != null){
-            return user.getClients()
-                    .stream()
-                    .map(c -> c.getId())
-                    .collect(Collectors.toList());
-        }
-
-        return Collections.emptyList();
-    }
+        if (userId == null) return Collections.emptyList();
+        List<Long> ids = userRepo.findClientIdsByUserId(userId);
+        return ids == null ? Collections.emptyList() : ids;
+  }
 
 }
