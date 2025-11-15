@@ -1,10 +1,12 @@
 package com.gscorp.dv1.users.application;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
@@ -228,5 +230,25 @@ public class UserServiceImpl implements UserService{
     return userRepo.findById(id)
         .map(this::isAdmin)    // reutiliza isAdmin(User user)
         .orElse(false);
-  }
+    }
+
+    @Override
+    public List<Long> getClientIdsForUser(Long userId) {
+        if(userId == null) return Collections.emptyList();
+
+        Optional<User> u = userRepo.findById(userId);
+        if(u.isEmpty()) return Collections.emptyList();
+
+        User user = u.get();
+
+        if(user.getClients() != null){
+            return user.getClients()
+                    .stream()
+                    .map(c -> c.getId())
+                    .collect(Collectors.toList());
+        }
+
+        return Collections.emptyList();
+    }
+
 }

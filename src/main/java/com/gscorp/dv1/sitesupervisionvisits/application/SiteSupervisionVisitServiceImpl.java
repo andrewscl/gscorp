@@ -4,9 +4,16 @@ import java.io.File;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,9 +28,12 @@ import com.gscorp.dv1.sitesupervisionvisits.infrastructure.SiteSupervisionVisitR
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.CreateSiteSupervisionVisitRequest;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteSupervisionVisitDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitCountDto;
+import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitHourlyDto;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SiteSupervisionVisitServiceImpl implements SiteSupervisionVisitService{
@@ -149,6 +159,67 @@ public class SiteSupervisionVisitServiceImpl implements SiteSupervisionVisitServ
     @Override
     public List<SiteVisitCountDto> getVisitsBySite(Long clientId, OffsetDateTime from, OffsetDateTime to) {
         return siteSupervisionVisitRepo.findVisitsCountBySite(clientId, from, to);
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public List <SiteVisitHourlyDto> getSiteVisitHourlyCounts(Collection<Long> clientIds, LocalDate date, String tz) {
+
+        if(clientIds == null || clientIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        ZoneId zone;
+
+        try {
+        zone = (tz == null || tz.isBlank()) ? ZoneId.of("UTC") : ZoneId.of(tz);
+        } catch (Exception ex) {
+        log.warn("Invalid tz '{}', falling back to UTC", tz);
+        zone = ZoneId.of("UTC");
+        }
+
+        ZonedDateTime startZ = date.atStartOfDay(zone);
+        ZonedDateTime endZ = startZ.plusDays(1);
+        OffsetDateTime from = startZ.toOffsetDateTime();
+        OffsetDateTime to = endZ.toOffsetDateTime();
+
+        log.debug("getSiteVisitHourlyCounts clients={} date={} zone={} from={} to={}",
+        clientIds, date, zone, from, to);
+
+        List<SiteSupervisionVisitRepository.HourlySiteCount> rows = 
+                            siteSupervisionVisitRepo.
+                                findHourlySiteCountsForRange(from, to, zone.getId(), new ArrayList<>(clientIds));
+
+        Map<Long, String> siteNames = new HashMap<>();
+        Map<Long, Map<String, Long>> countsBySite = new HashMap<>();
+
+        for (SiteSupervisionVisitRepository.HourlySiteCount r : rows) {
+            Long sid = r.getSiteId();
+            String sname = r.getSiteName();
+            String hour = r.getHour() == null ? "00" : r.getHour();
+            Long cnt = r.getCnt() == null ? 0L : r.getCnt();
+
+            siteNames.putIfAbsent(sid, sname);
+            countsBySite.computeIfAbsent(sid, k -> new HashMap<>())
+                            .merge(hour, cnt, Long::sum);
+        }
+
+        // Build 24-row-per-site result
+        List<Long> siteIds = countsBySite.keySet().stream().sorted().collect(Collectors.toList());
+        List<SiteVisitHourlyDto> result = new ArrayList<>();
+
+        for (Long sid : siteIds) {
+        String sname = siteNames.getOrDefault(sid, "");
+        Map<String, Long> hourly = countsBySite.get(sid);
+        IntStream.range(0, 24).forEach(i -> {
+            String hh = String.format("%02d", i);
+            long c = hourly.getOrDefault(hh, 0L);
+            result.add(new SiteVisitHourlyDto(sid, sname, hh, c));
+        });
+        }
+
+        return result;
     }
 
 }

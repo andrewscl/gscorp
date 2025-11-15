@@ -86,4 +86,33 @@ public interface SiteSupervisionVisitRepository
         @Param("toDate") OffsetDateTime toDate
     );
 
+
+  interface HourlySiteCount {
+    Long getSiteId();
+    String getSiteName();
+    String getHour();
+    Long getCnt();
+  }
+
+  @Query(value = """
+    SELECT
+      sv.site_id                      AS siteId,
+      COALESCE(s.name, '')            AS siteName,
+      to_char( (EXTRACT(hour FROM (sv.ts AT TIME ZONE :tz)))::int, 'FM00') AS hour,
+      COUNT(*)                        AS cnt
+    FROM site_supervision_visits sv
+    LEFT JOIN site s ON s.id = sv.site_id
+    WHERE sv.client_id IN (:clientIds)
+      AND sv.ts >= :from
+      AND sv.ts <  :to
+    GROUP BY sv.site_id, s.name, (EXTRACT(hour FROM (sv.ts AT TIME ZONE :tz)))::int
+    ORDER BY sv.site_id, hour
+    """, nativeQuery = true)
+  List<HourlySiteCount> findHourlySiteCountsForRange(
+      @Param("from") OffsetDateTime from,
+      @Param("to") OffsetDateTime to,
+      @Param("tz") String tz,
+      @Param("clientIds") List<Long> clientIds
+  );
+
 }

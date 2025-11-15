@@ -24,4 +24,6 @@ public interface UserService {
     Optional<User> findByUsername(String username);
     Long getUserIdFromAuthentication(Authentication authentication);
     boolean isAdmin(Authentication authentication);
+    List<Long> getClientIdsForUser(Long userId);
+
 }
