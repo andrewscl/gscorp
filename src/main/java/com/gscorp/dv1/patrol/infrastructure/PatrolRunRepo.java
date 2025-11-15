@@ -76,7 +76,7 @@ HitsSum hitsSumForClients(
     WHERE p.client_id IN (:clientIds)
       AND r.started_ts >= :from
       AND r.started_ts <  :to
-    GROUP BY pr.site_id, s.name, (EXTRACT(hour FROM (r.started_ts AT TIME ZONE :tz)))::int
+    GROUP BY pr.site_id, s.name, to_char(EXTRACT(hour FROM (r.started_ts AT TIME ZONE :tz)))::int
     ORDER BY pr.site_id, hour
     """, nativeQuery = true)
   List<HourlySiteCount> findHourlySiteCountsForRange(
