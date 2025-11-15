@@ -46,7 +46,7 @@ export async function initThreeMetrics(
 
     // Ajusta paths si tus endpoints son distintos
     const attendanceUrl = `/api/attendance/hourly${q}`;
-    const patrolsUrl    = `/api/patrols/hourly${q}`; // si tu endpoint difiere, cámbialo
+    const patrolsUrl    = `/api/patrols-runs/hourly${q}`; // si tu endpoint difiere, cámbialo
     const visitsUrl     = `/api/site-supervision-visits/hourly${q}`;
 
     try {
