@@ -148,6 +148,7 @@ function initAttendanceWidget() {
         setStatus(`No puede marcar asistencia: está a ${nearestSite ? nearestSite.distance.toFixed(1) : 'N/A'} metros del sitio más cercano (máx 35m).`, true);
         disable(false);
         showSiteInfo(nearestSite);
+        setTimeout(() => navigateTo('/private/employees/dashboard'), 600);
         return;
       } else {
         // Mostrar mensaje de sitio permitido
@@ -324,6 +325,5 @@ function showSiteInfo(nearestSite) {
   } else {
     infoEl.textContent = `El sitio más cercano es "${nearestSite.name}" a ${nearestSite.distance.toFixed(1)} metros. Acércate para marcar.`;
     infoEl.style.color = "#d97706"; // amarillo
-    setTimeout(() => navigateTo('/private/employees/dashboard'), 600);
   }
 }
