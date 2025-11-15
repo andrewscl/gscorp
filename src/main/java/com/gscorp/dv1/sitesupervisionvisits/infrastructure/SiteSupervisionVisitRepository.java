@@ -101,7 +101,7 @@ public interface SiteSupervisionVisitRepository
       to_char( (EXTRACT(hour FROM (sv.ts AT TIME ZONE :tz)))::int, 'FM00') AS hour,
       COUNT(*)                        AS cnt
     FROM site_supervision_visits sv
-    LEFT JOIN site s ON s.id = sv.site_id
+    LEFT JOIN sites s ON s.id = sv.site_id    -- <-- use "sites" (plural), not "site"
     WHERE sv.client_id IN (:clientIds)
       AND sv.ts >= :from
       AND sv.ts <  :to
