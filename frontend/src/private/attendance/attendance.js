@@ -61,7 +61,7 @@ async function showCurrentSiteStatus() {
     } else if (nearestSite) {
       statusEl.textContent = `El sitio más cercano es "${nearestSite.name}" a
                               ${nearestSite.distance.toFixed(1)} metros. Acércate para marcar.`;
-      setTimeout(() => navigateTo('/private/employees/dashboard'), 600);
+      setTimeout(() => navigateTo('/private/employees/dashboard'), 1000);
       if (infoEl) {
         infoEl.textContent = "";
         infoEl.style.color = "#d97706";
