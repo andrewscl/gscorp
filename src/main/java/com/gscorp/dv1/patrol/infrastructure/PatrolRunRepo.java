@@ -64,20 +64,28 @@ HitsSum hitsSumForClients(
    * Usa r.started_ts como timestamp de agrupamiento.
    */
   @Query(value = """
+    WITH ag AS (
+      SELECT
+        pr.site_id,
+        (EXTRACT(hour FROM (r.started_ts AT TIME ZONE :tz)))::int AS hr,
+        COUNT(*) AS cnt
+      FROM patrol_runs r
+      JOIN patrol_routes pr ON pr.id = r.route_id
+      LEFT JOIN sites s ON s.id = pr.site_id
+      JOIN project p ON p.id = s.project_id
+      WHERE p.client_id IN (:clientIds)
+        AND r.started_ts >= :from
+        AND r.started_ts <  :to
+      GROUP BY pr.site_id, hr
+    )
     SELECT
-      pr.site_id                                   AS siteId,
-      COALESCE(s.name, '')                         AS siteName,
-      to_char((EXTRACT(hour FROM (r.started_ts AT TIME ZONE :tz)))::int, 'FM00') AS hour,
-      COUNT(*)                                     AS cnt
-    FROM patrol_runs r
-    JOIN patrol_routes pr ON pr.id = r.route_id
-    LEFT JOIN sites s ON s.id = pr.site_id
-    JOIN project p ON p.id = s.project_id         -- <-- project (singular)
-    WHERE p.client_id IN (:clientIds)
-      AND r.started_ts >= :from
-      AND r.started_ts <  :to
-    GROUP BY pr.site_id, s.name, to_char(EXTRACT(hour FROM (r.started_ts AT TIME ZONE :tz)))::int
-    ORDER BY pr.site_id, hour
+      a.site_id                             AS siteId,
+      COALESCE(s.name, '')                   AS siteName,
+      to_char(a.hr, 'FM00')                 AS hour,
+      a.cnt                                 AS cnt
+    FROM ag a
+    LEFT JOIN sites s ON s.id = a.site_id
+    ORDER BY a.site_id, a.hr
     """, nativeQuery = true)
   List<HourlySiteCount> findHourlySiteCountsForRange(
       @Param("from") OffsetDateTime from,

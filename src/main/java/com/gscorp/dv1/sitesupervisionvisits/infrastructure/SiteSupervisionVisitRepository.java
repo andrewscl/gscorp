@@ -95,19 +95,26 @@ public interface SiteSupervisionVisitRepository
   }
 
   @Query(value = """
-    SELECT
-      sv.site_id                      AS siteId,
-      COALESCE(s.name, '')            AS siteName,
-      to_char((EXTRACT(hour FROM (sv.visit_date_time AT TIME ZONE :tz)))::int, 'FM00') AS hour,
-      COUNT(*)                        AS cnt
-    FROM site_supervision_visits sv
-    LEFT JOIN sites s ON s.id = sv.site_id
-    JOIN project p ON p.id = s.project_id
-    WHERE p.client_id IN (:clientIds)
-      AND sv.visit_date_time >= :from
-      AND sv.visit_date_time <  :to
-    GROUP BY sv.site_id, s.name, to_char(EXTRACT(hour FROM (sv.visit_date_time AT TIME ZONE :tz)))::int
-    ORDER BY sv.site_id, hour
+    WITH ag AS (
+      SELECT
+        sv.site_id,
+        (EXTRACT(hour FROM (sv.visit_date_time AT TIME ZONE :tz)))::int AS hr,
+        COUNT(*) AS cnt
+      FROM site_supervision_visits sv
+      JOIN sites s ON s.id = sv.site_id
+      JOIN project p ON p.id = s.project_id
+      WHERE p.client_id IN (:clientIds)
+        AND sv.visit_date_time >= :from
+        AND sv.visit_date_time <  :to
+      GROUP BY sv.site_id, hr
+    )
+    SELECT a.site_id AS siteId,
+          COALESCE(s.name,'') AS siteName,
+          to_char(a.hr, 'FM00') AS hour,
+          a.cnt AS cnt
+    FROM ag a
+    LEFT JOIN sites s ON s.id = a.site_id
+    ORDER BY a.site_id, a.hr
     """, nativeQuery = true)
   List<HourlySiteCount> findHourlySiteCountsForRange(
       @Param("from") OffsetDateTime from,
