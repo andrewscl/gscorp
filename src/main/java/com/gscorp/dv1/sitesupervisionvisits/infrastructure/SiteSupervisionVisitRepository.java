@@ -102,7 +102,7 @@ public interface SiteSupervisionVisitRepository
       COUNT(*)                        AS cnt
     FROM site_supervision_visits sv
     LEFT JOIN sites s ON s.id = sv.site_id
-    JOIN projects p ON p.id = s.project_id
+    JOIN project p ON p.id = s.project_id
     WHERE p.client_id IN (:clientIds)
       AND sv.visit_date_time >= :from
       AND sv.visit_date_time <  :to

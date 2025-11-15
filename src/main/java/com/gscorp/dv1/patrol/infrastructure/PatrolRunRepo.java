@@ -67,12 +67,13 @@ HitsSum hitsSumForClients(
     SELECT
       pr.site_id                                   AS siteId,
       COALESCE(s.name, '')                         AS siteName,
-      to_char( (EXTRACT(hour FROM (r.started_ts AT TIME ZONE :tz)))::int, 'FM00') AS hour,
+      to_char((EXTRACT(hour FROM (r.started_ts AT TIME ZONE :tz)))::int, 'FM00') AS hour,
       COUNT(*)                                     AS cnt
     FROM patrol_runs r
     JOIN patrol_routes pr ON pr.id = r.route_id
     LEFT JOIN sites s ON s.id = pr.site_id
-    WHERE s.client_id IN (:clientIds)
+    JOIN project p ON p.id = s.project_id         -- <-- project (singular)
+    WHERE p.client_id IN (:clientIds)
       AND r.started_ts >= :from
       AND r.started_ts <  :to
     GROUP BY pr.site_id, s.name, (EXTRACT(hour FROM (r.started_ts AT TIME ZONE :tz)))::int
