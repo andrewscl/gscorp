@@ -220,12 +220,18 @@ body[data-layout="private"] {
             &:hover { text-decoration: underline; }
           }
         }
-        .topbar-burger {
+        //Selector explicito para sobreescribir el estilo global del botón hamburguesa
+        body[data-layout="private"] .main-content .topbar .topbar-right .topbar-burger {
           display: none;
-          width: 40px; height: 40px;
-          border: 0; background: transparent; cursor: pointer;
-          font-size: 1.25rem; line-height: 1;
-          align-items: center; justify-content: center;
+          width: 40px;
+          height: 40px;
+          border: 0;
+          background: transparent;
+          cursor: pointer;
+          font-size: 1.25rem;
+          line-height: 1;
+          align-items: center;
+          justify-content: center;
         }
       }
     }
@@ -255,42 +261,86 @@ body[data-layout="private"] {
 // ----------- RESPONSIVE / MOBILE -------------
 @media (max-width: 1024px) {
   body[data-layout="private"] {
+    // Sidebar: off-screen by default on mobile, slide-in when body has .sidebar-open
     .sidebar {
       position: fixed;
-      top: 0; left: 0;
+      top: 0;
+      left: 0;
       width: min(83vw, 320px);
       height: 100dvh;
       overflow-y: auto;
       box-shadow: 0 10px 24px rgba(55,65,81,0.17);
-      z-index: 1003;
+      z-index: 1200; /* superior al topbar y al scrim */
       transition: transform .25s cubic-bezier(.42,.04,.58,1);
-      transform: translateX(-100%);
+      transform: translateX(-100%); /* hidden by default */
+      will-change: transform;
     }
 
     .main-content {
       margin-left: 0;
       width: 100vw;
+
       .topbar {
         left: 0;
         width: 100vw;
+
+        /* Mostrar el botón hamburguesa solo en mobile (misma especificidad que la regla desktop) */
+        .topbar-right {
+          .topbar-burger {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 1.15rem;
+            color: #374151;
+            transition: background .18s, color .18s, transform .12s;
+          }
+          .topbar-burger:focus {
+            outline: 2px solid rgba(37,99,235,0.18);
+            outline-offset: 2px;
+          }
+        }
       }
+
       .content {
         padding: 1.4rem 0.4rem 1.2rem 0.4rem;
         border-radius: 14px;
       }
     }
 
+    // Scrim (overlay) hidden by default, shown when sidebar-open
     .sidebar-scrim {
-      position: fixed; inset: 0;
+      position: fixed;
+      inset: 0;
       background: rgba(0,0,0,.32);
-      z-index: 1002;
+      z-index: 1190; /* debajo de la sidebar */
       display: none;
     }
 
+    // Estado abierto: controlado añadiendo/removiendo la clase .sidebar-open en el <body>
+    // (JS debe hacer: document.body.classList.toggle('sidebar-open'))
+    // Usamos selector con la misma especificidad para garantizar que se aplique en mobile.
     &.sidebar-open {
-      .sidebar       { transform: translateX(0); }
-      .sidebar-scrim { display: block; }
+      .sidebar {
+        transform: translateX(0); /* traer la sidebar a la vista */
+      }
+      .sidebar-scrim {
+        display: block;
+      }
       overflow: hidden;
     }
+  }
+
+  /* Alternativa explícita si la clase .sidebar-open se aplica directamente al body
+     (esto hace la regla aún más directa y evita ambigüedades si la estructura cambia) */
+  body[data-layout="private"].sidebar-open {
+    .sidebar { transform: translateX(0); z-index: 1200; }
+    .sidebar-scrim { display: block; z-index: 1190; }
+    overflow: hidden;
   }
 }
