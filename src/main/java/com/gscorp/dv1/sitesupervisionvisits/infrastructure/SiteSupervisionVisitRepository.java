@@ -98,14 +98,14 @@ public interface SiteSupervisionVisitRepository
     SELECT
       sv.site_id                      AS siteId,
       COALESCE(s.name, '')            AS siteName,
-      to_char( (EXTRACT(hour FROM (sv.ts AT TIME ZONE :tz)))::int, 'FM00') AS hour,
+      to_char( (EXTRACT(hour FROM (sv.visit_date_time AT TIME ZONE :tz)))::int, 'FM00') AS hour,
       COUNT(*)                        AS cnt
     FROM site_supervision_visits sv
-    LEFT JOIN sites s ON s.id = sv.site_id    -- <-- use "sites" (plural), not "site"
+    LEFT JOIN sites s ON s.id = sv.site_id
     WHERE sv.client_id IN (:clientIds)
-      AND sv.ts >= :from
-      AND sv.ts <  :to
-    GROUP BY sv.site_id, s.name, (EXTRACT(hour FROM (sv.ts AT TIME ZONE :tz)))::int
+      AND sv.visit_date_time >= :from
+      AND sv.visit_date_time <  :to
+    GROUP BY sv.site_id, s.name, (EXTRACT(hour FROM (sv.visit_date_time AT TIME ZONE :tz)))::int
     ORDER BY sv.site_id, hour
     """, nativeQuery = true)
   List<HourlySiteCount> findHourlySiteCountsForRange(
