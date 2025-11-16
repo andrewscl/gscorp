@@ -152,6 +152,28 @@ public class AttendanceServiceImpl implements AttendanceService {
     return t.isEmpty() ? null : t.toUpperCase();
   }
 
+    @Override
+    @Transactional(readOnly = true)
+    public long countByClientIdsAndDate(List<Long> clientIds, LocalDate date, String action, String tz) {
+        if (clientIds == null || clientIds.isEmpty()) return 0L;
+        if (date == null) return 0L;
+        ZoneId zone;
+        try {
+            zone = (tz == null || tz.isBlank()) ? ZoneId.systemDefault() : ZoneId.of(tz);
+        } catch (DateTimeException ex) {
+            zone = ZoneId.systemDefault();
+        }
+
+        ZonedDateTime startZdt = date.atStartOfDay(zone);
+        ZonedDateTime endZdt = startZdt.plusDays(1);
+
+        OffsetDateTime from = startZdt.toOffsetDateTime();
+        OffsetDateTime to = endZdt.toOffsetDateTime();
+
+        // llama al repo JPQL que hace JOIN client->project->site->attendance
+        return repo.countByClientIdsAndTsBetweenAndAction(clientIds, from, to, action);
+    }
+
 
 
 }

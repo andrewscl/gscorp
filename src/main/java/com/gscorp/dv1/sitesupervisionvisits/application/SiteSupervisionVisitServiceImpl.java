@@ -1,6 +1,7 @@
 package com.gscorp.dv1.sitesupervisionvisits.application;
 
 import java.io.File;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
@@ -218,8 +219,30 @@ public class SiteSupervisionVisitServiceImpl implements SiteSupervisionVisitServ
             result.add(new SiteVisitHourlyDto(sid, sname, hh, c));
         });
         }
-
         return result;
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public long countByClientIdsAndDate(List<Long> clientIds, LocalDate date, String tz) {
+        if (clientIds == null || clientIds.isEmpty()) return 0L;
+        if (date == null) return 0L;
+
+        ZoneId zone;
+        try {
+            zone = (tz == null || tz.isBlank()) ? ZoneId.systemDefault() : ZoneId.of(tz);
+        } catch (DateTimeException ex) {
+            zone = ZoneId.systemDefault();
+        }
+
+        ZonedDateTime startZdt = date.atStartOfDay(zone);
+        ZonedDateTime endZdt = startZdt.plusDays(1);
+
+        OffsetDateTime from = startZdt.toOffsetDateTime();
+        OffsetDateTime to = endZdt.toOffsetDateTime();
+
+        return siteSupervisionVisitRepo.countByClientIdsAndTsBetween(clientIds, from, to);
     }
 
 }

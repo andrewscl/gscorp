@@ -150,4 +150,14 @@ public class IncidentServiceImpl implements IncidentService {
       }
   }
 
+    // Si en el futuro tienes más estados que consideres "cerrados", agrégalos aquí.
+    private static final List<Incident.Status> DEFAULT_CLOSED_STATUSES = List.of(Incident.Status.CLOSED);
+
+    @Override
+    @Transactional(readOnly = true)
+    public long countOpenByClientIds(List<Long> clientIds) {
+        if (clientIds == null || clientIds.isEmpty()) return 0L;
+        return repo.countOpenByClientIds(clientIds, DEFAULT_CLOSED_STATUSES);
+    }
+
 }

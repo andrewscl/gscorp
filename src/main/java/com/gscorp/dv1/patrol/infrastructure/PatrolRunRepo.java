@@ -95,4 +95,23 @@ HitsSum hitsSumForClients(
   );
 
 
+    /**
+     * Cuenta patrol runs cuyo site -> project -> client está en clientIds
+     * y cuyo timestamp (p.ej. startedAt) está entre from (inclusive) y to (exclusive).
+     *
+     * Ajusta 'pr.startedAt' por el nombre correcto del campo de fecha de tu entidad PatrolRun.
+     */
+    @Query("select count(pr) " +
+           "from PatrolRun pr " +
+           "join pr.sites s " +
+           "join s.project p " +
+           "join p.clients c " +
+           "where c.id in :clientIds " +
+           "  and pr.startedAt >= :from and pr.startedAt < :to")
+    long countByClientIdsAndStartedAtBetween(
+            @Param("clientIds") List<Long> clientIds,
+            @Param("from") OffsetDateTime from,
+            @Param("to") OffsetDateTime to);
+
+
 }

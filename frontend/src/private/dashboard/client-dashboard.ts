@@ -43,7 +43,7 @@ export async function init({ container }: { container: HTMLElement }) {
       (root.querySelector('[data-kpi="att"]') as HTMLElement).textContent   = String(k.asistenciaHoy ?? 0);
       (root.querySelector('[data-kpi="patrol"]') as HTMLElement).textContent = String(k.rondasHoy ?? 0);
       (root.querySelector('[data-kpi="visit"]') as HTMLElement).textContent  = String(k.visitasHoy ?? 0);
-      (root.querySelector('[data-kpi="inc"]') as HTMLElement).textContent    = String(k.incidentesAbiertos ?? 0);
+      
     }
   } catch (e) {
     // silenciar, que no rompa el dashboard
@@ -76,26 +76,6 @@ export async function init({ container }: { container: HTMLElement }) {
       if (!values.some(v => Number(v) > 0)) setNoData(chAsis);
     } else setNoData(chAsis, 'Error de datos');
   } catch { setNoData(chAsis, 'Error de datos'); }
-
-  // -------- Incidentes (línea simple) --------
-  const chInc = mkChart(elInc); if (chInc) charts.push(chInc);
-  try {
-    const res = await fetchWithAuth(`/api/incidents/series?clientId=${clientId}&from=${from}&to=${to}&status=OPEN`);
-    if (res.ok) {
-      const data: Point[] = await res.json().catch(() => []);
-      const labels = data.map(d => d.x);
-      const values = data.map(d => d.y);
-      chInc?.setOption({
-        tooltip: { trigger: 'axis' },
-        grid: { left: 40, right: 16, top: 24, bottom: 32 },
-        xAxis: { type: 'category', boundaryGap: false, data: labels },
-        yAxis: { type: 'value' },
-        series: [{ type: 'line', smooth: true, data: values }],
-        graphic: values.some(v => Number(v) > 0) ? { elements: [] } : undefined
-      });
-      if (!values.some(v => Number(v) > 0)) setNoData(chInc);
-    } else setNoData(chInc, 'Error de datos');
-  } catch { setNoData(chInc, 'Error de datos'); }
 
   // -------- Visitas por día (línea con área) --------
   const chVisit = mkChart(elVisit); if (chVisit) charts.push(chVisit);
@@ -137,6 +117,7 @@ export async function init({ container }: { container: HTMLElement }) {
     } else setNoData(chVisitSite, 'Error de datos');
   } catch { setNoData(chVisitSite, 'Error de datos'); }
 
+
   // -------- Inicializar los 3 gráficos horarios (Asistencias, Rondas, Visitas) --------
   const today = new Date();
   const todayISO = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
@@ -146,8 +127,6 @@ export async function init({ container }: { container: HTMLElement }) {
   } catch (e) {
     console.warn('[client-dashboard] initThreeMetrics failed', e);
   }
-
-
 
   // Resize robusto (asegura que los 4 gráficos se ajusten)
   const ro = new ResizeObserver(() => charts.forEach(c => c?.resize()));

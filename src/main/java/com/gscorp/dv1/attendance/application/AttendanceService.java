@@ -23,5 +23,6 @@ public interface AttendanceService {
     long countByClientIdAndDate(Long clientId, LocalDate date);
     AttendancePunch punch(CreateAttendancePunchRequest dto);
     List<HourlyCountDto> getHourlyCounts(LocalDate date, String tz, String action, Long userId);
+    long countByClientIdsAndDate(List<Long> clientIds, LocalDate date, String action, String tz);
 
 }

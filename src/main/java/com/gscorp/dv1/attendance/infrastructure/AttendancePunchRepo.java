@@ -1,5 +1,6 @@
 package com.gscorp.dv1.attendance.infrastructure;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -89,5 +90,25 @@ public interface AttendancePunchRepo extends JpaRepository <AttendancePunch, Lon
         @Param("action") String action,
         @Param("userId") Long userId
     );
+
+    /**
+     * Cuenta marcaciones cuyo site pertenece a un project que pertenece a uno de los clientIds.
+     * Usa a.ts (OffsetDateTime) entre from (inclusive) y to (exclusive).
+     * Si action es null, no se filtra por acción.
+     */
+    @Query("select count(a) " +
+           "from AttendancePunch a " +
+           "join a.sites s " +
+           "join s.project p " +
+           "join p.clients c " +
+           "where c.id in :clientIds " +
+           "  and a.ts >= :from and a.ts < :to " +
+           "  and (:action is null or a.action = :action)")
+    long countByClientIdsAndTsBetweenAndAction(
+            @Param("clientIds") List<Long> clientIds,
+            @Param("from") OffsetDateTime from,
+            @Param("to") OffsetDateTime to,
+            @Param("action") String action);
+
 
 }

@@ -57,5 +57,24 @@ public interface IncidentRepository extends JpaRepository<Incident, Long>{
     WHERE u.id = :userId
     """)
     List<IncidentDto> findIncidentsDtoByUserId(@Param("userId") Long userId);
+
+
+    /**
+     * Cuenta incidentes cuyo site -> project -> client está en clientIds
+     * y cuyo status NO está en closedStatuses.
+     *
+     * Se usa una lista de estados "cerrados" para ser flexible (por ejemplo CLOSED, RESOLVED).
+     * Ajusta nombres de join si tu modelo de relaciones difiere.
+     */
+    @Query("select count(i) " +
+           "from Incident i " +
+           "join i.sites s " +
+           "join s.project p " +
+           "join p.clients c " +
+           "where c.id in :clientIds " +
+           "  and i.status not in :closedStatuses")
+    long countOpenByClientIds(
+            @Param("clientIds") List<Long> clientIds,
+            @Param("closedStatuses") List<Incident.Status> closedStatuses);
   
 }

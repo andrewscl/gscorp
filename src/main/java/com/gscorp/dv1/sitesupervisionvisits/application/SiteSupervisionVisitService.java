@@ -29,4 +29,17 @@ public interface SiteSupervisionVisitService {
 
     List<SiteVisitHourlyDto> getSiteVisitHourlyCounts
             (Collection<Long> clientIds, LocalDate date, String tz);
+
+    /**
+     * Cuenta visitas por clientes en la fecha indicada. tz puede ser null para usar ZoneId.systemDefault().
+     */
+    long countByClientIdsAndDate(List<Long> clientIds, LocalDate date, String tz);
+
+    /**
+     * Conveniencia: usa tz por defecto (system zone)
+     */
+    default long countByClientIdsAndDate(List<Long> clientIds, LocalDate date) {
+        return countByClientIdsAndDate(clientIds, date, null);
+    }
+
 }

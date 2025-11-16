@@ -15,4 +15,6 @@ public interface IncidentService {
     IncidentDto createIncident(CreateIncidentRequest request);
     List<IncidentDto> findIncidentsForUser(Long userId);
 
+    long countOpenByClientIds(List<Long> clientIds);
+
 }

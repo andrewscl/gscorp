@@ -52,4 +52,21 @@ public interface PatrolRunService {
         return getPatrolHourlyCounts(clientId == null ? null : java.util.List.of(clientId), date, tz);
     }
 
+    /**
+     * Cuenta rondas (patrol runs) cuyos sitios pertenecen a cualquiera de clientIds
+     * en la fecha indicada (la zona tz se usa para convertir LocalDate a instantes).
+     *
+     * @param clientIds lista de clients (si vacía o null devuelve 0)
+     * @param date LocalDate del día a contar (según tz)
+     * @param tz IANA zone id (p.ej. "America/Santiago"), null -> system default
+     * @return cantidad de rondas
+     */
+    long countByClientIdsAndDate(List<Long> clientIds, LocalDate date, String tz);
+    /**
+     * Conveniencia: usa tz por defecto (system zone)
+     */
+    default long countByClientIdsAndDate(List<Long> clientIds, LocalDate date) {
+        return countByClientIdsAndDate(clientIds, date, null);
+    }
+
 }

@@ -123,4 +123,24 @@ public interface SiteSupervisionVisitRepository
       @Param("clientIds") List<Long> clientIds
   );
 
+
+    /**
+     * Cuenta visitas cuyo site -> project -> client está en clientIds
+     * y cuyo timestamp (ej. 'ts') está entre from (inclusive) y to (exclusive).
+     *
+     * Ajusta 'v.ts' por el nombre real del campo de fecha en tu entidad SiteSupervisionVisit
+     * si usa otro nombre (p.ej. 'visitedAt', 'eventAt', etc.).
+     */
+    @Query("select count(v) " +
+           "from SiteSupervisionVisit v " +
+           "join v.sites s " +
+           "join s.project p " +
+           "join p.clients c " +
+           "where c.id in :clientIds " +
+           "  and v.ts >= :from and v.ts < :to")
+    long countByClientIdsAndTsBetween(
+            @Param("clientIds") List<Long> clientIds,
+            @Param("from") OffsetDateTime from,
+            @Param("to") OffsetDateTime to);
+
 }

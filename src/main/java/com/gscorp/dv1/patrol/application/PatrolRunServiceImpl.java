@@ -1,6 +1,7 @@
 package com.gscorp.dv1.patrol.application;
 
 import java.math.BigDecimal;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
@@ -132,6 +133,27 @@ import lombok.extern.slf4j.Slf4j;
         return result;
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public long countByClientIdsAndDate(List<Long> clientIds, LocalDate date, String tz) {
+        if (clientIds == null || clientIds.isEmpty()) return 0L;
+        if (date == null) return 0L;
+
+        ZoneId zone;
+        try {
+            zone = (tz == null || tz.isBlank()) ? ZoneId.systemDefault() : ZoneId.of(tz);
+        } catch (DateTimeException ex) {
+            zone = ZoneId.systemDefault();
+        }
+
+        ZonedDateTime startZdt = date.atStartOfDay(zone);
+        ZonedDateTime endZdt = startZdt.plusDays(1);
+
+        OffsetDateTime from = startZdt.toOffsetDateTime();
+        OffsetDateTime to = endZdt.toOffsetDateTime();
+
+        return patrolRunRepo.countByClientIdsAndStartedAtBetween(clientIds, from, to);
+    }
 
     private PatrolRunRepo.HitsSum zeroHitsSum() {
         return new PatrolRunRepo.HitsSum() {

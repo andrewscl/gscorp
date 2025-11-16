@@ -9,5 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface PatrolCheckPointRepo extends JpaRepository<PatrolCheckPoint, Long> {
 
     List<PatrolCheckPoint> findBySiteId(Long siteId);
+
+
     
 }
