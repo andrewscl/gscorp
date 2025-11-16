@@ -15,20 +15,8 @@
     <!-- Cliente (vínculo a cliente si existe) -->
     <div class="form-group">
       <label>Cliente</label>
-      <div th:if="${clientAccount.clientName != null}">
-        <button type="button"
-                class="readonly-link"
-                th:attr="data-path=@{/private/clients/show/{id}(id=${clientAccount.clientId})}">
-          <span th:text="${clientAccount.clientName}">Nombre Cliente</span>
-        </button>
-      </div>
-      <div th:if="${clientAccount.clientName == null and clientAccount.client != null}">
-        <button type="button"
-                class="readonly-link"
-                th:attr="data-path=@{/private/clients/show/{id}(id=${clientAccount.client.id})}">
-          <span th:text="${clientAccount.client.name}">Nombre Cliente</span>
-        </button>
-      </div>
+      <div th:if="${clientAccount.clientName != null}"></div>
+      <div th:if="${clientAccount.clientName == null and clientAccount.client != null}"></div>
       <div th:if="${clientAccount.clientName == null and clientAccount.client == null}">
         <span class="readonly-field">—</span>
       </div>
@@ -75,7 +63,5 @@
       .vs-btn { width:100%; text-align:center; }
     }
   </style>
-
-  <script type="module" src="/js/private/client-accounts/view-client-account.js"></script>
 
 </section>

@@ -1,12 +1,26 @@
-<div th:fragment="content">
-
+<div th:fragment="content" class="shift-requests-table-fragment">
   <div class="shift-requests-header">
-    <h2>Requerimientos de turno</h2>
-    <button class="btn-primary" id="createShiftRequestBtn"
-                data-path="/private/shift-requests/create">Crear Requerimiento</button>
+    <h2>
+      <!-- Icono turnos -->
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+           style="vertical-align:-6px;margin-right:.5rem">
+        <circle cx="12" cy="12" r="10" fill="#eef2ff"/>
+        <path d="M8 7h8M8 12h8M8 17h5" stroke="#2563eb" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Requerimientos de turno
+    </h2>
+
+    <!-- Navegación SPA vía data-path -->
+    <button type="button" class="btn-primary" data-path="/private/shift-requests/create" id="createShiftRequestBtn">
+      <svg width="18" height="18" fill="none" stroke="#fff" stroke-width="2" style="vertical-align:middle;margin-right:.35rem">
+        <circle cx="9" cy="9" r="8" fill="#2563eb" stroke="none"/>
+        <path d="M9 5v8M5 9h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      Crear Requerimiento
+    </button>
   </div>
 
-  <div class="shift-request-table-container">
+  <div class="shift-requests-table-container">
     <table class="shift-requests-table">
       <thead>
         <tr>
@@ -14,39 +28,29 @@
           <th>Código</th>
           <th>Sitio</th>
           <th>Tipo</th>
-          <th>Fecha de inicio</th>
-          <th>Fecha de fin</th>
-          <th>Días de la semana</th>
-          <th>Fecha y hora del turno</th>
-          <th>Estado</th>
+          <th>Fecha inicio</th>
+          <th>Fecha fin</th>
           <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
-        <tr th:each="r : ${shiftRequests}">
-          <td th:text="${r.id}"></td>
-          <td th:text="${r.code}"></td>
-          <td th:text="${r.site != null ? r.site.name : '—'}">Nombre del sitio</td>
-          <td>
-            <span class="tag" th:text="${r.type}">Tipo</span>
-          </td>
-          <td th:text="${r.startDate}"></td>
-          <td th:text="${r.endDate}"></td>
-          <td th:text="${r.weekDays}"></td>
-          <td th:text="${r.shiftDateTime}"></td>
-          <td>
-            <span class="tag"
-                  th:text="${r.status}">Status</span>
-          </td>
+        <tr th:each="r : ${shiftRequests}" th:data-id="${r.id}">
+          <td th:text="${r.id}">1</td>
+          <td th:text="${r.code}">TR001</td>
+          <td th:text="${r.site != null ? r.site.name : '—'}">Nombre sitio</td>
+          <td th:text="${r.type}">TIPO</td>
+          <td th:text="${r.startDate != null ? #temporals.format(r.startDate, 'yyyy-MM-dd') : '—'}">2025-01-01</td>
+          <td th:text="${r.endDate != null ? #temporals.format(r.endDate, 'yyyy-MM-dd') : '—'}">2025-12-31</td>
+
           <td class="actions">
-            <button type="button"
-                    class="btn-link"
+            <button type="button" class="btn-link"
                     th:attr="data-path=@{/private/shift-requests/show/{id}(id=${r.id})}">
               Ver
             </button>
-            <button type="button"
-                    class="btn-link"
-                    th:attr="data-path=@{/private/shift-requests/edit/{id}(id=${r.id})}">
+
+            <button type="button" class="btn-link"
+                    th:attr="data-path=@{/private/shift-requests/edit/{id}(id=${r.id})}"
+                    th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
               Editar
             </button>
           </td>
@@ -54,79 +58,4 @@
       </tbody>
     </table>
   </div>
-
-  <!-- Modal Create Shift Request -->
-  <div id="createShiftRequestModal" class="modal hidden" aria-hidden="true" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-header">
-        <h3>Create Shift Request</h3>
-        <button type="button" class="modal-close" id="closeCreateShiftRequest">&times;</button>
-      </div>
-
-      <form id="createShiftRequestForm" class="modal-body">
-        <div class="form-group">
-          <label for="shiftRequestCode">Code</label>
-          <input type="text" id="shiftRequestCode" name="code" placeholder="TR001" required />
-        </div>
-
-        <div class="form-group">
-          <label for="shiftRequestSite">Sitio</label>
-          <select id="shiftRequestSite" name="siteId" required>
-            <option th:each="s : ${sites}" th:value="${s.id}" th:text="${s.name}"></option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="shiftRequestType">Tipo</label>
-          <select id="shiftRequestType" name="type" required>
-            <option value="FIXED">FIJO</option>
-            <option value="SPORADIC">ESPORÁDICO</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="shiftRequestStartDate">Fecha de inicio</label>
-          <input type="date" id="shiftRequestStartDate" name="startDate" required />
-        </div>
-
-        <div class="form-group">
-          <label for="shiftRequestEndDate">Fecha de fin</label>
-          <input type="date" id="shiftRequestEndDate" name="endDate" required />
-        </div>
-
-        <div class="form-group">
-          <label for="shiftRequestWeekDays">Días de la semana</label>
-          <input type="text" id="shiftRequestWeekDays" name="weekDays" placeholder="LUNES,MARTES" />
-        </div>
-
-        <div class="form-group">
-          <label for="shiftRequestShiftDateTime">Fecha y hora del turno (para ESPORÁDICO)</label>
-          <input type="datetime-local" id="shiftRequestShiftDateTime" name="shiftDateTime" />
-        </div>
-
-        <div class="form-group">
-          <label for="shiftRequestStatus">Estado</label>
-          <select id="shiftRequestStatus" name="status" required>
-            <option value="PENDING">PENDIENTE</option>
-            <option value="CONFIRMED">CONFIRMADO</option>
-            <option value="CANCELLED">CANCELADO</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="shiftRequestDescription">Descripción</label>
-          <textarea id="shiftRequestDescription" name="description" placeholder="Descripción"></textarea>
-        </div>
-
-        <div class="modal-footer">
-          <button type="submit" class="btn-primary">Crear</button>
-          <button type="button" class="btn-secondary" id="cancelCreateShiftRequest">Cancelar</button>
-        </div>
-
-        <div class="form-error" id="createShiftRequestError"></div>
-        <div class="form-ok" id="createShiftRequestOk" style="display:none;">Solicitud de turno creada ✅</div>
-      </form>
-    </div>
-  </div>
-
 </div>

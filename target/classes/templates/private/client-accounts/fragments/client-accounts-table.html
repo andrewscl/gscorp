@@ -40,7 +40,10 @@
           <td class="actions">
             <!-- Navegación SPA con data-path -->
             <button type="button" class="btn-link" th:attr="data-path=@{/private/client-accounts/show/{id}(id=${acct.id})}">Ver</button>
-            <button type="button" class="btn-link" th:attr="data-path=@{/private/client-accounts/edit/{id}(id=${acct.id})}">Editar</button>
+
+            <button type="button" class="btn-link"
+                            th:attr="data-path=@{/private/client-accounts/edit/{id}(id=${acct.id})}"
+                            th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">Editar</button>
           </td>
 
         </tr>
