@@ -100,5 +100,32 @@ public class ClientAccountServiceImpl implements ClientAccountService {
         return createClientAccount(req, userId);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public ClientAccountDto getAccountDtoIfOwned(Long accountId, Long userId) {
+        if (userId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
+        }
+
+        List<Long> allowedClientIds = userService.getClientIdsForUser(userId);
+        if (allowedClientIds == null || allowedClientIds.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No autorizado para ver esta cuenta");
+        }
+
+        ClientAccount account = clientAccountRepository.findById(accountId)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cuenta no encontrada"));
+
+        if (account.getClient() == null || !allowedClientIds.contains(account.getClient().getId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No autorizado para ver esta cuenta");
+        }
+
+        return new ClientAccountDto(
+            account.getId(),
+            account.getName(),
+            account.getClient() != null ? account.getClient().getId() : null,
+            account.getClient() != null ? account.getClient().getName() : null
+        );
+    }
+
 
 }

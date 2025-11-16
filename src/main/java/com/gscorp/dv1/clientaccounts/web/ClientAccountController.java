@@ -3,11 +3,14 @@ package com.gscorp.dv1.clientaccounts.web;
 import java.util.Collections;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.gscorp.dv1.clientaccounts.application.ClientAccountService;
 import com.gscorp.dv1.clientaccounts.web.dto.ClientAccountDto;
@@ -59,6 +62,40 @@ public class ClientAccountController {
         }
 
         return "private/client-accounts/views/create-client-account-view";
+    }
+
+    @GetMapping("/show/{id}")
+    public String showClientAccount(@PathVariable Long id, Model model,
+                    Authentication authentication){
+        Long userId = userService.getUserIdFromAuthentication(authentication);
+        if(userId == null) {
+            return "redirect:/login";
+        }
+
+        ClientAccountDto account = clientAccountService.getAccountDtoIfOwned(id, userId);
+        if(account == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cuenta no encontrada o no autorizada");
+        }
+
+        model.addAttribute("clientAccount", account);
+        return "private/client-accounts/views/view-client-account-view";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editClientAccount(@PathVariable Long id, Model model,
+                    Authentication authentication){
+        Long userId = userService.getUserIdFromAuthentication(authentication);
+        if(userId == null) {
+            return "redirect:/login";
+        }
+
+        ClientAccountDto clientAccount = clientAccountService.getAccountDtoIfOwned(id, userId);
+        if(clientAccount == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cuenta no encontrada o no autorizada");
+        }
+
+        model.addAttribute("clientAccount", clientAccount);
+        return "private/client-accounts/views/edit-client-account-view";
     }
 
 }

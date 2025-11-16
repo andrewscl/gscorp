@@ -29,4 +29,5 @@ public interface ClientAccountService {
     // Opcional: método que devuelve la entidad o lanza si no existe / no pertenece (útil para edit/show)
     // ClientAccount getAccountIfOwned(Long accountId, Long userId);
 
+    ClientAccountDto getAccountDtoIfOwned(Long accountId, Long userId);
 }
