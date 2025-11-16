@@ -52,7 +52,8 @@ export default defineConfig({
         'private/site-supervision-visits/edit-site-supervision-visit': path.resolve(__dirname, './src/private/site-supervision-visits/edit-site-supervision-visit.js'),
         'private/incidents/create-incident': path.resolve(__dirname, './src/private/incidents/create-incident.js'),
         'private/incidents/view-incident': path.resolve(__dirname, './src/private/incidents/view-incident.js'),
-        'private/incidents/edit-incident': path.resolve(__dirname, './src/private/incidents/edit-incident.js')
+        'private/incidents/edit-incident': path.resolve(__dirname, './src/private/incidents/edit-incident.js'),
+        'private/client-accounts/create-client-account': path.resolve(__dirname, './src/private/client-accounts/create-client-account.js'),
       },
       output: {
         entryFileNames: '[name].js'

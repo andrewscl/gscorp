@@ -30,6 +30,9 @@ public class ClientAccount {
     @Column(nullable=false, length=160)
     private String name;
 
+    @Column(length=400)
+    private String notes;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;

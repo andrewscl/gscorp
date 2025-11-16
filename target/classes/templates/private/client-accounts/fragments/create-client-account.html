@@ -1,0 +1,36 @@
+<div th:fragment="content">
+  <div class="form-container client-create">
+    <h2>Crear Cuenta de Cliente</h2>
+
+    <form id="createClientAccountForm" autocomplete="off">
+      <div class="form-group">
+        <label for="clientAccountName">Nombre de la cuenta</label>
+        <input type="text" id="clientAccountName" name="name" placeholder="Nombre de la cuenta" required maxlength="160" />
+      </div>
+
+      <div class="form-group">
+        <label for="clientAccountClient">Cliente</label>
+        <select id="clientAccountClient" name="clientId" required>
+          <option value="">Seleccione cliente</option>
+          <!-- El controlador debe pasar "clients" en el model -->
+          <option th:each="c : ${clients}" th:value="${c.id}" th:text="${c.name}"></option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="clientAccountNotes">Notas (opcional)</label>
+        <textarea id="clientAccountNotes" name="notes" placeholder="Notas sobre la cuenta" rows="3"></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-primary">Crear Cuenta</button>
+        <a class="btn-secondary" th:href="@{/private/client-accounts/table-view}">Cancelar</a>
+      </div>
+
+      <div id="createClientAccountMessage" class="form-message" role="status" aria-live="polite"></div>
+    </form>
+
+    <!-- JS que maneja submit via fetch (sin th:action) -->
+    <script type="module" src="/js/private/client-accounts/create-client-account.js"></script>
+  </div>
+</div>
