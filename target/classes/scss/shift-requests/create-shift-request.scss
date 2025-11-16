@@ -300,3 +300,45 @@ input[type="time"] {
   .btn-primary, .btn-secondary { width: 100%; }
   .input-with-icon .icon-btn { height: 32px; width: 32px; right: 6px; }
 }
+
+
+/* ===== Solución para iconos duplicados en date/time inputs ===== */
+
+/* 1) Eliminar el icono nativo en navegadores WebKit/Chromium (Chrome, Edge, Safari) */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  display: none !important;
+  -webkit-appearance: none !important;
+}
+
+/* 2) Eliminar apariencia nativa en Firefox (lo convierte en un textfield sin icono) */
+input[type="date"],
+input[type="time"] {
+  -moz-appearance: textfield;
+  appearance: none;
+}
+
+/* 3) Si usas flatpickr con altInput (crea su propio input visual), ocultar el icono extra
+   - flatpickr crea un input con clase .flatpickr-input.altInput que suele colocarse en el DOM.
+   - Ajusta los selectores si tu integración es distinta. */
+.flatpickr-input.altInput + .icon-btn,
+.flatpickr-wrapper .icon-btn,
+.flatpickr-input.altInput ~ .icon-btn {
+  display: none !important;
+}
+
+/* 4) Mantener el botón/icon en inputs normales: asegurar que .input-with-icon no se rompa */
+.input-with-icon .icon-btn {
+  right: 8px; /* ya tenías esto; se mantiene */
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* 5) Asegurar que los date/time ocupen todo el ancho dentro de .form-row */
+.form-row .date-field { max-width: none; min-width: 0; }
+.form-row input[type="date"],
+.form-row input[type="time"],
+.form-row .input-with-icon input {
+  width: 100%;
+  max-width: 100%;
+}
