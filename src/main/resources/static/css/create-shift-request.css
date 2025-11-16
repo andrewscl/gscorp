@@ -1,143 +1,221 @@
 @charset "UTF-8";
+/* Improved, more professional styling for the Shift Request card.
+   - Wider max-width, better min-height so card doesn't feel "cut"
+   - Responsive grid-based rows so date/time fields keep usable width
+   - Date inputs get a sensible min-width (so they don't collapse)
+   - Day-range blocks use CSS Grid for predictable layout and wrap nicely
+   - Clearer focus styles, subtle shadows and consistent buttons
+   - Small utility classes for counts/badges and hidden scrollbars kept accessible
+*/
 .createShiftRequest {
-  background: #fff;
-  padding: 2.1rem 1.5rem 2rem 1.5rem;
-  border-radius: 1.2rem;
-  box-shadow: 0 4px 18px rgba(60, 64, 67, 0.09);
-  max-width: 650px;
+  --card-bg: #ffffff;
+  --muted-bg: #f3f4f6;
+  --muted-border: #e5e7eb;
+  --accent: #277bb7;
+  --accent-2: #2ec5ce;
+  --danger: #f87171;
+  --radius: 12px;
+  --pad: 1.6rem;
+  --max-w: 820px;
+  background: var(--card-bg);
+  padding: 1.8rem;
+  border-radius: var(--radius);
+  box-shadow: 0 6px 24px rgba(35, 45, 65, 0.08);
+  max-width: var(--max-w);
+  width: calc(100% - 2rem);
   margin: 2rem auto;
   font-family: "Inter", system-ui, Arial, sans-serif;
   font-size: 1rem;
   color: #263147;
-  max-height: 60vh;
+  min-height: 480px; /* avoids looking "cut" */
+  max-height: 78vh;
   overflow-y: auto;
-  scrollbar-width: hidden; /* Firefox */
-  /* Chrome, Safari, Opera */
+  -webkit-overflow-scrolling: touch;
+  /* Scrollbar (thin but visible on desktop) */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(120, 130, 150, 0.25) transparent;
+  /* Generic form controls */
+  /* Use responsive grid for rows so fields keep reasonable width */
+  /* Ensure inputs of type date/time have a min width so they don't shrink too much */
   /* --- Tramos de días y horarios --- */
+  /* small helpers */
 }
 .createShiftRequest::-webkit-scrollbar {
-  display: none;
+  height: 8px;
+  width: 8px;
+}
+.createShiftRequest::-webkit-scrollbar-thumb {
+  background: rgba(120, 130, 150, 0.2);
+  border-radius: 6px;
+}
+.createShiftRequest::-webkit-scrollbar-track {
+  background: transparent;
 }
 .createShiftRequest .createShiftRequestHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.6rem;
 }
 .createShiftRequest .createShiftRequestHeader h3 {
   margin: 0;
-  font-size: 1.45rem;
+  font-size: 1.4rem;
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: #277bb7;
+  color: var(--accent);
 }
 .createShiftRequest .createShiftRequestHeader .modal-close {
   border: none;
-  font-size: 2.1rem;
+  font-size: 1.9rem;
   background: transparent;
   cursor: pointer;
-  color: #888;
+  color: #7c8694;
   line-height: 1;
-  transition: color 0.22s;
+  transition: color 0.18s ease;
+  padding: 0;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
 }
 .createShiftRequest .createShiftRequestHeader .modal-close:hover {
   color: #e53e3e;
+  background: rgba(229, 231, 235, 0.6);
 }
 .createShiftRequest .createShiftRequest-body {
-  margin-top: 1.3rem;
+  margin-top: 0.9rem;
 }
 .createShiftRequest .form-group {
-  margin-bottom: 1.05rem;
+  margin-bottom: 1rem;
 }
 .createShiftRequest .form-group label {
-  font-weight: 500;
+  font-weight: 600;
   color: #374151;
   display: block;
-  margin-bottom: 0.36rem;
+  margin-bottom: 0.32rem;
+  font-size: 0.95rem;
 }
 .createShiftRequest .form-group input, .createShiftRequest .form-group select, .createShiftRequest .form-group textarea {
   margin-top: 0.04rem;
   width: 100%;
-  padding: 0.57rem 0.7rem;
-  font-size: 1rem;
-  border: 1px solid #d1d5db;
-  border-radius: 5px;
-  background: #f3f4f6;
-  transition: border 0.19s;
+  padding: 0.62rem 0.75rem;
+  font-size: 0.975rem;
+  border: 1px solid var(--muted-border);
+  border-radius: 8px;
+  background: var(--muted-bg);
+  color: #1f2937;
+  transition: border-color 0.15s ease, box-shadow 0.12s ease;
 }
 .createShiftRequest .form-group input:focus, .createShiftRequest .form-group select:focus, .createShiftRequest .form-group textarea:focus {
-  border: 1.3px solid #277bb7;
+  border-color: var(--accent);
+  box-shadow: 0 4px 14px rgba(39, 123, 183, 0.08);
   outline: none;
 }
 .createShiftRequest .form-group textarea {
-  min-height: 3.3rem;
+  min-height: 3.6rem;
+  resize: vertical;
 }
 .createShiftRequest .form-row {
-  display: flex;
-  align-items: flex-end;
-  gap: 1rem;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+  align-items: end;
+  /* Force date / small groups to keep usable width on larger screens */
 }
 .createShiftRequest .form-row .form-group {
-  flex: 1 1 140px;
   margin-bottom: 0;
-  min-width: 120px;
+  min-width: 0;
+}
+.createShiftRequest .form-row .date-field {
+  min-width: 180px;
+  max-width: 320px;
+  /* keep the date controls slightly more compact but usable */
+}
+.createShiftRequest input[type=date],
+.createShiftRequest input[type=time],
+.createShiftRequest .date-field input,
+.createShiftRequest .date-field select {
+  min-width: 170px;
+  padding-left: 0.72rem;
+  padding-right: 0.72rem;
+}
+.createShiftRequest #shiftDayRanges {
+  margin-top: 0.35rem;
 }
 .createShiftRequest #shiftDayRanges .day-range-block {
-  background: #f5f8fc;
-  border-radius: 9px;
-  padding: 0.8rem 0.8rem 0.6rem;
-  margin-bottom: 1.05rem;
-  border: 1.5px solid #e5e7eb;
-  display: flex;
-  align-items: flex-end;
-  gap: 0.85rem;
-  flex-wrap: wrap;
+  background: #fbfdff;
+  border-radius: 10px;
+  padding: 0.9rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--muted-border);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) 80px;
+  gap: 0.75rem;
+  align-items: center;
+  align-content: start;
+  /* internal form-group adjustments */
+  /* Make remove button align in the last column */
+  /* compact layout for small screens inside the block */
 }
 .createShiftRequest #shiftDayRanges .day-range-block .form-group {
   margin-bottom: 0;
-  min-width: 134px;
+  min-width: 0;
 }
 .createShiftRequest #shiftDayRanges .day-range-block .remove-day-range {
-  margin-top: 1.1rem;
-  background: #f87171;
+  grid-column: -1;
+  justify-self: end;
+  margin: 0;
+  background: var(--danger);
   color: #fff;
-  font-weight: 500;
-  font-size: 0.96rem;
-  border-radius: 4.5px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: 6px;
   border: none;
-  padding: 0.36rem 0.8rem;
+  padding: 0.48rem 0.8rem;
   cursor: pointer;
-  transition: background 0.15s;
+  transition: background 0.12s ease, transform 0.08s ease;
 }
 .createShiftRequest #shiftDayRanges .day-range-block .remove-day-range:hover {
-  background: #d72828;
+  background: #d63b3b;
+  transform: translateY(-1px);
+}
+@media (max-width: 480px) {
+  .createShiftRequest #shiftDayRanges .day-range-block {
+    grid-template-columns: 1fr;
+  }
+  .createShiftRequest #shiftDayRanges .day-range-block .remove-day-range {
+    justify-self: start;
+  }
 }
 .createShiftRequest .btn-mini {
   font-size: 0.98rem;
   border: none;
-  background: #3071ef;
+  background: linear-gradient(90deg, var(--accent) 65%, var(--accent-2) 100%);
   color: white;
-  padding: 0.45rem 0.88rem;
-  border-radius: 5px;
+  padding: 0.46rem 0.9rem;
+  border-radius: 6px;
   cursor: pointer;
   margin-top: 0.2rem;
-  transition: background 0.13s;
+  transition: transform 0.12s ease, filter 0.12s ease;
 }
 .createShiftRequest .btn-mini:hover {
-  background: #245fd2;
+  transform: translateY(-1px);
+  filter: brightness(0.98);
 }
 .createShiftRequest .btn-mini.btn-danger {
-  background: #f87171;
+  background: var(--danger);
   color: #fff;
 }
 .createShiftRequest .btn-mini.btn-danger:hover {
-  background: #d72828;
+  background: #d63b3b;
 }
 .createShiftRequest .dayrange-help {
   display: block;
-  color: #69668c;
-  margin: -0.48em 0 1.6em 2px;
-  font-size: 0.97rem;
+  color: #6b7280;
+  margin: -0.28rem 0 1.1rem 2px;
+  font-size: 0.94rem;
   font-style: italic;
 }
 .createShiftRequest .modal-footer {
@@ -145,55 +223,80 @@
   gap: 0.75rem;
   justify-content: flex-end;
   align-items: center;
+  margin-top: 0.6rem;
 }
 .createShiftRequest .modal-footer .btn-primary, .createShiftRequest .modal-footer .btn-secondary {
   border: none;
-  border-radius: 5px;
-  padding: 0.59rem 1.3rem;
-  font-weight: 600;
-  font-size: 1.04rem;
+  border-radius: 8px;
+  padding: 0.62rem 1.2rem;
+  font-weight: 700;
+  font-size: 1rem;
   cursor: pointer;
-  box-shadow: 0 1.5px 7px rgba(110, 110, 123, 0.08);
-  transition: background 0.18s;
+  box-shadow: 0 2px 10px rgba(30, 40, 60, 0.06);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
 .createShiftRequest .modal-footer .btn-primary {
-  background: linear-gradient(90deg, #277bb7 65%, #2ec5ce 100%);
+  background: linear-gradient(90deg, var(--accent) 65%, var(--accent-2) 100%);
   color: #fff;
 }
 .createShiftRequest .modal-footer .btn-primary:hover {
-  background: linear-gradient(90deg, #165d87 60%, #33bdb5 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(39, 123, 183, 0.12);
 }
 .createShiftRequest .modal-footer .btn-secondary {
-  background: #f3f4f6;
+  background: #f8fafc;
   color: #334155;
   border: 1px solid #cbd5e1;
 }
 .createShiftRequest .modal-footer .btn-secondary:hover {
-  background: #e9ecf1;
+  background: #eef2f6;
+  transform: translateY(-2px);
 }
 .createShiftRequest .form-error {
-  color: #ba1e3b;
+  color: #b91c1c;
   margin-top: 0.6rem;
-  font-weight: 500;
-  min-height: 1.22em;
+  font-weight: 600;
+  min-height: 1.2em;
 }
 .createShiftRequest .form-ok {
   color: #059669;
-  font-weight: 500;
+  font-weight: 600;
   text-align: center;
-  margin-top: 1.5rem;
+  margin-top: 1.1rem;
 }
-@media (max-width: 800px) {
+.createShiftRequest .muted {
+  color: #6b7280;
+}
+.createShiftRequest .small {
+  font-size: 0.9rem;
+}
+@media (max-width: 900px) {
   .createShiftRequest {
-    max-width: 99%;
-    padding: 1.1rem 0.5rem 1.6rem 0.5rem;
+    --max-w: 720px;
+    min-height: 420px;
   }
   .createShiftRequest .form-row {
-    flex-direction: column;
-    gap: 0.9rem;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 640px) {
+  .createShiftRequest {
+    --max-w: 100%;
+    padding: 1rem;
+    min-height: auto;
+  }
+  .createShiftRequest .form-row {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
   }
   .createShiftRequest #shiftDayRanges .day-range-block {
-    flex-direction: column;
-    gap: 0.8rem;
+    grid-template-columns: 1fr;
+    gap: 0.55rem;
+    padding: 0.75rem;
+  }
+  .createShiftRequest .modal-footer {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 0.5rem;
   }
 }/*# sourceMappingURL=create-shift-request.css.map */
