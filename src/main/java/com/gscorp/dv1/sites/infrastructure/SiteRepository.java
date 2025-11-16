@@ -24,7 +24,7 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
     @EntityGraph(attributePaths = "project")
     Optional<Site> findById(Long id);
 
-    List<Site> findByProject_Client_IdIn (List<Long> clientIds);
+    List<Site> findByProject_Client_IdIn(List<Long> clientIds);
 
     @Query("select new com.gscorp.dv1.sites.web.dto.SiteSelectDto(s.id, s.name) " +
            "from Site s where s.project.client.id in :clientIds order by s.name")
