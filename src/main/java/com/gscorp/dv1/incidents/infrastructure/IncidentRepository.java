@@ -68,10 +68,7 @@ public interface IncidentRepository extends JpaRepository<Incident, Long>{
      */
     @Query("select count(i) " +
            "from Incident i " +
-           "join i.sites s " +
-           "join s.project p " +
-           "join p.clients c " +
-           "where c.id in :clientIds " +
+           "where i.site.project.client.id in :clientIds " +
            "  and i.status not in :closedStatuses")
     long countOpenByClientIds(
             @Param("clientIds") List<Long> clientIds,
