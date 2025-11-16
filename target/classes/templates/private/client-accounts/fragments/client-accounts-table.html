@@ -9,14 +9,14 @@
       Cuentas de cliente
     </h2>
 
-    <!-- Navega a la página de creación -->
-    <a class="btn-primary" id="createClientAccountBtn" th:href="@{/private/client-accounts/create}">
+    <!-- Navega a la página de creación vía data-path -->
+    <button type="button" class="btn-primary" data-path="/private/client-accounts/create" id="createClientAccountBtn">
       <svg width="18" height="18" fill="none" stroke="#fff" stroke-width="2" style="vertical-align:middle;margin-right:.35rem">
         <circle cx="9" cy="9" r="8" fill="#06b6d4" stroke="none"/>
         <path d="M9 5v8M5 9h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
       </svg>
       Crear Cuenta
-    </a>
+    </button>
   </div>
 
   <div class="client-accounts-table-container">
@@ -30,23 +30,23 @@
         </tr>
       </thead>
       <tbody>
-        <tr th:each="acct : ${accounts}">
+        <tr th:each="acct : ${accounts}" th:data-id="${acct.id}">
           <td th:text="${acct.id}">1</td>
           <td th:text="${acct.name}">Nombre cuenta</td>
           <!-- Usar clientName si pasas DTO; fallback seguro si pasas entidad -->
           <td th:text="${acct.clientName != null ? acct.clientName : (acct.client != null ? acct.client.name : '—')}">Cliente</td>
           <td class="actions">
-            <a class="btn-link" th:href="@{/private/client-accounts/show/{id}(id=${acct.id})}">Ver</a>
-            <a class="btn-link" th:href="@{/private/client-accounts/edit/{id}(id=${acct.id})}">Editar</a>
+            <!-- Navegación SPA con data-path -->
+            <button type="button" class="btn-link" th:attr="data-path=@{/private/client-accounts/show/{id}(id=${acct.id})}">Ver</button>
+            <button type="button" class="btn-link" th:attr="data-path=@{/private/client-accounts/edit/{id}(id=${acct.id})}">Editar</button>
 
-            <!-- Eliminación con formulario para incluir token CSRF y método DELETE -->
-            <form th:action="@{/private/client-accounts/delete/{id}(id=${acct.id})}"
-                  method="post"
-                  th:onsubmit="return confirm('¿Eliminar cuenta de cliente? Esta acción no se puede revertir.');"
-                  style="display:inline">
-              <input type="hidden" name="_method" value="delete"/>
-              <button type="submit" class="btn-link btn-danger">Eliminar</button>
-            </form>
+            <!-- Eliminación por AJAX: data-action="delete" -->
+            <button type="button"
+                    class="btn-link btn-danger"
+                    data-action="delete"
+                    th:attr="data-id=${acct.id}">
+              Eliminar
+            </button>
           </td>
         </tr>
       </tbody>

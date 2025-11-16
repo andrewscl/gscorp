@@ -2,19 +2,39 @@
   <div class="form-container client-create">
     <h2>Crear Cuenta de Cliente</h2>
 
-    <form id="createClientAccountForm" autocomplete="off">
+    <form id="createClientAccountForm" autocomplete="off" novalidate>
       <div class="form-group">
         <label for="clientAccountName">Nombre de la cuenta</label>
-        <input type="text" id="clientAccountName" name="name" placeholder="Nombre de la cuenta" required maxlength="160" />
+        <input type="text"
+               id="clientAccountName"
+               name="name"
+               placeholder="Nombre de la cuenta"
+               required
+               maxlength="160" />
       </div>
 
       <div class="form-group">
         <label for="clientAccountClient">Cliente</label>
-        <select id="clientAccountClient" name="clientId" required>
+
+        <!-- Select: si hay preselectedClientId se deshabilita -->
+        <select id="clientAccountClient"
+                name="clientId"
+                required
+                th:disabled="${preselectedClientId != null}">
           <option value="">Seleccione cliente</option>
-          <!-- El controlador debe pasar "clients" en el model -->
-          <option th:each="c : ${clients}" th:value="${c.id}" th:text="${c.name}"></option>
+          <option th:each="c : ${clients}"
+                  th:value="${c.id}"
+                  th:text="${c.name}"
+                  th:selected="${preselectedClientId != null} ? ${c.id} == ${preselectedClientId} : false">
+          </option>
         </select>
+
+        <!-- Cuando el select está deshabilitado, enviamos el clientId mediante un hidden -->
+        <input type="hidden" name="clientId" th:value="${preselectedClientId}" th:if="${preselectedClientId != null}" />
+
+        <small class="muted" th:if="${#lists.isEmpty(clients)}">
+          No tienes clientes asignados. Contacta al administrador.
+        </small>
       </div>
 
       <div class="form-group">
@@ -24,13 +44,14 @@
 
       <div class="form-actions">
         <button type="submit" class="btn-primary">Crear Cuenta</button>
-        <a class="btn-secondary" th:href="@{/private/client-accounts/table-view}">Cancelar</a>
+        <!-- Navegación por data-path (botón, no enlace) -->
+        <button type="button" class="btn-secondary" data-path="/private/client-accounts/table-view">Cancelar</button>
       </div>
 
       <div id="createClientAccountMessage" class="form-message" role="status" aria-live="polite"></div>
     </form>
 
-    <!-- JS que maneja submit via fetch (sin th:action) -->
+    <!-- JS que maneja submit via fetch y navegación por data-path -->
     <script type="module" src="/js/private/client-accounts/create-client-account.js"></script>
   </div>
 </div>
