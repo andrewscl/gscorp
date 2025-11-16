@@ -13,32 +13,31 @@ import org.springframework.stereotype.Repository;
 public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long>{
 
     @Query("SELECT sr.code FROM ShiftRequest sr WHERE sr.site.id = :siteId AND sr.code LIKE CONCAT(:prefix, '%') ORDER BY sr.code DESC")
-    String findLastCodeBySiteIdAndPrefix(Long siteId, String prefix);
+    String findLastCodeBySiteIdAndPrefix(@Param("siteId") Long siteId, @Param("prefix") String prefix);
 
-    // Cargar ShiftRequest + Site + Schedules (si necesitas schedules en la tabla/listado)
-    @Query("select distinct s " +
-           "from ShiftRequest s " +
-           "join fetch s.site st " +
-           "left join fetch s.schedules sch " +
-           "where st.client.id in :clientIds " +
-           "order by s.code")
-    List<ShiftRequest> findBySiteClientIdInFetchSiteAndSchedules(
-                                    @Param("clientIds") Collection<Long> clientIds);
+    // Cargar ShiftRequest + Site + Schedules (filtrar por client ids recorriendo project -> client)
+    @Query("select distinct sr " +
+           "from ShiftRequest sr " +
+           "join fetch sr.site st " +
+           "left join fetch sr.schedules sch " +
+           "where st.project.client.id in :clientIds " +
+           "order by sr.code")
+    List<ShiftRequest> findBySiteClientIdInFetchSiteAndSchedules(@Param("clientIds") Collection<Long> clientIds);
 
     // Cargar todos (admin)
-    @Query("select distinct s " +
-           "from ShiftRequest s " +
-           "join fetch s.site st " +
-           "left join fetch s.schedules sch " +
-           "order by s.code")
+    @Query("select distinct sr " +
+           "from ShiftRequest sr " +
+           "join fetch sr.site st " +
+           "left join fetch sr.schedules sch " +
+           "order by sr.code")
     List<ShiftRequest> findAllWithSiteAndSchedules();
 
     // Cargar uno por id con sus relaciones
-    @Query("select distinct s " +
-           "from ShiftRequest s " +
-           "join fetch s.site st " +
-           "left join fetch s.schedules sch " +
-           "where s.id = :id")
+    @Query("select distinct sr " +
+           "from ShiftRequest sr " +
+           "join fetch sr.site st " +
+           "left join fetch sr.schedules sch " +
+           "where sr.id = :id")
     Optional<ShiftRequest> findByIdWithSiteAndSchedules(@Param("id") Long id);
 
 }
