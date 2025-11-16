@@ -12,8 +12,8 @@ import com.gscorp.dv1.clientaccounts.web.dto.ClientAccountDto;
 
 @Repository
 public interface ClientAccountRepository extends JpaRepository<ClientAccount, Long> {
-
-    @Query("select new com.gscorp.dv1.clientaccounts.web.dto.ClientAccountDto(ca.id, ca.name, ca.client.id, ca.client.name) " +
+    
+    @Query("select new com.gscorp.dv1.clientaccounts.web.dto.ClientAccountDto(ca.id, ca.name, ca.client.id, ca.client.name, ca.notes) " +
         "from ClientAccount ca where ca.client.id in :clientIds order by ca.name")
     List<ClientAccountDto> findDtoByClientIds(@Param("clientIds") Collection<Long> clientIds);
 
