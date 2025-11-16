@@ -25,16 +25,38 @@
       </select>
     </div>
 
-    <div class="form-row">
-      <div class="form-group date-field">
-        <label for="shiftRequestStartDate">Fecha inicio</label>
-        <input type="date" id="shiftRequestStartDate" name="startDate" required />
-      </div>
-      <div class="form-group date-field">
-        <label for="shiftRequestEndDate">Fecha término</label>
-        <input type="date" id="shiftRequestEndDate" name="endDate" />
-      </div>
+  <!-- Fecha inicio -->
+  <div class="form-group date-field input-with-icon">
+    <label for="shiftRequestStartDate">Fecha inicio</label>
+    <div class="input-icon-wrap">
+      <input type="date" id="shiftRequestStartDate" name="startDate" required aria-label="Fecha inicio" />
+      <!-- botón con SVG (abre picker nativo o flatpickr si lo inicializas) -->
+      <button type="button" class="icon-btn calendar-btn" aria-label="Abrir calendario">
+        <!-- calendar SVG -->
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M7 11h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="3.5" y="4.5" width="17" height="15" rx="2" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M16 2v4M8 2v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </button>
     </div>
+  </div>
+
+  <!-- Fecha término -->
+  <div class="form-group date-field input-with-icon">
+    <label for="shiftRequestEndDate">Fecha término</label>
+    <div class="input-icon-wrap">
+      <input type="date" id="shiftRequestEndDate" name="endDate" aria-label="Fecha término" />
+      <button type="button" class="icon-btn calendar-btn" aria-label="Abrir calendario">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M7 11h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="3.5" y="4.5" width="17" height="15" rx="2" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M16 2v4M8 2v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
 
     <div class="form-group">
       <label for="shiftRequestServiceType">Tipo de servicio</label>
@@ -52,6 +74,7 @@
       </div>
       <button type="button" id="addDayRange" class="btn-mini">+ Añadir tramo de horario</button>
     </div>
+    
     <small class="dayrange-help">
       Ej: Lun a Mié 08:00-18:00, Jue a Vie 09:00-17:00, Sáb a Dom 10:00-14:00, etc.
     </small>

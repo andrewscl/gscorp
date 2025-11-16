@@ -1,85 +1,302 @@
-/* Recomendado: reemplaza las secciones .form-row, inputs y #shiftDayRanges.day-range-block por esto */
+/* shift-request.scss - Versión "definitiva" para Create Shift Request
+   - Diseño limpio y profesional
+   - Correcciones de solapamiento y sizing en grids
+   - Inputs con icono (calendar/clock) integrados
+   - Soporte visual para flatpickr altInput si se usa
+   - Variables fáciles de ajustar (colores/tamaños)
+*/
 
 .createShiftRequest {
+  /* Theme / tuneables */
+  --bg: #ffffff;
+  --muted-bg: #f6f8fb;
+  --muted-input: #f3f4f6;
+  --muted-border: #e6e9ee;
+  --accent: #277bb7;
+  --accent-2: #2ec5ce;
+  --danger: #ef4444;
+  --text: #263147;
+  --radius: 12px;
+  --pad: 20px;
+  --max-w: 920px;
 
-  /* asegurar que los controles no desborden */
-  input, select, textarea {
-    box-sizing: border-box;
-    width: 100%;
-  }
+  box-sizing: border-box;
+  font-family: 'Inter', system-ui, 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  max-width: var(--max-w);
+  width: calc(100% - 2rem);
+  margin: 2rem auto;
+  padding: var(--pad);
+  border-radius: var(--radius);
+  box-shadow: 0 12px 36px rgba(20,30,50,0.06);
+  min-height: 520px;
+  max-height: 86vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
 
-  /* Form rows: mantener columnas iguales pero permitir que el contenido determine altura */
-  .form-row {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr)); /* minmax(0,1fr) evita overflow */
-    gap: 0.9rem;
-    align-items: start; /* IMPORTANTE: start en vez de center para evitar solapamientos */
+/* small visible scrollbar, but subtle */
+.createShiftRequest {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(120,130,150,0.18) transparent;
+}
+.createShiftRequest::-webkit-scrollbar { height: 8px; width: 8px; }
+.createShiftRequest::-webkit-scrollbar-thumb {
+  background: rgba(120,130,150,0.18);
+  border-radius: 6px;
+}
+.createShiftRequest::-webkit-scrollbar-track { background: transparent; }
 
-    .form-group {
-      margin-bottom: 0;
-      min-width: 0; /* permite que hijos se reduzcan correctamente dentro del grid */
-    }
+/* Header */
+.createShiftRequestHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.85rem;
+}
+.createShiftRequestHeader h3 {
+  margin: 0;
+  color: var(--accent);
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.modal-close {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all .12s ease;
+}
+.modal-close:hover { background: rgba(39,123,183,0.06); color: var(--accent); transform: translateY(-1px); }
 
-    /* Si quieres forzar inputs de fecha a un ancho máximo razonable, usa date-field en el HTML */
-    .date-field {
-      max-width: 320px;
-      min-width: 140px;
-    }
-  }
+/* Body */
+.createShiftRequest-body { margin-top: 0.9rem; }
 
-  /* fecha / hora: usar max-width en lugar de min-width para que no crezcan demasiado */
-  input[type="date"],
-  input[type="time"] {
-    max-width: 220px;
-    min-width: 100px;
-    padding-left: .72rem;
-    padding-right: .72rem;
-  }
+/* Generic form controls */
+.form-group { margin-bottom: 1rem; }
+.form-group label {
+  display: block;
+  margin-bottom: .36rem;
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
 
-  /* --- Tramos de días y horarios --- */
-  #shiftDayRanges {
-    margin-top: .35rem;
+/* Ensure consistent sizing model */
+*, *::before, *::after { box-sizing: border-box; }
 
-    .day-range-block {
-      background: #fbfdff;
-      border-radius: 10px;
-      padding: .9rem;
-      margin-bottom: 1rem;
-      border: 1px solid var(--muted-border);
+input, select, textarea, button {
+  font-family: inherit;
+  font-size: .98rem;
+}
 
-      /* Grid más predecible: columnas para inputs y una columna fija para el botón eliminar */
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) 92px;
-      gap: 0.6rem;
-      align-items: start; /* IMPORTANTE: start para evitar solapamiento vertical */
-      align-content: start;
+/* Inputs */
+input, select, textarea {
+  width: 100%;
+  padding: .62rem .75rem;
+  border-radius: 8px;
+  border: 1px solid var(--muted-border);
+  background: var(--muted-input);
+  color: #0f1724;
+  transition: border-color .12s ease, box-shadow .12s ease, transform .06s ease;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 8px 26px rgba(39,123,183,0.08);
+}
+textarea { min-height: 92px; resize: vertical; }
 
-      .form-group {
-        margin-bottom: 0;
-        min-width: 0;
-      }
+/* Grid rows: predictable and prevent overflow */
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+  align-items: start; /* avoid vertical overlap */
+}
+.form-row .form-group { min-width: 0; }
 
-      /* remove button ocupa la última columna y se alinea al inicio de la celda */
-      .remove-day-range {
-        grid-column: -1;
-        justify-self: end;
-        align-self: start;
-      }
+/* Use date-field class on containers that hold date inputs */
+.date-field { max-width: 340px; min-width: 120px; }
 
-      /* en pantallas pequeñas colapsa a una sola columna (esto evita inputs comprimidos) */
-      @media (max-width: 480px) {
-        grid-template-columns: 1fr;
-        .remove-day-range { justify-self: start; align-self: center; }
-      }
-    }
-  }
+/* Date/time constraints: use max-width (avoid huge inputs) */
+input[type="date"],
+input[type="time"] {
+  max-width: 240px;
+  width: 100%;
+  min-width: 120px;
+}
 
-  /* Ajustes extra para evitar salto/solapamiento de etiquetas */
-  label { display: block; margin-bottom: .28rem; line-height: 1.25; }
+/* ----- Input with icon (calendar/clock) ----- */
+.input-with-icon { position: relative; display: block; }
+.input-with-icon .input-icon-wrap { position: relative; display: flex; align-items: center; }
+.input-with-icon input,
+.input-with-icon select,
+.input-with-icon textarea {
+  /* leave space at the right for icon */
+  padding-right: 3.2rem;
+  width: 100%;
+}
+.input-with-icon .icon-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 36px;
+  width: 36px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: #54606a;
+  cursor: pointer;
+  transition: background .12s ease, color .12s ease, transform .08s ease;
+  padding: 0;
+}
+.input-with-icon .icon-btn:hover {
+  background: rgba(39,123,183,0.06);
+  color: var(--accent);
+  transform: translateY(-50%) scale(1.02);
+}
+/* Slightly smaller on phones */
+@media (max-width: 480px) {
+  .input-with-icon .icon-btn { right: 6px; height: 34px; width: 34px; }
+}
 
-  /* modestos límites para evitar inputs gigantes en contenedores estrechos */
-  .form-group input,
-  .form-group select {
-    max-height: 48px;
-  }
+/* When using flatpickr with altInput, cursor should reflect interactivity */
+.flatpickr-input[readonly] { cursor: pointer; }
+
+/* Make icon reflect focus on the input visually */
+.input-with-icon input:focus ~ .icon-btn,
+.input-with-icon input:focus + .icon-btn {
+  color: var(--accent);
+  background: rgba(39,123,183,0.06);
+}
+
+/* ----- Tramos de días (day ranges) ----- */
+#shiftDayRanges { margin-top: .35rem; }
+
+.day-range-block {
+  background: linear-gradient(180deg, #fbfdff, #ffffff);
+  border-radius: 10px;
+  padding: .85rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--muted-border);
+  display: grid;
+  /* predictable columns: flexible columns for inputs, final column fixed for actions */
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) 92px;
+  gap: 0.65rem;
+  align-items: start;
+  align-content: start;
+}
+.day-range-block .form-group { margin-bottom: 0; min-width: 0; }
+
+/* Remove button placement and style */
+.remove-day-range {
+  justify-self: end;
+  align-self: start;
+  background: var(--danger);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: .44rem .7rem;
+  cursor: pointer;
+  font-weight: 700;
+  transition: background .12s ease, transform .08s ease;
+}
+.remove-day-range:hover { transform: translateY(-2px); background: #d33; }
+
+/* Add button */
+.btn-mini {
+  display: inline-flex;
+  gap: .45rem;
+  align-items: center;
+  padding: .48rem .9rem;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(90deg, var(--accent) 60%, var(--accent-2) 100%);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .12s ease, filter .12s ease;
+}
+.btn-mini:hover { transform: translateY(-2px); filter: brightness(.98); }
+
+/* Helper text */
+.dayrange-help {
+  display: block;
+  color: #6b7280;
+  font-size: .93rem;
+  margin: .4rem 0 1rem 2px;
+}
+
+/* Modal footer (actions) */
+.modal-footer {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  margin-top: .6rem;
+}
+.btn-primary, .btn-secondary {
+  border-radius: 10px;
+  padding: .62rem 1.05rem;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(25,40,60,0.06);
+}
+.btn-primary { color: #fff; background: linear-gradient(90deg, var(--accent) 60%, var(--accent-2) 100%); }
+.btn-primary:hover { transform: translateY(-3px); }
+.btn-secondary { background: #f8fafc; color: #334155; border: 1px solid #dbe6ef; }
+
+/* Error / OK messages */
+.form-error { color: #b91c1c; font-weight: 700; margin-top: .5rem; min-height: 1.2em; }
+.form-ok { color: #059669; font-weight: 700; margin-top: .8rem; }
+
+/* Small helpers */
+.muted { color: #6b7280; }
+.small { font-size: .9rem; }
+
+/* ----- Accessibility / focus helpers ----- */
+.icon-btn:focus { outline: 2px solid rgba(39,123,183,0.16); outline-offset: 2px; border-radius: 6px; }
+
+/* ----- Flatpickr theme integration (optional) ----- */
+/* When flatpickr's altInput is used it creates a readonly input; make it match style */
+.flatpickr-input.altInput {
+  background: var(--muted-input);
+  border-radius: 8px;
+  padding: .62rem .75rem;
+  border: 1px solid var(--muted-border);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Prevent day-range remove button from overlapping icon visuals */
+.day-range-block .remove-day-range { z-index: 2; }
+
+/* Responsiveness */
+@media (max-width: 900px) {
+  .date-field { max-width: 100%; }
+  .form-row { grid-template-columns: 1fr; gap: .65rem; }
+  .day-range-block { grid-template-columns: 1fr; gap: .55rem; padding: .75rem; }
+  .modal-footer { flex-direction: column-reverse; align-items: stretch; gap: .5rem; }
+}
+
+/* Small screens tweaks */
+@media (max-width: 480px) {
+  .createShiftRequest { padding: 14px; margin: 1rem; }
+  .modal-close { width: 36px; height: 36px; }
+  .btn-primary, .btn-secondary { width: 100%; }
+  .input-with-icon .icon-btn { height: 32px; width: 32px; right: 6px; }
 }
