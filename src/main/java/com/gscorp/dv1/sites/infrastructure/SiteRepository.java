@@ -27,11 +27,11 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
     List<Site> findByProject_Client_IdIn (List<Long> clientIds);
 
     @Query("select new com.gscorp.dv1.sites.web.dto.SiteSelectDto(s.id, s.name) " +
-           "from Sites s where s.client.id in :clientIds order by s.name")
+           "from Site s where s.client.id in :clientIds order by s.name")
     List<SiteSelectDto> findSelectDtoByClientIds(@Param("clientIds") Collection<Long> clientIds);
 
-    // Devuelve solo el client id asociado al site (puede ser null si la relación no existe)
-    @Query("select s.client.id from Sites s where s.id = :id")
-    Long findClientIdBySiteId(@Param("id") Long id);
+    // Devuelve solo el client id asociado al site (puede ser vacío si no existe)
+    @Query("select s.client.id from Site s where s.id = :id")
+    Optional<Long> findClientIdBySiteId(@Param("id") Long id);
 
 }
