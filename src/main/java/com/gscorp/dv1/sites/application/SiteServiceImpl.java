@@ -142,4 +142,13 @@ public SiteDto updateSite(Long id, SiteDto siteDto) {
                 .map(site -> new SiteSelectDto(site.getId(), site.getName()))
                 .toList();
     }
+
+    // Nuevo método recomendado: devolver clientId del site (útil para validaciones rápidas)
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Long> getClientIdForSite(Long siteId) {
+        Long clientId = siteRepository.findClientIdBySiteId(siteId);
+        return Optional.ofNullable(clientId);
+    }
+
 }

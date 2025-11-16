@@ -19,4 +19,5 @@ public interface SiteService {
     SiteDto updateSite(Long id, SiteDto siteDto);
     SetSiteCoordinatesDto setCoordinates(Long siteId, Double latitude, Double longitude);
     List<SiteSelectDto> getAllSitesForClients(List<Long> clientIds);
+    Optional<Long> getClientIdForSite(Long siteId);
 }

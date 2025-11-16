@@ -4,7 +4,8 @@ public enum ShiftStatus {
     PLANNED("Planificado"),
     IN_PROGRESS("En Progreso"),
     COMPLETED("Completado"),
-    CANCELLED("Cancelado");
+    CANCELLED("Cancelado"),
+    PENDING("Pendiente");
 
     private final String displayName;
 

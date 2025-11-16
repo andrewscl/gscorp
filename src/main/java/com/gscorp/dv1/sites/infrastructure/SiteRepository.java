@@ -1,12 +1,16 @@
 package com.gscorp.dv1.sites.infrastructure;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import com.gscorp.dv1.sites.web.dto.SiteSelectDto;
 
 @Repository
 public interface SiteRepository extends JpaRepository<Site, Long>{
@@ -21,5 +25,13 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
     Optional<Site> findById(Long id);
 
     List<Site> findByProject_Client_IdIn (List<Long> clientIds);
+
+    @Query("select new com.gscorp.dv1.sites.web.dto.SiteSelectDto(s.id, s.name) " +
+           "from Sites s where s.client.id in :clientIds order by s.name")
+    List<SiteSelectDto> findSelectDtoByClientIds(@Param("clientIds") Collection<Long> clientIds);
+
+    // Devuelve solo el client id asociado al site (puede ser null si la relación no existe)
+    @Query("select s.client.id from Sites s where s.id = :id")
+    Long findClientIdBySiteId(@Param("id") Long id);
 
 }
