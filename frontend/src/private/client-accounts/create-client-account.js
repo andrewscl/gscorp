@@ -1,11 +1,12 @@
+// create-client-account.js (alineado al patrón que funciona en create-client.js)
 import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
 
-console.log('create-client-account.js cargado (fetchWithAuth-only)');
+console.log('create-client-account.js cargado');
 
-const qs = (sel, root = document) => (root || document).querySelector(sel);
+const qs = (s) => document.querySelector(s);
 
-/* Mensajes */
+/* Mostrar mensajes */
 function showMessage(el, text, type = 'error') {
   if (!el) return;
   el.className = 'form-message';
@@ -15,7 +16,7 @@ function showMessage(el, text, type = 'error') {
 }
 function clearMessage(el) { if (!el) return; el.className = 'form-message'; el.textContent = ''; }
 
-/* Serializa form en objeto JSON simple */
+/* Serializa form en objeto JSON simple (útil para body) */
 function serializeForm(form) {
   const fd = new FormData(form);
   const obj = {};
@@ -30,22 +31,20 @@ function serializeForm(form) {
 /* Submit handler */
 async function onSubmitCreateAccount(e) {
   e.preventDefault();
-  const form = e.target;
-  const submitBtn = qs('button[type="submit"]', form);
-  const msgEl = qs('#createClientAccountMessage', form);
+
+  const form = qs('#createClientAccountForm');
+  const msgEl = qs('#createClientAccountMessage');
+  const submitBtn = qs('#createClientAccountForm button[type="submit"]');
 
   clearMessage(msgEl);
 
-  // Validaciones (cliente)
-  const name = qs('#clientAccountName', form)?.value?.trim();
-
-  // fallback para clientId si el select está deshabilitado (hidden input)
-  const clientSelect = qs('#clientAccountClient', form);
+  // leer valores directamente (igual estilo que create-client.js)
+  const name = qs('#clientAccountName')?.value?.trim();
+  const clientSelect = qs('#clientAccountClient');
   const clientSelectValue = clientSelect ? clientSelect.value : '';
-  const clientHidden = form.querySelector('input[name="clientId"]');
+  const clientHidden = form ? form.querySelector('input[name="clientId"]') : null;
   const clientId = clientSelectValue && clientSelectValue !== '' ? clientSelectValue : (clientHidden ? clientHidden.value : null);
-
-  const notes = qs('#clientAccountNotes', form)?.value?.trim() || null;
+  const notes = qs('#clientAccountNotes')?.value?.trim() || null;
 
   if (!name) {
     showMessage(msgEl, 'El nombre de la cuenta es obligatorio.');
@@ -56,12 +55,17 @@ async function onSubmitCreateAccount(e) {
     return;
   }
 
-  const payload = serializeForm(form);
+  // construir payload
+  const payload = {
+    name,
+    clientId: Number(clientId),
+    notes
+  };
 
   if (submitBtn) submitBtn.disabled = true;
 
   try {
-    // URL recomendada: POST /api/client-accounts
+    // Ajusta la URL si tu backend expone otra ruta
     const res = await fetchWithAuth('/api/client-accounts/create', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -104,7 +108,6 @@ function bindForm() {
     console.warn('Form createClientAccountForm no encontrado - el JS no podrá interceptar submits');
   }
 
-  // Cancel button (puede ser <button data-path> o .btn-secondary)
   const cancel = qs('.btn-secondary');
   if (cancel) {
     cancel.addEventListener('click', (ev) => {
@@ -116,7 +119,9 @@ function bindForm() {
 }
 
 /* Init */
-document.addEventListener('DOMContentLoaded', () => {
-  bindForm();
-  setTimeout(() => qs('#clientAccountName')?.focus(), 50);
-});
+(function init() {
+  document.addEventListener('DOMContentLoaded', () => {
+    bindForm();
+    setTimeout(() => qs('#clientAccountName')?.focus(), 50);
+  });
+})();
