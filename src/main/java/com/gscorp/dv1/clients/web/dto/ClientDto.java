@@ -9,6 +9,7 @@ public record ClientDto (
     String name,
     String legalName,
     String taxId,
+    String contactEmail,
     Boolean active)
     {
 
@@ -20,6 +21,7 @@ public record ClientDto (
                 client.getName(),
                 client.getLegalName(),
                 client.getTaxId(),
+                client.getContactEmail(),
                 client.getActive()
             );
 
