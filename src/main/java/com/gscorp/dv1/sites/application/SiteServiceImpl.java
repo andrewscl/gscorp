@@ -147,8 +147,8 @@ public SiteDto updateSite(Long id, SiteDto siteDto) {
     @Override
     @Transactional(readOnly = true)
     public Optional<Long> getClientIdForSite(Long siteId) {
-        Long clientId = siteRepository.findClientIdBySiteId(siteId);
-        return Optional.ofNullable(clientId);
+        Optional<Long> clientId = siteRepository.findClientIdBySiteId(siteId);
+        return clientId;
     }
 
 }
