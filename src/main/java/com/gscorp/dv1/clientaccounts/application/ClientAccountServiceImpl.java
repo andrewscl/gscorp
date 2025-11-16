@@ -88,7 +88,8 @@ public class ClientAccountServiceImpl implements ClientAccountService {
             saved.getId(),
             saved.getName(),
             saved.getClient() != null ? saved.getClient().getId() : null,
-            saved.getClient() != null ? saved.getClient().getName() : null
+            saved.getClient() != null ? saved.getClient().getName() : null,
+            saved.getNotes()
         );
     }
 
@@ -123,7 +124,8 @@ public class ClientAccountServiceImpl implements ClientAccountService {
             account.getId(),
             account.getName(),
             account.getClient() != null ? account.getClient().getId() : null,
-            account.getClient() != null ? account.getClient().getName() : null
+            account.getClient() != null ? account.getClient().getName() : null,
+            account.getNotes()
         );
     }
 

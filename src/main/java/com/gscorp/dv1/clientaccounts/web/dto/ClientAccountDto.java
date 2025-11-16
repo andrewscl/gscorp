@@ -6,7 +6,8 @@ public record ClientAccountDto (
     Long id,
     String name,
     Long clientId,
-    String clientName
+    String clientName,
+    String notes
 ){
 
     public static ClientAccountDto fromEntity(ClientAccount ca) {
@@ -15,7 +16,8 @@ public record ClientAccountDto (
             ca.getId(),
             ca.getName(),
             ca.getClient() != null ? ca.getClient().getId() : null,
-            ca.getClient() != null ? ca.getClient().getName() : null
+            ca.getClient() != null ? ca.getClient().getName() : null,
+            ca.getNotes()
         );
     }
 

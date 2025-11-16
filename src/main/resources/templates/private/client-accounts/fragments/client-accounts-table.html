@@ -31,23 +31,18 @@
       </thead>
       <tbody>
         <tr th:each="acct : ${accounts}" th:data-id="${acct.id}">
+
           <td th:text="${acct.id}">1</td>
           <td th:text="${acct.name}">Nombre cuenta</td>
           <!-- Usar clientName si pasas DTO; fallback seguro si pasas entidad -->
           <td th:text="${acct.clientName != null ? acct.clientName : (acct.client != null ? acct.client.name : '—')}">Cliente</td>
+
           <td class="actions">
             <!-- Navegación SPA con data-path -->
             <button type="button" class="btn-link" th:attr="data-path=@{/private/client-accounts/show/{id}(id=${acct.id})}">Ver</button>
             <button type="button" class="btn-link" th:attr="data-path=@{/private/client-accounts/edit/{id}(id=${acct.id})}">Editar</button>
-
-            <!-- Eliminación por AJAX: data-action="delete" -->
-            <button type="button"
-                    class="btn-link btn-danger"
-                    data-action="delete"
-                    th:attr="data-id=${acct.id}">
-              Eliminar
-            </button>
           </td>
+
         </tr>
       </tbody>
     </table>
