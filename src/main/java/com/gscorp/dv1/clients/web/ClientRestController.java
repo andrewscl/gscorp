@@ -22,7 +22,6 @@ import com.gscorp.dv1.clients.web.dto.ClientDto;
 import com.gscorp.dv1.clients.web.dto.ClientKpisDto;
 import com.gscorp.dv1.clients.web.dto.CreateClientRequest;
 import com.gscorp.dv1.incidents.application.IncidentService;
-import com.gscorp.dv1.incidents.infrastructure.Incident;
 import com.gscorp.dv1.patrol.application.PatrolRunService;
 import com.gscorp.dv1.sitesupervisionvisits.application.SiteSupervisionVisitService;
 
@@ -122,7 +121,6 @@ public class ClientRestController {
 
     ClientKpisDto dto = new ClientKpisDto(asistenciaHoy, rondasHoy, visitasHoy, incidentesAbiertos);
     return ResponseEntity.ok(dto);
-
 
     }
 

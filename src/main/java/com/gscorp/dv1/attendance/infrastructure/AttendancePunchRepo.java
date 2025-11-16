@@ -1,6 +1,5 @@
 package com.gscorp.dv1.attendance.infrastructure;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -98,10 +97,7 @@ public interface AttendancePunchRepo extends JpaRepository <AttendancePunch, Lon
      */
     @Query("select count(a) " +
            "from AttendancePunch a " +
-           "join a.sites s " +
-           "join s.project p " +
-           "join p.clients c " +
-           "where c.id in :clientIds " +
+           "where a.site.project.client.id in :clientIds " +
            "  and a.ts >= :from and a.ts < :to " +
            "  and (:action is null or a.action = :action)")
     long countByClientIdsAndTsBetweenAndAction(
