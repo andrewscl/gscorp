@@ -141,7 +141,7 @@ public interface SiteSupervisionVisitRepository
         AND v.visit_date_time >= :from
         AND v.visit_date_time < :to
       """, nativeQuery = true)
-  long countByClientIdsAndTsBetweenNative(
+  long countByClientIdsAndTsBetween(
           @Param("clientIds") List<Long> clientIds,
           @Param("from") OffsetDateTime from,
           @Param("to") OffsetDateTime to);
