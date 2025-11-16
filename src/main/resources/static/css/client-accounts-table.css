@@ -1,0 +1,351 @@
+/*
+  Scoped to either:
+    .client-accounts .client-accounts-header ...
+  or
+    .client-accounts-table .client-accounts-header ...
+  so no cambio en tu HTML es necesario.
+*/
+.client-accounts,
+.client-accounts-table {
+  box-sizing: border-box;
+  font-family: "Inter", system-ui, Arial, sans-serif;
+  color: #263147;
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 18px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(20, 30, 50, 0.05);
+  /* header (usa la clase fija .client-accounts-header en el DOM) */
+  /* contenedor de la tabla (usa clase fija en el DOM) */
+  /* tabla (usa clase fija .client-accounts-table en el DOM) */
+  /* Modal / Form (aunque lo eliminaste del fragment, lo dejamos por si lo reintroduces) */
+  /* Messages */
+  /* Responsive */
+}
+.client-accounts .client-accounts-header,
+.client-accounts-table .client-accounts-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.client-accounts .client-accounts-header h2,
+.client-accounts-table .client-accounts-header h2 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #0369a1;
+  display: flex;
+  align-items: center;
+}
+.client-accounts .client-accounts-header h2 svg,
+.client-accounts-table .client-accounts-header h2 svg {
+  margin-right: 0.5rem;
+  flex: 0 0 auto;
+}
+.client-accounts .client-accounts-header .btn-primary,
+.client-accounts-table .client-accounts-header .btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(90deg, #0ea5e9 60%, #2ec5ce 100%);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  box-shadow: 0 6px 18px rgba(6, 182, 212, 0.12);
+}
+.client-accounts .client-accounts-header .btn-primary:hover,
+.client-accounts-table .client-accounts-header .btn-primary:hover {
+  transform: translateY(-2px);
+}
+.client-accounts .client-accounts-header .btn-primary svg,
+.client-accounts-table .client-accounts-header .btn-primary svg {
+  display: inline-block;
+  vertical-align: middle;
+}
+.client-accounts .client-accounts-table-container,
+.client-accounts-table .client-accounts-table-container {
+  background: #f6f8fb;
+  border: 1px solid #e6e9ee;
+  border-radius: 10px;
+  padding: 0.6rem;
+}
+.client-accounts .client-accounts-table,
+.client-accounts-table .client-accounts-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 520px;
+  font-size: 0.95rem;
+}
+.client-accounts .client-accounts-table thead tr th,
+.client-accounts-table .client-accounts-table thead tr th {
+  text-align: left;
+  padding: 0.7rem 0.9rem;
+  font-weight: 700;
+  color: #334155;
+  font-size: 0.88rem;
+  border-bottom: 1px solid rgb(236.0714285714, 238.3428571429, 242.1285714286);
+}
+.client-accounts .client-accounts-table tbody tr,
+.client-accounts-table .client-accounts-table tbody tr {
+  /* Los botones pueden ser <a> o <button>; estas clases cubren ambos */
+}
+.client-accounts .client-accounts-table tbody tr td,
+.client-accounts-table .client-accounts-table tbody tr td {
+  padding: 0.7rem 0.9rem;
+  vertical-align: middle;
+  border-bottom: 1px solid #e6e9ee;
+  color: #111827;
+}
+.client-accounts .client-accounts-table tbody tr td.actions,
+.client-accounts-table .client-accounts-table tbody tr td.actions {
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+}
+.client-accounts .client-accounts-table tbody tr:hover,
+.client-accounts-table .client-accounts-table tbody tr:hover {
+  background: rgba(6, 165, 255, 0.02);
+}
+.client-accounts .client-accounts-table tbody tr .tag,
+.client-accounts-table .client-accounts-table tbody tr .tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  background: rgba(6, 165, 255, 0.08);
+  color: #0369a1;
+  font-weight: 600;
+}
+.client-accounts .client-accounts-table tbody tr .btn-link,
+.client-accounts-table .client-accounts-table tbody tr .btn-link {
+  background: transparent;
+  border: none;
+  color: #0369a1;
+  padding: 0.32rem 0.5rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 600;
+  transition: color 0.12s ease, transform 0.08s ease;
+  text-decoration: none;
+}
+.client-accounts .client-accounts-table tbody tr .btn-link svg,
+.client-accounts-table .client-accounts-table tbody tr .btn-link svg {
+  vertical-align: middle;
+}
+.client-accounts .client-accounts-table tbody tr .btn-link:hover,
+.client-accounts-table .client-accounts-table tbody tr .btn-link:hover {
+  color: rgb(2.4402439024, 85.4085365854, 130.9597560976);
+  transform: translateY(-1px);
+}
+.client-accounts .client-accounts-table tbody tr .btn-danger,
+.client-accounts-table .client-accounts-table tbody tr .btn-danger {
+  color: #ef4444;
+}
+.client-accounts .client-accounts-table tbody tr .btn-danger svg path,
+.client-accounts-table .client-accounts-table tbody tr .btn-danger svg path {
+  stroke: #ef4444;
+}
+.client-accounts .modal,
+.client-accounts-table .modal {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(10, 12, 15, 0.45);
+  z-index: 60;
+}
+.client-accounts .modal.hidden,
+.client-accounts-table .modal.hidden {
+  display: none;
+}
+.client-accounts .modal .modal-dialog,
+.client-accounts-table .modal .modal-dialog {
+  width: min(880px, 96%);
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 20px 50px rgba(10, 20, 40, 0.35);
+  overflow: hidden;
+}
+.client-accounts .modal .modal-header,
+.client-accounts-table .modal .modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1.1rem;
+  border-bottom: 1px solid #e6e9ee;
+  background: linear-gradient(180deg, #ffffff, #fbfdff);
+}
+.client-accounts .modal .modal-header h3,
+.client-accounts-table .modal .modal-header h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #0369a1;
+}
+.client-accounts .modal .modal-header .modal-close,
+.client-accounts-table .modal .modal-header .modal-close {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  color: #6b7280;
+}
+.client-accounts .modal .modal-header .modal-close:hover,
+.client-accounts-table .modal .modal-header .modal-close:hover {
+  background: rgba(39, 123, 183, 0.06);
+  color: #0369a1;
+}
+.client-accounts .modal .modal-body,
+.client-accounts-table .modal .modal-body {
+  padding: 1rem 1.1rem;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+.client-accounts .modal .modal-body form,
+.client-accounts-table .modal .modal-body form {
+  display: grid;
+  gap: 0.9rem;
+}
+.client-accounts .modal .modal-body form .form-group label,
+.client-accounts-table .modal .modal-body form .form-group label {
+  display: block;
+  margin-bottom: 0.36rem;
+  font-weight: 600;
+  color: #374151;
+}
+.client-accounts .modal .modal-body form .form-group input[type=text],
+.client-accounts .modal .modal-body form .form-group input[type=date],
+.client-accounts .modal .modal-body form .form-group input[type=datetime-local],
+.client-accounts .modal .modal-body form .form-group select,
+.client-accounts .modal .modal-body form .form-group textarea,
+.client-accounts-table .modal .modal-body form .form-group input[type=text],
+.client-accounts-table .modal .modal-body form .form-group input[type=date],
+.client-accounts-table .modal .modal-body form .form-group input[type=datetime-local],
+.client-accounts-table .modal .modal-body form .form-group select,
+.client-accounts-table .modal .modal-body form .form-group textarea {
+  width: 100%;
+  padding: 0.58rem 0.7rem;
+  border: 1px solid #e6e9ee;
+  border-radius: 8px;
+  background: rgb(253.0615384615, 253.4923076923, 254.1384615385);
+  transition: box-shadow 0.12s ease, border-color 0.12s ease;
+  font-size: 0.96rem;
+}
+.client-accounts .modal .modal-body form .form-group input[type=text]:focus,
+.client-accounts .modal .modal-body form .form-group input[type=date]:focus,
+.client-accounts .modal .modal-body form .form-group input[type=datetime-local]:focus,
+.client-accounts .modal .modal-body form .form-group select:focus,
+.client-accounts .modal .modal-body form .form-group textarea:focus,
+.client-accounts-table .modal .modal-body form .form-group input[type=text]:focus,
+.client-accounts-table .modal .modal-body form .form-group input[type=date]:focus,
+.client-accounts-table .modal .modal-body form .form-group input[type=datetime-local]:focus,
+.client-accounts-table .modal .modal-body form .form-group select:focus,
+.client-accounts-table .modal .modal-body form .form-group textarea:focus {
+  outline: none;
+  border-color: #0ea5e9;
+  box-shadow: 0 8px 24px rgba(39, 123, 183, 0.08);
+}
+.client-accounts .modal .modal-body form .form-group textarea,
+.client-accounts-table .modal .modal-body form .form-group textarea {
+  min-height: 84px;
+  resize: vertical;
+}
+.client-accounts .modal .modal-footer,
+.client-accounts-table .modal .modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  padding: 0.85rem 1.1rem;
+  border-top: 1px solid #e6e9ee;
+  background: linear-gradient(180deg, #fbfdff, #ffffff);
+}
+.client-accounts .modal .modal-footer .btn-primary, .client-accounts .modal .modal-footer .btn-secondary,
+.client-accounts-table .modal .modal-footer .btn-primary,
+.client-accounts-table .modal .modal-footer .btn-secondary {
+  padding: 0.56rem 0.95rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+}
+.client-accounts .modal .modal-footer .btn-primary,
+.client-accounts-table .modal .modal-footer .btn-primary {
+  background: linear-gradient(90deg, #0ea5e9 60%, #2ec5ce 100%);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(6, 182, 212, 0.12);
+}
+.client-accounts .modal .modal-footer .btn-primary:hover,
+.client-accounts-table .modal .modal-footer .btn-primary:hover {
+  transform: translateY(-2px);
+}
+.client-accounts .modal .modal-footer .btn-secondary,
+.client-accounts-table .modal .modal-footer .btn-secondary {
+  background: #f8fafc;
+  border: 1px solid rgb(236.0714285714, 238.3428571429, 242.1285714286);
+  color: #334155;
+}
+.client-accounts .modal .modal-footer .btn-secondary:hover,
+.client-accounts-table .modal .modal-footer .btn-secondary:hover {
+  background: #eef6fb;
+}
+.client-accounts .form-error,
+.client-accounts-table .form-error {
+  color: #ef4444;
+  font-weight: 700;
+  margin-top: 0.4rem;
+  min-height: 1.1em;
+}
+.client-accounts .form-ok,
+.client-accounts-table .form-ok {
+  color: #059669;
+  font-weight: 700;
+  margin-top: 0.6rem;
+  min-height: 1.1em;
+}
+@media (max-width: 920px) {
+  .client-accounts,
+  .client-accounts-table {
+    padding: 14px;
+  }
+  .client-accounts .client-accounts-table,
+  .client-accounts-table .client-accounts-table {
+    font-size: 0.92rem;
+  }
+  .client-accounts .modal-dialog,
+  .client-accounts-table .modal-dialog {
+    width: 96%;
+  }
+}
+@media (max-width: 560px) {
+  .client-accounts .client-accounts-header,
+  .client-accounts-table .client-accounts-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6rem;
+  }
+  .client-accounts .client-accounts-table,
+  .client-accounts-table .client-accounts-table {
+    min-width: initial;
+  }
+  .client-accounts .modal-footer,
+  .client-accounts-table .modal-footer {
+    flex-direction: column-reverse;
+  }
+  .client-accounts .client-accounts-table-container,
+  .client-accounts-table .client-accounts-table-container {
+    padding: 0.4rem;
+  }
+}/*# sourceMappingURL=client-accounts-table.css.map */
