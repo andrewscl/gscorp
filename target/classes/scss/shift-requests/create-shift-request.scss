@@ -1,141 +1,37 @@
-/* Improved, more professional styling for the Shift Request card.
-   - Wider max-width, better min-height so card doesn't feel "cut"
-   - Responsive grid-based rows so date/time fields keep usable width
-   - Date inputs get a sensible min-width (so they don't collapse)
-   - Day-range blocks use CSS Grid for predictable layout and wrap nicely
-   - Clearer focus styles, subtle shadows and consistent buttons
-   - Small utility classes for counts/badges and hidden scrollbars kept accessible
-*/
+/* Recomendado: reemplaza las secciones .form-row, inputs y #shiftDayRanges.day-range-block por esto */
 
 .createShiftRequest {
-  --card-bg: #ffffff;
-  --muted-bg: #f3f4f6;
-  --muted-border: #e5e7eb;
-  --accent: #277bb7;
-  --accent-2: #2ec5ce;
-  --danger: #f87171;
-  --radius: 12px;
-  --pad: 1.6rem;
-  --max-w: 820px;
 
-  background: var(--card-bg);
-  padding: 1.8rem;
-  border-radius: var(--radius);
-  box-shadow: 0 6px 24px rgba(35,45,65,0.08);
-  max-width: var(--max-w);
-  width: calc(100% - 2rem);
-  margin: 2rem auto;
-  font-family: 'Inter', system-ui, Arial, sans-serif;
-  font-size: 1rem;
-  color: #263147;
-  min-height: 480px; /* avoids looking "cut" */
-  max-height: 78vh;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-
-  /* Scrollbar (thin but visible on desktop) */
-  scrollbar-width: thin;
-  scrollbar-color: rgba(120,130,150,0.25) transparent;
-
-  &::-webkit-scrollbar { height: 8px; width: 8px; }
-  &::-webkit-scrollbar-thumb {
-    background: rgba(120,130,150,0.2);
-    border-radius: 6px;
-  }
-  &::-webkit-scrollbar-track { background: transparent; }
-
-  .createShiftRequestHeader {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 0.6rem;
-
-    h3 {
-      margin: 0;
-      font-size: 1.4rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--accent);
-    }
-
-    .modal-close {
-      border: none;
-      font-size: 1.9rem;
-      background: transparent;
-      cursor: pointer;
-      color: #7c8694;
-      line-height: 1;
-      transition: color 0.18s ease;
-      padding: 0;
-      width: 36px;
-      height: 36px;
-      display: grid;
-      place-items: center;
-      border-radius: 6px;
-      &:hover { color: #e53e3e; background: rgba(229,231,235,0.6); }
-    }
+  /* asegurar que los controles no desborden */
+  input, select, textarea {
+    box-sizing: border-box;
+    width: 100%;
   }
 
-  .createShiftRequest-body { margin-top: 0.9rem; }
-
-  /* Generic form controls */
-  .form-group {
-    margin-bottom: 1rem;
-    label {
-      font-weight: 600;
-      color: #374151;
-      display: block;
-      margin-bottom: .32rem;
-      font-size: 0.95rem;
-    }
-
-    input, select, textarea {
-      margin-top: 0.04rem;
-      width: 100%;
-      padding: .62rem .75rem;
-      font-size: 0.975rem;
-      border: 1px solid var(--muted-border);
-      border-radius: 8px;
-      background: var(--muted-bg);
-      color: #1f2937;
-      transition: border-color .15s ease, box-shadow .12s ease;
-      &:focus { 
-        border-color: var(--accent); 
-        box-shadow: 0 4px 14px rgba(39,123,183,0.08);
-        outline: none;
-      }
-    }
-
-    textarea { min-height: 3.6rem; resize: vertical; }
-  }
-
-  /* Use responsive grid for rows so fields keep reasonable width */
+  /* Form rows: mantener columnas iguales pero permitir que el contenido determine altura */
   .form-row {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /* minmax(0,1fr) evita overflow */
     gap: 0.9rem;
-    align-items: end;
+    align-items: start; /* IMPORTANTE: start en vez de center para evitar solapamientos */
 
     .form-group {
       margin-bottom: 0;
-      min-width: 0;
+      min-width: 0; /* permite que hijos se reduzcan correctamente dentro del grid */
     }
 
-    /* Force date / small groups to keep usable width on larger screens */
+    /* Si quieres forzar inputs de fecha a un ancho máximo razonable, usa date-field en el HTML */
     .date-field {
-      min-width: 180px;
       max-width: 320px;
-      /* keep the date controls slightly more compact but usable */
+      min-width: 140px;
     }
   }
 
-  /* Ensure inputs of type date/time have a min width so they don't shrink too much */
+  /* fecha / hora: usar max-width en lugar de min-width para que no crezcan demasiado */
   input[type="date"],
-  input[type="time"],
-  .date-field input,
-  .date-field select {
-    min-width: 170px;
+  input[type="time"] {
+    max-width: 220px;
+    min-width: 100px;
     padding-left: .72rem;
     padding-right: .72rem;
   }
@@ -150,125 +46,40 @@
       padding: .9rem;
       margin-bottom: 1rem;
       border: 1px solid var(--muted-border);
+
+      /* Grid más predecible: columnas para inputs y una columna fija para el botón eliminar */
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) 80px;
-      gap: 0.75rem;
-      align-items: center;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) 92px;
+      gap: 0.6rem;
+      align-items: start; /* IMPORTANTE: start para evitar solapamiento vertical */
       align-content: start;
 
-      /* internal form-group adjustments */
-      .form-group { margin-bottom: 0; min-width: 0; }
+      .form-group {
+        margin-bottom: 0;
+        min-width: 0;
+      }
 
-      /* Make remove button align in the last column */
+      /* remove button ocupa la última columna y se alinea al inicio de la celda */
       .remove-day-range {
         grid-column: -1;
         justify-self: end;
-        margin: 0;
-        background: var(--danger);
-        color: #fff;
-        font-weight: 600;
-        font-size: .95rem;
-        border-radius: 6px;
-        border: none;
-        padding: .48rem .8rem;
-        cursor: pointer;
-        transition: background .12s ease, transform .08s ease;
-        &:hover { background: #d63b3b; transform: translateY(-1px); }
+        align-self: start;
       }
 
-      /* compact layout for small screens inside the block */
+      /* en pantallas pequeñas colapsa a una sola columna (esto evita inputs comprimidos) */
       @media (max-width: 480px) {
         grid-template-columns: 1fr;
-        .remove-day-range { justify-self: start; }
+        .remove-day-range { justify-self: start; align-self: center; }
       }
     }
   }
 
-  .btn-mini { 
-    font-size: .98rem;
-    border: none;
-    background: linear-gradient(90deg, var(--accent) 65%, var(--accent-2) 100%);
-    color: white;
-    padding: .46rem .9rem;
-    border-radius: 6px;
-    cursor: pointer;
-    margin-top: 0.2rem;
-    transition: transform .12s ease, filter .12s ease;
-    &:hover { transform: translateY(-1px); filter: brightness(.98); }
-    &.btn-danger {
-      background: var(--danger);
-      color: #fff;
-      &:hover { background: #d63b3b;}
-    }
-  }
+  /* Ajustes extra para evitar salto/solapamiento de etiquetas */
+  label { display: block; margin-bottom: .28rem; line-height: 1.25; }
 
-  .dayrange-help { 
-    display: block;
-    color: #6b7280;
-    margin: -0.28rem 0 1.1rem 2px;
-    font-size: .94rem;
-    font-style: italic;
-  }
-
-  .modal-footer {
-    display: flex;
-    gap: 0.75rem;
-    justify-content: flex-end;
-    align-items: center;
-    margin-top: .6rem;
-
-    .btn-primary, .btn-secondary {
-      border: none;
-      border-radius: 8px;
-      padding: .62rem 1.2rem;
-      font-weight: 700;
-      font-size: 1rem;
-      cursor: pointer;
-      box-shadow: 0 2px 10px rgba(30,40,60, .06);
-      transition: transform .12s ease, box-shadow .12s ease;
-    }
-    .btn-primary {
-      background: linear-gradient(90deg, var(--accent) 65%, var(--accent-2) 100%);
-      color: #fff;
-      &:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(39,123,183,.12); }
-    }
-    .btn-secondary {
-      background: #f8fafc;
-      color: #334155;
-      border: 1px solid #cbd5e1;
-      &:hover { background: #eef2f6; transform: translateY(-2px); }
-    }
-  }
-
-  .form-error { 
-    color: #b91c1c; 
-    margin-top: 0.6rem; 
-    font-weight: 600; 
-    min-height: 1.2em;
-  }
-  .form-ok { 
-    color: #059669; 
-    font-weight: 600; 
-    text-align: center; 
-    margin-top: 1.1rem; 
-  }
-
-  /* small helpers */
-  .muted { color: #6b7280; }
-  .small { font-size: .9rem; }
-
-  @media (max-width: 900px) {
-    --max-w: 720px;
-    min-height: 420px;
-    .form-row { grid-template-columns: 1fr 1fr; }
-  }
-
-  @media (max-width: 640px) {
-    --max-w: 100%;
-    padding: 1rem;
-    min-height: auto;
-    .form-row { grid-template-columns: 1fr; gap: .65rem; }
-    #shiftDayRanges .day-range-block { grid-template-columns: 1fr; gap: .55rem; padding: .75rem; }
-    .modal-footer { flex-direction: column-reverse; align-items: stretch; gap: .5rem; }
+  /* modestos límites para evitar inputs gigantes en contenedores estrechos */
+  .form-group input,
+  .form-group select {
+    max-height: 48px;
   }
 }

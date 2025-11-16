@@ -1,143 +1,36 @@
 @charset "UTF-8";
-/* Improved, more professional styling for the Shift Request card.
-   - Wider max-width, better min-height so card doesn't feel "cut"
-   - Responsive grid-based rows so date/time fields keep usable width
-   - Date inputs get a sensible min-width (so they don't collapse)
-   - Day-range blocks use CSS Grid for predictable layout and wrap nicely
-   - Clearer focus styles, subtle shadows and consistent buttons
-   - Small utility classes for counts/badges and hidden scrollbars kept accessible
-*/
+/* Recomendado: reemplaza las secciones .form-row, inputs y #shiftDayRanges.day-range-block por esto */
 .createShiftRequest {
-  --card-bg: #ffffff;
-  --muted-bg: #f3f4f6;
-  --muted-border: #e5e7eb;
-  --accent: #277bb7;
-  --accent-2: #2ec5ce;
-  --danger: #f87171;
-  --radius: 12px;
-  --pad: 1.6rem;
-  --max-w: 820px;
-  background: var(--card-bg);
-  padding: 1.8rem;
-  border-radius: var(--radius);
-  box-shadow: 0 6px 24px rgba(35, 45, 65, 0.08);
-  max-width: var(--max-w);
-  width: calc(100% - 2rem);
-  margin: 2rem auto;
-  font-family: "Inter", system-ui, Arial, sans-serif;
-  font-size: 1rem;
-  color: #263147;
-  min-height: 480px; /* avoids looking "cut" */
-  max-height: 78vh;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  /* Scrollbar (thin but visible on desktop) */
-  scrollbar-width: thin;
-  scrollbar-color: rgba(120, 130, 150, 0.25) transparent;
-  /* Generic form controls */
-  /* Use responsive grid for rows so fields keep reasonable width */
-  /* Ensure inputs of type date/time have a min width so they don't shrink too much */
+  /* asegurar que los controles no desborden */
+  /* Form rows: mantener columnas iguales pero permitir que el contenido determine altura */
+  /* fecha / hora: usar max-width en lugar de min-width para que no crezcan demasiado */
   /* --- Tramos de días y horarios --- */
-  /* small helpers */
+  /* Ajustes extra para evitar salto/solapamiento de etiquetas */
+  /* modestos límites para evitar inputs gigantes en contenedores estrechos */
 }
-.createShiftRequest::-webkit-scrollbar {
-  height: 8px;
-  width: 8px;
-}
-.createShiftRequest::-webkit-scrollbar-thumb {
-  background: rgba(120, 130, 150, 0.2);
-  border-radius: 6px;
-}
-.createShiftRequest::-webkit-scrollbar-track {
-  background: transparent;
-}
-.createShiftRequest .createShiftRequestHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 0.6rem;
-}
-.createShiftRequest .createShiftRequestHeader h3 {
-  margin: 0;
-  font-size: 1.4rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--accent);
-}
-.createShiftRequest .createShiftRequestHeader .modal-close {
-  border: none;
-  font-size: 1.9rem;
-  background: transparent;
-  cursor: pointer;
-  color: #7c8694;
-  line-height: 1;
-  transition: color 0.18s ease;
-  padding: 0;
-  width: 36px;
-  height: 36px;
-  display: grid;
-  place-items: center;
-  border-radius: 6px;
-}
-.createShiftRequest .createShiftRequestHeader .modal-close:hover {
-  color: #e53e3e;
-  background: rgba(229, 231, 235, 0.6);
-}
-.createShiftRequest .createShiftRequest-body {
-  margin-top: 0.9rem;
-}
-.createShiftRequest .form-group {
-  margin-bottom: 1rem;
-}
-.createShiftRequest .form-group label {
-  font-weight: 600;
-  color: #374151;
-  display: block;
-  margin-bottom: 0.32rem;
-  font-size: 0.95rem;
-}
-.createShiftRequest .form-group input, .createShiftRequest .form-group select, .createShiftRequest .form-group textarea {
-  margin-top: 0.04rem;
+.createShiftRequest input, .createShiftRequest select, .createShiftRequest textarea {
+  box-sizing: border-box;
   width: 100%;
-  padding: 0.62rem 0.75rem;
-  font-size: 0.975rem;
-  border: 1px solid var(--muted-border);
-  border-radius: 8px;
-  background: var(--muted-bg);
-  color: #1f2937;
-  transition: border-color 0.15s ease, box-shadow 0.12s ease;
-}
-.createShiftRequest .form-group input:focus, .createShiftRequest .form-group select:focus, .createShiftRequest .form-group textarea:focus {
-  border-color: var(--accent);
-  box-shadow: 0 4px 14px rgba(39, 123, 183, 0.08);
-  outline: none;
-}
-.createShiftRequest .form-group textarea {
-  min-height: 3.6rem;
-  resize: vertical;
 }
 .createShiftRequest .form-row {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* minmax(0,1fr) evita overflow */
   gap: 0.9rem;
-  align-items: end;
-  /* Force date / small groups to keep usable width on larger screens */
+  align-items: start; /* IMPORTANTE: start en vez de center para evitar solapamientos */
+  /* Si quieres forzar inputs de fecha a un ancho máximo razonable, usa date-field en el HTML */
 }
 .createShiftRequest .form-row .form-group {
   margin-bottom: 0;
-  min-width: 0;
+  min-width: 0; /* permite que hijos se reduzcan correctamente dentro del grid */
 }
 .createShiftRequest .form-row .date-field {
-  min-width: 180px;
   max-width: 320px;
-  /* keep the date controls slightly more compact but usable */
+  min-width: 140px;
 }
 .createShiftRequest input[type=date],
-.createShiftRequest input[type=time],
-.createShiftRequest .date-field input,
-.createShiftRequest .date-field select {
-  min-width: 170px;
+.createShiftRequest input[type=time] {
+  max-width: 220px;
+  min-width: 100px;
   padding-left: 0.72rem;
   padding-right: 0.72rem;
 }
@@ -150,14 +43,14 @@
   padding: 0.9rem;
   margin-bottom: 1rem;
   border: 1px solid var(--muted-border);
+  /* Grid más predecible: columnas para inputs y una columna fija para el botón eliminar */
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) 80px;
-  gap: 0.75rem;
-  align-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) 92px;
+  gap: 0.6rem;
+  align-items: start; /* IMPORTANTE: start para evitar solapamiento vertical */
   align-content: start;
-  /* internal form-group adjustments */
-  /* Make remove button align in the last column */
-  /* compact layout for small screens inside the block */
+  /* remove button ocupa la última columna y se alinea al inicio de la celda */
+  /* en pantallas pequeñas colapsa a una sola columna (esto evita inputs comprimidos) */
 }
 .createShiftRequest #shiftDayRanges .day-range-block .form-group {
   margin-bottom: 0;
@@ -166,20 +59,7 @@
 .createShiftRequest #shiftDayRanges .day-range-block .remove-day-range {
   grid-column: -1;
   justify-self: end;
-  margin: 0;
-  background: var(--danger);
-  color: #fff;
-  font-weight: 600;
-  font-size: 0.95rem;
-  border-radius: 6px;
-  border: none;
-  padding: 0.48rem 0.8rem;
-  cursor: pointer;
-  transition: background 0.12s ease, transform 0.08s ease;
-}
-.createShiftRequest #shiftDayRanges .day-range-block .remove-day-range:hover {
-  background: #d63b3b;
-  transform: translateY(-1px);
+  align-self: start;
 }
 @media (max-width: 480px) {
   .createShiftRequest #shiftDayRanges .day-range-block {
@@ -187,116 +67,15 @@
   }
   .createShiftRequest #shiftDayRanges .day-range-block .remove-day-range {
     justify-self: start;
+    align-self: center;
   }
 }
-.createShiftRequest .btn-mini {
-  font-size: 0.98rem;
-  border: none;
-  background: linear-gradient(90deg, var(--accent) 65%, var(--accent-2) 100%);
-  color: white;
-  padding: 0.46rem 0.9rem;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-top: 0.2rem;
-  transition: transform 0.12s ease, filter 0.12s ease;
-}
-.createShiftRequest .btn-mini:hover {
-  transform: translateY(-1px);
-  filter: brightness(0.98);
-}
-.createShiftRequest .btn-mini.btn-danger {
-  background: var(--danger);
-  color: #fff;
-}
-.createShiftRequest .btn-mini.btn-danger:hover {
-  background: #d63b3b;
-}
-.createShiftRequest .dayrange-help {
+.createShiftRequest label {
   display: block;
-  color: #6b7280;
-  margin: -0.28rem 0 1.1rem 2px;
-  font-size: 0.94rem;
-  font-style: italic;
+  margin-bottom: 0.28rem;
+  line-height: 1.25;
 }
-.createShiftRequest .modal-footer {
-  display: flex;
-  gap: 0.75rem;
-  justify-content: flex-end;
-  align-items: center;
-  margin-top: 0.6rem;
-}
-.createShiftRequest .modal-footer .btn-primary, .createShiftRequest .modal-footer .btn-secondary {
-  border: none;
-  border-radius: 8px;
-  padding: 0.62rem 1.2rem;
-  font-weight: 700;
-  font-size: 1rem;
-  cursor: pointer;
-  box-shadow: 0 2px 10px rgba(30, 40, 60, 0.06);
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
-}
-.createShiftRequest .modal-footer .btn-primary {
-  background: linear-gradient(90deg, var(--accent) 65%, var(--accent-2) 100%);
-  color: #fff;
-}
-.createShiftRequest .modal-footer .btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(39, 123, 183, 0.12);
-}
-.createShiftRequest .modal-footer .btn-secondary {
-  background: #f8fafc;
-  color: #334155;
-  border: 1px solid #cbd5e1;
-}
-.createShiftRequest .modal-footer .btn-secondary:hover {
-  background: #eef2f6;
-  transform: translateY(-2px);
-}
-.createShiftRequest .form-error {
-  color: #b91c1c;
-  margin-top: 0.6rem;
-  font-weight: 600;
-  min-height: 1.2em;
-}
-.createShiftRequest .form-ok {
-  color: #059669;
-  font-weight: 600;
-  text-align: center;
-  margin-top: 1.1rem;
-}
-.createShiftRequest .muted {
-  color: #6b7280;
-}
-.createShiftRequest .small {
-  font-size: 0.9rem;
-}
-@media (max-width: 900px) {
-  .createShiftRequest {
-    --max-w: 720px;
-    min-height: 420px;
-  }
-  .createShiftRequest .form-row {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-@media (max-width: 640px) {
-  .createShiftRequest {
-    --max-w: 100%;
-    padding: 1rem;
-    min-height: auto;
-  }
-  .createShiftRequest .form-row {
-    grid-template-columns: 1fr;
-    gap: 0.65rem;
-  }
-  .createShiftRequest #shiftDayRanges .day-range-block {
-    grid-template-columns: 1fr;
-    gap: 0.55rem;
-    padding: 0.75rem;
-  }
-  .createShiftRequest .modal-footer {
-    flex-direction: column-reverse;
-    align-items: stretch;
-    gap: 0.5rem;
-  }
+.createShiftRequest .form-group input,
+.createShiftRequest .form-group select {
+  max-height: 48px;
 }/*# sourceMappingURL=create-shift-request.css.map */
