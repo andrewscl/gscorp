@@ -1,4 +1,3 @@
-// create-client-account.js (alineado al patrón que funciona en create-client.js)
 import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
 
@@ -6,7 +5,7 @@ console.log('create-client-account.js cargado');
 
 const qs = (s) => document.querySelector(s);
 
-/* Mostrar mensajes */
+/* Mostrar/limpiar mensajes */
 function showMessage(el, text, type = 'error') {
   if (!el) return;
   el.className = 'form-message';
@@ -16,31 +15,19 @@ function showMessage(el, text, type = 'error') {
 }
 function clearMessage(el) { if (!el) return; el.className = 'form-message'; el.textContent = ''; }
 
-/* Serializa form en objeto JSON simple (útil para body) */
-function serializeForm(form) {
-  const fd = new FormData(form);
-  const obj = {};
-  for (const [k, v] of fd.entries()) {
-    if (k === 'clientId' && v !== '') obj[k] = Number(v);
-    else if (v === '') obj[k] = null;
-    else obj[k] = v;
-  }
-  return obj;
-}
-
-/* Submit handler */
+/* --- Crear cuenta de cliente --- */
 async function onSubmitCreateAccount(e) {
   e.preventDefault();
 
+  const nameEl = qs('#clientAccountName');
+  const clientSelect = qs('#clientAccountClient');
   const form = qs('#createClientAccountForm');
   const msgEl = qs('#createClientAccountMessage');
   const submitBtn = qs('#createClientAccountForm button[type="submit"]');
 
   clearMessage(msgEl);
 
-  // leer valores directamente (igual estilo que create-client.js)
-  const name = qs('#clientAccountName')?.value?.trim();
-  const clientSelect = qs('#clientAccountClient');
+  const name = nameEl?.value?.trim();
   const clientSelectValue = clientSelect ? clientSelect.value : '';
   const clientHidden = form ? form.querySelector('input[name="clientId"]') : null;
   const clientId = clientSelectValue && clientSelectValue !== '' ? clientSelectValue : (clientHidden ? clientHidden.value : null);
@@ -55,7 +42,6 @@ async function onSubmitCreateAccount(e) {
     return;
   }
 
-  // construir payload
   const payload = {
     name,
     clientId: Number(clientId),
@@ -65,12 +51,14 @@ async function onSubmitCreateAccount(e) {
   if (submitBtn) submitBtn.disabled = true;
 
   try {
-    // Ajusta la URL si tu backend expone otra ruta
+    // Ajusta la URL si tu backend usa /api/client-accounts en vez de /api/client-accounts/create
     const res = await fetchWithAuth('/api/client-accounts/create', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
+
+    if (!res) throw new Error('No response from server');
 
     if (res.ok) {
       showMessage(msgEl, 'Cuenta creada correctamente. Redirigiendo…', 'ok');
@@ -98,16 +86,21 @@ async function onSubmitCreateAccount(e) {
   }
 }
 
-/* Bindings */
+/* Bindings (estilo create-client.js) */
 function bindForm() {
   const form = qs('#createClientAccountForm');
-  if (form) {
-    form.addEventListener('submit', onSubmitCreateAccount);
-    console.log('Submit handler vinculado al formulario createClientAccountForm');
-  } else {
-    console.warn('Form createClientAccountForm no encontrado - el JS no podrá interceptar submits');
+  if (!form) {
+    console.warn('create-client-account: form no encontrado');
+    return;
   }
 
+  // Evitar rebind si se carga el script varias veces
+  if (form.__ccaBound) return;
+  form.__ccaBound = true;
+
+  form.addEventListener('submit', onSubmitCreateAccount);
+
+  // Cancel button (puede ser <button data-path> o .btn-secondary)
   const cancel = qs('.btn-secondary');
   if (cancel) {
     cancel.addEventListener('click', (ev) => {
@@ -116,12 +109,14 @@ function bindForm() {
       navigateTo(path);
     });
   }
+
+  // UX: focus
+  setTimeout(() => qs('#clientAccountName')?.focus(), 50);
+
+  console.log('create-client-account: bindings aplicados');
 }
 
-/* Init */
+/* Init inmediato (no depender de DOMContentLoaded del documento raíz, para SPA) */
 (function init() {
-  document.addEventListener('DOMContentLoaded', () => {
-    bindForm();
-    setTimeout(() => qs('#clientAccountName')?.focus(), 50);
-  });
+  bindForm();
 })();

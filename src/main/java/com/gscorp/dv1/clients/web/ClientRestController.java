@@ -38,7 +38,6 @@ public class ClientRestController {
     private final PatrolRunService patrolRunService;
     private final IncidentService incidentService;
 
-
     @PostMapping("/create")
     public ResponseEntity <ClientDto> createClient(
         @jakarta.validation.Valid @RequestBody CreateClientRequest req,
