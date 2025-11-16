@@ -3,6 +3,7 @@ package com.gscorp.dv1.clients.application;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -113,6 +114,19 @@ public class ClientServiceImpl implements ClientService{
         if (!allowed.containsAll(clientIds)) {
             throw new AccessDeniedException("Access denied to one or more clients");
         }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ClientDto> findDtosByUserId(Long userId) {
+        if(userId == null) return Collections.emptyList();
+
+        List<ClientDto> clients = clientRepo.findDtosByUserId(userId);
+        if (clients == null || clients.isEmpty()) return Collections.emptyList();
+
+        return clients.stream()
+                .map(c -> new ClientDto(c.id(), c.name(), c.legalName(), c.taxId(), c.active()))
+                .collect(Collectors.toList());
     }
 
 }

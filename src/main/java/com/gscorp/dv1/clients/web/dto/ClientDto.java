@@ -7,8 +7,8 @@ public record ClientDto (
 
     Long id,
     String name,
+    String legalName,
     String taxId,
-    String contactEmail,
     Boolean active)
     {
 
@@ -18,8 +18,8 @@ public record ClientDto (
             return new ClientDto(
                 client.getId(),
                 client.getName(),
+                client.getLegalName(),
                 client.getTaxId(),
-                client.getContactEmail(),
                 client.getActive()
             );
 

@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gscorp.dv1.clientaccounts.application.ClientAccountService;
 import com.gscorp.dv1.clientaccounts.web.dto.ClientAccountDto;
+import com.gscorp.dv1.clients.application.ClientService;
+import com.gscorp.dv1.clients.web.dto.ClientDto;
+import com.gscorp.dv1.users.application.UserService;
 
 import lombok.AllArgsConstructor;
 
@@ -19,7 +22,10 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ClientAccountController {
 
-    ClientAccountService clientAccountService;
+    private final ClientAccountService clientAccountService;
+    private final UserService userService;
+    private final ClientService clientService;
+    
     
     @GetMapping("/table-view")
     public String getClientAccountsTableView(Model model, Authentication authentication) {
@@ -32,6 +38,27 @@ public class ClientAccountController {
         // Vista Thymeleaf que renderiza la tabla (ajusta la ruta si tu estructura difiere)
         return "private/client-accounts/views/client-accounts-table-view";
 
+    }
+
+    @GetMapping("/create")
+    public String showCreateForm(Model model, Authentication authentication) {
+        Long userId = userService.getUserIdFromAuthentication(authentication);
+        if(userId == null) {
+            return "redirect:/login"; // O la vista que corresponda
+        }
+
+        // Mejor pasar DTOs con id+name para poblar el <select>
+        List<ClientDto> clients = clientService.findDtosByUserId(userId);
+        if (clients == null) clients = Collections.emptyList();
+
+        model.addAttribute("clients", clients);
+
+        // UX: si solo hay 1 client, pasar un preseleccionado (opcional)
+        if (clients.size() == 1) {
+            model.addAttribute("preselectedClientId", clients.get(0).id());
+        }
+
+        return "private/client-accounts/views/create-client-account-view";
     }
 
 }

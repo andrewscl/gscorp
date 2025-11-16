@@ -29,6 +29,8 @@ public interface ClientService {
      * Valida que authentication tenga acceso a todos los clientIds; lanza AccessDeniedException o ResponseStatusException si no.
      */
     void ensureUserHasAccess(Authentication authentication, Collection<Long> clientIds);
+
+    List<ClientDto> findDtosByUserId(Long userId);
     
 
 }
