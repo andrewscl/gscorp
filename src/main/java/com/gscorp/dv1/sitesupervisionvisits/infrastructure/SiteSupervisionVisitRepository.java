@@ -131,16 +131,19 @@ public interface SiteSupervisionVisitRepository
      * Ajusta 'v.ts' por el nombre real del campo de fecha en tu entidad SiteSupervisionVisit
      * si usa otro nombre (p.ej. 'visitedAt', 'eventAt', etc.).
      */
-    @Query("select count(v) " +
-           "from SiteSupervisionVisit v " +
-           "join v.sites s " +
-           "join s.project p " +
-           "join p.clients c " +
-           "where c.id in :clientIds " +
-           "  and v.ts >= :from and v.ts < :to")
-    long countByClientIdsAndTsBetween(
-            @Param("clientIds") List<Long> clientIds,
-            @Param("from") OffsetDateTime from,
-            @Param("to") OffsetDateTime to);
+  @Query(value = """
+      SELECT COUNT(v.id)
+      FROM site_supervision_visits v
+      JOIN site s ON v.site_id = s.id
+      JOIN project p ON s.project_id = p.id
+      JOIN client c ON p.client_id = c.id
+      WHERE c.id IN (:clientIds)
+        AND v.visit_date_time >= :from
+        AND v.visit_date_time < :to
+      """, nativeQuery = true)
+  long countByClientIdsAndTsBetweenNative(
+          @Param("clientIds") List<Long> clientIds,
+          @Param("from") OffsetDateTime from,
+          @Param("to") OffsetDateTime to);
 
 }
