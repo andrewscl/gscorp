@@ -101,13 +101,10 @@ HitsSum hitsSumForClients(
      *
      * Ajusta 'pr.startedAt' por el nombre correcto del campo de fecha de tu entidad PatrolRun.
      */
-    @Query("select count(pr) " +
+   @Query("select count(pr) " +
            "from PatrolRun pr " +
-           "join pr.sites s " +
-           "join s.project p " +
-           "join p.clients c " +
-           "where c.id in :clientIds " +
-           "  and pr.startedAt >= :from and pr.startedAt < :to")
+           "where pr.route.site.project.client.id in :clientIds " + // si route -> site -> project -> client
+           "  and pr.startedTs >= :from and pr.startedTs < :to")
     long countByClientIdsAndStartedAtBetween(
             @Param("clientIds") List<Long> clientIds,
             @Param("from") OffsetDateTime from,
