@@ -19,7 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.gscorp.dv1.clientaccounts.application.ClientAccountService;
 import com.gscorp.dv1.clientaccounts.web.dto.ClientAccountDto;
 import com.gscorp.dv1.shiftrequests.application.ShiftRequestService;
-import com.gscorp.dv1.shiftrequests.web.dto.CreateShiftRequestRequest;
+import com.gscorp.dv1.shiftrequests.web.dto.CreateShiftRequest;
 import com.gscorp.dv1.shiftrequests.web.dto.ShiftRequestDto;
 import com.gscorp.dv1.users.application.UserService;
 
@@ -36,21 +36,29 @@ public class ShiftRequestRestController {
 
     @PostMapping("/create")
     public ResponseEntity<ShiftRequestDto> createShiftRequest(
-        @jakarta.validation.Valid @RequestBody CreateShiftRequestRequest req,
+        @jakarta.validation.Valid @RequestBody CreateShiftRequest req,
+        Authentication authentication,
         UriComponentsBuilder ucb) {
 
-        //Crear shiftrequest
-        ShiftRequestDto dto = shiftRequestService.create(req);
+        // delega en el service que valida permisos y crea la entidad
+        ShiftRequestDto dto = shiftRequestService.createShiftRequestForPrincipal(req, authentication);
 
-        URI uri = ucb.path("/api/shift-requests/{id}").buildAndExpand(dto.id()).toUri();
+        Long id = dto != null ? dto.id() : null;
 
-        return ResponseEntity.created(uri).body(dto);
+        if (id != null) {
+            URI uri = ucb.path("/api/shift-requests/{id}").buildAndExpand(id).toUri();
+            return ResponseEntity.created(uri).body(dto);
+        } else {
+            // si no tenemos id exponible, devolvemos 201 con body sin Location
+            return ResponseEntity.status(HttpStatus.CREATED).body(dto);
+        }
+
     }
 
     @PutMapping("/edit/{id}")
     public ResponseEntity<ShiftRequestDto> editShiftRequest(
         @PathVariable Long id,
-        @jakarta.validation.Valid @RequestBody CreateShiftRequestRequest req
+        @jakarta.validation.Valid @RequestBody CreateShiftRequest req
     ) {
         Optional<ShiftRequestDto> updatedDtoOpt = shiftRequestService.update(id, req);
 

@@ -1,5 +1,6 @@
 package com.gscorp.dv1.shiftrequests.application;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.Collection;
@@ -16,12 +17,11 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.gscorp.dv1.clientaccounts.application.ClientAccountService;
 import com.gscorp.dv1.clientaccounts.web.dto.ClientAccountDto;
-import com.gscorp.dv1.enums.RequestType;
 import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequestRepository;
 import com.gscorp.dv1.shiftrequests.infrastructure.ShiftSchedule;
-import com.gscorp.dv1.shiftrequests.web.dto.CreateShiftRequestRequest;
+import com.gscorp.dv1.shiftrequests.web.dto.CreateShiftRequest;
 import com.gscorp.dv1.shiftrequests.web.dto.ShiftRequestDto;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.infrastructure.Site;
@@ -55,86 +55,7 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
     }
 
     @Override
-    @Transactional
-    public ShiftRequestDto create(CreateShiftRequestRequest req) {
-        // Validaciones básicas
-        if (req.type() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tipo de solicitud es obligatorio");
-        }
-        if (req.siteId() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "siteId es obligatorio");
-        }
-
-        RequestType requestType = req.type(); // ya es enum
-        Long siteId = req.siteId();
-
-        Site site = siteRepository.findById(siteId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Site not found"));
-
-        // Determinar prefijo según el enum RequestType
-        String prefix;
-        switch (requestType) {
-            case FIXED -> prefix = "TF";
-            case ESPORADIC -> prefix = "TS";
-            default -> prefix = "TX";
-        }
-
-        // Buscar el último código con ese prefijo
-        String lastCode = shiftRequestRepository.findLastCodeBySiteIdAndPrefix(siteId, prefix);
-
-        int nextCorrelative = 1;
-        if (lastCode != null && lastCode.startsWith(prefix)) {
-            try {
-                nextCorrelative = Integer.parseInt(lastCode.substring(prefix.length())) + 1;
-            } catch (NumberFormatException e) {
-                nextCorrelative = 1;
-            }
-        }
-
-        String newCode = prefix + String.format("%04d", nextCorrelative);
-
-        // Construir entidad
-        ShiftRequest shiftRequest = ShiftRequest.builder()
-                .code(newCode)
-                .site(site)
-                .type(requestType)
-                .clientAccountId(req.accountId())
-                .startDate(req.startDate())
-                .endDate(req.endDate())
-                .status(ShiftRequestStatus.REQUESTED)
-                .description(req.description())
-                .build();
-
-        // Mapear schedules (validando formatos de hora si aplica)
-        if (req.schedules() != null && !req.schedules().isEmpty()) {
-            try {
-                List<ShiftSchedule> schedules = req.schedules().stream()
-                    .map(schedReq -> ShiftSchedule.builder()
-                        .dayFrom(schedReq.dayFrom())
-                        .dayTo(schedReq.dayTo())
-                        .startTime(LocalTime.parse(schedReq.startTime()))
-                        .endTime(LocalTime.parse(schedReq.endTime()))
-                        .lunchTime(schedReq.lunchTime() != null ? LocalTime.parse(schedReq.lunchTime()) : null)
-                        .shiftRequest(shiftRequest)
-                        .build()
-                    ).toList();
-                shiftRequest.setSchedules(schedules);
-            } catch (DateTimeParseException dtpe) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Formato de hora inválido en schedules: " + dtpe.getMessage(), dtpe);
-            }
-        }
-
-        ShiftRequest saved = shiftRequestRepository.save(shiftRequest);
-
-        // recargar con relaciones para evitar lazy issues y mapear a DTO
-        ShiftRequest enriched = shiftRequestRepository.findByIdWithSiteAndSchedules(saved.getId())
-                .orElse(saved);
-
-        return ShiftRequestDto.fromEntity(enriched);
-    }
-
-    @Override
-    public Optional<ShiftRequestDto> update(Long id, CreateShiftRequestRequest req) {
+    public Optional<ShiftRequestDto> update(Long id, CreateShiftRequest req) {
         ShiftRequest shiftRequest = shiftRequestRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("ShiftRequest not found"));
 
@@ -160,7 +81,6 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
         ShiftRequest saved = shiftRequestRepository.save(shiftRequest);
         return Optional.ofNullable(ShiftRequestDto.fromEntity(saved));
     }
-
 
     @Override
     @Transactional(readOnly = true)
@@ -198,9 +118,12 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
     }
 
 
+    /**
+     * Creación principal con validación de permisos del usuario.
+     */
     @Override
     @Transactional
-    public ShiftRequestDto createShiftRequest(CreateShiftRequestRequest req, Long userId) {
+    public ShiftRequestDto createShiftRequest(CreateShiftRequest req, Long userId) {
         if (userId == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
         }
@@ -214,32 +137,38 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
         if (req.type() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tipo de solicitud es obligatorio");
         }
-        if (req.startDate() == null || req.endDate() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Fecha de inicio y fecha de fin son obligatorias");
+        if (req.startDate() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Fecha de inicio es obligatoria");
         }
-        if (req.endDate().isBefore(req.startDate())) {
+        // si endDate es null, lo normalizamos a startDate
+        LocalDate start = req.startDate();
+        LocalDate end = req.endDate() != null ? req.endDate() : start;
+        if (end.isBefore(start)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La fecha de fin no puede ser anterior a la fecha de inicio");
         }
 
-        // Obtener clientId asociado al site (más eficiente que traer entidad completa)
-        Long siteClientId = siteService.getClientIdForSite(req.siteId())
+        // Obtener clientId asociado al site
+        Long siteId = req.siteId();
+        if (siteId == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "siteId es obligatorio");
+        }
+
+        Long siteClientId = siteService.getClientIdForSite(siteId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Site no encontrado"));
 
         if (!allowedClientIds.contains(siteClientId)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No autorizado para usar ese sitio");
         }
 
-        // Ahora cargamos la entidad Site (ya que la usaremos para persistir)
-        Site site = siteService.findById(req.siteId())
+        // cargar la entidad Site
+        Site site = siteService.findById(siteId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Site no encontrado"));
 
-        // Si se envió clientAccountId: validar que pertenece al usuario y, opcionalmente,
-        // que la cuenta esté asociada al mismo client que el site.
+        // validar accountId si se envía
         Long accountId = req.accountId();
         if (accountId != null) {
             ClientAccountDto acctDto = clientAccountService.getAccountDtoIfOwned(accountId, userId);
             if (acctDto == null) {
-                // getAccountDtoIfOwned normalmente lanza, pero por si acaso:
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Cuenta no autorizada");
             }
             Long acctClientId = acctDto.clientId();
@@ -248,59 +177,19 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
             }
         }
 
-        // Generar código secuencial con reintentos en caso de colisión (unicidad)
-        final int MAX_ATTEMPTS = 3;
-        //DataIntegrityViolationException lastIntegrityEx = null;
-        ShiftRequest saved = null;
+        // Delegar a helper que hace la persistencia con reintentos por colisiones de código
+        ShiftRequest saved = buildAndSaveShiftRequestWithRetries(req, site, start, end);
 
-        for (int attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-            String code = generateNextCode();
-
-            ShiftRequest entity = ShiftRequest.builder()
-                    .code(code)
-                    .site(site)
-                    .clientAccountId(accountId)
-                    .type(req.type())
-                    .startDate(req.startDate())
-                    .endDate(req.endDate())
-                    .status(ShiftRequestStatus.REQUESTED)
-                    .description(req.description())
-                    .build();
-
-            try {
-                saved = shiftRequestRepository.save(entity);
-                // éxito, salimos del loop
-                break;
-            } catch (DataIntegrityViolationException dive) {
-                // posible colisión por code único; guardar y reintentar
-                if (attempt == MAX_ATTEMPTS) {
-                    throw new ResponseStatusException(
-                            HttpStatus.INTERNAL_SERVER_ERROR,
-                            "No se pudo generar un código único para la solicitud de turno",
-                            dive
-                    );
-                }
-                // else continuar al próximo intento
-            }
-        }
-
-        if (saved == null) {
-            // debería haberse lanzado antes, pero por seguridad:
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "No se pudo crear la solicitud de turno");
-        }
-
-        // intentar recargar la entidad con site y schedules para evitar LazyInitializationException
         ShiftRequest enriched = shiftRequestRepository.findByIdWithSiteAndSchedules(saved.getId())
                 .orElse(saved);
 
-        // devolver DTO mapeado desde la entidad (usa el fromEntity que ya tienes)
         return ShiftRequestDto.fromEntity(enriched);
     }
 
 
     @Override
     @Transactional
-    public ShiftRequestDto createShiftRequestForPrincipal(CreateShiftRequestRequest req, Authentication authentication) {
+    public ShiftRequestDto createShiftRequestForPrincipal(CreateShiftRequest req, Authentication authentication) {
         Long userId = userService.getUserIdFromAuthentication(authentication);
         return createShiftRequest(req, userId);
     }
@@ -342,16 +231,85 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
         return ShiftRequestDto.fromEntity(enriched);
     }
 
+     /**
+     * Construye y persiste la entidad ShiftRequest (incluye mapeo de schedules).
+     * No realiza validaciones de permisos; se asume que el caller ya las hizo si aplica.
+     */
+    private ShiftRequest buildAndSaveShiftRequest(CreateShiftRequest req, Site site, LocalDate start, LocalDate end) {
+        // Determinar prefijo según el enum RequestType
+        String prefix;
+        switch (req.type()) {
+            case FIXED -> prefix = "TF";
+            case ESPORADIC -> prefix = "TS";
+            default -> prefix = "TR";
+        }
+
+        // intentar inferir next code por site+prefix (usa repo query)
+        String lastCode = shiftRequestRepository.findLastCodeBySiteIdAndPrefix(site.getId(), prefix);
+        int nextCorrelative = 1;
+        if (lastCode != null && lastCode.startsWith(prefix)) {
+            try {
+                nextCorrelative = Integer.parseInt(lastCode.substring(prefix.length())) + 1;
+            } catch (NumberFormatException e) {
+                nextCorrelative = 1;
+            }
+        }
+        String code = prefix + String.format("%04d", nextCorrelative);
+
+        ShiftRequest entity = ShiftRequest.builder()
+                .code(code)
+                .site(site)
+                .clientAccountId(req.accountId())
+                .type(req.type())
+                .startDate(start)
+                .endDate(end)
+                .status(ShiftRequestStatus.REQUESTED)
+                .description(req.description())
+                .build();
+
+        // mapear schedules si vienen
+        if (req.schedules() != null && !req.schedules().isEmpty()) {
+            try {
+                List<ShiftSchedule> schedules = req.schedules().stream().map(schedReq -> {
+                    ShiftSchedule ss = ShiftSchedule.builder()
+                            .dayFrom(schedReq.dayFrom())
+                            .dayTo(schedReq.dayTo())
+                            .startTime(LocalTime.parse(schedReq.startTime()))
+                            .endTime(LocalTime.parse(schedReq.endTime()))
+                            .lunchTime(schedReq.lunchTime() != null && !schedReq.lunchTime().isBlank() ? LocalTime.parse(schedReq.lunchTime()) : null)
+                            .shiftRequest(entity)
+                            .build();
+                    return ss;
+                }).toList();
+                entity.setSchedules(schedules);
+            } catch (DateTimeParseException dtpe) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Formato de hora inválido en schedules: " + dtpe.getMessage(), dtpe);
+            }
+        }
+
+        return shiftRequestRepository.save(entity);
+    }
+
 
     /**
-     * Generación simple de código. Mejora recomendada:
-     * - usar tabla de secuencias o consulta 'select max(code)' y parsear, con manejo de concurrencia
-     * - o delegar generación a la BD
+     * Persistencia con reintentos en caso de colisión por código único.
      */
-    private String generateNextCode() {
-        long next = shiftRequestRepository.count() + 1;
-        // TR001, TR002, TR000123 etc.
-        return String.format("TR%03d", next);
+    private ShiftRequest buildAndSaveShiftRequestWithRetries(CreateShiftRequest req, Site site, LocalDate start, LocalDate end) {
+        final int MAX_ATTEMPTS = 3;
+        ShiftRequest saved = null;
+        for (int attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+            try {
+                saved = buildAndSaveShiftRequest(req, site, start, end);
+                return saved;
+            } catch (DataIntegrityViolationException dive) {
+                if (attempt == MAX_ATTEMPTS) {
+                    throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "No se pudo generar un código único para la solicitud de turno", dive);
+                }
+                // else continuar y reintentar (el helper volverá a calcular next code)
+            }
+        }
+        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "No se pudo crear la solicitud de turno");
     }
+
 
 }

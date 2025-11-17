@@ -21,7 +21,7 @@
 
         <div class="form-group narrow">
           <label for="shiftRequestAccount">Cuenta / Cliente final</label>
-          <select id="shiftRequestAccount" name="accountId" required>
+          <select id="shiftRequestAccount" name="accountId">
             <option value="">Seleccione cuenta</option>
             <option th:each="a : ${accounts}" th:value="${a.id}" th:text="${a.name}"></option>
           </select>
@@ -53,16 +53,18 @@
                 </button>
               </div>
             </div>
+
+            <div class="form-group narrow">
+              <label for="shiftRequestServiceType">Tipo de servicio</label>
+              <select id="shiftRequestServiceType" name="serviceType" required>
+                <option value="">Seleccione tipo de servicio</option>
+                <option value="FIJO">Fijo</option>
+                <option value="ADICIONAL">Adicional</option>
+              </select>
+            </div>
+
           </div>
 
-        <div class="form-group narrow">
-          <label for="shiftRequestServiceType">Tipo de servicio</label>
-          <select id="shiftRequestServiceType" name="serviceType" required>
-            <option value="">Seleccione tipo de servicio</option>
-            <option value="FIJO">Fijo</option>
-            <option value="ADICIONAL">Adicional</option>
-          </select>
-        </div>
 
         <div class="form-group">
           <label for="shiftRequestDescription">Descripción</label>

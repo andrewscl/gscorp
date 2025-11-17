@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.gscorp.dv1.enums.RequestType;
 
-public record CreateShiftRequestRequest(
+public record CreateShiftRequest(
     Long siteId,
     RequestType type,    // "FIXED" o "SPORADIC"
     Long accountId,                 

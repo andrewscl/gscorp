@@ -6,15 +6,14 @@ import java.util.Optional;
 
 import org.springframework.security.core.Authentication;
 
-import com.gscorp.dv1.shiftrequests.web.dto.CreateShiftRequestRequest;
+import com.gscorp.dv1.shiftrequests.web.dto.CreateShiftRequest;
 import com.gscorp.dv1.shiftrequests.web.dto.ShiftRequestDto;
 
 public interface ShiftRequestService {
     List<ShiftRequestDto> findAll();
     Optional<ShiftRequestDto> findById(Long id);
-    ShiftRequestDto create(CreateShiftRequestRequest shiftRequest);
     Optional<ShiftRequestDto> update(Long id, 
-            CreateShiftRequestRequest createShiftRequestDto);
+            CreateShiftRequest createShiftRequestDto);
 
     /**
      * Devuelve ShiftRequestDto filtrados por clientIds (los DTOs deben contener
@@ -32,12 +31,12 @@ public interface ShiftRequestService {
      * Crea un ShiftRequest validando que el site (y opcionalmente clientAccountId)
      * pertenezcan a uno de los clients del usuario (userId).
      */
-    ShiftRequestDto createShiftRequest(CreateShiftRequestRequest req, Long userId);
+    ShiftRequestDto createShiftRequest(CreateShiftRequest req, Long userId);
 
     /**
      * Conveniencia: resuelve userId desde Authentication y delega.
      */
-    ShiftRequestDto createShiftRequestForPrincipal(CreateShiftRequestRequest req, Authentication authentication);
+    ShiftRequestDto createShiftRequestForPrincipal(CreateShiftRequest req, Authentication authentication);
 
     /**
      * Devuelve el DTO si existe y pertenece a alguno de los clients del usuario.
