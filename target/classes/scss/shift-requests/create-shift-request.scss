@@ -342,3 +342,45 @@ input[type="time"] {
   width: 100%;
   max-width: 100%;
 }
+
+/* Ajustes para evitar campos excesivamente anchos */
+
+/* 1) Mejor control del grid: columnas con min/max razonables */
+.form-row {
+  /* cada columna no será más pequeña que 180px ni mayor que 1fr */
+  grid-template-columns: repeat(2, minmax(180px, 1fr));
+  gap: 0.9rem;
+}
+
+/* 2) Clases utilitarias por campo */
+.form-group.narrow { max-width: 360px; } /* para selects/inputs cortos */
+.form-group.half { max-width: 480px; }   /* ocupan menos que la columna completa */
+.input-narrow { max-width: 360px; width: 100%; }
+
+/* 3) Forzar max-width para date/time donde quieras limitar */
+.date-field { max-width: 340px; min-width: 160px; }
+.form-row .date-field { max-width: 320px; } /* cuando están lado a lado, un poco más compactos */
+
+/* 4) Limitar selects largos (ejemplo para site/account) */
+select#shiftRequestSite,
+select#shiftRequestAccount {
+  max-width: 520px;
+}
+
+/* 5) Limitar inputs generales por seguridad visual */
+.createShiftRequest-body input,
+.createShiftRequest-body select,
+.createShiftRequest-body textarea {
+  max-width: 720px;
+}
+
+/* 6) Mantener responsividad: en pantallas pequeñas se apilan y las utilitarias aún funcionan */
+@media (max-width: 900px) {
+  .form-group.narrow,
+  .form-group.half,
+  .input-narrow,
+  select#shiftRequestSite,
+  select#shiftRequestAccount {
+    max-width: 100%;
+  }
+}
