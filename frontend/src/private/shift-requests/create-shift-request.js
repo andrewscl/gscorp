@@ -1,4 +1,3 @@
-// src/main/resources/static/js/private/shift-requests/create-shift-request.js
 import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
 
@@ -49,13 +48,15 @@ function validateNoOverlap(schedules) {
 async function onSubmitCreateShiftRequest(e) {
   e.preventDefault();
 
-  const siteId = qs('#shiftRequestSite')?.value;
-  const accountId = qs('#shiftRequestAccount')?.value;
+  const siteIdRaw = qs('#shiftRequestSite')?.value;
+  const accountIdRaw = qs('#shiftRequestAccount')?.value;
   const type = qs('#shiftRequestServiceType')?.value;
   const startDate = qs('#shiftRequestStartDate')?.value;
   const endDate = qs('#shiftRequestEndDate')?.value || null;
-  const status = qs('#shiftRequestStatus')?.value;
   const description = qs('#shiftRequestDescription')?.value?.trim() || null;
+
+  const siteId = siteIdRaw ? parseInt(siteIdRaw, 10) : null;
+  const accountId = accountIdRaw ? parseInt(accountIdRaw, 10) : null;
 
   const err = qs('#createShiftRequestError');
   const ok = qs('#createShiftRequestOk');
@@ -66,16 +67,15 @@ async function onSubmitCreateShiftRequest(e) {
   if (!accountId) { if (err) err.textContent = 'Debe seleccionar una cuenta.'; return; }
   if (!type) { if (err) err.textContent = 'Debe seleccionar el tipo de servicio.'; return; }
   if (!startDate) { if (err) err.textContent = 'La fecha de inicio es obligatoria.'; return; }
-  if (!status)    { if (err) err.textContent = 'Debe seleccionar un estado.'; return; }
 
   // --- Obtención de tramos ---
   const schedules = [];
   qsAll('.day-range-block').forEach((block, idx) => {
     const from = block.querySelector('.dayFrom')?.value;
     const to = block.querySelector('.dayTo')?.value;
-    const startTime = block.querySelector('input[name^="schedules"][name$="[startTime]"]')?.value;
-    const endTime = block.querySelector('input[name^="schedules"][name$="[endTime]"]')?.value;
-    const lunchTime = block.querySelector('input[name^="schedules"][name$="[lunchTime]"]')?.value || null;
+    const startTime = block.querySelector('input[name$="[startTime]"]')?.value;
+    const endTime = block.querySelector('input[name$="[endTime]"]')?.value;
+    const lunchTime = block.querySelector('input[name$="[lunchTime]"]')?.value || null;
     if (from && to && startTime && endTime)
       schedules.push({ dayFrom: from, dayTo: to, startTime, endTime, lunchTime });
   });
@@ -127,23 +127,24 @@ function addDayRangeBlock(prefill) {
   const daysOptionsTo = DAYS.map(d =>
     `<option value="${d}"${prefill && prefill.dayTo === d ? ' selected' : ''}>${d}</option>` ).join('');
   const block = document.createElement('div');
-  block.className = 'form-row day-range-block';
+  // leave only 'day-range-block' so its own CSS grid applies cleanly
+  block.className = 'day-range-block';
   block.innerHTML = `
-    <div class="form-group narrow">
+    <div class="form-group">
       <label>Día desde</label>
       <select name="schedules[${idx}][dayFrom]" class="dayFrom" required>
         <option value="">Desde</option>${daysOptions}
       </select>
     </div>
 
-    <div class="form-group narrow">
+    <div class="form-group">
       <label>Día hasta</label>
       <select name="schedules[${idx}][dayTo]" class="dayTo" required>
         <option value="">Hasta</option>${daysOptionsTo}
       </select>
     </div>
 
-    <div class="form-group narrow input-with-icon">
+    <div class="form-group input-with-icon">
       <label>Hora inicio</label>
       <div class="input-icon-wrap">
         <input type="time" name="schedules[${idx}][startTime]" value="${(prefill && prefill.startTime)||''}" required />
@@ -156,7 +157,7 @@ function addDayRangeBlock(prefill) {
       </div>
     </div>
 
-    <div class="form-group narrow input-with-icon">
+    <div class="form-group input-with-icon">
       <label>Hora término</label>
       <div class="input-icon-wrap">
         <input type="time" name="schedules[${idx}][endTime]" value="${(prefill && prefill.endTime)||''}" required />
@@ -169,7 +170,7 @@ function addDayRangeBlock(prefill) {
       </div>
     </div>
 
-    <div class="form-group narrow input-with-icon">
+    <div class="form-group input-with-icon">
       <label>Colación</label>
       <div class="input-icon-wrap">
         <input type="time" name="schedules[${idx}][lunchTime]" value="${(prefill && prefill.lunchTime)||''}" />
@@ -190,7 +191,7 @@ function addDayRangeBlock(prefill) {
   block.querySelector('.remove-day-range').addEventListener('click', () => {
     block.remove();
     reindexBlocks(shiftDayRanges);
-    // if none left, ensure at least one block remains (behavior kept from original)
+    // if none left, ensure at least one block remains
     if (!shiftDayRanges.querySelector('.day-range-block')) addDayRangeBlock();
   });
 
@@ -199,7 +200,6 @@ function addDayRangeBlock(prefill) {
 
   // Si flatpickr está presente, inicializar pickers en los inputs nuevos (opcional)
   if (typeof flatpickr !== 'undefined') {
-    // time-only pickers
     flatpickr(block.querySelectorAll("input[type='time']"), {
       enableTime: true, noCalendar: true, dateFormat: "H:i", time_24hr: true
     });

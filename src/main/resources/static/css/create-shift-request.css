@@ -1,13 +1,4 @@
-@charset "UTF-8";
-/* shift-request.scss - Versión "definitiva" para Create Shift Request
-   - Diseño limpio y profesional
-   - Correcciones de solapamiento y sizing en grids
-   - Inputs con icono (calendar/clock) integrados
-   - Soporte visual para flatpickr altInput si se usa
-   - Variables fáciles de ajustar (colores/tamaños)
-*/
 .createShiftRequest {
-  /* Theme / tuneables */
   --bg: #ffffff;
   --muted-bg: #f6f8fb;
   --muted-input: #f3f4f6;
@@ -33,46 +24,35 @@
   max-height: 86vh;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-}
-
-/* small visible scrollbar, but subtle */
-.createShiftRequest {
   scrollbar-width: thin;
   scrollbar-color: rgba(120, 130, 150, 0.18) transparent;
 }
-
 .createShiftRequest::-webkit-scrollbar {
   height: 8px;
   width: 8px;
 }
-
 .createShiftRequest::-webkit-scrollbar-thumb {
   background: rgba(120, 130, 150, 0.18);
   border-radius: 6px;
 }
-
 .createShiftRequest::-webkit-scrollbar-track {
   background: transparent;
 }
-
-/* Header */
-.createShiftRequestHeader {
+.createShiftRequest .createShiftRequestHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
   margin-bottom: 0.3rem;
 }
-
-.createShiftRequestHeader h3 {
+.createShiftRequest .createShiftRequestHeader h3 {
   margin: 0;
   color: var(--accent);
   font-size: 1.45rem;
   font-weight: 700;
   letter-spacing: -0.02em;
 }
-
-.modal-close {
+.createShiftRequest .createShiftRequestHeader .modal-close {
   width: 40px;
   height: 40px;
   border-radius: 8px;
@@ -84,24 +64,18 @@
   cursor: pointer;
   transition: all 0.12s ease;
 }
-
-.modal-close:hover {
+.createShiftRequest .createShiftRequestHeader .modal-close:hover {
   background: rgba(39, 123, 183, 0.06);
   color: var(--accent);
   transform: translateY(-1px);
 }
-
-/* Body */
-.createShiftRequest-body {
+.createShiftRequest .createShiftRequest-body {
   margin-top: 0.9rem;
 }
-
-/* Generic form controls */
-.form-group {
+.createShiftRequest .form-group {
   margin-bottom: 1rem;
 }
-
-.form-group label {
+.createShiftRequest .form-group label {
   display: block;
   margin-bottom: 0.36rem;
   font-weight: 600;
@@ -109,19 +83,7 @@
   font-size: 0.95rem;
   line-height: 1.2;
 }
-
-/* Ensure consistent sizing model */
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-
-input, select, textarea, button {
-  font-family: inherit;
-  font-size: 0.98rem;
-}
-
-/* Inputs */
-input, select, textarea {
+.createShiftRequest input, .createShiftRequest select, .createShiftRequest textarea {
   width: 100%;
   padding: 0.62rem 0.75rem;
   border-radius: 8px;
@@ -129,66 +91,133 @@ input, select, textarea {
   background: var(--muted-input);
   color: #0f1724;
   transition: border-color 0.12s ease, box-shadow 0.12s ease, transform 0.06s ease;
+  font-family: inherit;
+  font-size: 0.98rem;
 }
-
-input:focus, select:focus, textarea:focus {
+.createShiftRequest input:focus, .createShiftRequest select:focus, .createShiftRequest textarea:focus {
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 8px 26px rgba(39, 123, 183, 0.08);
 }
-
-textarea {
+.createShiftRequest textarea {
   min-height: 92px;
   resize: vertical;
 }
-
-/* Grid rows: predictable and prevent overflow */
-.form-row {
+.createShiftRequest .form-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.9rem;
-  align-items: start; /* avoid vertical overlap */
+  grid-template-columns: 1fr 420px;
+  gap: 1.1rem;
+  align-items: start;
 }
-
-.form-row .form-group {
+@media (max-width: 1000px) {
+  .createShiftRequest .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.createShiftRequest .form-grid .col {
   min-width: 0;
 }
-
-/* Use date-field class on containers that hold date inputs */
-.date-field {
-  max-width: 340px;
-  min-width: 120px;
+.createShiftRequest .form-grid .two-col-dates {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
 }
-
-/* Date/time constraints: use max-width (avoid huge inputs) */
-input[type=date],
-input[type=time] {
-  max-width: 240px;
+.createShiftRequest .form-grid .two-col-dates .date-field {
+  max-width: 100%;
+  min-width: 0;
+}
+.createShiftRequest .form-group.narrow {
+  max-width: 520px;
+}
+.createShiftRequest .input-narrow {
+  max-width: 360px;
   width: 100%;
-  min-width: 120px;
 }
-
-/* ----- Input with icon (calendar/clock) ----- */
-.input-with-icon {
+.createShiftRequest .schedules-panel {
+  background: linear-gradient(180deg, #fbfdff, #fff);
+  border-radius: 10px;
+  padding: 0.6rem;
+  border: 1px solid var(--muted-border);
+}
+.createShiftRequest .schedules-panel .panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.45rem;
+}
+.createShiftRequest .schedules-panel .panel-header label {
+  font-weight: 700;
+}
+.createShiftRequest .schedules-panel .shift-dayranges-list {
+  margin-top: 0.2rem;
+}
+.createShiftRequest .day-range-block {
+  display: grid;
+  grid-template-columns: 120px 120px 100px 100px 100px 72px;
+  gap: 0.55rem;
+  align-items: start;
+  padding: 0.6rem;
+  margin-bottom: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--muted-border);
+  background: white;
+}
+.createShiftRequest .day-range-block .form-group {
+  margin: 0;
+  min-width: 0;
+}
+.createShiftRequest .day-range-block label {
+  display: block;
+  font-size: 0.86rem;
+  margin-bottom: 0.28rem;
+  font-weight: 600;
+}
+.createShiftRequest .day-range-block input, .createShiftRequest .day-range-block select {
+  width: 100%;
+  padding: 0.5rem 0.6rem;
+  border-radius: 8px;
+}
+.createShiftRequest .day-range-block .remove-day-range {
+  height: 38px;
+  align-self: start;
+  justify-self: center;
+  background: var(--danger);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.44rem 0.7rem;
+  cursor: pointer;
+  font-weight: 700;
+  transition: background 0.12s ease, transform 0.08s ease;
+}
+.createShiftRequest .day-range-block .remove-day-range:hover {
+  transform: translateY(-2px);
+  background: #d33;
+}
+@media (max-width: 800px) {
+  .createShiftRequest .day-range-block {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+  .createShiftRequest .day-range-block .remove-day-range {
+    justify-self: end;
+  }
+}
+.createShiftRequest .input-with-icon {
   position: relative;
   display: block;
 }
-
-.input-with-icon .input-icon-wrap {
+.createShiftRequest .input-with-icon .input-icon-wrap {
   position: relative;
   display: flex;
   align-items: center;
 }
-
-.input-with-icon input,
-.input-with-icon select,
-.input-with-icon textarea {
-  /* leave space at the right for icon */
+.createShiftRequest .input-with-icon input, .createShiftRequest .input-with-icon select, .createShiftRequest .input-with-icon textarea {
   padding-right: 3.2rem;
   width: 100%;
 }
-
-.input-with-icon .icon-btn {
+.createShiftRequest .input-with-icon .icon-btn {
   position: absolute;
   right: 8px;
   top: 50%;
@@ -205,113 +234,32 @@ input[type=time] {
   transition: background 0.12s ease, color 0.12s ease, transform 0.08s ease;
   padding: 0;
 }
-
-.input-with-icon .icon-btn:hover {
+.createShiftRequest .input-with-icon .icon-btn:hover {
   background: rgba(39, 123, 183, 0.06);
   color: var(--accent);
   transform: translateY(-50%) scale(1.02);
 }
-
-/* Slightly smaller on phones */
-@media (max-width: 480px) {
-  .input-with-icon .icon-btn {
-    right: 6px;
-    height: 34px;
-    width: 34px;
-  }
+.createShiftRequest .input-with-icon .icon-btn:focus {
+  outline: 2px solid rgba(39, 123, 183, 0.16);
+  outline-offset: 2px;
+  border-radius: 6px;
 }
-/* When using flatpickr with altInput, cursor should reflect interactivity */
-.flatpickr-input[readonly] {
-  cursor: pointer;
+.createShiftRequest input[type=date]::-webkit-calendar-picker-indicator,
+.createShiftRequest input[type=time]::-webkit-calendar-picker-indicator {
+  display: none !important;
+  -webkit-appearance: none !important;
 }
-
-/* Make icon reflect focus on the input visually */
-.input-with-icon input:focus ~ .icon-btn,
-.input-with-icon input:focus + .icon-btn {
-  color: var(--accent);
-  background: rgba(39, 123, 183, 0.06);
+.createShiftRequest input[type=date], .createShiftRequest input[type=time] {
+  -moz-appearance: textfield;
+  appearance: none;
 }
-
-/* ----- Tramos de días (day ranges) ----- */
-#shiftDayRanges {
-  margin-top: 0.35rem;
-}
-
-.day-range-block {
-  background: linear-gradient(180deg, #fbfdff, #ffffff);
-  border-radius: 10px;
-  padding: 0.85rem;
-  margin-bottom: 1rem;
-  border: 1px solid var(--muted-border);
-  display: grid;
-  /* predictable columns: flexible columns for inputs, final column fixed for actions */
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) 92px;
-  gap: 0.65rem;
-  align-items: start;
-  align-content: start;
-}
-
-.day-range-block .form-group {
-  margin-bottom: 0;
-  min-width: 0;
-}
-
-/* Remove button placement and style */
-.remove-day-range {
-  justify-self: end;
-  align-self: start;
-  background: var(--danger);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 0.44rem 0.7rem;
-  cursor: pointer;
-  font-weight: 700;
-  transition: background 0.12s ease, transform 0.08s ease;
-}
-
-.remove-day-range:hover {
-  transform: translateY(-2px);
-  background: #d33;
-}
-
-/* Add button */
-.btn-mini {
-  display: inline-flex;
-  gap: 0.45rem;
-  align-items: center;
-  padding: 0.48rem 0.9rem;
-  border-radius: 8px;
-  border: none;
-  background: linear-gradient(90deg, var(--accent) 60%, var(--accent-2) 100%);
-  color: white;
-  font-weight: 700;
-  cursor: pointer;
-  transition: transform 0.12s ease, filter 0.12s ease;
-}
-
-.btn-mini:hover {
-  transform: translateY(-2px);
-  filter: brightness(0.98);
-}
-
-/* Helper text */
-.dayrange-help {
-  display: block;
-  color: #6b7280;
-  font-size: 0.93rem;
-  margin: 0.4rem 0 1rem 2px;
-}
-
-/* Modal footer (actions) */
-.modal-footer {
+.createShiftRequest .modal-footer {
   display: flex;
   gap: 0.75rem;
   justify-content: flex-end;
   margin-top: 0.6rem;
 }
-
-.btn-primary, .btn-secondary {
+.createShiftRequest .modal-footer .btn-primary, .createShiftRequest .modal-footer .btn-secondary {
   border-radius: 10px;
   padding: 0.62rem 1.05rem;
   font-weight: 700;
@@ -320,73 +268,52 @@ input[type=time] {
   cursor: pointer;
   box-shadow: 0 6px 20px rgba(25, 40, 60, 0.06);
 }
-
-.btn-primary {
+.createShiftRequest .modal-footer .btn-primary {
   color: #fff;
   background: linear-gradient(90deg, var(--accent) 60%, var(--accent-2) 100%);
 }
-
-.btn-primary:hover {
+.createShiftRequest .modal-footer .btn-primary:hover {
   transform: translateY(-3px);
 }
-
-.btn-secondary {
+.createShiftRequest .modal-footer .btn-secondary {
   background: #f8fafc;
   color: #334155;
   border: 1px solid #dbe6ef;
 }
-
-/* Error / OK messages */
-.form-error {
+.createShiftRequest .dayrange-help {
+  display: block;
+  color: #6b7280;
+  font-size: 0.93rem;
+  margin: 0.4rem 0 1rem 2px;
+}
+.createShiftRequest .form-error {
   color: #b91c1c;
   font-weight: 700;
   margin-top: 0.5rem;
   min-height: 1.2em;
 }
-
-.form-ok {
+.createShiftRequest .form-ok {
   color: #059669;
   font-weight: 700;
   margin-top: 0.8rem;
 }
 
-/* Small helpers */
-.muted {
-  color: #6b7280;
+/* Global fallbacks / constraints (outside main block) */
+.createShiftRequest {
+  --max-w: 920px;
 }
 
-.small {
-  font-size: 0.9rem;
+.form-group.narrow {
+  max-width: 520px;
 }
 
-/* ----- Accessibility / focus helpers ----- */
-.icon-btn:focus {
-  outline: 2px solid rgba(39, 123, 183, 0.16);
-  outline-offset: 2px;
-  border-radius: 6px;
+.two-col-dates {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
 }
 
-/* ----- Flatpickr theme integration (optional) ----- */
-/* When flatpickr's altInput is used it creates a readonly input; make it match style */
-.flatpickr-input.altInput {
-  background: var(--muted-input);
-  border-radius: 8px;
-  padding: 0.62rem 0.75rem;
-  border: 1px solid var(--muted-border);
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/* Prevent day-range remove button from overlapping icon visuals */
-.day-range-block .remove-day-range {
-  z-index: 2;
-}
-
-/* Responsiveness */
 @media (max-width: 900px) {
-  .date-field {
-    max-width: 100%;
-  }
   .form-row {
     grid-template-columns: 1fr;
     gap: 0.65rem;
@@ -401,119 +328,8 @@ input[type=time] {
     align-items: stretch;
     gap: 0.5rem;
   }
-}
-/* Small screens tweaks */
-@media (max-width: 480px) {
   .createShiftRequest {
     padding: 14px;
     margin: 1rem;
-  }
-  .modal-close {
-    width: 36px;
-    height: 36px;
-  }
-  .btn-primary, .btn-secondary {
-    width: 100%;
-  }
-  .input-with-icon .icon-btn {
-    height: 32px;
-    width: 32px;
-    right: 6px;
-  }
-}
-/* ===== Solución para iconos duplicados en date/time inputs ===== */
-/* 1) Eliminar el icono nativo en navegadores WebKit/Chromium (Chrome, Edge, Safari) */
-input[type=date]::-webkit-calendar-picker-indicator,
-input[type=time]::-webkit-calendar-picker-indicator {
-  display: none !important;
-  -webkit-appearance: none !important;
-}
-
-/* 2) Eliminar apariencia nativa en Firefox (lo convierte en un textfield sin icono) */
-input[type=date],
-input[type=time] {
-  -moz-appearance: textfield;
-  appearance: none;
-}
-
-/* 3) Si usas flatpickr con altInput (crea su propio input visual), ocultar el icono extra
-   - flatpickr crea un input con clase .flatpickr-input.altInput que suele colocarse en el DOM.
-   - Ajusta los selectores si tu integración es distinta. */
-.flatpickr-input.altInput + .icon-btn,
-.flatpickr-wrapper .icon-btn,
-.flatpickr-input.altInput ~ .icon-btn {
-  display: none !important;
-}
-
-/* 4) Mantener el botón/icon en inputs normales: asegurar que .input-with-icon no se rompa */
-.input-with-icon .icon-btn {
-  right: 8px; /* ya tenías esto; se mantiene */
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-/* 5) Asegurar que los date/time ocupen todo el ancho dentro de .form-row */
-.form-row .date-field {
-  max-width: none;
-  min-width: 0;
-}
-
-.form-row input[type=date],
-.form-row input[type=time],
-.form-row .input-with-icon input {
-  width: 100%;
-  max-width: 100%;
-}
-
-/* Ajustes para evitar campos excesivamente anchos */
-/* 1) Mejor control del grid: columnas con min/max razonables */
-.form-row {
-  /* cada columna no será más pequeña que 180px ni mayor que 1fr */
-  grid-template-columns: repeat(2, minmax(180px, 1fr));
-  gap: 0.9rem;
-}
-
-/* 2) Clases utilitarias por campo */
-.form-group.narrow {
-  max-width: 360px;
-} /* para selects/inputs cortos */
-.form-group.half {
-  max-width: 480px;
-} /* ocupan menos que la columna completa */
-.input-narrow {
-  max-width: 360px;
-  width: 100%;
-}
-
-/* 3) Forzar max-width para date/time donde quieras limitar */
-.date-field {
-  max-width: 340px;
-  min-width: 160px;
-}
-
-.form-row .date-field {
-  max-width: 320px;
-} /* cuando están lado a lado, un poco más compactos */
-/* 4) Limitar selects largos (ejemplo para site/account) */
-select#shiftRequestSite,
-select#shiftRequestAccount {
-  max-width: 520px;
-}
-
-/* 5) Limitar inputs generales por seguridad visual */
-.createShiftRequest-body input,
-.createShiftRequest-body select,
-.createShiftRequest-body textarea {
-  max-width: 720px;
-}
-
-/* 6) Mantener responsividad: en pantallas pequeñas se apilan y las utilitarias aún funcionan */
-@media (max-width: 900px) {
-  .form-group.narrow,
-  .form-group.half,
-  .input-narrow,
-  select#shiftRequestSite,
-  select#shiftRequestAccount {
-    max-width: 100%;
   }
 }/*# sourceMappingURL=create-shift-request.css.map */

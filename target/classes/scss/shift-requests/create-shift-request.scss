@@ -1,13 +1,6 @@
-/* shift-request.scss - Versión "definitiva" para Create Shift Request
-   - Diseño limpio y profesional
-   - Correcciones de solapamiento y sizing en grids
-   - Inputs con icono (calendar/clock) integrados
-   - Soporte visual para flatpickr altInput si se usa
-   - Variables fáciles de ajustar (colores/tamaños)
-*/
-
+// Variables y estilo base
 .createShiftRequest {
-  /* Theme / tuneables */
+  // Theme / tuneables
   --bg: #ffffff;
   --muted-bg: #f6f8fb;
   --muted-input: #f3f4f6;
@@ -34,353 +27,238 @@
   max-height: 86vh;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-}
 
-/* small visible scrollbar, but subtle */
-.createShiftRequest {
+  // Scrollbar sutil
   scrollbar-width: thin;
   scrollbar-color: rgba(120,130,150,0.18) transparent;
-}
-.createShiftRequest::-webkit-scrollbar { height: 8px; width: 8px; }
-.createShiftRequest::-webkit-scrollbar-thumb {
-  background: rgba(120,130,150,0.18);
-  border-radius: 6px;
-}
-.createShiftRequest::-webkit-scrollbar-track { background: transparent; }
 
-/* Header */
-.createShiftRequestHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 0.3rem;
-}
-.createShiftRequestHeader h3 {
-  margin: 0;
-  color: var(--accent);
-  font-size: 1.45rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-.modal-close {
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
-  display: inline-grid;
-  place-items: center;
-  border: 1px solid transparent;
-  background: transparent;
-  color: #6b7280;
-  cursor: pointer;
-  transition: all .12s ease;
-}
-.modal-close:hover { background: rgba(39,123,183,0.06); color: var(--accent); transform: translateY(-1px); }
+  &::-webkit-scrollbar { height: 8px; width: 8px; }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(120,130,150,0.18);
+    border-radius: 6px;
+  }
+  &::-webkit-scrollbar-track { background: transparent; }
 
-/* Body */
-.createShiftRequest-body { margin-top: 0.9rem; }
+  // Header
+  .createShiftRequestHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.3rem;
 
-/* Generic form controls */
-.form-group { margin-bottom: 1rem; }
-.form-group label {
-  display: block;
-  margin-bottom: .36rem;
-  font-weight: 600;
-  color: #374151;
-  font-size: 0.95rem;
-  line-height: 1.2;
-}
+    h3 {
+      margin: 0;
+      color: var(--accent);
+      font-size: 1.45rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .modal-close {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: inline-grid;
+      place-items: center;
+      border: 1px solid transparent;
+      background: transparent;
+      color: #6b7280;
+      cursor: pointer;
+      transition: all .12s ease;
+      &:hover { background: rgba(39,123,183,0.06); color: var(--accent); transform: translateY(-1px); }
+    }
+  }
 
-/* Ensure consistent sizing model */
-*, *::before, *::after { box-sizing: border-box; }
+  // Body
+  .createShiftRequest-body { margin-top: 0.9rem; }
 
-input, select, textarea, button {
-  font-family: inherit;
-  font-size: .98rem;
-}
+  // Generic form controls
+  .form-group { margin-bottom: 1rem; }
+  .form-group label {
+    display: block;
+    margin-bottom: .36rem;
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.95rem;
+    line-height: 1.2;
+  }
 
-/* Inputs */
-input, select, textarea {
-  width: 100%;
-  padding: .62rem .75rem;
-  border-radius: 8px;
-  border: 1px solid var(--muted-border);
-  background: var(--muted-input);
-  color: #0f1724;
-  transition: border-color .12s ease, box-shadow .12s ease, transform .06s ease;
-}
-input:focus, select:focus, textarea:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 8px 26px rgba(39,123,183,0.08);
-}
-textarea { min-height: 92px; resize: vertical; }
+  // Inputs
+  input, select, textarea {
+    width: 100%;
+    padding: .62rem .75rem;
+    border-radius: 8px;
+    border: 1px solid var(--muted-border);
+    background: var(--muted-input);
+    color: #0f1724;
+    transition: border-color .12s ease, box-shadow .12s ease, transform .06s ease;
+    font-family: inherit;
+    font-size: .98rem;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 8px 26px rgba(39,123,183,0.08);
+  }
+  textarea { min-height: 92px; resize: vertical; }
 
-/* Grid rows: predictable and prevent overflow */
-.form-row {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.9rem;
-  align-items: start; /* avoid vertical overlap */
-}
-.form-row .form-group { min-width: 0; }
+  // Form-grid: layout principal (left meta / right schedules)
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 420px; // izquierda flexible, derecha fija/compacta
+    gap: 1.1rem;
+    align-items: start;
 
-/* Use date-field class on containers that hold date inputs */
-.date-field { max-width: 340px; min-width: 120px; }
+    @media (max-width: 1000px) {
+      grid-template-columns: 1fr;
+    }
 
-/* Date/time constraints: use max-width (avoid huge inputs) */
-input[type="date"],
-input[type="time"] {
-  max-width: 240px;
-  width: 100%;
-  min-width: 120px;
-}
+    .col { min-width: 0; }
+    // .col-left and .col-right removed to avoid empty rulesets
 
-/* ----- Input with icon (calendar/clock) ----- */
-.input-with-icon { position: relative; display: block; }
-.input-with-icon .input-icon-wrap { position: relative; display: flex; align-items: center; }
-.input-with-icon input,
-.input-with-icon select,
-.input-with-icon textarea {
-  /* leave space at the right for icon */
-  padding-right: 3.2rem;
-  width: 100%;
-}
-.input-with-icon .icon-btn {
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  height: 36px;
-  width: 36px;
-  display: inline-grid;
-  place-items: center;
-  border-radius: 8px;
-  border: none;
-  background: transparent;
-  color: #54606a;
-  cursor: pointer;
-  transition: background .12s ease, color .12s ease, transform .08s ease;
-  padding: 0;
-}
-.input-with-icon .icon-btn:hover {
-  background: rgba(39,123,183,0.06);
-  color: var(--accent);
-  transform: translateY(-50%) scale(1.02);
-}
-/* Slightly smaller on phones */
-@media (max-width: 480px) {
-  .input-with-icon .icon-btn { right: 6px; height: 34px; width: 34px; }
-}
+    // Two-column dates row inside left column
+    .two-col-dates {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .8rem;
+      .date-field { max-width: 100%; min-width: 0; }
+    }
+  }
 
-/* When using flatpickr with altInput, cursor should reflect interactivity */
-.flatpickr-input[readonly] { cursor: pointer; }
+  // Utilitarias de ancho
+  .form-group.narrow { max-width: 520px; }
+  .input-narrow { max-width: 360px; width: 100%; }
 
-/* Make icon reflect focus on the input visually */
-.input-with-icon input:focus ~ .icon-btn,
-.input-with-icon input:focus + .icon-btn {
-  color: var(--accent);
-  background: rgba(39,123,183,0.06);
-}
+  // Schedules panel (derecha)
+  .schedules-panel {
+    background: linear-gradient(180deg,#fbfdff,#fff);
+    border-radius: 10px;
+    padding: .6rem;
+    border: 1px solid var(--muted-border);
 
-/* ----- Tramos de días (day ranges) ----- */
-#shiftDayRanges { margin-top: .35rem; }
+    .panel-header {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:.6rem;
+      margin-bottom:.45rem;
+      label { font-weight:700; }
+    }
 
-.day-range-block {
-  background: linear-gradient(180deg, #fbfdff, #ffffff);
-  border-radius: 10px;
-  padding: .85rem;
-  margin-bottom: 1rem;
-  border: 1px solid var(--muted-border);
-  display: grid;
-  /* predictable columns: flexible columns for inputs, final column fixed for actions */
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) 92px;
-  gap: 0.65rem;
-  align-items: start;
-  align-content: start;
-}
-.day-range-block .form-group { margin-bottom: 0; min-width: 0; }
+    .shift-dayranges-list { margin-top: .2rem; }
+  }
 
-/* Remove button placement and style */
-.remove-day-range {
-  justify-self: end;
-  align-self: start;
-  background: var(--danger);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: .44rem .7rem;
-  cursor: pointer;
-  font-weight: 700;
-  transition: background .12s ease, transform .08s ease;
-}
-.remove-day-range:hover { transform: translateY(-2px); background: #d33; }
+  // Day-range block: compact grid row for schedule items
+  .day-range-block {
+    display: grid;
+    grid-template-columns: 120px 120px 100px 100px 100px 72px;
+    gap: 0.55rem;
+    align-items: start;
+    padding: .6rem;
+    margin-bottom: .6rem;
+    border-radius: 8px;
+    border: 1px solid var(--muted-border);
+    background: white;
 
-/* Add button */
-.btn-mini {
-  display: inline-flex;
-  gap: .45rem;
-  align-items: center;
-  padding: .48rem .9rem;
-  border-radius: 8px;
-  border: none;
-  background: linear-gradient(90deg, var(--accent) 60%, var(--accent-2) 100%);
-  color: white;
-  font-weight: 700;
-  cursor: pointer;
-  transition: transform .12s ease, filter .12s ease;
-}
-.btn-mini:hover { transform: translateY(-2px); filter: brightness(.98); }
+    .form-group { margin:0; min-width:0; }
+    label { display:block; font-size:.86rem; margin-bottom:.28rem; font-weight:600; }
+    input, select { width:100%; padding:.5rem .6rem; border-radius:8px; }
 
-/* Helper text */
-.dayrange-help {
-  display: block;
-  color: #6b7280;
-  font-size: .93rem;
-  margin: .4rem 0 1rem 2px;
-}
+    .remove-day-range {
+      height:38px;
+      align-self:start;
+      justify-self:center;
+      background: var(--danger);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: .44rem .7rem;
+      cursor: pointer;
+      font-weight: 700;
+      transition: background .12s ease, transform .08s ease;
+      &:hover { transform: translateY(-2px); background: #d33; }
+    }
 
-/* Modal footer (actions) */
-.modal-footer {
-  display: flex;
-  gap: 0.75rem;
-  justify-content: flex-end;
-  margin-top: .6rem;
-}
-.btn-primary, .btn-secondary {
-  border-radius: 10px;
-  padding: .62rem 1.05rem;
-  font-weight: 700;
-  font-size: 1rem;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 6px 20px rgba(25,40,60,0.06);
-}
-.btn-primary { color: #fff; background: linear-gradient(90deg, var(--accent) 60%, var(--accent-2) 100%); }
-.btn-primary:hover { transform: translateY(-3px); }
-.btn-secondary { background: #f8fafc; color: #334155; border: 1px solid #dbe6ef; }
+    @media (max-width: 800px) {
+      grid-template-columns: 1fr 1fr;
+      gap: .5rem;
+      .remove-day-range { justify-self:end; }
+    }
+  }
 
-/* Error / OK messages */
-.form-error { color: #b91c1c; font-weight: 700; margin-top: .5rem; min-height: 1.2em; }
-.form-ok { color: #059669; font-weight: 700; margin-top: .8rem; }
+  // Date/time input specifics + icon wrapper
+  .input-with-icon {
+    position: relative;
+    display: block;
 
-/* Small helpers */
-.muted { color: #6b7280; }
-.small { font-size: .9rem; }
+    .input-icon-wrap { position: relative; display: flex; align-items: center; }
+    input, select, textarea { padding-right: 3.2rem; width: 100%; }
 
-/* ----- Accessibility / focus helpers ----- */
-.icon-btn:focus { outline: 2px solid rgba(39,123,183,0.16); outline-offset: 2px; border-radius: 6px; }
+    .icon-btn {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 36px;
+      width: 36px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: #54606a;
+      cursor: pointer;
+      transition: background .12s ease, color .12s ease, transform .08s ease;
+      padding: 0;
+      &:hover { background: rgba(39,123,183,0.06); color: var(--accent); transform: translateY(-50%) scale(1.02); }
+      &:focus { outline: 2px solid rgba(39,123,183,0.16); outline-offset: 2px; border-radius: 6px; }
+    }
+  }
 
-/* ----- Flatpickr theme integration (optional) ----- */
-/* When flatpickr's altInput is used it creates a readonly input; make it match style */
-.flatpickr-input.altInput {
-  background: var(--muted-input);
-  border-radius: 8px;
-  padding: .62rem .75rem;
-  border: 1px solid var(--muted-border);
-  width: 100%;
-  box-sizing: border-box;
+  // Prevent native picker icon duplication
+  input[type="date"]::-webkit-calendar-picker-indicator,
+  input[type="time"]::-webkit-calendar-picker-indicator {
+    display: none !important;
+    -webkit-appearance: none !important;
+  }
+  input[type="date"], input[type="time"] {
+    -moz-appearance: textfield;
+    appearance: none;
+  }
+
+  // Footer actions
+  .modal-footer {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+    margin-top: .6rem;
+
+    .btn-primary, .btn-secondary {
+      border-radius: 10px;
+      padding: .62rem 1.05rem;
+      font-weight: 700;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(25,40,60,0.06);
+    }
+    .btn-primary { color: #fff; background: linear-gradient(90deg, var(--accent) 60%, var(--accent-2) 100%); &:hover{ transform: translateY(-3px);} }
+    .btn-secondary { background: #f8fafc; color: #334155; border: 1px solid #dbe6ef; }
+  }
+
+  // Helpers
+  .dayrange-help { display: block; color: #6b7280; font-size: .93rem; margin: .4rem 0 1rem 2px; }
+  .form-error { color: #b91c1c; font-weight: 700; margin-top: .5rem; min-height: 1.2em; }
+  .form-ok { color: #059669; font-weight: 700; margin-top: .8rem; }
 }
 
-/* Prevent day-range remove button from overlapping icon visuals */
-.day-range-block .remove-day-range { z-index: 2; }
-
-/* Responsiveness */
+/* Global fallbacks / constraints (outside main block) */
+.createShiftRequest { --max-w: 920px; }
+.form-group.narrow { max-width: 520px; }
+.two-col-dates { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
 @media (max-width: 900px) {
-  .date-field { max-width: 100%; }
   .form-row { grid-template-columns: 1fr; gap: .65rem; }
   .day-range-block { grid-template-columns: 1fr; gap: .55rem; padding: .75rem; }
   .modal-footer { flex-direction: column-reverse; align-items: stretch; gap: .5rem; }
-}
-
-/* Small screens tweaks */
-@media (max-width: 480px) {
   .createShiftRequest { padding: 14px; margin: 1rem; }
-  .modal-close { width: 36px; height: 36px; }
-  .btn-primary, .btn-secondary { width: 100%; }
-  .input-with-icon .icon-btn { height: 32px; width: 32px; right: 6px; }
-}
-
-
-/* ===== Solución para iconos duplicados en date/time inputs ===== */
-
-/* 1) Eliminar el icono nativo en navegadores WebKit/Chromium (Chrome, Edge, Safari) */
-input[type="date"]::-webkit-calendar-picker-indicator,
-input[type="time"]::-webkit-calendar-picker-indicator {
-  display: none !important;
-  -webkit-appearance: none !important;
-}
-
-/* 2) Eliminar apariencia nativa en Firefox (lo convierte en un textfield sin icono) */
-input[type="date"],
-input[type="time"] {
-  -moz-appearance: textfield;
-  appearance: none;
-}
-
-/* 3) Si usas flatpickr con altInput (crea su propio input visual), ocultar el icono extra
-   - flatpickr crea un input con clase .flatpickr-input.altInput que suele colocarse en el DOM.
-   - Ajusta los selectores si tu integración es distinta. */
-.flatpickr-input.altInput + .icon-btn,
-.flatpickr-wrapper .icon-btn,
-.flatpickr-input.altInput ~ .icon-btn {
-  display: none !important;
-}
-
-/* 4) Mantener el botón/icon en inputs normales: asegurar que .input-with-icon no se rompa */
-.input-with-icon .icon-btn {
-  right: 8px; /* ya tenías esto; se mantiene */
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-/* 5) Asegurar que los date/time ocupen todo el ancho dentro de .form-row */
-.form-row .date-field { max-width: none; min-width: 0; }
-.form-row input[type="date"],
-.form-row input[type="time"],
-.form-row .input-with-icon input {
-  width: 100%;
-  max-width: 100%;
-}
-
-/* Ajustes para evitar campos excesivamente anchos */
-
-/* 1) Mejor control del grid: columnas con min/max razonables */
-.form-row {
-  /* cada columna no será más pequeña que 180px ni mayor que 1fr */
-  grid-template-columns: repeat(2, minmax(180px, 1fr));
-  gap: 0.9rem;
-}
-
-/* 2) Clases utilitarias por campo */
-.form-group.narrow { max-width: 360px; } /* para selects/inputs cortos */
-.form-group.half { max-width: 480px; }   /* ocupan menos que la columna completa */
-.input-narrow { max-width: 360px; width: 100%; }
-
-/* 3) Forzar max-width para date/time donde quieras limitar */
-.date-field { max-width: 340px; min-width: 160px; }
-.form-row .date-field { max-width: 320px; } /* cuando están lado a lado, un poco más compactos */
-
-/* 4) Limitar selects largos (ejemplo para site/account) */
-select#shiftRequestSite,
-select#shiftRequestAccount {
-  max-width: 520px;
-}
-
-/* 5) Limitar inputs generales por seguridad visual */
-.createShiftRequest-body input,
-.createShiftRequest-body select,
-.createShiftRequest-body textarea {
-  max-width: 720px;
-}
-
-/* 6) Mantener responsividad: en pantallas pequeñas se apilan y las utilitarias aún funcionan */
-@media (max-width: 900px) {
-  .form-group.narrow,
-  .form-group.half,
-  .input-narrow,
-  select#shiftRequestSite,
-  select#shiftRequestAccount {
-    max-width: 100%;
-  }
 }
