@@ -1,8 +1,6 @@
-@charset "UTF-8";
 .createShiftRequest {
   --bg: #ffffff;
-  --muted-bg: #f6f8fb;
-  --muted-input: #f3f4f6;
+  --muted-input: #f7f9fb;
   --muted-border: #e6e9ee;
   --accent: #277bb7;
   --accent-2: #2ec5ce;
@@ -11,6 +9,9 @@
   --radius: 12px;
   --pad: 20px;
   --max-w: 920px;
+  --control-h: 40px;
+  --icon-btn-size: 34px;
+  --gap: 0.9rem;
   box-sizing: border-box;
   font-family: "Inter", system-ui, "Helvetica Neue", Arial, sans-serif;
   background: var(--bg);
@@ -43,22 +44,21 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 0.3rem;
+  gap: 0.8rem;
+  margin-bottom: 0.4rem;
 }
 .createShiftRequest .createShiftRequestHeader h3 {
   margin: 0;
   color: var(--accent);
   font-size: 1.25rem;
   font-weight: 600;
-  letter-spacing: -0.02em;
 }
 .createShiftRequest .createShiftRequestHeader .modal-close {
   width: 40px;
   height: 40px;
-  border-radius: 8px;
   display: inline-grid;
   place-items: center;
+  border-radius: 8px;
   border: 1px solid transparent;
   background: transparent;
   color: #6b7280;
@@ -75,6 +75,7 @@
 }
 .createShiftRequest .form-group {
   margin-bottom: 1rem;
+  min-width: 0;
 }
 .createShiftRequest .form-group label {
   display: block;
@@ -86,59 +87,102 @@
 }
 .createShiftRequest input, .createShiftRequest select, .createShiftRequest textarea {
   width: 100%;
-  padding: 0.62rem 0.75rem;
+  padding: 0.56rem 0.7rem;
   border-radius: 8px;
   border: 1px solid var(--muted-border);
   background: var(--muted-input);
   color: #0f1724;
-  transition: border-color 0.12s ease, box-shadow 0.12s ease, transform 0.06s ease;
+  transition: border-color 0.12s ease, box-shadow 0.12s ease;
   font-family: inherit;
-  font-size: 0.98rem;
+  font-size: 0.95rem;
+  height: var(--control-h);
+  box-sizing: border-box;
+}
+.createShiftRequest textarea {
+  min-height: 92px;
+  padding: 0.6rem 0.7rem;
+  height: auto;
+  resize: vertical;
 }
 .createShiftRequest input:focus, .createShiftRequest select:focus, .createShiftRequest textarea:focus {
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 8px 26px rgba(39, 123, 183, 0.08);
 }
-.createShiftRequest textarea {
-  min-height: 92px;
-  resize: vertical;
+.createShiftRequest .btn-mini, .createShiftRequest .btn-primary, .createShiftRequest .btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  height: var(--control-h);
+  padding: 0.42rem 0.9rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.08s ease, filter 0.12s ease;
+  box-shadow: 0 6px 18px rgba(25, 40, 60, 0.06);
+}
+.createShiftRequest .btn-mini {
+  color: #fff;
+  background: linear-gradient(90deg, var(--accent) 60%, var(--accent-2) 100%);
+}
+.createShiftRequest .btn-mini:hover {
+  transform: translateY(-2px);
+}
+.createShiftRequest .btn-primary {
+  color: #fff;
+  background: linear-gradient(90deg, var(--accent) 60%, var(--accent-2) 100%);
+}
+.createShiftRequest .btn-secondary {
+  background: #f8fafc;
+  color: #334155;
+  border: 1px solid #dbe6ef;
 }
 .createShiftRequest .form-grid {
   display: grid;
-  grid-template-columns: 1fr 420px;
-  gap: 1.1rem;
-  align-items: start;
+  grid-template-columns: 1fr;
+  gap: 1rem;
 }
-@media (max-width: 1000px) {
-  .createShiftRequest .form-grid {
-    grid-template-columns: 1fr;
-  }
+.createShiftRequest .col-left {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gap);
 }
-.createShiftRequest .form-grid .col {
-  min-width: 0;
-}
-.createShiftRequest .form-grid .two-col-dates {
+.createShiftRequest .col-left .two-col-dates {
+  grid-column: 1/-1;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.8rem;
 }
-.createShiftRequest .form-grid .two-col-dates .date-field {
+.createShiftRequest .col-left .two-col-dates .date-field {
   max-width: 100%;
   min-width: 0;
 }
+.createShiftRequest .col-left textarea {
+  grid-column: 1/-1;
+}
+.createShiftRequest .col-right {
+  margin-top: 0.15rem;
+}
+@media (max-width: 900px) {
+  .createShiftRequest .col-left {
+    grid-template-columns: 1fr;
+  }
+  .createShiftRequest .col-left .two-col-dates {
+    grid-template-columns: 1fr;
+  }
+}
 .createShiftRequest .form-group.narrow {
   max-width: 520px;
-}
-.createShiftRequest .input-narrow {
-  max-width: 360px;
-  width: 100%;
 }
 .createShiftRequest .schedules-panel {
   background: linear-gradient(180deg, #fbfdff, #fff);
   border-radius: 10px;
   padding: 0.6rem;
   border: 1px solid var(--muted-border);
+  overflow-x: hidden;
 }
 .createShiftRequest .schedules-panel .panel-header {
   display: flex;
@@ -150,114 +194,90 @@
 .createShiftRequest .schedules-panel .panel-header label {
   font-weight: 700;
 }
-.createShiftRequest .schedules-panel .shift-dayranges-list {
-  margin-top: 0.2rem;
-}
-.createShiftRequest .schedules-panel {
-  /* asegurar que el panel no provoque scroll horizontal */
-  overflow-x: hidden;
+.createShiftRequest .schedules-panel .panel-header .btn-mini {
+  height: 36px;
+  padding: 0.36rem 0.7rem;
 }
 .createShiftRequest .schedules-panel .shift-dayranges-list {
   width: 100%;
   box-sizing: border-box;
+  margin-top: 0.1rem;
 }
 .createShiftRequest .day-range-block {
   width: 100%;
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: 1fr auto; /* col1: contenido, col2: boton quitar (si se quiere) */
+  grid-template-columns: 140px 140px 120px 120px 120px 72px;
   gap: 0.5rem;
-  padding: 0.55rem;
+  align-items: center;
+  padding: 0.5rem;
   margin-bottom: 0.6rem;
   border-radius: 8px;
   border: 1px solid var(--muted-border);
   background: #fff;
-  /* Row 1: dayFrom | dayTo (inline) ; boton quitar se puede ubicar en la columna derecha */
-  grid-template-rows: auto auto; /* dos filas: 1) días, 2) horarios */
-  align-items: start;
-  /* Contenedor interno de la fila superior (días) */
-  /* Contenedor interno de la fila inferior (horarios) */
-  /* Mobile: apilar verticalmente */
 }
-.createShiftRequest .day-range-block > .row-days {
-  grid-column: 1/-1;
-  display: grid;
-  grid-template-columns: 1fr 1fr auto; /* desde | hasta | acción */
-  gap: 0.5rem;
-  align-items: end;
-}
-.createShiftRequest .day-range-block > .row-days .form-group {
+.createShiftRequest .day-range-block .form-group {
   margin: 0;
+  min-width: 0;
 }
-.createShiftRequest .day-range-block > .row-days label {
-  margin-bottom: 0.28rem;
-  font-size: 0.86rem;
-  font-weight: 600;
+.createShiftRequest .day-range-block label {
   display: block;
+  font-size: 0.86rem;
+  margin-bottom: 0.28rem;
+  font-weight: 600;
 }
-.createShiftRequest .day-range-block > .row-days select {
+.createShiftRequest .day-range-block select, .createShiftRequest .day-range-block input[type=time], .createShiftRequest .day-range-block input[type=date] {
+  height: var(--control-h);
+  padding: 0.42rem 0.7rem;
+  border-radius: 8px;
+  box-sizing: border-box;
   width: 100%;
 }
-.createShiftRequest .day-range-block > .row-days .remove-day-range {
+.createShiftRequest .day-range-block .remove-day-range {
   height: 38px;
-  align-self: end;
-  justify-self: end;
-  margin: 0;
+  padding: 0.28rem 0.6rem;
+  border-radius: 8px;
+  background: var(--danger);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
-.createShiftRequest .day-range-block > .row-times {
-  grid-column: 1/-1;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr)); /* inicio | termino | colación */
-  gap: 0.6rem;
-  margin-top: 0.45rem;
-}
-.createShiftRequest .day-range-block > .row-times .form-group {
-  margin: 0;
-}
-.createShiftRequest .day-range-block > .row-times label {
-  margin-bottom: 0.28rem;
-  font-size: 0.86rem;
-  font-weight: 600;
-  display: block;
-}
-.createShiftRequest .day-range-block > .row-times input[type=time] {
-  width: 100%;
+@media (max-width: 1100px) {
+  .createShiftRequest .day-range-block {
+    grid-template-columns: 120px 120px 1fr 1fr 1fr 72px;
+  }
 }
 @media (max-width: 800px) {
   .createShiftRequest .day-range-block {
-    grid-template-columns: 1fr; /* elimina la columna de acción separada */
-    /* dos por fila en mobile */
-  }
-  .createShiftRequest .day-range-block > .row-days {
-    grid-template-columns: 1fr 1fr;
-  }
-  .createShiftRequest .day-range-block > .row-times {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-auto-rows: auto;
   }
   .createShiftRequest .day-range-block .remove-day-range {
+    grid-column: 3/4;
     justify-self: end;
+  }
+  .createShiftRequest .day-range-block label {
+    font-size: 0.84rem;
   }
 }
 .createShiftRequest .input-with-icon {
   position: relative;
-  display: block;
 }
 .createShiftRequest .input-with-icon .input-icon-wrap {
   position: relative;
-  display: flex;
-  align-items: center;
-}
-.createShiftRequest .input-with-icon input, .createShiftRequest .input-with-icon select, .createShiftRequest .input-with-icon textarea {
-  padding-right: 3.2rem;
-  width: 100%;
+  display: block;
 }
 .createShiftRequest .input-with-icon .icon-btn {
   position: absolute;
   right: 8px;
   top: 50%;
   transform: translateY(-50%);
-  height: 36px;
-  width: 36px;
+  height: var(--icon-btn-size);
+  width: var(--icon-btn-size);
   display: inline-grid;
   place-items: center;
   border-radius: 8px;
@@ -265,18 +285,10 @@
   background: transparent;
   color: #54606a;
   cursor: pointer;
-  transition: background 0.12s ease, color 0.12s ease, transform 0.08s ease;
-  padding: 0;
 }
 .createShiftRequest .input-with-icon .icon-btn:hover {
   background: rgba(39, 123, 183, 0.06);
   color: var(--accent);
-  transform: translateY(-50%) scale(1.02);
-}
-.createShiftRequest .input-with-icon .icon-btn:focus {
-  outline: 2px solid rgba(39, 123, 183, 0.16);
-  outline-offset: 2px;
-  border-radius: 6px;
 }
 .createShiftRequest input[type=date]::-webkit-calendar-picker-indicator,
 .createShiftRequest input[type=time]::-webkit-calendar-picker-indicator {
@@ -293,33 +305,6 @@
   justify-content: flex-end;
   margin-top: 0.6rem;
 }
-.createShiftRequest .modal-footer .btn-primary, .createShiftRequest .modal-footer .btn-secondary {
-  border-radius: 10px;
-  padding: 0.62rem 1.05rem;
-  font-weight: 700;
-  font-size: 1rem;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 6px 20px rgba(25, 40, 60, 0.06);
-}
-.createShiftRequest .modal-footer .btn-primary {
-  color: #fff;
-  background: linear-gradient(90deg, var(--accent) 60%, var(--accent-2) 100%);
-}
-.createShiftRequest .modal-footer .btn-primary:hover {
-  transform: translateY(-3px);
-}
-.createShiftRequest .modal-footer .btn-secondary {
-  background: #f8fafc;
-  color: #334155;
-  border: 1px solid #dbe6ef;
-}
-.createShiftRequest .dayrange-help {
-  display: block;
-  color: #6b7280;
-  font-size: 0.93rem;
-  margin: 0.4rem 0 1rem 2px;
-}
 .createShiftRequest .form-error {
   color: #b91c1c;
   font-weight: 700;
@@ -332,132 +317,16 @@
   margin-top: 0.8rem;
 }
 
-/* Global fallbacks / constraints (outside main block) */
-.createShiftRequest {
-  --max-w: 920px;
-}
-
-.form-group.narrow {
-  max-width: 520px;
-}
-
-.two-col-dates {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.8rem;
-}
-
+/* small-screen fallbacks */
 @media (max-width: 900px) {
-  .form-row {
-    grid-template-columns: 1fr;
-    gap: 0.65rem;
-  }
-  .day-range-block {
-    grid-template-columns: 1fr;
-    gap: 0.55rem;
-    padding: 0.75rem;
-  }
-  .modal-footer {
-    flex-direction: column-reverse;
-    align-items: stretch;
-    gap: 0.5rem;
-  }
   .createShiftRequest {
     padding: 14px;
     margin: 1rem;
   }
-}
-/* ---------- Ajustes dentro de day-range-block para botones e inputs ---------- */
-/* Asegura que los botones dentro de los bloques recuperen el estilo */
-.createShiftRequest .day-range-block {
-  /* Normalizar box model dentro del bloque */
-  /* Botón quitar / acción (consistente con .btn-mini y .btn-danger globales) */
-  /* estilo específico para botón de eliminar (rojo) */
-  /* si quieres el estilo gradient de .btn-mini en otros contextos */
-  /* Normalizar inputs/time dentro de row-times */
-  /* En row-days, los selects deben coincidir en altura visual con inputs */
-  /* Si algún elemento tiene max-width/narrow, asegurar que no rompa la rejilla */
-  /* Mobile: mantener botones y campos con la misma altura */
-}
-.createShiftRequest .day-range-block *, .createShiftRequest .day-range-block *::before, .createShiftRequest .day-range-block *::after {
-  box-sizing: border-box;
-}
-.createShiftRequest .day-range-block .remove-day-range,
-.createShiftRequest .day-range-block .btn-mini {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  height: 38px;
-  padding: 0.42rem 0.68rem;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 0.95rem;
-  cursor: pointer;
-  border: none;
-  transition: transform 0.08s ease, background 0.12s ease;
-}
-.createShiftRequest .day-range-block .remove-day-range,
-.createShiftRequest .day-range-block .btn-danger {
-  background: var(--danger);
-  color: #fff;
-}
-.createShiftRequest .day-range-block .remove-day-range:hover,
-.createShiftRequest .day-range-block .btn-danger:hover {
-  transform: translateY(-2px);
-  filter: brightness(0.95);
-}
-.createShiftRequest .day-range-block .btn-mini:not(.btn-danger) {
-  background: linear-gradient(90deg, var(--accent) 60%, var(--accent-2) 100%);
-  color: #fff;
-}
-.createShiftRequest .day-range-block > .row-times {
-  /* asegurar que cada celda use todo su espacio y no sea afectada por padding del icono */
-  /* asegurar que el icono no empuje visualmente el ancho del input */
-}
-.createShiftRequest .day-range-block > .row-times input[type=time],
-.createShiftRequest .day-range-block > .row-times input[type=date],
-.createShiftRequest .day-range-block > .row-times .input-with-icon input,
-.createShiftRequest .day-range-block > .row-times .input-with-icon select {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 0.5rem 0.75rem; /* consistente con inputs generales */
-  height: 38px; /* uniformiza la altura visual con botones */
-  border-radius: 8px;
-  border: 1px solid var(--muted-border);
-  background: var(--muted-input);
-}
-.createShiftRequest .day-range-block > .row-times .input-with-icon {
-  position: relative;
-}
-.createShiftRequest .day-range-block > .row-times .input-with-icon .input-icon-wrap {
-  width: 100%;
-}
-.createShiftRequest .day-range-block > .row-times .input-with-icon .icon-btn {
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  height: 32px;
-  width: 32px;
-  display: inline-grid;
-  place-items: center;
-}
-.createShiftRequest .day-range-block > .row-days select {
-  height: 38px;
-  padding: 0.46rem 0.62rem;
-  border-radius: 8px;
-  box-sizing: border-box;
-}
-.createShiftRequest .day-range-block .form-group {
-  min-width: 0;
-}
-@media (max-width: 800px) {
-  .createShiftRequest .day-range-block .remove-day-range, .createShiftRequest .day-range-block .btn-mini {
-    height: 36px;
-    font-size: 0.92rem;
+  .form-group.narrow {
+    max-width: 100%;
   }
-  .createShiftRequest .day-range-block > .row-times input[type=time] {
-    height: 36px;
+  .day-range-block {
+    padding: 0.6rem;
   }
 }/*# sourceMappingURL=create-shift-request.css.map */
