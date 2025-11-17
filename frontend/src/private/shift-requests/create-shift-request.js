@@ -270,6 +270,101 @@ function bindCloseCreateShiftRequest() {
   });
 }
 
+
+// --- Cargar ClientAccounts al cambiar de Site ---
+// pega esto en create-shift-request.js
+
+const _accountsCache = new Map(); // siteId -> accounts array
+
+async function populateAccountsSelect(selectEl, accounts, preserveValue) {
+  selectEl.innerHTML = '<option value="">Seleccione cuenta</option>';
+  if (!accounts || accounts.length === 0) {
+    selectEl.innerHTML = '<option value="">No hay cuentas asociadas</option>';
+    selectEl.disabled = true;
+    return;
+  }
+  accounts.forEach(a => {
+    const opt = document.createElement('option');
+    opt.value = a.id;
+    opt.textContent = a.name;
+    selectEl.appendChild(opt);
+  });
+  // si el valor previo sigue disponible, restaurarlo; si no, deja en default
+  if (preserveValue) {
+    const stillThere = Array.from(selectEl.options).some(o => o.value === String(preserveValue));
+    if (stillThere) selectEl.value = String(preserveValue);
+  }
+  selectEl.disabled = false;
+}
+
+async function loadAccountsForSite(siteId) {
+  const accountSelect = qs('#shiftRequestAccount');
+  if (!accountSelect) return;
+
+  // preserve current selection (if any)
+  const prev = accountSelect.value || '';
+
+  // empty / loading state
+  accountSelect.disabled = true;
+  accountSelect.innerHTML = '<option value="">Cargando cuentas...</option>';
+
+  if (!siteId) {
+    accountSelect.innerHTML = '<option value="">Seleccione cuenta</option>';
+    accountSelect.disabled = true;
+    return;
+  }
+
+  // cache hit
+  if (_accountsCache.has(siteId)) {
+    populateAccountsSelect(accountSelect, _accountsCache.get(siteId), prev);
+    return;
+  }
+
+  try {
+    // Ajusta la URL si tu endpoint es distinto (p.ej. /api/sites/{siteId}/accounts)
+    const url = `/api/shift-requests/sites/${siteId}/accounts`;
+    const resp = await fetchWithAuth(url, { method: 'GET' });
+
+    if (resp.status === 401) {
+      accountSelect.innerHTML = '<option value="">No autenticado</option>';
+      return;
+    }
+    if (resp.status === 403) {
+      accountSelect.innerHTML = '<option value="">Sin acceso a las cuentas</option>';
+      return;
+    }
+    if (!resp.ok) {
+      accountSelect.innerHTML = '<option value="">Error cargando cuentas</option>';
+      return;
+    }
+
+    const accounts = await resp.json(); // [{id,name,...}, ...]
+    // cachear (si quieres invalidar al crear cuentas, limpia _accountsCache)
+    _accountsCache.set(siteId, accounts);
+    populateAccountsSelect(accountSelect, accounts, prev);
+  } catch (err) {
+    console.error('Error cargando accounts:', err);
+    accountSelect.innerHTML = '<option value="">Error cargando cuentas</option>';
+    accountSelect.disabled = true;
+  }
+}
+
+function bindSiteChangeLoader() {
+  const siteSelect = qs('#shiftRequestSite');
+  if (!siteSelect) return;
+
+  siteSelect.addEventListener('change', (e) => {
+    const siteId = e.target.value || null;
+    // si quieres debounce, añádelo aquí
+    loadAccountsForSite(siteId);
+  });
+
+  // si hay site ya seleccionado (edición), cargar al inicializar
+  if (siteSelect.value) loadAccountsForSite(siteSelect.value);
+}
+
+// Llamar bindSiteChangeLoader() desde init()
+
 /* --- init --- */
 (function init() {
   bindCreateShiftRequestForm();
@@ -277,6 +372,7 @@ function bindCloseCreateShiftRequest() {
   bindCloseCreateShiftRequest();
   bindDayRangeAdder();
   bindIconPickers();
+  bindSiteChangeLoader();
   // init flatpickr if present
   initFlatpickr();
 })();

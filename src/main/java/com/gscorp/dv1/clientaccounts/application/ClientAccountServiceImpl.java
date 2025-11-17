@@ -2,8 +2,11 @@ package com.gscorp.dv1.clientaccounts.application;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +18,8 @@ import com.gscorp.dv1.clientaccounts.web.dto.ClientAccountDto;
 import com.gscorp.dv1.clientaccounts.web.dto.CreateClientAccountRequest;
 import com.gscorp.dv1.clients.application.ClientService;
 import com.gscorp.dv1.clients.infrastructure.Client;
+import com.gscorp.dv1.clients.infrastructure.ClientMembershipRepository;
+import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.users.application.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -26,6 +31,8 @@ public class ClientAccountServiceImpl implements ClientAccountService {
     private final UserService userService;
     private final ClientAccountRepository clientAccountRepository;
     private final ClientService clientService;
+    private final SiteService siteService;
+    private final ClientMembershipRepository clientMembershipRepository;
     
     /**
      * Devuelve una lista de ClientAccountDto asociadas a todos los Clients del usuario.
@@ -129,5 +136,32 @@ public class ClientAccountServiceImpl implements ClientAccountService {
         );
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<ClientAccountDto> getClientAccountsForSite(Long siteId, Long userId) {
+        if( siteId == null) return List.of();
+
+        // resolver clientId via SiteService (devuelve Optional)
+        Optional<Long> clientIdOpt = siteService.getClientIdForSite(siteId);
+        if (clientIdOpt.isEmpty()) {
+            return List.of();
+        }
+        Long clientId = clientIdOpt.get();
+
+        // validar userId (servicio recibe userId desde controller / security)
+        if (userId == null) {
+            throw new AuthenticationCredentialsNotFoundException("Usuario no autenticado");
+        }
+
+        // validar membership: si no es miembro -> AccessDenied (403)
+        boolean member = clientMembershipRepository.existsByClientIdAndUserId(clientId, userId);
+        if (!member) {
+            throw new AccessDeniedException("Usuario no pertenece al cliente asociado al site");
+        }
+
+        // devolver accounts del client (tu repo ya provee findDtoByClientIds)
+        return clientAccountRepository.findDtoByClientIds(List.of(clientId));
+    
+    }
 
 }

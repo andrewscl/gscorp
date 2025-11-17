@@ -30,4 +30,20 @@ public interface ClientAccountService {
     // ClientAccount getAccountIfOwned(Long accountId, Long userId);
 
     ClientAccountDto getAccountDtoIfOwned(Long accountId, Long userId);
+
+    /**
+     * Obtiene las cuentas (ClientAccountDto) asociadas al client del site dado,
+     * considerando el userId para aplicar reglas de visibilidad/membership.
+     *
+     * Comportamiento:
+     * - Si siteId es null o no existe -> devuelve lista vacía.
+     * - Si userId es null -> lanza AuthenticationCredentialsNotFoundException.
+     * - Si el usuario no pertenece al client -> lanza AccessDeniedException.
+     *
+     * @param siteId id del Site
+     * @param userId id del usuario autenticado
+     * @return lista de ClientAccountDto
+     */
+    List<ClientAccountDto> getClientAccountsForSite(Long siteId, Long userId);
+
 }
