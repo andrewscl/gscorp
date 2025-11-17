@@ -5,12 +5,19 @@ import java.util.List;
 
 import com.gscorp.dv1.enums.RequestType;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 public record CreateShiftRequest(
-    Long siteId,
-    RequestType type,    // "FIXED" o "SPORADIC"
-    Long accountId,                 
-    LocalDate startDate,
+    @NotNull(message = "siteId es obligatorio") Long siteId,
+    @NotNull(message = "type es obligatorio") RequestType type,
+    Long accountId,
+    @NotNull(message = "startDate es obligatorio") LocalDate startDate,
     LocalDate endDate,
     String description,
+    
+    @Valid @NotNull(message = "schedules es obligatorio")
+    @Size(min = 1, message = "Debe ingresar al menos un tramo")
     List<ShiftScheduleRequest> schedules
 ) {}

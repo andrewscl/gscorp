@@ -276,7 +276,6 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
                             .dayTo(schedReq.dayTo())
                             .startTime(LocalTime.parse(schedReq.startTime()))
                             .endTime(LocalTime.parse(schedReq.endTime()))
-                            .lunchTime(schedReq.lunchTime() != null && !schedReq.lunchTime().isBlank() ? LocalTime.parse(schedReq.lunchTime()) : null)
                             .shiftRequest(entity)
                             .build();
                     return ss;

@@ -75,9 +75,8 @@ async function onSubmitCreateShiftRequest(e) {
     const to = block.querySelector('.dayTo')?.value;
     const startTime = block.querySelector('input[name$="[startTime]"]')?.value;
     const endTime = block.querySelector('input[name$="[endTime]"]')?.value;
-    const lunchTime = block.querySelector('input[name$="[lunchTime]"]')?.value || null;
     if (from && to && startTime && endTime)
-      schedules.push({ dayFrom: from, dayTo: to, startTime, endTime, lunchTime });
+      schedules.push({ dayFrom: from, dayTo: to, startTime, endTime });
   });
   if (schedules.length === 0) {
     if (err) err.textContent = 'Debe ingresar al menos un tramo de horario.';
@@ -161,19 +160,6 @@ function addDayRangeBlock(prefill) {
       <label>Hora término</label>
       <div class="input-icon-wrap">
         <input type="time" name="schedules[${idx}][endTime]" value="${(prefill && prefill.endTime)||''}" required />
-        <button type="button" class="icon-btn clock-btn" aria-label="Abrir selector hora">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.4"/>
-            <path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <div class="form-group input-with-icon">
-      <label>Colación</label>
-      <div class="input-icon-wrap">
-        <input type="time" name="schedules[${idx}][lunchTime]" value="${(prefill && prefill.lunchTime)||''}" />
         <button type="button" class="icon-btn clock-btn" aria-label="Abrir selector hora">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.4"/>
