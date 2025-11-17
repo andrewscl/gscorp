@@ -154,12 +154,13 @@
   grid-column: 1/-1;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  width: 50%;
   gap: 0.8rem;
 }
 .createShiftRequest .col-left .two-col-dates .date-field {
-  width: 10ch;
+  width: 14ch;
   max-width: 100%;
-  min-width: 12ch;
+  min-width: 14ch;
 }
 .createShiftRequest .col-left textarea {
   grid-column: 1/-1;
