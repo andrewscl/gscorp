@@ -50,8 +50,8 @@
     h3 {
       margin: 0;
       color: var(--accent);
-      font-size: 1.45rem;
-      font-weight: 700;
+      font-size: 1.25rem;
+      font-weight: 600;
       letter-spacing: -0.02em;
     }
     .modal-close {
@@ -148,41 +148,70 @@
     .shift-dayranges-list { margin-top: .2rem; }
   }
 
+  .schedules-panel {
+  /* asegurar que el panel no provoque scroll horizontal */
+  overflow-x: hidden;
+  .shift-dayranges-list {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
   // Day-range block: compact grid row for schedule items
   .day-range-block {
+    width: 100%;
+    box-sizing: border-box;
     display: grid;
-    grid-template-columns: 120px 120px 100px 100px 100px 72px;
-    gap: 0.55rem;
-    align-items: start;
-    padding: .6rem;
+    grid-template-columns: 1fr auto; /* col1: contenido, col2: boton quitar (si se quiere) */
+    gap: 0.5rem;
+    padding: .55rem;
     margin-bottom: .6rem;
     border-radius: 8px;
     border: 1px solid var(--muted-border);
-    background: white;
+    background: #fff;
 
-    .form-group { margin:0; min-width:0; }
-    label { display:block; font-size:.86rem; margin-bottom:.28rem; font-weight:600; }
-    input, select { width:100%; padding:.5rem .6rem; border-radius:8px; }
+    /* Row 1: dayFrom | dayTo (inline) ; boton quitar se puede ubicar en la columna derecha */
+    grid-template-rows: auto auto; /* dos filas: 1) días, 2) horarios */
+    align-items: start;
 
-    .remove-day-range {
-      height:38px;
-      align-self:start;
-      justify-self:center;
-      background: var(--danger);
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      padding: .44rem .7rem;
-      cursor: pointer;
-      font-weight: 700;
-      transition: background .12s ease, transform .08s ease;
-      &:hover { transform: translateY(-2px); background: #d33; }
+    /* Contenedor interno de la fila superior (días) */
+    & > .row-days {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr 1fr auto; /* desde | hasta | acción */
+      gap: 0.5rem;
+      align-items: end;
+
+      .form-group { margin: 0; }
+      label { margin-bottom: .28rem; font-size: .86rem; font-weight:600; display:block; }
+      select { width: 100%; }
+      .remove-day-range {
+        height: 38px;
+        align-self: end;
+        justify-self: end;
+        margin: 0;
+      }
     }
 
+    /* Contenedor interno de la fila inferior (horarios) */
+    & > .row-times {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr)); /* inicio | termino | colación */
+      gap: 0.6rem;
+      margin-top: .45rem;
+
+      .form-group { margin: 0; }
+      label { margin-bottom: .28rem; font-size: .86rem; font-weight:600; display:block; }
+      input[type="time"] { width: 100%; }
+    }
+
+    /* Mobile: apilar verticalmente */
     @media (max-width: 800px) {
-      grid-template-columns: 1fr 1fr;
-      gap: .5rem;
-      .remove-day-range { justify-self:end; }
+      grid-template-columns: 1fr; /* elimina la columna de acción separada */
+      & > .row-days { grid-template-columns: 1fr 1fr; }
+      & > .row-times { grid-template-columns: 1fr 1fr; } /* dos por fila en mobile */
+      .remove-day-range { justify-self: end; }
     }
   }
 

@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .createShiftRequest {
   --bg: #ffffff;
   --muted-bg: #f6f8fb;
@@ -48,8 +49,8 @@
 .createShiftRequest .createShiftRequestHeader h3 {
   margin: 0;
   color: var(--accent);
-  font-size: 1.45rem;
-  font-weight: 700;
+  font-size: 1.25rem;
+  font-weight: 600;
   letter-spacing: -0.02em;
 }
 .createShiftRequest .createShiftRequestHeader .modal-close {
@@ -152,53 +153,86 @@
 .createShiftRequest .schedules-panel .shift-dayranges-list {
   margin-top: 0.2rem;
 }
+.createShiftRequest .schedules-panel {
+  /* asegurar que el panel no provoque scroll horizontal */
+  overflow-x: hidden;
+}
+.createShiftRequest .schedules-panel .shift-dayranges-list {
+  width: 100%;
+  box-sizing: border-box;
+}
 .createShiftRequest .day-range-block {
+  width: 100%;
+  box-sizing: border-box;
   display: grid;
-  grid-template-columns: 120px 120px 100px 100px 100px 72px;
-  gap: 0.55rem;
-  align-items: start;
-  padding: 0.6rem;
+  grid-template-columns: 1fr auto; /* col1: contenido, col2: boton quitar (si se quiere) */
+  gap: 0.5rem;
+  padding: 0.55rem;
   margin-bottom: 0.6rem;
   border-radius: 8px;
   border: 1px solid var(--muted-border);
-  background: white;
+  background: #fff;
+  /* Row 1: dayFrom | dayTo (inline) ; boton quitar se puede ubicar en la columna derecha */
+  grid-template-rows: auto auto; /* dos filas: 1) días, 2) horarios */
+  align-items: start;
+  /* Contenedor interno de la fila superior (días) */
+  /* Contenedor interno de la fila inferior (horarios) */
+  /* Mobile: apilar verticalmente */
 }
-.createShiftRequest .day-range-block .form-group {
+.createShiftRequest .day-range-block > .row-days {
+  grid-column: 1/-1;
+  display: grid;
+  grid-template-columns: 1fr 1fr auto; /* desde | hasta | acción */
+  gap: 0.5rem;
+  align-items: end;
+}
+.createShiftRequest .day-range-block > .row-days .form-group {
   margin: 0;
-  min-width: 0;
 }
-.createShiftRequest .day-range-block label {
-  display: block;
-  font-size: 0.86rem;
+.createShiftRequest .day-range-block > .row-days label {
   margin-bottom: 0.28rem;
+  font-size: 0.86rem;
   font-weight: 600;
+  display: block;
 }
-.createShiftRequest .day-range-block input, .createShiftRequest .day-range-block select {
+.createShiftRequest .day-range-block > .row-days select {
   width: 100%;
-  padding: 0.5rem 0.6rem;
-  border-radius: 8px;
 }
-.createShiftRequest .day-range-block .remove-day-range {
+.createShiftRequest .day-range-block > .row-days .remove-day-range {
   height: 38px;
-  align-self: start;
-  justify-self: center;
-  background: var(--danger);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 0.44rem 0.7rem;
-  cursor: pointer;
-  font-weight: 700;
-  transition: background 0.12s ease, transform 0.08s ease;
+  align-self: end;
+  justify-self: end;
+  margin: 0;
 }
-.createShiftRequest .day-range-block .remove-day-range:hover {
-  transform: translateY(-2px);
-  background: #d33;
+.createShiftRequest .day-range-block > .row-times {
+  grid-column: 1/-1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)); /* inicio | termino | colación */
+  gap: 0.6rem;
+  margin-top: 0.45rem;
+}
+.createShiftRequest .day-range-block > .row-times .form-group {
+  margin: 0;
+}
+.createShiftRequest .day-range-block > .row-times label {
+  margin-bottom: 0.28rem;
+  font-size: 0.86rem;
+  font-weight: 600;
+  display: block;
+}
+.createShiftRequest .day-range-block > .row-times input[type=time] {
+  width: 100%;
 }
 @media (max-width: 800px) {
   .createShiftRequest .day-range-block {
+    grid-template-columns: 1fr; /* elimina la columna de acción separada */
+    /* dos por fila en mobile */
+  }
+  .createShiftRequest .day-range-block > .row-days {
     grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
+  }
+  .createShiftRequest .day-range-block > .row-times {
+    grid-template-columns: 1fr 1fr;
   }
   .createShiftRequest .day-range-block .remove-day-range {
     justify-self: end;
