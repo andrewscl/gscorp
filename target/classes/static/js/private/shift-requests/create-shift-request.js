@@ -1,19 +1,19 @@
-import{f as T}from"../../auth.js";import{n as g}from"../../navigation-handler.js";const a=(n,e=document)=>e.querySelector(n),y=(n,e=document)=>Array.from((e||document).querySelectorAll(n)),b={Lunes:0,Martes:1,Miércoles:2,Jueves:3,Viernes:4,Sábado:5,Domingo:6},D=Object.keys(b);function C(n=document.querySelector("#shiftDayRanges")){y(".day-range-block",n).forEach((t,r)=>{y("input, select, textarea",t).forEach(o=>{const s=o.getAttribute("name");if(!s)return;const c=s.replace(/schedules\[\d+\]/,`schedules[${r}]`);o.setAttribute("name",c)})})}function $(n){const e=n.map(t=>{let r=b[t.dayFrom],o=b[t.dayTo];return r>o&&(o+=7),{from:r,to:o,orig:t}});for(let t=0;t<e.length;t++)for(let r=t+1;r<e.length;r++){const o=e[t],s=e[r];for(let c=o.from;c<=o.to;c++)for(let u=s.from;u<=s.to;u++)if(c%7===u%7)return[o.orig,s.orig]}return null}async function x(n){n.preventDefault();const e=a("#shiftRequestSite")?.value,t=a("#shiftRequestAccount")?.value,r=a("#shiftRequestServiceType")?.value,o=a("#shiftRequestStartDate")?.value,s=a("#shiftRequestEndDate")?.value||null,c=a("#shiftRequestStatus")?.value,u=a("#shiftRequestDescription")?.value?.trim()||null,i=a("#createShiftRequestError"),p=a("#createShiftRequestOk");if(i&&(i.textContent=""),p&&(p.style.display="none"),!e){i&&(i.textContent="Debe seleccionar un sitio.");return}if(!t){i&&(i.textContent="Debe seleccionar una cuenta.");return}if(!r){i&&(i.textContent="Debe seleccionar el tipo de servicio.");return}if(!o){i&&(i.textContent="La fecha de inicio es obligatoria.");return}if(!c){i&&(i.textContent="Debe seleccionar un estado.");return}const m=[];if(y(".day-range-block").forEach((l,f)=>{const k=l.querySelector(".dayFrom")?.value,q=l.querySelector(".dayTo")?.value,S=l.querySelector('input[name^="schedules"][name$="[startTime]"]')?.value,w=l.querySelector('input[name^="schedules"][name$="[endTime]"]')?.value,R=l.querySelector('input[name^="schedules"][name$="[lunchTime]"]')?.value||null;k&&q&&S&&w&&m.push({dayFrom:k,dayTo:q,startTime:S,endTime:w,lunchTime:R})}),m.length===0){i&&(i.textContent="Debe ingresar al menos un tramo de horario.");return}const d=$(m);if(d){i&&(i.textContent=`Solapamiento de días entre "${d[0].dayFrom} a ${d[0].dayTo}" y "${d[1].dayFrom} a ${d[1].dayTo}". Ajuste los tramos para que no se crucen.`);return}const h=n.submitter||a('#createShiftRequestForm button[type="submit"]');h&&(h.disabled=!0);try{const l=await T("/api/shift-requests/create",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({siteId:e,type:r,accountId:t,startDate:o,endDate:s,description:u,schedules:m})});if(!l.ok){let f="";try{f=await l.text()}catch{}throw f||(f=`Error ${l.status}`),new Error(f)}p&&(p.style.display="block"),setTimeout(()=>{g("/private/shift-requests/table-view")},600)}catch(l){i&&(i.textContent=l.message)}finally{h&&(h.disabled=!1)}}function v(n){const e=a("#shiftDayRanges"),t=y(".day-range-block").length,r=D.map(c=>`<option value="${c}">${c}</option>`).join(""),o=D.map(c=>`<option value="${c}">${c}</option>`).join(""),s=document.createElement("div");s.className="form-row day-range-block",s.innerHTML=`
-    <div class="form-group">
+import{f as T}from"../../auth.js";import{n as g}from"../../navigation-handler.js";const a=(n,e=document)=>e.querySelector(n),y=(n,e=document)=>Array.from((e||document).querySelectorAll(n)),b={Lunes:0,Martes:1,Miércoles:2,Jueves:3,Viernes:4,Sábado:5,Domingo:6},D=Object.keys(b);function C(n=document.querySelector("#shiftDayRanges")){y(".day-range-block",n).forEach((t,r)=>{y("input, select, textarea",t).forEach(i=>{const s=i.getAttribute("name");if(!s)return;const c=s.replace(/schedules\[\d+\]/,`schedules[${r}]`);i.setAttribute("name",c)})})}function $(n){const e=n.map(t=>{let r=b[t.dayFrom],i=b[t.dayTo];return r>i&&(i+=7),{from:r,to:i,orig:t}});for(let t=0;t<e.length;t++)for(let r=t+1;r<e.length;r++){const i=e[t],s=e[r];for(let c=i.from;c<=i.to;c++)for(let u=s.from;u<=s.to;u++)if(c%7===u%7)return[i.orig,s.orig]}return null}async function x(n){n.preventDefault();const e=a("#shiftRequestSite")?.value,t=a("#shiftRequestAccount")?.value,r=a("#shiftRequestServiceType")?.value,i=a("#shiftRequestStartDate")?.value,s=a("#shiftRequestEndDate")?.value||null,c=a("#shiftRequestStatus")?.value,u=a("#shiftRequestDescription")?.value?.trim()||null,o=a("#createShiftRequestError"),p=a("#createShiftRequestOk");if(o&&(o.textContent=""),p&&(p.style.display="none"),!e){o&&(o.textContent="Debe seleccionar un sitio.");return}if(!t){o&&(o.textContent="Debe seleccionar una cuenta.");return}if(!r){o&&(o.textContent="Debe seleccionar el tipo de servicio.");return}if(!i){o&&(o.textContent="La fecha de inicio es obligatoria.");return}if(!c){o&&(o.textContent="Debe seleccionar un estado.");return}const m=[];if(y(".day-range-block").forEach((l,f)=>{const k=l.querySelector(".dayFrom")?.value,q=l.querySelector(".dayTo")?.value,w=l.querySelector('input[name^="schedules"][name$="[startTime]"]')?.value,S=l.querySelector('input[name^="schedules"][name$="[endTime]"]')?.value,R=l.querySelector('input[name^="schedules"][name$="[lunchTime]"]')?.value||null;k&&q&&w&&S&&m.push({dayFrom:k,dayTo:q,startTime:w,endTime:S,lunchTime:R})}),m.length===0){o&&(o.textContent="Debe ingresar al menos un tramo de horario.");return}const d=$(m);if(d){o&&(o.textContent=`Solapamiento de días entre "${d[0].dayFrom} a ${d[0].dayTo}" y "${d[1].dayFrom} a ${d[1].dayTo}". Ajuste los tramos para que no se crucen.`);return}const h=n.submitter||a('#createShiftRequestForm button[type="submit"]');h&&(h.disabled=!0);try{const l=await T("/api/shift-requests/create",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({siteId:e,type:r,accountId:t,startDate:i,endDate:s,description:u,schedules:m})});if(!l.ok){let f="";try{f=await l.text()}catch{}throw f||(f=`Error ${l.status}`),new Error(f)}p&&(p.style.display="block"),setTimeout(()=>{g("/private/shift-requests/table-view")},600)}catch(l){o&&(o.textContent=l.message)}finally{h&&(h.disabled=!1)}}function v(n){const e=a("#shiftDayRanges"),t=y(".day-range-block").length,r=D.map(c=>`<option value="${c}">${c}</option>`).join(""),i=D.map(c=>`<option value="${c}">${c}</option>`).join(""),s=document.createElement("div");s.className="form-row day-range-block",s.innerHTML=`
+    <div class="form-group narrow">
       <label>Día desde</label>
       <select name="schedules[${t}][dayFrom]" class="dayFrom" required>
         <option value="">Desde</option>${r}
       </select>
     </div>
 
-    <div class="form-group">
+    <div class="form-group narrow">
       <label>Día hasta</label>
       <select name="schedules[${t}][dayTo]" class="dayTo" required>
-        <option value="">Hasta</option>${o}
+        <option value="">Hasta</option>${i}
       </select>
     </div>
 
-    <div class="form-group input-with-icon">
+    <div class="form-group narrow input-with-icon">
       <label>Hora inicio</label>
       <div class="input-icon-wrap">
         <input type="time" name="schedules[${t}][startTime]" value="" required />
@@ -26,7 +26,7 @@ import{f as T}from"../../auth.js";import{n as g}from"../../navigation-handler.js
       </div>
     </div>
 
-    <div class="form-group input-with-icon">
+    <div class="form-group narrow input-with-icon">
       <label>Hora término</label>
       <div class="input-icon-wrap">
         <input type="time" name="schedules[${t}][endTime]" value="" required />
@@ -39,7 +39,7 @@ import{f as T}from"../../auth.js";import{n as g}from"../../navigation-handler.js
       </div>
     </div>
 
-    <div class="form-group input-with-icon">
+    <div class="form-group narrow input-with-icon">
       <label>Colación</label>
       <div class="input-icon-wrap">
         <input type="time" name="schedules[${t}][lunchTime]" value="" />

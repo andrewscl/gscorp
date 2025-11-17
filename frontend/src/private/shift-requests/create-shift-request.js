@@ -129,21 +129,21 @@ function addDayRangeBlock(prefill) {
   const block = document.createElement('div');
   block.className = 'form-row day-range-block';
   block.innerHTML = `
-    <div class="form-group">
+    <div class="form-group narrow">
       <label>Día desde</label>
       <select name="schedules[${idx}][dayFrom]" class="dayFrom" required>
         <option value="">Desde</option>${daysOptions}
       </select>
     </div>
 
-    <div class="form-group">
+    <div class="form-group narrow">
       <label>Día hasta</label>
       <select name="schedules[${idx}][dayTo]" class="dayTo" required>
         <option value="">Hasta</option>${daysOptionsTo}
       </select>
     </div>
 
-    <div class="form-group input-with-icon">
+    <div class="form-group narrow input-with-icon">
       <label>Hora inicio</label>
       <div class="input-icon-wrap">
         <input type="time" name="schedules[${idx}][startTime]" value="${(prefill && prefill.startTime)||''}" required />
@@ -156,7 +156,7 @@ function addDayRangeBlock(prefill) {
       </div>
     </div>
 
-    <div class="form-group input-with-icon">
+    <div class="form-group narrow input-with-icon">
       <label>Hora término</label>
       <div class="input-icon-wrap">
         <input type="time" name="schedules[${idx}][endTime]" value="${(prefill && prefill.endTime)||''}" required />
@@ -169,7 +169,7 @@ function addDayRangeBlock(prefill) {
       </div>
     </div>
 
-    <div class="form-group input-with-icon">
+    <div class="form-group narrow input-with-icon">
       <label>Colación</label>
       <div class="input-icon-wrap">
         <input type="time" name="schedules[${idx}][lunchTime]" value="${(prefill && prefill.lunchTime)||''}" />
