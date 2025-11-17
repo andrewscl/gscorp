@@ -6,8 +6,6 @@ import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +18,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gscorp.dv1.clientaccounts.application.ClientAccountService;
 import com.gscorp.dv1.clientaccounts.web.dto.ClientAccountDto;
-import com.gscorp.dv1.clients.infrastructure.Client;
 import com.gscorp.dv1.shiftrequests.application.ShiftRequestService;
 import com.gscorp.dv1.shiftrequests.web.dto.CreateShiftRequestRequest;
 import com.gscorp.dv1.shiftrequests.web.dto.ShiftRequestDto;

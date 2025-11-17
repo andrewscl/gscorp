@@ -90,7 +90,7 @@ body[data-layout=private] .sidebar .menu .menu-group summary.menu-item::after {
   right: 1.1rem;
   top: 50%;
   transform: translateY(-50%) rotate(90deg);
-  font-size: 1.11em;
+  font-size: 1em;
   color: #94a3b8;
   transition: transform 0.18s, color 0.18s;
 }
@@ -114,7 +114,7 @@ body[data-layout=private] .sidebar .menu .menu-group .submenu .submenu-item {
   border-radius: 7px;
   text-decoration: none;
   font-family: "Roboto", Arial, sans-serif;
-  font-size: 0.95rem;
+  font-size: 0.875rem;
   font-weight: 400;
   letter-spacing: 0.01em;
   position: relative;
@@ -139,7 +139,7 @@ body[data-layout=private] .sidebar .menu .menu-group .submenu .submenu-item:hove
 }
 body[data-layout=private] .sidebar .toggle-sidebar {
   margin-top: auto;
-  background: #e5e7eb;
+  background: #f9fafb;
   color: #1f2937;
   border: none;
   border-radius: 8px;

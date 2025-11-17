@@ -157,8 +157,9 @@
   gap: 0.8rem;
 }
 .createShiftRequest .col-left .two-col-dates .date-field {
+  width: 10ch;
   max-width: 100%;
-  min-width: 0;
+  min-width: 12ch;
 }
 .createShiftRequest .col-left textarea {
   grid-column: 1/-1;
