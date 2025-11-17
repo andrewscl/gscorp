@@ -11,6 +11,7 @@ import com.gscorp.dv1.sites.infrastructure.Site;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -53,7 +54,8 @@ public class ShiftRequest {
 
     private Long clientAccountId;
 
-    @Enumerated(EnumType.STRING)
+    // Usamos converter para persistir el displayName (p. ej. "Esporádico"/"Fijo")
+    @Convert(converter = RequestTypeConverter.class)
     @Column(name = "type", nullable = false)
     private RequestType type;
 
