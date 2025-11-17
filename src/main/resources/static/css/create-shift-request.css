@@ -154,7 +154,6 @@
   grid-column: 1/-1;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  width: 50%;
   gap: 0.8rem;
 }
 .createShiftRequest .col-left .two-col-dates .date-field {
