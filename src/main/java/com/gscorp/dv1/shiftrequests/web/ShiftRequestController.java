@@ -1,6 +1,7 @@
 package com.gscorp.dv1.shiftrequests.web;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -44,7 +45,7 @@ public class ShiftRequestController {
 
     @GetMapping("/show/{id}")
     public String showShiftRequest (@PathVariable Long id, Model model){
-        var shiftRequest = shiftRequestService.findById(id);
+        Optional<ShiftRequestDto> shiftRequest = shiftRequestService.findById(id);
         model.addAttribute("shiftRequest", shiftRequest);
         return "private/shift-requests/views/view-shift-request-view";
     }
