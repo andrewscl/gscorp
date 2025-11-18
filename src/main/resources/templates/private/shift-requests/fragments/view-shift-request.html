@@ -61,7 +61,7 @@
           <tbody>
             <tr th:each="s : ${shiftRequest.schedules}">
               <!-- dayFrom/dayTo -->
-              <td th:text="${s.dayFrom != null ? s.dayFrom : ''} + (s.dayTo != null && s.dayTo != s.dayFrom ? ' - ' + s.dayTo : '')">Lunes</td>
+              <td th:text="${(s.dayFrom != null ? s.dayFrom : '') + ( (s.dayTo != null && s.dayTo != s.dayFrom) ? ' - ' + s.dayTo : '' )}">Lunes</td>
 
               <!-- startTime / endTime / lunchTime: vienen como String (ej. "08:30" o "08:30:00") -->
               <td th:text="${s.startTime != null ? (s.startTime.length() >= 5 ? s.startTime.substring(0,5) : s.startTime) : '—'}">08:30</td>
