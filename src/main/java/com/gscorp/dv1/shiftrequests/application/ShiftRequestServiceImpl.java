@@ -22,7 +22,7 @@ import com.gscorp.dv1.clientaccounts.web.dto.ClientAccountDto;
 import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequestRepository;
-import com.gscorp.dv1.shiftrequests.infrastructure.ShiftSchedule;
+import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequestSchedule;
 import com.gscorp.dv1.shiftrequests.web.dto.CreateShiftRequest;
 import com.gscorp.dv1.shiftrequests.web.dto.ShiftRequestDto;
 import com.gscorp.dv1.sites.application.SiteService;
@@ -268,8 +268,8 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
         // mapear schedules si vienen
         if (req.schedules() != null && !req.schedules().isEmpty()) {
             try {
-                List<ShiftSchedule> schedules = req.schedules().stream().map(schedReq -> {
-                    ShiftSchedule ss = ShiftSchedule.builder()
+                List<ShiftRequestSchedule> schedules = req.schedules().stream().map(schedReq -> {
+                    ShiftRequestSchedule ss = ShiftRequestSchedule.builder()
                             .dayFrom(schedReq.dayFrom())
                             .dayTo(schedReq.dayTo())
                             .startTime(LocalTime.parse(schedReq.startTime()))

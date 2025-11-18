@@ -79,5 +79,5 @@ public class ShiftRequest {
 
     @OneToMany(mappedBy = "shiftRequest", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    private List<ShiftSchedule> schedules = new ArrayList<>();
+    private List<ShiftRequestSchedule> schedules = new ArrayList<>();
 }

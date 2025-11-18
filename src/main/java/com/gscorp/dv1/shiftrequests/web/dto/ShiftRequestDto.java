@@ -17,7 +17,7 @@ public record ShiftRequestDto(
     String status,
     String description,
     LocalDateTime createdAt,
-    List<ShiftScheduleDto> schedules
+    List<ShiftRequestScheduleDto> schedules
 ) {
     public static ShiftRequestDto fromEntity(ShiftRequest sr) {
         if (sr == null) return null;
@@ -36,7 +36,7 @@ public record ShiftRequestDto(
                 ? List.of()
                 : sr.getSchedules()
                     .stream()
-                    .map(ShiftScheduleDto::fromEntity)
+                    .map(ShiftRequestScheduleDto::fromEntity)
                     .toList()
         );
     }

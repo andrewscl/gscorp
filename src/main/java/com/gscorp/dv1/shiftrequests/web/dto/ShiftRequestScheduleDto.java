@@ -1,17 +1,17 @@
 package com.gscorp.dv1.shiftrequests.web.dto;
 
-import com.gscorp.dv1.shiftrequests.infrastructure.ShiftSchedule;
+import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequestSchedule;
 
-public record ShiftScheduleDto (
+public record ShiftRequestScheduleDto (
     String dayFrom,
     String dayTo,
     String startTime,
     String endTime,
     String lunchTime
 ){
-    public static ShiftScheduleDto fromEntity(ShiftSchedule s) {
+    public static ShiftRequestScheduleDto fromEntity(ShiftRequestSchedule s) {
         if (s == null) return null;
-        return new ShiftScheduleDto(
+        return new ShiftRequestScheduleDto(
             s.getDayFrom(),
             s.getDayTo(),
             s.getStartTime() != null ? s.getStartTime().toString() : null,

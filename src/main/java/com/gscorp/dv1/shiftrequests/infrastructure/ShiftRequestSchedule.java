@@ -24,7 +24,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ShiftSchedule {
+public class ShiftRequestSchedule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
