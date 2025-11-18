@@ -1,3 +1,10 @@
+@charset "UTF-8";
+/* Actualizado: estilos para view-shift-request
+   - Limita el ancho de inputs "anchos" (ej. código) para que no ocupen todo el contenedor.
+   - Mejora visual de la tabla de schedules y comportamiento responsive.
+   - Mantiene compatibilidad con el markup existente; si quieres controlar campos concretos,
+     añade la clase .input--short al input correspondiente o usa el id (ej: #shiftRequestCode).
+*/
 .view-shift-request {
   max-width: 650px;
   margin: 0 auto;
@@ -25,6 +32,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.1rem;
+  /* schedules table */
 }
 .view-shift-request .card.form .form-separator {
   border: none;
@@ -36,6 +44,14 @@
   flex-direction: column;
   gap: 0.3rem;
   margin-bottom: 0.2rem;
+  /* Inputs/textarea: por defecto no ocuparán más de un ancho razonable.
+     Esto evita que campos sueltos (como "Código") se extiendan a todo el ancho.
+     Para controlar campos individuales, usa la clase .input--short o el id. */
+  /* Si quieres un input más corto (ej. códigos, etiquetas), aplica esta clase en el HTML:
+     <input class="input--short" ... />
+  */
+  /* Estilo específico por id (opcional) — activa si no quieres tocar HTML:
+     ejemplo: limitar el campo código */
 }
 .view-shift-request .card.form .form-group label {
   font-size: 0.95rem;
@@ -48,6 +64,8 @@
   padding: 0.5rem 0.8rem;
   font-size: 0.98rem;
   color: #4b5563;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 .view-shift-request .card.form .form-group input[readonly], .view-shift-request .card.form .form-group textarea[readonly] {
   background: #f3f4f6;
@@ -57,6 +75,15 @@
   padding: 0.5rem 0.8rem;
   font-size: 0.98rem;
   resize: none;
+  width: 100%;
+  max-width: 520px; /* evita ocupar todo el contenedor; ajusta según prefieras */
+  box-sizing: border-box;
+}
+.view-shift-request .card.form .form-group .input--short, .view-shift-request .card.form .form-group input.input--short {
+  max-width: 320px;
+}
+.view-shift-request .card.form .form-group #shiftRequestCode {
+  max-width: 360px;
 }
 .view-shift-request .card.form .form-group textarea {
   min-height: 60px;
@@ -69,10 +96,58 @@
 .view-shift-request .card.form .form-row {
   display: flex;
   gap: 1.2rem;
+  align-items: start;
 }
 .view-shift-request .card.form .form-row .form-group {
   flex: 1;
   margin-bottom: 0;
+  min-width: 0; /* evita overflow del contenido en flex */
+}
+.view-shift-request .card.form .schedules-list {
+  overflow-x: auto;
+}
+.view-shift-request .card.form .schedules-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  background: transparent;
+  margin-top: 0.4rem;
+  table-layout: auto;
+  /* Column width hints: Día(s) más estrecho, tiempos fijos */
+  /* Mejor lectura en pantallas pequeñas */
+}
+.view-shift-request .card.form .schedules-table thead th {
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  font-weight: 600;
+  color: #374151;
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
+}
+.view-shift-request .card.form .schedules-table tbody td {
+  padding: 0.5rem 0.75rem;
+  color: #374151;
+  border-bottom: 1px solid #f3f4f6;
+  vertical-align: middle;
+}
+.view-shift-request .card.form .schedules-table thead th:nth-child(1), .view-shift-request .card.form .schedules-table tbody td:nth-child(1) {
+  width: 40%;
+}
+.view-shift-request .card.form .schedules-table thead th:nth-child(2), .view-shift-request .card.form .schedules-table tbody td:nth-child(2) {
+  width: 20%;
+  min-width: 80px;
+}
+.view-shift-request .card.form .schedules-table thead th:nth-child(3), .view-shift-request .card.form .schedules-table tbody td:nth-child(3) {
+  width: 20%;
+  min-width: 80px;
+}
+.view-shift-request .card.form .schedules-table thead th:nth-child(4), .view-shift-request .card.form .schedules-table tbody td:nth-child(4) {
+  width: 20%;
+  min-width: 80px;
+  text-align: left;
+}
+.view-shift-request .card.form .schedules-table tbody tr:hover td {
+  background: rgba(14, 165, 233, 0.03);
 }
 .view-shift-request .card.form .actions {
   display: flex;
@@ -116,6 +191,8 @@
 @media (max-width: 700px) {
   .view-shift-request {
     padding: 1rem 0.3rem;
+    /* Limitar max-width de inputs en móviles para que no overflow */
+    /* Ajustes de tabla para móviles: permitir scroll horizontal */
   }
   .view-shift-request .card.form {
     padding: 1rem 0.5rem;
@@ -123,5 +200,19 @@
   .view-shift-request .card.form .form-row {
     flex-direction: column;
     gap: 0.5rem;
+  }
+  .view-shift-request .card.form input[readonly], .view-shift-request .card.form textarea[readonly] {
+    max-width: 100%;
+  }
+  .view-shift-request .schedules-list {
+    -webkit-overflow-scrolling: touch;
+  }
+  .view-shift-request .schedules-table thead th {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.6rem;
+  }
+  .view-shift-request .schedules-table tbody td {
+    padding: 0.45rem 0.6rem;
+    font-size: 0.92rem;
   }
 }/*# sourceMappingURL=view-shift-request.css.map */
