@@ -2,6 +2,7 @@ package com.gscorp.dv1.shiftrequests.web;
 
 import java.util.List;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gscorp.dv1.enums.ShiftRequestType;
 import com.gscorp.dv1.shiftrequests.application.ShiftRequestService;
+import com.gscorp.dv1.shiftrequests.web.dto.ShiftRequestDto;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
 
@@ -24,9 +26,11 @@ public class ShiftRequestController {
     private final SiteService siteService;
 
     @GetMapping("/table-view")
-    public String getShiftRequestsTableView (Model model) {
-        model.addAttribute("shiftRequests",
-                    shiftRequestService.findAll());
+    public String getShiftRequestsTableView (Model model, Authentication authentication){ 
+        List<ShiftRequestDto> shiftRequests = shiftRequestService.
+            findShiftRequestDtosForPrincipal(authentication);
+        model.addAttribute("shiftRequests", shiftRequests);
+
         return "private/shift-requests/views/shift-requests-table-view";
     }
 
