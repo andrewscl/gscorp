@@ -54,8 +54,7 @@ public class ShiftRequest {
 
     private Long clientAccountId;
 
-    // Usamos converter para persistir el displayName (p. ej. "Esporádico"/"Fijo")
-    @Convert(converter = RequestTypeConverter.class)
+    @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
     private RequestType type;
 
