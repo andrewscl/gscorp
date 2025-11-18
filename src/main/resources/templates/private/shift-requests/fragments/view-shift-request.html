@@ -83,12 +83,6 @@
       <div class="readonly-field">—</div>
     </div>
 
-    <div class="form-group">
-      <label for="shiftRequestShiftDateTime">Fecha y Hora del Turno (SPORADIC)</label>
-      <input id="shiftRequestShiftDateTime" name="shiftDateTime" type="datetime-local"
-             th:value="${shiftRequest.shiftDateTime != null ? #temporals.format(shiftRequest.shiftDateTime,'yyyy-MM-dd''T''HH:mm') : ''}" readonly tabindex="-1" />
-    </div>
-
     <div class="form-row">
       <div class="form-group">
         <label for="shiftRequestStartTime">Hora inicio</label>
