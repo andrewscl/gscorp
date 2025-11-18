@@ -37,16 +37,23 @@ export async function init({ container }: { container: HTMLElement }) {
 
   // -------- KPIs (cards) --------
   try {
-    const kpiRes = await fetchWithAuth(`/api/clients/dashboard/kpis?clientId=${clientId}`);
+    // Obtener la zona horaria del navegador (fallback a UTC)
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+    const url = `/api/clients/dashboard/kpis?tz=${encodeURIComponent(tz)}`;
+
+    const kpiRes = await fetchWithAuth(url);
     if (kpiRes.ok) {
       const k: KPIs = await kpiRes.json();
       (root.querySelector('[data-kpi="att"]') as HTMLElement).textContent   = String(k.asistenciaHoy ?? 0);
       (root.querySelector('[data-kpi="patrol"]') as HTMLElement).textContent = String(k.rondasHoy ?? 0);
       (root.querySelector('[data-kpi="visit"]') as HTMLElement).textContent  = String(k.visitasHoy ?? 0);
-      
+    } else {
+      // opcional: log/handle no-ok
+      console.warn('KPIs fetch no OK', kpiRes.status);
     }
   } catch (e) {
     // silenciar, que no rompa el dashboard
+    console.error('Error obteniendo KPIs', e);
   }
 
   // -------- Chart helpers --------

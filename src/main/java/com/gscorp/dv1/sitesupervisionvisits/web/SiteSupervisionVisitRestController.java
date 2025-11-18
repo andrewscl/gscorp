@@ -110,8 +110,7 @@ public class SiteSupervisionVisitRestController {
 
     @GetMapping("/kpis")
     public Map<String, Object> getKpis(
-                                @RequestParam Long clientId,
-                                @RequestParam String tz,
+                        @RequestParam(required=false) String tz,
                                 Authentication authentication) {
 
         Long userId = userService.getUserIdFromAuthentication(authentication);
@@ -120,28 +119,16 @@ public class SiteSupervisionVisitRestController {
         }
 
         List<Long> allowedClientIds = userService.getClientIdsForUser(userId);
-        if(allowedClientIds == null || !allowedClientIds.isEmpty()) {
+        if(allowedClientIds == null || allowedClientIds.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No autorizado ara ver KPIs");
         }
 
+        log.debug("KPI request requesterId={} allowedClientIds={} tz={}", userId, allowedClientIds, tz);
+
         LocalDate today = LocalDate.now();
-        long visitasHoy;
+        long visitasHoy = siteSupervisionVisitService.countByClientIdsAndDate(allowedClientIds, today, tz);
 
-        if(clientId != null ){
-            // Validar que el usuario tiene acceso al cliente pedido
-            if (!allowedClientIds.contains(clientId)) {
-                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No autorizado para este cliente");
-            }
-            // Llamar a la sobrecarga que acepta un único clientId
-            visitasHoy = siteSupervisionVisitService.countByClientIdAndDate(clientId, today, tz);
-        } else {
-            visitasHoy = siteSupervisionVisitService.countByClientIdsAndDate(allowedClientIds, today, tz);
-        }
-
-        return Map.of(
-            "visitasHoy", visitasHoy
-            // agrega los otros KPIs aquí si los necesitas
-        );
+        return Map.of("visitasHoy", visitasHoy);
     }
 
     @GetMapping("/series-by-site")
