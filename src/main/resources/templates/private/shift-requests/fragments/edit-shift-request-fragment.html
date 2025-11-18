@@ -1,16 +1,17 @@
-<section th:fragment="content" class="detail-section edit-shift-request">
+<section th:fragment="content" class="detail-section view-shift-request">
 
   <h2>Editar Solicitud de Turno</h2>
-  <p class="meta-id"><strong>ID:</strong> <span th:text="${shiftRequest.id}"></span></p>
+  <p class="meta-id"><strong>ID:</strong> <span th:text="${shiftRequest.id}">#</span></p>
 
-  <form id="editShiftRequestForm" class="card form"
-        th:action="@{/private/shift-requests/edit/{id}(id=${shiftRequest.id})}" th:method="post">
+  <form id="editShiftRequestForm" class="card form" method="post" novalidate>
+    <!-- Mantengo el método real manejado por JS -->
+    <input type="hidden" name="id" th:value="${shiftRequest.id}" />
 
     <!-- Sitio solo lectura -->
     <div class="form-group">
       <label>Sitio</label>
       <span class="readonly-field"
-        th:text="${shiftRequest.site != null ? shiftRequest.site.name : '—'}"></span>
+            th:text="${shiftRequest.site != null ? shiftRequest.site.name : '—'}">—</span>
       <small>La solicitud de turno está asociada a un único sitio.</small>
     </div>
 
@@ -19,83 +20,119 @@
     <div class="form-group">
       <label for="shiftRequestCode">Código</label>
       <input id="shiftRequestCode" name="code" type="text"
-             th:value="${shiftRequest.code}" required />
+             th:value="${shiftRequest.code != null ? shiftRequest.code : ''}" readonly tabindex="-1" />
     </div>
 
     <div class="form-group">
       <label for="shiftRequestType">Tipo</label>
       <input id="shiftRequestType" name="type" type="text"
-             th:value="${shiftRequest.type}" required />
+             th:value="${shiftRequest.type != null ? shiftRequest.type : ''}" />
     </div>
 
     <div class="form-row">
       <div class="form-group">
         <label for="shiftRequestStartDate">Fecha inicio</label>
         <input id="shiftRequestStartDate" name="startDate" type="date"
-               th:value="${shiftRequest.startDate}" required />
+               th:value="${shiftRequest.startDate != null ? #temporals.format(shiftRequest.startDate,'yyyy-MM-dd') : ''}" />
       </div>
       <div class="form-group">
         <label for="shiftRequestEndDate">Fecha término</label>
         <input id="shiftRequestEndDate" name="endDate" type="date"
-               th:value="${shiftRequest.endDate}" />
+               th:value="${shiftRequest.endDate != null ? #temporals.format(shiftRequest.endDate,'yyyy-MM-dd') : ''}" />
       </div>
     </div>
 
+    <!-- Schedules editable -->
     <div class="form-group">
-      <label for="shiftRequestWeekDays">Días de la semana</label>
-      <input id="shiftRequestWeekDays" name="weekDays" type="text"
-             th:value="${shiftRequest.weekDays}" />
-    </div>
+      <label>Días / Tramos</label>
 
-    <div class="form-group">
-      <label for="shiftRequestShiftDateTime">Fecha y Hora del Turno (SPORADIC)</label>
-      <input id="shiftRequestShiftDateTime" name="shiftDateTime" type="datetime-local"
-             th:value="${shiftRequest.shiftDateTime}" />
-    </div>
+      <div class="schedules-list">
+        <table class="table schedules-table">
+          <thead>
+            <tr>
+              <th>Día desde</th>
+              <th>Día hasta</th>
+              <th>Inicio</th>
+              <th>Término</th>
+              <th>Colación</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="schedulesTbody">
+            <tr th:each="s, iterStat : ${shiftRequest.schedules}" th:data-index="${iterStat.index}">
+              <td>
+                <input type="text" class="input-dayfrom"
+                       th:value="${s.dayFrom != null ? s.dayFrom : ''}" />
+              </td>
+              <td>
+                <input type="text" class="input-dayto"
+                       th:value="${s.dayTo != null ? s.dayTo : ''}" />
+              </td>
+              <td>
+                <input type="time" class="input-start"
+                       th:value="${s.startTime != null ? (s.startTime.length() >= 5 ? s.startTime.substring(0,5) : s.startTime) : ''}" />
+              </td>
+              <td>
+                <input type="time" class="input-end"
+                       th:value="${s.endTime != null ? (s.endTime.length() >= 5 ? s.endTime.substring(0,5) : s.endTime) : ''}" />
+              </td>
+              <td>
+                <input type="time" class="input-lunch"
+                       th:value="${s.lunchTime != null ? (s.lunchTime.length() >= 5 ? s.lunchTime.substring(0,5) : s.lunchTime) : ''}" />
+              </td>
+              <td>
+                <button type="button" class="vs-btn remove-schedule" title="Eliminar fila">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-    <div class="form-row">
-      <div class="form-group">
-        <label for="shiftRequestStartTime">Hora inicio</label>
-        <input id="shiftRequestStartTime" name="startTime" type="time"
-               th:value="${shiftRequest.startTime}" />
-      </div>
-      <div class="form-group">
-        <label for="shiftRequestEndTime">Hora término</label>
-        <input id="shiftRequestEndTime" name="endTime" type="time"
-               th:value="${shiftRequest.endTime}" />
-      </div>
-      <div class="form-group">
-        <label for="shiftRequestLunchTime">Hora de colación</label>
-        <input id="shiftRequestLunchTime" name="lunchTime" type="time"
-               th:value="${shiftRequest.lunchTime}" />
+        <div style="margin-top:8px;">
+          <button id="addScheduleBtn" type="button" class="vs-btn">Añadir tramo</button>
+        </div>
       </div>
     </div>
 
     <div class="form-group">
       <label for="shiftRequestStatus">Estado</label>
       <input id="shiftRequestStatus" name="status" type="text"
-             th:value="${shiftRequest.status}" required />
+             th:value="${shiftRequest.status != null ? shiftRequest.status : ''}" />
     </div>
 
     <div class="form-group">
       <label for="shiftRequestDescription">Descripción</label>
-      <textarea id="shiftRequestDescription" name="description"
-                th:text="${shiftRequest.description}" placeholder="Descripción"></textarea>
+      <textarea id="shiftRequestDescription" name="description" placeholder="Descripción"
+                th:text="${shiftRequest.description != null ? shiftRequest.description : ''}"></textarea>
     </div>
 
     <div class="form-group">
       <label for="shiftRequestCreatedAt">Creado el</label>
-      <input id="shiftRequestCreatedAt" name="createdAt" type="datetime-local"
-             th:value="${shiftRequest.createdAt}" readonly tabindex="-1" />
+      <input id="shiftRequestCreatedAt" name="createdAt" type="datetime-local" readonly
+             th:value="${shiftRequest.createdAt != null ? #temporals.format(shiftRequest.createdAt,'yyyy-MM-dd''T''HH:mm') : ''}" tabindex="-1" />
     </div>
 
     <div class="actions">
-      <button class="vs-btn vs-primary" type="submit">Guardar cambios</button>
-      <a class="vs-btn vs-secondary" href="#" data-path="/private/shift-requests/table-view">Cancelar</a>
+      <button id="saveShiftRequestBtn" type="button" class="vs-btn vs-primary">Guardar</button>
+      <a id="cancelEditBtn" class="vs-btn vs-secondary" href="#" data-path="/private/shift-requests/table-view">Cancelar</a>
     </div>
 
-    <div id="editShiftRequestError" class="form-error"></div>
+    <div id="editShiftRequestError" class="form-error" style="display:none;"></div>
     <div id="editShiftRequestOk" class="form-ok" style="display:none;">Cambios guardados ✅</div>
   </form>
+
+  <!-- Template row (clonado por JS) -->
+  <template id="scheduleRowTemplate">
+    <tr data-index="__IDX__">
+      <td><input type="text" class="input-dayfrom" value="" /></td>
+      <td><input type="text" class="input-dayto" value="" /></td>
+      <td><input type="time" class="input-start" value="" /></td>
+      <td><input type="time" class="input-end" value="" /></td>
+      <td><input type="time" class="input-lunch" value="" /></td>
+      <td><button type="button" class="vs-btn remove-schedule" title="Eliminar fila">Eliminar</button></td>
+    </tr>
+  </template>
+
   <script type="module" src="/js/private/shift-requests/edit-shift-request.js"></script>
+
+  <!-- El script que maneja la UI se carga por separado -->
 </section>

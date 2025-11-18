@@ -2,108 +2,173 @@ import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
 
 const qs = (s) => document.querySelector(s);
+const qsa = (s) => Array.from(document.querySelectorAll(s));
 
-/* --- Editar solicitud de turno --- */
-async function onSubmitEditShiftRequest(e) {
-  e.preventDefault();
-
-  const id = qs('#editShiftRequestForm')?.getAttribute('data-id') || qs('#shiftRequestId')?.value;
-  const code = qs('#shiftRequestCode')?.value?.trim();
-  const type = qs('#shiftRequestType')?.value?.trim();
-  const startDate = qs('#shiftRequestStartDate')?.value;
-  const endDate = qs('#shiftRequestEndDate')?.value;
-  const weekDays = qs('#shiftRequestWeekDays')?.value?.trim() || null;
-  const shiftDateTime = qs('#shiftRequestShiftDateTime')?.value || null;
-  const startTime = qs('#shiftRequestStartTime')?.value || null;
-  const endTime = qs('#shiftRequestEndTime')?.value || null;
-  const lunchTime = qs('#shiftRequestLunchTime')?.value || null;
-  const status = qs('#shiftRequestStatus')?.value?.trim();
-  const description = qs('#shiftRequestDescription')?.value?.trim() || null;
-
-  const err = qs('#editShiftRequestError');
-  const ok = qs('#editShiftRequestOk');
-  if (err) err.textContent = '';
-  if (ok) ok.style.display = 'none';
-
-  // Validaciones mínimas
-  if (!code) {
-    if (err) err.textContent = 'El código es obligatorio.';
-    return;
-  }
-  if (!type) {
-    if (err) err.textContent = 'El tipo es obligatorio.';
-    return;
-  }
-  if (!startDate) {
-    if (err) err.textContent = 'La fecha de inicio es obligatoria.';
-    return;
-  }
-  if (!status) {
-    if (err) err.textContent = 'El estado es obligatorio.';
-    return;
-  }
-
-  // Deshabilita submit durante el PATCH/PUT
-  const submitBtn = e.submitter || qs('#editShiftRequestForm button[type="submit"]');
-  submitBtn && (submitBtn.disabled = true);
-
-  try {
-    const res = await fetchWithAuth(`/api/shift-requests/edit/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        code,
-        type,
-        startDate,
-        endDate,
-        weekDays,
-        shiftDateTime,
-        startTime,
-        endTime,
-        lunchTime,
-        status,
-        description
-      })
-    });
-
-    if (!res.ok) {
-      let msg = '';
-      try { msg = await res.text(); } catch {}
-      if (!msg) msg = `Error ${res.status}`;
-      throw new Error(msg);
-    }
-
-    if (ok) ok.style.display = 'block';
-    setTimeout(() => {
-      navigateTo('/private/shift-requests/table-view');
-    }, 600);
-  } catch (e2) {
-    if (err) err.textContent = e2.message;
-  } finally {
-    submitBtn && (submitBtn.disabled = false);
-  }
+function nextIndex(tbody) {
+  const rows = tbody.querySelectorAll('tr');
+  let max = -1;
+  rows.forEach(r => {
+    const idx = parseInt(r.getAttribute('data-index'));
+    if (!isNaN(idx) && idx > max) max = idx;
+  });
+  return max + 1;
 }
 
-/* --- Bindings --- */
-function bindEditShiftRequestForm() {
-  const form = qs('#editShiftRequestForm');
-  if (form) {
-    // Si quieres puedes guardar el id como data-id en el form
-    const id = qs('.meta-id span')?.textContent?.trim();
-    if (id) form.setAttribute('data-id', id);
-    form.addEventListener('submit', onSubmitEditShiftRequest);
-  }
-}
-
-function bindCancelEditShiftRequest() {
-  qs('.actions .vs-secondary')?.addEventListener('click', (e) => {
-    e.preventDefault();
-    navigateTo('/private/shift-requests/table-view');
+function wireRemoveButtons(root = document) {
+  qsa('.remove-schedule', root).forEach(btn => {
+    btn.removeEventListener('click', onRemoveRow);
+    btn.addEventListener('click', onRemoveRow);
   });
 }
 
-/* --- init --- */
-(function init() {
-  bindEditShiftRequestForm();
-  bindCancelEditShiftRequest();
-})();
+function onRemoveRow(e) {
+  const row = e.target.closest('tr');
+  if (row) row.remove();
+}
+
+function addScheduleRow(prefill = {}) {
+  const tbody = qs('#schedulesTbody');
+  const idx = nextIndex(tbody);
+  const template = qs('#scheduleRowTemplate').innerHTML;
+  const html = template.replace(/__IDX__/g, idx);
+  const tmp = document.createElement('tbody');
+  tmp.innerHTML = html;
+  const row = tmp.querySelector('tr');
+  row.setAttribute('data-index', idx);
+
+  const df = row.querySelector('.input-dayfrom');
+  const dt = row.querySelector('.input-dayto');
+  const st = row.querySelector('.input-start');
+  const et = row.querySelector('.input-end');
+  const lt = row.querySelector('.input-lunch');
+
+  if (prefill.dayFrom) df.value = prefill.dayFrom;
+  if (prefill.dayTo) dt.value = prefill.dayTo;
+  if (prefill.startTime) st.value = (prefill.startTime.length >= 5 ? prefill.startTime.substring(0,5) : prefill.startTime);
+  if (prefill.endTime) et.value = (prefill.endTime.length >= 5 ? prefill.endTime.substring(0,5) : prefill.endTime);
+  if (prefill.lunchTime) lt.value = (prefill.lunchTime.length >= 5 ? prefill.lunchTime.substring(0,5) : prefill.lunchTime);
+
+  qs('#schedulesTbody').appendChild(row);
+  wireRemoveButtons(row);
+}
+
+function collectSchedules() {
+  const rows = qs('#schedulesTbody').querySelectorAll('tr');
+  const schedules = [];
+  rows.forEach(r => {
+    const dayFrom = (r.querySelector('.input-dayfrom') || {}).value || null;
+    const dayTo = (r.querySelector('.input-dayto') || {}).value || null;
+    const startTime = (r.querySelector('.input-start') || {}).value || null;
+    const endTime = (r.querySelector('.input-end') || {}).value || null;
+    const lunchTime = (r.querySelector('.input-lunch') || {}).value || null;
+    if (dayFrom || dayTo || startTime || endTime || lunchTime) {
+      schedules.push({ dayFrom, dayTo, startTime, endTime, lunchTime });
+    }
+  });
+  return schedules;
+}
+
+function showError(msg) {
+  const errorBox = qs('#editShiftRequestError');
+  if (!errorBox) return;
+  errorBox.style.display = 'block';
+  errorBox.textContent = msg;
+  qs('#editShiftRequestOk').style.display = 'none';
+}
+
+function showOk(msg) {
+  const okBox = qs('#editShiftRequestOk');
+  if (!okBox) return;
+  okBox.style.display = 'block';
+  okBox.textContent = msg || 'Guardado';
+  qs('#editShiftRequestError').style.display = 'none';
+}
+
+function validateForm(payload) {
+  if (payload.startDate && payload.endDate) {
+    const sd = new Date(payload.startDate);
+    const ed = new Date(payload.endDate);
+    if (sd > ed) return 'La fecha inicio no puede ser posterior a la fecha término.';
+  }
+  for (let i = 0; i < payload.schedules.length; i++) {
+    const s = payload.schedules[i];
+    if ((s.startTime && !s.endTime) || (!s.startTime && s.endTime)) {
+      return 'Cada tramo debe tener hora inicio Y hora término o ninguno.';
+    }
+  }
+  return null;
+}
+
+async function onSaveClick(e) {
+  const idEl = document.querySelector('input[name="id"]');
+  const id = idEl ? idEl.value : null;
+  const code = qs('#shiftRequestCode')?.value || null;
+  const type = qs('#shiftRequestType')?.value || null;
+  const startDate = qs('#shiftRequestStartDate')?.value || null;
+  const endDate = qs('#shiftRequestEndDate')?.value || null;
+  const status = qs('#shiftRequestStatus')?.value || null;
+  const description = qs('#shiftRequestDescription')?.value || null;
+
+  const schedules = collectSchedules();
+
+  const payload = {
+    id: id ? Number(id) : null,
+    code,
+    type,
+    startDate,
+    endDate,
+    status,
+    description,
+    schedules
+  };
+
+  const vErr = validateForm(payload);
+  if (vErr) {
+    showError(vErr);
+    return;
+  }
+
+  try {
+    // PUT using fetchWithAuth; expects JSON on the server side
+    const url = `/private/shift-requests/${payload.id}`;
+    const res = await fetchWithAuth(url, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (!res.ok) {
+      let txt = '';
+      try { txt = await res.text(); } catch {}
+      throw new Error(txt || `Error ${res.status}`);
+    }
+
+    showOk('Cambios guardados ✅');
+    // short delay then navigate back to list
+    setTimeout(() => navigateTo('/private/shift-requests/table-view'), 800);
+  } catch (err) {
+    console.error('save error', err);
+    showError(err.message || 'Error al guardar');
+  }
+}
+
+function onCancelClick(e) {
+  e.preventDefault();
+  navigateTo('/private/shift-requests/table-view');
+}
+
+function bind() {
+  qs('#addScheduleBtn')?.addEventListener('click', () => addScheduleRow({}));
+  qs('#saveShiftRequestBtn')?.addEventListener('click', onSaveClick);
+  qs('#cancelEditBtn')?.addEventListener('click', onCancelClick);
+  wireRemoveButtons();
+  // ESC shortcut to go back
+  document.addEventListener('keydown', (ev) => {
+    if (ev.key === 'Escape') navigateTo('/private/shift-requests/table-view');
+  });
+}
+
+// auto-init when DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+  try { bind(); } catch (e) { console.error(e); }
+});

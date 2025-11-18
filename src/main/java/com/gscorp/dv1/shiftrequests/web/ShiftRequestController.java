@@ -57,9 +57,14 @@ public class ShiftRequestController {
     }
 
     @GetMapping("/edit/{id}")
-    public String editShiftRequest (@PathVariable Long id, Model model){
-        var shiftRequest = shiftRequestService.findById(id);
-        model.addAttribute("shiftRequest", shiftRequest);
-        return "private/shift-requests/views/edit-shift-request-view";
+    public String editShiftRequest (@PathVariable Long id, Model model, Authentication authentication){
+        Long userId = userService.getUserIdFromAuthentication(authentication);
+        try {
+            ShiftRequestDto shiftRequestDto = shiftRequestService.getDtoIfOwned(id, userId);
+            model.addAttribute("shiftRequest", shiftRequestDto);
+            return "private/shift-requests/views/edit-shift-request-view";
+        } catch (Exception e) {
+            return "redirect:/private/shift-requests/table-view";
+        }
     }
 }
