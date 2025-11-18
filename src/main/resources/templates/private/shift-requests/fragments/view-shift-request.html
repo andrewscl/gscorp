@@ -23,9 +23,8 @@
 
     <div class="form-group">
       <label for="shiftRequestType">Tipo</label>
-      <!-- si tienes typeDisplay en el DTO, muéstralo en preferencia -->
       <input id="shiftRequestType" name="type" type="text"
-             th:value="${shiftRequest.typeDisplay != null ? shiftRequest.typeDisplay : shiftRequest.type}" readonly tabindex="-1" />
+        th:value="${shiftRequest.type != null ? shiftRequest.type : ''}" readonly tabindex="-1" />
     </div>
 
     <div class="form-row">
