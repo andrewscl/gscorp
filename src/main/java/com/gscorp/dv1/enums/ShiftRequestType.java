@@ -5,13 +5,13 @@ package com.gscorp.dv1.enums;
  * soporte de deserialización tolerante con @JsonCreator para aceptar valores
  * en español/inglés y variantes.
  */
-public enum RequestType {
+public enum ShiftRequestType {
     ESPORADIC("Esporádico"),
     FIXED("Fijo");
 
     private final String displayName;
 
-    RequestType(String displayName) {
+    ShiftRequestType(String displayName) {
         this.displayName = displayName;
     }
 

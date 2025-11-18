@@ -56,10 +56,11 @@
 
             <div class="form-group narrow">
               <label for="shiftRequestServiceType">Tipo de servicio</label>
-              <select id="shiftRequestServiceType" name="serviceType" required>
+              <select id="shiftRequestServiceType" name="type" required>
                 <option value="">Seleccione tipo de servicio</option>
-                <option value="FIJO">Fijo</option>
-                <option value="ADICIONAL">Adicional</option>
+                <option th:each="t : ${requestTypes}"
+                        th:value="${t.name()}"
+                        th:text="${t.displayName}"></option>
               </select>
             </div>
 

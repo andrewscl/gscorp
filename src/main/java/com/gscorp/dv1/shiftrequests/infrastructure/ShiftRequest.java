@@ -6,12 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gscorp.dv1.enums.ShiftRequestStatus;
-import com.gscorp.dv1.enums.RequestType;
+import com.gscorp.dv1.enums.ShiftRequestType;
 import com.gscorp.dv1.sites.infrastructure.Site;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -56,7 +55,7 @@ public class ShiftRequest {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
-    private RequestType type;
+    private ShiftRequestType type;
 
     @Column(name = "start_date", nullable = false)
     private LocalDate startDate;

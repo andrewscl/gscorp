@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.gscorp.dv1.enums.ShiftRequestType;
 import com.gscorp.dv1.shiftrequests.application.ShiftRequestService;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
@@ -33,6 +34,7 @@ public class ShiftRequestController {
     public String getCreateShiftRequestView(Model model) {
         List<SiteDto> sites = siteService.getAllSites();
             model.addAttribute("sites", sites);
+            model.addAttribute("requestTypes", ShiftRequestType.values());
         return "private/shift-requests/views/create-shift-request-view";
     }
 
