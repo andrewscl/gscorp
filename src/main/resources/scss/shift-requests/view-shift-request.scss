@@ -1,229 +1,228 @@
-/* SCSS para el fragment view-shift-request (anidado y específico) */
+/* Optimized SCSS for fragment: detail-section.view-shift-request
+   - Labels above inputs (stacked).
+   - .form-row uses a 2-column grid for paired fields (dates etc.).
+   - Limits width of wide fields (Código, Estado, Tipo) while keeping fluid layout.
+   - Compact table for schedules.
+   - Responsive: collapses to single column on small screens.
+*/
 
 .detail-section.view-shift-request {
-  max-width: 720px;
+  max-width: 820px;
   margin: 0 auto;
-  padding: 2rem 1.25rem;
+  padding: 1.25rem;
   box-sizing: border-box;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color: #1f2937;
 
   h2 {
-    font-size: 1.65rem;
+    font-size: 1.4rem;
     font-weight: 700;
-    color: #1f2937;
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.5rem;
   }
 
   .meta-id {
     color: #6b7280;
-    font-size: 0.95rem;
-    margin-bottom: 1rem;
-
-    strong {
-      color: #374151;
-    }
+    margin-bottom: 0.6rem;
+    font-size: 0.92rem;
+    strong { color: #374151; }
   }
 
   form.card.form {
-    background: #ffffff;
-    border-radius: 0.75rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-    padding: 1.75rem 1.25rem;
+    background: #fff;
+    border-radius: 0.6rem;
+    box-shadow: 0 1px 8px rgba(15,23,42,0.04);
+    padding: 1rem;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.85rem;
 
     .form-separator {
       border: none;
-      border-bottom: 1px solid #e5e7eb;
-      margin: 0.5rem 0 1rem 0;
+      border-bottom: 1px solid #e6e9ee;
+      margin: 0.45rem 0;
     }
 
-    /* Grupo por defecto: columna */
+    /* Default: stacked label (label above control) */
     .form-group {
       display: flex;
       flex-direction: column;
       gap: 0.35rem;
+      margin-bottom: 0;
 
       label {
-        font-size: 0.95rem;
+        font-size: 0.92rem;
         color: #374151;
-        font-weight: 500;
+        font-weight: 600;
       }
 
       .readonly-field {
-        background: #f3f4f6;
+        background: #f8fafb;
+        padding: 0.45rem 0.6rem;
+        border-radius: 0.35rem;
         color: #374151;
-        padding: 0.5rem 0.75rem;
-        border-radius: 0.375rem;
-        font-size: 0.98rem;
-        max-width: 100%;
-        box-sizing: border-box;
-      }
-
-      /* Inputs y textareas de solo lectura */
-      input[readonly], textarea[readonly] {
-        background: #f3f4f6;
-        border: 1px solid #e5e7eb;
-        color: #374151;
-        padding: 0.5rem 0.75rem;
-        border-radius: 0.375rem;
-        font-size: 0.98rem;
+        font-size: 0.95rem;
         width: 100%;
         box-sizing: border-box;
       }
 
-      textarea {
-        min-height: 72px;
+      input[readonly], textarea[readonly] {
+        background: #f8fafb;
+        border: 1px solid #eceff3;
+        padding: 0.42rem 0.6rem;
+        border-radius: 0.35rem;
+        font-size: 0.95rem;
+        color: #1f2937;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      textarea[readonly] {
+        min-height: 76px;
         max-height: 220px;
       }
 
-      small {
-        color: #9ca3af;
-        font-size: 0.85rem;
-      }
+      small { color: #9ca3af; font-size: 0.85rem; }
     }
 
-    /* Filas con múltiples columnas */
+    /* Use a 2-column grid for grouped rows (.form-row) */
     .form-row {
-      display: flex;
-      gap: 1rem;
-      align-items: flex-start;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.9rem;
+      align-items: start;
 
-      .form-group {
-        flex: 1 1 0;
-        min-width: 0; /* evita overflow en flex children */
-      }
+      .form-group { margin-bottom: 0; }
     }
 
-    /* --- Control de anchos específicos --- */
+    /* Make date/time controls slightly narrower visually */
+    .form-row input[type="date"],
+    .form-row input[type="time"],
+    .form-row input[type="datetime-local"] {
+      max-width: 240px;
+    }
 
-    /* Campo Código: no ocupar todo el ancho */
+    /* Specific narrow controls (reduce visual width so they don't span the whole card) */
     #shiftRequestCode {
-      max-width: 360px;
-      width: auto;
-      align-self: flex-start; /* evita que se estire en filas */
+      max-width: 260px;
+      width: 100%;
     }
 
-    /* Campo Tipo: un poco más corto que el ancho total si es necesario */
     #shiftRequestType {
-      max-width: 420px;
-      width: auto;
-      align-self: flex-start;
+      max-width: 320px;
+      width: 100%;
     }
 
-    /* Clase utilitaria para inputs cortos */
+    /* Status field should not take entire width: cap it */
+    #shiftRequestStatus {
+      max-width: 320px;
+      width: 100%;
+    }
+
+    /* Utility to mark inputs shorter if you want to force a short width from template */
     .input--short, input.input--short {
       max-width: 320px;
-      width: auto;
-      align-self: flex-start;
+      width: 100%;
     }
 
-    /* Si necesitas centrar campos cortos horizontalmente dentro de su grupo */
-    .form-group.centered {
+    /* Align the 'Volver al listado' actions to the left on narrow screens, to the right otherwise */
+    .actions {
       display: flex;
-      flex-direction: row;
-      align-items: center;
-
-      label { margin-right: 0.75rem; }
-      .readonly-field, input[readonly] { margin-left: 0; }
+      justify-content: flex-end;
+      gap: 0.6rem;
+      margin-top: 0.6rem;
     }
 
-    /* --- Tabla de schedules --- */
+    /* schedules table compact styling */
     .schedules-list {
       overflow-x: auto;
-      margin-top: 0.35rem;
+      margin-top: 0.15rem;
     }
 
     .schedules-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.95rem;
-      background: transparent;
+      font-size: 0.92rem;
+      table-layout: auto;
+      margin-top: 0.2rem;
 
       thead th {
         text-align: left;
-        padding: 0.55rem 0.7rem;
-        font-weight: 600;
+        padding: 0.45rem 0.6rem;
+        font-weight: 700;
         color: #374151;
-        border-bottom: 1px solid #e5e7eb;
-        white-space: nowrap;
+        border-bottom: 1px solid #e7e9ee;
       }
 
       tbody td {
-        padding: 0.5rem 0.7rem;
+        padding: 0.38rem 0.6rem;
         color: #374151;
         border-bottom: 1px solid #f3f4f6;
         vertical-align: middle;
         white-space: nowrap;
       }
 
-      /* sugerir anchos para columnas de tiempo */
+      /* Column sizing hints (days wider, times narrow) */
+      thead th:nth-child(1), tbody td:nth-child(1) { width: 56%; }
       thead th:nth-child(2), tbody td:nth-child(2),
       thead th:nth-child(3), tbody td:nth-child(3),
       thead th:nth-child(4), tbody td:nth-child(4) {
-        min-width: 84px;
-        width: 20%;
-      }
-
-      thead th:nth-child(1), tbody td:nth-child(1) {
-        width: 40%;
+        width: 14%;
+        min-width: 72px;
       }
     }
 
-    /* Acciones */
-    .actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 0.75rem;
-      margin-top: 0.5rem;
-    }
-
+    /* compact messages */
     .form-error {
       color: #b91c1c;
       background: #fff1f2;
-      padding: 0.45rem 0.65rem;
-      border-radius: 0.375rem;
-      font-size: 0.95rem;
-      margin-top: 0.5rem;
+      padding: 0.38rem 0.6rem;
+      border-radius: 0.35rem;
+      font-size: 0.92rem;
     }
 
     .form-ok {
-      color: #047857;
+      color: #065f46;
       background: #ecfdf5;
-      padding: 0.45rem 0.65rem;
-      border-radius: 0.375rem;
-      font-size: 0.95rem;
-      margin-top: 0.5rem;
+      padding: 0.38rem 0.6rem;
+      border-radius: 0.35rem;
+      font-size: 0.92rem;
     }
   }
 
-  /* Responsive: pantallas pequeñas */
-  @media (max-width: 700px) {
-    padding: 1rem 0.5rem;
+  /* Optional root modifier: apply .compact on the section to tighten paddings & fonts */
+  &.compact {
+    padding: 0.6rem;
 
     form.card.form {
-      padding: 1rem 0.75rem;
+      padding: 0.6rem;
+      gap: 0.5rem;
+      .form-group label { font-size: 0.88rem; }
+      input[readonly], textarea[readonly] { padding: 0.32rem 0.45rem; font-size: 0.9rem; }
+      .schedules-table { font-size: 0.86rem; }
+    }
+  }
 
+  /* Responsive: stack the grid into single column on small screens */
+  @media (max-width: 680px) {
+    padding: 0.7rem;
+
+    form.card.form {
+      padding: 0.7rem;
       .form-row {
+        display: flex;
         flex-direction: column;
         gap: 0.6rem;
       }
 
-      /* permitir que inputs ocupen todo el ancho en móvil */
-      input[readonly], textarea[readonly] {
-        max-width: 100%;
-        width: 100%;
-      }
+      /* allow inputs to stretch on mobile */
+      input[readonly], textarea[readonly] { width: 100%; max-width: 100%; }
 
-      /* tabla: scroll horizontal suave */
-      .schedules-list {
-        -webkit-overflow-scrolling: touch;
-      }
+      .actions { justify-content: flex-start; }
+    }
 
-      .schedules-table thead th, .schedules-table tbody td {
-        padding: 0.45rem 0.6rem;
-        font-size: 0.92rem;
-      }
+    .schedules-table thead th, .schedules-table tbody td {
+      padding: 0.35rem 0.45rem;
+      font-size: 0.9rem;
     }
   }
 }
