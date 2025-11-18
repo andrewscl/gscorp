@@ -213,34 +213,17 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
     @Override
     @Transactional(readOnly = true)
     public ShiftRequestDto getDtoIfOwned(Long shiftRequestId, Long userId) {
-        if (userId == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
-        }
 
-        List<Long> allowedClientIds = userService.getClientIdsForUser(userId);
-        if (allowedClientIds == null || allowedClientIds.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No autorizado para ver esta solicitud");
-        }
+    if (userId == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
 
-        // cargar entidad básica
-        ShiftRequest sr = shiftRequestRepository.findById(shiftRequestId)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Solicitud no encontrada"));
+    List<Long> allowedClientIds = userService.getClientIdsForUser(userId);
+    if (allowedClientIds == null || allowedClientIds.isEmpty()) {
+        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No autorizado para ver esta solicitud");
+    }
 
-        // obtener siteId (si existe)
-        Long siteId = sr.getSite() != null ? sr.getSite().getId() : null;
-        Long siteClientId = null;
-        if (siteId != null) {
-            // usa el service que devuelve el clientId del site (recomendado)
-            siteClientId = siteService.getClientIdForSite(siteId).orElse(null);
-        }
-
-        if (siteClientId == null || !allowedClientIds.contains(siteClientId)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No autorizado para ver esta solicitud");
-        }
-
-        // intentar recargar la entidad con site y schedules (método que tienes en el repo)
-        ShiftRequest enriched = shiftRequestRepository.findByIdWithSiteAndSchedules(shiftRequestId)
-                .orElse(sr);
+    ShiftRequest enriched = shiftRequestRepository
+            .findByIdAndSiteProjectClientIdInFetchSiteAndSchedules(shiftRequestId, allowedClientIds)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Solicitud no encontrada o no autorizada"));
 
         // mapear a DTO usando el fromEntity que ya existe
         return ShiftRequestDto.fromEntity(enriched);

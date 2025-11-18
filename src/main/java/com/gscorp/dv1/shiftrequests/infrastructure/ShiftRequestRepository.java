@@ -40,4 +40,18 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
            "where sr.id = :id")
     Optional<ShiftRequest> findByIdWithSiteAndSchedules(@Param("id") Long id);
 
+
+    @Query("""
+       select distinct sr
+       from ShiftRequest sr
+       join fetch sr.site st
+       left join fetch sr.schedules sch
+       where sr.id = :id
+       and st.project.client.id in :clientIds
+       """)
+       Optional<ShiftRequest> findByIdAndSiteProjectClientIdInFetchSiteAndSchedules(@Param("id") Long id,
+                                                                             @Param("clientIds") Collection<Long> clientIds);
+
+
 }
+

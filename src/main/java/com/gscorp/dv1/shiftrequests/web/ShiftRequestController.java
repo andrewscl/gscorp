@@ -1,7 +1,6 @@
 package com.gscorp.dv1.shiftrequests.web;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -15,6 +14,7 @@ import com.gscorp.dv1.shiftrequests.application.ShiftRequestService;
 import com.gscorp.dv1.shiftrequests.web.dto.ShiftRequestDto;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
+import com.gscorp.dv1.users.application.UserService;
 
 import lombok.AllArgsConstructor;
 
@@ -25,6 +25,7 @@ public class ShiftRequestController {
 
     private final ShiftRequestService shiftRequestService;
     private final SiteService siteService;
+    private final UserService userService;
 
     @GetMapping("/table-view")
     public String getShiftRequestsTableView (Model model, Authentication authentication){ 
@@ -44,10 +45,15 @@ public class ShiftRequestController {
     }
 
     @GetMapping("/show/{id}")
-    public String showShiftRequest (@PathVariable Long id, Model model){
-        Optional<ShiftRequestDto> shiftRequest = shiftRequestService.findById(id);
-        model.addAttribute("shiftRequest", shiftRequest);
-        return "private/shift-requests/views/view-shift-request-view";
+    public String showShiftRequest (@PathVariable Long id, Model model, Authentication authentication){
+        Long userId = userService.getUserIdFromAuthentication(authentication);
+        try {
+            ShiftRequestDto shiftRequestDto = shiftRequestService.getDtoIfOwned(id, userId);
+            model.addAttribute("shiftRequest", shiftRequestDto);
+            return "private/shift-requests/views/view-shift-request-view";
+        } catch (Exception e) {
+            return "redirect:/private/shift-requests/table-view";
+        }
     }
 
     @GetMapping("/edit/{id}")
