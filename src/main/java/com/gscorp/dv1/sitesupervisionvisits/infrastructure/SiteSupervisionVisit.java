@@ -55,7 +55,7 @@ public class SiteSupervisionVisit {
     @Column
     private Double longitude;
 
-    @Column(length=500)
+    @Column(length=1000)
     private String description;
 
     @Column(length=255)

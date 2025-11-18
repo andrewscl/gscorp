@@ -42,4 +42,6 @@ public interface SiteSupervisionVisitService {
         return countByClientIdsAndDate(clientIds, date, null);
     }
 
+    long countByClientIdAndDate(Long clientId, LocalDate date, String tz);
+
 }

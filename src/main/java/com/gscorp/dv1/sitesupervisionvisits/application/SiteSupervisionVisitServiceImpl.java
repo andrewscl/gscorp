@@ -245,4 +245,14 @@ public class SiteSupervisionVisitServiceImpl implements SiteSupervisionVisitServ
         return siteSupervisionVisitRepo.countByClientIdsAndTsBetween(clientIds, from, to);
     }
 
+    /**
+     * Conveniencia: cuenta para un único clientId delegando en el método que acepta lista.
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public long countByClientIdAndDate(Long clientId, LocalDate date, String tz) {
+        if (clientId == null) return 0L;
+        return countByClientIdsAndDate(List.of(clientId), date, tz);
+    }
+
 }

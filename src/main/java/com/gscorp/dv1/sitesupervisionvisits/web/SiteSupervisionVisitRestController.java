@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gscorp.dv1.sites.application.SiteService;
@@ -107,9 +109,34 @@ public class SiteSupervisionVisitRestController {
     }
 
     @GetMapping("/kpis")
-    public Map<String, Object> getKpis(@RequestParam Long clientId) {
+    public Map<String, Object> getKpis(
+                                @RequestParam Long clientId,
+                                @RequestParam String tz,
+                                Authentication authentication) {
+
+        Long userId = userService.getUserIdFromAuthentication(authentication);
+        if(userId == null ) {
+          throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "usuario no autenticado.");
+        }
+
+        List<Long> allowedClientIds = userService.getClientIdsForUser(userId);
+        if(allowedClientIds == null || !allowedClientIds.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No autorizado ara ver KPIs");
+        }
+
         LocalDate today = LocalDate.now();
-        long visitasHoy = siteSupervisionVisitService.countByClientIdAndDate(clientId, today);
+        long visitasHoy;
+
+        if(clientId != null ){
+            // Validar que el usuario tiene acceso al cliente pedido
+            if (!allowedClientIds.contains(clientId)) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No autorizado para este cliente");
+            }
+            // Llamar a la sobrecarga que acepta un único clientId
+            visitasHoy = siteSupervisionVisitService.countByClientIdAndDate(clientId, today, tz);
+        } else {
+            visitasHoy = siteSupervisionVisitService.countByClientIdsAndDate(allowedClientIds, today, tz);
+        }
 
         return Map.of(
             "visitasHoy", visitasHoy
