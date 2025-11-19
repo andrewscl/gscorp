@@ -124,14 +124,6 @@ public class SiteSupervisionVisitRestController {
 
   }
 
-    static class SiteSupVisitPointDto {
-        public String x; // fecha (ej: "2025-11-02")
-        public long y;   // cantidad de visitas
-        public SiteSupVisitPointDto(String x, long y) { this.x = x; this.y = y; }
-    }
-
-
-
     @GetMapping("/kpis")
     public Map<String, Object> getKpis(
                         @RequestParam(required=false) String tz,
