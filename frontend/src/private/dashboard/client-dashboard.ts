@@ -66,6 +66,33 @@ export async function init({ container }: { container: HTMLElement }) {
     chart.setOption({ graphic: { elements: [{ type: 'text', left: 'center', top: 'middle', style: { text: msg, fill: '#9ca3af', fontSize: 14 } }] } });
   };
 
+
+  // ---------------- helper: fetch with timeout ----------------
+  async function fetchWithTimeout(
+    input: RequestInfo | URL,
+    init: RequestInit = {},
+    timeoutMs = 15000,
+    useFetchWithAuth = false
+  ): Promise<Response> {
+    const controller = new AbortController();
+    const mergedInit: RequestInit = { ...init, signal: controller.signal };
+
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+    try {
+      if (useFetchWithAuth) {
+        // fetchWithAuth acepta RequestInit y reenvía signal/headers porque hace: const opts = { ..., ...init, headers }
+        return await fetchWithAuth(String(input), mergedInit);
+      }
+      return await fetch(input, mergedInit);
+    } finally {
+      clearTimeout(timeoutId);
+      // No abort aquí; abort already triggered by timeout if needed or the fetch finished.
+    }
+  }
+
+
+
   // -------- Asistencia (línea con área) --------
   const chAsis = mkChart(elAsis); if (chAsis) charts.push(chAsis);
   try {
@@ -128,38 +155,44 @@ window.addEventListener('resize', () => chPatrol?.resize());
 
 
 
-// -------- Visitas por día (línea con área) --------
+// ---------------- Reemplazo: "Visitas por día" con timeout y limpieza ----------------
 const chVisit = mkChart(elVisit);
 if (chVisit) charts.push(chVisit);
 
-  // Crear controller para poder cancelar la petición si navegas en la SPA
-  const controller = new AbortController();
-  const signal = controller.signal;
+try {
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+  const days = 7;
+  const url = `/api/site-supervision-visits/series?days=${days}&tz=${encodeURIComponent(tz)}`;
 
-  try {
-    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
-    const days = 7; // o sustituye por from/to si lo necesitas
-    const url = `/api/site-supervision-visits/series?days=${days}&tz=${encodeURIComponent(tz)}`;
+  // Llamada correcta: pasar true para usar fetchWithAuth (sin tocar fetchWithAuth ni RequestInit)
+  const res = await fetchWithTimeout(url, {}, 15000, true);
 
-    const res = await fetchWithAuth(url, { signal });
-    if (!res.ok) {
-      if (res.status === 401) {
-        // fetchWithAuth puede manejar logout/refresh; si no, maneja aquí
-        console.warn('Unauthorized when fetching visits series');
-      }
-      setNoData(chVisit, 'Error de datos');
-      return;
+  if (!res) {
+    setNoData(chVisit, 'Error de datos');
+    return;
+  }
+
+  if (!res.ok) {
+    if (res.status === 401) {
+      console.warn('Unauthorized when fetching visits series');
+    } else {
+      console.warn('Visits series fetch returned status', res.status);
     }
+    setNoData(chVisit, 'Error de datos');
+    return;
+  }
 
-    const data: { x: string; y: number | string }[] = await res.json().catch(() => []);
-    const labels = data.map(d => d.x);
-    const values = data.map(d => {
-      if (typeof d.y === 'number') return d.y;
-      const n = Number(d.y);
-      return Number.isFinite(n) ? n : 0;
-    });
+  const data: { x: string; y: number | string }[] = await res.json().catch(() => []);
+  const labels = data.map(d => d.x);
+  const values = data.map(d => {
+    const v = typeof d.y === 'number' ? d.y : Number(d.y);
+    return Number.isFinite(v) ? v : 0;
+  });
 
-    chVisit?.setOption({
+
+  if(chVisit) {
+    chVisit.clear();
+    chVisit.setOption({
       tooltip: { trigger: 'axis' },
       grid: { left: 40, right: 16, top: 24, bottom: 32 },
       xAxis: { type: 'category', boundaryGap: false, data: labels },
@@ -167,21 +200,22 @@ if (chVisit) charts.push(chVisit);
       series: [{ type: 'line', smooth: true, areaStyle: {}, data: values, color: '#0ea5e9' }],
       graphic: values.some(v => v > 0) ? { elements: [] } : undefined
     });
+  } else {
+    setNoData(null, 'Error de datos');
+  }
 
-    if (!values.some(v => v > 0)) setNoData(chVisit);
-  } catch (err: any) {
-    if (err?.name === 'AbortError') {
-      // petición cancelada por navegación — silencioso
-      console.debug('Visits series fetch aborted');
-    } else {
-      console.error('Error obteniendo series de visitas', err);
-      setNoData(chVisit, 'Error de datos');
-    }
-} finally {
-  // Si tu SPA tiene lifecycle, guarda `controller` y llama controller.abort() en el cleanup
-  // controller.abort();
+
+
+
+  if (!values.some(v => v > 0)) setNoData(chVisit);
+} catch (err: any) {
+  if (err?.name === 'AbortError') {
+    console.debug('Visits series fetch aborted (timeout or navigation)', err);
+  } else {
+    console.error('Error obteniendo series de visitas', err);
+    setNoData(chVisit, 'Error de datos');
+  }
 }
-
 
 
   // -------- Visitas por sitio (barra horizontal) --------
