@@ -75,19 +75,28 @@ public class SiteSupervisionVisitRestController {
                     @RequestParam String tz,
                     Authentication authentication) {
 
+    String username = (authentication == null) ? "anonymous"
+                             : authentication.getName();
+    log.info("Incoming /series request user={} from={} to={} days={} tz={}",
+                                username, from, to, days, tz);
+
     try{
 
         final int DEFAULT_DAYS = 7;
         final int MAX_DAYS = 90; // limita para proteger la BD
 
         Long userId = userService.getUserIdFromAuthentication(authentication);
-        if (userId == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "usuario no autenticado.");
+        if (userId == null) {
+            log.warn("Usuario no autenticado (userId null) para auth={}", authentication);
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "usuario no autenticado.");
+        }
 
-        // Resolver zona
+        // Resolver zona con fallback
         ZoneId zone;
         try {
             zone = (tz == null || tz.isBlank()) ? ZoneId.systemDefault() : ZoneId.of(tz);
         } catch (DateTimeException ex) {
+            log.warn("tz inválida '{}', usando default: {}", tz, ZoneId.systemDefault(), ex);
             zone = ZoneId.systemDefault();
         }
 
