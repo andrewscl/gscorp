@@ -140,4 +140,36 @@ public interface SiteSupervisionVisitRepository
           @Param("from") OffsetDateTime from,
           @Param("to") OffsetDateTime to);
 
+
+
+  @Query("""
+      SELECT new com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteSupervisionVisitDto(
+          v.id,
+          e.id,
+          e.name,
+          s.id,
+          s.name,
+          v.visitDateTime,
+          v.latitude,
+          v.longitude,
+          v.description,
+          v.photoPath,
+          v.videoPath
+      )
+      FROM SiteSupervisionVisit v
+      JOIN v.employee e
+      JOIN v.site s
+      JOIN s.project p
+      WHERE p.client.id IN :clientIds
+        AND v.visitDateTime >= :fromDate
+        AND v.visitDateTime <  :toDate
+  """)
+  List<SiteSupervisionVisitDto> findDtoByClientIdsAndDateBetween(
+      @Param("clientIds") List<Long> clientIds,
+      @Param("fromDate") OffsetDateTime fromDate,
+      @Param("toDate") OffsetDateTime toDate
+  );
+
+  
+
 }

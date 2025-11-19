@@ -28,8 +28,10 @@ import com.gscorp.dv1.sitesupervisionvisits.infrastructure.SiteSupervisionVisit;
 import com.gscorp.dv1.sitesupervisionvisits.infrastructure.SiteSupervisionVisitRepository;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.CreateSiteSupervisionVisitRequest;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteSupervisionVisitDto;
+import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteSupVisitPointDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitCountDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitHourlyDto;
+import com.gscorp.dv1.users.application.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +44,7 @@ public class SiteSupervisionVisitServiceImpl implements SiteSupervisionVisitServ
     private final SiteSupervisionVisitRepository siteSupervisionVisitRepo;
     private final EmployeeService employeeService;
     private final SiteService siteService;
+    private final UserService userService;
 
     @Value("${file.supervision_files-dir}")
     private String uploadFilesDir;
@@ -253,6 +256,51 @@ public class SiteSupervisionVisitServiceImpl implements SiteSupervisionVisitServ
     public long countByClientIdAndDate(Long clientId, LocalDate date, String tz) {
         if (clientId == null) return 0L;
         return countByClientIdsAndDate(List.of(clientId), date, tz);
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<SiteSupVisitPointDto> getVisitsSeriesForUserByDates
+                            (Long userId, LocalDate fromDate, LocalDate toDate, ZoneId zone) {
+
+    List<Long> clientIds = userService.getClientIdsForUser(userId);
+    if (clientIds == null || clientIds.isEmpty()) {
+        // devolver zeros para el rango pedido
+        List<SiteSupVisitPointDto> empty = new ArrayList<>();
+        LocalDate d = fromDate;
+        while (!d.isAfter(toDate)) {
+            empty.add(new SiteSupVisitPointDto(d.toString(), 0L));
+            d = d.plusDays(1);
+        }
+        return empty;
+    }
+
+    // 2) convertir a OffsetDateTime semi-abierto [fromDate, toDate)
+    OffsetDateTime fromOffset = fromDate.atStartOfDay(zone).toOffsetDateTime();
+    OffsetDateTime toOffset = toDate.plusDays(1).atStartOfDay(zone).toOffsetDateTime();
+
+    // 3) traer DTOs (repo devuelve SiteSupervisionVisitDto)
+    List<SiteSupervisionVisitDto> visits = siteSupervisionVisitRepo.findDtoByClientIdsAndDateBetween(clientIds, fromOffset, toOffset);
+
+    // 4) agrupar por día en la zona
+    Map<LocalDate, Long> grouped = visits.stream()
+        .filter(dto -> dto.visitDateTime() != null)
+        .collect(Collectors.groupingBy(
+            dto -> dto.visitDateTime().atZoneSameInstant(zone).toLocalDate(),
+            Collectors.counting()
+        ));
+
+    // 5) construir serie final
+    List<SiteSupVisitPointDto> series = new ArrayList<>();
+    LocalDate d = fromDate;
+    while (!d.isAfter(toDate)) {
+        long y = grouped.getOrDefault(d, 0L);
+        series.add(new SiteSupVisitPointDto(d.toString(), y));
+        d = d.plusDays(1);
+    }
+
+        return series;
     }
 
 }

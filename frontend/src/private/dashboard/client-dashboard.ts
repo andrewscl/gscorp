@@ -31,9 +31,11 @@ export async function init({ container }: { container: HTMLElement }) {
 
   // DOM: asegúrate de que existan estos contenedores en tu fragmento
   const elAsis   = root.querySelector('#chart-att') as HTMLDivElement;
+  const elPatrol = root.querySelector('#chart-patrol') as HTMLDivElement;
   const elInc    = root.querySelector('#chart-inc') as HTMLDivElement;
   const elVisit  = root.querySelector('#chart-visit') as HTMLDivElement;
   const elVisitSite = root.querySelector('#chart-visit-site') as HTMLDivElement;
+
 
   // -------- KPIs (cards) --------
   try {
@@ -84,25 +86,103 @@ export async function init({ container }: { container: HTMLElement }) {
     } else setNoData(chAsis, 'Error de datos');
   } catch { setNoData(chAsis, 'Error de datos'); }
 
-  // -------- Visitas por día (línea con área) --------
-  const chVisit = mkChart(elVisit); if (chVisit) charts.push(chVisit);
+// -------- Rondas por día (línea con área) --------
+const chPatrol = mkChart(elPatrol); if (chPatrol) charts.push(chPatrol);
+try {
+  // opcional: enviar tz para que "hoy" y los rangos coincidan con la zona del usuario
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+  const url = `/api/site-patrols/series?clientId=${clientId}&from=${from}&to=${to}&tz=${encodeURIComponent(tz)}`;
+
+  const res = await fetchWithAuth(url);
+  if (res.ok) {
+    const data: Point[] = await res.json().catch(() => []);
+    const labels = data.map(d => d.x);
+    const values = data.map(d => d.y);
+
+    chPatrol?.setOption({
+      tooltip: { trigger: 'axis' },
+      grid: { left: 40, right: 16, top: 24, bottom: 32 },
+      xAxis: { type: 'category', boundaryGap: false, data: labels },
+      yAxis: { type: 'value' },
+      series: [{
+        type: 'line',
+        smooth: true,
+        areaStyle: {},
+        data: values,
+        color: '#34D399' // color para rondas (verde), cámbialo si quieres
+      }],
+      graphic: values.some(v => Number(v) > 0) ? { elements: [] } : undefined
+    });
+
+    if (!values.some(v => Number(v) > 0)) setNoData(chPatrol);
+  } else {
+    setNoData(chPatrol, 'Error de datos');
+  }
+} catch (err) {
+  console.error('Error cargando series de rondas', err);
+  setNoData(chPatrol, 'Error de datos');
+}
+
+// Opcional: asegurar resize cuando cambie el contenedor
+window.addEventListener('resize', () => chPatrol?.resize());
+
+
+
+// -------- Visitas por día (línea con área) --------
+const chVisit = mkChart(elVisit);
+if (chVisit) charts.push(chVisit);
+
+  // Crear controller para poder cancelar la petición si navegas en la SPA
+  const controller = new AbortController();
+  const signal = controller.signal;
+
   try {
-    const res = await fetchWithAuth(`/api/site-supervision-visits/series?clientId=${clientId}&from=${from}&to=${to}`);
-    if (res.ok) {
-      const data: Point[] = await res.json().catch(() => []);
-      const labels = data.map(d => d.x);
-      const values = data.map(d => d.y);
-      chVisit?.setOption({
-        tooltip: { trigger: 'axis' },
-        grid: { left: 40, right: 16, top: 24, bottom: 32 },
-        xAxis: { type: 'category', boundaryGap: false, data: labels },
-        yAxis: { type: 'value' },
-        series: [{ type: 'line', smooth: true, areaStyle: {}, data: values, color: '#0ea5e9' }],
-        graphic: values.some(v => Number(v) > 0) ? { elements: [] } : undefined
-      });
-      if (!values.some(v => Number(v) > 0)) setNoData(chVisit);
-    } else setNoData(chVisit, 'Error de datos');
-  } catch { setNoData(chVisit, 'Error de datos'); }
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+    const days = 7; // o sustituye por from/to si lo necesitas
+    const url = `/api/site-supervision-visits/series?days=${days}&tz=${encodeURIComponent(tz)}`;
+
+    const res = await fetchWithAuth(url, { signal });
+    if (!res.ok) {
+      if (res.status === 401) {
+        // fetchWithAuth puede manejar logout/refresh; si no, maneja aquí
+        console.warn('Unauthorized when fetching visits series');
+      }
+      setNoData(chVisit, 'Error de datos');
+      return;
+    }
+
+    const data: { x: string; y: number | string }[] = await res.json().catch(() => []);
+    const labels = data.map(d => d.x);
+    const values = data.map(d => {
+      if (typeof d.y === 'number') return d.y;
+      const n = Number(d.y);
+      return Number.isFinite(n) ? n : 0;
+    });
+
+    chVisit?.setOption({
+      tooltip: { trigger: 'axis' },
+      grid: { left: 40, right: 16, top: 24, bottom: 32 },
+      xAxis: { type: 'category', boundaryGap: false, data: labels },
+      yAxis: { type: 'value' },
+      series: [{ type: 'line', smooth: true, areaStyle: {}, data: values, color: '#0ea5e9' }],
+      graphic: values.some(v => v > 0) ? { elements: [] } : undefined
+    });
+
+    if (!values.some(v => v > 0)) setNoData(chVisit);
+  } catch (err: any) {
+    if (err?.name === 'AbortError') {
+      // petición cancelada por navegación — silencioso
+      console.debug('Visits series fetch aborted');
+    } else {
+      console.error('Error obteniendo series de visitas', err);
+      setNoData(chVisit, 'Error de datos');
+    }
+} finally {
+  // Si tu SPA tiene lifecycle, guarda `controller` y llama controller.abort() en el cleanup
+  // controller.abort();
+}
+
+
 
   // -------- Visitas por sitio (barra horizontal) --------
   const chVisitSite = mkChart(elVisitSite); if (chVisitSite) charts.push(chVisitSite);

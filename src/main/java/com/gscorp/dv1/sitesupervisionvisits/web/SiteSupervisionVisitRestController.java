@@ -1,13 +1,13 @@
 package com.gscorp.dv1.sitesupervisionvisits.web;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -27,6 +27,7 @@ import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
 import com.gscorp.dv1.sitesupervisionvisits.application.SiteSupervisionVisitService;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.CreateSiteSupervisionVisitRequest;
+import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteSupVisitPointDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteSupervisionVisitDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitCountDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitHourlyDto;
@@ -67,39 +68,49 @@ public class SiteSupervisionVisitRestController {
     }
 
     @GetMapping("/series")
-    public List<Point> visitsSeries(
-        @RequestParam Long clientId,
-        @RequestParam String from,
-        @RequestParam String to
-    ) {
-        // 1. Parsear fechas
-        LocalDate fromDate = LocalDate.parse(from);
-        LocalDate toDate = LocalDate.parse(to);
+    public List<SiteSupVisitPointDto> SiteSupervisionVisitsByUserSeries(
+                    @RequestParam String from,
+                    @RequestParam String to,
+                    @RequestParam Integer days,
+                    @RequestParam String tz,
+                    Authentication authentication) {
 
-        // Convertir rango completo de días a OffsetDateTime
-        OffsetDateTime fromOffset = fromDate.atStartOfDay(ZoneOffset.systemDefault()).toOffsetDateTime();
-        OffsetDateTime toOffset = toDate.plusDays(1).atStartOfDay(ZoneOffset.systemDefault()).toOffsetDateTime().minusNanos(1);
-        
-        // 2. Consultar visitas del cliente entre fechas
-        List<SiteSupervisionVisitDto> visits = siteSupervisionVisitService
-            .findByClientIdAndDateBetween(clientId, fromOffset, toOffset);
+        final int DEFAULT_DAYS = 7;
+        final int MAX_DAYS = 90; // limita para proteger la BD
 
-        // 3. Agrupar por día y contar
-        Map<LocalDate, Long> grouped = visits.stream()
-            .collect(Collectors.groupingBy(
-                dto -> dto.visitDateTime().toLocalDate(),
-                Collectors.counting()
-            ));
+        Long userId = userService.getUserIdFromAuthentication(authentication);
+        if (userId == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "usuario no autenticado.");
 
-        // 4. Preparar datos para Echarts
-        List<Point> series = new ArrayList<>();
-        LocalDate d = fromDate;
-        while (!d.isAfter(toDate)) {
-            long y = grouped.getOrDefault(d, 0L);
-            series.add(new Point(d.toString(), y));
-            d = d.plusDays(1);
+        // Resolver zona
+        ZoneId zone;
+        try {
+            zone = (tz == null || tz.isBlank()) ? ZoneId.systemDefault() : ZoneId.of(tz);
+        } catch (DateTimeException ex) {
+            zone = ZoneId.systemDefault();
         }
-        return series;
+
+        // Calcular fromDate/toDate:
+        LocalDate fromDate;
+        LocalDate toDate;
+        if (from != null && to != null) {
+            fromDate = LocalDate.parse(from);
+            toDate = LocalDate.parse(to);
+        } else {
+            int d = (days == null) ? DEFAULT_DAYS : days;
+            if (d < 1) d = 1;
+            if (d > MAX_DAYS) d = MAX_DAYS;
+            toDate = LocalDate.now(zone);
+            fromDate = toDate.minusDays(d - 1);
+        }
+
+        // Normalizar orden
+        if (fromDate.isAfter(toDate)) {
+            LocalDate tmp = fromDate;
+            fromDate = toDate;
+            toDate = tmp;
+        }
+
+        return siteSupervisionVisitService.getVisitsSeriesForUserByDates(userId, fromDate, toDate, zone);
     }
 
     static class Point {

@@ -2,10 +2,12 @@ package com.gscorp.dv1.sitesupervisionvisits.application;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.Collection;
 import java.util.List;
 
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.CreateSiteSupervisionVisitRequest;
+import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteSupVisitPointDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteSupervisionVisitDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitCountDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitHourlyDto;
@@ -43,5 +45,8 @@ public interface SiteSupervisionVisitService {
     }
 
     long countByClientIdAndDate(Long clientId, LocalDate date, String tz);
+
+    List<SiteSupVisitPointDto> getVisitsSeriesForUserByDates
+                (Long userId, LocalDate fromDate, LocalDate toDate, ZoneId zone);
 
 }
