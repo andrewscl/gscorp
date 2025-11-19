@@ -75,6 +75,8 @@ public class SiteSupervisionVisitRestController {
                     @RequestParam String tz,
                     Authentication authentication) {
 
+    try{
+
         final int DEFAULT_DAYS = 7;
         final int MAX_DAYS = 90; // limita para proteger la BD
 
@@ -110,7 +112,14 @@ public class SiteSupervisionVisitRestController {
             toDate = tmp;
         }
 
+        log.debug("Series request userId={} from={} to={} days={} tz={}", userId, fromDate, toDate, days, zone);
         return siteSupervisionVisitService.getVisitsSeriesForUserByDates(userId, fromDate, toDate, zone);
+
+    } catch (Exception ex) {
+        log.error("Error en /series: " + ex.getMessage(), ex);
+        throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR
+                          , "Error al obtener series de visitas.");
     }
 
     static class Point {

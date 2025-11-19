@@ -280,8 +280,11 @@ public class SiteSupervisionVisitServiceImpl implements SiteSupervisionVisitServ
     OffsetDateTime fromOffset = fromDate.atStartOfDay(zone).toOffsetDateTime();
     OffsetDateTime toOffset = toDate.plusDays(1).atStartOfDay(zone).toOffsetDateTime();
 
+
     // 3) traer DTOs (repo devuelve SiteSupervisionVisitDto)
+    log.debug("Service: fetching visits userId={} clientIds={} from={} to={} zone={}", userId, clientIds, fromOffset, toOffset, zone);
     List<SiteSupervisionVisitDto> visits = siteSupervisionVisitRepo.findDtoByClientIdsAndDateBetween(clientIds, fromOffset, toOffset);
+    log.debug("Service: visits fetched count={}", visits == null ? null : visits.size());
 
     // 4) agrupar por día en la zona
     Map<LocalDate, Long> grouped = visits.stream()
