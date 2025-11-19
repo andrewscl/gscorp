@@ -142,33 +142,24 @@ public interface SiteSupervisionVisitRepository
 
 
 
-  @Query("""
-      SELECT new com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteSupervisionVisitDto(
-          v.id,
-          e.id,
-          e.name,
-          s.id,
-          s.name,
-          v.visitDateTime,
-          v.latitude,
-          v.longitude,
-          v.description,
-          v.photoPath,
-          v.videoPath
-      )
-      FROM SiteSupervisionVisit v
-      JOIN v.employee e
-      JOIN v.site s
-      JOIN s.project p
-      WHERE p.client.id IN :clientIds
-        AND v.visitDateTime >= :fromDate
-        AND v.visitDateTime <  :toDate
-  """)
-  List<SiteSupervisionVisitDto> findDtoByClientIdsAndDateBetween(
-      @Param("clientIds") List<Long> clientIds,
-      @Param("fromDate") OffsetDateTime fromDate,
-      @Param("toDate") OffsetDateTime toDate
-  );
+    /**
+     * Devuelve entidades SiteSupervisionVisit en el rango pedido.
+     * Usamos JOIN FETCH v.site para evitar N+1 al acceder a site en el mapping.
+     */
+    @Query("""
+        SELECT v
+        FROM SiteSupervisionVisit v
+        JOIN FETCH v.site s
+        JOIN s.project p
+        WHERE p.client.id IN :clientIds
+          AND v.visitDateTime >= :fromDate
+          AND v.visitDateTime <  :toDate
+    """)
+    List<SiteSupervisionVisit> findByClientIdsAndDateBetween(
+            @Param("clientIds") List<Long> clientIds,
+            @Param("fromDate") OffsetDateTime fromDate,
+            @Param("toDate") OffsetDateTime toDate
+    );
 
   
 
