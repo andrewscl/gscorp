@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -264,44 +265,51 @@ public class SiteSupervisionVisitServiceImpl implements SiteSupervisionVisitServ
     public List<SiteSupVisitPointDto> getVisitsSeriesForUserByDates
                             (Long userId, LocalDate fromDate, LocalDate toDate, ZoneId zone) {
 
-    List<Long> clientIds = userService.getClientIdsForUser(userId);
-    if (clientIds == null || clientIds.isEmpty()) {
-        // devolver zeros para el rango pedido
-        List<SiteSupVisitPointDto> empty = new ArrayList<>();
+        List<Long> clientIds = userService.getClientIdsForUser(userId);
+        if (clientIds == null || clientIds.isEmpty()) {
+            // devolver zeros para el rango pedido
+            List<SiteSupVisitPointDto> empty = new ArrayList<>();
+            LocalDate d = fromDate;
+            while (!d.isAfter(toDate)) {
+                empty.add(new SiteSupVisitPointDto(d.toString(), 0L));
+                d = d.plusDays(1);
+            }
+            return empty;
+        }
+
+        // 2) convertir a OffsetDateTime semi-abierto [fromDate, toDate)
+        OffsetDateTime fromOffset = fromDate.atStartOfDay(zone).toOffsetDateTime();
+        OffsetDateTime toOffset = toDate.plusDays(1).atStartOfDay(zone).toOffsetDateTime();
+
+        // 3) traer DTOs (repo devuelve SiteSupervisionVisitDto)
+        log.debug("Service: fetching visits userId={} clientIds={} from={} to={} zone={}", userId, clientIds, fromOffset, toOffset, zone);
+        List<SiteSupervisionVisit> entities = siteSupervisionVisitRepo.findByClientIdsAndDateBetween(clientIds, fromOffset, toOffset);
+        log.debug("Service: visits fetched count={}", entities == null ? null : entities.size());
+
+        // 4.1)Mapear entidades a DTOs (usa el fromEntity que ya tienes en SiteSupervisionVisitDto)
+        List<SiteSupervisionVisitDto> visitsDto = (entities == null)
+                ? List.of()
+                : entities.stream()
+                        .map(SiteSupervisionVisitDto::fromEntity)
+                        .filter(Objects::nonNull)
+                        .collect(Collectors.toList());
+
+        // 4.2)Agrupar por fecha local en la zone
+        Map<LocalDate, Long> grouped = visitsDto.stream()
+                .filter(dto -> dto.visitDateTime() != null)
+                .collect(Collectors.groupingBy(
+                        dto -> dto.visitDateTime().toInstant().atZone(zone).toLocalDate(),
+                        Collectors.counting()
+                ));
+
+        // 5) construir serie final
+        List<SiteSupVisitPointDto> series = new ArrayList<>();
         LocalDate d = fromDate;
         while (!d.isAfter(toDate)) {
-            empty.add(new SiteSupVisitPointDto(d.toString(), 0L));
+            long y = grouped.getOrDefault(d, 0L);
+            series.add(new SiteSupVisitPointDto(d.toString(), y));
             d = d.plusDays(1);
         }
-        return empty;
-    }
-
-    // 2) convertir a OffsetDateTime semi-abierto [fromDate, toDate)
-    OffsetDateTime fromOffset = fromDate.atStartOfDay(zone).toOffsetDateTime();
-    OffsetDateTime toOffset = toDate.plusDays(1).atStartOfDay(zone).toOffsetDateTime();
-
-
-    // 3) traer DTOs (repo devuelve SiteSupervisionVisitDto)
-    log.debug("Service: fetching visits userId={} clientIds={} from={} to={} zone={}", userId, clientIds, fromOffset, toOffset, zone);
-    List<SiteSupervisionVisitDto> visits = siteSupervisionVisitRepo.findDtoByClientIdsAndDateBetween(clientIds, fromOffset, toOffset);
-    log.debug("Service: visits fetched count={}", visits == null ? null : visits.size());
-
-    // 4) agrupar por día en la zona
-    Map<LocalDate, Long> grouped = visits.stream()
-        .filter(dto -> dto.visitDateTime() != null)
-        .collect(Collectors.groupingBy(
-            dto -> dto.visitDateTime().atZoneSameInstant(zone).toLocalDate(),
-            Collectors.counting()
-        ));
-
-    // 5) construir serie final
-    List<SiteSupVisitPointDto> series = new ArrayList<>();
-    LocalDate d = fromDate;
-    while (!d.isAfter(toDate)) {
-        long y = grouped.getOrDefault(d, 0L);
-        series.add(new SiteSupVisitPointDto(d.toString(), y));
-        d = d.plusDays(1);
-    }
 
         return series;
     }
