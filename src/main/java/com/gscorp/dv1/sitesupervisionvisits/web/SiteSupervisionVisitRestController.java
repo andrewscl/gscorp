@@ -69,10 +69,10 @@ public class SiteSupervisionVisitRestController {
 
     @GetMapping("/series")
     public List<SiteSupVisitPointDto> SiteSupervisionVisitsByUserSeries(
-                    @RequestParam String from,
-                    @RequestParam String to,
-                    @RequestParam Integer days,
-                    @RequestParam String tz,
+                    @RequestParam(required=false) String from,
+                    @RequestParam(required=false) String to,
+                    @RequestParam(required=false) Integer days,
+                    @RequestParam(required=false) String tz,
                     Authentication authentication) {
 
     String username = (authentication == null) ? "anonymous"
