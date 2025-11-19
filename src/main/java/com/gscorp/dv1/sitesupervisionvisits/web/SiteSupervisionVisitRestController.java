@@ -122,10 +122,10 @@ public class SiteSupervisionVisitRestController {
                           , "Error al obtener series de visitas.");
     }
 
-    static class Point {
+    static class SiteSupVisitPointDto {
         public String x; // fecha (ej: "2025-11-02")
         public long y;   // cantidad de visitas
-        public Point(String x, long y) { this.x = x; this.y = y; }
+        public SiteSupVisitPointDto(String x, long y) { this.x = x; this.y = y; }
     }
 
     @GetMapping("/kpis")
