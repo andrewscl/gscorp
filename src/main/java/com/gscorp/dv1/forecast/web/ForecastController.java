@@ -67,7 +67,7 @@ public class ForecastController {
             // Mostrar vista vacía con error
             model.addAttribute("forecastRecords", List.of());
             model.addAttribute("clientIds", clientService.getClientIdsByUserId(userId));
-            return "/private/forecast/views/forecast-table-view";
+            return "private/forecast/views/forecast-table-view";
         }
 
         // Defaults para fechas: últimos 30 días
@@ -78,7 +78,7 @@ public class ForecastController {
             model.addAttribute("error", "'from' no puede ser posterior a 'to'");
             model.addAttribute("forecastRecords", List.of());
             model.addAttribute("clientIds", clientService.getClientIdsByUserId(userId));
-            return "/private/forecast/views/forecast-table-view";
+            return "private/forecast/views/forecast-table-view";
         }
 
         // Obtener clientIds del usuario (para la vista de filtros o validaciones)
@@ -98,7 +98,7 @@ public class ForecastController {
         model.addAttribute("to", to);
         model.addAttribute("zone", zoneId.getId());
 
-        return "/private/forecast/views/forecast-table-view";
+        return "private/forecast/views/forecast-table-view";
     }
 
 
@@ -122,7 +122,7 @@ public class ForecastController {
             model.addAttribute("error", "No se pudo preparar el formulario.");
             model.addAttribute("prefill", null);
             model.addAttribute("clients", Collections.emptyList());
-            return "/private/forecast/views/create-form";
+            return "private/forecast/views/create-forecast-view";
         }
 
         // Añadir datos al modelo para que la vista los muestre
@@ -132,7 +132,7 @@ public class ForecastController {
         model.addAttribute("postUrl", "/private/forecast/create");
         model.addAttribute("cancelPath", "/private/forecast");
 
-        return "/private/forecast/fragments/create-form";
+        return "private/forecast/views/create-forecast-view";
     }
     
 }
