@@ -98,7 +98,7 @@ public class ForecastController {
         model.addAttribute("to", to);
         model.addAttribute("zone", zoneId.getId());
 
-        return "/private/forecast/views/table-view";
+        return "/private/forecast/views/forecast-table-view";
     }
 
 
