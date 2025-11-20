@@ -67,7 +67,7 @@ public class ForecastController {
             // Mostrar vista vacía con error
             model.addAttribute("forecastRecords", List.of());
             model.addAttribute("clientIds", clientService.getClientIdsByUserId(userId));
-            return "/private/forecast/views/table-view";
+            return "/private/forecast/views/forecast-table-view";
         }
 
         // Defaults para fechas: últimos 30 días
@@ -78,7 +78,7 @@ public class ForecastController {
             model.addAttribute("error", "'from' no puede ser posterior a 'to'");
             model.addAttribute("forecastRecords", List.of());
             model.addAttribute("clientIds", clientService.getClientIdsByUserId(userId));
-            return "/private/forecast/views/table-view";
+            return "/private/forecast/views/forecast-table-view";
         }
 
         // Obtener clientIds del usuario (para la vista de filtros o validaciones)
@@ -100,6 +100,7 @@ public class ForecastController {
 
         return "/private/forecast/views/forecast-table-view";
     }
+
 
 
     // Método para mostrar el formulario de creación de Forecast
