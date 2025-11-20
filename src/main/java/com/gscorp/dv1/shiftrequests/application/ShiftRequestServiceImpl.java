@@ -110,7 +110,7 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
         Long userId = userService.getUserIdFromAuthentication(authentication);
         if (userId == null) {
             return Collections.emptyList();
-        }    
+        }
 
         boolean isAdmin = authentication.getAuthorities().stream()
             .map(GrantedAuthority::getAuthority)

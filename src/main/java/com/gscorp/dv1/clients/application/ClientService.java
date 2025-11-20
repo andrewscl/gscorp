@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.security.core.Authentication;
 
 import com.gscorp.dv1.clients.infrastructure.Client;
+import com.gscorp.dv1.clients.web.dto.ClientBriefDto;
 import com.gscorp.dv1.clients.web.dto.ClientDto;
 
 public interface ClientService {
@@ -31,6 +32,8 @@ public interface ClientService {
     void ensureUserHasAccess(Authentication authentication, Collection<Long> clientIds);
 
     List<ClientDto> findDtosByUserId(Long userId);
+
+    List<ClientBriefDto> getBriefByUserId(Long userId);
     
 
 }

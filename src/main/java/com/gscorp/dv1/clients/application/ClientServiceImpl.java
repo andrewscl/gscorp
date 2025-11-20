@@ -14,7 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gscorp.dv1.clients.infrastructure.Client;
+import com.gscorp.dv1.clients.infrastructure.ClientBriefProjection;
 import com.gscorp.dv1.clients.infrastructure.ClientRepository;
+import com.gscorp.dv1.clients.web.dto.ClientBriefDto;
 import com.gscorp.dv1.clients.web.dto.ClientDto;
 import com.gscorp.dv1.users.application.UserService;
 
@@ -127,6 +129,17 @@ public class ClientServiceImpl implements ClientService{
         return clients.stream()
                 .map(c -> new ClientDto(c.id(), c.name(), c.legalName(), c.taxId(), c.contactEmail(), c.active()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ClientBriefDto> getBriefByUserId(Long userId) {
+
+        List<ClientBriefProjection> rows = clientRepo.findBriefByUserId(userId);
+
+        return rows
+        .stream()
+        .map(ClientBriefDto::fromProjection)
+        .collect(Collectors.toList());  
     }
 
 }

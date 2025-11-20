@@ -29,5 +29,10 @@ public interface ClientRepository extends JpaRepository<Client, Long>{
     @Query("select new com.gscorp.dv1.clients.web.dto.ClientDto(c.id, c.name, c.legalName, c.taxId, c.contactEmail, c.active) "
          + "from Client c join c.users u where u.id = :userId order by c.name")
     List<ClientDto> findDtosByUserId(@Param("userId") Long userId);
+
+    @Query("select c.id as id, c.name as name, c.active as active " +
+       "from Client c join c.users u where u.id = :userId and c.active = true order by c.name")
+    List<ClientBriefProjection> findBriefByUserId(Long userId);
+    
     
 }
