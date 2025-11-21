@@ -14,6 +14,10 @@ $color-border: #e6eef8;
 $shadow-sm: 0 1px 2px rgba(16,24,40,0.04);
 $shadow-md: 0 6px 18px rgba(16,24,40,0.06);
 
+// Valor de referencia para "levantar" visualmente la fila de units/confidence
+// Ajusta si la altura de tus inputs cambia.
+$compact-row-lift: 3.4rem;
+
 *,
 *::before,
 *::after {
@@ -112,11 +116,6 @@ $shadow-md: 0 6px 18px rgba(16,24,40,0.06);
         font-size: 0.92rem;
       }
 
-      // Contenedor interno para alinear texto breve y control reducido
-      label > input[type="number"] {
-        margin-top: 0.15rem;
-      }
-
       // Inputs numéricos compactos y centrados (suficiente para 0-23)
       input[type="number"] {
         width: 3.6rem;   // ancho visual para 2 dígitos; ajustar a 3rem si quieres aún más compacto
@@ -157,6 +156,37 @@ $shadow-md: 0 6px 18px rgba(16,24,40,0.06);
       font-variant-numeric: tabular-nums;
     }
 
+    // ----- Units / Confidence: compactos y visualmente a la derecha del Valor -----
+    // Etiqueta de Units: empuja todo el bloque units/confidence hacia la derecha
+    label[for="forecast-units"] {
+      flex: 0 0 auto;
+      margin-left: auto;                     // empuja a la derecha del contenedor
+      transform: translateY(-$compact-row-lift); // subir visualmente hasta la fila anterior
+      transition: transform .12s ease;
+      min-width: auto;
+    }
+
+    // Etiqueta de Confidence: junto a Units, también elevada
+    label[for="forecast-confidence"] {
+      flex: 0 0 auto;
+      margin-left: 0.5rem;
+      transform: translateY(-$compact-row-lift);
+      transition: transform .12s ease;
+      min-width: auto;
+    }
+
+    // Inputs más estrechos para mantener la fila compacta
+    #forecast-units {
+      width: 7.5rem;     // tamaño razonable para textos cortos (ajusta)
+      padding: 0.35rem 0.45rem;
+    }
+    #forecast-confidence {
+      width: 5rem;       // porcentaje con una o dos cifras decimales
+      padding: 0.35rem 0.45rem;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
     // Quitar spin buttons en number inputs (WebKit/Blink) y apariencia textfield en Firefox
     input[type="number"] {
       -webkit-appearance: none;   // Chrome, Safari, Edge (Blink / WebKit)
@@ -164,14 +194,12 @@ $shadow-md: 0 6px 18px rgba(16,24,40,0.06);
       appearance: textfield;      // propiedad estándar (evita warnings y mejora compatibilidad)
     }
 
-
     /* Remover los botones en WebKit (necesario además de -webkit-appearance) */
     input[type="number"]::-webkit-outer-spin-button,
     input[type="number"]::-webkit-inner-spin-button {
       -webkit-appearance: none;
       margin: 0;
     }
-
 
     .tz-row {
       display: flex;
@@ -258,12 +286,23 @@ $shadow-md: 0 6px 18px rgba(16,24,40,0.06);
       input[type="number"] { width: 6rem; margin-right: 0; }
     }
 
+    // En móvil deshacemos el "lift" y dejamos units/confidence en su propia línea
+    label[for="forecast-units"],
+    label[for="forecast-confidence"] {
+      transform: none;
+      margin-left: 0;
+      width: 100%;
+    }
+
     label[for="forecast-start"] input[type="date"],
     label[for="forecast-end"] input[type="date"] {
       width: 100%;
     }
 
-    label[for="forecast-value"] input[type="number"] {
+    label[for="forecast-value"] input[type="number"],
+    label[for="forecast-value"] input[type="text"],
+    label[for="forecast-units"] input,
+    label[for="forecast-confidence"] input {
       width: 100%;
     }
   }

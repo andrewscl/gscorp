@@ -92,9 +92,6 @@
   width: auto;
   font-size: 0.92rem;
 }
-.forecast-creation form .hour-fields label > input[type=number] {
-  margin-top: 0.15rem;
-}
 .forecast-creation form .hour-fields input[type=number] {
   width: 3.6rem;
   max-width: 100%;
@@ -124,6 +121,30 @@
   width: 6.5rem;
   padding: 0.35rem 0.45rem;
   box-sizing: border-box;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.forecast-creation form label[for=forecast-units] {
+  flex: 0 0 auto;
+  margin-left: auto;
+  transform: translateY(-3.4rem);
+  transition: transform 0.12s ease;
+  min-width: auto;
+}
+.forecast-creation form label[for=forecast-confidence] {
+  flex: 0 0 auto;
+  margin-left: 0.5rem;
+  transform: translateY(-3.4rem);
+  transition: transform 0.12s ease;
+  min-width: auto;
+}
+.forecast-creation form #forecast-units {
+  width: 7.5rem;
+  padding: 0.35rem 0.45rem;
+}
+.forecast-creation form #forecast-confidence {
+  width: 5rem;
+  padding: 0.35rem 0.45rem;
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
@@ -218,11 +239,20 @@
     width: 6rem;
     margin-right: 0;
   }
+  .forecast-creation label[for=forecast-units],
+  .forecast-creation label[for=forecast-confidence] {
+    transform: none;
+    margin-left: 0;
+    width: 100%;
+  }
   .forecast-creation label[for=forecast-start] input[type=date],
   .forecast-creation label[for=forecast-end] input[type=date] {
     width: 100%;
   }
-  .forecast-creation label[for=forecast-value] input[type=number] {
+  .forecast-creation label[for=forecast-value] input[type=number],
+  .forecast-creation label[for=forecast-value] input[type=text],
+  .forecast-creation label[for=forecast-units] input,
+  .forecast-creation label[for=forecast-confidence] input {
     width: 100%;
   }
 }/*# sourceMappingURL=create-forecast.css.map */

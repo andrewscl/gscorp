@@ -116,12 +116,15 @@
 
     <!-- Units / Confidence / Version small inputs -->
     <div class="row compact">
-      <label for="forecast-units">Units
-        <input id="forecast-units" name="units" type="text" placeholder="e.g. count" />
+      <label for="forecast-units">Unidades
+        <input id="forecast-units" name="units" type="text" placeholder="ej. visitas, visitas/hora" />
+        <div class="hint">Unidad del valor del forecast (ej. "visitas").</div>
       </label>
 
       <label for="forecast-confidence">Confianza (%)
-        <input id="forecast-confidence" name="confidence" type="number" step="0.1" min="0" max="100" />
+        <input id="forecast-confidence" name="confidence" type="number" step="0.1" min="0" max="100"
+                          placeholder="95" />
+        <div class="hint">Porcentaje de confianza del forecast (0 - 100) (ej. "95").</div>
       </label>
 
       <!-- Forecast version: debe coincidir con el DTO (forecastVersion) -->
