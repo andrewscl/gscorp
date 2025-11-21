@@ -47,33 +47,39 @@
       </label>
     </div>
 
-    <!-- Fila compacta de métrica / periodicidad / category (scope visual read-only) -->
+    <!-- Fila compacta de categoría / periodicidad / metrica -->
     <div class="row compact">
-      <label for="forecast-metric">Métrica
-        <select id="forecast-metric" name="metric" required>
-          <option value="VISITS">Visitas</option>
-          <option value="ROUNDS">Rondas</option>
-          <option value="ATTENDANCE">Asistencia</option>
-          <!-- Ajustar opciones a tu enum com.gscorp.dv1.enums.Metric si existe -->
+
+      <label for="forecast-category">Categoría
+        <select id="forecast-category" name="forecastCategory" required>
+          <option value="">-- seleccionar --</option>
+          <option th:each="c : ${forecastCategories}"
+                  th:value="${c.name()}"
+                  th:text="${c.displayName != null ? c.displayName : c.name()}"
+                  th:selected="${prefillForecastCategory != null and prefillForecastCategory == c.name()}">
+          </option>
         </select>
       </label>
 
       <label for="forecast-periodicity">Periodicidad
         <select id="forecast-periodicity" name="periodicity" required>
-          <option value="DAILY">Diario</option>
-          <option value="WEEKLY">Semanal</option>
-          <option value="HOURLY">Horario</option>
+          <option value="">-- seleccionar --</option>
+          <option th:each="p : ${periodicities}"
+                  th:value="${p.name()}"
+                  th:text="${p.displayName != null ? p.displayName : p.name()}"
+                  th:selected="${prefill != null and prefill.periodicity != null and prefill.periodicity == p.name()}">
+          </option>
         </select>
       </label>
 
-      <label for="forecast-category">Categoría
-        <select id="forecast-category" name="forecastCategory" required>
-          <option value="">-- seleccionar --</option>
-          <!-- Ajusta las opciones al enum ForecastCategory del backend -->
-          <option value="BASE">Base</option>
-          <option value="ADJUSTMENT">Ajuste</option>
-          <option value="PROJECTION">Proyección</option>
-        </select>
+      <label for="forecast-metric">Métrica
+        <input id="forecast-metric" name="metric" type="text" list="metric-suggestions" required
+              th:value="${prefill != null and prefill.metric != null ? prefill.metric : ''}"
+              placeholder="Título del forecast (ej. Visitas entrada turno mañana)"
+              maxlength="200" autocomplete="off" />
+        <datalist id="metric-suggestions">
+          <option th:each="m : ${metricSuggestions}" th:value="${m}" th:text="${m}"></option>
+        </datalist>
       </label>
 
       <!-- Scope visual (read-only inference preferred): site > project > client -->

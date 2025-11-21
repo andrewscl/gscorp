@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
+import com.gscorp.dv1.enums.Periodicity;
 import com.gscorp.dv1.forecast.application.ForecastService;
 import com.gscorp.dv1.forecast.web.dto.ForecastFormPayload;
 import com.gscorp.dv1.forecast.web.dto.ForecastTableRowDto;
@@ -106,6 +107,7 @@ public class ForecastController {
 
         // Añadir datos al modelo para que la vista los muestre
         model.addAttribute("prefill", formPayload.prefill());
+        model.addAttribute("periodicities", Periodicity.values());
         model.addAttribute("clients", formPayload.clients() == null ? Collections.emptyList() : formPayload.clients());
         model.addAttribute("zone", formPayload.prefill() != null ? formPayload.prefill().tz() : null);
         model.addAttribute("postUrl", "/private/forecast/create");
