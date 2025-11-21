@@ -9,8 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.gscorp.dv1.users.web.dto.UserUpdateDto;
-
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{
     Optional<User> findByUsername(@Param("username") String username);
@@ -30,7 +28,5 @@ public interface UserRepository extends JpaRepository<User, Long>{
     // NUEVO: devolver solo los IDs de los clients asociados al usuario
     @Query("SELECT c.id FROM User u JOIN u.clients c WHERE u.id = :userId")
     List<Long> findClientIdsByUserId(@Param("userId") Long userId);
-
-    Optional<User> updateUser(Long userId, UserUpdateDto dto);
 
 }
