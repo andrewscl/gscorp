@@ -12,23 +12,40 @@
          Nota: Los <select> se deben poblar desde el servidor o por JS (fetch). -->
     <div class="row compact">
       <label for="forecast-client">Cliente
-        <select id="forecast-client" name="clientId" required>
+        <select id="forecast-client" name="clientId" required
+                th:field="*{clientId}">
           <option value="">-- seleccionar --</option>
-          <!-- th:each="c : ${clients}" th:value="${c.id}" th:text="${c.name}" -->
+          <option th:each="c : ${clients}"
+                  th:value="${c.id}"
+                  th:text="${c.name}"
+                  th:selected="${prefill != null and prefill.clientId != null and prefill.clientId == c.id}">
+          </option>
         </select>
       </label>
 
       <label for="forecast-project">Proyecto
-        <select id="forecast-project" name="projectId" disabled required>
+        <select id="forecast-project" name="projectId" disabled required
+                th:attr="disabled=${projects == null or #lists.isEmpty(projects)}"
+                th:field="*{projectId}">
           <option value="">-- seleccionar --</option>
-          <!-- th:each="p : ${projects}" th:value="${p.id}" th:text="${p.name}" -->
+          <option th:each="p : ${projects}"
+                  th:value="${p.id}"
+                  th:text="${p.name}"
+                  th:selected="${prefill != null and prefill.projectId != null and prefill.projectId == p.id}">
+          </option>
         </select>
       </label>
 
       <label for="forecast-site">Sitio
-        <select id="forecast-site" name="siteId" disabled>
+        <select id="forecast-site" name="siteId" disabled
+                th:attr="disabled=${sites == null or #lists.isEmpty(sites)}"
+                th:field="*{siteId}">
           <option value="">-- (opcional) --</option>
-          <!-- th:each="s : ${sites}" th:value="${s.id}" th:text="${s.name}" -->
+          <option th:each="s : ${sites}"
+                  th:value="${s.id}"
+                  th:text="${s.name}"
+                  th:selected="${prefill != null and prefill.siteId != null and prefill.siteId == s.id}">
+          </option>
         </select>
       </label>
     </div>

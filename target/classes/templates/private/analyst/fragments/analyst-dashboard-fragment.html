@@ -1,18 +1,42 @@
-<div id="dashboard-root" th:fragment="dashboardView">
-  <h5>Analista</h5>
+<div th:fragment="content" id="client-dashboard-root" class="dashboard">
 
-  <div class="charts">
-    <div class="card"><h5>Asistencias por día</h5><div id="chart-att" style="height:260px"></div></div>
-    <div class="card"><h5>Incidentes por día</h5><div id="chart-inc" style="height:260px"></div></div>
-    <div class="card"><h5>Visitas por día</h5><div id="chart-visit" style="height:260px"></div></div>
-    
-    <div class="card">
-      <h5>Visitas por sitio</h5>
-      <div id="chart-visit-site" style="height:260px"></div>
-    </div>
-    
+  <div class="kpis">
+    <div class="kpi-card" id="kpi-att"><h4>Asistencia</h4><div class="val" data-kpi="att">–</div></div>
+    <div class="kpi-card" id="kpi-patrol"><h4>Rondas</h4><div class="val" data-kpi="patrol">–</div></div>
+    <div class="kpi-card" id="kpi-visit"><h4>Visitas</h4><div class="val" data-kpi="visit">–</div></div>
   </div>
 
-  <!-- Tu navigation-handler ejecutará init() de este módulo -->
-  <script type="module" src="/assets/private/dashboard.js"></script>
+  <div class="charts">
+    <div class="card">
+      <h5>Asistencia de hoy</h5>
+      <div id="chart-hourly-attendance"></div>
+    </div>
+
+    <div class="card">
+      <h5>Rondas de hoy</h5>
+      <div id="chart-hourly-rounds"></div>
+    </div>
+
+    <div class="card">
+      <h5>Visitas de hoy</h5>
+      <div id="chart-hourly-visits"></div>
+    </div>
+  </div>
+
+  <!-- Weekly smaller charts (3 en una fila) -->
+  <div class="charts weekly">
+    <div class="card"><h5>Asistencias ultima semana</h5><div id="chart-att"></div></div>
+    <div class="card"><h5>Rondas ultima semana</h5><div id="chart-patrol"></div></div>
+    <div class="card"><h5>Visitas ultima semana</h5><div id="chart-visit"></div></div>
+  </div>
+
+  <!-- Visitas por sitio en su propia fila, ocupando todo el ancho -->
+  <div class="charts full-width">
+    <div class="card">
+      <h5>Visitas por sitio</h5>
+      <div id="chart-visit-site"></div>
+    </div>
+  </div>
+
+  <script type="module" src="/assets/private/client.js"></script>
 </div>
