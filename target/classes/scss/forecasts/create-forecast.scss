@@ -14,6 +14,12 @@ $color-border: #e6eef8;
 $shadow-sm: 0 1px 2px rgba(16,24,40,0.04);
 $shadow-md: 0 6px 18px rgba(16,24,40,0.06);
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 .forecast-creation {
   font-family: $font-family;
   background: $color-bg;
@@ -60,7 +66,11 @@ $shadow-md: 0 6px 18px rgba(16,24,40,0.06);
         font-size: 0.95rem;
         color: $color-muted;
 
-        select, input[type="date"], input[type="number"], input[type="text"], textarea {
+        select,
+        input[type="date"],
+        input[type="number"],
+        input[type="text"],
+        textarea {
           border: 1px solid $color-border;
           padding: 0.4rem 0.5rem;
           border-radius: 6px;
@@ -70,7 +80,9 @@ $shadow-md: 0 6px 18px rgba(16,24,40,0.06);
           transition: border-color .12s ease;
         }
 
-        select:focus, input:focus, textarea:focus {
+        select:focus,
+        input:focus,
+        textarea:focus {
           outline: none;
           border-color: $color-accent;
           box-shadow: 0 0 0 3px rgba(99,102,241,0.06);
@@ -84,10 +96,82 @@ $shadow-md: 0 6px 18px rgba(16,24,40,0.06);
       }
     }
 
+    /* ----- Ajustes específicos para campos de hora y fecha ----- */
     .hour-fields {
+      display: flex;
+      gap: 0.5rem;
       align-items: center;
-      .hint { margin-left: .5rem; }
+      padding-top: 0.25rem;
+      .hint { margin-left: .5rem; color: $color-muted; font-size: 0.85rem; }
+
+      // Las etiquetas dentro de hour-fields no crecen; tamaño compacto
+      label {
+        flex: 0 0 auto;
+        min-width: auto;
+        width: auto;
+        font-size: 0.92rem;
+      }
+
+      // Contenedor interno para alinear texto breve y control reducido
+      label > input[type="number"] {
+        margin-top: 0.15rem;
+      }
+
+      // Inputs numéricos compactos y centrados (suficiente para 0-23)
+      input[type="number"] {
+        width: 3.6rem;   // ancho visual para 2 dígitos; ajustar a 3rem si quieres aún más compacto
+        max-width: 100%;
+        padding: 0.25rem 0.3rem;
+        text-align: center;
+        font-size: $base-font-size;
+      }
     }
+
+    // Campos de fecha: ancho contenido para no estirar la fila
+    label[for="forecast-start"],
+    label[for="forecast-end"] {
+      flex: 0 0 auto;
+      min-width: auto;
+      width: auto;
+    }
+
+    label[for="forecast-start"] input[type="date"],
+    label[for="forecast-end"] input[type="date"] {
+      width: 9rem;         // ancho visual razonable para fecha (ajustable)
+      max-width: 100%;
+      padding: 0.35rem 0.45rem;
+      box-sizing: border-box;
+    }
+
+    // Valor (number) en la misma fila: ancho moderado y alineado a la derecha
+    label[for="forecast-value"] {
+      flex: 0 0 auto;
+      min-width: auto;
+      width: auto;
+    }
+    label[for="forecast-value"] input[type="number"] {
+      width: 6.5rem;
+      padding: 0.35rem 0.45rem;
+      box-sizing: border-box;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    // Quitar spin buttons en number inputs (WebKit/Blink) y apariencia textfield en Firefox
+    input[type="number"] {
+      -webkit-appearance: none;   // Chrome, Safari, Edge (Blink / WebKit)
+      -moz-appearance: textfield; // Firefox: mantener apariencia de textfield sin flechas
+      appearance: textfield;      // propiedad estándar (evita warnings y mejora compatibilidad)
+    }
+
+
+    /* Remover los botones en WebKit (necesario además de -webkit-appearance) */
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
 
     .tz-row {
       display: flex;
@@ -164,4 +248,23 @@ $shadow-md: 0 6px 18px rgba(16,24,40,0.06);
     align-items: stretch;
   }
   .forecast-creation .modal-footer { flex-direction: column-reverse; gap: 0.4rem; align-items: stretch; }
+
+  // En móvil hacer inputs horarios y fechas más flexibles
+  .forecast-creation {
+    .hour-fields {
+      flex-direction: column;
+      align-items: stretch;
+      label { width: 100%; }
+      input[type="number"] { width: 6rem; margin-right: 0; }
+    }
+
+    label[for="forecast-start"] input[type="date"],
+    label[for="forecast-end"] input[type="date"] {
+      width: 100%;
+    }
+
+    label[for="forecast-value"] input[type="number"] {
+      width: 100%;
+    }
+  }
 }

@@ -1,3 +1,10 @@
+@charset "UTF-8";
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 .forecast-creation {
   font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
   background: #ffffff;
@@ -23,6 +30,8 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  /* ----- Ajustes específicos para campos de hora y fecha ----- */
+  /* Remover los botones en WebKit (necesario además de -webkit-appearance) */
 }
 .forecast-creation form .row {
   display: flex;
@@ -41,7 +50,11 @@
   font-size: 0.95rem;
   color: #6b7280;
 }
-.forecast-creation form .row label select, .forecast-creation form .row label input[type=date], .forecast-creation form .row label input[type=number], .forecast-creation form .row label input[type=text], .forecast-creation form .row label textarea {
+.forecast-creation form .row label select,
+.forecast-creation form .row label input[type=date],
+.forecast-creation form .row label input[type=number],
+.forecast-creation form .row label input[type=text],
+.forecast-creation form .row label textarea {
   border: 1px solid #e6eef8;
   padding: 0.4rem 0.5rem;
   border-radius: 6px;
@@ -50,7 +63,9 @@
   color: #0f172a;
   transition: border-color 0.12s ease;
 }
-.forecast-creation form .row label select:focus, .forecast-creation form .row label input:focus, .forecast-creation form .row label textarea:focus {
+.forecast-creation form .row label select:focus,
+.forecast-creation form .row label input:focus,
+.forecast-creation form .row label textarea:focus {
   outline: none;
   border-color: #6366f1;
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.06);
@@ -61,10 +76,66 @@
   padding-top: 0.25rem;
 }
 .forecast-creation form .hour-fields {
+  display: flex;
+  gap: 0.5rem;
   align-items: center;
+  padding-top: 0.25rem;
 }
 .forecast-creation form .hour-fields .hint {
   margin-left: 0.5rem;
+  color: #6b7280;
+  font-size: 0.85rem;
+}
+.forecast-creation form .hour-fields label {
+  flex: 0 0 auto;
+  min-width: auto;
+  width: auto;
+  font-size: 0.92rem;
+}
+.forecast-creation form .hour-fields label > input[type=number] {
+  margin-top: 0.15rem;
+}
+.forecast-creation form .hour-fields input[type=number] {
+  width: 3.6rem;
+  max-width: 100%;
+  padding: 0.25rem 0.3rem;
+  text-align: center;
+  font-size: 14px;
+}
+.forecast-creation form label[for=forecast-start],
+.forecast-creation form label[for=forecast-end] {
+  flex: 0 0 auto;
+  min-width: auto;
+  width: auto;
+}
+.forecast-creation form label[for=forecast-start] input[type=date],
+.forecast-creation form label[for=forecast-end] input[type=date] {
+  width: 9rem;
+  max-width: 100%;
+  padding: 0.35rem 0.45rem;
+  box-sizing: border-box;
+}
+.forecast-creation form label[for=forecast-value] {
+  flex: 0 0 auto;
+  min-width: auto;
+  width: auto;
+}
+.forecast-creation form label[for=forecast-value] input[type=number] {
+  width: 6.5rem;
+  padding: 0.35rem 0.45rem;
+  box-sizing: border-box;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.forecast-creation form input[type=number] {
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+.forecast-creation form input[type=number]::-webkit-outer-spin-button,
+.forecast-creation form input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 .forecast-creation form .tz-row {
   display: flex;
@@ -135,5 +206,23 @@
     flex-direction: column-reverse;
     gap: 0.4rem;
     align-items: stretch;
+  }
+  .forecast-creation .hour-fields {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .forecast-creation .hour-fields label {
+    width: 100%;
+  }
+  .forecast-creation .hour-fields input[type=number] {
+    width: 6rem;
+    margin-right: 0;
+  }
+  .forecast-creation label[for=forecast-start] input[type=date],
+  .forecast-creation label[for=forecast-end] input[type=date] {
+    width: 100%;
+  }
+  .forecast-creation label[for=forecast-value] input[type=number] {
+    width: 100%;
   }
 }/*# sourceMappingURL=create-forecast.css.map */
