@@ -1,0 +1,167 @@
+// Forecast create — SCSS anidado, moderno y corporativo
+// Reusa variables y tamaños del fragment anterior
+$font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+$base-font-size: 14px;
+$spacing: 0.75rem;
+$radius: 8px;
+
+$color-bg: #ffffff;
+$color-surface: #f8fafc;
+$color-primary: #1e3a8a;
+$color-accent: #6366f1;
+$color-muted: #6b7280;
+$color-border: #e6eef8;
+$shadow-sm: 0 1px 2px rgba(16,24,40,0.04);
+$shadow-md: 0 6px 18px rgba(16,24,40,0.06);
+
+.forecast-creation {
+  font-family: $font-family;
+  background: $color-bg;
+  border: 1px solid $color-border;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: $shadow-sm;
+  color: #0f172a;
+  min-width: 320px;
+
+  h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.125rem;
+    color: $color-primary;
+    font-weight: 600;
+  }
+
+  #forecast-status {
+    font-size: 0.9rem;
+    color: $color-muted;
+    margin-bottom: 0.6rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    .row {
+      display: flex;
+      gap: 0.6rem;
+      align-items: flex-end;
+
+      &.compact {
+        flex-wrap: wrap;
+      }
+
+      label {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        min-width: 8ch;
+        flex: 1 1 auto;
+        font-size: 0.95rem;
+        color: $color-muted;
+
+        select, input[type="date"], input[type="number"], input[type="text"], textarea {
+          border: 1px solid $color-border;
+          padding: 0.4rem 0.5rem;
+          border-radius: 6px;
+          background: $color-bg;
+          font-size: $base-font-size;
+          color: #0f172a;
+          transition: border-color .12s ease;
+        }
+
+        select:focus, input:focus, textarea:focus {
+          outline: none;
+          border-color: $color-accent;
+          box-shadow: 0 0 0 3px rgba(99,102,241,0.06);
+        }
+      }
+
+      .hint {
+        font-size: 0.85rem;
+        color: $color-muted;
+        padding-top: 0.25rem;
+      }
+    }
+
+    .hour-fields {
+      align-items: center;
+      .hint { margin-left: .5rem; }
+    }
+
+    .tz-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+
+      #detect-tz {
+        padding: 0.35rem 0.5rem;
+        border-radius: 6px;
+        border: 1px solid $color-border;
+        background: transparent;
+        color: $color-primary;
+        cursor: pointer;
+      }
+    }
+
+    .form-group {
+      label { width: 100%; }
+      textarea {
+        resize: vertical;
+      }
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: flex-end;
+      align-items: center;
+
+      .btn {
+        &.btn-primary {
+          background: linear-gradient(180deg, $color-primary, darken($color-primary, 8%));
+          color: #fff;
+          border: none;
+          padding: 0.45rem 0.75rem;
+          border-radius: $radius;
+          font-weight: 600;
+          box-shadow: $shadow-md;
+          cursor: pointer;
+        }
+        &.btn-secondary {
+          background: transparent;
+          border: 1px solid $color-border;
+          color: $color-primary;
+          padding: 0.4rem 0.65rem;
+          border-radius: $radius;
+          cursor: pointer;
+        }
+        &.btn-link {
+          background: transparent;
+          border: none;
+          color: $color-primary;
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .compact-preview {
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+      color: $color-muted;
+      background: $color-surface;
+      padding: 0.5rem;
+      border-radius: 6px;
+      border: 1px solid $color-border;
+    }
+  }
+}
+
+/* Responsive */
+@media (max-width: 760px) {
+  .forecast-creation form .row.compact {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .forecast-creation .modal-footer { flex-direction: column-reverse; gap: 0.4rem; align-items: stretch; }
+}
