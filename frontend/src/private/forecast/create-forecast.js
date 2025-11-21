@@ -209,38 +209,75 @@ function initDetectTz() {
   });
 }
 
-function toggleHourlyFields() {
+
+
+function getNormalizedSelectedPeriodicity() {
   const sel = qs('#forecast-periodicity');
+  if (!sel) return null;
+
+  const selected = sel.selectedOptions?.[0] ?? sel.options[sel.selectedIndex];
+  if (!selected) return null;
+
+  // Construir mapa: map[textContent.toUpperCase()] -> value.toUpperCase()
+  const map = {};
+  for (const opt of sel.options) {
+    const val = String(opt.value ?? '').trim();
+    const txt = String(opt.textContent ?? '').trim();
+    if (val) {
+      map[val.toUpperCase()] = val.toUpperCase();
+    }
+    if (txt) {
+      // Si value está vacío, mapeamos texto -> texto (fallback)
+      map[txt.toUpperCase()] = (val ? val.toUpperCase() : txt.toUpperCase());
+    }
+    // también soportar data-value si existe (th:attr="data-value=${p.name()}" caso alternativo)
+    const dv = opt.dataset?.value;
+    if (dv) map[dv.toUpperCase()] = dv.toUpperCase();
+  }
+
+  const selVal = String(selected.value ?? '').trim().toUpperCase();
+  const selText = String(selected.textContent ?? '').trim().toUpperCase();
+
+  // Priorizar value, luego data/value mapeado, luego text mapeado
+  if (selVal) return map[selVal] ?? selVal;
+  if (map[selText]) return map[selText];
+  if (selText) return selText;
+  return null;
+}
+
+
+function toggleHourlyFields() {
   const hourly = qs('.hour-fields');
-
-  if (!hourly) return;
-
-  // Si no existe el select, mantenemos ocultos los campos por seguridad
-  if (!sel) {
-    hourly.hidden = true;
-    hourly.setAttribute('aria-hidden', 'true');
+  if (!hourly) {
+    console.debug('toggleHourlyFields: .hour-fields no existe');
     return;
   }
 
-  // Normalizar el value para evitar problemas con displayName vs name()
-  const raw = String(sel.value ?? '').trim();
-  const val = raw.toUpperCase(); // esperamos "HOURLY" como name() del enum
+  const norm = getNormalizedSelectedPeriodicity();
+  const isHourly = String(norm ?? '').toUpperCase() === 'HOURLY';
 
-  const isHourly = val === 'HOURLY';
+  // Mostrar/ocultar de forma contundente (style.display) para evitar interferencias de CSS
+  if (isHourly) {
+    hourly.style.display = ''; // permite el estilo por defecto
+    hourly.hidden = false;
+    hourly.setAttribute('aria-hidden', 'false');
 
-  // Mostrar/ocultar de forma robusta
-  hourly.hidden = !isHourly;
-  hourly.setAttribute('aria-hidden', (!isHourly).toString());
-
-  // Si ocultamos, limpiamos los valores de hora para evitar envíos inválidos
-  if (!isHourly) {
     const s = qs('#forecast-start-hour');
     const e = qs('#forecast-end-hour');
-    if (s) s.value = '';
-    if (e) e.value = '';
+    if (s) s.required = true;
+    if (e) e.required = true;
+  } else {
+    hourly.style.display = 'none';
+    hourly.hidden = true;
+    hourly.setAttribute('aria-hidden', 'true');
+
+    const s = qs('#forecast-start-hour');
+    const e = qs('#forecast-end-hour');
+    if (s) { s.value = ''; s.required = false; }
+    if (e) { e.value = ''; e.required = false; }
   }
 
-  console.debug('toggleHourlyFields -> periodicity=', raw, 'isHourly=', isHourly);
+  console.debug('toggleHourlyFields -> normalized:', norm, 'isHourly:', isHourly);
 }
 
 
@@ -248,9 +285,9 @@ function initPeriodicityToggle() {
   const sel = qs('#forecast-periodicity');
   const hourly = qs('.hour-fields');
 
-  // Asegurar estado inicial (en caso de que el script se ejecute antes o después del DOM)
   if (hourly) {
-    // Si la vista dejó hidden en el HTML, mantenemos oculto hasta comprobar
+    // inicio oculto hasta comprobar
+    hourly.style.display = 'none';
     hourly.hidden = true;
     hourly.setAttribute('aria-hidden', 'true');
   }
@@ -260,16 +297,13 @@ function initPeriodicityToggle() {
     return;
   }
 
-  // Ligar ambos eventos para mayor compatibilidad (change y input)
   sel.addEventListener('change', toggleHourlyFields);
   sel.addEventListener('input', toggleHourlyFields);
 
-  // Ejecutar una vez para fijar el estado inicial (útil si hay prefill)
-  try {
-    toggleHourlyFields();
-  } catch (err) {
-    console.error('toggleHourlyFields error', err);
-  }
+  // Ejecutar inmediatamente (pequeño retraso para permitir que otros scripts/thymeleaf terminen)
+  setTimeout(() => {
+    try { toggleHourlyFields(); } catch (err) { console.error('toggleHourlyFields init error', err); }
+  }, 10);
 }
 
 
