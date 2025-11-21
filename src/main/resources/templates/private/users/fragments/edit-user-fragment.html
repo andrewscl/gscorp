@@ -1,32 +1,100 @@
 <section th:fragment="content" class="detail-section">
   <h2>Usuario</h2>
 
-  <p><strong>ID:</strong> <span th:text="${user.id}"></span></p>
-  <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
-  <p><strong>Mail:</strong> <span th:text="${user.mail}"></span></p>
+  <div id="user-status" aria-live="polite" class="status-message">Edita los campos y pulsa Guardar para aplicar cambios</div>
 
-  <div class="roles-block">
-    <strong>Roles:</strong>
-    <span th:each="r : ${user.roles}" th:text="${r.role}" class="tag"></span>
-    <em th:if="${#lists.isEmpty(user.roles)}">Sin roles</em>
-  </div>
+  <form id="edit-user-form"
+        th:attr="data-user-endpoint=@{/api/users/{id}(id=${user.id})}"
+        autocomplete="off">
 
-  <div class="clients-block">
-    <strong>Roles:</strong>
-    <span th:each="c : ${user.clients}" th:text="${c.name}" class="tag"></span>
-    <em th:if="${#lists.isEmpty(user.clients)}">Sin clientes</em>
-  </div>
+    <div class="form-row">
+      <label>ID
+        <input type="text" name="id" th:value="${user.id}" readonly />
+      </label>
 
-  <div class="actions">
-    <a class="vs-btn vs-secondary"
-        href="#" data-path="/private/users/table-view">
-          Volver al listado</a>
+      <label>Username
+        <input id="user-username" name="username" type="text" required
+               th:value="${user.username}" />
+      </label>
 
-    <button type="button" class="vs-btn vs-danger"
-        id="deleteUserBtn" th:attr="data-id=${user.id}">
-          Eliminar usuario</button>
-  </div>
+      <label>Mail
+        <input id="user-mail" name="mail" type="email" required
+               th:value="${user.mail}" />
+      </label>
+
+      <label>Activo
+        <input id="user-active" name="active" type="checkbox"
+               th:checked="${user.active}" />
+      </label>
+    </div>
+
+    <div class="form-row">
+      <label for="user-roleIds">Roles (múltiple)
+        <select id="user-roleIds" name="roleIds" multiple size="6">
+          <option th:each="r : ${rolesAvailable}"
+                  th:value="${r.id}"
+                  th:text="${r.name != null ? r.name : r.role}"
+                  th:selected="${user.roles != null and user.roles.contains(r)}">
+          </option>
+        </select>
+      </label>
+
+      <label for="user-clientIds">Clientes (múltiple)
+        <select id="user-clientIds" name="clientIds" multiple size="6">
+          <option th:each="c : ${clientsAvailable}"
+                  th:value="${c.id}"
+                  th:text="${c.name}"
+                  th:selected="${user.clients != null and user.clients.contains(c)}">
+          </option>
+        </select>
+      </label>
+
+      <label for="user-employeeId">Empleado (opcional)
+        <select id="user-employeeId" name="employeeId">
+          <option value="">-- ninguno --</option>
+          <option th:each="e : ${employeesAvailable}"
+                  th:value="${e.id}"
+                  th:text="${e.fullName != null ? e.fullName : e.id}"
+                  th:selected="${user.employee != null and user.employee.id == e.id}">
+          </option>
+        </select>
+      </label>
+    </div>
+
+    <div class="form-row">
+      <label for="user-timeZone">Zona horaria (IANA)
+        <input id="user-timeZone" name="timeZone" type="text" placeholder="Europe/Madrid"
+               th:value="${user.timeZone}" />
+      </label>
+
+      <button id="detect-user-tz" type="button" class="vs-btn vs-secondary" aria-label="Detectar zona">Detectar zona</button>
+    </div>
+
+    <div class="roles-block">
+      <strong>Roles actuales:</strong>
+      <div class="tags">
+        <span th:each="r : ${user.roles}" th:text="${r.role}" class="tag"></span>
+        <em th:if="${#lists.isEmpty(user.roles)}">Sin roles</em>
+      </div>
+    </div>
+
+    <div class="clients-block">
+      <strong>Clientes actuales:</strong>
+      <div class="tags">
+        <span th:each="c : ${user.clients}" th:text="${c.name}" class="tag"></span>
+        <em th:if="${#lists.isEmpty(user.clients)}">Sin clientes</em>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="submit" id="saveUserBtn" class="vs-btn vs-primary">Guardar cambios</button>
+
+      <a class="vs-btn vs-secondary" href="#" data-path="/private/users/table-view">Volver al listado</a>
+
+      <button type="button" id="deleteUserBtn" class="vs-btn vs-danger"
+              th:attr="data-id=${user.id}">Eliminar usuario</button>
+    </div>
+  </form>
 
   <script type="module" src="/js/private/admin/users/edit-user.js"></script>
-
 </section>

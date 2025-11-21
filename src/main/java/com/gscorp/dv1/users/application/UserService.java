@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import com.gscorp.dv1.users.infrastructure.User;
 import com.gscorp.dv1.users.web.dto.CreateUserRequest;
 import com.gscorp.dv1.users.web.dto.InviteUserRequest;
+import com.gscorp.dv1.users.web.dto.UserUpdateDto;
 
 public interface UserService {
     Long createUser(CreateUserRequest req);
@@ -34,6 +35,8 @@ public interface UserService {
      *cd .. Devuelve Optional.empty() si no existe user o no está definida/válida.
      */
     Optional<ZoneId> getUserZone(Long userId);
+
+    Optional<User> updateUser(Long userId, UserUpdateDto dto);
 
 
 }

@@ -27,6 +27,7 @@ import com.gscorp.dv1.users.infrastructure.User;
 import com.gscorp.dv1.users.infrastructure.UserRepository;
 import com.gscorp.dv1.users.web.dto.CreateUserRequest;
 import com.gscorp.dv1.users.web.dto.InviteUserRequest;
+import com.gscorp.dv1.users.web.dto.UserUpdateDto;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -274,6 +275,97 @@ public class UserServiceImpl implements UserService{
             log.error("Error leyendo zona para user {}: {}", userId, ex.getMessage(), ex);
             return Optional.empty();
         }
+    }
+
+
+
+    @Override
+    @Transactional
+    public Optional<User> updateUser(Long userId, UserUpdateDto dto) {
+        if (userId == null) throw new IllegalArgumentException("userId es requerido");
+        if (dto == null) throw new IllegalArgumentException("user update dto es requerido");
+
+        Optional<User> optUser = userRepo.findById(userId);
+        if (optUser.isEmpty()) {
+            return Optional.empty();
+        }
+
+        User user = optUser.get();
+
+        // Campos simples
+        if (dto.username() != null) {
+            user.setUsername(dto.username().trim());
+        }
+
+        if (dto.mail() != null) {
+            user.setMail(dto.mail().trim());
+        }
+
+        if (dto.active() != null) {
+            user.setActive(dto.active());
+        }
+
+        // Asociaciones: roles
+        if (dto.roleIds() != null) {
+            Set<Role> roles = new HashSet<>();
+            if (!dto.roleIds().isEmpty()) {
+                Iterable<Role> found = roleRepo.findAllById(dto.roleIds());
+                found.forEach(roles::add);
+                // opcional: validar que se encontraron todas las ids solicitadas
+                if (roles.size() != dto.roleIds().size()) {
+                    log.warn("Algunas roleIds no existen al actualizar user {}: solicitado={}, encontrados={}", userId, dto.roleIds(), roles.size());
+                    // Puedes optar por lanzar excepción en lugar de ignorar
+                    // throw new EntityNotFoundException("Algunas roles no existen");
+                }
+            }
+            user.setRoles(roles);
+        }
+
+        // Asociaciones: clients
+        if (dto.clientIds() != null) {
+            Set<Client> clients = new HashSet<>();
+            if (!dto.clientIds().isEmpty()) {
+                Iterable<Client> found = clientRepo.findAllById(dto.clientIds());
+                found.forEach(clients::add);
+                if (clients.size() != dto.clientIds().size()) {
+                    log.warn("Algunas clientIds no existen al actualizar user {}: solicitado={}, encontrados={}", userId, dto.clientIds(), clients.size());
+                    // opcional: lanzar excepción
+                }
+            }
+            user.setClients(clients);
+        }
+
+        // Employee (one-to-one)
+        if (dto.employeeId() != null) {
+            Long empId = dto.employeeId();
+            Optional<Employee> empOpt = employeeRepo.findById(empId);
+            if (empOpt.isPresent()) {
+                user.setEmployee(empOpt.get());
+            } else {
+                log.warn("Employee id {} no encontrado al actualizar usuario {}", empId, userId);
+                // opcional: throw new EntityNotFoundException(...)
+                user.setEmployee(null);
+            }
+        }
+
+        // Time zone validation
+        if (dto.timeZone() != null) {
+            String tz = dto.timeZone().trim();
+            if (tz.isEmpty()) {
+                user.setTimeZone(null);
+            } else {
+                try {
+                    ZoneId.of(tz); // valida
+                    user.setTimeZone(tz);
+                } catch (DateTimeException dex) {
+                    throw new IllegalArgumentException("timeZone inválida: " + tz, dex);
+                }
+            }
+        }
+
+        // Persistir cambios
+        User saved = userRepo.save(user);
+        return Optional.of(saved);
     }
 
 
