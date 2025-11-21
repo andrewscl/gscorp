@@ -1,27 +1,31 @@
 // Módulo cliente para la tabla de forecasts (ES module).
-// IMPORTS: utiliza las utilidades del SPA (fetchWithAuth y navigateTo) para
-// navegar sin recargar toda la página y para llamadas autenticadas.
+// IMPORTS: utiliza las utilidades del SPA (fetchWithAuth y navigateTo).
 import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
 
 // ========== CONFIG ==========
 const DEFAULT_PAGE_SIZE = 500;
 
+// Evitar doble init
+if (!window.__forecastTable) window.__forecastTable = {};
+if (!window.__forecastTable.inited) window.__forecastTable.inited = false;
+
 // ========== Helpers ==========
-function buildQuery(params){
-  const esc = encodeURIComponent;
-  return Object.entries(params)
-    .filter(([k,v]) => v != null && String(v).trim() !== '')
-    .map(([k,v]) => esc(k) + '=' + esc(v))
-    .join('&');
+function buildQuery(params) {
+  const search = new URLSearchParams();
+  Object.entries(params).forEach(([k, v]) => {
+    if (v == null) return;
+    const s = String(v).trim();
+    if (s === '') return;
+    search.set(k, s);
+  });
+  return search.toString();
 }
 
 function goTo(path, force = false) {
   try {
-    // Usamos la navegación SPA proporcionada por navigation-handler
     navigateTo(path, force);
   } catch (e) {
-    // Fallback mínimo (nunca debería pasar si navigation-handler está presente)
     console.warn('[forecast-table] navigateTo falló, usando location.href', e);
     window.location.href = path;
   }
@@ -32,70 +36,91 @@ async function handleDelete(path) {
   try {
     const res = await fetchWithAuth(path, { method: 'DELETE', credentials: 'same-origin' });
     if (!res.ok) {
-      const body = await res.json().catch(() => ({}));
-      throw new Error(body.error || `Error ${res.status}`);
+      // Intentar parsear JSON, si no, mostrar status
+      let body = {};
+      try {
+        body = await res.json();
+      } catch (e) {
+        // no-op
+      }
+      throw new Error(body?.error || `Error ${res.status}`);
     }
-    // Refrescar la vista de la tabla usando navigateTo (no recarga completa)
-    // Se navega a la ruta actual para recargar el fragmento.
+    // Recargar la vista (SPA)
     goTo(window.location.pathname + window.location.search, true);
   } catch (err) {
     alert('No se pudo eliminar: ' + (err.message || err));
   }
 }
 
-// ========== Event handlers iniciales ==========
+// ========== Event handlers ==========
+function onApplyClick(evt) {
+  const btn = evt.currentTarget;
+  const base = btn.dataset.path || window.location.pathname;
+  const from = document.getElementById('filter-from')?.value;
+  const to = document.getElementById('filter-to')?.value;
+  const zone = document.getElementById('filter-zone')?.value;
+  const page = document.getElementById('filter-page')?.value;
+  const sizeEl = document.getElementById('filter-size');
+  const size = (sizeEl && sizeEl.value) ? sizeEl.value : DEFAULT_PAGE_SIZE;
+
+  const qs = buildQuery({ from, to, zone, page, size });
+  const url = qs ? base + '?' + qs : base;
+  goTo(url, false);
+}
+
+// Delegación global para botones de acción dentro de la tabla
+function onDocumentClick(evt) {
+  const btn = evt.target.closest('.action-btn');
+  if (!btn) return;
+
+  const path = btn.dataset.path || btn.getAttribute('data-path');
+  const action = btn.dataset.action || btn.getAttribute('data-action') || '';
+
+  if (!path) return;
+
+  if (action === 'delete') {
+    handleDelete(path);
+    return;
+  }
+
+  // Ver / Editar / otros: navegar vía SPA
+  goTo(path, true);
+}
+
+// Soporte tecla Enter en inputs (ejecuta aplicar) — delegación por keydown en container
+function onInputKeydown(evt) {
+  if (evt.key !== 'Enter') return;
+  const id = evt.target.id;
+  if (['filter-from', 'filter-to', 'filter-zone'].includes(id)) {
+    evt.preventDefault();
+    const applyBtn = document.getElementById('applyFiltersBtn');
+    applyBtn && applyBtn.click();
+  }
+}
+
+// ========== Init ==========
 function initHandlers() {
+  if (window.__forecastTable.inited) return;
+  window.__forecastTable.inited = true;
+
   const applyBtn = document.getElementById('applyFiltersBtn');
   if (applyBtn) {
-    applyBtn.addEventListener('click', function(){
-      const base = this.getAttribute('data-path') || window.location.pathname;
-      const from = document.getElementById('filter-from')?.value;
-      const to = document.getElementById('filter-to')?.value;
-      const zone = document.getElementById('filter-zone')?.value;
-      const page = document.getElementById('filter-page')?.value;
-      const size = document.getElementById('filter-size')?.value || DEFAULT_PAGE_SIZE;
-      const qs = buildQuery({ from, to, zone, page, size });
-      const url = qs ? base + '?' + qs : base;
-      goTo(url, false);
-    });
+    applyBtn.addEventListener('click', onApplyClick);
   }
 
   const createBtn = document.getElementById('createForecastBtn');
   if (createBtn) {
-    createBtn.addEventListener('click', function(){
-      const path = this.getAttribute('data-path');
+    createBtn.addEventListener('click', function () {
+      const path = this.dataset.path || this.getAttribute('data-path');
       if (path) goTo(path, true);
     });
   }
 
-  // Delegación para botones de acción dentro de la tabla
-  document.querySelectorAll('.action-btn').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      const path = this.getAttribute('data-path');
-      if(!path) return;
-      const action = this.getAttribute('data-action') || '';
-      if (action === 'delete') {
-        // Llamada DELETE via fetchWithAuth para no recargar toda la página.
-        handleDelete(path);
-        return;
-      }
-      // Ver / Editar: navegar vía SPA
-      goTo(path, true);
-    });
-  });
+  // Delegación a nivel de documento para manejar botones que se inyecten dinámicamente
+  document.addEventListener('click', onDocumentClick);
 
-  // Soporte tecla Enter en inputs (ejecuta aplicar)
-  ['filter-from','filter-to','filter-zone'].forEach(function(id){
-    const el = document.getElementById(id);
-    if(el){
-      el.addEventListener('keydown', function(e){
-        if(e.key === 'Enter'){
-          e.preventDefault();
-          applyBtn && applyBtn.click();
-        }
-      });
-    }
-  });
+  // Keydown delegación
+  document.addEventListener('keydown', onInputKeydown);
 }
 
 // ========== Init ==========

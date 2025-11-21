@@ -82,8 +82,6 @@ public class ForecastController {
         return "private/forecast/views/forecast-table-view";
     }
 
-
-
     // Método para mostrar el formulario de creación de Forecast
     @GetMapping("/create")
     public String getForecastCreateForm(Model model, Authentication authentication) {

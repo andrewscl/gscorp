@@ -26,12 +26,12 @@ public interface UserService {
     Long getUserIdFromAuthentication(Authentication authentication);
     boolean isAdmin(Authentication authentication);
 
-    
+
     List<Long> getClientIdsForUser(Long userId);
 
     /**
      * Devuelve la zona de usuario (ID de ZoneId, p.ej. "Europe/Madrid") para el userId dado.
-     * Devuelve Optional.empty() si no existe user o no está definida/válida.
+     *cd .. Devuelve Optional.empty() si no existe user o no está definida/válida.
      */
     Optional<ZoneId> getUserZone(Long userId);
 

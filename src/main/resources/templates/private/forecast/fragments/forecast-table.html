@@ -2,7 +2,7 @@
   <div class="forecast-header">
     <h2>
       <!-- Icono tabla (forecast) -->
-      <svg width="24" height="24" viewBox="0 0 24 24" style="vertical-align:-6px;margin-right:.5rem">
+      <svg width="24" height="24" viewBox="0 0 24 24" style="vertical-align:-6px;margin-right:.5rem" aria-hidden="true">
         <rect x="2" y="4" width="20" height="16" rx="2" fill="#eef2ff" stroke="#6366f1" stroke-width="1"/>
         <path d="M6 12h12M6 8h12M6 16h8" stroke="#4f46e5" stroke-width="1.5" stroke-linecap="round"/>
       </svg>
@@ -10,33 +10,35 @@
     </h2>
 
     <div class="filters-row" role="toolbar" aria-label="Filtros de forecasts">
-      <label>
-        Desde
-        <input id="filter-from" type="date" name="from"
+      <label class="filter-item">
+        <span class="filter-label">Desde</span>
+        <input id="filter-from" class="filter-input" type="date" name="from"
                th:value="${from != null ? #dates.format(from, 'yyyy-MM-dd') : ''}" />
       </label>
-      <label>
-        Hasta
-        <input id="filter-to" type="date" name="to"
+
+      <label class="filter-item">
+        <span class="filter-label">Hasta</span>
+        <input id="filter-to" class="filter-input" type="date" name="to"
                th:value="${to != null ? #dates.format(to, 'yyyy-MM-dd') : ''}" />
       </label>
-      <label>
-        Zona
-        <input id="filter-zone" type="text" name="zone" placeholder="Europe/Madrid"
+
+      <label class="filter-item">
+        <span class="filter-label">Zona</span>
+        <input id="filter-zone" class="filter-input" type="text" name="zone" placeholder="Europe/Madrid"
                th:value="${zone != null ? zone : ''}" />
       </label>
 
       <!-- Navegación cliente-side usando data-path (sin form submit) -->
-      <button id="applyFiltersBtn" class="btn-secondary"
-              th:attr="data-path=@{/private/forecast/table-view}">
+      <button id="applyFiltersBtn" class="btn btn-secondary"
+              th:attr="data-path=@{/private/forecast/table-view}" aria-label="Aplicar filtros">
         Aplicar
       </button>
 
       <div style="margin-left:auto">
-        <button id="createForecastBtn" class="btn-primary"
-                th:attr="data-path=@{/private/forecast/create}">
+        <button id="createForecastBtn" class="btn btn-primary"
+                th:attr="data-path=@{/private/forecast/create}" aria-label="Nuevo forecast">
           <!-- icono + -->
-          <svg width="16" height="16" style="vertical-align:middle;margin-right:.25rem">
+          <svg width="16" height="16" style="vertical-align:middle;margin-right:.25rem" aria-hidden="true">
             <circle cx="8" cy="8" r="7" fill="#dbeafe" stroke="#1e3a8a" stroke-width="1"/>
             <path d="M8 5v6M5 8h6" stroke="#1e3a8a" stroke-width="1.5" stroke-linecap="round"/>
           </svg>
@@ -47,11 +49,10 @@
   </div>
 
   <div class="forecast-table-container">
-    <table class="forecasts-table">
+    <table class="forecasts-table" role="table" aria-label="Tabla de forecasts">
       <thead>
         <tr>
           <th>ID</th>
-          <th>Cliente</th>
           <th>Proyecto</th>
           <th>Sitio</th>
           <th>Métrica</th>
@@ -59,7 +60,6 @@
           <th>Periodo fin</th>
           <th>Valor</th>
           <th>Unidades</th>
-          <th>Versión</th>
           <th>Activo</th>
           <th>Acciones</th>
         </tr>
@@ -69,7 +69,6 @@
           <td th:text="${r.id}">-</td>
 
           <!-- muestra nombre si está disponible, si no fallback a id -->
-          <td th:text="${r.clientName != null ? r.clientName : (r.clientId != null ? r.clientId : '—')}">—</td>
           <td th:text="${r.projectName != null ? r.projectName : (r.projectId != null ? r.projectId : '—')}">—</td>
           <td th:text="${r.siteName != null ? r.siteName : (r.siteId != null ? r.siteId : '—')}">—</td>
 
@@ -81,8 +80,6 @@
 
           <td th:text="${r.value != null ? r.value : '—'}">—</td>
           <td th:text="${r.units != null ? r.units : '—'}">—</td>
-
-          <td th:text="${r.forecastVersion != null ? r.forecastVersion : '—'}">—</td>
 
           <td>
             <span class="tag" th:classappend="${r.isActive} ? ' active' : ' inactive'">
@@ -112,7 +109,7 @@
         </tr>
 
         <tr th:if="${#lists.isEmpty(forecastRecords)}">
-          <td colspan="12" class="empty">No se encontraron registros para el rango seleccionado.</td>
+          <td colspan="10" class="empty">No se encontraron registros para el rango seleccionado.</td>
         </tr>
       </tbody>
     </table>
