@@ -89,7 +89,7 @@ async function handleSave(form) {
 
     // Enviar PATCH con JSON (ajusta a PUT si tu API lo requiere)
     const res = await fetchWithAuth(endpoint, {
-      method: 'POST',
+      method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     });

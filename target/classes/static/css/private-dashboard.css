@@ -42,15 +42,15 @@ body[data-layout=private] .sidebar .menu {
 body[data-layout=private] .sidebar .menu .menu-item,
 body[data-layout=private] .sidebar .menu summary {
   font-family: "Roboto", Arial, sans-serif;
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: 0.9rem;
+  font-weight: 400;
   display: flex;
   align-items: center;
   gap: 0.76rem;
   padding: 0.5rem 1rem;
   color: #222e3a;
   background: transparent;
-  border-radius: 9px;
+  border-radius: 7px;
   cursor: pointer;
   transition: background 0.18s, color 0.18s;
   letter-spacing: 0.01em;
@@ -90,7 +90,7 @@ body[data-layout=private] .sidebar .menu .menu-group summary.menu-item::after {
   right: 1.1rem;
   top: 50%;
   transform: translateY(-50%) rotate(90deg);
-  font-size: 1em;
+  font-size: 0.9rem;
   color: #94a3b8;
   transition: transform 0.18s, color 0.18s;
 }
@@ -114,8 +114,8 @@ body[data-layout=private] .sidebar .menu .menu-group .submenu .submenu-item {
   border-radius: 7px;
   text-decoration: none;
   font-family: "Roboto", Arial, sans-serif;
-  font-size: 0.875rem;
-  font-weight: 400;
+  font-size: 0.85rem;
+  font-weight: 300;
   letter-spacing: 0.01em;
   position: relative;
   transition: background 0.18s, color 0.18s;

@@ -56,6 +56,7 @@ export default defineConfig({
         'private/client-accounts/create-client-account': path.resolve(__dirname, './src/private/client-accounts/create-client-account.js'),
         'private/client-accounts/edit-client-account': path.resolve(__dirname, './src/private/client-accounts/edit-client-account.js'),
         'private/forecast/forecast-table': path.resolve(__dirname, './src/private/forecast/forecast-table.js'),
+        'private/forecast/create-forecast': path.resolve(__dirname, './src/private/forecast/create-forecast.js'),
       },
       output: {
         entryFileNames: '[name].js'
