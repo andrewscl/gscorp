@@ -1,11 +1,12 @@
 import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
 
-console.log('create-forecast.js cargado');
+console.log('create-forecast.js cargado (mejorado)');
 
 const qs = (s, ctx = document) => ctx.querySelector(s);
+const qsa = (s, ctx = document) => Array.from((ctx || document).querySelectorAll(s));
 
-// Mensajes en #forecast-status
+/* ---------- UI helpers ---------- */
 function showStatus(msg, { error = false, timeout = 4000 } = {}) {
   const el = qs('#forecast-status');
   if (!el) return;
@@ -16,7 +17,6 @@ function showStatus(msg, { error = false, timeout = 4000 } = {}) {
   }
 }
 
-// Limpia preview
 function clearPreview() {
   const p = qs('#forecast-preview');
   const t = qs('#forecast-preview-text');
@@ -25,7 +25,7 @@ function clearPreview() {
   p.hidden = true;
 }
 
-// Construye payload alineado con ForecastCreateDto
+/* ---------- Form serialization & validation ---------- */
 function buildPayload(form) {
   const clientId = qs('#forecast-client', form)?.value ?? '';
   const projectId = qs('#forecast-project', form)?.value ?? '';
@@ -105,6 +105,7 @@ function basicValidation(payload) {
   return null;
 }
 
+/* ---------- Submit ---------- */
 async function submitForecast(endpoint, payload) {
   const res = await fetchWithAuth(endpoint, {
     method: 'POST',
@@ -114,18 +115,14 @@ async function submitForecast(endpoint, payload) {
   return res;
 }
 
-/* --- Handlers --- */
+/* ---------- Handlers ---------- */
 async function onSubmitCreate(e) {
   e.preventDefault();
   const form = qs('#forecast-form');
   if (!form) return;
 
-  const errEl = qs('#forecast-status');
-  if (errEl) errEl.textContent = '';
-
   const submitBtn = qs('#forecast-save', form);
   if (submitBtn) submitBtn.disabled = true;
-
   try {
     const payload = buildPayload(form);
     const vErr = basicValidation(payload);
@@ -162,7 +159,7 @@ async function onSubmitCreate(e) {
       try {
         const body = await res.json();
         msg = body?.message || body?.error || JSON.stringify(body);
-      } catch (e) {
+      } catch (err) {
         msg = await res.text().catch(() => msg);
       }
       throw new Error(msg);
@@ -172,7 +169,6 @@ async function onSubmitCreate(e) {
     form.reset();
     clearPreview();
 
-    // redirigir
     setTimeout(() => {
       const redirect = form.dataset.postUrl || '/private/forecast/table-view';
       navigateTo(redirect, true);
@@ -192,7 +188,7 @@ function onCancel(e) {
   navigateTo(cancelPath, true);
 }
 
-/* --- Helpers: TZ detect, periodicity toggle, cascading selects --- */
+/* ---------- TZ + periodicity helpers ---------- */
 function initDetectTz() {
   const btn = qs('#detect-tz');
   const tzInput = qs('#forecast-tz');
@@ -237,30 +233,81 @@ function initPeriodicityToggle() {
   toggleHourlyFields();
 }
 
+/* ---------- Fetch helpers for cascading selects ---------- */
+async function fetchJson(url) {
+  const res = await fetchWithAuth(url, { method: 'GET', headers: { 'Accept': 'application/json' } });
+  if (!res.ok) {
+    const text = await res.text().catch(() => '');
+    throw new Error(`HTTP ${res.status} ${text}`);
+  }
+  return res.json();
+}
+
+function safeGetId(obj) {
+  if (obj == null) return null;
+  return obj.id ?? obj.projectId ?? obj.siteId ?? obj.value ?? null;
+}
+function safeGetName(obj) {
+  if (obj == null) return null;
+  return obj.name ?? obj.title ?? obj.projectName ?? obj.siteName ?? String(safeGetId(obj));
+}
+
 async function fetchAndPopulateProjects(clientId) {
   const projectSel = qs('#forecast-project');
   const siteSel = qs('#forecast-site');
   if (!projectSel) return;
+
+  // Save any initial desired selection coming from form attributes:
+  const form = qs('#forecast-form');
+  const desiredProject = form?.dataset?.initialProject ?? qs('#prefill-project')?.value ?? null;
+
+  // reset
   projectSel.innerHTML = '<option value="">-- seleccionar --</option>';
+  projectSel.disabled = true;
   if (siteSel) {
     siteSel.innerHTML = '<option value="">-- (opcional) --</option>';
     siteSel.disabled = true;
   }
-  if (!clientId) { projectSel.disabled = true; return; }
+
+  if (!clientId) {
+    projectSel.disabled = true;
+    return;
+  }
 
   try {
-    const res = await fetchWithAuth(`/api/clients/${clientId}/projects`);
-    if (!res.ok) throw new Error('no projects');
-    const projects = await res.json();
+    const url = `/api/clients/${encodeURIComponent(String(clientId))}/projects`;
+    const raw = await fetchJson(url);
+    // support payloads like { data: [...] } or an array directly
+    const projects = Array.isArray(raw) ? raw : (Array.isArray(raw?.data) ? raw.data : []);
+    if (!Array.isArray(projects) || projects.length === 0) {
+      projectSel.disabled = true;
+      console.debug('fetchAndPopulateProjects: no projects for client', clientId, raw);
+      return;
+    }
+
     projects.forEach(p => {
+      const id = safeGetId(p);
+      const name = safeGetName(p);
+      if (id == null) return;
       const opt = document.createElement('option');
-      opt.value = p.id;
-      opt.textContent = p.name || p.id;
+      opt.value = id;
+      opt.textContent = name;
       projectSel.appendChild(opt);
     });
+
     projectSel.disabled = false;
-  } catch (e) {
-    console.debug('No projects endpoint or failed to load projects', e);
+
+    // try to select desiredProject (from dataset or hidden input) or preserve if already selected
+    const toSelect = (projectSel.value && projectSel.value !== '') ? projectSel.value : (desiredProject ?? '');
+    if (toSelect) {
+      const opt = projectSel.querySelector(`option[value="${toSelect}"]`);
+      if (opt) {
+        opt.selected = true;
+      }
+    }
+
+  } catch (err) {
+    console.error('fetchAndPopulateProjects error', err);
     projectSel.disabled = true;
   }
 }
@@ -268,26 +315,53 @@ async function fetchAndPopulateProjects(clientId) {
 async function fetchAndPopulateSites(projectId) {
   const siteSel = qs('#forecast-site');
   if (!siteSel) return;
+
+  const form = qs('#forecast-form');
+  const desiredSite = form?.dataset?.initialSite ?? qs('#prefill-site')?.value ?? null;
+
   siteSel.innerHTML = '<option value="">-- (opcional) --</option>';
-  if (!projectId) { siteSel.disabled = true; return; }
+  siteSel.disabled = true;
+
+  if (!projectId) {
+    siteSel.disabled = true;
+    return;
+  }
 
   try {
-    const res = await fetchWithAuth(`/api/projects/${projectId}/sites`);
-    if (!res.ok) throw new Error('no sites');
-    const sites = await res.json();
+    const url = `/api/projects/${encodeURIComponent(String(projectId))}/sites`;
+    const raw = await fetchJson(url);
+    const sites = Array.isArray(raw) ? raw : (Array.isArray(raw?.data) ? raw.data : []);
+    if (!Array.isArray(sites) || sites.length === 0) {
+      siteSel.disabled = true;
+      console.debug('fetchAndPopulateSites: no sites for project', projectId, raw);
+      return;
+    }
+
     sites.forEach(s => {
+      const id = safeGetId(s);
+      const name = safeGetName(s);
+      if (id == null) return;
       const opt = document.createElement('option');
-      opt.value = s.id;
-      opt.textContent = s.name || s.id;
+      opt.value = id;
+      opt.textContent = name;
       siteSel.appendChild(opt);
     });
+
     siteSel.disabled = false;
-  } catch (e) {
-    console.debug('No sites endpoint or failed to load sites', e);
+
+    const toSelect = (siteSel.value && siteSel.value !== '') ? siteSel.value : (desiredSite ?? '');
+    if (toSelect) {
+      const opt = siteSel.querySelector(`option[value="${toSelect}"]`);
+      if (opt) opt.selected = true;
+    }
+
+  } catch (err) {
+    console.error('fetchAndPopulateSites error', err);
     siteSel.disabled = true;
   }
 }
 
+/* ---------- Cascading selects init ---------- */
 function initCascadingSelects() {
   const clientSel = qs('#forecast-client');
   const projectSel = qs('#forecast-project');
@@ -295,6 +369,7 @@ function initCascadingSelects() {
   if (clientSel) {
     clientSel.addEventListener('change', async (ev) => {
       const clientId = ev.target.value;
+      // fetch projects for selected client
       await fetchAndPopulateProjects(clientId);
       clearPreview();
     });
@@ -307,9 +382,26 @@ function initCascadingSelects() {
       clearPreview();
     });
   }
+
+  // If a client is preselected on load, populate its projects
+  const clientSelInitial = qs('#forecast-client');
+  if (clientSelInitial && clientSelInitial.value) {
+    // small timeout to ensure DOM other scripts finished
+    setTimeout(() => fetchAndPopulateProjects(clientSelInitial.value).then(() => {
+      // if a project is preselected (server might set it), populate sites
+      const projectSelNow = qs('#forecast-project');
+      if (projectSelNow && projectSelNow.value) {
+        fetchAndPopulateSites(projectSelNow.value);
+      } else {
+        // also check for dataset initialProject on form
+        const initialProject = qs('#forecast-form')?.dataset?.initialProject;
+        if (initialProject) setTimeout(() => fetchAndPopulateSites(initialProject), 200);
+      }
+    }).catch(err => console.debug('init cascading initial load err', err)), 50);
+  }
 }
 
-/* --- Bindings --- */
+/* ---------- Bindings ---------- */
 function bindCreateForm() {
   const form = qs('#forecast-form');
   if (!form) return;
@@ -323,7 +415,7 @@ function bindCreateForm() {
   initCascadingSelects();
 }
 
-/* --- Init --- */
+/* ---------- Auto-init ---------- */
 (function init() {
   bindCreateForm();
 })();
