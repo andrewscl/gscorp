@@ -12,8 +12,7 @@
          Nota: Los <select> se deben poblar desde el servidor o por JS (fetch). -->
     <div class="row compact">
       <label for="forecast-client">Cliente
-        <select id="forecast-client" name="clientId" required
-                th:field="*{clientId}">
+        <select id="forecast-client" name="clientId" required>
           <option value="">-- seleccionar --</option>
           <option th:each="c : ${clients}"
                   th:value="${c.id}"
@@ -25,8 +24,7 @@
 
       <label for="forecast-project">Proyecto
         <select id="forecast-project" name="projectId" disabled required
-                th:attr="disabled=${projects == null or #lists.isEmpty(projects)}"
-                th:field="*{projectId}">
+                th:attr="disabled=${projects == null or #lists.isEmpty(projects)}">
           <option value="">-- seleccionar --</option>
           <option th:each="p : ${projects}"
                   th:value="${p.id}"
@@ -38,8 +36,7 @@
 
       <label for="forecast-site">Sitio
         <select id="forecast-site" name="siteId" disabled
-                th:attr="disabled=${sites == null or #lists.isEmpty(sites)}"
-                th:field="*{siteId}">
+                th:attr="disabled=${sites == null or #lists.isEmpty(sites)}">
           <option value="">-- (opcional) --</option>
           <option th:each="s : ${sites}"
                   th:value="${s.id}"
