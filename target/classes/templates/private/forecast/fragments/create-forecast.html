@@ -23,7 +23,7 @@
       </label>
 
       <label for="forecast-project">Proyecto
-        <select id="forecast-project" name="projectId" disabled required
+        <select id="forecast-project" name="projectId" required
                 th:attr="disabled=${projects == null or #lists.isEmpty(projects)}">
           <option value="">-- seleccionar --</option>
           <option th:each="p : ${projects}"
@@ -35,7 +35,7 @@
       </label>
 
       <label for="forecast-site">Sitio
-        <select id="forecast-site" name="siteId" disabled
+        <select id="forecast-site" name="siteId"
                 th:attr="disabled=${sites == null or #lists.isEmpty(sites)}">
           <option value="">-- (opcional) --</option>
           <option th:each="s : ${sites}"
