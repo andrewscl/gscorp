@@ -212,26 +212,66 @@ function initDetectTz() {
 function toggleHourlyFields() {
   const sel = qs('#forecast-periodicity');
   const hourly = qs('.hour-fields');
-  if (!sel || !hourly) return;
-  if (sel.value === 'HOURLY') {
-    hourly.hidden = false;
-    hourly.setAttribute('aria-hidden', 'false');
-  } else {
+
+  if (!hourly) return;
+
+  // Si no existe el select, mantenemos ocultos los campos por seguridad
+  if (!sel) {
     hourly.hidden = true;
     hourly.setAttribute('aria-hidden', 'true');
+    return;
+  }
+
+  // Normalizar el value para evitar problemas con displayName vs name()
+  const raw = String(sel.value ?? '').trim();
+  const val = raw.toUpperCase(); // esperamos "HOURLY" como name() del enum
+
+  const isHourly = val === 'HOURLY';
+
+  // Mostrar/ocultar de forma robusta
+  hourly.hidden = !isHourly;
+  hourly.setAttribute('aria-hidden', (!isHourly).toString());
+
+  // Si ocultamos, limpiamos los valores de hora para evitar envíos inválidos
+  if (!isHourly) {
     const s = qs('#forecast-start-hour');
     const e = qs('#forecast-end-hour');
     if (s) s.value = '';
     if (e) e.value = '';
   }
+
+  console.debug('toggleHourlyFields -> periodicity=', raw, 'isHourly=', isHourly);
 }
+
 
 function initPeriodicityToggle() {
   const sel = qs('#forecast-periodicity');
-  if (!sel) return;
+  const hourly = qs('.hour-fields');
+
+  // Asegurar estado inicial (en caso de que el script se ejecute antes o después del DOM)
+  if (hourly) {
+    // Si la vista dejó hidden en el HTML, mantenemos oculto hasta comprobar
+    hourly.hidden = true;
+    hourly.setAttribute('aria-hidden', 'true');
+  }
+
+  if (!sel) {
+    console.debug('initPeriodicityToggle: #forecast-periodicity no encontrado');
+    return;
+  }
+
+  // Ligar ambos eventos para mayor compatibilidad (change y input)
   sel.addEventListener('change', toggleHourlyFields);
-  toggleHourlyFields();
+  sel.addEventListener('input', toggleHourlyFields);
+
+  // Ejecutar una vez para fijar el estado inicial (útil si hay prefill)
+  try {
+    toggleHourlyFields();
+  } catch (err) {
+    console.error('toggleHourlyFields error', err);
+  }
 }
+
 
 /* ---------- Fetch helpers for cascading selects ---------- */
 async function fetchJson(url) {
