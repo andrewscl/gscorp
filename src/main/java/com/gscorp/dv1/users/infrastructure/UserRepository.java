@@ -33,6 +33,4 @@ public interface UserRepository extends JpaRepository<User, Long>{
 
     Optional<User> updateUser(Long userId, UserUpdateDto dto);
 
-    Optional<User> findById(Long id);
-
 }
