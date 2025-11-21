@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.gscorp.dv1.forecast.web.dto.ForecastTableRowDto;
+
 @Repository
 public interface ForecastRepository extends JpaRepository<Forecast, Long>{
 
@@ -63,5 +65,32 @@ public interface ForecastRepository extends JpaRepository<Forecast, Long>{
      *
      * O, si tu entidad mantiene LocalDate para periodStart, usa LocalDate params.
      */
+
+        @Query("""
+        select new com.gscorp.dv1.forecast.web.dto.ForecastTableRowDto(
+                f.id,
+                f.projectId,
+                p.name,
+                f.siteId,
+                s.name,
+                f.metric,
+                f.periodStart,
+                f.periodEnd,
+                f.value,
+                f.units,
+                f.isActive
+        )
+        from Forecast f
+        left join f.project p
+        left join f.site s
+        where f.clientId in :clientIds
+        and f.periodStart between :from and :to
+        order by f.periodStart desc
+        """)
+        List<ForecastTableRowDto> findRowsForClientIdsAndDates(
+        @Param("clientIds") List<Long> clientIds,
+        @Param("from") OffsetDateTime from,
+        @Param("to") OffsetDateTime to
+);
 
 }

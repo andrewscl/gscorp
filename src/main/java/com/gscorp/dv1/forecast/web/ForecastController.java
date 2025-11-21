@@ -1,8 +1,8 @@
 package com.gscorp.dv1.forecast.web;
 
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 
@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.gscorp.dv1.clients.application.ClientService;
+import com.gscorp.dv1.components.ZoneResolver;
+import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.forecast.application.ForecastService;
 import com.gscorp.dv1.forecast.web.dto.ForecastFormPayload;
-import com.gscorp.dv1.forecast.web.dto.ForecastRecordDto;
+import com.gscorp.dv1.forecast.web.dto.ForecastTableRowDto;
 import com.gscorp.dv1.users.application.UserService;
 
 import lombok.AllArgsConstructor;
@@ -31,7 +32,7 @@ public class ForecastController {
 
     private final ForecastService forecastService;
     private final UserService userService;
-    private final ClientService clientService;
+    private final ZoneResolver zoneResolver;
 
     // Método para acceder al vista de tabla de Forecasts
     @GetMapping("/table-view")
@@ -42,61 +43,41 @@ public class ForecastController {
         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
         @RequestParam(required = false) String zone
     ) {
-        
+
         Long userId = userService.getUserIdFromAuthentication(authentication);
         if (userId == null) {
             // no autenticado: redirigir al login o devolver error según tu política
             return "redirect:/login";
         }
 
-        // Resolver zona: preferir parámetro, luego zona del usuario (si userService la expone), luego system default
-        ZoneId zoneId;
-        try {
-            if (zone != null && !zone.isBlank()) {
-                zoneId = ZoneId.of(zone);
-            } else {
-                String userZone = null;
-                try {
-                    // userService.getUserZone is optional; si no existe, captura excepción y usa system default
-                    //userZone = userService.getUserZone(userId);
-                } catch (Exception ignored) { }
-                zoneId = (userZone != null && !userZone.isBlank()) ? ZoneId.of(userZone) : ZoneId.systemDefault();
-            }
-        } catch (DateTimeException e) {
-            model.addAttribute("error", "Zona horaria inválida: " + zone);
-            // Mostrar vista vacía con error
-            model.addAttribute("forecastRecords", List.of());
-            model.addAttribute("clientIds", clientService.getClientIdsByUserId(userId));
-            return "private/forecast/views/forecast-table-view";
-        }
+        // Resolver zona
+        ZoneResolutionResult zr = zoneResolver.resolveZone(userId, zone);
+        ZoneId zoneId = zr.zoneId();
 
-        // Defaults para fechas: últimos 30 días
+        // Normalizar fechas con la zona resuelta
         LocalDate today = LocalDate.now(zoneId);
         if (to == null) to = today;
         if (from == null) from = to.minusDays(29);
         if (from.isAfter(to)) {
             model.addAttribute("error", "'from' no puede ser posterior a 'to'");
+            // aún devolvemos la vista con mensaje de error y sin filas
             model.addAttribute("forecastRecords", List.of());
-            model.addAttribute("clientIds", clientService.getClientIdsByUserId(userId));
+            model.addAttribute("fromStr", from.format(DateTimeFormatter.ISO_LOCAL_DATE));
+            model.addAttribute("toStr", to.format(DateTimeFormatter.ISO_LOCAL_DATE));
+            model.addAttribute("zone", zoneId.getId());
+            model.addAttribute("zoneSource", zr.source());
             return "private/forecast/views/forecast-table-view";
         }
 
-        // Obtener clientIds del usuario (para la vista de filtros o validaciones)
-        List<Long> clientIds = clientService.getClientIdsByUserId(userId);
-        model.addAttribute("clientIds", clientIds);
+        // Llamada al service pasando ZoneId validado
+        List<ForecastTableRowDto> rows = forecastService.loadTableRowForUserAndDates(userId, from, to, zoneId);
 
-        // Llamada al servicio para obtener los registros (no paginado aquí; ver nota abajo)
-        List<ForecastRecordDto> forecastRecords = forecastService.getForecastRecordsForUserByDates(
-                userId,
-                from,
-                to,
-                zoneId
-                );
-
-        model.addAttribute("forecastRecords", forecastRecords);
-        model.addAttribute("from", from);
-        model.addAttribute("to", to);
-        model.addAttribute("zone", zoneId.getId());
+        // Poner datos en el model para la vista
+        model.addAttribute("forecastRecords", rows);
+        model.addAttribute("fromStr", from.format(DateTimeFormatter.ISO_LOCAL_DATE));
+        model.addAttribute("toStr", to.format(DateTimeFormatter.ISO_LOCAL_DATE));
+        model.addAttribute("zone", zoneId.getId());       // p.ej. "Europe/Madrid" o "UTC"
+        model.addAttribute("zoneSource", zr.source());
 
         return "private/forecast/views/forecast-table-view";
     }

@@ -6,7 +6,6 @@ import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -17,12 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gscorp.dv1.clients.application.ClientService;
 import com.gscorp.dv1.clients.web.dto.ClientBriefDto;
+import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.forecast.infrastructure.Forecast;
 import com.gscorp.dv1.forecast.infrastructure.ForecastRepository;
 import com.gscorp.dv1.forecast.web.dto.ForecastFormPayload;
 import com.gscorp.dv1.forecast.web.dto.ForecastFormPrefill;
 import com.gscorp.dv1.forecast.web.dto.ForecastPointDto;
-import com.gscorp.dv1.forecast.web.dto.ForecastRecordDto;
+import com.gscorp.dv1.forecast.web.dto.ForecastTableRowDto;
 import com.gscorp.dv1.users.application.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -33,9 +33,12 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class ForecastServiceImpl implements ForecastService{
 
+
     private final UserService userService;
     private final ForecastRepository forecastRepo;
     private final ClientService clientService;
+    private final ZoneResolver zoneResolver;
+
 
     @Override
     @Transactional(readOnly = true)
@@ -95,37 +98,29 @@ public class ForecastServiceImpl implements ForecastService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<ForecastRecordDto> getForecastRecordsForUserByDates(Long userId, LocalDate fromDate, LocalDate toDate, ZoneId zone) {
-        Objects.requireNonNull(userId, "userId es requerido");
-        Objects.requireNonNull(fromDate, "fromDate es requerido");
-        Objects.requireNonNull(toDate, "toDate es requerido");
-        Objects.requireNonNull(zone, "zone es requerido");
+    public List<ForecastTableRowDto> loadTableRowForUserAndDates(
+                            Long userId, LocalDate fromDate, LocalDate toDate, ZoneId zone) {
+            Objects.requireNonNull(userId, "userId es requerido");
+            Objects.requireNonNull(fromDate, "fromDate es requerido");
+            Objects.requireNonNull(toDate, "toDate es requerido");
+            Objects.requireNonNull(zone, "zone es requerido");
 
-        List<Long> clientIds = userService.getClientIdsForUser(userId);
-        if (clientIds == null || clientIds.isEmpty()) {
-            return Collections.emptyList();
-        }
+            List<Long> clientIds = userService.getClientIdsForUser(userId);
+            if (clientIds == null || clientIds.isEmpty()) {
+                return Collections.emptyList();
+            }
 
-        // convertir a OffsetDateTime semi-abierto [fromDate, toDate)
-        OffsetDateTime fromOffset = fromDate.atStartOfDay(zone).toOffsetDateTime();
-        OffsetDateTime toOffset = toDate.plusDays(1).atStartOfDay(zone).toOffsetDateTime();
+            // convertir a OffsetDateTime semi-abierto [fromDate, toDate)
+            OffsetDateTime fromOffset = zoneResolver.toStartOfDay(fromDate, zone);
+            OffsetDateTime toOffset = zoneResolver.toEndOfDayInclusive(toDate, zone);
 
-        // Llama al repo (usa la query de intersección para capturar forecasts que tocan el intervalo)
-        List<Forecast> forecasts = forecastRepo.findByClientIdsAndDateRangeIntersect(clientIds, fromOffset, toOffset);
-        if (forecasts == null || forecasts.isEmpty()) return Collections.emptyList();
+            List<ForecastTableRowDto> rows = forecastRepo.findRowsForClientIdsAndDates(
+                                                    clientIds, fromOffset, toOffset);
 
-        // Mapear a DTO y ordenar para respuesta estable (clientId, projectId, siteId, metric, periodStart)
-        return forecasts.stream()
-                .map(ForecastRecordDto::fromEntity)
-                .filter(Objects::nonNull)
-                .sorted(Comparator
-                        .comparing((ForecastRecordDto r) -> r.clientId(), Comparator.nullsLast(Comparator.naturalOrder()))
-                        .thenComparing((ForecastRecordDto r) -> r.projectId(), Comparator.nullsLast(Comparator.naturalOrder()))
-                        .thenComparing((ForecastRecordDto r) -> r.siteId(), Comparator.nullsLast(Comparator.naturalOrder()))
-                        .thenComparing(ForecastRecordDto::metric, Comparator.nullsLast(Comparator.naturalOrder()))
-                        .thenComparing(ForecastRecordDto::periodStart))
-                .collect(Collectors.toList());
+            return rows == null ? Collections.emptyList() : rows;
+
     }
+
 
     @Override
     @Transactional(readOnly = true)
@@ -188,5 +183,7 @@ public class ForecastServiceImpl implements ForecastService{
 
         return new ForecastFormPayload(prefill, clients);
     }
+
+
 
 }

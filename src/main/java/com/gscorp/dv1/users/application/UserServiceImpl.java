@@ -1,12 +1,15 @@
 package com.gscorp.dv1.users.application;
 
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,7 +29,9 @@ import com.gscorp.dv1.users.web.dto.CreateUserRequest;
 import com.gscorp.dv1.users.web.dto.InviteUserRequest;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
@@ -238,5 +243,38 @@ public class UserServiceImpl implements UserService{
         List<Long> ids = userRepo.findClientIdsByUserId(userId);
         return ids == null ? Collections.emptyList() : ids;
   }
+
+    /**
+     * Intenta resolver y validar la zona del usuario registrada en la entidad User.
+     * - Retorna Optional.empty() si userId es null, si no existe user o si la zona no está definida o es inválida.
+     * - El resultado está cacheado por userId (cache "userZones") para reducir consultas.
+     */
+    @Override
+    @Cacheable(value = "userZones", key = "#userId")
+    public Optional<ZoneId> getUserZone(Long userId) {
+        if (userId == null) {
+            return Optional.empty();
+        }
+
+        try {
+            return userRepo.findById(userId)
+                    .map(User::getTimeZone)         // ajusta si tu entidad usa otro nombre
+                    .map(String::trim)
+                    .filter(s -> !s.isEmpty())
+                    .flatMap(s -> {
+                        try {
+                            return Optional.of(ZoneId.of(s));
+                        } catch (DateTimeException e) {
+                            log.warn("Zona inválida almacenada para user {}: '{}'", userId, s);
+                            return Optional.empty();
+                        }
+                    });
+        } catch (Exception ex) {
+            // no propagamos excepciones para que quien llama haga fallback; logueamos lo ocurrido
+            log.error("Error leyendo zona para user {}: {}", userId, ex.getMessage(), ex);
+            return Optional.empty();
+        }
+    }
+
 
 }

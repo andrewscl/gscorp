@@ -12,6 +12,7 @@ import com.gscorp.dv1.clients.infrastructure.Client;
 import com.gscorp.dv1.employees.infrastructure.Employee;
 import com.gscorp.dv1.roles.infrastructure.Role;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -58,6 +59,7 @@ public class User {
         joinColumns = @JoinColumn(name="user_id"),
         inverseJoinColumns = @JoinColumn(name="client_id")
     )
+
     @JsonIgnore
     private Set<Client> clients = new HashSet<>();
 
@@ -65,6 +67,10 @@ public class User {
     @JoinColumn(name = "employee_id")
     @JsonIgnore
     private Employee employee;
+
+    // campo opcional para zona preferida del usuario (ej: "Europe/Madrid")
+    @Column(name = "time_zone", length = 64)
+    private String timeZone;
 
     // Fechas de auditoría (requieren dependencias Hibernate)
     @CreationTimestamp

@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.gscorp.dv1.forecast.web.dto.ForecastFormPayload;
 import com.gscorp.dv1.forecast.web.dto.ForecastPointDto;
-import com.gscorp.dv1.forecast.web.dto.ForecastRecordDto;
+import com.gscorp.dv1.forecast.web.dto.ForecastTableRowDto;
 
 public interface ForecastService {
     
@@ -20,7 +20,9 @@ public interface ForecastService {
      *
      * fromDate/toDate se interpretan en la zona indicada por zone.
      */
-    List<ForecastRecordDto> getForecastRecordsForUserByDates(Long userId, LocalDate fromDate, LocalDate toDate, ZoneId zone);
+    List<ForecastTableRowDto> loadTableRowForUserAndDates(Long userId, LocalDate fromDate, LocalDate toDate, ZoneId zone);
 
     ForecastFormPayload prepareCreateForecastForm(Long userId);
+
+
 }
