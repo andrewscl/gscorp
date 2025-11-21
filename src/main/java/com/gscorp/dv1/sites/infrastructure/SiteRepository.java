@@ -34,4 +34,16 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
     @Query("select s.project.client.id from Site s where s.id = :id")
     Optional<Long> findClientIdBySiteId(@Param("id") Long id);
 
+
+        /**
+     * Ajusta la JPQL según la estructura de tu entidad Site:
+     * - Si Site tiene una relación `project` (ManyToOne) usa p.project.id = :projectId
+     * - Si usa projectId como campo directo, usa s.projectId = :projectId
+     *
+     * Devuelve DTOs (id, name) de sites activos del proyecto.
+     */
+    @Query("select new com.gscorp.dv1.sites.web.dto.SiteSelectDto(s.id, s.name) " +
+           "from Site s where s.project.id = :projectId and (s.active = true or s.active is null) order by s.name")
+    List<SiteSelectDto> findSelectDtoByProjectId(@Param("projectId") Long projectId);
+
 }

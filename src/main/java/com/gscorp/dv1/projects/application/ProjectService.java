@@ -7,6 +7,7 @@ import java.util.Set;
 import com.gscorp.dv1.clients.infrastructure.Client;
 import com.gscorp.dv1.projects.infrastructure.Project;
 import com.gscorp.dv1.projects.web.dto.ProjectDto;
+import com.gscorp.dv1.projects.web.dto.ProjectSelectDto;
 
 public interface ProjectService {
     
@@ -24,4 +25,6 @@ public interface ProjectService {
     List<Project> findEntitiesById(Set<Long> ids);
 
     List<ProjectDto> findAll();
+
+    List<ProjectSelectDto> findByClientId(Long clientId);
 }

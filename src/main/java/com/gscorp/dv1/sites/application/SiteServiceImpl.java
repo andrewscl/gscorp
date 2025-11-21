@@ -15,7 +15,9 @@ import com.gscorp.dv1.sites.web.dto.SiteSelectDto;
 import com.gscorp.dv1.sites.web.dto.UpdateLatLon;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SiteServiceImpl implements SiteService{
@@ -84,44 +86,44 @@ public class SiteServiceImpl implements SiteService{
         return siteRepository.save(site);
     }
 
-@Override
-@Transactional
-public SiteDto updateSite(Long id, SiteDto siteDto) {
-    Site site = siteRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("No existe el sitio con id " + id));
+    @Override
+    @Transactional
+    public SiteDto updateSite(Long id, SiteDto siteDto) {
+        Site site = siteRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("No existe el sitio con id " + id));
 
-    site.setName(siteDto.name());
-    site.setAddress(siteDto.address());
-    site.setTimeZone(siteDto.timeZone());
-    site.setLat(siteDto.lat());
-    site.setLon(siteDto.lon());
-    site.setActive(Boolean.TRUE.equals(siteDto.active()));
+        site.setName(siteDto.name());
+        site.setAddress(siteDto.address());
+        site.setTimeZone(siteDto.timeZone());
+        site.setLat(siteDto.lat());
+        site.setLon(siteDto.lon());
+        site.setActive(Boolean.TRUE.equals(siteDto.active()));
 
 
-    // Si permites cambiar el proyecto asociado:
-    // if (siteDto.projectId() != null) {
-    //     Project project = projectRepo.findById(siteDto.projectId()).orElse(null);
-    //     site.setProject(project);
-    // }
+        // Si permites cambiar el proyecto asociado:
+        // if (siteDto.projectId() != null) {
+        //     Project project = projectRepo.findById(siteDto.projectId()).orElse(null);
+        //     site.setProject(project);
+        // }
 
-    siteRepository.save(site);
+        siteRepository.save(site);
 
-    // Forzar inicialización mientras la sesión está activa
-    Long projectId = site.getProject() != null ? site.getProject().getId() : null;
-    String projectName = site.getProject() != null ? site.getProject().getName() : null;
+        // Forzar inicialización mientras la sesión está activa
+        Long projectId = site.getProject() != null ? site.getProject().getId() : null;
+        String projectName = site.getProject() != null ? site.getProject().getName() : null;
 
-    return new SiteDto(
-        site.getId(),
-        projectId,
-        projectName,
-        site.getName(),
-        site.getAddress(),
-        site.getTimeZone(),
-        site.getLat(),
-        site.getLon(),
-        site.getActive()
-    );
-}
+        return new SiteDto(
+            site.getId(),
+            projectId,
+            projectName,
+            site.getName(),
+            site.getAddress(),
+            site.getTimeZone(),
+            site.getLat(),
+            site.getLon(),
+            site.getActive()
+        );
+    }
 
     @Override
     @Transactional
@@ -150,5 +152,13 @@ public SiteDto updateSite(Long id, SiteDto siteDto) {
         Optional<Long> clientId = siteRepository.findClientIdBySiteId(siteId);
         return clientId;
     }
+
+
+    @Override
+    public List<SiteSelectDto> findSelectDtoByProjectId(Long projectId) {
+        if (projectId == null) return List.of();
+        return siteRepository.findSelectDtoByProjectId(projectId);
+    }
+
 
 }

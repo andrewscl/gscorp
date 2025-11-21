@@ -20,4 +20,6 @@ public interface SiteService {
     SetSiteCoordinatesDto setCoordinates(Long siteId, Double latitude, Double longitude);
     List<SiteSelectDto> getAllSitesForClients(List<Long> clientIds);
     Optional<Long> getClientIdForSite(Long siteId);
+
+    List<SiteSelectDto> findSelectDtoByProjectId(Long projectId);
 }

@@ -13,6 +13,7 @@ import com.gscorp.dv1.clients.infrastructure.ClientRepository;
 import com.gscorp.dv1.projects.infrastructure.Project;
 import com.gscorp.dv1.projects.infrastructure.ProjectRepository;
 import com.gscorp.dv1.projects.web.dto.ProjectDto;
+import com.gscorp.dv1.projects.web.dto.ProjectSelectDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -90,6 +91,13 @@ public class ProjectServiceImpl implements ProjectService{
         return projectRepository.findAll().stream()
                 .map(ProjectDto::fromEntity)
                 .toList();
+    }
+
+
+    @Override
+    public List<ProjectSelectDto> findByClientId(Long clientId) {
+        if (clientId == null) return List.of();
+        return projectRepository.findDtoByClientId(clientId);
     }
 
 }

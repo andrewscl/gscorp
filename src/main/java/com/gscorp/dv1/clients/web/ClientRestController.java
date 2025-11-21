@@ -23,10 +23,14 @@ import com.gscorp.dv1.clients.web.dto.ClientKpisDto;
 import com.gscorp.dv1.clients.web.dto.CreateClientRequest;
 import com.gscorp.dv1.incidents.application.IncidentService;
 import com.gscorp.dv1.patrol.application.PatrolRunService;
+import com.gscorp.dv1.projects.application.ProjectService;
+import com.gscorp.dv1.projects.web.dto.ProjectSelectDto;
 import com.gscorp.dv1.sitesupervisionvisits.application.SiteSupervisionVisitService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/clients")
 @RequiredArgsConstructor
@@ -37,6 +41,7 @@ public class ClientRestController {
     private final SiteSupervisionVisitService siteSupervisionVisitService;
     private final PatrolRunService patrolRunService;
     private final IncidentService incidentService;
+    private final ProjectService projectService;
 
     @PostMapping("/create")
     public ResponseEntity <ClientDto> createClient(
@@ -121,6 +126,23 @@ public class ClientRestController {
     ClientKpisDto dto = new ClientKpisDto(asistenciaHoy, rondasHoy, visitasHoy, incidentesAbiertos);
     return ResponseEntity.ok(dto);
 
+    }
+
+
+    @GetMapping("/{clientId}/projects")
+    public ResponseEntity<?> findProjectsByClient(@PathVariable("clientId") Long clientId) {
+        try {
+            log.debug("GET /api/clients/{}/projects", clientId);
+            if (clientId == null) {
+                return ResponseEntity.badRequest().body(java.util.Map.of("message", "clientId requerido"));
+            }
+            List<ProjectSelectDto> projects = projectService.findByClientId(clientId);
+            return ResponseEntity.ok(projects);
+        } catch (Exception ex) {
+            log.error("Error fetching projects for client {}: {}", clientId, ex.getMessage(), ex);
+            return ResponseEntity.status(500)
+                    .body(java.util.Map.of("message", "Error interno cargando proyectos", "detail", ex.getMessage()));
+        }
     }
 
 }

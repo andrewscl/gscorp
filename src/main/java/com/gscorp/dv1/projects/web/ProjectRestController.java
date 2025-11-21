@@ -1,7 +1,10 @@
 package com.gscorp.dv1.projects.web;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,15 +17,20 @@ import com.gscorp.dv1.projects.application.ProjectService;
 import com.gscorp.dv1.projects.infrastructure.Project;
 import com.gscorp.dv1.projects.web.dto.CreateProjectRequest;
 import com.gscorp.dv1.projects.web.dto.ProjectDto;
+import com.gscorp.dv1.sites.application.SiteService;
+import com.gscorp.dv1.sites.web.dto.SiteSelectDto;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/projects")
 @RequiredArgsConstructor
 public class ProjectRestController {
     
     private final ProjectService projectService;
+    private final SiteService siteService;
 
     @PostMapping("/create")
     public ResponseEntity<ProjectDto> createProject(
@@ -67,5 +75,20 @@ public class ProjectRestController {
     }
 
 
+    @GetMapping("/{projectId}/sites")
+    public ResponseEntity<?> findSitesByProject(@PathVariable("projectId") Long projectId) {
+        try {
+            log.debug("GET /api/projects/{}/sites", projectId);
+            if (projectId == null) {
+                return ResponseEntity.badRequest().body(java.util.Map.of("message", "projectId requerido"));
+            }
+            List<SiteSelectDto> sites = siteService.findSelectDtoByProjectId(projectId);
+            return ResponseEntity.ok(sites);
+        } catch (Exception ex) {
+            log.error("Error fetching sites for project {}: {}", projectId, ex.getMessage(), ex);
+            return ResponseEntity.status(500)
+                    .body(java.util.Map.of("message", "Error interno cargando sites", "detail", ex.getMessage()));
+        }
+    }
 
 }
