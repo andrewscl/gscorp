@@ -1,4 +1,4 @@
-// Forecast create — SCSS anidado, moderno y corporativo
+// Forecast create — SCSS integrado y definitivo
 // Reusa variables y tamaños del fragment anterior
 $font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
 $base-font-size: 14px;
@@ -23,6 +23,7 @@ $btn-padding-x: 0.75rem;
   box-sizing: border-box;
 }
 
+/* Contenedor principal */
 .forecast-creation {
   font-family: $font-family;
   background: $color-bg;
@@ -92,9 +93,7 @@ $btn-padding-x: 0.75rem;
         box-shadow: $shadow-md;
       }
 
-      &.btn-primary:hover {
-        filter: brightness(1.03);
-      }
+      &.btn-primary:hover { filter: brightness(1.03); }
 
       &.btn-secondary {
         background: transparent;
@@ -102,9 +101,7 @@ $btn-padding-x: 0.75rem;
         border: 1px solid $color-border;
       }
 
-      &.btn-secondary:hover {
-        background: rgba(99,102,241,0.04);
-      }
+      &.btn-secondary:hover { background: rgba(99,102,241,0.04); }
 
       &.btn-link {
         background: transparent;
@@ -174,60 +171,87 @@ $btn-padding-x: 0.75rem;
       }
     }
 
-    /* date-value-row: forzar tamaños fijos para que no rompan layout */
+    /* date-value-row: fechas, valor y hour-fields (hour-fields empujadas a la derecha) */
     .date-value-row {
       display: flex;
       gap: 0.6rem;
-      align-items: flex-end;
+      align-items: center;
       width: 100%;
+      flex-wrap: wrap;
 
+      /* Fecha: ancho fijo para evitar estiramiento */
       label[for="forecast-start"],
       label[for="forecast-end"] {
         flex: 0 0 auto;
         width: 9rem;
       }
 
+      /* Valor: ancho fijo y compacto */
       label[for="forecast-value"] {
         flex: 0 0 auto;
         width: 8rem;
       }
 
-      input[type="date"] {
-        width: 100%;
-        box-sizing: border-box;
-        padding: 0.35rem 0.45rem;
-      }
-
+      /* Estilos para inputs internos */
+      input[type="date"],
       label[for="forecast-value"] input {
         width: 100%;
         box-sizing: border-box;
-      }
-    }
-
-    /* hour-fields: compacto y alineado */
-    .hour-fields {
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-      padding-top: 0.25rem;
-
-      label {
-        flex: 0 0 auto;
-        font-size: 0.92rem;
-      }
-
-      input[type="number"] {
-        width: 3.6rem; /* suficiente para 0-23 */
-        max-width: 100%;
-        padding: 0.25rem 0.3rem;
-        text-align: center;
+        padding: 0.35rem 0.45rem;
+        border: 1px solid $color-border;
+        border-radius: 6px;
+        background: $color-bg;
         font-size: $base-font-size;
+        color: #0f172a;
       }
 
-      .hint { margin-left: .5rem; color: $color-muted; font-size: 0.85rem; }
-    }
+      /* hour-fields: no crecer, empujar a la derecha con margin-left:auto */
+      .hour-fields {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        flex: 0 0 auto;
+        margin-left: auto;
+        padding-top: 0;
 
-    /* units-row: sin hacks; layout natural y responsive */
+        /* Si está oculto con hidden/aria-hidden no debe ocupar espacio */
+        &[hidden],
+        &[aria-hidden="true"] {
+          display: none !important;
+        }
+
+        label {
+          display: flex;
+          flex-direction: column;
+          gap: 0.2rem;
+          flex: 0 0 auto;
+          min-width: auto;
+          width: auto;
+          font-size: 0.92rem;
+          color: $color-muted;
+        }
+
+        input[type="number"] {
+          width: 3.6rem;
+          padding: 0.25rem 0.3rem;
+          text-align: center;
+          border: 1px solid $color-border;
+          border-radius: 6px;
+          background: $color-bg;
+          font-size: $base-font-size;
+          color: #0f172a;
+          box-sizing: border-box;
+        }
+
+        .hint {
+          font-size: 0.82rem;
+          color: $color-muted;
+          white-space: nowrap;
+        }
+      } /* .hour-fields */
+    } /* .date-value-row */
+
+    /* units-row (Unidades / Confianza / Zona) */
     .units-row {
       display: flex;
       gap: 0.6rem;
@@ -258,7 +282,6 @@ $btn-padding-x: 0.75rem;
       }
       #forecast-tz { width: 100%; box-sizing: border-box; }
 
-      /* hints dentro de units-row */
       .hint { margin-top: 0.12rem; font-size: 0.82rem; color: $color-muted; }
 
       @media (min-width: 760px) {
@@ -271,7 +294,7 @@ $btn-padding-x: 0.75rem;
       }
     }
 
-    /* Quitar spin buttons en number inputs (WebKit/Blink) y apariencia textfield en Firefox */
+    /* eliminar flechas en number inputs y normalizar apariencia */
     input[type="number"] {
       -webkit-appearance: none;
       -moz-appearance: textfield;
@@ -283,7 +306,7 @@ $btn-padding-x: 0.75rem;
       margin: 0;
     }
 
-    /* Nota: estilo claro y ancho completo */
+    /* Nota: estilo claro y ancho completo para textarea */
     .form-group {
       label { width: 100%; }
       textarea#forecast-note {
@@ -304,21 +327,55 @@ $btn-padding-x: 0.75rem;
       justify-content: flex-end;
       align-items: center;
 
-      /* asegurar que los botones dentro de modal-footer usan las reglas .btn arriba */
       .btn { margin: 0; }
     }
 
-    /* Hide old standalone tz-row if present (we moved TZ into units-row) */
+    /* ocultar tz-row antiguo si existe (mantenido para compatibilidad) */
     .tz-row { display: none; }
-  }
-}
+  } /* form */
+} /* .forecast-creation */
 
-/* Responsive */
+/* Responsive: apilar en móvil y ajustar hour-fields */
 @media (max-width: 760px) {
-  .forecast-creation { min-width: auto; padding: 0.75rem; }
-  .forecast-creation form .row.compact { flex-direction: column; align-items: stretch; }
-  .forecast-creation .date-value-row label { width: 100% !important; }
+  .forecast-creation {
+    min-width: auto;
+    padding: 0.75rem;
+  }
+
+  .forecast-creation form .row.compact {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .forecast-creation .date-value-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .forecast-creation .date-value-row label {
+    width: 100% !important;
+  }
+
+  .forecast-creation .date-value-row .hour-fields {
+    margin-left: 0;
+    width: 100%;
+    justify-content: flex-start;
+    padding-top: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .forecast-creation .date-value-row .hour-fields input[type="number"] {
+    width: 6rem;
+  }
+
   .forecast-creation .hour-fields { flex-direction: column; align-items: stretch; }
-  .forecast-creation .units-row { flex-direction: column; gap: 0.5rem; }
-  .forecast-creation .form-group textarea#forecast-note { min-height: 4rem; }
+
+  .forecast-creation .units-row {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .forecast-creation .form-group textarea#forecast-note {
+    min-height: 4rem;
+  }
 }

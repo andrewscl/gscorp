@@ -74,7 +74,7 @@
       <div id="forecast-scope" class="scope-hint" aria-hidden="true"></div>
     </div>
 
-    <!-- Fechas y valor en una sola fila compacta -->
+    <!-- Fechas, valor y campos horarios en la misma fila -->
     <div class="row compact date-value-row">
       <label for="forecast-start">Desde
         <input id="forecast-start" name="periodStart" type="date" required />
@@ -84,20 +84,22 @@
         <input id="forecast-end" name="periodEnd" type="date" />
       </label>
 
-      <!-- Hour fields para periodicidad HOURLY -->
-      <div class="row compact hour-fields" aria-hidden="true" hidden>
-        <label for="forecast-start-hour">Desde hora (0-23)
-          <input id="forecast-start-hour" name="periodStartHour" type="number" min="0" max="23" step="1" />
-        </label>
-
-        <label for="forecast-end-hour">Hasta hora (0-23)
-          <input id="forecast-end-hour" name="periodEndHour" type="number" min="0" max="23" step="1" />
-        </label>
-      </div>
-
       <label for="forecast-value">Valor
         <input id="forecast-value" name="value" type="number" step="0.001" inputmode="decimal" required />
       </label>
+
+      <!-- Hour fields para periodicidad HOURLY: solo .hour-fields (NO .row .compact) -->
+      <div class="hour-fields" aria-hidden="true" hidden>
+        <label for="forecast-start-hour">Desde hora
+          <input id="forecast-start-hour" name="periodStartHour" type="number" min="0" max="23" step="1" />
+        </label>
+
+        <label for="forecast-end-hour">Hasta hora
+          <input id="forecast-end-hour" name="periodEndHour" type="number" min="0" max="23" step="1" />
+        </label>
+
+        <div class="hint">Usar solo para periodicidad Horaria</div>
+      </div>
     </div>
 
     <!-- Units / Confidence / Zone / Version: misma fila, sin hacks visuales -->
