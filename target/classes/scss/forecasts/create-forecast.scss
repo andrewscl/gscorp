@@ -201,11 +201,37 @@ $compact-row-lift: 3.4rem;
       margin: 0;
     }
 
+    /*
+      TZ row: arreglar para que NO ocupe todo el ancho.
+      - usamos inline-flex para que el contenedor se ajuste al contenido
+      - align-self:flex-end para situarlo a la derecha de su contenedor padre
+      - las etiquetas internas no crecen (flex: 0)
+    */
     .tz-row {
-      display: flex;
+      /* es .row.tz-row en el HTML, sobreescribimos su display para shrink-wrap */
+      display: inline-flex;
       gap: 0.5rem;
       align-items: center;
+      align-self: flex-end;   // sitúa la fila a la derecha del stack de rows
+      padding: 0;             // mantener compacto
+      margin: 0;              // evitar que ocupe espacio extra
+      /* fondo/transparencia mantienen la apariencia actual */
+      
+      label {
+        flex: 0 0 auto;
+        min-width: auto;
+        width: auto;
+        font-size: 0.95rem;
+      }
 
+      /* input tz compacto */
+      input[type="text"]#forecast-tz {
+        width: 9rem;       // compacto; ajusta si quieres más/menos
+        padding: 0.35rem 0.45rem;
+        box-sizing: border-box;
+      }
+
+      /* botón detectar: pequeño y alineado */
       #detect-tz {
         padding: 0.35rem 0.5rem;
         border-radius: 6px;
@@ -213,6 +239,7 @@ $compact-row-lift: 3.4rem;
         background: transparent;
         color: $color-primary;
         cursor: pointer;
+        white-space: nowrap;
       }
     }
 
@@ -292,6 +319,19 @@ $compact-row-lift: 3.4rem;
       transform: none;
       margin-left: 0;
       width: 100%;
+    }
+
+    // TZ row en móvil ocupa toda la anchura y vuelve a la disposición normal
+    .tz-row {
+      display: flex;
+      width: 100%;
+      align-self: stretch;
+      justify-content: flex-start;
+      gap: 0.5rem;
+
+      label { width: 100%; }
+      input[type="text"]#forecast-tz { width: 100%; }
+      #detect-tz { width: auto; }
     }
 
     label[for="forecast-start"] input[type="date"],

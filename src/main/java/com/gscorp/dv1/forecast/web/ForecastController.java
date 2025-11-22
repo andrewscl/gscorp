@@ -106,12 +106,20 @@ public class ForecastController {
             return "private/forecast/views/create-forecast-view";
         }
 
+    // Protección: formPayload puede ser null sin lanzar excepción; extraemos prefill de forma segura
+    var prefill = formPayload != null ? formPayload.prefill() : null;
+
+        String requested = formPayload != null && formPayload.prefill() != null ? formPayload.prefill().tz() : null;
+        ZoneResolutionResult zr = zoneResolver.resolveZone(userId, requested);
+
         // Añadir datos al modelo para que la vista los muestre
-        model.addAttribute("prefill", formPayload.prefill());
+        model.addAttribute("prefill", prefill);
         model.addAttribute("periodicities", Periodicity.values());
         model.addAttribute("forecastCategories", ForecastCategory.values());
-        model.addAttribute("clients", formPayload.clients() == null ? Collections.emptyList() : formPayload.clients());
-        model.addAttribute("zone", formPayload.prefill() != null ? formPayload.prefill().tz() : null);
+        model.addAttribute("clients", (formPayload != null && formPayload.clients() != null)
+                                        ? formPayload.clients()
+                                        : Collections.emptyList());
+        model.addAttribute("zone", zr.zoneId().getId());
         model.addAttribute("postUrl", "/private/forecast/create");
         model.addAttribute("cancelPath", "/private/forecast");
 
