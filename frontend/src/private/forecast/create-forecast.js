@@ -184,7 +184,7 @@ function onCancel(e) {
   e.preventDefault();
   const form = qs('#forecast-form');
   if (!form) return;
-  const cancelPath = form.dataset.cancelPath || '/private/forecast';
+  const cancelPath = form.dataset.cancelPath || '/private/forecast/table-view';
   navigateTo(cancelPath, true);
 }
 
