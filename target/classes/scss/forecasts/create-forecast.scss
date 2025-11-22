@@ -14,10 +14,6 @@ $color-border: #e6eef8;
 $shadow-sm: 0 1px 2px rgba(16,24,40,0.04);
 $shadow-md: 0 6px 18px rgba(16,24,40,0.06);
 
-// Valor de referencia para "levantar" visualmente la fila de units/confidence
-// Ajusta si la altura de tus inputs cambia.
-$compact-row-lift: 3.4rem;
-
 *,
 *::before,
 *::after {
@@ -32,7 +28,9 @@ $compact-row-lift: 3.4rem;
   padding: 1rem;
   box-shadow: $shadow-sm;
   color: #0f172a;
-  min-width: 320px;
+  min-width: 420px;
+  max-width: 1100px;
+  margin: 0 auto;
 
   h3 {
     margin: 0 0 0.5rem 0;
@@ -56,6 +54,7 @@ $compact-row-lift: 3.4rem;
       display: flex;
       gap: 0.6rem;
       align-items: flex-end;
+      width: 100%;
 
       &.compact {
         flex-wrap: wrap;
@@ -94,159 +93,133 @@ $compact-row-lift: 3.4rem;
       }
 
       .hint {
-        font-size: 0.85rem;
+        font-size: 0.82rem;
         color: $color-muted;
-        padding-top: 0.25rem;
+        margin-top: 0.1rem;
       }
     }
 
-    /* ----- Ajustes específicos para campos de hora y fecha ----- */
+    /* date-value-row: forzar tamaños fijos para que no rompan layout */
+    .date-value-row {
+      display: flex;
+      gap: 0.6rem;
+      align-items: flex-end;
+      width: 100%;
+
+      label[for="forecast-start"],
+      label[for="forecast-end"] {
+        flex: 0 0 auto;
+        width: 9rem;
+      }
+
+      label[for="forecast-value"] {
+        flex: 0 0 auto;
+        width: 8rem;
+      }
+
+      input[type="date"] {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0.35rem 0.45rem;
+      }
+
+      label[for="forecast-value"] input {
+        width: 100%;
+        box-sizing: border-box;
+      }
+    }
+
+    /* hour-fields: compacto y alineado */
     .hour-fields {
       display: flex;
       gap: 0.5rem;
       align-items: center;
       padding-top: 0.25rem;
-      .hint { margin-left: .5rem; color: $color-muted; font-size: 0.85rem; }
 
-      // Las etiquetas dentro de hour-fields no crecen; tamaño compacto
       label {
         flex: 0 0 auto;
-        min-width: auto;
-        width: auto;
         font-size: 0.92rem;
       }
 
-      // Inputs numéricos compactos y centrados (suficiente para 0-23)
       input[type="number"] {
-        width: 3.6rem;   // ancho visual para 2 dígitos; ajustar a 3rem si quieres aún más compacto
+        width: 3.6rem; /* suficiente para 0-23 */
         max-width: 100%;
         padding: 0.25rem 0.3rem;
         text-align: center;
         font-size: $base-font-size;
       }
+
+      .hint { margin-left: .5rem; color: $color-muted; font-size: 0.85rem; }
     }
 
-    // Campos de fecha: ancho contenido para no estirar la fila
-    label[for="forecast-start"],
-    label[for="forecast-end"] {
-      flex: 0 0 auto;
-      min-width: auto;
-      width: auto;
+    /* units-row: sin hacks; layout natural y responsive */
+    .units-row {
+      display: flex;
+      gap: 0.6rem;
+      align-items: flex-end;
+      width: 100%;
+      flex-wrap: wrap;
+
+      label[for="forecast-units"] {
+        flex: 0 0 auto;
+        width: 11rem;
+      }
+      #forecast-units { width: 100%; box-sizing: border-box; }
+
+      label[for="forecast-confidence"] {
+        flex: 0 0 auto;
+        width: 7.5rem;
+      }
+      #forecast-confidence {
+        width: 100%;
+        box-sizing: border-box;
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .tz-label, label[for="forecast-tz"] {
+        flex: 0 0 auto;
+        width: 9.5rem;
+      }
+      #forecast-tz { width: 100%; box-sizing: border-box; }
+
+      /* hints dentro de units-row */
+      .hint { margin-top: 0.12rem; font-size: 0.82rem; color: $color-muted; }
+
+      @media (min-width: 760px) {
+        flex-wrap: nowrap;
+      }
+      @media (max-width: 760px) {
+        flex-direction: column;
+        align-items: stretch;
+        label { width: 100% !important; }
+      }
     }
 
-    label[for="forecast-start"] input[type="date"],
-    label[for="forecast-end"] input[type="date"] {
-      width: 9rem;         // ancho visual razonable para fecha (ajustable)
-      max-width: 100%;
-      padding: 0.35rem 0.45rem;
-      box-sizing: border-box;
-    }
-
-    // Valor (number) en la misma fila: ancho moderado y alineado a la derecha
-    label[for="forecast-value"] {
-      flex: 0 0 auto;
-      min-width: auto;
-      width: auto;
-    }
-    label[for="forecast-value"] input[type="number"] {
-      width: 6.5rem;
-      padding: 0.35rem 0.45rem;
-      box-sizing: border-box;
-      text-align: right;
-      font-variant-numeric: tabular-nums;
-    }
-
-    // ----- Units / Confidence: compactos y visualmente a la derecha del Valor -----
-    // Etiqueta de Units: empuja todo el bloque units/confidence hacia la derecha
-    label[for="forecast-units"] {
-      flex: 0 0 auto;
-      margin-left: auto;                     // empuja a la derecha del contenedor
-      transform: translateY(-$compact-row-lift); // subir visualmente hasta la fila anterior
-      transition: transform .12s ease;
-      min-width: auto;
-    }
-
-    // Etiqueta de Confidence: junto a Units, también elevada
-    label[for="forecast-confidence"] {
-      flex: 0 0 auto;
-      margin-left: 0.5rem;
-      transform: translateY(-$compact-row-lift);
-      transition: transform .12s ease;
-      min-width: auto;
-    }
-
-    // Inputs más estrechos para mantener la fila compacta
-    #forecast-units {
-      width: 7.5rem;     // tamaño razonable para textos cortos (ajusta)
-      padding: 0.35rem 0.45rem;
-    }
-    #forecast-confidence {
-      width: 5rem;       // porcentaje con una o dos cifras decimales
-      padding: 0.35rem 0.45rem;
-      text-align: right;
-      font-variant-numeric: tabular-nums;
-    }
-
-    // Quitar spin buttons en number inputs (WebKit/Blink) y apariencia textfield en Firefox
+    /* Quitar spin buttons en number inputs (WebKit/Blink) y apariencia textfield en Firefox */
     input[type="number"] {
-      -webkit-appearance: none;   // Chrome, Safari, Edge (Blink / WebKit)
-      -moz-appearance: textfield; // Firefox: mantener apariencia de textfield sin flechas
-      appearance: textfield;      // propiedad estándar (evita warnings y mejora compatibilidad)
+      -webkit-appearance: none;
+      -moz-appearance: textfield;
+      appearance: textfield;
     }
-
-    /* Remover los botones en WebKit (necesario además de -webkit-appearance) */
     input[type="number"]::-webkit-outer-spin-button,
     input[type="number"]::-webkit-inner-spin-button {
       -webkit-appearance: none;
       margin: 0;
     }
 
-    /*
-      TZ row: arreglar para que NO ocupe todo el ancho.
-      - usamos inline-flex para que el contenedor se ajuste al contenido
-      - align-self:flex-end para situarlo a la derecha de su contenedor padre
-      - las etiquetas internas no crecen (flex: 0)
-    */
-    .tz-row {
-      /* es .row.tz-row en el HTML, sobreescribimos su display para shrink-wrap */
-      display: inline-flex;
-      gap: 0.5rem;
-      align-items: center;
-      align-self: flex-end;   // sitúa la fila a la derecha del stack de rows
-      padding: 0;             // mantener compacto
-      margin: 0;              // evitar que ocupe espacio extra
-      /* fondo/transparencia mantienen la apariencia actual */
-      
-      label {
-        flex: 0 0 auto;
-        min-width: auto;
-        width: auto;
-        font-size: 0.95rem;
-      }
-
-      /* input tz compacto */
-      input[type="text"]#forecast-tz {
-        width: 9rem;       // compacto; ajusta si quieres más/menos
-        padding: 0.35rem 0.45rem;
-        box-sizing: border-box;
-      }
-
-      /* botón detectar: pequeño y alineado */
-      #detect-tz {
-        padding: 0.35rem 0.5rem;
-        border-radius: 6px;
-        border: 1px solid $color-border;
-        background: transparent;
-        color: $color-primary;
-        cursor: pointer;
-        white-space: nowrap;
-      }
-    }
-
+    /* Nota: estilo claro y ancho completo */
     .form-group {
       label { width: 100%; }
-      textarea {
+      textarea#forecast-note {
+        width: 100%;
+        min-height: 3.2rem;
+        padding: 0.5rem;
+        border: 1px solid $color-border;
+        border-radius: 6px;
         resize: vertical;
+        font-size: $base-font-size;
+        color: #0f172a;
       }
     }
 
@@ -255,95 +228,19 @@ $compact-row-lift: 3.4rem;
       gap: 0.5rem;
       justify-content: flex-end;
       align-items: center;
-
-      .btn {
-        &.btn-primary {
-          background: linear-gradient(180deg, $color-primary, darken($color-primary, 8%));
-          color: #fff;
-          border: none;
-          padding: 0.45rem 0.75rem;
-          border-radius: $radius;
-          font-weight: 600;
-          box-shadow: $shadow-md;
-          cursor: pointer;
-        }
-        &.btn-secondary {
-          background: transparent;
-          border: 1px solid $color-border;
-          color: $color-primary;
-          padding: 0.4rem 0.65rem;
-          border-radius: $radius;
-          cursor: pointer;
-        }
-        &.btn-link {
-          background: transparent;
-          border: none;
-          color: $color-primary;
-          text-decoration: underline;
-        }
-      }
     }
 
-    .compact-preview {
-      margin-top: 0.5rem;
-      font-size: 0.95rem;
-      color: $color-muted;
-      background: $color-surface;
-      padding: 0.5rem;
-      border-radius: 6px;
-      border: 1px solid $color-border;
-    }
+    /* Hide old standalone tz-row if present (we moved TZ into units-row) */
+    .tz-row { display: none; }
   }
 }
 
 /* Responsive */
 @media (max-width: 760px) {
-  .forecast-creation form .row.compact {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .forecast-creation .modal-footer { flex-direction: column-reverse; gap: 0.4rem; align-items: stretch; }
-
-  // En móvil hacer inputs horarios y fechas más flexibles
-  .forecast-creation {
-    .hour-fields {
-      flex-direction: column;
-      align-items: stretch;
-      label { width: 100%; }
-      input[type="number"] { width: 6rem; margin-right: 0; }
-    }
-
-    // En móvil deshacemos el "lift" y dejamos units/confidence en su propia línea
-    label[for="forecast-units"],
-    label[for="forecast-confidence"] {
-      transform: none;
-      margin-left: 0;
-      width: 100%;
-    }
-
-    // TZ row en móvil ocupa toda la anchura y vuelve a la disposición normal
-    .tz-row {
-      display: flex;
-      width: 100%;
-      align-self: stretch;
-      justify-content: flex-start;
-      gap: 0.5rem;
-
-      label { width: 100%; }
-      input[type="text"]#forecast-tz { width: 100%; }
-      #detect-tz { width: auto; }
-    }
-
-    label[for="forecast-start"] input[type="date"],
-    label[for="forecast-end"] input[type="date"] {
-      width: 100%;
-    }
-
-    label[for="forecast-value"] input[type="number"],
-    label[for="forecast-value"] input[type="text"],
-    label[for="forecast-units"] input,
-    label[for="forecast-confidence"] input {
-      width: 100%;
-    }
-  }
+  .forecast-creation { min-width: auto; padding: 0.75rem; }
+  .forecast-creation form .row.compact { flex-direction: column; align-items: stretch; }
+  .forecast-creation .date-value-row label { width: 100% !important; }
+  .forecast-creation .hour-fields { flex-direction: column; align-items: stretch; }
+  .forecast-creation .units-row { flex-direction: column; gap: 0.5rem; }
+  .forecast-creation .form-group textarea#forecast-note { min-height: 4rem; }
 }

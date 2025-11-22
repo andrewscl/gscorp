@@ -13,7 +13,9 @@
   padding: 1rem;
   box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
   color: #0f172a;
-  min-width: 320px;
+  min-width: 420px;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 .forecast-creation h3 {
   margin: 0 0 0.5rem 0;
@@ -30,19 +32,18 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  /* ----- Ajustes específicos para campos de hora y fecha ----- */
-  /* Remover los botones en WebKit (necesario además de -webkit-appearance) */
-  /*
-    TZ row: arreglar para que NO ocupe todo el ancho.
-    - usamos inline-flex para que el contenedor se ajuste al contenido
-    - align-self:flex-end para situarlo a la derecha de su contenedor padre
-    - las etiquetas internas no crecen (flex: 0)
-  */
+  /* date-value-row: forzar tamaños fijos para que no rompan layout */
+  /* hour-fields: compacto y alineado */
+  /* units-row: sin hacks; layout natural y responsive */
+  /* Quitar spin buttons en number inputs (WebKit/Blink) y apariencia textfield en Firefox */
+  /* Nota: estilo claro y ancho completo */
+  /* Hide old standalone tz-row if present (we moved TZ into units-row) */
 }
 .forecast-creation form .row {
   display: flex;
   gap: 0.6rem;
   align-items: flex-end;
+  width: 100%;
 }
 .forecast-creation form .row.compact {
   flex-wrap: wrap;
@@ -77,9 +78,33 @@
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.06);
 }
 .forecast-creation form .row .hint {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: #6b7280;
-  padding-top: 0.25rem;
+  margin-top: 0.1rem;
+}
+.forecast-creation form .date-value-row {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-end;
+  width: 100%;
+}
+.forecast-creation form .date-value-row label[for=forecast-start],
+.forecast-creation form .date-value-row label[for=forecast-end] {
+  flex: 0 0 auto;
+  width: 9rem;
+}
+.forecast-creation form .date-value-row label[for=forecast-value] {
+  flex: 0 0 auto;
+  width: 8rem;
+}
+.forecast-creation form .date-value-row input[type=date] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.35rem 0.45rem;
+}
+.forecast-creation form .date-value-row label[for=forecast-value] input {
+  width: 100%;
+  box-sizing: border-box;
 }
 .forecast-creation form .hour-fields {
   display: flex;
@@ -87,72 +112,74 @@
   align-items: center;
   padding-top: 0.25rem;
 }
-.forecast-creation form .hour-fields .hint {
-  margin-left: 0.5rem;
-  color: #6b7280;
-  font-size: 0.85rem;
-}
 .forecast-creation form .hour-fields label {
   flex: 0 0 auto;
-  min-width: auto;
-  width: auto;
   font-size: 0.92rem;
 }
 .forecast-creation form .hour-fields input[type=number] {
-  width: 3.6rem;
+  width: 3.6rem; /* suficiente para 0-23 */
   max-width: 100%;
   padding: 0.25rem 0.3rem;
   text-align: center;
   font-size: 14px;
 }
-.forecast-creation form label[for=forecast-start],
-.forecast-creation form label[for=forecast-end] {
-  flex: 0 0 auto;
-  min-width: auto;
-  width: auto;
-}
-.forecast-creation form label[for=forecast-start] input[type=date],
-.forecast-creation form label[for=forecast-end] input[type=date] {
-  width: 9rem;
-  max-width: 100%;
-  padding: 0.35rem 0.45rem;
-  box-sizing: border-box;
-}
-.forecast-creation form label[for=forecast-value] {
-  flex: 0 0 auto;
-  min-width: auto;
-  width: auto;
-}
-.forecast-creation form label[for=forecast-value] input[type=number] {
-  width: 6.5rem;
-  padding: 0.35rem 0.45rem;
-  box-sizing: border-box;
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-.forecast-creation form label[for=forecast-units] {
-  flex: 0 0 auto;
-  margin-left: auto;
-  transform: translateY(-3.4rem);
-  transition: transform 0.12s ease;
-  min-width: auto;
-}
-.forecast-creation form label[for=forecast-confidence] {
-  flex: 0 0 auto;
+.forecast-creation form .hour-fields .hint {
   margin-left: 0.5rem;
-  transform: translateY(-3.4rem);
-  transition: transform 0.12s ease;
-  min-width: auto;
+  color: #6b7280;
+  font-size: 0.85rem;
 }
-.forecast-creation form #forecast-units {
+.forecast-creation form .units-row {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-end;
+  width: 100%;
+  flex-wrap: wrap;
+  /* hints dentro de units-row */
+}
+.forecast-creation form .units-row label[for=forecast-units] {
+  flex: 0 0 auto;
+  width: 11rem;
+}
+.forecast-creation form .units-row #forecast-units {
+  width: 100%;
+  box-sizing: border-box;
+}
+.forecast-creation form .units-row label[for=forecast-confidence] {
+  flex: 0 0 auto;
   width: 7.5rem;
-  padding: 0.35rem 0.45rem;
 }
-.forecast-creation form #forecast-confidence {
-  width: 5rem;
-  padding: 0.35rem 0.45rem;
+.forecast-creation form .units-row #forecast-confidence {
+  width: 100%;
+  box-sizing: border-box;
   text-align: right;
   font-variant-numeric: tabular-nums;
+}
+.forecast-creation form .units-row .tz-label, .forecast-creation form .units-row label[for=forecast-tz] {
+  flex: 0 0 auto;
+  width: 9.5rem;
+}
+.forecast-creation form .units-row #forecast-tz {
+  width: 100%;
+  box-sizing: border-box;
+}
+.forecast-creation form .units-row .hint {
+  margin-top: 0.12rem;
+  font-size: 0.82rem;
+  color: #6b7280;
+}
+@media (min-width: 760px) {
+  .forecast-creation form .units-row {
+    flex-wrap: nowrap;
+  }
+}
+@media (max-width: 760px) {
+  .forecast-creation form .units-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .forecast-creation form .units-row label {
+    width: 100% !important;
+  }
 }
 .forecast-creation form input[type=number] {
   -webkit-appearance: none;
@@ -164,43 +191,18 @@
   -webkit-appearance: none;
   margin: 0;
 }
-.forecast-creation form .tz-row {
-  /* es .row.tz-row en el HTML, sobreescribimos su display para shrink-wrap */
-  display: inline-flex;
-  gap: 0.5rem;
-  align-items: center;
-  align-self: flex-end;
-  padding: 0;
-  margin: 0;
-  /* fondo/transparencia mantienen la apariencia actual */
-  /* input tz compacto */
-  /* botón detectar: pequeño y alineado */
-}
-.forecast-creation form .tz-row label {
-  flex: 0 0 auto;
-  min-width: auto;
-  width: auto;
-  font-size: 0.95rem;
-}
-.forecast-creation form .tz-row input[type=text]#forecast-tz {
-  width: 9rem;
-  padding: 0.35rem 0.45rem;
-  box-sizing: border-box;
-}
-.forecast-creation form .tz-row #detect-tz {
-  padding: 0.35rem 0.5rem;
-  border-radius: 6px;
-  border: 1px solid #e6eef8;
-  background: transparent;
-  color: #1e3a8a;
-  cursor: pointer;
-  white-space: nowrap;
-}
 .forecast-creation form .form-group label {
   width: 100%;
 }
-.forecast-creation form .form-group textarea {
+.forecast-creation form .form-group textarea#forecast-note {
+  width: 100%;
+  min-height: 3.2rem;
+  padding: 0.5rem;
+  border: 1px solid #e6eef8;
+  border-radius: 6px;
   resize: vertical;
+  font-size: 14px;
+  color: #0f172a;
 }
 .forecast-creation form .modal-footer {
   display: flex;
@@ -208,92 +210,32 @@
   justify-content: flex-end;
   align-items: center;
 }
-.forecast-creation form .modal-footer .btn.btn-primary {
-  background: linear-gradient(180deg, #1e3a8a, rgb(22.7142857143, 43.9142857143, 104.4857142857));
-  color: #fff;
-  border: none;
-  padding: 0.45rem 0.75rem;
-  border-radius: 8px;
-  font-weight: 600;
-  box-shadow: 0 6px 18px rgba(16, 24, 40, 0.06);
-  cursor: pointer;
-}
-.forecast-creation form .modal-footer .btn.btn-secondary {
-  background: transparent;
-  border: 1px solid #e6eef8;
-  color: #1e3a8a;
-  padding: 0.4rem 0.65rem;
-  border-radius: 8px;
-  cursor: pointer;
-}
-.forecast-creation form .modal-footer .btn.btn-link {
-  background: transparent;
-  border: none;
-  color: #1e3a8a;
-  text-decoration: underline;
-}
-.forecast-creation form .compact-preview {
-  margin-top: 0.5rem;
-  font-size: 0.95rem;
-  color: #6b7280;
-  background: #f8fafc;
-  padding: 0.5rem;
-  border-radius: 6px;
-  border: 1px solid #e6eef8;
+.forecast-creation form .tz-row {
+  display: none;
 }
 
 /* Responsive */
 @media (max-width: 760px) {
+  .forecast-creation {
+    min-width: auto;
+    padding: 0.75rem;
+  }
   .forecast-creation form .row.compact {
     flex-direction: column;
     align-items: stretch;
   }
-  .forecast-creation .modal-footer {
-    flex-direction: column-reverse;
-    gap: 0.4rem;
-    align-items: stretch;
+  .forecast-creation .date-value-row label {
+    width: 100% !important;
   }
   .forecast-creation .hour-fields {
     flex-direction: column;
     align-items: stretch;
   }
-  .forecast-creation .hour-fields label {
-    width: 100%;
-  }
-  .forecast-creation .hour-fields input[type=number] {
-    width: 6rem;
-    margin-right: 0;
-  }
-  .forecast-creation label[for=forecast-units],
-  .forecast-creation label[for=forecast-confidence] {
-    transform: none;
-    margin-left: 0;
-    width: 100%;
-  }
-  .forecast-creation .tz-row {
-    display: flex;
-    width: 100%;
-    align-self: stretch;
-    justify-content: flex-start;
+  .forecast-creation .units-row {
+    flex-direction: column;
     gap: 0.5rem;
   }
-  .forecast-creation .tz-row label {
-    width: 100%;
-  }
-  .forecast-creation .tz-row input[type=text]#forecast-tz {
-    width: 100%;
-  }
-  .forecast-creation .tz-row #detect-tz {
-    width: auto;
-  }
-  .forecast-creation label[for=forecast-start] input[type=date],
-  .forecast-creation label[for=forecast-end] input[type=date] {
-    width: 100%;
-  }
-  .forecast-creation label[for=forecast-value] input[type=number],
-  .forecast-creation label[for=forecast-value] input[type=text],
-  .forecast-creation label[for=forecast-units] input,
-  .forecast-creation label[for=forecast-confidence] input {
-    width: 100%;
+  .forecast-creation .form-group textarea#forecast-note {
+    min-height: 4rem;
   }
 }/*# sourceMappingURL=create-forecast.css.map */

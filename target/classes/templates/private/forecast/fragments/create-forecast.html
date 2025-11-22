@@ -8,15 +8,12 @@
         data-forecast-endpoint="/api/forecasts"
         autocomplete="off">
 
-    <!-- Compact layout: selects encadenados (client -> project -> site)
-         Nota: Los <select> se deben poblar desde el servidor o por JS (fetch). -->
+    <!-- Compact layout: selects encadenados (client -> project -> site) -->
     <div class="row compact">
       <label for="forecast-client">Cliente
         <select id="forecast-client" name="clientId" required>
           <option value="">-- seleccionar --</option>
-          <option th:each="c : ${clients}"
-                  th:value="${c.id}"
-                  th:text="${c.name}"
+          <option th:each="c : ${clients}" th:value="${c.id}" th:text="${c.name}"
                   th:selected="${prefill != null and prefill.clientId != null and prefill.clientId == c.id}">
           </option>
         </select>
@@ -26,21 +23,16 @@
         <select id="forecast-project" name="projectId" required
                 th:disabled="${projects == null or #lists.isEmpty(projects)}">
           <option value="">-- seleccionar --</option>
-          <option th:each="p : ${projects}"
-                  th:value="${p.id}"
-                  th:text="${p.name}"
+          <option th:each="p : ${projects}" th:value="${p.id}" th:text="${p.name}"
                   th:selected="${prefill != null and prefill.projectId != null and prefill.projectId == p.id}">
           </option>
         </select>
       </label>
 
       <label for="forecast-site">Sitio
-        <select id="forecast-site" name="siteId"
-                th:disabled="${sites == null or #lists.isEmpty(sites)}">
+        <select id="forecast-site" name="siteId" th:disabled="${sites == null or #lists.isEmpty(sites)}">
           <option value="">-- (opcional) --</option>
-          <option th:each="s : ${sites}"
-                  th:value="${s.id}"
-                  th:text="${s.name}"
+          <option th:each="s : ${sites}" th:value="${s.id}" th:text="${s.name}"
                   th:selected="${prefill != null and prefill.siteId != null and prefill.siteId == s.id}">
           </option>
         </select>
@@ -49,12 +41,10 @@
 
     <!-- Fila compacta de categoría / periodicidad / metrica -->
     <div class="row compact">
-
       <label for="forecast-category">Categoría
         <select id="forecast-category" name="forecastCategory" required>
           <option value="">-- seleccionar --</option>
-          <option th:each="c : ${forecastCategories}"
-                  th:value="${c.name()}"
+          <option th:each="c : ${forecastCategories}" th:value="${c.name()}"
                   th:text="${c.displayName != null ? c.displayName : c.name()}"
                   th:selected="${prefillForecastCategory != null and prefillForecastCategory == c.name()}">
           </option>
@@ -64,8 +54,7 @@
       <label for="forecast-periodicity">Periodicidad
         <select id="forecast-periodicity" name="periodicity" required>
           <option value="">-- seleccionar --</option>
-          <option th:each="p : ${periodicities}"
-                  th:value="${p.name()}"
+          <option th:each="p : ${periodicities}" th:value="${p.name()}"
                   th:text="${p.displayName != null ? p.displayName : p.name()}"
                   th:selected="${prefill != null and prefill.periodicity != null and prefill.periodicity == p.name()}">
           </option>
@@ -74,20 +63,19 @@
 
       <label for="forecast-metric">Métrica
         <input id="forecast-metric" name="metric" type="text" list="metric-suggestions" required
-              th:value="${prefill != null and prefill.metric != null ? prefill.metric : ''}"
-              placeholder="Título del forecast (ej. Visitas entrada turno mañana)"
-              maxlength="200" autocomplete="off" />
+               th:value="${prefill != null and prefill.metric != null ? prefill.metric : ''}"
+               placeholder="Título del forecast (ej. Visitas entrada turno mañana)"
+               maxlength="200" autocomplete="off" />
         <datalist id="metric-suggestions">
           <option th:each="m : ${metricSuggestions}" th:value="${m}" th:text="${m}"></option>
         </datalist>
       </label>
 
-      <!-- Scope visual (read-only inference preferred): site > project > client -->
       <div id="forecast-scope" class="scope-hint" aria-hidden="true"></div>
     </div>
 
     <!-- Fechas y valor en una sola fila compacta -->
-    <div class="row compact">
+    <div class="row compact date-value-row">
       <label for="forecast-start">Desde
         <input id="forecast-start" name="periodStart" type="date" required />
       </label>
@@ -101,7 +89,7 @@
       </label>
     </div>
 
-    <!-- Hour fields para periodicidad HOURLY (visibles solo si periodicity == HOURLY) -->
+    <!-- Hour fields para periodicidad HOURLY -->
     <div class="row compact hour-fields" aria-hidden="true" hidden>
       <label for="forecast-start-hour">Desde hora (0-23)
         <input id="forecast-start-hour" name="periodStartHour" type="number" min="0" max="23" step="1" />
@@ -114,31 +102,31 @@
       <div class="hint"></div>
     </div>
 
-    <!-- Units / Confidence / Version small inputs -->
-    <div class="row compact">
+    <!-- Units / Confidence / Zone / Version: misma fila, sin hacks visuales -->
+    <div class="row compact units-row">
       <label for="forecast-units">Unidades
-        <input id="forecast-units" name="units" type="text" placeholder="ej. visitas, visitas/hora" />
+        <input id="forecast-units" name="units" type="text" placeholder="ej. visitas, visitas/hora"
+               th:value="${prefill != null and prefill.units != null ? prefill.units : ''}" />
+        <div class="hint">Unidad del valor del forecast (ej. "visitas").</div>
       </label>
 
       <label for="forecast-confidence">Confianza (%)
         <input id="forecast-confidence" name="confidence" type="number" step="0.1" min="0" max="100"
-                          placeholder="95" />
+               placeholder="95" th:value="${prefill != null and prefill.confidence != null ? prefill.confidence : ''}" />
+        <div class="hint">Porcentaje de confianza (0–100).</div>
       </label>
 
-      <!-- Zona (IANA) ahora en la misma fila, a la derecha de Confidence -->
       <label for="forecast-tz" class="tz-label">Zona (IANA)
-        <input id="forecast-tz" name="tz" type="text" placeholder="Europe/Madrid"
-               th:value="${zone}" />
+        <input id="forecast-tz" name="tz" type="text" placeholder="Europe/Madrid" th:value="${zone}" />
       </label>
 
-      <!-- Forecast version: debe coincidir con el DTO (forecastVersion) -->
       <input id="forecast-version" name="forecastVersion" type="hidden" value="1" />
     </div>
 
     <!-- Nota breve -->
     <div class="form-group compact">
       <label for="forecast-note">Nota (opcional)
-        <textarea id="forecast-note" name="note" rows="2" placeholder="Observación corta..."></textarea>
+        <textarea id="forecast-note" name="note" rows="3" placeholder="Observación corta..."></textarea>
       </label>
     </div>
 
@@ -156,6 +144,5 @@
     <strong>Preview:</strong> <span id="forecast-preview-text"></span>
   </div>
 
-  <!-- Script module para lógica: carga de selects, cascading, validación compacta y envío -->
   <script type="module" th:src="@{/js/private/forecast/create-forecast.js}" defer></script>
 </section>
