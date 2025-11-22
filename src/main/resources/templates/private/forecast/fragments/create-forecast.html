@@ -125,16 +125,14 @@
                           placeholder="95" />
       </label>
 
+      <!-- Zona (IANA) ahora en la misma fila, a la derecha de Confidence -->
+      <label for="forecast-tz" class="tz-label">Zona (IANA)
+        <input id="forecast-tz" name="tz" type="text" placeholder="Europe/Madrid"
+               th:value="${zone}" />
+      </label>
+
       <!-- Forecast version: debe coincidir con el DTO (forecastVersion) -->
       <input id="forecast-version" name="forecastVersion" type="hidden" value="1" />
-    </div>
-
-    <!-- Zona (tz) — oculta pero editable/detectable en cliente -->
-    <div class="row compact tz-row" hidden>
-      <label for="forecast-tz">Zona (IANA)
-        <input id="forecast-tz" name="tz" type="text" placeholder="Europe/Madrid" />
-      </label>
-      <button type="button" id="detect-tz" class="btn btn-secondary">Detectar zona</button>
     </div>
 
     <!-- Nota breve -->

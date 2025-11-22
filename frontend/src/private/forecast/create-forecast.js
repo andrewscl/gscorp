@@ -475,6 +475,42 @@ function initCascadingSelects() {
   }
 }
 
+
+// Al final del módulo o en tu init principal
+function detectBrowserTimeZone() {
+  try {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone || null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function initTzField() {
+  const input = document.getElementById('forecast-tz');
+  const btn = document.getElementById('detect-tz');
+
+  if (!input) return;
+
+  // Si el servidor no ha pasado zone (vacío), rellenar con la zona del navegador
+  if (!input.value || input.value.trim() === '') {
+    const tz = detectBrowserTimeZone();
+    if (tz) input.value = tz;
+  }
+
+  if (btn) {
+    btn.addEventListener('click', () => {
+      const tz = detectBrowserTimeZone();
+      if (tz) {
+        input.value = tz;
+        // opcional: feedback visual breve
+        // showToast('Zona detectada: ' + tz);
+      } else {
+        console.warn('No se pudo detectar timezone del navegador');
+      }
+    });
+  }
+}
+
 /* ---------- Bindings ---------- */
 function bindCreateForm() {
   const form = qs('#forecast-form');
@@ -487,6 +523,7 @@ function bindCreateForm() {
   initDetectTz();
   initPeriodicityToggle();
   initCascadingSelects();
+  try { initTzField(); } catch (e) { console.error(e); }
 }
 
 /* ---------- Auto-init ---------- */
