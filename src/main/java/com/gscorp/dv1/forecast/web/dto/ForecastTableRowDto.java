@@ -3,6 +3,8 @@ package com.gscorp.dv1.forecast.web.dto;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
+import com.gscorp.dv1.enums.ForecastMetric;
+import com.gscorp.dv1.enums.Periodicity;
 import com.gscorp.dv1.enums.Units;
 
 public record ForecastTableRowDto (
@@ -11,8 +13,8 @@ public record ForecastTableRowDto (
     String projectName,
     Long siteId,
     String siteName,
-    String forecastMetric,
-    String periodicity,
+    ForecastMetric forecastMetric,
+    Periodicity periodicity,
     OffsetDateTime periodStart,
     OffsetDateTime periodEnd,
     BigDecimal value,
@@ -25,8 +27,8 @@ public record ForecastTableRowDto (
             String projectName,
             Long siteId,
             String siteName,
-            String forecastMetric,
-            String periodicity,
+            ForecastMetric forecastMetric,
+            Periodicity periodicity,
             OffsetDateTime periodStart,
             OffsetDateTime periodEnd,
             BigDecimal value,
