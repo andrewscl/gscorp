@@ -30,9 +30,8 @@ function buildPayload(form) {
   const clientId = qs('#forecast-client', form)?.value ?? '';
   const projectId = qs('#forecast-project', form)?.value ?? '';
   const siteId = qs('#forecast-site', form)?.value ?? '';
-  const metric = qs('#forecast-metric', form)?.value ?? '';
+  const forecastMetric = qs('#forecast-metric', form)?.value ?? '';
   const periodicity = qs('#forecast-periodicity', form)?.value ?? '';
-  const forecastCategory = qs('#forecast-category', form)?.value ?? '';
   const periodStart = qs('#forecast-start', form)?.value ?? '';
   const periodEnd = qs('#forecast-end', form)?.value ?? '';
   const periodStartHour = (() => {
@@ -61,9 +60,8 @@ function buildPayload(form) {
     clientId: clientId === '' ? null : Number(clientId),
     projectId: projectId === '' ? null : Number(projectId),
     siteId: siteId === '' ? null : Number(siteId),
+    forecastMetric: forecastMetric || null,
     periodicity: periodicity || null,
-    metric: metric || null,
-    forecastCategory: forecastCategory || null,
     periodStart: periodStart || null,
     periodEnd: periodEnd || null,
     periodStartHour: periodStartHour,
@@ -79,9 +77,8 @@ function buildPayload(form) {
 
 function basicValidation(payload) {
   if (!payload.clientId) return 'Debes seleccionar un cliente.';
-  if (!payload.metric) return 'La métrica es requerida.';
+  if (!payload.forecastMetric) return 'La métrica es requerida.';
   if (!payload.periodicity) return 'La periodicidad es requerida.';
-  if (!payload.forecastCategory) return 'La categoría es requerida.';
   if (!payload.periodStart) return 'El periodo inicio es requerido.';
   if (payload.value == null || Number.isNaN(payload.value)) return 'Valor válido es requerido.';
   if (payload.value < 0) return 'El valor debe ser >= 0.';
@@ -140,7 +137,7 @@ async function onSubmitCreate(e) {
         payload.clientId ? `Cliente: ${payload.clientId}` : null,
         payload.projectId ? `Proyecto: ${payload.projectId}` : null,
         payload.siteId ? `Sitio: ${payload.siteId}` : null,
-        payload.metric ? `Métrica: ${payload.metric}` : null,
+        payload.forecastMetric ? `Métrica: ${payload.forecastMetric}` : null,
         payload.periodicity ? `Periodicidad: ${payload.periodicity}` : null,
         payload.periodStart ? `Desde: ${payload.periodStart}` : null,
         payload.periodEnd ? `Hasta: ${payload.periodEnd}` : null,
