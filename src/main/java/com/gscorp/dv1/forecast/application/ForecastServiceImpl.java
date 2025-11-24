@@ -67,6 +67,9 @@ public class ForecastServiceImpl implements ForecastService{
         OffsetDateTime fromOffset = zoneResolver.toStartOfDay(fromDate, zone);
         OffsetDateTime toOffsetInclusive = zoneResolver.toEndOfDayInclusive(toDate, zone);
 
+        log.debug("Calling forecastRepo with clientIds={} fromOffset={} toOffsetInclusive={} zone={}",
+        clientIds, fromOffset, toOffsetInclusive, zone);
+
         List<ForecastSeriesProjection> rows =
             forecastRepo.findProjectionByClientIdsAndDateRangeIntersect(clientIds, fromOffset, toOffsetInclusive);
 
