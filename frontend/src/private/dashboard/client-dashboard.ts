@@ -250,7 +250,7 @@ try {
   // pintar chart
   chVisit.clear();
   chVisit.setOption({
-    legend: { data: ['Visitas reales', 'Forecast (previsto)'], top: 6 },
+    legend: { data: ['Visitas', 'Forecast'], top: 6 },
     tooltip: {
       trigger: 'axis',
       formatter: (params: any) => {
@@ -262,7 +262,18 @@ try {
       }
     },
     grid: { left: 40, right: 16, top: 48, bottom: 32 },
-    xAxis: { type: 'category', boundaryGap: false, data: labels, axisLabel: { rotate: 0 } },
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: labels,
+      axisLabel: {
+        rotate: 0,
+        formatter: function (value: string) {
+          return shortLabelFromIso(value);
+        }
+      }
+    },
+
     yAxis: { type: 'value' },
     series: [
       {
@@ -301,6 +312,30 @@ try {
   }
   setNoData(chVisit, 'Error de datos');
 }
+
+
+// helpers: formatea 'YYYY-MM-DD' -> '12-ene' (sin punto)
+const locale = navigator.language || 'es';
+const monthFormatter = new Intl.DateTimeFormat(locale, { day: '2-digit', month: 'short' });
+
+function toDateFromIsoDay(isoDay: string): Date | null {
+  if (!isoDay) return null;
+  // construimos un Date estable a medianoche; añadir 'T00:00:00' evita ambigüedad
+  const d = new Date(`${isoDay}T00:00:00`);
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+
+function shortLabelFromIso(isoDay: string): string {
+  const d = toDateFromIsoDay(isoDay);
+  if (!d) return isoDay ?? '';
+  // Intl returns e.g. "12 ene." en es; quitamos el punto final y reemplazamos espacio por '-'
+  const txt = monthFormatter.format(d).replace('.', '');
+  // convertir "12 ene" -> "12-ene"
+  return txt.replace(/\s+/, '-');
+}
+
+
+
 
 
 
