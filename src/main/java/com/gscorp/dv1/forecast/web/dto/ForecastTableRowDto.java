@@ -21,6 +21,7 @@ public record ForecastTableRowDto (
     Units units,
     Boolean isActive
 ) {
+
     public static ForecastTableRowDto of(
             Long id,
             Long projectId,

@@ -44,12 +44,12 @@
 
       <label for="forecast-metric">Métrica
 
-        <input id="forecast-metric" name="metric" type="text" list="metric-suggestions" required
-               th:value="${prefill != null and prefill.metric != null ? prefill.metric : ''}"
+        <input id="forecast-metric" name="forecastMetric" type="text" list="forecastMetric-suggestions" required
+               th:value="${prefill != null and prefill.forecastMetric != null ? prefill.forecastMetric : ''}"
                placeholder="Título del forecast (ej. Visitas entrada turno mañana)"
                maxlength="200" autocomplete="off" />
-        <datalist id="metric-suggestions">
-          <option th:each="m : ${metricSuggestions}" th:value="${m}" th:text="${m}"></option>
+        <datalist id="forecastMetric-suggestions">
+          <option th:each="m : ${forecastMetricSuggestions}" th:value="${m}" th:text="${m}"></option>
         </datalist>
       </label>
 
