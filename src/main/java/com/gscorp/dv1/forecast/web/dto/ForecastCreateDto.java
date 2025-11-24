@@ -3,7 +3,7 @@ package com.gscorp.dv1.forecast.web.dto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import com.gscorp.dv1.enums.ForecastCategory;
+import com.gscorp.dv1.enums.ForecastMetric;
 
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
@@ -23,14 +23,11 @@ public record ForecastCreateDto(
     Long projectId,
     Long siteId,
 
+    @NotNull(message = "metric is required")
+    ForecastMetric forecastMetric,
+
     @NotNull(message = "periodicity is required")
     String periodicity,
-
-    @NotNull(message = "metric is required")
-    String metric,
-
-    @NotNull(message = "category is required")
-    ForecastCategory forecastCategory,
 
     @NotNull(message = "periodStart is required")
     LocalDate periodStart,

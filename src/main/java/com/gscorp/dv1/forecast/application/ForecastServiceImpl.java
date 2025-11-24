@@ -130,9 +130,8 @@ public class ForecastServiceImpl implements ForecastService{
             // política: devolver payload vacío (el controller puede redireccionar a login)
             ForecastFormPrefill emptyPrefill = new ForecastFormPrefill(
                 null, null, null,
+                null,    // forecastMetric
                 "DAILY", // periodicity por defecto para la UI
-                null,    // metric
-                null,    // forecastCategory
                 null,    // periodStart (podrías usar today si prefieres)
                 null,
                 null, null,
@@ -162,7 +161,6 @@ public class ForecastServiceImpl implements ForecastService{
         LocalDate defaultEnd = today.plusDays(1);
 
         ForecastFormPrefill prefill = new ForecastFormPrefill(
-            null,
             null,
             null,
             null,

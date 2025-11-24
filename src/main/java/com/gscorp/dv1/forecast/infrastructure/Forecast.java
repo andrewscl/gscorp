@@ -11,7 +11,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.gscorp.dv1.clients.infrastructure.Client;
-import com.gscorp.dv1.enums.ForecastCategory;
+import com.gscorp.dv1.enums.ForecastMetric;
 import com.gscorp.dv1.enums.Periodicity;
 import com.gscorp.dv1.enums.Units;
 import com.gscorp.dv1.projects.infrastructure.Project;
@@ -81,16 +81,12 @@ public class Forecast {
     private Site site;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="forecast_category", nullable=false)
-    private ForecastCategory forecastCategory;
+    @Column(name="forecast_metric", nullable=false)
+    private ForecastMetric forecastMetric;
 
     @Enumerated(EnumType.STRING)
     @Column(name="periodicity", nullable=false)
     private Periodicity periodicity;
-
-    @NotNull
-    @Column(nullable = false, length = 80)
-    private String metric;
 
     @NotNull
     @Column(name = "period_start", nullable = false)

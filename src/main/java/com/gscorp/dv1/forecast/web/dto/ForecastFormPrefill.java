@@ -3,15 +3,14 @@ package com.gscorp.dv1.forecast.web.dto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import com.gscorp.dv1.enums.ForecastCategory;
+import com.gscorp.dv1.enums.ForecastMetric;
 
 public record ForecastFormPrefill (
     Long clientId,
     Long projectId,
     Long siteId,
+    ForecastMetric forecastMetric,
     String periodicity,
-    String metric,
-    ForecastCategory forecastCategory,
     LocalDate periodStart,
     LocalDate periodEnd,
     Integer periodStartHour,

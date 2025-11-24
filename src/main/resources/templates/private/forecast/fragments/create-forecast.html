@@ -41,14 +41,16 @@
 
     <!-- Fila compacta de categoría / periodicidad / metrica -->
     <div class="row compact">
-      <label for="forecast-category">Categoría
-        <select id="forecast-category" name="forecastCategory" required>
-          <option value="">-- seleccionar --</option>
-          <option th:each="c : ${forecastCategories}" th:value="${c.name()}"
-                  th:text="${c.displayName != null ? c.displayName : c.name()}"
-                  th:selected="${prefillForecastCategory != null and prefillForecastCategory == c.name()}">
-          </option>
-        </select>
+
+      <label for="forecast-metric">Métrica
+
+        <input id="forecast-metric" name="metric" type="text" list="metric-suggestions" required
+               th:value="${prefill != null and prefill.metric != null ? prefill.metric : ''}"
+               placeholder="Título del forecast (ej. Visitas entrada turno mañana)"
+               maxlength="200" autocomplete="off" />
+        <datalist id="metric-suggestions">
+          <option th:each="m : ${metricSuggestions}" th:value="${m}" th:text="${m}"></option>
+        </datalist>
       </label>
 
       <label for="forecast-periodicity">Periodicidad
@@ -59,16 +61,6 @@
                   th:selected="${prefill != null and prefill.periodicity != null and prefill.periodicity == p.name()}">
           </option>
         </select>
-      </label>
-
-      <label for="forecast-metric">Métrica
-        <input id="forecast-metric" name="metric" type="text" list="metric-suggestions" required
-               th:value="${prefill != null and prefill.metric != null ? prefill.metric : ''}"
-               placeholder="Título del forecast (ej. Visitas entrada turno mañana)"
-               maxlength="200" autocomplete="off" />
-        <datalist id="metric-suggestions">
-          <option th:each="m : ${metricSuggestions}" th:value="${m}" th:text="${m}"></option>
-        </datalist>
       </label>
 
       <div id="forecast-scope" class="scope-hint" aria-hidden="true"></div>

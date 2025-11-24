@@ -22,12 +22,6 @@
                th:value="${to != null ? #dates.format(to, 'yyyy-MM-dd') : ''}" />
       </label>
 
-      <label class="filter-item">
-        <span class="filter-label">Zona</span>
-        <input id="filter-zone" class="filter-input" type="text" name="zone" placeholder="Europe/Madrid"
-               th:value="${zone != null ? zone : ''}" />
-      </label>
-
       <!-- Navegación cliente-side usando data-path (sin form submit) -->
       <button id="applyFiltersBtn" class="btn btn-secondary"
               th:attr="data-path=@{/private/forecast/table-view}" aria-label="Aplicar filtros">

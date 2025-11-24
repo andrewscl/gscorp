@@ -1,6 +1,6 @@
 package com.gscorp.dv1.enums;
 
-public enum ForecastCategory {
+public enum ForecastMetric {
 
     ROUNDS("Rondas"),
     VISITS("Visitas"),
@@ -10,7 +10,7 @@ public enum ForecastCategory {
     
     private final String displayName;
 
-    ForecastCategory(String displayName) {
+    ForecastMetric(String displayName) {
         this.displayName = displayName;
     }
 

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
-import com.gscorp.dv1.enums.ForecastCategory;
+import com.gscorp.dv1.enums.ForecastMetric;
 import com.gscorp.dv1.enums.Periodicity;
 import com.gscorp.dv1.forecast.application.ForecastService;
 import com.gscorp.dv1.forecast.web.dto.ForecastFormPayload;
@@ -115,7 +115,7 @@ public class ForecastController {
         // Añadir datos al modelo para que la vista los muestre
         model.addAttribute("prefill", prefill);
         model.addAttribute("periodicities", Periodicity.values());
-        model.addAttribute("forecastCategories", ForecastCategory.values());
+        model.addAttribute("forecastCategories", ForecastMetric.values());
         model.addAttribute("clients", (formPayload != null && formPayload.clients() != null)
                                         ? formPayload.clients()
                                         : Collections.emptyList());

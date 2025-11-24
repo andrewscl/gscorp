@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 
-import com.gscorp.dv1.enums.ForecastCategory;
+import com.gscorp.dv1.enums.ForecastMetric;
 import com.gscorp.dv1.enums.Periodicity;
 import com.gscorp.dv1.enums.Units;
 import com.gscorp.dv1.forecast.infrastructure.Forecast;
@@ -14,9 +14,8 @@ public record ForecastRecordDto (
     Long clientId,
     Long projectId,
     Long siteId,
-    ForecastCategory forecastCategory,
+    ForecastMetric forecastMetric,
     Periodicity periodicity,
-    String metric,
     OffsetDateTime periodStart,
     OffsetDateTime periodEnd,
     Integer periodStartHour,
@@ -49,9 +48,8 @@ public record ForecastRecordDto (
             entity.getClientId(),
             entity.getProjectId(),
             entity.getSiteId(),
-            entity.getForecastCategory(),
+            entity.getForecastMetric(),
             entity.getPeriodicity(),
-            entity.getMetric(),
             entity.getPeriodStart(),
             entity.getPeriodEnd(),
             entity.getPeriodStartHour(),
