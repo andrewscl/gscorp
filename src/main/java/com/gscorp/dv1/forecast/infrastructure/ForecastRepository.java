@@ -48,8 +48,8 @@ public interface ForecastRepository extends JpaRepository<Forecast, Long>{
         FROM Forecast f
         WHERE f.clientId IN :clientIds
           AND f.isActive = true
-          AND f.periodStart <= :toDate
-          AND f.periodEnd   >= :fromDate
+          AND f.periodStart <= :fromDate
+          AND f.periodEnd   >= :toDate
     """)
     List<ForecastSeriesProjection> findProjectionByClientIdsAndDateRangeIntersect(
         @Param("clientIds") Collection<Long> clientIds,
