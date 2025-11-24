@@ -39,13 +39,12 @@ public interface ForecastRepository extends JpaRepository<Forecast, Long>{
     );
 
 
-    /**
-     * Proyección JPQL: devuelve solo periodStart y value para forecasts que intersectan el rango.
-     * Filtramos por f.clientId IN :clientIds (usa el campo primitivo clientId de la entidad Forecast),
-     * evitando así ambigüedades con la relación client.
-     */
     @Query("""
-        SELECT f.periodStart AS periodStart, f.value AS value
+        SELECT f.periodStart AS periodStart,
+               f.periodEnd   AS periodEnd,
+               f.value       AS value,
+               f.periodicity AS periodicity,
+               f.forecastMetric AS metric
         FROM Forecast f
         WHERE f.clientId IN :clientIds
           AND f.isActive = true
