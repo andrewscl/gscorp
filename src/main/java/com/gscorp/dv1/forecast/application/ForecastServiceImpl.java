@@ -131,7 +131,7 @@ public class ForecastServiceImpl implements ForecastService{
             ForecastFormPrefill emptyPrefill = new ForecastFormPrefill(
                 null, null, null,
                 null,    // forecastMetric
-                "DAILY", // periodicity por defecto para la UI
+                null, // periodicity por defecto para la UI
                 null,    // periodStart (podrías usar today si prefieres)
                 null,
                 null, null,
