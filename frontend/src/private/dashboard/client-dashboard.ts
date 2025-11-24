@@ -156,10 +156,42 @@ window.addEventListener('resize', () => chPatrol?.resize());
 
 
 
-
 // ---------------- Visitas diarias: Reales vs Forecast (últimos 7 días) ----------------
 const chVisit = mkChart(elVisit);
 if (chVisit) charts.push(chVisit);
+
+// helpers: formatea 'YYYY-MM-DD' -> '12-ene' (sin punto)
+// MUST be declared before setOption to avoid TDZ errors
+const locale = navigator.language || 'es';
+const monthFormatter = new Intl.DateTimeFormat(locale, { day: '2-digit', month: 'short' });
+
+function toDateFromIsoDay(isoDay: string): Date | null {
+  if (!isoDay) return null;
+  // si vienen con hora, Date acepta ISO; si vienen solo 'YYYY-MM-DD' añadimos T00:00:00
+  const raw = isoDay.includes('T') ? isoDay : `${isoDay}T00:00:00`;
+  const d = new Date(raw);
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+
+function shortLabelFromIso(isoDay: string): string {
+  const d = toDateFromIsoDay(isoDay);
+  if (!d) return isoDay ?? '';
+  const txt = monthFormatter.format(d).replace('.', '');
+  return txt.replace(/\s+/, '-'); // "12 ene" -> "12-ene"
+}
+
+// helper: build last N ISO dates in local timezone (YYYY-MM-DD)
+function buildLastNDatesIso(days: number, zoneTz?: string): string[] {
+  const out: string[] = [];
+  const now = new Date();
+  // use local timezone of browser; zoneTz is only used server-side for request
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date(now);
+    d.setDate(now.getDate() - i);
+    out.push(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`);
+  }
+  return out;
+}
 
 try {
   const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
@@ -212,25 +244,11 @@ try {
   const normActual = norm(dataActual);
   const normForecast = norm(dataForecast);
 
-  // Construir conjunto de labels (union) y ordenar. Luego limitamos a los últimos `days` días.
-  const labelsSet = new Set<string>();
-  normActual.forEach(d => d.x && labelsSet.add(d.x));
-  normForecast.forEach(d => d.x && labelsSet.add(d.x));
-  let labels = Array.from(labelsSet).sort(); // ISO dates -> lexicographic order == chronological
+  // Construir conjunto de labels (union) y ordenar.
+  // Preferencia: forzar exactamente los últimos `days` días para que "hoy" siempre aparezca.
+  let labels = buildLastNDatesIso(days, tz); // ['2025-11-18', ... , '2025-11-24']
 
-  // si la API o la unión generaron más de `days` entradas (ej: forecast incluye futuros), tomar últimos `days`
-  if (labels.length > days) {
-    labels = labels.slice(labels.length - days);
-  }
-
-  // En caso de que por alguna razón labels esté vacío, intentar construir a partir de actual (fallback)
-  if (labels.length === 0 && normActual.length > 0) {
-    labels = normActual.map(d => d.x).slice(-days);
-  } else if (labels.length === 0 && normForecast.length > 0) {
-    labels = normForecast.map(d => d.x).slice(-days);
-  }
-
-  // Mapear por fecha para alinear valores
+  // Mapea arrays por fecha
   const mapFrom = (arr: { x: string; y: number }[]) => {
     const m = new Map<string, number>();
     arr.forEach(p => { if (p && p.x) m.set(p.x, Number.isFinite(Number(p.y)) ? Number(p.y) : 0); });
@@ -242,7 +260,7 @@ try {
   const valuesActual = labels.map(l => mActual.has(l) ? mActual.get(l)! : 0);
   const valuesForecast = labels.map(l => mForecast.has(l) ? mForecast.get(l)! : 0);
 
-  if (!chVisit){
+  if (!chVisit) {
     setNoData(chVisit, 'Sin datos');
     return;
   }
@@ -250,18 +268,21 @@ try {
   // pintar chart
   chVisit.clear();
   chVisit.setOption({
-    legend: { data: ['Visitas', 'Forecast'], top: 6 },
+    legend: { data: ['Visitas reales', 'Forecast (previsto)'], top: 6 },
     tooltip: {
       trigger: 'axis',
       formatter: (params: any) => {
-        // params es array con los puntos alineados por eje x
         if (!Array.isArray(params) || params.length === 0) return '';
-        const date = params[0].axisValue;
+        const first = params[0];
+        // axisValue puede ser undefined; buscamos fallback por dataIndex en labels[]
+        let rawDate = first.axisValue ?? (first && typeof first.dataIndex === 'number' ? labels[first.dataIndex] : undefined);
+        if (!rawDate && first.axisValueLabel) rawDate = first.axisValueLabel;
+        const displayDate = shortLabelFromIso(String(rawDate ?? ''));
         const lines = params.map((p: any) => `${p.marker} ${p.seriesName}: ${p.value ?? 0}`);
-        return `<b>${date}</b><br/>${lines.join('<br/>')}`;
+        return `<b>${displayDate}</b><br/>${lines.join('<br/>')}`;
       }
     },
-    grid: { left: 40, right: 16, top: 48, bottom: 32 },
+    grid: { left: 40, right: 16, top: 48, bottom: 36 },
     xAxis: {
       type: 'category',
       boundaryGap: false,
@@ -273,7 +294,6 @@ try {
         }
       }
     },
-
     yAxis: { type: 'value' },
     series: [
       {
@@ -312,31 +332,6 @@ try {
   }
   setNoData(chVisit, 'Error de datos');
 }
-
-
-// helpers: formatea 'YYYY-MM-DD' -> '12-ene' (sin punto)
-const locale = navigator.language || 'es';
-const monthFormatter = new Intl.DateTimeFormat(locale, { day: '2-digit', month: 'short' });
-
-function toDateFromIsoDay(isoDay: string): Date | null {
-  if (!isoDay) return null;
-  // construimos un Date estable a medianoche; añadir 'T00:00:00' evita ambigüedad
-  const d = new Date(`${isoDay}T00:00:00`);
-  return Number.isNaN(d.getTime()) ? null : d;
-}
-
-function shortLabelFromIso(isoDay: string): string {
-  const d = toDateFromIsoDay(isoDay);
-  if (!d) return isoDay ?? '';
-  // Intl returns e.g. "12 ene." en es; quitamos el punto final y reemplazamos espacio por '-'
-  const txt = monthFormatter.format(d).replace('.', '');
-  // convertir "12 ene" -> "12-ene"
-  return txt.replace(/\s+/, '-');
-}
-
-
-
-
 
 
 
