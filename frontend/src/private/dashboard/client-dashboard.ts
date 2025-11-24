@@ -238,8 +238,29 @@ try {
     return;
   }
 
-  // Normalizar estructuras esperadas: [{ x: 'YYYY-MM-DD', y: number }]
-  const norm = (arr: any[]) => (Array.isArray(arr) ? arr.map(d => ({ x: String(d?.x), y: (typeof d?.y === 'number' ? d.y : Number(d?.y || 0)) })) : []);
+
+// normaliza fecha ISO -> YYYY-MM-DD (en zona local del navegador) y convierte y -> number
+function isoToLocalIsoDateString(iso: string): string {
+  if (!iso) return '';
+  const d = new Date(String(iso));
+  if (Number.isNaN(d.getTime())) {
+    // fallback: extraer parte antes de 'T' si la cadena la contiene
+    return String(iso).split('T')[0] || String(iso);
+  }
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+const norm = (arr: any[]) => {
+  if (!Array.isArray(arr)) return [];
+  return arr.map(d => {
+    const rawX = d?.x ?? '';
+    const x = isoToLocalIsoDateString(rawX);
+    const rawY = d?.y;
+    const yNum = (typeof rawY === 'number') ? rawY : Number(String(rawY ?? 0));
+    return { x, y: Number.isFinite(yNum) ? yNum : 0 };
+  }).filter(p => p.x); // elimina entradas sin fecha válida
+};
+
 
   const normActual = norm(dataActual);
   const normForecast = norm(dataForecast);
@@ -248,17 +269,31 @@ try {
   // Preferencia: forzar exactamente los últimos `days` días para que "hoy" siempre aparezca.
   let labels = buildLastNDatesIso(days, tz); // ['2025-11-18', ... , '2025-11-24']
 
-  // Mapea arrays por fecha
-  const mapFrom = (arr: { x: string; y: number }[]) => {
-    const m = new Map<string, number>();
-    arr.forEach(p => { if (p && p.x) m.set(p.x, Number.isFinite(Number(p.y)) ? Number(p.y) : 0); });
-    return m;
-  };
+
+const mapFrom = (arr: { x: string; y: number }[]) => {
+  const m = new Map<string, number>();
+  arr.forEach(p => {
+    if (!p || !p.x) return;
+    const prev = m.get(p.x) ?? 0;
+    m.set(p.x, prev + (Number.isFinite(Number(p.y)) ? Number(p.y) : 0));
+  });
+  return m;
+};
+
+
   const mActual = mapFrom(normActual);
   const mForecast = mapFrom(normForecast);
 
   const valuesActual = labels.map(l => mActual.has(l) ? mActual.get(l)! : 0);
   const valuesForecast = labels.map(l => mForecast.has(l) ? mForecast.get(l)! : 0);
+
+
+  console.debug('[visits-chart] labels:', labels);
+  console.debug('[visits-chart] normActual:', normActual);
+  console.debug('[visits-chart] normForecast:', normForecast);
+  console.debug('[visits-chart] valuesActual:', valuesActual);
+  console.debug('[visits-chart] valuesForecast:', valuesForecast);
+
 
   if (!chVisit) {
     setNoData(chVisit, 'Sin datos');

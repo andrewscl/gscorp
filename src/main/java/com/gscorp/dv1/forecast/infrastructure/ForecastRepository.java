@@ -39,7 +39,6 @@ public interface ForecastRepository extends JpaRepository<Forecast, Long>{
     );
 
 
-
     /**
      * Proyección JPQL: devuelve solo periodStart y value para forecasts que intersectan el rango.
      * Filtramos por f.clientId IN :clientIds (usa el campo primitivo clientId de la entidad Forecast),
@@ -58,7 +57,6 @@ public interface ForecastRepository extends JpaRepository<Forecast, Long>{
         @Param("fromDate") OffsetDateTime fromDate,
         @Param("toDate") OffsetDateTime toDate
     );
-
 
 
     /*
