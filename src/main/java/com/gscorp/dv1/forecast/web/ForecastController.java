@@ -18,6 +18,7 @@ import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.enums.ForecastMetric;
 import com.gscorp.dv1.enums.Periodicity;
+import com.gscorp.dv1.enums.Units;
 import com.gscorp.dv1.forecast.application.ForecastService;
 import com.gscorp.dv1.forecast.web.dto.ForecastFormPayload;
 import com.gscorp.dv1.forecast.web.dto.ForecastTableRowDto;
@@ -116,6 +117,7 @@ public class ForecastController {
         model.addAttribute("prefill", prefill);
         model.addAttribute("periodicities", Periodicity.values());
         model.addAttribute("forecastMetrics", ForecastMetric.values());
+        model.addAttribute("unitsList", Units.values());
         model.addAttribute("clients", (formPayload != null && formPayload.clients() != null)
                                         ? formPayload.clients()
                                         : Collections.emptyList());

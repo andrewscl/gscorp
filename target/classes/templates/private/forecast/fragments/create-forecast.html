@@ -96,9 +96,16 @@
 
     <!-- Units / Confidence / Zone / Version: misma fila, sin hacks visuales -->
     <div class="row compact units-row">
+
       <label for="forecast-units">Unidades
-        <input id="forecast-units" name="units" type="text" placeholder="ej. visitas, visitas/hora"
-               th:value="${prefill != null and prefill.units != null ? prefill.units : ''}" />
+        <select id="forecast-units" name="units">
+          <option value="">-- seleccionar --</option>
+          <option th:each="u : ${unitsList}"
+                  th:value="${u.name()}"
+                  th:text="${u.displayName != null ? u.displayName : u.name()}"
+                  th:selected="${prefill != null and prefill.units != null and (prefill.units instanceof T(com.gscorp.dv1.enums.Units) ? prefill.units.name() : prefill.units) == u.name()}">
+          </option>
+        </select>
       </label>
 
       <label for="forecast-confidence">Confianza (%)
