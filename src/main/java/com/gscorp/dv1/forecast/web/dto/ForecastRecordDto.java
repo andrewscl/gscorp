@@ -4,10 +4,13 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 
+import org.hibernate.proxy.HibernateProxy;
+
 import com.gscorp.dv1.enums.ForecastMetric;
 import com.gscorp.dv1.enums.Periodicity;
 import com.gscorp.dv1.enums.Units;
 import com.gscorp.dv1.forecast.infrastructure.Forecast;
+import com.gscorp.dv1.users.infrastructure.User;
 
 public record ForecastRecordDto (
     Long id,
@@ -33,15 +36,11 @@ public record ForecastRecordDto (
     Boolean isActive,
     Long rowVersion
 ){
-        /**
-     * Create a ForecastRecord from the JPA Forecast entity.
-     * Uses the fully-qualified entity type to avoid name collisions.
-     *
-     * @param entity the JPA Forecast entity (may be null)
-     * @return a ForecastRecord or null if entity was null
-     */
     public static ForecastRecordDto fromEntity(Forecast entity) {
         if (entity == null) return null;
+
+        Long createdById = extractUserId(entity.getCreatedBy());
+        Long updatedById = extractUserId(entity.getUpdatedBy());
 
         return new ForecastRecordDto(
             entity.getId(),
@@ -60,12 +59,52 @@ public record ForecastRecordDto (
             entity.getNote(),
             entity.getConfidence(),
             entity.getForecastVersion(),
-            entity.getCreatedBy(),
-            entity.getUpdatedBy(),
+            createdById,
+            updatedById,
             entity.getCreatedAt(),
             entity.getUpdatedAt(),
             entity.getIsActive(),
             entity.getRowVersion()
         );
+    }
+
+    /**
+     * Extrae de forma segura el id de una propiedad que puede ser:
+     * - Long (id directo)
+     * - User (entidad)
+     * - HibernateProxy (proxy de User)
+     * - null
+     */
+    private static Long extractUserId(Object obj) {
+        if (obj == null) return null;
+        // caso: ya es Long
+        if (obj instanceof Long) return (Long) obj;
+        // caso: entidad User directamente
+        if (obj instanceof User) {
+            return ((User) obj).getId();
+        }
+        // caso: Hibernate proxy (ej. User$HibernateProxy)
+        if (obj instanceof HibernateProxy) {
+            try {
+                Object idObj = ((HibernateProxy) obj).getHibernateLazyInitializer().getIdentifier();
+                if (idObj == null) return null;
+                if (idObj instanceof Number) return ((Number) idObj).longValue();
+                return Long.valueOf(idObj.toString());
+            } catch (Exception e) {
+                return null;
+            }
+        }
+        // intento por reflexión (último recurso)
+        try {
+            var method = obj.getClass().getMethod("getId");
+            Object idObj = method.invoke(obj);
+            if (idObj == null) return null;
+            if (idObj instanceof Number) return ((Number) idObj).longValue();
+            if (idObj instanceof Long) return (Long) idObj;
+            return Long.valueOf(idObj.toString());
+        } catch (Exception e) {
+            // ignore y devolver null
+        }
+        return null;
     }
 }
