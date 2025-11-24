@@ -38,8 +38,28 @@ public interface ForecastRepository extends JpaRepository<Forecast, Long>{
             @Param("toDate") OffsetDateTime toDate
     );
 
-        List<ForecastSeriesProjection> findProjectionByClientIdsAndDateRangeIntersect(
-                                Collection<Long> clientIds, OffsetDateTime fromDate, OffsetDateTime toDate);
+
+
+    /**
+     * Proyección JPQL: devuelve solo periodStart y value para forecasts que intersectan el rango.
+     * Filtramos por f.clientId IN :clientIds (usa el campo primitivo clientId de la entidad Forecast),
+     * evitando así ambigüedades con la relación client.
+     */
+    @Query("""
+        SELECT f.periodStart AS periodStart, f.value AS value
+        FROM Forecast f
+        WHERE f.clientId IN :clientIds
+          AND f.isActive = true
+          AND f.periodStart <= :toDate
+          AND f.periodEnd   >= :fromDate
+    """)
+    List<ForecastSeriesProjection> findProjectionByClientIdsAndDateRangeIntersect(
+        @Param("clientIds") Collection<Long> clientIds,
+        @Param("fromDate") OffsetDateTime fromDate,
+        @Param("toDate") OffsetDateTime toDate
+    );
+
+
 
     /*
      * Alternativa más simple si prefieres filtrar por la columna client_id (si guardas clientId Long en Forecast):
