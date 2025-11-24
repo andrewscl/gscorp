@@ -209,8 +209,6 @@ function initDetectTz() {
   });
 }
 
-
-
 function getNormalizedSelectedPeriodicity() {
   const sel = qs('#forecast-periodicity');
   if (!sel) return null;

@@ -43,7 +43,6 @@
     <div class="row compact">
 
       <label for="forecast-metric">Métrica
-
         <input id="forecast-metric" name="forecastMetric" type="text" list="forecastMetric-suggestions" required
                th:value="${prefill != null and prefill.forecastMetric != null ? prefill.forecastMetric : ''}"
                placeholder="Título del forecast (ej. Visitas entrada turno mañana)"
@@ -54,13 +53,13 @@
       </label>
 
       <label for="forecast-periodicity">Periodicidad
-        <select id="forecast-periodicity" name="periodicity" required>
-          <option value="">-- seleccionar --</option>
-          <option th:each="p : ${periodicities}" th:value="${p.name()}"
-                  th:text="${p.displayName != null ? p.displayName : p.name()}"
-                  th:selected="${prefill != null and prefill.periodicity != null and prefill.periodicity == p.name()}">
-          </option>
-        </select>
+        <input id="forecast-periodicity" name="periodicity" type="text" list="periodicity-suggestions" required
+               th:value="${prefill != null and prefill.periodicity != null ? prefill.periodicity : ''}"
+               placeholder="Periodicidad del forecast (ej. Diario, Semanal)"
+               maxlength="200" autocomplete="off" />
+        <datalist id="periodicity-suggestions">
+          <option th:each="m : ${periodicitySuggestions}" th:value="${m}" th:text="${m}"></option>
+        </datalist>
       </label>
 
       <div id="forecast-scope" class="scope-hint" aria-hidden="true"></div>
