@@ -4,9 +4,6 @@ import { fetchWithAuth } from './api/api';
 
 // llamar initThreeMetrics para los 3 gráficos por hora
 
-
-
-
 type Point = { x: string; y: number };
 type KPIs = { asistenciaHoy: number; rondasHoy: number; visitasHoy: number; incidentesAbiertos: number };
 type SiteVisitCountDto = { siteId: number; siteName: string; count: number };
@@ -93,6 +90,7 @@ export async function init({ container }: { container: HTMLElement }) {
 
 
 
+
   // -------- Asistencia (línea con área) --------
   const chAsis = mkChart(elAsis); if (chAsis) charts.push(chAsis);
   try {
@@ -112,6 +110,9 @@ export async function init({ container }: { container: HTMLElement }) {
       if (!values.some(v => Number(v) > 0)) setNoData(chAsis);
     } else setNoData(chAsis, 'Error de datos');
   } catch { setNoData(chAsis, 'Error de datos'); }
+
+
+
 
 // -------- Rondas por día (línea con área) --------
 const chPatrol = mkChart(elPatrol); if (chPatrol) charts.push(chPatrol);
@@ -155,67 +156,155 @@ window.addEventListener('resize', () => chPatrol?.resize());
 
 
 
-// ---------------- Reemplazo: "Visitas por día" con timeout y limpieza ----------------
+
+// ---------------- Visitas diarias: Reales vs Forecast (últimos 7 días) ----------------
 const chVisit = mkChart(elVisit);
 if (chVisit) charts.push(chVisit);
 
 try {
   const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
   const days = 7;
-  const url = `/api/site-supervision-visits/series?days=${days}&tz=${encodeURIComponent(tz)}`;
 
-  // Llamada correcta: pasar true para usar fetchWithAuth (sin tocar fetchWithAuth ni RequestInit)
-  const res = await fetchWithTimeout(url, {}, 15000, true);
+  const urlActual = `/api/site-supervision-visits/series?days=${days}&tz=${encodeURIComponent(tz)}`;
+  const urlForecast = `/api/forecasts/forecast-series?days=${days}&tz=${encodeURIComponent(tz)}`;
 
-  if (!res) {
-    setNoData(chVisit, 'Error de datos');
-    return;
-  }
+  // pedir ambas en paralelo con timeout y auth
+  const [resActual, resForecast] = await Promise.all([
+    fetchWithTimeout(urlActual, {}, 15000, true).catch(err => {
+      console.warn('Fetch actual visits failed', err);
+      return null;
+    }),
+    fetchWithTimeout(urlForecast, {}, 15000, true).catch(err => {
+      console.warn('Fetch forecast visits failed', err);
+      return null;
+    })
+  ]);
 
-  if (!res.ok) {
-    if (res.status === 401) {
-      console.warn('Unauthorized when fetching visits series');
-    } else {
-      console.warn('Visits series fetch returned status', res.status);
+  // manejar errores de respuesta
+  const parseOrEmpty = async (r: Response | null, name: string) => {
+    if (!r) return [];
+    if (!r.ok) {
+      console.warn(`${name} returned status`, r.status);
+      return [];
     }
-    setNoData(chVisit, 'Error de datos');
+    return await r.json().catch((e: any) => {
+      console.warn(`${name} json parse error`, e);
+      return [];
+    });
+  };
+
+  const [dataActual, dataForecast] = await Promise.all([
+    parseOrEmpty(resActual, 'actual visits'),
+    parseOrEmpty(resForecast, 'forecast visits')
+  ]);
+
+  // Si ambos vacíos -> mostrar sin datos
+  const bothEmpty = (!Array.isArray(dataActual) || dataActual.length === 0)
+                 && (!Array.isArray(dataForecast) || dataForecast.length === 0);
+  if (bothEmpty) {
+    setNoData(chVisit, 'Sin datos');
     return;
   }
 
-  const data: { x: string; y: number | string }[] = await res.json().catch(() => []);
-  const labels = data.map(d => d.x);
-  const values = data.map(d => {
-    const v = typeof d.y === 'number' ? d.y : Number(d.y);
-    return Number.isFinite(v) ? v : 0;
+  // Normalizar estructuras esperadas: [{ x: 'YYYY-MM-DD', y: number }]
+  const norm = (arr: any[]) => (Array.isArray(arr) ? arr.map(d => ({ x: String(d?.x), y: (typeof d?.y === 'number' ? d.y : Number(d?.y || 0)) })) : []);
+
+  const normActual = norm(dataActual);
+  const normForecast = norm(dataForecast);
+
+  // Construir conjunto de labels (union) y ordenar. Luego limitamos a los últimos `days` días.
+  const labelsSet = new Set<string>();
+  normActual.forEach(d => d.x && labelsSet.add(d.x));
+  normForecast.forEach(d => d.x && labelsSet.add(d.x));
+  let labels = Array.from(labelsSet).sort(); // ISO dates -> lexicographic order == chronological
+
+  // si la API o la unión generaron más de `days` entradas (ej: forecast incluye futuros), tomar últimos `days`
+  if (labels.length > days) {
+    labels = labels.slice(labels.length - days);
+  }
+
+  // En caso de que por alguna razón labels esté vacío, intentar construir a partir de actual (fallback)
+  if (labels.length === 0 && normActual.length > 0) {
+    labels = normActual.map(d => d.x).slice(-days);
+  } else if (labels.length === 0 && normForecast.length > 0) {
+    labels = normForecast.map(d => d.x).slice(-days);
+  }
+
+  // Mapear por fecha para alinear valores
+  const mapFrom = (arr: { x: string; y: number }[]) => {
+    const m = new Map<string, number>();
+    arr.forEach(p => { if (p && p.x) m.set(p.x, Number.isFinite(Number(p.y)) ? Number(p.y) : 0); });
+    return m;
+  };
+  const mActual = mapFrom(normActual);
+  const mForecast = mapFrom(normForecast);
+
+  const valuesActual = labels.map(l => mActual.has(l) ? mActual.get(l)! : 0);
+  const valuesForecast = labels.map(l => mForecast.has(l) ? mForecast.get(l)! : 0);
+
+  if (!chVisit){
+    setNoData(chVisit, 'Sin datos');
+    return;
+  }
+
+  // pintar chart
+  chVisit.clear();
+  chVisit.setOption({
+    legend: { data: ['Visitas reales', 'Forecast (previsto)'], top: 6 },
+    tooltip: {
+      trigger: 'axis',
+      formatter: (params: any) => {
+        // params es array con los puntos alineados por eje x
+        if (!Array.isArray(params) || params.length === 0) return '';
+        const date = params[0].axisValue;
+        const lines = params.map((p: any) => `${p.marker} ${p.seriesName}: ${p.value ?? 0}`);
+        return `<b>${date}</b><br/>${lines.join('<br/>')}`;
+      }
+    },
+    grid: { left: 40, right: 16, top: 48, bottom: 32 },
+    xAxis: { type: 'category', boundaryGap: false, data: labels, axisLabel: { rotate: 0 } },
+    yAxis: { type: 'value' },
+    series: [
+      {
+        name: 'Visitas reales',
+        type: 'line',
+        smooth: true,
+        areaStyle: {},
+        data: valuesActual,
+        color: '#0ea5e9',
+        showSymbol: false,
+        lineStyle: { width: 2 }
+      },
+      {
+        name: 'Forecast (previsto)',
+        type: 'line',
+        smooth: true,
+        areaStyle: { opacity: 0.12 },
+        data: valuesForecast,
+        color: '#f59e0b',
+        showSymbol: false,
+        lineStyle: { width: 2, type: 'dashed' }
+      }
+    ],
+    graphic: (valuesActual.concat(valuesForecast)).some(v => Number(v) > 0) ? { elements: [] } : undefined
   });
 
+  // Si ambas series son cero -> mostrar mensaje "Sin visitas"
+  const anyPositive = valuesActual.some(v => Number(v) > 0) || valuesForecast.some(v => Number(v) > 0);
+  if (!anyPositive) setNoData(chVisit, 'Sin visitas');
 
-  if(chVisit) {
-    chVisit.clear();
-    chVisit.setOption({
-      tooltip: { trigger: 'axis' },
-      grid: { left: 40, right: 16, top: 24, bottom: 32 },
-      xAxis: { type: 'category', boundaryGap: false, data: labels },
-      yAxis: { type: 'value' },
-      series: [{ type: 'line', smooth: true, areaStyle: {}, data: values, color: '#0ea5e9' }],
-      graphic: values.some(v => v > 0) ? { elements: [] } : undefined
-    });
-  } else {
-    setNoData(null, 'Error de datos');
-  }
-
-
-
-
-  if (!values.some(v => v > 0)) setNoData(chVisit);
 } catch (err: any) {
   if (err?.name === 'AbortError') {
-    console.debug('Visits series fetch aborted (timeout or navigation)', err);
+    console.debug('Visits/Forecast fetch aborted (timeout or navigation)', err);
   } else {
-    console.error('Error obteniendo series de visitas', err);
-    setNoData(chVisit, 'Error de datos');
+    console.error('Error obteniendo series de visitas/forecast', err);
   }
+  setNoData(chVisit, 'Error de datos');
 }
+
+
+
+
 
 
   // -------- Visitas por sitio (barra horizontal) --------

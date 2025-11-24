@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
+import java.util.TreeMap;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +22,7 @@ import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.enums.Periodicity;
 import com.gscorp.dv1.forecast.infrastructure.Forecast;
 import com.gscorp.dv1.forecast.infrastructure.ForecastRepository;
+import com.gscorp.dv1.forecast.infrastructure.ForecastSeriesProjection;
 import com.gscorp.dv1.forecast.web.dto.ForecastCreateDto;
 import com.gscorp.dv1.forecast.web.dto.ForecastFormPayload;
 import com.gscorp.dv1.forecast.web.dto.ForecastFormPrefill;
@@ -51,58 +52,76 @@ public class ForecastServiceImpl implements ForecastService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<ForecastPointDto> getForecastSeriesForUserByDates(Long userId, LocalDate fromDate, LocalDate toDate, ZoneId zone){
+    public List<ForecastPointDto> getForecastSeriesForUserByDates(
+            Long userId, LocalDate fromDate, LocalDate toDate, ZoneId zone) {
+
+        // sanity checks
+        if (fromDate == null || toDate == null || zone == null) return List.of();
 
         List<Long> clientIds = userService.getClientIdsForUser(userId);
         if (clientIds == null || clientIds.isEmpty()) {
-            // devolver zeros para el rango pedido
-            List<ForecastPointDto> empty = new ArrayList<>();
-            LocalDate d = fromDate;
-            while (!d.isAfter(toDate)) {
-                empty.add(new ForecastPointDto(d.toString(), BigDecimal.ZERO));
-                d = d.plusDays(1);
-            }
-            return empty;
+            return buildZeroSeries(fromDate, toDate);
         }
 
-        // 2) convertir a OffsetDateTime semi-abierto [fromDate, toDate)
-        OffsetDateTime fromOffset = fromDate.atStartOfDay(zone).toOffsetDateTime();
-        OffsetDateTime toOffset = toDate.plusDays(1).atStartOfDay(zone).toOffsetDateTime();
+        // calcular offsets inclusivos en la zona solicitada
+        OffsetDateTime fromOffset = zoneResolver.toStartOfDay(fromDate, zone);
+        OffsetDateTime toOffsetInclusive = zoneResolver.toEndOfDayInclusive(toDate, zone);
 
-        // 3) traer forecasts (repo debe devolver entidades Forecast)
-        List<Forecast> forecasts = forecastRepo.findByClientIdsAndDateBetween(clientIds, fromOffset, toOffset);
-        if (forecasts == null || forecasts.isEmpty()) {
-            List<ForecastPointDto> empty = new ArrayList<>();
-            LocalDate d = fromDate;
-            while (!d.isAfter(toDate)) {
-                empty.add(new ForecastPointDto(d.toString(), BigDecimal.ZERO));
-                d = d.plusDays(1);
-            }
-            return empty;
+        log.debug("Forecast series request for user={}, clients={}, from={} to={} zone={}",
+                userId, clientIds, fromOffset, toOffsetInclusive, zone);
+
+        // obtener solo las columnas necesarias vía proyección (evita hydratear entidades completas)
+        List<ForecastSeriesProjection> rows =
+                forecastRepo.findProjectionByClientIdsAndDateRangeIntersect(clientIds, fromOffset, toOffsetInclusive);
+
+        if (rows == null || rows.isEmpty()) {
+            return buildZeroSeries(fromDate, toDate);
         }
 
-        // 4) Agrupar por fecha local (periodStart). Como la entidad usa LocalDate para periodStart,
-        //    no necesitamos conversión por zone; si tu entidad usara OffsetDateTime, conviértelo aquí.
-        Map<LocalDate, BigDecimal> grouped = forecasts.stream()
-            .filter(f -> f.getPeriodStart() != null && f.getValue() != null)
-            .collect(Collectors.groupingBy(
-                    f -> f.getPeriodStart().atZoneSameInstant(zone).toLocalDate(), // <-- conversión aquí
-                    Collectors.mapping(Forecast::getValue,
-                            Collectors.reducing(BigDecimal.ZERO, BigDecimal::add))
-            ));
+        // inicializar mapa ordenado con ceros para cada día del rango
+        Map<LocalDate, BigDecimal> accum = new TreeMap<>();
+        LocalDate cur = fromDate;
+        while (!cur.isAfter(toDate)) {
+            accum.put(cur, BigDecimal.ZERO);
+            cur = cur.plusDays(1);
+        }
 
-        // 5) construir serie final (un punto por día del rango, con suma de values o 0)
-        List<ForecastPointDto> series = new ArrayList<>();
+        // agregar filas: convertir periodStart -> LocalDate en la zone solicitada y sumar los valores
+        for (ForecastSeriesProjection r : rows) {
+            if (r == null) continue;
+            OffsetDateTime ps = r.getPeriodStart();
+            BigDecimal val = r.getValue() == null ? BigDecimal.ZERO : r.getValue();
+
+            if (ps == null) continue; // ignora filas mal formadas
+
+            LocalDate localDate = ps.toInstant().atZone(zone).toLocalDate();
+            if (localDate.isBefore(fromDate) || localDate.isAfter(toDate)) {
+                // si cae fuera del rango (posible por overlap) lo ignoramos
+                continue;
+            }
+
+            accum.merge(localDate, val, BigDecimal::add);
+        }
+
+        // construir lista de DTOs (un punto por día, en orden)
+        List<ForecastPointDto> out = new ArrayList<>(accum.size());
+        for (Map.Entry<LocalDate, BigDecimal> e : accum.entrySet()) {
+            out.add(new ForecastPointDto(e.getKey().toString(), e.getValue()));
+        }
+        return out;
+    }
+
+    // helper
+    private List<ForecastPointDto> buildZeroSeries(LocalDate fromDate, LocalDate toDate) {
+        List<ForecastPointDto> out = new ArrayList<>();
         LocalDate d = fromDate;
         while (!d.isAfter(toDate)) {
-            BigDecimal v = grouped.getOrDefault(d, BigDecimal.ZERO);
-            series.add(new ForecastPointDto(d.toString(), v));
+            out.add(new ForecastPointDto(d.toString(), BigDecimal.ZERO));
             d = d.plusDays(1);
         }
-
-        return series;
-
+        return out;
     }
+
 
 
     @Override

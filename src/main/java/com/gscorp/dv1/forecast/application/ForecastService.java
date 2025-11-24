@@ -11,10 +11,11 @@ import com.gscorp.dv1.forecast.web.dto.ForecastRecordDto;
 import com.gscorp.dv1.forecast.web.dto.ForecastTableRowDto;
 
 public interface ForecastService {
-    
+
 
     List<ForecastPointDto> getForecastSeriesForUserByDates
                 (Long userId, LocalDate fromDate, LocalDate toDate, ZoneId zone);
+
 
     /**
      * Devuelve la lista de ForecastRecordDto para la vista de tabla (detalle),
@@ -24,7 +25,9 @@ public interface ForecastService {
      */
     List<ForecastTableRowDto> loadTableRowForUserAndDates(Long userId, LocalDate fromDate, LocalDate toDate, ZoneId zone);
 
+
     ForecastFormPayload prepareCreateForecastForm(Long userId);
+
 
     ForecastRecordDto createForecast (ForecastCreateDto req, Long userId);
 

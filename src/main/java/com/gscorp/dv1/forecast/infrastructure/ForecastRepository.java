@@ -1,6 +1,7 @@
 package com.gscorp.dv1.forecast.infrastructure;
 
 import java.time.OffsetDateTime;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -37,25 +38,8 @@ public interface ForecastRepository extends JpaRepository<Forecast, Long>{
             @Param("toDate") OffsetDateTime toDate
     );
 
-    /**
-     * Variante por intersección: devuelve forecasts cuya ventana [periodStart, periodEnd]
-     * intersecta el intervalo pedido. Semántica: periodStart <= toDate AND periodEnd >= fromDate.
-     */
-    @Query("""
-        SELECT DISTINCT f
-        FROM Forecast f
-        JOIN FETCH f.site s
-        JOIN s.project p
-        WHERE p.client.id IN :clientIds
-          AND f.isActive = true
-          AND f.periodStart <= :toDate
-          AND f.periodEnd   >= :fromDate
-    """)
-    List<Forecast> findByClientIdsAndDateRangeIntersect(
-            @Param("clientIds") List<Long> clientIds,
-            @Param("fromDate") OffsetDateTime fromDate,
-            @Param("toDate") OffsetDateTime toDate
-    );
+        List<ForecastSeriesProjection> findProjectionByClientIdsAndDateRangeIntersect(
+                                Collection<Long> clientIds, OffsetDateTime fromDate, OffsetDateTime toDate);
 
     /*
      * Alternativa más simple si prefieres filtrar por la columna client_id (si guardas clientId Long en Forecast):
