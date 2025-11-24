@@ -52,85 +52,118 @@ public class ForecastServiceImpl implements ForecastService{
     private final ZoneResolver zoneResolver;
 
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<ForecastPointDto> getForecastSeriesForUserByDates(
-            Long userId, LocalDate fromDate, LocalDate toDate, ZoneId zone) {
+@Override
+@Transactional(readOnly = true)
+public List<ForecastPointDto> getForecastSeriesForUserByDates(
+        Long userId, LocalDate fromDate, LocalDate toDate, ZoneId zone) {
 
-        if (fromDate == null || toDate == null || zone == null) return List.of();
+    if (fromDate == null || toDate == null || zone == null) {
+        log.debug("Invalid args to getForecastSeriesForUserByDates: fromDate={} toDate={} zone={}", fromDate, toDate, zone);
+        return List.of();
+    }
 
-        List<Long> clientIds = userService.getClientIdsForUser(userId);
-        if (clientIds == null || clientIds.isEmpty()) {
-            return buildZeroSeries(fromDate, toDate);
-        }
+    List<Long> clientIds = userService.getClientIdsForUser(userId);
+    if (clientIds == null || clientIds.isEmpty()) {
+        log.debug("No clientIds for user {} -> returning zero series for {}..{}", userId, fromDate, toDate);
+        return buildZeroSeries(fromDate, toDate);
+    }
 
-        OffsetDateTime fromOffset = zoneResolver.toStartOfDay(fromDate, zone);
-        OffsetDateTime toOffsetInclusive = zoneResolver.toEndOfDayInclusive(toDate, zone);
+    // Calcular offsets coherentes con semántica inclusiva [startOfDay .. endOfDay]
+    OffsetDateTime fromOffset = zoneResolver.toStartOfDay(fromDate, zone);
+    OffsetDateTime toOffsetInclusive = zoneResolver.toEndOfDayInclusive(toDate, zone);
 
-        log.debug("Calling forecastRepo with clientIds={} fromOffset={} toOffsetInclusive={} zone={}",
-        clientIds, fromOffset, toOffsetInclusive, zone);
+    log.debug("ForecastService: userId={} clientIds={} fromOffset={} toOffsetInclusive={} zone={}",
+            userId, clientIds, fromOffset, toOffsetInclusive, zone);
 
-        List<ForecastSeriesProjection> rows =
+    List<ForecastSeriesProjection> rows =
             forecastRepo.findProjectionByClientIdsAndDateRangeIntersect(clientIds, fromOffset, toOffsetInclusive);
 
-        if (rows == null || rows.isEmpty()) return buildZeroSeries(fromDate, toDate);
-
-        Map<LocalDate, BigDecimal> accum = new TreeMap<>();
-        LocalDate cur = fromDate;
-        while (!cur.isAfter(toDate)) {
-            accum.put(cur, BigDecimal.ZERO);
-            cur = cur.plusDays(1);
-        }
-
-        // Define el metric que nos interesa (ajusta el valor según tu enum)
-        // Ejemplo: ForecastMetric.VISITS  (modifica si el nombre en tu enum es distinto)
-        ForecastMetric wantedMetric = ForecastMetric.VISITS;
-
-        for (ForecastSeriesProjection r : rows) {
-            if (r == null) continue;
-
-            // filtrar por metric
-            if (r.getMetric() == null || !r.getMetric().equals(wantedMetric)) {
-                continue;
-            }
-
-            OffsetDateTime ps = r.getPeriodStart();
-            OffsetDateTime pe = r.getPeriodEnd();
-            if (ps == null || pe == null) continue;
-
-            LocalDate periodStartLocal = ps.toInstant().atZone(zone).toLocalDate();
-            LocalDate periodEndLocal   = pe.toInstant().atZone(zone).toLocalDate();
-
-            LocalDate start = periodStartLocal.isBefore(fromDate) ? fromDate : periodStartLocal;
-            LocalDate end   = periodEndLocal.isAfter(toDate) ? toDate : periodEndLocal;
-            if (start.isAfter(end)) continue;
-
-            BigDecimal totalValue = r.getValue() == null ? BigDecimal.ZERO : r.getValue();
-
-            long daysCovered = java.time.temporal.ChronoUnit.DAYS.between(start, end) + 1;
-            if (daysCovered <= 0) continue;
-
-            BigDecimal perDay;
-            if (r.getPeriodicity() != null && r.getPeriodicity().name().equalsIgnoreCase("DAILY")) {
-                perDay = totalValue;
-            } else {
-                perDay = totalValue.divide(BigDecimal.valueOf(daysCovered), 6, java.math.RoundingMode.HALF_UP);
-            }
-
-            LocalDate d = start;
-            while (!d.isAfter(end)) {
-                accum.merge(d, perDay, BigDecimal::add);
-                d = d.plusDays(1);
-            }
-        }
-
-        // Opcional: logging para depuración
-        log.debug("Forecast aggregation for user {} from {} to {} (zone={}): {}", userId, fromDate, toDate, zone, accum);
-
-        return accum.entrySet().stream()
-                .map(e -> new ForecastPointDto(e.getKey().toString(), e.getValue()))
-                .collect(Collectors.toList());
+    log.debug("Projections fetched count={}", rows == null ? 0 : rows.size());
+    if (rows == null || rows.isEmpty()) {
+        return buildZeroSeries(fromDate, toDate);
     }
+
+    // Inicializar mapa de días con ceros
+    Map<LocalDate, BigDecimal> accum = new TreeMap<>();
+    LocalDate cur = fromDate;
+    while (!cur.isAfter(toDate)) {
+        accum.put(cur, BigDecimal.ZERO);
+        cur = cur.plusDays(1);
+    }
+
+    // Ajusta este valor al enum correcto si tu métrica de "visitas" tiene otro nombre
+    ForecastMetric wantedMetric = ForecastMetric.VISITS;
+
+    for (ForecastSeriesProjection r : rows) {
+        if (r == null) continue;
+
+        log.debug("Projection row: periodStart={} periodEnd={} value={} periodicity={} metric={}",
+                r.getPeriodStart(), r.getPeriodEnd(), r.getValue(), r.getPeriodicity(), r.getMetric());
+
+        // Filtrar por metric (si quieres incluir todos, elimina este bloque)
+        if (r.getMetric() == null || !r.getMetric().equals(wantedMetric)) {
+            log.trace("Skipping projection due to metric mismatch (wanted={} got={})", wantedMetric, r.getMetric());
+            continue;
+        }
+
+        OffsetDateTime ps = r.getPeriodStart();
+        OffsetDateTime pe = r.getPeriodEnd();
+        if (ps == null || pe == null) {
+            log.debug("Skipping projection with null periodStart/periodEnd: {}", r);
+            continue;
+        }
+
+        LocalDate periodStartLocal = ps.toInstant().atZone(zone).toLocalDate();
+        LocalDate periodEndLocal = pe.toInstant().atZone(zone).toLocalDate();
+
+        // Intersección con el rango pedido
+        LocalDate start = periodStartLocal.isBefore(fromDate) ? fromDate : periodStartLocal;
+        LocalDate end = periodEndLocal.isAfter(toDate) ? toDate : periodEndLocal;
+        if (start.isAfter(end)) {
+            log.debug("Projection does not intersect requested range: {} - {}", periodStartLocal, periodEndLocal);
+            continue;
+        }
+
+        BigDecimal totalValue = r.getValue() == null ? BigDecimal.ZERO : r.getValue();
+        long daysCovered = java.time.temporal.ChronoUnit.DAYS.between(start, end) + 1;
+        if (daysCovered <= 0) {
+            log.debug("Skipping projection with non-positive daysCovered: {}", daysCovered);
+            continue;
+        }
+
+        BigDecimal perDay;
+        if (r.getPeriodicity() != null && r.getPeriodicity().name().equalsIgnoreCase("DAILY")) {
+            // Si periodicidad DAILY => asumimos que value ya es por día
+            perDay = totalValue;
+            log.debug("Using DAILY periodicity: totalValue={} perDay={}", totalValue, perDay);
+        } else {
+            // Prorratear distribuyendo totalValue entre los días cubiertos
+            perDay = totalValue.divide(BigDecimal.valueOf(daysCovered), 6, java.math.RoundingMode.HALF_UP);
+            log.debug("Prorating totalValue={} over {} days -> perDay={}", totalValue, daysCovered, perDay);
+        }
+
+        if (perDay.compareTo(BigDecimal.ZERO) == 0) {
+            log.trace("Per-day value is zero for projection {}, skipping add to accum", r);
+            // no 'continue' aquí: puede que haya múltiples proyecciones que sumen algo
+        }
+
+        LocalDate d = start;
+        while (!d.isAfter(end)) {
+            accum.merge(d, perDay, BigDecimal::add);
+            d = d.plusDays(1);
+        }
+    }
+
+    log.debug("Forecast accumulation result for user {} from {} to {}: {}", userId, fromDate, toDate, accum);
+
+    // Construir DTOs en el formato esperado por el frontend
+    List<ForecastPointDto> out = accum.entrySet().stream()
+            .map(e -> new ForecastPointDto(e.getKey().toString(), e.getValue()))
+            .collect(Collectors.toList());
+
+    log.debug("Returning {} forecast points", out.size());
+    return out;
+}
 
 
     // helper
