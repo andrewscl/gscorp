@@ -11,7 +11,8 @@ public record ForecastTableRowDto (
     String projectName,
     Long siteId,
     String siteName,
-    String metric,
+    String forecastMetric,
+    String periodicity,
     OffsetDateTime periodStart,
     OffsetDateTime periodEnd,
     BigDecimal value,
@@ -24,14 +25,15 @@ public record ForecastTableRowDto (
             String projectName,
             Long siteId,
             String siteName,
-            String metric,
+            String forecastMetric,
+            String periodicity,
             OffsetDateTime periodStart,
             OffsetDateTime periodEnd,
             BigDecimal value,
             Units units,
             Boolean isActive) {
         return new ForecastTableRowDto(id, projectId, projectName, siteId, siteName,
-                metric, periodStart, periodEnd, value, units, isActive);
+                forecastMetric, periodicity, periodStart, periodEnd, value, units, isActive);
     }
 
 }
