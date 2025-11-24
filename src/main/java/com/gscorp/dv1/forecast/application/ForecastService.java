@@ -4,8 +4,10 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
+import com.gscorp.dv1.forecast.web.dto.ForecastCreateDto;
 import com.gscorp.dv1.forecast.web.dto.ForecastFormPayload;
 import com.gscorp.dv1.forecast.web.dto.ForecastPointDto;
+import com.gscorp.dv1.forecast.web.dto.ForecastRecordDto;
 import com.gscorp.dv1.forecast.web.dto.ForecastTableRowDto;
 
 public interface ForecastService {
@@ -23,6 +25,8 @@ public interface ForecastService {
     List<ForecastTableRowDto> loadTableRowForUserAndDates(Long userId, LocalDate fromDate, LocalDate toDate, ZoneId zone);
 
     ForecastFormPayload prepareCreateForecastForm(Long userId);
+
+    ForecastRecordDto createForecast (ForecastCreateDto req, Long userId);
 
 
 }

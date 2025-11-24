@@ -2,6 +2,7 @@ package com.gscorp.dv1.forecast.application;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -17,12 +18,18 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gscorp.dv1.clients.application.ClientService;
 import com.gscorp.dv1.clients.web.dto.ClientBriefDto;
 import com.gscorp.dv1.components.ZoneResolver;
+import com.gscorp.dv1.components.dto.ZoneResolutionResult;
+import com.gscorp.dv1.enums.Periodicity;
 import com.gscorp.dv1.forecast.infrastructure.Forecast;
 import com.gscorp.dv1.forecast.infrastructure.ForecastRepository;
+import com.gscorp.dv1.forecast.web.dto.ForecastCreateDto;
 import com.gscorp.dv1.forecast.web.dto.ForecastFormPayload;
 import com.gscorp.dv1.forecast.web.dto.ForecastFormPrefill;
 import com.gscorp.dv1.forecast.web.dto.ForecastPointDto;
+import com.gscorp.dv1.forecast.web.dto.ForecastRecordDto;
 import com.gscorp.dv1.forecast.web.dto.ForecastTableRowDto;
+import com.gscorp.dv1.projects.application.ProjectService;
+import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.users.application.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -37,6 +44,8 @@ public class ForecastServiceImpl implements ForecastService{
     private final UserService userService;
     private final ForecastRepository forecastRepo;
     private final ClientService clientService;
+    private final ProjectService projectService;
+    private final SiteService siteService;
     private final ZoneResolver zoneResolver;
 
 
@@ -183,5 +192,87 @@ public class ForecastServiceImpl implements ForecastService{
     }
 
 
+    @Override
+    public ForecastRecordDto createForecast (ForecastCreateDto req, Long userId) {
 
+        // 1) Validaciones de negocio básicas (existen client/project/site, permisos, etc.)
+        if (req.clientId() == null) {
+            throw new IllegalArgumentException("clientId is required");
+        }
+        if (clientService.findById(req.clientId()) == null) {
+            throw new IllegalArgumentException("client not found: " + req.clientId());
+        }
+        if (req.projectId() != null && projectService.findById(req.projectId()) == null) {
+            throw new IllegalArgumentException("project not found: " + req.projectId());
+        }
+        if (req.siteId() != null && siteService.findById(req.siteId()) == null) {
+            throw new IllegalArgumentException("site not found: " + req.siteId());
+        }
+
+        // resolver zona usando ZoneResolver y el userId que recibe el método
+        ZoneResolutionResult zr = zoneResolver.resolveZone(userId, req.tz());
+        ZoneId zone = zr.zoneId();
+
+
+        // Validaciones y construcción de periodStart / periodEnd
+        OffsetDateTime periodStart;
+        if (req.periodicity() == Periodicity.HOURLY) {
+            if (req.periodStartHour() == null) {
+                throw new IllegalArgumentException("periodStartHour is required for HOURLY periodicity");
+            }
+            if (req.periodStartHour() < 0 || req.periodStartHour() > 23) {
+                throw new IllegalArgumentException("periodStartHour must be 0..23");
+            }
+            LocalDateTime ldt = req.periodStart().atTime(req.periodStartHour(), 0);
+            periodStart = ldt.atZone(zone).toOffsetDateTime();
+        } else {
+            periodStart = zoneResolver.toStartOfDay(req.periodStart(), zone);
+        }
+
+        OffsetDateTime periodEnd = null;
+        if (req.periodEnd() != null) {
+            if (req.periodicity() == Periodicity.HOURLY) {
+                if (req.periodEndHour() == null) {
+                    throw new IllegalArgumentException("periodEndHour is required for HOURLY periodicity");
+                }
+                if (req.periodEndHour() < 0 || req.periodEndHour() > 23) {
+                    throw new IllegalArgumentException("periodEndHour must be 0..23");
+                }
+                LocalDateTime ldt = req.periodEnd().atTime(req.periodEndHour(), 0);
+                periodEnd = ldt.atZone(zone).toOffsetDateTime();
+            } else {
+                // si prefieres que sea el final del día usa toEndOfDayInclusive
+                periodEnd = zoneResolver.toStartOfDay(req.periodEnd(), zone);
+            }
+        }
+
+
+        // 3) Construir entidad Forecast
+        Forecast f = new Forecast();
+        f.setClientId(req.clientId());
+        f.setProjectId(req.projectId());
+        f.setSiteId(req.siteId());
+        // forecastMetric en tu DTO ya es ForecastMetric enum; si no, conviértelo
+        f.setForecastMetric(req.forecastMetric());
+        f.setPeriodicity(req.periodicity());
+        f.setPeriodStart(periodStart);
+        f.setPeriodEnd(periodEnd);
+        f.setValue(req.value());
+        f.setUnits(req.units());
+        f.setConfidence(req.confidence());
+        f.setNote(req.note());
+        f.setForecastVersion(req.forecastVersion());
+        f.setCreatedBy(userId);
+        f.setIsActive(Boolean.TRUE);
+
+        // 4) Persistir
+        Forecast saved = forecastRepo.save(f);
+
+        // 5) Mapear a ForecastRecordDto usando el heplper fromEntity
+        ForecastRecordDto result = ForecastRecordDto.fromEntity(saved);
+
+        return result;
+
+        
+    }
 }

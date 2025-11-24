@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import com.gscorp.dv1.enums.ForecastMetric;
+import com.gscorp.dv1.enums.Periodicity;
+import com.gscorp.dv1.enums.Units;
 
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
@@ -27,7 +29,7 @@ public record ForecastCreateDto(
     ForecastMetric forecastMetric,
 
     @NotNull(message = "periodicity is required")
-    String periodicity,
+    Periodicity periodicity,
 
     @NotNull(message = "periodStart is required")
     LocalDate periodStart,
@@ -46,7 +48,7 @@ public record ForecastCreateDto(
     @DecimalMin(value = "0", message = "value must be >= 0")
     BigDecimal value,
 
-    String units,
+    Units units,
 
     @DecimalMin(value = "0", message = "confidence must be >= 0")
     @DecimalMax(value = "100", message = "confidence must be <= 100")

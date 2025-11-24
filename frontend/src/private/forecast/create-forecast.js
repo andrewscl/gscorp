@@ -149,7 +149,7 @@ async function onSubmitCreate(e) {
 
     showStatus('Enviando...', { error: false, timeout: 0 });
 
-    const endpoint = form.dataset.forecastEndpoint || form.getAttribute('data-forecast-endpoint') || '/api/forecasts';
+    const endpoint = '/api/forecasts/create';
     const res = await submitForecast(endpoint, payload);
     if (!res.ok) {
       let msg = `Error ${res.status}`;
