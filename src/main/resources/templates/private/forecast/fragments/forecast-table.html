@@ -50,6 +50,7 @@
           <th>Proyecto</th>
           <th>Sitio</th>
           <th>Métrica</th>
+          <th>Periodicidad</th>
           <th>Periodo inicio</th>
           <th>Periodo fin</th>
           <th>Valor</th>
@@ -66,7 +67,9 @@
           <td th:text="${r.projectName != null ? r.projectName : (r.projectId != null ? r.projectId : '—')}">—</td>
           <td th:text="${r.siteName != null ? r.siteName : (r.siteId != null ? r.siteId : '—')}">—</td>
 
-          <td th:text="${r.metric != null ? r.metric : '—'}">—</td>
+          <td th:text="${r.forecastMetric != null ? r.forecastMetric : '—'}">—</td>
+
+          <td th:text="${r.periodicity != null ? r.periodicity : '—'}">—</td>
 
           <!-- periodStart/periodEnd son OffsetDateTime; formatear -->
           <td th:text="${r.periodStart != null ? #temporals.format(r.periodStart, 'yyyy-MM-dd HH:mm') : '—'}">—</td>
