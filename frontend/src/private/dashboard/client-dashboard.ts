@@ -322,6 +322,63 @@ const mapFrom = (arr: { x: string; y: number }[]) => {
   const valuesForecast = labels.map(l => mForecast.has(l) ? mForecast.get(l)! : 0);
 
 
+  // --- Donut específico para "Visitas" (weekly) ---
+  const elDonutVisit = root.querySelector('#donut-visit') as HTMLDivElement | null;
+  if (elDonutVisit) {
+    const chDonutVisit = mkChart(elDonutVisit);
+    if (chDonutVisit) {
+      charts.push(chDonutVisit);
+
+      const sumActualVisit = valuesActual.reduce((s, v) => s + (Number(v) || 0), 0);
+      const sumForecastVisit = valuesForecast.reduce((s, v) => s + (Number(v) || 0), 0);
+
+      const hasMeta = sumForecastVisit > 0;
+      const percentage = hasMeta ? Math.round((sumActualVisit / sumForecastVisit) * 100) : 0;
+      const pctForSeries = hasMeta ? Math.min(100, Math.max(0, percentage)) : 100;
+
+      const seriesData = !hasMeta
+        ? [{ value: 1, name: 'Sin meta', itemStyle: { color: '#E5E7EB' } }]
+        : [
+            { value: pctForSeries, name: 'Cumplido', itemStyle: { color: '#10B981' } },
+            { value: 100 - pctForSeries, name: 'Pendiente', itemStyle: { color: '#E5E7EB' } }
+          ];
+
+      chDonutVisit.setOption({
+        tooltip: {
+          trigger: 'item',
+          formatter: (p: any) => {
+            if (!hasMeta) return 'Meta no definida';
+            if (p && p.name === 'Cumplido') {
+              return `${p.marker} ${p.seriesName}: ${sumActualVisit} / ${sumForecastVisit} (${percentage}%)`;
+            }
+            if (p && p.name === 'Pendiente') {
+              return `${p.marker} Pendiente: ${Math.max(0, sumForecastVisit - sumActualVisit)}`;
+            }
+            return '';
+          }
+        },
+        series: [{
+          name: 'Cumplimiento Visitas',
+          type: 'pie',
+          radius: ['62%', '82%'],
+          avoidLabelOverlap: false,
+          hoverAnimation: false,
+          label: {
+            show: true,
+            position: 'center',
+            formatter: hasMeta ? `${percentage}%` : '—',
+            fontSize: 12,
+            fontWeight: 700,
+            color: '#111827'
+          },
+          labelLine: { show: false },
+          data: seriesData
+        }]
+      });
+    }
+  }
+
+
   console.debug('[visits-chart] labels:', labels);
   console.debug('[visits-chart] normActual:', normActual);
   console.debug('[visits-chart] normForecast:', normForecast);
