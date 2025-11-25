@@ -250,15 +250,29 @@ function isoToLocalIsoDateString(iso: string): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
+// Normaliza entradas en varios formatos a { x: 'YYYY-MM-DD', y: number }
+// soporta objetos { x, y }, { date, value }, y arrays [date, value]
 const norm = (arr: any[]) => {
   if (!Array.isArray(arr)) return [];
+
   return arr.map(d => {
-    const rawX = d?.x ?? '';
+    // rawX: puede venir en d.x o d.date o ser un array [date,value]
+    let rawX: any = '';
+    if (!d && Array.isArray(d)) rawX = d[0];
+    else if (Array.isArray(d)) rawX = d[0];
+    else rawX = d?.x ?? d?.date ?? d?.day ?? '';
+
+    // rawY: puede venir en d.y o d.value o ser un array [date,value]
+    let rawY: any = 0;
+    if (Array.isArray(d) && d.length > 1) rawY = d[1];
+    else rawY = d?.y ?? d?.value ?? 0;
+
     const x = isoToLocalIsoDateString(rawX);
-    const rawY = d?.y;
     const yNum = (typeof rawY === 'number') ? rawY : Number(String(rawY ?? 0));
     return { x, y: Number.isFinite(yNum) ? yNum : 0 };
-  }).filter(p => p.x); // elimina entradas sin fecha válida
+  })
+  // eliminar entradas inválidas (sin fecha)
+  .filter(p => p.x && typeof p.x === 'string' && p.x.length >= 4);
 };
 
 
