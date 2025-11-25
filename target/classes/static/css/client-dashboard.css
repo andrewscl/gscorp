@@ -1,9 +1,8 @@
 @charset "UTF-8";
 /* client-dashboard.scss
-   Diseño "pro & corporativo" para client-dashboard-fragment.html
-   Scoped bajo #client-dashboard-root para no afectar estilos globales.
-   Variables, mixins y reglas responsive para daily/weekly/full-width charts,
-   cards, headers, KPI row y donuts pequeños.
+   Versión actualizada para el dashboard con layout "integrado" (donut + meta/totales a la derecha)
+   Scoped bajo #client-dashboard-root.
+   Incluye daily & weekly con el mismo patrón, charts, responsive y accesibilidad.
 */
 #client-dashboard-root {
   --bg: #f8fafc;
@@ -23,56 +22,13 @@
   width: 100%;
   margin: 0 auto;
   padding: 10px;
-  background: transparent;
   color: var(--text);
   font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: transparent;
 }
 #client-dashboard-root .container-inner {
   max-width: var(--max-width);
   margin: 0 auto;
-}
-#client-dashboard-root .kpis {
-  display: flex;
-  gap: var(--gap);
-  margin-bottom: 1.25rem;
-  flex-wrap: wrap;
-  align-items: stretch;
-}
-#client-dashboard-root .kpis .kpi-card {
-  flex: 1 1 220px;
-  min-width: 170px;
-  background: var(--card-bg);
-  border-radius: var(--card-radius);
-  padding: 12px;
-  box-shadow: var(--surface-shadow);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 8px;
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
-  cursor: default;
-}
-#client-dashboard-root .kpis .kpi-card h4 {
-  margin: 0;
-  font-size: 0.95rem;
-  color: var(--muted);
-  font-weight: 600;
-  letter-spacing: 0.1px;
-}
-#client-dashboard-root .kpis .kpi-card .val {
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: var(--text);
-  line-height: 1;
-  display: inline-block;
-}
-#client-dashboard-root .kpis .kpi-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 14px 36px rgba(2, 6, 23, 0.08);
-}
-#client-dashboard-root .kpis .kpi-card:focus-within {
-  outline: 3px solid rgba(14, 165, 233, 0.12);
-  outline-offset: 2px;
 }
 #client-dashboard-root .card {
   box-sizing: border-box;
@@ -91,20 +47,13 @@
   transform: translateY(-6px);
   box-shadow: 0 18px 40px rgba(2, 6, 23, 0.08);
 }
-#client-dashboard-root .card .card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  width: 100%;
-}
-#client-dashboard-root .card .card-header h5 {
+#client-dashboard-root .card h5 {
   margin: 0;
   font-size: 1rem;
   font-weight: 600;
   color: var(--text);
-  letter-spacing: 0.1px;
 }
+#client-dashboard-root .card > .chart-body,
 #client-dashboard-root .card > div[id^=chart-] {
   width: 100% !important;
   max-width: 100% !important;
@@ -114,6 +63,48 @@
   border-radius: 8px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
   overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+#client-dashboard-root .card-top.split {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+}
+#client-dashboard-root .split-left {
+  flex: 0 0 48%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#client-dashboard-root .split-right {
+  flex: 1 1 52%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  justify-content: center;
+  min-height: 72px;
+}
+#client-dashboard-root .card-totals {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+#client-dashboard-root .total-label {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+#client-dashboard-root .total-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text);
+}
+#client-dashboard-root .meta.small.muted {
+  font-size: 0.85rem;
+  color: var(--muted);
 }
 #client-dashboard-root .charts {
   display: grid;
@@ -147,8 +138,8 @@
   flex-direction: column;
   justify-content: flex-start;
 }
-#client-dashboard-root .charts.daily .card > div[id^=chart-] {
-  height: 220px;
+#client-dashboard-root .charts.daily .card > .chart-body {
+  height: 200px;
   min-height: 160px;
 }
 #client-dashboard-root .charts.weekly {
@@ -166,7 +157,7 @@
     grid-template-columns: 1fr;
   }
 }
-#client-dashboard-root .charts.weekly .card > div[id^=chart-] {
+#client-dashboard-root .charts.weekly .card > .chart-body {
   height: 260px !important;
   min-height: 200px !important;
 }
@@ -177,40 +168,45 @@
 #client-dashboard-root .charts.full-width .card {
   width: 100%;
 }
-#client-dashboard-root .charts.full-width .card > div[id^=chart-] {
+#client-dashboard-root .charts.full-width .card > .chart-body {
   height: 300px !important;
   min-height: 220px !important;
 }
-#client-dashboard-root .weekly-donut,
-#client-dashboard-root .daily-donut {
-  display: inline-block;
-  box-sizing: border-box;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.98);
-  padding: 6px;
-  box-shadow: 0 8px 20px rgba(2, 6, 23, 0.06);
-  display: flex;
+#client-dashboard-root .daily-donut,
+#client-dashboard-root .weekly-donut {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
+  background: transparent;
+  padding: 0;
+  border-radius: 6px;
+  box-shadow: none; /* remove heavy box for integrated style */
+  min-width: 0;
 }
-#client-dashboard-root .weekly-donut {
-  width: 88px;
-  height: 88px;
-  min-width: 72px;
-  min-height: 72px;
+#client-dashboard-root .daily-donut.integrated,
+#client-dashboard-root .weekly-donut.integrated {
+  width: 100%;
+  height: 140px;
+  min-height: 120px;
+  max-height: 160px;
+  background: transparent;
+  padding: 0;
 }
-#client-dashboard-root .daily-donut {
-  width: 64px;
-  height: 64px;
-  min-width: 56px;
-  min-height: 56px;
+#client-dashboard-root .weekly-donut.compact,
+#client-dashboard-root .daily-donut.compact {
+  width: 72px;
+  height: 72px;
+  padding: 6px;
+  border-radius: 8px;
+  background: var(--card-bg);
+  box-shadow: var(--surface-shadow);
 }
 #client-dashboard-root .card .card-header {
   align-items: center;
-}
-#client-dashboard-root .card .card-header .weekly-donut, #client-dashboard-root .card .card-header .daily-donut {
-  flex: 0 0 auto;
-  border: 1px solid rgba(15, 23, 42, 0.04);
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
 }
 #client-dashboard-root .donut-meta {
   display: flex;
@@ -236,7 +232,7 @@
 #client-dashboard-root .muted {
   color: var(--muted);
 }
-#client-dashboard-root .card:focus-within, #client-dashboard-root .kpi-card:focus-within {
+#client-dashboard-root .card:focus-within {
   outline: 3px solid rgba(14, 165, 233, 0.12);
   outline-offset: 2px;
 }
@@ -249,19 +245,30 @@
   box-shadow: 0 6px 18px rgba(2, 6, 23, 0.12);
 }
 @media (max-width: 900px) {
-  #client-dashboard-root .weekly-donut {
-    width: 76px;
-    height: 76px;
-  }
-  #client-dashboard-root .daily-donut {
-    width: 72px;
-    height: 72px;
+  #client-dashboard-root .daily-donut.integrated,
+  #client-dashboard-root .weekly-donut.integrated {
+    height: 120px;
+    min-height: 100px;
   }
   #client-dashboard-root .card {
     padding: 12px;
   }
-  #client-dashboard-root .kpi-card {
-    padding: 10px;
+}
+@media (max-width: 720px) {
+  #client-dashboard-root .card-top.split {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  #client-dashboard-root .split-left,
+  #client-dashboard-root .split-right {
+    flex: 1 1 100%;
+  }
+  #client-dashboard-root .daily-donut.integrated,
+  #client-dashboard-root .weekly-donut.integrated {
+    height: 120px;
+  }
+  #client-dashboard-root .card > .chart-body {
+    height: 220px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -280,4 +287,10 @@
   border: 0;
   padding: 0;
   margin: -1px;
+}
+#client-dashboard-root .muted {
+  color: var(--muted);
+}
+#client-dashboard-root .text {
+  color: var(--text);
 }/*# sourceMappingURL=client-dashboard.css.map */

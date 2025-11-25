@@ -1,42 +1,82 @@
-<div th:fragment="content" id="client-dashboard-root" class="dashboard">
-
-  <div class="kpis">
-    <div class="kpi-card" id="kpi-att"><h4>Asistencia</h4><div class="val" data-kpi="att">–</div></div>
-    <div class="kpi-card" id="kpi-patrol"><h4>Rondas</h4><div class="val" data-kpi="patrol">–</div></div>
-    <div class="kpi-card" id="kpi-visit"><h4>Visitas</h4><div class="val" data-kpi="visit">–</div></div>
+<div th:fragment="content" id="client-dashboard-root" class="dashboard" role="region" aria-label="Client dashboard">
+  <!-- KPI row -->
+  <div class="kpis" role="group" aria-label="Indicadores principales">
+    <div class="kpi-card" id="kpi-att">
+      <h4>Asistencia</h4>
+      <div class="val" data-kpi="att" aria-live="polite">–</div>
+    </div>
+    <div class="kpi-card" id="kpi-patrol">
+      <h4>Rondas</h4>
+      <div class="val" data-kpi="patrol" aria-live="polite">–</div>
+    </div>
+    <div class="kpi-card" id="kpi-visit">
+      <h4>Visitas</h4>
+      <div class="val" data-kpi="visit" aria-live="polite">–</div>
+    </div>
   </div>
 
-  <div class="charts">
-    <div class="card">
-      <h5>Asistencia de hoy</h5>
-      <div id="chart-hourly-attendance"></div>
+  <!-- Daily charts row: envolvemos los 3 cards en .charts.daily para coherencia con SCSS -->
+  <div class="charts daily" role="group" aria-label="Indicadores diarios">
+    <div class="card" data-card="daily-attendance">
+      <div class="card-header">
+        <h5>Asistencia de hoy</h5>
+        <div id="donut-daily-att" class="daily-donut" data-testid="donut-daily-att" aria-hidden="true"></div>
+      </div>
+      <div id="chart-hourly-attendance" aria-hidden="false"></div>
     </div>
 
-    <div class="card">
-      <h5>Rondas de hoy</h5>
-      <div id="chart-hourly-rounds"></div>
+    <div class="card" data-card="daily-patrols">
+      <div class="card-header">
+        <h5>Rondas de hoy</h5>
+        <div id="donut-daily-patrol" class="daily-donut" data-testid="donut-daily-patrol" aria-hidden="true"></div>
+      </div>
+      <div id="chart-hourly-rounds" aria-hidden="false"></div>
     </div>
 
-    <div class="card">
-      <h5>Visitas de hoy</h5>
-      <div id="chart-hourly-visits"></div>
+    <div class="card" data-card="daily-visits">
+      <div class="card-header">
+        <h5>Visitas de hoy</h5>
+        <div id="donut-daily-visit" class="daily-donut" data-testid="donut-daily-visit" aria-hidden="true"></div>
+      </div>
+      <div id="chart-hourly-visits" aria-hidden="false"></div>
     </div>
   </div>
 
   <!-- Weekly smaller charts (3 en una fila) -->
-  <div class="charts weekly">
-    <div class="card"><h5>Asistencias ultima semana</h5><div id="chart-att"></div></div>
-    <div class="card"><h5>Rondas ultima semana</h5><div id="chart-patrol"></div></div>
-    <div class="card"><h5>Visitas ultima semana</h5><div id="chart-visit"></div></div>
-  </div>
+  <div class="charts weekly" role="group" aria-label="Indicadores semanales">
+    <div class="card" data-card="weekly-attendance">
+      <div class="card-header">
+        <h5>Asistencias última semana</h5>
+        <div id="donut-att" class="weekly-donut" aria-hidden="false" data-testid="donut-att"></div>
+      </div>
+      <div id="chart-att" aria-hidden="false"></div>
+    </div>
 
-  <!-- Visitas por sitio en su propia fila, ocupando todo el ancho -->
-  <div class="charts full-width">
-    <div class="card">
-      <h5>Visitas por sitio</h5>
-      <div id="chart-visit-site"></div>
+    <div class="card" data-card="weekly-patrols">
+      <div class="card-header">
+        <h5>Rondas última semana</h5>
+        <div id="donut-patrol" class="weekly-donut" aria-hidden="false" data-testid="donut-patrol"></div>
+      </div>
+      <div id="chart-patrol" aria-hidden="false"></div>
+    </div>
+
+    <div class="card" data-card="weekly-visits">
+      <div class="card-header">
+        <h5>Visitas última semana</h5>
+        <div id="donut-visit" class="weekly-donut" aria-hidden="false" data-testid="donut-visit"></div>
+      </div>
+      <div id="chart-visit" aria-hidden="false"></div>
     </div>
   </div>
 
+  <!-- Visitas por sitio en su propia fila, ocupando todo el ancho -->
+  <div class="charts full-width" role="group" aria-label="Visitas por sitio">
+    <div class="card" data-card="visits-by-site">
+      <h5>Visitas por sitio</h5>
+      <div id="chart-visit-site" aria-hidden="false"></div>
+    </div>
+  </div>
+
+  <!-- Script bundle -->
   <script type="module" src="/assets/private/client.js"></script>
 </div>

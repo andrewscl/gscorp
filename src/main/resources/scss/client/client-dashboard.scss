@@ -1,20 +1,19 @@
 /* client-dashboard.scss
-   Diseño "pro & corporativo" para client-dashboard-fragment.html
-   Scoped bajo #client-dashboard-root para no afectar estilos globales.
-   Variables, mixins y reglas responsive para daily/weekly/full-width charts,
-   cards, headers, KPI row y donuts pequeños.
+   Versión actualizada para el dashboard con layout "integrado" (donut + meta/totales a la derecha)
+   Scoped bajo #client-dashboard-root.
+   Incluye daily & weekly con el mismo patrón, charts, responsive y accesibilidad.
 */
 
 #client-dashboard-root {
   // ---------------- Theme tokens (ajusta según tu design system) ----------------
-  --bg: #f8fafc;                 // panel background (light)
-  --card-bg: #ffffff;            // card background
-  --muted: #6b7280;              // muted text
-  --text: #0f172a;               // primary text
-  --accent: #0ea5e9;             // brand accent (azul)
-  --accent-2: #f59e0b;           // secondary accent (amarillo)
-  --success: #10b981;            // success (verde)
-  --danger: #ef4444;             // danger (rojo)
+  --bg: #f8fafc;
+  --card-bg: #ffffff;
+  --muted: #6b7280;
+  --text: #0f172a;
+  --accent: #0ea5e9;
+  --accent-2: #f59e0b;
+  --success: #10b981;
+  --danger: #ef4444;
   --surface-shadow: 0 8px 24px rgba(2,6,23,0.06);
   --card-radius: 12px;
   --card-padding: 16px;
@@ -25,64 +24,14 @@
   width: 100%;
   margin: 0 auto;
   padding: 10px;
-  background: transparent;
   color: var(--text);
   font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: transparent;
 
   // ---------------- Layout container ----------------
   .container-inner {
     max-width: var(--max-width);
     margin: 0 auto;
-  }
-
-  // ---------------- KPI row ----------------
-  .kpis {
-    display: flex;
-    gap: var(--gap);
-    margin-bottom: 1.25rem;
-    flex-wrap: wrap;
-    align-items: stretch;
-
-    .kpi-card {
-      flex: 1 1 220px;
-      min-width: 170px;
-      background: var(--card-bg);
-      border-radius: var(--card-radius);
-      padding: 12px;
-      box-shadow: var(--surface-shadow);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 8px;
-      transition: transform .18s ease, box-shadow .18s ease;
-      cursor: default;
-
-      h4 {
-        margin: 0;
-        font-size: 0.95rem;
-        color: var(--muted);
-        font-weight: 600;
-        letter-spacing: 0.1px;
-      }
-
-      .val {
-        font-size: 1.6rem;
-        font-weight: 700;
-        color: var(--text);
-        line-height: 1;
-        display: inline-block;
-      }
-
-      &:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 14px 36px rgba(2,6,23,0.08);
-      }
-
-      &:focus-within {
-        outline: 3px solid rgba(14,165,233,0.12);
-        outline-offset: 2px;
-      }
-    }
   }
 
   // ---------------- Generic card styles ----------------
@@ -104,24 +53,15 @@
       box-shadow: 0 18px 40px rgba(2,6,23,0.08);
     }
 
-    // Header that contains title and compact controls (donuts, actions)
-    .card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      width: 100%;
-
-      h5 {
-        margin: 0;
-        font-size: 1rem;
-        font-weight: 600;
-        color: var(--text);
-        letter-spacing: 0.1px;
-      }
+    h5 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
     }
 
-    // Chart containers & donuts: ensure ECharts has space to render
+    // Chart containers: ensure ECharts has space to render
+    > .chart-body,
     > div[id^="chart-"] {
       width: 100% !important;
       max-width: 100% !important;
@@ -131,7 +71,54 @@
       border-radius: 8px;
       background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
       overflow: hidden !important;
+      box-sizing: border-box !important;
     }
+  }
+
+  // ---------------- Split top area (integrated donut + meta) ----------------
+  .card-top.split {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+  }
+
+  .split-left {
+    flex: 0 0 48%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .split-right {
+    flex: 1 1 52%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    justify-content: center;
+    min-height: 72px;
+  }
+
+  .card-totals {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .total-label {
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 0.2px;
+  }
+  .total-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .meta.small.muted {
+    font-size: 0.85rem;
+    color: var(--muted);
   }
 
   // ---------------- Charts grid defaults ----------------
@@ -164,14 +151,14 @@
       flex-direction: column;
       justify-content: flex-start;
 
-      > div[id^="chart-"] {
-        height: 220px;
+      > .chart-body {
+        height: 200px;
         min-height: 160px;
       }
     }
   }
 
-  // ---------------- Weekly row (smaller) ----------------
+  // ---------------- Weekly row (3 cards) - same integrated layout ----------------
   .charts.weekly {
     margin-top: 0.5rem;
     grid-template-columns: repeat(3, 1fr);
@@ -181,7 +168,7 @@
     @media (max-width: 640px) { grid-template-columns: 1fr; }
 
     .card {
-      > div[id^="chart-"] {
+      > .chart-body {
         height: 260px !important;
         min-height: 200px !important;
       }
@@ -195,52 +182,57 @@
 
     .card {
       width: 100%;
-      > div[id^="chart-"] {
+      > .chart-body {
         height: 300px !important;
         min-height: 220px !important;
       }
     }
   }
 
-  // ---------------- Donut styles (weekly & daily) ----------------
-  .weekly-donut,
-  .daily-donut {
-    display: inline-block;
-    box-sizing: border-box;
-    border-radius: 10px;
-    background: rgba(255,255,255,0.98);
-    padding: 6px;
-    box-shadow: 0 8px 20px rgba(2,6,23,0.06);
-    display: flex;
+  // ---------------- Donut styles (integrated: minimal, no box/shadow) ----------------
+  .daily-donut,
+  .weekly-donut {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
+    background: transparent;
+    padding: 0;
+    border-radius: 6px;
+    box-shadow: none; /* remove heavy box for integrated style */
+    min-width: 0;
   }
 
-  .weekly-donut {
-    width: 88px;
-    height: 88px;
-    min-width: 72px;
-    min-height: 72px;
+  .daily-donut.integrated,
+  .weekly-donut.integrated {
+    width: 100%;
+    height: 140px;
+    min-height: 120px;
+    max-height: 160px;
+    background: transparent;
+    padding: 0;
   }
 
-  .daily-donut {
-    width: 64px;
-    height: 64px;
-    min-width: 56px;
-    min-height: 56px;
+  // If you still use non-integrated small donuts elsewhere, keep a compact variant:
+  .weekly-donut.compact,
+  .daily-donut.compact {
+    width: 72px;
+    height: 72px;
+    padding: 6px;
+    border-radius: 8px;
+    background: var(--card-bg);
+    box-shadow: var(--surface-shadow);
   }
 
-  // align donuts to header and give subtle border
+  // ---------------- Utilities for header alignment ----------------
   .card .card-header {
     align-items: center;
-
-    .weekly-donut, .daily-donut {
-      flex: 0 0 auto;
-      border: 1px solid rgba(15,23,42,0.04);
-    }
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
   }
 
-  // ---------------- Small utilities & metadata below donuts ----------------
+  // ---------------- Small utilities & metadata ----------------
   .donut-meta {
     display: flex;
     gap: 8px;
@@ -257,12 +249,12 @@
   .muted { color: var(--muted); }
 
   // ---------------- Accessibility & focus ----------------
-  .card:focus-within, .kpi-card:focus-within {
+  .card:focus-within {
     outline: 3px solid rgba(14,165,233,0.12);
     outline-offset: 2px;
   }
 
-  // Tooltip subtle style for inline lists (if you render text overlays)
+  // ---------------- Tooltip / inline styles ----------------
   .inline-tooltip {
     background: rgba(2,6,23,0.95);
     color: #fff;
@@ -274,10 +266,25 @@
 
   // ---------------- Responsive tweaks ----------------
   @media (max-width: 900px) {
-    .weekly-donut { width: 76px; height: 76px; }
-    .daily-donut  { width: 72px; height: 72px; }
+    .daily-donut.integrated,
+    .weekly-donut.integrated { height: 120px; min-height: 100px; }
     .card { padding: 12px; }
-    .kpi-card { padding: 10px; }
+  }
+
+  // Stack split columns on small screens
+  @media (max-width: 720px) {
+    .card-top.split {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .split-left,
+    .split-right {
+      flex: 1 1 100%;
+    }
+
+    .daily-donut.integrated,
+    .weekly-donut.integrated { height: 120px; }
+    .card > .chart-body { height: 220px; }
   }
 
   // ---------------- Reduced motion preference ----------------
@@ -292,4 +299,7 @@
     overflow: hidden; clip: rect(1px, 1px, 1px, 1px);
     white-space: nowrap; border: 0; padding: 0; margin: -1px;
   }
+
+  .muted { color: var(--muted); }
+  .text { color: var(--text); }
 }

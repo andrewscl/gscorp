@@ -5,7 +5,6 @@ import { fetchWithAuth } from './api/api';
 // llamar initThreeMetrics para los 3 gráficos por hora
 
 type Point = { x: string; y: number };
-type KPIs = { asistenciaHoy: number; rondasHoy: number; visitasHoy: number; incidentesAbiertos: number };
 type SiteVisitCountDto = { siteId: number; siteName: string; count: number };
 
 function firstDayISO(d = new Date()) {
@@ -26,6 +25,7 @@ export async function init({ container }: { container: HTMLElement }) {
   const from = firstDayISO();
   const to   = lastDayISO();
 
+
   // DOM: asegúrate de que existan estos contenedores en tu fragmento
   const elAsis   = root.querySelector('#chart-att') as HTMLDivElement;
   const elPatrol = root.querySelector('#chart-patrol') as HTMLDivElement;
@@ -33,27 +33,6 @@ export async function init({ container }: { container: HTMLElement }) {
   const elVisit  = root.querySelector('#chart-visit') as HTMLDivElement;
   const elVisitSite = root.querySelector('#chart-visit-site') as HTMLDivElement;
 
-
-  // -------- KPIs (cards) --------
-  try {
-    // Obtener la zona horaria del navegador (fallback a UTC)
-    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
-    const url = `/api/clients/dashboard/kpis?tz=${encodeURIComponent(tz)}`;
-
-    const kpiRes = await fetchWithAuth(url);
-    if (kpiRes.ok) {
-      const k: KPIs = await kpiRes.json();
-      (root.querySelector('[data-kpi="att"]') as HTMLElement).textContent   = String(k.asistenciaHoy ?? 0);
-      (root.querySelector('[data-kpi="patrol"]') as HTMLElement).textContent = String(k.rondasHoy ?? 0);
-      (root.querySelector('[data-kpi="visit"]') as HTMLElement).textContent  = String(k.visitasHoy ?? 0);
-    } else {
-      // opcional: log/handle no-ok
-      console.warn('KPIs fetch no OK', kpiRes.status);
-    }
-  } catch (e) {
-    // silenciar, que no rompa el dashboard
-    console.error('Error obteniendo KPIs', e);
-  }
 
   // -------- Chart helpers --------
   const charts: echarts.ECharts[] = [];
@@ -73,8 +52,8 @@ export async function init({ container }: { container: HTMLElement }) {
   ): Promise<Response> {
     const controller = new AbortController();
     const mergedInit: RequestInit = { ...init, signal: controller.signal };
-
     const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
 
     try {
       if (useFetchWithAuth) {
@@ -87,8 +66,6 @@ export async function init({ container }: { container: HTMLElement }) {
       // No abort aquí; abort already triggered by timeout if needed or the fetch finished.
     }
   }
-
-
 
 
   // -------- Asistencia (línea con área) --------
@@ -482,6 +459,7 @@ const mapFrom = (arr: { x: string; y: number }[]) => {
       if (!values.some(v => Number(v) > 0)) setNoData(chVisitSite);
     } else setNoData(chVisitSite, 'Error de datos');
   } catch { setNoData(chVisitSite, 'Error de datos'); }
+
 
 
   // -------- Inicializar los 3 gráficos horarios (Asistencias, Rondas, Visitas) --------

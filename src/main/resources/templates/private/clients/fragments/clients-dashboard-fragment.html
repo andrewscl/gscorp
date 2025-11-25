@@ -1,73 +1,125 @@
 <div th:fragment="content" id="client-dashboard-root" class="dashboard" role="region" aria-label="Client dashboard">
-  <!-- KPI row -->
-  <div class="kpis" role="group" aria-label="Indicadores principales">
-    <div class="kpi-card" id="kpi-att">
-      <h4>Asistencia</h4>
-      <div class="val" data-kpi="att" aria-live="polite">–</div>
-    </div>
-    <div class="kpi-card" id="kpi-patrol">
-      <h4>Rondas</h4>
-      <div class="val" data-kpi="patrol" aria-live="polite">–</div>
-    </div>
-    <div class="kpi-card" id="kpi-visit">
-      <h4>Visitas</h4>
-      <div class="val" data-kpi="visit" aria-live="polite">–</div>
-    </div>
-  </div>
 
-  <!-- Daily charts row: envolvemos los 3 cards en .charts.daily para coherencia con SCSS -->
+
+  <!-- Daily charts (actualizado: donut integrado en la mitad superior izquierda) -->
   <div class="charts daily" role="group" aria-label="Indicadores diarios">
+    <!-- Attendance -->
     <div class="card" data-card="daily-attendance">
-      <div class="card-header">
-        <h5>Asistencia de hoy</h5>
-        <div id="donut-daily-att" class="daily-donut" data-testid="donut-daily-att" aria-hidden="true"></div>
+      <div class="card-top split">
+        <div class="split-left">
+          <!-- Donut (ECharts) ocupa el 100% del contenedor izquierdo -->
+          <div id="donut-daily-att" class="daily-donut integrated" data-testid="donut-daily-att" aria-hidden="true"></div>
+        </div>
+        <div class="split-right">
+          <h5>Asistencia de hoy</h5>
+          <div class="card-totals" aria-live="polite">
+            <div class="total-label">Total hoy</div>
+            <div class="total-value" id="total-daily-att">–</div>
+            <div class="meta small muted" id="meta-daily-att">Meta: —</div>
+          </div>
+        </div>
       </div>
-      <div id="chart-hourly-attendance" aria-hidden="false"></div>
+      <div id="chart-hourly-attendance" class="chart-body" aria-hidden="false"></div>
     </div>
 
+    <!-- Patrols -->
     <div class="card" data-card="daily-patrols">
-      <div class="card-header">
-        <h5>Rondas de hoy</h5>
-        <div id="donut-daily-patrol" class="daily-donut" data-testid="donut-daily-patrol" aria-hidden="true"></div>
+      <div class="card-top split">
+        <div class="split-left">
+          <div id="donut-daily-patrol" class="daily-donut integrated" data-testid="donut-daily-patrol" aria-hidden="true"></div>
+        </div>
+        <div class="split-right">
+          <h5>Rondas de hoy</h5>
+          <div class="card-totals" aria-live="polite">
+            <div class="total-label">Total hoy</div>
+            <div class="total-value" id="total-daily-patrol">–</div>
+            <div class="meta small muted" id="meta-daily-patrol">Meta: —</div>
+          </div>
+        </div>
       </div>
-      <div id="chart-hourly-rounds" aria-hidden="false"></div>
+      <div id="chart-hourly-rounds" class="chart-body" aria-hidden="false"></div>
     </div>
 
+    <!-- Visits -->
     <div class="card" data-card="daily-visits">
-      <div class="card-header">
-        <h5>Visitas de hoy</h5>
-        <div id="donut-daily-visit" class="daily-donut" data-testid="donut-daily-visit" aria-hidden="true"></div>
+      <div class="card-top split">
+        <div class="split-left">
+          <div id="donut-daily-visit" class="daily-donut integrated" data-testid="donut-daily-visit" aria-hidden="true"></div>
+        </div>
+        <div class="split-right">
+          <h5>Visitas de hoy</h5>
+          <div class="card-totals" aria-live="polite">
+            <div class="total-label">Total hoy</div>
+            <div class="total-value" id="total-daily-visit">–</div>
+            <div class="meta small muted" id="meta-daily-visit">Meta: —</div>
+          </div>
+        </div>
       </div>
-      <div id="chart-hourly-visits" aria-hidden="false"></div>
+      <div id="chart-hourly-visits" class="chart-body" aria-hidden="false"></div>
     </div>
+
   </div>
 
-  <!-- Weekly smaller charts (3 en una fila) -->
+
+
+  <!-- Weekly charts (ahora con layout integrado igual que daily) -->
   <div class="charts weekly" role="group" aria-label="Indicadores semanales">
+    <!-- Weekly Attendance -->
     <div class="card" data-card="weekly-attendance">
-      <div class="card-header">
-        <h5>Asistencias última semana</h5>
-        <div id="donut-att" class="weekly-donut" aria-hidden="false" data-testid="donut-att"></div>
+      <div class="card-top split">
+        <div class="split-left">
+          <div id="donut-att" class="daily-donut integrated" data-testid="donut-att" aria-hidden="false"></div>
+        </div>
+        <div class="split-right">
+          <h5>Asistencias última semana</h5>
+          <div class="card-totals" aria-live="polite">
+            <div class="total-label">Total semana</div>
+            <div class="total-value" id="total-weekly-att">–</div>
+            <div class="meta small muted" id="meta-weekly-att">Meta: —</div>
+          </div>
+        </div>
       </div>
-      <div id="chart-att" aria-hidden="false"></div>
+      <div id="chart-att" class="chart-body" aria-hidden="false"></div>
     </div>
 
+    <!-- Weekly Patrols -->
     <div class="card" data-card="weekly-patrols">
-      <div class="card-header">
-        <h5>Rondas última semana</h5>
-        <div id="donut-patrol" class="weekly-donut" aria-hidden="false" data-testid="donut-patrol"></div>
+      <div class="card-top split">
+        <div class="split-left">
+          <div id="donut-patrol" class="daily-donut integrated" data-testid="donut-patrol" aria-hidden="false"></div>
+        </div>
+        <div class="split-right">
+          <h5>Rondas última semana</h5>
+          <div class="card-totals" aria-live="polite">
+            <div class="total-label">Total semana</div>
+            <div class="total-value" id="total-weekly-patrol">–</div>
+            <div class="meta small muted" id="meta-weekly-patrol">Meta: —</div>
+          </div>
+        </div>
       </div>
-      <div id="chart-patrol" aria-hidden="false"></div>
+      <div id="chart-patrol" class="chart-body" aria-hidden="false"></div>
     </div>
 
+    <!-- Weekly Visits -->
     <div class="card" data-card="weekly-visits">
-      <div class="card-header">
-        <h5>Visitas última semana</h5>
-        <div id="donut-visit" class="weekly-donut" aria-hidden="false" data-testid="donut-visit"></div>
+      <div class="card-top split">
+        <div class="split-left">
+          <div id="donut-visit" class="daily-donut integrated" data-testid="donut-visit" aria-hidden="false"></div>
+        </div>
+        <div class="split-right">
+          <h5>Visitas última semana</h5>
+          <div class="card-totals" aria-live="polite">
+            <div class="total-label">Total semana</div>
+            <div class="total-value" id="total-weekly-visit">–</div>
+            <div class="meta small muted" id="meta-weekly-visit">Meta: —</div>
+          </div>
+        </div>
       </div>
-      <div id="chart-visit" aria-hidden="false"></div>
+      <div id="chart-visit" class="chart-body" aria-hidden="false"></div>
     </div>
   </div>
+
+
 
   <!-- Visitas por sitio en su propia fila, ocupando todo el ancho -->
   <div class="charts full-width" role="group" aria-label="Visitas por sitio">
@@ -77,6 +129,8 @@
     </div>
   </div>
 
+
   <!-- Script bundle -->
   <script type="module" src="/assets/private/client.js"></script>
+
 </div>
