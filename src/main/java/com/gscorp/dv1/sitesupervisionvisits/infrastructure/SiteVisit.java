@@ -31,7 +31,7 @@ import lombok.Setter;
   }
 )
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-public class SiteSupervisionVisit {
+public class SiteVisit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
