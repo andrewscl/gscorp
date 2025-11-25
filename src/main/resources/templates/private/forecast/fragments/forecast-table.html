@@ -67,16 +67,18 @@
           <td th:text="${r.projectName != null ? r.projectName : (r.projectId != null ? r.projectId : '—')}">—</td>
           <td th:text="${r.siteName != null ? r.siteName : (r.siteId != null ? r.siteId : '—')}">—</td>
 
-          <td th:text="${r.forecastMetric != null ? r.forecastMetric : '—'}">—</td>
+          <td th:text="${r.forecastMetric?.displayName ?: '—'}">—</td>
 
-          <td th:text="${r.periodicity != null ? r.periodicity : '—'}">—</td>
+          <!-- Safe navigation + Elvis (Conciso) -->
+          <td th:text="${r.periodicity?.displayName ?: '—'}">—</td>
 
           <!-- periodStart/periodEnd son OffsetDateTime; formatear -->
           <td th:text="${r.periodStart != null ? #temporals.format(r.periodStart, 'yyyy-MM-dd HH:mm') : '—'}">—</td>
           <td th:text="${r.periodEnd != null ? #temporals.format(r.periodEnd, 'yyyy-MM-dd HH:mm') : '—'}">—</td>
 
           <td th:text="${r.value != null ? r.value : '—'}">—</td>
-          <td th:text="${r.units != null ? r.units : '—'}">—</td>
+
+          <td th:text="${r.units?.displayName ?: '—'}">—</td>
 
           <td>
             <span class="tag" th:classappend="${r.isActive} ? ' active' : ' inactive'">

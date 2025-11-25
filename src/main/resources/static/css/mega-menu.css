@@ -226,7 +226,7 @@ p {
 .navbar .mega-menu-content .nav-links .nav-item a {
   display: flex;
   font-family: "Roboto", sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 500;
   letter-spacing: 0.02em;
   text-decoration: none;
@@ -258,7 +258,7 @@ p {
   width: 100vw;
   display: none;
   justify-content: left;
-  padding: 5vh 0 5vh 10vw;
+  padding: 2.5vh 0 2.5vh 10vw;
   min-height: 30vh;
 }
 .navbar .mega-menu-content .nav-links .nav-item .mega-menu .mega-column {

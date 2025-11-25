@@ -145,7 +145,7 @@ $background-transparent: transparent;
 
         a {
           display: flex;
-          @include roboto-font(1.2rem, 500);
+          @include roboto-font(1.1rem, 500);
           text-decoration: none;
           color: white;
           transition: color 0.2s ease;
@@ -178,7 +178,7 @@ $background-transparent: transparent;
           width: 100vw;
           display: none;
           justify-content: left;
-          padding: 5vh 0 5vh 10vw;
+          padding: 2.5vh 0 2.5vh 10vw;
           min-height: 30vh;
 
           .mega-column {
