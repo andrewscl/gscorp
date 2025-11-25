@@ -12,10 +12,7 @@ type HourlyPointRaw = {
 };
 
 /**
- * Inicializa los 3 charts horarios y hace fetch combinado de las 3 métricas.
- * - container: elemento raíz donde buscar los divs
- * - date: YYYY-MM-DD (opcional)
- * - opts.refreshMs: intervalo en ms para refrescar; 0 = no refrescar
+ * Inicializa los 3 charts horarios y hace fetch separado por métrica (attendance, rounds, visits).
  */
 export async function initThreeMetrics(
   container: HTMLElement,
@@ -24,82 +21,139 @@ export async function initThreeMetrics(
 ) {
   const refreshMs = opts?.refreshMs ?? 0;
 
-  // Inicializa los 3 charts y obtén sus "refresher" (pueden ser null si el div no existe)
-  const attendanceRef = await initHourlyMetricChart(container, 'attendance', 'Asistencias', '#chart-hourly-attendance', /*date*/ undefined);
-  const roundsRef     = await initHourlyMetricChart(container, 'rounds',     'Rondas',     '#chart-hourly-rounds',     /*date*/ undefined);
-  const visitsRef     = await initHourlyMetricChart(container, 'visits',     'Visitas',    '#chart-hourly-visits',     /*date*/ undefined);
+  // Inicializa los 3 charts y obtén sus "refresher"
+  const attendanceRef = await initHourlyMetricChart(container, 'attendance', 'Asistencias', '#chart-hourly-attendance', undefined);
+  const roundsRef     = await initHourlyMetricChart(container, 'rounds',     'Rondas',     '#chart-hourly-rounds',     undefined);
+  const visitsRef     = await initHourlyMetricChart(container, 'visits',     'Visitas',    '#chart-hourly-visits',     undefined);
 
-  // Helper: aplica raw[] a cada refresher si existe
   const refreshAll = (raw: HourlyPointRaw[]) => {
     if (attendanceRef) attendanceRef.refresh(raw);
     if (roundsRef)     roundsRef.refresh(raw);
     if (visitsRef)     visitsRef.refresh(raw);
   };
 
-  // Detectar zona horaria del cliente (fallback a 'UTC' si falla)
+  // Detectar zona horaria del cliente (fallback a 'UTC')
   let tz = 'UTC';
   try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'; } catch {}
 
-  // Función que obtiene y normaliza los datos desde 3 endpoints horarios
-  async function fetchHourlyCombined(dateArg?: string): Promise<HourlyPointRaw[]> {
+  // Helpers
+  const hours24 = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0'));
+
+  function extractHour(item: any): string {
+    const raw = item?.hour ?? item?.x ?? item?.label ?? item?.h ?? item?.time ?? '';
+    const hh = String(raw ?? '').padStart(2, '0').slice(-2);
+    return /^[0-2]\d$/.test(hh) ? hh : '00';
+  }
+
+  function extractNumber(item: any, keys: string[]): number {
+    for (const k of keys) {
+      const v = item?.[k];
+      if (v !== undefined && v !== null && v !== '') {
+        const n = Number(v);
+        if (!Number.isNaN(n)) return n;
+      }
+    }
+    return 0;
+  }
+
+  // Normalizadores por métrica: devuelven Map<hour, {count, forecast?}>
+  async function fetchAttendanceMap(dateArg?: string): Promise<Map<string, { count: number; forecast?: number }>> {
     const q = dateArg ? `?date=${encodeURIComponent(dateArg)}&tz=${encodeURIComponent(tz)}` : `?tz=${encodeURIComponent(tz)}`;
-
-    // Ajusta paths si tus endpoints son distintos
-    const attendanceUrl = `/api/attendance/hourly${q}`;
-    const patrolsUrl    = `/api/patrols-runs/hourly${q}`; // si tu endpoint difiere, cámbialo
-    const visitsUrl     = `/api/site-supervision-visits/hourly-aggregated${q}`;
-
+    const url = `/api/attendance/hourly${q}`;
     try {
-      const [ra, rr, rv] = await Promise.all([
-        fetchWithAuth(attendanceUrl),
-        fetchWithAuth(patrolsUrl),
-        fetchWithAuth(visitsUrl)
-      ]);
-
-      const a = ra.ok ? await ra.json().catch(() => []) : [];
-      const r = rr.ok ? await rr.json().catch(() => []) : [];
-      const v = rv.ok ? await rv.json().catch(() => []) : [];
-
-      // convertir a maps por hour (asegurar clave "00".."23")
-      const ma = new Map((a as any[]).map((x: any) => [String(x.hour).padStart(2, '0'), x]));
-      const mr = new Map((r as any[]).map((x: any) => [String(x.hour).padStart(2, '0'), x]));
-      const mv = new Map((v as any[]).map((x: any) => [String(x.hour).padStart(2, '0'), x]));
-
-      const hours = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0'));
-      return hours.map(h => ({
-        hour: h,
-        attendance: Number(ma.get(h)?.count ?? ma.get(h)?.cnt ?? 0),
-        attendanceForecast: Number(ma.get(h)?.forecast ?? 0),
-        rounds: Number(mr.get(h)?.count ?? mr.get(h)?.cnt ?? 0),
-        roundsForecast: Number(mr.get(h)?.forecast ?? 0),
-        visits: Number(mv.get(h)?.count ?? mv.get(h)?.cnt ?? 0),
-        visitsForecast: Number(mv.get(h)?.forecast ?? 0)
-      }));
+      const res = await fetchWithAuth(url);
+      const arr = res.ok ? await res.json().catch(() => []) : [];
+      const m = new Map<string, { count: number; forecast?: number }>();
+      (arr || []).forEach((it: any) => {
+        const hh = extractHour(it);
+        const count = extractNumber(it, ['count','cnt','y','value','attendance']);
+        const forecast = extractNumber(it, ['forecast','f','attendanceForecast']);
+        m.set(hh, { count, forecast: forecast || undefined });
+      });
+      return m;
     } catch (e) {
-      console.warn('[initThreeMetrics] fetchHourlyCombined error', e);
-      // devolver array vacío con 24 horas para evitar excepciones en refresher
-      return Array.from({ length: 24 }, (_, i) => ({ hour: String(i).padStart(2, '0') }));
+      console.warn('[initThreeMetrics] fetchAttendanceMap error', e);
+      return new Map();
     }
   }
 
-  // Carga inicial: si date fue provisto, úsalo; si no, puedes llamar sin date (backend decide)
-  const initialRaw = await fetchHourlyCombined(date);
+  async function fetchRoundsMap(dateArg?: string): Promise<Map<string, { count: number; forecast?: number }>> {
+    const q = dateArg ? `?date=${encodeURIComponent(dateArg)}&tz=${encodeURIComponent(tz)}` : `?tz=${encodeURIComponent(tz)}`;
+    const url = `/api/patrols-runs/hourly${q}`;
+    try {
+      const res = await fetchWithAuth(url);
+      const arr = res.ok ? await res.json().catch(() => []) : [];
+      const m = new Map<string, { count: number; forecast?: number }>();
+      (arr || []).forEach((it: any) => {
+        const hh = extractHour(it);
+        const count = extractNumber(it, ['count','cnt','y','value','rounds']);
+        const forecast = extractNumber(it, ['forecast','f','roundsForecast']);
+        m.set(hh, { count, forecast: forecast || undefined });
+      });
+      return m;
+    } catch (e) {
+      console.warn('[initThreeMetrics] fetchRoundsMap error', e);
+      return new Map();
+    }
+  }
+
+  async function fetchVisitsMap(dateArg?: string): Promise<Map<string, { count: number; forecast?: number }>> {
+    const q = dateArg ? `?date=${encodeURIComponent(dateArg)}&tz=${encodeURIComponent(tz)}` : `?tz=${encodeURIComponent(tz)}`;
+    const url = `/api/site-supervision-visits/hourly-aggregated${q}`; // aggregated endpoint
+    try {
+      const res = await fetchWithAuth(url);
+      const arr = res.ok ? await res.json().catch(() => []) : [];
+      const m = new Map<string, { count: number; forecast?: number }>();
+      (arr || []).forEach((it: any) => {
+        const hh = extractHour(it);
+        // accept shapes like {x,y} or {hour,count} or {hour,count,forecast}
+        const count = extractNumber(it, ['count','cnt','y','value','visits']);
+        const forecast = extractNumber(it, ['forecast','f','visitsForecast']);
+        m.set(hh, { count, forecast: forecast || undefined });
+      });
+      return m;
+    } catch (e) {
+      console.warn('[initThreeMetrics] fetchVisitsMap error', e);
+      return new Map();
+    }
+  }
+
+  // Combinar las 3 métricas en la estructura HourlyPointRaw[]
+  async function fetchAndCombine(dateArg?: string): Promise<HourlyPointRaw[]> {
+    const [ma, mr, mv] = await Promise.all([
+      fetchAttendanceMap(dateArg),
+      fetchRoundsMap(dateArg),
+      fetchVisitsMap(dateArg)
+    ]);
+
+    return hours24.map(h => ({
+      hour: h,
+      attendance: ma.get(h)?.count ?? 0,
+      attendanceForecast: ma.get(h)?.forecast ?? 0,
+      rounds: mr.get(h)?.count ?? 0,
+      roundsForecast: mr.get(h)?.forecast ?? 0,
+      visits: mv.get(h)?.count ?? 0,
+      visitsForecast: mv.get(h)?.forecast ?? 0
+    }));
+  }
+
+  // Carga inicial
+  const initialRaw = await fetchAndCombine(date);
   if (initialRaw && initialRaw.length) refreshAll(initialRaw);
 
-  // Refresco periódico usando la función fetchHourlyCombined (actualiza in-place)
+  // Refresco periódico
   let intervalId: number | undefined;
   if (refreshMs && refreshMs > 0) {
     intervalId = window.setInterval(async () => {
-      const raw = await fetchHourlyCombined(date);
+      const raw = await fetchAndCombine(date);
       if (raw && raw.length) refreshAll(raw);
     }, refreshMs);
   }
 
-  // Cleanup: cuando se salga del fragmento SPA, detener interval y destruir charts
+  // Cleanup
   const onUnload = () => {
     document.removeEventListener('fragment:will-unload', onUnload as EventListener);
     try { if (intervalId) window.clearInterval(intervalId); } catch {}
-    // Cada refresher adosa cleanup al chart bajo __hourly_metric_cleanup o dispondrá el chart
     [attendanceRef, roundsRef, visitsRef].forEach(r => {
       if (!r) return;
       const c = r.chart as any;
@@ -112,7 +166,6 @@ export async function initThreeMetrics(
   };
   document.addEventListener('fragment:will-unload', onUnload, { once: true });
 
-  // Devolver un control para detener manualmente si el llamador lo necesita
   return {
     stop: () => {
       try { if (intervalId) window.clearInterval(intervalId); } catch {}
