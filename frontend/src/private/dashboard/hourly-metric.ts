@@ -43,26 +43,55 @@ export async function initHourlyMetricChart(
   }
 
   const hours = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0'));
-  const color = opts?.color ?? '#3b82f6';
-  const forecastColor = opts?.forecastColor ?? '#60a5fa';
+  const color = opts?.color ?? (metricKey === 'rounds' ? '#34D399' : '#0ea5e9');
+  const forecastColor = opts?.forecastColor ?? '#f59e0b';
 
   const chart = echarts.init(el, undefined, { renderer: 'canvas' });
 
-  // Inicializar con series vacías / indicador de carga
-  const emptySeries = hours.map(() => 0);
-  chart.setOption({
-    tooltip: { trigger: 'axis' },
-    legend: { top: 6 },
-    grid: { left: 40, right: 16, top: 36, bottom: 28 },
-    xAxis: { type: 'category', data: hours, axisLabel: { formatter: (v: string) => v + 'h' } },
-    yAxis: { type: 'value', minInterval: 1 },
+  // Plantilla visual "pro": líneas suaves, área para reales, forecast dashed y area tenue
+  const baseOption = {
+    tooltip: {
+      trigger: 'axis',
+      formatter: (params: any) => {
+        if (!Array.isArray(params) || params.length === 0) return '';
+        const first = params[0];
+        const hour = first?.axisValue;
+        const displayHour = typeof hour === 'string' && hour.length === 2 ? `${hour}:00` : String(hour ?? '');
+        const lines = params.map((p: any) => `${p.marker} ${p.seriesName}: ${p.value ?? 0}`);
+        return `<b>${displayHour}</b><br/>${lines.join('<br/>')}`;
+      }
+    },
+    legend: { data: [`${displayName}`, `${displayName} (forecast)`], top: 6 },
+    grid: { left: 40, right: 16, top: 48, bottom: 36 },
+    xAxis: { type: 'category', data: hours, axisLabel: { formatter: (v: string) => `${v}:00` } },
+    yAxis: { type: 'value' },
     series: [
-      { name: `${displayName} (real)`, type: 'bar', data: emptySeries, itemStyle: { color } },
-      { name: `${displayName} (forecast)`, type: 'line', smooth: true, data: emptySeries, lineStyle: { type: 'dashed', color: forecastColor }, symbol: 'circle', symbolSize: 6 }
+      {
+        name: `${displayName}`,
+        type: 'line',
+        smooth: true,
+        areaStyle: {},      // area bajo la linea real
+        data: hours.map(() => 0),
+        color,
+        showSymbol: false,
+        lineStyle: { width: 2 }
+      },
+      {
+        name: `${displayName} (forecast)`,
+        type: 'line',
+        smooth: true,
+        areaStyle: { opacity: 0.12 }, // area tenue para forecast
+        data: hours.map(() => 0),
+        color: forecastColor,
+        showSymbol: false,
+        lineStyle: { width: 2, type: 'dashed' }
+      }
     ],
     graphic: { elements: [{ type: 'text', left: 'center', top: 'middle', style: { text: 'Cargando...', fill: '#9ca3af', fontSize: 14 } }] },
     toolbox: { show: true, feature: { saveAsImage: {} } }
-  });
+  };
+
+  chart.setOption(baseOption as any);
 
   // Función que normaliza raw[] y actualiza series en el chart
   function applyRaw(raw: HourlyPointRaw[]) {
@@ -74,13 +103,13 @@ export async function initHourlyMetricChart(
     chart.setOption({
       xAxis: { data: hours },
       series: [
-        { name: `${displayName} (real)`, type: 'bar', data: values, itemStyle: { color } },
-        { name: `${displayName} (forecast)`, type: 'line', smooth: true, data: forecastValues, lineStyle: { type: 'dashed', color: forecastColor }, symbol: 'circle', symbolSize: 6 }
+        { name: `${displayName}`, data: values },
+        { name: `${displayName} (forecast)`, data: forecastValues }
       ],
       graphic: hasData ? { elements: [] } : {
         elements: [{ type: 'text', left: 'center', top: 'middle', style: { text: 'Sin datos', fill: '#9ca3af', fontSize: 14 } }]
       }
-    });
+    }, { replaceMerge: ['series', 'xAxis.data'] });
   }
 
   // ResizeObserver para redimensionar el chart cuando cambia el contenedor
@@ -91,7 +120,6 @@ export async function initHourlyMetricChart(
   function destroy() {
     try { ro.disconnect(); } catch {}
     try { chart.dispose(); } catch {}
-    // eliminar listener en caso de que exista
     try { document.removeEventListener('fragment:will-unload', onUnload as EventListener); } catch {}
   }
 
