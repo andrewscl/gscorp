@@ -3,14 +3,12 @@ package com.gscorp.dv1.sitesupervisionvisits.application;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.util.Collection;
 import java.util.List;
 
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.CreateSiteSupervisionVisitRequest;
-import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteSupVisitPointDto;
+import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitPointDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteSupervisionVisitDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitCountDto;
-import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitHourlyDto;
 
 public interface SiteSupervisionVisitService {
 
@@ -29,8 +27,12 @@ public interface SiteSupervisionVisitService {
     List<SiteVisitCountDto> getVisitsBySite
             (Long clientId, OffsetDateTime from, OffsetDateTime to);
 
-    List<SiteVisitHourlyDto> getSiteVisitHourlyCounts
-            (Collection<Long> clientIds, LocalDate date, String tz);
+    /**
+     * Obtiene las visitas por horra agregadas para un usuario en una fecha dada.
+     * tz puede ser null para usar ZoneId.systemDefault().
+     */
+    List<SiteVisitPointDto> getVisitsSeriesForUserByDateByVisitHourlyAgregated
+            (Long userId, LocalDate date, String tz);
 
     /**
      * Cuenta visitas por clientes en la fecha indicada. tz puede ser null para usar ZoneId.systemDefault().
@@ -46,7 +48,7 @@ public interface SiteSupervisionVisitService {
 
     long countByClientIdAndDate(Long clientId, LocalDate date, String tz);
 
-    List<SiteSupVisitPointDto> getVisitsSeriesForUserByDates
+    List<SiteVisitPointDto> getVisitsSeriesForUserByDates
                 (Long userId, LocalDate fromDate, LocalDate toDate, ZoneId zone);
 
 }

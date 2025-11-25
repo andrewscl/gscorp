@@ -14,21 +14,21 @@ import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteSupervisionVisitDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitCountDto;
 
 @Repository
-public interface SiteSupervisionVisitRepository
-        extends JpaRepository<SiteSupervisionVisit, Long> {
+public interface SiteVisitRepository
+        extends JpaRepository<SiteVisit, Long> {
 
     @EntityGraph(attributePaths = {"employee", "site"})
     @Query("select v from SiteSupervisionVisit v")
-    List<SiteSupervisionVisit> findAllWithEmployeeAndSite();
+    List<SiteVisit> findAllWithEmployeeAndSite();
 
     @EntityGraph(attributePaths = {"employee", "site"})
     @Query("select v from SiteSupervisionVisit v where v.id = :id")
-    Optional<SiteSupervisionVisit> findByIdWithEmployeeAndSite(Long id);
+    Optional<SiteVisit> findByIdWithEmployeeAndSite(Long id);
 
     @Query("select v from SiteSupervisionVisit v " +
         "where v.site.project.client.id = :clientId " +
         "and v.visitDateTime between :fromDate and :toDate")
-    List<SiteSupervisionVisit> findByClientIdAndDateBetween(
+    List<SiteVisit> findByClientIdAndDateBetween(
         @Param("clientId") Long clientId,
         @Param("fromDate") OffsetDateTime fromDate,
         @Param("toDate") OffsetDateTime toDate
@@ -87,41 +87,34 @@ public interface SiteSupervisionVisitRepository
     );
 
 
-  interface HourlySiteCount {
-    Long getSiteId();
-    String getSiteName();
-    String getHour();
-    Long getCnt();
-  }
-
-  @Query(value = """
-    WITH ag AS (
-      SELECT
-        sv.site_id,
-        (EXTRACT(hour FROM (sv.visit_date_time AT TIME ZONE :tz)))::int AS hr,
-        COUNT(*) AS cnt
-      FROM site_supervision_visits sv
-      JOIN sites s ON s.id = sv.site_id
-      JOIN project p ON p.id = s.project_id
-      WHERE p.client_id IN (:clientIds)
-        AND sv.visit_date_time >= :from
-        AND sv.visit_date_time <  :to
-      GROUP BY sv.site_id, hr
-    )
-    SELECT a.site_id AS siteId,
-          COALESCE(s.name,'') AS siteName,
-          to_char(a.hr, 'FM00') AS hour,
-          a.cnt AS cnt
-    FROM ag a
-    LEFT JOIN sites s ON s.id = a.site_id
-    ORDER BY a.site_id, a.hr
-    """, nativeQuery = true)
-  List<HourlySiteCount> findHourlySiteCountsForRange(
-      @Param("from") OffsetDateTime from,
-      @Param("to") OffsetDateTime to,
-      @Param("tz") String tz,
-      @Param("clientIds") List<Long> clientIds
-  );
+    @Query(value = """
+      WITH ag AS (
+        SELECT
+          sv.site_id,
+          to_char(sv.visit_date_time AT TIME ZONE :tz, 'HH24') AS hour,
+          COUNT(*) AS cnt
+        FROM site_supervision_visits sv
+        JOIN sites s ON s.id = sv.site_id
+        JOIN project p ON p.id = s.project_id
+        WHERE p.client_id IN (:clientIds)
+          AND sv.visit_date_time >= :from
+          AND sv.visit_date_time <  :to
+        GROUP BY sv.site_id, hour
+      )
+      SELECT a.site_id    AS siteId,
+            COALESCE(s.name, '') AS siteName,
+            a.hour       AS hour,
+            a.cnt        AS "count"
+      FROM ag a
+      LEFT JOIN sites s ON s.id = a.site_id
+      ORDER BY a.site_id, a.hour
+      """, nativeQuery = true)
+    List<SiteVisitHourlyCountProjection> findByClientIdsAndDateAndHourlyBetween(
+        @Param("from") OffsetDateTime from,
+        @Param("to") OffsetDateTime to,
+        @Param("tz") String tz,
+        @Param("clientIds") List<Long> clientIds
+    );
 
 
     /**
@@ -155,7 +148,7 @@ public interface SiteSupervisionVisitRepository
           AND v.visitDateTime >= :fromDate
           AND v.visitDateTime <  :toDate
     """)
-    List<SiteSupervisionVisit> findByClientIdsAndDateBetween(
+    List<SiteVisit> findByClientIdsAndDateBetween(
             @Param("clientIds") List<Long> clientIds,
             @Param("fromDate") OffsetDateTime fromDate,
             @Param("toDate") OffsetDateTime toDate

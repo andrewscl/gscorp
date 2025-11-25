@@ -2,8 +2,6 @@ import { echarts } from '../../lib/echarts-setup';
 import { initThreeMetrics } from './init-three-metrics';
 import { fetchWithAuth } from './api/api';
 
-// llamar initThreeMetrics para los 3 gráficos por hora
-
 type Point = { x: string; y: number };
 type SiteVisitCountDto = { siteId: number; siteName: string; count: number };
 

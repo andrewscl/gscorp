@@ -25,12 +25,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
-import com.gscorp.dv1.sitesupervisionvisits.application.SiteSupervisionVisitService;
+import com.gscorp.dv1.sitesupervisionvisits.application.SiteVisitService;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.CreateSiteSupervisionVisitRequest;
-import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteSupVisitPointDto;
+import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitPointDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteSupervisionVisitDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitCountDto;
-import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitHourlyDto;
 import com.gscorp.dv1.users.application.UserService;
 
 import jakarta.validation.Valid;
@@ -45,7 +44,7 @@ public class SiteSupervisionVisitRestController {
 
     private final SiteService siteService;
     private final UserService userService;
-    private final SiteSupervisionVisitService siteSupervisionVisitService;
+    private final SiteVisitService siteVisitService;
 
     @GetMapping("/sites")
     public List<SiteDto> getSitesApi() {
@@ -58,7 +57,7 @@ public class SiteSupervisionVisitRestController {
         UriComponentsBuilder ucb) {
 
         SiteSupervisionVisitDto saved =
-            siteSupervisionVisitService.
+            siteVisitService.
                         createSiteSupervisionVisitRequest(req);
 
         var location = ucb.path("/api/site-supervision-visits/{id}")
@@ -68,7 +67,7 @@ public class SiteSupervisionVisitRestController {
     }
 
     @GetMapping("/series")
-    public List<SiteSupVisitPointDto> SiteSupervisionVisitsByUserSeries(
+    public List<SiteVisitPointDto> SiteSupervisionVisitsByUserSeries(
                     @RequestParam(required=false) String from,
                     @RequestParam(required=false) String to,
                     @RequestParam(required=false) Integer days,
@@ -122,7 +121,7 @@ public class SiteSupervisionVisitRestController {
         }
 
         log.debug("Series request userId={} from={} to={} days={} tz={}", userId, fromDate, toDate, days, zone);
-        return siteSupervisionVisitService.getVisitsSeriesForUserByDates(userId, fromDate, toDate, zone);
+        return siteVisitService.getVisitsSeriesForUserByDates(userId, fromDate, toDate, zone);
 
     } catch (Exception ex) {
         log.error("Error en /series: " + ex.getMessage(), ex);
@@ -151,7 +150,7 @@ public class SiteSupervisionVisitRestController {
         log.debug("KPI request requesterId={} allowedClientIds={} tz={}", userId, allowedClientIds, tz);
 
         LocalDate today = LocalDate.now();
-        long visitasHoy = siteSupervisionVisitService.countByClientIdsAndDate(allowedClientIds, today, tz);
+        long visitasHoy = siteVisitService.countByClientIdsAndDate(allowedClientIds, today, tz);
 
         return Map.of("visitasHoy", visitasHoy);
     }
@@ -167,61 +166,32 @@ public class SiteSupervisionVisitRestController {
         OffsetDateTime fromOffset = fromDate.atStartOfDay(ZoneOffset.systemDefault()).toOffsetDateTime();
         OffsetDateTime toOffset = toDate.plusDays(1).atStartOfDay(ZoneOffset.systemDefault()).toOffsetDateTime().minusNanos(1);
 
-        return siteSupervisionVisitService.getVisitsBySite(clientId, fromOffset, toOffset);
+        return siteVisitService.getVisitsBySite(clientId, fromOffset, toOffset);
     }
 
+
   /**
-   * Devuelve conteos por sitio y por hora para la fecha dada (en la tz solicitada).
-   * Ejemplo: GET /api/site-supervision-visits/hourly?clientId=1&date=2025-11-14&tz=America/Santiago
-   *
-   * Si se pasa clientId en query sólo se usará cuando el llamador sea admin (userService.isAdmin(auth)).
-   * En caso contrario se usará el clientId obtenido del Authentication vía userService.
+   * Serie agregada (24 puntos "00".."23") para el usuario autenticado.
+   * - Ideal para graficar "visitas por hora del día".
+   * - No acepta clientId; se usan los clientes del usuario.
    */
-  @GetMapping("/hourly")
-  public ResponseEntity<List<SiteVisitHourlyDto>> hourly(
+  @GetMapping("/hourly-aggregated")
+  public ResponseEntity<List<SiteVisitPointDto>> hourlyAggregatedForCaller(
       Authentication auth,
-      @RequestParam(required = false) List<Long> clientId,
       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
       @RequestParam(required = false, defaultValue = "UTC") String tz
   ) {
-
-   List<Long> effectiveClientIds;
-
-    boolean isAdmin = userService.isAdmin(auth);
-
-    if (clientId != null && !clientId.isEmpty()) {
-      // clientId provided in query
-      if (!isAdmin) {
-        // ensure the provided ids belong to the caller
-        Long callerUserId = userService.getUserIdFromAuthentication(auth);
-        List<Long> userClients = userService.getClientIdsForUser(callerUserId);
-        if (userClients == null || !userClients.containsAll(clientId)) {
-          log.warn("User {} attempted to access clients {} but only has {}", callerUserId, clientId, userClients);
-          return ResponseEntity.status(403).build();
-        }
-      }
-      effectiveClientIds = clientId;
-      log.debug("Using clientIds from query: {}", effectiveClientIds);
-    } else {
-      // no clientId param: for non-admin resolve the user's clients; for admin require explicit client(s)
-      if (isAdmin) {
-        log.warn("Admin requested /hourly without clientId; admin must specify clientId(s)");
-        return ResponseEntity.badRequest().build(); // or change to return all clients if desired
-      } else {
-        Long callerUserId = userService.getUserIdFromAuthentication(auth);
-        effectiveClientIds = userService.getClientIdsForUser(callerUserId);
-        if (effectiveClientIds == null || effectiveClientIds.isEmpty()) {
-          log.warn("No clientIds found for userId={}", callerUserId);
-          return ResponseEntity.status(403).build();
-        }
-        log.debug("Resolved clientIds {} for user {}", effectiveClientIds, callerUserId);
-      }
+    Long callerUserId = userService.getUserIdFromAuthentication(auth);
+    if (callerUserId == null) {
+      return ResponseEntity.status(403).build();
     }
 
-    // Call service (now accepts a collection of client IDs)
-    List<SiteVisitHourlyDto> out = siteSupervisionVisitService.getSiteVisitHourlyCounts(effectiveClientIds, date, tz);
+    List<SiteVisitPointDto> series = siteVisitService
+        .getVisitsSeriesForUserByDateByVisitHourlyAgregated(callerUserId, date, tz);
 
-    return ResponseEntity.ok(out == null ? Collections.emptyList() : out);
+    return ResponseEntity.ok(series == null ? Collections.emptyList() : series);
   }
+
+
 
 }

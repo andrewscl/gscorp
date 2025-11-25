@@ -7,9 +7,6 @@ import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -23,15 +20,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.gscorp.dv1.components.ZoneResolver;
+import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.employees.application.EmployeeService;
 import com.gscorp.dv1.sites.application.SiteService;
-import com.gscorp.dv1.sitesupervisionvisits.infrastructure.SiteSupervisionVisit;
-import com.gscorp.dv1.sitesupervisionvisits.infrastructure.SiteSupervisionVisitRepository;
+import com.gscorp.dv1.sitesupervisionvisits.infrastructure.SiteVisit;
+import com.gscorp.dv1.sitesupervisionvisits.infrastructure.SiteVisitRepository;
+import com.gscorp.dv1.sitesupervisionvisits.infrastructure.SiteVisitHourlyCountProjection;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.CreateSiteSupervisionVisitRequest;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteSupervisionVisitDto;
-import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteSupVisitPointDto;
+import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitPointDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitCountDto;
-import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitHourlyDto;
 import com.gscorp.dv1.users.application.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -40,12 +39,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class SiteSupervisionVisitServiceImpl implements SiteSupervisionVisitService{
+public class SiteVisitServiceImpl implements SiteVisitService{
 
-    private final SiteSupervisionVisitRepository siteSupervisionVisitRepo;
+    private final SiteVisitRepository siteSupervisionVisitRepo;
     private final EmployeeService employeeService;
     private final SiteService siteService;
     private final UserService userService;
+    private final ZoneResolver zoneResolver;
 
     @Value("${file.supervision_files-dir}")
     private String uploadFilesDir;
@@ -114,7 +114,7 @@ public class SiteSupervisionVisitServiceImpl implements SiteSupervisionVisitServ
                         new IllegalArgumentException("Sitio no encontrado: " + req.getSiteId()));
 
         //Construir entidad
-        var entity = SiteSupervisionVisit.builder()
+        var entity = SiteVisit.builder()
             .site(site)
             .employee(employee)
             .visitDateTime(OffsetDateTime.now())
@@ -125,7 +125,7 @@ public class SiteSupervisionVisitServiceImpl implements SiteSupervisionVisitServ
             .videoPath(videoPath)
             .build();
 
-        SiteSupervisionVisit savedEntity = siteSupervisionVisitRepo.save(entity);
+        SiteVisit savedEntity = siteSupervisionVisitRepo.save(entity);
 
         return SiteSupervisionVisitDto.fromEntity(savedEntity);
 
@@ -167,64 +167,53 @@ public class SiteSupervisionVisitServiceImpl implements SiteSupervisionVisitServ
     }
 
 
+
     @Override
     @Transactional(readOnly = true)
-    public List <SiteVisitHourlyDto> getSiteVisitHourlyCounts(Collection<Long> clientIds, LocalDate date, String tz) {
+    public List<SiteVisitPointDto> getVisitsSeriesForUserByDateByVisitHourlyAgregated
+                            (Long userId, LocalDate date, String tz) {
 
-        if(clientIds == null || clientIds.isEmpty()) {
-            return Collections.emptyList();
-        }
+        // 1) resolver zona usando ZoneResolver (prioridad: requestedTz -> user profile -> system default)
+        ZoneResolutionResult zr = zoneResolver.resolveZone(userId, tz);
+        ZoneId zone = zr.zoneId();
+        log.debug("Resolved zone {} (source={}) for userId={} requestedTz={}", zone, zr.source(), userId, tz);
 
-        ZoneId zone;
-
-        try {
-        zone = (tz == null || tz.isBlank()) ? ZoneId.of("UTC") : ZoneId.of(tz);
-        } catch (Exception ex) {
-        log.warn("Invalid tz '{}', falling back to UTC", tz);
-        zone = ZoneId.of("UTC");
-        }
-
-        ZonedDateTime startZ = date.atStartOfDay(zone);
-        ZonedDateTime endZ = startZ.plusDays(1);
-        OffsetDateTime from = startZ.toOffsetDateTime();
-        OffsetDateTime to = endZ.toOffsetDateTime();
-
-        log.debug("getSiteVisitHourlyCounts clients={} date={} zone={} from={} to={}",
-        clientIds, date, zone, from, to);
-
-        List<SiteSupervisionVisitRepository.HourlySiteCount> rows = 
-                            siteSupervisionVisitRepo.
-                                findHourlySiteCountsForRange(from, to, zone.getId(), new ArrayList<>(clientIds));
-
-        Map<Long, String> siteNames = new HashMap<>();
-        Map<Long, Map<String, Long>> countsBySite = new HashMap<>();
-
-        for (SiteSupervisionVisitRepository.HourlySiteCount r : rows) {
-            Long sid = r.getSiteId();
-            String sname = r.getSiteName();
-            String hour = r.getHour() == null ? "00" : r.getHour();
-            Long cnt = r.getCnt() == null ? 0L : r.getCnt();
-
-            siteNames.putIfAbsent(sid, sname);
-            countsBySite.computeIfAbsent(sid, k -> new HashMap<>())
-                            .merge(hour, cnt, Long::sum);
-        }
-
-        // Build 24-row-per-site result
-        List<Long> siteIds = countsBySite.keySet().stream().sorted().collect(Collectors.toList());
-        List<SiteVisitHourlyDto> result = new ArrayList<>();
-
-        for (Long sid : siteIds) {
-        String sname = siteNames.getOrDefault(sid, "");
-        Map<String, Long> hourly = countsBySite.get(sid);
-        IntStream.range(0, 24).forEach(i -> {
-            String hh = String.format("%02d", i);
-            long c = hourly.getOrDefault(hh, 0L);
-            result.add(new SiteVisitHourlyDto(sid, sname, hh, c));
-        });
-        }
-        return result;
+        // 2) obtener clientIds asociados al usuario
+    List<Long> clientIds = userService.getClientIdsForUser(userId);
+    if (clientIds == null || clientIds.isEmpty()) {
+        // devolver 24 ceros
+        return IntStream.range(0, 24)
+                .mapToObj(i -> new SiteVisitPointDto(String.format("%02d", i), 0L))
+                .collect(Collectors.toList());
     }
+
+    OffsetDateTime from = zoneResolver.toStartOfDay(date, zone);
+    OffsetDateTime to = zoneResolver.toStartOfDay(date.plusDays(1), zone);
+
+    // obtener proyección (por site/hora)
+    List<SiteVisitHourlyCountProjection> rows =
+            siteSupervisionVisitRepo.findByClientIdsAndDateAndHourlyBetween(from, to, zone.getId(), clientIds);
+
+    // sumar por hora (00..23)
+    long[] sums = new long[24];
+    if (rows != null) {
+        for (SiteVisitHourlyCountProjection r : rows) {
+            String hh = r.getHour(); // esperamos '00'..'23'
+            int idx;
+            try { idx = Integer.parseInt(hh); } catch (Exception ex) { idx = 0; }
+            Number n = r.getCount(); // tu proyección define Number getCount()
+            long cnt = n == null ? 0L : n.longValue();
+            if (idx >= 0 && idx < 24) sums[idx] += cnt;
+        }
+    }
+
+    // construir lista ordenada para frontend
+    return IntStream.range(0, 24)
+            .mapToObj(i -> new SiteVisitPointDto(String.format("%02d", i), sums[i]))
+            .collect(Collectors.toList());
+    }
+
+
 
 
     @Override
@@ -262,16 +251,16 @@ public class SiteSupervisionVisitServiceImpl implements SiteSupervisionVisitServ
 
     @Override
     @Transactional(readOnly = true)
-    public List<SiteSupVisitPointDto> getVisitsSeriesForUserByDates
+    public List<SiteVisitPointDto> getVisitsSeriesForUserByDates
                             (Long userId, LocalDate fromDate, LocalDate toDate, ZoneId zone) {
 
         List<Long> clientIds = userService.getClientIdsForUser(userId);
         if (clientIds == null || clientIds.isEmpty()) {
             // devolver zeros para el rango pedido
-            List<SiteSupVisitPointDto> empty = new ArrayList<>();
+            List<SiteVisitPointDto> empty = new ArrayList<>();
             LocalDate d = fromDate;
             while (!d.isAfter(toDate)) {
-                empty.add(new SiteSupVisitPointDto(d.toString(), 0L));
+                empty.add(new SiteVisitPointDto(d.toString(), 0L));
                 d = d.plusDays(1);
             }
             return empty;
@@ -283,7 +272,7 @@ public class SiteSupervisionVisitServiceImpl implements SiteSupervisionVisitServ
 
         // 3) traer DTOs (repo devuelve SiteSupervisionVisitDto)
         log.debug("Service: fetching visits userId={} clientIds={} from={} to={} zone={}", userId, clientIds, fromOffset, toOffset, zone);
-        List<SiteSupervisionVisit> entities = siteSupervisionVisitRepo.findByClientIdsAndDateBetween(clientIds, fromOffset, toOffset);
+        List<SiteVisit> entities = siteSupervisionVisitRepo.findByClientIdsAndDateBetween(clientIds, fromOffset, toOffset);
         log.debug("Service: visits fetched count={}", entities == null ? null : entities.size());
 
         // 4.1)Mapear entidades a DTOs (usa el fromEntity que ya tienes en SiteSupervisionVisitDto)
@@ -303,11 +292,11 @@ public class SiteSupervisionVisitServiceImpl implements SiteSupervisionVisitServ
                 ));
 
         // 5) construir serie final
-        List<SiteSupVisitPointDto> series = new ArrayList<>();
+        List<SiteVisitPointDto> series = new ArrayList<>();
         LocalDate d = fromDate;
         while (!d.isAfter(toDate)) {
             long y = grouped.getOrDefault(d, 0L);
-            series.add(new SiteSupVisitPointDto(d.toString(), y));
+            series.add(new SiteVisitPointDto(d.toString(), y));
             d = d.plusDays(1);
         }
 

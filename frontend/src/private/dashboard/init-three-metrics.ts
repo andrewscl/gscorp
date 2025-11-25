@@ -47,7 +47,7 @@ export async function initThreeMetrics(
     // Ajusta paths si tus endpoints son distintos
     const attendanceUrl = `/api/attendance/hourly${q}`;
     const patrolsUrl    = `/api/patrols-runs/hourly${q}`; // si tu endpoint difiere, cámbialo
-    const visitsUrl     = `/api/site-supervision-visits/hourly${q}`;
+    const visitsUrl     = `/api/site-supervision-visits/hourly-aggregated${q}`;
 
     try {
       const [ra, rr, rv] = await Promise.all([
