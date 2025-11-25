@@ -4,7 +4,7 @@ import java.time.OffsetDateTime;
 
 import com.gscorp.dv1.employees.infrastructure.Employee;
 import com.gscorp.dv1.sites.infrastructure.Site;
-import com.gscorp.dv1.sitesupervisionvisits.infrastructure.SiteSupervisionVisit;
+import com.gscorp.dv1.sitesupervisionvisits.infrastructure.SiteVisit;
 
 public record SiteSupervisionVisitDto(
     Long id,
@@ -19,7 +19,7 @@ public record SiteSupervisionVisitDto(
     String photoPath,
     String videoPath
 ) {
-    public static SiteSupervisionVisitDto fromEntity(SiteSupervisionVisit visit) {
+    public static SiteSupervisionVisitDto fromEntity(SiteVisit visit) {
         if (visit == null) return null;
             Employee emp = visit.getEmployee();
             Site site = visit.getSite();

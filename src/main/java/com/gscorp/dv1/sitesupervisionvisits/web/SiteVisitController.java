@@ -7,18 +7,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gscorp.dv1.sites.application.SiteService;
-import com.gscorp.dv1.sitesupervisionvisits.application.SiteSupervisionVisitService;
+import com.gscorp.dv1.sitesupervisionvisits.application.SiteVisitService;
 
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequestMapping("/private/site-supervision-visits")
 @RequiredArgsConstructor
-public class SiteSupervisionVisitController {
+public class SiteVisitController {
 
     private final SiteService siteService;
     private final String googleCloudApiKey = System.getenv("GOOGLE_CLOUD_API_KEY");
-    private final SiteSupervisionVisitService siteSupervisionVisitService;
+    private final SiteVisitService siteSupervisionVisitService;
 
     @GetMapping("/table-view")
     public String getSiteSupervisionVisitsTableView(Model model) {

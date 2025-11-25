@@ -10,7 +10,7 @@ import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitPointDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteSupervisionVisitDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitCountDto;
 
-public interface SiteSupervisionVisitService {
+public interface SiteVisitService {
 
     SiteSupervisionVisitDto createSiteSupervisionVisitRequest(
                                 CreateSiteSupervisionVisitRequest req);

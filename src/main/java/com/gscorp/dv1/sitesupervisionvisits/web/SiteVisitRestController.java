@@ -40,7 +40,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/api/site-supervision-visits")
 @RequiredArgsConstructor
-public class SiteSupervisionVisitRestController {
+public class SiteVisitRestController {
 
     private final SiteService siteService;
     private final UserService userService;
