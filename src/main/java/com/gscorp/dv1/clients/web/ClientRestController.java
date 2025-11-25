@@ -25,7 +25,7 @@ import com.gscorp.dv1.incidents.application.IncidentService;
 import com.gscorp.dv1.patrol.application.PatrolRunService;
 import com.gscorp.dv1.projects.application.ProjectService;
 import com.gscorp.dv1.projects.web.dto.ProjectSelectDto;
-import com.gscorp.dv1.sitesupervisionvisits.application.SiteSupervisionVisitService;
+import com.gscorp.dv1.sitesupervisionvisits.application.SiteVisitService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +38,7 @@ public class ClientRestController {
 
     private final ClientService clientService;
     private final AttendanceServiceImpl attendanceService;
-    private final SiteSupervisionVisitService siteSupervisionVisitService;
+    private final SiteVisitService siteSupervisionVisitService;
     private final PatrolRunService patrolRunService;
     private final IncidentService incidentService;
     private final ProjectService projectService;
