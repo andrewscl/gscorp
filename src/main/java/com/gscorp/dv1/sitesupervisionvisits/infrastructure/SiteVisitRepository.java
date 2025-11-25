@@ -18,14 +18,14 @@ public interface SiteVisitRepository
         extends JpaRepository<SiteVisit, Long> {
 
     @EntityGraph(attributePaths = {"employee", "site"})
-    @Query("select v from SiteSupervisionVisit v")
+    @Query("select v from SiteVisit v")
     List<SiteVisit> findAllWithEmployeeAndSite();
 
     @EntityGraph(attributePaths = {"employee", "site"})
-    @Query("select v from SiteSupervisionVisit v where v.id = :id")
+    @Query("select v from SiteVisit v where v.id = :id")
     Optional<SiteVisit> findByIdWithEmployeeAndSite(Long id);
 
-    @Query("select v from SiteSupervisionVisit v " +
+    @Query("select v from SiteVisit v " +
         "where v.site.project.client.id = :clientId " +
         "and v.visitDateTime between :fromDate and :toDate")
     List<SiteVisit> findByClientIdAndDateBetween(
@@ -34,7 +34,7 @@ public interface SiteVisitRepository
         @Param("toDate") OffsetDateTime toDate
     );
 
-    @Query("select count(v) from SiteSupervisionVisit v " +
+    @Query("select count(v) from SiteVisit v " +
         "where v.site.project.client.id = :clientId " +
         "and v.visitDateTime >= :fromDate and v.visitDateTime < :toDate")
     long countByClientIdAndDateBetween(@Param("clientId") Long clientId,
@@ -55,7 +55,7 @@ public interface SiteVisitRepository
         v.photoPath,
         v.videoPath
     )
-    FROM SiteSupervisionVisit v
+    FROM SiteVisit v
     JOIN v.employee e
     JOIN v.site s
     JOIN s.project p
@@ -72,7 +72,7 @@ public interface SiteVisitRepository
     SELECT new com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitCountDto(
         s.id, s.name, COUNT(v)
     )
-    FROM SiteSupervisionVisit v
+    FROM SiteVisit v
     JOIN v.site s
     JOIN s.project p
     WHERE p.client.id = :clientId
@@ -125,7 +125,7 @@ public interface SiteVisitRepository
      * si usa otro nombre (p.ej. 'visitedAt', 'eventAt', etc.).
      */
   @Query("select count(v) " +
-        "from SiteSupervisionVisit v " +
+        "from SiteVisit v " +
         "where v.site.project.client.id in :clientIds " +
         "  and v.visitDateTime >= :from and v.visitDateTime < :to")
   long countByClientIdsAndTsBetween(
@@ -141,7 +141,7 @@ public interface SiteVisitRepository
      */
     @Query("""
         SELECT v
-        FROM SiteSupervisionVisit v
+        FROM SiteVisit v
         JOIN FETCH v.site s
         JOIN s.project p
         WHERE p.client.id IN :clientIds
