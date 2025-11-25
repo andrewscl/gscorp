@@ -1,47 +1,148 @@
-// Scoped SCSS para client-dashboard-fragment.html
-// Reglas anidadas y contenidas bajo #client-dashboard-root para no afectar estilos globales.
+/* client-dashboard.scss
+   Diseño "pro & corporativo" para client-dashboard-fragment.html
+   Scoped bajo #client-dashboard-root para no afectar estilos globales.
+   Variables, mixins y reglas responsive para daily/weekly/full-width charts,
+   cards, headers, KPI row y donuts pequeños.
+*/
 
 #client-dashboard-root {
-  // defensas locales
-  box-sizing: border-box;
-  max-width: 100%;
+  // ---------------- Theme tokens (ajusta según tu design system) ----------------
+  --bg: #f8fafc;                 // panel background (light)
+  --card-bg: #ffffff;            // card background
+  --muted: #6b7280;              // muted text
+  --text: #0f172a;               // primary text
+  --accent: #0ea5e9;             // brand accent (azul)
+  --accent-2: #f59e0b;           // secondary accent (amarillo)
+  --success: #10b981;            // success (verde)
+  --danger: #ef4444;             // danger (rojo)
+  --surface-shadow: 0 8px 24px rgba(2,6,23,0.06);
+  --card-radius: 12px;
+  --card-padding: 16px;
+  --gap: 1rem;
+  --max-width: 1200px;
 
-  // permitir que elementos flex/grid se encojan en lugar de forzar overflow
-  .kpis,
-  .charts,
-  .card {
-    min-width: 0;
-    box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px;
+  background: transparent;
+  color: var(--text);
+  font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  // ---------------- Layout container ----------------
+  .container-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
   }
 
-  // KPI row (se heredan estilos globales, aquí aseguramos shrink)
+  // ---------------- KPI row ----------------
   .kpis {
     display: flex;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+    gap: var(--gap);
+    margin-bottom: 1.25rem;
     flex-wrap: wrap;
     align-items: stretch;
 
     .kpi-card {
-      flex: 1 1 200px;
-      min-width: 160px;
-      box-sizing: border-box;
+      flex: 1 1 220px;
+      min-width: 170px;
+      background: var(--card-bg);
+      border-radius: var(--card-radius);
+      padding: 12px;
+      box-shadow: var(--surface-shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
+      transition: transform .18s ease, box-shadow .18s ease;
+      cursor: default;
+
+      h4 {
+        margin: 0;
+        font-size: 0.95rem;
+        color: var(--muted);
+        font-weight: 600;
+        letter-spacing: 0.1px;
+      }
+
+      .val {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: var(--text);
+        line-height: 1;
+        display: inline-block;
+      }
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 14px 36px rgba(2,6,23,0.08);
+      }
+
+      &:focus-within {
+        outline: 3px solid rgba(14,165,233,0.12);
+        outline-offset: 2px;
+      }
     }
   }
 
-  // Reglas generales para filas de charts
+  // ---------------- Generic card styles ----------------
+  .card {
+    box-sizing: border-box;
+    background: var(--card-bg);
+    border-radius: var(--card-radius);
+    padding: var(--card-padding);
+    box-shadow: var(--surface-shadow);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-height: 160px;
+    transition: transform .16s ease, box-shadow .16s ease;
+
+    &:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 40px rgba(2,6,23,0.08);
+    }
+
+    // Header that contains title and compact controls (donuts, actions)
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+
+      h5 {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text);
+        letter-spacing: 0.1px;
+      }
+    }
+
+    // Chart containers & donuts: ensure ECharts has space to render
+    > div[id^="chart-"] {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      height: 240px;
+      min-height: 160px;
+      border-radius: 8px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      overflow: hidden !important;
+    }
+  }
+
+  // ---------------- Charts grid defaults ----------------
   .charts {
     display: grid;
     gap: 1.25rem;
     width: 100%;
-    max-width: 100%;
     box-sizing: border-box;
+    grid-template-columns: repeat(3, 1fr);
 
-    // Default: 3 columnas en pantallas anchas, adaptativo en los breakpoints
-    @media (min-width: 981px) {
-      grid-template-columns: repeat(3, 1fr);
-    }
-    @media (max-width: 980px) {
+    @media (max-width: 1100px) {
       grid-template-columns: repeat(2, 1fr);
     }
     @media (max-width: 640px) {
@@ -49,41 +150,37 @@
     }
 
     .card {
-      box-sizing: border-box;
-      overflow: hidden;
+      min-height: 180px;
+      > div[id^="chart-"] { height: 260px !important; min-height: 180px !important; }
+    }
+  }
+
+  // ---------------- Daily row (3 cards) ----------------
+  .charts.daily {
+    margin-bottom: 0.8rem;
+
+    .card {
       display: flex;
       flex-direction: column;
-      min-height: 220px;
+      justify-content: flex-start;
 
-      h5 { margin: 0 0 0.6rem 0; }
-
-      // Protecciones locales para contenedores de ECharts
       > div[id^="chart-"] {
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: 0 !important;
-        box-sizing: border-box !important;
-        overflow: hidden !important;
-        height: 240px;
-        min-height: 180px;
-        border-radius: 8px;
-        background: transparent;
+        height: 220px;
+        min-height: 160px;
       }
     }
   }
 
-  // Fila "weekly" con 3 charts
+  // ---------------- Weekly row (smaller) ----------------
   .charts.weekly {
-    display: grid;
-    gap: 1.25rem;
+    margin-top: 0.5rem;
     grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
 
     @media (max-width: 980px) { grid-template-columns: repeat(2, 1fr); }
-    @media (max-width: 640px)  { grid-template-columns: 1fr; }
+    @media (max-width: 640px) { grid-template-columns: 1fr; }
 
     .card {
-      overflow: hidden;
-
       > div[id^="chart-"] {
         height: 260px !important;
         min-height: 200px !important;
@@ -91,36 +188,108 @@
     }
   }
 
-  // Fila separada "full-width" para visitas por sitio (ocupa toda la anchura)
+  // ---------------- Full width chart ----------------
   .charts.full-width {
     display: block;
-    margin-top: 0.75rem;
+    margin-top: 1rem;
 
     .card {
       width: 100%;
-      max-width: 100%;
-      box-sizing: border-box;
-      overflow: hidden;
-      margin-bottom: 0.75rem;
-
       > div[id^="chart-"] {
-        height: 260px !important;
-        min-height: 200px !important;
+        height: 300px !important;
+        min-height: 220px !important;
       }
     }
   }
 
-  // Protecciones adicionales solo dentro del fragmento
-  img, svg, canvas {
-    max-width: 100%;
-    height: auto;
-    display: block;
+  // ---------------- Donut styles (weekly & daily) ----------------
+  .weekly-donut,
+  .daily-donut {
+    display: inline-block;
     box-sizing: border-box;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.98);
+    padding: 6px;
+    box-shadow: 0 8px 20px rgba(2,6,23,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  // Evitar que textos extremos rompan el layout dentro del fragmento
-  * {
-    word-wrap: break-word;
-    word-break: break-word;
+  .weekly-donut {
+    width: 88px;
+    height: 88px;
+    min-width: 72px;
+    min-height: 72px;
+  }
+
+  .daily-donut {
+    width: 64px;
+    height: 64px;
+    min-width: 56px;
+    min-height: 56px;
+  }
+
+  // align donuts to header and give subtle border
+  .card .card-header {
+    align-items: center;
+
+    .weekly-donut, .daily-donut {
+      flex: 0 0 auto;
+      border: 1px solid rgba(15,23,42,0.04);
+    }
+  }
+
+  // ---------------- Small utilities & metadata below donuts ----------------
+  .donut-meta {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 12px;
+    color: var(--muted);
+
+    .meta-item { display:flex; gap:6px; align-items:center; }
+    .meta-value { font-weight:700; color:var(--text); }
+  }
+
+  // ---------------- Typography & labels ----------------
+  h5 { font-size: 1rem; margin: 0; color: var(--text); }
+  .muted { color: var(--muted); }
+
+  // ---------------- Accessibility & focus ----------------
+  .card:focus-within, .kpi-card:focus-within {
+    outline: 3px solid rgba(14,165,233,0.12);
+    outline-offset: 2px;
+  }
+
+  // Tooltip subtle style for inline lists (if you render text overlays)
+  .inline-tooltip {
+    background: rgba(2,6,23,0.95);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 13px;
+    box-shadow: 0 6px 18px rgba(2,6,23,0.12);
+  }
+
+  // ---------------- Responsive tweaks ----------------
+  @media (max-width: 900px) {
+    .weekly-donut { width: 76px; height: 76px; }
+    .daily-donut  { width: 72px; height: 72px; }
+    .card { padding: 12px; }
+    .kpi-card { padding: 10px; }
+  }
+
+  // ---------------- Reduced motion preference ----------------
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+
+  // ---------------- Utility helpers ----------------
+  .visually-hidden {
+    position: absolute !important;
+    height: 1px; width: 1px;
+    overflow: hidden; clip: rect(1px, 1px, 1px, 1px);
+    white-space: nowrap; border: 0; padding: 0; margin: -1px;
   }
 }
