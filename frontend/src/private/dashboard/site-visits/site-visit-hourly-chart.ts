@@ -86,17 +86,18 @@ function hourDisplay(h: string): string {
   return `${hh}:00`;
 }
 
+const COMMON_GRID = { left: '4%', right: '4%', top: 56, bottom: 36, containLabel: true };
+
 function buildOption(labels: string[], valuesActual: number[], valuesForecast: (number | null)[]) {
   const anyPositive = valuesActual.some(v => Number(v) > 0) || valuesForecast.some(v => Number(v) > 0);
 
   return {
-    legend: { data: ['Visitas', 'Forecast'], top: 6 },
+    legend: { data: ['Visitas', 'Forecast'], top: 8, left: 'center' }, // <- ensure center
     tooltip: {
       trigger: 'axis',
       formatter: (params: any) => {
         if (!Array.isArray(params) || params.length === 0) return '';
         const first = params[0];
-        // axisValue puede ser undefined; fallback por dataIndex en labels[]
         let rawHour = first.axisValue ?? (first && typeof first.dataIndex === 'number' ? labels[first.dataIndex] : undefined);
         if (!rawHour && first.axisValueLabel) rawHour = first.axisValueLabel;
         const display = hourDisplay(String(rawHour ?? ''));
@@ -104,7 +105,7 @@ function buildOption(labels: string[], valuesActual: number[], valuesForecast: (
         return `<b>${display}</b><br/>${lines.join('<br/>')}`;
       }
     },
-    grid: { left: 40, right: 16, top: 48, bottom: 36, containLabel: true },
+    grid: COMMON_GRID, // <-- use the shared grid
     xAxis: {
       type: 'category',
       boundaryGap: false,
@@ -134,7 +135,6 @@ function buildOption(labels: string[], valuesActual: number[], valuesForecast: (
         lineStyle: { width: 2, type: 'dashed' }
       }
     ],
-    // if anyPositive true, leave graphic empty (no overlay); otherwise caller can set no-data
     graphic: anyPositive ? { elements: [] } : undefined
   };
 }

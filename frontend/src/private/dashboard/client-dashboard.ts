@@ -85,9 +85,6 @@ if (elVisitHourly) {
 
     await visitsHourlyCtrl.refresh(todayIso);
 
-
-
-
     try {
       // helpers locales: hoy y zona (si no los declaraste arriba)
       const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
