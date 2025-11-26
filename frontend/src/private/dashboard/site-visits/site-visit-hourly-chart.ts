@@ -146,7 +146,8 @@ function buildOption(labels: string[], valuesActual: number[], valuesForecast: (
  *
  * Devuelve: { chart, refresh(date?), refreshFromMap(map), stop() }
  */
-export async function initSiteVisitChart(container: HTMLElement, opts?: { tz?: string; theme?: string | object; showForecast?: boolean }) {
+export async function initSiteVisitChart(container: HTMLElement, opts?:
+                                { tz?: string; theme?: string | object; showForecast?: boolean }) {
   if (!container) throw new Error('container is required for initSiteVisitChart');
 
   const chart = echarts.init(container, opts?.theme as any);
@@ -183,7 +184,6 @@ export async function initSiteVisitChart(container: HTMLElement, opts?: { tz?: s
       setNoData(chart, 'Sin visitas');
     }
   }
-
 
   async function refresh(dateArg?: string) {
     if (destroyed) return;

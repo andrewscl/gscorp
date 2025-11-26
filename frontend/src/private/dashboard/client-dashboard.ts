@@ -66,6 +66,10 @@ export async function init({ container }: { container: HTMLElement }) {
   }
 
 
+
+const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+const todayIso = new Date().toISOString().slice(0, 10);
+
 // --------------- Chart visit hourly ------------------//
 const elVisitHourly = root.querySelector('#chart-visit-hourly') as HTMLDivElement | null;
 
@@ -79,8 +83,100 @@ if (elVisitHourly) {
       showForecast: true
     });
 
-    const todayIso = new Date().toISOString().slice(0, 10);
     await visitsHourlyCtrl.refresh(todayIso);
+
+        // --- Insertar justo después de `await visitsHourlyCtrl.refresh(todayIso);` ---
+    try {
+      // pedir hourly aggregated del día para calcular totales (tolerante a shapes)
+      const urlHourly = `/api/site-supervision-visits/hourly-aggregated?date=${encodeURIComponent(todayIso)}&tz=${encodeURIComponent(tz)}`;
+      const resHourly = await fetchWithAuth(urlHourly);
+      const payloadHourly = resHourly && resHourly.ok ? await resHourly.json().catch(() => []) : [];
+      const hourlyArr = Array.isArray(payloadHourly)
+        ? payloadHourly
+        : (payloadHourly && Array.isArray(payloadHourly.data) ? payloadHourly.data : []);
+
+      // sumar actuales y forecast (tolerante a nombres distintos)
+      const sumActualDay = (hourlyArr || []).reduce((s: number, it: any) => {
+        const raw = it?.count ?? it?.y ?? it?.cnt ?? it?.value ?? it?.visits ?? 0;
+        const n = Number(String(raw ?? 0).replace(/,/g, '')) || 0;
+        return s + n;
+      }, 0);
+
+      const sumForecastDay = (hourlyArr || []).reduce((s: number, it: any) => {
+        const rawF = it?.forecast ?? it?.f ?? it?.visitsForecast ?? 0;
+        const n = (rawF === undefined || rawF === null || rawF === '') ? 0 : (Number(String(rawF).replace(/,/g, '')) || 0);
+        return s + n;
+      }, 0);
+
+      // actualizar texto del card
+      const totalDailyEl = root.querySelector('#total-daily-visit') as HTMLElement | null;
+      const metaDailyEl = root.querySelector('#meta-daily-visit') as HTMLElement | null;
+      if (totalDailyEl) totalDailyEl.textContent = sumActualDay > 0 ? String(sumActualDay) : '–';
+      if (metaDailyEl) metaDailyEl.textContent = sumForecastDay > 0 ? `Meta: ${sumForecastDay}` : 'Meta: —';
+
+      // actualizar / crear donut (usa el id que tengas en el HTML: '#donut-daily-visit' en el ejemplo)
+      const elDonutVisit = root.querySelector('#donut-daily-visit') as HTMLDivElement | null;
+      if (elDonutVisit) {
+        // reusar mkChart si lo tienes; mkChart devuelve echarts.init(...) o null
+        const chDonutVisit = mkChart(elDonutVisit) ?? echarts.init(elDonutVisit, undefined, { renderer: 'canvas' });
+        if (chDonutVisit) {
+          // registrar para resize/cleanup
+          if (!charts.includes(chDonutVisit)) charts.push(chDonutVisit);
+
+          const hasMeta = sumForecastDay > 0;
+          const percentage = hasMeta ? Math.round((sumActualDay / sumForecastDay) * 100) : 0;
+          const pctForSeries = hasMeta ? Math.min(100, Math.max(0, percentage)) : 100;
+
+          const seriesData = !hasMeta
+            ? [{ value: 1, name: 'Sin meta', itemStyle: { color: '#E5E7EB' } }]
+            : [
+                { value: pctForSeries, name: 'Cumplido', itemStyle: { color: '#10B981' } },
+                { value: 100 - pctForSeries, name: 'Pendiente', itemStyle: { color: '#E5E7EB' } }
+              ];
+
+          chDonutVisit.setOption({
+            tooltip: {
+              trigger: 'item',
+              formatter: (p: any) => {
+                if (!hasMeta) return 'Meta no definida';
+                if (p && p.name === 'Cumplido') {
+                  return `${p.marker} ${p.seriesName}: ${sumActualDay} / ${sumForecastDay} (${percentage}%)`;
+                }
+                if (p && p.name === 'Pendiente') {
+                  return `${p.marker} Pendiente: ${Math.max(0, sumForecastDay - sumActualDay)}`;
+                }
+                return '';
+              }
+            },
+            series: [{
+              name: 'Cumplimiento Visitas',
+              type: 'pie',
+              radius: ['62%', '82%'],
+              avoidLabelOverlap: false,
+              hoverAnimation: false,
+              label: {
+                show: true,
+                position: 'center',
+                formatter: hasMeta ? `${percentage}%` : '—',
+                fontSize: 12,
+                fontWeight: 700,
+                color: '#111827'
+              },
+              labelLine: { show: false },
+              data: seriesData
+            }]
+          });
+        }
+      }
+    } catch (err) {
+      console.warn('Error actualizando donut/forecast diario:', err);
+      // fallback visual: dejar textos por defecto (– / Meta: —)
+      const totalDailyEl = root.querySelector('#total-daily-visit') as HTMLElement | null;
+      const metaDailyEl = root.querySelector('#meta-daily-visit') as HTMLElement | null;
+      if (totalDailyEl) totalDailyEl.textContent = '–';
+      if (metaDailyEl) metaDailyEl.textContent = 'Meta: —';
+    }
+
 
     const visitsHourlyInterval = window.setInterval(() => {
       visitsHourlyCtrl?.refresh(todayIso);
