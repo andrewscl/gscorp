@@ -42,21 +42,20 @@ public interface SiteVisitRepository
 
 
     @Query("""
-        SELECT new com.gscorp.dv1.sitesupervisionvisits.infrastructure.SiteVisitDtoProjection(
-            v.id,
-            e.id,
-            e.name,
-            s.id,
-            s.name,
-            v.visitDateTime,
-            v.latitude,
-            v.longitude,
-            v.description,
-            v.photoPath,
-            v.videoPath,
-            v.clientTimezone,
-            v.timezoneSource
-        )
+        SELECT
+          v.id AS id,
+          e.id AS employeeId,
+          e.name AS employeeName,
+          s.id AS siteId,
+          s.name AS siteName,
+          v.visitDateTime AS visitDateTime,
+          v.latitude AS latitude,
+          v.longitude AS longitude,
+          v.description AS description,
+          v.photoPath AS photoPath,
+          v.videoPath AS videoPath,
+          v.clientTimezone AS clientTimezone,
+          v.timezoneSource AS timezoneSource
         FROM SiteVisit v
         JOIN v.employee e
         JOIN v.site s
