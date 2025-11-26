@@ -193,7 +193,7 @@ if (elVisitHourly) {
                 formatter: hasMeta ? `${percentage}%` : '—',
                 fontSize: 16,
                 fontWeight: 700,
-                color: '#677ba7ff'
+                color: '#485572ff'
               },
               labelLine: { show: false },
               data: seriesData
@@ -550,9 +550,9 @@ const mapFrom = (arr: { x: string; y: number }[]) => {
             show: true,
             position: 'center',
             formatter: hasMeta ? `${percentage}%` : '—',
-            fontSize: 12,
+            fontSize: 16,
             fontWeight: 700,
-            color: '#111827'
+            color: '#485572ff'
           },
           labelLine: { show: false },
           data: seriesData
