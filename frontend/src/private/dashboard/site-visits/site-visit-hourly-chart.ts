@@ -39,43 +39,83 @@ async function fetchVisitsMap(dateArg?: string, tz?: string): Promise<Map<string
   }
 }
 
-function buildOption(labels: string[], values: number[], forecastValues?: (number | null)[]) {
-  const series: any[] = [
-    {
-      name: 'Visitas',
-      type: 'line',
-      smooth: true,
-      showSymbol: false,
-      data: values
-    }
-  ];
-  if (forecastValues && forecastValues.some(v => v !== null && v !== undefined)) {
-    series.push({
-      name: 'Visitas (forecast)',
-      type: 'line',
-      smooth: true,
-      showSymbol: false,
-      data: forecastValues,
-      lineStyle: { type: 'dashed' },
-      itemStyle: { opacity: 0.8 }
+/** helper: small in-module "no data" painter (similar to client setNoData) */
+function setNoData(chart: echarts.ECharts, msg = 'Sin visitas') {
+  try {
+    chart.setOption({
+      graphic: {
+        elements: [
+          {
+            type: 'text',
+            left: 'center',
+            top: 'middle',
+            style: { text: msg, fill: '#9ca3af', fontSize: 14 }
+          }
+        ]
+      }
     });
+  } catch (e) {
+    // ignore
   }
+}
+
+/** format hour label for tooltip/display: "00" -> "00:00" */
+function hourDisplay(h: string): string {
+  if (!h) return '';
+  const hh = String(h).padStart(2, '0').slice(-2);
+  return `${hh}:00`;
+}
+
+function buildOption(labels: string[], valuesActual: number[], valuesForecast: (number | null)[]) {
+  const anyPositive = valuesActual.some(v => Number(v) > 0) || valuesForecast.some(v => Number(v) > 0);
 
   return {
-    tooltip: { trigger: 'axis' },
-    grid: { left: '3%', right: '6%', bottom: '8%', containLabel: true },
+    legend: { data: ['Visitas reales', 'Forecast (previsto)'], top: 6 },
+    tooltip: {
+      trigger: 'axis',
+      formatter: (params: any) => {
+        if (!Array.isArray(params) || params.length === 0) return '';
+        const first = params[0];
+        // axisValue puede ser undefined; fallback por dataIndex en labels[]
+        let rawHour = first.axisValue ?? (first && typeof first.dataIndex === 'number' ? labels[first.dataIndex] : undefined);
+        if (!rawHour && first.axisValueLabel) rawHour = first.axisValueLabel;
+        const display = hourDisplay(String(rawHour ?? ''));
+        const lines = params.map((p: any) => `${p.marker} ${p.seriesName}: ${p.value ?? 0}`);
+        return `<b>${display}</b><br/>${lines.join('<br/>')}`;
+      }
+    },
+    grid: { left: 40, right: 16, top: 48, bottom: 36, containLabel: true },
     xAxis: {
       type: 'category',
-      data: labels,
       boundaryGap: false,
-      axisTick: { alignWithLabel: true },
-      axisLabel: { interval: 0, showMinLabel: true, showMaxLabel: true }
+      data: labels,
+      axisLabel: { rotate: 0 }
     },
-    yAxis: {
-      type: 'value',
-      min: 0
-    },
-    series
+    yAxis: { type: 'value' },
+    series: [
+      {
+        name: 'Visitas reales',
+        type: 'line',
+        smooth: true,
+        areaStyle: {},
+        data: valuesActual,
+        color: '#0ea5e9',
+        showSymbol: false,
+        lineStyle: { width: 2 }
+      },
+      {
+        name: 'Forecast (previsto)',
+        type: 'line',
+        smooth: true,
+        areaStyle: { opacity: 0.12 },
+        data: valuesForecast,
+        color: '#f59e0b',
+        showSymbol: false,
+        lineStyle: { width: 2, type: 'dashed' }
+      }
+    ],
+    // if anyPositive true, leave graphic empty (no overlay); otherwise caller can set no-data
+    graphic: anyPositive ? { elements: [] } : undefined
   };
 }
 
@@ -84,7 +124,7 @@ function buildOption(labels: string[], values: number[], forecastValues?: (numbe
  * - container: HTMLElement donde montar el chart
  * - opts: { tz?, theme?, showForecast?: boolean }
  *
- * Devuelve: { chart, refresh(date?), stop() }
+ * Devuelve: { chart, refresh(date?), refreshFromMap(map), stop() }
  */
 export async function initSiteVisitChart(container: HTMLElement, opts?: { tz?: string; theme?: string | object; showForecast?: boolean }) {
   if (!container) throw new Error('container is required for initSiteVisitChart');
@@ -101,13 +141,21 @@ export async function initSiteVisitChart(container: HTMLElement, opts?: { tz?: s
   async function refreshFromMap(m: Map<string, VisitsCell>) {
     if (destroyed) return;
     const labels = hours24;
-    const values = labels.map(h => m.get(h)?.count ?? 0);
-    const forecastValues = labels.map(h => {
+    const valuesActual = labels.map(h => m.get(h)?.count ?? 0);
+    const valuesForecast = labels.map(h => {
       const f = m.get(h)?.forecast;
       return f === undefined ? null : f;
     });
-    const option = buildOption(labels, values, opts?.showForecast ? forecastValues : undefined);
+
+    const anyPositive = valuesActual.some(v => Number(v) > 0) || valuesForecast.some(v => Number(v) > 0);
+
+    const option = buildOption(labels, valuesActual, opts?.showForecast ? valuesForecast : Array(24).fill(null));
     chart.setOption(option, { notMerge: false });
+
+    // If no data, draw the "Sin visitas" overlay so user sees message without extra client code
+    if (!anyPositive) {
+      setNoData(chart, 'Sin visitas');
+    }
   }
 
   async function refresh(dateArg?: string) {
@@ -123,7 +171,7 @@ export async function initSiteVisitChart(container: HTMLElement, opts?: { tz?: s
   }
 
   // initial blank render to reserve layout and show empty axes
-  chart.setOption(buildOption(hours24, Array(24).fill(0)));
+  chart.setOption(buildOption(hours24, Array(24).fill(0), Array(24).fill(null)));
 
   return {
     chart,
