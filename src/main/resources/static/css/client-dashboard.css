@@ -18,10 +18,10 @@
   --card-padding: 16px;
   --gap: 1rem;
   --max-width: 1200px;
+  /* Altura única y variables para charts */
   --chart-height-default: 260px; /* altura uniforme para la mayoría de charts */
-  --chart-height-daily: var(--chart-height-default); /* si quieres poder cambiar solo daily */
+  --chart-height-daily: var(--chart-height-default);
   --chart-height-weekly: var(--chart-height-default);
-  /* Reglas generales que deben aplicarse a todos los chart bodies */
   box-sizing: border-box;
   width: 100%;
   margin: 0 auto;
@@ -29,18 +29,7 @@
   color: var(--text);
   font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   background: transparent;
-}
-#client-dashboard-root #client-dashboard-root .card > .chart-body,
-#client-dashboard-root #client-dashboard-root .card > div[id^=chart-] {
-  width: 100% !important;
-  max-width: 100% !important;
-  min-width: 0 !important;
-  height: var(--chart-height-default) !important;
-  min-height: 160px !important;
-  border-radius: 8px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
-  overflow: hidden !important;
-  box-sizing: border-box !important;
+  /* ================= UNIFICACIÓN: regla única para todos los chart bodies ================= */
 }
 #client-dashboard-root .container-inner {
   max-width: var(--max-width);
@@ -74,8 +63,8 @@
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
-  height: 240px;
-  min-height: 160px;
+  height: var(--chart-height-default) !important;
+  min-height: 160px !important;
   border-radius: 8px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
   overflow: hidden !important;
@@ -142,10 +131,6 @@
 #client-dashboard-root .charts .card {
   min-height: 180px;
 }
-#client-dashboard-root .charts .card > div[id^=chart-] {
-  height: 260px !important;
-  min-height: 180px !important;
-}
 #client-dashboard-root .charts.daily {
   margin-bottom: 0.8rem;
 }
@@ -153,10 +138,10 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  /* si quieres una altura distinta para daily, cambia --chart-height-daily arriba */
 }
 #client-dashboard-root .charts.daily .card > .chart-body {
-  height: 200px;
-  min-height: 160px;
+  height: var(--chart-height-daily) !important;
 }
 #client-dashboard-root .charts.weekly {
   margin-top: 0.5rem;
@@ -173,9 +158,11 @@
     grid-template-columns: 1fr;
   }
 }
+#client-dashboard-root .charts.weekly .card {
+  /* si quieres una altura distinta para weekly, cambia --chart-height-weekly arriba */
+}
 #client-dashboard-root .charts.weekly .card > .chart-body {
-  height: 260px !important;
-  min-height: 200px !important;
+  height: var(--chart-height-weekly) !important;
 }
 #client-dashboard-root .charts.full-width {
   display: block;
