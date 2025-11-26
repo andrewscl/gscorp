@@ -88,9 +88,6 @@ if (elVisitHourly) {
 
 
 
-    // Insertar justo después de: await visitsHourlyCtrl.refresh(todayIso);
-    // Asegúrate de que `root`, `mkChart`, `charts`, `fetchWithAuth`, `echarts` y `visitsHourlyCtrl` están en scope.
-
     try {
       // helpers locales: hoy y zona (si no los declaraste arriba)
       const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
@@ -208,29 +205,46 @@ if (elVisitHourly) {
         }
       }
 
-      // 5) Opcional: añadir línea de referencia en el hourly chart con el promedio horario esperado
+            // === REEMPLAZAR AQUÍ: insertar después de chDonut.setOption(...) ===
       if (visitsHourlyCtrl?.chart && sumForecastDay > 0) {
         try {
           const avgPerHour = sumForecastDay / 24;
-          // agregamos una serie silenciosa con valor constante para contexto; no reemplaza series actuales
-          visitsHourlyCtrl.chart.setOption({
-            series: [
-              // mantenemos las series existentes; añadimos o actualizamos una serie contextual
-              {
-                name: 'Meta diaria (promedio/h)',
-                type: 'line',
-                data: Array(24).fill(Number(avgPerHour.toFixed(2))),
-                lineStyle: { color: '#f59e0b', width: 1, type: 'dashed' },
-                symbol: 'none',
-                silent: true,
-                tooltip: { show: false }
-              }
-            ]
-          }, { notMerge: false });
+          const metaName = 'Meta diaria (promedio/h)';
+          const chart = visitsHourlyCtrl.chart;
+
+          // Obtener la opción actual del chart (preserva ejes, legend, series actuales, etc.)
+          const currentOpt: any = (chart.getOption && typeof chart.getOption === 'function') ? chart.getOption() : {};
+
+          // Normalizar la lista de series existentes (por seguridad)
+          const existingSeries: any[] = Array.isArray(currentOpt.series) ? currentOpt.series : [];
+
+          // Evitar duplicados: filtrar cualquier serie previa con el mismo nombre (metaName)
+          const baseSeries = existingSeries.filter(s => !(s && s.name === metaName));
+
+          // Crear la serie meta constante en las 24 horas
+          const metaSeries = {
+            name: metaName,
+            type: 'line',
+            data: Array(24).fill(Number((avgPerHour).toFixed(2))),
+            lineStyle: { color: '#f59e0b', width: 1, type: 'dashed' },
+            symbol: 'none',
+            silent: true,
+            tooltip: { show: false }
+          };
+
+          // Construir nueva opción reusando la opción actual pero con las series actualizadas
+          const newOpt = Object.assign({}, currentOpt, {
+            series: baseSeries.concat([metaSeries])
+          });
+
+          // Reescribir la opción completa (notMerge = true) para evitar merges por índice que sobrescriben series
+          chart.setOption(newOpt, /* notMerge = */ true);
         } catch (e) {
           console.warn('No se pudo dibujar referencia de forecast en hourly chart', e);
         }
       }
+
+      
     } catch (err) {
       console.warn('Error actualizando forecast/donut diario:', err);
       // fallback: no romper la UI
