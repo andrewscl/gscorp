@@ -6,7 +6,7 @@ import com.gscorp.dv1.employees.infrastructure.Employee;
 import com.gscorp.dv1.sites.infrastructure.Site;
 import com.gscorp.dv1.sitesupervisionvisits.infrastructure.SiteVisit;
 
-public record SiteSupervisionVisitDto(
+public record SiteVisitDto(
     Long id,
     Long employeeId,
     String employeeName,
@@ -20,12 +20,12 @@ public record SiteSupervisionVisitDto(
     String videoPath,
     String visitDateTimeFormatted
 ) {
-    public static SiteSupervisionVisitDto fromEntity(SiteVisit visit, String visitDateTimeFormatted) {
+    public static SiteVisitDto fromEntity(SiteVisit visit, String visitDateTimeFormatted) {
         if (visit == null) return null;
             Employee emp = visit.getEmployee();
             Site site = visit.getSite();
 
-        return new SiteSupervisionVisitDto(
+        return new SiteVisitDto(
             visit.getId(),
             emp != null ? emp.getId() : null,
             emp != null ? emp.getName() : null,
@@ -42,7 +42,7 @@ public record SiteSupervisionVisitDto(
     }
 
     // versión por compatibilidad que no recibe formatted
-    public static SiteSupervisionVisitDto fromEntity(SiteVisit visit) {
+    public static SiteVisitDto fromEntity(SiteVisit visit) {
         return fromEntity(visit, null);
     }
 

@@ -7,23 +7,21 @@ import java.util.List;
 
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.CreateSiteSupervisionVisitRequest;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitPointDto;
-import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteSupervisionVisitDto;
+import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitCountDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitHourlyDto;
 
 public interface SiteVisitService {
 
-    SiteSupervisionVisitDto createSiteSupervisionVisitRequest(
+    SiteVisitDto createSiteSupervisionVisitRequest(
                                 CreateSiteSupervisionVisitRequest req, Long userId);
 
-    List<SiteSupervisionVisitDto> getAllSiteSupervisionVisits();
+    List<SiteVisitDto> findByUserAndDateBetween(
+                                Long userId, LocalDate fromDate, LocalDate toDate, String clientTz);
 
-    SiteSupervisionVisitDto findByIdWithEmployeeAndSite(Long id);
+    SiteVisitDto findByIdWithEmployeeAndSite(Long id);
 
     long countByClientIdAndDate(Long clientId, LocalDate date);
-
-    List<SiteSupervisionVisitDto> findByClientIdAndDateBetween
-            (Long clientId, OffsetDateTime from, OffsetDateTime to);
 
     List<SiteVisitCountDto> getVisitsBySite
             (Long clientId, OffsetDateTime from, OffsetDateTime to);

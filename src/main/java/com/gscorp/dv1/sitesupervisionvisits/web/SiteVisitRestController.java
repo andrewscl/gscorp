@@ -28,7 +28,7 @@ import com.gscorp.dv1.sites.web.dto.SiteDto;
 import com.gscorp.dv1.sitesupervisionvisits.application.SiteVisitService;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.CreateSiteSupervisionVisitRequest;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitPointDto;
-import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteSupervisionVisitDto;
+import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitCountDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitHourlyDto;
 import com.gscorp.dv1.users.application.UserService;
@@ -53,7 +53,7 @@ public class SiteVisitRestController {
     }
 
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<SiteSupervisionVisitDto> createSiteSupervisionVisit(
+    public ResponseEntity<SiteVisitDto> createSiteSupervisionVisit(
         @Valid @ModelAttribute CreateSiteSupervisionVisitRequest req,
         UriComponentsBuilder ucb,
         Authentication authentication) {
@@ -65,7 +65,7 @@ public class SiteVisitRestController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "usuario no autenticado.");
         }
 
-        SiteSupervisionVisitDto saved =
+        SiteVisitDto saved =
             siteVisitService.
                         createSiteSupervisionVisitRequest(req, userId);
 

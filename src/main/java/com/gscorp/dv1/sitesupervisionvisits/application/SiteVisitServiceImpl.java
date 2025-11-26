@@ -2,6 +2,7 @@ package com.gscorp.dv1.sitesupervisionvisits.application;
 
 import java.io.File;
 import java.time.DateTimeException;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
@@ -9,6 +10,7 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -27,10 +29,11 @@ import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.employees.application.EmployeeService;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sitesupervisionvisits.infrastructure.SiteVisit;
+import com.gscorp.dv1.sitesupervisionvisits.infrastructure.SiteVisitDtoProjection;
 import com.gscorp.dv1.sitesupervisionvisits.infrastructure.SiteVisitRepository;
 import com.gscorp.dv1.sitesupervisionvisits.infrastructure.SiteVisitHourlyCountProjection;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.CreateSiteSupervisionVisitRequest;
-import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteSupervisionVisitDto;
+import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitPointDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitCountDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitHourlyDto;
@@ -55,7 +58,7 @@ public class SiteVisitServiceImpl implements SiteVisitService{
 
     @Override
     @Transactional
-    public SiteSupervisionVisitDto createSiteSupervisionVisitRequest(
+    public SiteVisitDto createSiteSupervisionVisitRequest(
                                 CreateSiteSupervisionVisitRequest req, Long userId) {
 
         String photoPath = null, videoPath = null;
@@ -165,47 +168,82 @@ public class SiteVisitServiceImpl implements SiteVisitService{
 
         SiteVisit savedEntity = siteSupervisionVisitRepo.save(entity);
 
-        return SiteSupervisionVisitDto.fromEntity(savedEntity);
-
+        return SiteVisitDto.fromEntity(savedEntity);
     }
 
-    @Override
-    public List<SiteSupervisionVisitDto> getAllSiteSupervisionVisits() {
-    DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-    return siteSupervisionVisitRepo.findAllWithEmployeeAndSite()
-        .stream()
-        .map(entity -> {
-            // mapear DTO base + calcular fecha formateada en la zona adecuada
-            String tzId = entity.getClientTimezone();
-            ZoneId zone;
-            try {
-                zone = (tzId != null && !tzId.isBlank()) ? ZoneId.of(tzId) : ZoneId.systemDefault();
-            } catch (DateTimeException ex) {
-                // si clientTimezone es inválido usamos system default (o UTC según prefieras)
-                zone = ZoneId.systemDefault();
+
+    @Override
+    public List<SiteVisitDto> findByUserAndDateBetween(
+                                Long userId, LocalDate fromDate, LocalDate toDate, String clientTz) {
+
+        List<Long> clientIds = userService.getClientIdsForUser(userId);
+        if (clientIds == null || clientIds.isEmpty()) {
+            log.debug("No clientIds for user {} -> returning zero series for {}..{}", userId, fromDate, toDate);
+            return Collections.emptyList();
+        }
+
+        ZoneResolutionResult zr = zoneResolver.resolveZone(userId, clientTz);
+        ZoneId zone = zr.zoneId(); // o zone() según tu record
+        // intervalo [start, end)
+        OffsetDateTime start = fromDate.atStartOfDay(zone).toOffsetDateTime();
+        OffsetDateTime endExclusive = toDate.plusDays(1).atStartOfDay(zone).toOffsetDateTime();
+
+        // llamar repo que espera OffsetDateTime límites
+        List<SiteVisitDtoProjection> rows = siteSupervisionVisitRepo
+                                                .findDtoByUserAndDateBetween(clientIds, start, endExclusive);
+
+        // mapear proyection -> DTO final y formatear según zone
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        return rows.stream().map(p -> {
+            // Determinar la zona para formateo: preferir la que venga en la proyección (visit created)
+            ZoneId displayZone = zone;
+            String tzFromRow = p.getClientTimezone();
+            if (tzFromRow != null && !tzFromRow.isBlank()) {
+                try {
+                    displayZone = ZoneId.of(tzFromRow);
+                } catch (DateTimeException ex) {
+                    log.debug("Invalid clientTimezone '{}' in row id={} - using resolved zone {}"
+                                                , tzFromRow, p.getId(), zone);
+                    displayZone = zone;
+                }
             }
 
             String formatted = null;
-            if (entity.getVisitDateTime() != null) {
-                ZonedDateTime localZdt = entity.getVisitDateTime().toInstant().atZone(zone);
-                formatted = localZdt.format(fmt);
+            OffsetDateTime visitOffset = p.getVisitDateTime();
+            if (visitOffset != null) {
+                Instant instant = visitOffset.toInstant();
+                ZonedDateTime local = instant.atZone(displayZone);
+                formatted = local.format(fmt);
             }
 
-            return SiteSupervisionVisitDto.fromEntity(entity, formatted);
-        })
-        .collect(Collectors.toList());
+            return new SiteVisitDto(
+                p.getId(),
+                p.getEmployeeId(),
+                p.getEmployeeName(),
+                p.getSiteId(),
+                p.getSiteName(),
+                p.getVisitDateTime(),
+                p.getLatitude(),
+                p.getLongitude(),
+                p.getDescription(),
+                p.getPhotoPath(),
+                p.getVideoPath(),
+                formatted
+            );
+        }).collect(Collectors.toList());
 
     }
 
 
 
     @Override
-    public SiteSupervisionVisitDto findByIdWithEmployeeAndSite(Long id) {
+    public SiteVisitDto findByIdWithEmployeeAndSite(Long id) {
         var visit = siteSupervisionVisitRepo.findByIdWithEmployeeAndSite(id)
             .orElseThrow(() -> 
                 new IllegalArgumentException("Visita de supervisión no encontrada: " + id));
-        return SiteSupervisionVisitDto.fromEntity(visit);
+        return SiteVisitDto.fromEntity(visit);
     }
 
     @Override
@@ -216,11 +254,6 @@ public class SiteVisitServiceImpl implements SiteVisitService{
     return siteSupervisionVisitRepo.countByClientIdAndDateBetween(clientId, start, end);
     }
 
-    @Override
-    public List<SiteSupervisionVisitDto> findByClientIdAndDateBetween
-                        (Long clientId, OffsetDateTime from, OffsetDateTime to) {
-        return siteSupervisionVisitRepo.findDtoByClientIdAndDateBetween(clientId, from, to);
-    }
 
     @Override
     public List<SiteVisitCountDto> getVisitsBySite(Long clientId, OffsetDateTime from, OffsetDateTime to) {
@@ -346,10 +379,10 @@ public class SiteVisitServiceImpl implements SiteVisitService{
         log.debug("Service: visits fetched count={}", entities == null ? null : entities.size());
 
         // 4.1)Mapear entidades a DTOs (usa el fromEntity que ya tienes en SiteSupervisionVisitDto)
-        List<SiteSupervisionVisitDto> visitsDto = (entities == null)
+        List<SiteVisitDto> visitsDto = (entities == null)
                 ? List.of()
                 : entities.stream()
-                        .map(SiteSupervisionVisitDto::fromEntity)
+                        .map(SiteVisitDto::fromEntity)
                         .filter(Objects::nonNull)
                         .collect(Collectors.toList());
 
