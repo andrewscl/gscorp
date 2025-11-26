@@ -12,9 +12,11 @@ function extractHour(item: any): string {
 
 function toNumber(v: any): number {
   if (v === undefined || v === null || v === '') return 0;
-  const n = Number(v);
+  const s = String(v).replace(/\s+/g, '').replace(/,/g, '');
+  const n = Number(s);
   return Number.isNaN(n) ? 0 : n;
 }
+
 
 async function fetchVisitsMap(dateArg?: string, tz?: string): Promise<Map<string, VisitsCell>> {
   const zone = tz ?? (typeof Intl !== 'undefined' ? Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC' : 'UTC');
@@ -23,21 +25,39 @@ async function fetchVisitsMap(dateArg?: string, tz?: string): Promise<Map<string
 
   try {
     const res = await fetchWithAuth(url);
-    const arr = res.ok ? await res.json().catch(() => []) : [];
+    let payload: any = [];
+    if (res.ok) {
+      payload = await res.json().catch(() => []);
+    } else {
+      console.warn('[Site-Visit-Chart] fetch failed', res.status, res.statusText, url);
+      return new Map();
+    }
+
+    // payload puede ser array directo o { data: [...] }
+    const arr = Array.isArray(payload)
+      ? payload
+      : (payload && Array.isArray(payload.data) ? payload.data
+         : (payload && Array.isArray(payload.result) ? payload.result : []));
+
+    console.debug('[Site-Visit-Chart] fetch payload sample:', arr.slice(0,6));
+
     const m = new Map<string, VisitsCell>();
     (arr || []).forEach((it: any) => {
       const hh = extractHour(it);
-      const count = toNumber(it?.count ?? it?.y ?? it?.cnt ?? it?.value ?? it?.visits);
+      const count = toNumber(it?.count ?? it?.y ?? it?.cnt ?? it?.value ?? it?.visits ?? it?.countValue);
       const rawForecast = it?.forecast ?? it?.f ?? it?.visitsForecast;
       const forecast = rawForecast === undefined || rawForecast === null ? undefined : toNumber(rawForecast);
       m.set(hh, { count, forecast });
     });
+
+    console.debug('[Site-Visit-Chart] normalized map sample:', Array.from(m.entries()).slice(0,6));
     return m;
   } catch (e) {
-    console.warn('[Site-Visit-Chart] fetchVisitsMap error', e);
+    console.warn('[Site-Visit-Chart] fetchVisitsMap error', e, url);
     return new Map();
   }
 }
+
 
 /** helper: small in-module "no data" painter (similar to client setNoData) */
 function setNoData(chart: echarts.ECharts, msg = 'Sin visitas') {
@@ -138,6 +158,7 @@ export async function initSiteVisitChart(container: HTMLElement, opts?: { tz?: s
   };
   window.addEventListener('resize', onResize);
 
+
   async function refreshFromMap(m: Map<string, VisitsCell>) {
     if (destroyed) return;
     const labels = hours24;
@@ -147,16 +168,22 @@ export async function initSiteVisitChart(container: HTMLElement, opts?: { tz?: s
       return f === undefined ? null : f;
     });
 
+    console.debug('[Site-Visit-Chart] map keys:', Array.from(m.keys()));
+    console.debug('[Site-Visit-Chart] sample entries:', Array.from(m.entries()).slice(0,6));
+    console.debug('[Site-Visit-Chart] labels:', labels);
+    console.debug('[Site-Visit-Chart] valuesActual:', valuesActual);
+    console.debug('[Site-Visit-Chart] valuesForecast:', valuesForecast);
+
     const anyPositive = valuesActual.some(v => Number(v) > 0) || valuesForecast.some(v => Number(v) > 0);
 
     const option = buildOption(labels, valuesActual, opts?.showForecast ? valuesForecast : Array(24).fill(null));
     chart.setOption(option, { notMerge: false });
 
-    // If no data, draw the "Sin visitas" overlay so user sees message without extra client code
     if (!anyPositive) {
       setNoData(chart, 'Sin visitas');
     }
   }
+
 
   async function refresh(dateArg?: string) {
     if (destroyed) return;
