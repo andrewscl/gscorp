@@ -70,7 +70,7 @@ function buildOption(labels: string[], valuesActual: number[], valuesForecast: (
   const anyPositive = valuesActual.some(v => Number(v) > 0) || valuesForecast.some(v => Number(v) > 0);
 
   return {
-    legend: { data: ['Visitas reales', 'Forecast (previsto)'], top: 6 },
+    legend: { data: ['Visitas', 'Forecast'], top: 6 },
     tooltip: {
       trigger: 'axis',
       formatter: (params: any) => {
@@ -94,7 +94,7 @@ function buildOption(labels: string[], valuesActual: number[], valuesForecast: (
     yAxis: { type: 'value' },
     series: [
       {
-        name: 'Visitas reales',
+        name: 'Visitas',
         type: 'line',
         smooth: true,
         areaStyle: {},
@@ -104,7 +104,7 @@ function buildOption(labels: string[], valuesActual: number[], valuesForecast: (
         lineStyle: { width: 2 }
       },
       {
-        name: 'Forecast (previsto)',
+        name: 'Forecast',
         type: 'line',
         smooth: true,
         areaStyle: { opacity: 0.12 },

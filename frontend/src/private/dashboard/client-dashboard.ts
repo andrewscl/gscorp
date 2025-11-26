@@ -259,64 +259,61 @@ try {
     return;
   }
 
+  // Normaliza una fecha ISO/fecha-only a 'YYYY-MM-DD' en la zona local del navegador
+  function isoToLocalIsoDateString(iso: unknown): string {
+    if (iso === null || iso === undefined) return '';
 
+    const s = String(iso).trim();
+    if (!s) return '';
 
-
-// Normaliza una fecha ISO/fecha-only a 'YYYY-MM-DD' en la zona local del navegador
-function isoToLocalIsoDateString(iso: unknown): string {
-  if (iso === null || iso === undefined) return '';
-
-  const s = String(iso).trim();
-  if (!s) return '';
-
-  // Caso 1: fecha sola YYYY-MM-DD -> construir Date en zona local para evitar interpretarla como UTC
-  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) {
-    const [yStr, mStr, dStr] = s.split('-');
-    const y = Number(yStr);
-    const m = Number(mStr);
-    const d = Number(dStr);
-    if (Number.isFinite(y) && Number.isFinite(m) && Number.isFinite(d)) {
-      const dt = new Date(y, m - 1, d); // creamos en zona local
-      return `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(dt.getDate()).padStart(2, '0')}`;
+    // Caso 1: fecha sola YYYY-MM-DD -> construir Date en zona local para evitar interpretarla como UTC
+    if (/^\d{4}-\d{2}-\d{2}$/.test(s)) {
+      const [yStr, mStr, dStr] = s.split('-');
+      const y = Number(yStr);
+      const m = Number(mStr);
+      const d = Number(dStr);
+      if (Number.isFinite(y) && Number.isFinite(m) && Number.isFinite(d)) {
+        const dt = new Date(y, m - 1, d); // creamos en zona local
+        return `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(dt.getDate()).padStart(2, '0')}`;
+      }
+      return '';
     }
-    return '';
+
+    // Caso 2: si viene con hora o zona, dejar que Date lo parse (y convertir a fecha local)
+    const parsed = new Date(s);
+    if (Number.isNaN(parsed.getTime())) {
+      // Fallback: tomar la parte antes de 'T' si existe
+      const part = s.split('T')[0];
+      return part || '';
+    }
+    return `${parsed.getFullYear()}-${String(parsed.getMonth() + 1).padStart(2, '0')}-${String(parsed.getDate()).padStart(2, '0')}`;
   }
 
-  // Caso 2: si viene con hora o zona, dejar que Date lo parse (y convertir a fecha local)
-  const parsed = new Date(s);
-  if (Number.isNaN(parsed.getTime())) {
-    // Fallback: tomar la parte antes de 'T' si existe
-    const part = s.split('T')[0];
-    return part || '';
-  }
-  return `${parsed.getFullYear()}-${String(parsed.getMonth() + 1).padStart(2, '0')}-${String(parsed.getDate()).padStart(2, '0')}`;
-}
 
+  type Point = { x: string; y: number };
 
-type Point = { x: string; y: number };
+  // Normaliza entradas en varios formatos a { x: 'YYYY-MM-DD', y: number }
+  const norm = (arr: any[] | null | undefined): Point[] => {
+    if (!Array.isArray(arr)) return [];
 
-// Normaliza entradas en varios formatos a { x: 'YYYY-MM-DD', y: number }
-const norm = (arr: any[] | null | undefined): Point[] => {
-  if (!Array.isArray(arr)) return [];
+    return arr.map(d => {
+      // rawX: puede venir en d.x o d.date o ser un array [date,value]
+      let rawX: any = '';
+      if (Array.isArray(d)) rawX = d[0];
+      else rawX = d?.x ?? d?.date ?? d?.day ?? '';
 
-  return arr.map(d => {
-    // rawX: puede venir en d.x o d.date o ser un array [date,value]
-    let rawX: any = '';
-    if (Array.isArray(d)) rawX = d[0];
-    else rawX = d?.x ?? d?.date ?? d?.day ?? '';
+      // rawY: puede venir en d.y o d.value o ser un array [date,value]
+      let rawY: any = 0;
+      if (Array.isArray(d) && d.length > 1) rawY = d[1];
+      else rawY = d?.y ?? d?.value ?? 0;
 
-    // rawY: puede venir en d.y o d.value o ser un array [date,value]
-    let rawY: any = 0;
-    if (Array.isArray(d) && d.length > 1) rawY = d[1];
-    else rawY = d?.y ?? d?.value ?? 0;
-
-    const x = isoToLocalIsoDateString(rawX);
-    const yNum = (typeof rawY === 'number') ? rawY : Number(String(rawY ?? 0));
-    return { x, y: Number.isFinite(yNum) ? yNum : 0 };
-  })
-  // eliminar entradas inválidas (sin fecha)
-  .filter(p => p.x && typeof p.x === 'string' && p.x.length >= 4);
-};
+      const x = isoToLocalIsoDateString(rawX);
+      const yNum = (typeof rawY === 'number') ? rawY : Number(String(rawY ?? 0));
+      return { x, y: Number.isFinite(yNum) ? yNum : 0 };
+    })
+    // eliminar entradas inválidas (sin fecha)
+    .filter(p => p.x && typeof p.x === 'string' && p.x.length >= 4);
+  };
 
 
   const normActual = norm(dataActual);
@@ -446,7 +443,7 @@ const mapFrom = (arr: { x: string; y: number }[]) => {
     yAxis: { type: 'value' },
     series: [
       {
-        name: 'Visitas reales',
+        name: 'Visitas',
         type: 'line',
         smooth: true,
         areaStyle: {},
@@ -456,7 +453,7 @@ const mapFrom = (arr: { x: string; y: number }[]) => {
         lineStyle: { width: 2 }
       },
       {
-        name: 'Forecast (previsto)',
+        name: 'Forecast',
         type: 'line',
         smooth: true,
         areaStyle: { opacity: 0.12 },
