@@ -31,6 +31,7 @@ import com.gscorp.dv1.sitesupervisionvisits.web.dto.CreateSiteSupervisionVisitRe
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteSupervisionVisitDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitPointDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitCountDto;
+import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitHourlyDto;
 import com.gscorp.dv1.users.application.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -170,7 +171,7 @@ public class SiteVisitServiceImpl implements SiteVisitService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<SiteVisitPointDto> getVisitsSeriesForUserByDateByVisitHourlyAgregated
+    public List<SiteVisitHourlyDto> getVisitsSeriesForUserByDateByVisitHourlyAgregated
                             (Long userId, LocalDate date, String tz) {
 
         // 1) resolver zona usando ZoneResolver (prioridad: requestedTz -> user profile -> system default)
@@ -179,38 +180,47 @@ public class SiteVisitServiceImpl implements SiteVisitService{
         log.debug("Resolved zone {} (source={}) for userId={} requestedTz={}", zone, zr.source(), userId, tz);
 
         // 2) obtener clientIds asociados al usuario
-    List<Long> clientIds = userService.getClientIdsForUser(userId);
-    if (clientIds == null || clientIds.isEmpty()) {
-        // devolver 24 ceros
-        return IntStream.range(0, 24)
-                .mapToObj(i -> new SiteVisitPointDto(String.format("%02d", i), 0L))
-                .collect(Collectors.toList());
-    }
-
-    OffsetDateTime from = zoneResolver.toStartOfDay(date, zone);
-    OffsetDateTime to = zoneResolver.toStartOfDay(date.plusDays(1), zone);
-
-    // obtener proyección (por site/hora)
-    List<SiteVisitHourlyCountProjection> rows =
-            siteSupervisionVisitRepo.findByClientIdsAndDateAndHourlyBetween(from, to, zone.getId(), clientIds);
-
-    // sumar por hora (00..23)
-    long[] sums = new long[24];
-    if (rows != null) {
-        for (SiteVisitHourlyCountProjection r : rows) {
-            String hh = r.getHour(); // esperamos '00'..'23'
-            int idx;
-            try { idx = Integer.parseInt(hh); } catch (Exception ex) { idx = 0; }
-            Number n = r.getCount(); // tu proyección define Number getCount()
-            long cnt = n == null ? 0L : n.longValue();
-            if (idx >= 0 && idx < 24) sums[idx] += cnt;
+        List<Long> clientIds = userService.getClientIdsForUser(userId);
+        if (clientIds == null || clientIds.isEmpty()) {
+            // devolver 24 ceros (00..23)
+            return IntStream.range(0, 24)
+                    .mapToObj(i -> new SiteVisitHourlyDto(String.format("%02d", i), 0L))
+                    .collect(Collectors.toList());
         }
-    }
 
-    // construir lista ordenada para frontend
-    return IntStream.range(0, 24)
-            .mapToObj(i -> new SiteVisitPointDto(String.format("%02d", i), sums[i]))
-            .collect(Collectors.toList());
+        // 3) construir rango [startOfDay, startOfNextDay) en la zona resuelta
+        OffsetDateTime from = zoneResolver.toStartOfDay(date, zone);
+        OffsetDateTime to = zoneResolver.toStartOfDay(date.plusDays(1), zone);
+
+        log.debug("Fetching hourly visits aggregated for userId={} clients={} date={} zone={} from={} to={}",
+                userId, clientIds, date, zone, from, to);
+
+        // 4) obtener proyección (por site/hora) y sumar por hora (00..23)
+        List<SiteVisitHourlyCountProjection> rows =
+                siteSupervisionVisitRepo.findByClientIdsAndDateAndHourlyBetween(from, to, zone.getId(), clientIds);
+
+        long[] sums = new long[24];
+        if (rows != null) {
+            for (SiteVisitHourlyCountProjection r : rows) {
+                String hh = r.getHour(); // esperamos '00'..'23'
+                int idx;
+                try {
+                    idx = Integer.parseInt(hh);
+                } catch (Exception ex) {
+                    log.debug("Invalid hour value '{}' in projection, defaulting to 0", hh);
+                    idx = 0;
+                }
+                Number n = r.getCount(); // proyección define Number getCount()
+                long cnt = n == null ? 0L : n.longValue();
+                if (idx >= 0 && idx < 24) sums[idx] += cnt;
+            }
+        }
+
+        // 5) construir lista ordenada para frontend usando el DTO SiteVisitHourlyDto(hour, count)
+        return IntStream.range(0, 24)
+                .mapToObj(i -> new SiteVisitHourlyDto(String.format("%02d", i), sums[i]))
+                .collect(Collectors.toList());
+
     }
 
 

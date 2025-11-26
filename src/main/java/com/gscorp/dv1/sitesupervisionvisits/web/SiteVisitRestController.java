@@ -30,6 +30,7 @@ import com.gscorp.dv1.sitesupervisionvisits.web.dto.CreateSiteSupervisionVisitRe
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitPointDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteSupervisionVisitDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitCountDto;
+import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitHourlyDto;
 import com.gscorp.dv1.users.application.UserService;
 
 import jakarta.validation.Valid;
@@ -170,23 +171,19 @@ public class SiteVisitRestController {
     }
 
 
-  /**
-   * Serie agregada (24 puntos "00".."23") para el usuario autenticado.
-   * - Ideal para graficar "visitas por hora del día".
-   * - No acepta clientId; se usan los clientes del usuario.
-   */
+
   @GetMapping("/hourly-aggregated")
-  public ResponseEntity<List<SiteVisitPointDto>> hourlyAggregatedForCaller(
+  public ResponseEntity<List<SiteVisitHourlyDto>> hourlyAggregatedForCaller(
       Authentication auth,
       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
       @RequestParam(required = false, defaultValue = "UTC") String tz
-  ) {
+      ) {
     Long callerUserId = userService.getUserIdFromAuthentication(auth);
     if (callerUserId == null) {
       return ResponseEntity.status(403).build();
     }
 
-    List<SiteVisitPointDto> series = siteVisitService
+    List<SiteVisitHourlyDto> series = siteVisitService
         .getVisitsSeriesForUserByDateByVisitHourlyAgregated(callerUserId, date, tz);
 
     return ResponseEntity.ok(series == null ? Collections.emptyList() : series);

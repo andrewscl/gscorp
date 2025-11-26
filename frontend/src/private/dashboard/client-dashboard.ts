@@ -1,5 +1,5 @@
 import { echarts } from '../../lib/echarts-setup';
-import { initThreeMetrics } from './init-three-metrics';
+import { initSiteVisitChart } from './site-visits/site-visit-hourly-chart';
 import { fetchWithAuth } from './api/api';
 
 type Point = { x: string; y: number };
@@ -66,6 +66,51 @@ export async function init({ container }: { container: HTMLElement }) {
   }
 
 
+// --------------- Chart visit hourly ------------------//
+const elVisitHourly = root.querySelector('#chart-visit-hourly') as HTMLDivElement | null;
+
+type SiteVisitChartController = Awaited<ReturnType<typeof initSiteVisitChart>>;
+let visitsHourlyCtrl: SiteVisitChartController | null = null; // controlador del chart horario
+
+if (elVisitHourly) {
+  try {
+    visitsHourlyCtrl = await initSiteVisitChart(elVisitHourly, {
+      tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      showForecast: true
+    });
+
+    const todayIso = new Date().toISOString().slice(0, 10);
+    await visitsHourlyCtrl.refresh(todayIso);
+
+    const visitsHourlyInterval = window.setInterval(() => {
+      visitsHourlyCtrl?.refresh(todayIso);
+    }, 60_000);
+
+    // protege el acceso al chart con ?. por si algo sale mal
+    visitsHourlyCtrl?.chart?.on('click', (params: any) => {
+      const hour = params?.name ?? params?.data?.hour;
+      console.log('Drilldown visits hourly click', hour);
+    });
+
+    if (visitsHourlyCtrl?.chart) charts.push(visitsHourlyCtrl.chart);
+
+    (root as any).__visitsHourlyCleanup = {
+      stop: () => {
+        try { window.clearInterval(visitsHourlyInterval); } catch {}
+        try { visitsHourlyCtrl?.stop(); } catch {}
+      }
+    };
+  } catch (err) {
+    console.error('Error inicializando visits hourly chart', err);
+    const tmp = mkChart(elVisitHourly);
+    setNoData(tmp, 'Error de datos');
+  }
+}
+
+
+
+
+
   // -------- Asistencia (línea con área) --------
   const chAsis = mkChart(elAsis); if (chAsis) charts.push(chAsis);
   try {
@@ -128,6 +173,7 @@ try {
 
 // Opcional: asegurar resize cuando cambie el contenedor
 window.addEventListener('resize', () => chPatrol?.resize());
+
 
 
 
@@ -212,6 +258,8 @@ try {
     setNoData(chVisit, 'Sin datos');
     return;
   }
+
+
 
 
 // Normaliza una fecha ISO/fecha-only a 'YYYY-MM-DD' en la zona local del navegador
@@ -369,7 +417,7 @@ const mapFrom = (arr: { x: string; y: number }[]) => {
   // pintar chart
   chVisit.clear();
   chVisit.setOption({
-    legend: { data: ['Visitas reales', 'Forecast (previsto)'], top: 6 },
+    legend: { data: ['Visitas', 'Forecast'], top: 6 },
     tooltip: {
       trigger: 'axis',
       formatter: (params: any) => {
@@ -438,6 +486,8 @@ const mapFrom = (arr: { x: string; y: number }[]) => {
 
 
 
+
+
   // -------- Visitas por sitio (barra horizontal) --------
   const chVisitSite = mkChart(elVisitSite); if (chVisitSite) charts.push(chVisitSite);
   try {
@@ -457,18 +507,6 @@ const mapFrom = (arr: { x: string; y: number }[]) => {
       if (!values.some(v => Number(v) > 0)) setNoData(chVisitSite);
     } else setNoData(chVisitSite, 'Error de datos');
   } catch { setNoData(chVisitSite, 'Error de datos'); }
-
-
-
-  // -------- Inicializar los 3 gráficos horarios (Asistencias, Rondas, Visitas) --------
-  const today = new Date();
-  const todayISO = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
-
-  try {
-    initThreeMetrics(root, todayISO, { refreshMs: 60_000 }); // refresca cada 60s (opcional)
-  } catch (e) {
-    console.warn('[client-dashboard] initThreeMetrics failed', e);
-  }
 
   // Resize robusto (asegura que los 4 gráficos se ajusten)
   const ro = new ResizeObserver(() => charts.forEach(c => c?.resize()));

@@ -9,6 +9,7 @@ import com.gscorp.dv1.sitesupervisionvisits.web.dto.CreateSiteSupervisionVisitRe
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitPointDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteSupervisionVisitDto;
 import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitCountDto;
+import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitHourlyDto;
 
 public interface SiteVisitService {
 
@@ -31,7 +32,7 @@ public interface SiteVisitService {
      * Obtiene las visitas por horra agregadas para un usuario en una fecha dada.
      * tz puede ser null para usar ZoneId.systemDefault().
      */
-    List<SiteVisitPointDto> getVisitsSeriesForUserByDateByVisitHourlyAgregated
+    List<SiteVisitHourlyDto> getVisitsSeriesForUserByDateByVisitHourlyAgregated
             (Long userId, LocalDate date, String tz);
 
     /**
