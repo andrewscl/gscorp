@@ -19,5 +19,7 @@ public class CreateSiteSupervisionVisitRequest {
     private String description;
     private MultipartFile photo;
     private MultipartFile video;
+    private String clientTimeZone;
+    private String timezoneSource;
 
 }

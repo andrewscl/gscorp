@@ -14,7 +14,7 @@ import com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitHourlyDto;
 public interface SiteVisitService {
 
     SiteSupervisionVisitDto createSiteSupervisionVisitRequest(
-                                CreateSiteSupervisionVisitRequest req);
+                                CreateSiteSupervisionVisitRequest req, Long userId);
 
     List<SiteSupervisionVisitDto> getAllSiteSupervisionVisits();
 

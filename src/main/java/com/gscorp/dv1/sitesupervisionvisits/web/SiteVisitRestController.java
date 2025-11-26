@@ -55,11 +55,19 @@ public class SiteVisitRestController {
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<SiteSupervisionVisitDto> createSiteSupervisionVisit(
         @Valid @ModelAttribute CreateSiteSupervisionVisitRequest req,
-        UriComponentsBuilder ucb) {
+        UriComponentsBuilder ucb,
+        Authentication authentication) {
+
+        //Buscar usuario autenticado
+        Long userId = userService.getUserIdFromAuthentication(authentication);
+        if (userId == null) {
+            log.warn("Usuario no autenticado para /forecast-series auth={}", authentication);
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "usuario no autenticado.");
+        }
 
         SiteSupervisionVisitDto saved =
             siteVisitService.
-                        createSiteSupervisionVisitRequest(req);
+                        createSiteSupervisionVisitRequest(req, userId);
 
         var location = ucb.path("/api/site-supervision-visits/{id}")
                                     .buildAndExpand(saved.id()).toUri();

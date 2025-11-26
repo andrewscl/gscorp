@@ -45,8 +45,8 @@ public class SiteVisit {
     @JoinColumn(name="site_id", nullable=false)
     private Site site;
 
-    @CreationTimestamp
-    @Column(nullable=false)
+    @Column(name="visit_date_time", nullable=false,
+                                      columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private OffsetDateTime visitDateTime;
 
     @Column
@@ -63,5 +63,18 @@ public class SiteVisit {
 
     @Column(length=255)
     private String videoPath;
+
+    // Guarda la zona IANA utilizada para interpretar/mostrar la hora (ej. "America/Santiago")
+    @Column(name = "client_timezone", length = 64)
+    private String clientTimezone;
+
+    // Fuente de la zona (REQUESTED | USER_PROFILE | SYSTEM_DEFAULT)
+    @Column(name = "timezone_source", length = 32)
+    private String timezoneSource;
+
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = true,
+                        updatable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private OffsetDateTime createdAt;
 
 }

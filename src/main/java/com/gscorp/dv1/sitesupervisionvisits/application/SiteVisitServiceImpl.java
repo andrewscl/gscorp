@@ -5,6 +5,7 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +55,7 @@ public class SiteVisitServiceImpl implements SiteVisitService{
     @Override
     @Transactional
     public SiteSupervisionVisitDto createSiteSupervisionVisitRequest(
-                                CreateSiteSupervisionVisitRequest req) {
+                                CreateSiteSupervisionVisitRequest req, Long userId) {
 
         String photoPath = null, videoPath = null;
         try {
@@ -114,16 +115,51 @@ public class SiteVisitServiceImpl implements SiteVisitService{
                     .orElseThrow(() -> 
                         new IllegalArgumentException("Sitio no encontrado: " + req.getSiteId()));
 
+        // -------------------------
+        // Resolver visitDateTime con prioridad y registrar metadata de zona
+        // Prioridad:
+        // 1) req.getVisitDateTime() (OffsetDateTime enviado por cliente) -> usar tal cual
+        // 2) Si no viene, resolver zona con ZoneResolver(userId, req.getClientTimeZone()) y usar "now" en esa zona
+        // -------------------------
+        OffsetDateTime visitDateTime;
+        String clientTimezoneToStore = null;
+        String timezoneSourceToStore = null;
+
+        if (req.getVisitDateTime() != null) {
+            // Cliente ya envió un OffsetDateTime (inequívoco)
+            visitDateTime = req.getVisitDateTime();
+            // Si el cliente también envió clientTimeZone preferirlo, si no guardamos el offset como referencia
+            if (req.getClientTimeZone() != null && !req.getClientTimeZone().isBlank()) {
+                clientTimezoneToStore = req.getClientTimeZone();
+                timezoneSourceToStore = "CLIENT_REQUEST_TZ";
+            } else {
+                clientTimezoneToStore = visitDateTime.getOffset().toString(); // e.g. "-03:00"
+                timezoneSourceToStore = "CLIENT_PROVIDED_OFFSET";
+            }
+        } else {
+            // No vino OffsetDateTime: resolver zona (requested -> user profile -> system)
+            ZoneResolutionResult zr = zoneResolver.resolveZone(userId, req.getClientTimeZone());
+            ZoneId resolvedZone = zr.zoneId(); // espera getZone() y getSource() en ZoneResolutionResult
+            visitDateTime = ZonedDateTime.now(resolvedZone).toOffsetDateTime();
+            clientTimezoneToStore = resolvedZone.getId();
+            timezoneSourceToStore = zr.source();
+        }
+
+        // Normalizar a UTC antes de persistir (recomendado para coherencia)
+        OffsetDateTime visitDateTimeUtc = visitDateTime.withOffsetSameInstant(ZoneOffset.UTC);
+
         //Construir entidad
         var entity = SiteVisit.builder()
             .site(site)
             .employee(employee)
-            .visitDateTime(OffsetDateTime.now())
+            .visitDateTime(visitDateTimeUtc)
             .latitude(req.getLatitude())
             .longitude(req.getLongitude())
             .description(req.getDescription())
             .photoPath(photoPath)
             .videoPath(videoPath)
+            .clientTimezone(clientTimezoneToStore)
+            .timezoneSource(timezoneSourceToStore)
             .build();
 
         SiteVisit savedEntity = siteSupervisionVisitRepo.save(entity);
