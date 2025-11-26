@@ -191,9 +191,9 @@ if (elVisitHourly) {
                 show: true,
                 position: 'center',
                 formatter: hasMeta ? `${percentage}%` : '—',
-                fontSize: 12,
+                fontSize: 16,
                 fontWeight: 700,
-                color: '#111827'
+                color: '#677ba7ff'
               },
               labelLine: { show: false },
               data: seriesData
