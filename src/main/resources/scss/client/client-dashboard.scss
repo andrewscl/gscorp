@@ -20,6 +20,24 @@
   --gap: 1rem;
   --max-width: 1200px;
 
+  --chart-height-default: 260px; /* altura uniforme para la mayoría de charts */
+  --chart-height-daily: var(--chart-height-default); /* si quieres poder cambiar solo daily */
+  --chart-height-weekly: var(--chart-height-default);
+
+  /* Reglas generales que deben aplicarse a todos los chart bodies */
+  #client-dashboard-root .card > .chart-body,
+  #client-dashboard-root .card > div[id^="chart-"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: var(--chart-height-default) !important;
+    min-height: 160px !important;
+    border-radius: 8px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+
   box-sizing: border-box;
   width: 100%;
   margin: 0 auto;
