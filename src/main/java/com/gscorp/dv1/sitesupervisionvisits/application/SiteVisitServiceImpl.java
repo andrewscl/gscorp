@@ -7,6 +7,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -170,11 +171,34 @@ public class SiteVisitServiceImpl implements SiteVisitService{
 
     @Override
     public List<SiteSupervisionVisitDto> getAllSiteSupervisionVisits() {
-        return siteSupervisionVisitRepo.findAllWithEmployeeAndSite()
-            .stream()
-            .map(SiteSupervisionVisitDto::fromEntity)
-            .collect(Collectors.toList());
+    DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+    return siteSupervisionVisitRepo.findAllWithEmployeeAndSite()
+        .stream()
+        .map(entity -> {
+            // mapear DTO base + calcular fecha formateada en la zona adecuada
+            String tzId = entity.getClientTimezone();
+            ZoneId zone;
+            try {
+                zone = (tzId != null && !tzId.isBlank()) ? ZoneId.of(tzId) : ZoneId.systemDefault();
+            } catch (DateTimeException ex) {
+                // si clientTimezone es inválido usamos system default (o UTC según prefieras)
+                zone = ZoneId.systemDefault();
+            }
+
+            String formatted = null;
+            if (entity.getVisitDateTime() != null) {
+                ZonedDateTime localZdt = entity.getVisitDateTime().toInstant().atZone(zone);
+                formatted = localZdt.format(fmt);
+            }
+
+            return SiteSupervisionVisitDto.fromEntity(entity, formatted);
+        })
+        .collect(Collectors.toList());
+
     }
+
+
 
     @Override
     public SiteSupervisionVisitDto findByIdWithEmployeeAndSite(Long id) {

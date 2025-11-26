@@ -17,9 +17,10 @@ public record SiteSupervisionVisitDto(
     Double longitude,
     String description,
     String photoPath,
-    String videoPath
+    String videoPath,
+    String visitDateTimeFormatted
 ) {
-    public static SiteSupervisionVisitDto fromEntity(SiteVisit visit) {
+    public static SiteSupervisionVisitDto fromEntity(SiteVisit visit, String visitDateTimeFormatted) {
         if (visit == null) return null;
             Employee emp = visit.getEmployee();
             Site site = visit.getSite();
@@ -35,7 +36,14 @@ public record SiteSupervisionVisitDto(
             visit.getLongitude(),
             visit.getDescription(),
             visit.getPhotoPath(),
-            visit.getVideoPath()
+            visit.getVideoPath(),
+            visitDateTimeFormatted
         );
     }
+
+    // versión por compatibilidad que no recibe formatted
+    public static SiteSupervisionVisitDto fromEntity(SiteVisit visit) {
+        return fromEntity(visit, null);
+    }
+
 }

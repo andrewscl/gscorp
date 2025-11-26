@@ -25,7 +25,7 @@
           <td data-label="ID" th:text="${v.id}">—</td>
           <td data-label="Supervisor" th:text="${v.employeeName}">—</td>
           <td data-label="Instalación" th:text="${v.siteName}">—</td>
-          <td data-label="Fecha y Hora" th:text="${#temporals.format(v.visitDateTime, 'yyyy-MM-dd HH:mm')}">—</td>
+          <td data-label="Fecha y Hora" th:text="${v.visitDateTimeFormatted}">—</td>
           <td data-label="Fotografía">
             <a th:href="${v.photoPath}" target="_blank" th:if="${v.photoPath}">
               <img th:src="${v.photoPath}" alt="Foto">
