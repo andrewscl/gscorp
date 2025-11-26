@@ -1,8 +1,8 @@
 // =================== Dashboard Private Layout Modern ===================
 
 // VARIABLES
-$sidebar-width: 260px;
-$topbar-height: 76px;
+$sidebar-width: 240px;
+$topbar-height: 64px;
 $main-bg: linear-gradient(120deg, #f6f8fa 0%, #e7ebf3 100%);
 $sidebar-bg: #f8fafc;
 $sidebar-color: #222e3a;
@@ -195,9 +195,9 @@ body[data-layout="private"] {
 
       .title {
         margin: 0;
-        font-size: 1.45rem;
-        font-weight: 700;
-        color: #277bb7;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #235f8a;
         letter-spacing: -.02em;
       }
 

@@ -10,7 +10,7 @@ body[data-layout=private] .sidebar {
   position: fixed;
   top: 0;
   left: 0;
-  width: 260px;
+  width: 240px;
   height: 100vh;
   background: #f8fafc;
   color: #222e3a;
@@ -156,8 +156,8 @@ body[data-layout=private] .sidebar .toggle-sidebar:hover, body[data-layout=priva
   box-shadow: 0 4px 18px rgba(56, 83, 117, 0.09);
 }
 body[data-layout=private] .main-content {
-  margin-left: 260px;
-  width: calc(100vw - 260px);
+  margin-left: 240px;
+  width: calc(100vw - 240px);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -166,9 +166,9 @@ body[data-layout=private] .main-content {
 body[data-layout=private] .main-content .topbar {
   position: fixed;
   top: 0;
-  left: 260px;
+  left: 240px;
   right: 0;
-  height: 76px;
+  height: 64px;
   z-index: 1100;
   background: #fff;
   display: flex;
@@ -179,9 +179,9 @@ body[data-layout=private] .main-content .topbar {
 }
 body[data-layout=private] .main-content .topbar .title {
   margin: 0;
-  font-size: 1.45rem;
-  font-weight: 700;
-  color: #277bb7;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #235f8a;
   letter-spacing: -0.02em;
 }
 body[data-layout=private] .main-content .topbar .topbar-right {
@@ -222,12 +222,12 @@ body[data-layout=private] .main-content .topbar .topbar-right body[data-layout=p
 }
 body[data-layout=private] .main-content .content {
   flex-grow: 1;
-  margin-top: 76px;
+  margin-top: 64px;
   padding: 2.4rem;
   background: #f9fafb;
   border-radius: 20px 20px 0 0;
   box-shadow: 0 8px 24px rgba(44, 62, 80, 0.05);
-  min-height: calc(100vh - 76px);
+  min-height: calc(100vh - 64px);
   overflow-y: auto;
 }
 body[data-layout=private] .sidebar-scrim {
