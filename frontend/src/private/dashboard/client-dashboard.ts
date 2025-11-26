@@ -85,43 +85,86 @@ if (elVisitHourly) {
 
     await visitsHourlyCtrl.refresh(todayIso);
 
-        // --- Insertar justo después de `await visitsHourlyCtrl.refresh(todayIso);` ---
+
+
+
+    // Insertar justo después de: await visitsHourlyCtrl.refresh(todayIso);
+    // Asegúrate de que `root`, `mkChart`, `charts`, `fetchWithAuth`, `echarts` y `visitsHourlyCtrl` están en scope.
+
     try {
-      // pedir hourly aggregated del día para calcular totales (tolerante a shapes)
-      const urlHourly = `/api/site-supervision-visits/hourly-aggregated?date=${encodeURIComponent(todayIso)}&tz=${encodeURIComponent(tz)}`;
-      const resHourly = await fetchWithAuth(urlHourly);
-      const payloadHourly = resHourly && resHourly.ok ? await resHourly.json().catch(() => []) : [];
-      const hourlyArr = Array.isArray(payloadHourly)
-        ? payloadHourly
-        : (payloadHourly && Array.isArray(payloadHourly.data) ? payloadHourly.data : []);
+      // helpers locales: hoy y zona (si no los declaraste arriba)
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+      const todayIso = new Date().toISOString().slice(0, 10); // 'YYYY-MM-DD'
 
-      // sumar actuales y forecast (tolerante a nombres distintos)
-      const sumActualDay = (hourlyArr || []).reduce((s: number, it: any) => {
-        const raw = it?.count ?? it?.y ?? it?.cnt ?? it?.value ?? it?.visits ?? 0;
-        const n = Number(String(raw ?? 0).replace(/,/g, '')) || 0;
-        return s + n;
-      }, 0);
+      // helper: normalizar varias formas de fecha a 'YYYY-MM-DD' (zona local)
+      function toLocalIsoDateString(raw: any): string {
+        if (!raw && raw !== 0) return '';
+        const s = String(raw).trim();
+        if (!s) return '';
+        if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+        // si viene como timestamp con hora o con zona, parsear y devolver fecha local
+        const parsed = new Date(s);
+        if (!Number.isNaN(parsed.getTime())) {
+          return `${parsed.getFullYear()}-${String(parsed.getMonth() + 1).padStart(2, '0')}-${String(parsed.getDate()).padStart(2, '0')}`;
+        }
+        // fallback: tomar parte antes de 'T' si existe
+        const part = s.split('T')[0];
+        return part && /^\d{4}-\d{2}-\d{2}$/.test(part) ? part : '';
+      }
 
-      const sumForecastDay = (hourlyArr || []).reduce((s: number, it: any) => {
-        const rawF = it?.forecast ?? it?.f ?? it?.visitsForecast ?? 0;
-        const n = (rawF === undefined || rawF === null || rawF === '') ? 0 : (Number(String(rawF).replace(/,/g, '')) || 0);
-        return s + n;
-      }, 0);
+      // 1) Obtener forecast diario desde forecast-series?days=1
+      let sumForecastDay = 0;
+      try {
+        const urlForecastDaily = `/api/forecasts/forecast-series?days=1&tz=${encodeURIComponent(tz)}`;
+        const resF = await fetchWithAuth(urlForecastDaily);
+        const payloadF = resF && resF.ok ? await resF.json().catch(() => []) : [];
+        const arrF = Array.isArray(payloadF) ? payloadF : (payloadF?.data && Array.isArray(payloadF.data) ? payloadF.data : []);
 
-      // actualizar texto del card
+        // Normalizar y buscar el valor para todayIso
+        for (const d of (arrF || [])) {
+          let rawX: any; let rawY: any;
+          if (Array.isArray(d)) { rawX = d[0]; rawY = d.length > 1 ? d[1] : 0; }
+          else { rawX = d?.x ?? d?.date ?? d?.day ?? ''; rawY = d?.y ?? d?.value ?? d?.forecast ?? d?.count ?? 0; }
+          const x = toLocalIsoDateString(rawX);
+          const yNum = typeof rawY === 'number' ? rawY : Number(String(rawY ?? 0).replace(/,/g, '')) || 0;
+          if (x === todayIso) {
+            sumForecastDay += Number.isFinite(Number(yNum)) ? Number(yNum) : 0;
+          }
+        }
+      } catch (e) {
+        console.warn('No se pudo obtener forecast diario', e);
+        sumForecastDay = 0;
+      }
+
+      // 2) Obtener hourly aggregated para sumar visitas reales del día
+      let sumActualDay = 0;
+      try {
+        const urlHourly = `/api/site-supervision-visits/hourly-aggregated?date=${encodeURIComponent(todayIso)}&tz=${encodeURIComponent(tz)}`;
+        const resH = await fetchWithAuth(urlHourly);
+        const payloadH = resH && resH.ok ? await resH.json().catch(() => []) : [];
+        const arrH = Array.isArray(payloadH) ? payloadH : (payloadH?.data && Array.isArray(payloadH.data) ? payloadH.data : []);
+        for (const it of (arrH || [])) {
+          const raw = it?.count ?? it?.y ?? it?.cnt ?? it?.value ?? it?.visits ?? 0;
+          const n = Number(String(raw ?? 0).replace(/,/g, '')) || 0;
+          sumActualDay += n;
+        }
+      } catch (e) {
+        console.warn('No se pudo obtener hourly-aggregated para hoy', e);
+        sumActualDay = 0;
+      }
+
+      // 3) Actualizar textos en el panel
       const totalDailyEl = root.querySelector('#total-daily-visit') as HTMLElement | null;
       const metaDailyEl = root.querySelector('#meta-daily-visit') as HTMLElement | null;
       if (totalDailyEl) totalDailyEl.textContent = sumActualDay > 0 ? String(sumActualDay) : '–';
       if (metaDailyEl) metaDailyEl.textContent = sumForecastDay > 0 ? `Meta: ${sumForecastDay}` : 'Meta: —';
 
-      // actualizar / crear donut (usa el id que tengas en el HTML: '#donut-daily-visit' en el ejemplo)
-      const elDonutVisit = root.querySelector('#donut-daily-visit') as HTMLDivElement | null;
-      if (elDonutVisit) {
-        // reusar mkChart si lo tienes; mkChart devuelve echarts.init(...) o null
-        const chDonutVisit = mkChart(elDonutVisit) ?? echarts.init(elDonutVisit, undefined, { renderer: 'canvas' });
-        if (chDonutVisit) {
-          // registrar para resize/cleanup
-          if (!charts.includes(chDonutVisit)) charts.push(chDonutVisit);
+      // 4) Actualizar/crear donut diario (#donut-daily-visit)
+      const elDonutDaily = root.querySelector('#donut-daily-visit') as HTMLDivElement | null;
+      if (elDonutDaily) {
+        const chDonut = mkChart(elDonutDaily) ?? echarts.init(elDonutDaily, undefined, { renderer: 'canvas' });
+        if (chDonut) {
+          if (!charts.includes(chDonut)) charts.push(chDonut);
 
           const hasMeta = sumForecastDay > 0;
           const percentage = hasMeta ? Math.round((sumActualDay / sumForecastDay) * 100) : 0;
@@ -134,22 +177,18 @@ if (elVisitHourly) {
                 { value: 100 - pctForSeries, name: 'Pendiente', itemStyle: { color: '#E5E7EB' } }
               ];
 
-          chDonutVisit.setOption({
+          chDonut.setOption({
             tooltip: {
               trigger: 'item',
               formatter: (p: any) => {
                 if (!hasMeta) return 'Meta no definida';
-                if (p && p.name === 'Cumplido') {
-                  return `${p.marker} ${p.seriesName}: ${sumActualDay} / ${sumForecastDay} (${percentage}%)`;
-                }
-                if (p && p.name === 'Pendiente') {
-                  return `${p.marker} Pendiente: ${Math.max(0, sumForecastDay - sumActualDay)}`;
-                }
+                if (p && p.name === 'Cumplido') return `${p.marker} ${p.seriesName}: ${sumActualDay} / ${sumForecastDay} (${percentage}%)`;
+                if (p && p.name === 'Pendiente') return `${p.marker} Pendiente: ${Math.max(0, sumForecastDay - sumActualDay)}`;
                 return '';
               }
             },
             series: [{
-              name: 'Cumplimiento Visitas',
+              name: 'Cumplimiento Visitas (día)',
               type: 'pie',
               radius: ['62%', '82%'],
               avoidLabelOverlap: false,
@@ -168,14 +207,36 @@ if (elVisitHourly) {
           });
         }
       }
+
+      // 5) Opcional: añadir línea de referencia en el hourly chart con el promedio horario esperado
+      if (visitsHourlyCtrl?.chart && sumForecastDay > 0) {
+        try {
+          const avgPerHour = sumForecastDay / 24;
+          // agregamos una serie silenciosa con valor constante para contexto; no reemplaza series actuales
+          visitsHourlyCtrl.chart.setOption({
+            series: [
+              // mantenemos las series existentes; añadimos o actualizamos una serie contextual
+              {
+                name: 'Meta diaria (promedio/h)',
+                type: 'line',
+                data: Array(24).fill(Number(avgPerHour.toFixed(2))),
+                lineStyle: { color: '#f59e0b', width: 1, type: 'dashed' },
+                symbol: 'none',
+                silent: true,
+                tooltip: { show: false }
+              }
+            ]
+          }, { notMerge: false });
+        } catch (e) {
+          console.warn('No se pudo dibujar referencia de forecast en hourly chart', e);
+        }
+      }
     } catch (err) {
-      console.warn('Error actualizando donut/forecast diario:', err);
-      // fallback visual: dejar textos por defecto (– / Meta: —)
-      const totalDailyEl = root.querySelector('#total-daily-visit') as HTMLElement | null;
-      const metaDailyEl = root.querySelector('#meta-daily-visit') as HTMLElement | null;
-      if (totalDailyEl) totalDailyEl.textContent = '–';
-      if (metaDailyEl) metaDailyEl.textContent = 'Meta: —';
+      console.warn('Error actualizando forecast/donut diario:', err);
+      // fallback: no romper la UI
     }
+
+
 
 
     const visitsHourlyInterval = window.setInterval(() => {
@@ -205,8 +266,6 @@ if (elVisitHourly) {
 
 
 
-
-
   // -------- Asistencia (línea con área) --------
   const chAsis = mkChart(elAsis); if (chAsis) charts.push(chAsis);
   try {
@@ -226,8 +285,6 @@ if (elVisitHourly) {
       if (!values.some(v => Number(v) > 0)) setNoData(chAsis);
     } else setNoData(chAsis, 'Error de datos');
   } catch { setNoData(chAsis, 'Error de datos'); }
-
-
 
 
 // -------- Rondas por día (línea con área) --------
@@ -269,7 +326,6 @@ try {
 
 // Opcional: asegurar resize cuando cambie el contenedor
 window.addEventListener('resize', () => chPatrol?.resize());
-
 
 
 
