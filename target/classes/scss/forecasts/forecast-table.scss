@@ -7,7 +7,7 @@ $radius: 8px;
 
 $color-bg: #ffffff;
 $color-surface: #f8fafc; // subtle surface
-$color-primary: #1e3a8a;
+$color-primary: #3f4c6f;
 $color-accent: #6366f1;
 $color-muted: #6b7280;
 $color-border: #e6eef8;
@@ -77,7 +77,7 @@ $shadow-md: 0 6px 18px rgba(16,24,40,0.06);
 
     .btn {
       &.btn-primary {
-        background: linear-gradient(180deg, $color-primary, darken($color-primary, 8%));
+        background: linear-gradient(180deg, #2563eb, darken(#2563eb, 8%));
         border: none;
         color: #fff;
         padding: 0.45rem 0.75rem;
@@ -90,7 +90,7 @@ $shadow-md: 0 6px 18px rgba(16,24,40,0.06);
       &.btn-secondary {
         background: transparent;
         border: 1px solid $color-border;
-        color: $color-primary;
+        color: #2563eb;
         padding: 0.4rem 0.65rem;
         border-radius: 8px;
         cursor: pointer;

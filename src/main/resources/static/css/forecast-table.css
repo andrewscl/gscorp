@@ -5,7 +5,7 @@
   gap: 0.75rem;
   margin-bottom: 1rem;
   font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
-  color: #1e3a8a;
+  color: #3f4c6f;
 }
 .forecast-header h2 {
   display: flex;
@@ -14,7 +14,7 @@
   margin: 0;
   font-size: 1.125rem;
   font-weight: 600;
-  color: #1e3a8a;
+  color: #3f4c6f;
 }
 .forecast-header .filters-row {
   display: flex;
@@ -54,7 +54,7 @@
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
 }
 .forecast-header .filters-row .btn.btn-primary {
-  background: linear-gradient(180deg, #1e3a8a, rgb(22.7142857143, 43.9142857143, 104.4857142857));
+  background: linear-gradient(180deg, #2563eb, rgb(19.4285714286, 79.6571428571, 211.7714285714));
   border: none;
   color: #fff;
   padding: 0.45rem 0.75rem;
@@ -66,7 +66,7 @@
 .forecast-header .filters-row .btn.btn-secondary {
   background: transparent;
   border: 1px solid #e6eef8;
-  color: #1e3a8a;
+  color: #2563eb;
   padding: 0.4rem 0.65rem;
   border-radius: 8px;
   cursor: pointer;
@@ -97,7 +97,7 @@
   font-weight: 600;
   padding: 0.75rem;
   border-bottom: 1px solid #e6eef8;
-  color: #1e3a8a;
+  color: #3f4c6f;
   white-space: nowrap;
 }
 .forecast-table-container .forecasts-table tbody tr {
@@ -138,7 +138,7 @@
 .forecast-table-container .forecasts-table tbody tr .btn-link {
   background: transparent;
   border: none;
-  color: #1e3a8a;
+  color: #3f4c6f;
   cursor: pointer;
   padding: 0;
   font-weight: 600;
