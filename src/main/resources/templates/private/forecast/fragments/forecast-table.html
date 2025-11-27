@@ -2,7 +2,7 @@
   <div class="forecast-header">
     <h2>
       <!-- Icono tabla (forecast) -->
-      <svg width="24" height="24" viewBox="0 0 24 24" style="vertical-align:-6px;margin-right:.5rem" aria-hidden="true">
+      <svg class="icon icon-table" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
         <rect x="2" y="4" width="20" height="16" rx="2" fill="#eef2ff" stroke="#6366f1" stroke-width="1"/>
         <path d="M6 12h12M6 8h12M6 16h8" stroke="#4f46e5" stroke-width="1.5" stroke-linecap="round"/>
       </svg>
@@ -28,11 +28,11 @@
         Aplicar
       </button>
 
-      <div style="margin-left:auto">
+      <div class="filters-actions">
         <button id="createForecastBtn" class="btn btn-primary"
                 th:attr="data-path=@{/private/forecast/create}" aria-label="Nuevo forecast">
           <!-- icono + -->
-          <svg width="16" height="16" style="vertical-align:middle;margin-right:.25rem" aria-hidden="true">
+          <svg class="icon icon-plus" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
             <circle cx="8" cy="8" r="7" fill="#dbeafe" stroke="#1e3a8a" stroke-width="1"/>
             <path d="M8 5v6M5 8h6" stroke="#1e3a8a" stroke-width="1.5" stroke-linecap="round"/>
           </svg>
@@ -88,9 +88,10 @@
           </td>
 
           <td class="actions">
-            <button type="button" class="btn-link action-btn"
-                    th:attr="data-path=@{/private/forecast/show/{id}(id=${r.id})}" title="Ver">
-              Ver
+            <button type="button" class="btn-link action-btn" title="Ver"
+                    th:attr="data-path=@{/private/forecast/show/{id}(id=${r.id})}">
+              <span aria-hidden="true">Ver</span>
+              <span class="visually-hidden">Ver forecast número <span th:text="${r.id}">ID</span></span>
             </button>
 
             <button type="button" class="btn-link action-btn"
@@ -99,16 +100,11 @@
               Editar
             </button>
 
-            <button type="button" class="btn-link action-btn"
-                    th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}"
-                    th:attr="data-path=@{/private/forecast/delete/{id}(id=${r.id})}" title="Eliminar">
-              Eliminar
-            </button>
           </td>
         </tr>
 
         <tr th:if="${#lists.isEmpty(forecastRecords)}">
-          <td colspan="10" class="empty">No se encontraron registros para el rango seleccionado.</td>
+          <td colspan="11" class="empty">No se encontraron registros para el rango seleccionado.</td>
         </tr>
       </tbody>
     </table>

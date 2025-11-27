@@ -5,7 +5,7 @@ $sidebar-width: 240px;
 $topbar-height: 64px;
 $main-bg: linear-gradient(120deg, #f6f8fa 0%, #e7ebf3 100%);
 $sidebar-bg: #ffffff;
-$sidebar-color: #222e3a;
+$sidebar-color: #494f56;
 $topbar-bg: #fff;
 $content-bg: #f9fafb;
 
@@ -49,7 +49,7 @@ body[data-layout="private"] {
       flex-grow: 1;
       display: flex;
       flex-direction: column;
-      gap: 1.1rem;
+      gap: 1rem;
       margin-bottom: 1.2rem;
 
       .menu-item,
@@ -60,7 +60,7 @@ body[data-layout="private"] {
         display: flex;
         align-items: center;
         gap: .76rem;
-        padding: 0.5rem 1rem;
+        padding: 0.4rem 1rem;
         color: #222e3a;
         background: transparent;
         border-radius: 7px;
@@ -197,7 +197,7 @@ body[data-layout="private"] {
         margin: 0;
         font-size: 1.25rem;
         font-weight: 600;
-        color: #235f8a;
+        color: #494f56;
         letter-spacing: -.02em;
       }
 

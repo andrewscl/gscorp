@@ -13,7 +13,7 @@ body[data-layout=private] .sidebar {
   width: 240px;
   height: 100vh;
   background: #ffffff;
-  color: #222e3a;
+  color: #494f56;
   border-right: 1px solid #e5e7eb;
   box-shadow: 3px 0 24px rgba(44, 62, 80, 0.08);
   z-index: 1001;
@@ -36,7 +36,7 @@ body[data-layout=private] .sidebar .menu {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  gap: 1.1rem;
+  gap: 1rem;
   margin-bottom: 1.2rem;
 }
 body[data-layout=private] .sidebar .menu .menu-item,
@@ -47,7 +47,7 @@ body[data-layout=private] .sidebar .menu summary {
   display: flex;
   align-items: center;
   gap: 0.76rem;
-  padding: 0.5rem 1rem;
+  padding: 0.4rem 1rem;
   color: #222e3a;
   background: transparent;
   border-radius: 7px;
@@ -181,7 +181,7 @@ body[data-layout=private] .main-content .topbar .title {
   margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
-  color: #235f8a;
+  color: #494f56;
   letter-spacing: -0.02em;
 }
 body[data-layout=private] .main-content .topbar .topbar-right {
