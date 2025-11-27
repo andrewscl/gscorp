@@ -1,5 +1,6 @@
-// Forecast table — SCSS refinado: botones con hover, filtros con fondo,
-// card blanca consistente y fixes para overflow. Mantiene tamaños de letra.
+// Forecast table — SCSS refinado usando azul como acento principal
+// He reemplazado el acento morado por el azul más usado en tu proyecto (#2563eb).
+// Mantiene los tamaños de letra y las mejoras previas (card blanca, hover, fixes overflow).
 
 // Variables
 $font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
@@ -7,11 +8,12 @@ $base-font-size: 14px;
 $radius: 10px;
 $spacing: 0.75rem;
 
-$color-page-bg: #f5f7fa;    // fondo general claro (si quieres aplicarlo globalmente)
-$color-card-bg: #ffffff;    // fondo de las "cards"
-$color-primary: #162032;    // texto principal
-$color-accent: #4f46e5;     // acento morado
-$color-accent-dark: darken($color-accent, 8%);
+/* Paleta adaptada a azul */
+$btn-blue: #2563eb;                 // color principal azul (reemplaza $color-accent)
+$btn-blue-dark: darken($btn-blue, 8%);
+$color-page-bg: #f5f7fa;            // fondo general claro (si quieres aplicarlo globalmente)
+$color-card-bg: #ffffff;            // fondo de las "cards"
+$color-primary: #162032;            // texto principal
 $color-muted: #6b7280;
 $color-border: #e7eef9;
 $color-success: #16a34a;
@@ -23,11 +25,9 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
 // Reset box-sizing
 * { box-sizing: border-box; }
 
-/* ------------------------
-   Opcional: aplicar fondo blanco a TODO el fragmento
-   Añade class="forecast-root" al <div th:fragment="content"> si quieres que
-   la sección completa tenga fondo blanco / padding.
-   ------------------------ */
+/* Opcional: aplicar fondo blanco a TODO el fragmento
+   Añade class="forecast-root" al <div th:fragment="content"> si quieres
+   que la sección completa tenga fondo blanco / padding. */
 .forecast-root {
   background: $color-card-bg;
   border-radius: $radius;
@@ -35,11 +35,7 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
   box-shadow: $shadow-xs;
 }
 
-/* ------------------------
-   Estructura principal (no requiere cambiar HTML)
-   - Hacemos que el header sea una "card" blanca visualmente destacada.
-   - El contenedor de la tabla también es una card blanca.
-   ------------------------ */
+/* Estructura principal */
 .forecast-header {
   display: flex;
   flex-direction: column;
@@ -63,7 +59,7 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
     gap: 0.6rem;
     align-items: center;
     padding: 0.6rem;
-    background: $color-card-bg;      // ahora sí fondo blanco
+    background: $color-card-bg;      // fondo blanco para la fila de filtros
     border-radius: 10px;
     border: 1px solid $color-border;
     box-shadow: $shadow-sm;
@@ -90,15 +86,15 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
 
         &:focus {
           outline: none;
-          border-color: $color-accent;
-          box-shadow: 0 0 0 6px rgba($color-accent, 0.06);
+          border-color: $btn-blue;
+          box-shadow: 0 0 0 6px rgba($btn-blue, 0.06);
         }
       }
     }
 
     .btn {
       &.btn-primary {
-        background: linear-gradient(180deg, $color-accent, $color-accent-dark);
+        background: linear-gradient(180deg, $btn-blue, $btn-blue-dark);
         border: none;
         color: #fff;
         padding: 0.45rem 0.75rem;
@@ -114,20 +110,20 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
         /* Hover visible y accesible */
         &:hover {
           transform: translateY(-2px);
-          box-shadow: 0 10px 30px rgba(79,70,229,0.12);
+          box-shadow: 0 10px 30px rgba($btn-blue, 0.12);
           filter: brightness(1.03);
         }
         &:active { transform: translateY(0); }
         &:focus {
           outline: none;
-          box-shadow: 0 0 0 6px rgba($color-accent, 0.10);
+          box-shadow: 0 0 0 6px rgba($btn-blue, 0.10);
         }
       }
 
       &.btn-secondary {
         background: transparent;
         border: 1px solid $color-border;
-        color: $color-accent;
+        color: $btn-blue;
         padding: 0.4rem 0.65rem;
         border-radius: 10px;
         cursor: pointer;
@@ -135,13 +131,13 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
         transition: background .12s ease, border-color .12s ease, color .12s ease;
 
         &:hover {
-          background: rgba($color-accent, 0.04);
-          border-color: rgba($color-accent, 0.12);
-          color: darken($color-accent, 6%);
+          background: rgba($btn-blue, 0.04);
+          border-color: rgba($btn-blue, 0.12);
+          color: $btn-blue-dark;
         }
         &:focus {
           outline: none;
-          box-shadow: 0 0 0 6px rgba($color-accent, 0.06);
+          box-shadow: 0 0 0 6px rgba($btn-blue, 0.06);
         }
       }
     }
@@ -150,9 +146,7 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
   }
 }
 
-/* ------------------------
-   Contenedor de la tabla (card blanca)
-   ------------------------ */
+/* Contenedor de la tabla (card blanca) */
 .forecast-table-container {
   margin-top: 0.75rem;
   border-radius: $radius;
@@ -190,7 +184,7 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
     tbody {
       tr {
         transition: background .12s ease;
-        &:hover { background: rgba($color-accent, 0.03); }
+        &:hover { background: rgba($btn-blue, 0.03); }
 
         td {
           padding: 0.65rem 0.85rem;
@@ -255,7 +249,35 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
           text-decoration: none;
 
           &:hover { background: rgba(15,23,42,0.03); }
-          &:focus { outline: none; box-shadow: 0 0 0 6px rgba($color-accent, 0.06); }
+          &:focus { outline: none; box-shadow: 0 0 0 6px rgba($btn-blue, 0.06); }
+        }
+
+        /* Resaltar botón "Ver" (sin tocar HTML) */
+        button.btn-link.action-btn[title="Ver"],
+        button.btn-link.action-btn[aria-label="Ver"] {
+          color: $btn-blue;
+          background: transparent;
+          border: 1px solid rgba($btn-blue, 0.08);
+          padding: 0.22rem 0.5rem;
+          border-radius: 8px;
+          font-weight: 700;
+          font-size: 13px;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.35rem;
+          transition: background .12s ease, box-shadow .12s ease, transform .06s ease;
+        }
+
+        button.btn-link.action-btn[title="Ver"]:hover,
+        button.btn-link.action-btn[aria-label="Ver"]:hover {
+          background: rgba($btn-blue, 0.06);
+          box-shadow: 0 8px 20px rgba($btn-blue, 0.06);
+          transform: translateY(-1px);
+        }
+        button.btn-link.action-btn[title="Ver"]:focus,
+        button.btn-link.action-btn[aria-label="Ver"]:focus {
+          outline: none;
+          box-shadow: 0 0 0 4px rgba($btn-blue, 0.12);
         }
       }
 
@@ -270,12 +292,7 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
   }
 }
 
-/* ------------------------
-   Opcional: si quieres que el "fondo general" detrás de la card sea claro (en vez del gris oscuro),
-   puedes aplicar esto a un contenedor más amplio (por ejemplo <main class="app-main"> ...),
-   o aplicar body styles si aceptas tocar estilos globales.
-   Lo dejo comentado — actívalo solo si quieres cambiar el fondo de toda la página. 
-   ------------------------ */
+/* Opcional: cambiar el fondo general de la página (activa si quieres) */
 /*
 .app-main, body {
   background: $color-page-bg;
