@@ -69,9 +69,8 @@ export async function init({ container }: { container: HTMLElement }) {
 
 // obtener la zona que usarás en la query (igual que pasas a la API)
 const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
-// fecha YYYY-MM-DD en la zona tz
 const todayIso = new Intl.DateTimeFormat('en-CA', { timeZone: tz }).format(new Date());
-// 'en-CA' produce directamente 'YYYY-MM-DD'
+
 
 // --------------- Chart visit hourly ------------------//
 const elVisitHourly = root.querySelector('#chart-visit-hourly') as HTMLDivElement | null;
@@ -89,9 +88,7 @@ if (elVisitHourly) {
     await visitsHourlyCtrl.refresh(todayIso);
 
     try {
-      // helpers locales: hoy y zona (si no los declaraste arriba)
-      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
-      const todayIso = new Date().toISOString().slice(0, 10); // 'YYYY-MM-DD'
+
 
       // helper: normalizar varias formas de fecha a 'YYYY-MM-DD' (zona local)
       function toLocalIsoDateString(raw: any): string {
