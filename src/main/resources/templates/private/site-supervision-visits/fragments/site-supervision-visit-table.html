@@ -50,8 +50,6 @@
           <th scope="col">Supervisor</th>
           <th scope="col">Instalación</th>
           <th scope="col">Fecha y Hora</th>
-          <th scope="col">Fotografía</th>
-          <th scope="col">Video</th>
           <th scope="col">Acciones</th>
         </tr>
       </thead>
@@ -63,20 +61,6 @@
           <td th:text="${v.siteName != null ? v.siteName : '—'}">—</td>
 
           <td th:text="${v.visitDateTimeFormatted != null ? v.visitDateTimeFormatted : '—'}">—</td>
-
-          <td>
-            <a th:if="${v.photoPath}" th:href="${v.photoPath}" target="_blank" rel="noopener noreferrer">
-              <img th:src="${v.photoPath}" th:alt="${'Foto visita ' + v.id}" loading="lazy" style="max-width:48px;max-height:48px;border-radius:6px" />
-            </a>
-            <span th:if="${v.photoPath == null}">—</span>
-          </td>
-
-          <td>
-            <a th:if="${v.videoPath}" th:href="${v.videoPath}" target="_blank" rel="noopener noreferrer">
-              <span class="tag tag-video">Ver video</span>
-            </a>
-            <span th:if="${v.videoPath == null}">—</span>
-          </td>
 
           <td class="actions">
             <button type="button" class="btn-link action-btn" title="Ver"

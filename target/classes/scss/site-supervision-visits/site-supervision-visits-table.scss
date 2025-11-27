@@ -1,8 +1,8 @@
-// Site Supervision Visits — SCSS anidado inspirado en forecast-table-refined-blue-clean.scss
-// Mantiene tokens centrales (azul #2563eb), diseño en "cards", filtros, table sticky,
-// focus accesible y responsive consolidado (sin duplicados).
+// Site Supervision Visits — SCSS ajustado para que thead quede "pegado" debajo de los filtros
+// (filters fuera del contenedor). Usa variables CSS para controlar offsets y mantiene
+// el resto del diseño igual al fichero original.
 
-// Variables
+// Variables SCSS (reutiliza si ya tienes un archivo de tokens global)
 $font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
 $base-font-size: 14px;
 $radius: 10px;
@@ -21,7 +21,16 @@ $color-danger: #dc2626;
 $shadow-sm: 0 6px 18px rgba(15, 23, 42, 0.04);
 $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
 
-// Reset
+/* Defaults para las variables CSS que controlan offsets.
+   Ajusta --topbar-height si tienes una barra superior fija (header global).
+   Ajusta --forecast-header-height según la altura total del bloque .forecast-header
+   (título + filters-row). Puedes calcularlo dinámicamente con JS si prefieres. */
+:root {
+  --topbar-height: 0px;
+  --forecast-header-height: 112px; /* valor por defecto, mide y ajusta si es necesario */
+}
+
+/* Reset */
 * { box-sizing: border-box; }
 
 /* small utility */
@@ -34,7 +43,7 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
   border: 0; padding: 0; margin: -1px;
 }
 
-/* Root card wrapper (opcional si añades class="forecast-root") */
+/* Root card wrapper (opcional) */
 .forecast-root {
   background: $color-card-bg;
   border-radius: $radius;
@@ -42,7 +51,7 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
   box-shadow: $shadow-xs;
 }
 
-/* Header + Filters (usa las mismas clases que forecast-header/filters-row) */
+/* Header + Filters */
 .forecast-header {
   display: flex;
   flex-direction: column;
@@ -50,6 +59,8 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
   margin-bottom: 1rem;
   font-family: $font-family;
   color: $color-primary;
+  position: relative;
+  z-index: 40; /* encima de la tabla sticky */
 
   h2 {
     display: flex;
@@ -150,11 +161,12 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
   }
 }
 
-/* Table container and table (adapted to site supervision columns) */
+/* Table container and table */
 .forecast-table-container {
   margin-top: 0.75rem;
   border-radius: $radius;
-  overflow-x: auto;
+  overflow-x: auto; /* permitir scroll horizontal si es necesario */
+  overflow-y: visible; /* la página hará scroll vertical, no este contenedor */
   background: $color-card-bg;
   border: 1px solid $color-border;
   box-shadow: $shadow-sm;
@@ -170,19 +182,17 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
     min-width: 0;
 
     thead {
-      position: sticky;
-      top: 0;
-      z-index: 5;
-      background: $color-card-bg;
-
-      th {
-        text-align: left;
-        font-weight: 700;
-        padding: 0.9rem 0.85rem;
-        border-bottom: 1px solid $color-border;
-        color: $color-primary;
-        white-space: nowrap;
-        font-size: 13px;
+      /* NOTA: no aplicamos top:0 aquí; aplicamos sticky a TH más abajo con offset calculado */
+      tr {
+        th {
+          text-align: left;
+          font-weight: 700;
+          padding: 0.9rem 0.85rem;
+          border-bottom: 1px solid $color-border;
+          color: $color-primary;
+          white-space: nowrap;
+          font-size: 13px;
+        }
       }
     }
 
@@ -200,10 +210,7 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
           overflow-wrap: anywhere;
         }
 
-        /* Column sizing tuned for site supervision columns:
-           Columns: ID | Supervisor | Instalación | Fecha y Hora | Fotografía | Video | Acciones
-        */
-        td:first-child { /* ID */
+        td:first-child {
           width: 5%;
           max-width: 6ch;
           white-space: nowrap;
@@ -212,29 +219,28 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
           font-weight: 600;
         }
 
-        td:nth-child(2), td:nth-child(3) { /* Supervisor, Instalación */
+        td:nth-child(2), td:nth-child(3) {
           width: 22%;
           max-width: 30ch;
         }
 
-        td:nth-child(4) { /* Fecha y Hora */
+        td:nth-child(4) {
           width: 16%;
           max-width: 20ch;
         }
 
-        td:nth-child(5), td:nth-child(6) { /* Fotografía, Video (compact) */
+        td:nth-child(5), td:nth-child(6) {
           width: 8%;
           max-width: 8ch;
           text-align: center;
         }
 
-        td:nth-child(7) { /* Acciones */
+        td:nth-child(7) {
           width: 12%;
           min-width: 120px;
           white-space: nowrap;
         }
 
-        /* Image / thumbnail */
         td img {
           max-width: 48px;
           max-height: 48px;
@@ -244,7 +250,6 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
           display: block;
         }
 
-        /* Video tag */
         .tag-video {
           display: inline-block;
           background: rgba($btn-blue, 0.08);
@@ -255,7 +260,6 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
           border-radius: 0.45rem;
         }
 
-        /* Actions and buttons */
         .actions {
           display: flex;
           gap: 0.5rem;
@@ -282,7 +286,6 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
           &:focus { outline: none; box-shadow: 0 0 0 6px rgba($btn-blue, 0.06); }
         }
 
-        /* Highlight 'Ver' button like forecast */
         button.btn-link.action-btn[title="Ver"],
         button.btn-link.action-btn[aria-label="Ver"] {
           color: $btn-blue;
@@ -323,7 +326,24 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
   }
 }
 
-/* Consolidated responsive rules (no duplicates) */
+/* -----------------------------
+   Sticky header behaviour:
+   aplicamos position:sticky a los TH con un top calculado que suma:
+     --topbar-height + --forecast-header-height
+   De este modo, aunque la página haga scroll, las cabeceras quedarán
+   fijadas bajo la zona de filtros visible.
+   ----------------------------- */
+.forecast-table-container .forecasts-table thead tr th {
+  position: sticky;
+  top: calc(var(--topbar-height, 0px) + var(--forecast-header-height, 112px));
+  z-index: 30;
+  background: $color-card-bg;
+}
+
+/* Opcional: si haces .forecast-header sticky (filtros fijos), asegúrate de
+   actualizar --topbar-height o --forecast-header-height adecuadamente. */
+
+/* Responsive */
 @media (max-width: 900px) {
   .forecast-header .filters-row {
     flex-wrap: wrap;
@@ -346,22 +366,4 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
   }
 }
 
-@media (max-width: 520px) {
-  .forecast-header h2 { font-size: 1rem; }
-  .forecast-header .filters-row {
-    .filter-item { flex: 1 1 100%; min-width: 0; }
-    .btn { width: 100%; }
-    .filters-actions { width: 100%; justify-content: flex-end; }
-  }
-
-  .forecast-table-container {
-    padding: 0.35rem;
-  }
-
-  .forecasts-table {
-    font-size: 13px;
-    thead th, tbody td { padding: 0.45rem 0.5rem; }
-
-    td:nth-child(7) { min-width: 90px; } /* acciones */
-  }
-}
+/* Desactivar sticky en pantallas pequeñas (donde transformas tabla a cards)
