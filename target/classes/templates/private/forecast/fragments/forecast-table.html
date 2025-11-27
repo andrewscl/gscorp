@@ -54,7 +54,6 @@
           <th>Periodo inicio</th>
           <th>Periodo fin</th>
           <th>Valor</th>
-          <th>Unidades</th>
           <th>Activo</th>
           <th>Acciones</th>
         </tr>
@@ -77,8 +76,6 @@
           <td th:text="${r.periodEnd != null ? #temporals.format(r.periodEnd, 'yyyy-MM-dd HH:mm') : '—'}">—</td>
 
           <td th:text="${r.value != null ? r.value : '—'}">—</td>
-
-          <td th:text="${r.units?.displayName ?: '—'}">—</td>
 
           <td>
             <span class="tag" th:classappend="${r.isActive} ? ' active' : ' inactive'">
