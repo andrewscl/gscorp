@@ -1,58 +1,104 @@
-  <div th:fragment="content">
-  <div class="site-supervision-visit-header">
-    <h2>Supervisión de Instalaciones</h2>
-    <button class="btn-primary" id="createSupervisionVisitBtn"
-            data-path="/private/site-supervision-visits/create">
-      Registrar Visita
-    </button>
+<div th:fragment="content">
+  <div class="forecast-header">
+    <h2>
+      <!-- Icono tabla (site supervision) -->
+      <svg class="icon icon-table" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <rect x="2" y="4" width="20" height="16" rx="2" fill="#eef2ff" stroke="#2563eb" stroke-width="1"/>
+        <path d="M6 12h12M6 8h12M6 16h8" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      Supervisión de Instalaciones
+    </h2>
+
+    <div class="filters-row" role="toolbar" aria-label="Filtros de supervisión">
+      <label class="filter-item">
+        <span class="filter-label">Desde</span>
+        <input id="filter-from" class="filter-input" type="date" name="from"
+               th:value="${from != null ? #dates.format(from, 'yyyy-MM-dd') : ''}" />
+      </label>
+
+      <label class="filter-item">
+        <span class="filter-label">Hasta</span>
+        <input id="filter-to" class="filter-input" type="date" name="to"
+               th:value="${to != null ? #dates.format(to, 'yyyy-MM-dd') : ''}" />
+      </label>
+
+      <button id="applyFiltersBtn" class="btn btn-secondary"
+              th:attr="data-path=@{/private/site-supervision-visits/table-view}" aria-label="Aplicar filtros">
+        Aplicar
+      </button>
+
+      <div class="filters-actions">
+        <button id="createSupervisionVisitBtn" class="btn btn-primary"
+                th:attr="data-path=@{/private/site-supervision-visits/create}" aria-label="Registrar visita">
+          <!-- icono + -->
+          <svg class="icon icon-plus" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <circle cx="8" cy="8" r="7" fill="#dbeafe" stroke="#1e3a8a" stroke-width="1"/>
+            <path d="M8 5v6M5 8h6" stroke="#1e3a8a" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Registrar Visita
+        </button>
+      </div>
+    </div>
   </div>
 
-  <div class="site-supervision-visit-table-container">
-    <table class="site-supervision-visit-table">
+  <div class="forecast-table-container">
+    <table class="forecasts-table" role="table" aria-label="Tabla de visitas de supervisión">
+      <caption class="visually-hidden">Listado de visitas de supervisión</caption>
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Supervisor</th>
-          <th>Instalación</th>
-          <th>Fecha y Hora</th>
-          <th>Fotografía</th>
-          <th>Video</th>
-          <th>Acciones</th>
+          <th scope="col">ID</th>
+          <th scope="col">Supervisor</th>
+          <th scope="col">Instalación</th>
+          <th scope="col">Fecha y Hora</th>
+          <th scope="col">Fotografía</th>
+          <th scope="col">Video</th>
+          <th scope="col">Acciones</th>
         </tr>
       </thead>
       <tbody>
-        <tr th:each="v : ${visits}">
-          <td data-label="ID" th:text="${v.id}">—</td>
-          <td data-label="Supervisor" th:text="${v.employeeName}">—</td>
-          <td data-label="Instalación" th:text="${v.siteName}">—</td>
-          <td data-label="Fecha y Hora" th:text="${v.visitDateTimeFormatted}">—</td>
-          <td data-label="Fotografía">
-            <a th:href="${v.photoPath}" target="_blank" th:if="${v.photoPath}">
-              <img th:src="${v.photoPath}" alt="Foto">
+        <tr th:each="v : ${visits}" th:attr="data-id=${v.id}">
+          <td th:text="${v.id}">—</td>
+
+          <td th:text="${v.employeeName != null ? v.employeeName : '—'}">—</td>
+          <td th:text="${v.siteName != null ? v.siteName : '—'}">—</td>
+
+          <td th:text="${v.visitDateTimeFormatted != null ? v.visitDateTimeFormatted : '—'}">—</td>
+
+          <td>
+            <a th:if="${v.photoPath}" th:href="${v.photoPath}" target="_blank" rel="noopener noreferrer">
+              <img th:src="${v.photoPath}" th:alt="${'Foto visita ' + v.id}" loading="lazy" style="max-width:48px;max-height:48px;border-radius:6px" />
             </a>
             <span th:if="${v.photoPath == null}">—</span>
           </td>
-          <td data-label="Video">
-            <a th:href="${v.videoPath}" target="_blank" th:if="${v.videoPath}">
+
+          <td>
+            <a th:if="${v.videoPath}" th:href="${v.videoPath}" target="_blank" rel="noopener noreferrer">
               <span class="tag tag-video">Ver video</span>
             </a>
             <span th:if="${v.videoPath == null}">—</span>
           </td>
-          <td data-label="Acciones" class="actions">
-            <button type="button"
-                    class="btn-link"
+
+          <td class="actions">
+            <button type="button" class="btn-link action-btn" title="Ver"
                     th:attr="data-path=@{/private/site-supervision-visits/show/{id}(id=${v.id})}">
-                    Ver
+              <span aria-hidden="true">Ver</span>
+              <span class="visually-hidden" th:text="${'Ver visita ' + v.id}">Ver visita</span>
             </button>
-            <button type="button"
-                    class="btn-link"
-                    th:attr="data-path=@{/private/site-supervision-visits/edit/{id}(id=${v.id})}"
-                    th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
-                    Editar
+
+            <button type="button" class="btn-link action-btn"
+                    th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}"
+                    th:attr="data-path=@{/private/site-supervision-visits/edit/{id}(id=${v.id})}" title="Editar">
+              Editar
             </button>
           </td>
+        </tr>
+
+        <tr th:if="${#lists.isEmpty(visits)}">
+          <td colspan="7" class="empty">No se encontraron registros para el rango seleccionado.</td>
         </tr>
       </tbody>
     </table>
   </div>
+
+
 </div>
