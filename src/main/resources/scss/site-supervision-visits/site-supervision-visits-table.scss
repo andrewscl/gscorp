@@ -1,39 +1,27 @@
-// Site Supervision Visits — SCSS ajustado para que thead quede "pegado" debajo de los filtros
-// (filters fuera del contenedor). Usa variables CSS para controlar offsets y mantiene
-// el resto del diseño igual al fichero original.
-
-// Variables SCSS (reutiliza si ya tienes un archivo de tokens global)
-$font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
-$base-font-size: 14px;
-$radius: 10px;
-$spacing: 0.75rem;
-
-$btn-blue: #2563eb;
-$btn-blue-dark: darken($btn-blue, 8%);
-$color-page-bg: #f5f7fa;
-$color-card-bg: #ffffff;
-$color-primary: #162032;
-$color-muted: #6b7280;
-$color-border: #e7eef9;
-$color-success: #16a34a;
-$color-danger: #dc2626;
-
-$shadow-sm: 0 6px 18px rgba(15, 23, 42, 0.04);
-$shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
-
-/* Defaults para las variables CSS que controlan offsets.
-   Ajusta --topbar-height si tienes una barra superior fija (header global).
-   Ajusta --forecast-header-height según la altura total del bloque .forecast-header
-   (título + filters-row). Puedes calcularlo dinámicamente con JS si prefieres. */
 :root {
-  --topbar-height: 64px;
-  --forecast-header-height: 112px; /* valor por defecto, mide y ajusta si es necesario */
+  --topbar-height: 64px; /* debe coincidir con $topbar-height del layout */
+  --site-visit-header-height: 112px; /* valor por defecto; se puede actualizar por JS */
 }
 
 /* Reset */
 * { box-sizing: border-box; }
 
-/* small utility */
+/* Variables SCSS */
+$font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+$base-font-size: 14px;
+$radius: 10px;
+
+$btn-blue: #2563eb;
+$btn-blue-dark: darken($btn-blue, 8%);
+$color-card-bg: #ffffff;
+$color-primary: #162032;
+$color-muted: #6b7280;
+$color-border: #e7eef9;
+
+$shadow-sm: 0 6px 18px rgba(15, 23, 42, 0.04);
+$shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
+
+/* Utility */
 .visually-hidden {
   position: absolute !important;
   height: 1px; width: 1px;
@@ -43,31 +31,32 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
   border: 0; padding: 0; margin: -1px;
 }
 
-/* Root card wrapper (opcional) */
-.forecast-root {
+/* Root card wrapper */
+.site-visit-root {
   background: $color-card-bg;
   border-radius: $radius;
   padding: 0.75rem;
   box-shadow: $shadow-xs;
+  font-family: $font-family;
 }
 
 /* Header + Filters */
-.forecast-header {
+.site-visit-header {
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
   margin-bottom: 1rem;
-  font-family: $font-family;
   color: $color-primary;
 
+  /* Sticky relative to the scrolling container (.content).
+     Use top:0 because .content already has margin-top = topbar height. */
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 1150; /* above thead (1100) and below global topbar (1100 in layout) */
   background: $color-card-bg;
   border-bottom: 1px solid $color-border;
   box-shadow: 0 4px 14px rgba(15,23,42,0.04);
-  padding-top: 0.6rem;
-  padding-bottom: 0.6rem;
+  padding: 0.6rem 0;
 
   h2 {
     display: flex;
@@ -129,17 +118,6 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
         display: inline-flex;
         align-items: center;
         gap: 0.4rem;
-        transition: transform .06s ease, box-shadow .08s ease, filter .06s ease;
-
-        &:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 10px 30px rgba($btn-blue, 0.12);
-          filter: brightness(1.03);
-        }
-        &:focus {
-          outline: none;
-          box-shadow: 0 0 0 6px rgba($btn-blue, 0.10);
-        }
       }
 
       &.btn-secondary {
@@ -150,17 +128,6 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
         border-radius: 10px;
         cursor: pointer;
         font-weight: 600;
-        transition: background .12s ease, border-color .12s ease, color .12s ease;
-
-        &:hover {
-          background: rgba($btn-blue, 0.04);
-          border-color: rgba($btn-blue, 0.12);
-          color: $btn-blue-dark;
-        }
-        &:focus {
-          outline: none;
-          box-shadow: 0 0 0 6px rgba($btn-blue, 0.06);
-        }
       }
     }
 
@@ -169,18 +136,17 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
 }
 
 /* Table container and table */
-.forecast-table-container {
+.site-visit-table-container {
   margin-top: 0.75rem;
   border-radius: $radius;
-  overflow-x: auto; /* permitir scroll horizontal si es necesario */
-  overflow-y: visible; /* la página hará scroll vertical, no este contenedor */
+  overflow-x: auto;
+  overflow-y: visible; /* vertical scroll handled by .content in the layout */
   background: $color-card-bg;
   border: 1px solid $color-border;
   box-shadow: $shadow-sm;
   padding: 0.6rem;
 
-
-  .forecasts-table {
+  .site-visit-table {
     width: 100%;
     border-collapse: collapse;
     font-family: $font-family;
@@ -190,7 +156,6 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
     min-width: 0;
 
     thead {
-      /* NOTA: no aplicamos top:0 aquí; aplicamos sticky a TH más abajo con offset calculado */
       tr {
         th {
           text-align: left;
@@ -200,10 +165,8 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
           color: $color-primary;
           white-space: nowrap;
           font-size: 13px;
-          position: sticky;
-          top: calc(var(--topbar-header-height));
-          z-index: 900;
           background: $color-card-bg;
+          /* remove duplicate sticky here; single sticky rule applied below */
         }
       }
     }
@@ -241,43 +204,16 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
           max-width: 20ch;
         }
 
-        td:nth-child(5), td:nth-child(6) {
+        td:nth-child(5) {
           width: 8%;
           max-width: 8ch;
           text-align: center;
         }
 
-        td:nth-child(7) {
+        td.actions {
           width: 12%;
           min-width: 120px;
           white-space: nowrap;
-        }
-
-        td img {
-          max-width: 48px;
-          max-height: 48px;
-          border-radius: 6px;
-          box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-          background: #f3f4f6;
-          display: block;
-        }
-
-        .tag-video {
-          display: inline-block;
-          background: rgba($btn-blue, 0.08);
-          color: darken($btn-blue, 8%);
-          font-weight: 600;
-          font-size: 0.92rem;
-          padding: 0.22rem 0.6rem;
-          border-radius: 0.45rem;
-        }
-
-        .actions {
-          display: flex;
-          gap: 0.5rem;
-          align-items: center;
-          justify-content: flex-start;
-          padding: 0.45rem;
         }
 
         .btn-link {
@@ -289,41 +225,6 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
           border-radius: 8px;
           font-weight: 600;
           font-size: 13px;
-          display: inline-flex;
-          align-items: center;
-          gap: 0.35rem;
-          transition: background .08s ease, color .08s ease;
-
-          &:hover { background: rgba(15,23,42,0.03); color: darken($btn-blue, 6%); }
-          &:focus { outline: none; box-shadow: 0 0 0 6px rgba($btn-blue, 0.06); }
-        }
-
-        button.btn-link.action-btn[title="Ver"],
-        button.btn-link.action-btn[aria-label="Ver"] {
-          color: $btn-blue;
-          background: transparent;
-          border: 1px solid rgba($btn-blue, 0.08);
-          padding: 0.22rem 0.5rem;
-          border-radius: 8px;
-          font-weight: 700;
-          font-size: 13px;
-          display: inline-flex;
-          align-items: center;
-          gap: 0.35rem;
-          transition: background .12s ease, box-shadow .12s ease, transform .06s ease;
-        }
-
-        button.btn-link.action-btn[title="Ver"]:hover,
-        button.btn-link.action-btn[aria-label="Ver"]:hover {
-          background: rgba($btn-blue, 0.06);
-          box-shadow: 0 8px 20px rgba($btn-blue, 0.06);
-          transform: translateY(-1px);
-        }
-
-        button.btn-link.action-btn[title="Ver"]:focus,
-        button.btn-link.action-btn[aria-label="Ver"]:focus {
-          outline: none;
-          box-shadow: 0 0 0 4px rgba($btn-blue, 0.12);
         }
       }
 
@@ -338,62 +239,38 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
   }
 }
 
-/* -----------------------------
-   Sticky header behaviour:
-   aplicamos position:sticky a los TH con un top calculado que suma:
-     --topbar-height + --forecast-header-height
-   De este modo, aunque la página haga scroll, las cabeceras quedarán
-   fijadas bajo la zona de filtros visible.
-   ----------------------------- */
-.forecast-table-container .forecasts-table thead tr th {
+/* SINGLE sticky rule: thead headers stick below the site-visit-header */
+.site-visit-table-container .site-visit-table thead tr th {
   position: sticky;
-  top: calc(var(--topbar-height, 0px) + var(--forecast-header-height, 112px));
-  z-index: 30;
+  top: calc(var(--site-visit-header-height)); /* header height (px) */
+  z-index: 1100; /* below header (1150) but above rows */
   background: $color-card-bg;
 }
 
-/* Opcional: si haces .forecast-header sticky (filtros fijos), asegúrate de
-   actualizar --topbar-height o --forecast-header-height adecuadamente. */
-
-/* Responsive */
+/* Responsive: disable sticky on small screens */
 @media (max-width: 900px) {
-  .forecast-header {
-    position: static;
-    box-shadow: none;
-    border-bottom: none;
+  .site-visit-header {
+    position: static !important;
+    box-shadow: none !important;
+    border-bottom: none !important;
     margin-bottom: 0.75rem;
-
-    .filters-row {
-    flex-wrap: wrap;
-    .filter-item { flex: 1 1 40%; min-width: 140px; }
-    .btn { flex: 0 1 auto; width: auto; }
-    }
   }
 
-  .forecast-table-container {
-    padding: 0.45rem;
+  .site-visit-table-container .site-visit-table thead tr th {
+    position: static !important;
+    top: auto !important;
+    z-index: auto !important;
+  }
 
-    .forecasts-table {
+  .site-visit-table {
     font-size: 13px;
     table-layout: auto;
-    thead {
-      tr{
-        th{
-          position: static;
-          top: auto;
-          z-index: auto;
-        }
-      }
-    }
-    th { padding: 0.55rem 0.5rem; }
+
+    thead th { padding: 0.55rem 0.5rem; }
     tbody td { padding: 0.45rem 0.5rem; }
-
     td:first-child { max-width: 5ch; }
-    td:nth-child(7) { min-width: 100px; } /* acciones */
-    }
+    td.actions { min-width: 100px; }
   }
-
-
 }
 
-/* Desactivar sticky en pantallas pequeñas (donde transformas tabla a cards)
+/* End of file */

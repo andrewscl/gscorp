@@ -1,9 +1,15 @@
-@charset "UTF-8";
+:root {
+  --topbar-height: 64px; /* debe coincidir con $topbar-height del layout */
+  --site-visit-header-height: 112px; /* valor por defecto; se puede actualizar por JS */
+}
+
+/* Reset */
 * {
   box-sizing: border-box;
 }
 
-/* small utility */
+/* Variables SCSS */
+/* Utility */
 .visually-hidden {
   position: absolute !important;
   height: 1px;
@@ -16,24 +22,33 @@
   margin: -1px;
 }
 
-/* Root card wrapper (opcional si añades class="forecast-root") */
-.forecast-root {
+/* Root card wrapper */
+.site-visit-root {
   background: #ffffff;
   border-radius: 10px;
   padding: 0.75rem;
   box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
 }
 
-/* Header + Filters (usa las mismas clases que forecast-header/filters-row) */
-.forecast-header {
+/* Header + Filters */
+.site-visit-header {
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
   margin-bottom: 1rem;
-  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
   color: #162032;
+  /* Sticky relative to the scrolling container (.content).
+     Use top:0 because .content already has margin-top = topbar height. */
+  position: sticky;
+  top: 0;
+  z-index: 1150; /* above thead (1100) and below global topbar (1100 in layout) */
+  background: #ffffff;
+  border-bottom: 1px solid #e7eef9;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+  padding: 0.6rem 0;
 }
-.forecast-header h2 {
+.site-visit-header h2 {
   display: flex;
   align-items: center;
   gap: 0.6rem;
@@ -41,7 +56,7 @@
   font-size: 1.125rem;
   font-weight: 600;
 }
-.forecast-header .filters-row {
+.site-visit-header .filters-row {
   display: flex;
   gap: 0.6rem;
   align-items: center;
@@ -51,7 +66,7 @@
   border: 1px solid #e7eef9;
   box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
 }
-.forecast-header .filters-row .filter-item {
+.site-visit-header .filters-row .filter-item {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
@@ -59,11 +74,11 @@
   color: #6b7280;
   min-width: 10ch;
 }
-.forecast-header .filters-row .filter-item .filter-label {
+.site-visit-header .filters-row .filter-item .filter-label {
   font-weight: 500;
   color: #6b7280;
 }
-.forecast-header .filters-row .filter-item .filter-input {
+.site-visit-header .filters-row .filter-item .filter-input {
   appearance: none;
   border: 1px solid rgb(239.16, 243.78, 251.04);
   padding: 0.45rem 0.6rem;
@@ -73,12 +88,12 @@
   color: #162032;
   transition: border-color 0.12s ease, box-shadow 0.12s ease;
 }
-.forecast-header .filters-row .filter-item .filter-input:focus {
+.site-visit-header .filters-row .filter-item .filter-input:focus {
   outline: none;
   border-color: #2563eb;
   box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.06);
 }
-.forecast-header .filters-row .btn.btn-primary {
+.site-visit-header .filters-row .btn.btn-primary {
   background: linear-gradient(180deg, #2563eb, rgb(19.4285714286, 79.6571428571, 211.7714285714));
   border: none;
   color: #fff;
@@ -90,18 +105,8 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  transition: transform 0.06s ease, box-shadow 0.08s ease, filter 0.06s ease;
 }
-.forecast-header .filters-row .btn.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.12);
-  filter: brightness(1.03);
-}
-.forecast-header .filters-row .btn.btn-primary:focus {
-  outline: none;
-  box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.1);
-}
-.forecast-header .filters-row .btn.btn-secondary {
+.site-visit-header .filters-row .btn.btn-secondary {
   background: transparent;
   border: 1px solid #e7eef9;
   color: #2563eb;
@@ -109,34 +114,25 @@
   border-radius: 10px;
   cursor: pointer;
   font-weight: 600;
-  transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
 }
-.forecast-header .filters-row .btn.btn-secondary:hover {
-  background: rgba(37, 99, 235, 0.04);
-  border-color: rgba(37, 99, 235, 0.12);
-  color: rgb(19.4285714286, 79.6571428571, 211.7714285714);
-}
-.forecast-header .filters-row .btn.btn-secondary:focus {
-  outline: none;
-  box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.06);
-}
-.forecast-header .filters-row .filters-actions {
+.site-visit-header .filters-row .filters-actions {
   margin-left: auto;
   display: flex;
   align-items: center;
 }
 
-/* Table container and table (adapted to site supervision columns) */
-.forecast-table-container {
+/* Table container and table */
+.site-visit-table-container {
   margin-top: 0.75rem;
   border-radius: 10px;
   overflow-x: auto;
+  overflow-y: visible; /* vertical scroll handled by .content in the layout */
   background: #ffffff;
   border: 1px solid #e7eef9;
   box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
   padding: 0.6rem;
 }
-.forecast-table-container .forecasts-table {
+.site-visit-table-container .site-visit-table {
   width: 100%;
   border-collapse: collapse;
   font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
@@ -145,13 +141,7 @@
   table-layout: auto;
   min-width: 0;
 }
-.forecast-table-container .forecasts-table thead {
-  position: sticky;
-  top: 0;
-  z-index: 5;
-  background: #ffffff;
-}
-.forecast-table-container .forecasts-table thead th {
+.site-visit-table-container .site-visit-table thead tr th {
   text-align: left;
   font-weight: 700;
   padding: 0.9rem 0.85rem;
@@ -159,21 +149,16 @@
   color: #162032;
   white-space: nowrap;
   font-size: 13px;
+  background: #ffffff;
+  /* remove duplicate sticky here; single sticky rule applied below */
 }
-.forecast-table-container .forecasts-table tbody tr {
+.site-visit-table-container .site-visit-table tbody tr {
   transition: background 0.12s ease;
-  /* Column sizing tuned for site supervision columns:
-     Columns: ID | Supervisor | Instalación | Fecha y Hora | Fotografía | Video | Acciones
-  */
-  /* Image / thumbnail */
-  /* Video tag */
-  /* Actions and buttons */
-  /* Highlight 'Ver' button like forecast */
 }
-.forecast-table-container .forecasts-table tbody tr:hover {
+.site-visit-table-container .site-visit-table tbody tr:hover {
   background: rgba(37, 99, 235, 0.03);
 }
-.forecast-table-container .forecasts-table tbody tr td {
+.site-visit-table-container .site-visit-table tbody tr td {
   padding: 0.65rem 0.85rem;
   border-bottom: 1px solid #e7eef9;
   vertical-align: middle;
@@ -181,7 +166,7 @@
   word-break: break-word;
   overflow-wrap: anywhere;
 }
-.forecast-table-container .forecasts-table tbody tr td:first-child { /* ID */
+.site-visit-table-container .site-visit-table tbody tr td:first-child {
   width: 5%;
   max-width: 6ch;
   white-space: nowrap;
@@ -189,49 +174,25 @@
   text-overflow: ellipsis;
   font-weight: 600;
 }
-.forecast-table-container .forecasts-table tbody tr td:nth-child(2), .forecast-table-container .forecasts-table tbody tr td:nth-child(3) { /* Supervisor, Instalación */
+.site-visit-table-container .site-visit-table tbody tr td:nth-child(2), .site-visit-table-container .site-visit-table tbody tr td:nth-child(3) {
   width: 22%;
   max-width: 30ch;
 }
-.forecast-table-container .forecasts-table tbody tr td:nth-child(4) { /* Fecha y Hora */
+.site-visit-table-container .site-visit-table tbody tr td:nth-child(4) {
   width: 16%;
   max-width: 20ch;
 }
-.forecast-table-container .forecasts-table tbody tr td:nth-child(5), .forecast-table-container .forecasts-table tbody tr td:nth-child(6) { /* Fotografía, Video (compact) */
+.site-visit-table-container .site-visit-table tbody tr td:nth-child(5) {
   width: 8%;
   max-width: 8ch;
   text-align: center;
 }
-.forecast-table-container .forecasts-table tbody tr td:nth-child(7) { /* Acciones */
+.site-visit-table-container .site-visit-table tbody tr td.actions {
   width: 12%;
   min-width: 120px;
   white-space: nowrap;
 }
-.forecast-table-container .forecasts-table tbody tr td img {
-  max-width: 48px;
-  max-height: 48px;
-  border-radius: 6px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-  background: #f3f4f6;
-  display: block;
-}
-.forecast-table-container .forecasts-table tbody tr .tag-video {
-  display: inline-block;
-  background: rgba(37, 99, 235, 0.08);
-  color: rgb(19.4285714286, 79.6571428571, 211.7714285714);
-  font-weight: 600;
-  font-size: 0.92rem;
-  padding: 0.22rem 0.6rem;
-  border-radius: 0.45rem;
-}
-.forecast-table-container .forecasts-table tbody tr .actions {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 0.45rem;
-}
-.forecast-table-container .forecasts-table tbody tr .btn-link {
+.site-visit-table-container .site-visit-table tbody tr .btn-link {
   background: transparent;
   border: none;
   color: #2563eb;
@@ -240,45 +201,8 @@
   border-radius: 8px;
   font-weight: 600;
   font-size: 13px;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  transition: background 0.08s ease, color 0.08s ease;
 }
-.forecast-table-container .forecasts-table tbody tr .btn-link:hover {
-  background: rgba(15, 23, 42, 0.03);
-  color: rgb(20.2857142857, 83.1714285714, 221.1142857143);
-}
-.forecast-table-container .forecasts-table tbody tr .btn-link:focus {
-  outline: none;
-  box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.06);
-}
-.forecast-table-container .forecasts-table tbody tr button.btn-link.action-btn[title=Ver],
-.forecast-table-container .forecasts-table tbody tr button.btn-link.action-btn[aria-label=Ver] {
-  color: #2563eb;
-  background: transparent;
-  border: 1px solid rgba(37, 99, 235, 0.08);
-  padding: 0.22rem 0.5rem;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 13px;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  transition: background 0.12s ease, box-shadow 0.12s ease, transform 0.06s ease;
-}
-.forecast-table-container .forecasts-table tbody tr button.btn-link.action-btn[title=Ver]:hover,
-.forecast-table-container .forecasts-table tbody tr button.btn-link.action-btn[aria-label=Ver]:hover {
-  background: rgba(37, 99, 235, 0.06);
-  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.06);
-  transform: translateY(-1px);
-}
-.forecast-table-container .forecasts-table tbody tr button.btn-link.action-btn[title=Ver]:focus,
-.forecast-table-container .forecasts-table tbody tr button.btn-link.action-btn[aria-label=Ver]:focus {
-  outline: none;
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
-}
-.forecast-table-container .forecasts-table tbody tr.empty td.empty {
+.site-visit-table-container .site-visit-table tbody tr.empty td.empty {
   text-align: center;
   padding: 2rem;
   color: #6b7280;
@@ -286,66 +210,42 @@
   white-space: normal;
 }
 
-/* Consolidated responsive rules (no duplicates) */
+/* SINGLE sticky rule: thead headers stick below the site-visit-header */
+.site-visit-table-container .site-visit-table thead tr th {
+  position: sticky;
+  top: calc(var(--site-visit-header-height)); /* header height (px) */
+  z-index: 1100; /* below header (1150) but above rows */
+  background: #ffffff;
+}
+
+/* Responsive: disable sticky on small screens */
 @media (max-width: 900px) {
-  .forecast-header .filters-row {
-    flex-wrap: wrap;
+  .site-visit-header {
+    position: static !important;
+    box-shadow: none !important;
+    border-bottom: none !important;
+    margin-bottom: 0.75rem;
   }
-  .forecast-header .filters-row .filter-item {
-    flex: 1 1 40%;
-    min-width: 140px;
+  .site-visit-table-container .site-visit-table thead tr th {
+    position: static !important;
+    top: auto !important;
+    z-index: auto !important;
   }
-  .forecast-header .filters-row .btn {
-    flex: 0 1 auto;
-    width: auto;
-  }
-  .forecast-table-container {
-    padding: 0.45rem;
-  }
-  .forecasts-table {
+  .site-visit-table {
     font-size: 13px;
     table-layout: auto;
-    /* acciones */
   }
-  .forecasts-table thead th {
+  .site-visit-table thead th {
     padding: 0.55rem 0.5rem;
   }
-  .forecasts-table tbody td {
+  .site-visit-table tbody td {
     padding: 0.45rem 0.5rem;
   }
-  .forecasts-table td:first-child {
+  .site-visit-table td:first-child {
     max-width: 5ch;
   }
-  .forecasts-table td:nth-child(7) {
+  .site-visit-table td.actions {
     min-width: 100px;
   }
 }
-@media (max-width: 520px) {
-  .forecast-header h2 {
-    font-size: 1rem;
-  }
-  .forecast-header .filters-row .filter-item {
-    flex: 1 1 100%;
-    min-width: 0;
-  }
-  .forecast-header .filters-row .btn {
-    width: 100%;
-  }
-  .forecast-header .filters-row .filters-actions {
-    width: 100%;
-    justify-content: flex-end;
-  }
-  .forecast-table-container {
-    padding: 0.35rem;
-  }
-  .forecasts-table {
-    font-size: 13px;
-    /* acciones */
-  }
-  .forecasts-table thead th, .forecasts-table tbody td {
-    padding: 0.45rem 0.5rem;
-  }
-  .forecasts-table td:nth-child(7) {
-    min-width: 90px;
-  }
-}/*# sourceMappingURL=site-supervision-visits-table.css.map */
+/* End of file *//*# sourceMappingURL=site-supervision-visits-table.css.map */
