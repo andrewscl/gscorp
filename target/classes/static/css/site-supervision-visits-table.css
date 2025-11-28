@@ -1,7 +1,6 @@
 :root {
-  --topbar-height: 64px; /* same as layout topbar height */
+  --topbar-height: 54px; /* same as layout topbar height */
   --sidebar-width: 240px; /* same as layout sidebar width */
-  --site-visit-header-height: 112px; /* default; JS will update to real height */
   --content-horizontal-padding: 2.4rem; /* match .content horizontal padding in layout */
 }
 
