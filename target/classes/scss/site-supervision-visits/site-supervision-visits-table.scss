@@ -27,7 +27,6 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
    (título + filters-row). Puedes calcularlo dinámicamente con JS si prefieres. */
 :root {
   --topbar-height: 64px;
-  --forecast-padding-top: 1.2rem;
   --forecast-header-height: 112px; /* valor por defecto, mide y ajusta si es necesario */
 }
 
@@ -60,9 +59,15 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
   margin-bottom: 1rem;
   font-family: $font-family;
   color: $color-primary;
+
   position: sticky;
-  top: var(--topbar-height);
-  z-index: 40; /* encima de la tabla sticky */
+  top: 0;
+  z-index: 1000;
+  background: $color-card-bg;
+  border-bottom: 1px solid $color-border;
+  box-shadow: 0 4px 14px rgba(15,23,42,0.04);
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
 
   h2 {
     display: flex;
@@ -196,9 +201,9 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
           white-space: nowrap;
           font-size: 13px;
           position: sticky;
-          top: calc(var(--topbar-height) + var(--forecast-padding-top));
+          top: calc(var(--topbar-header-height));
+          z-index: 900;
           background: $color-card-bg;
-          z-index: 20;
         }
       }
     }
@@ -352,25 +357,43 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
 
 /* Responsive */
 @media (max-width: 900px) {
-  .forecast-header .filters-row {
+  .forecast-header {
+    position: static;
+    box-shadow: none;
+    border-bottom: none;
+    margin-bottom: 0.75rem;
+
+    .filters-row {
     flex-wrap: wrap;
     .filter-item { flex: 1 1 40%; min-width: 140px; }
     .btn { flex: 0 1 auto; width: auto; }
+    }
   }
 
   .forecast-table-container {
     padding: 0.45rem;
-  }
 
-  .forecasts-table {
+    .forecasts-table {
     font-size: 13px;
     table-layout: auto;
-    thead th { padding: 0.55rem 0.5rem; }
+    thead {
+      tr{
+        th{
+          position: static;
+          top: auto;
+          z-index: auto;
+        }
+      }
+    }
+    th { padding: 0.55rem 0.5rem; }
     tbody td { padding: 0.45rem 0.5rem; }
 
     td:first-child { max-width: 5ch; }
     td:nth-child(7) { min-width: 100px; } /* acciones */
+    }
   }
+
+
 }
 
 /* Desactivar sticky en pantallas pequeñas (donde transformas tabla a cards)
