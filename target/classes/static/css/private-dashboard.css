@@ -168,7 +168,7 @@ body[data-layout=private] .main-content .topbar {
   top: 0;
   left: 240px;
   right: 0;
-  height: 64px;
+  height: 54px;
   z-index: 1100;
   background: #fff;
   display: flex;
@@ -222,12 +222,12 @@ body[data-layout=private] .main-content .topbar .topbar-right body[data-layout=p
 }
 body[data-layout=private] .main-content .content {
   flex-grow: 1;
-  margin-top: 64px;
+  margin-top: 54px;
   padding: 1.2rem 2.4rem;
   background: #f9fafb;
   border-radius: 20px 20px 0 0;
   box-shadow: 0 8px 24px rgba(44, 62, 80, 0.05);
-  min-height: calc(100vh - 64px);
+  min-height: calc(100vh - 54px);
   overflow-y: auto;
 }
 body[data-layout=private] .sidebar-scrim {
