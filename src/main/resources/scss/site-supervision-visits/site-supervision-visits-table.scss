@@ -26,7 +26,8 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
    Ajusta --forecast-header-height según la altura total del bloque .forecast-header
    (título + filters-row). Puedes calcularlo dinámicamente con JS si prefieres. */
 :root {
-  --topbar-height: 0px;
+  --topbar-height: 64px;
+  --forecast-padding-top: 1.2rem;
   --forecast-header-height: 112px; /* valor por defecto, mide y ajusta si es necesario */
 }
 
@@ -59,7 +60,8 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
   margin-bottom: 1rem;
   font-family: $font-family;
   color: $color-primary;
-  position: relative;
+  position: sticky;
+  top: var(--topbar-height);
   z-index: 40; /* encima de la tabla sticky */
 
   h2 {
@@ -172,6 +174,7 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
   box-shadow: $shadow-sm;
   padding: 0.6rem;
 
+
   .forecasts-table {
     width: 100%;
     border-collapse: collapse;
@@ -192,6 +195,10 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
           color: $color-primary;
           white-space: nowrap;
           font-size: 13px;
+          position: sticky;
+          top: calc(var(--topbar-height) + var(--forecast-padding-top));
+          background: $color-card-bg;
+          z-index: 20;
         }
       }
     }
