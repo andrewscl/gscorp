@@ -45,11 +45,6 @@
       if (header.parentNode) header.parentNode.insertBefore(spacer, header.nextSibling);
     }
 
-    // margin-top inline en contenedor tabla como defensa
-    var tableContainer = document.querySelector('.site-visit-table-container');
-    if (tableContainer) {
-      tableContainer.style.marginTop = (total + 16) + 'px';
-    }
   }
 
   var debouncedMeasure = debounce(measureAndApply, 100);
