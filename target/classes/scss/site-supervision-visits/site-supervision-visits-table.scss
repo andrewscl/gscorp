@@ -50,8 +50,9 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
   color: $color-primary;
 
   position: fixed;
-  top: calc(var(--topbar-height) );
-  left: calc(var(--sidebar-width) + 1rem);
+  top: calc(var(--topbar-height) + 0.5rem);
+  /* fixed: usar los mismos offsets horizontales que el content */
+  left: calc(var(--sidebar-width) + var(--content-horizontal-padding));
   right: var(--content-horizontal-padding);
   z-index: 1150;
   border-radius: 10px;
@@ -60,7 +61,8 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
   padding: 0.6rem;
   box-sizing: border-box;
   overflow: visible;
-  max-width: calc(100vw - var(--sidebar-width) - (var(--content-horizontal-padding) * 1));
+  /* limitar ancho para coincidir con el ancho disponible del content */
+  max-width: calc(100vw - var(--sidebar-width) - (var(--content-horizontal-padding) * 2));
 
   /* header title */
   h2 {
@@ -77,7 +79,7 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
     display: flex;
     gap: 0.6rem;
     align-items: center;
-    padding: 0.5rem 0.25rem;
+    padding: 0.5rem 0.5rem;
     background: $color-card-bg;
     border-radius: 8px;
     border: 1px solid $color-border;
