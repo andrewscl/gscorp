@@ -125,13 +125,6 @@
   align-items: center;
 }
 
-/* Spacer (inserted by JS) */
-.site-visit-header-spacer {
-  display: block;
-  width: 100%;
-  height: var(--site-visit-header-height);
-}
-
 /* Table area */
 .site-visit-table-container {
   margin-top: 0.75rem;
