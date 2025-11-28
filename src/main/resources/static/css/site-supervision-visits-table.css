@@ -39,7 +39,7 @@
   flex-direction: column;
   gap: 0.6rem;
   color: #162032;
-  position: fixed;
+  position: sticky;
   top: calc(var(--topbar-height) + 0.5rem);
   /* fixed: usar los mismos offsets horizontales que el content */
   left: calc(var(--sidebar-width) + var(--content-horizontal-padding));
