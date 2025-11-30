@@ -50,7 +50,7 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
   color: $color-primary;
 
   position: fixed;
-  top: calc(var(--topbar-height) + 0.5rem);
+  top: calc(var(--topbar-height) + 1rem);
   left: calc(var(--sidebar-width) + var(--content-horizontal-padding));
   right: var(--content-horizontal-padding);
   z-index: 1150;
@@ -141,7 +141,8 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
 
 /* Table area */
 .site-visit-table-container {
-  margin-top: calc(var(--site-visit-header-height) + 0.75rem);
+  margin-top: calc(var(--site-visit-header-height) + 1rem);
+  position: fixed;
   border-radius: $radius;
   overflow-x: auto;
   background: $color-card-bg;

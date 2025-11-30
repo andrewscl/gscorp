@@ -40,7 +40,7 @@
   gap: 0.6rem;
   color: #162032;
   position: fixed;
-  top: calc(var(--topbar-height) + 0.5rem);
+  top: calc(var(--topbar-height) + 1rem);
   left: calc(var(--sidebar-width) + var(--content-horizontal-padding));
   right: var(--content-horizontal-padding);
   z-index: 1150;
@@ -127,7 +127,8 @@
 
 /* Table area */
 .site-visit-table-container {
-  margin-top: calc(var(--site-visit-header-height) + 0.75rem);
+  margin-top: calc(var(--site-visit-header-height) + 1rem);
+  position: fixed;
   border-radius: 10px;
   overflow-x: auto;
   background: #ffffff;
