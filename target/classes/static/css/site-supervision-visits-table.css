@@ -146,6 +146,9 @@
   min-width: 0;
 }
 .site-visit-table-container .site-visit-table thead tr th {
+  position: sticky;
+  top: calc(var(--topbar-height) + var(--site-visit-header-height));
+  z-index: 1140;
   text-align: left;
   font-weight: 700;
   padding: 0.9rem 0.85rem;
