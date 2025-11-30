@@ -2,6 +2,7 @@
   --topbar-height: 54px;                /* same as layout topbar height */
   --sidebar-width: 240px;               /* same as layout sidebar width */
   --content-horizontal-padding: 2.4rem; /* match .content horizontal padding in layout */
+  --site-visit-header-height: 0;
 }
 
 /* Reset */
@@ -140,7 +141,7 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
 
 /* Table area */
 .site-visit-table-container {
-  margin-top: 0.75rem;
+  margin-top: calc(var(--site-visit-header-height) + 0.75rem);
   border-radius: $radius;
   overflow-x: auto;
   background: $color-card-bg;

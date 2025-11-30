@@ -1,1 +1,1 @@
-
+(function(){const r=".site-visit-header",d=document.documentElement;let e=null,t=null;function n(){const o=document.querySelector(r);if(!o)return;const s=o.offsetHeight;d.style.setProperty("--site-visit-header-height",`${s}px`)}function i(){e&&cancelAnimationFrame(e),e=requestAnimationFrame(()=>{t&&clearTimeout(t),t=setTimeout(()=>{n()},80)})}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",()=>{n(),window.addEventListener("resize",i)}):(n(),window.addEventListener("resize",i))})();
