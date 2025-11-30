@@ -145,11 +145,14 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
   position: fixed;
   border-radius: $radius;
   overflow-x: auto;
+  --webkit-overflow-scrolling: touch;
   background: $color-card-bg;
   border: 1px solid $color-border;
   box-shadow: $shadow-sm;
   padding: 0.6rem;
   box-sizing: border-box;
+  left: calc(var(--sidebar-width) + var(--content-horizontal-padding));
+  right: var(--content-horizontal-padding);
 
   .site-visit-table {
     width: 100%;
@@ -164,7 +167,7 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
       tr {
         th {
           position: sticky;
-          top: calc(var(--topbar-height) + var(--site-visit-header-height));
+          top: 0;
           z-index: 1140;
           text-align: left;
           font-weight: 700;
