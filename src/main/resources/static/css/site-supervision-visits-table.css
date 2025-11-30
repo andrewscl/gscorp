@@ -127,7 +127,6 @@
 
 /* Table area */
 .site-visit-table-container {
-  margin-top: calc(var(--site-visit-header-height) + 1rem);
   position: fixed;
   border-radius: 10px;
   overflow-x: auto;
@@ -137,6 +136,7 @@
   box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
   padding: 0.6rem;
   box-sizing: border-box;
+  top: calc(var(--site-visit-header-height) + 1rem);
   left: calc(var(--sidebar-width) + var(--content-horizontal-padding));
   right: var(--content-horizontal-padding);
 }
@@ -218,14 +218,6 @@
   color: #6b7280;
   font-style: italic;
   white-space: normal;
-}
-
-/* Thead sticky offset (below topbar + fixed header) */
-.site-visit-table-container .site-visit-table thead tr th {
-  position: sticky;
-  top: calc(var(--topbar-height) + var(--site-visit-header-height));
-  z-index: 1140;
-  background: #ffffff;
 }
 
 /* Responsive adjustments (nested media queries) */
