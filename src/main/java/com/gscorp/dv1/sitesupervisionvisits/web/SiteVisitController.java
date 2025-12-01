@@ -153,8 +153,8 @@ public class SiteVisitController {
         model.addAttribute("sites", siteService.getAllSites());
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
         model.addAttribute("visits", visits);
-        model.addAttribute("from", from);
-        model.addAttribute("to", to);
+        model.addAttribute("fromDate", from);
+        model.addAttribute("toDate", to);
         model.addAttribute("visitsCount", visits != null ? visits.size() : 0);
         model.addAttribute("clientTimeZone", clientTz != null ? clientTz : zr.zoneId().getId());
 
