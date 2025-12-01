@@ -112,7 +112,7 @@ public class SiteVisitController {
         return "private/site-supervision-visits/views/edit-site-supervision-visit-view";
     }
 
-    @GetMapping("/table-view/search")
+    @GetMapping("/table-search")
     public String searchSiteSupervisionVisits(
             Model model,
             Authentication authentication,
