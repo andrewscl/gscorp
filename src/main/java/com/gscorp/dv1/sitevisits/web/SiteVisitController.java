@@ -146,7 +146,7 @@ public class SiteVisitController {
         model.addAttribute("visits", visits);
         model.addAttribute("visitsCount", visits != null ? visits.size() : 0);
 
-        return "private/site-visits/fragments/site-visit-table-rows :: rows";
+        return "private/site-visits/fragments/site-visit-table-partial :: partial";
 
         }
 }
