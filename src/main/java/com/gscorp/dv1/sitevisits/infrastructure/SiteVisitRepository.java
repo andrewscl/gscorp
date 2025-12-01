@@ -72,7 +72,7 @@ public interface SiteVisitRepository
 
 
     @Query("""
-    SELECT new com.gscorp.dv1.sitesupervisionvisits.web.dto.SiteVisitCountDto(
+    SELECT new com.gscorp.dv1.sitevisits.web.dto.SiteVisitCountDto(
         s.id, s.name, COUNT(v)
     )
     FROM SiteVisit v
