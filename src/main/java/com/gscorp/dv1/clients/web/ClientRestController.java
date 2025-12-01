@@ -25,7 +25,7 @@ import com.gscorp.dv1.incidents.application.IncidentService;
 import com.gscorp.dv1.patrol.application.PatrolRunService;
 import com.gscorp.dv1.projects.application.ProjectService;
 import com.gscorp.dv1.projects.web.dto.ProjectSelectDto;
-import com.gscorp.dv1.sitesupervisionvisits.application.SiteVisitService;
+import com.gscorp.dv1.sitevisits.application.SiteVisitService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
