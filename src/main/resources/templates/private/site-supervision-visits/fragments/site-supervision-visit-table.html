@@ -17,42 +17,43 @@
     </h2>
 
     <!-- descripción legible del filtro aplicado (rango de fechas) -->
-    <div class="header-meta" th:with="fromVar=${from != null ? from : (fromDate != null ? fromDate : null)},
-                                      toVar=${to != null ? to : (toDate != null ? toDate : null)}"
+    <div class="header-meta"
+         th:with="fromVar=${from != null ? from : (fromDate != null ? fromDate : null)},
+                  toVar=${to != null ? to : (toDate != null ? toDate : null)}"
          th:if="${fromVar != null or toVar != null or visitsCount != null}">
       <p class="header-meta__dates" th:if="${fromVar != null and toVar != null}"
-         th:text="'Mostrando desde ' + ${#dates.format(fromVar, 'dd/MM/yyyy')} + ' hasta ' + ${#dates.format(toVar, 'dd/MM/yyyy')}">
+         th:text="'Mostrando desde ' + ${#temporals.format(fromVar, 'dd/MM/yyyy')} + ' hasta ' + ${#temporals.format(toVar, 'dd/MM/yyyy')}">
         Mostrando desde ... hasta ...
       </p>
 
       <p class="header-meta__dates" th:if="${fromVar != null and toVar == null}"
-         th:text="'Mostrando desde ' + ${#dates.format(fromVar, 'dd/MM/yyyy')}">
+         th:text="'Mostrando desde ' + ${#temporals.format(fromVar, 'dd/MM/yyyy')}">
         Mostrando desde ...
       </p>
 
       <p class="header-meta__dates" th:if="${fromVar == null and toVar != null}"
-         th:text="'Mostrando hasta ' + ${#dates.format(toVar, 'dd/MM/yyyy')}">
+         th:text="'Mostrando hasta ' + ${#temporals.format(toVar, 'dd/MM/yyyy')}">
         Mostrando hasta ...
       </p>
 
-      <!-- opción alternativa: mostrar mensaje cuando no hay rango pero sí resultados -->
       <p class="header-meta__summary" th:if="${fromVar == null and toVar == null and visitsCount != null}"
          th:text="'Resultados encontrados: ' + ${visitsCount}">
         Resultados encontrados: 0
       </p>
     </div>
 
+    <!-- filters-row (inputs) -->
     <div class="filters-row" role="toolbar" aria-label="Filtros de supervisión">
       <label class="filter-item">
         <span class="filter-label">Desde</span>
         <input id="filter-from" class="filter-input" type="date" name="from"
-               th:value="${from != null ? #dates.format(from, 'yyyy-MM-dd') : (fromDate != null ? #dates.format(fromDate, 'yyyy-MM-dd') : '')}" />
+               th:value="${from != null ? #temporals.format(from, 'yyyy-MM-dd') : (fromDate != null ? #temporals.format(fromDate, 'yyyy-MM-dd') : '')}" />
       </label>
 
       <label class="filter-item">
         <span class="filter-label">Hasta</span>
         <input id="filter-to" class="filter-input" type="date" name="to"
-               th:value="${to != null ? #dates.format(to, 'yyyy-MM-dd') : (toDate != null ? #dates.format(toDate, 'yyyy-MM-dd') : '')}" />
+               th:value="${to != null ? #temporals.format(to, 'yyyy-MM-dd') : (toDate != null ? #temporals.format(toDate, 'yyyy-MM-dd') : '')}" />
       </label>
 
       <button id="applyFiltersBtn" class="btn btn-secondary"
