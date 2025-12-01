@@ -63,17 +63,63 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
   /* limitar ancho para coincidir con el ancho disponible del content */
   max-width: calc(100vw - var(--sidebar-width) - (var(--content-horizontal-padding) * 2));
 
-  /* header title */
-  h2 {
+  /* --- New header layout: title-row, header-meta, filters-row --- */
+  .title-row {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
-    margin: 0;
-    font-size: 1.125rem;
-    font-weight: 600;
+    justify-content: space-between; /* title left, badge right */
+    gap: 1rem;
+    width: 100%;
+
+    .title-left {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+
+      .icon-table {
+        flex: 0 0 auto;
+        width: 24px;
+        height: 24px;
+      }
+
+      .title-text {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: $color-primary;
+        line-height: 1;
+      }
+    }
+
+    .visits-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 48px;
+      padding: 0.25rem 0.6rem;
+      background: #eef2ff;
+      color: $btn-blue;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      box-shadow: 0 1px 0 rgba(15,23,42,0.03);
+      margin-left: auto;
+    }
   }
 
-  /* filters toolbar */
+  .header-meta {
+    margin-top: 0.35rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+    color: $color-muted;
+    font-size: 0.95rem;
+
+    &__dates { margin: 0; color: $color-muted; }
+    &__summary { margin: 0; font-weight: 600; color: $color-primary; }
+  }
+
+  /* filters toolbar (kept mostly as before) */
   .filters-row {
     display: flex;
     gap: 0.6rem;
@@ -263,7 +309,29 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
     border-radius: 0 !important;
   }
 
+  .site-visit-header {
+    .title-row {
+      /* en pantallas pequeñas, apilar título y badge para evitar recortes */
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.4rem;
+
+      .visits-count {
+        margin-left: 0;
+      }
+    }
+  }
+
   .site-visit-table-container {
+    position: static !important;
+    top: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    margin-top: 0.75rem;
+    max-height: none !important;
+    overflow: visible !important;
+
     .site-visit-table {
       font-size: 13px;
 

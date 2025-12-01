@@ -1,3 +1,4 @@
+@charset "UTF-8";
 :root {
   --topbar-height: 54px; /* same as layout topbar height */
   --sidebar-width: 240px; /* same as layout sidebar width */
@@ -52,16 +53,63 @@
   overflow: visible;
   /* limitar ancho para coincidir con el ancho disponible del content */
   max-width: calc(100vw - var(--sidebar-width) - var(--content-horizontal-padding) * 2);
-  /* header title */
-  /* filters toolbar */
+  /* --- New header layout: title-row, header-meta, filters-row --- */
+  /* filters toolbar (kept mostly as before) */
 }
-.site-visit-header h2 {
+.site-visit-header .title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* title left, badge right */
+  gap: 1rem;
+  width: 100%;
+}
+.site-visit-header .title-row .title-left {
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  margin: 0;
+}
+.site-visit-header .title-row .title-left .icon-table {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+}
+.site-visit-header .title-row .title-left .title-text {
   font-size: 1.125rem;
   font-weight: 600;
+  color: #162032;
+  line-height: 1;
+}
+.site-visit-header .title-row .visits-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  padding: 0.25rem 0.6rem;
+  background: #eef2ff;
+  color: #2563eb;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.03);
+  margin-left: auto;
+}
+.site-visit-header .header-meta {
+  margin-top: 0.35rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+.site-visit-header .header-meta__dates {
+  margin: 0;
+  color: #6b7280;
+}
+.site-visit-header .header-meta__summary {
+  margin: 0;
+  font-weight: 600;
+  color: #162032;
 }
 .site-visit-header .filters-row {
   display: flex;
@@ -244,6 +292,25 @@
     border-bottom: none !important;
     margin-bottom: 0.75rem;
     border-radius: 0 !important;
+  }
+  .site-visit-header .title-row {
+    /* en pantallas pequeñas, apilar título y badge para evitar recortes */
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+  .site-visit-header .title-row .visits-count {
+    margin-left: 0;
+  }
+  .site-visit-table-container {
+    position: static !important;
+    top: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    margin-top: 0.75rem;
+    max-height: none !important;
+    overflow: visible !important;
   }
   .site-visit-table-container .site-visit-table {
     font-size: 13px;
