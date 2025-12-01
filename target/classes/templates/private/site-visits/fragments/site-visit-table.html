@@ -48,6 +48,7 @@
 
       <div class="filters-actions">
         <button id="createSupervisionVisitBtn" class="btn btn-primary"
+                th:if="${#authorization.expression('hasRole(''SUPERVISOR'')')}"
                 th:attr="data-path=@{/private/site-supervision-visits/create}" aria-label="Registrar visita">
           <!-- icono + -->
           <svg class="icon icon-plus" width="16" height="16" viewBox="0 0 16 16" focusable="false">
