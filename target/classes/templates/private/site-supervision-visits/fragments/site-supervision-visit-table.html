@@ -1,26 +1,28 @@
 <div th:fragment="content">
 
-  <div class="site-visit-header">
+  <div class="site-visit-header"
+       th:with="fromVar=${from != null ? from : (fromDate != null ? fromDate : null)},
+                toVar=${to != null ? to : (toDate != null ? toDate : null)}">
 
-    <h2 th:with="fromVar=${from != null ? from : (fromDate != null ? fromDate : null)},
-                 toVar=${to != null ? to : (toDate != null ? toDate : null)}">
-      <!-- Icono tabla -->
-      <svg class="icon icon-table" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-        <rect x="2" y="4" width="20" height="16" rx="2" fill="#eef2ff" stroke="#2563eb" stroke-width="1"/>
-        <path d="M6 12h12M6 8h12M6 16h8" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
-      Supervisión de Instalaciones
-      <!-- badge con cantidad de registros -->
+    <!-- fila de título: icono + texto a la izquierda, badge de cantidad a la derecha -->
+    <div class="title-row" role="heading" aria-level="2">
+      <div class="title-left" aria-hidden="true">
+        <!-- Icono tabla -->
+        <svg class="icon icon-table" width="24" height="24" viewBox="0 0 24 24" focusable="false">
+          <rect x="2" y="4" width="20" height="16" rx="2" fill="#eef2ff" stroke="#2563eb" stroke-width="1"/>
+          <path d="M6 12h12M6 8h12M6 16h8" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span class="title-text">Supervisión de Instalaciones</span>
+      </div>
+
+      <!-- badge con cantidad de registros (alineado a la derecha) -->
       <span class="visits-count" th:if="${visitsCount != null}"
             th:text="${visitsCount + ' registro' + (visitsCount == 1 ? '' : 's')}"
             aria-live="polite" aria-atomic="true"></span>
-    </h2>
+    </div>
 
-    <!-- descripción legible del filtro aplicado (rango de fechas) -->
-    <div class="header-meta"
-         th:with="fromVar=${from != null ? from : (fromDate != null ? fromDate : null)},
-                  toVar=${to != null ? to : (toDate != null ? toDate : null)}"
-         th:if="${fromVar != null or toVar != null or visitsCount != null}">
+    <!-- línea descriptiva / resumen: debajo del título -->
+    <div class="header-meta" th:if="${fromVar != null or toVar != null or visitsCount != null}">
       <p class="header-meta__dates" th:if="${fromVar != null and toVar != null}"
          th:text="'Mostrando desde ' + ${#temporals.format(fromVar, 'dd/MM/yyyy')} + ' hasta ' + ${#temporals.format(toVar, 'dd/MM/yyyy')}">
         Mostrando desde ... hasta ...
@@ -42,7 +44,7 @@
       </p>
     </div>
 
-    <!-- filters-row (inputs) -->
+    <!-- toolbar / filtros (igual que antes) -->
     <div class="filters-row" role="toolbar" aria-label="Filtros de supervisión">
       <label class="filter-item">
         <span class="filter-label">Desde</span>
@@ -65,7 +67,7 @@
         <button id="createSupervisionVisitBtn" class="btn btn-primary"
                 th:attr="data-path=@{/private/site-supervision-visits/create}" aria-label="Registrar visita">
           <!-- icono + -->
-          <svg class="icon icon-plus" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          <svg class="icon icon-plus" width="16" height="16" viewBox="0 0 16 16" focusable="false">
             <circle cx="8" cy="8" r="7" fill="#dbeafe" stroke="#1e3a8a" stroke-width="1"/>
             <path d="M8 5v6M5 8h6" stroke="#1e3a8a" stroke-width="1.5" stroke-linecap="round"/>
           </svg>
