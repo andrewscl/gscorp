@@ -100,7 +100,8 @@
   align-items: center;
   flex-wrap: wrap;
   color: #6b7280;
-  font-size: 0.95rem;
+  font-size: 0.8rem;
+  font-weight: 500;
 }
 .site-visit-header .header-meta__dates {
   margin: 0;
