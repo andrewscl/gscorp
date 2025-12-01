@@ -156,6 +156,10 @@
   border-color: #2563eb;
   box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.06);
 }
+.site-visit-header .filters-row .btn {
+  transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease, color 120ms ease, border-color 120ms ease;
+  will-change: transform, box-shadow;
+}
 .site-visit-header .filters-row .btn.btn-primary {
   background: linear-gradient(180deg, #2563eb, rgb(19.4285714286, 79.6571428571, 211.7714285714));
   color: #fff;
@@ -167,6 +171,24 @@
   align-items: center;
   gap: 0.4rem;
 }
+.site-visit-header .filters-row .btn.btn-primary:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.14);
+}
+.site-visit-header .filters-row .btn.btn-primary:active {
+  transform: translateY(0) scale(0.995);
+  box-shadow: 0 4px 8px rgba(37, 99, 235, 0.1);
+}
+.site-visit-header .filters-row .btn.btn-primary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14);
+}
+.site-visit-header .filters-row .btn.btn-primary:disabled, .site-visit-header .filters-row .btn.btn-primary.is-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
 .site-visit-header .filters-row .btn.btn-secondary {
   background: transparent;
   border: 1px solid #e7eef9;
@@ -174,6 +196,22 @@
   padding: 0.35rem 0.6rem;
   border-radius: 10px;
   font-weight: 600;
+}
+.site-visit-header .filters-row .btn.btn-secondary:hover {
+  background: rgba(37, 99, 235, 0.06); /* requiere que $btn-blue se convierta a rgba; si no, usar a color literal */
+  border-color: white;
+  transform: translateY(-1px);
+}
+.site-visit-header .filters-row .btn.btn-secondary:active {
+  transform: translateY(0);
+}
+.site-visit-header .filters-row .btn.btn-secondary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
+}
+.site-visit-header .filters-row .btn.btn-secondary:disabled, .site-visit-header .filters-row .btn.btn-secondary.is-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 .site-visit-header .filters-row .filters-actions {
   margin-left: auto;

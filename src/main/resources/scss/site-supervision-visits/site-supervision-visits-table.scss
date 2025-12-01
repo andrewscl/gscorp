@@ -1,3 +1,5 @@
+@Use "sass:color";
+
 :root {
   --topbar-height: 54px;                /* same as layout topbar height */
   --sidebar-width: 240px;               /* same as layout sidebar width */
@@ -177,8 +179,13 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
     }
 
     .btn {
+      transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease,
+                  color 120ms ease, border-color 120ms ease;
+      will-change: transform, box-shadow;
+
       &.btn-primary {
-        background: linear-gradient(180deg, $btn-blue, $btn-blue-dark);
+        /* ejemplo con color.adjust para crear la variante oscura */
+        background: linear-gradient(180deg, $btn-blue, color.adjust($btn-blue, $lightness: -8%));
         color: #fff;
         border: none;
         padding: 0.45rem 0.75rem;
@@ -187,6 +194,22 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
         display: inline-flex;
         align-items: center;
         gap: 0.4rem;
+        box-shadow: 0 6px 12px rgba(37, 99, 235, 0.12);
+
+        &:hover {
+          transform: translateY(-2px) scale(1.01);
+          box-shadow: 0 10px 20px rgba(37, 99, 235, 0.14);
+        }
+
+        &:active {
+          transform: translateY(0) scale(0.995);
+          box-shadow: 0 4px 8px rgba(37, 99, 235, 0.10);
+        }
+
+        &:focus-visible {
+          outline: none;
+          box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14);
+        }
       }
 
       &.btn-secondary {
@@ -196,6 +219,39 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
         padding: 0.35rem 0.6rem;
         border-radius: 10px;
         font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+
+        &:hover {
+          /* uso de color.change para un fondo translúcido a partir de la variable $btn-blue */
+          background: color.change($btn-blue, $alpha: 0.06);
+          /* ajustar borde: aumentar lightness (si quieres oscurecer, usa valor negativo) */
+          border-color: color.adjust($color-border, $lightness: 6%);
+          transform: translateY(-1px);
+        }
+
+        &:active {
+          transform: translateY(0);
+        }
+
+        &:focus-visible {
+          outline: none;
+          box-shadow: 0 0 0 4px color.change($btn-blue, $alpha: 0.08);
+        }
+
+        &:disabled,
+        &.is-disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+          transform: none;
+          box-shadow: none;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        transition: none !important;
+        transform: none !important;
       }
     }
 
