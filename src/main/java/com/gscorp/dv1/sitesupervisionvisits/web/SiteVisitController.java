@@ -75,6 +75,10 @@ public class SiteVisitController {
         List<SiteVisitDto> visits = siteSupervisionVisitService
                                         .findByUserAndDateBetween(userId, from, to, resolvedZoneId);
 
+        // cantidad de registros encontrados
+        int visitsCount = visits != null ? visits.size() : 0;
+        model.addAttribute("visitsCount", visitsCount);
+
         model.addAttribute("sites", siteService.getAllSites());
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
         model.addAttribute("visits", visits);
@@ -107,5 +111,7 @@ public class SiteVisitController {
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
         return "private/site-supervision-visits/views/edit-site-supervision-visit-view";
     }
+
+
 
 }
