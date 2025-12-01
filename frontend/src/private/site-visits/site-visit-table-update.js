@@ -3,7 +3,6 @@ import { navigateTo } from '../../navigation-handler.js';
 
 const qs = (s, ctx = document) => ctx.querySelector(s);
 const qsa = (s, ctx = document) => Array.from(ctx.querySelectorAll(s));
-
 const ROWS_FALLBACK_URL = '/private/site-supervision-visits/table-search';
 const DEFAULT_VIEW = '/private/site-supervision-visits/table-view';
 
@@ -20,7 +19,6 @@ function initTableDelegation() {
   const container = qs('.site-visit-table-container');
   if (!container || container.__siteVisitDeleg) return;
   container.__siteVisitDeleg = true;
-
   container.addEventListener('click', (ev) => {
     const btn = ev.target.closest('.action-btn, a[data-path], button[data-path]');
     if (!btn) return;
@@ -60,8 +58,14 @@ async function fetchRows({ baseUrl, from, to, clientTz, applyBtn }) {
     }
 
     const html = await res.text();
+
+    // --- FIX: wrap the returned fragment in a <table> so the browser parses tbody/tr correctly
     const tmp = document.createElement('div');
-    tmp.innerHTML = html.trim();
+    tmp.innerHTML = '<table>' + html.trim() + '</table>';
+
+    // Alternative (uncomment if you prefer DOMParser):
+    // const doc = new DOMParser().parseFromString(html, 'text/html');
+    // const tmp = doc.body;
 
     const newHeaderMeta = tmp.querySelector('.header-meta');
     let newTbody = tmp.querySelector('tbody');
@@ -73,22 +77,20 @@ async function fetchRows({ baseUrl, from, to, clientTz, applyBtn }) {
 
     const currentTbody = qs('.site-visit-table tbody');
     if (!currentTbody) {
-      // Unexpected: no tbody to replace — fallback to full reload
       navigateTo(DEFAULT_VIEW, true);
       return;
     }
 
+    // Use innerHTML replacement (robust)
+    currentTbody.innerHTML = newTbody.innerHTML;
+
     if (newHeaderMeta) {
       const currentHeader = qs('.site-visit-header .header-meta');
       if (currentHeader) currentHeader.replaceWith(newHeaderMeta);
+    } else {
+      updateVisitsCountFromTbody(currentTbody);
     }
 
-    currentTbody.replaceWith(newTbody);
-
-    // update badge if header wasn't returned
-    if (!newHeaderMeta) updateVisitsCountFromTbody(newTbody);
-
-    // delegation handles action clicks, no rebind needed
   } finally {
     if (applyBtn) {
       applyBtn.disabled = false;
@@ -102,38 +104,24 @@ function bindApplyButton() {
   const fromInput = qs('#filter-from');
   const toInput = qs('#filter-to');
 
-  if (!applyBtn || !fromInput || !toInput) {
-    console.debug('[site-visit] apply button or inputs not found — skipping binding');
-    return;
-  }
+  if (!applyBtn || !fromInput || !toInput) return;
 
-  // ensure button won't accidentally submit a form if it's inside one
   if (!applyBtn.hasAttribute('type')) applyBtn.setAttribute('type', 'button');
 
   applyBtn.addEventListener('click', async (ev) => {
     ev.preventDefault();
-
     let from = fromInput.value || '';
     let to = toInput.value || '';
-
-    if (!from && !to) {
-      navigateTo(DEFAULT_VIEW, true);
-      return;
-    }
-
+    if (!from && !to) { navigateTo(DEFAULT_VIEW, true); return; }
     if (!from && to) from = to;
     if (!to && from) to = from;
-
     try {
       const f = new Date(from), t = new Date(to);
       if (!isNaN(f) && !isNaN(t) && f > t) [from, to] = [to, from];
-    } catch (e) { /* ignore */ }
-
+    } catch (e) {}
     let clientTz = '';
     try { clientTz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) { clientTz = ''; }
-
     const baseUrl = applyBtn.dataset.ajaxUrl || applyBtn.dataset.path || ROWS_FALLBACK_URL;
-
     try {
       await fetchRows({ baseUrl, from, to, clientTz, applyBtn });
     } catch (err) {
@@ -148,13 +136,11 @@ function bindApplyButton() {
   });
 }
 
-/* Init similar pattern to your working modules */
+/* init */
 (function init() {
   try {
-    console.debug('[site-visit] initializing module');
     initTableDelegation();
     bindApplyButton();
-    console.debug('[site-visit] initialized');
   } catch (e) {
     console.error('[site-visit] init failed', e);
   }
