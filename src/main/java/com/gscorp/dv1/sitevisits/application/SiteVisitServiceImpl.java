@@ -222,6 +222,7 @@ public class SiteVisitServiceImpl implements SiteVisitService{
                 p.getId(),
                 p.getEmployeeId(),
                 p.getEmployeeName(),
+                p.getEmployeeFatherSurname(),
                 p.getSiteId(),
                 p.getSiteName(),
                 p.getVisitDateTime(),

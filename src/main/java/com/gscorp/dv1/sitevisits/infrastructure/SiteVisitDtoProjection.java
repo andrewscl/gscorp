@@ -7,6 +7,7 @@ public interface SiteVisitDtoProjection {
     Long getId();
     Long getEmployeeId();
     String getEmployeeName();
+    String getEmployeeFatherSurname();
     Long getSiteId();
     String getSiteName();
     OffsetDateTime getVisitDateTime();

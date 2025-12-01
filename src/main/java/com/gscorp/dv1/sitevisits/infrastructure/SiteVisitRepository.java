@@ -46,6 +46,7 @@ public interface SiteVisitRepository
           v.id AS id,
           e.id AS employeeId,
           e.name AS employeeName,
+          e.fatherSurname AS employeeFatherSurname,
           s.id AS siteId,
           s.name AS siteName,
           v.visitDateTime AS visitDateTime,
