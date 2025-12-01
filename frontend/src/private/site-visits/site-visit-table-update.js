@@ -1,20 +1,41 @@
-// Adaptación mínima: usa data-ajax-url (o data-path) del botón si existe,
-// y solo si no existe usa ROWS_URL por defecto.
-
 import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
 
-const ROWS_URL = '/private/site-supervision-visits/table-search'; // fallback si no hay data-ajax-url
+const qs = (s, ctx = document) => ctx.querySelector(s);
+const qsa = (s, ctx = document) => Array.from(ctx.querySelectorAll(s));
+
+const ROWS_FALLBACK_URL = '/private/site-supervision-visits/table-search';
 const DEFAULT_VIEW = '/private/site-supervision-visits/table-view';
 
-function qs(sel, ctx = document) { return ctx.querySelector(sel); }
+function updateVisitsCountFromTbody(tbody) {
+  const tb = tbody || qs('.site-visit-table tbody');
+  if (!tb) return;
+  const empty = tb.querySelector('.empty');
+  const count = empty ? 0 : tb.querySelectorAll('tr').length;
+  const badge = qs('.site-visit-header .visits-count');
+  if (badge) badge.textContent = `${count} registro${count === 1 ? '' : 's'}`;
+}
+
+function initTableDelegation() {
+  const container = qs('.site-visit-table-container');
+  if (!container || container.__siteVisitDeleg) return;
+  container.__siteVisitDeleg = true;
+
+  container.addEventListener('click', (ev) => {
+    const btn = ev.target.closest('.action-btn, a[data-path], button[data-path]');
+    if (!btn) return;
+    const path = btn.dataset.path || btn.getAttribute('href');
+    if (!path) return;
+    ev.preventDefault();
+    navigateTo(path, true);
+  });
+}
 
 async function fetchRows({ baseUrl, from, to, clientTz, applyBtn }) {
   const params = new URLSearchParams();
   if (from) params.set('from', from);
   if (to) params.set('to', to);
   if (clientTz) params.set('clientTz', clientTz);
-
   const url = baseUrl + (params.toString() ? `?${params.toString()}` : '');
 
   if (applyBtn) {
@@ -42,23 +63,32 @@ async function fetchRows({ baseUrl, from, to, clientTz, applyBtn }) {
     const tmp = document.createElement('div');
     tmp.innerHTML = html.trim();
 
+    const newHeaderMeta = tmp.querySelector('.header-meta');
     let newTbody = tmp.querySelector('tbody');
     if (!newTbody) {
-      const fragmentRows = tmp.querySelectorAll('tr');
+      const rows = tmp.querySelectorAll('tr');
       newTbody = document.createElement('tbody');
-      fragmentRows.forEach(r => newTbody.appendChild(r));
+      rows.forEach(r => newTbody.appendChild(r));
     }
 
     const currentTbody = qs('.site-visit-table tbody');
     if (!currentTbody) {
-      throw new Error('No se encontró tbody en la tabla actual (selector .site-visit-table tbody)');
+      // Unexpected: no tbody to replace — fallback to full reload
+      navigateTo(DEFAULT_VIEW, true);
+      return;
+    }
+
+    if (newHeaderMeta) {
+      const currentHeader = qs('.site-visit-header .header-meta');
+      if (currentHeader) currentHeader.replaceWith(newHeaderMeta);
     }
 
     currentTbody.replaceWith(newTbody);
 
-    updateVisitsCountFromTbody();
-    rebindTableActions();
+    // update badge if header wasn't returned
+    if (!newHeaderMeta) updateVisitsCountFromTbody(newTbody);
 
+    // delegation handles action clicks, no rebind needed
   } finally {
     if (applyBtn) {
       applyBtn.disabled = false;
@@ -67,34 +97,22 @@ async function fetchRows({ baseUrl, from, to, clientTz, applyBtn }) {
   }
 }
 
-function updateVisitsCountFromTbody() {
-  const tbody = document.querySelector('.site-visit-table tbody');
-  if (!tbody) return;
-  const empty = tbody.querySelector('.empty');
-  const count = empty ? 0 : tbody.querySelectorAll('tr').length;
-  const badge = document.querySelector('.site-visit-header .visits-count');
-  if (badge) badge.textContent = `${count} registro${count === 1 ? '' : 's'}`;
-}
-
-function rebindTableActions() {
-  document.querySelectorAll('.site-visit-table .action-btn').forEach(btn => {
-    if (btn.__navBound) return;
-    btn.__navBound = true;
-    btn.addEventListener('click', (ev) => {
-      const path = btn.getAttribute('data-path');
-      if (path) navigateTo(path, true);
-    });
-  });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
+function bindApplyButton() {
   const applyBtn = qs('#applyFiltersBtn');
   const fromInput = qs('#filter-from');
   const toInput = qs('#filter-to');
 
-  if (!applyBtn || !fromInput || !toInput) return;
+  if (!applyBtn || !fromInput || !toInput) {
+    console.debug('[site-visit] apply button or inputs not found — skipping binding');
+    return;
+  }
 
-  applyBtn.addEventListener('click', async () => {
+  // ensure button won't accidentally submit a form if it's inside one
+  if (!applyBtn.hasAttribute('type')) applyBtn.setAttribute('type', 'button');
+
+  applyBtn.addEventListener('click', async (ev) => {
+    ev.preventDefault();
+
     let from = fromInput.value || '';
     let to = toInput.value || '';
 
@@ -109,19 +127,18 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const f = new Date(from), t = new Date(to);
       if (!isNaN(f) && !isNaN(t) && f > t) [from, to] = [to, from];
-    } catch (e) {}
+    } catch (e) { /* ignore */ }
 
     let clientTz = '';
     try { clientTz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) { clientTz = ''; }
 
-    // Obtener la URL desde el atributo del botón si está presente
-    const baseUrl = applyBtn.dataset.ajaxUrl || applyBtn.dataset.path || ROWS_URL;
+    const baseUrl = applyBtn.dataset.ajaxUrl || applyBtn.dataset.path || ROWS_FALLBACK_URL;
 
     try {
       await fetchRows({ baseUrl, from, to, clientTz, applyBtn });
     } catch (err) {
-      console.error('Error al obtener filas:', err);
-      const errDiv = document.getElementById('siteVisitSearchError') || (function () {
+      console.error('[site-visit] error fetching rows', err);
+      const errDiv = document.getElementById('siteVisitSearchError') || (() => {
         const d = document.createElement('div'); d.id = 'siteVisitSearchError'; d.className = 'error';
         const header = qs('.site-visit-header'); if (header) header.insertAdjacentElement('afterend', d); else document.body.prepend(d);
         return d;
@@ -129,4 +146,16 @@ document.addEventListener('DOMContentLoaded', () => {
       errDiv.textContent = err.message || 'Error al obtener resultados.';
     }
   });
-});
+}
+
+/* Init similar pattern to your working modules */
+(function init() {
+  try {
+    console.debug('[site-visit] initializing module');
+    initTableDelegation();
+    bindApplyButton();
+    console.debug('[site-visit] initialized');
+  } catch (e) {
+    console.error('[site-visit] init failed', e);
+  }
+})();
