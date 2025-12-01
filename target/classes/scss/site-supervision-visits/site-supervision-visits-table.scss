@@ -114,11 +114,19 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
     align-items: center;
     flex-wrap: wrap;
     color: $color-muted;
-    font-size: 0.8rem;
-    font-weight: 500;
 
-    &__dates { margin: 0; color: $color-muted; }
-    &__summary { margin: 0; font-weight: 600; color: $color-primary; }
+    &__dates {
+      margin: 0;
+      color: $color-muted;
+      font-size: 0.8rem;      
+    }
+
+    &__summary {
+      margin: 0;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: $color-primary;
+    }
   }
 
   /* filters toolbar (kept mostly as before) */
