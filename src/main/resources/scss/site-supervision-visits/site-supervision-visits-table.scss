@@ -115,6 +115,14 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
     flex-wrap: wrap;
     color: $color-muted;
 
+    /* Aseguramos que los elementos dentro también lo hereden / respeten */
+    p, span {
+      margin: 0;
+      font-size: 0.8rem;
+      line-height: 1.2;
+      color: $color-muted;
+    }
+
     &__dates {
       margin: 0;
       color: $color-muted;
