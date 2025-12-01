@@ -112,6 +112,53 @@ public class SiteVisitController {
         return "private/site-supervision-visits/views/edit-site-supervision-visit-view";
     }
 
+    @GetMapping("/table-view/search")
+    public String searchSiteSupervisionVisits(
+            Model model,
+            Authentication authentication,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
+            @RequestParam(required = false) String clientTz
+    ) {
+        Long userId = userService.getUserIdFromAuthentication(authentication);
+        if (userId == null) {
+            return "redirect:/login";
+        }
 
+        ZoneResolutionResult zr = zoneResolver.resolveZone(userId, clientTz);
+        ZoneId zone = zr.zoneId();
+
+        if (from == null && to == null) {
+            return "redirect:/private/site-supervision-visits/table-view";
+        }
+
+        // Si sólo se aporta una fecha, la tratamos como rango de un día
+        if (from == null && to != null) {
+            from = to;
+        } else if (to == null && from != null) {
+            to = from;
+        }
+
+        // Si ambos no son null y from > to, intercambiamos
+        if (from != null && to != null && from.isAfter(to)) {
+            LocalDate tmp = from;
+            from = to;
+            to = tmp;
+        }
+
+        String resolvedZoneId = zone.getId();
+        List<SiteVisitDto> visits = siteSupervisionVisitService
+                                        .findByUserAndDateBetween(userId, from, to, resolvedZoneId);
+
+        model.addAttribute("sites", siteService.getAllSites());
+        model.addAttribute("googlecloudapikey", googleCloudApiKey);
+        model.addAttribute("visits", visits);
+        model.addAttribute("from", from);
+        model.addAttribute("to", to);
+        model.addAttribute("visitsCount", visits != null ? visits.size() : 0);
+        model.addAttribute("clientTimeZone", clientTz != null ? clientTz : zr.zoneId().getId());
+
+        return "private/site-supervision-visits/views/site-supervision-visit-table-view";
+    }
 
 }
