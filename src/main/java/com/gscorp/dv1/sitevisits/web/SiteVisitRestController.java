@@ -23,8 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.gscorp.dv1.components.ZoneResolver;
-import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
 import com.gscorp.dv1.sitevisits.application.SiteVisitService;
@@ -48,7 +46,6 @@ public class SiteVisitRestController {
     private final SiteService siteService;
     private final UserService userService;
     private final SiteVisitService siteVisitService;
-    private final ZoneResolver zoneResolver;
 
     @GetMapping("/sites")
     public List<SiteDto> getSitesApi() {
@@ -182,7 +179,6 @@ public class SiteVisitRestController {
     }
 
 
-
     @GetMapping("/hourly-aggregated")
     public ResponseEntity<List<SiteVisitHourlyDto>> hourlyAggregatedForCaller(
         Authentication auth,
@@ -200,59 +196,4 @@ public class SiteVisitRestController {
         return ResponseEntity.ok(series == null ? Collections.emptyList() : series);
     }
 
-
-    /**
-     * Busca visitas por rango de fechas usando el service que acepta LocalDate.
-     * Normaliza parámetros (si falta uno se interpreta como búsqueda de un día),
-     * intercambia from/to si vienen invertidos y devuelve JSON con resultados y metadatos.
-     */
-    @GetMapping("/search")
-    public ResponseEntity<?> search(
-            Authentication authentication,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
-            @RequestParam(required = false) String clientTz
-    ) {
-        Long userId = userService.getUserIdFromAuthentication(authentication);
-        if (userId == null) {
-            return ResponseEntity.status(401).build();
-        }
-
-        ZoneResolutionResult zr = zoneResolver.resolveZone(userId, clientTz);
-        ZoneId zone = zr.zoneId();
-
-        // Validación mínima: se requiere al menos un extremo
-        if (from == null && to == null) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Se requiere al menos 'from' o 'to'"));
-        }
-
-        // Normalizar: si sólo se aporta una fecha, la interpretamos como búsqueda de ese día
-        if (from == null && to != null) {
-            from = to;
-        } else if (to == null && from != null) {
-            to = from;
-        }
-
-        // Defenderse de entrada invertida
-        if (from != null && to != null && from.isAfter(to)) {
-            LocalDate tmp = from;
-            from = to;
-            to = tmp;
-        }
-
-        log.debug("REST search visits: userId={}, from={}, to={}, resolvedZone={}", userId, from, to, zone);
-
-        // Llamada al service que acepta LocalDate
-        List<SiteVisitDto> visits = siteVisitService.findByUserAndDateBetween(userId, from, to, zone.getId());
-
-        Map<String, Object> payload = Map.of(
-                "visits", visits,
-                "visitsCount", visits != null ? visits.size() : 0,
-                "from", from != null ? from.toString() : null,
-                "to", to != null ? to.toString() : null,
-                "clientTimeZone", zone.getId()
-        );
-
-        return ResponseEntity.ok(payload);
-    }
 }

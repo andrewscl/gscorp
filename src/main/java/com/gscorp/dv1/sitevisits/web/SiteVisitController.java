@@ -2,6 +2,7 @@ package com.gscorp.dv1.sitevisits.web;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -112,4 +113,40 @@ public class SiteVisitController {
         return "private/site-visits/views/edit-site-visit-view";
     }
 
+    @GetMapping("/table-search")
+    public String getSiteVisitTableSearch(
+                    Model model,
+                    Authentication authentication,
+                    @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+                    @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
+                    @RequestParam(required = false) String clientTz
+        ) {
+
+        Long userId = userService.getUserIdFromAuthentication(authentication);
+        if (userId == null) {
+            return "redirect:/login";
+        }
+
+        ZoneResolutionResult zr = zoneResolver.resolveZone(userId, clientTz);
+        ZoneId zone = zr.zoneId();
+
+        // normalización idéntica a la de tu table-view
+        if (from == null && to == null) {
+            model.addAttribute("visits", Collections.emptyList());
+            model.addAttribute("visitsCount", 0);
+            return "private/site-visits/fragments/site-visit-table-rows :: rows";
+        }
+        if (from == null && to != null) from = to;
+        if (to == null && from != null) to = from;
+        if (from != null && to != null && from.isAfter(to)) {
+            LocalDate tmp = from; from = to; to = tmp;
+        }
+
+        List<SiteVisitDto> visits = siteSupervisionVisitService.findByUserAndDateBetween(userId, from, to, zone.getId());
+        model.addAttribute("visits", visits);
+        model.addAttribute("visitsCount", visits != null ? visits.size() : 0);
+
+        return "private/site-visits/fragments/site-visit-table-rows :: rows";
+
+        }
 }
