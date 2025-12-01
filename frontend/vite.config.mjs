@@ -51,6 +51,7 @@ export default defineConfig({
         'private/site-visits/create-site-visit': path.resolve(__dirname, './src/private/site-visits/create-site-visit.js'),
         'private/site-visits/edit-site-visit': path.resolve(__dirname, './src/private/site-visits/edit-site-visit.js'),
         'private/site-visits/site-visit-table': path.resolve(__dirname, './src/private/site-visits/site-visit-table.js'),
+        'private/site-visits/site-visit-table-update': path.resolve(__dirname, './src/private/site-visits/site-visit-table-update.js'),
         'private/incidents/create-incident': path.resolve(__dirname, './src/private/incidents/create-incident.js'),
         'private/incidents/view-incident': path.resolve(__dirname, './src/private/incidents/view-incident.js'),
         'private/incidents/edit-incident': path.resolve(__dirname, './src/private/incidents/edit-incident.js'),

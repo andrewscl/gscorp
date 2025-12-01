@@ -58,8 +58,9 @@
                th:value="${to != null ? #temporals.format(to, 'yyyy-MM-dd') : (toDate != null ? #temporals.format(toDate, 'yyyy-MM-dd') : '')}" />
       </label>
 
-      <button id="applyFiltersBtn" class="btn btn-secondary"
-              th:attr="data-path=@{/private/site-supervision-visits/table-search}" aria-label="Aplicar filtros">
+      <button id="applyFiltersBtn" type="button" class="btn btn-secondary"
+              data-ajax-url="/private/site-supervision-visits/table-search"
+              aria-label="Aplicar filtros">
         Aplicar
       </button>
 
@@ -95,5 +96,6 @@
   </div>
 
   <script type="module" src="/js/private/site-visits/site-visit-table.js"></script>
+  <script type="module" src="/js/private/site-visits/site-visit-table-update.js"></script>
 
 </div>
