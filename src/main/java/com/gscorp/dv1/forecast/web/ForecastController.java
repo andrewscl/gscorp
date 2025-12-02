@@ -65,8 +65,8 @@ public class ForecastController {
             model.addAttribute("error", "'from' no puede ser posterior a 'to'");
             // aún devolvemos la vista con mensaje de error y sin filas
             model.addAttribute("forecastRecords", List.of());
-            model.addAttribute("fromStr", from.format(DateTimeFormatter.ISO_LOCAL_DATE));
-            model.addAttribute("toStr", to.format(DateTimeFormatter.ISO_LOCAL_DATE));
+            model.addAttribute("from", from.format(DateTimeFormatter.ISO_LOCAL_DATE));
+            model.addAttribute("to", to.format(DateTimeFormatter.ISO_LOCAL_DATE));
             model.addAttribute("zone", zoneId.getId());
             model.addAttribute("zoneSource", zr.source());
             return "private/forecast/views/forecast-table-view";
@@ -77,8 +77,8 @@ public class ForecastController {
 
         // Poner datos en el model para la vista
         model.addAttribute("forecastRecords", rows);
-        model.addAttribute("fromStr", from.format(DateTimeFormatter.ISO_LOCAL_DATE));
-        model.addAttribute("toStr", to.format(DateTimeFormatter.ISO_LOCAL_DATE));
+        model.addAttribute("from", from.format(DateTimeFormatter.ISO_LOCAL_DATE));
+        model.addAttribute("to", to.format(DateTimeFormatter.ISO_LOCAL_DATE));
         model.addAttribute("zone", zoneId.getId());       // p.ej. "Europe/Madrid" o "UTC"
         model.addAttribute("zoneSource", zr.source());
 
