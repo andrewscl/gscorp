@@ -404,7 +404,7 @@ public class UserServiceImpl implements UserService{
         }
 
         // Comprobar duplicados por teléfono
-        Optional<User> existingByPhone = userRepo.findByPhoneNumber(normalizedPhone);
+        Optional<User> existingByPhone = userRepo.findByPhone(normalizedPhone);
         if (existingByPhone.isPresent()) {
             throw new IllegalArgumentException("Ya existe un usuario con ese teléfono");
         }
