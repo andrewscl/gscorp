@@ -1,44 +1,47 @@
 import { navigateTo } from '../../navigation-handler.js';
 
 (function () {
-  const form = document.getElementById('att-filter');
-  if (!form) return;
+  const elSelector = '.attendance-header';
+  const root = document.documentElement;
+  let rafId = null;
+  let timeoutId = null;
 
-  // Atajos rápidos
-  const quick = form.querySelector('.quick-range');
-  const from = form.querySelector('input[name="from"]');
-  const to   = form.querySelector('input[name="to"]');
+  function setHeaderVar() {
+    const el = document.querySelector(elSelector);
+    if (!el) return;
+    // offsetHeight incluye padding y border; ajusta si necesitas margen extra
+    const h = el.offsetHeight;
+    root.style.setProperty('--attendance-header-height', `${h}px`);
+  }
 
-  function fmt(d) { return d.toISOString().slice(0,10); } // yyyy-MM-dd
+  // debounce resize using requestAnimationFrame + timeout
+  function onResize() {
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(() => {
+      if (timeoutId) clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        setHeaderVar();
+      }, 80);
+    });
+  }
 
-  quick?.addEventListener('click', (e) => {
-    const btn = e.target.closest('button[data-range]');
-    if (!btn) return;
-    const now = new Date();
-    let dFrom = new Date(now), dTo = new Date(now);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      setHeaderVar();
+      window.addEventListener('resize', onResize);
+    });
+  } else {
+    setHeaderVar();
+    window.addEventListener('resize', onResize);
+  }
 
-    switch (btn.dataset.range) {
-      case 'today':
-        // dFrom = hoy 00:00, dTo = hoy
-        break;
-      case 'week': {
-        const day = (now.getDay()+6)%7; // lunes=0
-        dFrom.setDate(now.getDate()-day);
-        break;
-      }
-      case 'month':
-        dFrom = new Date(now.getFullYear(), now.getMonth(), 1);
-        break;
-    }
-    from.value = fmt(dFrom);
-    to.value   = fmt(dTo);
-  });
+  // Opcional: si tu header cambia dinámicamente (contador, filtros que aparecen/ocultan),
+  // puedes descomentar el observer siguiente para actualizar la variable automáticamente.
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const u = new URL(form.dataset.path || '/private/attendance', location.origin);
-    const fd = new FormData(form);
-    const params = new URLSearchParams(fd);
-    navigateTo(u.pathname + '?' + params.toString(), true);
-  });
+  // const headerNode = document.querySelector(elSelector);
+  // if (headerNode && window.MutationObserver) {
+  //   const mo = new MutationObserver(() => setHeaderVar());
+  //   mo.observe(headerNode, { childList: true, subtree: true, characterData: true, attributes: true });
+  // }
+
 })();
