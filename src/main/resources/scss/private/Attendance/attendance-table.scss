@@ -1,114 +1,407 @@
+@use "sass:color";
+
+/* Root CSS variables (keep consistent with layout) */
+:root {
+  --topbar-height: 54px;
+  --sidebar-width: 240px;
+  --content-horizontal-padding: 2.4rem;
+  --attendance-header-height: 0;
+}
+
+/* Reset */
+* { box-sizing: border-box; }
+
+/* Tokens */
+$font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+$base-font-size: 14px;
+$radius: 10px;
+
+$btn-blue: #2563eb;
+$btn-blue-dark: darken($btn-blue, 8%);
+$color-card-bg: #ffffff;
+$color-primary: #162032;
+$color-muted: #6b7280;
+$color-border: #e7eef9;
+
+$shadow-sm: 0 6px 18px rgba(15, 23, 42, 0.04);
+$shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
+
+/* Utilities */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+  border: 0; padding: 0; margin: -1px;
+}
+
+/* Wrapper for attendance module */
+.attendance-root {
+  background: $color-card-bg;
+  border-radius: $radius;
+  padding: 0.75rem;
+  box-shadow: $shadow-xs;
+  font-family: $font-family;
+  color: $color-primary;
+}
+
+/* Header (fixed) */
 .attendance-header {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1.5rem;
+  flex-direction: column;
+  gap: 0.6rem;
+  color: $color-primary;
 
-  h2 {
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin: 0;
-    color: #334155;
-  }
+  position: fixed;
+  top: calc(var(--topbar-height) + 1rem);
+  left: calc(var(--sidebar-width) + var(--content-horizontal-padding));
+  right: var(--content-horizontal-padding);
+  z-index: 1150;
+  border-radius: 10px;
+  border: 1px solid $color-border;
+  box-shadow: 0 8px 20px rgba(15,23,42,0.04);
+  padding: 0.6rem;
+  box-sizing: border-box;
+  overflow: visible;
+  max-width: calc(100vw - var(--sidebar-width) - (var(--content-horizontal-padding) * 2));
 
-  .att-filter {
+  /* Title row */
+  .title-row {
     display: flex;
     align-items: center;
-    gap: 1.2rem;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
 
-    label {
+    .title-left {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+
+      .icon-table {
+        flex: 0 0 auto;
+        width: 24px;
+        height: 24px;
+      }
+
+      .title-text {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: $color-primary;
+        line-height: 1;
+      }
+    }
+
+    .attendance-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 48px;
+      padding: 0.25rem 0.6rem;
+      background: #eef6ff;
+      color: $btn-blue;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      box-shadow: 0 1px 0 rgba(15,23,42,0.03);
+      margin-left: auto;
+    }
+  }
+
+  /* Header meta (dates / summary) */
+  .header-meta {
+    margin-top: 0.35rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+    color: $color-muted;
+
+    p, span {
+      margin: 0;
+      font-size: 0.8rem;
+      line-height: 1.2;
+      color: $color-muted;
+    }
+
+    &__dates { font-size: 0.8rem; color: $color-muted; margin: 0; }
+    &__summary { font-size: 0.85rem; font-weight: 500; color: $color-primary; margin: 0; }
+  }
+
+  /* Filters toolbar */
+  .filters-row {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    padding: 0.5rem 0.5rem;
+    background: $color-card-bg;
+    border-radius: 8px;
+    border: 1px solid $color-border;
+    box-shadow: $shadow-sm;
+
+    .filter-item {
       display: flex;
       flex-direction: column;
-      font-size: 0.95rem;
-      color: #64748b;
+      gap: 0.25rem;
+      font-size: 0.85rem;
+      color: $color-muted;
+      min-width: 10ch;
 
-      input[type="date"] {
-        margin-top: 0.3em;
-        padding: 0.4em;
-        border-radius: 4px;
-        border: 1px solid #d1d5db;
-        font-size: 1em;
-        background: #f9fafb;
+      .filter-label { font-weight: 500; color: $color-muted; }
+      .filter-input {
+        appearance: none;
+        border: 1px solid lighten($color-border, 2%);
+        padding: 0.45rem 0.6rem;
+        border-radius: 8px;
+        background: #fff;
+        font-size: $base-font-size;
+        color: $color-primary;
+        transition: border-color .12s ease, box-shadow .12s ease;
+
+        &:focus {
+          outline: none;
+          border-color: $btn-blue;
+          box-shadow: 0 0 0 6px rgba($btn-blue, 0.06);
+        }
       }
     }
 
-    .btn-primary {
-      padding: 0.5em 1.3em;
-      margin-left: 0.8em;
-      background-color: #2563eb;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.18s;
-      &:hover {
-        background-color: #1e40af;
+    .btn {
+      transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease,
+                  color 120ms ease, border-color 120ms ease;
+      will-change: transform, box-shadow;
+
+      &.btn-primary {
+        background: linear-gradient(180deg, $btn-blue, color.adjust($btn-blue, $lightness: -8%));
+        color: #fff;
+        border: none;
+        padding: 0.45rem 0.75rem;
+        border-radius: 10px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        box-shadow: 0 6px 12px rgba(37, 99, 235, 0.12);
+
+        &:hover { transform: translateY(-2px) scale(1.01); box-shadow: 0 10px 20px rgba(37, 99, 235, 0.14); }
+        &:active { transform: translateY(0) scale(0.995); box-shadow: 0 4px 8px rgba(37, 99, 235, 0.10); }
+        &:focus-visible { outline: none; box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14); }
+      }
+
+      &.btn-secondary {
+        background: transparent;
+        border: 1px solid $color-border;
+        color: $btn-blue;
+        padding: 0.35rem 0.6rem;
+        border-radius: 10px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+
+        &:hover {
+          background: color.change($btn-blue, $alpha: 0.06);
+          border-color: color.adjust($color-border, $lightness: 6%);
+          transform: translateY(-1px);
+        }
+
+        &:active { transform: translateY(0); }
+        &:focus-visible { outline: none; box-shadow: 0 0 0 4px color.change($btn-blue, $alpha: 0.08); }
+
+        &:disabled, &.is-disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        transition: none !important;
+        transform: none !important;
       }
     }
+
+    .filters-actions { margin-left: auto; display: flex; align-items: center; gap: 0.5rem; }
 
     .quick-range {
       display: flex;
-      gap: 0.5em;
-      margin-left: 1em;
+      gap: 0.4rem;
 
       .btn-link {
-        background: none;
+        background: transparent;
         border: none;
-        color: #2563eb;
+        color: $btn-blue;
         cursor: pointer;
-        font-size: 0.95em;
-        text-decoration: underline;
-        padding: 0.3em 0.6em;
-        border-radius: 2px;
-        &:hover {
-          background: #e0e7ff;
-          color: #1e40af;
-        }
+        padding: 0.25rem 0.4rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 13px;
+
+        &:hover { background: color.change($btn-blue, $alpha: 0.04); }
       }
     }
   }
 }
 
+/* Table container (fixed area under header) */
 .attendance-table-container {
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 12px -4px #cbd5e1;
-  padding: 1.5rem;
-  margin-top: 0.8rem;
+  position: fixed;
+  border-radius: $radius;
+  overflow-x: auto;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: $color-card-bg;
+  border: 1px solid $color-border;
+  box-shadow: $shadow-sm;
+  padding: 0 0.6rem 0.6rem 0.6rem;
+  box-sizing: border-box;
+  top: calc(var(--attendance-header-height) + var(--topbar-height) + 1.75rem);
+  bottom: 1rem;
+  left: calc(var(--sidebar-width) + var(--content-horizontal-padding));
+  right: var(--content-horizontal-padding);
 
   .attendance-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 1em;
+    font-family: $font-family;
+    font-size: $base-font-size;
+    color: $color-primary;
+    table-layout: auto;
+    min-width: 0;
 
     thead {
-      background: #f1f5f9;
-      th {
-        padding: 0.65em 0.5em;
-        font-weight: 700;
-        color: #64748b;
-        border-bottom: 2px solid #e2e8f0;
-        text-align: left;
-        font-size: 0.98em;
+      tr {
+        th {
+          position: sticky;
+          top: 0;
+          z-index: 1140;
+          text-align: left;
+          font-weight: 700;
+          padding: 0.9rem 0.85rem;
+          border-bottom: 1px solid $color-border;
+          color: $color-primary;
+          white-space: nowrap;
+          font-size: 13px;
+          background: $color-card-bg;
+        }
       }
     }
 
     tbody {
       tr {
-        &:nth-child(even) {
-          background: #f9fafb;
-        }
+        transition: background .12s ease;
+
+        &:hover { background: rgba($btn-blue, 0.03); }
+
         td {
-          padding: 0.6em 0.5em;
-          border-bottom: 1px solid #e5e7eb;
-          color: #334155;
+          padding: 0.65rem 0.85rem;
+          border-bottom: 1px solid $color-border;
+          vertical-align: middle;
+          white-space: normal;
+          word-break: break-word;
+          overflow-wrap: anywhere;
         }
-        &[th\:if] td {
-          text-align: center;
-          color: #6b7280;
+
+        /* column sizing tuned for attendance columns */
+        td:first-child {
+          width: 12%;
+          max-width: 12ch;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          font-weight: 600;
         }
+
+        td:nth-child(2) { width: 8%; max-width: 8ch; }
+        td:nth-child(3), td:nth-child(4) { width: 12%; max-width: 16ch; }
+        td:nth-child(5) { width: 8%; max-width: 8ch; text-align: center; }
+        td:nth-child(6), td:nth-child(7) { width: 12%; max-width: 12ch; text-align: right; }
+        td:nth-child(8) { width: 14%; max-width: 16ch; }
+
+        td.actions {
+          width: 12%;
+          min-width: 120px;
+          white-space: nowrap;
+        }
+
+        .btn-link {
+          background: transparent;
+          border: none;
+          color: $btn-blue;
+          cursor: pointer;
+          padding: 0.25rem 0.4rem;
+          border-radius: 8px;
+          font-weight: 600;
+          font-size: 13px;
+        }
+      }
+
+      tr.empty td.empty {
+        text-align: center;
+        padding: 2rem;
+        color: $color-muted;
+        font-style: italic;
+        white-space: normal;
       }
     }
   }
 }
+
+/* Responsive behavior */
+@media (max-width: 1024px) {
+  :root { --sidebar-width: 0px; --content-horizontal-padding: 1rem; }
+
+  .attendance-header {
+    left: 1rem;
+    right: 1rem;
+    max-width: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .attendance-header {
+    position: static !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    box-shadow: none !important;
+    border-bottom: none !important;
+    margin-bottom: 0.75rem;
+    border-radius: 0 !important;
+  }
+
+  .attendance-header .title-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+
+    .attendance-count { margin-left: 0; }
+  }
+
+  .attendance-table-container {
+    position: static !important;
+    top: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    margin-top: 0.75rem;
+    max-height: none !important;
+    overflow: visible !important;
+
+    .attendance-table {
+      font-size: 13px;
+
+      thead tr th {
+        position: static !important;
+        top: auto !important;
+        z-index: auto !important;
+        padding: 0.55rem 0.5rem;
+      }
+
+      tbody {
+        td { padding: 0.45rem 0.5rem; }
+        td:first-child { max-width: 6ch; }
+        td.actions { min-width: 100px; }
+      }
+    }
+  }
+}
+
+/* End of attendance styles */
