@@ -13,13 +13,13 @@
       <label class="filter-item">
         <span class="filter-label">Desde</span>
         <input id="filter-from" class="filter-input" type="date" name="from"
-               th:value="${from != null ? #dates.format(from, 'yyyy-MM-dd') : ''}" />
+               th:value="${from != null ? #temporals.format(from, 'yyyy-MM-dd') : ''}" />
       </label>
 
       <label class="filter-item">
         <span class="filter-label">Hasta</span>
         <input id="filter-to" class="filter-input" type="date" name="to"
-               th:value="${to != null ? #dates.format(to, 'yyyy-MM-dd') : ''}" />
+               th:value="${to != null ? #temporals.format(to, 'yyyy-MM-dd') : ''}" />
       </label>
 
       <!-- Navegación cliente-side usando data-path (sin form submit) -->
