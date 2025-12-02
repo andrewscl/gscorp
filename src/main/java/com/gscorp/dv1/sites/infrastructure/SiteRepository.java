@@ -46,4 +46,18 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
            "from Site s where s.project.id = :projectId and (s.active = true or s.active is null) order by s.name")
     List<SiteSelectDto> findSelectDtoByProjectId(@Param("projectId") Long projectId);
 
+
+    @Query("""
+        SELECT DISTINCT
+          s.id   AS id,
+          s.name AS name
+        FROM Site s
+        JOIN s.project p
+        JOIN p.client c
+        JOIN c.user u
+        WHERE u.id = :userId
+        ORDER BY s.name
+        """)
+    List<SiteListProjection> findByUserId(@Param("userId") Long userId);
+
 }

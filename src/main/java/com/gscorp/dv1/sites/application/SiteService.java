@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.gscorp.dv1.sites.infrastructure.Site;
+import com.gscorp.dv1.sites.infrastructure.SiteListProjection;
 import com.gscorp.dv1.sites.web.dto.SetSiteCoordinatesDto;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
 import com.gscorp.dv1.sites.web.dto.SiteSelectDto;
@@ -22,4 +23,6 @@ public interface SiteService {
     Optional<Long> getClientIdForSite(Long siteId);
 
     List<SiteSelectDto> findSelectDtoByProjectId(Long projectId);
+
+    List<SiteListProjection> findByUserId(Long userId);
 }

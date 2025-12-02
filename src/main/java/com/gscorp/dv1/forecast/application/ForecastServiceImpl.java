@@ -8,8 +8,8 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
@@ -181,24 +181,31 @@ public List<ForecastPointDto> getForecastSeriesForUserByDates(
 
     @Override
     @Transactional(readOnly = true)
-    public List<ForecastTableRowDto> loadTableRowForUserAndDates(
-                            Long userId, LocalDate fromDate, LocalDate toDate, ZoneId zone) {
-            Objects.requireNonNull(userId, "userId es requerido");
-            Objects.requireNonNull(fromDate, "fromDate es requerido");
-            Objects.requireNonNull(toDate, "toDate es requerido");
-            Objects.requireNonNull(zone, "zone es requerido");
+    public List<ForecastTableRowDto> findRowsFilteredForUser(
+                            Long userId, String siteName, String metric, ZoneId zone) {
 
             List<Long> clientIds = userService.getClientIdsForUser(userId);
             if (clientIds == null || clientIds.isEmpty()) {
                 return Collections.emptyList();
             }
 
-            // convertir a OffsetDateTime semi-abierto [fromDate, toDate)
-            OffsetDateTime fromOffset = zoneResolver.toStartOfDay(fromDate, zone);
-            OffsetDateTime toOffset = zoneResolver.toEndOfDayInclusive(toDate, zone);
+            // Normalize siteName: treat empty or blank as null to disable the filter
+            String normalizedSiteName = (siteName == null || siteName.isBlank()) ? null : siteName.trim();
 
-            List<ForecastTableRowDto> rows = forecastRepo.findRowsForClientIdsAndDates(
-                                                    clientIds, fromOffset, toOffset);
+            // Parse metric safely: accept case-insensitive names and ignore invalid values
+            ForecastMetric metricEnum = null;
+
+            if (metric != null && !metric.isBlank()) {
+                try {
+                    metricEnum = ForecastMetric.valueOf(metric.trim().toUpperCase(Locale.ROOT));
+                } catch (IllegalArgumentException ex) {
+                    log.warn("Invalid metric value provided for filtering: '{}'. Ignoring metric filter.", metric);
+                    metricEnum = null;
+                }
+            }
+
+            List<ForecastTableRowDto> rows = forecastRepo.findRowsForClientIdsAndFilters(
+                                                    clientIds, normalizedSiteName, metricEnum);
 
             return rows == null ? Collections.emptyList() : rows;
 

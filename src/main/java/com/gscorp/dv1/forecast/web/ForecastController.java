@@ -1,12 +1,9 @@
 package com.gscorp.dv1.forecast.web;
 
-import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +19,8 @@ import com.gscorp.dv1.enums.Units;
 import com.gscorp.dv1.forecast.application.ForecastService;
 import com.gscorp.dv1.forecast.web.dto.ForecastFormPayload;
 import com.gscorp.dv1.forecast.web.dto.ForecastTableRowDto;
+import com.gscorp.dv1.sites.application.SiteService;
+import com.gscorp.dv1.sites.infrastructure.SiteListProjection;
 import com.gscorp.dv1.users.application.UserService;
 
 import lombok.AllArgsConstructor;
@@ -36,14 +35,15 @@ public class ForecastController {
     private final ForecastService forecastService;
     private final UserService userService;
     private final ZoneResolver zoneResolver;
+    private final SiteService siteService;
 
     // Método para acceder al vista de tabla de Forecasts
     @GetMapping("/table-view")
     public String getForecastTableView(
         Model model,
         Authentication authentication,
-        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
-        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
+        @RequestParam(required = false) String siteName,
+        @RequestParam(required = false) String metric,
         @RequestParam(required = false) String zone
     ) {
 
@@ -57,33 +57,24 @@ public class ForecastController {
         ZoneResolutionResult zr = zoneResolver.resolveZone(userId, zone);
         ZoneId zoneId = zr.zoneId();
 
-        // Normalizar fechas con la zona resuelta
-        LocalDate today = LocalDate.now(zoneId);
-        if (to == null) to = today;
-        if (from == null) from = to.minusDays(29);
-        if (from.isAfter(to)) {
-            model.addAttribute("error", "'from' no puede ser posterior a 'to'");
-            // aún devolvemos la vista con mensaje de error y sin filas
-            model.addAttribute("forecastRecords", List.of());
-            model.addAttribute("from", from.format(DateTimeFormatter.ISO_LOCAL_DATE));
-            model.addAttribute("to", to.format(DateTimeFormatter.ISO_LOCAL_DATE));
-            model.addAttribute("zone", zoneId.getId());
-            model.addAttribute("zoneSource", zr.source());
-            return "private/forecast/views/forecast-table-view";
-        }
+        List<SiteListProjection> siteNames = siteService.findByUserId(userId);
+        List<ForecastMetric> metrics = List.of(ForecastMetric.values());
 
         // Llamada al service pasando ZoneId validado
-        List<ForecastTableRowDto> rows = forecastService.loadTableRowForUserAndDates(userId, from, to, zoneId);
+        List<ForecastTableRowDto> rows = forecastService
+                                    .findRowsFilteredForUser(userId, null, null, zoneId);
 
         // Poner datos en el model para la vista
         model.addAttribute("forecastRecords", rows);
-        model.addAttribute("from", from.format(DateTimeFormatter.ISO_LOCAL_DATE));
-        model.addAttribute("to", to.format(DateTimeFormatter.ISO_LOCAL_DATE));
+        model.addAttribute("sites", siteNames);
+        model.addAttribute("metrics", metrics);
         model.addAttribute("zone", zoneId.getId());       // p.ej. "Europe/Madrid" o "UTC"
         model.addAttribute("zoneSource", zr.source());
 
         return "private/forecast/views/forecast-table-view";
     }
+
+
 
     // Método para mostrar el formulario de creación de Forecast
     @GetMapping("/create")
@@ -127,5 +118,5 @@ public class ForecastController {
 
         return "private/forecast/views/create-forecast-view";
     }
-    
+
 }

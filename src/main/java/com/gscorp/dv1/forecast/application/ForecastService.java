@@ -17,13 +17,7 @@ public interface ForecastService {
                 (Long userId, LocalDate fromDate, LocalDate toDate, ZoneId zone);
 
 
-    /**
-     * Devuelve la lista de ForecastRecordDto para la vista de tabla (detalle),
-     * filtrada por los clients a los que el usuario tiene acceso y por el rango de fechas.
-     *
-     * fromDate/toDate se interpretan en la zona indicada por zone.
-     */
-    List<ForecastTableRowDto> loadTableRowForUserAndDates(Long userId, LocalDate fromDate, LocalDate toDate, ZoneId zone);
+    List<ForecastTableRowDto> findRowsFilteredForUser(Long userId, String siteName, String metric, ZoneId zone);
 
 
     ForecastFormPayload prepareCreateForecastForm(Long userId);

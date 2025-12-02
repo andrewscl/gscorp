@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gscorp.dv1.sites.infrastructure.Site;
+import com.gscorp.dv1.sites.infrastructure.SiteListProjection;
 import com.gscorp.dv1.sites.infrastructure.SiteRepository;
 import com.gscorp.dv1.sites.web.dto.SetSiteCoordinatesDto;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
@@ -158,6 +159,11 @@ public class SiteServiceImpl implements SiteService{
     public List<SiteSelectDto> findSelectDtoByProjectId(Long projectId) {
         if (projectId == null) return List.of();
         return siteRepository.findSelectDtoByProjectId(projectId);
+    }
+
+    @Override
+    public List<SiteListProjection> findByUserId(Long userId) {
+        return siteRepository.findByUserId(userId);
     }
 
 

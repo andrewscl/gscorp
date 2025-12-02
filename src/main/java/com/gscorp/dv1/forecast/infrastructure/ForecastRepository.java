@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.gscorp.dv1.enums.ForecastMetric;
 import com.gscorp.dv1.forecast.web.dto.ForecastTableRowDto;
 
 @Repository
@@ -58,16 +59,7 @@ public interface ForecastRepository extends JpaRepository<Forecast, Long>{
     );
 
 
-    /*
-     * Alternativa más simple si prefieres filtrar por la columna client_id (si guardas clientId Long en Forecast):
-     *
-     * List<Forecast> findByClientIdInAndPeriodStartBetweenAndIsActiveTrue(
-     *      List<Long> clientIds, OffsetDateTime from, OffsetDateTime to);
-     *
-     * O, si tu entidad mantiene LocalDate para periodStart, usa LocalDate params.
-     */
-
-        @Query("""
+    @Query("""
         select new com.gscorp.dv1.forecast.web.dto.ForecastTableRowDto(
                 f.id,
                 f.projectId,
@@ -86,13 +78,26 @@ public interface ForecastRepository extends JpaRepository<Forecast, Long>{
         left join f.project p
         left join f.site s
         where f.clientId in :clientIds
-        and f.periodStart between :from and :to
+          and (:siteName IS NULL OR :siteName = '' OR LOWER(s.name) LIKE LOWER(CONCAT('%', :siteName, '%')))
+          and (:metric IS NULL OR f.forecastMetric = :metric)
         order by f.periodStart desc
         """)
-        List<ForecastTableRowDto> findRowsForClientIdsAndDates(
+    List<ForecastTableRowDto> findRowsForClientIdsAndFilters(
         @Param("clientIds") List<Long> clientIds,
-        @Param("from") OffsetDateTime from,
-        @Param("to") OffsetDateTime to
-);
+        @Param("siteName") String siteName,
+        @Param("metric") ForecastMetric metric
+    );
+
+
+    @Query("""
+        select distinct s.name
+        from Forecast f
+        left join f.site s
+        where f.clientId in :clientIds
+          and s.name is not null
+        order by s.name
+        """)
+    List<String> findDistinctSiteNamesByClientIds(@Param("clientIds") List<Long> clientIds);
+
 
 }

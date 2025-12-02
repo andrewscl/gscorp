@@ -10,35 +10,44 @@
     </h2>
 
     <div class="filters-row" role="toolbar" aria-label="Filtros de forecasts">
-      <label class="filter-item">
-        <span class="filter-label">Desde</span>
-        <input id="filter-from" class="filter-input" type="date" name="from"
-               th:value="${from != null ? #temporals.format(from, 'yyyy-MM-dd') : ''}" />
-      </label>
+      <!-- form GET para filtrar en el servidor -->
+      <form th:action="@{/private/forecast/table-view}" method="get" style="display:flex;gap:0.6rem;align-items:center;">
+        <label class="filter-item">
+          <span class="filter-label">Sitio</span>
+          <select id="filter-site" class="filter-input" name="siteName">
+            <option th:value="" th:text="${'Todos'}">
+            <option th:each="s : ${siteNames}"
+                    th:value="${s}"
+                    th:text="${s}"
+                    th:selected="${s == siteName}">
+          </select>
+        </label>
 
-      <label class="filter-item">
-        <span class="filter-label">Hasta</span>
-        <input id="filter-to" class="filter-input" type="date" name="to"
-               th:value="${to != null ? #temporals.format(to, 'yyyy-MM-dd') : ''}" />
-      </label>
+        <label class="filter-item">
+          <span class="filter-label">Métrica</span>
+          <select id="filter-metric" class="filter-input" name="metric">
+            <option th:value="" th:text="${'Todas'}">
+            <option th:each="m : ${metrics}"
+                    th:value="${m.name()}"
+                    th:text="${m.displayName != null ? m.displayName : m.name()}"
+                    th:selected="${m.name() == metric}">
+          </select>
+        </label>
 
-      <!-- Navegación cliente-side usando data-path (sin form submit) -->
-      <button id="applyFiltersBtn" class="btn btn-secondary"
-              th:attr="data-path=@{/private/forecast/table-view}" aria-label="Aplicar filtros">
-        Aplicar
-      </button>
+        <button type="submit" id="applyFiltersBtn" class="btn btn-secondary" aria-label="Aplicar filtros">Aplicar</button>
 
-      <div class="filters-actions">
-        <button id="createForecastBtn" class="btn btn-primary"
-                th:attr="data-path=@{/private/forecast/create}" aria-label="Nuevo forecast">
-          <!-- icono + -->
-          <svg class="icon icon-plus" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-            <circle cx="8" cy="8" r="7" fill="#dbeafe" stroke="#1e3a8a" stroke-width="1"/>
-            <path d="M8 5v6M5 8h6" stroke="#1e3a8a" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-          Nuevo Forecast
-        </button>
-      </div>
+        <div class="filters-actions">
+          <button id="createForecastBtn" class="btn btn-primary"
+                  th:attr="data-path=@{/private/forecast/create}" aria-label="Nuevo forecast">
+            <!-- icono + -->
+            <svg class="icon icon-plus" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+              <circle cx="8" cy="8" r="7" fill="#dbeafe" stroke="#1e3a8a" stroke-width="1"/>
+              <path d="M8 5v6M5 8h6" stroke="#1e3a8a" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            Nuevo Forecast
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -61,29 +70,19 @@
       <tbody>
         <tr th:each="r : ${forecastRecords}">
           <td th:text="${r.id}">-</td>
-
-          <!-- muestra nombre si está disponible, si no fallback a id -->
           <td th:text="${r.projectName != null ? r.projectName : (r.projectId != null ? r.projectId : '—')}">—</td>
           <td th:text="${r.siteName != null ? r.siteName : (r.siteId != null ? r.siteId : '—')}">—</td>
-
           <td th:text="${r.forecastMetric?.displayName ?: '—'}">—</td>
-
-          <!-- Safe navigation + Elvis (Conciso) -->
           <td th:text="${r.periodicity?.displayName ?: '—'}">—</td>
-
-          <!-- periodStart/periodEnd son OffsetDateTime; formatear -->
           <td th:text="${r.periodStart != null ? #temporals.format(r.periodStart, 'yyyy-MM-dd HH:mm') : '—'}">—</td>
           <td th:text="${r.periodEnd != null ? #temporals.format(r.periodEnd, 'yyyy-MM-dd HH:mm') : '—'}">—</td>
-
           <td th:text="${r.value != null ? r.value : '—'}">—</td>
-
           <td>
             <span class="tag" th:classappend="${r.isActive} ? ' active' : ' inactive'">
               <span th:if="${r.isActive}">Activo</span>
               <span th:if="${!r.isActive}">Inactivo</span>
             </span>
           </td>
-
           <td class="actions">
             <button type="button" class="btn-link action-btn" title="Ver"
                     th:attr="data-path=@{/private/forecast/show/{id}(id=${r.id})}">
@@ -95,7 +94,6 @@
                     th:attr="data-path=@{/private/forecast/edit/{id}(id=${r.id})}" title="Editar">
               Editar
             </button>
-
           </td>
         </tr>
 
@@ -106,6 +104,5 @@
     </table>
   </div>
 
-  <!-- Cargar JS separado (coloca el archivo en src/main/resources/static/js/forecast-table.js) -->
   <script th:src="@{/private/forecast/forecast-table.js}" defer></script>
 </div>
