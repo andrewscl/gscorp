@@ -89,15 +89,4 @@ public interface ForecastRepository extends JpaRepository<Forecast, Long>{
     );
 
 
-    @Query("""
-        select distinct s.name
-        from Forecast f
-        left join f.site s
-        where f.clientId in :clientIds
-          and s.name is not null
-        order by s.name
-        """)
-    List<String> findDistinctSiteNamesByClientIds(@Param("clientIds") List<Long> clientIds);
-
-
 }

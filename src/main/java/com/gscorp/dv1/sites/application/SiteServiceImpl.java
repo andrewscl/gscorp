@@ -7,6 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gscorp.dv1.clients.application.ClientService;
 import com.gscorp.dv1.sites.infrastructure.Site;
 import com.gscorp.dv1.sites.infrastructure.SiteListProjection;
 import com.gscorp.dv1.sites.infrastructure.SiteRepository;
@@ -24,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SiteServiceImpl implements SiteService{
 
     private final SiteRepository siteRepository;
+    private final ClientService clientService;
 
     @Override
     @Transactional
@@ -163,7 +165,10 @@ public class SiteServiceImpl implements SiteService{
 
     @Override
     public List<SiteListProjection> findByUserId(Long userId) {
-        return siteRepository.findByUserId(userId);
+
+        List<Long> clientIds = clientService.getClientIdsByUserId(userId);
+
+        return siteRepository.findByClientIds(clientIds);
     }
 
 

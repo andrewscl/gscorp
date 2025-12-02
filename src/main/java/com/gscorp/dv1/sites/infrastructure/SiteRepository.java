@@ -53,11 +53,9 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
           s.name AS name
         FROM Site s
         JOIN s.project p
-        JOIN p.client c
-        JOIN c.user u
-        WHERE u.id = :userId
+        WHERE p.client.id IN :clientIds
         ORDER BY s.name
         """)
-    List<SiteListProjection> findByUserId(@Param("userId") Long userId);
+    List<SiteListProjection> findByClientIds(@Param("clientIds") List<Long> clientIds);
 
 }
