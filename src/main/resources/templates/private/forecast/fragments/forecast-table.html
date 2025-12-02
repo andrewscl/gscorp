@@ -15,22 +15,22 @@
         <label class="filter-item">
           <span class="filter-label">Sitio</span>
           <select id="filter-site" class="filter-input" name="siteName">
-            <option th:value="" th:text="${'Todos'}">
+            <option value="" th:text="'Todos'"></option>
             <option th:each="s : ${siteNames}"
                     th:value="${s}"
                     th:text="${s}"
-                    th:selected="${s == siteName}">
+                    th:selected="${s == siteName}"></option>
           </select>
         </label>
 
         <label class="filter-item">
           <span class="filter-label">Métrica</span>
           <select id="filter-metric" class="filter-input" name="metric">
-            <option th:value="" th:text="${'Todas'}">
+            <option value="" th:text="'Todas'"></option>
             <option th:each="m : ${metrics}"
                     th:value="${m.name()}"
                     th:text="${m.displayName != null ? m.displayName : m.name()}"
-                    th:selected="${m.name() == metric}">
+                    th:selected="${m.name() == metric}"></option>
           </select>
         </label>
 
