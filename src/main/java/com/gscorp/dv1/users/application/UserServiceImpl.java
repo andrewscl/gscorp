@@ -15,6 +15,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
+import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat;
+
 
 import com.gscorp.dv1.auth.application.PasswordResetTokenService;
 import com.gscorp.dv1.clients.infrastructure.Client;
@@ -27,6 +34,7 @@ import com.gscorp.dv1.users.infrastructure.User;
 import com.gscorp.dv1.users.infrastructure.UserRepository;
 import com.gscorp.dv1.users.web.dto.CreateUserRequest;
 import com.gscorp.dv1.users.web.dto.InviteUserRequest;
+import com.gscorp.dv1.users.web.dto.InviteUserRequestWhatsApp;
 import com.gscorp.dv1.users.web.dto.UserUpdateDto;
 
 import lombok.RequiredArgsConstructor;
@@ -366,6 +374,114 @@ public class UserServiceImpl implements UserService{
         // Persistir cambios
         User saved = userRepo.save(user);
         return Optional.of(saved);
+    }
+
+
+
+        /**
+     * Crea un usuario invitado para envío vía WhatsApp.
+     *
+     * Validaciones y comportamiento:
+     * - normaliza y valida phone a E.164 (usa libphonenumber)
+     * - evita crear duplicados por teléfono o username
+     * - asigna roles y clientes indicados si existen
+     * - asocia empleado si se provee y no está ya asociado
+     * - deja password null (el controller/flow debe crear token y definir contraseña)
+     */
+    @Override
+    @Transactional
+    public User createInvitedUserWhatsApp(InviteUserRequestWhatsApp request) {
+        if (request == null) {
+            throw new IllegalArgumentException("Request no puede ser null");
+        }
+        if (!StringUtils.hasText(request.username())) {
+            throw new IllegalArgumentException("username es requerido");
+        }
+        // Normalizar teléfono a E.164
+        String normalizedPhone = normalizeToE164(request.phone());
+        if (normalizedPhone == null) {
+            throw new IllegalArgumentException("Teléfono inválido. Debe estar en formato internacional (E.164).");
+        }
+
+        // Comprobar duplicados por teléfono
+        Optional<User> existingByPhone = userRepo.findByPhoneNumber(normalizedPhone);
+        if (existingByPhone.isPresent()) {
+            throw new IllegalArgumentException("Ya existe un usuario con ese teléfono");
+        }
+
+        // Comprobar duplicado por username
+        Optional<User> existingByUsername = userRepo.findByUsername(request.username());
+        if (existingByUsername.isPresent()) {
+            throw new IllegalArgumentException("El nombre de usuario ya está en uso");
+        }
+
+        User user = new User();
+        user.setUsername(request.username());
+        user.setMail(null); // no email para envíos WhatsApp
+        user.setPhone(normalizedPhone);
+        user.setActive(true); // o false según tu política; aquí lo dejamos activo pero sin password
+        // marca canal preferido si tu entidad tiene el campo (opcional)
+        // user.setPreferredContactChannel(ContactChannel.WHATSAPP);
+
+        // Asignar roles
+        Set<Role> roles = new HashSet<>();
+        if (request.roleIds() != null) {
+            for (Long roleId : request.roleIds()) {
+                roleRepo.findById(roleId).ifPresent(roles::add);
+            }
+        }
+        user.setRoles(roles);
+
+        // Asignar clientes
+        Set<Client> clients = new HashSet<>();
+        if (request.clientIds() != null) {
+            for (Long clientId : request.clientIds()) {
+                clientRepo.findById(clientId).ifPresent(clients::add);
+            }
+        }
+        user.setClients(clients);
+
+        // Asociar empleado si se indica
+        if (request.employeeId() != null) {
+            Employee employee = employeeRepo.findById(request.employeeId())
+                    .orElseThrow(() -> new IllegalArgumentException("Empleado no encontrado"));
+            if (employee.getUser() != null) {
+                throw new IllegalArgumentException("Empleado ya asociado a un usuario");
+            }
+            // asociar
+            employeeRepo.findById(request.employeeId()).ifPresent(user::setEmployee);
+        }
+
+        // No establecer contraseña ni token en este punto.
+        user.setPassword(null);
+
+        // Guardar y devolver
+        return userRepo.save(user);
+    }
+
+    private static final PhoneNumberUtil PHONE_UTIL = PhoneNumberUtil.getInstance();
+
+    /**
+     * Normaliza número a formato E.164 usando libphonenumber.
+     * Devuelve null si no se puede parsear/validar.
+     */
+    private String normalizeToE164(String rawPhone) {
+        if (!StringUtils.hasText(rawPhone)) return null;
+        String s = rawPhone.trim();
+        try {
+            PhoneNumber pn = PHONE_UTIL.parse(s, null); // region null asume prefijo internacional
+            if (!PHONE_UTIL.isValidNumber(pn)) {
+                log.debug("Número no válido según libphonenumber: {}", rawPhone);
+                return null;
+            }
+            return PHONE_UTIL.format(pn, PhoneNumberFormat.E164);
+        } catch (NumberParseException e) {
+            log.debug("Error parseando número '{}' : {}", rawPhone, e.getMessage());
+            return null;
+        } catch (Exception e) {
+            log.error("Error inesperado parseando número '{}': {}", rawPhone, e.getMessage(), e);
+            return null;
+        }
     }
 
 

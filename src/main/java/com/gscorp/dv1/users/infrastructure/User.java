@@ -40,6 +40,7 @@ public class User {
     private Long id;
     private String username;
     private String mail;
+    private String phone;
     private String password;
     private Boolean active;
     private String invitationToken;

@@ -3,7 +3,13 @@
     <div class="signin-page">
 
         <div class="signin-container">
-            <h2>Iniciar Sesión</h2>
+
+            <div id="logo-container" class="logo-container">
+                <img id="logo" class="logo" th:src="@{/img/logo-mail.png}"
+                                                            alt="Logo" />
+            </div>
+
+            <h1>Iniciar Sesión</h1>
 
             <div th:if="${param.error}" class="alert alert-danger">
                 Credenciales inválidas.
@@ -33,7 +39,6 @@
                 <button type="button" id="loginBtn" class="btn btn-primary">Iniciar Sesión</button>
             </form>
 
-            <p>¿No tienes una cuenta? <a>Regístrate</a></p>
         </div>
 
     </div>

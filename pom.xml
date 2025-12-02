@@ -139,6 +139,13 @@
 			<version>v1-rev110-1.25.0</version>
 		</dependency>
 
+		<!-- Google libphonenumber -->
+		<dependency>
+		<groupId>com.googlecode.libphonenumber</groupId>
+		<artifactId>libphonenumber</artifactId>
+		<version>8.13.10</version> <!-- usa la última versión disponible en Maven Central -->
+		</dependency>
+
 		<dependency>
 			<groupId>com.sun.mail</groupId>
 			<artifactId>jakarta.mail</artifactId>
