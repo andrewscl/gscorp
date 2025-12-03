@@ -22,7 +22,7 @@ public interface AttendancePunchProjection {
     String getEmployeeFatherSurname();
     String getClientTimezone();
     String getTimezoneSource();
-    String getCreatedAt();
-    String getUpdatedAt();
+    OffsetDateTime getCreatedAt();
+    OffsetDateTime getUpdatedAt();
 
 }

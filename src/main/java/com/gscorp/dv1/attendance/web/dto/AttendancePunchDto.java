@@ -22,8 +22,8 @@ public record AttendancePunchDto (
     String deviceInfo,
     String ip,
     String timezoneSource,
-    String createdAt,
-    String updatedAt,
+    OffsetDateTime createdAt,
+    OffsetDateTime updatedAt,
     String tsFormatted
 ) {
     public static AttendancePunchDto fromProjection(AttendancePunchProjection ap, String tsFormatted) {
