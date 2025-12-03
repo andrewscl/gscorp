@@ -1,8 +1,11 @@
 <tbody th:fragment="rows">
   <tr th:each="p : ${punchs}" th:attr="data-id=${p.id}">
+
     <td th:text="${#temporals.format(p.ts, 'yyyy-MM-dd HH:mm')}">2025-10-07 09:00</td>
-    <td th:text="${p.site != null ? p.site.name : '—'}">Oficina Central</td>
-    <td th:text="${p.employeeName != null ? p.employeeName + ' ' + p.employeeFatherSurname: '—'}">Juan Pérez</td>
+    <td th:text="${p.siteName != null ? p.siteName : '—'}">Oficina Central</td>
+    <td th:text="${p.employeeName != null ? p.employeeName + ' ' + p.employeeFatherSurname: '—'}">
+      Juan Pérez
+    </td>
     <td th:text="${p.action != null ? p.action : '—'}">IN</td>
     <td th:text="${p.distanceM != null ? p.distanceM : '—'}">12.3</td>
     <td th:text="${p.accuracyM != null ? p.accuracyM : '—'}">8.0</td>
