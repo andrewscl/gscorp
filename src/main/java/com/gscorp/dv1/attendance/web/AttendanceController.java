@@ -14,17 +14,29 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.gscorp.dv1.attendance.application.AttendanceService;
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunch;
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
+import com.gscorp.dv1.attendance.web.dto.AttendancePunchDto;
+import com.gscorp.dv1.components.ZoneResolver;
+import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
+import com.gscorp.dv1.users.application.UserService;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequestMapping("/private/attendance")
 @AllArgsConstructor
 public class AttendanceController {
+
+    private final UserService userService;
+    private final ZoneResolver zoneResolver;
+    private final AttendanceService attendanceService;
+    private final String googleCloudApiKey = System.getenv("GOOGLE_CLOUD_API_KEY");
 
     @Autowired
     private final AttendancePunchRepo attendanceRepo;
@@ -40,10 +52,62 @@ public class AttendanceController {
     }
 
     @GetMapping("/table-view")
-    public String getAttendanceTableFragment(Model model) {
+    public String getAttendanceTableFragment(
+        Model model,
+        Authentication authentication,
+        @RequestParam(required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+        @RequestParam(required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
+        @RequestParam(required=false) String clientTz
+    ) {
+
+        Long userId = userService.getUserIdFromAuthentication(authentication);
+        if (userId == null) {
+            // no autenticado: redirigir al login o devolver error según tu política
+            return "redirect:/login";
+        }
+
+        // Resolve zone (requested clientTz takes precedence if valid; ZoneResolver handles fallbacks)
+        ZoneResolutionResult zr = zoneResolver.resolveZone(userId, clientTz);
+        ZoneId zone = zr.zoneId(); // usa zoneId() según tu record
+
+        // Defaults: si no vienen parámetros, mostrar últimos 7 días (incluye hoy)
+        LocalDate today = LocalDate.now(zone);
+        if (to == null) {
+            to = today;
+        }
+        if (from == null) {
+            from = to.minusDays(7);
+        }
+
+        // Defensive: si from > to, intercambiar o devolver vacío; aquí intercambiamos por simplicidad
+        if (from.isAfter(to)) {
+            log.debug("from > to en request; intercambiando valores: from={}, to={}", from, to);
+            LocalDate tmp = from;
+            from = to;
+            to = tmp;
+        }
+
+        String resolvedZoneId = zone.getId();
+
+        List<AttendancePunchDto> punchs = attendanceService
+                                        .findByUserAndDateBetween(userId, from, to, resolvedZoneId);
+
+        // cantidad de registros encontrados
+        int punchsCount = punchs != null ? punchs.size() : 0;
+        model.addAttribute("punchsCount", punchsCount);
+
+        model.addAttribute("sites", siteService.getAllSites());
+        model.addAttribute("googlecloudapikey", googleCloudApiKey);
+        model.addAttribute("punchs", punchs);
+        model.addAttribute("fromDate", from);
+        model.addAttribute("toDate", to);
+        model.addAttribute("clientTimeZone", clientTz != null ? clientTz : zr.zoneId().getId());
+
         model.addAttribute("attendance", attendanceRepo.findAll());
         return "private/attendance/views/attendance-table-view";
     }
+
+
 
     @GetMapping("/attdc-filter")
     public String attendancePage(

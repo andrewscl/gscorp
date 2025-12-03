@@ -1,27 +1,40 @@
 package com.gscorp.dv1.attendance.application;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunch;
+import com.gscorp.dv1.attendance.infrastructure.AttendancePunchProjection;
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
+import com.gscorp.dv1.attendance.web.dto.AttendancePunchDto;
 import com.gscorp.dv1.attendance.web.dto.CreateAttendancePunchRequest;
 import com.gscorp.dv1.attendance.web.dto.HourlyCountDto;
+import com.gscorp.dv1.components.ZoneResolver;
+import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.sites.infrastructure.Site;
 import com.gscorp.dv1.sites.infrastructure.SiteRepository;
+import com.gscorp.dv1.users.application.UserService;
 
 import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AttendanceServiceImpl implements AttendanceService {
 
   private final AttendancePunchRepo repo;
   private final SiteRepository siteRepo;
+  private final UserService userService;
+  private final ZoneResolver zoneResolver;
 
   private static final double MAX_DIST_METERS = 250.0;
   private static final long   MIN_GAP_SECONDS = 60;
@@ -174,6 +187,82 @@ public class AttendanceServiceImpl implements AttendanceService {
         return repo.countByClientIdsAndTsBetweenAndAction(clientIds, from, to, action);
     }
 
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<AttendancePunchDto> findByUserAndDateBetween(
+              Long userId, LocalDate fromDate, LocalDate toDate, String clientTz) {
+
+        List<Long> clientIds = userService.getClientIdsForUser(userId);
+        if (clientIds == null || clientIds.isEmpty()) {
+            log.debug("No clientIds for user {} -> returning zero series for {}..{}", userId, fromDate, toDate);
+            return Collections.emptyList();
+        }
+
+        ZoneResolutionResult zr = zoneResolver.resolveZone(userId, clientTz);
+        ZoneId zone = zr.zoneId(); // o zone() según tu record
+        // intervalo [start, end)
+        OffsetDateTime start = fromDate.atStartOfDay(zone).toOffsetDateTime();
+        OffsetDateTime endExclusive = toDate.plusDays(1).atStartOfDay(zone).toOffsetDateTime();
+
+        // llamar repo que espera OffsetDateTime límites
+        List<AttendancePunchProjection> rows = repo
+                                                .findDtoByClientIdsAndDateBetween(
+                                                    clientIds, start, endExclusive);
+
+        // mapear proyection -> DTO final y formatear según zone
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        return rows.stream().map(p -> {
+            // Determinar la zona para formateo: preferir la que venga en la proyección (visit created)
+            ZoneId displayZone = zone;
+            String tzFromRow = p.getClientTimezone();
+            if (tzFromRow != null && !tzFromRow.isBlank()) {
+                try {
+                    displayZone = ZoneId.of(tzFromRow);
+                } catch (DateTimeException ex) {
+                    log.debug("Invalid clientTimezone '{}' in row id={} - using resolved zone {}"
+                                                , tzFromRow, p.getId(), zone);
+                    displayZone = zone;
+                }
+            }
+
+            String formatted = null;
+            OffsetDateTime visitOffset = p.getTs();
+            if (visitOffset != null) {
+                Instant instant = visitOffset.toInstant();
+                ZonedDateTime local = instant.atZone(displayZone);
+                formatted = local.format(fmt);
+            }
+
+            return new AttendancePunchDto(
+                p.getId(),
+                p.getUserId(),
+                p.getEmployeeId(),
+                p.getEmployeeName(),
+                p.getEmployeeFatherSurname(),
+                p.getSiteId(),
+                p.getSiteName(),
+                p.getTs(),
+                p.getLat(),
+                p.getLon(),
+                p.getAccuracyM(),
+                p.getAction(),
+                p.getLocationOk(),
+                p.getDistanceM(),
+                p.getDeviceInfo(),
+                p.getIp(),
+                p.getTimezoneSource(),
+                p.getCreatedAt(),
+                p.getUpdatedAt(),
+                formatted
+            );
+        }).collect(Collectors.toList());
+
+
+    }
+    
 
 
 }

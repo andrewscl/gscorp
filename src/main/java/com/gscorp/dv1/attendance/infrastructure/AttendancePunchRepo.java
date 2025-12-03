@@ -107,4 +107,42 @@ public interface AttendancePunchRepo extends JpaRepository <AttendancePunch, Lon
             @Param("action") String action);
 
 
+    @Query("""
+        SELECT
+          ap.id            AS id,
+          ap.userId        AS userId,
+          s.id             AS siteId,
+          s.name           AS siteName,
+          ap.ts            AS ts,
+          ap.lat           AS lat,
+          ap.lon           AS lon,
+          ap.accuracyM     AS accuracyM,
+          ap.action        AS action,
+          ap.locationOk    AS locationOk,
+          ap.distanceM     AS distanceM,
+          ap.deviceInfo    AS deviceInfo,
+          ap.ip            AS ip,
+          e.id             AS employeeId,
+          e.name           AS employeeName,
+          e.fatherSurname  AS employeeFatherSurname,
+          ap.clientTimezone AS clientTimezone,
+          ap.timezoneSource AS timezoneSource,
+          ap.createdAt     AS createdAt,
+          ap.updatedAt     AS updatedAt
+        FROM AttendancePunch ap
+        LEFT JOIN ap.site s
+        LEFT JOIN s.project p
+        LEFT JOIN ap.user u
+        LEFT JOIN u.employee e
+        WHERE p.client.id IN :clientIds
+          AND ap.ts >= :start
+          AND ap.ts <  :endExclusive
+        """)
+    List<AttendancePunchProjection> findDtoByClientIdsAndDateBetween(
+        @Param("clientIds") List<Long> clientIds,
+        @Param("start") OffsetDateTime start,
+        @Param("endExclusive") OffsetDateTime endExclusive
+    );
+
+
 }

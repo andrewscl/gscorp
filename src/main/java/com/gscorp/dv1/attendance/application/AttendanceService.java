@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunch;
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
+import com.gscorp.dv1.attendance.web.dto.AttendancePunchDto;
 import com.gscorp.dv1.attendance.web.dto.CreateAttendancePunchRequest;
 import com.gscorp.dv1.attendance.web.dto.HourlyCountDto;
 import com.gscorp.dv1.sites.infrastructure.Site;
@@ -25,4 +26,7 @@ public interface AttendanceService {
     List<HourlyCountDto> getHourlyCounts(LocalDate date, String tz, String action, Long userId);
     long countByClientIdsAndDate(List<Long> clientIds, LocalDate date, String action, String tz);
 
+    List<AttendancePunchDto> findByUserAndDateBetween(
+        Long userId, LocalDate fromDate, LocalDate toDate, String clientTz);
+ 
 }
