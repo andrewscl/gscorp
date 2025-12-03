@@ -24,6 +24,7 @@ export default defineConfig({
         'private/admin/users/invite-user': path.resolve(__dirname, './src/private/admin/users/invite-user.js'),
         'private/attendance/attendance': path.resolve(__dirname, './src/private/attendance/attendance.js'),
         'private/attendance/attendance-table': path.resolve(__dirname, './src/private/attendance/attendance-table.js'),
+        'private/attendance/attendance-table-update': path.resolve(__dirname, './src/private/attendance/attendance-table-update.js'),
         'private/menu/private-menu': path.resolve(__dirname, './src/private/menu/private-menu.js'),
         'private/clients/create-client': path.resolve(__dirname, './src/private/clients/create-client.js'),
         'private/clients/edit-client': path.resolve(__dirname, './src/private/clients/edit-client.js'),
