@@ -35,7 +35,7 @@ public class AttendancePunch {
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   Long id;
 
-  @Column(nullable=false)
+  @Column(name = "user_id", nullable=false)
   Long userId;
 
   @Column(name="ts", nullable=false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
