@@ -191,11 +191,13 @@ public class SiteServiceImpl implements SiteService{
     public SiteSelectDto findNearestSite(Long userId, double lat, double lon) {
 
         List<Long> clientIds = clientService.getClientIdsByUserId(userId);
+        log.debug("findNearestSite: userId={}, clientIds={}", userId, clientIds);
         if(clientIds == null || clientIds.isEmpty()) {
             return null;
         }
 
         List<SiteSelectProjection> sites = siteRepository.findByClientIds(clientIds);
+        log.debug("findNearestSite: sites fetched={}, for userId={}", sites == null ? 0 : sites.size(), userId);
         if(sites == null || sites.isEmpty()) {
             return null;
         }
@@ -206,7 +208,10 @@ public class SiteServiceImpl implements SiteService{
             .min(Comparator.comparingDouble(
                         s -> haversineMeters(lat, lon, s.getLat(), s.getLon())));
 
-        if (nearest.isEmpty()) return null;
+        if (nearest.isEmpty()) {
+                log.debug("findNearestSite: after filtering, no sites with lat/lon for clientIds {}", clientIds);
+            return null;
+        }
 
         SiteSelectProjection p = nearest.get();
 
