@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gscorp.dv1.clients.application.ClientService;
-import com.gscorp.dv1.clients.web.dto.ClientBriefDto;
+import com.gscorp.dv1.clients.web.dto.ClientSelectDto;
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.enums.ForecastMetric;
@@ -234,9 +234,9 @@ public List<ForecastPointDto> getForecastSeriesForUserByDates(
             return new ForecastFormPayload(emptyPrefill, Collections.emptyList());
         }
 
-        List<ClientBriefDto> clients = Collections.emptyList();
+        List<ClientSelectDto> clients = Collections.emptyList();
         try {
-            clients = clientService.getBriefByUserId(userId);
+            clients = clientService.findClientsByUserId(userId);
             if(clients == null) clients = Collections.emptyList();
         } catch (Exception ex) {
             // loguear y continuar con lista vacía

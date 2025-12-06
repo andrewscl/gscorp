@@ -56,6 +56,6 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
         WHERE p.client.id IN :clientIds
         ORDER BY s.name
         """)
-    List<SiteListProjection> findByClientIds(@Param("clientIds") List<Long> clientIds);
+    List<SiteSelectProjection> findByClientIds(@Param("clientIds") List<Long> clientIds);
 
 }

@@ -1,5 +1,6 @@
 package com.gscorp.dv1.sites.application;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gscorp.dv1.clients.application.ClientService;
 import com.gscorp.dv1.sites.infrastructure.Site;
-import com.gscorp.dv1.sites.infrastructure.SiteListProjection;
+import com.gscorp.dv1.sites.infrastructure.SiteSelectProjection;
 import com.gscorp.dv1.sites.infrastructure.SiteRepository;
 import com.gscorp.dv1.sites.web.dto.SetSiteCoordinatesDto;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
@@ -143,9 +144,10 @@ public class SiteServiceImpl implements SiteService{
     @Transactional(readOnly = true)
     public List<SiteSelectDto> getAllSitesForClients(List<Long> clientIds) {
         return siteRepository.findByProject_Client_IdIn(clientIds)
-                .stream()
-                .map(site -> new SiteSelectDto(site.getId(), site.getName()))
-                .toList();
+            .stream()
+            .map(site -> new SiteSelectDto(site.
+                                getId(), site.getName(), site.getLat(), site.getLon()))
+            .toList();
     }
 
     // Nuevo método recomendado: devolver clientId del site (útil para validaciones rápidas)
@@ -163,12 +165,67 @@ public class SiteServiceImpl implements SiteService{
         return siteRepository.findSelectDtoByProjectId(projectId);
     }
 
+
     @Override
-    public List<SiteListProjection> findByUserId(Long userId) {
+    public List<SiteSelectDto> findByUserId(Long userId) {
 
         List<Long> clientIds = clientService.getClientIdsByUserId(userId);
+        if(clientIds == null || clientIds.isEmpty()) {
+            return null;
+        }
 
-        return siteRepository.findByClientIds(clientIds);
+        List<SiteSelectProjection> sites = siteRepository.findByClientIds(clientIds);
+        if(sites == null || sites.isEmpty()) {
+            return null;
+        }
+
+        List<SiteSelectDto> response = sites.stream()
+            .map(s -> new SiteSelectDto(s.getId(), s.getName(), s.getLat(), s.getLon()))
+            .toList();
+        
+        return response;
+    }
+
+
+    @Override
+    public SiteSelectDto findNearestSite(Long userId, double lat, double lon) {
+
+        List<Long> clientIds = clientService.getClientIdsByUserId(userId);
+        if(clientIds == null || clientIds.isEmpty()) {
+            return null;
+        }
+
+        List<SiteSelectProjection> sites = siteRepository.findByClientIds(clientIds);
+        if(sites == null || sites.isEmpty()) {
+            return null;
+        }
+
+        // Filtrar sites que tengan lat/lon válidos para evitar NPE en la comparación
+        Optional<SiteSelectProjection> nearest = sites.stream()
+            .filter(s -> s.getLat() != null && s.getLon() != null)
+            .min(Comparator.comparingDouble(
+                        s -> haversineMeters(lat, lon, s.getLat(), s.getLon())));
+
+        if (nearest.isEmpty()) return null;
+
+        SiteSelectProjection p = nearest.get();
+
+        // Mapear la proyección a tu DTO de salida. Ajusta constructor/nombres
+        // según tu DTO real.
+        return new SiteSelectDto(p.getId(), p.getName(), p.getLat(), p.getLon());
+
+    }
+
+
+    /** Utilidad geodésica */
+    @Override
+    @Transactional(readOnly = true)
+    public double haversineMeters(double lat1,double lon1,double lat2,double lon2){
+        double R=6371000, dLat=Math.toRadians(lat2-lat1), dLon=Math.toRadians(lon2-lon1);
+        double a=Math.sin(dLat/2)*Math.sin(dLat/2)
+               + Math.cos(Math.toRadians(lat1))*Math.cos(Math.toRadians(lat2))
+               * Math.sin(dLon/2)*Math.sin(dLon/2);
+    return 2*R*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
     }
 
 

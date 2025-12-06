@@ -14,6 +14,8 @@ import org.springframework.stereotype.Repository;
 public interface AttendancePunchRepo extends JpaRepository <AttendancePunch, Long>{
 
     Optional<AttendancePunch> findFirstByUserIdOrderByTsDesc(Long userId);
+
+    
     List<AttendancePunch> findByUserIdAndTsBetweenOrderByTsAsc(Long userId, OffsetDateTime from, OffsetDateTime to);
     // Para colaborador (por usuario + fecha):
     List<AttendancePunch> findByUserIdAndTsBetweenOrderByTsDesc(Long userId, OffsetDateTime from, OffsetDateTime to);

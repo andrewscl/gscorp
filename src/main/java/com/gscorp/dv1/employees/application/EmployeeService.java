@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.gscorp.dv1.employees.infrastructure.Employee;
 import com.gscorp.dv1.employees.web.dto.CreateEmployeeRequest;
+import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
 
 public interface EmployeeService {
 
@@ -21,5 +22,7 @@ public interface EmployeeService {
     List<Employee> findAllUnassignedEmployees();
 
     List<Employee> findAllWithUserAndProjectsAndPosition();
+
+    EmployeeSelectDto findEmployeeByUserId(Long userId);
     
 }

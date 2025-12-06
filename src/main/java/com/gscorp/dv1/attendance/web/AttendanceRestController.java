@@ -1,19 +1,20 @@
 package com.gscorp.dv1.attendance.web;
 
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gscorp.dv1.attendance.application.AttendanceService;
-import com.gscorp.dv1.attendance.application.AttendanceServiceImpl;
+import com.gscorp.dv1.attendance.web.dto.AttendancePunchDto;
 import com.gscorp.dv1.attendance.web.dto.CreateAttendancePunchRequest;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
+import com.gscorp.dv1.users.application.UserService;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
@@ -23,63 +24,71 @@ import java.util.Map;
 public class AttendanceRestController {
 
   private final SiteService siteService;
-
-  private final AttendanceServiceImpl svc;
+  private final UserService userService;
   private final AttendanceService attendanceService;
 
 
-  @Data
-  public static class PunchReq { 
-      @NotNull Double lat; 
-      @NotNull Double lon; 
-      Double accuracy; 
-      @NotNull Long siteId; 
-  }
-
   //Registrar asistencia
   @PostMapping("/punch")
-  public ResponseEntity<?> punch(@RequestBody PunchReq in, Authentication auth,
-                                 @RequestHeader(value="User-Agent", required=false) String ua,
-                                 @RequestHeader(value="X-Forwarded-For", required=false) String xff,
-                                 @RequestHeader(value="CF-Connecting-IP", required=false) String cfIp,
-                                 @RequestHeader(value="X-Real-IP", required=false) String xri) {
-    Long userId = currentUserId(auth);
-    String ip = firstNonBlank(cfIp, xff, xri, "0.0.0.0");
+  public ResponseEntity<?> punch(
+              @RequestBody CreateAttendancePunchRequest in,
+              Authentication authentication,
+              UriComponentsBuilder ucb,
+              @RequestHeader(value="User-Agent", required=false) String ua,
+              @RequestHeader(value="X-Forwarded-For", required=false) String xff,
+              @RequestHeader(value="CF-Connecting-IP", required=false) String cfIp,
+              @RequestHeader(value="X-Real-IP", required=false) String xri) {
 
-    //Construir DTO
-    CreateAttendancePunchRequest dto = new CreateAttendancePunchRequest();
-            dto.setUserId(userId);
-            dto.setLat(in.lat);
-            dto.setLon(in.lon);
-            dto.setAccuracy(in.accuracy);
-            dto.setIp(ip);
-            dto.setDeviceInfo(ua);
-            dto.setSiteId(in.siteId);
+      Long userId = userService.getUserIdFromAuthentication(authentication);
+            if (userId == null) {
+              // no autenticado: redirigir al login o devolver error según tu política
+              return ResponseEntity.status(401).build();
+      }
 
-    var saved = attendanceService.punch(dto);
+      String ip = firstNonBlank(cfIp, xff, xri, "0.0.0.0");
+      if (in.getIp() == null) in.setIp(ip);
+      if (in.getDeviceInfo() == null) in.setDeviceInfo(ua);
 
-    return ResponseEntity.ok(saved);
+      AttendancePunchDto saved = attendanceService.createPunch(in, userId);
+
+      URI location = ucb.path("/api/attendance/punch/{id}")
+          .buildAndExpand(saved.id())
+          .toUri();
+
+      return ResponseEntity.created(location).body(saved);
   }
+
+
 
   // CONSULTAR ÚLTIMA MARCACIÓN DEL USUARIO
   @GetMapping("/last-punch")
-  public ResponseEntity<?> lastPunch(Authentication auth) {
-    Long userId = currentUserId(auth);
-    var lastOpt = svc.lastPunch(userId);
+  public ResponseEntity<?> lastPunch(Authentication authentication) {
+
+      Long userId = userService.getUserIdFromAuthentication(authentication);
+            if (userId == null) {
+              // no autenticado: redirigir al login o devolver error según tu política
+              return ResponseEntity.status(401).build();
+      }
+
+    var lastOpt = attendanceService.lastPunch(userId);
+
     if (lastOpt.isEmpty()) {
       // No hay marcación aún
       return ResponseEntity.ok(Map.of());
     }
+
     var last = lastOpt.get();
+
     // Puedes retornar solo la acción, o extender la info según requiera el frontend
     return ResponseEntity.ok(Map.of(
       "action", last.getAction(),
       "ts", last.getTs().toString()
     ));
+
   }
 
   private static String firstNonBlank(String ...arr){ for (var s:arr) if (s!=null && !s.isBlank()) return s; return null; }
-  private Long currentUserId(Authentication auth){ return 1L; } // TODO: id real desde tu SecurityUser/JWT
+
 
   @GetMapping("/sites")
   @ResponseBody

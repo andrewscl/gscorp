@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.security.core.Authentication;
 
 import com.gscorp.dv1.clients.infrastructure.Client;
-import com.gscorp.dv1.clients.web.dto.ClientBriefDto;
+import com.gscorp.dv1.clients.web.dto.ClientSelectDto;
 import com.gscorp.dv1.clients.web.dto.ClientDto;
 
 public interface ClientService {
@@ -16,7 +16,9 @@ public interface ClientService {
     List<ClientDto> getAllClients();
     Client findByIdWithUsers (Long id);
     void deleteById(Long id);
+
     List<Long> getClientIdsByUserId(Long userId);
+    
     List<Long> getClientIdsForAuthentication(Authentication authentication);
         /**
      * Resuelve una lista final de clientIds teniendo en cuenta:
@@ -33,7 +35,7 @@ public interface ClientService {
 
     List<ClientDto> findDtosByUserId(Long userId);
 
-    List<ClientBriefDto> getBriefByUserId(Long userId);
+    List<ClientSelectDto> findClientsByUserId(Long userId);
     
 
 }

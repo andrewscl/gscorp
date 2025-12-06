@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.gscorp.dv1.sites.infrastructure.Site;
-import com.gscorp.dv1.sites.infrastructure.SiteListProjection;
 import com.gscorp.dv1.sites.web.dto.SetSiteCoordinatesDto;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
 import com.gscorp.dv1.sites.web.dto.SiteSelectDto;
@@ -24,5 +23,11 @@ public interface SiteService {
 
     List<SiteSelectDto> findSelectDtoByProjectId(Long projectId);
 
-    List<SiteListProjection> findByUserId(Long userId);
+    List<SiteSelectDto> findByUserId(Long userId);
+
+    SiteSelectDto findNearestSite(Long userId, double lat, double lon);
+
+
+    double haversineMeters(double lat1,double lon1,double lat2,double lon2);
+
 }

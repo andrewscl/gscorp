@@ -34,9 +34,6 @@ public interface UserService {
     Long getUserIdFromAuthentication(Authentication authentication);
     boolean isAdmin(Authentication authentication);
 
-
-
-
     List<Long> getClientIdsForUser(Long userId);
 
     /**
@@ -46,6 +43,8 @@ public interface UserService {
     Optional<ZoneId> getUserZone(Long userId);
 
     Optional<User> updateUser(Long userId, UserUpdateDto dto);
+
+    Optional<Long> findEmployeeIdByUserId(Long userId);
 
 
 }

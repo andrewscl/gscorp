@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long>{
     
@@ -25,5 +26,10 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
     @Query("SELECT e FROM Employee e")
     List<Employee> findAllWithUserAndProjectsAndPosition();
 
+    /**
+     * Spring Data deriva la query y devuelve la proyección.
+     * Nota importante: el nombre debe usar la propiedad anidada "user.id" => user_Id
+     */
+    Optional<EmployeeSelectProjection> findByUser_Id(Long userId);
 
 }

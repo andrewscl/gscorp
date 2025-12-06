@@ -3,6 +3,7 @@ package com.gscorp.dv1.attendance.application;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,14 +15,15 @@ import com.gscorp.dv1.attendance.web.dto.CreateAttendancePunchRequest;
 import com.gscorp.dv1.attendance.web.dto.HourlyCountDto;
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
-import com.gscorp.dv1.sites.infrastructure.Site;
-import com.gscorp.dv1.sites.infrastructure.SiteRepository;
+import com.gscorp.dv1.employees.application.EmployeeService;
+import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
+import com.gscorp.dv1.sites.application.SiteService;
+import com.gscorp.dv1.sites.web.dto.SiteSelectDto;
 import com.gscorp.dv1.users.application.UserService;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,58 +34,120 @@ import java.util.stream.Collectors;
 public class AttendanceServiceImpl implements AttendanceService {
 
   private final AttendancePunchRepo repo;
-  private final SiteRepository siteRepo;
+  private final SiteService siteService;
   private final UserService userService;
+  private final EmployeeService employeeService;
   private final ZoneResolver zoneResolver;
 
   private static final double MAX_DIST_METERS = 250.0;
-  private static final long   MIN_GAP_SECONDS = 60;
-
-  /** Encuentra el site más cercano a la ubicación dada */
-  public Site findNearestSite(double lat, double lon) {
-    List<Site> allSites = siteRepo.findAll();
-    return allSites.stream()
-        .min(Comparator.comparing(site -> haversineMeters(lat, lon, site.getLat(), site.getLon())))
-        .orElse(null);
-  }
+  private static final DateTimeFormatter TS_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
   /** COMANDO: registrar marcación IN/OUT alternada usando el site más cercano */
+  @Override
   @Transactional
-  public AttendancePunch punch(Long userId, double lat, double lon, Double acc, String ip, String ua, Site site) {
-    var now  = OffsetDateTime.now();
-    var last = repo.findFirstByUserIdOrderByTsDesc(userId).orElse(null);
+  public AttendancePunchDto createPunch(
+      CreateAttendancePunchRequest req, Long userId
+    ) {
 
-    if (last != null && Duration.between(last.getTs(), now).getSeconds() < MIN_GAP_SECONDS) {
-      return last; // anti doble click
-    }
+      // anti doble-click: buscar última marcación del usuario
+      Optional<AttendancePunch> lastOpt = repo.findFirstByUserIdOrderByTsDesc(userId);
+      AttendancePunch last = lastOpt.orElse(null);
 
-    // Busca el site más cercano a la marcación
-    Site nearestSite = findNearestSite(lat, lon);
-    if (nearestSite == null) throw new IllegalStateException("No hay sitios registrados");
+      //Resolver zona para ahora()
+      ZoneResolutionResult zoneResult = zoneResolver.
+                                          resolveZone(userId, req.getClientTimezone());
+      ZoneId zone = zoneResult.zoneId();
+      var now  = OffsetDateTime.now(zone);
 
-    double siteLat = nearestSite.getLat();
-    double siteLon = nearestSite.getLon();
+      // determinar lat/lon/accuracy desde request y validar que existan
+      Double lat = req.getLat();
+      Double lon = req.getLon();
+      Double acc = req.getAccuracy();
 
-    double dist = haversineMeters(lat, lon, siteLat, siteLon);
-    boolean ok  = dist <= MAX_DIST_METERS;
+      if (lat == null || lon == null) {
+        throw new IllegalArgumentException("lat/lon son obligatorios para crear una marcación");
+      }
 
-    String nextAction = (last == null || "OUT".equalsIgnoreCase(last.getAction())) ? "IN" : "OUT";
+      // Busca el site más cercano a la marcación
+      SiteSelectDto nearestSite = siteService.findNearestSite(userId, lat, lon);
+      if (nearestSite == null)
+                throw new IllegalStateException("No hay sitios registrados");
 
-    var p = AttendancePunch.builder()
-        .userId(userId)
-        .ts(now)
-        .lat(lat).lon(lon).accuracyM(acc)
-        .action(nextAction)
-        .locationOk(ok).distanceM(dist)
-        .ip(ip).deviceInfo(ua)
-        .site(nearestSite)
-        .build();
+      double siteLat = nearestSite.lat();
+      double siteLon = nearestSite.lon();
 
-    // Si quieres guardar el ID del site más cercano, agrega este campo en AttendancePunch y setéalo aquí:
-    // p.setSiteId(nearestSite.getId());
+      // Obtener empleado asociado al userId
+      EmployeeSelectDto employee = employeeService.findEmployeeByUserId(userId);
+      if (employee == null) {
+        throw new IllegalStateException("El usuario no tiene un empleado asociado");
+      }
 
-    return repo.save(p);
+      String ip = req.getIp();
+      String ua = req.getDeviceInfo();
+
+      double dist = siteService.haversineMeters(lat, lon, siteLat, siteLon);
+      boolean ok  = dist <= MAX_DIST_METERS;
+
+      String nextAction =
+              (last == null || "OUT".equalsIgnoreCase(last.getAction())) ? "IN" : "OUT";
+
+      AttendancePunch entity = AttendancePunch.builder()
+          .siteId(nearestSite.id())
+          .employeeId(employee.id())
+          .userId(userId)
+          .clientTs(req.getClientTs())
+          .lat(lat)
+          .lon(lon)
+          .accuracyM(acc)
+          .action(nextAction)
+          .locationOk(ok)
+          .distanceM(dist)
+          .ip(ip)
+          .deviceInfo(ua)
+          .clientTimezone(req.getClientTimezone())
+          .build();
+
+      // Persistir entidad y manejar posibles violaciones de integridad/concurrencia
+      AttendancePunch persisted;
+      try {
+          persisted = repo.save(entity);
+          // flush opcional si quieres asegurar que constraints sean validados ahora: repo.flush();
+      } catch (DataIntegrityViolationException ex) {
+          // Capturar race-conditions (por ejemplo si employee fue asociado por otro hilo) y volver a informar
+          throw new IllegalStateException("No se pudo crear la marcación por conflicto de integridad", ex);
+      }
+
+      //Formatear ts para la respuesta (user ts persistido para consistencia)
+      OffsetDateTime ts = persisted.getTs() != null ? persisted.getTs() : now;
+      String tsFormatted = ts.format(TS_FMT);
+
+      AttendancePunchDto response  = new AttendancePunchDto(
+          persisted.getId(),
+          persisted.getUserId(),
+          employee.id(),
+          employee.name(),
+          employee.fatherSurname(),
+          persisted.getSiteId(),
+          nearestSite.name(),
+          ts,
+          persisted.getLat(),
+          persisted.getLon(),
+          persisted.getAccuracyM(),
+          persisted.getAction(),
+          persisted.getLocationOk(),
+          persisted.getDistanceM(),
+          persisted.getDeviceInfo(),
+          persisted.getIp(),
+          persisted.getTimezoneSource(),
+          persisted.getCreatedAt(),
+          persisted.getUpdatedAt(),
+          tsFormatted
+      );
+
+    return response;
   }
+
+
 
   /** ÚLTIMA marcación del usuario */
   @Transactional(readOnly = true)
@@ -91,42 +155,20 @@ public class AttendanceServiceImpl implements AttendanceService {
     return repo.findFirstByUserIdOrderByTsDesc(userId);
   }
 
+
   /** SERIE por usuario y rango (opcional: acción "IN"/"OUT") */
   @Transactional(readOnly = true)
   public List<AttendancePunchRepo.DayCount> seriesByUser(Long userId, LocalDate from, LocalDate to, String action) {
     return repo.countByDay(from, to, action, userId);
   }
 
-  /** Lista de marcaciones del usuario en el rango (detalle) */
+
+  @Override
   @Transactional(readOnly = true)
-  public List<AttendancePunch> listForUser(Long userId, LocalDate from, LocalDate to, ZoneId zone) {
-    var fromTs = from.atStartOfDay(zone).toOffsetDateTime();
-    var toTs   = to.plusDays(1).atStartOfDay(zone).minusNanos(1).toOffsetDateTime();
-    return repo.findByUserIdAndTsBetweenOrderByTsDesc(userId, fromTs, toTs);
-  }
-
-  /** Utilidad geodésica */
-  public double haversineMeters(double lat1,double lon1,double lat2,double lon2){
-    double R=6371000, dLat=Math.toRadians(lat2-lat1), dLon=Math.toRadians(lon2-lon1);
-    double a=Math.sin(dLat/2)*Math.sin(dLat/2)
-           + Math.cos(Math.toRadians(lat1))*Math.cos(Math.toRadians(lat2))
-           * Math.sin(dLon/2)*Math.sin(dLon/2);
-    return 2*R*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
-  }
-
   public long countByClientIdAndDate(Long clientId, LocalDate date) {
     var fromTs = date.atStartOfDay(ZoneId.systemDefault()).toOffsetDateTime();
     var toTs   = date.plusDays(1).atStartOfDay(ZoneId.systemDefault()).minusNanos(1).toOffsetDateTime();
     return repo.countByClientIdAndTsBetween(clientId, fromTs, toTs);
-  }
-
-  @Override
-  @Transactional
-  public AttendancePunch punch(CreateAttendancePunchRequest dto) {
-    Site site = siteRepo.findById(dto.getSiteId())
-        .orElseThrow(() -> new IllegalArgumentException("Site no encontrado: " + dto.getSiteId()));
-    return punch(dto.getUserId(), dto.getLat(), dto.getLon(),
-                  dto.getAccuracy(), dto.getIp(), dto.getDeviceInfo(), site);
   }
 
 
@@ -159,11 +201,13 @@ public class AttendanceServiceImpl implements AttendanceService {
         .toList();
   }
 
+  //Helper
   private static String normalizeAction(String a) {
     if (a == null) return null;
     var t = a.trim();
     return t.isEmpty() ? null : t.toUpperCase();
   }
+
 
     @Override
     @Transactional(readOnly = true)
@@ -186,7 +230,6 @@ public class AttendanceServiceImpl implements AttendanceService {
         // llama al repo JPQL que hace JOIN client->project->site->attendance
         return repo.countByClientIdsAndTsBetweenAndAction(clientIds, from, to, action);
     }
-
 
 
     @Override
@@ -262,7 +305,6 @@ public class AttendanceServiceImpl implements AttendanceService {
 
 
     }
-    
 
 
 }

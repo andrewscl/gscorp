@@ -7,7 +7,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.gscorp.dv1.employees.infrastructure.Employee;
 import com.gscorp.dv1.sites.infrastructure.Site;
 import com.gscorp.dv1.users.infrastructure.User;
 
@@ -31,65 +31,77 @@ import lombok.Setter;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class AttendancePunch {
 
-  @Id
-  @GeneratedValue(strategy=GenerationType.IDENTITY)
-  Long id;
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    Long id;
 
-  @Column(name = "user_id", nullable=false)
-  Long userId;
+    // FK columns (escribibles directamente)
+    @Column(name = "site_id")
+    private Long siteId;
 
-  @Column(name="ts", nullable=false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
-  OffsetDateTime ts;
+    @Column(name = "employee_id", nullable = false)
+    private Long employeeId;
 
-  Double lat;
-  Double lon;
-  Double accuracyM;
+    @Column(name = "user_id")
+    private Long userId;
+
+    // Relaciones solo lectura (no insert/update desde JPA)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "site_id", insertable = false, updatable = false)
+    private Site site;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="employee_id", insertable =false, updatable=false)
+    private Employee employee;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    private User user;
+
+    @Column(name="ts", nullable=false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    OffsetDateTime ts;
+
+    @Column(name="client_ts", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    OffsetDateTime clientTs;
+
+    Double lat;
+    Double lon;
+    Double accuracyM;
   
-  @Column(nullable=false, length=8)
-  String action;      // "in" | "out"
+    @Column(nullable=false, length=8)
+    String action;      // "in" | "out"
 
-  @Column(nullable=false)
-  Boolean locationOk;
+    @Column(nullable=false)
+    Boolean locationOk;
 
-  Double distanceM;
+    Double distanceM;
 
-  @Column(columnDefinition="text")
-  String deviceInfo;
+    @Column(columnDefinition="text")
+    String deviceInfo;
 
-  @JdbcTypeCode(SqlTypes.INET)
-  @Column(columnDefinition="inet")
-  String ip;
+    @JdbcTypeCode(SqlTypes.INET)
+    @Column(columnDefinition="inet")
+    String ip;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "site_id")
-  private Site site;
+    // Guarda la zona IANA utilizada para interpretar/mostrar la hora (ej. "America/Santiago")
+    @Column(name = "client_timezone", length = 64)
+    private String clientTimezone;
 
-  // Nueva relación hacia User (lectura, userId sigue siendo la columna "oficial")
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id", insertable = false, updatable = false)
-  @JsonIgnore
-  private User user;
+    // Fuente de la zona (REQUESTED | USER_PROFILE | SYSTEM_DEFAULT)
+    @Column(name = "timezone_source", length = 32)
+    private String timezoneSource;
 
-      // Guarda la zona IANA utilizada para interpretar/mostrar la hora (ej. "America/Santiago")
-  @Column(name = "client_timezone", length = 64)
-  private String clientTimezone;
+    @PrePersist
+    void onCreate() {
+      if (ts == null) ts = OffsetDateTime.now();
+    }
 
-  // Fuente de la zona (REQUESTED | USER_PROFILE | SYSTEM_DEFAULT)
-  @Column(name = "timezone_source", length = 32)
-  private String timezoneSource;
+    @CreationTimestamp
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP WITH TIME ZONE", updatable = false)
+    private OffsetDateTime createdAt;
 
-  @PrePersist
-  void onCreate() {
-    if (ts == null) ts = OffsetDateTime.now();
-  }
-
-  @CreationTimestamp
-  @Column(name = "created_at", columnDefinition = "TIMESTAMP WITH TIME ZONE", updatable = false)
-  private OffsetDateTime createdAt;
-
-  @UpdateTimestamp
-  @Column(name = "updated_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
-  private OffsetDateTime updatedAt;
-
+    @UpdateTimestamp
+    @Column(name = "updated_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private OffsetDateTime updatedAt;
 
 }

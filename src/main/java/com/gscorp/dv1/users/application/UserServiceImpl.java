@@ -136,51 +136,70 @@ public class UserServiceImpl implements UserService{
         return userRepo.findAllWithRolesAndClients();
     }
 
+
+
     @Override
     public User createInvitedUser(InviteUserRequest request) {
         User user = new User();
         user.setUsername(request.username());
         user.setMail(request.mail());
         user.setActive(true);
-
-        // Asignar roles
-        Set<Role> roles = new HashSet<>();
-        if (request.roleIds() != null) {
-            for (Long roleId : request.roleIds()) {
-                    roleRepo.findById(roleId).ifPresent(roles::add);
-            }
-        }
-        user.setRoles(roles);
-
-        // Asignar clientes
-        Set<Client> clients = new HashSet<>();
-        if (request.clientIds() != null) {
-            for (Long clientId : request.clientIds()) {
-                clientRepo.findById(clientId).ifPresent(clients::add);
-            }
-        }
-        user.setClients(clients);
-
-        //Asociar empleado
-        if(request.employeeId() != null) {
-            Employee employee = employeeRepo.findById(request.employeeId())
-                .orElseThrow(() -> new IllegalArgumentException(
-                                        "Empleado no encontrado"));
-            if(employee.getUser() != null) {
-                throw new IllegalArgumentException(
-                    "Empleado ya asociado a un usuario");
-            }
-            employeeRepo.findById(request.employeeId())
-                .ifPresent(user::setEmployee);
-        }
-
         //NO contraseña aun, ni token (El controller gestiona eso)
         user.setPassword(null);
         user.setInvitationToken(null);
         user.setInvitationTokenExpiry(null);
 
-        return userRepo.save(user);
+        // Asignar roles
+        if (request.roleIds() != null) {
+            Set<Role> roles = new HashSet<>();
+            for (Long roleId : request.roleIds()) {
+                    roleRepo.findById(roleId).ifPresent(roles::add);
+            }
+            user.setRoles(roles);
+        }
+
+        // Asignar clientes
+        if (request.clientIds() != null) {
+            Set<Client> clients = new HashSet<>();
+            for (Long clientId : request.clientIds()) {
+                clientRepo.findById(clientId).ifPresent(clients::add);
+            }
+            user.setClients(clients);
+        }
+
+        //Asociar empleado
+        Employee employee = null;
+        if(request.employeeId() != null) {
+            employee = employeeRepo.findById(request.employeeId())
+                .orElseThrow(() -> new IllegalArgumentException("Empleado no encontrado"));
+
+            if(employee.getUser() != null) {
+                throw new IllegalArgumentException("Empleado ya asociado a un usuario");
+            }
+
+            // asignar en el owning side (User tiene @JoinColumn(employee_id))
+            user.setEmployee(employee);
+        }
+
+        // persistir usuario (incluye employee_id si fue seteado)
+        User savedUser;
+        try {
+            savedUser = userRepo.save(user);
+        } catch (DataIntegrityViolationException ex) {
+            // posible race condition si otro hilo asignó el mismo employee; manejar claramente
+            throw new IllegalStateException("No se pudo crear el usuario: conflicto de integridad", ex);
+        }
+
+        // sincronizar el lado inverso en memoria para la misma transacción
+        if (employee != null) {
+            employee.setUser(savedUser);
+            // no es necesario guardar employee porque employee es el lado inverso (la columna está en user)
+        }
+
+        return savedUser;
     }
+
+
 
     //Valida token de invitación (para frontend)
     @Override
@@ -191,6 +210,7 @@ public class UserServiceImpl implements UserService{
         return user.getInvitationTokenExpiry() != null && 
                user.getInvitationTokenExpiry().isAfter(LocalDateTime.now());
     }
+
 
     //Define la contraseña a partir del token de invitación
     @Override
@@ -484,5 +504,11 @@ public class UserServiceImpl implements UserService{
         }
     }
 
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Long> findEmployeeIdByUserId(Long userId) {
+        return userRepo.findEmployeeIdByUserId(userId);
+    }
 
 }

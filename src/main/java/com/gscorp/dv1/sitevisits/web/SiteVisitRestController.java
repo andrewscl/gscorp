@@ -52,6 +52,8 @@ public class SiteVisitRestController {
         return siteService.getAllSites();
     }
 
+
+
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<SiteVisitDto> createSiteSupervisionVisit(
         @Valid @ModelAttribute CreateSiteSupervisionVisitRequest req,
@@ -74,6 +76,8 @@ public class SiteVisitRestController {
 
         return ResponseEntity.created(location).body(saved);
     }
+
+
 
     @GetMapping("/series")
     public List<SiteVisitPointDto> SiteSupervisionVisitsByUserSeries(

@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import com.gscorp.dv1.employees.infrastructure.Employee;
 import com.gscorp.dv1.sites.infrastructure.Site;
+import com.gscorp.dv1.users.infrastructure.User;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,6 +41,10 @@ public class SiteVisit {
     @ManyToOne(optional=false, fetch=FetchType.LAZY)
     @JoinColumn(name="employee_id", nullable=false)
     private Employee employee;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne(optional=false, fetch=FetchType.LAZY)
     @JoinColumn(name="site_id", nullable=false)

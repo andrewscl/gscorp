@@ -17,6 +17,7 @@ import com.gscorp.dv1.bank.infrastructure.Bank;
 import com.gscorp.dv1.employees.infrastructure.Employee;
 import com.gscorp.dv1.employees.infrastructure.EmployeeRepository;
 import com.gscorp.dv1.employees.web.dto.CreateEmployeeRequest;
+import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
 import com.gscorp.dv1.nationalities.application.NationalityService;
 import com.gscorp.dv1.nationalities.infrastructure.Nationality;
 import com.gscorp.dv1.positions.application.PositionService;
@@ -203,15 +204,23 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Employee> findAllUnassignedEmployees() {
         return employeeRepository.findAllUnassignedEmployees();
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Employee> findAllWithUserAndProjectsAndPosition() {
         return employeeRepository.findAllWithUserAndProjectsAndPosition();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public EmployeeSelectDto findEmployeeByUserId(Long userId) {
+        return employeeRepository.findByUser_Id(userId)
+                .map(EmployeeSelectDto::fromProjection)
+                .orElse(null);
     }
 
 }

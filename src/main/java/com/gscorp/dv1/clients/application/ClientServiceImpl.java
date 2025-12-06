@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gscorp.dv1.clients.infrastructure.Client;
-import com.gscorp.dv1.clients.infrastructure.ClientBriefProjection;
+import com.gscorp.dv1.clients.infrastructure.ClientSelectProjection;
 import com.gscorp.dv1.clients.infrastructure.ClientRepository;
-import com.gscorp.dv1.clients.web.dto.ClientBriefDto;
+import com.gscorp.dv1.clients.web.dto.ClientSelectDto;
 import com.gscorp.dv1.clients.web.dto.ClientDto;
 import com.gscorp.dv1.users.application.UserService;
 
@@ -72,6 +72,7 @@ public class ClientServiceImpl implements ClientService{
         }
     }
 
+
     @Override
     @Transactional(readOnly = true)
     @Cacheable(value = "userClientIds", key = "#userId")
@@ -80,6 +81,7 @@ public class ClientServiceImpl implements ClientService{
         List<Long> ids = clientRepo.findClientIdsByUserId(userId);
         return ids == null ? Collections.emptyList() : ids;
     }
+
 
     @Override
     @Transactional(readOnly = true)
@@ -104,6 +106,7 @@ public class ClientServiceImpl implements ClientService{
         return requestedClientIds;
     }
 
+
     @Override
     public void ensureUserHasAccess(Authentication authentication, Collection<Long> clientIds) {
         if (clientIds == null || clientIds.isEmpty()) return;
@@ -118,6 +121,7 @@ public class ClientServiceImpl implements ClientService{
         }
     }
 
+
     @Override
     @Transactional(readOnly = true)
     public List<ClientDto> findDtosByUserId(Long userId) {
@@ -131,14 +135,15 @@ public class ClientServiceImpl implements ClientService{
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public List<ClientBriefDto> getBriefByUserId(Long userId) {
 
-        List<ClientBriefProjection> rows = clientRepo.findBriefByUserId(userId);
+    @Override
+    public List<ClientSelectDto> findClientsByUserId(Long userId) {
+
+        List<ClientSelectProjection> rows = clientRepo.findClientsByUserId(userId);
 
         return rows
         .stream()
-        .map(ClientBriefDto::fromProjection)
+        .map(ClientSelectDto::fromProjection)
         .collect(Collectors.toList());  
     }
 

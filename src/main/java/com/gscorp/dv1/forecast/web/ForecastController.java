@@ -20,7 +20,7 @@ import com.gscorp.dv1.forecast.application.ForecastService;
 import com.gscorp.dv1.forecast.web.dto.ForecastFormPayload;
 import com.gscorp.dv1.forecast.web.dto.ForecastTableRowDto;
 import com.gscorp.dv1.sites.application.SiteService;
-import com.gscorp.dv1.sites.infrastructure.SiteListProjection;
+import com.gscorp.dv1.sites.web.dto.SiteSelectDto;
 import com.gscorp.dv1.users.application.UserService;
 
 import lombok.AllArgsConstructor;
@@ -57,7 +57,7 @@ public class ForecastController {
         ZoneResolutionResult zr = zoneResolver.resolveZone(userId, zone);
         ZoneId zoneId = zr.zoneId();
 
-        List<SiteListProjection> siteNames = siteService.findByUserId(userId);
+        List<SiteSelectDto> siteNames = siteService.findByUserId(userId);
         List<ForecastMetric> metrics = List.of(ForecastMetric.values());
 
         // Llamada al service pasando ZoneId validado

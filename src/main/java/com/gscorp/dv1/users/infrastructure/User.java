@@ -38,12 +38,20 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name="username", unique=true, nullable=false, length=64)
     private String username;
+
     private String mail;
+
     private String phone;
+
     private String password;
+
     private Boolean active;
+
     private String invitationToken;
+
     private LocalDateTime invitationTokenExpiry;
 
     @ManyToMany (fetch = FetchType.EAGER) //Carga los roles junto con el usuario.

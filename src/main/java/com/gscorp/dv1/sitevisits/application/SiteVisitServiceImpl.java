@@ -1,5 +1,8 @@
 package com.gscorp.dv1.sitevisits.application;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+
 import java.io.File;
 import java.time.DateTimeException;
 import java.time.Instant;
@@ -19,7 +22,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +29,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.employees.application.EmployeeService;
+import com.gscorp.dv1.employees.infrastructure.Employee;
+import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sitevisits.infrastructure.SiteVisit;
 import com.gscorp.dv1.sitevisits.infrastructure.SiteVisitDtoProjection;
@@ -38,6 +42,7 @@ import com.gscorp.dv1.sitevisits.web.dto.SiteVisitDto;
 import com.gscorp.dv1.sitevisits.web.dto.SiteVisitHourlyDto;
 import com.gscorp.dv1.sitevisits.web.dto.SiteVisitPointDto;
 import com.gscorp.dv1.users.application.UserService;
+import com.gscorp.dv1.users.infrastructure.User;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +57,9 @@ public class SiteVisitServiceImpl implements SiteVisitService{
     private final SiteService siteService;
     private final UserService userService;
     private final ZoneResolver zoneResolver;
+
+    @PersistenceContext
+    private EntityManager em;
 
     @Value("${file.supervision_files-dir}")
     private String uploadFilesDir;
@@ -105,14 +113,17 @@ public class SiteVisitServiceImpl implements SiteVisitService{
             throw new RuntimeException("Error al guardar archivos", e);
         }
 
-        //Buscar empleado
-        String username = SecurityContextHolder.getContext()
-                            .getAuthentication().getName();
+        // Obtener empleado asociado al userId
+        EmployeeSelectDto employee = employeeService.findEmployeeByUserId(userId);
+        if (employee == null) {
+            throw new IllegalStateException("El usuario no tiene un empleado asociado");
+        }
 
-        // Buscar el empleado por el usuario (ajusta este método según tu EmployeeService)
-        var employee = employeeService.findByUsername(username)
-            .orElseThrow(() -> 
-                new IllegalArgumentException("Empleado no encontrado para usuario: " + username));
+        // obtener referencia (proxy) a Employee sin SELECT inmediato
+        Employee employeeRef = em.getReference(Employee.class, employee.id());
+
+        // si quieres también establecer el User (opcional, user_id en site_visit)
+        User userRef = em.getReference(User.class, userId); // o us
 
         //Buscar sitio
         var site = siteService.findById(req.getSiteId())
@@ -154,8 +165,9 @@ public class SiteVisitServiceImpl implements SiteVisitService{
 
         //Construir entidad
         var entity = SiteVisit.builder()
+            .user(userRef)
+            .employee(employeeRef)
             .site(site)
-            .employee(employee)
             .visitDateTime(visitDateTimeUtc)
             .latitude(req.getLatitude())
             .longitude(req.getLongitude())
