@@ -39,7 +39,7 @@ public class AttendancePunch {
     @Column(name = "site_id")
     private Long siteId;
 
-    @Column(name = "employee_id", nullable = false)
+    @Column(name = "employee_id")
     private Long employeeId;
 
     @Column(name = "user_id")
