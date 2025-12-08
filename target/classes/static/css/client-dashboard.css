@@ -1,8 +1,10 @@
 @charset "UTF-8";
-/* client-dashboard.scss
-   Versión actualizada para el dashboard con layout "integrado" (donut + meta/totales a la derecha)
-   Scoped bajo #client-dashboard-root.
-   Incluye daily & weekly con el mismo patrón, charts, responsive y accesibilidad.
+/* client-dashboard.scss - versión refinada
+   Recomendaciones aplicadas:
+   - asegurar tamaño/position para contenedores de charts
+   - placeholder para "no data"
+   - reducir uso de !important
+   - conservar variables para ajustes rápidos
 */
 #client-dashboard-root {
   --bg: #f8fafc;
@@ -19,9 +21,10 @@
   --gap: 1rem;
   --max-width: 1200px;
   /* Altura única y variables para charts */
-  --chart-height-default: 260px; /* altura uniforme para la mayoría de charts */
+  --chart-height-default: 260px;
   --chart-height-daily: var(--chart-height-default);
   --chart-height-weekly: var(--chart-height-default);
+  --chart-height-full: 300px;
   box-sizing: border-box;
   width: 100%;
   margin: 0 auto;
@@ -29,7 +32,11 @@
   color: var(--text);
   font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   background: transparent;
-  /* ================= UNIFICACIÓN: regla única para todos los chart bodies ================= */
+  /* Chart body: regla central y explícita para eCharts */
+  /* placeholder para "no data" o errores */
+  /* asegurar que el canvas/SVG de eCharts ocupe todo el contenedor */
+  /* Donut styles */
+  /* Integrated donuts: limit max-width to avoid ocupar todo el espacio izquierdo */
 }
 #client-dashboard-root .container-inner {
   max-width: var(--max-width);
@@ -58,17 +65,41 @@
   font-weight: 600;
   color: var(--text);
 }
-#client-dashboard-root .card > .chart-body,
-#client-dashboard-root .card > div[id^=chart-] {
-  width: 100% !important;
-  max-width: 100% !important;
-  min-width: 0 !important;
-  height: var(--chart-height-default) !important;
-  min-height: 160px !important;
+#client-dashboard-root .chart-body,
+#client-dashboard-root div[id^=chart-] {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  position: relative; /* importante para overlays/placeholder */
+  height: var(--chart-height-default); /* default, puede ser sobrescrito por row-specific */
+  min-height: 160px;
   border-radius: 8px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
-  overflow: hidden !important;
-  box-sizing: border-box !important;
+  overflow: hidden;
+}
+#client-dashboard-root .chart-placeholder {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  font-size: 14px;
+  pointer-events: none;
+  z-index: 2;
+  background: transparent;
+}
+#client-dashboard-root .chart-body > div,
+#client-dashboard-root .chart-body canvas,
+#client-dashboard-root .chart-body svg {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
 }
 #client-dashboard-root .card-top.split {
   display: flex;
@@ -131,38 +162,17 @@
 #client-dashboard-root .charts .card {
   min-height: 180px;
 }
+#client-dashboard-root .charts.hourly {
+  margin-bottom: 0.8rem;
+}
+#client-dashboard-root .charts.hourly .card > .chart-body {
+  height: var(--chart-height-daily);
+}
 #client-dashboard-root .charts.daily {
   margin-bottom: 0.8rem;
 }
-#client-dashboard-root .charts.daily .card {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  /* si quieres una altura distinta para daily, cambia --chart-height-daily arriba */
-}
 #client-dashboard-root .charts.daily .card > .chart-body {
-  height: var(--chart-height-daily) !important;
-}
-#client-dashboard-root .charts.weekly {
-  margin-top: 0.5rem;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-}
-@media (max-width: 980px) {
-  #client-dashboard-root .charts.weekly {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (max-width: 640px) {
-  #client-dashboard-root .charts.weekly {
-    grid-template-columns: 1fr;
-  }
-}
-#client-dashboard-root .charts.weekly .card {
-  /* si quieres una altura distinta para weekly, cambia --chart-height-weekly arriba */
-}
-#client-dashboard-root .charts.weekly .card > .chart-body {
-  height: var(--chart-height-weekly) !important;
+  height: var(--chart-height-weekly);
 }
 #client-dashboard-root .charts.full-width {
   display: block;
@@ -172,8 +182,8 @@
   width: 100%;
 }
 #client-dashboard-root .charts.full-width .card > .chart-body {
-  height: 300px !important;
-  min-height: 220px !important;
+  height: var(--chart-height-full);
+  min-height: 220px;
 }
 #client-dashboard-root .daily-donut,
 #client-dashboard-root .weekly-donut {
@@ -184,20 +194,21 @@
   background: transparent;
   padding: 0;
   border-radius: 6px;
-  box-shadow: none; /* remove heavy box for integrated style */
+  box-shadow: none;
   min-width: 0;
 }
 #client-dashboard-root .daily-donut.integrated,
 #client-dashboard-root .weekly-donut.integrated {
   width: 100%;
+  max-width: 160px; /* limita el ancho dentro del split-left */
   height: 140px;
   min-height: 120px;
   max-height: 160px;
   background: transparent;
   padding: 0;
 }
-#client-dashboard-root .weekly-donut.compact,
-#client-dashboard-root .daily-donut.compact {
+#client-dashboard-root .daily-donut.compact,
+#client-dashboard-root .weekly-donut.compact {
   width: 72px;
   height: 72px;
   padding: 6px;
@@ -262,12 +273,10 @@
     flex-direction: column;
     align-items: stretch;
   }
-  #client-dashboard-root .split-left,
-  #client-dashboard-root .split-right {
+  #client-dashboard-root .split-left, #client-dashboard-root .split-right {
     flex: 1 1 100%;
   }
-  #client-dashboard-root .daily-donut.integrated,
-  #client-dashboard-root .weekly-donut.integrated {
+  #client-dashboard-root .daily-donut.integrated, #client-dashboard-root .weekly-donut.integrated {
     height: 120px;
   }
   #client-dashboard-root .card > .chart-body {

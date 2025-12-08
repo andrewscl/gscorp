@@ -1,8 +1,7 @@
 import { mkChart } from '../lib/echarts-setup';
-import { initVisitsDailyChart } from '../charts/site-visits/site-visit-daily-chart';
 import { initAttendanceDailyChart } from '../charts/attendances/attendance-daily-chart';
+import { initVisitsDailyChart } from '../charts/site-visits/site-visit-daily-chart';
 import { fetchWithTimeout } from '../utils/api';
-
 
 type ChartController = {
   render?: () => Promise<void> | void;
@@ -12,14 +11,19 @@ type ChartController = {
   container?: HTMLElement | null;
 };
 
-
 export async function init({ container }: { container: HTMLElement }) {
-
   const root = (container.querySelector('#client-dashboard-root') as HTMLElement) || container;
   if (!root || root.dataset.echartsInit === '1') return;
   root.dataset.echartsInit = '1';
 
   const controllers: ChartController[] = [];
+
+  // ResizeObserver creado antes para que registerChart pueda observar inmediatamente
+  const ro = new ResizeObserver(() => {
+    controllers.forEach(c => {
+      try { c.chart?.resize?.(); } catch {}
+    });
+  });
 
   // helper para inicializar y registrar cualquier chart module
   async function registerChart(initFn: (...args: any[]) => ChartController | Promise<ChartController>, ...args: any[]) {
@@ -29,19 +33,21 @@ export async function init({ container }: { container: HTMLElement }) {
       // primer render si existe
       try { await ctrl.render?.(); } catch (e) { console.warn('Initial render failed for chart', e); }
       controllers.push(ctrl);
+      // observar el contenedor para resize si aplica
+      try { if (ctrl.container) ro.observe(ctrl.container); } catch (e) { /* ignore */ }
     } catch (e) {
       console.error('Error initializing chart', e);
     }
   }
 
-  // --- daily attendance ---
+  // --- Attendance daily chart ---
   await registerChart(initAttendanceDailyChart, '#chart-daily-attendance', {
-      days: 7,
-      mkChart,
-      fetchWithTimeout
+    days: 7,
+    mkChart,
+    fetchWithTimeout
   });
 
-  // --- daily visit ---
+  // --- Visits daily chart ---
   await registerChart(initVisitsDailyChart, '#chart-daily-visit', {
       days: 7,
       mkChart,
@@ -57,18 +63,6 @@ export async function init({ container }: { container: HTMLElement }) {
     });
   }, refreshIntervalMs);
 
-
-  // ResizeObserver para ajustar los charts (siempre que el controller tenga .chart con resize)
-  const ro = new ResizeObserver(() => {
-    controllers.forEach(c => {
-      try { c.chart?.resize?.(); } catch {}
-    });
-  });
-  // observa los contenedores si existen
-  controllers.forEach(c => {
-    try { if (c.container) ro.observe(c.container); } catch {}
-  });
-
   // cleanup único
   function cleanup() {
     try { clearInterval(refreshTimer); } catch {}
@@ -81,10 +75,8 @@ export async function init({ container }: { container: HTMLElement }) {
     try { root.dataset.echartsInit = '0'; } catch {}
   }
 
-  // registra sólo un beforeunload + fragment unload
   window.addEventListener('beforeunload', cleanup);
   document.addEventListener('fragment:will-unload', cleanup, { once: true });
-
 
 }
 
