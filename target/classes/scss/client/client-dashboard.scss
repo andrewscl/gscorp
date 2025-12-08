@@ -1,11 +1,12 @@
-/* client-dashboard.scss
-   Versión actualizada para el dashboard con layout "integrado" (donut + meta/totales a la derecha)
-   Scoped bajo #client-dashboard-root.
-   Incluye daily & weekly con el mismo patrón, charts, responsive y accesibilidad.
+/* client-dashboard.scss - versión refinada
+   Recomendaciones aplicadas:
+   - asegurar tamaño/position para contenedores de charts
+   - placeholder para "no data"
+   - reducir uso de !important
+   - conservar variables para ajustes rápidos
 */
 
 #client-dashboard-root {
-  // ---------------- Theme tokens (ajusta según tu design system) ----------------
   --bg: #f8fafc;
   --card-bg: #ffffff;
   --muted: #6b7280;
@@ -21,9 +22,10 @@
   --max-width: 1200px;
 
   /* Altura única y variables para charts */
-  --chart-height-default: 260px; /* altura uniforme para la mayoría de charts */
+  --chart-height-default: 260px;
   --chart-height-daily: var(--chart-height-default);
   --chart-height-weekly: var(--chart-height-default);
+  --chart-height-full: 300px;
 
   box-sizing: border-box;
   width: 100%;
@@ -33,13 +35,11 @@
   font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   background: transparent;
 
-  // ---------------- Layout container ----------------
   .container-inner {
     max-width: var(--max-width);
     margin: 0 auto;
   }
 
-  // ---------------- Generic card styles ----------------
   .card {
     box-sizing: border-box;
     background: var(--card-bg);
@@ -66,21 +66,46 @@
     }
   }
 
-  /* ================= UNIFICACIÓN: regla única para todos los chart bodies ================= */
-  .card > .chart-body,
-  .card > div[id^="chart-"] {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    height: var(--chart-height-default) !important;
-    min-height: 160px !important;
+  /* Chart body: regla central y explícita para eCharts */
+  .chart-body,
+  /* específicar elementos con id que empiezen por "chart-" */
+  div[id^="chart-"] {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    position: relative; /* importante para overlays/placeholder */
+    height: var(--chart-height-default); /* default, puede ser sobrescrito por row-specific */
+    min-height: 160px;
     border-radius: 8px;
     background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
-    overflow: hidden !important;
-    box-sizing: border-box !important;
+    overflow: hidden;
   }
 
-  // ---------------- Split top area (integrated donut + meta) ----------------
+  /* placeholder para "no data" o errores */
+  .chart-placeholder {
+    position: absolute;
+    left: 0; right: 0; top: 0; bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9ca3af;
+    font-size: 14px;
+    pointer-events: none;
+    z-index: 2;
+    background: transparent;
+  }
+
+  /* asegurar que el canvas/SVG de eCharts ocupe todo el contenedor */
+  .chart-body > div, /* suele ser el DOM que echarts crea */
+  .chart-body canvas,
+  .chart-body svg {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+  }
+
   .card-top.split {
     display: flex;
     gap: 1rem;
@@ -105,28 +130,11 @@
     min-height: 72px;
   }
 
-  .card-totals {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .total-label {
-    font-size: 0.85rem;
-    color: var(--muted);
-    font-weight: 600;
-    letter-spacing: 0.2px;
-  }
-  .total-value {
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: var(--text);
-  }
-  .meta.small.muted {
-    font-size: 0.85rem;
-    color: var(--muted);
-  }
+  .card-totals { display: flex; flex-direction: column; gap: 4px; }
+  .total-label { font-size: 0.85rem; color: var(--muted); font-weight: 600; letter-spacing: 0.2px; }
+  .total-value { font-size: 1.6rem; font-weight: 700; color: var(--text); }
+  .meta.small.muted { font-size: 0.85rem; color: var(--muted); }
 
-  // ---------------- Charts grid defaults ----------------
   .charts {
     display: grid;
     gap: 1.25rem;
@@ -141,54 +149,32 @@
       grid-template-columns: 1fr;
     }
 
-    .card {
-      min-height: 180px;
-    }
+    .card { min-height: 180px; }
   }
 
-  // ---------------- Daily row (3 cards) ----------------
+  .charts.hourly {
+    margin-bottom: 0.8rem;
+    .card { > .chart-body { height: var(--chart-height-daily); } }
+  }
+
   .charts.daily {
     margin-bottom: 0.8rem;
-
-    .card {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      /* si quieres una altura distinta para daily, cambia --chart-height-daily arriba */
-      > .chart-body { height: var(--chart-height-daily) !important; }
-    }
+    .card { > .chart-body { height: var(--chart-height-weekly); } }
   }
 
-  // ---------------- Weekly row (3 cards) - same integrated layout ----------------
-  .charts.weekly {
-    margin-top: 0.5rem;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-
-    @media (max-width: 980px) { grid-template-columns: repeat(2, 1fr); }
-    @media (max-width: 640px) { grid-template-columns: 1fr; }
-
-    .card {
-      /* si quieres una altura distinta para weekly, cambia --chart-height-weekly arriba */
-      > .chart-body { height: var(--chart-height-weekly) !important; }
-    }
-  }
-
-  // ---------------- Full width chart ----------------
   .charts.full-width {
     display: block;
     margin-top: 1rem;
-
     .card {
       width: 100%;
       > .chart-body {
-        height: 300px !important;
-        min-height: 220px !important;
+        height: var(--chart-height-full);
+        min-height: 220px;
       }
     }
   }
 
-  // ---------------- Donut styles (integrated: minimal, no box/shadow) ----------------
+  /* Donut styles */
   .daily-donut,
   .weekly-donut {
     display: inline-flex;
@@ -198,13 +184,15 @@
     background: transparent;
     padding: 0;
     border-radius: 6px;
-    box-shadow: none; /* remove heavy box for integrated style */
+    box-shadow: none;
     min-width: 0;
   }
 
+  /* Integrated donuts: limit max-width to avoid ocupar todo el espacio izquierdo */
   .daily-donut.integrated,
   .weekly-donut.integrated {
     width: 100%;
+    max-width: 160px; /* limita el ancho dentro del split-left */
     height: 140px;
     min-height: 120px;
     max-height: 160px;
@@ -212,9 +200,8 @@
     padding: 0;
   }
 
-  // If you still use non-integrated small donuts elsewhere, keep a compact variant:
-  .weekly-donut.compact,
-  .daily-donut.compact {
+  .daily-donut.compact,
+  .weekly-donut.compact {
     width: 72px;
     height: 72px;
     padding: 6px;
@@ -223,7 +210,6 @@
     box-shadow: var(--surface-shadow);
   }
 
-  // ---------------- Utilities for header alignment ----------------
   .card .card-header {
     align-items: center;
     display: flex;
@@ -231,7 +217,6 @@
     gap: 12px;
   }
 
-  // ---------------- Small utilities & metadata ----------------
   .donut-meta {
     display: flex;
     gap: 8px;
@@ -243,17 +228,14 @@
     .meta-value { font-weight:700; color:var(--text); }
   }
 
-  // ---------------- Typography & labels ----------------
   h5 { font-size: 1rem; margin: 0; color: var(--text); }
   .muted { color: var(--muted); }
 
-  // ---------------- Accessibility & focus ----------------
   .card:focus-within {
     outline: 3px solid rgba(14,165,233,0.12);
     outline-offset: 2px;
   }
 
-  // ---------------- Tooltip / inline styles ----------------
   .inline-tooltip {
     background: rgba(2,6,23,0.95);
     color: #fff;
@@ -263,35 +245,23 @@
     box-shadow: 0 6px 18px rgba(2,6,23,0.12);
   }
 
-  // ---------------- Responsive tweaks ----------------
   @media (max-width: 900px) {
     .daily-donut.integrated,
     .weekly-donut.integrated { height: 120px; min-height: 100px; }
     .card { padding: 12px; }
   }
 
-  // Stack split columns on small screens
   @media (max-width: 720px) {
-    .card-top.split {
-      flex-direction: column;
-      align-items: stretch;
-    }
-    .split-left,
-    .split-right {
-      flex: 1 1 100%;
-    }
-
-    .daily-donut.integrated,
-    .weekly-donut.integrated { height: 120px; }
+    .card-top.split { flex-direction: column; align-items: stretch; }
+    .split-left, .split-right { flex: 1 1 100%; }
+    .daily-donut.integrated, .weekly-donut.integrated { height: 120px; }
     .card > .chart-body { height: 220px; }
   }
 
-  // ---------------- Reduced motion preference ----------------
   @media (prefers-reduced-motion: reduce) {
     * { transition: none !important; animation: none !important; }
   }
 
-  // ---------------- Utility helpers ----------------
   .visually-hidden {
     position: absolute !important;
     height: 1px; width: 1px;
