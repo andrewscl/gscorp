@@ -10,7 +10,7 @@ export async function init({ container }: { container: HTMLElement }) {
 
 
   // Initialize site visit daily chart
-  const visits = initVisitsDailyChart('#weekly-visits', {
+  const visits = initVisitsDailyChart('#chart-visit', {
       days: 7,
       mkChart,
       fetchWithTimeout
