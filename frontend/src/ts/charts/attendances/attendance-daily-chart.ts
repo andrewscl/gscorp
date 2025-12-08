@@ -24,7 +24,7 @@ export type AttendanceChartOptions = {
   apiBase?: string;
 };
 
-export function initAttendanceDailyChart(containerSelector = '#chart-attendance', opts: AttendanceChartOptions = {}) {
+export function initAttendanceDailyChart(containerSelector = '#chart-daily-attendance', opts: AttendanceChartOptions = {}) {
   const root = (opts.root ?? document) as Document;
   const el = root.querySelector(containerSelector) as HTMLDivElement | null;
 
@@ -39,8 +39,17 @@ export function initAttendanceDailyChart(containerSelector = '#chart-attendance'
 
   async function render() {
     try {
-      const tz = opts.tz ?? Intl.DateTimeFormat().resolvedOptions().timeZone ?? 'UTC';
-      const params = new URLSearchParams({ days: String(days), tz });
+
+      // build date range expected by the backend: from, to (YYYY-MM-DD)
+      const labels = buildLastNDatesIso(days);
+      if (!Array.isArray(labels) || labels.length === 0) {
+        safeSetNoData(ch, el, 'Sin datos');
+        return;
+      }
+      const from = labels[0];
+      const to = labels[labels.length - 1];
+
+      const params = new URLSearchParams({ from, to });
       const urlActual = `${apiBase}/api/attendances/series?${params.toString()}`;
       const urlForecast = `${apiBase}/api/forecasts/attendance-forecast-series?${params.toString()}`;
 
@@ -66,8 +75,6 @@ export function initAttendanceDailyChart(containerSelector = '#chart-attendance'
 
       const normActual = normalizeToPoints(dataActual);
       const normForecast = normalizeToPoints(dataForecast);
-
-      const labels = buildLastNDatesIso(days);
 
       const mActual = aggregateByDate(normActual);
       const mForecast = aggregateByDate(normForecast);
