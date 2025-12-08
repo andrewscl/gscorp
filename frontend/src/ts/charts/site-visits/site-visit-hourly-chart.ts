@@ -1,5 +1,5 @@
-import { echarts } from '../../../lib/echarts-setup';
-import { fetchWithAuth } from '../api/api';
+import { echarts } from '../../lib/echarts-setup';
+import { fetchWithAuth } from '../../utils/api';
 
 type VisitsCell = { count: number; forecast?: number };
 const hours24 = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0'));
@@ -17,7 +17,6 @@ function toNumber(v: any): number {
   return Number.isNaN(n) ? 0 : n;
 }
 
-
 async function fetchVisitsMap(dateArg?: string, tz?: string): Promise<Map<string, VisitsCell>> {
   const zone = tz ?? (typeof Intl !== 'undefined' ? Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC' : 'UTC');
   const q = dateArg ? `?date=${encodeURIComponent(dateArg)}&tz=${encodeURIComponent(zone)}` : `?tz=${encodeURIComponent(zone)}`;
@@ -33,13 +32,13 @@ async function fetchVisitsMap(dateArg?: string, tz?: string): Promise<Map<string
       return new Map();
     }
 
-    // payload puede ser array directo o { data: [...] }
+    // payload puede ser array directo o { data: [...] } u { result: [...] }
     const arr = Array.isArray(payload)
       ? payload
       : (payload && Array.isArray(payload.data) ? payload.data
          : (payload && Array.isArray(payload.result) ? payload.result : []));
 
-    console.debug('[Site-Visit-Chart] fetch payload sample:', arr.slice(0,6));
+    console.debug('[Site-Visit-Chart] fetch payload sample:', arr.slice(0, 6));
 
     const m = new Map<string, VisitsCell>();
     (arr || []).forEach((it: any) => {
@@ -50,14 +49,13 @@ async function fetchVisitsMap(dateArg?: string, tz?: string): Promise<Map<string
       m.set(hh, { count, forecast });
     });
 
-    console.debug('[Site-Visit-Chart] normalized map sample:', Array.from(m.entries()).slice(0,6));
+    console.debug('[Site-Visit-Chart] normalized map sample:', Array.from(m.entries()).slice(0, 6));
     return m;
   } catch (e) {
-    console.warn('[Site-Visit-Chart] fetchVisitsMap error', e, url);
+    console.warn('[Site-Visit-Chart] fetchVisitsMap error', e);
     return new Map();
   }
 }
-
 
 /** helper: small in-module "no data" painter (similar to client setNoData) */
 function setNoData(chart: echarts.ECharts, msg = 'Sin visitas') {
@@ -92,7 +90,7 @@ function buildOption(labels: string[], valuesActual: number[], valuesForecast: (
   const anyPositive = valuesActual.some(v => Number(v) > 0) || valuesForecast.some(v => Number(v) > 0);
 
   return {
-    legend: { data: ['Visitas', 'Forecast'], top: 8, left: 'center' }, // <- ensure center
+    legend: { data: ['Visitas', 'Forecast'], top: 8, left: 'center' },
     tooltip: {
       trigger: 'axis',
       formatter: (params: any) => {
@@ -105,7 +103,7 @@ function buildOption(labels: string[], valuesActual: number[], valuesForecast: (
         return `<b>${display}</b><br/>${lines.join('<br/>')}`;
       }
     },
-    grid: COMMON_GRID, // <-- use the shared grid
+    grid: COMMON_GRID,
     xAxis: {
       type: 'category',
       boundaryGap: false,
@@ -146,8 +144,10 @@ function buildOption(labels: string[], valuesActual: number[], valuesForecast: (
  *
  * Devuelve: { chart, refresh(date?), refreshFromMap(map), stop() }
  */
-export async function initSiteVisitChart(container: HTMLElement, opts?:
-                                { tz?: string; theme?: string | object; showForecast?: boolean }) {
+export async function initSiteVisitChart(
+  container: HTMLElement,
+  opts?: { tz?: string; theme?: string | object; showForecast?: boolean }
+) {
   if (!container) throw new Error('container is required for initSiteVisitChart');
 
   const chart = echarts.init(container, opts?.theme as any);
@@ -170,7 +170,7 @@ export async function initSiteVisitChart(container: HTMLElement, opts?:
     });
 
     console.debug('[Site-Visit-Chart] map keys:', Array.from(m.keys()));
-    console.debug('[Site-Visit-Chart] sample entries:', Array.from(m.entries()).slice(0,6));
+    console.debug('[Site-Visit-Chart] sample entries:', Array.from(m.entries()).slice(0, 6));
     console.debug('[Site-Visit-Chart] labels:', labels);
     console.debug('[Site-Visit-Chart] valuesActual:', valuesActual);
     console.debug('[Site-Visit-Chart] valuesForecast:', valuesForecast);

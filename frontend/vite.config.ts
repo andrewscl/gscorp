@@ -7,7 +7,7 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        'private/client': 'src/private/dashboard/client-dashboard.ts',  // Entrada Client Dashboard
+        'private/client': 'src/ts/dashboard/client-dashboard.ts',  // Entrada Client Dashboard
         // Puedes agregar más entradas aquí
       },
       output: {
