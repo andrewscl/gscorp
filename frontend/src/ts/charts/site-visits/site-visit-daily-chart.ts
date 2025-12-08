@@ -22,7 +22,8 @@ export type VisitsChartOptions = {
   apiBase?: string;
 };
 
-export function initVisitsDailyChart(containerSelector = '#chart-visits', opts: VisitsChartOptions = {}) {
+export function initVisitsDailyChart(containerSelector = '#chart-visits',
+                                            opts: VisitsChartOptions = {}) {
   const root = (opts.root ?? document) as Document;
   const el = root.querySelector(containerSelector) as HTMLDivElement | null;
 
