@@ -40,6 +40,16 @@ export function initVisitsDailyChart(containerSelector = '#chart-visits',
 
   const ch = mkChartFn ? mkChartFn(el) : null;
 
+  // Helper: add param only if value is not null/undefined/empty/'undefined'
+  function safeAddParam(params: URLSearchParams, key: string, val: any) {
+    if (val === null || val === undefined) return;
+    if (typeof val === 'string') {
+      const s = val.trim();
+      if (s === '' || s === 'undefined') return;
+    }
+    params.set(key, String(val));
+  }
+
   async function render() {
     try {
       const tz = opts.tz ?? Intl.DateTimeFormat().resolvedOptions().timeZone ?? 'UTC';
@@ -56,10 +66,12 @@ export function initVisitsDailyChart(containerSelector = '#chart-visits',
                 tz,
                 metric: forecastMetric
               });
-              if (typeof opts.siteId != null) paramsForecast.set('siteId', String(opts.siteId));
-              if (typeof opts.projectId != null) paramsForecast.set('projectId', String(opts.projectId));
-        const forecastBase = opts.forecastPath ?? '/api/forecasts/forecast-series';
-        urlForecast = `${apiBase}${forecastBase}?${paramsForecast.toString()}`;
+              
+        safeAddParam(paramsForecast, 'siteId', opts.siteId);
+        safeAddParam(paramsForecast, 'projectId', opts.projectId);
+
+        const forecastBase = opts.forecastPath ?? `${apiBase}/api/forecasts/forecast-series`;
+        urlForecast = `${forecastBase}?${paramsForecast.toString()}`;
       }
 
       const [resActual, resForecast] = await Promise.all([
