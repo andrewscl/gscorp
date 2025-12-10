@@ -20,6 +20,11 @@ export type VisitsChartOptions = {
   mkChart?: (el: HTMLElement | null) => any;
   root?: Document | HTMLElement;
   apiBase?: string;
+
+  metric?: string;
+  siteId?: number | null;
+  projectId?: number | null;
+  forecastPath?: string | null;
 };
 
 export function initVisitsDailyChart(containerSelector = '#chart-visits',
@@ -38,13 +43,29 @@ export function initVisitsDailyChart(containerSelector = '#chart-visits',
   async function render() {
     try {
       const tz = opts.tz ?? Intl.DateTimeFormat().resolvedOptions().timeZone ?? 'UTC';
-      const params = new URLSearchParams({ days: String(days), tz });
-      const urlActual = `${apiBase}/api/site-supervision-visits/series?${params.toString()}`;
-      const urlForecast = `${apiBase}/api/forecasts/forecast-series?${params.toString()}`;
+      const paramsActual = new URLSearchParams({ days: String(days), tz });
+      const urlActual = `${apiBase}/api/site-supervision-visits/series?${paramsActual.toString()}`;
+
+      //Forecast params: metric, siteId, projectId
+      const forecastMetric = opts.metric ?? 'VISITS';
+      const willFetchForecast = typeof opts.forecastPath === 'undefined' ? true : !!opts.forecastPath;
+      let urlForecast = null;
+      if(willFetchForecast) {
+        const paramsForecast = new URLSearchParams({
+                days: String(days),
+                tz,
+                metric: forecastMetric
+              });
+              if (typeof opts.siteId != null) paramsForecast.set('siteId', String(opts.siteId));
+              if (typeof opts.projectId != null) paramsForecast.set('projectId', String(opts.projectId));
+        const forecastBase = opts.forecastPath ?? '/api/forecasts/forecast-series';
+        urlForecast = `${apiBase}${forecastBase}?${paramsForecast.toString()}`;
+      }
 
       const [resActual, resForecast] = await Promise.all([
         fetchFn ? fetchFn(urlActual, {}, 15000, true).catch((e: any) => { console.warn(e); return null; }) : fetch(urlActual).catch(() => null),
-        fetchFn ? fetchFn(urlForecast, {}, 15000, true).catch((e: any) => { console.warn(e); return null; }) : fetch(urlForecast).catch(() => null)
+        // si urlForecast es null, no hacemos la petición
+        urlForecast ? (fetchFn ? fetchFn(urlForecast, {}, 15000, true).catch((e: any) => { console.warn(e); return null; }) : fetch(urlForecast).catch(() => null)) : Promise.resolve(null)
       ]);
 
       const parseOrEmpty = async (r: Response | null) => {

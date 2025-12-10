@@ -45,17 +45,26 @@ public interface ForecastRepository extends JpaRepository<Forecast, Long>{
                f.periodEnd   AS periodEnd,
                f.value       AS value,
                f.periodicity AS periodicity,
-               f.forecastMetric AS metric
+               f.forecastMetric AS metric,
+               f.siteId      AS siteId,
+               s.projectId   AS projectId
         FROM Forecast f
         WHERE f.clientId IN :clientIds
           AND f.isActive = true
-          AND f.periodStart <= :fromDate
-          AND f.periodEnd   >= :toDate
+          AND f.forecastMetric = :metric
+          AND f.periodStart <= :toDate
+          AND f.periodEnd   >= :fromDate
+          AND (:fsiteId IS NULL OR f.siteId = :fsiteId)
+          AND (:fprojectId IS NULL OR f.projectId = :fprojectId)
+        ORDER BY f.periodStart
     """)
-    List<ForecastSeriesProjection> findProjectionByClientIdsAndDateRangeIntersect(
+    List<ForecastSeriesProjection> findProjectionByClientIdsAndDateRangeIntersectAndMetric(
         @Param("clientIds") Collection<Long> clientIds,
         @Param("fromDate") OffsetDateTime fromDate,
-        @Param("toDate") OffsetDateTime toDate
+        @Param("toDate") OffsetDateTime toDate,
+        @Param("metric") ForecastMetric metric,
+        @Param("fsiteId") Long fsiteId,
+        @Param("fprojectId") Long fprojectId
     );
 
 

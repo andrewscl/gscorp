@@ -19,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gscorp.dv1.components.ZoneResolver;
+import com.gscorp.dv1.enums.ForecastMetric;
 import com.gscorp.dv1.forecast.application.ForecastService;
 import com.gscorp.dv1.forecast.web.dto.ForecastCreateDto;
 import com.gscorp.dv1.forecast.web.dto.ForecastPointDto;
@@ -77,13 +78,17 @@ public class ForecastRestController {
             @RequestParam(required = false) String to,
             @RequestParam(required = false) Integer days,
             @RequestParam(required = false) String tz,
+            @RequestParam(required = false) ForecastMetric metric,
+            @RequestParam(required = false) Long siteId,
+            @RequestParam(required = false) Long projectId,
             Authentication authentication) {
 
         final int DEFAULT_DAYS = 7;
         final int MAX_DAYS = 90;
 
         String username = (authentication == null) ? "anonymous" : authentication.getName();
-        log.info("Incoming /forecast-series request user={} from={} to={} days={} tz={}", username, from, to, days, tz);
+        log.info("Incoming /forecast-series request user={} from={} to={} days={} tz={} metric={} siteId={} projectId={}",
+                            username, from, to, days, tz, metric, siteId, projectId);
 
         Long userId = userService.getUserIdFromAuthentication(authentication);
         if (userId == null) {
@@ -124,7 +129,8 @@ public class ForecastRestController {
                 userId, fromDate, toDate, zone, zr.source());
 
         try {
-            return forecastService.getForecastSeriesForUserByDates(userId, fromDate, toDate, zone);
+            return forecastService.getForecastSeriesForUserByDates(
+                                    userId, fromDate, toDate, zone, metric, siteId, projectId);
         } catch (Exception ex) {
             log.error("Error obteniendo forecast series", ex);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener series de forecast.");

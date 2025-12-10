@@ -55,7 +55,13 @@ public class ForecastServiceImpl implements ForecastService{
 @Override
 @Transactional(readOnly = true)
 public List<ForecastPointDto> getForecastSeriesForUserByDates(
-        Long userId, LocalDate fromDate, LocalDate toDate, ZoneId zone) {
+                        Long userId,
+                        LocalDate fromDate,
+                        LocalDate toDate,
+                        ZoneId zone,
+                        ForecastMetric metric,
+                        Long siteId,
+                        Long projectId) {
 
     if (fromDate == null || toDate == null || zone == null) {
         log.debug("Invalid args to getForecastSeriesForUserByDates: fromDate={} toDate={} zone={}", fromDate, toDate, zone);
@@ -73,10 +79,11 @@ public List<ForecastPointDto> getForecastSeriesForUserByDates(
     OffsetDateTime toOffsetInclusive = zoneResolver.toEndOfDayInclusive(toDate, zone);
 
     log.debug("ForecastService: userId={} clientIds={} fromOffset={} toOffsetInclusive={} zone={}",
-            userId, clientIds, fromOffset, toOffsetInclusive, zone);
+            userId, clientIds, fromOffset, toOffsetInclusive, zone, metric, siteId, projectId);
 
     List<ForecastSeriesProjection> rows =
-            forecastRepo.findProjectionByClientIdsAndDateRangeIntersect(clientIds, fromOffset, toOffsetInclusive);
+            forecastRepo.findProjectionByClientIdsAndDateRangeIntersectAndMetric(
+                                    clientIds, fromOffset, toOffsetInclusive, metric, siteId, projectId);
 
     log.debug("Projections fetched count={}", rows == null ? 0 : rows.size());
     if (rows == null || rows.isEmpty()) {
@@ -91,20 +98,11 @@ public List<ForecastPointDto> getForecastSeriesForUserByDates(
         cur = cur.plusDays(1);
     }
 
-    // Ajusta este valor al enum correcto si tu métrica de "visitas" tiene otro nombre
-    ForecastMetric wantedMetric = ForecastMetric.VISITS;
-
     for (ForecastSeriesProjection r : rows) {
         if (r == null) continue;
 
         log.debug("Projection row: periodStart={} periodEnd={} value={} periodicity={} metric={}",
                 r.getPeriodStart(), r.getPeriodEnd(), r.getValue(), r.getPeriodicity(), r.getMetric());
-
-        // Filtrar por metric (si quieres incluir todos, elimina este bloque)
-        if (r.getMetric() == null || !r.getMetric().equals(wantedMetric)) {
-            log.trace("Skipping projection due to metric mismatch (wanted={} got={})", wantedMetric, r.getMetric());
-            continue;
-        }
 
         OffsetDateTime ps = r.getPeriodStart();
         OffsetDateTime pe = r.getPeriodEnd();
@@ -113,21 +111,24 @@ public List<ForecastPointDto> getForecastSeriesForUserByDates(
             continue;
         }
 
-        LocalDate periodStartLocal = ps.toInstant().atZone(zone).toLocalDate();
-        LocalDate periodEndLocal = pe.toInstant().atZone(zone).toLocalDate();
+        //Convertir periodo de la proyección a LocalDate en la zona solicitada
+        LocalDate periodStartLocal = ps.atZoneSameInstant(zone).toLocalDate();
+        LocalDate periodEndLocal = pe.atZoneSameInstant(zone).toLocalDate();
 
-        // Intersección con el rango pedido
-        LocalDate start = periodStartLocal.isBefore(fromDate) ? fromDate : periodStartLocal;
-        LocalDate end = periodEndLocal.isAfter(toDate) ? toDate : periodEndLocal;
-        if (start.isAfter(end)) {
+        // Overlap con el rango permitido
+        LocalDate overlapStart = periodStartLocal.isAfter(fromDate) ? periodStartLocal : fromDate;
+        LocalDate overlapEnd = periodEndLocal.isBefore(toDate) ? periodEndLocal : toDate;
+        if (overlapStart.isAfter(overlapEnd)) {
             log.debug("Projection does not intersect requested range: {} - {}", periodStartLocal, periodEndLocal);
             continue;
         }
 
         BigDecimal totalValue = r.getValue() == null ? BigDecimal.ZERO : r.getValue();
-        long daysCovered = java.time.temporal.ChronoUnit.DAYS.between(start, end) + 1;
-        if (daysCovered <= 0) {
-            log.debug("Skipping projection with non-positive daysCovered: {}", daysCovered);
+
+        // Calcular días cubiertos en la proyección
+        long projectionDays = java.time.temporal.ChronoUnit.DAYS.between(periodStartLocal, periodEndLocal) + 1;
+        if (projectionDays <= 0) {
+            log.debug("Skipping projection with non-positive projectionDays: {}", projectionDays);
             continue;
         }
 
@@ -138,17 +139,12 @@ public List<ForecastPointDto> getForecastSeriesForUserByDates(
             log.debug("Using DAILY periodicity: totalValue={} perDay={}", totalValue, perDay);
         } else {
             // Prorratear distribuyendo totalValue entre los días cubiertos
-            perDay = totalValue.divide(BigDecimal.valueOf(daysCovered), 6, java.math.RoundingMode.HALF_UP);
-            log.debug("Prorating totalValue={} over {} days -> perDay={}", totalValue, daysCovered, perDay);
+            perDay = totalValue.divide(BigDecimal.valueOf(projectionDays), 8, java.math.RoundingMode.HALF_UP);
+            log.debug("Prorating totalValue={} over {} projectionDays -> perDay={}", totalValue, projectionDays, perDay);
         }
 
-        if (perDay.compareTo(BigDecimal.ZERO) == 0) {
-            log.trace("Per-day value is zero for projection {}, skipping add to accum", r);
-            // no 'continue' aquí: puede que haya múltiples proyecciones que sumen algo
-        }
-
-        LocalDate d = start;
-        while (!d.isAfter(end)) {
+        LocalDate d = overlapStart;
+        while (!d.isAfter(overlapEnd)) {
             accum.merge(d, perDay, BigDecimal::add);
             d = d.plusDays(1);
         }

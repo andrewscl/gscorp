@@ -12,4 +12,6 @@ public interface ForecastSeriesProjection {
     BigDecimal getValue();
     Periodicity getPeriodicity();
     ForecastMetric getMetric();
+    Long getSiteId();
+    Long getProjectId();
 }
