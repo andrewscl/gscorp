@@ -47,7 +47,7 @@ public interface ForecastRepository extends JpaRepository<Forecast, Long>{
                f.periodicity AS periodicity,
                f.forecastMetric AS metric,
                f.siteId      AS siteId,
-               s.projectId   AS projectId
+               f.projectId   AS projectId
         FROM Forecast f
         WHERE f.clientId IN :clientIds
           AND f.isActive = true
