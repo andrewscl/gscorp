@@ -90,7 +90,6 @@ public class AttendanceSeriesController {
   }
 
   private Long currentUserId(Authentication auth) {
-    // TODO: retorna el id real del usuario autenticado
     return 1L;
   }
 

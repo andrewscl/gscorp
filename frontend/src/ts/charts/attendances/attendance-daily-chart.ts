@@ -50,7 +50,7 @@ export function initAttendanceDailyChart(containerSelector = '#chart-daily-atten
       const to = labels[labels.length - 1];
 
       const params = new URLSearchParams({ from, to });
-      const urlActual = `${apiBase}/api/attendances/series?${params.toString()}`;
+      const urlActual = `${apiBase}/api/attendance/series?${params.toString()}`;
       const urlForecast = `${apiBase}/api/forecasts/attendance-forecast-series?${params.toString()}`;
 
       const [resActual, resForecast] = await Promise.all([
