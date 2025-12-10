@@ -54,8 +54,8 @@ public interface ForecastRepository extends JpaRepository<Forecast, Long>{
           AND f.forecastMetric = :metric
           AND f.periodStart <= :toDate
           AND f.periodEnd   >= :fromDate
-          AND (:fsiteId IS NULL OR f.siteId = :fsiteId)
-          AND (:fprojectId IS NULL OR f.projectId = :fprojectId)
+          AND (:siteId IS NULL OR f.siteId = :siteId)
+          AND (:projectId IS NULL OR f.projectId = :projectId)
         ORDER BY f.periodStart
     """)
     List<ForecastSeriesProjection> findProjectionByClientIdsAndDateRangeIntersectAndMetric(
