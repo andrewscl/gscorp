@@ -63,8 +63,8 @@ public interface ForecastRepository extends JpaRepository<Forecast, Long>{
         @Param("fromDate") OffsetDateTime fromDate,
         @Param("toDate") OffsetDateTime toDate,
         @Param("metric") ForecastMetric metric,
-        @Param("fsiteId") Long fsiteId,
-        @Param("fprojectId") Long fprojectId
+        @Param("siteId") Long siteId,
+        @Param("projectId") Long projectId
     );
 
 
