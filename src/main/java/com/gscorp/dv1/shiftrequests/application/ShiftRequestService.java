@@ -1,13 +1,16 @@
 package com.gscorp.dv1.shiftrequests.application;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.core.Authentication;
 
+import com.gscorp.dv1.enums.ShiftRequestType;
 import com.gscorp.dv1.shiftrequests.web.dto.CreateShiftRequest;
 import com.gscorp.dv1.shiftrequests.web.dto.ShiftRequestDto;
+import com.gscorp.dv1.shiftrequests.web.dto.ShiftRequestDtoLight;
 
 public interface ShiftRequestService {
     List<ShiftRequestDto> findAll();
@@ -42,6 +45,16 @@ public interface ShiftRequestService {
      * Devuelve el DTO si existe y pertenece a alguno de los clients del usuario.
      */
     ShiftRequestDto getDtoIfOwned(Long shiftRequestId, Long userId);
+
+
+    List<ShiftRequestDtoLight> findByUserIdAndDateBetween(
+            Long userId,
+            LocalDate fromDate,
+            LocalDate toDate,
+            String clientTz,
+            Long siteId,
+            ShiftRequestType type
+    );
 
 
 }

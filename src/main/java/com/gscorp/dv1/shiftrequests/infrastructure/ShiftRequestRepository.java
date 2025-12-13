@@ -1,5 +1,6 @@
 package com.gscorp.dv1.shiftrequests.infrastructure;
 
+import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -8,6 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import com.gscorp.dv1.enums.ShiftRequestType;
 
 @Repository
 public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long>{
@@ -51,6 +54,45 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
        """)
        Optional<ShiftRequest> findByIdAndSiteProjectClientIdInFetchSiteAndSchedules(@Param("id") Long id,
                                                                              @Param("clientIds") Collection<Long> clientIds);
+
+
+       @Query("""
+              SELECT
+                     r.id                                  AS id,
+                     r.code                                AS code,
+                     s.id                                  AS siteId,
+                     s.name                                AS siteName,
+                     r.clientAccountId                     AS clientAccountId,
+                     r.type                                AS type,
+                     r.startDate                           AS startDate,
+                     r.endDate                             AS endDate,
+                     r.status                              AS status,
+                     r.description                         AS description,
+                     r.createdAt                           AS createdAt,
+                     -- contar solo schedules dentro del rango [start, endExclusive)
+                     SUM(CASE WHEN sc.startDate >= :start AND sc.startDate < :endExclusive THEN 1 ELSE 0 END) AS schedulesCount,
+                     -- próxima schedule >= now
+                     MIN(CASE WHEN sc.startDate >= :now THEN sc.startDate ELSE NULL END)         AS nextScheduleStart
+              FROM ShiftRequest r
+              JOIN r.site s
+              JOIN s.project p
+              LEFT JOIN r.shiftRequestSchedules sc
+              WHERE p.client.id IN :clientIds
+              AND (:siteId IS NULL OR s.id = :siteId)
+              AND (:type IS NULL OR r.type = :type)
+              GROUP BY
+              r.id, r.code, s.id, s.name, r.clientAccountId, r.type,
+              r.startDate, r.endDate, r.status, r.description, r.createdAt
+              ORDER BY r.startDate DESC
+              """)
+       List<ShiftRequestProjection> findProjectionByUserAndDateBetween(
+       @Param("clientIds") List<Long> clientIds,
+       @Param("start") OffsetDateTime start,
+       @Param("endExclusive") OffsetDateTime endExclusive,
+       @Param("siteId") Long siteId,
+       @Param("type") ShiftRequestType type,
+       @Param("now") OffsetDateTime now
+       );
 
 
 }

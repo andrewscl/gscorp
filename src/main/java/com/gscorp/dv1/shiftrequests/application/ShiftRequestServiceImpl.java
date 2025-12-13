@@ -2,6 +2,8 @@ package com.gscorp.dv1.shiftrequests.application;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
 import java.util.Collection;
 import java.util.Collections;
@@ -19,19 +21,26 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.gscorp.dv1.clientaccounts.application.ClientAccountService;
 import com.gscorp.dv1.clientaccounts.web.dto.ClientAccountDto;
+import com.gscorp.dv1.components.ZoneResolver;
+import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.enums.ShiftRequestStatus;
+import com.gscorp.dv1.enums.ShiftRequestType;
 import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequest;
+import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequestProjection;
 import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequestRepository;
 import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequestSchedule;
 import com.gscorp.dv1.shiftrequests.web.dto.CreateShiftRequest;
 import com.gscorp.dv1.shiftrequests.web.dto.ShiftRequestDto;
+import com.gscorp.dv1.shiftrequests.web.dto.ShiftRequestDtoLight;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.infrastructure.Site;
 import com.gscorp.dv1.sites.infrastructure.SiteRepository;
 import com.gscorp.dv1.users.application.UserService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ShiftRequestServiceImpl implements ShiftRequestService {
@@ -41,6 +50,7 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
     private final UserService userService;
     private final ClientAccountService clientAccountService;
     private final SiteService siteService;
+    private final ZoneResolver zoneResolver;
 
     @Override
     public List<ShiftRequestDto> findAll() {
@@ -307,6 +317,70 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
         }
         throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "No se pudo crear la solicitud de turno");
     }
+
+
+@Override
+@Transactional(readOnly = true)
+public List<ShiftRequestDtoLight> findByUserIdAndDateBetween(
+        Long userId,
+        LocalDate fromDate,
+        LocalDate toDate,
+        String clientTz,
+        Long siteId,
+        ShiftRequestType type
+) {
+    List<Long> clientIds = userService.getClientIdsForUser(userId);
+    if (clientIds == null || clientIds.isEmpty()) {
+        log.debug("No clientIds for user {} -> returning zero series for {}..{}", userId, fromDate, toDate);
+        return Collections.emptyList();
+    }
+
+    ZoneResolutionResult zr = zoneResolver.resolveZone(userId, clientTz);
+    ZoneId zone = zr.zoneId();
+
+    // intervalo [start, end)
+    OffsetDateTime start = null;
+    OffsetDateTime endExclusive = null;
+    if (fromDate != null) {
+        start = fromDate.atStartOfDay(zone).toOffsetDateTime();
+    }
+    if (toDate != null) {
+        endExclusive = toDate.plusDays(1).atStartOfDay(zone).toOffsetDateTime();
+    }
+
+    Long siteIdLong = siteId != null && siteId > 0 ? siteId : null;
+
+    OffsetDateTime now = OffsetDateTime.now(zone);
+
+    List<ShiftRequestProjection> projections = shiftRequestRepository.findProjectionByUserAndDateBetween(
+            clientIds,
+            start,
+            endExclusive,
+            siteIdLong,
+            type,
+            now
+    );
+
+    if (projections == null || projections.isEmpty()) {
+        log.debug("No shift requests found for user {} between {} and {} -> returning empty list",
+                  userId, fromDate, toDate);
+        return Collections.emptyList();
+    }
+
+    // Si tu fromProjection necesita la zone, usa la variante que reciba la zona:
+    // .map(p -> ShiftRequestDtoLight.fromProjection(p, zone))
+    // Si no, usa el mapeo directo:
+    List<ShiftRequestDtoLight> result = projections.stream()
+            .map(proj -> {
+                // si ShiftRequestDtoLight.fromProjection acepta solo la projection:
+                return ShiftRequestDtoLight.fromProjection(proj);
+                // si necesitas formatear fechas en zone, implementa y usa:
+                // return ShiftRequestDtoLight.fromProjection(proj, zone);
+            })
+            .collect(Collectors.toList());
+
+    return result;
+}
 
 
 }

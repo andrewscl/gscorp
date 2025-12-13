@@ -130,7 +130,7 @@ public class SiteVisitController {
         ZoneResolutionResult zr = zoneResolver.resolveZone(userId, clientTz);
         ZoneId zone = zr.zoneId();
 
-        // normalización idéntica a la de tu table-view
+        // normalización
         if (from == null && to == null) {
             model.addAttribute("visits", Collections.emptyList());
             model.addAttribute("visitsCount", 0);
@@ -142,7 +142,8 @@ public class SiteVisitController {
             LocalDate tmp = from; from = to; to = tmp;
         }
 
-        List<SiteVisitDto> visits = siteSupervisionVisitService.findByUserAndDateBetween(userId, from, to, zone.getId());
+        List<SiteVisitDto> visits = siteSupervisionVisitService.
+                                            findByUserAndDateBetween(userId, from, to, zone.getId());
         model.addAttribute("visits", visits);
         model.addAttribute("visitsCount", visits != null ? visits.size() : 0);
 

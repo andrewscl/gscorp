@@ -41,8 +41,10 @@ public class AttendanceController {
     @Autowired
     private final AttendancePunchRepo attendanceRepo;
 
+
     @Autowired
     private final SiteService siteService;
+
 
     @GetMapping("/attdc-view")
     public String getAttendanceView (Model model){
@@ -50,6 +52,7 @@ public class AttendanceController {
         model.addAttribute("sites", sites);
         return "private/attendance/views/attendance-view";
     }
+
 
     @GetMapping("/table-view")
     public String getAttendanceTableFragment(
@@ -111,7 +114,6 @@ public class AttendanceController {
     }
 
 
-
     @GetMapping("/attdc-filter")
     public String attendancePage(
         @RequestParam(required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
@@ -145,10 +147,10 @@ public class AttendanceController {
         return "private/attendance/views/attendance-table-view";
     }
 
+
     private Long currentUserId(Authentication auth){
         // TODO: extrae el id real desde tu UserDetails/JWT
         return 1L;
     }
-
 
 }
