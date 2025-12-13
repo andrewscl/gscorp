@@ -27,7 +27,7 @@ export type VisitsChartOptions = {
   forecastPath?: string | null;
 };
 
-export function initVisitsDailyChart(containerSelector = '#chart-visits',
+export function initVisitsDailyChart(containerSelector = '#chart-daily-visit',
                                             opts: VisitsChartOptions = {}) {
   const root = (opts.root ?? document) as Document;
   const el = root.querySelector(containerSelector) as HTMLDivElement | null;
