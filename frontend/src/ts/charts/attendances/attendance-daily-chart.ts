@@ -163,6 +163,58 @@ export function initAttendanceDailyChart(containerSelector = '#chart-daily-atten
         graphic: (valuesActual.concat(valuesForecast)).some(v => Number(v) > 0) ? { elements: [] } : undefined
       });
 
+
+      // Donut
+      const elDonutDailyAttendance = root.querySelector('#donut-daily-attendance') as HTMLDivElement | null;
+      if (elDonutDailyAttendance) {
+        const chDonut = mkChartFn ? mkChartFn(elDonutDailyAttendance) : null;
+        if (chDonut) {
+          const sumActual = valuesActual.reduce((s, v) => s + (Number(v) || 0), 0);
+          const sumForecast = valuesForecast.reduce((s, v) => s + (Number(v) || 0), 0);
+          const hasMeta = sumForecast > 0;
+          const percentage = hasMeta ? Math.round((sumActual / sumForecast) * 100) : 0;
+          const pctForSeries = hasMeta ? Math.min(100, Math.max(0, percentage)) : 100;
+          const seriesData = !hasMeta
+            ? [{ value: 1, name: 'Sin meta', itemStyle: { color: '#E5E7EB' } }]
+            : [
+                { value: pctForSeries, name: 'Cumplido', itemStyle: { color: '#10B981' } },
+                { value: 100 - pctForSeries, name: 'Pendiente', itemStyle: { color: '#E5E7EB' } }
+              ];
+          chDonut.setOption({
+            tooltip: {
+              trigger: 'item',
+              formatter: (p: any) => {
+                if (!hasMeta) return 'Meta no definida';
+                if (p && p.name === 'Cumplido') {
+                  return `${p.marker} ${p.seriesName}: ${sumActual} / ${sumForecast} (${percentage}%)`;
+                }
+                if (p && p.name === 'Pendiente') {
+                  return `${p.marker} Pendiente: ${Math.max(0, sumForecast - sumActual)}`;
+                }
+                return '';
+              }
+            },
+            series: [{
+              name: 'Cumplimiento Asistencia',
+              type: 'pie',
+              radius: ['62%', '82%'],
+              avoidLabelOverlap: false,
+              hoverAnimation: false,
+              label: {
+                show: true,
+                position: 'center',
+                formatter: hasMeta ? `${percentage}%` : '—',
+                fontSize: 16,
+                fontWeight: 700,
+                color: '#485572ff'
+              },
+              labelLine: { show: false },
+              data: seriesData
+            }]
+          });
+        }
+      }
+
       const anyPositive = valuesActual.some(v => Number(v) > 0) || valuesForecast.some(v => Number(v) > 0);
       if (!anyPositive) safeSetNoData(ch, el, 'Sin asistencias');
 

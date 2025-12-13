@@ -162,10 +162,10 @@ export function initVisitsDailyChart(containerSelector = '#chart-daily-visit',
         graphic: (valuesActual.concat(valuesForecast)).some(v => Number(v) > 0) ? { elements: [] } : undefined
       });
 
-      // Donut (optional): keep using existing DOM id '#donut-visit'
-      const elDonutVisit = root.querySelector('#donut-visit') as HTMLDivElement | null;
-      if (elDonutVisit) {
-        const chDonut = mkChartFn ? mkChartFn(elDonutVisit) : null;
+      // Donut
+      const elDonutDailyVisit = root.querySelector('#donut-daily-visit') as HTMLDivElement | null;
+      if (elDonutDailyVisit) {
+        const chDonut = mkChartFn ? mkChartFn(elDonutDailyVisit) : null;
         if (chDonut) {
           const sumActual = valuesActual.reduce((s, v) => s + (Number(v) || 0), 0);
           const sumForecast = valuesForecast.reduce((s, v) => s + (Number(v) || 0), 0);
