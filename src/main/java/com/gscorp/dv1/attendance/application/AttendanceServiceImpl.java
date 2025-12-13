@@ -11,6 +11,7 @@ import com.gscorp.dv1.attendance.infrastructure.AttendancePunch;
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunchProjection;
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchDto;
+import com.gscorp.dv1.attendance.web.dto.AttendancePunchPointDto;
 import com.gscorp.dv1.attendance.web.dto.CreateAttendancePunchRequest;
 import com.gscorp.dv1.attendance.web.dto.HourlyCountDto;
 import com.gscorp.dv1.components.ZoneResolver;
@@ -23,8 +24,11 @@ import com.gscorp.dv1.users.application.UserService;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -235,7 +239,13 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     @Transactional(readOnly = true)
     public List<AttendancePunchDto> findByUserAndDateBetween(
-              Long userId, LocalDate fromDate, LocalDate toDate, String clientTz) {
+              Long userId,
+              LocalDate fromDate,
+              LocalDate toDate,
+              String clientTz,
+              Long siteId,
+              Long projectId,
+              String action) {
 
         List<Long> clientIds = userService.getClientIdsForUser(userId);
         if (clientIds == null || clientIds.isEmpty()) {
@@ -251,8 +261,8 @@ public class AttendanceServiceImpl implements AttendanceService {
 
         // llamar repo que espera OffsetDateTime límites
         List<AttendancePunchProjection> rows = repo
-                                                .findDtoByClientIdsAndDateBetween(
-                                                    clientIds, start, endExclusive);
+                                                .findByClientIdsAndDateBetween(
+                                                    clientIds, start, endExclusive, siteId, projectId, action);
 
         // mapear proyection -> DTO final y formatear según zone
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -306,5 +316,80 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     }
 
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<AttendancePunchPointDto> getAttendanceSeriesForUserByDates(
+            Long userId,
+            LocalDate fromDate,
+            LocalDate toDate,
+            ZoneId zone,
+            String action,
+            Long siteId,
+            Long projectId
+    ){
+      
+        if (fromDate == null || toDate == null || zone == null) {
+            log.debug("Invalid args to getAttendanceSeriesForUserByDates: fromDate={} toDate={} zone={} action={} siteId={} projectId={}"
+            , fromDate, toDate, zone, action, siteId, projectId);
+            return List.of();
+        }
+
+        List<Long> clientIds = userService.getClientIdsForUser(userId);
+        if (clientIds == null || clientIds.isEmpty()) {
+            // devolver zeros para el rango pedido
+            List<AttendancePunchPointDto> empty = new ArrayList<>();
+            LocalDate d = fromDate;
+            while (!d.isAfter(toDate)) {
+                empty.add(new AttendancePunchPointDto(d.toString(), 0L));
+                d = d.plusDays(1);
+            }
+            return empty;
+        }
+
+        //Normalizar action
+        String normalizedAction = normalizeAction(action);
+
+        // Convertir a OffsetDateTime semi-abierto [fromDate, toDate)
+        OffsetDateTime fromOffset = fromDate.atStartOfDay(zone).toOffsetDateTime();
+        OffsetDateTime toOffset = toDate.plusDays(1)
+                                        .atStartOfDay(zone).toOffsetDateTime();
+
+        log.debug("Service: fetching attendances userId={} clientIds={} from={} to={} zone={} action={} siteId={} projectId={}"
+                                                    , userId, clientIds, fromOffset, toOffset, zone, normalizedAction, siteId, projectId);
+
+        List<AttendancePunchProjection> projections =
+                                  repo.findByClientIdsAndDateBetween(
+                                      clientIds, fromOffset, toOffset, siteId, projectId, normalizedAction);
+        //Mapear projection a Dto
+        List<AttendancePunchDto> attPunchsDto =
+
+           (projections == null)
+                ? List.of()
+                : projections.stream()
+                    .map(AttendancePunchDto::fromProjection)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+
+        //Agrupar por dia
+        Map<LocalDate, Long> grouped = attPunchsDto.stream()
+                .filter(dto -> dto.ts() != null)
+                .collect(Collectors.groupingBy(
+                        dto -> dto.ts().toInstant().atZone(zone).toLocalDate(),
+                        Collectors.counting()
+                ));
+
+        //Construir serie
+        List<AttendancePunchPointDto> series = new ArrayList<>();
+        LocalDate d = fromDate;
+        while (!d.isAfter(toDate)) {
+            Long y = grouped.getOrDefault(d, 0L);
+            series.add(new AttendancePunchPointDto(d.toString(), y));
+            d = d.plusDays(1);
+        }
+
+        return series;
+
+      }
 
 }

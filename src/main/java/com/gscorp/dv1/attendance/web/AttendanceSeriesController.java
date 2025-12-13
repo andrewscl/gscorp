@@ -1,57 +1,108 @@
 package com.gscorp.dv1.attendance.web;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.gscorp.dv1.attendance.application.AttendanceService;
-import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
 import com.gscorp.dv1.attendance.web.dto.HourlyCountDto;
-import com.gscorp.dv1.attendance.web.dto.SeriesAttendancePunch;
+import com.gscorp.dv1.attendance.web.dto.AttendancePunchPointDto;
+import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.users.application.UserService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+
+@Slf4j
 @RestController
 @RequestMapping("/api/attendance")
 @RequiredArgsConstructor
 public class AttendanceSeriesController {
 
-  private final AttendancePunchRepo repo;
   private final UserService userService;
   private final AttendanceService attendanceService;
+  private final ZoneResolver zoneResolver;
 
   @GetMapping("/series")
-  public ResponseEntity<List<SeriesAttendancePunch>> series(
-      Authentication auth,
-      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
-      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
-      @RequestParam(required = false) String action // "IN" | "OUT" | null
-  ) {
-    Long userId = currentUserId(auth); // ajusta según tu seguridad
-    String normalizedAction = normalizeAction(action);
+  public ResponseEntity<List<AttendancePunchPointDto>> series(
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
+        @RequestParam(required = false) Integer days,
+        @RequestParam(required = false) String tz,
+        @RequestParam(required = false) String action, // "IN" | "OUT" | null
+        @RequestParam(required = false) Long siteId,
+        @RequestParam(required = false) Long projectId,
+      Authentication authentication
+    ) {
 
-    // Ahora devuelve List<AttendancePunchRepo.DayCount>
-    var rows = repo.countByDay(from, to, normalizedAction, userId);
+        final int DEFAULT_DAYS = 7;
+        final int MAX_DAYS = 90;
 
-    // Mapeo usando getters de la proyección
-    Map<String, Long> map = rows.stream().collect(Collectors.toMap(
-        AttendancePunchRepo.DayCount::getDay,
-        dc -> Optional.ofNullable(dc.getCnt()).orElse(0L)
-    ));
+        Long userId = userService.getUserIdFromAuthentication(authentication);
+        if (userId == null) {
+              log.warn("Usuario no autenticado para /attendance-series auth={}", authentication);
+              throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "usuario no autenticado.");
+        }
 
-    // Rellenar días faltantes
-    var out = new ArrayList<SeriesAttendancePunch>();
-    for (LocalDate d = from; !d.isAfter(to); d = d.plusDays(1)) {
-      String key = d.toString(); // YYYY-MM-DD
-      out.add(new SeriesAttendancePunch(key, map.getOrDefault(key, 0L)));
-    }
-    return ResponseEntity.ok(out);
+        // Resolver zona con ZoneResolver (requested tz -> user preference -> system default)
+        var zr = zoneResolver.resolveZone(userId, tz);
+        ZoneId zone = zr.zoneId();
+
+        LocalDate fromDate;
+        LocalDate toDate;
+        if (from != null && to != null) {
+            fromDate = from;
+            toDate = to;
+        } else {
+            int d = (days == null) ? DEFAULT_DAYS : days;
+            if (d < 1) d = 1;
+            if (d > MAX_DAYS) d = MAX_DAYS;
+            toDate = LocalDate.now(zone);
+            fromDate = toDate.minusDays(d - 1);
+        }
+
+        // Normalizar orden
+        if (fromDate.isAfter(toDate)) {
+            LocalDate tmp = fromDate;
+            fromDate = toDate;
+            toDate = tmp;
+        }
+
+        String normalizedAction = normalizeAction(action);
+        if (action != null && normalizedAction == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "action inválida. Valores aceptados: IN, OUT");
+        }
+
+        log.debug("Attendance series request userId={} from={} to={} tz={} action={} siteId={} projectId={} (resolvedSource={})",
+        userId, fromDate, toDate, zone, normalizedAction, siteId, projectId, zr.source());
+
+        try{
+          List<AttendancePunchPointDto> series =
+               attendanceService.getAttendanceSeriesForUserByDates(
+                          userId, fromDate, toDate, zone, normalizedAction, siteId, projectId);         
+          
+
+        return ResponseEntity.ok()
+                .header("X-Resolved-timezone", zone.toString())
+                .body(series);
+
+        } catch (ResponseStatusException e) {
+          throw e;
+        } catch (Exception ex) {
+          log.error("Error en AttendanceSeriesController.series: {}", ex.getMessage(), ex);
+          throw new ResponseStatusException(
+              HttpStatus.INTERNAL_SERVER_ERROR,
+              "Error obteniendo series de asistencia.");
+          }
+
   }
 
 
@@ -89,11 +140,5 @@ public class AttendanceSeriesController {
     return t.isEmpty() ? null : t.toUpperCase(); // "IN"/"OUT"
   }
 
-  private Long currentUserId(Authentication auth) {
-    return 1L;
-  }
 
-
-
-  
 }

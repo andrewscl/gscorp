@@ -47,6 +47,7 @@ public interface SiteVisitService {
 
     long countByClientIdAndDate(Long clientId, LocalDate date, String tz);
 
+
     List<SiteVisitPointDto> getVisitsSeriesForUserByDates
                 (Long userId, LocalDate fromDate, LocalDate toDate, ZoneId zone);
 

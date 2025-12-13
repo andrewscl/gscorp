@@ -137,13 +137,19 @@ public interface AttendancePunchRepo extends JpaRepository <AttendancePunch, Lon
         LEFT JOIN ap.user u
         LEFT JOIN u.employee e
         WHERE p.client.id IN :clientIds
-          AND ap.ts >= :start
-          AND ap.ts <  :endExclusive
+            AND ap.ts >= :start
+            AND ap.ts <  :endExclusive
+            AND (:siteId IS NULL OR s.id = :siteId)
+            AND (:projectId IS NULL OR p.id = :projectId)
+            AND (:action IS NULL OR ap.action = :action)
         """)
-    List<AttendancePunchProjection> findDtoByClientIdsAndDateBetween(
+    List<AttendancePunchProjection> findByClientIdsAndDateBetween(
         @Param("clientIds") List<Long> clientIds,
         @Param("start") OffsetDateTime start,
-        @Param("endExclusive") OffsetDateTime endExclusive
+        @Param("endExclusive") OffsetDateTime endExclusive,
+        @Param("siteId") Long siteId,
+        @Param("projectId") Long projectId,
+        @Param("action") String action
     );
 
 

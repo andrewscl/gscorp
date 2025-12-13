@@ -57,7 +57,10 @@ public class AttendanceController {
         Authentication authentication,
         @RequestParam(required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
         @RequestParam(required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
-        @RequestParam(required=false) String clientTz
+        @RequestParam(required=false) String clientTz,
+        @RequestParam(required=false) Long siteId,
+        @RequestParam(required=false) Long projectId,
+        @RequestParam(required=false) String action // "IN" | "OUT" |
     ) {
 
         Long userId = userService.getUserIdFromAuthentication(authentication);
@@ -90,7 +93,8 @@ public class AttendanceController {
         String resolvedZoneId = zone.getId();
 
         List<AttendancePunchDto> punchs = attendanceService
-                                        .findByUserAndDateBetween(userId, from, to, resolvedZoneId);
+                                        .findByUserAndDateBetween(
+                                            userId, from, to, resolvedZoneId, siteId, projectId, action);
 
         // cantidad de registros encontrados
         int punchsCount = punchs != null ? punchs.size() : 0;
@@ -102,7 +106,6 @@ public class AttendanceController {
         model.addAttribute("fromDate", from);
         model.addAttribute("toDate", to);
         model.addAttribute("clientTimeZone", clientTz != null ? clientTz : zr.zoneId().getId());
-
         model.addAttribute("attendance", attendanceRepo.findAll());
         return "private/attendance/views/attendance-table-view";
     }

@@ -1,4 +1,6 @@
-// Attendance daily chart module (uses fetchWithTimeout from ../utils/api)
+// Attendance daily chart module (last N days)
+// - Exports initAttendanceDailyChart(selector, opts) -> { render, destroy, chart, container }
+// - Reuses shared helpers and mkChart from lib/echarts-setup
 import { fetchWithTimeout } from '../../utils/api';
 import {
   normalizeToPoints,
@@ -9,26 +11,26 @@ import {
   getMonthFormatter
 } from '../../utils/chart-utils';
 import { safeSetNoData } from '../../utils/chart-uiutils';
-
-// Prefer to import a mkChart helper that encapsula echarts.init
-// Ensure ../lib/echarts-setup exports `mkChart` (recommended) and optionally `echarts`.
 import { mkChart as defaultMkChart } from '../../lib/echarts-setup';
 
 export type AttendanceChartOptions = {
   days?: number;
   tz?: string;
   fetchWithTimeout?: typeof fetchWithTimeout;
-  // mkChart should be a function (el: HTMLElement | null) => any
   mkChart?: (el: HTMLElement | null) => any;
   root?: Document | HTMLElement;
   apiBase?: string;
+
+  metric?: string;
+  siteId?: number | null;
+  projectId?: number | null;
+  forecastPath?: string | null;
 };
 
 export function initAttendanceDailyChart(containerSelector = '#chart-daily-attendance', opts: AttendanceChartOptions = {}) {
   const root = (opts.root ?? document) as Document;
   const el = root.querySelector(containerSelector) as HTMLDivElement | null;
 
-  // Resolve mkChart function: prefer injected, then default import
   const mkChartFn = opts.mkChart ?? defaultMkChart;
   const fetchFn = opts.fetchWithTimeout ?? fetchWithTimeout;
   const monthFormatter = getMonthFormatter();
@@ -37,10 +39,18 @@ export function initAttendanceDailyChart(containerSelector = '#chart-daily-atten
 
   const ch = mkChartFn ? mkChartFn(el) : null;
 
+  // Helper: add param only if value is not null/undefined/empty/'undefined'
+  function safeAddParam(params: URLSearchParams, key: string, val: any) {
+    if (val === null || val === undefined) return;
+    if (typeof val === 'string') {
+      const s = val.trim();
+      if (s === '' || s === 'undefined') return;
+    }
+    params.set(key, String(val));
+  }
+
   async function render() {
     try {
-
-      // build date range expected by the backend: from, to (YYYY-MM-DD)
       const labels = buildLastNDatesIso(days);
       if (!Array.isArray(labels) || labels.length === 0) {
         safeSetNoData(ch, el, 'Sin datos');
@@ -49,13 +59,28 @@ export function initAttendanceDailyChart(containerSelector = '#chart-daily-atten
       const from = labels[0];
       const to = labels[labels.length - 1];
 
-      const params = new URLSearchParams({ from, to });
-      const urlActual = `${apiBase}/api/attendance/series?${params.toString()}`;
-      const urlForecast = `${apiBase}/api/forecasts/attendance-forecast-series?${params.toString()}`;
+      const tz = opts.tz ?? Intl.DateTimeFormat().resolvedOptions().timeZone ?? 'UTC';
+      const paramsActual = new URLSearchParams({ from, to, tz });
+      const urlActual = `${apiBase}/api/attendance/series?${paramsActual.toString()}`;
+
+      // Forecast params: metric, siteId, projectId
+      const forecastMetric = opts.metric ?? 'ATTENDANCE';
+      const willFetchForecast = opts.forecastPath === undefined ? true : opts.forecastPath !== null;
+      let urlForecast: string | null = null;
+      if (willFetchForecast) {
+        const paramsForecast = new URLSearchParams({ from, to, tz, metric: String(forecastMetric) });
+        safeAddParam(paramsForecast, 'siteId', opts.siteId);
+        safeAddParam(paramsForecast, 'projectId', opts.projectId);
+
+        const forecastBase = opts.forecastPath ?? `${apiBase}/api/forecasts/forecast-series`;
+        urlForecast = `${forecastBase}?${paramsForecast.toString()}`;
+
+        console.debug('[attendance-chart] forecast url:', urlForecast);
+      }
 
       const [resActual, resForecast] = await Promise.all([
         fetchFn ? fetchFn(urlActual, {}, 15000, true).catch((e: any) => { console.warn(e); return null; }) : fetch(urlActual).catch(() => null),
-        fetchFn ? fetchFn(urlForecast, {}, 15000, true).catch((e: any) => { console.warn(e); return null; }) : fetch(urlForecast).catch(() => null)
+        urlForecast ? (fetchFn ? fetchFn(urlForecast, {}, 15000, true).catch((e: any) => { console.warn(e); return null; }) : fetch(urlForecast).catch(() => null)) : Promise.resolve(null)
       ]);
 
       const parseOrEmpty = async (r: Response | null) => {

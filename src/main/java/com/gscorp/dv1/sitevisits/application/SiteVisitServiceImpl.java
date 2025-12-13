@@ -52,7 +52,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class SiteVisitServiceImpl implements SiteVisitService{
 
-    private final SiteVisitRepository siteSupervisionVisitRepo;
+    private final SiteVisitRepository siteVisitRepo;
     private final EmployeeService employeeService;
     private final SiteService siteService;
     private final UserService userService;
@@ -178,7 +178,7 @@ public class SiteVisitServiceImpl implements SiteVisitService{
             .timezoneSource(timezoneSourceToStore)
             .build();
 
-        SiteVisit savedEntity = siteSupervisionVisitRepo.save(entity);
+        SiteVisit savedEntity = siteVisitRepo.save(entity);
 
         return SiteVisitDto.fromEntity(savedEntity);
     }
@@ -202,7 +202,7 @@ public class SiteVisitServiceImpl implements SiteVisitService{
         OffsetDateTime endExclusive = toDate.plusDays(1).atStartOfDay(zone).toOffsetDateTime();
 
         // llamar repo que espera OffsetDateTime límites
-        List<SiteVisitDtoProjection> rows = siteSupervisionVisitRepo
+        List<SiteVisitDtoProjection> rows = siteVisitRepo
                                                 .findDtoByUserAndDateBetween(clientIds, start, endExclusive);
 
         // mapear proyection -> DTO final y formatear según zone
@@ -253,7 +253,7 @@ public class SiteVisitServiceImpl implements SiteVisitService{
 
     @Override
     public SiteVisitDto findByIdWithEmployeeAndSite(Long id) {
-        var visit = siteSupervisionVisitRepo.findByIdWithEmployeeAndSite(id)
+        var visit = siteVisitRepo.findByIdWithEmployeeAndSite(id)
             .orElseThrow(() -> 
                 new IllegalArgumentException("Visita de supervisión no encontrada: " + id));
         return SiteVisitDto.fromEntity(visit);
@@ -264,13 +264,13 @@ public class SiteVisitServiceImpl implements SiteVisitService{
     ZoneId zone = ZoneId.systemDefault();
     OffsetDateTime start = date.atStartOfDay(zone).toOffsetDateTime();
     OffsetDateTime end = date.plusDays(1).atStartOfDay(zone).toOffsetDateTime();
-    return siteSupervisionVisitRepo.countByClientIdAndDateBetween(clientId, start, end);
+    return siteVisitRepo.countByClientIdAndDateBetween(clientId, start, end);
     }
 
 
     @Override
     public List<SiteVisitCountDto> getVisitsBySite(Long clientId, OffsetDateTime from, OffsetDateTime to) {
-        return siteSupervisionVisitRepo.findVisitsCountBySite(clientId, from, to);
+        return siteVisitRepo.findVisitsCountBySite(clientId, from, to);
     }
 
 
@@ -303,7 +303,7 @@ public class SiteVisitServiceImpl implements SiteVisitService{
 
         // 4) obtener proyección (por site/hora) y sumar por hora (00..23)
         List<SiteVisitHourlyCountProjection> rows =
-                siteSupervisionVisitRepo.findByClientIdsAndDateAndHourlyBetween(from, to, zone.getId(), clientIds);
+                siteVisitRepo.findByClientIdsAndDateAndHourlyBetween(from, to, zone.getId(), clientIds);
 
         long[] sums = new long[24];
         if (rows != null) {
@@ -351,7 +351,7 @@ public class SiteVisitServiceImpl implements SiteVisitService{
         OffsetDateTime from = startZdt.toOffsetDateTime();
         OffsetDateTime to = endZdt.toOffsetDateTime();
 
-        return siteSupervisionVisitRepo.countByClientIdsAndTsBetween(clientIds, from, to);
+        return siteVisitRepo.countByClientIdsAndTsBetween(clientIds, from, to);
     }
 
     /**
@@ -370,6 +370,12 @@ public class SiteVisitServiceImpl implements SiteVisitService{
     public List<SiteVisitPointDto> getVisitsSeriesForUserByDates
                             (Long userId, LocalDate fromDate, LocalDate toDate, ZoneId zone) {
 
+        if (fromDate == null || toDate == null || zone == null) {
+            log.debug("Invalid args to getAttendanceSeriesForUserByDates: fromDate={} toDate={} zone={}"
+                                                        , fromDate, toDate, zone);
+            return List.of();
+        }
+
         List<Long> clientIds = userService.getClientIdsForUser(userId);
         if (clientIds == null || clientIds.isEmpty()) {
             // devolver zeros para el rango pedido
@@ -382,16 +388,19 @@ public class SiteVisitServiceImpl implements SiteVisitService{
             return empty;
         }
 
-        // 2) convertir a OffsetDateTime semi-abierto [fromDate, toDate)
+        // convertir a OffsetDateTime semi-abierto [fromDate, toDate)
         OffsetDateTime fromOffset = fromDate.atStartOfDay(zone).toOffsetDateTime();
         OffsetDateTime toOffset = toDate.plusDays(1).atStartOfDay(zone).toOffsetDateTime();
 
-        // 3) traer DTOs (repo devuelve SiteSupervisionVisitDto)
-        log.debug("Service: fetching visits userId={} clientIds={} from={} to={} zone={}", userId, clientIds, fromOffset, toOffset, zone);
-        List<SiteVisit> entities = siteSupervisionVisitRepo.findByClientIdsAndDateBetween(clientIds, fromOffset, toOffset);
-        log.debug("Service: visits fetched count={}", entities == null ? null : entities.size());
+        // traer DTOs (repo devuelve SiteSupervisionVisitDto)
+        log.debug("Service: fetching visits userId={} clientIds={} from={} to={} zone={}"
+                                                    , userId, clientIds, fromOffset, toOffset, zone);
+        List<SiteVisit> entities = siteVisitRepo
+                                .findByClientIdsAndDateBetween(clientIds, fromOffset, toOffset);
+        log.debug("Service: visits fetched count={}",
+                                entities == null ? null : entities.size());
 
-        // 4.1)Mapear entidades a DTOs (usa el fromEntity que ya tienes en SiteSupervisionVisitDto)
+        // Mapear entidades a DTOs (usa el fromEntity que ya tienes en SiteSupervisionVisitDto)
         List<SiteVisitDto> visitsDto = (entities == null)
                 ? List.of()
                 : entities.stream()

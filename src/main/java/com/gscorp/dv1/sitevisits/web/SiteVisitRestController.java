@@ -95,7 +95,7 @@ public class SiteVisitRestController {
     try{
 
         final int DEFAULT_DAYS = 7;
-        final int MAX_DAYS = 90; // limita para proteger la BD
+        final int MAX_DAYS = 90;
 
         Long userId = userService.getUserIdFromAuthentication(authentication);
         if (userId == null) {
@@ -144,6 +144,8 @@ public class SiteVisitRestController {
     }
 
   }
+
+
 
     @GetMapping("/kpis")
     public Map<String, Object> getKpis(

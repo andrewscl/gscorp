@@ -14,9 +14,14 @@ import com.gscorp.dv1.forecast.web.dto.ForecastTableRowDto;
 public interface ForecastService {
 
 
-    List<ForecastPointDto> getForecastSeriesForUserByDates
-                (Long userId, LocalDate fromDate, LocalDate toDate, ZoneId zone, ForecastMetric metric, Long siteId, Long projectId);
-
+    List<ForecastPointDto> getForecastSeriesForUserByDates(
+                Long userId,
+                LocalDate fromDate,
+                LocalDate toDate,
+                ZoneId zone,
+                ForecastMetric metric,
+                Long siteId,
+                Long projectId);
 
     List<ForecastTableRowDto> findRowsFilteredForUser(Long userId, String siteName, String metric, ZoneId zone);
 
