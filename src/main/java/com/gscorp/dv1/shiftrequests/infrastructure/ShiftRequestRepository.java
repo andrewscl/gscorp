@@ -74,7 +74,7 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               FROM ShiftRequest r
               JOIN r.site s
               JOIN s.project p
-              LEFT JOIN r.shiftRequestSchedules sc
+              LEFT JOIN r.shiftRequestSchedule sc
               WHERE p.client.id IN :clientIds
                      AND (:siteId IS NULL OR s.id = :siteId)
                      AND (:type IS NULL OR r.type = :type)
