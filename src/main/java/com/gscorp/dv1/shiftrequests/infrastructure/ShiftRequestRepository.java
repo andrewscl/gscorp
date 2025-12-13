@@ -69,20 +69,18 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
                      r.status                              AS status,
                      r.description                         AS description,
                      r.createdAt                           AS createdAt,
-                     -- contar solo schedules dentro del rango [start, endExclusive)
                      SUM(CASE WHEN sc.startDate >= :start AND sc.startDate < :endExclusive THEN 1 ELSE 0 END) AS schedulesCount,
-                     -- próxima schedule >= now
                      MIN(CASE WHEN sc.startDate >= :now THEN sc.startDate ELSE NULL END)         AS nextScheduleStart
               FROM ShiftRequest r
               JOIN r.site s
               JOIN s.project p
               LEFT JOIN r.shiftRequestSchedules sc
               WHERE p.client.id IN :clientIds
-              AND (:siteId IS NULL OR s.id = :siteId)
-              AND (:type IS NULL OR r.type = :type)
+                     AND (:siteId IS NULL OR s.id = :siteId)
+                     AND (:type IS NULL OR r.type = :type)
               GROUP BY
-              r.id, r.code, s.id, s.name, r.clientAccountId, r.type,
-              r.startDate, r.endDate, r.status, r.description, r.createdAt
+                     r.id, r.code, s.id, s.name, r.clientAccountId, r.type,
+                     r.startDate, r.endDate, r.status, r.description, r.createdAt
               ORDER BY r.startDate DESC
               """)
        List<ShiftRequestProjection> findProjectionByUserAndDateBetween(
