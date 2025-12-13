@@ -1,61 +1,87 @@
-<div th:fragment="content" class="shift-requests-table-fragment">
-  <div class="shift-requests-header">
-    <h2>
-      <!-- Icono turnos -->
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-           style="vertical-align:-6px;margin-right:.5rem">
-        <circle cx="12" cy="12" r="10" fill="#eef2ff"/>
-        <path d="M8 7h8M8 12h8M8 17h5" stroke="#2563eb" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      Requerimientos de turno
-    </h2>
+<div th:fragment="content" id="shift-requests-root" class="shift-requests-root">
 
-    <!-- Navegación SPA vía data-path -->
-    <button type="button" class="btn-primary" data-path="/private/shift-requests/create" id="createShiftRequestBtn">
-      <svg width="18" height="18" fill="none" stroke="#fff" stroke-width="2" style="vertical-align:middle;margin-right:.35rem">
-        <circle cx="9" cy="9" r="8" fill="#2563eb" stroke="none"/>
-        <path d="M9 5v8M5 9h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
-      </svg>
-      Crear Requerimiento
-    </button>
+  <div class="shift-requests-header"
+       th:with="fromVar=${from != null ? from : (fromDate != null ? fromDate : null)},
+                toVar=${to != null ? to : (toDate != null ? toDate : null)}">
+
+    <!-- title row: icon + text left, badge (count) right -->
+    <div class="title-row" role="heading" aria-level="2">
+      <div class="title-left" aria-hidden="true">
+        <!-- icon table-like -->
+        <svg class="icon icon-table" width="24" height="24" viewBox="0 0 24 24" focusable="false" style="vertical-align: -3px;">
+          <rect x="2" y="4" width="20" height="16" rx="2" fill="#eef2ff" stroke="#2563eb" stroke-width="1"/>
+          <path d="M6 12h12M6 8h12M6 16h8" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span class="title-text">Requerimientos de turno</span>
+      </div>
+
+      <!-- badge with count -->
+      <span class="requests-count" th:if="${shiftRequestsCount != null}"
+            th:text="${shiftRequestsCount + ' registro' + (shiftRequestsCount == 1 ? '' : 's')}"
+            aria-live="polite" aria-atomic="true"></span>
+    </div>
+
+    <!-- header meta -->
+    <div class="header-meta"
+         th:replace="private/shift-requests/fragments/shift-request-header-meta :: headerMeta(${fromVar}, ${toVar}, ${shiftRequestsCount})">
+    </div>
+
+    <!-- filters / toolbar -->
+    <div class="filters-row" role="toolbar" aria-label="Filtros de requerimientos de turno">
+      <label class="filter-item">
+        <span class="filter-label">Desde</span>
+        <input id="filter-from" class="filter-input" type="date" name="from"
+               th:value="${from != null ? #temporals.format(from, 'yyyy-MM-dd') : (fromDate != null ? #temporals.format(fromDate, 'yyyy-MM-dd') : '')}" />
+      </label>
+
+      <label class="filter-item">
+        <span class="filter-label">Hasta</span>
+        <input id="filter-to" class="filter-input" type="date" name="to"
+               th:value="${to != null ? #temporals.format(to, 'yyyy-MM-dd') : (toDate != null ? #temporals.format(toDate, 'yyyy-MM-dd') : '')}" />
+      </label>
+
+      <button id="applyShiftFiltersBtn" type="button" class="btn btn-secondary"
+              data-ajax-url="/private/shift-requests/table-search"
+              aria-label="Aplicar filtros">
+        Aplicar
+      </button>
+
+      <div class="filters-actions">
+        <button id="createShiftRequestBtn" class="btn btn-primary"
+                th:if="${#authorization.expression('hasRole(''SCHEDULER'')')}"
+                th:attr="data-path=@{/private/shift-requests/create}" aria-label="Crear requerimiento">
+          <svg class="icon icon-plus" width="16" height="16" viewBox="0 0 16 16" focusable="false">
+            <circle cx="8" cy="8" r="7" fill="#dbeafe" stroke="#1e3a8a" stroke-width="1"/>
+            <path d="M8 5v6M5 8h6" stroke="#1e3a8a" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Crear Requerimiento
+        </button>
+      </div>
+    </div>
+
   </div>
 
   <div class="shift-requests-table-container">
-    <table class="shift-requests-table">
+    <table class="shift-requests-table" role="table" aria-label="Tabla de requerimientos de turno">
+      <caption class="visually-hidden">Listado de requerimientos de turno</caption>
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Código</th>
-          <th>Sitio</th>
-          <th>Tipo</th>
-          <th>Fecha inicio</th>
-          <th>Fecha fin</th>
-          <th>Acciones</th>
+          <th scope="col">ID</th>
+          <th scope="col">Código</th>
+          <th scope="col">Sitio</th>
+          <th scope="col">Tipo</th>
+          <th scope="col">Fecha inicio</th>
+          <th scope="col">Fecha fin</th>
+          <th scope="col">Acciones</th>
         </tr>
       </thead>
-      <tbody>
-        <tr th:each="r : ${shiftRequests}" th:data-id="${r.id}">
-          <td th:text="${r.id}">1</td>
-          <td th:text="${r.code}">TR001</td>
-          <td th:text="${r.site != null ? r.site.name : '—'}">Nombre sitio</td>
-          <td th:text="${r.type}">TIPO</td>
-          <td th:text="${r.startDate != null ? #temporals.format(r.startDate, 'yyyy-MM-dd') : '—'}">2025-01-01</td>
-          <td th:text="${r.endDate != null ? #temporals.format(r.endDate, 'yyyy-MM-dd') : '—'}">2025-12-31</td>
 
-          <td class="actions">
-            <button type="button" class="btn-link"
-                    th:attr="data-path=@{/private/shift-requests/show/{id}(id=${r.id})}">
-              Ver
-            </button>
-
-            <button type="button" class="btn-link"
-                    th:attr="data-path=@{/private/shift-requests/edit/{id}(id=${r.id})}"
-                    th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
-              Editar
-            </button>
-          </td>
-        </tr>
-      </tbody>
+      <!-- Render rows via a fragment for consistency -->
+      <tbody th:replace="private/shift-requests/fragments/shift-request-table-rows :: rows"></tbody>
     </table>
   </div>
+
+  <!-- Module scripts for interactive behavior (search, row actions, SPA navigation) -->
+  <script type="module" src="/js/private/shift-requests/shift-request-table.js"></script>
+  <script type="module" src="/js/private/shift-requests/shift-request-table-update.js"></script>
 </div>

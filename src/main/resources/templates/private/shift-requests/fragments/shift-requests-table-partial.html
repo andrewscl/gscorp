@@ -1,0 +1,7 @@
+<div th:fragment="partial">
+  <!-- incluir header-meta fragment (le pasamos las variables que use tu fragment) -->
+  <div th:replace="private/shift-requests/fragments/shift-request-header-meta :: headerMeta(${fromDate}, ${toDate}, ${shiftRequestsCount})"></div>
+
+  <!-- insertar las filas (reutiliza tu fragment rows) -->
+  <div th:replace="private/shift-requests/fragments/shift-request-table-rows :: rows"></div>
+</div>

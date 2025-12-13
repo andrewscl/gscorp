@@ -62,13 +62,14 @@
 
 
 
-  <!-- Weekly charts (ahora con layout integrado igual que daily) -->
-  <div class="charts weekly" role="group" aria-label="Indicadores semanales">
-    <!-- Weekly Attendance -->
-    <div class="card" data-card="weekly-attendance">
+  <!-- Daily charts (ahora con layout integrado igual que daily) -->
+  <div class="charts daily" role="group" aria-label="Indicadores semanales">
+
+    <!-- Daily Attendance -->
+    <div class="card" data-card="daily-attendance">
       <div class="card-top split">
         <div class="split-left">
-          <div id="donut-att" class="daily-donut integrated" data-testid="donut-att" aria-hidden="false"></div>
+          <div id="donut-daily-attendance" class="daily-donut integrated" data-testid="donut-daily-attendance" aria-hidden="false"></div>
         </div>
         <div class="split-right">
           <h5>Asistencias última semana</h5>
@@ -79,11 +80,11 @@
           </div>
         </div>
       </div>
-      <div id="chart-att" class="chart-body" aria-hidden="false"></div>
+      <div id="chart-daily-attendance" class="chart-body" aria-hidden="false"></div>
     </div>
 
-    <!-- Weekly Patrols -->
-    <div class="card" data-card="weekly-patrols">
+    <!-- Daily Patrols -->
+    <div class="card" data-card="daily-patrols">
       <div class="card-top split">
         <div class="split-left">
           <div id="donut-patrol" class="daily-donut integrated" data-testid="donut-patrol" aria-hidden="false"></div>
@@ -92,30 +93,30 @@
           <h5>Rondas última semana</h5>
           <div class="card-totals" aria-live="polite">
             <div class="total-label">Total semana</div>
-            <div class="total-value" id="total-weekly-patrol">–</div>
-            <div class="meta small muted" id="meta-weekly-patrol">Meta: —</div>
+            <div class="total-value" id="total-daily-patrol">–</div>
+            <div class="meta small muted" id="meta-daily-patrol">Meta: —</div>
           </div>
         </div>
       </div>
-      <div id="chart-patrol" class="chart-body" aria-hidden="false"></div>
+      <div id="chart-daily-patrol" class="chart-body" aria-hidden="false"></div>
     </div>
 
-    <!-- Weekly Visits -->
-    <div class="card" data-card="weekly-visits">
+    <!-- Daily Visits -->
+    <div class="card" data-card="daily-visits">
       <div class="card-top split">
         <div class="split-left">
-          <div id="donut-visit" class="daily-donut integrated" data-testid="donut-visit" aria-hidden="false"></div>
+          <div id="donut-daily-visit" class="daily-donut integrated" data-testid="donut-daily-visit" aria-hidden="false"></div>
         </div>
         <div class="split-right">
           <h5>Visitas última semana</h5>
           <div class="card-totals" aria-live="polite">
             <div class="total-label">Total semana</div>
-            <div class="total-value" id="total-weekly-visit">–</div>
-            <div class="meta small muted" id="meta-weekly-visit">Meta: —</div>
+            <div class="total-value" id="total-daily-visit">–</div>
+            <div class="meta small muted" id="meta-daily-visit">Meta: —</div>
           </div>
         </div>
       </div>
-      <div id="chart-visit" class="chart-body" aria-hidden="false"></div>
+      <div id="chart-daily-visit" class="chart-body" aria-hidden="false"></div>
     </div>
   </div>
 

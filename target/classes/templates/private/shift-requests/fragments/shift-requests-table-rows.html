@@ -1,0 +1,23 @@
+      <tbody th:fragment="rows">
+        <tr th:each="r : ${shiftRequests}" th:data-id="${r.id}">
+          <td th:text="${r.id}">1</td>
+          <td th:text="${r.code}">TR001</td>
+          <td th:text="${r.site != null ? r.site.name : '—'}">Nombre sitio</td>
+          <td th:text="${r.type}">TIPO</td>
+          <td th:text="${r.startDate != null ? #temporals.format(r.startDate, 'yyyy-MM-dd') : '—'}">2025-01-01</td>
+          <td th:text="${r.endDate != null ? #temporals.format(r.endDate, 'yyyy-MM-dd') : '—'}">2025-12-31</td>
+
+          <td class="actions">
+            <button type="button" class="btn-link"
+                    th:attr="data-path=@{/private/shift-requests/show/{id}(id=${r.id})}">
+              Ver
+            </button>
+
+            <button type="button" class="btn-link"
+                    th:attr="data-path=@{/private/shift-requests/edit/{id}(id=${r.id})}"
+                    th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
+              Editar
+            </button>
+          </td>
+        </tr>
+      </tbody>
