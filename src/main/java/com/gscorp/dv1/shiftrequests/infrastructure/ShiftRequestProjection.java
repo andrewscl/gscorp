@@ -1,6 +1,7 @@
 package com.gscorp.dv1.shiftrequests.infrastructure;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public interface ShiftRequestProjection {
     
@@ -10,14 +11,13 @@ public interface ShiftRequestProjection {
     String getSiteName();
     Long getClientAccountId();
     String getType();
-    OffsetDateTime getStartDate();
-    OffsetDateTime getEndDate();
+    LocalDate getStartDate();
+    LocalDate getEndDate();
     String getStatus();
     String getDescription();
-    OffsetDateTime getCreatedAt();
+    LocalDateTime getCreatedAt();
 
     // Resumen ligero sobre schedules
     Integer getSchedulesCount();
-    OffsetDateTime getNextScheduleStart();
 
 }

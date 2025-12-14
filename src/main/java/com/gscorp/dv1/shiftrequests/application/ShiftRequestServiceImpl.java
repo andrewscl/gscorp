@@ -2,7 +2,6 @@ package com.gscorp.dv1.shiftrequests.application;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
 import java.util.Collection;
@@ -338,27 +337,24 @@ public List<ShiftRequestDtoLight> findByUserIdAndDateBetween(
     ZoneResolutionResult zr = zoneResolver.resolveZone(userId, clientTz);
     ZoneId zone = zr.zoneId();
 
-    // intervalo [start, end)
-    OffsetDateTime start = null;
-    OffsetDateTime endExclusive = null;
+    // intervalo [fromDate, toDate)
+    LocalDate start = null;
+    LocalDate endExclusive = null;
     if (fromDate != null) {
-        start = fromDate.atStartOfDay(zone).toOffsetDateTime();
+        start = fromDate.atStartOfDay(zone).toLocalDate();
     }
     if (toDate != null) {
-        endExclusive = toDate.plusDays(1).atStartOfDay(zone).toOffsetDateTime();
+        endExclusive = toDate.plusDays(1).atStartOfDay(zone).toLocalDate();
     }
 
     Long siteIdLong = siteId != null && siteId > 0 ? siteId : null;
-
-    OffsetDateTime now = OffsetDateTime.now(zone);
 
     List<ShiftRequestProjection> projections = shiftRequestRepository.findProjectionByUserAndDateBetween(
             clientIds,
             start,
             endExclusive,
             siteIdLong,
-            type,
-            now
+            type
     );
 
     if (projections == null || projections.isEmpty()) {

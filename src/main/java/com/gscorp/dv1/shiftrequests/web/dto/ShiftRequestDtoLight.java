@@ -1,6 +1,7 @@
 package com.gscorp.dv1.shiftrequests.web.dto;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequestProjection;
 
@@ -11,13 +12,12 @@ public record ShiftRequestDtoLight(
         String siteName,
         Long clientAccountId,
         String type,
-        OffsetDateTime startDate,
-        OffsetDateTime endDate,
+        LocalDate startDate,
+        LocalDate endDate,
         String status,
         String description,
-        OffsetDateTime createdAt,
-        Integer schedulesCount,
-        OffsetDateTime nextScheduleStart
+        LocalDateTime createdAt,
+        Integer schedulesCount
     ) {
         public static ShiftRequestDtoLight fromProjection(ShiftRequestProjection sr) {
             if (sr == null) return null;
@@ -33,8 +33,7 @@ public record ShiftRequestDtoLight(
                 sr.getStatus(),
                 sr.getDescription(),
                 sr.getCreatedAt(),
-                sr.getSchedulesCount() == null ? 0 : sr.getSchedulesCount(),
-                sr.getNextScheduleStart() == null ? null : sr.getNextScheduleStart()
+                sr.getSchedulesCount() == null ? 0 : sr.getSchedulesCount()
             );
         }
 
