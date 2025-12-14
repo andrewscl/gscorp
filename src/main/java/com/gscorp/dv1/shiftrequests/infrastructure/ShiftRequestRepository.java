@@ -69,7 +69,7 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               r.status                              AS status,
               r.description                         AS description,
               r.createdAt                           AS createdAt,
-              COUNT(sc.id)                          AS schedulesCount
+       COUNT(sc.id)                          AS schedulesCount
        FROM ShiftRequest r
        JOIN r.site s
        JOIN s.project p
@@ -77,8 +77,8 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
        WHERE p.client.id IN :clientIds
               AND (:fromDate IS NULL OR r.startDate >= :fromDate)
               AND (:toDateExclusive IS NULL OR r.startDate < :toDateExclusive)
-              AND (:siteId IS NULL OR s.id = :siteId)
-              AND (:type IS NULL OR r.type = :type)
+              AND s.id = COALESCE(:siteId, s.id)
+              AND r.type = COALESCE(:type, r.type)
        GROUP BY
        r.id, r.code, s.id, s.name, r.clientAccountId, r.type,
        r.startDate, r.endDate, r.status, r.description, r.createdAt
