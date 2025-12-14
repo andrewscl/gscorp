@@ -1,6 +1,7 @@
 package com.gscorp.dv1.shiftrequests.web;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.gscorp.dv1.components.ZoneResolver;
+import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.enums.ShiftRequestType;
 import com.gscorp.dv1.shiftrequests.application.ShiftRequestService;
 import com.gscorp.dv1.shiftrequests.web.dto.ShiftRequestDto;
@@ -22,7 +25,9 @@ import com.gscorp.dv1.sites.web.dto.SiteDto;
 import com.gscorp.dv1.users.application.UserService;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequestMapping("/private/shift-requests")
 @AllArgsConstructor
@@ -31,12 +36,67 @@ public class ShiftRequestController {
     private final ShiftRequestService shiftRequestService;
     private final SiteService siteService;
     private final UserService userService;
+    private final ZoneResolver zoneResolver;
 
     @GetMapping("/table-view")
-    public String getShiftRequestsTableView (Model model, Authentication authentication){ 
-        List<ShiftRequestDto> shiftRequests = shiftRequestService.
-            findShiftRequestDtosForPrincipal(authentication);
+    public String getShiftRequestsTableView (
+            Model model,
+            Authentication authentication,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate from,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate to,
+            @RequestParam(required = false)
+            String clientTz,
+            @RequestParam(required = false)
+            Long siteId,
+            @RequestParam(required = false)
+            ShiftRequestType type
+        ){ 
+
+        Long userId = userService.getUserIdFromAuthentication(authentication);
+        if (userId == null) {
+            // no autenticado: redirigir al login o devolver error según tu política
+            return "redirect:/login";
+        }
+
+        // Resolve zone (requested clientTz takes precedence if valid; ZoneResolver handles fallbacks)
+        ZoneResolutionResult zr = zoneResolver.resolveZone(userId, clientTz);
+        ZoneId zone = zr.zoneId();
+
+        // Defaults: si no vienen parámetros, mostrar últimos 7 días (incluye hoy)
+        LocalDate today = LocalDate.now(zone);
+        if (to == null) {
+            to = today;
+        }
+        if (from == null) {
+            from = to.minusDays(7);
+        }
+
+        // Defensive: si from > to, intercambiar o devolver vacío; aquí intercambiamos por simplicidad
+        if (from.isAfter(to)) {
+            log.debug("from > to en request; intercambiando valores: from={}, to={}", from, to);
+            LocalDate tmp = from;
+            from = to;
+            to = tmp;
+        }
+
+        String resolvedZoneId = zone.getId();
+        List<ShiftRequestDtoLight> shiftRequests = shiftRequestService
+                                        .findByUserIdAndDateBetween(
+                                                userId,
+                                                from,
+                                                to,
+                                                resolvedZoneId,
+                                                siteId,
+                                                type);
+
+        model.addAttribute("shiftRequestsCount", shiftRequests.size());
         model.addAttribute("shiftRequests", shiftRequests);
+        model.addAttribute("fromDate", from);
+        model.addAttribute("toDate", to);
+        model.addAttribute("clientTimeZone"
+                                            , clientTz != null ? clientTz : resolvedZoneId);
 
         return "private/shift-requests/views/shift-request-table-view";
     }
@@ -82,16 +142,12 @@ public class ShiftRequestController {
             Authentication authentication,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
             LocalDate from,
-
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
             LocalDate to,
-
             @RequestParam(required = false)
             String clientTz,
-
             @RequestParam(required = false)
             Long siteId,
-
             @RequestParam(required = false)
             ShiftRequestType type
     ) {
@@ -116,7 +172,12 @@ public class ShiftRequestController {
 
         List <ShiftRequestDtoLight> shiftRequests = shiftRequestService
                                         .findByUserIdAndDateBetween(
-                                                userId, from, to, clientTz, siteId, type);
+                                                userId,
+                                                from,
+                                                to,
+                                                clientTz,
+                                                siteId,
+                                                type);
 
         model.addAttribute("shiftRequests", shiftRequests);
         model.addAttribute("shiftRequestsCount", shiftRequests.size());

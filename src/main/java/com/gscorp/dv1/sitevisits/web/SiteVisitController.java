@@ -53,7 +53,7 @@ public class SiteVisitController {
 
         // Resolve zone (requested clientTz takes precedence if valid; ZoneResolver handles fallbacks)
         ZoneResolutionResult zr = zoneResolver.resolveZone(userId, clientTz);
-        ZoneId zone = zr.zoneId(); // usa zoneId() según tu record
+        ZoneId zone = zr.zoneId();
 
         // Defaults: si no vienen parámetros, mostrar últimos 7 días (incluye hoy)
         LocalDate today = LocalDate.now(zone);
@@ -74,7 +74,11 @@ public class SiteVisitController {
 
         String resolvedZoneId = zone.getId();
         List<SiteVisitDto> visits = siteSupervisionVisitService
-                                        .findByUserAndDateBetween(userId, from, to, resolvedZoneId);
+                                        .findByUserAndDateBetween(
+                                            userId,
+                                            from,
+                                            to,
+                                            resolvedZoneId);
 
         // cantidad de registros encontrados
         int visitsCount = visits != null ? visits.size() : 0;

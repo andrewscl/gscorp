@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -105,40 +104,6 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
         return entities.stream()
                 .map(ShiftRequestDto::fromEntity)
                 .collect(Collectors.toList());
-    }
-
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<ShiftRequestDto> findShiftRequestDtosForPrincipal(Authentication authentication) {
-
-        if (authentication == null ){
-            return Collections.emptyList();
-        }
-
-        Long userId = userService.getUserIdFromAuthentication(authentication);
-        if (userId == null) {
-            return Collections.emptyList();
-        }
-
-        boolean isAdmin = authentication.getAuthorities().stream()
-            .map(GrantedAuthority::getAuthority)
-            .anyMatch("ROLE_ADMINISTRATOR"::equals);
-
-        if (isAdmin) {
-            // Método del repo que devuelve todas las entidades con site y schedules inicializados (query con DISTINCT)
-            List<ShiftRequest> entities = shiftRequestRepository.findAllWithSiteAndSchedules();
-            return entities.stream()
-                    .map(ShiftRequestDto::fromEntity)
-                    .collect(Collectors.toList());
-        }
-
-        List<Long> clientIds = userService.getClientIdsForUser(userId);
-        if (clientIds == null || clientIds.isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        return findByClientIds(clientIds);
     }
 
 

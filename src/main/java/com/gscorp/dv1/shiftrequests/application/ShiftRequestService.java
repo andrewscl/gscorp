@@ -25,12 +25,6 @@ public interface ShiftRequestService {
     List<ShiftRequestDto> findByClientIds(Collection<Long> clientIds);
 
     /**
-     * Resuelve el userId desde Authentication y devuelve los ShiftRequest visibles
-     * para ese principal (vacío si no autenticado / sin clients).
-     */
-    List<ShiftRequestDto> findShiftRequestDtosForPrincipal(Authentication authentication);
-
-    /**
      * Crea un ShiftRequest validando que el site (y opcionalmente clientAccountId)
      * pertenezcan a uno de los clients del usuario (userId).
      */
