@@ -75,8 +75,8 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
        JOIN s.project p
        LEFT JOIN r.schedules sc
        WHERE p.client.id IN :clientIds
-              AND (:fromDate IS NULL OR r.startDate >= :fromDate)
-              AND (:toDateExclusive IS NULL OR r.startDate < :toDateExclusive)
+              AND r.startDate >= COALESCE(:fromDate, r.startDate)
+              AND r.startDate <  COALESCE(:toDateExclusive, r.startDate)
               AND s.id = COALESCE(:siteId, s.id)
               AND r.type = COALESCE(:type, r.type)
        GROUP BY
