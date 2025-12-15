@@ -36,14 +36,16 @@ public interface ShiftRequestScheduleRepository extends JpaRepository<ShiftReque
     List<ShiftRequestScheduleProjection> findByShiftRequestIds(@Param("ids") List<Long> ids);
 
 
-    // en ShiftRequestScheduleRepository.java (añadir el método)
+
     @Query("""
       SELECT sc.id                AS id,
             sc.shiftRequest.id   AS shiftRequestId,
             sc.dayFrom           AS dayFrom,
             sc.dayTo             AS dayTo,
             sc.startTime         AS startTime,
-            sc.endTime           AS endTime
+            sc.endTime           AS endTime,
+            sc.shiftRequest.startDate AS requestStartDate,
+            sc.shiftRequest.endDate   AS requestEndDate
       FROM ShiftRequestSchedule sc
       JOIN sc.shiftRequest r
       JOIN r.site s

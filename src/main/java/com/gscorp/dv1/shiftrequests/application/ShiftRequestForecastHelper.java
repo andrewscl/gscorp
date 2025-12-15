@@ -107,14 +107,26 @@ public final class ShiftRequestForecastHelper {
 
         if (schedules == null || schedules.isEmpty()) return map;
 
+        // fragmento relevante dentro de ShiftForecastHelper.forecastByDay
         for (ShiftRequestScheduleProjection sc : schedules) {
             Set<DayOfWeek> allowed = buildDaySet(sc.getDayFrom(), sc.getDayTo());
-            // multiplicidad por schedule (si no existe, asumir 1)
             int positions = 1;
 
-            // iterar fechas y sumar cuando corresponde el día de la semana
-            LocalDate cur = fromInclusive;
-            while (!cur.isAfter(toInclusive)) {
+            // obtener vigencia del ShiftRequest (puede ser null -> sin restricción)
+            LocalDate reqStart = sc.getRequestStartDate();
+            LocalDate reqEnd = sc.getRequestEndDate();
+
+            // calcular el rango efectivo sobre el cual este schedule aplica:
+            LocalDate effFrom = (reqStart == null) ? fromInclusive : (reqStart.isAfter(fromInclusive) ? reqStart : fromInclusive);
+            LocalDate effTo   = (reqEnd == null)   ? toInclusive   : (reqEnd.isBefore(toInclusive) ? reqEnd : toInclusive);
+
+            if (effFrom.isAfter(effTo)) {
+                // este schedule no aplica en el rango solicitado
+                continue;
+            }
+
+            LocalDate cur = effFrom;
+            while (!cur.isAfter(effTo)) {
                 if (allowed.contains(cur.getDayOfWeek())) {
                     map.compute(cur, (kk, vv) -> (vv == null ? 0 : vv) + positions);
                 }
