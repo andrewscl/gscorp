@@ -170,6 +170,8 @@ public class ShiftRequestController {
             LocalDate tmp = from; from = to; to = tmp;
         }
 
+        List<ShiftRequestType> shiftRequestTypes = List.of(ShiftRequestType.values());
+
         List <ShiftRequestDtoLight> shiftRequests = shiftRequestService
                                         .findByUserIdAndDateBetween(
                                                 userId,
@@ -181,6 +183,7 @@ public class ShiftRequestController {
 
         model.addAttribute("shiftRequests", shiftRequests);
         model.addAttribute("shiftRequestsCount", shiftRequests.size());
+        model.addAttribute("shiftRequestTypes", shiftRequestTypes);
 
         return "private/shift-requests/fragments/shift-request-table-rows :: rows";
 

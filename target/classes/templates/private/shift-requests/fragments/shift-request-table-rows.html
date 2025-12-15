@@ -3,7 +3,7 @@
           <td th:text="${r.id}">1</td>
           <td th:text="${r.code}">TR001</td>
           <td th:text="${r.siteName != null ? r.siteName : '—'}">Nombre sitio</td>
-          <td th:text="${r.type}">TIPO</td>
+          <td th:text="${r.shiftRequestType != null ? r.shiftRequestType.displayName : '—'}">TIPO</td>
           <td th:text="${r.startDate != null ? #temporals.format(r.startDate, 'yyyy-MM-dd') : '—'}">2025-01-01</td>
           <td th:text="${r.endDate != null ? #temporals.format(r.endDate, 'yyyy-MM-dd') : '—'}">2025-12-31</td>
 
@@ -20,4 +20,9 @@
             </button>
           </td>
         </tr>
+
+        <tr th:if="${#lists.isEmpty(shiftRequests)}">
+          <td colspan="5" class="empty">No se encontraron registros para el rango seleccionado.</td>
+        </tr>
+
       </tbody>

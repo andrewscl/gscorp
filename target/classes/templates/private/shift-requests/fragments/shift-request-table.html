@@ -40,6 +40,17 @@
                th:value="${to != null ? #temporals.format(to, 'yyyy-MM-dd') : (toDate != null ? #temporals.format(toDate, 'yyyy-MM-dd') : '')}" />
       </label>
 
+      <label class="filter-item">
+          <span class="filter-label">Métrica</span>
+          <select id="filter-requestType" class="filter-input" name="requestType">
+            <option value="" th:text="'Todas'"></option>
+            <option th:each="m : ${shiftRequestTypes}"
+                    th:value="${m.name()}"
+                    th:text="${m.displayName != null ? m.displayName : m.name()}"
+                    th:selected="${m.name() == shiftRequestType}"></option>
+          </select>
+      </label>
+
       <button id="applyShiftFiltersBtn" type="button" class="btn btn-secondary"
               data-ajax-url="/private/shift-requests/table-search"
               aria-label="Aplicar filtros">
