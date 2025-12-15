@@ -62,6 +62,7 @@
   justify-content: space-between;
   gap: 1rem;
   width: 100%;
+  background: transparent;
 }
 .shift-requests-header .title-row .title-left {
   display: flex;
