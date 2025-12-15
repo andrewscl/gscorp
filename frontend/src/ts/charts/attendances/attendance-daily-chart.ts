@@ -68,11 +68,13 @@ export function initAttendanceDailyChart(containerSelector = '#chart-daily-atten
       const willFetchForecast = opts.forecastPath === undefined ? true : opts.forecastPath !== null;
       let urlForecast: string | null = null;
       if (willFetchForecast) {
-        const paramsForecast = new URLSearchParams({ from, to, tz, metric: String(forecastMetric) });
+
+        const paramsForecast = new URLSearchParams({ from, to, clientTz: tz, metric: String(forecastMetric) });
         safeAddParam(paramsForecast, 'siteId', opts.siteId);
         safeAddParam(paramsForecast, 'projectId', opts.projectId);
 
-        const forecastBase = opts.forecastPath ?? `${apiBase}/api/forecasts/forecast-series`;
+        const forecastBase = opts.forecastPath ?? `${apiBase}/api/shift-requests/forecast-series`;
+
         urlForecast = `${forecastBase}?${paramsForecast.toString()}`;
 
         console.debug('[attendance-chart] forecast url:', urlForecast);
