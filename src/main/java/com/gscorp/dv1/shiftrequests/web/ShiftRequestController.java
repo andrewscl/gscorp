@@ -93,6 +93,7 @@ public class ShiftRequestController {
 
         model.addAttribute("shiftRequestsCount", shiftRequests.size());
         model.addAttribute("shiftRequests", shiftRequests);
+        model.addAttribute("shiftRequestTypes", ShiftRequestType.values());
         model.addAttribute("fromDate", from);
         model.addAttribute("toDate", to);
         model.addAttribute("clientTimeZone"
