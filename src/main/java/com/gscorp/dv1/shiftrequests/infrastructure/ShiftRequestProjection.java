@@ -3,6 +3,8 @@ package com.gscorp.dv1.shiftrequests.infrastructure;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.gscorp.dv1.enums.ShiftRequestType;
+
 public interface ShiftRequestProjection {
     
     Long getId();
@@ -10,7 +12,7 @@ public interface ShiftRequestProjection {
     Long getSiteId();
     String getSiteName();
     Long getClientAccountId();
-    String getType();
+    ShiftRequestType getType();
     LocalDate getStartDate();
     LocalDate getEndDate();
     String getStatus();

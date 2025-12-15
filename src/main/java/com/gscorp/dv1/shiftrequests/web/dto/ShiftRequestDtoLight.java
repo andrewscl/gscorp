@@ -3,6 +3,7 @@ package com.gscorp.dv1.shiftrequests.web.dto;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.gscorp.dv1.enums.ShiftRequestType;
 import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequestProjection;
 
 public record ShiftRequestDtoLight(
@@ -11,7 +12,7 @@ public record ShiftRequestDtoLight(
         Long siteId,
         String siteName,
         Long clientAccountId,
-        String type,
+        ShiftRequestType type,
         LocalDate startDate,
         LocalDate endDate,
         String status,

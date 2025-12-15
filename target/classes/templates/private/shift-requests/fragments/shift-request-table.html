@@ -41,13 +41,13 @@
       </label>
 
       <label class="filter-item">
-          <span class="filter-label">Métrica</span>
-          <select id="filter-requestType" class="filter-input" name="requestType">
+          <span class="filter-label">Tipo de requerimiento</span>
+          <select id="filter-type" class="filter-input" name="type">
             <option value="" th:text="'Todas'"></option>
             <option th:each="m : ${shiftRequestTypes}"
                     th:value="${m.name()}"
                     th:text="${m.displayName != null ? m.displayName : m.name()}"
-                    th:selected="${m.name() == shiftRequestType}"></option>
+                    th:selected="${m == type}"></option>
           </select>
       </label>
 
