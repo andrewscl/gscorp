@@ -59,7 +59,7 @@
 
       <div class="filters-actions">
         <button id="createShiftRequestBtn" class="btn btn-primary"
-                th:if="${#authorization.expression('hasRole(''SCHEDULER'')')}"
+                th:if="${#authorization.expression('hasRole(''ANALYST'') or hasRole(''ADMINISTRATOR'')')}"
                 th:attr="data-path=@{/private/shift-requests/create}" aria-label="Crear requerimiento">
           <svg class="icon icon-plus" width="16" height="16" viewBox="0 0 16 16" focusable="false">
             <circle cx="8" cy="8" r="7" fill="#dbeafe" stroke="#1e3a8a" stroke-width="1"/>
