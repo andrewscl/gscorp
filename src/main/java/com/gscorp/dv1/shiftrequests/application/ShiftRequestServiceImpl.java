@@ -11,10 +11,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.gscorp.dv1.clientaccounts.application.ClientAccountService;
@@ -49,6 +51,7 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
     private final ClientAccountService clientAccountService;
     private final SiteService siteService;
     private final ZoneResolver zoneResolver;
+    private final TransactionTemplate transactionTemplate;
 
     @Override
     public List<ShiftRequestDto> findAll() {
@@ -271,23 +274,29 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
      */
     private ShiftRequest buildAndSaveShiftRequestWithRetries(CreateShiftRequest req, Site site, LocalDate start, LocalDate end) {
         final int MAX_ATTEMPTS = 3;
-        ShiftRequest saved = null;
+
         for (int attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
             try {
-                saved = buildAndSaveShiftRequest(req, site, start, end);
-                return saved;
+                //Ejecutar el intento dentro de su propia transacción
+                return transactionTemplate.execute(status -> {
+                    return buildAndSaveShiftRequest(req, site, start, end);
+                });
             } catch (DataIntegrityViolationException dive) {
                 if (attempt == MAX_ATTEMPTS) {
                     throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "No se pudo generar un código único para la solicitud de turno", dive);
                 }
                 // else continuar y reintentar (el helper volverá a calcular next code)
-            } catch (org.springframework.dao.IncorrectResultSizeDataAccessException irsdae) {
-            // la query de lastCode devolvió >1 fila; reintentar (posible estado inconsistente momentáneo)
-            log.warn("IncorrectResultSize al obtener lastCode (intento {}/{}). Reintentando...", attempt, MAX_ATTEMPTS, irsdae);
-            if (attempt == MAX_ATTEMPTS) {
-                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al calcular el código del requerimiento (result size mismatch).", irsdae);
+            } catch (IncorrectResultSizeDataAccessException irsdae) {
+                // la query de lastCode devolvió >1 fila; reintentar (posible estado inconsistente momentáneo)
+                log.warn("IncorrectResultSize al obtener lastCode (intento {}/{}). Reintentando...", attempt, MAX_ATTEMPTS, irsdae);
+                if (attempt == MAX_ATTEMPTS) {
+                    throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al calcular el código del requerimiento (result size mismatch).", irsdae);
+                }
+            } catch (RuntimeException rte) {
+                // cualquier runtime inesperado: rethrow (o decidir si reintentar)
+                log.error("Error inesperado al crear ShiftRequest (intento {}/{}): {}", attempt, MAX_ATTEMPTS, rte.getMessage(), rte);
+                throw rte;
             }
-        }
         }
         throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "No se pudo crear la solicitud de turno");
     }
