@@ -1,7 +1,7 @@
 import { mkChart } from '../lib/echarts-setup';
 import { initAttendanceDailyChart } from '../charts/attendances/attendance-daily-chart';
 import { initVisitsDailyChart } from '../charts/site-visits/site-visit-daily-chart';
-import { initSiteVisitChart as initVisitHourlyChart } from '../charts/site-visits/site-visit-hourly-chart';
+import { initVisitHourlyChart } from '../charts/site-visits/site-visit-hourly-chart';
 import { fetchWithTimeout } from '../utils/api';
 
 type ChartController = {

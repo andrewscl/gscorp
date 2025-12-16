@@ -7,10 +7,10 @@ import { mkChart, echarts } from '../../lib/echarts-setup';
 import { setNoData } from '../../utils/chart-uiutils';
 
 // Importa la implementación del chart puro (component)
-import { initSiteVisitChart as defaultInitSiteVisitChart } from '../site-visits/site-visit-hourly-chart';
+import { initVisitHourlyChart as defaultInitVisitHourlyChart } from '../site-visits/site-visit-hourly-chart';
 
 export type VisitsHourlyModuleOptions = {
-  initSiteVisitChart?: typeof defaultInitSiteVisitChart;
+  initVisitHourlyChart?: typeof defaultInitVisitHourlyChart;
   mkChart?: typeof mkChart;
   echarts?: typeof echarts;
   fetchWithAuth?: typeof fetchWithAuth;
@@ -32,7 +32,7 @@ export type VisitsHourlyModuleController = {
  * - options: permite inyectar dependencias (test / override)
  */
 export async function initVisitsHourlyModule(root: HTMLElement, options: VisitsHourlyModuleOptions = {}): Promise<VisitsHourlyModuleController> {
-  const initSiteVisitChart = options.initSiteVisitChart ?? defaultInitSiteVisitChart;
+  const initVisitHourlyChart = options.initVisitHourlyChart ?? defaultInitVisitHourlyChart;
   const mkChartFn = options.mkChart ?? mkChart;
   const echartsLib = options.echarts ?? echarts;
   const fetchFn = options.fetchWithAuth ?? fetchWithAuth;
@@ -41,7 +41,7 @@ export async function initVisitsHourlyModule(root: HTMLElement, options: VisitsH
   const todayIso = options.todayIso ?? new Intl.DateTimeFormat('en-CA', { timeZone: tz }).format(new Date());
   const charts = options.charts ?? [];
 
-  const elVisitHourly = root.querySelector('#chart-visit-hourly') as HTMLDivElement | null;
+  const elVisitHourly = root.querySelector('#chart-hourly-visit') as HTMLDivElement | null;
   let visitsHourlyCtrl: any | null = null;
   let visitsHourlyInterval: number | null = null;
 
@@ -50,7 +50,7 @@ export async function initVisitsHourlyModule(root: HTMLElement, options: VisitsH
   }
 
   try {
-    visitsHourlyCtrl = await initSiteVisitChart(elVisitHourly, { tz, showForecast: true });
+    visitsHourlyCtrl = await initVisitHourlyChart(elVisitHourly, { tz, showForecast: true });
     // refresh initial
     await visitsHourlyCtrl?.refresh?.(todayIso);
 
@@ -116,12 +116,12 @@ export async function initVisitsHourlyModule(root: HTMLElement, options: VisitsH
       try {
         const { sumActualDay, sumForecastDay } = await computeDailySums();
 
-        const totalDailyEl = root.querySelector('#total-daily-visit') as HTMLElement | null;
-        const metaDailyEl = root.querySelector('#meta-daily-visit') as HTMLElement | null;
+        const totalDailyEl = root.querySelector('#total-hourly-visit') as HTMLElement | null;
+        const metaDailyEl = root.querySelector('#meta-hourly-visit') as HTMLElement | null;
         if (totalDailyEl) totalDailyEl.textContent = sumActualDay > 0 ? String(sumActualDay) : '–';
         if (metaDailyEl) metaDailyEl.textContent = sumForecastDay > 0 ? `Meta: ${sumForecastDay}` : 'Meta: —';
 
-        const elDonutDaily = root.querySelector('#donut-daily-visit') as HTMLDivElement | null;
+        const elDonutDaily = root.querySelector('#donut-hourly-visit') as HTMLDivElement | null;
         if (!elDonutDaily) return;
 
         const chDonut = mkChartFn(elDonutDaily) ?? (echartsLib && (echartsLib as any).init ? (echartsLib as any).init(elDonutDaily, undefined, { renderer: 'canvas' }) : null);

@@ -144,12 +144,11 @@ function buildOption(labels: string[], valuesActual: number[], valuesForecast: (
  *
  * Devuelve: { chart, refresh(date?), refreshFromMap(map), stop() }
  */
-export async function initSiteVisitChart(
+export async function initVisitHourlyChart(
   container: HTMLElement,
   opts?: { tz?: string; theme?: string | object; showForecast?: boolean }
 ) {
-  if (!container) throw new Error('container is required for initSiteVisitChart');
-
+  if (!container) throw new Error('container is required for initVisitHourlyChart');
   const chart = echarts.init(container, opts?.theme as any);
   let destroyed = false;
 
