@@ -15,7 +15,7 @@
 
             <button type="button" class="btn-link"
                     th:attr="data-path=@{/private/shift-requests/edit/{id}(id=${r.id})}"
-                    th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
+                    th:if="${#authorization.expression('hasRole(''ANALYST'')')}">
               Editar
             </button>
           </td>
