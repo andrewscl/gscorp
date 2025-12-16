@@ -1,7 +1,7 @@
 import { mkChart } from '../lib/echarts-setup';
 import { initAttendanceDailyChart } from '../charts/attendances/attendance-daily-chart';
 import { initVisitsDailyChart } from '../charts/site-visits/site-visit-daily-chart';
-import { initSiteVisitChart } from '../charts/site-visits/site-visit-hourly-chart';
+import { initSiteVisitChart as initVisitHourlyChart } from '../charts/site-visits/site-visit-hourly-chart';
 import { fetchWithTimeout } from '../utils/api';
 
 type ChartController = {
@@ -42,7 +42,7 @@ export async function init({ container }: { container: HTMLElement }) {
   }
 
   // --- Visit hourly chart ---
-  await registerChart(initSiteVisitChart, '#chart-hourly-visit', {
+  await registerChart(initVisitHourlyChart, '#chart-hourly-visit', {
     days: 7,
     mkChart,
     fetchWithTimeout
