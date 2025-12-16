@@ -216,8 +216,12 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
             default -> prefix = "TR";
         }
 
-        // intentar inferir next code por site+prefix (usa repo query)
-        String lastCode = shiftRequestRepository.findLastCodeBySiteIdAndPrefix(site.getId(), prefix);
+        // extrae last code de forma segura (limit 1)
+        String lastCode = shiftRequestRepository
+                .findFirstBySiteIdAndCodeStartingWithOrderByCodeDesc(site.getId(), prefix)
+                .map(ShiftRequest::getCode)
+                .orElse(null);
+
         int nextCorrelative = 1;
         if (lastCode != null && lastCode.startsWith(prefix)) {
             try {
@@ -277,7 +281,13 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
                     throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "No se pudo generar un código único para la solicitud de turno", dive);
                 }
                 // else continuar y reintentar (el helper volverá a calcular next code)
+            } catch (org.springframework.dao.IncorrectResultSizeDataAccessException irsdae) {
+            // la query de lastCode devolvió >1 fila; reintentar (posible estado inconsistente momentáneo)
+            log.warn("IncorrectResultSize al obtener lastCode (intento {}/{}). Reintentando...", attempt, MAX_ATTEMPTS, irsdae);
+            if (attempt == MAX_ATTEMPTS) {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al calcular el código del requerimiento (result size mismatch).", irsdae);
             }
+        }
         }
         throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "No se pudo crear la solicitud de turno");
     }

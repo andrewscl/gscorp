@@ -18,6 +18,9 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
     @Query("SELECT sr.code FROM ShiftRequest sr WHERE sr.site.id = :siteId AND sr.code LIKE CONCAT(:prefix, '%') ORDER BY sr.code DESC")
     String findLastCodeBySiteIdAndPrefix(@Param("siteId") Long siteId, @Param("prefix") String prefix);
 
+       // ShiftRequestRepository.java
+       Optional<ShiftRequest> findFirstBySiteIdAndCodeStartingWithOrderByCodeDesc(Long siteId, String prefix);
+
     // Cargar ShiftRequest + Site + Schedules (filtrar por client ids recorriendo project -> client)
     @Query("select distinct sr " +
            "from ShiftRequest sr " +
