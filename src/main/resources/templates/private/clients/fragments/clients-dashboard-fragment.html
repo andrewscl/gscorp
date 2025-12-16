@@ -2,50 +2,49 @@
 
 
   <!-- Hourly charts (actualizado: donut integrado en la mitad superior izquierda) -->
-
   <div class="charts hourly" role="group" aria-label="Indicadores diarios">
-    <!-- Hourly attendances -->
+    <!-- Attendance -->
     <div class="card" data-card="hourly-attendance">
       <div class="card-top split">
         <div class="split-left">
           <!-- Donut (ECharts) ocupa el 100% del contenedor izquierdo -->
-          <div id="donut-hourly-att" class="daily-donut integrated" data-testid="donut-hourly-att" aria-hidden="true"></div>
+          <div id="donut-hourly-att" class="hourly-donut integrated" data-testid="donut-hourly-att" aria-hidden="true"></div>
         </div>
         <div class="split-right">
           <h5>Asistencia de hoy</h5>
           <div class="card-totals" aria-live="polite">
             <div class="total-label">Total hoy</div>
-            <div class="total-value" id="total-daily-att">–</div>
-            <div class="meta small muted" id="meta-daily-att">Meta: —</div>
+            <div class="total-value" id="total-hourly-att">–</div>
+            <div class="meta small muted" id="meta-hourly-att">Meta: —</div>
           </div>
         </div>
       </div>
       <div id="chart-hourly-attendance" class="chart-body" aria-hidden="false"></div>
     </div>
 
-    <!-- Hourly patrols -->
+    <!-- Patrols -->
     <div class="card" data-card="hourly-patrols">
       <div class="card-top split">
         <div class="split-left">
-          <div id="donut-hourly-patrol" class="daily-donut integrated" data-testid="donut-hourly-patrol" aria-hidden="true"></div>
+          <div id="donut-hourly-patrol" class="hourly-donut integrated" data-testid="donut-hourly-patrol" aria-hidden="true"></div>
         </div>
         <div class="split-right">
           <h5>Rondas de hoy</h5>
           <div class="card-totals" aria-live="polite">
             <div class="total-label">Total hoy</div>
-            <div class="total-value" id="total-hourly-patrol">–</div>
-            <div class="meta small muted" id="meta-hourly-patrol">Meta: —</div>
+            <div class="total-value" id="total-daily-patrol">–</div>
+            <div class="meta small muted" id="meta-daily-patrol">Meta: —</div>
           </div>
         </div>
       </div>
-      <div id="chart-hourly-patrol" class="chart-body" aria-hidden="false"></div>
+      <div id="chart-hourly-rounds" class="chart-body" aria-hidden="false"></div>
     </div>
 
-    <!-- Hourly visits -->
+    <!-- Visits -->
     <div class="card" data-card="hourly-visits">
       <div class="card-top split">
         <div class="split-left">
-          <div id="donut-hourly-visit" class="daily-donut integrated" data-testid="donut-hourly-visit" aria-hidden="true"></div>
+          <div id="donut-hourly-visit" class="hourly-donut integrated" data-testid="donut-hourly-visit" aria-hidden="true"></div>
         </div>
         <div class="split-right">
           <h5>Visitas de hoy</h5>

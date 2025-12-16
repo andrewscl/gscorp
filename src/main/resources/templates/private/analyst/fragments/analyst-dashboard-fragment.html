@@ -1,21 +1,21 @@
 <div th:fragment="content" id="client-dashboard-root" class="dashboard" role="region" aria-label="Client dashboard">
 
 
-  <!-- Daily charts (actualizado: donut integrado en la mitad superior izquierda) -->
-  <div class="charts daily" role="group" aria-label="Indicadores diarios">
+  <!-- Hourly charts (actualizado: donut integrado en la mitad superior izquierda) -->
+  <div class="charts hourly" role="group" aria-label="Indicadores diarios">
     <!-- Attendance -->
-    <div class="card" data-card="daily-attendance">
+    <div class="card" data-card="hourly-attendance">
       <div class="card-top split">
         <div class="split-left">
           <!-- Donut (ECharts) ocupa el 100% del contenedor izquierdo -->
-          <div id="donut-daily-att" class="daily-donut integrated" data-testid="donut-daily-att" aria-hidden="true"></div>
+          <div id="donut-hourly-att" class="hourly-donut integrated" data-testid="donut-hourly-att" aria-hidden="true"></div>
         </div>
         <div class="split-right">
           <h5>Asistencia de hoy</h5>
           <div class="card-totals" aria-live="polite">
             <div class="total-label">Total hoy</div>
-            <div class="total-value" id="total-daily-att">–</div>
-            <div class="meta small muted" id="meta-daily-att">Meta: —</div>
+            <div class="total-value" id="total-hourly-att">–</div>
+            <div class="meta small muted" id="meta-hourly-att">Meta: —</div>
           </div>
         </div>
       </div>
@@ -23,10 +23,10 @@
     </div>
 
     <!-- Patrols -->
-    <div class="card" data-card="daily-patrols">
+    <div class="card" data-card="hourly-patrols">
       <div class="card-top split">
         <div class="split-left">
-          <div id="donut-daily-patrol" class="daily-donut integrated" data-testid="donut-daily-patrol" aria-hidden="true"></div>
+          <div id="donut-hourly-patrol" class="hourly-donut integrated" data-testid="donut-hourly-patrol" aria-hidden="true"></div>
         </div>
         <div class="split-right">
           <h5>Rondas de hoy</h5>
@@ -41,21 +41,21 @@
     </div>
 
     <!-- Visits -->
-    <div class="card" data-card="daily-visits">
+    <div class="card" data-card="hourly-visits">
       <div class="card-top split">
         <div class="split-left">
-          <div id="donut-daily-visit" class="daily-donut integrated" data-testid="donut-daily-visit" aria-hidden="true"></div>
+          <div id="donut-hourly-visit" class="hourly-donut integrated" data-testid="donut-hourly-visit" aria-hidden="true"></div>
         </div>
         <div class="split-right">
           <h5>Visitas de hoy</h5>
           <div class="card-totals" aria-live="polite">
             <div class="total-label">Total hoy</div>
-            <div class="total-value" id="total-daily-visit">–</div>
-            <div class="meta small muted" id="meta-daily-visit">Meta: —</div>
+            <div class="total-value" id="total-hourly-visit">–</div>
+            <div class="meta small muted" id="meta-hourly-visit">Meta: —</div>
           </div>
         </div>
       </div>
-      <div id="chart-visit-hourly" class="chart-body" aria-hidden="false"></div>
+      <div id="chart-hourly-visit" class="chart-body" aria-hidden="false"></div>
     </div>
 
   </div>
