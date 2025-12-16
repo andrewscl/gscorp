@@ -20,7 +20,7 @@
         </div>
 
         <div class="form-group narrow">
-          <label for="shiftRequestAccount">Cuenta / Cliente final</label>
+          <label for="shiftRequestAccount">Cuenta / Cliente final (opcional)</label>
           <select id="shiftRequestAccount" name="accountId">
             <option value="">Seleccione cuenta</option>
             <option th:each="a : ${accounts}" th:value="${a.id}" th:text="${a.name}"></option>

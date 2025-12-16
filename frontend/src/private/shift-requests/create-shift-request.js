@@ -64,7 +64,6 @@ async function onSubmitCreateShiftRequest(e) {
   if (ok) ok.style.display = 'none';
 
   if (!siteId)    { if (err) err.textContent = 'Debe seleccionar un sitio.'; return; }
-  if (!accountId) { if (err) err.textContent = 'Debe seleccionar una cuenta.'; return; }
   if (!type) { if (err) err.textContent = 'Debe seleccionar el tipo de servicio.'; return; }
   if (!startDate) { if (err) err.textContent = 'La fecha de inicio es obligatoria.'; return; }
 
@@ -98,7 +97,7 @@ async function onSubmitCreateShiftRequest(e) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        siteId, type, accountId, startDate, endDate, description, schedules
+        siteId, type, clientAccountId: accountId, startDate, endDate, description, schedules
       })
     });
 
