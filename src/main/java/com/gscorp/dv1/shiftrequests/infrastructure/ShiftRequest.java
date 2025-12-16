@@ -43,7 +43,7 @@ public class ShiftRequest {
     private Long id;
 
     // Readable and sequential code: TR001, TR002, etc.
-    @Column(name = "code", unique = true, nullable = false, length = 16)
+    @Column(name = "code", nullable = false, length = 16)
     private String code;
 
     // Direct relationship only with Site
