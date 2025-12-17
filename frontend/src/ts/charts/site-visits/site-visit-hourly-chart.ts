@@ -1,5 +1,4 @@
 import { echarts } from '../../lib/echarts-setup';
-import { fetchWithAuth } from '../../utils/api';
 import { fetchWithTimeout } from '../../utils/api';
 
 
@@ -25,7 +24,7 @@ async function fetchVisitsMap(dateArg?: string, tz?: string): Promise<Map<string
   const url = `/api/site-supervision-visits/hourly-aggregated${q}`;
 
   try {
-    const res = await fetchWithAuth(url);
+    const res = await fetchWithTimeout(url);
     let payload: any = [];
     if (res.ok) {
       payload = await res.json().catch(() => []);
