@@ -116,7 +116,8 @@ export function initAttendanceHourlyChart(
 
       // forecast daily for attendance (reuse daily chart signature)
       const forecastMetric = opts.metric ?? 'ATTENDANCE';
-      const paramsForecast = new URLSearchParams({ days: '1', tz, metric: forecastMetric });
+      // Para el endpoint hourly de forecast enviamos date (YYYY-MM-DD) en lugar de days
+      const paramsForecast = new URLSearchParams({ date: todayIso, tz, metric: forecastMetric });
       if (opts.siteId !== undefined && opts.siteId !== null) paramsForecast.set('siteId', String(opts.siteId));
       if (opts.projectId !== undefined && opts.projectId !== null) paramsForecast.set('projectId', String(opts.projectId));
       const forecastBase = opts.forecastPath ?? `${apiBase}/api/shift-requests/forecast-series/hourly`;
