@@ -31,6 +31,7 @@ import com.gscorp.dv1.clientaccounts.web.dto.ClientAccountDto;
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.shiftrequests.application.ShiftRequestForecastHelper;
+import com.gscorp.dv1.shiftrequests.application.ShiftRequestForecastHelperHourly;
 import com.gscorp.dv1.shiftrequests.application.ShiftRequestService;
 import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequestScheduleProjection;
 import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequestScheduleRepository;
@@ -214,6 +215,71 @@ public class ShiftRequestRestController {
         }
     }
 
+
+    @GetMapping("/forecast-series/hourly")
+    public ResponseEntity<List<Map<String, Object>>> getShiftRequestForecastHourly(
+            Authentication authentication,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+            @RequestParam(required = false) String clientTz,
+            @RequestParam(required = false) Long siteId
+    ) {
+        try {
+            if (date == null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Missing required parameter: date");
+            }
+
+            Long userId = userService.getUserIdFromAuthentication(authentication);
+            if (userId == null) {
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "usuario no autenticado.");
+            }
+
+            // Resolver la zona (requested tz -> user -> system)
+            ZoneResolutionResult zr = zoneResolver.resolveZone(userId, clientTz);
+            ZoneId zone = zr.zoneId();
+
+            // Obtener clientIds asociados al usuario (igual que tu otro endpoint)
+            List<Long> clientIds = userService.getClientIdsForUser(userId);
+            if (clientIds == null || clientIds.isEmpty()) {
+                // devolver 24 puntos con cero
+                List<Map<String, Object>> empty = new ArrayList<>(24);
+                for (int h = 0; h < 24; h++) {
+                    Map<String, Object> m = new HashMap<>();
+                    m.put("hour", String.format("%02d", h));
+                    m.put("value", 0);
+                    empty.add(m);
+                }
+                return ResponseEntity.ok(empty);
+            }
+
+            // Obtener schedules: filtrar por siteId si viene, sino por clientIds
+            List<ShiftRequestScheduleProjection> schedules;
+            if (siteId != null) {
+                schedules = scheduleRepo.findBySiteId(siteId);
+            } else {
+                schedules = scheduleRepo.findByClientIds(clientIds);
+            }
+
+            // Llamar al helper que produce forecast por hora para la fecha dada
+            Map<Integer, Integer> hourly = ShiftRequestForecastHelperHourly.forecastByHour(schedules, date, zone);
+
+            // Transformar a lista ordenada de 00..23
+            List<Map<String, Object>> series = new ArrayList<>(24);
+            for (int h = 0; h < 24; h++) {
+                Map<String, Object> m = new HashMap<>();
+                m.put("hour", String.format("%02d", h));
+                m.put("value", hourly.getOrDefault(h, 0));
+                series.add(m);
+            }
+
+            return ResponseEntity.ok(series);
+
+        } catch (ResponseStatusException rse) {
+            throw rse;
+        } catch (Exception ex) {
+            log.error("Error en /forecast/hourly: " + ex.getMessage(), ex);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener forecast hourly.");
+        }
+    }
 
 }   
     
