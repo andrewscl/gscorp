@@ -119,7 +119,7 @@ export function initAttendanceHourlyChart(
       const paramsForecast = new URLSearchParams({ days: '1', tz, metric: forecastMetric });
       if (opts.siteId !== undefined && opts.siteId !== null) paramsForecast.set('siteId', String(opts.siteId));
       if (opts.projectId !== undefined && opts.projectId !== null) paramsForecast.set('projectId', String(opts.projectId));
-      const forecastBase = opts.forecastPath ?? `${apiBase}/api/shift-requests/forecast-series`;
+      const forecastBase = opts.forecastPath ?? `${apiBase}/api/shift-requests/forecast-series/hourly`;
       const urlForecastDaily = `${forecastBase}?${paramsForecast.toString()}`;
 
       // fetch both
