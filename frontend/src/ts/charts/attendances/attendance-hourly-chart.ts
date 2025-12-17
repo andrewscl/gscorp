@@ -160,12 +160,21 @@ export function initAttendanceHourlyChart(
       const valuesForecast = labels.map(h => map.get(h)?.forecast ?? null);
 
       // Draw main hourly chart
-      const anyPositive = valuesActual.some(v => Number(v) > 0) || valuesForecast.some(v => Number(v) > 0);
-      if (!anyPositive) {
+      const hasActual = valuesActual.some(v => Number(v) > 0);
+      const hasForecastSeries = valuesForecast.some(v => Number(v) > 0);
+
+      // Si no hay nada (ni actual ni forecast) mostramos placeholder
+      if (!hasActual && !hasForecastSeries) {
         safeSetNoData(ch, el, 'Sin asistencias');
       } else {
+        // Renderizamos: si no hay actual pero sí forecast, mostramos la serie de forecast.
+        // Si opts.showForecast === false, igual no mostraremos la serie forecast aunque exista (respeta la opción).
+        const forecastToUse = opts.showForecast ? valuesForecast : Array(24).fill(null);
+
+        // Si no hay actual podemos optar por dibujar la serie de visitas como ceros (ya lo está),
+        // o bien mostrarla atenuada. Para simplicidad aquí la dejamos aunque sea 0.
         ch.clear();
-        ch.setOption(buildOption(labels, valuesActual, opts.showForecast ? valuesForecast : Array(24).fill(null)));
+        ch.setOption(buildOption(labels, valuesActual, forecastToUse));
       }
 
       // compute totals and forecast (sum)
