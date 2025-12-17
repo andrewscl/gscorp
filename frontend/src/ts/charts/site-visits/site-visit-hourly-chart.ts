@@ -1,5 +1,7 @@
 import { echarts } from '../../lib/echarts-setup';
 import { fetchWithAuth } from '../../utils/api';
+import { fetchWithTimeout } from '../../utils/api';
+
 
 type VisitsCell = { count: number; forecast?: number };
 const hours24 = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0'));
@@ -146,7 +148,7 @@ function buildOption(labels: string[], valuesActual: number[], valuesForecast: (
  */
 export async function initVisitHourlyChart(
   containerOrSelector: string | HTMLElement | null = 'chart-hourly-visit',
-  opts: { tz?: string; theme?: any; showForecast?: boolean; root?: Document | HTMLElement; mkChart?: (el: HTMLElement | null) => any} = {}
+  opts: { tz?: string; theme?: any; showForecast?: boolean; root?: Document | HTMLElement; mkChart?: (el: HTMLElement | null) => any; fetchWithTimeout?: typeof fetchWithTimeout } = {}
 ) {
   const root = (opts.root ?? document) as Document | HTMLElement;
   let container: HTMLElement | null = null;
