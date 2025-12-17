@@ -14,6 +14,7 @@ export type AttendanceHourlyOptions = {
   siteId?: number | null;
   projectId?: number | null;
   forecastPath?: string | null;
+  action?: string | null; // "IN" | "OUT" or null
 };
 
 type Cell = { count: number; forecast?: number };
@@ -109,24 +110,24 @@ export function initAttendanceHourlyChart(
       const tz = opts.tz ?? Intl.DateTimeFormat().resolvedOptions().timeZone ?? 'UTC';
       const todayIso = new Intl.DateTimeFormat('en-CA', { timeZone: tz }).format(new Date());
 
-      // hourly endpoint (attendance). If days===1 include date
-      const urlHourly = (opts.days === 1)
-        ? `${apiBase}/api/attendance/hourly-aggregated?date=${encodeURIComponent(todayIso)}&tz=${encodeURIComponent(tz)}`
-        : `${apiBase}/api/attendance/hourly-aggregated?tz=${encodeURIComponent(tz)}`;
+      // Build hourly URL (attendance). Include action and siteId if provided.
+      const paramsHourly = new URLSearchParams({ date: todayIso, tz });
+      if (opts.action) paramsHourly.set('action', String(opts.action));
+      if (opts.siteId !== undefined && opts.siteId !== null) paramsHourly.set('userId', String(opts.siteId)); // keep behavior from your API if needed
+      const urlHourly = `${apiBase}/api/attendance/hourly-aggregated?${paramsHourly.toString()}`;
 
-      // forecast daily for attendance (reuse daily chart signature)
+      // Forecast hourly URL (shift-requests forecast hourly)
       const forecastMetric = opts.metric ?? 'ATTENDANCE';
-      // Para el endpoint hourly de forecast enviamos date (YYYY-MM-DD) en lugar de days
-      const paramsForecast = new URLSearchParams({ date: todayIso, tz, metric: forecastMetric });
+      const paramsForecast = new URLSearchParams({ date: todayIso, tz, metric: String(forecastMetric) });
       if (opts.siteId !== undefined && opts.siteId !== null) paramsForecast.set('siteId', String(opts.siteId));
       if (opts.projectId !== undefined && opts.projectId !== null) paramsForecast.set('projectId', String(opts.projectId));
       const forecastBase = opts.forecastPath ?? `${apiBase}/api/shift-requests/forecast-series/hourly`;
-      const urlForecastDaily = `${forecastBase}?${paramsForecast.toString()}`;
+      const urlForecast = `${forecastBase}?${paramsForecast.toString()}`;
 
-      // fetch both
+      // fetch both (with auth via fetchFn)
       const [resHourly, resForecast] = await Promise.all([
         fetchFn ? fetchFn(urlHourly, {}, 15000, true).catch((e: any) => { if (e?.name === 'AbortError') throw e; console.warn('[Attendance-Hourly] hourly fetch failed', e); return null; }) : fetch(urlHourly).catch(() => null),
-        fetchFn ? fetchFn(urlForecastDaily, {}, 15000, true).catch((e: any) => { if (e?.name === 'AbortError') throw e; console.warn('[Attendance-Hourly] forecast fetch failed', e); return null; }) : fetch(urlForecastDaily).catch(() => null)
+        fetchFn ? fetchFn(urlForecast, {}, 15000, true).catch((e: any) => { if (e?.name === 'AbortError') throw e; console.warn('[Attendance-Hourly] forecast fetch failed', e); return null; }) : fetch(urlForecast).catch(() => null)
       ]);
 
       const parseOrEmpty = async (r: Response | null) => {
@@ -145,7 +146,7 @@ export function initAttendanceHourlyChart(
         ? payloadForecast
         : (payloadForecast && Array.isArray((payloadForecast as any).data) ? (payloadForecast as any).data : []);
 
-      // Normalize hourly into map by hh
+      // Normalize hourly into map by hh (actual and any embedded hourly forecast)
       const map = new Map<string, Cell>();
       (arrHourly || []).forEach((it: any) => {
         const hh = extractHour(it);
@@ -155,62 +156,79 @@ export function initAttendanceHourlyChart(
         map.set(hh, { count, forecast });
       });
 
+      // Build forecastMap from arrForecast if backend returns hourly forecast points
+      const forecastMap = new Map<string, number>();
+      if (Array.isArray(arrForecast) && arrForecast.length > 0) {
+        arrForecast.forEach((d: any) => {
+          let hh = '00';
+          let val = 0;
+          if (Array.isArray(d)) {
+            hh = String(d[0] ?? '').padStart(2, '0').slice(-2);
+            val = Number(d.length > 1 ? d[1] : 0) || 0;
+          } else {
+            hh = String(d?.hour ?? d?.x ?? d?.label ?? '').padStart(2, '0').slice(-2);
+            val = typeof d?.value === 'number' ? d.value : Number(String(d?.y ?? d?.value ?? d?.forecast ?? d?.count ?? 0).replace(/,/g, '')) || 0;
+          }
+          if (/^[0-2]\d$/.test(hh)) forecastMap.set(hh, val);
+        });
+      }
+
       const labels = hours24.slice();
       const valuesActual = labels.map(h => map.get(h)?.count ?? 0);
-      const valuesForecast = labels.map(h => map.get(h)?.forecast ?? null);
+      const valuesForecast = labels.map(h => {
+        if (forecastMap.has(h)) return forecastMap.get(h) ?? null;
+        const f = map.get(h)?.forecast;
+        return f === undefined ? null : f;
+      });
 
-      // Draw main hourly chart
+      // Decide rendering: show forecast even if actual all zeros
       const hasActual = valuesActual.some(v => Number(v) > 0);
       const hasForecastSeries = valuesForecast.some(v => Number(v) > 0);
 
-      // Si no hay nada (ni actual ni forecast) mostramos placeholder
       if (!hasActual && !hasForecastSeries) {
         safeSetNoData(ch, el, 'Sin asistencias');
       } else {
-        // Renderizamos: si no hay actual pero sí forecast, mostramos la serie de forecast.
-        // Si opts.showForecast === false, igual no mostraremos la serie forecast aunque exista (respeta la opción).
         const forecastToUse = opts.showForecast ? valuesForecast : Array(24).fill(null);
-
-        // Si no hay actual podemos optar por dibujar la serie de visitas como ceros (ya lo está),
-        // o bien mostrarla atenuada. Para simplicidad aquí la dejamos aunque sea 0.
         ch.clear();
         ch.setOption(buildOption(labels, valuesActual, forecastToUse));
       }
 
-      // compute totals and forecast (sum)
-      let sumActualDay = (arrHourly || []).reduce((s: number, it: any) => {
+      // Compute totals for donut/meta
+      const sumActualDay = (arrHourly || []).reduce((s: number, it: any) => {
         const raw = it?.count ?? it?.y ?? it?.cnt ?? it?.value ?? it?.attendances ?? 0;
         const n = Number(String(raw ?? 0).replace(/,/g, '')) || 0;
         return s + n;
       }, 0);
 
+      // sum forecast day: try arrForecast (daily shape) then fallback to hourly forecast sum
       let sumForecastDay = 0;
       if (Array.isArray(arrForecast) && arrForecast.length > 0) {
-        for (const d of arrForecast) {
-          let rawX: any; let rawY: any;
-          if (Array.isArray(d)) { rawX = d[0]; rawY = d.length > 1 ? d[1] : 0; }
-          else { rawX = d?.x ?? d?.date ?? d?.day ?? ''; rawY = d?.y ?? d?.value ?? d?.forecast ?? d?.count ?? 0; }
-          const x = String(rawX ?? '').split('T')[0];
-          const yNum = typeof rawY === 'number' ? rawY : Number(String(rawY ?? 0).replace(/,/g, '')) || 0;
-          if (opts.days === 1) {
-            if (x === todayIso) sumForecastDay += Number.isFinite(Number(yNum)) ? Number(yNum) : 0;
-          } else {
-            sumForecastDay += Number.isFinite(Number(yNum)) ? Number(yNum) : 0;
+        // arrForecast may be hourly points or daily points; try to detect daily by presence of date field
+        const looksDaily = arrForecast.some((d: any) => !!(d?.date || d?.x || (Array.isArray(d) && typeof d[0] === 'string' && d[0].includes('-'))));
+        if (looksDaily) {
+          for (const d of arrForecast) {
+            let rawX: any; let rawY: any;
+            if (Array.isArray(d)) { rawX = d[0]; rawY = d.length > 1 ? d[1] : 0; }
+            else { rawX = d?.x ?? d?.date ?? d?.day ?? ''; rawY = d?.y ?? d?.value ?? d?.forecast ?? d?.count ?? 0; }
+            const x = String(rawX ?? '').split('T')[0];
+            const yNum = typeof rawY === 'number' ? rawY : Number(String(rawY ?? 0).replace(/,/g, '')) || 0;
+            if (opts.days === 1) {
+              if (x === todayIso) sumForecastDay += Number.isFinite(Number(yNum)) ? Number(yNum) : 0;
+            } else {
+              sumForecastDay += Number.isFinite(Number(yNum)) ? Number(yNum) : 0;
+            }
           }
         }
       }
 
-      // fallback to hourly forecast values if forecast-series empty
+      // fallback: sum hourly forecasts (either from arrHourly or forecastMap)
       if (sumForecastDay === 0) {
-        const hourlyForecastSum = (arrHourly || []).reduce((s: number, it: any) => {
-          const rawF = it?.forecast ?? it?.f ?? it?.attendancesForecast;
-          const n = rawF === undefined || rawF === null ? 0 : Number(String(rawF).replace(/,/g, '')) || 0;
-          return s + n;
+        const hourlyForecastSum = labels.reduce((s, h) => {
+          const fromForecastMap = forecastMap.has(h) ? (forecastMap.get(h) ?? 0) : 0;
+          const fromHourly = map.get(h)?.forecast ?? 0;
+          return s + Math.max(fromForecastMap, fromHourly);
         }, 0);
-        if (hourlyForecastSum > 0) {
-          sumForecastDay = hourlyForecastSum;
-          console.debug('[Attendance-Hourly] derived sumForecastDay from hourly forecasts:', sumForecastDay);
-        }
+        if (hourlyForecastSum > 0) sumForecastDay = hourlyForecastSum;
       }
 
       // Update DOM totals
@@ -222,7 +240,7 @@ export function initAttendanceHourlyChart(
       // Draw donut in #donut-hourly-att (reuse instance)
       const elDonut = root.querySelector('#donut-hourly-att') as HTMLDivElement | null;
       if (elDonut) {
-        // ensure visible size if necessary (small fallback)
+        // ensure container visible (fallback)
         const cs = getComputedStyle(elDonut);
         if (elDonut.offsetWidth === 0 && (!cs.width || cs.width === '0px')) {
           elDonut.style.minWidth = elDonut.style.minWidth || '120px';
