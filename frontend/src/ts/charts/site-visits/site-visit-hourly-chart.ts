@@ -1,6 +1,6 @@
 import { fetchWithTimeout } from '../../utils/api';
-import { mkChart as defaultMkChart } from '../../lib/echarts-setup';
 import { safeSetNoData } from '../../utils/chart-uiutils';
+import { mkChart as defaultMkChart } from '../../lib/echarts-setup';
 
 type VisitsCell = { count: number; forecast?: number };
 const hours24 = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0'));
@@ -21,7 +21,9 @@ function toNumber(v: any): number {
 const COMMON_GRID = { left: '4%', right: '4%', top: 56, bottom: 36, containLabel: true };
 
 function buildOption(labels: string[], valuesActual: number[], valuesForecast: (number | null)[], anyPositiveOverride?: boolean) {
-  const anyPositive = typeof anyPositiveOverride === 'boolean' ? anyPositiveOverride : (valuesActual.some(v => Number(v) > 0) || valuesForecast.some(v => Number(v) > 0));
+  const anyPositive = typeof anyPositiveOverride === 'boolean'
+    ? anyPositiveOverride
+    : (valuesActual.some(v => Number(v) > 0) || valuesForecast.some(v => Number(v) > 0));
 
   return {
     legend: { data: ['Visitas', 'Forecast'], top: 8, left: 'center' },
@@ -73,8 +75,8 @@ function buildOption(labels: string[], valuesActual: number[], valuesForecast: (
 }
 
 /**
- * initVisitsHourlyChart(selector|element, opts)
- * opts: { tz?, mkChart?, fetchWithTimeout?, showForecast?, root?, apiBase? }
+ * initVisitHourlyChart(selector|element, opts)
+ * opts: { days?, tz?, mkChart?, fetchWithTimeout?, showForecast?, root?, apiBase? }
  *
  * Exports: { render, destroy, chart, container }
  */
@@ -91,40 +93,38 @@ export function initVisitHourlyChart(
   } = {}
 ) {
   const root = (opts.root ?? document) as Document;
-  const container = (typeof containerSelector === 'string') ? root.querySelector(containerSelector) as HTMLDivElement | null : (containerSelector as HTMLElement | null);
+  const el = (typeof containerSelector === 'string') ? root.querySelector(containerSelector) as HTMLDivElement | null : (containerSelector as HTMLElement | null);
 
   const mkChartFn = opts.mkChart ?? defaultMkChart;
   const fetchFn = opts.fetchWithTimeout ?? fetchWithTimeout;
   const apiBase = opts.apiBase ?? '';
-
-  const ch = mkChartFn ? mkChartFn(container) : null;
+  const ch = mkChartFn ? mkChartFn(el) : null;
 
   async function render() {
     try {
-      if (!ch || !container) {
-        // Nothing to draw into
+      if (!ch || !el) {
         return;
       }
 
       const tz = opts.tz ?? Intl.DateTimeFormat().resolvedOptions().timeZone ?? 'UTC';
 
-      // si opts.days === 1 pedimos hourly-aggregated para la fecha "hoy" en la zona tz
-      let url: string;
+      // Build hourly-aggregated URL. If days === 1 request date=todayIso
+      let urlHourly: string;
       if (opts.days === 1) {
-        // obtener YYYY-MM-DD en la zona tz
         const todayIso = new Intl.DateTimeFormat('en-CA', { timeZone: tz }).format(new Date());
-        url = `${apiBase}/api/site-supervision-visits/hourly-aggregated?date=${encodeURIComponent(todayIso)}&tz=${encodeURIComponent(tz)}`;
+        urlHourly = `${apiBase}/api/site-supervision-visits/hourly-aggregated?date=${encodeURIComponent(todayIso)}&tz=${encodeURIComponent(tz)}`;
       } else {
-        // si no es sólo 1 día, podrías decidir qué comportamiento tener; aquí pedimos por tz (backend puede aceptar rango)
-        url = `${apiBase}/api/site-supervision-visits/hourly-aggregated?tz=${encodeURIComponent(tz)}`;
+        urlHourly = `${apiBase}/api/site-supervision-visits/hourly-aggregated?tz=${encodeURIComponent(tz)}`;
       }
 
-      // ejecutar el fetch usando la función inyectada (fetchFn), pidiendo auth internamente
-      const res = await (fetchFn ? fetchFn(url, {}, 15000, true).catch((e: any) => {
-        if (e?.name === 'AbortError') throw e;
-        console.warn('[Site-Visit-Hourly] fetch failed', e);
-        return null;
-      }) : fetch(url).catch(() => null));
+      // Forecast daily (days=1) URL for donut/meta
+      const urlForecastDaily = `${apiBase}/api/forecasts/forecast-series?days=1&tz=${encodeURIComponent(tz)}`;
+
+      // fetch both (hourly and forecast daily). Use auth via fetchWithTimeout(..., true)
+      const [resHourly, resForecast] = await Promise.all([
+        fetchFn ? fetchFn(urlHourly, {}, 15000, true).catch((e: any) => { if (e?.name === 'AbortError') throw e; console.warn('[Site-Visit-Hourly] hourly fetch failed', e); return null; }) : fetch(urlHourly).catch(() => null),
+        fetchFn ? fetchFn(urlForecastDaily, {}, 15000, true).catch((e: any) => { if (e?.name === 'AbortError') throw e; console.warn('[Site-Visit-Hourly] forecast fetch failed', e); return null; }) : fetch(urlForecastDaily).catch(() => null)
+      ]);
 
       const parseOrEmpty = async (r: Response | null) => {
         if (!r) return [];
@@ -132,12 +132,14 @@ export function initVisitHourlyChart(
         return await r.json().catch(() => []);
       };
 
-      const payload = await parseOrEmpty(res);
-      const arr = Array.isArray(payload) ? payload : (payload && Array.isArray((payload as any).data) ? (payload as any).data : (payload && Array.isArray((payload as any).result) ? (payload as any).result : []));
+      const [payloadHourly, payloadForecast] = await Promise.all([parseOrEmpty(resHourly), parseOrEmpty(resForecast)]);
 
-      // Normalize into 24-length arrays
+      const arrHourly = Array.isArray(payloadHourly) ? payloadHourly : (payloadHourly && Array.isArray((payloadHourly as any).data) ? (payloadHourly as any).data : (payloadHourly && Array.isArray((payloadHourly as any).result) ? (payloadHourly as any).result : []));
+      const arrForecast = Array.isArray(payloadForecast) ? payloadForecast : (payloadForecast && Array.isArray((payloadForecast as any).data) ? (payloadForecast as any).data : []);
+
+      // Normalize hourly into map by hh
       const map = new Map<string, VisitsCell>();
-      (arr || []).forEach((it: any) => {
+      (arrHourly || []).forEach((it: any) => {
         const hh = extractHour(it);
         const count = toNumber(it?.count ?? it?.y ?? it?.cnt ?? it?.value ?? it?.visits ?? it?.countValue);
         const rawForecast = it?.forecast ?? it?.f ?? it?.visitsForecast;
@@ -152,15 +154,98 @@ export function initVisitHourlyChart(
         return f === undefined ? null : f;
       });
 
-      // If no data at all, show placeholder
+      // Draw main hourly chart
       const anyPositive = valuesActual.some(v => Number(v) > 0) || valuesForecast.some(v => Number(v) > 0);
       if (!anyPositive) {
-        safeSetNoData(ch, container, 'Sin visitas');
-        return;
+        safeSetNoData(ch, el, 'Sin visitas');
+      } else {
+        ch.clear();
+        ch.setOption(buildOption(labels, valuesActual, opts.showForecast ? valuesForecast : Array(24).fill(null)));
       }
 
-      ch.clear();
-      ch.setOption(buildOption(labels, valuesActual, opts.showForecast ? valuesForecast : Array(24).fill(null)));
+      // Donut + meta: compute sums from forecast-series (daily) and hourly aggregated
+      try {
+        // sum actual day from hourly payload
+        const sumActualDay = (arrHourly || []).reduce((s: number, it: any) => {
+          const raw = it?.count ?? it?.y ?? it?.cnt ?? it?.value ?? it?.visits ?? 0;
+          const n = Number(String(raw ?? 0).replace(/,/g, '')) || 0;
+          return s + n;
+        }, 0);
+
+        // sum forecast day from forecast payload (normalize various shapes)
+        let sumForecastDay = 0;
+        for (const d of (arrForecast || [])) {
+          let rawX: any; let rawY: any;
+          if (Array.isArray(d)) { rawX = d[0]; rawY = d.length > 1 ? d[1] : 0; }
+          else { rawX = d?.x ?? d?.date ?? d?.day ?? ''; rawY = d?.y ?? d?.value ?? d?.forecast ?? d?.count ?? 0; }
+          const x = String(rawX ?? '').split('T')[0]; // YYYY-MM-DD candidate
+          // If opts.days === 1 we compare to todayIso; otherwise we sum all returned points
+          if (opts.days === 1) {
+            const todayIso = new Intl.DateTimeFormat('en-CA', { timeZone: tz }).format(new Date());
+            if (x === todayIso) {
+              const yNum = typeof rawY === 'number' ? rawY : Number(String(rawY ?? 0).replace(/,/g, '')) || 0;
+              sumForecastDay += Number.isFinite(Number(yNum)) ? Number(yNum) : 0;
+            }
+          } else {
+            const yNum = typeof rawY === 'number' ? rawY : Number(String(rawY ?? 0).replace(/,/g, '')) || 0;
+            sumForecastDay += Number.isFinite(Number(yNum)) ? Number(yNum) : 0;
+          }
+        }
+
+        // Update DOM totals (elements might not exist; guard)
+        const totalEl = root.querySelector('#total-hourly-visit') as HTMLElement | null;
+        const metaEl = root.querySelector('#meta-hourly-visit') as HTMLElement | null;
+        if (totalEl) totalEl.textContent = sumActualDay > 0 ? String(sumActualDay) : '–';
+        if (metaEl) metaEl.textContent = sumForecastDay > 0 ? `Meta: ${sumForecastDay}` : 'Meta: —';
+
+        // Draw donut in #donut-hourly-visit
+        const elDonut = root.querySelector('#donut-hourly-visit') as HTMLDivElement | null;
+        if (elDonut) {
+          const chDonut = mkChartFn ? mkChartFn(elDonut) : null;
+          if (chDonut) {
+            const hasMeta = sumForecastDay > 0;
+            const percentage = hasMeta ? Math.round((sumActualDay / sumForecastDay) * 100) : 0;
+            const pctForSeries = hasMeta ? Math.min(100, Math.max(0, percentage)) : 100;
+            const seriesData = !hasMeta
+              ? [{ value: 1, name: 'Sin meta', itemStyle: { color: '#E5E7EB' } }]
+              : [
+                  { value: pctForSeries, name: 'Cumplido', itemStyle: { color: '#10B981' } },
+                  { value: 100 - pctForSeries, name: 'Pendiente', itemStyle: { color: '#E5E7EB' } }
+                ];
+            chDonut.clear();
+            chDonut.setOption({
+              tooltip: {
+                trigger: 'item',
+                formatter: (p: any) => {
+                  if (!hasMeta) return 'Meta no definida';
+                  if (p && p.name === 'Cumplido') return `${p.marker} ${p.seriesName}: ${sumActualDay} / ${sumForecastDay} (${percentage}%)`;
+                  if (p && p.name === 'Pendiente') return `${p.marker} Pendiente: ${Math.max(0, sumForecastDay - sumActualDay)}`;
+                  return '';
+                }
+              },
+              series: [{
+                name: 'Cumplimiento Visitas (día)',
+                type: 'pie',
+                radius: ['62%', '82%'],
+                avoidLabelOverlap: false,
+                hoverAnimation: false,
+                label: {
+                  show: true,
+                  position: 'center',
+                  formatter: hasMeta ? `${percentage}%` : '—',
+                  fontSize: 16,
+                  fontWeight: 700,
+                  color: '#485572ff'
+                },
+                labelLine: { show: false },
+                data: seriesData
+              }]
+            });
+          }
+        }
+      } catch (e) {
+        console.warn('[Site-Visit-Hourly] donut/meta render error', e);
+      }
 
     } catch (err: any) {
       if (err?.name === 'AbortError') {
@@ -168,20 +253,27 @@ export function initVisitHourlyChart(
       } else {
         console.error('Error rendering visits hourly chart', err);
       }
-      // show placeholder on error
-      if (ch && container) safeSetNoData(ch, container, 'Error de datos');
+      safeSetNoData(ch, el, 'Error de datos');
     }
   }
 
   function destroy() {
     try { if (ch && typeof ch.dispose === 'function') ch.dispose(); } catch (_) {}
     try {
-      if (container) {
-        const ph = container.querySelector('.chart-placeholder');
+      if (el) {
+        const ph = el.querySelector('.chart-placeholder');
         if (ph) ph.remove();
+      }
+    } catch (_) {}
+    // also try to cleanup donut element chart
+    try {
+      const elDonut = root.querySelector('#donut-hourly-visit') as HTMLDivElement | null;
+      if (elDonut) {
+        const chDonut = mkChartFn ? mkChartFn(elDonut) : null;
+        if (chDonut && typeof chDonut.dispose === 'function') chDonut.dispose();
       }
     } catch (_) {}
   }
 
-  return { render, destroy, chart: ch, container };
+  return { render, destroy, chart: ch, container: el };
 }
