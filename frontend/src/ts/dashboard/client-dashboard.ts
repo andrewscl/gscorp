@@ -1,4 +1,5 @@
 import { mkChart } from '../lib/echarts-setup';
+import { initAttendanceHourlyChart } from '../charts/attendances/attendance-hourly-chart';
 import { initAttendanceDailyChart } from '../charts/attendances/attendance-daily-chart';
 import { initVisitsDailyChart } from '../charts/site-visits/site-visit-daily-chart';
 import { initVisitHourlyChart } from '../charts/site-visits/site-visit-hourly-chart';
@@ -40,6 +41,13 @@ export async function init({ container }: { container: HTMLElement }) {
       console.error('Error initializing chart', e);
     }
   }
+
+  // --- Attendance hourly chart ---
+  await registerChart(initAttendanceHourlyChart, '#chart-hourly-attendance', {
+    days: 1,
+    mkChart,
+    fetchWithTimeout
+  });
 
   // --- Visit hourly chart ---
   await registerChart(initVisitHourlyChart, '#chart-hourly-visit', {
