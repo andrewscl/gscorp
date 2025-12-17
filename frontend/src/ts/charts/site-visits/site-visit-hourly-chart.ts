@@ -1,5 +1,6 @@
-import { echarts } from '../../lib/echarts-setup';
-import { fetchWithAuth } from '../../utils/api';
+import { fetchWithTimeout } from '../../utils/api';
+import { mkChart as defaultMkChart } from '../../lib/echarts-setup';
+import { safeSetNoData } from '../../utils/chart-uiutils';
 
 type VisitsCell = { count: number; forecast?: number };
 const hours24 = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0'));
@@ -17,73 +18,10 @@ function toNumber(v: any): number {
   return Number.isNaN(n) ? 0 : n;
 }
 
-async function fetchVisitsMapUsing(fetchFn: (url: string, ...args: any[]) => Promise<any>, dateArg?: string, tz?: string): Promise<Map<string, VisitsCell>> {
-  const zone = tz ?? (typeof Intl !== 'undefined' ? Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC' : 'UTC');
-  const q = dateArg ? `?date=${encodeURIComponent(dateArg)}&tz=${encodeURIComponent(zone)}` : `?tz=${encodeURIComponent(zone)}`;
-  const url = `/api/site-supervision-visits/hourly-aggregated${q}`;
-
-  try {
-    const res = await fetchFn(url);
-    let payload: any = [];
-    if (res && res.ok) {
-      payload = await res.json().catch(() => []);
-    } else {
-      console.warn('[Site-Visit-Chart] fetch failed', res && res.status, res && res.statusText, url);
-      return new Map();
-    }
-
-    const arr = Array.isArray(payload)
-      ? payload
-      : (payload && Array.isArray(payload.data) ? payload.data
-         : (payload && Array.isArray(payload.result) ? payload.result : []));
-
-    console.debug('[Site-Visit-Chart] fetch payload sample:', arr.slice(0, 6));
-
-    const m = new Map<string, VisitsCell>();
-    (arr || []).forEach((it: any) => {
-      const hh = extractHour(it);
-      const count = toNumber(it?.count ?? it?.y ?? it?.cnt ?? it?.value ?? it?.visits ?? it?.countValue);
-      const rawForecast = it?.forecast ?? it?.f ?? it?.visitsForecast;
-      const forecast = rawForecast === undefined || rawForecast === null ? undefined : toNumber(rawForecast);
-      m.set(hh, { count, forecast });
-    });
-
-    console.debug('[Site-Visit-Chart] normalized map sample:', Array.from(m.entries()).slice(0, 6));
-    return m;
-  } catch (e) {
-    console.warn('[Site-Visit-Chart] fetchVisitsMap error', e);
-    return new Map();
-  }
-}
-
-/** helper: small in-module "no data" painter */
-function setNoData(chart: echarts.ECharts, msg = 'Sin visitas') {
-  try {
-    chart.setOption({
-      graphic: {
-        elements: [
-          {
-            type: 'text',
-            left: 'center',
-            top: 'middle',
-            style: { text: msg, fill: '#9ca3af', fontSize: 14 }
-          }
-        ]
-      }
-    });
-  } catch (e) { /* ignore */ }
-}
-
-function hourDisplay(h: string): string {
-  if (!h) return '';
-  const hh = String(h).padStart(2, '0').slice(-2);
-  return `${hh}:00`;
-}
-
 const COMMON_GRID = { left: '4%', right: '4%', top: 56, bottom: 36, containLabel: true };
 
-function buildOption(labels: string[], valuesActual: number[], valuesForecast: (number | null)[]) {
-  const anyPositive = valuesActual.some(v => Number(v) > 0) || valuesForecast.some(v => Number(v) > 0);
+function buildOption(labels: string[], valuesActual: number[], valuesForecast: (number | null)[], anyPositiveOverride?: boolean) {
+  const anyPositive = typeof anyPositiveOverride === 'boolean' ? anyPositiveOverride : (valuesActual.some(v => Number(v) > 0) || valuesForecast.some(v => Number(v) > 0));
 
   return {
     legend: { data: ['Visitas', 'Forecast'], top: 8, left: 'center' },
@@ -94,7 +32,8 @@ function buildOption(labels: string[], valuesActual: number[], valuesForecast: (
         const first = params[0];
         let rawHour = first.axisValue ?? (first && typeof first.dataIndex === 'number' ? labels[first.dataIndex] : undefined);
         if (!rawHour && first.axisValueLabel) rawHour = first.axisValueLabel;
-        const display = hourDisplay(String(rawHour ?? ''));
+        const hh = String(rawHour ?? '').padStart(2, '0').slice(-2);
+        const display = `${hh}:00`;
         const lines = params.map((p: any) => `${p.marker} ${p.seriesName}: ${p.value ?? 0}`);
         return `<b>${display}</b><br/>${lines.join('<br/>')}`;
       }
@@ -134,88 +73,104 @@ function buildOption(labels: string[], valuesActual: number[], valuesForecast: (
 }
 
 /**
- * Compatibilidad: acepta selector string (ej. '#chart-hourly-visit') o HTMLElement.
- * opts soporta { tz?, theme?, showForecast?, root?, mkChart?, fetchWithTimeout? }.
+ * initVisitsHourlyChart(selector|element, opts)
+ * opts: { tz?, mkChart?, fetchWithTimeout?, showForecast?, root?, apiBase? }
+ *
+ * Exports: { render, destroy, chart, container }
  */
-export async function initVisitHourlyChart(
-  containerOrSelector: string | HTMLElement | null = '#chart-hourly-visit',
-  opts: { tz?: string; theme?: any; showForecast?: boolean; root?: Document | HTMLElement; mkChart?: (el: HTMLElement | null) => any; fetchWithTimeout?: (input: RequestInfo, init?: RequestInit) => Promise<Response> } = {}
+export function initVisitHourlyChart(
+  containerSelector: string | HTMLElement | null = '#chart-hourly-visit',
+  opts: {
+    tz?: string;
+    mkChart?: (el: HTMLElement | null) => any;
+    fetchWithTimeout?: typeof fetchWithTimeout;
+    showForecast?: boolean;
+    root?: Document | HTMLElement;
+    apiBase?: string;
+  } = {}
 ) {
-  const root = (opts.root ?? document) as Document | HTMLElement;
-  let container: HTMLElement | null = null;
-  if (!containerOrSelector) throw new Error('containerOrSelector is required for initVisitHourlyChart');
+  const root = (opts.root ?? document) as Document;
+  const container = (typeof containerSelector === 'string') ? root.querySelector(containerSelector) as HTMLDivElement | null : (containerSelector as HTMLElement | null);
 
-  if (typeof containerOrSelector === 'string') {
-    container = (root as Document).querySelector(containerOrSelector) as HTMLElement | null;
-  } else if (containerOrSelector instanceof HTMLElement) {
-    container = containerOrSelector;
-  }
+  const mkChartFn = opts.mkChart ?? defaultMkChart;
+  const fetchFn = opts.fetchWithTimeout ?? fetchWithTimeout;
+  const apiBase = opts.apiBase ?? '';
 
-  if (!container) throw new Error('Container element not found for initVisitHourlyChart: ' + String(containerOrSelector));
+  const ch = mkChartFn ? mkChartFn(container) : null;
 
-  const mkChartFn = opts.mkChart;
-  const chart = mkChartFn ? mkChartFn(container) : echarts.init(container, opts?.theme as any);
+  async function render() {
+    try {
+      if (!ch || !container) {
+        // Nothing to draw into
+        return;
+      }
 
-  // use injected fetch function if provided, otherwise fallback to fetchWithAuth
-  const fetchFn = (opts.fetchWithTimeout as any) ?? fetchWithAuth;
+      const tz = opts.tz ?? Intl.DateTimeFormat().resolvedOptions().timeZone ?? 'UTC';
+      // Use fetchFn(url, init?, timeoutMs?, useFetchWithAuth?) signature like fetchWithTimeout
+      const url = `${apiBase}/api/site-supervision-visits/hourly-aggregated?tz=${encodeURIComponent(tz)}`;
 
-  let destroyed = false;
+      const res = await (fetchFn ? fetchFn(url, {}, 15000, true).catch((e: any) => { 
+        if (e?.name === 'AbortError') throw e;
+        console.warn('[Site-Visit-Hourly] fetch failed', e);
+        return null;
+      }) : fetch(url).catch(() => null));
 
-  // resize handler
-  const onResize = () => { try { chart.resize(); } catch (e) {} };
-  window.addEventListener('resize', onResize);
+      const parseOrEmpty = async (r: Response | null) => {
+        if (!r) return [];
+        if (!r.ok) return [];
+        return await r.json().catch(() => []);
+      };
 
-  async function refreshFromMap(m: Map<string, VisitsCell>) {
-    if (destroyed) return;
-    const labels = hours24;
-    const valuesActual = labels.map(h => m.get(h)?.count ?? 0);
-    const valuesForecast = labels.map(h => {
-      const f = m.get(h)?.forecast;
-      return f === undefined ? null : f;
-    });
+      const payload = await parseOrEmpty(res);
+      const arr = Array.isArray(payload) ? payload : (payload && Array.isArray((payload as any).data) ? (payload as any).data : (payload && Array.isArray((payload as any).result) ? (payload as any).result : []));
 
-    console.debug('[Site-Visit-Chart] map keys:', Array.from(m.keys()));
-    console.debug('[Site-Visit-Chart] sample entries:', Array.from(m.entries()).slice(0, 6));
-    console.debug('[Site-Visit-Chart] labels:', labels);
-    console.debug('[Site-Visit-Chart] valuesActual:', valuesActual);
-    console.debug('[Site-Visit-Chart] valuesForecast:', valuesForecast);
+      // Normalize into 24-length arrays
+      const map = new Map<string, VisitsCell>();
+      (arr || []).forEach((it: any) => {
+        const hh = extractHour(it);
+        const count = toNumber(it?.count ?? it?.y ?? it?.cnt ?? it?.value ?? it?.visits ?? it?.countValue);
+        const rawForecast = it?.forecast ?? it?.f ?? it?.visitsForecast;
+        const forecast = rawForecast === undefined || rawForecast === null ? undefined : toNumber(rawForecast);
+        map.set(hh, { count, forecast });
+      });
 
-    const anyPositive = valuesActual.some(v => Number(v) > 0) || valuesForecast.some(v => Number(v) > 0);
+      const labels = hours24.slice();
+      const valuesActual = labels.map(h => map.get(h)?.count ?? 0);
+      const valuesForecast = labels.map(h => {
+        const f = map.get(h)?.forecast;
+        return f === undefined ? null : f;
+      });
 
-    const option = buildOption(labels, valuesActual, opts?.showForecast ? valuesForecast : Array(24).fill(null));
-    chart.setOption(option, { notMerge: false });
+      // If no data at all, show placeholder
+      const anyPositive = valuesActual.some(v => Number(v) > 0) || valuesForecast.some(v => Number(v) > 0);
+      if (!anyPositive) {
+        safeSetNoData(ch, container, 'Sin visitas');
+        return;
+      }
 
-    if (!anyPositive) {
-      setNoData(chart, 'Sin visitas');
+      ch.clear();
+      ch.setOption(buildOption(labels, valuesActual, opts.showForecast ? valuesForecast : Array(24).fill(null)));
+
+    } catch (err: any) {
+      if (err?.name === 'AbortError') {
+        console.debug('Visits hourly fetch aborted (timeout/navigation)', err);
+      } else {
+        console.error('Error rendering visits hourly chart', err);
+      }
+      // show placeholder on error
+      if (ch && container) safeSetNoData(ch, container, 'Error de datos');
     }
   }
 
-  async function refresh(dateArg?: string) {
-    if (destroyed) return;
-    const m = await fetchVisitsMapUsing(fetchFn, dateArg, opts?.tz);
-    await refreshFromMap(m);
+  function destroy() {
+    try { if (ch && typeof ch.dispose === 'function') ch.dispose(); } catch (_) {}
+    try {
+      if (container) {
+        const ph = container.querySelector('.chart-placeholder');
+        if (ph) ph.remove();
+      }
+    } catch (_) {}
   }
 
-  // render() para compatibilidad con registerChart
-  async function render() {
-    await refresh();
-  }
-
-  function stop() {
-    destroyed = true;
-    try { window.removeEventListener('resize', onResize); } catch (_) {}
-    try { chart.dispose(); } catch (_) {}
-  }
-
-  // initial blank render para reservar layout
-  chart.setOption(buildOption(hours24, Array(24).fill(0), Array(24).fill(null)));
-
-  return {
-    chart,
-    render,
-    refresh,
-    refreshFromMap,
-    stop,
-    container
-  };
+  return { render, destroy, chart: ch, container };
 }
