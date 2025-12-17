@@ -110,7 +110,7 @@ public class AttendanceSeriesController {
    * Devuelve 24 filas con hour "00".."23" y count por esa hora (según tz).
    * Ejemplo: GET /api/attendance/hourly?date=2025-11-14&tz=America/Santiago&action=IN
    */
-  @GetMapping("/hourly")
+  @GetMapping("/hourly-aggregated")
   public ResponseEntity<List<HourlyCountDto>> hourly(
       Authentication auth,
       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
