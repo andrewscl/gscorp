@@ -43,7 +43,7 @@ export async function init({ container }: { container: HTMLElement }) {
 
   // --- Visit hourly chart ---
   await registerChart(initVisitHourlyChart, '#chart-hourly-visit', {
-    days: 7,
+    days: 1,
     mkChart,
     fetchWithTimeout
   });

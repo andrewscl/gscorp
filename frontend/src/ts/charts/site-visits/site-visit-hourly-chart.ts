@@ -81,6 +81,7 @@ function buildOption(labels: string[], valuesActual: number[], valuesForecast: (
 export function initVisitHourlyChart(
   containerSelector: string | HTMLElement | null = '#chart-hourly-visit',
   opts: {
+    days?: number;
     tz?: string;
     mkChart?: (el: HTMLElement | null) => any;
     fetchWithTimeout?: typeof fetchWithTimeout;
@@ -106,10 +107,20 @@ export function initVisitHourlyChart(
       }
 
       const tz = opts.tz ?? Intl.DateTimeFormat().resolvedOptions().timeZone ?? 'UTC';
-      // Use fetchFn(url, init?, timeoutMs?, useFetchWithAuth?) signature like fetchWithTimeout
-      const url = `${apiBase}/api/site-supervision-visits/hourly-aggregated?tz=${encodeURIComponent(tz)}`;
 
-      const res = await (fetchFn ? fetchFn(url, {}, 15000, true).catch((e: any) => { 
+      // si opts.days === 1 pedimos hourly-aggregated para la fecha "hoy" en la zona tz
+      let url: string;
+      if (opts.days === 1) {
+        // obtener YYYY-MM-DD en la zona tz
+        const todayIso = new Intl.DateTimeFormat('en-CA', { timeZone: tz }).format(new Date());
+        url = `${apiBase}/api/site-supervision-visits/hourly-aggregated?date=${encodeURIComponent(todayIso)}&tz=${encodeURIComponent(tz)}`;
+      } else {
+        // si no es sólo 1 día, podrías decidir qué comportamiento tener; aquí pedimos por tz (backend puede aceptar rango)
+        url = `${apiBase}/api/site-supervision-visits/hourly-aggregated?tz=${encodeURIComponent(tz)}`;
+      }
+
+      // ejecutar el fetch usando la función inyectada (fetchFn), pidiendo auth internamente
+      const res = await (fetchFn ? fetchFn(url, {}, 15000, true).catch((e: any) => {
         if (e?.name === 'AbortError') throw e;
         console.warn('[Site-Visit-Hourly] fetch failed', e);
         return null;
