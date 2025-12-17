@@ -230,7 +230,22 @@ export function initVisitHourlyChart(
       // Draw donut in #donut-hourly-visit (create or reuse single instance)
       const elDonut = root.querySelector('#donut-hourly-visit') as HTMLDivElement | null;
       if (elDonut) {
-        if (!chDonut) chDonut = mkChartFn ? mkChartFn(elDonut) : null;
+        // ensure container has visible size (avoid height 0). If collapsed, give a small min-height so echarts can render
+        const cs = getComputedStyle(elDonut);
+        if ((!cs.height || cs.height === '0px') && (!cs.width || cs.width === '0px')) {
+          // this is a fallback; ideally set CSS in stylesheet. We set a modest min-height so chart renders.
+          elDonut.style.minHeight = elDonut.style.minHeight || '84px';
+        }
+
+        if (!chDonut) {
+          // create donut chart instance via mkChart; if mkChart doesn't return instance, try to access echarts globally
+          chDonut = mkChartFn ? mkChartFn(elDonut) : null;
+          if (!chDonut && (window as any).echarts && typeof (window as any).echarts.init === 'function') {
+            try { chDonut = (window as any).echarts.init(elDonut, undefined, { renderer: 'canvas' }); } catch (_) { /* ignore */ }
+          }
+          console.debug('[Site-Visit-Hourly] chDonut instance after init:', chDonut);
+        }
+
         if (chDonut) {
           const hasMeta = sumForecastDay > 0;
           const percentage = hasMeta ? Math.round((sumActualDay / sumForecastDay) * 100) : 0;
@@ -241,7 +256,7 @@ export function initVisitHourlyChart(
                 { value: pctForSeries, name: 'Cumplido', itemStyle: { color: '#10B981' } },
                 { value: 100 - pctForSeries, name: 'Pendiente', itemStyle: { color: '#E5E7EB' } }
               ];
-          chDonut.clear();
+          chDonut.clear && chDonut.clear();
           chDonut.setOption({
             tooltip: {
               trigger: 'item',
@@ -264,12 +279,18 @@ export function initVisitHourlyChart(
                 formatter: hasMeta ? `${percentage}%` : '—',
                 fontSize: 16,
                 fontWeight: 700,
-                color: '#485572ff'
+                color: '#485572'
               },
               labelLine: { show: false },
               data: seriesData
             }]
           });
+
+          // Force a resize to ensure rendering if container changed
+          try { chDonut.resize && chDonut.resize(); } catch (_) {}
+          // debug container size
+          const cs2 = getComputedStyle(elDonut);
+          console.debug('[Site-Visit-Hourly] elDonut size:', cs2.width, cs2.height);
         }
       }
 
