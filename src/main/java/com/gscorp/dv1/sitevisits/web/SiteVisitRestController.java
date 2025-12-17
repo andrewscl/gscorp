@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.gscorp.dv1.components.ZoneResolver;
+import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
 import com.gscorp.dv1.sitevisits.application.SiteVisitService;
@@ -46,6 +48,7 @@ public class SiteVisitRestController {
     private final SiteService siteService;
     private final UserService userService;
     private final SiteVisitService siteVisitService;
+    private final ZoneResolver zoneResolver;
 
     @GetMapping("/sites")
     public List<SiteDto> getSitesApi() {
@@ -194,6 +197,19 @@ public class SiteVisitRestController {
         Long callerUserId = userService.getUserIdFromAuthentication(auth);
         if (callerUserId == null) {
         return ResponseEntity.status(403).build();
+        }
+
+        // Resolver zona con ZoneResolver (prioriza requested tz, luego user profile, luego sistema)
+        ZoneResolutionResult zr = zoneResolver.resolveZone(callerUserId, tz);
+        ZoneId resolvedZone = zr.zoneId();
+        String resolvedTzId = resolvedZone.getId();
+        log.debug("Resolved zone for userId={} requestedTz='{}' => {} (source={})",
+            callerUserId, tz, resolvedTzId, zr.source());
+
+        // Si date no fue provista, calcular "hoy" en la zona resuelta
+        if (date == null) {
+        date = LocalDate.now(resolvedZone);
+        log.debug("No date provided - using date={} based on resolved zone {}", date, resolvedTzId);
         }
 
         List<SiteVisitHourlyDto> series = siteVisitService
