@@ -145,10 +145,22 @@ function buildOption(labels: string[], valuesActual: number[], valuesForecast: (
  * Devuelve: { chart, refresh(date?), refreshFromMap(map), stop() }
  */
 export async function initVisitHourlyChart(
-  container: HTMLElement,
-  opts?: { tz?: string; theme?: string | object; showForecast?: boolean }
+  containerOrSelector: string | HTMLElement | null = 'chart-hourly-visit',
+  opts: { tz?: string; theme?: any; showForecast?: boolean; root?: Document | HTMLElement; mkChart?: (el: HTMLElement | null) => any} = {}
 ) {
-  if (!container) throw new Error('container is required for initVisitHourlyChart');
+  const root = (opts.root ?? document) as Document | HTMLElement;
+  let container: HTMLElement | null = null;
+  if (!containerOrSelector) throw new Error('containerOrSelector is required for initVisitHourlyChart');
+
+  if (typeof containerOrSelector === 'string') {
+    container = (root as Document).querySelector(containerOrSelector) as HTMLElement | null;
+  } else if (containerOrSelector instanceof HTMLElement) {
+    container = containerOrSelector;
+  }
+
+  if (!container) throw new Error('Container element not found for initVisitHourlyChart: ' + String(containerOrSelector));
+
+
   const chart = echarts.init(container, opts?.theme as any);
   let destroyed = false;
 
