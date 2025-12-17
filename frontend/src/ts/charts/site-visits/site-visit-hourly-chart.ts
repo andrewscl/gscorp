@@ -1,6 +1,5 @@
 import { echarts } from '../../lib/echarts-setup';
-import { fetchWithTimeout } from '../../utils/api';
-
+import { fetchWithAuth } from '../../utils/api';
 
 type VisitsCell = { count: number; forecast?: number };
 const hours24 = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0'));
@@ -18,22 +17,21 @@ function toNumber(v: any): number {
   return Number.isNaN(n) ? 0 : n;
 }
 
-async function fetchVisitsMap(dateArg?: string, tz?: string): Promise<Map<string, VisitsCell>> {
+async function fetchVisitsMapUsing(fetchFn: (url: string, ...args: any[]) => Promise<any>, dateArg?: string, tz?: string): Promise<Map<string, VisitsCell>> {
   const zone = tz ?? (typeof Intl !== 'undefined' ? Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC' : 'UTC');
   const q = dateArg ? `?date=${encodeURIComponent(dateArg)}&tz=${encodeURIComponent(zone)}` : `?tz=${encodeURIComponent(zone)}`;
   const url = `/api/site-supervision-visits/hourly-aggregated${q}`;
 
   try {
-    const res = await fetchWithTimeout(url);
+    const res = await fetchFn(url);
     let payload: any = [];
-    if (res.ok) {
+    if (res && res.ok) {
       payload = await res.json().catch(() => []);
     } else {
-      console.warn('[Site-Visit-Chart] fetch failed', res.status, res.statusText, url);
+      console.warn('[Site-Visit-Chart] fetch failed', res && res.status, res && res.statusText, url);
       return new Map();
     }
 
-    // payload puede ser array directo o { data: [...] } u { result: [...] }
     const arr = Array.isArray(payload)
       ? payload
       : (payload && Array.isArray(payload.data) ? payload.data
@@ -58,7 +56,7 @@ async function fetchVisitsMap(dateArg?: string, tz?: string): Promise<Map<string
   }
 }
 
-/** helper: small in-module "no data" painter (similar to client setNoData) */
+/** helper: small in-module "no data" painter */
 function setNoData(chart: echarts.ECharts, msg = 'Sin visitas') {
   try {
     chart.setOption({
@@ -73,12 +71,9 @@ function setNoData(chart: echarts.ECharts, msg = 'Sin visitas') {
         ]
       }
     });
-  } catch (e) {
-    // ignore
-  }
+  } catch (e) { /* ignore */ }
 }
 
-/** format hour label for tooltip/display: "00" -> "00:00" */
 function hourDisplay(h: string): string {
   if (!h) return '';
   const hh = String(h).padStart(2, '0').slice(-2);
@@ -139,15 +134,12 @@ function buildOption(labels: string[], valuesActual: number[], valuesForecast: (
 }
 
 /**
- * Inicializa y devuelve control del chart de Site Visits.
- * - container: HTMLElement donde montar el chart
- * - opts: { tz?, theme?, showForecast?: boolean }
- *
- * Devuelve: { chart, refresh(date?), refreshFromMap(map), stop() }
+ * Compatibilidad: acepta selector string (ej. '#chart-hourly-visit') o HTMLElement.
+ * opts soporta { tz?, theme?, showForecast?, root?, mkChart?, fetchWithTimeout? }.
  */
 export async function initVisitHourlyChart(
-  containerOrSelector: string | HTMLElement | null = 'chart-hourly-visit',
-  opts: { tz?: string; theme?: any; showForecast?: boolean; root?: Document | HTMLElement; mkChart?: (el: HTMLElement | null) => any; fetchWithTimeout?: typeof fetchWithTimeout } = {}
+  containerOrSelector: string | HTMLElement | null = '#chart-hourly-visit',
+  opts: { tz?: string; theme?: any; showForecast?: boolean; root?: Document | HTMLElement; mkChart?: (el: HTMLElement | null) => any; fetchWithTimeout?: (input: RequestInfo, init?: RequestInit) => Promise<Response> } = {}
 ) {
   const root = (opts.root ?? document) as Document | HTMLElement;
   let container: HTMLElement | null = null;
@@ -161,16 +153,17 @@ export async function initVisitHourlyChart(
 
   if (!container) throw new Error('Container element not found for initVisitHourlyChart: ' + String(containerOrSelector));
 
+  const mkChartFn = opts.mkChart;
+  const chart = mkChartFn ? mkChartFn(container) : echarts.init(container, opts?.theme as any);
 
-  const chart = echarts.init(container, opts?.theme as any);
+  // use injected fetch function if provided, otherwise fallback to fetchWithAuth
+  const fetchFn = (opts.fetchWithTimeout as any) ?? fetchWithAuth;
+
   let destroyed = false;
 
   // resize handler
-  const onResize = () => {
-    try { chart.resize(); } catch (e) { /* ignore */ }
-  };
+  const onResize = () => { try { chart.resize(); } catch (e) {} };
   window.addEventListener('resize', onResize);
-
 
   async function refreshFromMap(m: Map<string, VisitsCell>) {
     if (destroyed) return;
@@ -199,8 +192,13 @@ export async function initVisitHourlyChart(
 
   async function refresh(dateArg?: string) {
     if (destroyed) return;
-    const m = await fetchVisitsMap(dateArg, opts?.tz);
+    const m = await fetchVisitsMapUsing(fetchFn, dateArg, opts?.tz);
     await refreshFromMap(m);
+  }
+
+  // render() para compatibilidad con registerChart
+  async function render() {
+    await refresh();
   }
 
   function stop() {
@@ -209,13 +207,15 @@ export async function initVisitHourlyChart(
     try { chart.dispose(); } catch (_) {}
   }
 
-  // initial blank render to reserve layout and show empty axes
+  // initial blank render para reservar layout
   chart.setOption(buildOption(hours24, Array(24).fill(0), Array(24).fill(null)));
 
   return {
     chart,
-    refresh,         // call refresh(dateString) to fetch & redraw
-    refreshFromMap,  // optionally call with normalized Map directly
-    stop
+    render,
+    refresh,
+    refreshFromMap,
+    stop,
+    container
   };
 }
