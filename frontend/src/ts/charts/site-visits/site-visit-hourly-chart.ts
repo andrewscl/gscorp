@@ -2,6 +2,20 @@ import { fetchWithTimeout } from '../../utils/api';
 import { safeSetNoData } from '../../utils/chart-uiutils';
 import { mkChart as defaultMkChart } from '../../lib/echarts-setup';
 
+export type VisitsHourlyOptions = {
+  days?: number;
+  tz?: string;
+  mkChart?: (el: HTMLElement | null) => any;
+  fetchWithTimeout?: typeof fetchWithTimeout;
+  showForecast?: boolean;
+  root?: Document | HTMLElement;
+  apiBase?: string;
+  metric?: string;
+  siteId?: number | null;
+  projectId?: number | null;
+  forecastPath?: string | null;
+};
+
 type VisitsCell = { count: number; forecast?: number };
 const hours24 = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0'));
 
@@ -76,21 +90,11 @@ function buildOption(labels: string[], valuesActual: number[], valuesForecast: (
 
 /**
  * initVisitHourlyChart(selector|element, opts)
- * opts: { days?, tz?, mkChart?, fetchWithTimeout?, showForecast?, root?, apiBase? }
- *
  * Exports: { render, destroy, chart, container }
  */
 export function initVisitHourlyChart(
   containerSelector: string | HTMLElement | null = '#chart-hourly-visit',
-  opts: {
-    days?: number;
-    tz?: string;
-    mkChart?: (el: HTMLElement | null) => any;
-    fetchWithTimeout?: typeof fetchWithTimeout;
-    showForecast?: boolean;
-    root?: Document | HTMLElement;
-    apiBase?: string;
-  } = {}
+  opts: VisitsHourlyOptions = {}
 ) {
   const root = (opts.root ?? document) as Document;
   const el = (typeof containerSelector === 'string') ? root.querySelector(containerSelector) as HTMLDivElement | null : (containerSelector as HTMLElement | null);
@@ -100,27 +104,32 @@ export function initVisitHourlyChart(
   const apiBase = opts.apiBase ?? '';
   const ch = mkChartFn ? mkChartFn(el) : null;
 
+  // keep single donut instance so we can dispose it later
+  let chDonut: any = null;
+
   async function render() {
     try {
-      if (!ch || !el) {
-        return;
-      }
+      if (!ch || !el) return;
 
       const tz = opts.tz ?? Intl.DateTimeFormat().resolvedOptions().timeZone ?? 'UTC';
+      const todayIso = new Intl.DateTimeFormat('en-CA', { timeZone: tz }).format(new Date());
 
-      // Build hourly-aggregated URL. If days === 1 request date=todayIso
-      let urlHourly: string;
-      if (opts.days === 1) {
-        const todayIso = new Intl.DateTimeFormat('en-CA', { timeZone: tz }).format(new Date());
-        urlHourly = `${apiBase}/api/site-supervision-visits/hourly-aggregated?date=${encodeURIComponent(todayIso)}&tz=${encodeURIComponent(tz)}`;
-      } else {
-        urlHourly = `${apiBase}/api/site-supervision-visits/hourly-aggregated?tz=${encodeURIComponent(tz)}`;
-      }
+      // hourly URL (if days===1 include date)
+      const urlHourly = (opts.days === 1)
+        ? `${apiBase}/api/site-supervision-visits/hourly-aggregated?date=${encodeURIComponent(todayIso)}&tz=${encodeURIComponent(tz)}`
+        : `${apiBase}/api/site-supervision-visits/hourly-aggregated?tz=${encodeURIComponent(tz)}`;
 
-      // Forecast daily (days=1) URL for donut/meta
-      const urlForecastDaily = `${apiBase}/api/forecasts/forecast-series?days=1&tz=${encodeURIComponent(tz)}`;
+      // forecast daily URL: mirror daily-chart signature (metric + optional site/project + forecastPath)
+      const forecastMetric = opts.metric ?? 'VISITS';
+      const paramsForecast = new URLSearchParams({ days: '1', tz, metric: forecastMetric });
+      if (opts.siteId !== undefined && opts.siteId !== null) paramsForecast.set('siteId', String(opts.siteId));
+      if (opts.projectId !== undefined && opts.projectId !== null) paramsForecast.set('projectId', String(opts.projectId));
+      const forecastBase = opts.forecastPath ?? `${apiBase}/api/forecasts/forecast-series`;
+      const urlForecastDaily = `${forecastBase}?${paramsForecast.toString()}`;
 
-      // fetch both (hourly and forecast daily). Use auth via fetchWithTimeout(..., true)
+      console.debug('[Site-Visit-Hourly] urlHourly:', urlHourly);
+      console.debug('[Site-Visit-Hourly] urlForecastDaily:', urlForecastDaily);
+
       const [resHourly, resForecast] = await Promise.all([
         fetchFn ? fetchFn(urlHourly, {}, 15000, true).catch((e: any) => { if (e?.name === 'AbortError') throw e; console.warn('[Site-Visit-Hourly] hourly fetch failed', e); return null; }) : fetch(urlHourly).catch(() => null),
         fetchFn ? fetchFn(urlForecastDaily, {}, 15000, true).catch((e: any) => { if (e?.name === 'AbortError') throw e; console.warn('[Site-Visit-Hourly] forecast fetch failed', e); return null; }) : fetch(urlForecastDaily).catch(() => null)
@@ -133,9 +142,16 @@ export function initVisitHourlyChart(
       };
 
       const [payloadHourly, payloadForecast] = await Promise.all([parseOrEmpty(resHourly), parseOrEmpty(resForecast)]);
+      console.debug('[Site-Visit-Hourly] payloadHourly sample:', Array.isArray(payloadHourly) ? payloadHourly.slice(0,6) : payloadHourly);
+      console.debug('[Site-Visit-Hourly] payloadForecast sample:', Array.isArray(payloadForecast) ? payloadForecast.slice(0,6) : payloadForecast);
 
-      const arrHourly = Array.isArray(payloadHourly) ? payloadHourly : (payloadHourly && Array.isArray((payloadHourly as any).data) ? (payloadHourly as any).data : (payloadHourly && Array.isArray((payloadHourly as any).result) ? (payloadHourly as any).result : []));
-      const arrForecast = Array.isArray(payloadForecast) ? payloadForecast : (payloadForecast && Array.isArray((payloadForecast as any).data) ? (payloadForecast as any).data : []);
+      const arrHourly = Array.isArray(payloadHourly)
+        ? payloadHourly
+        : (payloadHourly && Array.isArray((payloadHourly as any).data) ? (payloadHourly as any).data : (payloadHourly && Array.isArray((payloadHourly as any).result) ? (payloadHourly as any).result : []));
+
+      const arrForecast = Array.isArray(payloadForecast)
+        ? payloadForecast
+        : (payloadForecast && Array.isArray((payloadForecast as any).data) ? (payloadForecast as any).data : []);
 
       // Normalize hourly into map by hh
       const map = new Map<string, VisitsCell>();
@@ -163,88 +179,98 @@ export function initVisitHourlyChart(
         ch.setOption(buildOption(labels, valuesActual, opts.showForecast ? valuesForecast : Array(24).fill(null)));
       }
 
-      // Donut + meta: compute sums from forecast-series (daily) and hourly aggregated
-      try {
-        // sum actual day from hourly payload
-        const sumActualDay = (arrHourly || []).reduce((s: number, it: any) => {
-          const raw = it?.count ?? it?.y ?? it?.cnt ?? it?.value ?? it?.visits ?? 0;
-          const n = Number(String(raw ?? 0).replace(/,/g, '')) || 0;
-          return s + n;
-        }, 0);
+      // Donut + meta: compute sums
+      let sumActualDay = 0;
+      let sumForecastDay = 0;
 
-        // sum forecast day from forecast payload (normalize various shapes)
-        let sumForecastDay = 0;
-        for (const d of (arrForecast || [])) {
+      // sum actual from hourly payload (robust)
+      sumActualDay = (arrHourly || []).reduce((s: number, it: any) => {
+        const raw = it?.count ?? it?.y ?? it?.cnt ?? it?.value ?? it?.visits ?? 0;
+        const n = Number(String(raw ?? 0).replace(/,/g, '')) || 0;
+        return s + n;
+      }, 0);
+
+      // try to compute sumForecastDay from forecast-series response (matching todayIso)
+      if (Array.isArray(arrForecast) && arrForecast.length > 0) {
+        for (const d of arrForecast) {
           let rawX: any; let rawY: any;
           if (Array.isArray(d)) { rawX = d[0]; rawY = d.length > 1 ? d[1] : 0; }
           else { rawX = d?.x ?? d?.date ?? d?.day ?? ''; rawY = d?.y ?? d?.value ?? d?.forecast ?? d?.count ?? 0; }
-          const x = String(rawX ?? '').split('T')[0]; // YYYY-MM-DD candidate
-          // If opts.days === 1 we compare to todayIso; otherwise we sum all returned points
+          const x = String(rawX ?? '').split('T')[0];
+          const yNum = typeof rawY === 'number' ? rawY : Number(String(rawY ?? 0).replace(/,/g, '')) || 0;
           if (opts.days === 1) {
-            const todayIso = new Intl.DateTimeFormat('en-CA', { timeZone: tz }).format(new Date());
-            if (x === todayIso) {
-              const yNum = typeof rawY === 'number' ? rawY : Number(String(rawY ?? 0).replace(/,/g, '')) || 0;
-              sumForecastDay += Number.isFinite(Number(yNum)) ? Number(yNum) : 0;
-            }
+            if (x === todayIso) sumForecastDay += Number.isFinite(Number(yNum)) ? Number(yNum) : 0;
           } else {
-            const yNum = typeof rawY === 'number' ? rawY : Number(String(rawY ?? 0).replace(/,/g, '')) || 0;
             sumForecastDay += Number.isFinite(Number(yNum)) ? Number(yNum) : 0;
           }
         }
+      }
 
-        // Update DOM totals (elements might not exist; guard)
-        const totalEl = root.querySelector('#total-hourly-visit') as HTMLElement | null;
-        const metaEl = root.querySelector('#meta-hourly-visit') as HTMLElement | null;
-        if (totalEl) totalEl.textContent = sumActualDay > 0 ? String(sumActualDay) : '–';
-        if (metaEl) metaEl.textContent = sumForecastDay > 0 ? `Meta: ${sumForecastDay}` : 'Meta: —';
-
-        // Draw donut in #donut-hourly-visit
-        const elDonut = root.querySelector('#donut-hourly-visit') as HTMLDivElement | null;
-        if (elDonut) {
-          const chDonut = mkChartFn ? mkChartFn(elDonut) : null;
-          if (chDonut) {
-            const hasMeta = sumForecastDay > 0;
-            const percentage = hasMeta ? Math.round((sumActualDay / sumForecastDay) * 100) : 0;
-            const pctForSeries = hasMeta ? Math.min(100, Math.max(0, percentage)) : 100;
-            const seriesData = !hasMeta
-              ? [{ value: 1, name: 'Sin meta', itemStyle: { color: '#E5E7EB' } }]
-              : [
-                  { value: pctForSeries, name: 'Cumplido', itemStyle: { color: '#10B981' } },
-                  { value: 100 - pctForSeries, name: 'Pendiente', itemStyle: { color: '#E5E7EB' } }
-                ];
-            chDonut.clear();
-            chDonut.setOption({
-              tooltip: {
-                trigger: 'item',
-                formatter: (p: any) => {
-                  if (!hasMeta) return 'Meta no definida';
-                  if (p && p.name === 'Cumplido') return `${p.marker} ${p.seriesName}: ${sumActualDay} / ${sumForecastDay} (${percentage}%)`;
-                  if (p && p.name === 'Pendiente') return `${p.marker} Pendiente: ${Math.max(0, sumForecastDay - sumActualDay)}`;
-                  return '';
-                }
-              },
-              series: [{
-                name: 'Cumplimiento Visitas (día)',
-                type: 'pie',
-                radius: ['62%', '82%'],
-                avoidLabelOverlap: false,
-                hoverAnimation: false,
-                label: {
-                  show: true,
-                  position: 'center',
-                  formatter: hasMeta ? `${percentage}%` : '—',
-                  fontSize: 16,
-                  fontWeight: 700,
-                  color: '#485572ff'
-                },
-                labelLine: { show: false },
-                data: seriesData
-              }]
-            });
-          }
+      // fallback: if forecast-series didn't return meta (sumForecastDay == 0), try summing hourly forecasts if present
+      if (sumForecastDay === 0) {
+        const hourlyForecastSum = (arrHourly || []).reduce((s: number, it: any) => {
+          const rawF = it?.forecast ?? it?.f ?? it?.visitsForecast;
+          const n = rawF === undefined || rawF === null ? 0 : Number(String(rawF).replace(/,/g, '')) || 0;
+          return s + n;
+        }, 0);
+        if (hourlyForecastSum > 0) {
+          sumForecastDay = hourlyForecastSum;
+          console.debug('[Site-Visit-Hourly] derived sumForecastDay from hourly forecasts:', sumForecastDay);
         }
-      } catch (e) {
-        console.warn('[Site-Visit-Hourly] donut/meta render error', e);
+      }
+
+      console.debug('[Site-Visit-Hourly] sumActualDay:', sumActualDay, 'sumForecastDay:', sumForecastDay);
+
+      // Update DOM totals
+      const totalEl = root.querySelector('#total-hourly-visit') as HTMLElement | null;
+      const metaEl = root.querySelector('#meta-hourly-visit') as HTMLElement | null;
+      if (totalEl) totalEl.textContent = sumActualDay > 0 ? String(sumActualDay) : '–';
+      if (metaEl) metaEl.textContent = sumForecastDay > 0 ? `Meta: ${sumForecastDay}` : 'Meta: —';
+
+      // Draw donut in #donut-hourly-visit (create or reuse single instance)
+      const elDonut = root.querySelector('#donut-hourly-visit') as HTMLDivElement | null;
+      if (elDonut) {
+        if (!chDonut) chDonut = mkChartFn ? mkChartFn(elDonut) : null;
+        if (chDonut) {
+          const hasMeta = sumForecastDay > 0;
+          const percentage = hasMeta ? Math.round((sumActualDay / sumForecastDay) * 100) : 0;
+          const pctForSeries = hasMeta ? Math.min(100, Math.max(0, percentage)) : 100;
+          const seriesData = !hasMeta
+            ? [{ value: 1, name: 'Sin meta', itemStyle: { color: '#E5E7EB' } }]
+            : [
+                { value: pctForSeries, name: 'Cumplido', itemStyle: { color: '#10B981' } },
+                { value: 100 - pctForSeries, name: 'Pendiente', itemStyle: { color: '#E5E7EB' } }
+              ];
+          chDonut.clear();
+          chDonut.setOption({
+            tooltip: {
+              trigger: 'item',
+              formatter: (p: any) => {
+                if (!hasMeta) return 'Meta no definida';
+                if (p && p.name === 'Cumplido') return `${p.marker} ${p.seriesName}: ${sumActualDay} / ${sumForecastDay} (${percentage}%)`;
+                if (p && p.name === 'Pendiente') return `${p.marker} Pendiente: ${Math.max(0, sumForecastDay - sumActualDay)}`;
+                return '';
+              }
+            },
+            series: [{
+              name: 'Cumplimiento Visitas (día)',
+              type: 'pie',
+              radius: ['62%', '82%'],
+              avoidLabelOverlap: false,
+              hoverAnimation: false,
+              label: {
+                show: true,
+                position: 'center',
+                formatter: hasMeta ? `${percentage}%` : '—',
+                fontSize: 16,
+                fontWeight: 700,
+                color: '#485572ff'
+              },
+              labelLine: { show: false },
+              data: seriesData
+            }]
+          });
+        }
       }
 
     } catch (err: any) {
@@ -265,14 +291,7 @@ export function initVisitHourlyChart(
         if (ph) ph.remove();
       }
     } catch (_) {}
-    // also try to cleanup donut element chart
-    try {
-      const elDonut = root.querySelector('#donut-hourly-visit') as HTMLDivElement | null;
-      if (elDonut) {
-        const chDonut = mkChartFn ? mkChartFn(elDonut) : null;
-        if (chDonut && typeof chDonut.dispose === 'function') chDonut.dispose();
-      }
-    } catch (_) {}
+    try { if (chDonut && typeof chDonut.dispose === 'function') chDonut.dispose(); } catch (_) {}
   }
 
   return { render, destroy, chart: ch, container: el };
