@@ -185,6 +185,7 @@
   height: var(--chart-height-full);
   min-height: 220px;
 }
+#client-dashboard-root .hourly-donut,
 #client-dashboard-root .daily-donut,
 #client-dashboard-root .weekly-donut {
   display: inline-flex;
@@ -197,6 +198,7 @@
   box-shadow: none;
   min-width: 0;
 }
+#client-dashboard-root .hourly-donut.integrated,
 #client-dashboard-root .daily-donut.integrated,
 #client-dashboard-root .weekly-donut.integrated {
   width: 100%;
@@ -207,6 +209,7 @@
   background: transparent;
   padding: 0;
 }
+#client-dashboard-root .hourly-donut.compact,
 #client-dashboard-root .daily-donut.compact,
 #client-dashboard-root .weekly-donut.compact {
   width: 72px;
@@ -259,6 +262,7 @@
   box-shadow: 0 6px 18px rgba(2, 6, 23, 0.12);
 }
 @media (max-width: 900px) {
+  #client-dashboard-root .hourly-donut.integrated,
   #client-dashboard-root .daily-donut.integrated,
   #client-dashboard-root .weekly-donut.integrated {
     height: 120px;
@@ -276,7 +280,7 @@
   #client-dashboard-root .split-left, #client-dashboard-root .split-right {
     flex: 1 1 100%;
   }
-  #client-dashboard-root .daily-donut.integrated, #client-dashboard-root .weekly-donut.integrated {
+  #client-dashboard-root .hourly-donut.integrated, #client-dashboard-root .daily-donut.integrated, #client-dashboard-root .weekly-donut.integrated {
     height: 120px;
   }
   #client-dashboard-root .card > .chart-body {
