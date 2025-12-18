@@ -304,11 +304,39 @@ export function initAttendanceHourlyChart(
           chDonut.setOption({
             tooltip: {
               trigger: 'item',
+              // evitar clipping por overflow del card
+              appendToBody: true,
+              confine: true,
+              extraCssText: 'z-index: 99999; box-shadow: 0 8px 18px rgba(0,0,0,0.12);',
+              // posicionar el tooltip en el centro del contenedor del donut (elDonut debe estar en scope)
+              position: (_pos: any, _params: any, _dom: any, _rect: any) => {
+                try {
+                  if (!elDonut) return 'inside';
+                  const r = elDonut.getBoundingClientRect();
+                  // posicionar un poco por encima del centro para que no tape el donut
+                  const x = Math.round(r.left + r.width / 2);
+                  const y = Math.round(r.top + r.height / 2) - 12;
+                  // devolver coordenadas [x, y] relativas al viewport
+                  return [x, y];
+                } catch (e) {
+                  return 'inside';
+                }
+              },
+              // formatter robusto para distintos formatos de p
               formatter: (p: any) => {
+                // `p` puede llegar como objeto o array según la versión de echarts
+                const item = Array.isArray(p) ? (p[0] ?? {}) : (p ?? {});
                 if (!hasMeta) return 'Meta no definida';
-                if (p && p.name === 'Cumplido') return `${p.marker} ${p.seriesName}: ${sumActualDay} / ${sumForecastDay} (${percentage}%)`;
-                if (p && p.name === 'Pendiente') return `${p.marker} Pendiente: ${Math.max(0, sumForecastDay - sumActualDay)}`;
-                return '';
+                const name = item.name ?? '';
+                if (name === 'Cumplido') {
+                  return `${item.marker ?? ''} ${item.seriesName ?? 'Cumplimiento'}: ${sumActualDay} / ${sumForecastDay} (${percentage}%)`;
+                }
+                if (name === 'Pendiente') {
+                  return `${item.marker ?? ''} Pendiente: ${Math.max(0, sumForecastDay - sumActualDay)}`;
+                }
+                // fallback genérico
+                const value = item.value ?? 0;
+                return `${item.marker ?? ''} ${item.seriesName ?? ''}: ${value}`;
               }
             },
             series: [{
