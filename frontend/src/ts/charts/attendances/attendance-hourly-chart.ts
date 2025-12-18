@@ -35,7 +35,7 @@ function toNumber(v: any): number {
 
 const COMMON_GRID = { left: '4%', right: '4%', top: 56, bottom: 36, containLabel: true };
 
-function buildOption(labels: string[], valuesActual: number[], valuesForecast: (number | null)[], anyPositiveOverride?: boolean) {
+function buildOption(labels: string[], valuesActual: number[], valuesForecast: (number | null)[], anyPositiveOverride?: boolean, yMax?: number) {
   const anyPositive = typeof anyPositiveOverride === 'boolean'
     ? anyPositiveOverride
     : (valuesActual.some(v => Number(v) > 0) || valuesForecast.some(v => Number(v) > 0));
@@ -57,7 +57,12 @@ function buildOption(labels: string[], valuesActual: number[], valuesForecast: (
     },
     grid: COMMON_GRID,
     xAxis: { type: 'category', boundaryGap: false, data: labels, axisLabel: { rotate: 0 } },
-    yAxis: { type: 'value' },
+    yAxis: {
+      type: 'value',
+      min: 0,
+      // usar max calculado si se entrega, sino dejar auto
+      ...(typeof yMax === 'number' ? { max: yMax } : {})
+    },
     series: [
       {
         name: 'Asistencias',
@@ -97,7 +102,7 @@ export function initAttendanceHourlyChart(
 
   const mkChartFn = opts.mkChart ?? defaultMkChart;
   const fetchFn = opts.fetchWithTimeout ?? fetchWithTimeout;
-  const apiBase = opts.apiBase ?? '';
+  const apiBase = (opts.apiBase ?? '').replace(/\/+$/, ''); // normalize trailing slash
   const ch = mkChartFn ? mkChartFn(el) : null;
 
   // persistent donut instance
@@ -110,9 +115,12 @@ export function initAttendanceHourlyChart(
       const tz = opts.tz ?? Intl.DateTimeFormat().resolvedOptions().timeZone ?? 'UTC';
       const todayIso = new Intl.DateTimeFormat('en-CA', { timeZone: tz }).format(new Date());
 
-      // Build hourly URL (attendance). Include action and siteId if provided.
+      // default: show forecast unless explicitly false
+      const showForecast = opts.showForecast ?? true;
+
+      // Build hourly URL (attendance). Include action and siteId/projectId if provided.
       const paramsHourly = new URLSearchParams({ date: todayIso, tz });
-      if (opts.action) paramsHourly.set('action', String(opts.action));
+      if (opts.action) paramsHourly.set('action', String(opts.action).trim().toUpperCase());
       if (opts.siteId !== undefined && opts.siteId !== null) paramsHourly.set('siteId', String(opts.siteId));
       if (opts.projectId !== undefined && opts.projectId !== null) paramsHourly.set('projectId', String(opts.projectId));
       const urlHourly = `${apiBase}/api/attendance/hourly-aggregated?${paramsHourly.toString()}`;
@@ -135,7 +143,6 @@ export function initAttendanceHourlyChart(
         if (!r.ok) return [];
         return await r.json().catch(() => []);
       };
-      
 
       const [payloadHourly, payloadForecast] = await Promise.all([parseOrEmpty(resHourly), parseOrEmpty(resForecast)]);
 
@@ -194,9 +201,18 @@ export function initAttendanceHourlyChart(
       if (!hasActual && !hasForecastSeries) {
         safeSetNoData(ch, el, 'Sin asistencias');
       } else {
-        const forecastToUse = opts.showForecast ? valuesForecast : Array(24).fill(null);
+        const forecastToUse = showForecast ? valuesForecast : Array(24).fill(null);
+
+        // determine yMax so peaks are visible (at least 1)
+        const maxActual = Math.max(0, ...valuesActual.map(v => Number(v) || 0));
+        const maxForecast = Math.max(0, ...valuesForecast.map(v => Number(v ?? 0)));
+        const yMax = Math.max(1, maxActual, maxForecast);
+
+        console.debug('[Attendance-Hourly] valuesForecast:', valuesForecast, 'yMax:', yMax);
+
         ch.clear();
-        ch.setOption(buildOption(labels, valuesActual, forecastToUse));
+        ch.setOption(buildOption(labels, valuesActual, forecastToUse, undefined, yMax));
+        try { ch.resize && ch.resize(); } catch (_) {}
       }
 
       // Compute totals for donut/meta
