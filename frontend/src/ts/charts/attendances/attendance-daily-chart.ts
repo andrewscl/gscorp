@@ -119,13 +119,43 @@ export function initAttendanceDailyChart(containerSelector = '#chart-daily-atten
         legend: { data: ['Asistencias', 'Forecast'], top: 6 },
         tooltip: {
           trigger: 'axis',
+          // evitar clipping por overflow del card
+          appendToBody: true,
+          // guía vertical para facilitar lectura
+          axisPointer: { type: 'line', snap: false },
+          extraCssText: 'z-index: 99999; box-shadow: 0 4px 12px rgba(0,0,0,0.12);',
+          // posición: cerca del cursor pero clamp dentro del viewport
+          position: (pos: any, params: any, dom: any, rect: any) => {
+            try {
+              const viewportW = window.innerWidth || document.documentElement.clientWidth;
+              const viewportH = window.innerHeight || document.documentElement.clientHeight;
+              const padding = 8;
+              let x = Array.isArray(pos) ? pos[0] : (pos && pos.event ? pos.event.clientX : padding);
+              let y = Array.isArray(pos) ? pos[1] : (pos && pos.event ? pos.event.clientY : padding);
+              // elevar un poco sobre el cursor
+              y = y - 36;
+              // clamp
+              x = Math.min(Math.max(padding, x), viewportW - padding);
+              y = Math.min(Math.max(padding, y), viewportH - padding);
+              return [x, y];
+            } catch (e) {
+              return 'inside';
+            }
+          },
+          // formatter robusto: maneja nulls y distintos shapes de params
           formatter: (params: any) => {
             if (!Array.isArray(params) || params.length === 0) return '';
             const first = params[0];
-            let rawDate: any = first.axisValue ?? (typeof first.dataIndex === 'number' ? labels[first.dataIndex] : undefined);
-            if (!rawDate && first.axisValueLabel) rawDate = first.axisValueLabel;
-            const displayDate = shortLabelFromIso(String(rawDate ?? ''), monthFormatter);
-            const lines = params.map((p: any) => `${p.marker} ${p.seriesName}: ${p.value ?? 0}`);
+            // preferir label por dataIndex si existe
+            const idx = (typeof first.dataIndex === 'number') ? first.dataIndex : undefined;
+            const rawDate = (idx !== undefined && labels && labels[idx]) ? labels[idx] : (first.axisValue ?? first.axisValueLabel ?? '');
+            const displayDate = (typeof shortLabelFromIso === 'function')
+              ? shortLabelFromIso(String(rawDate ?? ''), monthFormatter)
+              : String(rawDate ?? '');
+            const lines = params.map((p: any) => {
+              const value = (p?.value === null || p?.value === undefined) ? '—' : p.value;
+              return `${p.marker ?? ''} ${p.seriesName ?? ''}: ${value}`;
+            });
             return `<b>${displayDate}</b><br/>${lines.join('<br/>')}`;
           }
         },
@@ -185,15 +215,36 @@ export function initAttendanceDailyChart(containerSelector = '#chart-daily-atten
           chDonut.setOption({
             tooltip: {
               trigger: 'item',
+              // evitar clipping por overflow del card
+              appendToBody: true,
+              confine: true,
+              extraCssText: 'z-index: 99999; box-shadow: 0 8px 18px rgba(0,0,0,0.12);',
+              // posicionar en el centro del contenedor del donut (elDonutDailyAttendance está en scope)
+              position: (_pos: any, _params: any, _dom: any, _rect: any) => {
+                try {
+                  if (!elDonutDailyAttendance) return 'inside';
+                  const r = elDonutDailyAttendance.getBoundingClientRect();
+                  const x = Math.round(r.left + r.width / 2);
+                  const y = Math.round(r.top + r.height / 2) - 12; // ligeramente por encima del centro
+                  return [x, y];
+                } catch (e) {
+                  return 'inside';
+                }
+              },
+              // formatter robusto que maneja distintos shapes de `p` y usa las variables del scope
               formatter: (p: any) => {
+                const item = Array.isArray(p) ? (p[0] ?? {}) : (p ?? {});
                 if (!hasMeta) return 'Meta no definida';
-                if (p && p.name === 'Cumplido') {
-                  return `${p.marker} ${p.seriesName}: ${sumActual} / ${sumForecast} (${percentage}%)`;
+                const name = item.name ?? '';
+                if (name === 'Cumplido') {
+                  return `${item.marker ?? ''} ${item.seriesName ?? 'Cumplimiento'}: ${sumActual} / ${sumForecast} (${percentage}%)`;
                 }
-                if (p && p.name === 'Pendiente') {
-                  return `${p.marker} Pendiente: ${Math.max(0, sumForecast - sumActual)}`;
+                if (name === 'Pendiente') {
+                  return `${item.marker ?? ''} Pendiente: ${Math.max(0, sumForecast - sumActual)}`;
                 }
-                return '';
+                // fallback genérico
+                const value = item.value ?? 0;
+                return `${item.marker ?? ''} ${item.seriesName ?? ''}: ${value}`;
               }
             },
             series: [{
