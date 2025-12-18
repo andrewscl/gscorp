@@ -212,6 +212,13 @@ export function initAttendanceDailyChart(containerSelector = '#chart-daily-atten
                 { value: pctForSeries, name: 'Cumplido', itemStyle: { color: '#10B981' } },
                 { value: 100 - pctForSeries, name: 'Pendiente', itemStyle: { color: '#E5E7EB' } }
               ];
+
+          const totalEl = root.querySelector('#total-weekly-att') as HTMLElement | null;
+          const metaEl = root.querySelector('#meta-weekly-att') as HTMLElement | null;
+          const fmt = (n: number) => n === 0 ? '–' : n.toLocaleString();
+          if (totalEl) totalEl.textContent = sumActual > 0 ? fmt(sumActual) : '–';
+          if (metaEl) metaEl.textContent = hasMeta ? `Meta: ${fmt(sumForecast)}` : 'Meta: —';
+
           chDonut.setOption({
             tooltip: {
               trigger: 'item',

@@ -208,6 +208,19 @@ export function initVisitsDailyChart(containerSelector = '#chart-daily-visit',
                 { value: pctForSeries, name: 'Cumplido', itemStyle: { color: '#10B981' } },
                 { value: 100 - pctForSeries, name: 'Pendiente', itemStyle: { color: '#E5E7EB' } }
               ];
+
+          // actualizar totales visibles en la card (Total semana / Meta)
+          // colocar justo después de calcular sumActual, sumForecast, hasMeta, percentage, seriesData
+          const totalEl = root.querySelector('#total-daily-visit') as HTMLElement | null;
+          const metaEl = root.querySelector('#meta-daily-visit') as HTMLElement | null;
+
+          // formateador simple (puedes cambiar a '0' en vez de '–' si prefieres)
+          const fmt = (n: number) => n === 0 ? '–' : n.toLocaleString();
+
+          // asignar texto
+          if (totalEl) totalEl.textContent = sumActual > 0 ? fmt(sumActual) : '–';
+          if (metaEl) metaEl.textContent = hasMeta ? `Meta: ${fmt(sumForecast)}` : 'Meta: —';
+
           chDonut.setOption({
             tooltip: {
               trigger: 'item',
