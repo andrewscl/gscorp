@@ -43,15 +43,27 @@ function buildOption(labels: string[], valuesActual: number[], valuesForecast: (
     legend: { data: ['Visitas', 'Forecast'], top: 8, left: 'center' },
     tooltip: {
       trigger: 'axis',
+      // renderiza el tooltip en <body> para evitar que se corte por overflow del card
+      appendToBody: true,
+      // guía vertical para facilitar lectura
+      axisPointer: { type: 'line', snap: false },
+      // estilo extra para asegurar z-index y sombra
+      extraCssText: 'z-index: 99999; box-shadow: 0 4px 12px rgba(0,0,0,0.12);',
+      // formatter robusto: maneja nulls y distintos shapes de params
       formatter: (params: any) => {
         if (!Array.isArray(params) || params.length === 0) return '';
+        // obtener hora (label) preferentemente a partir del primer elemento
         const first = params[0];
-        let rawHour = first.axisValue ?? (first && typeof first.dataIndex === 'number' ? labels[first.dataIndex] : undefined);
-        if (!rawHour && first.axisValueLabel) rawHour = first.axisValueLabel;
-        const hh = String(rawHour ?? '').padStart(2, '0').slice(-2);
-        const display = `${hh}:00`;
-        const lines = params.map((p: any) => `${p.marker} ${p.seriesName}: ${p.value ?? 0}`);
-        return `<b>${display}</b><br/>${lines.join('<br/>')}`;
+        let idx = typeof first.dataIndex === 'number' ? first.dataIndex : undefined;
+        const hourLabel = (idx !== undefined && labels && labels[idx]) ? labels[idx] : (first.axisValue ?? first.axisValueLabel ?? '');
+        const hh = String(hourLabel ?? '').padStart(2, '0').slice(-2);
+        const header = `<b>${hh}:00</b>`;
+        const lines = params.map((p: any) => {
+          // p.value puede ser null (forecast faltante) -> mostrar "—"
+          const value = (p?.value === null || p?.value === undefined) ? '—' : p.value;
+          return `${p.marker ?? ''} ${p.seriesName ?? ''}: ${value}`;
+        });
+        return `${header}<br/>${lines.join('<br/>')}`;
       }
     },
     grid: COMMON_GRID,
@@ -260,11 +272,36 @@ export function initVisitHourlyChart(
           chDonut.setOption({
             tooltip: {
               trigger: 'item',
+              // renderizar en body para evitar clipping por overflow del card
+              appendToBody: true,
+              confine: true,
+              extraCssText: 'z-index: 99999; box-shadow: 0 8px 18px rgba(0,0,0,0.12);',
+              // posicionar en el centro del contenedor del donut (elDonut está en scope)
+              position: (_pos: any, _params: any, _dom: any, _rect: any) => {
+                try {
+                  if (!elDonut) return 'inside';
+                  const r = elDonut.getBoundingClientRect();
+                  const x = Math.round(r.left + r.width / 2);
+                  const y = Math.round(r.top + r.height / 2) - 12; // ligeramente por encima del centro
+                  return [x, y];
+                } catch (e) {
+                  return 'inside';
+                }
+              },
+              // formatter robusto: maneja p como objeto o array y usa las variables del scope
               formatter: (p: any) => {
+                const item = Array.isArray(p) ? (p[0] ?? {}) : (p ?? {});
                 if (!hasMeta) return 'Meta no definida';
-                if (p && p.name === 'Cumplido') return `${p.marker} ${p.seriesName}: ${sumActualDay} / ${sumForecastDay} (${percentage}%)`;
-                if (p && p.name === 'Pendiente') return `${p.marker} Pendiente: ${Math.max(0, sumForecastDay - sumActualDay)}`;
-                return '';
+                const name = item.name ?? '';
+                if (name === 'Cumplido') {
+                  return `${item.marker ?? ''} ${item.seriesName ?? 'Cumplimiento'}: ${sumActualDay} / ${sumForecastDay} (${percentage}%)`;
+                }
+                if (name === 'Pendiente') {
+                  return `${item.marker ?? ''} Pendiente: ${Math.max(0, sumForecastDay - sumActualDay)}`;
+                }
+                // fallback genérico
+                const value = item.value ?? 0;
+                return `${item.marker ?? ''} ${item.seriesName ?? ''}: ${value}`;
               }
             },
             series: [{
