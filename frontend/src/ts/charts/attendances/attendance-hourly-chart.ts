@@ -113,7 +113,8 @@ export function initAttendanceHourlyChart(
       // Build hourly URL (attendance). Include action and siteId if provided.
       const paramsHourly = new URLSearchParams({ date: todayIso, tz });
       if (opts.action) paramsHourly.set('action', String(opts.action));
-      if (opts.siteId !== undefined && opts.siteId !== null) paramsHourly.set('userId', String(opts.siteId)); // keep behavior from your API if needed
+      if (opts.siteId !== undefined && opts.siteId !== null) paramsHourly.set('siteId', String(opts.siteId));
+      if (opts.projectId !== undefined && opts.projectId !== null) paramsHourly.set('projectId', String(opts.projectId));
       const urlHourly = `${apiBase}/api/attendance/hourly-aggregated?${paramsHourly.toString()}`;
 
       // Forecast hourly URL (shift-requests forecast hourly)
@@ -135,6 +136,7 @@ export function initAttendanceHourlyChart(
         if (!r.ok) return [];
         return await r.json().catch(() => []);
       };
+      
 
       const [payloadHourly, payloadForecast] = await Promise.all([parseOrEmpty(resHourly), parseOrEmpty(resForecast)]);
 
@@ -145,6 +147,11 @@ export function initAttendanceHourlyChart(
       const arrForecast = Array.isArray(payloadForecast)
         ? payloadForecast
         : (payloadForecast && Array.isArray((payloadForecast as any).data) ? (payloadForecast as any).data : []);
+
+      console.debug('[Attendance-Hourly] urlHourly:', urlHourly);
+      console.debug('[Attendance-Hourly] urlForecast:', urlForecast);
+      console.debug('[Attendance-Hourly] payloadHourly sample:', Array.isArray(payloadHourly) ? payloadHourly.slice(0,6) : payloadHourly);
+      console.debug('[Attendance-Hourly] payloadForecast sample:', Array.isArray(payloadForecast) ? payloadForecast.slice(0,6) : payloadForecast);
 
       // Normalize hourly into map by hh (actual and any embedded hourly forecast)
       const map = new Map<string, Cell>();

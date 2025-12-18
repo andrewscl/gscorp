@@ -51,4 +51,14 @@ public interface AttendanceService {
     );
 
 
+    List<HourlyCountDto> getAttendanceSeriesForUserByHours(
+        Long userId,
+        LocalDate date,
+        ZoneId zone,
+        String action,
+        Long siteId,
+        Long projectId
+    );
+
+
 }

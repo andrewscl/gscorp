@@ -392,4 +392,76 @@ public class AttendanceServiceImpl implements AttendanceService {
 
       }
 
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<HourlyCountDto> getAttendanceSeriesForUserByHours(
+            Long userId,
+            LocalDate date,
+            ZoneId zone,
+            String action,
+            Long siteId,
+            Long projectId
+    ) {
+        if (date == null || zone == null) {
+            log.debug("Invalid args to getAttendanceSeriesForUserByHours: date={} zone={} action={} siteId={} projectId={}",
+                    date, zone, action, siteId, projectId);
+            return List.of();
+        }
+
+        List<Long> clientIds = userService.getClientIdsForUser(userId);
+        if (clientIds == null || clientIds.isEmpty()) {
+            // devolver 24 filas con ceros
+            List<HourlyCountDto> empty = new ArrayList<>(24);
+            for (int h = 0; h < 24; h++) {
+                empty.add(new HourlyCountDto(String.format("%02d", h), 0L));
+            }
+            return empty;
+        }
+
+        // Normalizar action (IN/OUT) — si quieres contar todas las marcaciones, permite action == null
+        String normalizedAction = normalizeAction(action);
+
+        // Window [date 00:00, next day 00:00) en la zona del cliente
+        OffsetDateTime fromOffset = date.atStartOfDay(zone).toOffsetDateTime();
+        OffsetDateTime toOffset = date.plusDays(1).atStartOfDay(zone).toOffsetDateTime();
+
+        log.debug("Service: fetching hourly attendances (punches) userId={} clientIds={} date={} from={} to={} zone={} action={} siteId={} projectId={}",
+                userId, clientIds, date, fromOffset, toOffset, zone, normalizedAction, siteId, projectId);
+
+        // Obtener proyecciones de marcaciones (tu repo actual)
+        List<AttendancePunchProjection> projections =
+                repo.findByClientIdsAndDateBetween(clientIds, fromOffset, toOffset, siteId, projectId, normalizedAction);
+
+        List<AttendancePunchDto> attPunchsDto =
+                (projections == null)
+                        ? List.of()
+                        : projections.stream()
+                            .map(AttendancePunchDto::fromProjection)
+                            .filter(Objects::nonNull)
+                            .collect(Collectors.toList());
+
+        // Agrupar por hora local (según zone)
+        Map<Integer, Long> groupedByHour = attPunchsDto.stream()
+                .filter(dto -> dto.ts() != null)
+                .collect(Collectors.groupingBy(
+                        dto -> dto.ts().toInstant().atZone(zone).getHour(),
+                        Collectors.counting()
+                ));
+
+        // Construir serie con 24 puntos "00".."23"
+        List<HourlyCountDto> series = new ArrayList<>(24);
+        for (int h = 0; h < 24; h++) {
+            Long count = groupedByHour.getOrDefault(h, 0L);
+            series.add(new HourlyCountDto(String.format("%02d", h), count));
+        }
+
+        // Opcional: log debug con suma total para verificar
+        long total = series.stream().mapToLong(s -> s.count()).sum();
+        log.debug("Service: hourly punches totalCountForDate={} (date={})", total, date);
+
+        return series;
+    }
+
 }

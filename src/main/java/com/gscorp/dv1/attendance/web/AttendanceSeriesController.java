@@ -116,7 +116,9 @@ public class AttendanceSeriesController {
       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
       @RequestParam(required = false, defaultValue = "UTC") String tz,
       @RequestParam(required = false) String action,
-      @RequestParam(required = false) Long userId
+      @RequestParam(required = false) Long userId,
+      @RequestParam(required = false) Long siteId,
+      @RequestParam(required = false) Long projectId
   ) {
 
    // Si se pasó userId como query param y el llamador es admin, lo usamos.
@@ -128,8 +130,17 @@ public class AttendanceSeriesController {
       effectiveUserId = userService.getUserIdFromAuthentication(auth);
     }
 
-    List<HourlyCountDto> out = attendanceService.getHourlyCounts(date, tz, action, effectiveUserId);
+    // Resolver zona con ZoneResolver (requested tz -> user preference -> system default)
+    var zr = zoneResolver.resolveZone(effectiveUserId, tz);
+    ZoneId zone = zr.zoneId();
 
+    String normalizedAction = normalizeAction(action);
+      if (action != null && normalizedAction == null) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "action inválida. Valores aceptados: IN, OUT");
+    }
+
+    List<HourlyCountDto> out = attendanceService.getAttendanceSeriesForUserByHours(
+                                    effectiveUserId, date, zone, normalizedAction, siteId, projectId);
     return ResponseEntity.ok(out);
   }
 
