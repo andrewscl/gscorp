@@ -42,19 +42,34 @@ function buildOption(labels: string[], valuesActual: number[], valuesForecast: (
 
   return {
     legend: { data: ['Asistencias', 'Forecast'], top: 8, left: 'center' },
+
+    // dentro de buildOption(...) reemplaza tooltip por este objeto
     tooltip: {
       trigger: 'axis',
+      // renderiza el tooltip en <body> para evitar que se corte por overflow: hidden del card
+      appendToBody: true,
+      // el axisPointer ayuda a ver la guía vertical
+      axisPointer: { type: 'line', snap: false },
+      // confine no es necesario si appendToBody=true; usamos extraCssText para asegurar z-index y sombra
+      extraCssText: 'z-index: 99999; box-shadow: 0 4px 12px rgba(0,0,0,0.12);',
+      // formatter robusto: maneja nulls y distintos shapes de params
       formatter: (params: any) => {
         if (!Array.isArray(params) || params.length === 0) return '';
+        // obtener hora (label) preferentemente a partir del primer elemento
         const first = params[0];
-        let rawHour = first.axisValue ?? (first && typeof first.dataIndex === 'number' ? labels[first.dataIndex] : undefined);
-        if (!rawHour && first.axisValueLabel) rawHour = first.axisValueLabel;
-        const hh = String(rawHour ?? '').padStart(2, '0').slice(-2);
-        const display = `${hh}:00`;
-        const lines = params.map((p: any) => `${p.marker} ${p.seriesName}: ${p.value ?? 0}`);
-        return `<b>${display}</b><br/>${lines.join('<br/>')}`;
+        let idx = typeof first.dataIndex === 'number' ? first.dataIndex : undefined;
+        const hourLabel = (idx !== undefined && labels && labels[idx]) ? labels[idx] : (first.axisValue ?? '');
+        const hh = String(hourLabel ?? '').padStart(2, '0').slice(-2);
+        const header = `<b>${hh}:00</b>`;
+        const lines = params.map((p: any) => {
+          // p.value puede ser null (forecast faltante) -> mostrar "—"
+          const value = (p.value === null || p.value === undefined) ? '—' : p.value;
+          return `${p.marker} ${p.seriesName}: ${value}`;
+        });
+        return `${header}<br/>${lines.join('<br/>')}`;
       }
     },
+
     grid: COMMON_GRID,
     xAxis: { type: 'category', boundaryGap: false, data: labels, axisLabel: { rotate: 0 } },
     yAxis: {
