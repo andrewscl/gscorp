@@ -220,8 +220,9 @@ public class ShiftRequestRestController {
     public ResponseEntity<List<Map<String, Object>>> getShiftRequestForecastHourly(
             Authentication authentication,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-            @RequestParam(required = false) String clientTz,
-            @RequestParam(required = false) Long siteId
+            @RequestParam(required = false) String tz,
+            @RequestParam(required = false) Long siteId,
+            @RequestParam(required = false) Long projectId
     ) {
         try {
             if (date == null) {
@@ -234,7 +235,7 @@ public class ShiftRequestRestController {
             }
 
             // Resolver la zona (requested tz -> user -> system)
-            ZoneResolutionResult zr = zoneResolver.resolveZone(userId, clientTz);
+            ZoneResolutionResult zr = zoneResolver.resolveZone(userId, tz);
             ZoneId zone = zr.zoneId();
 
             // Obtener clientIds asociados al usuario (igual que tu otro endpoint)

@@ -117,9 +117,8 @@ export function initAttendanceHourlyChart(
       if (opts.projectId !== undefined && opts.projectId !== null) paramsHourly.set('projectId', String(opts.projectId));
       const urlHourly = `${apiBase}/api/attendance/hourly-aggregated?${paramsHourly.toString()}`;
 
-      // Forecast hourly URL (shift-requests forecast hourly)
-      const forecastMetric = opts.metric ?? 'ATTENDANCE';
-      const paramsForecast = new URLSearchParams({ date: todayIso, tz, metric: String(forecastMetric) });
+      // Build forecast URL (hourly forecast)
+      const paramsForecast = new URLSearchParams({ date: todayIso, tz });
       if (opts.siteId !== undefined && opts.siteId !== null) paramsForecast.set('siteId', String(opts.siteId));
       if (opts.projectId !== undefined && opts.projectId !== null) paramsForecast.set('projectId', String(opts.projectId));
       const forecastBase = opts.forecastPath ?? `${apiBase}/api/shift-requests/forecast-series/hourly`;
