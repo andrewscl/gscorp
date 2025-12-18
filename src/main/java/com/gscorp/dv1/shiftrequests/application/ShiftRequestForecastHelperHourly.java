@@ -14,19 +14,15 @@ import java.util.TreeMap;
 
 import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequestScheduleProjection;
 
+
+/**
+ * Helper para generar forecast por hora (00..23) contando TURNOS por hora de INICIO.
+ * Cada schedule que aplica a la fecha incrementa en 1 la hora correspondiente a su startTime.
+ */
 public class ShiftRequestForecastHelperHourly {
 
-
     /**
-     * Calcula forecast por hora para una fecha dada (en la zona provista).
-     * Retorna un Map hour(0-23) -> integer count.
-     *
-     * Lógica:
-     * - Para cada schedule:
-     *   - se verifica que la fecha esté dentro de la vigencia del shiftRequest (requestStartDate/requestEndDate).
-     *   - se verifica si el dayFrom..dayTo cubre el dayOfWeek de la fecha.
-     *   - si aplica, se determina el intervalo horario (startTime,endTime), considerando cruces de medianoche,
-     *     y se incrementa en 1 cada hora que tenga intersección con el intervalo del schedule.
+     * Retorna Map hour(0-23) -> integer count de turnos cuya hora de inicio cae en esa hora (según zone).
      */
     public static Map<Integer, Integer> forecastByHour(List<ShiftRequestScheduleProjection> schedules, LocalDate date, ZoneId zone) {
         Map<Integer, Integer> result = new TreeMap<>();
@@ -46,13 +42,10 @@ public class ShiftRequestForecastHelperHourly {
             // dayFrom/dayTo: intentar parsear a DayOfWeek
             String df = s.getDayFrom();
             String dt = s.getDayTo();
-            if ((df == null || df.isBlank()) && (dt == null || dt.isBlank())) {
-                // si no hay restricción por día, asumir aplica todos los días
-            } else {
+            if (!((df == null || df.isBlank()) && (dt == null || dt.isBlank()))) {
                 DayOfWeek dowFrom = parseDayOfWeek(df);
                 DayOfWeek dowTo = parseDayOfWeek(dt);
                 if (dowFrom != null && dowTo != null) {
-                    // comprobar inclusión circular (dowFrom..dowTo)
                     if (!isDayInRangeInclusive(targetDow, dowFrom, dowTo)) {
                         continue; // no aplica este schedule para la fecha
                     }
@@ -63,64 +56,36 @@ public class ShiftRequestForecastHelperHourly {
                 }
             }
 
-            // Obtener horarios
+            // Obtener hora de inicio (startTime). Si no existe, ignorar.
             LocalTime start = s.getStartTime();
-            LocalTime end = s.getEndTime();
-            if (start == null || end == null) continue;
+            if (start == null) continue;
 
-            // Construir intervalos considerando posible cruce de medianoche
-            // Representamos [startDateTime, endDateTime) relative a la target date
+            // Convertir la hora de inicio a ZonedDateTime usando la fecha objetivo y la zona.
+            // Esto respeta DST y asegura la hora local correcta.
             ZonedDateTime zStart = ZonedDateTime.of(date, start, zone);
-            ZonedDateTime zEnd = ZonedDateTime.of(date, end, zone);
-            if (!zEnd.isAfter(zStart)) {
-                // si end <= start entendemos que cruza a la siguiente fecha
-                zEnd = zEnd.plusDays(1);
-            }
+            int startHour = zStart.getHour();
 
-            // Para cada hora 0..23 en la day window, comprobar intersección
-            for (int h = 0; h < 24; h++) {
-                ZonedDateTime hourStart = ZonedDateTime.of(date, LocalTime.of(h, 0), zone);
-                ZonedDateTime hourEnd = hourStart.plusHours(1);
-                // También considerar hours belonging to next day if schedule crosses midnight:
-                // if interval extends into next day, hour h may correspond to next date's hours
-                // therefore we must also check hour indices beyond 23: we only aggregate into 0..23 of the original date
-                // so we check intersection between [zStart,zEnd) and [hourStart,hourEnd) OR [hourStart +1d,hourEnd+1d) if hour belongs to next day
-                boolean intersects = intervalIntersects(zStart, zEnd, hourStart, hourEnd);
-                // Additionally, if zEnd > end-of-day and hourStart is on next day, check with hourStart+1day
-                if (!intersects) {
-                    ZonedDateTime hourStartNext = hourStart.plusDays(1);
-                    ZonedDateTime hourEndNext = hourEnd.plusDays(1);
-                    intersects = intervalIntersects(zStart, zEnd, hourStartNext, hourEndNext);
-                }
-                if (intersects) {
-                    result.put(h, result.getOrDefault(h, 0) + 1);
-                }
-            }
+            // Incrementar la cuenta para la hora de inicio
+            result.put(startHour, result.getOrDefault(startHour, 0) + 1);
         }
 
         return result;
     }
 
-    private static boolean intervalIntersects(ZonedDateTime aStart, ZonedDateTime aEnd, ZonedDateTime bStart, ZonedDateTime bEnd) {
-        return aStart.isBefore(bEnd) && bStart.isBefore(aEnd);
-    }
-
     private static DayOfWeek parseDayOfWeek(String s) {
         if (s == null) return null;
         String t = s.trim().toUpperCase(Locale.ROOT);
-        // Try full enum names: MONDAY, TUESDAY, ...
         try {
             return DayOfWeek.valueOf(t);
         } catch (Exception e) { /* ignore */ }
-        // Try short names (Mon, Tue, etc.)
         Map<String, DayOfWeek> map = new HashMap<>();
         for (DayOfWeek d : DayOfWeek.values()) {
             map.put(d.getDisplayName(TextStyle.SHORT, Locale.ENGLISH).toUpperCase(Locale.ROOT), d);
-            map.put(d.getDisplayName(TextStyle.SHORT, Locale.forLanguageTag("es")).toUpperCase(Locale.ROOT), d); // por si viene "lun", "mar", etc
+            map.put(d.getDisplayName(TextStyle.SHORT, new Locale("es")).toUpperCase(Locale.ROOT), d);
             map.put(d.name().substring(0,3), d);
         }
-        DayOfWeek res = map.get(t.length() > 3 ? t.substring(0,3) : t);
-        return res;
+        String key = t.length() > 3 ? t.substring(0,3) : t;
+        return map.get(key);
     }
 
     private static boolean isDayInRangeInclusive(DayOfWeek target, DayOfWeek from, DayOfWeek to) {
@@ -135,6 +100,4 @@ public class ShiftRequestForecastHelperHourly {
             return x >= f || x <= t;
         }
     }
-
-
 }
