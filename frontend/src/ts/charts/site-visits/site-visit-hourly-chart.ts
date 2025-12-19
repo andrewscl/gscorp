@@ -43,23 +43,17 @@ function buildOption(labels: string[], valuesActual: number[], valuesForecast: (
     legend: { data: ['Visitas', 'Forecast'], top: 8, left: 'center' },
     tooltip: {
       trigger: 'axis',
-      // renderiza el tooltip en <body> para evitar que se corte por overflow del card
       appendToBody: true,
-      // guía vertical para facilitar lectura
       axisPointer: { type: 'line', snap: false },
-      // estilo extra para asegurar z-index y sombra
       extraCssText: 'z-index: 99999; box-shadow: 0 4px 12px rgba(0,0,0,0.12);',
-      // formatter robusto: maneja nulls y distintos shapes de params
       formatter: (params: any) => {
         if (!Array.isArray(params) || params.length === 0) return '';
-        // obtener hora (label) preferentemente a partir del primer elemento
         const first = params[0];
         let idx = typeof first.dataIndex === 'number' ? first.dataIndex : undefined;
         const hourLabel = (idx !== undefined && labels && labels[idx]) ? labels[idx] : (first.axisValue ?? first.axisValueLabel ?? '');
         const hh = String(hourLabel ?? '').padStart(2, '0').slice(-2);
         const header = `<b>${hh}:00</b>`;
         const lines = params.map((p: any) => {
-          // p.value puede ser null (forecast faltante) -> mostrar "—"
           const value = (p?.value === null || p?.value === undefined) ? '—' : p.value;
           return `${p.marker ?? ''} ${p.seriesName ?? ''}: ${value}`;
         });
@@ -73,7 +67,7 @@ function buildOption(labels: string[], valuesActual: number[], valuesForecast: (
       data: labels,
       axisLabel: { rotate: 0 }
     },
-    yAxis: { type: 'value' },
+    yAxis: { type: 'value', min: 0 },
     series: [
       {
         name: 'Visitas',
@@ -92,7 +86,8 @@ function buildOption(labels: string[], valuesActual: number[], valuesForecast: (
         areaStyle: { opacity: 0.12 },
         data: valuesForecast,
         color: '#f59e0b',
-        showSymbol: false,
+        showSymbol: true,
+        symbolSize: 6,
         lineStyle: { width: 2, type: 'dashed' }
       }
     ],
@@ -113,7 +108,7 @@ export function initVisitHourlyChart(
 
   const mkChartFn = opts.mkChart ?? defaultMkChart;
   const fetchFn = opts.fetchWithTimeout ?? fetchWithTimeout;
-  const apiBase = opts.apiBase ?? '';
+  const apiBase = (opts.apiBase ?? '').replace(/\/+$/, '');
   const ch = mkChartFn ? mkChartFn(el) : null;
 
   // keep single donut instance so we can dispose it later
@@ -125,6 +120,9 @@ export function initVisitHourlyChart(
 
       const tz = opts.tz ?? Intl.DateTimeFormat().resolvedOptions().timeZone ?? 'UTC';
       const todayIso = new Intl.DateTimeFormat('en-CA', { timeZone: tz }).format(new Date());
+
+      // default: show forecast unless explicitly false
+      const showForecast = opts.showForecast ?? true;
 
       // hourly URL (if days===1 include date)
       const urlHourly = (opts.days === 1)
@@ -175,9 +173,27 @@ export function initVisitHourlyChart(
         map.set(hh, { count, forecast });
       });
 
+      // Build forecastMap from arrForecast if backend returns hourly forecast points (or hourly-shaped data)
+      const forecastMap = new Map<string, number>();
+      if (Array.isArray(arrForecast) && arrForecast.length > 0) {
+        arrForecast.forEach((d: any) => {
+          let hh = '00';
+          let val = 0;
+          if (Array.isArray(d)) {
+            hh = String(d[0] ?? '').padStart(2, '0').slice(-2);
+            val = Number(d.length > 1 ? d[1] : 0) || 0;
+          } else {
+            hh = String(d?.hour ?? d?.x ?? d?.label ?? '').padStart(2, '0').slice(-2);
+            val = typeof d?.value === 'number' ? d.value : Number(String(d?.y ?? d?.value ?? d?.forecast ?? d?.count ?? 0).replace(/,/g, '')) || 0;
+          }
+          if (/^[0-2]\d$/.test(hh)) forecastMap.set(hh, val);
+        });
+      }
+
       const labels = hours24.slice();
       const valuesActual = labels.map(h => map.get(h)?.count ?? 0);
       const valuesForecast = labels.map(h => {
+        if (forecastMap.has(h)) return forecastMap.get(h) ?? null;
         const f = map.get(h)?.forecast;
         return f === undefined ? null : f;
       });
@@ -187,8 +203,18 @@ export function initVisitHourlyChart(
       if (!anyPositive) {
         safeSetNoData(ch, el, 'Sin visitas');
       } else {
+        const forecastToUse = showForecast ? valuesForecast : Array(24).fill(null);
+
+        // determine yMax so peaks are visible (at least 1)
+        const maxActual = Math.max(0, ...valuesActual.map(v => Number(v) || 0));
+        const maxForecast = Math.max(0, ...valuesForecast.map(v => Number(v ?? 0)));
+        const yMax = Math.max(1, maxActual, maxForecast);
+
+        console.debug('[Site-Visit-Hourly] valuesForecast:', valuesForecast, 'yMax:', yMax);
+
         ch.clear();
-        ch.setOption(buildOption(labels, valuesActual, opts.showForecast ? valuesForecast : Array(24).fill(null)));
+        ch.setOption(buildOption(labels, valuesActual, forecastToUse));
+        try { ch.resize && ch.resize(); } catch (_) {}
       }
 
       // Donut + meta: compute sums
@@ -218,12 +244,12 @@ export function initVisitHourlyChart(
         }
       }
 
-      // fallback: if forecast-series didn't return meta (sumForecastDay == 0), try summing hourly forecasts if present
+      // fallback: sum hourly forecasts (either from arrHourly or forecastMap)
       if (sumForecastDay === 0) {
-        const hourlyForecastSum = (arrHourly || []).reduce((s: number, it: any) => {
-          const rawF = it?.forecast ?? it?.f ?? it?.visitsForecast;
-          const n = rawF === undefined || rawF === null ? 0 : Number(String(rawF).replace(/,/g, '')) || 0;
-          return s + n;
+        const hourlyForecastSum = labels.reduce((s, h) => {
+          const fromForecastMap = forecastMap.has(h) ? (forecastMap.get(h) ?? 0) : 0;
+          const fromHourly = map.get(h)?.forecast ?? 0;
+          return s + Math.max(fromForecastMap, fromHourly);
         }, 0);
         if (hourlyForecastSum > 0) {
           sumForecastDay = hourlyForecastSum;
@@ -242,15 +268,12 @@ export function initVisitHourlyChart(
       // Draw donut in #donut-hourly-visit (create or reuse single instance)
       const elDonut = root.querySelector('#donut-hourly-visit') as HTMLDivElement | null;
       if (elDonut) {
-        // ensure container has visible size (avoid height 0). If collapsed, give a small min-height so echarts can render
         const cs = getComputedStyle(elDonut);
         if ((!cs.height || cs.height === '0px') && (!cs.width || cs.width === '0px')) {
-          // this is a fallback; ideally set CSS in stylesheet. We set a modest min-height so chart renders.
           elDonut.style.minHeight = elDonut.style.minHeight || '84px';
         }
 
         if (!chDonut) {
-          // create donut chart instance via mkChart; if mkChart doesn't return instance, try to access echarts globally
           chDonut = mkChartFn ? mkChartFn(elDonut) : null;
           if (!chDonut && (window as any).echarts && typeof (window as any).echarts.init === 'function') {
             try { chDonut = (window as any).echarts.init(elDonut, undefined, { renderer: 'canvas' }); } catch (_) { /* ignore */ }
@@ -272,23 +295,20 @@ export function initVisitHourlyChart(
           chDonut.setOption({
             tooltip: {
               trigger: 'item',
-              // renderizar en body para evitar clipping por overflow del card
               appendToBody: true,
               confine: true,
               extraCssText: 'z-index: 99999; box-shadow: 0 8px 18px rgba(0,0,0,0.12);',
-              // posicionar en el centro del contenedor del donut (elDonut está en scope)
               position: (_pos: any, _params: any, _dom: any, _rect: any) => {
                 try {
                   if (!elDonut) return 'inside';
                   const r = elDonut.getBoundingClientRect();
                   const x = Math.round(r.left + r.width / 2);
-                  const y = Math.round(r.top + r.height / 2) - 12; // ligeramente por encima del centro
+                  const y = Math.round(r.top + r.height / 2) - 12;
                   return [x, y];
                 } catch (e) {
                   return 'inside';
                 }
               },
-              // formatter robusto: maneja p como objeto o array y usa las variables del scope
               formatter: (p: any) => {
                 const item = Array.isArray(p) ? (p[0] ?? {}) : (p ?? {});
                 if (!hasMeta) return 'Meta no definida';
@@ -299,7 +319,6 @@ export function initVisitHourlyChart(
                 if (name === 'Pendiente') {
                   return `${item.marker ?? ''} Pendiente: ${Math.max(0, sumForecastDay - sumActualDay)}`;
                 }
-                // fallback genérico
                 const value = item.value ?? 0;
                 return `${item.marker ?? ''} ${item.seriesName ?? ''}: ${value}`;
               }
@@ -322,10 +341,7 @@ export function initVisitHourlyChart(
               data: seriesData
             }]
           });
-
-          // Force a resize to ensure rendering if container changed
           try { chDonut.resize && chDonut.resize(); } catch (_) {}
-          // debug container size
           const cs2 = getComputedStyle(elDonut);
           console.debug('[Site-Visit-Hourly] elDonut size:', cs2.width, cs2.height);
         }
