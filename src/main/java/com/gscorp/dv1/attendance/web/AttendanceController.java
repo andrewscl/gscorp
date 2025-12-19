@@ -152,14 +152,14 @@ public class AttendanceController {
 
         String resolvedZoneId = zone.getId();
 
-        List<AttendancePunchDto> items =
+        List<AttendancePunchDto> punchs =
             attendanceService.findByUserAndDateBetween(
                 userId, from, to, resolvedZoneId, siteId, projectId, action);
 
-        model.addAttribute("items", items);
-        model.addAttribute("itemsCount", items != null ? items.size() : 0);
-        model.addAttribute("from", from);
-        model.addAttribute("to",   to);
+        model.addAttribute("punchs", punchs);
+        model.addAttribute("attendanceCount", punchs != null ? punchs.size() : 0);
+        model.addAttribute("fromDate", from);
+        model.addAttribute("toDate",   to);
         return "private/attendance/fragments/attendance-table-partial :: partial";
     }
 
