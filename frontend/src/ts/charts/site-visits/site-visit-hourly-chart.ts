@@ -1,3 +1,4 @@
+/* site-visit-hourly-chart.ts */
 import { fetchWithTimeout } from '../../utils/api';
 import { safeSetNoData } from '../../utils/chart-uiutils';
 import { mkChart as defaultMkChart } from '../../lib/echarts-setup';
@@ -173,9 +174,39 @@ export function initVisitHourlyChart(
         map.set(hh, { count, forecast });
       });
 
-      // Build forecastMap from arrForecast if backend returns hourly forecast points (or hourly-shaped data)
+      // Build forecastMap from arrForecast
       const forecastMap = new Map<string, number>();
+
+      // detect if arrForecast contains hourly points OR daily points
+      let looksHourlyForecast = false;
+      let looksDailyForecast = false;
+
       if (Array.isArray(arrForecast) && arrForecast.length > 0) {
+        // simple heuristics:
+        // - hourly: elements are arrays [hh, value] OR objects with hour property numeric or 'HH'
+        // - daily: elements have date/x like '2025-12-19' or objects without hour but with x/date
+        for (const d of arrForecast) {
+          if (Array.isArray(d) && d.length > 0 && /^[0-2]\d$/.test(String(d[0]).padStart(2, '0').slice(-2))) {
+            looksHourlyForecast = true;
+            break;
+          }
+          if (!Array.isArray(d) && (d?.hour !== undefined || d?.h !== undefined || d?.label !== undefined)) {
+            looksHourlyForecast = true;
+            break;
+          }
+          // consider daily if it has a date-like first element or x/date with '-'
+          if (Array.isArray(d) && typeof d[0] === 'string' && d[0].includes('-')) {
+            looksDailyForecast = true;
+            // keep scanning to see if any hourly also present
+          }
+          if (!Array.isArray(d) && (typeof d?.x === 'string' && d.x.includes('-') || typeof d?.date === 'string' && d.date.includes('-'))) {
+            looksDailyForecast = true;
+          }
+        }
+      }
+
+      if (looksHourlyForecast) {
+        // existing logic: read hourly points into forecastMap
         arrForecast.forEach((d: any) => {
           let hh = '00';
           let val = 0;
@@ -188,6 +219,36 @@ export function initVisitHourlyChart(
           }
           if (/^[0-2]\d$/.test(hh)) forecastMap.set(hh, val);
         });
+      } else if (looksDailyForecast) {
+        // sum daily points for the target date(s) and distribute evenly across 24 hours
+        // detect the day we care about (todayIso if opts.days === 1, else sum all returned)
+        const targetDay = (opts.days === 1) ? todayIso : null;
+        let dailyTotal = 0;
+        for (const d of arrForecast) {
+          let rawX: any; let rawY: any;
+          if (Array.isArray(d)) {
+            rawX = d[0]; rawY = d.length > 1 ? d[1] : 0;
+          } else {
+            rawX = d?.x ?? d?.date ?? d?.day ?? '';
+            rawY = d?.y ?? d?.value ?? d?.forecast ?? d?.count ?? 0;
+          }
+          const x = String(rawX ?? '');
+          const yNum = typeof rawY === 'number' ? rawY : Number(String(rawY ?? 0).replace(/,/g, '')) || 0;
+          if (targetDay) {
+            if (x.split('T')[0] === targetDay) dailyTotal += yNum;
+          } else {
+            dailyTotal += yNum;
+          }
+        }
+        const avgPerHour = dailyTotal > 0 ? (dailyTotal / 24) : 0;
+        // fill forecastMap with average per hour (use decimals but round to 2 dp)
+        const avgRounded = Math.round(avgPerHour * 100) / 100;
+        for (const hh of hours24) {
+          forecastMap.set(hh, avgRounded);
+        }
+        console.debug('[Site-Visit-Hourly] distributed daily forecast total=', dailyTotal, 'avgPerHour=', avgRounded);
+      } else {
+        // no forecast data; leave forecastMap empty
       }
 
       const labels = hours24.slice();
@@ -200,18 +261,29 @@ export function initVisitHourlyChart(
 
       // Draw main hourly chart
       const anyPositive = valuesActual.some(v => Number(v) > 0) || valuesForecast.some(v => Number(v) > 0);
+
       if (!anyPositive) {
-        safeSetNoData(ch, el, 'Sin visitas');
+        // Show forecast even if actuals are zero (we consider valuesForecast)
+        const hasForecastSeries = valuesForecast.some(v => Number(v) > 0);
+        if (hasForecastSeries) {
+          // show forecast line while actuals are zeros
+          const forecastToUse = showForecast ? valuesForecast : Array(24).fill(null);
+          // ensure yMax so small averages are visible
+          const maxForecast = Math.max(0, ...valuesForecast.map(v => Number(v ?? 0)));
+          const yMax = Math.max(1, maxForecast);
+          ch.clear();
+          ch.setOption(buildOption(labels, valuesActual, forecastToUse));
+          try { ch.resize && ch.resize(); } catch (_) {}
+        } else {
+          safeSetNoData(ch, el, 'Sin visitas');
+        }
       } else {
         const forecastToUse = showForecast ? valuesForecast : Array(24).fill(null);
-
         // determine yMax so peaks are visible (at least 1)
         const maxActual = Math.max(0, ...valuesActual.map(v => Number(v) || 0));
         const maxForecast = Math.max(0, ...valuesForecast.map(v => Number(v ?? 0)));
         const yMax = Math.max(1, maxActual, maxForecast);
-
         console.debug('[Site-Visit-Hourly] valuesForecast:', valuesForecast, 'yMax:', yMax);
-
         ch.clear();
         ch.setOption(buildOption(labels, valuesActual, forecastToUse));
         try { ch.resize && ch.resize(); } catch (_) {}
@@ -244,7 +316,7 @@ export function initVisitHourlyChart(
         }
       }
 
-      // fallback: sum hourly forecasts (either from arrHourly or forecastMap)
+      // fallback: sum hourly forecasts (either from forecastMap or from arrHourly)
       if (sumForecastDay === 0) {
         const hourlyForecastSum = labels.reduce((s, h) => {
           const fromForecastMap = forecastMap.has(h) ? (forecastMap.get(h) ?? 0) : 0;
