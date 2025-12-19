@@ -2,7 +2,6 @@ package com.gscorp.dv1.attendance.web;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,9 +70,9 @@ public class AttendanceController {
             return "redirect:/login";
         }
 
-        // Resolve zone (requested clientTz takes precedence if valid; ZoneResolver handles fallbacks)
+        // Resolve zone
         ZoneResolutionResult zr = zoneResolver.resolveZone(userId, clientTz);
-        ZoneId zone = zr.zoneId(); // usa zoneId() según tu record
+        ZoneId zone = zr.zoneId();
 
         // Defaults: si no vienen parámetros, mostrar últimos 7 días (incluye hoy)
         LocalDate today = LocalDate.now(zone);
@@ -130,31 +129,32 @@ public class AttendanceController {
             return "redirect:/login";
         }
 
+        // Resolve zone
         ZoneResolutionResult zr = zoneResolver.resolveZone(userId, clientTz);
         ZoneId zone = zr.zoneId();
 
-        // normalización
-        if (from == null && to == null) {
-            model.addAttribute("items", Collections.emptyList());
-            model.addAttribute("itemsCount", 0);
-            return "private/attendance/fragments/attendance-table-rows :: rows";
+        // Defaults: si no vienen parámetros, mostrar últimos 7 días (incluye hoy)
+        LocalDate today = LocalDate.now(zone);
+        if (to == null) {
+            to = today;
         }
-        if (from == null && to != null) from = to;
-        if (to == null && from != null) to = from;
-        if (from != null && to != null && from.isAfter(to)) {
-            LocalDate tmp = from; from = to; to = tmp;
+        if (from == null) {
+            from = to.minusDays(7);
         }
+
+        // Defensive: si from > to, intercambiar o devolver vacío; aquí intercambiamos por simplicidad
+        if (from.isAfter(to)) {
+            log.debug("from > to en request; intercambiando valores: from={}, to={}", from, to);
+            LocalDate tmp = from;
+            from = to;
+            to = tmp;
+        }
+
+        String resolvedZoneId = zone.getId();
 
         List<AttendancePunchDto> items =
             attendanceService.findByUserAndDateBetween(
-                userId,
-                from,
-                to,
-                zone.getId(),
-                siteId,
-                projectId,
-                action
-            );
+                userId, from, to, resolvedZoneId, siteId, projectId, action);
 
         model.addAttribute("items", items);
         model.addAttribute("itemsCount", items != null ? items.size() : 0);
