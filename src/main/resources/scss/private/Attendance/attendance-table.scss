@@ -282,8 +282,15 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
     font-family: $font-family;
     font-size: $base-font-size;
     color: $color-primary;
-    table-layout: auto;
+    table-layout: fixed;
     min-width: 0;
+
+    /* Forzar truncado donde corresponda solo para la tabla de asistencia */
+    th, td {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      vertical-align: middle;
+    }
 
     thead {
       tr {
@@ -319,18 +326,42 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
         }
 
         td:first-child {
-          width: auto;
           min-width: 10ch;
-          max-width: 12ch;
+          max-width: 14ch;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
           font-weight: 600;
         }
 
-        td:nth-child(2), td:nth-child(3) { width: 22%; max-width: 30ch; }
-        td:nth-child(4) { width: 16%; max-width: 20ch; }
-        td:nth-child(5) { width: 8%; max-width: 8ch; text-align: center; }
+        /* Sitio: limitar su máximo para que no "coma" todo el ancho */
+        thead th:nth-child(2),
+        tbody td:nth-child(2) {
+          white-space: nowrap;
+          max-width: 20ch;
+        }
+
+        /* Empleado: permitir algo más de espacio pero truncar si es necesario */
+        thead th:nth-child(3),
+        tbody td:nth-child(3) {
+          white-space: nowrap;
+          max-width: 28ch;
+        }
+
+        /* Acción: tamaño medio */
+        thead th:nth-child(4),
+        tbody td:nth-child(4) {
+          white-space: nowrap;
+          max-width: 20ch;
+        }
+
+        /* Distancia y Precisión: centradas y sin wrapping */
+        thead th:nth-child(5), tbody td:nth-child(5),
+        thead th:nth-child(6), tbody td:nth-child(6) {
+          text-align: center;
+          white-space: nowrap;
+          max-width: 10ch;
+        }
 
         td.actions {
           width: 12%;

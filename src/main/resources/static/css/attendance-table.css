@@ -251,8 +251,14 @@
   font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
   font-size: 14px;
   color: #162032;
-  table-layout: auto;
+  table-layout: fixed;
   min-width: 0;
+  /* Forzar truncado donde corresponda solo para la tabla de asistencia */
+}
+.attendance-table-container .attendance-table th, .attendance-table-container .attendance-table td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
 }
 .attendance-table-container .attendance-table thead tr th {
   position: sticky;
@@ -269,6 +275,10 @@
 }
 .attendance-table-container .attendance-table tbody tr {
   transition: background 0.12s ease;
+  /* Sitio: limitar su máximo para que no "coma" todo el ancho */
+  /* Empleado: permitir algo más de espacio pero truncar si es necesario */
+  /* Acción: tamaño medio */
+  /* Distancia y Precisión: centradas y sin wrapping */
 }
 .attendance-table-container .attendance-table tbody tr:hover {
   background: rgba(37, 99, 235, 0.03);
@@ -282,26 +292,33 @@
   overflow-wrap: anywhere;
 }
 .attendance-table-container .attendance-table tbody tr td:first-child {
-  width: auto;
   min-width: 10ch;
-  max-width: 12ch;
+  max-width: 14ch;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: 600;
 }
-.attendance-table-container .attendance-table tbody tr td:nth-child(2), .attendance-table-container .attendance-table tbody tr td:nth-child(3) {
-  width: 22%;
-  max-width: 30ch;
-}
-.attendance-table-container .attendance-table tbody tr td:nth-child(4) {
-  width: 16%;
+.attendance-table-container .attendance-table tbody tr thead th:nth-child(2),
+.attendance-table-container .attendance-table tbody tr tbody td:nth-child(2) {
+  white-space: nowrap;
   max-width: 20ch;
 }
-.attendance-table-container .attendance-table tbody tr td:nth-child(5) {
-  width: 8%;
-  max-width: 8ch;
+.attendance-table-container .attendance-table tbody tr thead th:nth-child(3),
+.attendance-table-container .attendance-table tbody tr tbody td:nth-child(3) {
+  white-space: nowrap;
+  max-width: 28ch;
+}
+.attendance-table-container .attendance-table tbody tr thead th:nth-child(4),
+.attendance-table-container .attendance-table tbody tr tbody td:nth-child(4) {
+  white-space: nowrap;
+  max-width: 20ch;
+}
+.attendance-table-container .attendance-table tbody tr thead th:nth-child(5), .attendance-table-container .attendance-table tbody tr tbody td:nth-child(5),
+.attendance-table-container .attendance-table tbody tr thead th:nth-child(6), .attendance-table-container .attendance-table tbody tr tbody td:nth-child(6) {
   text-align: center;
+  white-space: nowrap;
+  max-width: 10ch;
 }
 .attendance-table-container .attendance-table tbody tr td.actions {
   width: 12%;
