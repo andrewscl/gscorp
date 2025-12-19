@@ -4,8 +4,8 @@ import { navigateTo } from '../../navigation-handler.js';
 const qs = (s, ctx = document) => ctx.querySelector(s);
 const qsa = (s, ctx = document) => Array.from(ctx.querySelectorAll(s));
 
-const ROWS_FALLBACK_URL = '/private/attendance/attdc-filter';
-const DEFAULT_VIEW = '/private/attendance/attendance-view';
+const ROWS_FALLBACK_URL = '/private/attendance/table-search';
+const DEFAULT_VIEW = '/private/attendance/table-view';
 
 /* -------------------------
    Badge update & observers

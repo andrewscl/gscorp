@@ -160,7 +160,7 @@ public class AttendanceController {
         model.addAttribute("itemsCount", items != null ? items.size() : 0);
         model.addAttribute("from", from);
         model.addAttribute("to",   to);
-        return "private/attendance/views/attendance-table-partial :: partial";
+        return "private/attendance/fragments/attendance-table-partial :: partial";
     }
 
 
