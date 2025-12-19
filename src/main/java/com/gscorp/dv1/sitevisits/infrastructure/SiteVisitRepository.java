@@ -64,6 +64,7 @@ public interface SiteVisitRepository
         WHERE p.client.id IN :clientIds
           AND v.visitDateTime >= :start
           AND v.visitDateTime < :endExclusive
+        ORDER BY v.visitDateTime DESC
         """)
     List<SiteVisitDtoProjection> findDtoByUserAndDateBetween(
         @Param("clientIds") List<Long> clientIds,

@@ -142,6 +142,7 @@ public interface AttendancePunchRepo extends JpaRepository <AttendancePunch, Lon
             AND (:siteId IS NULL OR s.id = :siteId)
             AND (:projectId IS NULL OR p.id = :projectId)
             AND (:action IS NULL OR ap.action = :action)
+        ORDER BY ap.ts DESC
         """)
     List<AttendancePunchProjection> findByClientIdsAndDateBetween(
         @Param("clientIds") List<Long> clientIds,
