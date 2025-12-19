@@ -37,7 +37,14 @@ public interface AttendanceService {
 
 
     List<AttendancePunchDto> findByUserAndDateBetween(
-        Long userId, LocalDate fromDate, LocalDate toDate, String clientTz, Long siteId, Long projectId, String action);
+        Long userId,
+        LocalDate fromDate,
+        LocalDate toDate,
+        String clientTz,
+        Long siteId,
+        Long projectId,
+        String action
+    );
 
 
     List<AttendancePunchPointDto> getAttendanceSeriesForUserByDates(

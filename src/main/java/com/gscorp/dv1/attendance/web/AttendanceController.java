@@ -1,8 +1,8 @@
 package com.gscorp.dv1.attendance.web;
 
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gscorp.dv1.attendance.application.AttendanceService;
-import com.gscorp.dv1.attendance.infrastructure.AttendancePunch;
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchDto;
 import com.gscorp.dv1.components.ZoneResolver;
@@ -114,43 +113,55 @@ public class AttendanceController {
     }
 
 
-    @GetMapping("/attdc-filter")
-    public String attendancePage(
+    @GetMapping("/table-search")
+    public String getAttendanceTableSearch(
+        Model model,
+        Authentication authentication,
         @RequestParam(required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
         @RequestParam(required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
-        Model model,
-        Authentication auth) {
+        @RequestParam(required=false) String clientTz,
+        @RequestParam(required=false) String action,
+        @RequestParam(required=false) Long siteId,
+        @RequestParam(required=false) Long projectId
+        ) {
 
-        // Rango por defecto: últimos 7 días
-        LocalDate today = LocalDate.now();
-        LocalDate start = (from != null) ? from : today.minusDays(6);
-        LocalDate end   = (to   != null) ? to   : today;
+        Long userId = userService.getUserIdFromAuthentication(authentication);
+        if (userId == null) {
+            return "redirect:/login";
+        }
 
-        // Normaliza a OffsetDateTime (UTC o tu zona)
-        ZoneId zone = ZoneId.systemDefault();
-        OffsetDateTime fromTs = start.atStartOfDay(zone).toOffsetDateTime();
-        OffsetDateTime toTs   = end.plusDays(1).atStartOfDay(zone).toOffsetDateTime(); // fin exclusivo
+        ZoneResolutionResult zr = zoneResolver.resolveZone(userId, clientTz);
+        ZoneId zone = zr.zoneId();
 
-        Long userId = currentUserId(auth); // ← tu forma de obtener el id del usuario
+        // normalización
+        if (from == null && to == null) {
+            model.addAttribute("items", Collections.emptyList());
+            model.addAttribute("itemsCount", 0);
+            return "private/attendance/fragments/attendance-table-rows :: rows";
+        }
+        if (from == null && to != null) from = to;
+        if (to == null && from != null) to = from;
+        if (from != null && to != null && from.isAfter(to)) {
+            LocalDate tmp = from; from = to; to = tmp;
+        }
 
-        // Para colaborador (solo sus marcaciones)
-        List<AttendancePunch> items =
-            attendanceRepo.findByUserIdAndTsBetweenOrderByTsDesc(userId, fromTs, toTs);
-
-        // Si quisieras una vista global (admin) por fecha SIN usuario:
-        // List<AttendancePunch> items =
-        //     repo.findByTsBetweenOrderByTsDesc(fromTs, toTs);
+        List<AttendancePunchDto> items =
+            attendanceService.findByUserAndDateBetween(
+                userId,
+                from,
+                to,
+                zone.getId(),
+                siteId,
+                projectId,
+                action
+            );
 
         model.addAttribute("items", items);
-        model.addAttribute("from", start);
-        model.addAttribute("to",   end);
-        return "private/attendance/views/attendance-table-view";
+        model.addAttribute("itemsCount", items != null ? items.size() : 0);
+        model.addAttribute("from", from);
+        model.addAttribute("to",   to);
+        return "private/attendance/views/attendance-table-partial :: partial";
     }
 
-
-    private Long currentUserId(Authentication auth){
-        // TODO: extrae el id real desde tu UserDetails/JWT
-        return 1L;
-    }
 
 }

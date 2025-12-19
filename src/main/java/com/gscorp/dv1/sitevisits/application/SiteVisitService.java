@@ -17,7 +17,10 @@ public interface SiteVisitService {
                                 CreateSiteSupervisionVisitRequest req, Long userId);
 
     List<SiteVisitDto> findByUserAndDateBetween(
-                                Long userId, LocalDate fromDate, LocalDate toDate, String clientTz);
+                                Long userId,
+                                LocalDate fromDate,
+                                LocalDate toDate,
+                                String clientTz);
 
     SiteVisitDto findByIdWithEmployeeAndSite(Long id);
 
