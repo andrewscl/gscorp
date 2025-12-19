@@ -251,7 +251,7 @@
   font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
   font-size: 14px;
   color: #162032;
-  table-layout: fixed;
+  table-layout: auto;
   min-width: 0;
   /* Forzar truncado donde corresponda solo para la tabla de asistencia */
 }
@@ -292,8 +292,8 @@
   overflow-wrap: anywhere;
 }
 .attendance-table-container .attendance-table tbody tr td:first-child {
-  min-width: 10ch;
-  max-width: 14ch;
+  min-width: 12ch;
+  max-width: 16ch;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

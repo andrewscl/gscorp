@@ -282,7 +282,7 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
     font-family: $font-family;
     font-size: $base-font-size;
     color: $color-primary;
-    table-layout: fixed;
+    table-layout: auto;
     min-width: 0;
 
     /* Forzar truncado donde corresponda solo para la tabla de asistencia */
@@ -326,8 +326,8 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
         }
 
         td:first-child {
-          min-width: 10ch;
-          max-width: 14ch;
+          min-width: 12ch;
+          max-width: 16ch;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
