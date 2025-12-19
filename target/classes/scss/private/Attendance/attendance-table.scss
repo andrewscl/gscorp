@@ -319,8 +319,8 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
         }
 
         td:first-child {
-          width: 10%;
-          max-width: 10ch;
+          min-width: 10ch;
+          max-width: 12ch;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;

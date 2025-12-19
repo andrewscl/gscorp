@@ -282,8 +282,8 @@
   overflow-wrap: anywhere;
 }
 .attendance-table-container .attendance-table tbody tr td:first-child {
-  width: 10%;
-  max-width: 10ch;
+  min-width: 10ch;
+  max-width: 12ch;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
