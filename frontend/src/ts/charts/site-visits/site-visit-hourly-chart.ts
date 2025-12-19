@@ -87,7 +87,7 @@ function buildOption(labels: string[], valuesActual: number[], valuesForecast: (
         areaStyle: { opacity: 0.12 },
         data: valuesForecast,
         color: '#f59e0b',
-        showSymbol: true,
+        showSymbol: false,
         symbolSize: 6,
         lineStyle: { width: 2, type: 'dashed' }
       }
