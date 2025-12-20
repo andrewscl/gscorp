@@ -83,7 +83,15 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
         JOIN e.projects proj
         JOIN proj.client c
         WHERE c.id IN :clientIds
-          AND (:q IS NULL OR LOWER(CONCAT(e.name, ' ', e.fatherSurname, ' ', COALESCE(e.motherSurname, ''))) LIKE LOWER(CONCAT('%', :q, '%')))
+          AND (
+            :q IS NULL OR
+            LOWER(e.name) LIKE LOWER(:q) OR
+            LOWER(e.fatherSurname) LIKE LOWER(:q) OR
+            LOWER(e.motherSurname) LIKE LOWER(:q) OR
+            LOWER(e.rut) LIKE LOWER(:q) OR
+            LOWER(e.mail) LIKE LOWER(:q) OR
+            LOWER(e.phone) LIKE LOWER(:q)
+          )
           AND (:active IS NULL OR e.active = :active)
         ORDER BY e.name ASC
         """,
@@ -93,13 +101,21 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
         JOIN e.projects proj
         JOIN proj.client c
         WHERE c.id IN :clientIds
-          AND (:q IS NULL OR LOWER(CONCAT(e.name, ' ', e.fatherSurname, ' ', COALESCE(e.motherSurname, ''))) LIKE LOWER(CONCAT('%', :q, '%')))
+          AND (
+            :q IS NULL OR
+            LOWER(e.name) LIKE LOWER(:q) OR
+            LOWER(e.fatherSurname) LIKE LOWER(:q) OR
+            LOWER(e.motherSurname) LIKE LOWER(:q) OR
+            LOWER(e.rut) LIKE LOWER(:q) OR
+            LOWER(e.mail) LIKE LOWER(:q) OR
+            LOWER(e.phone) LIKE LOWER(:q)
+          )
           AND (:active IS NULL OR e.active = :active)
         """
     )
     Page<EmployeeTableProjection> findTableRowsForClients(
         @Param("clientIds") List<Long> clientIds,
-        @Param("q") String q,
+        @Param("q") String q,               // expects pattern string or null
         @Param("active") Boolean active,
         Pageable pageable
     );
