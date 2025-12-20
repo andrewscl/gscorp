@@ -248,7 +248,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         PageRequest pg = PageRequest.of(safePage, safeSize);
         return employeeRepository
-                        .findTableRowsForClients(clientIds, safeQ, active, pg);
+                        .findTableRowsForClientIds(clientIds, safeQ, active, pg);
     }
 
 }

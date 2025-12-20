@@ -37,7 +37,8 @@ public interface SiteVisitService {
             (Long userId, LocalDate date, String tz);
 
     /**
-     * Cuenta visitas por clientes en la fecha indicada. tz puede ser null para usar ZoneId.systemDefault().
+     * Cuenta visitas por clientes en la fecha indicada.
+     * tz puede ser null para usar ZoneId.systemDefault().
      */
     long countByClientIdsAndDate(List<Long> clientIds, LocalDate date, String tz);
 

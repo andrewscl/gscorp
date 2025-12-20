@@ -67,55 +67,58 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
       value = """
         SELECT DISTINCT
           e.id AS id,
-          e.photoUrl AS photoUrl,
+          e.photo_url AS photoUrl,
           e.name AS name,
-          e.fatherSurname AS fatherSurname,
-          e.motherSurname AS motherSurname,
+          e.father_surname AS fatherSurname,
+          e.mother_surname AS motherSurname,
           e.rut AS rut,
           e.mail AS mail,
           e.phone AS phone,
           pos.name AS positionName,
           e.active AS active,
-          e.hireDate AS hireDate,
-          e.createdAt AS createdAt
-        FROM Employee e
-        LEFT JOIN e.position pos
-        JOIN e.projects proj
-        JOIN proj.client c
-        WHERE c.id IN :clientIds
+          e.hire_date AS hireDate,
+          e.created_at AS createdAt
+        FROM employee e
+        LEFT JOIN position pos ON pos.id = e.position_id
+        JOIN employee_project ep ON e.id = ep.employee_id
+        JOIN project p ON p.id = ep.project_id
+        JOIN clients c ON c.id = p.client_id
+        WHERE c.id = ANY(:clientIds)
           AND (
             :q IS NULL OR
-            LOWER(e.name) LIKE LOWER(:q) OR
-            LOWER(e.fatherSurname) LIKE LOWER(:q) OR
-            LOWER(e.motherSurname) LIKE LOWER(:q) OR
-            LOWER(e.rut) LIKE LOWER(:q) OR
-            LOWER(e.mail) LIKE LOWER(:q) OR
-            LOWER(e.phone) LIKE LOWER(:q)
+            e.name ILIKE :q OR
+            e.father_surname ILIKE :q OR
+            e.mother_surname ILIKE :q OR
+            e.rut ILIKE :q OR
+            e.mail ILIKE :q OR
+            e.phone ILIKE :q
           )
           AND (:active IS NULL OR e.active = :active)
         ORDER BY e.name ASC
         """,
       countQuery = """
         SELECT COUNT(DISTINCT e.id)
-        FROM Employee e
-        JOIN e.projects proj
-        JOIN proj.client c
-        WHERE c.id IN :clientIds
+        FROM employee e
+        JOIN employee_project ep ON e.id = ep.employee_id
+        JOIN project p ON p.id = ep.project_id
+        JOIN clients c ON c.id = p.client_id
+        WHERE c.id = ANY(:clientIds)
           AND (
             :q IS NULL OR
-            LOWER(e.name) LIKE LOWER(:q) OR
-            LOWER(e.fatherSurname) LIKE LOWER(:q) OR
-            LOWER(e.motherSurname) LIKE LOWER(:q) OR
-            LOWER(e.rut) LIKE LOWER(:q) OR
-            LOWER(e.mail) LIKE LOWER(:q) OR
-            LOWER(e.phone) LIKE LOWER(:q)
+            e.name ILIKE :q OR
+            e.father_surname ILIKE :q OR
+            e.mother_surname ILIKE :q OR
+            e.rut ILIKE :q OR
+            e.mail ILIKE :q OR
+            e.phone ILIKE :q
           )
           AND (:active IS NULL OR e.active = :active)
-        """
+        """,
+      nativeQuery = true
     )
-    Page<EmployeeTableProjection> findTableRowsForClients(
+    Page<EmployeeTableProjection> findTableRowsForClientIds(
         @Param("clientIds") List<Long> clientIds,
-        @Param("q") String q,               // expects pattern string or null
+        @Param("q") String q,           // expects pattern '%term%' or null
         @Param("active") Boolean active,
         Pageable pageable
     );
