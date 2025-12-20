@@ -27,4 +27,7 @@ public interface ProjectService {
     List<ProjectDto> findAll();
 
     List<ProjectSelectDto> findByClientId(Long clientId);
+
+    List<ProjectDto> findByUserId(Long userId);
+
 }

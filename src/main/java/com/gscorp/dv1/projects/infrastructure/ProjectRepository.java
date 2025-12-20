@@ -32,4 +32,17 @@ public interface ProjectRepository extends JpaRepository<Project, Long>{
            "from Project p where p.client.id = :clientId and (p.active = true or p.active is null) order by p.name")
     List<ProjectSelectDto> findDtoByClientId(@Param("clientId") Long clientId);
 
+
+    @Query("""
+        SELECT DISTINCT p
+        FROM Project p
+        JOIN p.client c
+        WHERE c.id IN :clientIds
+        ORDER BY p.name
+        """)
+    List<ProjectProjection> findByClientIds(@Param("clientIds")
+                                                List<Long> clientIds);
+
+    
+
 }

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gscorp.dv1.clients.infrastructure.Client;
 import com.gscorp.dv1.clients.infrastructure.ClientRepository;
 import com.gscorp.dv1.projects.infrastructure.Project;
+import com.gscorp.dv1.projects.infrastructure.ProjectProjection;
 import com.gscorp.dv1.projects.infrastructure.ProjectRepository;
 import com.gscorp.dv1.projects.web.dto.ProjectDto;
 import com.gscorp.dv1.projects.web.dto.ProjectSelectDto;
@@ -99,5 +100,25 @@ public class ProjectServiceImpl implements ProjectService{
         if (clientId == null) return List.of();
         return projectRepository.findDtoByClientId(clientId);
     }
+
+
+    @Override
+    @Transactional
+    public List<ProjectDto> findByUserId (Long userId) {
+
+        List<Long> clientIds = clientRepository.findClientIdsByUserId(userId);
+        if(clientIds == null || clientIds.isEmpty()) {
+            return null;
+        }
+
+        List<ProjectProjection> projects = projectRepository.findByClientIds(clientIds);
+
+        List<ProjectDto> projectDtos = projects.stream()
+            .map(ProjectDto::fromProjection)
+            .toList();
+
+        return projectDtos;
+    }
+
 
 }

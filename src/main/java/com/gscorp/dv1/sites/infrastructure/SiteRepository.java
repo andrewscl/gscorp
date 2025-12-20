@@ -62,4 +62,5 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
         """)
     List<SiteSelectProjection> findByClientIds(@Param("clientIds") List<Long> clientIds);
 
+
 }

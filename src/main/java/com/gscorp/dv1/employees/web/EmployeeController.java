@@ -1,5 +1,7 @@
 package com.gscorp.dv1.employees.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
@@ -27,8 +29,10 @@ import com.gscorp.dv1.enums.StudyLevel;
 import com.gscorp.dv1.enums.WorkSchedule;
 import com.gscorp.dv1.nationalities.application.NationalityService;
 import com.gscorp.dv1.positions.application.PositionService;
+import com.gscorp.dv1.positions.web.dto.PositionDto;
 import com.gscorp.dv1.professions.application.ProfessionService;
 import com.gscorp.dv1.projects.application.ProjectService;
+import com.gscorp.dv1.projects.web.dto.ProjectDto;
 import com.gscorp.dv1.shiftpatterns.application.ShiftPatternService;
 import com.gscorp.dv1.users.application.UserService;
 
@@ -96,12 +100,18 @@ public class EmployeeController {
                         employeeService.getEmployeeTable(
                                 userId, safeQ, active, safePage, safeSize);
 
+        List<PositionDto> positions = positionService.findAllProjection();
+
+        List<ProjectDto> projects = projectService.findByUserId(userId);
+
         model.addAttribute("employeesPage", employeesPage);          // Page completo
         model.addAttribute("employees", employeesPage.getContent()); // Lista para iterar
         model.addAttribute("pageNumber", employeesPage.getNumber()); // 0-based
         model.addAttribute("pageSize", employeesPage.getSize());
         model.addAttribute("totalPages", employeesPage.getTotalPages());
         model.addAttribute("totalElements", employeesPage.getTotalElements());
+        model.addAttribute("positions", positions);
+        model.addAttribute("projects", projects);
 
         // conservar filtros en la vista para los links
         model.addAttribute("q", safeQ);
