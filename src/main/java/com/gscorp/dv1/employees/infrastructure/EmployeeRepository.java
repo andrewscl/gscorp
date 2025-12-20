@@ -66,59 +66,56 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
     @Query(
       value = """
         SELECT DISTINCT
-          e.id AS id,
-          e.photo_url AS photoUrl,
-          e.name AS name,
-          e.father_surname AS fatherSurname,
-          e.mother_surname AS motherSurname,
-          e.rut AS rut,
-          e.mail AS mail,
-          e.phone AS phone,
-          pos.name AS positionName,
-          e.active AS active,
-          e.hire_date AS hireDate,
-          e.created_at AS createdAt
-        FROM employee e
-        LEFT JOIN position pos ON pos.id = e.position_id
-        JOIN employee_project ep ON e.id = ep.employee_id
-        JOIN project p ON p.id = ep.project_id
-        JOIN clients c ON c.id = p.client_id
-        WHERE c.id = ANY(:clientIds)
+          e.id       AS id,
+          e.photoUrl AS photoUrl,
+          e.name     AS name,
+          e.fatherSurname AS fatherSurname,
+          e.motherSurname AS motherSurname,
+          e.rut      AS rut,
+          e.mail     AS mail,
+          e.phone    AS phone,
+          pos.name   AS positionName,
+          e.active   AS active,
+          e.hireDate AS hireDate,
+          e.createdAt AS createdAt
+        FROM Employee e
+        LEFT JOIN e.position pos
+        JOIN e.projects proj
+        JOIN proj.client p
+        WHERE p.id IN :clientIds
           AND (
             :q IS NULL OR
-            e.name ILIKE :q OR
-            e.father_surname ILIKE :q OR
-            e.mother_surname ILIKE :q OR
-            e.rut ILIKE :q OR
-            e.mail ILIKE :q OR
-            e.phone ILIKE :q
+            LOWER(COALESCE(e.name, ''))       LIKE :q OR
+            LOWER(COALESCE(e.fatherSurname, '')) LIKE :q OR
+            LOWER(COALESCE(e.motherSurname, '')) LIKE :q OR
+            LOWER(COALESCE(e.rut, ''))        LIKE :q OR
+            LOWER(COALESCE(e.mail, ''))       LIKE :q OR
+            LOWER(COALESCE(e.phone, ''))      LIKE :q
           )
           AND (:active IS NULL OR e.active = :active)
         ORDER BY e.name ASC
         """,
       countQuery = """
         SELECT COUNT(DISTINCT e.id)
-        FROM employee e
-        JOIN employee_project ep ON e.id = ep.employee_id
-        JOIN project p ON p.id = ep.project_id
-        JOIN clients c ON c.id = p.client_id
-        WHERE c.id = ANY(:clientIds)
+        FROM Employee e
+        JOIN e.projects proj
+        JOIN proj.client p
+        WHERE p.id IN :clientIds
           AND (
             :q IS NULL OR
-            e.name ILIKE :q OR
-            e.father_surname ILIKE :q OR
-            e.mother_surname ILIKE :q OR
-            e.rut ILIKE :q OR
-            e.mail ILIKE :q OR
-            e.phone ILIKE :q
+            LOWER(COALESCE(e.name, ''))       LIKE :q OR
+            LOWER(COALESCE(e.fatherSurname, '')) LIKE :q OR
+            LOWER(COALESCE(e.motherSurname, '')) LIKE :q OR
+            LOWER(COALESCE(e.rut, ''))        LIKE :q OR
+            LOWER(COALESCE(e.mail, ''))       LIKE :q OR
+            LOWER(COALESCE(e.phone, ''))      LIKE :q
           )
           AND (:active IS NULL OR e.active = :active)
-        """,
-      nativeQuery = true
+        """
     )
-    Page<EmployeeTableProjection> findTableRowsForClientIds(
+    Page<EmployeeTableProjection> findTableRowsForClients(
         @Param("clientIds") List<Long> clientIds,
-        @Param("q") String q,           // expects pattern '%term%' or null
+        @Param("q") String q,               // espera patrón ya preparado (ej. "%term%"), o null
         @Param("active") Boolean active,
         Pageable pageable
     );
