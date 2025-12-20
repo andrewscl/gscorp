@@ -8,6 +8,8 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +18,7 @@ import com.gscorp.dv1.bank.application.BankService;
 import com.gscorp.dv1.bank.infrastructure.Bank;
 import com.gscorp.dv1.employees.infrastructure.Employee;
 import com.gscorp.dv1.employees.infrastructure.EmployeeRepository;
+import com.gscorp.dv1.employees.infrastructure.EmployeeTableProjection;
 import com.gscorp.dv1.employees.web.dto.CreateEmployeeRequest;
 import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
 import com.gscorp.dv1.nationalities.application.NationalityService;
@@ -28,6 +31,7 @@ import com.gscorp.dv1.projects.application.ProjectService;
 import com.gscorp.dv1.projects.infrastructure.Project;
 import com.gscorp.dv1.shiftpatterns.application.ShiftPatternService;
 import com.gscorp.dv1.shiftpatterns.infrastructure.ShiftPattern;
+import com.gscorp.dv1.users.application.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -42,6 +46,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final ProfessionService professionService;
     private final PositionService positionService;
     private final ShiftPatternService shiftPatternService;
+    private final UserService userService;
 
     @Value("${file.upload-dir}")
     private String uploadDir;
@@ -221,6 +226,29 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findByUser_Id(userId)
                 .map(EmployeeSelectDto::fromProjection)
                 .orElse(null);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<EmployeeTableProjection> getEmployeeTable(
+                        Long userId, String q, Boolean active, int page, int size) {
+
+        // Normalizar page/size (Spring Data usa 0-based)
+        int safePage = Math.max(0, page);
+        int safeSize = Math.min(Math.max(5, size), 200); // límites: min 5, max 200
+
+        // Normalizar query
+        String safeQ = (q == null || q.trim().isEmpty()) ? null : q.trim();
+
+        // Resolver clientes asociados al usuario
+        List<Long> clientIds = userService.getClientIdsForUser(userId);
+        if (clientIds == null || clientIds.isEmpty()) {
+        return Page.empty();
+        }
+
+        PageRequest pg = PageRequest.of(safePage, safeSize);
+        return employeeRepository
+                        .findTableRowsForClients(clientIds, safeQ, active, pg);
     }
 
 }

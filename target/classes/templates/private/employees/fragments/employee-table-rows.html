@@ -1,0 +1,69 @@
+<tbody th:fragment="rows">
+  <!-- filas de empleados -->
+  <tr th:each="e : ${employees}" th:attr="data-id=${e.id}">
+    <!-- Foto (thumbnail) -->
+    <td class="cell-photo">
+      <img
+        th:src="${e.photoUrl != null && e.photoUrl != '' ? e.photoUrl : '/images/avatar-placeholder.png'}"
+        th:alt="${e.fullName != null ? e.fullName : 'Empleado'}"
+        width="40" height="40"
+        class="avatar avatar-sm" />
+    </td>
+
+    <!-- Nombre completo -->
+    <td class="cell-name">
+      <div class="name">
+        <span th:text="${e.fullName != null ? e.fullName : '—'}">Nombre Apellido</span>
+      </div>
+      <div class="meta small muted" th:if="${e.positionName != null}">
+        <span th:text="${e.positionName}">Cargo</span>
+      </div>
+    </td>
+
+    <!-- Cargo (posición) -->
+    <td class="cell-position" th:text="${e.positionName != null ? e.positionName : '—'}">Cargo</td>
+
+    <!-- RUT -->
+    <td class="cell-rut" th:text="${e.rut != null ? e.rut : '—'}">RUT</td>
+
+    <!-- Contacto (email / teléfono) -->
+    <td class="cell-contact">
+      <div th:if="${e.mail != null && e.mail != ''}">
+        <a th:href="${'mailto:' + e.mail}" th:text="${e.mail}">email@dominio</a>
+      </div>
+      <div th:if="${(e.mail == null || e.mail == '') and (e.phone != null && e.phone != '')}">
+        <span th:text="${e.phone}">+56 9 1234 5678</span>
+      </div>
+      <div th:if="${(e.mail == null || e.mail == '') and (e.phone == null || e.phone == '')}">
+        <span class="muted">—</span>
+      </div>
+    </td>
+
+    <!-- Estado -->
+    <td class="cell-status">
+      <span th:if="${e.active == true}" class="badge badge-success" th:text="'Activo'">Activo</span>
+      <span th:if="${e.active == false}" class="badge badge-muted" th:text="'Inactivo'">Inactivo</span>
+      <span th:if="${e.active == null}" class="badge badge-muted">—</span>
+    </td>
+
+    <!-- Acciones -->
+    <td class="actions">
+      <button type="button" class="btn-link action-btn" title="Ver"
+              th:attr="data-path=@{/private/employees/show/{id}(id=${e.id})}">
+        <span aria-hidden="true">Ver</span>
+        <span class="visually-hidden" th:text="${'Ver empleado ' + (e.fullName != null ? e.fullName : e.id)}">Ver empleado</span>
+      </button>
+
+      <button type="button" class="btn-link action-btn"
+              th:if="${#authorization.expression('hasRole(''HR'') or hasRole(''ADMIN'')')}"
+              th:attr="data-path=@{/private/employees/edit/{id}(id=${e.id})}" title="Editar">
+        Editar
+      </button>
+    </td>
+  </tr>
+
+  <!-- fila cuando no hay empleados -->
+  <tr th:if="${#lists.isEmpty(employees)}">
+    <td colspan="7" class="empty">No se encontraron empleados para los filtros seleccionados.</td>
+  </tr>
+</tbody>

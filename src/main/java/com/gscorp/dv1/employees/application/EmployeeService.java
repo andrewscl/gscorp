@@ -3,7 +3,10 @@ package com.gscorp.dv1.employees.application;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+
 import com.gscorp.dv1.employees.infrastructure.Employee;
+import com.gscorp.dv1.employees.infrastructure.EmployeeTableProjection;
 import com.gscorp.dv1.employees.web.dto.CreateEmployeeRequest;
 import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
 
@@ -24,5 +27,8 @@ public interface EmployeeService {
     List<Employee> findAllWithUserAndProjectsAndPosition();
 
     EmployeeSelectDto findEmployeeByUserId(Long userId);
+
+    Page<EmployeeTableProjection> getEmployeeTable(
+                        Long userId, String q, Boolean active, int page, int size);
     
 }

@@ -3,9 +3,12 @@ package com.gscorp.dv1.employees.infrastructure;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 
@@ -31,5 +34,74 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
      * Nota importante: el nombre debe usar la propiedad anidada "user.id" => user_Id
      */
     Optional<EmployeeSelectProjection> findByUser_Id(Long userId);
+
+
+    @Query("""
+    SELECT
+        e.id AS id,
+        e.photoUrl AS photoUrl,
+        e.name AS name,
+        e.fatherSurname AS fatherSurname,
+        e.motherSurname AS motherSurname,
+        e.rut AS rut,
+        e.mail AS mail,
+        e.phone AS phone,
+        p.name AS positionName,
+        e.active AS active,
+        e.hireDate AS hireDate,
+        e.createdAt AS createdAt
+    FROM Employee e
+    LEFT JOIN e.position p
+    WHERE (:q IS NULL OR LOWER(CONCAT(e.name,' ',e.fatherSurname,' ',e.motherSurname)) LIKE LOWER(CONCAT('%',:q,'%')))
+        AND (:active IS NULL OR e.active = :active)
+    ORDER BY e.name ASC
+    """)
+    Page<EmployeeTableProjection> findTableRows(
+        @Param("q") String q,
+        @Param("active") Boolean active,
+        Pageable pageable
+    );
+
+
+    @Query(
+      value = """
+        SELECT DISTINCT
+          e.id AS id,
+          e.photoUrl AS photoUrl,
+          e.name AS name,
+          e.fatherSurname AS fatherSurname,
+          e.motherSurname AS motherSurname,
+          e.rut AS rut,
+          e.mail AS mail,
+          e.phone AS phone,
+          pos.name AS positionName,
+          e.active AS active,
+          e.hireDate AS hireDate,
+          e.createdAt AS createdAt
+        FROM Employee e
+        LEFT JOIN e.position pos
+        JOIN e.projects proj
+        JOIN proj.client c
+        WHERE c.id IN :clientIds
+          AND (:q IS NULL OR LOWER(CONCAT(e.name,' ',e.fatherSurname,' ',COALESCE(e.motherSurname,''))) LIKE LOWER(CONCAT('%',:q,'%')))
+          AND (:active IS NULL OR e.active = :active)
+        ORDER BY e.name ASC
+        """,
+      countQuery = """
+        SELECT COUNT(DISTINCT e.id)
+        FROM Employee e
+        JOIN e.projects proj
+        JOIN proj.client c
+        WHERE c.id IN :clientIds
+          AND (:q IS NULL OR LOWER(CONCAT(e.name,' ',e.fatherSurname,' ',COALESCE(e.motherSurname,''))) LIKE LOWER(CONCAT('%',:q,'%')))
+          AND (:active IS NULL OR e.active = :active)
+        """
+    )
+    Page<EmployeeTableProjection> findTableRowsForClients(
+        @Param("clientIds") List<Long> clientIds,
+        @Param("q") String q,
+        @Param("active") Boolean active,
+        Pageable pageable
+    );
 
 }

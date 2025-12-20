@@ -35,6 +35,8 @@ export default defineConfig({
         'private/projects/edit-project': path.resolve(__dirname, './src/private/projects/edit-project.js'),
         'private/projects/view-project': path.resolve(__dirname, './src/private/projects/view-project.js'),
         'private/employees/create-employee': path.resolve(__dirname, './src/private/employees/create-employee.js'),
+        'private/employees/employee-table': path.resolve(__dirname, './src/private/employees/employee-table.js'),
+        'private/employees/employee-table-update': path.resolve(__dirname, './src/private/employees/employee-table-update.js'),
         'private/banks/create-bank': path.resolve(__dirname, './src/private/banks/create-bank.js'),
         'private/positions/create-position': path.resolve(__dirname, './src/private/positions/create-position.js'),
         'private/positions/edit-position': path.resolve(__dirname, './src/private/positions/edit-position.js'),

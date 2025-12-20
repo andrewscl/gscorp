@@ -1,14 +1,18 @@
 package com.gscorp.dv1.employees.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gscorp.dv1.bank.application.BankService;
 import com.gscorp.dv1.employees.application.EmployeeService;
+import com.gscorp.dv1.employees.infrastructure.EmployeeTableProjection;
 import com.gscorp.dv1.enums.BankAccountType;
 import com.gscorp.dv1.enums.ContractType;
 import com.gscorp.dv1.enums.Gender;
@@ -64,12 +68,49 @@ public class EmployeeController {
         return "private/employees/views/employee-dashboard-view";
     }
 
+
     @GetMapping("/table-view")
-    public String getEmployeesTableView (Model model) {
-            model.addAttribute("employees",
-                                            employeeService.findAllWithUserAndProjectsAndPosition());
+    public String getEmployeesTableView (
+            Model model,
+            Authentication authentication,
+            @RequestParam(required = false) String q,
+            @RequestParam(required = false) Boolean active,
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "100") int size
+        ) {
+
+        Long userId = userService.getUserIdFromAuthentication(authentication);
+        if (userId == null) {
+            // no autenticado: redirigir al login o devolver error según tu política
+            return "redirect:/login";
+        }
+
+        // Normalizar page/size (Spring Data usa 0-based)
+        int safePage = Math.max(0, page);
+        int safeSize = Math.min(Math.max(5, size), 200); // límites: min 5, max 200
+
+        // Normalizar q
+        String safeQ = (q == null || q.trim().isEmpty()) ? null : q.trim();
+
+        Page<EmployeeTableProjection> employeesPage =
+                        employeeService.getEmployeeTable(
+                                userId, safeQ, active, safePage, safeSize);
+
+        model.addAttribute("employeesPage", employeesPage);          // Page completo
+        model.addAttribute("employees", employeesPage.getContent()); // Lista para iterar
+        model.addAttribute("pageNumber", employeesPage.getNumber()); // 0-based
+        model.addAttribute("pageSize", employeesPage.getSize());
+        model.addAttribute("totalPages", employeesPage.getTotalPages());
+        model.addAttribute("totalElements", employeesPage.getTotalElements());
+
+        // conservar filtros en la vista para los links
+        model.addAttribute("q", safeQ);
+        model.addAttribute("active", active);
+
         return "private/employees/views/employees-table-view";
+
     }
+
 
     @GetMapping("/create")
     public String getCreateEmployeeView (Model model) {
