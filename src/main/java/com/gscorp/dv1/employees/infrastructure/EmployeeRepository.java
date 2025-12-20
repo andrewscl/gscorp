@@ -113,7 +113,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
           AND (:active IS NULL OR e.active = :active)
         """
     )
-    Page<EmployeeTableProjection> findTableRowsForClients(
+    Page<EmployeeTableProjection> findTableRowsForClientIds(
         @Param("clientIds") List<Long> clientIds,
         @Param("q") String q,               // espera patrón ya preparado (ej. "%term%"), o null
         @Param("active") Boolean active,
