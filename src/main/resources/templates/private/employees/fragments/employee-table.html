@@ -44,7 +44,7 @@
       <label class="filter-item">
         <span class="filter-label">Estado</span>
         <select id="filter-status" class="filter-select" name="active" aria-label="Estado">
-          <option th:value="" th:selected="${statusVar == 'ALL'}">Todos</option>
+          <option th:value="''" th:selected="${statusVar == 'ALL'}">Todos</option>
           <option th:value="true" th:selected="${statusVar == 'ACTIVE'}">Activo</option>
           <option th:value="false" th:selected="${statusVar == 'INACTIVE'}">Inactivo</option>
         </select>
@@ -53,7 +53,7 @@
       <label class="filter-item">
         <span class="filter-label">Proyecto</span>
         <select id="filter-project" class="filter-select" name="projectId" aria-label="Proyecto">
-          <option th:value="" th:selected="${projectVar == ''}">Todos</option>
+          <option th:value="''" th:selected="${projectVar == ''}">Todos</option>
           <option th:each="p : ${projects}"
                   th:value="${p.id}"
                   th:text="${p.name}"
@@ -64,7 +64,7 @@
       <label class="filter-item">
         <span class="filter-label">Cargo</span>
         <select id="filter-position" class="filter-select" name="positionId" aria-label="Cargo">
-          <option th:value="" th:selected="${positionVar == ''}">Todos</option>
+          <option th:value="''" th:selected="${positionVar == ''}">Todos</option>
           <option th:each="pos : ${positions}"
                   th:value="${pos.id}"
                   th:text="${pos.name}"
