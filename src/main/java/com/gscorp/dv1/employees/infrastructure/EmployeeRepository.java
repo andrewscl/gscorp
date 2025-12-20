@@ -37,25 +37,25 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
 
 
     @Query("""
-    SELECT
-        e.id AS id,
-        e.photoUrl AS photoUrl,
-        e.name AS name,
-        e.fatherSurname AS fatherSurname,
-        e.motherSurname AS motherSurname,
-        e.rut AS rut,
-        e.mail AS mail,
-        e.phone AS phone,
-        p.name AS positionName,
-        e.active AS active,
-        e.hireDate AS hireDate,
-        e.createdAt AS createdAt
-    FROM Employee e
-    LEFT JOIN e.position p
-    WHERE (:q IS NULL OR LOWER(CONCAT(e.name,' ',e.fatherSurname,' ',e.motherSurname)) LIKE LOWER(CONCAT('%',:q,'%')))
-        AND (:active IS NULL OR e.active = :active)
-    ORDER BY e.name ASC
-    """)
+      SELECT
+          e.id AS id,
+          e.photoUrl AS photoUrl,
+          e.name AS name,
+          e.fatherSurname AS fatherSurname,
+          e.motherSurname AS motherSurname,
+          e.rut AS rut,
+          e.mail AS mail,
+          e.phone AS phone,
+          p.name AS positionName,
+          e.active AS active,
+          e.hireDate AS hireDate,
+          e.createdAt AS createdAt
+      FROM Employee e
+      LEFT JOIN e.position p
+      WHERE (:q IS NULL OR LOWER(CONCAT(e.name,' ',e.fatherSurname,' ',e.motherSurname)) LIKE LOWER(CONCAT('%',:q,'%')))
+          AND (:active IS NULL OR e.active = :active)
+      ORDER BY e.name ASC
+      """)
     Page<EmployeeTableProjection> findTableRows(
         @Param("q") String q,
         @Param("active") Boolean active,
@@ -83,7 +83,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
         JOIN e.projects proj
         JOIN proj.client c
         WHERE c.id IN :clientIds
-          AND (:q IS NULL OR LOWER(CONCAT(e.name,' ',e.fatherSurname,' ',COALESCE(e.motherSurname,''))) LIKE LOWER(CONCAT('%',:q,'%')))
+          AND (:q IS NULL OR LOWER(CONCAT(e.name, ' ', e.fatherSurname, ' ', COALESCE(e.motherSurname, ''))) LIKE LOWER(CONCAT('%', :q, '%')))
           AND (:active IS NULL OR e.active = :active)
         ORDER BY e.name ASC
         """,
@@ -93,7 +93,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
         JOIN e.projects proj
         JOIN proj.client c
         WHERE c.id IN :clientIds
-          AND (:q IS NULL OR LOWER(CONCAT(e.name,' ',e.fatherSurname,' ',COALESCE(e.motherSurname,''))) LIKE LOWER(CONCAT('%',:q,'%')))
+          AND (:q IS NULL OR LOWER(CONCAT(e.name, ' ', e.fatherSurname, ' ', COALESCE(e.motherSurname, ''))) LIKE LOWER(CONCAT('%', :q, '%')))
           AND (:active IS NULL OR e.active = :active)
         """
     )
