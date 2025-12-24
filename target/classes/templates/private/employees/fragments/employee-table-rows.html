@@ -55,7 +55,7 @@
       </button>
 
       <button type="button" class="btn-link action-btn"
-              th:if="${#authorization.expression('hasRole(''HR'') or hasRole(''ADMIN'')')}"
+              th:if="${#authorization.expression('hasRole(''ANALYST'') or hasRole(''ADMIN'')')}"
               th:attr="data-path=@{/private/employees/edit/{id}(id=${e.id})}" title="Editar">
         Editar
       </button>
