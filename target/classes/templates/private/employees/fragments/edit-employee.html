@@ -1,14 +1,14 @@
 <section th:fragment="content" class="detail-section edit-employee">
 
   <h2>Editar Empleado</h2>
-  <p class="meta-id"><strong>ID:</strong> <span th:text="${user.id}"></span></p>
+  <p class="meta-id"><strong>ID:</strong> <span th:text="${employee.id}"></span></p>
 
   <form id="editEmployeeForm" class="card form" th:action="@{/private/employees/save}" method="post">
 
     <!-- Fotografía -->
     <div class="form-group" style="align-items:center;display:flex;gap:1.2rem;">
       <label>Fotografía</label>
-      <img th:src="${user.photoUrl != null and #strings.isNotEmpty(user.photoUrl) ? user.photoUrl : '/img/default-avatar.png'}" alt="Foto empleado"
+      <img th:src="${employee.photoUrl != null and #strings.isNotEmpty(employee.photoUrl) ? employee.photoUrl : '/img/default-avatar.png'}" alt="Foto empleado"
            class="employee-photo-thumb"
            style="width:60px;height:60px;border-radius:50%;object-fit:cover;background:#f3f6fb;border:1px solid #e5e7eb;user-select:none;pointer-events:none;" />
     </div>
@@ -20,25 +20,25 @@
       <div class="form-row">
         <div class="form-group">
           <label>Nombre</label>
-          <input type="text" name="name" th:value="${user.name}" placeholder="Nombre" class="form-control" />
+          <input type="text" name="name" th:value="${employee.name}" placeholder="Nombre" class="form-control" />
         </div>
         <div class="form-group">
           <label>Apellido Paterno</label>
-          <input type="text" name="fatherSurname" th:value="${user.fatherSurname}" placeholder="Apellido Paterno" class="form-control" />
+          <input type="text" name="fatherSurname" th:value="${employee.fatherSurname}" placeholder="Apellido Paterno" class="form-control" />
         </div>
         <div class="form-group">
           <label>Apellido Materno</label>
-          <input type="text" name="motherSurname" th:value="${user.motherSurname}" placeholder="Apellido Materno" class="form-control" />
+          <input type="text" name="motherSurname" th:value="${employee.motherSurname}" placeholder="Apellido Materno" class="form-control" />
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
           <label>RUT / DNI</label>
-          <input type="text" name="rut" th:value="${user.rut}" placeholder="RUT" class="form-control" />
+          <input type="text" name="rut" th:value="${employee.rut}" placeholder="RUT" class="form-control" />
         </div>
         <div class="form-group">
           <label>Nacimiento</label>
-          <input type="date" name="birthDate" th:value="${user.birthDate}" class="form-control" />
+          <input type="date" name="birthDate" th:value="${employee.birthDate}" class="form-control" />
         </div>
         <div class="form-group">
           <label>Género</label>
@@ -58,20 +58,20 @@
       <div class="form-row">
         <div class="form-group">
           <label>Mail</label>
-          <input type="email" name="mail" th:value="${user.mail}" placeholder="Correo Electrónico" class="form-control" />
+          <input type="email" name="mail" th:value="${employee.mail}" placeholder="Correo Electrónico" class="form-control" />
         </div>
         <div class="form-group">
           <label>Teléfono</label>
-          <input type="tel" name="phone" th:value="${user.phone}" placeholder="Teléfono" class="form-control" />
+          <input type="tel" name="phone" th:value="${employee.phone}" placeholder="Teléfono" class="form-control" />
         </div>
         <div class="form-group">
           <label>Teléfono Secundario</label>
-          <input type="tel" name="secondaryPhone" th:value="${user.secondaryPhone}" placeholder="Teléfono Secundario" class="form-control" />
+          <input type="tel" name="secondaryPhone" th:value="${employee.secondaryPhone}" placeholder="Teléfono Secundario" class="form-control" />
         </div>
       </div>
       <div class="form-group">
         <label>Dirección</label>
-        <input type="text" name="address" th:value="${user.address}" placeholder="Dirección" class="form-control" />
+        <input type="text" name="address" th:value="${employee.address}" placeholder="Dirección" class="form-control" />
       </div>
     </fieldset>
 
@@ -110,8 +110,8 @@
     <hr class="form-separator" />
 
     <div class="form-group active-row">
-      <input id="userActive" name="active" type="checkbox" th:checked="${user.active}" class="form-check-input" />
-      <label for="userActive" class="form-check-label">Activo</label>
+      <input id="employeeActive" name="active" type="checkbox" th:checked="${employee.active}" class="form-check-input" />
+      <label for="employeeActive" class="form-check-label">Activo</label>
     </div>
 
     <div class="actions">
