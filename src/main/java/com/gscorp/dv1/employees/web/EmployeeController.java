@@ -148,18 +148,20 @@ public class EmployeeController {
         return "private/employees/views/create-employee-view";
     }
 
+
     @GetMapping("/show/{id}")
     public String showEmployee(@PathVariable Long id, Model model){
-        var user = employeeService.findByIdWithUserAndProjects(id);
-        model.addAttribute("user", user);
-        return "private/users/views/view-user-view";
+        var employee = employeeService.findByIdWithUserAndProjects(id);
+        model.addAttribute("employee", employee);
+        return "private/employees/views/view-employee-view";
     }
 
+
     @GetMapping("/edit/{id}")
-    public String editUser(@PathVariable Long id, Model model){
-        var user = employeeService.findByIdWithUserAndProjects(id);
-        model.addAttribute("user", user);
-        return "private/users/views/edit-user-view";
+    public String editEmployee(@PathVariable Long id, Model model){
+        var employee = employeeService.findByIdWithUserAndProjects(id);
+        model.addAttribute("employee", employee);
+        return "private/employees/views/edit-employee-view";
     }
 
 }

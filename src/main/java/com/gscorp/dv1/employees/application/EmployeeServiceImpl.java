@@ -18,8 +18,10 @@ import com.gscorp.dv1.bank.application.BankService;
 import com.gscorp.dv1.bank.infrastructure.Bank;
 import com.gscorp.dv1.employees.infrastructure.Employee;
 import com.gscorp.dv1.employees.infrastructure.EmployeeRepository;
+import com.gscorp.dv1.employees.infrastructure.EmployeeEditProjection;
 import com.gscorp.dv1.employees.infrastructure.EmployeeTableProjection;
 import com.gscorp.dv1.employees.web.dto.CreateEmployeeRequest;
+import com.gscorp.dv1.employees.web.dto.EmployeeEditDto;
 import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
 import com.gscorp.dv1.nationalities.application.NationalityService;
 import com.gscorp.dv1.nationalities.infrastructure.Nationality;
@@ -57,12 +59,17 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findAll();
     }
 
+
     @Override
-    public Employee findByIdWithUserAndProjects(Long id) {
-        return employeeRepository.findById(id)
+    public EmployeeEditDto findByIdWithUserAndProjects(Long id) {
+
+        EmployeeEditProjection projection = employeeRepository.findEmployeeProjectionById(id)
                 .orElseThrow(() ->
                     new IllegalArgumentException("Employee not found with id: " + id));
+
+        return EmployeeEditDto.fromProjection(projection);
     }
+
 
     @Override
     @Transactional

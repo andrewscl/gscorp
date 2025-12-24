@@ -8,14 +8,19 @@ import org.springframework.data.domain.Page;
 import com.gscorp.dv1.employees.infrastructure.Employee;
 import com.gscorp.dv1.employees.infrastructure.EmployeeTableProjection;
 import com.gscorp.dv1.employees.web.dto.CreateEmployeeRequest;
+import com.gscorp.dv1.employees.web.dto.EmployeeEditDto;
 import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
 
 public interface EmployeeService {
 
     List<Employee> findAll ();
-    Employee findByIdWithUserAndProjects(Long id);
+
+    EmployeeEditDto findByIdWithUserAndProjects(Long id);
+
     Employee saveEmployee(Employee employee);
+
     Optional<Employee> findById(Long id);
+    
     Optional<Employee> findByUsername(String username);
 
     Employee createEmployeeFromRequest(CreateEmployeeRequest req);

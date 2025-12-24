@@ -1,0 +1,124 @@
+<section th:fragment="content" class="detail-section edit-employee">
+
+  <h2>Editar Empleado</h2>
+  <p class="meta-id"><strong>ID:</strong> <span th:text="${user.id}"></span></p>
+
+  <form id="editEmployeeForm" class="card form" th:action="@{/private/employees/save}" method="post">
+
+    <!-- Fotografía -->
+    <div class="form-group" style="align-items:center;display:flex;gap:1.2rem;">
+      <label>Fotografía</label>
+      <img th:src="${user.photoUrl != null and #strings.isNotEmpty(user.photoUrl) ? user.photoUrl : '/img/default-avatar.png'}" alt="Foto empleado"
+           class="employee-photo-thumb"
+           style="width:60px;height:60px;border-radius:50%;object-fit:cover;background:#f3f6fb;border:1px solid #e5e7eb;user-select:none;pointer-events:none;" />
+    </div>
+
+    <hr class="form-separator" />
+
+    <fieldset>
+      <legend>Identificación</legend>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" name="name" th:value="${user.name}" placeholder="Nombre" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label>Apellido Paterno</label>
+          <input type="text" name="fatherSurname" th:value="${user.fatherSurname}" placeholder="Apellido Paterno" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label>Apellido Materno</label>
+          <input type="text" name="motherSurname" th:value="${user.motherSurname}" placeholder="Apellido Materno" class="form-control" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>RUT / DNI</label>
+          <input type="text" name="rut" th:value="${user.rut}" placeholder="RUT" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label>Nacimiento</label>
+          <input type="date" name="birthDate" th:value="${user.birthDate}" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label>Género</label>
+          <select name="gender" class="form-control" th:field="*{gender}">
+            <option value="" disabled selected>Seleccione...</option>
+            <option th:each="gender : ${#fields.enumConstants('com.gscorp.dv1.enums.Gender')}"
+                    th:value="${gender}" th:text="${gender}"></option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+
+    <hr class="form-separator" />
+
+    <fieldset>
+      <legend>Contacto</legend>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Mail</label>
+          <input type="email" name="mail" th:value="${user.mail}" placeholder="Correo Electrónico" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label>Teléfono</label>
+          <input type="tel" name="phone" th:value="${user.phone}" placeholder="Teléfono" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label>Teléfono Secundario</label>
+          <input type="tel" name="secondaryPhone" th:value="${user.secondaryPhone}" placeholder="Teléfono Secundario" class="form-control" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Dirección</label>
+        <input type="text" name="address" th:value="${user.address}" placeholder="Dirección" class="form-control" />
+      </div>
+    </fieldset>
+
+    <hr class="form-separator" />
+
+    <fieldset>
+      <legend>Datos personales</legend>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nacionalidad</label>
+          <select name="nationalityId" class="form-control">
+            <option value="" disabled selected>Seleccione...</option>
+            <option th:each="nationality : ${nationalities}"
+                    th:value="${nationality.id}" th:text="${nationality.name}"></option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Estado Civil</label>
+          <select name="maritalStatus" class="form-control" th:field="*{maritalStatus}">
+            <option value="" disabled selected>Seleccione...</option>
+            <option th:each="maritalStatus : ${#fields.enumConstants('com.gscorp.dv1.enums.MaritalStatus')}"
+                    th:value="${maritalStatus}" th:text="${maritalStatus}"></option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Nivel de estudios</label>
+          <select name="studyLevel" class="form-control" th:field="*{studyLevel}">
+            <option value="" disabled selected>Seleccione...</option>
+            <option th:each="studyLevel : ${#fields.enumConstants('com.gscorp.dv1.enums.StudyLevel')}"
+                    th:value="${studyLevel}" th:text="${studyLevel}"></option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+
+    <hr class="form-separator" />
+
+    <div class="form-group active-row">
+      <input id="userActive" name="active" type="checkbox" th:checked="${user.active}" class="form-check-input" />
+      <label for="userActive" class="form-check-label">Activo</label>
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="vs-btn vs-primary">Guardar Cambios</button>
+      <a class="vs-btn vs-secondary" href="@{/private/employees}" style="user-select:none;">Volver al listado</a>
+    </div>
+  </form>
+
+  <script type="module" src="/js/private/employees/edit-employee.js"></script>
+</section>
