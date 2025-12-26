@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import com.gscorp.dv1.employees.infrastructure.EmployeeEditProjection;
 import com.gscorp.dv1.enums.Gender;
+import com.gscorp.dv1.enums.MaritalStatus;
 
 public record EmployeeEditDto (
 
@@ -21,7 +22,8 @@ public record EmployeeEditDto (
     String address,
     Boolean active,
     Gender gender,
-    Long nationalityId
+    Long nationalityId,
+    MaritalStatus maritalStatus
 
 ) {
     public static EmployeeEditDto fromProjection(EmployeeEditProjection p) {
@@ -40,7 +42,8 @@ public record EmployeeEditDto (
             p.getAddress(),
             p.getActive(),
             p.getGender(),
-            p.getNationalityId()
+            p.getNationalityId(),
+            p.getMaritalStatus()
 
         );
     }
