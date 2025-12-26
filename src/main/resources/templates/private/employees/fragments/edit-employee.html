@@ -77,6 +77,17 @@
       </select>
     </div>
 
+    <div class="form-group">
+      <label for="employeeNationality">Nacionalidad</label>
+      <select id="employeeNationality" name="nationalityId" required>
+        <option value="">Seleccione nacionalidad</option>
+        <option th:each="n : ${nationalities}"
+                th:selected="${employee.nationalityId == n.id}"
+                th:value="${n.id}"
+                th:text="${n.name}"></option>
+      </select>
+    </div>
+
     <div class="modal-footer">
       <button type="submit" class="btn-primary">Guardar cambios</button>
       <button type="button" class="btn-secondary" id="cancelEditEmployee">Cancelar</button>
