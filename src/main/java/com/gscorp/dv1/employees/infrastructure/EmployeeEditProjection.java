@@ -3,6 +3,7 @@ package com.gscorp.dv1.employees.infrastructure;
 import java.time.LocalDate;
 
 import com.gscorp.dv1.enums.Gender;
+import com.gscorp.dv1.enums.HealthEntity;
 import com.gscorp.dv1.enums.HealthSystem;
 import com.gscorp.dv1.enums.MaritalStatus;
 import com.gscorp.dv1.enums.PensionEntity;
@@ -31,5 +32,6 @@ public interface EmployeeEditProjection {
     PrevitionalSystem getPrevitionalSystem();
     PensionEntity getPensionEntity();
     HealthSystem getHealthSystem();
+    HealthEntity getHealthEntity();
 
 }

@@ -143,6 +143,17 @@
       </select>
     </div>
 
+    <div class="form-group">
+      <label for="employeeHealthEntity">Entidad de salud</label>
+      <select id="employeeHealthEntity" name="healthEntity" required>
+        <option value="">Seleccione entidad de salud</option>
+        <option th:each="h : ${healthEntities}"
+                th:selected="${employee.healthEntity == h}"
+                th:value="${h}"
+                th:text="${h.displayName}"></option>
+      </select>
+    </div>
+
     <div class="modal-footer">
       <button type="submit" class="btn-primary">Guardar cambios</button>
       <button type="button" class="btn-secondary" id="cancelEditEmployee">Cancelar</button>
