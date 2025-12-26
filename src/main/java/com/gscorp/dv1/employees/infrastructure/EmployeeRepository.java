@@ -134,7 +134,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
               e.birthDate AS birthDate,
               e.exitDate AS exitDate,
               e.address AS address,
-              e.active AS active
+              e.active AS active,
+              e.gender AS gender
         FROM Employee e
         WHERE e.id = :id
     """)

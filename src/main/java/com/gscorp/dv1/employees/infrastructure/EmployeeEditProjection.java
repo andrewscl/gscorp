@@ -2,6 +2,8 @@ package com.gscorp.dv1.employees.infrastructure;
 
 import java.time.LocalDate;
 
+import com.gscorp.dv1.enums.Gender;
+
 public interface EmployeeEditProjection {
 
     Long getId();
@@ -17,5 +19,6 @@ public interface EmployeeEditProjection {
     LocalDate getExitDate();
     String getAddress();
     Boolean getActive();
+    Gender getGender();
 
 }

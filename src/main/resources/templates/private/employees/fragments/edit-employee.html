@@ -66,6 +66,16 @@
       <input type="text" id="employeeActive" name="active" th:value="${employee.active}" placeholder="Activo" />
     </div>
 
+    <div class="form-group">
+      <label for="employeeGender">Género</label>
+      <select id="employeeGender" name="gender" required>
+        <option value="">Seleccione género</option>
+        <option th:each="g : ${genders}"
+                  th:value="${g.name()}"
+                    th:text="${g.displayName}"></option>
+      </select>
+    </div>
+
     <div class="modal-footer">
       <button type="submit" class="btn-primary">Guardar cambios</button>
       <button type="button" class="btn-secondary" id="cancelEditEmployee">Cancelar</button>

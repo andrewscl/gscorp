@@ -3,6 +3,7 @@ package com.gscorp.dv1.employees.web.dto;
 import java.time.LocalDate;
 
 import com.gscorp.dv1.employees.infrastructure.EmployeeEditProjection;
+import com.gscorp.dv1.enums.Gender;
 
 public record EmployeeEditDto (
 
@@ -18,7 +19,8 @@ public record EmployeeEditDto (
     LocalDate birthDate,
     LocalDate exitDate,
     String address,
-    Boolean active
+    Boolean active,
+    Gender gender
 
 ) {
     public static EmployeeEditDto fromProjection(EmployeeEditProjection p) {
@@ -35,7 +37,8 @@ public record EmployeeEditDto (
             p.getBirthDate(),
             p.getExitDate(),
             p.getAddress(),
-            p.getActive()
+            p.getActive(),
+            p.getGender()
 
         );
     }
