@@ -184,24 +184,6 @@ public class EmployeeController {
         model.addAttribute("employee", employee);
 
         model.addAttribute("genders", Gender.values());
-        model.addAttribute("nationalities", nationalityService.findAll());
-        model.addAttribute("maritalStatuses", MaritalStatus.values());
-        model.addAttribute("studyLevels", StudyLevel.values());
-        model.addAttribute("professions", professionService.findAll());
-        model.addAttribute("previtionalSystems", PrevitionalSystem.values());
-        model.addAttribute("pensionEntities", PensionEntity.values());
-        model.addAttribute("healthSystems", HealthSystem.values());
-        model.addAttribute("healthEntities", HealthEntity.values());
-        model.addAttribute("paymentMethods", PaymentMethod.values());
-        model.addAttribute("banks", bankService.findAll());
-        model.addAttribute("bankAccountTypes", BankAccountType.values());
-        model.addAttribute("contractTypes", ContractType.values());
-        model.addAttribute("workSchedules", WorkSchedule.values());
-        model.addAttribute("shiftSystems", ShiftSystem.values());
-        model.addAttribute("shiftPatterns", shiftPatternService.findAll());
-        model.addAttribute("positions", positionService.findAll());
-        model.addAttribute("projects", projectService.findAll());
-        model.addAttribute("users", userService.findAll());
         
         return "private/employees/views/edit-employee-view";
     }
