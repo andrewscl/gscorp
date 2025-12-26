@@ -7,6 +7,7 @@ import com.gscorp.dv1.enums.Gender;
 import com.gscorp.dv1.enums.HealthEntity;
 import com.gscorp.dv1.enums.HealthSystem;
 import com.gscorp.dv1.enums.MaritalStatus;
+import com.gscorp.dv1.enums.PaymentMethod;
 import com.gscorp.dv1.enums.PensionEntity;
 import com.gscorp.dv1.enums.PrevitionalSystem;
 import com.gscorp.dv1.enums.StudyLevel;
@@ -33,7 +34,8 @@ public record EmployeeEditDto (
     PrevitionalSystem previtionalSystem,
     PensionEntity pensionEntity,
     HealthSystem healthSystem,
-    HealthEntity healthEntity
+    HealthEntity healthEntity,
+    PaymentMethod paymentMethod
 
 ) {
     public static EmployeeEditDto fromProjection(EmployeeEditProjection p) {
@@ -58,7 +60,8 @@ public record EmployeeEditDto (
             p.getPrevitionalSystem(),
             p.getPensionEntity(),
             p.getHealthSystem(),
-            p.getHealthEntity()
+            p.getHealthEntity(),
+            p.getPaymentMethod()
         );
     }
 }
