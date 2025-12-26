@@ -188,7 +188,7 @@ public class EmployeeController {
         model.addAttribute("studyLevels", StudyLevel.values());
         model.addAttribute("previtionalSystems", PrevitionalSystem.values());
         model.addAttribute("pensionEntities", PensionEntity.values());
-
+        model.addAttribute("healthSystems", HealthSystem.values());
         return "private/employees/views/edit-employee-view";
     }
 

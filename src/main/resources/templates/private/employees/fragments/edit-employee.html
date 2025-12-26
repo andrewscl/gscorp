@@ -132,6 +132,16 @@
       </select>
     </div>
 
+    <div class="form-group">
+      <label for="employeeHealthSystem">Sistema de salud</label>
+      <select id="employeeHealthSystem" name="healthSystem" required>
+        <option value="">Seleccione sistema de salud</option>
+        <option th:each="h : ${healthSystems}"
+                th:selected="${employee.healthSystem == h}"
+                th:value="${h}"
+                th:text="${h.displayName}"></option>
+      </select>
+    </div>
 
     <div class="modal-footer">
       <button type="submit" class="btn-primary">Guardar cambios</button>
