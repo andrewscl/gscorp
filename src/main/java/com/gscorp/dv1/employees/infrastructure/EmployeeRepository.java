@@ -138,9 +138,11 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
               e.gender AS gender,
               n.id AS nationalityId,
               e.maritalStatus AS maritalStatus,
-              e.studyLevel AS studyLevel
+              e.studyLevel AS studyLevel,
+              p.id AS professionId
         FROM Employee e
         JOIN e.nationality n
+        JOIN e.profession p
         WHERE e.id = :id
     """)
     Optional<EmployeeEditProjection> findEmployeeProjectionById(Long id);

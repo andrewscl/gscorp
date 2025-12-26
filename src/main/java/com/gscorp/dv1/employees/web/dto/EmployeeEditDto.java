@@ -25,7 +25,8 @@ public record EmployeeEditDto (
     Gender gender,
     Long nationalityId,
     MaritalStatus maritalStatus,
-    StudyLevel studyLevel
+    StudyLevel studyLevel,
+    Long professionId
 
 ) {
     public static EmployeeEditDto fromProjection(EmployeeEditProjection p) {
@@ -46,7 +47,8 @@ public record EmployeeEditDto (
             p.getGender(),
             p.getNationalityId(),
             p.getMaritalStatus(),
-            p.getStudyLevel()
+            p.getStudyLevel(),
+            p.getProfessionId()
 
         );
     }

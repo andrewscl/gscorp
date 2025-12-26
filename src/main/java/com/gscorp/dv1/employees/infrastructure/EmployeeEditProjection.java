@@ -25,5 +25,6 @@ public interface EmployeeEditProjection {
     Long getNationalityId();
     MaritalStatus getMaritalStatus();
     StudyLevel getStudyLevel();
+    Long getProfessionId();
 
 }
