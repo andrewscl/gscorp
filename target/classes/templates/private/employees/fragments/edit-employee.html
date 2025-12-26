@@ -110,16 +110,6 @@
       </select>
     </div>
 
-    <div class="form-group">
-      <label for="employeeProfessions">Profesión(es)</label>
-      <select id="employeeProfessions" name="professionIds" multiple required>
-        <option th:each="p : ${professions}" 
-                th:selected="${employee.professionIds.contains(p.id)}" 
-                th:value="${p.id}" 
-                th:text="${p.name}"></option>
-      </select>
-    </div>
-
     <div class="modal-footer">
       <button type="submit" class="btn-primary">Guardar cambios</button>
       <button type="button" class="btn-secondary" id="cancelEditEmployee">Cancelar</button>
