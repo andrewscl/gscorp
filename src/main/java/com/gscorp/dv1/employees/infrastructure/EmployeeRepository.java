@@ -130,38 +130,12 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
               e.mail AS mail,
               e.phone AS phone,
               e.secondaryPhone AS secondaryPhone,
-              e.gender AS gender,
-              n.id AS nationalityId,
-              n.name AS nationalityName,
-              e.maritalStatus AS maritalStatus,
-              e.studyLevel AS studyLevel,
-              e.previtionalSystem AS previtionalSystem,
-              e.pensionEntity AS pensionEntity,
-              e.healthSystem AS healthSystem,
-              e.healthEntity AS healthEntity,
-              e.paymentMethod AS paymentMethod,
-              b.id AS bankId,
-              b.name AS bankName,
-              e.bankAccountType AS bankAccountType,
-              e.bankAccountNumber AS bankAccountNumber,
-              e.contractType AS contractType,
-              e.workSchedule AS workSchedule,
-              e.shiftSystem AS shiftSystem,
-              sp.id AS shiftPatternId,
-              sp.name AS shiftPatternName,
-              p.id AS positionId,
-              p.name AS positionName,
-              e.photoUrl AS photoUrl,
               e.hireDate AS hireDate,
               e.birthDate AS birthDate,
               e.exitDate AS exitDate,
-              e.active AS active,
-              e.address AS address
+              e.address AS address,
+              e.active AS active
         FROM Employee e
-        LEFT JOIN e.nationality n
-        LEFT JOIN e.bank b
-        LEFT JOIN e.shiftPattern sp
-        LEFT JOIN e.position p
         WHERE e.id = :id
     """)
     Optional<EmployeeEditProjection> findEmployeeProjectionById(Long id);
