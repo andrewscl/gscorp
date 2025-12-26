@@ -140,7 +140,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
               e.maritalStatus AS maritalStatus,
               e.studyLevel AS studyLevel,
               p.id AS professionId,
-              e.previtionalSystem AS previsionalSystem
+              e.previtionalSystem AS previtionalSystem
         FROM Employee e
         JOIN e.nationality n
         JOIN e.professions p
