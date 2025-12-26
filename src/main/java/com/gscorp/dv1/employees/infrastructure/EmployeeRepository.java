@@ -142,7 +142,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
               p.id AS professionId
         FROM Employee e
         JOIN e.nationality n
-        JOIN e.profession p
+        JOIN e.professions p
         WHERE e.id = :id
     """)
     Optional<EmployeeEditProjection> findEmployeeProjectionById(Long id);

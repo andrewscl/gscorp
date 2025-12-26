@@ -1,6 +1,7 @@
 package com.gscorp.dv1.employees.infrastructure;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import com.gscorp.dv1.enums.Gender;
 import com.gscorp.dv1.enums.MaritalStatus;
@@ -25,6 +26,6 @@ public interface EmployeeEditProjection {
     Long getNationalityId();
     MaritalStatus getMaritalStatus();
     StudyLevel getStudyLevel();
-    Long getProfessionId();
+    Set<Long> getProfessionIds();
 
 }

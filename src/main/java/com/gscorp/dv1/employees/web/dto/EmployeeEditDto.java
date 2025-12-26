@@ -1,6 +1,7 @@
 package com.gscorp.dv1.employees.web.dto;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import com.gscorp.dv1.employees.infrastructure.EmployeeEditProjection;
 import com.gscorp.dv1.enums.Gender;
@@ -26,7 +27,7 @@ public record EmployeeEditDto (
     Long nationalityId,
     MaritalStatus maritalStatus,
     StudyLevel studyLevel,
-    Long professionId
+    Set<Long> professionIds
 
 ) {
     public static EmployeeEditDto fromProjection(EmployeeEditProjection p) {
@@ -48,7 +49,7 @@ public record EmployeeEditDto (
             p.getNationalityId(),
             p.getMaritalStatus(),
             p.getStudyLevel(),
-            p.getProfessionId()
+            p.getProfessionIds()
 
         );
     }
