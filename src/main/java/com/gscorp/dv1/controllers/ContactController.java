@@ -1,4 +1,4 @@
-package com.gscorp.dv1.clients.controllers;
+package com.gscorp.dv1.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
