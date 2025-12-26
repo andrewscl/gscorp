@@ -110,6 +110,17 @@
       </select>
     </div>
 
+    <div class="form-group">
+      <label for="employeePrevitionalSystem">Sistema previsional</label>
+      <select id="employeePrevitionalSystem" name="previtionalSystem" required>
+        <option value="">Seleccione sistema previsional</option>
+        <option th:each="p : ${previtionalSystems}"
+                th:selected="${employee.previtionalSystem == p}"
+                th:value="${p}"
+                th:text="${p.displayName}"></option>
+      </select>
+    </div>
+
     <div class="modal-footer">
       <button type="submit" class="btn-primary">Guardar cambios</button>
       <button type="button" class="btn-secondary" id="cancelEditEmployee">Cancelar</button>

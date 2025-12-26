@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import com.gscorp.dv1.enums.Gender;
 import com.gscorp.dv1.enums.MaritalStatus;
+import com.gscorp.dv1.enums.PrevitionalSystem;
 import com.gscorp.dv1.enums.StudyLevel;
 
 public interface EmployeeEditProjection {
@@ -25,5 +26,6 @@ public interface EmployeeEditProjection {
     Long getNationalityId();
     MaritalStatus getMaritalStatus();
     StudyLevel getStudyLevel();
+    PrevitionalSystem getPrevitionalSystem();
 
 }
