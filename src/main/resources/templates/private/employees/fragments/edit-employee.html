@@ -71,8 +71,9 @@
       <select id="employeeGender" name="gender" required>
         <option value="">Seleccione género</option>
         <option th:each="g : ${genders}"
-                  th:value="${g.name()}"
-                    th:text="${g.displayName}"></option>
+                th:selected="${employee.gender == g.name()}"
+                th:value="${g.name()}"
+                th:text="${g.displayName}"></option>
       </select>
     </div>
 
