@@ -187,6 +187,7 @@ public class EmployeeController {
         model.addAttribute("maritalStatuses", MaritalStatus.values());
         model.addAttribute("studyLevels", StudyLevel.values());
         model.addAttribute("previtionalSystems", PrevitionalSystem.values());
+        System.out.println("Employee previtional system: " + employee.previtionalSystem());
         return "private/employees/views/edit-employee-view";
     }
 
