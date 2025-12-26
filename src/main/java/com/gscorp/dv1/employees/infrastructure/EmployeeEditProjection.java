@@ -20,5 +20,6 @@ public interface EmployeeEditProjection {
     String getAddress();
     Boolean getActive();
     Gender getGender();
+    Long getNationalityId();
 
 }

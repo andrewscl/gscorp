@@ -182,8 +182,8 @@ public class EmployeeController {
     public String editEmployee(@PathVariable Long id, Model model){
         var employee = employeeService.findByIdWithUserAndProjects(id);
         model.addAttribute("employee", employee);
-
         model.addAttribute("genders", Gender.values());
+        model.addAttribute("nationalities", nationalityService.findAll());
         
         return "private/employees/views/edit-employee-view";
     }

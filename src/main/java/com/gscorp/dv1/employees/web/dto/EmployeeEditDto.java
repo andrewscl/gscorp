@@ -20,7 +20,8 @@ public record EmployeeEditDto (
     LocalDate exitDate,
     String address,
     Boolean active,
-    Gender gender
+    Gender gender,
+    Long nationalityId
 
 ) {
     public static EmployeeEditDto fromProjection(EmployeeEditProjection p) {
@@ -38,7 +39,8 @@ public record EmployeeEditDto (
             p.getExitDate(),
             p.getAddress(),
             p.getActive(),
-            p.getGender()
+            p.getGender(),
+            p.getNationalityId()
 
         );
     }
