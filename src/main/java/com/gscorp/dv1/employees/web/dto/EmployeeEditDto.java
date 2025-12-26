@@ -35,7 +35,8 @@ public record EmployeeEditDto (
     PensionEntity pensionEntity,
     HealthSystem healthSystem,
     HealthEntity healthEntity,
-    PaymentMethod paymentMethod
+    PaymentMethod paymentMethod,
+    Long bankId
 
 ) {
     public static EmployeeEditDto fromProjection(EmployeeEditProjection p) {
@@ -61,7 +62,8 @@ public record EmployeeEditDto (
             p.getPensionEntity(),
             p.getHealthSystem(),
             p.getHealthEntity(),
-            p.getPaymentMethod()
+            p.getPaymentMethod(),
+            p.getBankId()
         );
     }
 }

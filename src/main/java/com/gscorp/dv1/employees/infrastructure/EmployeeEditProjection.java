@@ -35,5 +35,6 @@ public interface EmployeeEditProjection {
     HealthSystem getHealthSystem();
     HealthEntity getHealthEntity();
     PaymentMethod getPaymentMethod();
+    Long getBankId();
 
 }

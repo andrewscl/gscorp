@@ -144,10 +144,12 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
               e.pensionEntity AS pensionEntity,
               e.healthSystem AS healthSystem,
               e.healthEntity AS healthEntity,
-              e.paymentMethod AS paymentMethod
+              e.paymentMethod AS paymentMethod,
+              b.id AS bankId,
         FROM Employee e
         JOIN e.nationality n
         JOIN e.professions p
+        JOIN e.bank b
         WHERE e.id = :id
     """)
     Optional<EmployeeEditProjection> findEmployeeProjectionById(Long id);
