@@ -185,6 +185,7 @@ public class EmployeeController {
         model.addAttribute("genders", Gender.values());
         model.addAttribute("nationalities", nationalityService.findAll());
         model.addAttribute("maritalStatuses", MaritalStatus.values());
+        model.addAttribute("studyLevels", StudyLevel.values());
         return "private/employees/views/edit-employee-view";
     }
 
