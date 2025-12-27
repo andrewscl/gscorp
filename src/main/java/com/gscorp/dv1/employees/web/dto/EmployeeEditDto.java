@@ -3,6 +3,7 @@ package com.gscorp.dv1.employees.web.dto;
 import java.time.LocalDate;
 
 import com.gscorp.dv1.employees.infrastructure.EmployeeEditProjection;
+import com.gscorp.dv1.enums.BankAccountType;
 import com.gscorp.dv1.enums.Gender;
 import com.gscorp.dv1.enums.HealthEntity;
 import com.gscorp.dv1.enums.HealthSystem;
@@ -36,7 +37,9 @@ public record EmployeeEditDto (
     HealthSystem healthSystem,
     HealthEntity healthEntity,
     PaymentMethod paymentMethod,
-    Long bankId
+    Long bankId,
+    BankAccountType bankAccountType,
+    String bankAccountNumber
 
 ) {
     public static EmployeeEditDto fromProjection(EmployeeEditProjection p) {
@@ -63,7 +66,9 @@ public record EmployeeEditDto (
             p.getHealthSystem(),
             p.getHealthEntity(),
             p.getPaymentMethod(),
-            p.getBankId()
+            p.getBankId(),
+            p.getBankAccountType(),
+            p.getBankAccountNumber()
         );
     }
 }

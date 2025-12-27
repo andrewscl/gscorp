@@ -176,6 +176,22 @@
       </select>
     </div>
 
+    <div class="form-group">
+      <label for="employeeBankAccountType">Tipo de cuenta bancaria</label>
+      <select id="employeeBankAccountType" name="bankAccountType" required>
+        <option value="">Seleccione tipo de cuenta bancaria</option>
+        <option th:each="p : ${bankAccountTypes}"
+                th:selected="${employee.bankAccountType == p}"
+                th:value="${p}"
+                th:text="${p.displayName}"></option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="employeeBankAccountNumber">Número de cuenta bancaria</label>
+      <input type="text" id="employeeBankAccountNumber" name="bankAccountNumber" th:value="${employee.bankAccountNumber}" placeholder="Número de cuenta bancaria" />
+    </div>
+
     <div class="modal-footer">
       <button type="submit" class="btn-primary">Guardar cambios</button>
       <button type="button" class="btn-secondary" id="cancelEditEmployee">Cancelar</button>

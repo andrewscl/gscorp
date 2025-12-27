@@ -2,6 +2,7 @@ package com.gscorp.dv1.employees.infrastructure;
 
 import java.time.LocalDate;
 
+import com.gscorp.dv1.enums.BankAccountType;
 import com.gscorp.dv1.enums.Gender;
 import com.gscorp.dv1.enums.HealthEntity;
 import com.gscorp.dv1.enums.HealthSystem;
@@ -36,5 +37,7 @@ public interface EmployeeEditProjection {
     HealthEntity getHealthEntity();
     PaymentMethod getPaymentMethod();
     Long getBankId();
+    BankAccountType getBankAccountType();
+    String getBankAccountNumber();
 
 }
