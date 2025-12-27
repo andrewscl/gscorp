@@ -1,6 +1,7 @@
 package com.gscorp.dv1.employees.infrastructure;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import com.gscorp.dv1.enums.BankAccountType;
 import com.gscorp.dv1.enums.ContractType;
@@ -46,5 +47,7 @@ public interface EmployeeEditProjection {
     WorkSchedule getWorkSchedule();
     ShiftSystem getShiftSystem();
     Long getShiftPatternId();
+    Long getPositionId();
+    Set<Long> getProjectIds();
 
 }

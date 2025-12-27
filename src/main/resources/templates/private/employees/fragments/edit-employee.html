@@ -188,6 +188,11 @@
     </div>
 
     <div class="form-group">
+      <label for="employeeBankAccountNumber">Número de cuenta bancaria</label>
+      <input type="text" id="employeeBankAccountNumber" name="bankAccountNumber" th:value="${employee.bankAccountNumber}" placeholder="Número de cuenta bancaria" />
+    </div>
+
+    <div class="form-group">
       <label for="employeeContractType">Tipo de contrato</label>
       <select id="employeeContractType" name="contractType" required>
         <option value="">Seleccione tipo de contrato</option>
@@ -232,9 +237,26 @@
     </div>
 
     <div class="form-group">
-      <label for="employeeBankAccountNumber">Número de cuenta bancaria</label>
-      <input type="text" id="employeeBankAccountNumber" name="bankAccountNumber" th:value="${employee.bankAccountNumber}" placeholder="Número de cuenta bancaria" />
+      <label for="employeePosition">Posición</label>
+      <select id="employeePosition" name="positionId" required>
+        <option value="">Seleccione posición</option>
+        <option th:each="p : ${positions}"
+                th:selected="${employee.positionId == p.id}"
+                th:value="${p.id}"
+                th:text="${p.name}"></option>
+      </select>
     </div>
+
+    <div class="form-group">
+      <label for="employeeProjects">Proyectos asociados</label>
+      <select id="employeeProjects" name="projectIds" multiple>
+        <option th:each="p : ${allProjects}" 
+                th:selected="${employee.projectIds.contains(p.id)}" 
+                th:value="${p.id}" 
+                th:text="${p.name}"></option>
+      </select>
+    </div>
+
 
     <div class="modal-footer">
       <button type="submit" class="btn-primary">Guardar cambios</button>

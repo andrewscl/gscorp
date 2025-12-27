@@ -1,6 +1,7 @@
 package com.gscorp.dv1.employees.web.dto;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import com.gscorp.dv1.employees.infrastructure.EmployeeEditProjection;
 import com.gscorp.dv1.enums.BankAccountType;
@@ -46,7 +47,9 @@ public record EmployeeEditDto (
     ContractType contractType,
     WorkSchedule workSchedule,
     ShiftSystem shiftSystem,
-    Long shiftPatternId
+    Long shiftPatternId,
+    Long positionId,
+    Set<Long> projectIds
 
 ) {
     public static EmployeeEditDto fromProjection(EmployeeEditProjection p) {
@@ -79,7 +82,9 @@ public record EmployeeEditDto (
             p.getContractType(),
             p.getWorkSchedule(),
             p.getShiftSystem(),
-            p.getShiftPatternId()
+            p.getShiftPatternId(),
+            p.getPositionId(),
+            p.getProjectIds()
         );
     }
 }

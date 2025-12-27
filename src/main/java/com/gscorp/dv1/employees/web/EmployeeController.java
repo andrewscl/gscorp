@@ -197,6 +197,8 @@ public class EmployeeController {
         model.addAttribute("workSchedules", WorkSchedule.values());
         model.addAttribute("shiftSystems", ShiftSystem.values());
         model.addAttribute("shiftPatterns", shiftPatternService.findAll());
+        model.addAttribute("positions", positionService.findAll());
+        model.addAttribute("projects", projectService.findAll());
         return "private/employees/views/edit-employee-view";
     }
 
