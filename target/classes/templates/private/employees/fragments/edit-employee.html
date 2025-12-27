@@ -250,7 +250,7 @@
     <div class="form-group">
       <label for="employeeProjects">Proyectos asociados</label>
       <select id="employeeProjects" name="projectIds" multiple>
-        <option th:each="p : ${allProjects}" 
+        <option th:each="p : ${projects}" 
                 th:selected="${employee.projectIds.contains(p.id)}" 
                 th:value="${p.id}" 
                 th:text="${p.name}"></option>
