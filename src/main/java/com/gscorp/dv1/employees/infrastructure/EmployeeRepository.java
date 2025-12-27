@@ -147,7 +147,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
               e.paymentMethod AS paymentMethod,
               b.id AS bankId,
               e.bankAccountType AS bankAccountType,
-              e.bankAccountNumber AS bankAccountNumber
+              e.bankAccountNumber AS bankAccountNumber,
+              e.contractType AS contractType,
+              e.workSchedules AS workSchedules
         FROM Employee e
         JOIN e.nationality n
         JOIN e.professions p

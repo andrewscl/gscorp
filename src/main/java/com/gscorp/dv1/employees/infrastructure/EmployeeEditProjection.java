@@ -3,6 +3,7 @@ package com.gscorp.dv1.employees.infrastructure;
 import java.time.LocalDate;
 
 import com.gscorp.dv1.enums.BankAccountType;
+import com.gscorp.dv1.enums.ContractType;
 import com.gscorp.dv1.enums.Gender;
 import com.gscorp.dv1.enums.HealthEntity;
 import com.gscorp.dv1.enums.HealthSystem;
@@ -11,6 +12,7 @@ import com.gscorp.dv1.enums.PaymentMethod;
 import com.gscorp.dv1.enums.PensionEntity;
 import com.gscorp.dv1.enums.PrevitionalSystem;
 import com.gscorp.dv1.enums.StudyLevel;
+import com.gscorp.dv1.enums.WorkSchedule;
 
 public interface EmployeeEditProjection {
 
@@ -39,5 +41,7 @@ public interface EmployeeEditProjection {
     Long getBankId();
     BankAccountType getBankAccountType();
     String getBankAccountNumber();
+    ContractType getContractType();
+    WorkSchedule getWorkSchedules();
 
 }

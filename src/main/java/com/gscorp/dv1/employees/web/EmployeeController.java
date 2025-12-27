@@ -193,6 +193,8 @@ public class EmployeeController {
         model.addAttribute("paymentMethods", PaymentMethod.values());
         model.addAttribute("banks", bankService.findAll());
         model.addAttribute("bankAccountTypes", BankAccountType.values());
+        model.addAttribute("contractTypes", ContractType.values());
+        model.addAttribute("workSchedules", WorkSchedule.values());
         return "private/employees/views/edit-employee-view";
     }
 

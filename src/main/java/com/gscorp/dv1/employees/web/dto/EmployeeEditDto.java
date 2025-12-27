@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import com.gscorp.dv1.employees.infrastructure.EmployeeEditProjection;
 import com.gscorp.dv1.enums.BankAccountType;
+import com.gscorp.dv1.enums.ContractType;
 import com.gscorp.dv1.enums.Gender;
 import com.gscorp.dv1.enums.HealthEntity;
 import com.gscorp.dv1.enums.HealthSystem;
@@ -12,6 +13,7 @@ import com.gscorp.dv1.enums.PaymentMethod;
 import com.gscorp.dv1.enums.PensionEntity;
 import com.gscorp.dv1.enums.PrevitionalSystem;
 import com.gscorp.dv1.enums.StudyLevel;
+import com.gscorp.dv1.enums.WorkSchedule;
 
 public record EmployeeEditDto (
 
@@ -39,7 +41,9 @@ public record EmployeeEditDto (
     PaymentMethod paymentMethod,
     Long bankId,
     BankAccountType bankAccountType,
-    String bankAccountNumber
+    String bankAccountNumber,
+    ContractType contractType,
+    WorkSchedule workSchedules
 
 ) {
     public static EmployeeEditDto fromProjection(EmployeeEditProjection p) {
@@ -68,7 +72,9 @@ public record EmployeeEditDto (
             p.getPaymentMethod(),
             p.getBankId(),
             p.getBankAccountType(),
-            p.getBankAccountNumber()
+            p.getBankAccountNumber(),
+            p.getContractType(),
+            p.getWorkSchedules()
         );
     }
 }
