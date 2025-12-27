@@ -195,6 +195,8 @@ public class EmployeeController {
         model.addAttribute("bankAccountTypes", BankAccountType.values());
         model.addAttribute("contractTypes", ContractType.values());
         model.addAttribute("workSchedules", WorkSchedule.values());
+        model.addAttribute("shiftSystems", ShiftSystem.values());
+        model.addAttribute("shiftPatterns", shiftPatternService.findAll());
         return "private/employees/views/edit-employee-view";
     }
 

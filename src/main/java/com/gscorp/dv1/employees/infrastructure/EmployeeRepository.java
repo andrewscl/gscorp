@@ -149,11 +149,14 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
               e.bankAccountType AS bankAccountType,
               e.bankAccountNumber AS bankAccountNumber,
               e.contractType AS contractType,
-              e.workSchedule AS workSchedule
+              e.workSchedule AS workSchedule,
+              e.shiftSystem AS shiftSystem,
+              s.id AS shiftPatternId
         FROM Employee e
         JOIN e.nationality n
         JOIN e.professions p
         JOIN e.bank b
+        JOIN e.shiftPattern s
         WHERE e.id = :id
     """)
     Optional<EmployeeEditProjection> findEmployeeProjectionById(Long id);

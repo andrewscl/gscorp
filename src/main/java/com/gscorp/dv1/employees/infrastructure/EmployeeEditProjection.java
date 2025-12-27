@@ -11,6 +11,7 @@ import com.gscorp.dv1.enums.MaritalStatus;
 import com.gscorp.dv1.enums.PaymentMethod;
 import com.gscorp.dv1.enums.PensionEntity;
 import com.gscorp.dv1.enums.PrevitionalSystem;
+import com.gscorp.dv1.enums.ShiftSystem;
 import com.gscorp.dv1.enums.StudyLevel;
 import com.gscorp.dv1.enums.WorkSchedule;
 
@@ -43,5 +44,7 @@ public interface EmployeeEditProjection {
     String getBankAccountNumber();
     ContractType getContractType();
     WorkSchedule getWorkSchedule();
+    ShiftSystem getShiftSystem();
+    Long getShiftPatternId();
 
 }

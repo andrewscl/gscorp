@@ -12,6 +12,7 @@ import com.gscorp.dv1.enums.MaritalStatus;
 import com.gscorp.dv1.enums.PaymentMethod;
 import com.gscorp.dv1.enums.PensionEntity;
 import com.gscorp.dv1.enums.PrevitionalSystem;
+import com.gscorp.dv1.enums.ShiftSystem;
 import com.gscorp.dv1.enums.StudyLevel;
 import com.gscorp.dv1.enums.WorkSchedule;
 
@@ -43,7 +44,9 @@ public record EmployeeEditDto (
     BankAccountType bankAccountType,
     String bankAccountNumber,
     ContractType contractType,
-    WorkSchedule workSchedule
+    WorkSchedule workSchedule,
+    ShiftSystem shiftSystem,
+    Long shiftPatternId
 
 ) {
     public static EmployeeEditDto fromProjection(EmployeeEditProjection p) {
@@ -74,7 +77,9 @@ public record EmployeeEditDto (
             p.getBankAccountType(),
             p.getBankAccountNumber(),
             p.getContractType(),
-            p.getWorkSchedule()
+            p.getWorkSchedule(),
+            p.getShiftSystem(),
+            p.getShiftPatternId()
         );
     }
 }
