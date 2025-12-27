@@ -9,6 +9,11 @@
     <form id="editEmployeeForm" class="editEmployee-body">
 
       <div class="form-group">
+        <label for="employeeId">Nombre</label>
+        <input type="text" id="employeeId" name="id" th:value="${employee.id}" placeholder="Id" readonly/>
+      </div>
+
+      <div class="form-group">
         <label for="employeeName">Nombre</label>
         <input type="text" id="employeeName" name="name" th:value="${employee.name}" placeholder="Nombre" required />
       </div>
