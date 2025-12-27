@@ -1,0 +1,1 @@
+import{n}from"../../navigation-handler.js";import"../../auth.js";console.log("view-employee.js cargado");const o=e=>document.querySelector(e);function i(e){e.preventDefault(),n("/private/employees/table-view")}function t(){o("#cancelViewEmployee")?.addEventListener("click",i)}(function(){t()})();
