@@ -17,6 +17,8 @@ public interface EmployeeService {
 
     EmployeeEditDto findByIdWithUserAndProjects(Long id);
 
+    List<Long> findProjectIdsByEmployeeId(Long employeeId);
+
     Employee saveEmployee(Employee employee);
 
     Optional<Employee> findById(Long id);

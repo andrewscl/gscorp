@@ -59,17 +59,19 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findAll();
     }
 
-
     @Override
     public EmployeeEditDto findByIdWithUserAndProjects(Long id) {
-
         EmployeeEditProjection projection = employeeRepository.findEmployeeProjectionById(id)
                 .orElseThrow(() ->
                     new IllegalArgumentException("Employee not found with id: " + id));
-
         return EmployeeEditDto.fromProjection(projection);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<Long> findProjectIdsByEmployeeId(Long employeeId) {
+        return employeeRepository.findProjectIdsByEmployeeId(employeeId);
+    }
 
     @Override
     @Transactional

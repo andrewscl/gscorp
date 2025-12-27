@@ -181,6 +181,7 @@ public class EmployeeController {
     @GetMapping("/edit/{id}")
     public String editEmployee(@PathVariable Long id, Model model){
         var employee = employeeService.findByIdWithUserAndProjects(id);
+        List<Long> projectIds = employeeService.findProjectIdsByEmployeeId(id);
         model.addAttribute("employee", employee);
         model.addAttribute("genders", Gender.values());
         model.addAttribute("nationalities", nationalityService.findAll());
@@ -199,6 +200,7 @@ public class EmployeeController {
         model.addAttribute("shiftPatterns", shiftPatternService.findAll());
         model.addAttribute("positions", positionService.findAll());
         model.addAttribute("projects", projectService.findAll());
+        model.addAttribute("projectIds", projectIds);
         return "private/employees/views/edit-employee-view";
     }
 
