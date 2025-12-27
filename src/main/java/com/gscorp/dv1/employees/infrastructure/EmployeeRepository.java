@@ -149,7 +149,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
               e.bankAccountType AS bankAccountType,
               e.bankAccountNumber AS bankAccountNumber,
               e.contractType AS contractType,
-              e.workSchedules AS workSchedules
+              e.workSchedule AS workSchedule
         FROM Employee e
         JOIN e.nationality n
         JOIN e.professions p
