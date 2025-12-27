@@ -43,7 +43,7 @@ public record EmployeeEditDto (
     BankAccountType bankAccountType,
     String bankAccountNumber,
     ContractType contractType,
-    WorkSchedule workSchedules
+    WorkSchedule workSchedule
 
 ) {
     public static EmployeeEditDto fromProjection(EmployeeEditProjection p) {
@@ -74,7 +74,7 @@ public record EmployeeEditDto (
             p.getBankAccountType(),
             p.getBankAccountNumber(),
             p.getContractType(),
-            p.getWorkSchedules()
+            p.getWorkSchedule()
         );
     }
 }

@@ -42,6 +42,6 @@ public interface EmployeeEditProjection {
     BankAccountType getBankAccountType();
     String getBankAccountNumber();
     ContractType getContractType();
-    WorkSchedule getWorkSchedules();
+    WorkSchedule getWorkSchedule();
 
 }
