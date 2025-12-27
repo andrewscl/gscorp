@@ -6,6 +6,19 @@
   margin: 0 auto;
   padding: 1rem;
   max-width: 1000px; // Set maximum width for the content
+  background-color: #f8f9fa; // Optional: general light background
+
+  // Card wrapper for better contrast
+  .editEmployeeCard {
+    background: #fff; // White background for the card
+    border: 1px solid #ddd; // Subtle border
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); // Light shadow for elevation
+    padding: 2rem; // Add spacing inside the card
+    width: 100%;
+    max-width: 900px; // Set a limit for the card size
+    box-sizing: border-box;
+  }
 
   // Header section styles
   .editEmployeeHeader {
@@ -14,19 +27,21 @@
       font-size: 1.5rem;
       font-weight: bold;
       color: #333;
+      margin-bottom: 1.5rem; // Add space below the header
     }
   }
 
   // Body of the form
   .editEmployee-body {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); // Flexible column layout
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); // Flexible columns
     gap: 1rem;
     width: 100%;
 
     .form-group {
       display: flex;
       flex-direction: column;
+
       label {
         font-size: 0.9rem;
         font-weight: 600;
@@ -39,12 +54,13 @@
         border: 1px solid #ccc;
         border-radius: 4px;
         font-size: 0.9rem;
+        background: #fff; // Ensure inputs have a clean white background
       }
 
       input[type="date"],
       input[type="text"],
       select {
-        max-width: 100%;
+        max-width: 100%; // Ensure inputs don't exceed container
       }
     }
 
@@ -53,11 +69,12 @@
       max-width: 100px; // Reduce the space for active input
     }
 
-    // Button group for the form (centered and space optimized)
+    // Button group for the form
     .modal-footer {
-      grid-column: span 2; // Spread across two columns when in large view
+      grid-column: span 2; // Spread across all columns
       display: flex;
       justify-content: space-between;
+      margin-top: 1.5rem;
       button {
         padding: 0.5rem 1rem;
         border: none;

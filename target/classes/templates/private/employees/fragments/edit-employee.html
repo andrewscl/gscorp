@@ -1,269 +1,275 @@
 <section th:fragment="content" class="editEmployee">
 
-  <div class="editEmployeeHeader">
-    <h3>Editar empleado</h3>
+  <div class="editEmployeeCard">
+
+    <div class="editEmployeeHeader">
+      <h3>Editar empleado</h3>
+    </div>
+
+    <form id="editEmployeeForm" class="editEmployee-body">
+
+      <div class="form-group">
+        <label for="employeeName">Nombre</label>
+        <input type="text" id="employeeName" name="name" th:value="${employee.name}" placeholder="Nombre" required />
+      </div>
+
+      <div class="form-group">
+        <label for="employeeFatherSurname">Apellido paterno</label>
+        <input type="text" id="employeeFatherSurname" name="fatherSurname" th:value="${employee.fatherSurname}" placeholder="Apellido paterno" />
+      </div>
+
+      <div class="form-group">
+        <label for="employeeMotherSurname">Apellido materno</label>
+        <input type="text" id="employeeMotherSurname" name="motherSurname" th:value="${employee.motherSurname}" placeholder="Apellido materno" />
+      </div>
+
+      <div class="form-group">
+        <label for="employeeRut">RUT</label>
+        <input type="text" id="employeeRut" name="rut" th:value="${employee.rut}" placeholder="RUT" />
+      </div>
+
+      <div class="form-group">
+        <label for="employeeMail">Email</label>
+        <input type="email" id="employeeMail" name="mail" th:value="${employee.mail}" placeholder="Email" />
+      </div>
+
+      <div class="form-group">
+        <label for="employeePhone">Teléfono</label>
+        <input type="text" id="employeePhone" name="phone" th:value="${employee.phone}" placeholder="Teléfono" />
+      </div>
+
+      <div class="form-group">
+        <label for="employeeSecondaryPhone">Teléfono secundario</label>
+        <input type="text" id="employeeSecondaryPhone" name="secondaryPhone" th:value="${employee.secondaryPhone}" placeholder="Teléfono secundario" />
+      </div>
+
+      <div class="form-group">
+        <label for="employeeHireDate">Fecha de contratación</label>
+        <input type="date" id="employeeHireDate" name="hireDate" th:value="${employee.hireDate}" placeholder="Fecha de contratación" />
+      </div>
+
+      <div class="form-group">
+        <label for="employeeBirthDate">Fecha de nacimiento</label>
+        <input type="date" id="employeeBirthDate" name="birthDate" th:value="${employee.birthDate}" placeholder="Fecha de nacimiento" />
+      </div>
+
+      <div class="form-group">
+        <label for="employeeExitDate">Fecha de salida</label>
+        <input type="date" id="employeeExitDate" name="exitDate" th:value="${employee.exitDate}" placeholder="Fecha de salida" />
+      </div>
+
+      <div class="form-group">
+        <label for="employeeAddress">Dirección</label>
+        <input type="text" id="employeeAddress" name="address" th:value="${employee.address}" placeholder="Dirección" />
+      </div>
+
+      <div class="form-group">
+        <label for="employeeActive">Activo</label>
+        <input type="text" id="employeeActive" name="active" th:value="${employee.active}" placeholder="Activo" />
+      </div>
+
+      <div class="form-group">
+        <label for="employeeGender">Género</label>
+        <select id="employeeGender" name="gender" required>
+          <option value="">Seleccione género</option>
+          <option th:each="g : ${genders}"
+                  th:selected="${employee.gender == g}"
+                  th:value="${g}"
+                  th:text="${g.displayName}"></option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="employeeNationality">Nacionalidad</label>
+        <select id="employeeNationality" name="nationalityId" required>
+          <option value="">Seleccione nacionalidad</option>
+          <option th:each="n : ${nationalities}"
+                  th:selected="${employee.nationalityId == n.id}"
+                  th:value="${n.id}"
+                  th:text="${n.name}"></option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="employeeMaritalStatus">Estado civil</label>
+        <select id="employeeMaritalStatus" name="maritalStatus" required>
+          <option value="">Seleccione estado civil</option>
+          <option th:each="m : ${maritalStatuses}"
+                  th:selected="${employee.maritalStatus == m}"
+                  th:value="${m}"
+                  th:text="${m.displayName}"></option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="employeeStudyLevel">Nivel de estudio</label>
+        <select id="employeeStudyLevel" name="studyLevel" required>
+          <option value="">Seleccione nivel de estudio</option>
+          <option th:each="s : ${studyLevels}"
+                  th:selected="${employee.studyLevel == s}"
+                  th:value="${s}"
+                  th:text="${s.displayName}"></option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="employeePrevitionalSystem">Sistema previsional</label>
+        <select id="employeePrevitionalSystem" name="previtionalSystem" required>
+          <option value="">Seleccione sistema previsional</option>
+          <option th:each="p : ${previtionalSystems}"
+                  th:selected="${employee.previtionalSystem == p}"
+                  th:value="${p}"
+                  th:text="${p.displayName}"></option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="employeePensionEntity">Entidad de pensión</label>
+        <select id="employeePensionEntity" name="pensionEntity" required>
+          <option value="">Seleccione entidad de pensión</option>
+          <option th:each="p : ${pensionEntities}"
+                  th:selected="${employee.pensionEntity == p}"
+                  th:value="${p}"
+                  th:text="${p.displayName}"></option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="employeeHealthSystem">Sistema de salud</label>
+        <select id="employeeHealthSystem" name="healthSystem" required>
+          <option value="">Seleccione sistema de salud</option>
+          <option th:each="h : ${healthSystems}"
+                  th:selected="${employee.healthSystem == h}"
+                  th:value="${h}"
+                  th:text="${h.displayName}"></option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="employeeHealthEntity">Entidad de salud</label>
+        <select id="employeeHealthEntity" name="healthEntity" required>
+          <option value="">Seleccione entidad de salud</option>
+          <option th:each="h : ${healthEntities}"
+                  th:selected="${employee.healthEntity == h}"
+                  th:value="${h}"
+                  th:text="${h.displayName}"></option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="employeePaymentMethod">Método de pago</label>
+        <select id="employeePaymentMethod" name="paymentMethod" required>
+          <option value="">Seleccione método de pago</option>
+          <option th:each="p : ${paymentMethods}"
+                  th:selected="${employee.paymentMethod == p}"
+                  th:value="${p}"
+                  th:text="${p.displayName}"></option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="employeeBank">Banco</label>
+        <select id="employeeBank" name="bankId" required>
+          <option value="">Seleccione banco</option>
+          <option th:each="b : ${banks}"
+                  th:selected="${employee.bankId == b.id}"
+                  th:value="${b.id}"
+                  th:text="${b.name}"></option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="employeeBankAccountType">Tipo de cuenta bancaria</label>
+        <select id="employeeBankAccountType" name="bankAccountType" required>
+          <option value="">Seleccione tipo de cuenta bancaria</option>
+          <option th:each="p : ${bankAccountTypes}"
+                  th:selected="${employee.bankAccountType == p}"
+                  th:value="${p}"
+                  th:text="${p.displayName}"></option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="employeeBankAccountNumber">Número de cuenta bancaria</label>
+        <input type="text" id="employeeBankAccountNumber" name="bankAccountNumber" th:value="${employee.bankAccountNumber}" placeholder="Número de cuenta bancaria" />
+      </div>
+
+      <div class="form-group">
+        <label for="employeeContractType">Tipo de contrato</label>
+        <select id="employeeContractType" name="contractType" required>
+          <option value="">Seleccione tipo de contrato</option>
+          <option th:each="c : ${contractTypes}"
+                  th:selected="${employee.contractType == c}"
+                  th:value="${c}"
+                  th:text="${c.displayName}"></option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="employeeWorkSchedule">Tipo de jornada semanal</label>
+        <select id="employeeWorkSchedule" name="workSchedule" required>
+          <option value="">Seleccione tipo de jornada semanal</option>
+          <option th:each="w : ${workSchedules}"
+                  th:selected="${employee.workSchedule == w}"
+                  th:value="${w}"
+                  th:text="${w.displayName}"></option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="employeeShiftSystem">Sistema de turnos</label>
+        <select id="employeeShiftSystem" name="shiftSystem" required>
+          <option value="">Seleccione sistema de turnos</option>
+          <option th:each="s : ${shiftSystems}"
+                  th:selected="${employee.shiftSystem == s}"
+                  th:value="${s}"
+                  th:text="${s.displayName}"></option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="employeeShiftPattern">Patrón de turnos</label>
+        <select id="employeeShiftPattern" name="shiftPatternId" required>
+          <option value="">Seleccione patrón de turnos</option>
+          <option th:each="p : ${shiftPatterns}"
+                  th:selected="${employee.shiftPatternId == p.id}"
+                  th:value="${p.id}"
+                  th:text="${p.name}"></option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="employeePosition">Posición</label>
+        <select id="employeePosition" name="positionId" required>
+          <option value="">Seleccione posición</option>
+          <option th:each="p : ${positions}"
+                  th:selected="${employee.positionId == p.id}"
+                  th:value="${p.id}"
+                  th:text="${p.name}"></option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="employeeProjects">Proyectos asociados</label>
+        <select id="employeeProjects" name="projectIds" multiple>
+          <option th:each="p : ${projects}" 
+                  th:selected="${projectIds.contains(p.id)}" 
+                  th:value="${p.id}" 
+                  th:text="${p.name}"></option>
+        </select>
+      </div>
+
+
+      <div class="modal-footer">
+        <button type="submit" class="btn-primary">Guardar cambios</button>
+        <button type="button" class="btn-secondary" id="cancelEditEmployee">Cancelar</button>
+      </div>
+
+      <div class="form-error" id="editEmployeeError"></div>
+      <div class="form-ok" id="editEmployeeOk" style="display:none;">Empleado actualizado ✅</div>
+
+    </form>
+
   </div>
-
-  <form id="editEmployeeForm" class="editEmployee-body">
-
-    <div class="form-group">
-      <label for="employeeName">Nombre</label>
-      <input type="text" id="employeeName" name="name" th:value="${employee.name}" placeholder="Nombre" required />
-    </div>
-
-    <div class="form-group">
-      <label for="employeeFatherSurname">Apellido paterno</label>
-      <input type="text" id="employeeFatherSurname" name="fatherSurname" th:value="${employee.fatherSurname}" placeholder="Apellido paterno" />
-    </div>
-
-    <div class="form-group">
-      <label for="employeeMotherSurname">Apellido materno</label>
-      <input type="text" id="employeeMotherSurname" name="motherSurname" th:value="${employee.motherSurname}" placeholder="Apellido materno" />
-    </div>
-
-    <div class="form-group">
-      <label for="employeeRut">RUT</label>
-      <input type="text" id="employeeRut" name="rut" th:value="${employee.rut}" placeholder="RUT" />
-    </div>
-
-    <div class="form-group">
-      <label for="employeeMail">Email</label>
-      <input type="email" id="employeeMail" name="mail" th:value="${employee.mail}" placeholder="Email" />
-    </div>
-
-    <div class="form-group">
-      <label for="employeePhone">Teléfono</label>
-      <input type="text" id="employeePhone" name="phone" th:value="${employee.phone}" placeholder="Teléfono" />
-    </div>
-
-    <div class="form-group">
-      <label for="employeeSecondaryPhone">Teléfono secundario</label>
-      <input type="text" id="employeeSecondaryPhone" name="secondaryPhone" th:value="${employee.secondaryPhone}" placeholder="Teléfono secundario" />
-    </div>
-
-    <div class="form-group">
-      <label for="employeeHireDate">Fecha de contratación</label>
-      <input type="date" id="employeeHireDate" name="hireDate" th:value="${employee.hireDate}" placeholder="Fecha de contratación" />
-    </div>
-
-    <div class="form-group">
-      <label for="employeeBirthDate">Fecha de nacimiento</label>
-      <input type="date" id="employeeBirthDate" name="birthDate" th:value="${employee.birthDate}" placeholder="Fecha de nacimiento" />
-    </div>
-
-    <div class="form-group">
-      <label for="employeeExitDate">Fecha de salida</label>
-      <input type="date" id="employeeExitDate" name="exitDate" th:value="${employee.exitDate}" placeholder="Fecha de salida" />
-    </div>
-
-    <div class="form-group">
-      <label for="employeeAddress">Dirección</label>
-      <input type="text" id="employeeAddress" name="address" th:value="${employee.address}" placeholder="Dirección" />
-    </div>
-
-    <div class="form-group">
-      <label for="employeeActive">Activo</label>
-      <input type="text" id="employeeActive" name="active" th:value="${employee.active}" placeholder="Activo" />
-    </div>
-
-    <div class="form-group">
-      <label for="employeeGender">Género</label>
-      <select id="employeeGender" name="gender" required>
-        <option value="">Seleccione género</option>
-        <option th:each="g : ${genders}"
-                th:selected="${employee.gender == g}"
-                th:value="${g}"
-                th:text="${g.displayName}"></option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="employeeNationality">Nacionalidad</label>
-      <select id="employeeNationality" name="nationalityId" required>
-        <option value="">Seleccione nacionalidad</option>
-        <option th:each="n : ${nationalities}"
-                th:selected="${employee.nationalityId == n.id}"
-                th:value="${n.id}"
-                th:text="${n.name}"></option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="employeeMaritalStatus">Estado civil</label>
-      <select id="employeeMaritalStatus" name="maritalStatus" required>
-        <option value="">Seleccione estado civil</option>
-        <option th:each="m : ${maritalStatuses}"
-                th:selected="${employee.maritalStatus == m}"
-                th:value="${m}"
-                th:text="${m.displayName}"></option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="employeeStudyLevel">Nivel de estudio</label>
-      <select id="employeeStudyLevel" name="studyLevel" required>
-        <option value="">Seleccione nivel de estudio</option>
-        <option th:each="s : ${studyLevels}"
-                th:selected="${employee.studyLevel == s}"
-                th:value="${s}"
-                th:text="${s.displayName}"></option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="employeePrevitionalSystem">Sistema previsional</label>
-      <select id="employeePrevitionalSystem" name="previtionalSystem" required>
-        <option value="">Seleccione sistema previsional</option>
-        <option th:each="p : ${previtionalSystems}"
-                th:selected="${employee.previtionalSystem == p}"
-                th:value="${p}"
-                th:text="${p.displayName}"></option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="employeePensionEntity">Entidad de pensión</label>
-      <select id="employeePensionEntity" name="pensionEntity" required>
-        <option value="">Seleccione entidad de pensión</option>
-        <option th:each="p : ${pensionEntities}"
-                th:selected="${employee.pensionEntity == p}"
-                th:value="${p}"
-                th:text="${p.displayName}"></option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="employeeHealthSystem">Sistema de salud</label>
-      <select id="employeeHealthSystem" name="healthSystem" required>
-        <option value="">Seleccione sistema de salud</option>
-        <option th:each="h : ${healthSystems}"
-                th:selected="${employee.healthSystem == h}"
-                th:value="${h}"
-                th:text="${h.displayName}"></option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="employeeHealthEntity">Entidad de salud</label>
-      <select id="employeeHealthEntity" name="healthEntity" required>
-        <option value="">Seleccione entidad de salud</option>
-        <option th:each="h : ${healthEntities}"
-                th:selected="${employee.healthEntity == h}"
-                th:value="${h}"
-                th:text="${h.displayName}"></option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="employeePaymentMethod">Método de pago</label>
-      <select id="employeePaymentMethod" name="paymentMethod" required>
-        <option value="">Seleccione método de pago</option>
-        <option th:each="p : ${paymentMethods}"
-                th:selected="${employee.paymentMethod == p}"
-                th:value="${p}"
-                th:text="${p.displayName}"></option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="employeeBank">Banco</label>
-      <select id="employeeBank" name="bankId" required>
-        <option value="">Seleccione banco</option>
-        <option th:each="b : ${banks}"
-                th:selected="${employee.bankId == b.id}"
-                th:value="${b.id}"
-                th:text="${b.name}"></option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="employeeBankAccountType">Tipo de cuenta bancaria</label>
-      <select id="employeeBankAccountType" name="bankAccountType" required>
-        <option value="">Seleccione tipo de cuenta bancaria</option>
-        <option th:each="p : ${bankAccountTypes}"
-                th:selected="${employee.bankAccountType == p}"
-                th:value="${p}"
-                th:text="${p.displayName}"></option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="employeeBankAccountNumber">Número de cuenta bancaria</label>
-      <input type="text" id="employeeBankAccountNumber" name="bankAccountNumber" th:value="${employee.bankAccountNumber}" placeholder="Número de cuenta bancaria" />
-    </div>
-
-    <div class="form-group">
-      <label for="employeeContractType">Tipo de contrato</label>
-      <select id="employeeContractType" name="contractType" required>
-        <option value="">Seleccione tipo de contrato</option>
-        <option th:each="c : ${contractTypes}"
-                th:selected="${employee.contractType == c}"
-                th:value="${c}"
-                th:text="${c.displayName}"></option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="employeeWorkSchedule">Tipo de jornada semanal</label>
-      <select id="employeeWorkSchedule" name="workSchedule" required>
-        <option value="">Seleccione tipo de jornada semanal</option>
-        <option th:each="w : ${workSchedules}"
-                th:selected="${employee.workSchedule == w}"
-                th:value="${w}"
-                th:text="${w.displayName}"></option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="employeeShiftSystem">Sistema de turnos</label>
-      <select id="employeeShiftSystem" name="shiftSystem" required>
-        <option value="">Seleccione sistema de turnos</option>
-        <option th:each="s : ${shiftSystems}"
-                th:selected="${employee.shiftSystem == s}"
-                th:value="${s}"
-                th:text="${s.displayName}"></option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="employeeShiftPattern">Patrón de turnos</label>
-      <select id="employeeShiftPattern" name="shiftPatternId" required>
-        <option value="">Seleccione patrón de turnos</option>
-        <option th:each="p : ${shiftPatterns}"
-                th:selected="${employee.shiftPatternId == p.id}"
-                th:value="${p.id}"
-                th:text="${p.name}"></option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="employeePosition">Posición</label>
-      <select id="employeePosition" name="positionId" required>
-        <option value="">Seleccione posición</option>
-        <option th:each="p : ${positions}"
-                th:selected="${employee.positionId == p.id}"
-                th:value="${p.id}"
-                th:text="${p.name}"></option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="employeeProjects">Proyectos asociados</label>
-      <select id="employeeProjects" name="projectIds" multiple>
-        <option th:each="p : ${projects}" 
-                th:selected="${projectIds.contains(p.id)}" 
-                th:value="${p.id}" 
-                th:text="${p.name}"></option>
-      </select>
-    </div>
-
-
-    <div class="modal-footer">
-      <button type="submit" class="btn-primary">Guardar cambios</button>
-      <button type="button" class="btn-secondary" id="cancelEditEmployee">Cancelar</button>
-    </div>
-    <div class="form-error" id="editEmployeeError"></div>
-    <div class="form-ok" id="editEmployeeOk" style="display:none;">Empleado actualizado ✅</div>
-  </form>
 
 </section>

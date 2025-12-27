@@ -5,6 +5,17 @@
   margin: 0 auto;
   padding: 1rem;
   max-width: 1000px;
+  background-color: #f8f9fa;
+}
+.editEmployee .editEmployeeCard {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  width: 100%;
+  max-width: 900px;
+  box-sizing: border-box;
 }
 .editEmployee .editEmployeeHeader {
   text-align: center;
@@ -13,6 +24,7 @@
   font-size: 1.5rem;
   font-weight: bold;
   color: #333;
+  margin-bottom: 1.5rem;
 }
 .editEmployee .editEmployee-body {
   display: grid;
@@ -36,6 +48,7 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 0.9rem;
+  background: #fff;
 }
 .editEmployee .editEmployee-body .form-group input[type=date],
 .editEmployee .editEmployee-body .form-group input[type=text],
@@ -49,6 +62,7 @@
   grid-column: span 2;
   display: flex;
   justify-content: space-between;
+  margin-top: 1.5rem;
 }
 .editEmployee .editEmployee-body .modal-footer button {
   padding: 0.5rem 1rem;
