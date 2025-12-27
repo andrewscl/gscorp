@@ -192,6 +192,7 @@ public class EmployeeController {
         model.addAttribute("healthEntities", HealthEntity.values());
         model.addAttribute("paymentMethods", PaymentMethod.values());
         model.addAttribute("banks", bankService.findAll());
+        model.addAttribute("bankAccountTypes", BankAccountType.values());
         return "private/employees/views/edit-employee-view";
     }
 
