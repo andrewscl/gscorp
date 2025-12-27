@@ -209,6 +209,27 @@
       </select>
     </div>
 
+    <div class="form-group">
+      <label for="employeeShiftSystem">Sistema de turnos</label>
+      <select id="employeeShiftSystem" name="shiftSystem" required>
+        <option value="">Seleccione sistema de turnos</option>
+        <option th:each="s : ${shiftSystems}"
+                th:selected="${employee.shiftSystem == s}"
+                th:value="${s}"
+                th:text="${s.displayName}"></option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="employeeShiftPattern">Patrón de turnos</label>
+      <select id="employeeShiftPattern" name="shiftPatternId" required>
+        <option value="">Seleccione patrón de turnos</option>
+        <option th:each="p : ${shiftPatterns}"
+                th:selected="${employee.shiftPatternId == p.id}"
+                th:value="${p.id}"
+                th:text="${p.name}"></option>
+      </select>
+    </div>
 
     <div class="form-group">
       <label for="employeeBankAccountNumber">Número de cuenta bancaria</label>
