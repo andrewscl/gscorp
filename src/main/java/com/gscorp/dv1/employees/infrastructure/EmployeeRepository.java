@@ -153,7 +153,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
               e.shiftSystem AS shiftSystem,
               s.id AS shiftPatternId,
               pos.id AS positionId,
-              proj.id AS projectId
+              (SELECT ARRAY_AGG(ep.project_id)
+              FROM employee_project ep
+              WHERE ep.employee_id = e.id) AS projectIds
         FROM Employee e
         JOIN e.nationality n
         JOIN e.professions p
