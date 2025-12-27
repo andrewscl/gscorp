@@ -160,7 +160,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
         JOIN e.bank b
         JOIN e.shiftPattern s
         JOIN e.position pos
-        JOIN e.project proj
+        JOIN e.projects proj
         WHERE e.id = :id
     """)
     Optional<EmployeeEditProjection> findEmployeeProjectionById(Long id);
