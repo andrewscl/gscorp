@@ -1,0 +1,96 @@
+// Root section for the edit employee screen
+.editEmployee {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  padding: 1rem;
+  max-width: 1000px; // Set maximum width for the content
+
+  // Header section styles
+  .editEmployeeHeader {
+    text-align: center;
+    h3 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #333;
+    }
+  }
+
+  // Body of the form
+  .editEmployee-body {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); // Flexible column layout
+    gap: 1rem;
+    width: 100%;
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      label {
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #555;
+      }
+      input,
+      select {
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 0.9rem;
+      }
+
+      input[type="date"],
+      input[type="text"],
+      select {
+        max-width: 100%;
+      }
+    }
+
+    // Custom styles for specific input groups
+    #employeeActive {
+      max-width: 100px; // Reduce the space for active input
+    }
+
+    // Button group for the form (centered and space optimized)
+    .modal-footer {
+      grid-column: span 2; // Spread across two columns when in large view
+      display: flex;
+      justify-content: space-between;
+      button {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: background-color 0.2s ease;
+      }
+      .btn-primary {
+        background-color: #007bff;
+        color: white;
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+      .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+        &:hover {
+          background-color: #545b62;
+        }
+      }
+    }
+
+    // Success or error messages
+    .form-error {
+      color: #dc3545;
+      font-size: 0.9rem;
+    }
+    .form-ok {
+      color: #28a745;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+  }
+}

@@ -1,1 +1,83 @@
-/*# sourceMappingURL=edit-employee.css.map */
+.editEmployee {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  padding: 1rem;
+  max-width: 1000px;
+}
+.editEmployee .editEmployeeHeader {
+  text-align: center;
+}
+.editEmployee .editEmployeeHeader h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+.editEmployee .editEmployee-body {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  width: 100%;
+}
+.editEmployee .editEmployee-body .form-group {
+  display: flex;
+  flex-direction: column;
+}
+.editEmployee .editEmployee-body .form-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+.editEmployee .editEmployee-body .form-group input,
+.editEmployee .editEmployee-body .form-group select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+.editEmployee .editEmployee-body .form-group input[type=date],
+.editEmployee .editEmployee-body .form-group input[type=text],
+.editEmployee .editEmployee-body .form-group select {
+  max-width: 100%;
+}
+.editEmployee .editEmployee-body #employeeActive {
+  max-width: 100px;
+}
+.editEmployee .editEmployee-body .modal-footer {
+  grid-column: span 2;
+  display: flex;
+  justify-content: space-between;
+}
+.editEmployee .editEmployee-body .modal-footer button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+.editEmployee .editEmployee-body .modal-footer .btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+.editEmployee .editEmployee-body .modal-footer .btn-primary:hover {
+  background-color: #0056b3;
+}
+.editEmployee .editEmployee-body .modal-footer .btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+.editEmployee .editEmployee-body .modal-footer .btn-secondary:hover {
+  background-color: #545b62;
+}
+.editEmployee .editEmployee-body .form-error {
+  color: #dc3545;
+  font-size: 0.9rem;
+}
+.editEmployee .editEmployee-body .form-ok {
+  color: #28a745;
+  font-size: 0.9rem;
+  text-align: center;
+}/*# sourceMappingURL=edit-employee.css.map */
