@@ -8,13 +8,15 @@ if (deleteBtn) {
     const id = deleteBtn.getAttribute('data-id');
     if (!id) return;
 
-    const ok = window.confirm('¿Eliminar este sitio? Esta acción no se puede deshacer.');
+    const ok = window.
+          confirm('¿Eliminar este sitio? Esta acción no se puede deshacer.');
     if (!ok) return;
 
     deleteBtn.disabled = true;
 
     try {
-      const res = await fetchWithAuth(`/api/sites/${id}`, { method: 'DELETE' });
+      const res = await fetchWithAuth(`/api/sites/${id}`,
+                                                      { method: 'DELETE' });
 
       if (!res.ok) {
         const msg = await res.text().catch(() => '');

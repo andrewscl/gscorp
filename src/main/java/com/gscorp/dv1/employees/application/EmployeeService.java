@@ -30,6 +30,8 @@ public interface EmployeeService {
 
     Employee createEmployeeFromRequest(CreateEmployeeRequest req);
 
+    Employee updateEmployeeFromRequest(CreateEmployeeRequest req);
+
     List<Employee> findAllWithProjects();
 
     List<Employee> findAllUnassignedEmployees();

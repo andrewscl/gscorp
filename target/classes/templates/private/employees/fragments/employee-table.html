@@ -80,7 +80,7 @@
 
       <div class="filters-actions">
         <button id="createEmployeeBtn" class="btn btn-primary"
-                th:if="${#authorization.expression('hasRole(''HR'') or hasRole(''ADMIN'')')}"
+                th:if="${#authorization.expression('hasRole(''HR'') or hasRole(''ADMINISTRATOR'')')}"
                 th:attr="data-path=@{/private/employees/create}" aria-label="Crear empleado">
           <!-- icono + -->
           <svg class="icon icon-plus" width="16" height="16" viewBox="0 0 16 16" focusable="false" aria-hidden="true">

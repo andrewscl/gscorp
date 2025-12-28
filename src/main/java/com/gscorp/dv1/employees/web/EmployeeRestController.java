@@ -4,6 +4,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -37,6 +38,23 @@ public class EmployeeRestController {
         EmployeeDto dto = EmployeeDto.fromEntity(saved);
 
         return ResponseEntity.created(location).body(dto);
+
+    }
+
+    @PutMapping(value = "/update/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<EmployeeDto> updateEmployee(
+        @Valid @ModelAttribute CreateEmployeeRequest req,
+        UriComponentsBuilder ucb
+    ) {
+
+        Employee updated = employeeService.
+                                updateEmployeeFromRequest(req);
+        var location = ucb.path("/api/employees/{id}")
+                            .buildAndExpand(updated.getId()).toUri();
+
+        EmployeeDto dto = EmployeeDto.fromEntity(updated);
+
+        return ResponseEntity.ok().location(location).body(dto);
 
     }
 

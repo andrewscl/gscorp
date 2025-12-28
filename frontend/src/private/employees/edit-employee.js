@@ -10,6 +10,7 @@ async function onSubmitEdit(e) {
   e.preventDefault();
 
   const id                  = qs('#employeeId')?.value?.trim();
+  
   const name                = qs('#employeeName')?.value?.trim();
   const fatherSurname       = qs('#employeeFatherSurname')?.value?.trim() || null;
   const motherSurname       = qs('#employeeMotherSurname')?.value?.trim() || null;
@@ -54,6 +55,13 @@ async function onSubmitEdit(e) {
     projectIds = Array.from(projectsSelect.selectedOptions).map(opt => opt.value).filter(Boolean);
   }
 
+  // Fotografía
+  const photoInput = qs('#employeePhoto');
+  let photo = null;
+  if (photoInput && photoInput.files && photoInput.files[0]) {
+    photo = photoInput.files[0];
+  }
+
   const err = qs('#editEmployeeError');
   const ok  = qs('#editEmployeeOk');
   if (err) err.textContent = '';
@@ -67,11 +75,11 @@ async function onSubmitEdit(e) {
   try {
     // FormData para soportar archivo y campos complejos
     const formData = new FormData();
-    formData.append('id', id);
     formData.append('name', name);
 
     if (fatherSurname) formData.append('fatherSurname', fatherSurname);
     if (motherSurname) formData.append('motherSurname', motherSurname);
+    if (photo) formData.append('photo', photo);
     if (rut) formData.append('rut', rut);
     if (mail) formData.append('mail', mail);
     if (phone) formData.append('phone', phone);
@@ -105,7 +113,7 @@ async function onSubmitEdit(e) {
     projectIds.forEach(id => formData.append('projectIds', id));
 
     // Ajusta el endpoint si en tu backend usas otro
-    const res = await fetchWithAuth(`/api/employees/${id}`, {
+    const res = await fetchWithAuth(`/api/employees/update/${id}`, {
       method: 'PUT',
       body: formData
     });

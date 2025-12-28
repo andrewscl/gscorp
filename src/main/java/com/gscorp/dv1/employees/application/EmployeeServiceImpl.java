@@ -275,4 +275,114 @@ public class EmployeeServiceImpl implements EmployeeService {
                         .findTableRowsForClientIds(clientIds, safeQ, active, pg);
     }
 
+
+    @Override
+    @Transactional
+    public Employee updateEmployeeFromRequest(CreateEmployeeRequest req) {
+        
+        //Establecer proyecto
+
+        Set<Project> projects =
+            (req.getProjectIds() != null && !req.getProjectIds().isEmpty())
+            ? new HashSet<>(projectService.findEntitiesById(req.getProjectIds()))
+            : Set.of();
+        
+        Bank bank =
+            (req.getBankId() != null)
+            ? bankService.findById(req.getBankId())
+            : null;
+
+        Nationality nationality =
+            (req.getNationalityId() != null)
+            ? nationalityService.findById(req.getNationalityId())
+            : null;
+
+        Set<Profession> professions =
+            (req.getProfessionIds() != null && !req.getProfessionIds().isEmpty())
+            ? new HashSet<>(professionService.findAllById(req.getProfessionIds()))
+            : Set.of();
+
+        Position position =
+            (req.getPositionId() != null)
+            ? positionService.findById(req.getPositionId())
+            : null;
+
+        ShiftPattern shiftPattern =
+            (req.getShiftPatternId() != null)
+            ? shiftPatternService.findById(req.getShiftPatternId())
+            : null;
+
+        //Gestion de archivo
+        String photoUrl = null;
+        MultipartFile photo = req.getPhoto();
+        if (photo != null && !photo.isEmpty()) {
+
+            try{
+                String extension = getExtension(photo.getOriginalFilename());
+                String fileName =
+                        "employee_photo_" +
+                        System.currentTimeMillis() +
+                        "_" +
+                        (req.getRut() != null ? req.getRut() : "no_rut") +
+                        "." +
+                        (extension != null ? extension : "jpg");
+                File destDir = new File(uploadDir);
+                if (!destDir.exists()) destDir.mkdirs();
+                File dest = new File(destDir, fileName);
+                photo.transferTo(dest);
+                //Guarda solo la ruta relativa
+                photoUrl = uploadDir + "/" + fileName;
+                
+            } catch (IOException e){
+                throw new RuntimeException("Error al guardar la fotografia", e);
+            }
+        
+        }
+
+        Employee entity = Employee.builder()
+                .name(req.getName().trim())
+                .fatherSurname(req.getFatherSurname())
+                .motherSurname(req.getMotherSurname())
+                .rut(req.getRut())
+                .mail(req.getMail())
+                .phone(req.getPhone())
+                .secondaryPhone(req.getSecondaryPhone())
+                .gender(req.getGender())
+                .nationality(nationality)
+                .maritalStatus(req.getMaritalStatus())
+                .studyLevel(req.getStudyLevel())
+                .professions(professions)
+                .previtionalSystem(req.getPrevitionalSystem())
+                .pensionEntity(req.getPensionEntity())
+                .healthSystem(req.getHealthSystem())
+                .healthEntity(req.getHealthEntity())
+                .paymentMethod(req.getPaymentMethod())
+                .bank(bank)
+                .bankAccountType(req.getBankAccountType())
+                .bankAccountNumber(req.getBankAccountNumber())
+                .contractType(req.getContractType())
+                .workSchedule(req.getWorkSchedule())
+                .shiftSystem(req.getShiftSystem())
+                .shiftPattern(shiftPattern)
+                .position(position)
+                .photoUrl(photoUrl)
+                .hireDate(req.getHireDate())
+                .birthDate(req.getBirthDate())
+                .address(req.getAddress())
+                .projects(projects)
+                .active(true)
+                .build();
+
+        Employee savedEmployee = employeeRepository.save(entity);
+
+        //Asignar los proyectos el empleado (relacion inversa)
+        for (Project p : projects) {
+            System.out.println("Project: " + p.getId());
+            p.getEmployees().add(savedEmployee);
+        }
+
+        return employeeRepository.save(savedEmployee);
+
+    }
+
 }
