@@ -25,6 +25,7 @@ import com.gscorp.dv1.employees.web.dto.CreateEmployeeRequest;
 import com.gscorp.dv1.employees.web.dto.EmployeeEditDto;
 import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
 import com.gscorp.dv1.employees.web.dto.EmployeeViewDto;
+import com.gscorp.dv1.employees.web.dto.UpdateEmployeeRequest;
 import com.gscorp.dv1.nationalities.application.NationalityService;
 import com.gscorp.dv1.nationalities.infrastructure.Nationality;
 import com.gscorp.dv1.positions.application.PositionService;
@@ -37,6 +38,7 @@ import com.gscorp.dv1.shiftpatterns.application.ShiftPatternService;
 import com.gscorp.dv1.shiftpatterns.infrastructure.ShiftPattern;
 import com.gscorp.dv1.users.application.UserService;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -278,111 +280,84 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @Transactional
-    public Employee updateEmployeeFromRequest(CreateEmployeeRequest req) {
+    public Employee updateEmployeeFromRequest(UpdateEmployeeRequest req) {
         
-        //Establecer proyecto
+        if (req.getId() == null) {
+            throw new IllegalArgumentException("El ID del empleado es requerido para la actualización.");
+        }
 
-        Set<Project> projects =
-            (req.getProjectIds() != null && !req.getProjectIds().isEmpty())
-            ? new HashSet<>(projectService.findEntitiesById(req.getProjectIds()))
-            : Set.of();
+        // Cargar la entidad existente
+        Employee entity = employeeRepository.findById(req.getId())
+            .orElseThrow(() -> new EntityNotFoundException("No se encontró el empleado con ID: " + req.getId()));
+
+        // Actualizar los valores del empleado existente
+        entity.setName(req.getName().trim());
+        entity.setFatherSurname(req.getFatherSurname());
+        entity.setMotherSurname(req.getMotherSurname());
+        entity.setRut(req.getRut());
+        entity.setMail(req.getMail());
+        entity.setPhone(req.getPhone());
+        entity.setSecondaryPhone(req.getSecondaryPhone());
+        entity.setGender(req.getGender());
         
-        Bank bank =
-            (req.getBankId() != null)
-            ? bankService.findById(req.getBankId())
-            : null;
-
-        Nationality nationality =
-            (req.getNationalityId() != null)
-            ? nationalityService.findById(req.getNationalityId())
-            : null;
-
-        Set<Profession> professions =
+        // Actualización de relaciones con entidades externas
+        entity.setNationality(req.getNationalityId() != null ? nationalityService.findById(req.getNationalityId()) : null);
+        entity.setProfessions(
             (req.getProfessionIds() != null && !req.getProfessionIds().isEmpty())
             ? new HashSet<>(professionService.findAllById(req.getProfessionIds()))
-            : Set.of();
+            : Set.of()
+        );
+        entity.setBank(req.getBankId() != null ? bankService.findById(req.getBankId()) : null);
+        entity.setPosition(req.getPositionId() != null ? positionService.findById(req.getPositionId()) : null);
+        entity.setShiftPattern(req.getShiftPatternId() != null ? shiftPatternService.findById(req.getShiftPatternId()) : null);
 
-        Position position =
-            (req.getPositionId() != null)
-            ? positionService.findById(req.getPositionId())
-            : null;
+        entity.setMaritalStatus(req.getMaritalStatus());
+        entity.setStudyLevel(req.getStudyLevel());
+        entity.setPrevitionalSystem(req.getPrevitionalSystem());
+        entity.setPensionEntity(req.getPensionEntity());
+        entity.setHealthSystem(req.getHealthSystem());
+        entity.setHealthEntity(req.getHealthEntity());
+        entity.setPaymentMethod(req.getPaymentMethod());
+        entity.setBankAccountType(req.getBankAccountType());
+        entity.setBankAccountNumber(req.getBankAccountNumber());
+        entity.setContractType(req.getContractType());
+        entity.setWorkSchedule(req.getWorkSchedule());
+        entity.setShiftSystem(req.getShiftSystem());
+        entity.setHireDate(req.getHireDate());
+        entity.setBirthDate(req.getBirthDate());
+        entity.setAddress(req.getAddress());
+        entity.setActive(true);
 
-        ShiftPattern shiftPattern =
-            (req.getShiftPatternId() != null)
-            ? shiftPatternService.findById(req.getShiftPatternId())
-            : null;
-
-        //Gestion de archivo
-        String photoUrl = null;
+        // Procesar la fotografía si se proporciona
         MultipartFile photo = req.getPhoto();
         if (photo != null && !photo.isEmpty()) {
-
-            try{
+            try {
                 String extension = getExtension(photo.getOriginalFilename());
-                String fileName =
-                        "employee_photo_" +
-                        System.currentTimeMillis() +
-                        "_" +
-                        (req.getRut() != null ? req.getRut() : "no_rut") +
-                        "." +
-                        (extension != null ? extension : "jpg");
+                String fileName = "employee_photo_" + System.currentTimeMillis() + "_" + (req.getRut() != null ? req.getRut() : "no_rut") + "." + (extension != null ? extension : "jpg");
                 File destDir = new File(uploadDir);
                 if (!destDir.exists()) destDir.mkdirs();
                 File dest = new File(destDir, fileName);
                 photo.transferTo(dest);
-                //Guarda solo la ruta relativa
-                photoUrl = uploadDir + "/" + fileName;
-                
-            } catch (IOException e){
-                throw new RuntimeException("Error al guardar la fotografia", e);
+                entity.setPhotoUrl(uploadDir + "/" + fileName);
+            } catch (IOException e) {
+                throw new RuntimeException("Error al guardar la fotografía", e);
             }
-        
         }
 
-        Employee entity = Employee.builder()
-                .name(req.getName().trim())
-                .fatherSurname(req.getFatherSurname())
-                .motherSurname(req.getMotherSurname())
-                .rut(req.getRut())
-                .mail(req.getMail())
-                .phone(req.getPhone())
-                .secondaryPhone(req.getSecondaryPhone())
-                .gender(req.getGender())
-                .nationality(nationality)
-                .maritalStatus(req.getMaritalStatus())
-                .studyLevel(req.getStudyLevel())
-                .professions(professions)
-                .previtionalSystem(req.getPrevitionalSystem())
-                .pensionEntity(req.getPensionEntity())
-                .healthSystem(req.getHealthSystem())
-                .healthEntity(req.getHealthEntity())
-                .paymentMethod(req.getPaymentMethod())
-                .bank(bank)
-                .bankAccountType(req.getBankAccountType())
-                .bankAccountNumber(req.getBankAccountNumber())
-                .contractType(req.getContractType())
-                .workSchedule(req.getWorkSchedule())
-                .shiftSystem(req.getShiftSystem())
-                .shiftPattern(shiftPattern)
-                .position(position)
-                .photoUrl(photoUrl)
-                .hireDate(req.getHireDate())
-                .birthDate(req.getBirthDate())
-                .address(req.getAddress())
-                .projects(projects)
-                .active(true)
-                .build();
+        // Actualizar proyectos
+        Set<Project> projects =
+            (req.getProjectIds() != null && !req.getProjectIds().isEmpty())
+            ? new HashSet<>(projectService.findEntitiesById(req.getProjectIds()))
+            : Set.of();
+        entity.setProjects(projects);
 
-        Employee savedEmployee = employeeRepository.save(entity);
-
-        //Asignar los proyectos el empleado (relacion inversa)
+        // Asignar los proyectos al empleado (relación inversa)
         for (Project p : projects) {
-            System.out.println("Project: " + p.getId());
-            p.getEmployees().add(savedEmployee);
+            p.getEmployees().add(entity);
         }
 
-        return employeeRepository.save(savedEmployee);
-
+        // Guardar cambios
+        return employeeRepository.save(entity);
     }
 
 }

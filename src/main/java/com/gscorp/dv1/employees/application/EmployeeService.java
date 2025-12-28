@@ -11,6 +11,7 @@ import com.gscorp.dv1.employees.web.dto.CreateEmployeeRequest;
 import com.gscorp.dv1.employees.web.dto.EmployeeEditDto;
 import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
 import com.gscorp.dv1.employees.web.dto.EmployeeViewDto;
+import com.gscorp.dv1.employees.web.dto.UpdateEmployeeRequest;
 
 public interface EmployeeService {
 
@@ -30,7 +31,7 @@ public interface EmployeeService {
 
     Employee createEmployeeFromRequest(CreateEmployeeRequest req);
 
-    Employee updateEmployeeFromRequest(CreateEmployeeRequest req);
+    Employee updateEmployeeFromRequest(UpdateEmployeeRequest req);
 
     List<Employee> findAllWithProjects();
 

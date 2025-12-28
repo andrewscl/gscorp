@@ -13,6 +13,7 @@ import com.gscorp.dv1.employees.application.EmployeeService;
 import com.gscorp.dv1.employees.infrastructure.Employee;
 import com.gscorp.dv1.employees.web.dto.CreateEmployeeRequest;
 import com.gscorp.dv1.employees.web.dto.EmployeeDto;
+import com.gscorp.dv1.employees.web.dto.UpdateEmployeeRequest;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +44,7 @@ public class EmployeeRestController {
 
     @PutMapping(value = "/update/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<EmployeeDto> updateEmployee(
-        @Valid @ModelAttribute CreateEmployeeRequest req,
+        @Valid @ModelAttribute UpdateEmployeeRequest req,
         UriComponentsBuilder ucb
     ) {
 
