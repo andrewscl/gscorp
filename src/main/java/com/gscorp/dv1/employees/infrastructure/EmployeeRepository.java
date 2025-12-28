@@ -161,12 +161,55 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
         JOIN e.position pos
         WHERE e.id = :id
     """)
-    Optional<EmployeeEditProjection> findEmployeeProjectionById(Long id);
+    Optional<EmployeeEditProjection> findEmployeeEditProjectionById(Long id);
 
-@Query(value =
-  "SELECT project_id FROM employee_project WHERE employee_id = :employeeId",
-                                    nativeQuery = true)
-List<Long> findProjectIdsByEmployeeId(
-                            @Param("employeeId") Long employeeId);
+    @Query(value =
+      "SELECT project_id FROM employee_project WHERE employee_id = :employeeId",
+                                        nativeQuery = true)
+    List<Long> findProjectIdsByEmployeeId(
+                                @Param("employeeId") Long employeeId);
+
+
+    @Query("""
+        SELECT e.id AS id,
+              e.name AS name,
+              e.fatherSurname AS fatherSurname,
+              e.motherSurname AS motherSurname,
+              e.rut AS rut,
+              e.mail AS mail,
+              e.phone AS phone,
+              e.secondaryPhone AS secondaryPhone,
+              e.hireDate AS hireDate,
+              e.birthDate AS birthDate,
+              e.exitDate AS exitDate,
+              e.address AS address,
+              e.active AS active,
+              e.gender AS gender,
+              n.name AS nationality,
+              e.maritalStatus AS maritalStatus,
+              e.studyLevel AS studyLevel,
+              p.name AS profession,
+              e.previtionalSystem AS previtionalSystem,
+              e.pensionEntity AS pensionEntity,
+              e.healthSystem AS healthSystem,
+              e.healthEntity AS healthEntity,
+              e.paymentMethod AS paymentMethod,
+              b.name AS bank,
+              e.bankAccountType AS bankAccountType,
+              e.bankAccountNumber AS bankAccountNumber,
+              e.contractType AS contractType,
+              e.workSchedule AS workSchedule,
+              e.shiftSystem AS shiftSystem,
+              s.name AS shiftPattern,
+              pos.name AS position
+        FROM Employee e
+        JOIN e.nationality n
+        JOIN e.professions p
+        JOIN e.bank b
+        JOIN e.shiftPattern s
+        JOIN e.position pos
+        WHERE e.id = :id
+    """)
+    Optional<EmployeeViewProjection> findEmployeeViewProjectionById(Long id);
 
 }

@@ -10,12 +10,15 @@ import com.gscorp.dv1.employees.infrastructure.EmployeeTableProjection;
 import com.gscorp.dv1.employees.web.dto.CreateEmployeeRequest;
 import com.gscorp.dv1.employees.web.dto.EmployeeEditDto;
 import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
+import com.gscorp.dv1.employees.web.dto.EmployeeViewDto;
 
 public interface EmployeeService {
 
     List<Employee> findAll ();
 
-    EmployeeEditDto findByIdWithUserAndProjects(Long id);
+    EmployeeEditDto findByIdEditEmployee(Long id);
+
+    EmployeeViewDto findByIdViewEmployee(Long id);
 
     List<Long> findProjectIdsByEmployeeId(Long employeeId);
 

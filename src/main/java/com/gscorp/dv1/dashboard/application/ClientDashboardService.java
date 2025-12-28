@@ -1,12 +1,13 @@
 // src/main/java/com/gscorp/dv1/dashboard/application/ClientDashboardService.java
 package com.gscorp.dv1.dashboard.application;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
 import com.gscorp.dv1.dashboard.api.dto.KpiResponse;
 import com.gscorp.dv1.dashboard.api.dto.SeriesPoint;
 import com.gscorp.dv1.dashboard.infrastructure.ClientDashboardRepo;
 import com.gscorp.dv1.dashboard.infrastructure.ClientDashboardRepo.DayCount;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.*;

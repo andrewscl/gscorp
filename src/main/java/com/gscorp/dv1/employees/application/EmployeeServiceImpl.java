@@ -20,9 +20,11 @@ import com.gscorp.dv1.employees.infrastructure.Employee;
 import com.gscorp.dv1.employees.infrastructure.EmployeeRepository;
 import com.gscorp.dv1.employees.infrastructure.EmployeeEditProjection;
 import com.gscorp.dv1.employees.infrastructure.EmployeeTableProjection;
+import com.gscorp.dv1.employees.infrastructure.EmployeeViewProjection;
 import com.gscorp.dv1.employees.web.dto.CreateEmployeeRequest;
 import com.gscorp.dv1.employees.web.dto.EmployeeEditDto;
 import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
+import com.gscorp.dv1.employees.web.dto.EmployeeViewDto;
 import com.gscorp.dv1.nationalities.application.NationalityService;
 import com.gscorp.dv1.nationalities.infrastructure.Nationality;
 import com.gscorp.dv1.positions.application.PositionService;
@@ -59,13 +61,26 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findAll();
     }
 
+
     @Override
-    public EmployeeEditDto findByIdWithUserAndProjects(Long id) {
-        EmployeeEditProjection projection = employeeRepository.findEmployeeProjectionById(id)
+    @Transactional(readOnly = true)
+    public EmployeeEditDto findByIdEditEmployee(Long id) {
+        EmployeeEditProjection projection = employeeRepository.findEmployeeEditProjectionById(id)
                 .orElseThrow(() ->
                     new IllegalArgumentException("Employee not found with id: " + id));
         return EmployeeEditDto.fromProjection(projection);
     }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public EmployeeViewDto findByIdViewEmployee(Long id) {
+        EmployeeViewProjection projection = employeeRepository.findEmployeeViewProjectionById(id)
+                .orElseThrow(() ->
+                    new IllegalArgumentException("Employee not found with id: " + id));
+        return EmployeeViewDto.fromProjection(projection);
+    }
+
 
     @Override
     @Transactional(readOnly = true)
