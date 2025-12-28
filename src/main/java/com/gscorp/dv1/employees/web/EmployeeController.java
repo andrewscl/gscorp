@@ -152,7 +152,9 @@ public class EmployeeController {
     @GetMapping("/show/{id}")
     public String showEmployee(@PathVariable Long id, Model model){
         var employee = employeeService.findByIdViewEmployee(id);
+        List<Long> projectIds = employeeService.findProjectIdsByEmployeeId(id);
         model.addAttribute("employee", employee);
+        model.addAttribute("projectIds", projectIds);
         return "private/employees/views/view-employee-view";
     }
 
