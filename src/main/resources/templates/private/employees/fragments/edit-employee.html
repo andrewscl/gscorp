@@ -6,27 +6,41 @@
       <h3>Editar empleado</h3>
     </div>
 
+    <div class="editEmployee-photo-and-info">
+
+      <!-- Foto -->
+      <div class="employeePhoto">
+        <label for="employeePhoto">Fotografía</label>
+        <div class="photoPreview">
+          <img th:src="${employee.photoUrl}" alt="Foto del empleado" />
+        </div>
+        <input type="file" id="employeePhoto" name="photo" accept="image/*" />
+      </div>
+
+      <!-- Datos personales -->
+      <div class="editEmployee-body">
+        <div class="form-group">
+          <label for="employeeId">Id</label>
+          <input type="text" id="employeeId" name="id" th:value="${employee.id}" placeholder="Id" readonly/>
+        </div>
+        <div class="form-group">
+          <label for="employeeName">Nombre</label>
+          <input type="text" id="employeeName" name="name" th:value="${employee.name}" placeholder="Nombre" required />
+        </div>
+        <div class="form-group">
+          <label for="employeeFatherSurname">Apellido paterno</label>
+          <input type="text" id="employeeFatherSurname" name="fatherSurname" th:value="${employee.fatherSurname}" placeholder="Apellido paterno" />
+        </div>
+        <div class="form-group">
+          <label for="employeeMotherSurname">Apellido materno</label>
+          <input type="text" id="employeeMotherSurname" name="motherSurname" th:value="${employee.motherSurname}" placeholder="Apellido materno" />
+        </div>
+      </div>
+
+    </div>
+
+
     <form id="editEmployeeForm" class="editEmployee-body">
-
-      <div class="form-group">
-        <label for="employeeId">Id</label>
-        <input type="text" id="employeeId" name="id" th:value="${employee.id}" placeholder="Id" readonly/>
-      </div>
-
-      <div class="form-group">
-        <label for="employeeName">Nombre</label>
-        <input type="text" id="employeeName" name="name" th:value="${employee.name}" placeholder="Nombre" required />
-      </div>
-
-      <div class="form-group">
-        <label for="employeeFatherSurname">Apellido paterno</label>
-        <input type="text" id="employeeFatherSurname" name="fatherSurname" th:value="${employee.fatherSurname}" placeholder="Apellido paterno" />
-      </div>
-
-      <div class="form-group">
-        <label for="employeeMotherSurname">Apellido materno</label>
-        <input type="text" id="employeeMotherSurname" name="motherSurname" th:value="${employee.motherSurname}" placeholder="Apellido materno" />
-      </div>
 
       <div class="form-group">
         <label for="employeeRut">RUT</label>
