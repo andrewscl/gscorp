@@ -3,7 +3,7 @@
   <div class="viewEmployeeCard">
 
     <div class="viewEmployeeHeader">
-      <h3>Detalles del empleado</h3>
+      <h3>Ver empleado</h3>
     </div>
 
     <div class="viewEmployee-body">
@@ -160,9 +160,12 @@
 
       <div class="form-group">
         <label for="employeeProjects">Proyectos asociados</label>
-        <ul>
-          <li th:each="p : ${projects}" th:text="${p.name}"></li>
-        </ul>
+        <select id="employeeProjects" name="projectIds" multiple readonly>
+          <option th:each="p : ${projects}" 
+                  th:selected="${projectIds.contains(p.id)}" 
+                  th:value="${p.id}" 
+                  th:text="${p.name}"></option>
+        </select>
       </div>
 
       <div class="modal-footer">
