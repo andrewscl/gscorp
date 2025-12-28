@@ -28,7 +28,7 @@
 }
 .editEmployee .editEmployee-body {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1rem;
   width: 100%;
 }
@@ -37,21 +37,21 @@
   flex-direction: column;
 }
 .editEmployee .editEmployee-body .form-group label {
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: 0.85rem;
+  font-weight: bold;
   margin-bottom: 0.5rem;
   color: #555;
 }
 .editEmployee .editEmployee-body .form-group input,
 .editEmployee .editEmployee-body .form-group select {
   padding: 0.5rem;
+  font-size: 0.9rem;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 0.9rem;
   background: #fff;
 }
-.editEmployee .editEmployee-body .form-group input[type=date],
 .editEmployee .editEmployee-body .form-group input[type=text],
+.editEmployee .editEmployee-body .form-group input[type=date],
 .editEmployee .editEmployee-body .form-group select {
   max-width: 100%;
 }
@@ -59,9 +59,9 @@
   max-width: 100px;
 }
 .editEmployee .editEmployee-body .modal-footer {
-  grid-column: span 2;
+  grid-column: span 3;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   margin-top: 1.5rem;
 }
 .editEmployee .editEmployee-body .modal-footer button {
@@ -86,11 +86,11 @@
 .editEmployee .editEmployee-body .modal-footer .btn-secondary:hover {
   background-color: #545b62;
 }
-.editEmployee .editEmployee-body .form-error {
+.editEmployee .form-error {
   color: #dc3545;
   font-size: 0.9rem;
 }
-.editEmployee .editEmployee-body .form-ok {
+.editEmployee .form-ok {
   color: #28a745;
   font-size: 0.9rem;
   text-align: center;

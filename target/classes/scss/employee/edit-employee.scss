@@ -12,11 +12,11 @@
   .editEmployeeCard {
     background: #fff; // White background for the card
     border: 1px solid #ddd; // Subtle border
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); // Light shadow for elevation
+    border-radius: 8px; // Rounded corners for a modern look
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); // Light shadow for subtle elevation
     padding: 2rem; // Add spacing inside the card
     width: 100%;
-    max-width: 900px; // Set a limit for the card size
+    max-width: 900px; // Limit the width of the card
     box-sizing: border-box;
   }
 
@@ -34,8 +34,8 @@
   // Body of the form
   .editEmployee-body {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); // Flexible columns
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); // Adjusts to three or more columns based on container size
+    gap: 1rem; // Space between grid items
     width: 100%;
 
     .form-group {
@@ -43,38 +43,40 @@
       flex-direction: column;
 
       label {
-        font-size: 0.9rem;
-        font-weight: 600;
+        font-size: 0.85rem;
+        font-weight: bold;
         margin-bottom: 0.5rem;
-        color: #555;
+        color: #555; // Subtle darker color for labels
       }
+
       input,
       select {
         padding: 0.5rem;
+        font-size: 0.9rem;
         border: 1px solid #ccc;
         border-radius: 4px;
-        font-size: 0.9rem;
-        background: #fff; // Ensure inputs have a clean white background
+        background: #fff; // Light background for inputs
       }
 
-      input[type="date"],
       input[type="text"],
+      input[type="date"],
       select {
-        max-width: 100%; // Ensure inputs don't exceed container
+        max-width: 100%; // Ensure inputs don't exceed container width
       }
     }
 
-    // Custom styles for specific input groups
+    // Custom styles for specific small input fields (e.g., 'Activo')
     #employeeActive {
-      max-width: 100px; // Reduce the space for active input
+      max-width: 100px; // Smaller input field for shorter values
     }
 
-    // Button group for the form
+    // Button group styles
     .modal-footer {
-      grid-column: span 2; // Spread across all columns
+      grid-column: span 3; // Spread footer section across all columns
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end; // Align buttons to the right
       margin-top: 1.5rem;
+
       button {
         padding: 0.5rem 1rem;
         border: none;
@@ -83,6 +85,7 @@
         font-size: 0.9rem;
         transition: background-color 0.2s ease;
       }
+
       .btn-primary {
         background-color: #007bff;
         color: white;
@@ -90,6 +93,7 @@
           background-color: #0056b3;
         }
       }
+
       .btn-secondary {
         background-color: #6c757d;
         color: white;
@@ -98,16 +102,17 @@
         }
       }
     }
+  }
 
-    // Success or error messages
-    .form-error {
-      color: #dc3545;
-      font-size: 0.9rem;
-    }
-    .form-ok {
-      color: #28a745;
-      font-size: 0.9rem;
-      text-align: center;
-    }
+  // Success or error messages
+  .form-error {
+    color: #dc3545;
+    font-size: 0.9rem;
+  }
+
+  .form-ok {
+    color: #28a745;
+    font-size: 0.9rem;
+    text-align: center;
   }
 }
