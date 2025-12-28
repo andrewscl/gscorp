@@ -8,6 +8,7 @@ public interface EmployeeViewProjection {
     String getName();
     String getFatherSurname();
     String getMotherSurname();
+    String getPhotoUrl();
     String getRut();
     String getMail();
     String getPhone();

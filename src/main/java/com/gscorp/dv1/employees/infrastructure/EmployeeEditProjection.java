@@ -21,6 +21,7 @@ public interface EmployeeEditProjection {
     String getName();
     String getFatherSurname();
     String getMotherSurname();
+    String getPhotoUrl();
     String getRut();
     String getMail();
     String getPhone();
