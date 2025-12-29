@@ -1,6 +1,10 @@
 <tbody th:fragment="rows">
   <!-- filas de empleados -->
   <tr th:each="e : ${employees}" th:attr="data-id=${e.id}">
+
+    <!-- Id -->
+    <td class="cell-id" th:text="${e.id != null ? e.id : '—'}">Id</td>
+
     <!-- Foto (thumbnail) -->
     <td class="cell-photo">
       <img
