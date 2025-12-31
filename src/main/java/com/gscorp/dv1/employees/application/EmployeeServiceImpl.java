@@ -259,7 +259,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Transactional(readOnly = true)
     public Page<EmployeeTableDto> getEmployeeTable(
-                        Long userId, String q, Boolean active, int page, int size) {
+                Long userId, String q, Boolean active, int page, int size) {
 
         // Normalizar page/size (Spring Data usa 0-based)
         int safePage = Math.max(0, page);
