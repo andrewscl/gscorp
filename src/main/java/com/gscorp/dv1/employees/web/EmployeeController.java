@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gscorp.dv1.bank.application.BankService;
 import com.gscorp.dv1.employees.application.EmployeeService;
-import com.gscorp.dv1.employees.infrastructure.EmployeeTableProjection;
+import com.gscorp.dv1.employees.web.dto.EmployeeTableDto;
 import com.gscorp.dv1.enums.BankAccountType;
 import com.gscorp.dv1.enums.ContractType;
 import com.gscorp.dv1.enums.Gender;
@@ -96,7 +96,7 @@ public class EmployeeController {
         // Normalizar q
         String safeQ = (q == null || q.trim().isEmpty()) ? null : q.trim();
 
-        Page<EmployeeTableProjection> employeesPage =
+        Page<EmployeeTableDto> employeesPage =
                         employeeService.getEmployeeTable(
                                 userId, safeQ, active, safePage, safeSize);
 

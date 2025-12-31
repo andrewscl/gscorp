@@ -16,6 +16,9 @@ public interface EmployeeTableProjection {
     Boolean getActive();
     LocalDate getHireDate();
     LocalDateTime getCreatedAt();
+    String getUsername();
+    String getUserMail();
+    String getUserPhone();
 
     // conveniencia
     default String getFullName() {

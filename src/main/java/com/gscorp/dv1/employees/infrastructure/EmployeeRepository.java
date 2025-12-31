@@ -77,9 +77,13 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
           pos.name   AS positionName,
           e.active   AS active,
           e.hireDate AS hireDate,
-          e.createdAt AS createdAt
+          e.createdAt AS createdAt,
+          usr.username AS username,
+          usr.mail AS userMail,
+          usr.phone AS userPhone
         FROM Employee e
         LEFT JOIN e.position pos
+        LEFT JOIN e.user usr
         JOIN e.projects proj
         JOIN proj.client p
         WHERE p.id IN :clientIds

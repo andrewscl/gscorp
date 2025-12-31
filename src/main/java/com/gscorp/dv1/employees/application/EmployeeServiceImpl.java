@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +25,7 @@ import com.gscorp.dv1.employees.infrastructure.EmployeeViewProjection;
 import com.gscorp.dv1.employees.web.dto.CreateEmployeeRequest;
 import com.gscorp.dv1.employees.web.dto.EmployeeEditDto;
 import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
+import com.gscorp.dv1.employees.web.dto.EmployeeTableDto;
 import com.gscorp.dv1.employees.web.dto.EmployeeViewDto;
 import com.gscorp.dv1.employees.web.dto.UpdateEmployeeRequest;
 import com.gscorp.dv1.nationalities.application.NationalityService;
@@ -256,7 +258,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<EmployeeTableProjection> getEmployeeTable(
+    public Page<EmployeeTableDto> getEmployeeTable(
                         Long userId, String q, Boolean active, int page, int size) {
 
         // Normalizar page/size (Spring Data usa 0-based)
@@ -273,8 +275,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         PageRequest pg = PageRequest.of(safePage, safeSize);
-        return employeeRepository
+
+        Page<EmployeeTableProjection> projectionPage =
+                    employeeRepository
                         .findTableRowsForClientIds(clientIds, safeQ, active, pg);
+
+        return projectionPage.map(EmployeeTableDto::fromProjection);
+
     }
 
 
@@ -289,6 +296,15 @@ public class EmployeeServiceImpl implements EmployeeService {
         // Cargar la entidad existente
         Employee entity = employeeRepository.findById(req.getId())
             .orElseThrow(() -> new EntityNotFoundException("No se encontró el empleado con ID: " + req.getId()));
+
+        // Inicializar relaciones perezosas (lazy)
+        Hibernate.initialize(entity.getNationality());
+        Hibernate.initialize(entity.getBank());
+        Hibernate.initialize(entity.getShiftPattern());
+        Hibernate.initialize(entity.getPosition());
+        Hibernate.initialize(entity.getProjects());
+        Hibernate.initialize(entity.getProfessions());
+        Hibernate.initialize(entity.getUser());
 
         // Actualizar los valores del empleado existente
         entity.setName(req.getName().trim());

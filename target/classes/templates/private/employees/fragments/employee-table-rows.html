@@ -24,11 +24,13 @@
       </div>
     </td>
 
-    <!-- Cargo (posición) -->
-    <td class="cell-position" th:text="${e.positionName != null ? e.positionName : '—'}">Cargo</td>
-
     <!-- RUT -->
-    <td class="cell-rut" th:text="${e.rut != null ? e.rut : '—'}">RUT</td>
+    <td class="cell-rut"
+          th:text="${e.rut != null ? e.rut : '—'}">RUT</td>
+
+    <!-- Usuario -->
+    <td class="cell-user"
+          th:text="${e.positionName != null ? e.positionName : '—'}">Cargo</td>
 
     <!-- Contacto (email / teléfono) -->
     <td class="cell-contact">

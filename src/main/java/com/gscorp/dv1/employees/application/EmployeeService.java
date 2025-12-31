@@ -6,10 +6,10 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 
 import com.gscorp.dv1.employees.infrastructure.Employee;
-import com.gscorp.dv1.employees.infrastructure.EmployeeTableProjection;
 import com.gscorp.dv1.employees.web.dto.CreateEmployeeRequest;
 import com.gscorp.dv1.employees.web.dto.EmployeeEditDto;
 import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
+import com.gscorp.dv1.employees.web.dto.EmployeeTableDto;
 import com.gscorp.dv1.employees.web.dto.EmployeeViewDto;
 import com.gscorp.dv1.employees.web.dto.UpdateEmployeeRequest;
 
@@ -41,7 +41,7 @@ public interface EmployeeService {
 
     EmployeeSelectDto findEmployeeByUserId(Long userId);
 
-    Page<EmployeeTableProjection> getEmployeeTable(
-                        Long userId, String q, Boolean active, int page, int size);
-    
+    Page<EmployeeTableDto> getEmployeeTable(
+                Long userId, String q, Boolean active, int page, int size);
+
 }

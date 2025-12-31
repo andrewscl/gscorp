@@ -50,4 +50,5 @@ public class SiteController {
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
         return "private/sites/views/set-site-coordinates-view";
     }
+
 }
