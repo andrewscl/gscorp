@@ -21,12 +21,16 @@ public record EmployeeTableDto (
     LocalDateTime createdAt,
     String username,
     String userMail,
-    String userPhone
+    String userPhone,
+    String fullName
 
 ){
 
     public static EmployeeTableDto fromProjection(EmployeeTableProjection p) {
         if (p == null) return null;
+
+        String fullName = p.getFullName();
+
         return new EmployeeTableDto(
             p.getId(),
             p.getPhotoUrl(),
@@ -42,7 +46,8 @@ public record EmployeeTableDto (
             p.getCreatedAt(),
             p.getUsername(),
             p.getUserMail(),
-            p.getUserPhone()
+            p.getUserPhone(),
+            fullName
         );
 
     }
