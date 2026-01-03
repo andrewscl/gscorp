@@ -531,13 +531,15 @@ public class UserServiceImpl implements UserService{
 
         PageRequest pg = PageRequest.of(safePage, safeSize);
 
-        // Evitar búsqueda si la query es nula/vacía
-        if (safeQ == null) {
-            return Page.empty(pg);
-        }
-
         Page<UserTableProjection> projections =
                 userRepo.findTableRows(safeQ, pg);
+
+        // Evitar búsqueda si la query es nula/vacía
+        if (safeQ == null) {
+            projections = userRepo.findTableRows("", pg);
+        } else {
+            projections = userRepo.findTableRows(safeQ, pg);
+        }
 
         return projections.map(UserTableDto::fromProjection);
 

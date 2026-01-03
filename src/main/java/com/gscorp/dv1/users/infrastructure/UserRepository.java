@@ -52,8 +52,9 @@ public interface UserRepository extends JpaRepository<User, Long>{
                 u.mail AS mail,
                 u.phone AS phone,
                 u.active AS active,
-                u.employee AS employeeId
+                e.id AS employeeId
             FROM User u
+            LEFT JOIN u.employee e
             WHERE LOWER(u.username) LIKE LOWER(CONCAT('%',:q,'%'))
                 OR LOWER(u.mail) LIKE LOWER(CONCAT('%',:q,'%'))
             """
