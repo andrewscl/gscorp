@@ -52,7 +52,7 @@ public class UserController {
         Page<UserTableDto> usersPage =
                 userService.getUserTable(safeQ, safePage, safeSize);
 
-        model.addAttribute("users", usersPage);
+        model.addAttribute("usersPage", usersPage);
 
         return "private/users/views/users-table-view";
     }

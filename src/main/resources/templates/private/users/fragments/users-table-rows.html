@@ -1,5 +1,5 @@
 <tbody th:fragment="rows">
-                <tr th:each="user : ${users}">
+                <tr th:each="user : ${usersPage.content}">
                     <td th:text="${user.id}"></td>
                     <td th:text="${user.username}"></td>
                     <td th:text="${user.mail}"></td>
