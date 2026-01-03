@@ -282,9 +282,11 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
 
     tbody {
       tr {
-        transition: background .12s ease;
+        transition: background 0.12s ease;
 
-        &:hover { background: rgba($btn-blue, 0.03); }
+        &:hover {
+          background: rgba($btn-blue, 0.03);
+        }
 
         td {
           padding: 0.65rem 0.85rem;
@@ -295,6 +297,14 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
           overflow-wrap: anywhere;
         }
 
+        /* Ajuste de la columna ID */
+        .cell-id {
+          width: 6%; /* Reducido para mantener espacio visual */
+          max-width: 8ch;
+          text-align: center;
+        }
+
+        /* Ajuste de la columna Foto */
         .cell-photo {
           width: 56px;
           max-width: 56px;
@@ -310,48 +320,104 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
           }
         }
 
+        /* Ajuste de la columna Nombre */
         .cell-name {
-          .name { font-weight: 600; color: $color-primary; }
-          .meta { font-size: 12px; color: $color-muted; margin-top: 0.25rem; }
+          width: 20%; /* Espacio adicional para nombres largos */
+
+          .name {
+            font-weight: 600;
+            color: $color-primary;
+          }
+
+          .meta {
+            font-size: 12px;
+            color: $color-muted;
+            margin-top: 0.25rem;
+          }
         }
 
-        td:nth-child(3) { width: 18%; max-width: 24ch; } /* cargo */
-        td:nth-child(4) { width: 12%; max-width: 14ch; } /* RUT */
-        td:nth-child(5) { width: 18%; max-width: 22ch; } /* contacto */
-        td.cell-status { width: 9%; text-align: center; }
+        /* Ajuste de la columna Cargo */
+        td:nth-child(3) {
+          width: 18%;
+          max-width: 24ch;
+        }
 
+        /* Ajuste de la columna RUT */
+        td:nth-child(4) {
+          width: 12%;
+          max-width: 14ch;
+          text-align: center;
+        }
+
+        /* Ajuste de la columna Contacto */
+        td:nth-child(5) {
+          width: 20%;
+          max-width: 22ch;
+
+          a {
+            color: $btn-blue;
+            text-decoration: none;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+
+        /* Ajuste de la columna Estado */
+        td.cell-status {
+          width: 8%;
+          text-align: center;
+
+          .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+          }
+
+          .badge-success {
+            background: #ecfdf5;
+            color: #10b981;
+            border: 1px solid color.adjust(#10b981, $lightness: 40%);
+          }
+
+          .badge-muted {
+            background: #f3f4f6;
+            color: $color-muted;
+            border: 1px solid color.adjust($color-border, $lightness: 4%);
+          }
+        }
+
+        /* Ajuste de la columna Acciones */
         td.actions {
           width: 12%;
           min-width: 120px;
           white-space: nowrap;
           display: flex;
           align-items: center;
+          justify-content: space-around;
           gap: 0.4rem;
-        }
 
-        .btn-link {
-          background: transparent;
-          border: none;
-          color: $btn-blue;
-          cursor: pointer;
-          padding: 0.25rem 0.4rem;
-          border-radius: 8px;
-          font-weight: 600;
-          font-size: 13px;
-        }
+          .btn-link {
+            background: transparent;
+            border: none;
+            color: $btn-blue;
+            cursor: pointer;
+            padding: 0.25rem 0.4rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13px;
 
-        .badge {
-          display: inline-block;
-          padding: 0.25rem 0.5rem;
-          border-radius: 999px;
-          font-size: 0.8rem;
-          font-weight: 600;
+            &:hover {
+              color: $btn-blue-dark;
+            }
+          }
         }
-
-        .badge-success { background: #ecfdf5; color: #10b981; border: 1px solid color.adjust(#10b981, $lightness: 40%); }
-        .badge-muted   { background: #f3f4f6; color: $color-muted; border: 1px solid color.adjust($color-border, $lightness: 4%); }
       }
 
+      /* Estilo para las filas vacías */
       tr.empty td.empty {
         text-align: center;
         padding: 2rem;
@@ -360,8 +426,12 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
         white-space: normal;
       }
     }
+
+
   }
 }
+
+
 
 /* Paginator */
 .employees-paginator {
@@ -398,6 +468,7 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
     }
   }
 }
+
 
 /* Responsive adjustments */
 @media (max-width: 1024px) {

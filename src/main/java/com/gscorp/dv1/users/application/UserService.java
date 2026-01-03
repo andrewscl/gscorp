@@ -4,12 +4,14 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 
 import com.gscorp.dv1.users.infrastructure.User;
 import com.gscorp.dv1.users.web.dto.CreateUserRequest;
 import com.gscorp.dv1.users.web.dto.InviteUserRequest;
 import com.gscorp.dv1.users.web.dto.InviteUserRequestWhatsApp;
+import com.gscorp.dv1.users.web.dto.UserTableDto;
 import com.gscorp.dv1.users.web.dto.UserUpdateDto;
 
 public interface UserService {
@@ -17,8 +19,6 @@ public interface UserService {
     void deleteById(Long id);
     List<User> findAll();
     User findById(Long id);
-
-    
 
     User findWithRolesAndClientsById(Long id);
     List<User> findAllWithRolesAndClients();
@@ -46,5 +46,7 @@ public interface UserService {
 
     Optional<Long> findEmployeeIdByUserId(Long userId);
 
+    Page<UserTableDto> getUserTable(
+            String q, int page, int size);
 
 }

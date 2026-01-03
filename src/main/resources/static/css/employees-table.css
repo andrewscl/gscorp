@@ -1,3 +1,4 @@
+@charset "UTF-8";
 :root {
   --topbar-height: 54px; /* same as layout topbar height */
   --sidebar-width: 240px; /* same as layout sidebar width */
@@ -245,11 +246,19 @@
   font-size: 13px;
   background: #ffffff;
 }
+.employees-table-container .employees-table tbody {
+  /* Estilo para las filas vacías */
+}
 .employees-table-container .employees-table tbody tr {
   transition: background 0.12s ease;
-  /* cargo */
-  /* RUT */
-  /* contacto */
+  /* Ajuste de la columna ID */
+  /* Ajuste de la columna Foto */
+  /* Ajuste de la columna Nombre */
+  /* Ajuste de la columna Cargo */
+  /* Ajuste de la columna RUT */
+  /* Ajuste de la columna Contacto */
+  /* Ajuste de la columna Estado */
+  /* Ajuste de la columna Acciones */
 }
 .employees-table-container .employees-table tbody tr:hover {
   background: rgba(37, 99, 235, 0.03);
@@ -261,6 +270,11 @@
   white-space: normal;
   word-break: break-word;
   overflow-wrap: anywhere;
+}
+.employees-table-container .employees-table tbody tr .cell-id {
+  width: 6%; /* Reducido para mantener espacio visual */
+  max-width: 8ch;
+  text-align: center;
 }
 .employees-table-container .employees-table tbody tr .cell-photo {
   width: 56px;
@@ -274,6 +288,9 @@
   border-radius: 8px;
   object-fit: cover;
   display: block;
+}
+.employees-table-container .employees-table tbody tr .cell-name {
+  width: 20%; /* Espacio adicional para nombres largos */
 }
 .employees-table-container .employees-table tbody tr .cell-name .name {
   font-weight: 600;
@@ -291,14 +308,39 @@
 .employees-table-container .employees-table tbody tr td:nth-child(4) {
   width: 12%;
   max-width: 14ch;
+  text-align: center;
 }
 .employees-table-container .employees-table tbody tr td:nth-child(5) {
-  width: 18%;
+  width: 20%;
   max-width: 22ch;
 }
+.employees-table-container .employees-table tbody tr td:nth-child(5) a {
+  color: #2563eb;
+  text-decoration: none;
+}
+.employees-table-container .employees-table tbody tr td:nth-child(5) a:hover {
+  text-decoration: underline;
+}
 .employees-table-container .employees-table tbody tr td.cell-status {
-  width: 9%;
+  width: 8%;
   text-align: center;
+}
+.employees-table-container .employees-table tbody tr td.cell-status .badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.employees-table-container .employees-table tbody tr td.cell-status .badge-success {
+  background: #ecfdf5;
+  color: #10b981;
+  border: 1px solid rgb(158.3582089552, 246.6417910448, 217.3880597015);
+}
+.employees-table-container .employees-table tbody tr td.cell-status .badge-muted {
+  background: #f3f4f6;
+  color: #6b7280;
+  border: 1px solid rgb(247.32, 249.56, 253.08);
 }
 .employees-table-container .employees-table tbody tr td.actions {
   width: 12%;
@@ -306,9 +348,10 @@
   white-space: nowrap;
   display: flex;
   align-items: center;
+  justify-content: space-around;
   gap: 0.4rem;
 }
-.employees-table-container .employees-table tbody tr .btn-link {
+.employees-table-container .employees-table tbody tr td.actions .btn-link {
   background: transparent;
   border: none;
   color: #2563eb;
@@ -318,22 +361,8 @@
   font-weight: 600;
   font-size: 13px;
 }
-.employees-table-container .employees-table tbody tr .badge {
-  display: inline-block;
-  padding: 0.25rem 0.5rem;
-  border-radius: 999px;
-  font-size: 0.8rem;
-  font-weight: 600;
-}
-.employees-table-container .employees-table tbody tr .badge-success {
-  background: #ecfdf5;
-  color: #10b981;
-  border: 1px solid rgb(158.3582089552, 246.6417910448, 217.3880597015);
-}
-.employees-table-container .employees-table tbody tr .badge-muted {
-  background: #f3f4f6;
-  color: #6b7280;
-  border: 1px solid rgb(247.32, 249.56, 253.08);
+.employees-table-container .employees-table tbody tr td.actions .btn-link:hover {
+  color: rgb(19.4285714286, 79.6571428571, 211.7714285714);
 }
 .employees-table-container .employees-table tbody tr.empty td.empty {
   text-align: center;

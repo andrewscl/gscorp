@@ -3,6 +3,8 @@ package com.gscorp.dv1.users.infrastructure;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -40,5 +42,25 @@ public interface UserRepository extends JpaRepository<User, Long>{
 
     @Query("SELECT u.employee.id FROM User u WHERE u.id = :userId")
     Optional<Long> findEmployeeIdByUserId(@Param("userId") Long userId);
+
+
+    @Query(
+        value = """
+            SELECT DISTINCT
+                u.id AS id,
+                u.username AS username,
+                u.mail AS mail,
+                u.phone AS phone,
+                u.active AS active,
+                u.employee_id AS employeeId
+            FROM User u
+            WHERE LOWER(u.username) LIKE LOWER(CONCAT('%',:q,'%'))
+                OR LOWER(u.mail) LIKE LOWER(CONCAT('%',:q,'%'))
+            """
+    )
+    Page<UserTableProjection> findTableRows(
+        @Param("q") String q,
+        Pageable pageable
+    );
 
 }
