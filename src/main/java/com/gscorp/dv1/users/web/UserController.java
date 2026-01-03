@@ -53,6 +53,7 @@ public class UserController {
                 userService.getUserTable(safeQ, safePage, safeSize);
 
         model.addAttribute("usersPage", usersPage);
+        model.addAttribute("qVar", safeQ);
 
         return "private/users/views/users-table-view";
     }
