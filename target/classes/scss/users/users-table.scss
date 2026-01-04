@@ -216,19 +216,26 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
   .users-table {
     width: 100%;
     border-collapse: collapse;
+    font-family: $font-family;
+    font-size: $base-font-size;
+    color: $color-primary;
+    table-layout: auto;
+    min-width: 0;
 
     thead {
       tr {
         th {
           position: sticky;
           top: 0;
-          background: $color-card-bg;
+          z-index: 1140;
           text-align: left;
-          font-size: 13px;
           font-weight: 700;
           padding: 0.9rem 0.85rem;
-          color: $color-primary;
           border-bottom: 1px solid $color-border;
+          color: $color-primary;
+          white-space: nowrap;
+          font-size: 13px;
+          background: $color-card-bg;
         }
       }
     }

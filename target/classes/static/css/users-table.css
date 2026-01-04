@@ -184,17 +184,24 @@
 .users-table-container .users-table {
   width: 100%;
   border-collapse: collapse;
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  font-size: 14px;
+  color: #162032;
+  table-layout: auto;
+  min-width: 0;
 }
 .users-table-container .users-table thead tr th {
   position: sticky;
   top: 0;
-  background: #ffffff;
+  z-index: 1140;
   text-align: left;
-  font-size: 13px;
   font-weight: 700;
   padding: 0.9rem 0.85rem;
-  color: #162032;
   border-bottom: 1px solid #e7eef9;
+  color: #162032;
+  white-space: nowrap;
+  font-size: 13px;
+  background: #ffffff;
 }
 .users-table-container .users-table tbody tr {
   transition: background 0.12s ease;
