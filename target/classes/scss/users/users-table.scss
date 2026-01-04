@@ -235,9 +235,47 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
 
     tbody {
       tr {
+        transition: background 0.12s ease;
+
         &:hover {
           background-color: rgba($btn-blue, 0.03);
         }
+
+        td {
+          padding: 0.65rem 0.85rem;
+          border-bottom: 1px solid $color-border;
+          vertical-align: middle;
+          white-space: normal;
+          word-break: break-word;
+          overflow-wrap: anywhere;
+        }
+
+        /* Ajuste de la columna Acciones */
+        td.actions {
+          width: 12%;
+          min-width: 120px;
+          white-space: nowrap;
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          gap: 0.4rem;
+
+          .btn-link {
+            background: transparent;
+            border: none;
+            color: $btn-blue;
+            cursor: pointer;
+            padding: 0.25rem 0.4rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13px;
+
+            &:hover {
+              color: $btn-blue-dark;
+            }
+          }
+        }
+
       }
     }
   }

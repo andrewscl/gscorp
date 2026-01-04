@@ -196,8 +196,42 @@
   color: #162032;
   border-bottom: 1px solid #e7eef9;
 }
+.users-table-container .users-table tbody tr {
+  transition: background 0.12s ease;
+  /* Ajuste de la columna Acciones */
+}
 .users-table-container .users-table tbody tr:hover {
   background-color: rgba(37, 99, 235, 0.03);
+}
+.users-table-container .users-table tbody tr td {
+  padding: 0.65rem 0.85rem;
+  border-bottom: 1px solid #e7eef9;
+  vertical-align: middle;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+.users-table-container .users-table tbody tr td.actions {
+  width: 12%;
+  min-width: 120px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 0.4rem;
+}
+.users-table-container .users-table tbody tr td.actions .btn-link {
+  background: transparent;
+  border: none;
+  color: #2563eb;
+  cursor: pointer;
+  padding: 0.25rem 0.4rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
+}
+.users-table-container .users-table tbody tr td.actions .btn-link:hover {
+  color: rgb(19.4285714286, 79.6571428571, 211.7714285714);
 }
 
 /* Responsive adjustments */
