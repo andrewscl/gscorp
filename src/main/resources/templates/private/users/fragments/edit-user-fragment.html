@@ -1,100 +1,104 @@
-<section th:fragment="content" class="detail-section">
-  <h2>Usuario</h2>
+<section th:fragment="content" class="editUser">
 
-  <div id="user-status" aria-live="polite" class="status-message">Edita los campos y pulsa Guardar para aplicar cambios</div>
+  <div class="editUserCard">
 
-  <form id="edit-user-form"
-        th:attr="data-user-endpoint=@{/api/users/{id}(id=${user.id})}"
-        autocomplete="off">
-
-    <div class="form-row">
-      <label>ID
-        <input type="text" name="id" th:value="${user.id}" readonly />
-      </label>
-
-      <label>Username
-        <input id="user-username" name="username" type="text" required
-               th:value="${user.username}" />
-      </label>
-
-      <label>Mail
-        <input id="user-mail" name="mail" type="email" required
-               th:value="${user.mail}" />
-      </label>
-
-      <label>Activo
-        <input id="user-active" name="active" type="checkbox"
-               th:checked="${user.active}" />
-      </label>
+    <div class="editUserHeader">
+      <h3>Editar usuario</h3>
     </div>
 
-    <div class="form-row">
-      <label for="user-roleIds">Roles (múltiple)
-        <select id="user-roleIds" name="roleIds" multiple size="6">
+    <div class="editUser-photo-and-info">
+
+      <!-- Foto (opcional si aplica usuarios con foto) -->
+      <div class="userPhoto">
+        <label for="userPhoto">Fotografía</label>
+        <div class="photoPreview">
+          <img th:src="${user.photoUrl}" alt="Foto del usuario" />
+        </div>
+        <input type="file" id="userPhoto" name="photo" accept="image/*" />
+      </div>
+
+      <!-- Información básica del usuario -->
+      <div class="editUser-body">
+        <div class="form-group">
+          <label for="userId">ID</label>
+          <input type="text" id="userId" name="id" th:value="${user.id}" readonly />
+        </div>
+        <div class="form-group">
+          <label for="userUsername">Username</label>
+          <input type="text" id="userUsername" name="username" th:value="${user.username}" required />
+        </div>
+        <div class="form-group">
+          <label for="userMail">Mail</label>
+          <input type="email" id="userMail" name="mail" th:value="${user.mail}" required />
+        </div>
+        <div class="form-group">
+          <label for="userActive">Activo</label>
+          <input type="checkbox" id="userActive" name="active" th:checked="${user.active}" />
+        </div>
+      </div>
+
+    </div>
+
+    <form id="editUserForm" class="editUser-body">
+
+      <!-- Roles -->
+      <div class="form-group">
+        <label for="userRoles">Roles</label>
+        <select id="userRoles" name="roleIds" multiple size="6">
           <option th:each="r : ${rolesAvailable}"
                   th:value="${r.id}"
                   th:text="${r.name != null ? r.name : r.role}"
-                  th:selected="${user.roles != null and user.roles.contains(r)}">
-          </option>
+                  th:selected="${user.roles != null and user.roles.contains(r)}"></option>
         </select>
-      </label>
+      </div>
 
-      <label for="user-clientIds">Clientes (múltiple)
-        <select id="user-clientIds" name="clientIds" multiple size="6">
+      <!-- Clientes -->
+      <div class="form-group">
+        <label for="userClients">Clientes</label>
+        <select id="userClients" name="clientIds" multiple size="6">
           <option th:each="c : ${clientsAvailable}"
                   th:value="${c.id}"
                   th:text="${c.name}"
-                  th:selected="${user.clients != null and user.clients.contains(c)}">
-          </option>
+                  th:selected="${user.clients != null and user.clients.contains(c)}"></option>
         </select>
-      </label>
+      </div>
 
-      <label for="user-employeeId">Empleado (opcional)
-        <select id="user-employeeId" name="employeeId">
+      <!-- Empleado asociado -->
+      <div class="form-group">
+        <label for="userEmployeeId">Empleado asociado</label>
+        <select id="userEmployeeId" name="employeeId">
           <option value="">-- ninguno --</option>
           <option th:each="e : ${employeesAvailable}"
                   th:value="${e.id}"
                   th:text="${e.fullName != null ? e.fullName : e.id}"
-                  th:selected="${user.employee != null and user.employee.id == e.id}">
-          </option>
+                  th:selected="${user.employee != null and user.employee.id == e.id}"></option>
         </select>
-      </label>
-    </div>
-
-    <div class="form-row">
-      <label for="user-timeZone">Zona horaria (IANA)
-        <input id="user-timeZone" name="timeZone" type="text" placeholder="Europe/Madrid"
-               th:value="${user.timeZone}" />
-      </label>
-
-      <button id="detect-user-tz" type="button" class="vs-btn vs-secondary" aria-label="Detectar zona">Detectar zona</button>
-    </div>
-
-    <div class="roles-block">
-      <strong>Roles actuales:</strong>
-      <div class="tags">
-        <span th:each="r : ${user.roles}" th:text="${r.role}" class="tag"></span>
-        <em th:if="${#lists.isEmpty(user.roles)}">Sin roles</em>
       </div>
-    </div>
 
-    <div class="clients-block">
-      <strong>Clientes actuales:</strong>
-      <div class="tags">
-        <span th:each="c : ${user.clients}" th:text="${c.name}" class="tag"></span>
-        <em th:if="${#lists.isEmpty(user.clients)}">Sin clientes</em>
+      <!-- Zona horaria -->
+      <div class="form-group">
+        <label for="userTimeZone">Zona horaria (IANA)</label>
+        <input type="text" id="userTimeZone" name="timeZone" th:value="${user.timeZone}" placeholder="Europe/Madrid" />
+        <button type="button" id="detectUserTimeZone" class="vs-btn vs-secondary">Detectar zona</button>
       </div>
-    </div>
 
-    <div class="actions">
-      <button type="submit" id="saveUserBtn" class="vs-btn vs-primary">Guardar cambios</button>
+      <!-- Elementos de control -->
+      <div class="modal-footer">
+        <button type="submit" class="btn-primary">Guardar cambios</button>
 
-      <a class="vs-btn vs-secondary" href="#" data-path="/private/users/table-view">Volver al listado</a>
+        <a class="btn-secondary" href="#" th:attr="data-path=/private/users/table-view">Volver al listado</a>
 
-      <button type="button" id="deleteUserBtn" class="vs-btn vs-danger"
-              th:attr="data-id=${user.id}">Eliminar usuario</button>
-    </div>
-  </form>
+        <button type="button" id="deleteUserBtn" class="btn-danger"
+                th:attr="data-id=${user.id}">Eliminar usuario</button>
+      </div>
 
-  <script type="module" src="/js/private/admin/users/edit-user.js"></script>
+      <div class="form-error" id="editUserError"></div>
+      <div class="form-ok" id="editUserOk" style="display:none;">Usuario actualizado ✅</div>
+
+    </form>
+
+  </div>
+
+  <script type="module" src="/js/private/users/edit-user.js"></script>
+
 </section>
