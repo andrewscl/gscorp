@@ -51,7 +51,7 @@
           <option th:each="client : ${clients}"
                   th:value="${client.id}"
                   th:text="${client.name}"
-                  th:selected="${user.clients != null and user.clients.contains(client)}">
+                  th:selected="${user.clientIds != null and user.clientIds.contains(client.id)}">
           </option>
         </select>
       </div>
