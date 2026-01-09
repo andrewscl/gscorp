@@ -19,6 +19,7 @@ import com.gscorp.dv1.roles.application.RoleService;
 import com.gscorp.dv1.roles.web.dto.RoleSelectDto;
 import com.gscorp.dv1.users.application.UserService;
 import com.gscorp.dv1.users.web.dto.UserTableDto;
+import com.gscorp.dv1.users.web.dto.UserViewDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -86,10 +87,7 @@ public class UserController {
     @GetMapping("/edit/{id}")
     public String editUser(@PathVariable Long id, Model model){
 
-        var user = userService.findWithRolesAndClientsById(id);
-
-        // Verifica los roles del usuario
-        System.out.println("Usuario roles: " + user.getRoles());
+        UserViewDto userDto = userService.findWithRolesAndClientsById(id);
 
         List<RoleSelectDto> roles = roleService.getAllRolesSelectDto();
 
@@ -97,7 +95,7 @@ public class UserController {
 
         List<EmployeeSelectDto> employees = employeeService.getAllEmployeesSelectDto();
 
-        model.addAttribute("user", user);
+        model.addAttribute("user", userDto);
         model.addAttribute("roles", roles);
         model.addAttribute("clients", clients);
         model.addAttribute("employees", employees);

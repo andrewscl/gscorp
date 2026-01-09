@@ -13,6 +13,7 @@ import com.gscorp.dv1.users.web.dto.InviteUserRequest;
 import com.gscorp.dv1.users.web.dto.InviteUserRequestWhatsApp;
 import com.gscorp.dv1.users.web.dto.UserTableDto;
 import com.gscorp.dv1.users.web.dto.UserUpdateDto;
+import com.gscorp.dv1.users.web.dto.UserViewDto;
 
 public interface UserService {
     Long createUser(CreateUserRequest req);
@@ -20,7 +21,7 @@ public interface UserService {
     List<User> findAll();
     User findById(Long id);
 
-    User findWithRolesAndClientsById(Long id);
+    UserViewDto findWithRolesAndClientsById(Long id);
     List<User> findAllWithRolesAndClients();
 
     User createInvitedUser(InviteUserRequest request);

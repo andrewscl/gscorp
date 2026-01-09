@@ -40,6 +40,7 @@ import com.gscorp.dv1.users.web.dto.InviteUserRequest;
 import com.gscorp.dv1.users.web.dto.InviteUserRequestWhatsApp;
 import com.gscorp.dv1.users.web.dto.UserTableDto;
 import com.gscorp.dv1.users.web.dto.UserUpdateDto;
+import com.gscorp.dv1.users.web.dto.UserViewDto;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -130,9 +131,10 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User findWithRolesAndClientsById(Long id){
-        return userRepo.findWithRolesAndClientsById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado" + id));
+    public UserViewDto findWithRolesAndClientsById(Long id){
+        User user = userRepo.findWithRolesAndClientsById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado: " + id));
+        return UserViewDto.from(user);
     }
 
     @Override
