@@ -64,7 +64,7 @@
           <option th:each="employee : ${employees}"
                   th:value="${employee.id}"
                   th:text="${employee.fullName != null ? employee.fullName : 'Empleado ' + employee.id}"
-                  th:selected="${user.employee != null and user.employee.id == employee.id}">
+                  th:selected="${user.employeeId != null and user.employeeId == employee.id}">
           </option>
         </select>
       </div>
