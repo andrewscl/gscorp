@@ -44,6 +44,19 @@
         </select>
       </div>
 
+      <!-- Depura los datos que carga Thymeleaf -->
+      <div>
+          <p>Roles del usuario:</p>
+          <ul>
+              <li th:each="role : ${user.roles}" th:text="${role.id + ' - ' + role.role}"></li>
+          </ul>
+
+          <p>Todos los roles disponibles:</p>
+          <ul>
+              <li th:each="role : ${roles}" th:text="${role.id + ' - ' + role.role}"></li>
+          </ul>
+      </div>
+
       <!-- Clientes -->
       <div class="form-group">
         <label for="userClients">Clientes</label>
