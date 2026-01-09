@@ -88,6 +88,9 @@ public class UserController {
 
         var user = userService.findWithRolesAndClientsById(id);
 
+        // Verifica los roles del usuario
+        System.out.println("Usuario roles: " + user.getRoles());
+
         List<RoleSelectDto> roles = roleService.getAllRolesSelectDto();
 
         List<ClientSelectDto> clients = clientService.getAllClientsSelectDto();
