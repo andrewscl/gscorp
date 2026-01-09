@@ -8,7 +8,7 @@
 
     <!-- Información básica y formulario -->
     <form id="editUserForm" class="editUser-body"
-          th:attr="data-user-endpoint=@{/api/users/update/{id}(id=${user.id})}" method="post">
+          th:attr="data-user-endpoint=@{/api/users/{id}(id=${user.id})}" method="PATCH">
 
       <!-- Información básica del usuario -->
       <div class="form-group">
