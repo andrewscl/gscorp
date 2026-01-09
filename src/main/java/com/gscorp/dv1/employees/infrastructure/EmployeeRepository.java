@@ -36,7 +36,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
     Optional<EmployeeSelectProjection> findByUser_Id(Long userId);
 
 
-    @Query("SELECT e.id AS id, e.name AS name FROM Employee e")
+    @Query("SELECT e.id AS id, e.name AS name, e.fatherSurname AS fatherSurname, e.motherSurname AS motherSurname FROM Employee e")
     List<EmployeeSelectProjection> findAllProjections();
 
 
