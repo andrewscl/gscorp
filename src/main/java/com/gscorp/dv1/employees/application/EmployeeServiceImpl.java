@@ -19,6 +19,7 @@ import com.gscorp.dv1.bank.application.BankService;
 import com.gscorp.dv1.bank.infrastructure.Bank;
 import com.gscorp.dv1.employees.infrastructure.Employee;
 import com.gscorp.dv1.employees.infrastructure.EmployeeRepository;
+import com.gscorp.dv1.employees.infrastructure.EmployeeSelectProjection;
 import com.gscorp.dv1.employees.infrastructure.EmployeeEditProjection;
 import com.gscorp.dv1.employees.infrastructure.EmployeeTableProjection;
 import com.gscorp.dv1.employees.infrastructure.EmployeeViewProjection;
@@ -242,11 +243,15 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findAllUnassignedEmployees();
     }
 
+
+
     @Override
     @Transactional(readOnly = true)
     public List<Employee> findAllWithUserAndProjectsAndPosition() {
         return employeeRepository.findAllWithUserAndProjectsAndPosition();
     }
+
+
 
     @Override
     @Transactional(readOnly = true)
@@ -255,6 +260,19 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .map(EmployeeSelectDto::fromProjection)
                 .orElse(null);
     }
+
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<EmployeeSelectDto> getAllEmployeesSelectDto() {
+        List<EmployeeSelectProjection> projections = employeeRepository.findAllProjections();
+        return projections.stream()
+                .map(EmployeeSelectDto::fromProjection)
+                .toList();
+    }
+
+
 
     @Override
     @Transactional(readOnly = true)

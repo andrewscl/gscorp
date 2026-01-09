@@ -41,6 +41,8 @@ public interface EmployeeService {
 
     EmployeeSelectDto findEmployeeByUserId(Long userId);
 
+    List<EmployeeSelectDto> getAllEmployeesSelectDto();
+
     Page<EmployeeTableDto> getEmployeeTable(
                 Long userId, String q, Boolean active, int page, int size);
 

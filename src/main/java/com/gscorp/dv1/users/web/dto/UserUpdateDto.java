@@ -14,4 +14,6 @@ public record UserUpdateDto(
     Set<Long> clientIds,
     Long employeeId,
     String timeZone
-) {}
+) {
+    
+}

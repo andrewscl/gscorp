@@ -1,5 +1,5 @@
-// Root section for the edit employee screen
-.editEmployee {
+// Root section for the edit user screen
+.editUser {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,7 +9,7 @@
   background-color: #f8f9fa; // Optional: general light background
 
   // Card wrapper for better contrast
-  .editEmployeeCard {
+  .editUserCard {
     background: #fff; // White background for the card
     border: 1px solid #ddd; // Subtle border
     border-radius: 8px; // Rounded corners for modern look
@@ -21,7 +21,7 @@
   }
 
   // Header section styles
-  .editEmployeeHeader {
+  .editUserHeader {
     text-align: center;
     h3 {
       font-size: 1.5rem;
@@ -31,75 +31,10 @@
     }
   }
 
-  // Section for employee photo and basic info
-  .editEmployee-photo-and-info {
-    display: grid;
-    grid-template-columns: 1fr 2fr; // Two columns: photo on the left, info on the right
-    gap: 2rem; // Space between photo and info
-    margin-bottom: 2rem;
-
-    .employeePhoto {
-      text-align: center;
-
-      label {
-        font-size: 0.9rem;
-        font-weight: bold;
-        margin-bottom: 0.5rem;
-        display: block;
-      }
-
-      .photoPreview {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 1rem;
-
-        img {
-          width: 150px; // Fixed size for images
-          height: 150px;
-          object-fit: cover; // Keep proportions intact
-          border-radius: 50%; // Circular shape
-          border: 2px solid #ddd; // Optional border for distinction
-        }
-      }
-
-      input[type="file"] {
-        font-size: 0.85rem;
-        margin-top: 0.5rem;
-      }
-    }
-
-    .editEmployee-body {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); // Flexible layout
-      gap: 1rem;
-
-      .form-group {
-        display: flex;
-        flex-direction: column;
-
-        label {
-          font-size: 0.85rem;
-          font-weight: bold;
-          margin-bottom: 0.5rem;
-          color: #555; // Subtle darker color for labels
-        }
-
-        input {
-          padding: 0.5rem;
-          font-size: 0.9rem;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-          width: 100%;
-        }
-      }
-    }
-  }
-
   // Body of the form
-  .editEmployee-body {
+  .editUser-body {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); // Adjust layout for multiple columns
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); // Flexible layout for form fields
     gap: 1rem; // Space between grid items
     width: 100%;
 
@@ -124,18 +59,19 @@
       }
 
       input[type="text"],
-      input[type="date"],
+      input[type="email"],
+      input[type="checkbox"],
       select {
         max-width: 100%; // Ensure inputs don't exceed container width
       }
     }
 
     // Custom styles for specific small input fields (e.g., 'Activo')
-    #employeeActive {
-      max-width: 100px; // Smaller input field for shorter values
+    #userActive {
+      max-width: 100px; // Smaller checkbox input
     }
 
-    // Button group styles
+    // Button group styles in the footer
     .modal-footer {
       grid-column: span 3; // Spread footer section across all columns
       display: flex;
@@ -166,6 +102,14 @@
           background-color: #545b62;
         }
       }
+
+      .btn-danger {
+        background-color: #dc3545;
+        color: white;
+        &:hover {
+          background-color: #b02a37;
+        }
+      }
     }
   }
 
@@ -183,18 +127,8 @@
 
   // Responsive Design Adjustments
   @media (max-width: 768px) {
-    .editEmployee-photo-and-info {
-      grid-template-columns: 1fr; // Stack photo and info vertically
-      gap: 1rem;
-
-      .photoPreview img {
-        width: 120px;
-        height: 120px; // Slightly smaller for small screens
-      }
-    }
-
-    .editEmployee-body {
-      grid-template-columns: 1fr; // Single column for form fields
+    .editUser-body {
+      grid-template-columns: 1fr; // Single column for form fields on smaller screens
       gap: 1rem; // Maintain spacing between fields
     }
 
@@ -206,25 +140,20 @@
   }
 
   @media (max-width: 500px) {
-    .editEmployeeCard {
+    .editUserCard {
       padding: 1rem; // Reduce padding for smaller screens
     }
 
-    .editEmployeeHeader h3 {
+    .editUserHeader h3 {
       font-size: 1.2rem; // Slightly smaller for small screens
     }
 
-    .photoPreview img {
-      width: 100px;
-      height: 100px; // Further reduction for compact devices
-    }
-
-    .editEmployee-body {
-      gap: 0.5rem; // Reduce gap between fields
+    .editUser-body {
+      gap: 0.5rem; // Reduce gap between fields for smaller screens
     }
 
     .modal-footer button {
-      padding: 0.4rem 0.8rem; // Adjust button sizes
+      padding: 0.4rem 0.8rem; // Adjust button sizes for smaller screens
       font-size: 0.8rem;
     }
   }

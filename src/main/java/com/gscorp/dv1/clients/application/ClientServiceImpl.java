@@ -147,4 +147,16 @@ public class ClientServiceImpl implements ClientService{
         .collect(Collectors.toList());  
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<ClientSelectDto> getAllClientsSelectDto() {
+
+        List<ClientSelectProjection> rows = clientRepo.findAllProjections();
+
+        return rows
+        .stream()
+        .map(ClientSelectDto::fromProjection)
+        .collect(Collectors.toList());  
+    }
+
 }

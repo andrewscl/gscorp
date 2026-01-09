@@ -35,6 +35,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
      */
     Optional<EmployeeSelectProjection> findByUser_Id(Long userId);
 
+    List<EmployeeSelectProjection> findAllProjections();
+
 
     @Query("""
       SELECT

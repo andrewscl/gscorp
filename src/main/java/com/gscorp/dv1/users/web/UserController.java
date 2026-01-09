@@ -1,5 +1,7 @@
 package com.gscorp.dv1.users.web;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -10,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gscorp.dv1.clients.application.ClientService;
+import com.gscorp.dv1.clients.web.dto.ClientSelectDto;
 import com.gscorp.dv1.employees.application.EmployeeService;
+import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
 import com.gscorp.dv1.roles.application.RoleService;
+import com.gscorp.dv1.roles.web.dto.RoleSelectDto;
 import com.gscorp.dv1.users.application.UserService;
 import com.gscorp.dv1.users.web.dto.UserTableDto;
 
@@ -80,8 +85,20 @@ public class UserController {
 
     @GetMapping("/edit/{id}")
     public String editUser(@PathVariable Long id, Model model){
+
         var user = userService.findWithRolesAndClientsById(id);
+
+        List<RoleSelectDto> roles = roleService.getAllRolesSelectDto();
+
+        List<ClientSelectDto> clients = clientService.getAllClientsSelectDto();
+
+        List<EmployeeSelectDto> employees = employeeService.getAllEmployeesSelectDto();
+
         model.addAttribute("user", user);
+        model.addAttribute("roles", roles);
+        model.addAttribute("clients", clients);
+        model.addAttribute("employees", employees);
+
         return "private/users/views/edit-user-view";
     }
 

@@ -33,6 +33,8 @@ public interface ClientRepository extends JpaRepository<Client, Long>{
     @Query("select c.id as id, c.name as name, c.active as active " +
        "from Client c join c.users u where u.id = :userId and c.active = true order by c.name")
     List<ClientSelectProjection> findClientsByUserId(Long userId);
+
+    List<ClientSelectProjection> findAllProjections();
     
     
 }

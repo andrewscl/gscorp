@@ -92,65 +92,30 @@ public class UserRestController {
         }
     }
 
+
+
     private UserUpdateDto buildDtoFromJson(JsonNode body) {
+
         // username
-        String username = null;
-        if (body.has("username")) {
-            JsonNode n = body.get("username");
-            username = n.isNull() ? null : n.asText().trim();
-        }
+        String username = parseString(body, "username", true);
 
         // mail
-        String mail = null;
-        if (body.has("mail")) {
-            JsonNode n = body.get("mail");
-            mail = n.isNull() ? null : n.asText().trim();
-        }
+        String mail = parseString(body, "mail", true);
 
         // active (Boolean)
-        Boolean active = null;
-        if (body.has("active")) {
-            JsonNode n = body.get("active");
-            active = n.isNull() ? null : n.asBoolean();
-        }
+        Boolean active = parseBoolean(body, "active");
 
-        // roleIds (array of numbers)
-        Set<Long> roleIds = null;
-        if (body.has("roleIds")) {
-            JsonNode arr = body.get("roleIds");
-            roleIds = parseLongSetFromArrayNode(arr);
-        }
+        // roleIds
+        Set<Long> roleIds = parseLongSet(body, "roleIds");
 
         // clientIds
-        Set<Long> clientIds = null;
-        if (body.has("clientIds")) {
-            JsonNode arr = body.get("clientIds");
-            clientIds = parseLongSetFromArrayNode(arr);
-        }
+        Set<Long> clientIds = parseLongSet(body, "clientIds");
 
         // employeeId: if present and null => send null (service will interpret as "clear" or no-change per policy)
-        Long employeeId = null;
-        if (body.has("employeeId")) {
-            JsonNode n = body.get("employeeId");
-            if (n.isNull()) {
-                employeeId = null;
-            } else if (n.canConvertToLong()) {
-                employeeId = n.asLong();
-            } else if (n.isTextual() && !n.asText().isBlank()) {
-                try {
-                    employeeId = Long.parseLong(n.asText().trim());
-                } catch (NumberFormatException ex) {
-                    throw new IllegalArgumentException("employeeId inválido");
-                }
-            }
-        }
+        Long employeeId = parseLongOrTextual(body, "employeeId");
 
         // timeZone
-        String timeZone = null;
-        if (body.has("timeZone")) {
-            JsonNode n = body.get("timeZone");
-            timeZone = n.isNull() ? null : n.asText().trim();
-        }
+        String timeZone = parseString(body, "timeZone", true);
 
         return new UserUpdateDto(
                 username,
@@ -161,6 +126,49 @@ public class UserRestController {
                 employeeId,
                 timeZone
         );
+    }
+
+
+    private String parseString(JsonNode body, String fieldName, boolean trim) {
+        if (!body.has(fieldName)) return null;
+        JsonNode n = body.get(fieldName);
+        if (n.isNull()) return null;
+        String value = n.asText();
+        return trim ? value.trim() : value;
+    }
+
+    private Boolean parseBoolean(JsonNode body, String fieldName) {
+        if (!body.has(fieldName)) return null;
+        JsonNode n = body.get(fieldName);
+        return n.isNull() ? null : n.asBoolean();
+    }
+
+    private Set<Long> parseLongSet(JsonNode body, String fieldName) {
+        if (!body.has(fieldName)) return null;
+        JsonNode arr = body.get(fieldName);
+        return parseLongSetFromArrayNode(arr);
+    }
+
+
+    private Long parseLongOrTextual(JsonNode body, String fieldName) {
+        if (!body.has(fieldName)) return null;
+        JsonNode n = body.get(fieldName);
+        if (n.isNull()) return null;
+
+        if (n.canConvertToLong()) {
+            return n.asLong();
+        } else if (n.isTextual()) {
+            String textValue = n.asText().trim();
+            if (!textValue.isBlank()) {
+                try {
+                    return Long.parseLong(textValue);
+                } catch (NumberFormatException ex) {
+                    throw new IllegalArgumentException(fieldName + " inválido: " + textValue);
+                }
+            }
+        }
+
+        return null; // Valor no válido o textualmente vacío
     }
 
     private Set<Long> parseLongSetFromArrayNode(JsonNode arr) {

@@ -1,5 +1,6 @@
 package com.gscorp.dv1.roles.infrastructure;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -12,5 +13,7 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
 
     @EntityGraph(attributePaths = "users")
     Optional<Role> findWithUsersById (Long id);
+
+    List<RoleSelectProjection> findAllProjections();
 
 }

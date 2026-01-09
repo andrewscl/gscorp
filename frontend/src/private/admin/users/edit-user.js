@@ -1,7 +1,7 @@
 // Script para la vista de edición de usuario
 // - Intercepta el submit del formulario y lo envía como PATCH JSON al endpoint
 // - Maneja delete (DELETE) y detect TZ (Intl API)
-// - Usa fetchWithAuth y navigateTo proporcionados por tu SPA
+// - Usa fetchWithAuth y navigateTo
 import { fetchWithAuth } from '../../../auth.js';
 import { navigateTo } from '../../../navigation-handler.js';
 

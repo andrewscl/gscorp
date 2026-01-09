@@ -36,6 +36,8 @@ public interface ClientService {
     List<ClientDto> findDtosByUserId(Long userId);
 
     List<ClientSelectDto> findClientsByUserId(Long userId);
+
+    List<ClientSelectDto> getAllClientsSelectDto();
     
 
 }

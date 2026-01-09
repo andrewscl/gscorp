@@ -1,4 +1,4 @@
-.editEmployee {
+.editUser {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -7,7 +7,7 @@
   max-width: 1000px;
   background-color: #f8f9fa;
 }
-.editEmployee .editEmployeeCard {
+.editUser .editUserCard {
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -17,108 +17,55 @@
   max-width: 900px;
   box-sizing: border-box;
 }
-.editEmployee .editEmployeeHeader {
+.editUser .editUserHeader {
   text-align: center;
 }
-.editEmployee .editEmployeeHeader h3 {
+.editUser .editUserHeader h3 {
   font-size: 1.5rem;
   font-weight: bold;
   color: #333;
   margin-bottom: 1.5rem;
 }
-.editEmployee .editEmployee-photo-and-info {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 2rem;
-  margin-bottom: 2rem;
-}
-.editEmployee .editEmployee-photo-and-info .employeePhoto {
-  text-align: center;
-}
-.editEmployee .editEmployee-photo-and-info .employeePhoto label {
-  font-size: 0.9rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  display: block;
-}
-.editEmployee .editEmployee-photo-and-info .employeePhoto .photoPreview {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-.editEmployee .editEmployee-photo-and-info .employeePhoto .photoPreview img {
-  width: 150px;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 2px solid #ddd;
-}
-.editEmployee .editEmployee-photo-and-info .employeePhoto input[type=file] {
-  font-size: 0.85rem;
-  margin-top: 0.5rem;
-}
-.editEmployee .editEmployee-photo-and-info .editEmployee-body {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-}
-.editEmployee .editEmployee-photo-and-info .editEmployee-body .form-group {
-  display: flex;
-  flex-direction: column;
-}
-.editEmployee .editEmployee-photo-and-info .editEmployee-body .form-group label {
-  font-size: 0.85rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  color: #555;
-}
-.editEmployee .editEmployee-photo-and-info .editEmployee-body .form-group input {
-  padding: 0.5rem;
-  font-size: 0.9rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  width: 100%;
-}
-.editEmployee .editEmployee-body {
+.editUser .editUser-body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1rem;
   width: 100%;
 }
-.editEmployee .editEmployee-body .form-group {
+.editUser .editUser-body .form-group {
   display: flex;
   flex-direction: column;
 }
-.editEmployee .editEmployee-body .form-group label {
+.editUser .editUser-body .form-group label {
   font-size: 0.85rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
   color: #555;
 }
-.editEmployee .editEmployee-body .form-group input,
-.editEmployee .editEmployee-body .form-group select {
+.editUser .editUser-body .form-group input,
+.editUser .editUser-body .form-group select {
   padding: 0.5rem;
   font-size: 0.9rem;
   border: 1px solid #ccc;
   border-radius: 4px;
   background: #fff;
 }
-.editEmployee .editEmployee-body .form-group input[type=text],
-.editEmployee .editEmployee-body .form-group input[type=date],
-.editEmployee .editEmployee-body .form-group select {
+.editUser .editUser-body .form-group input[type=text],
+.editUser .editUser-body .form-group input[type=email],
+.editUser .editUser-body .form-group input[type=checkbox],
+.editUser .editUser-body .form-group select {
   max-width: 100%;
 }
-.editEmployee .editEmployee-body #employeeActive {
+.editUser .editUser-body #userActive {
   max-width: 100px;
 }
-.editEmployee .editEmployee-body .modal-footer {
+.editUser .editUser-body .modal-footer {
   grid-column: span 3;
   display: flex;
   justify-content: flex-end;
   margin-top: 1.5rem;
 }
-.editEmployee .editEmployee-body .modal-footer button {
+.editUser .editUser-body .modal-footer button {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 4px;
@@ -126,63 +73,58 @@
   font-size: 0.9rem;
   transition: background-color 0.2s ease;
 }
-.editEmployee .editEmployee-body .modal-footer .btn-primary {
+.editUser .editUser-body .modal-footer .btn-primary {
   background-color: #007bff;
   color: white;
 }
-.editEmployee .editEmployee-body .modal-footer .btn-primary:hover {
+.editUser .editUser-body .modal-footer .btn-primary:hover {
   background-color: #0056b3;
 }
-.editEmployee .editEmployee-body .modal-footer .btn-secondary {
+.editUser .editUser-body .modal-footer .btn-secondary {
   background-color: #6c757d;
   color: white;
 }
-.editEmployee .editEmployee-body .modal-footer .btn-secondary:hover {
+.editUser .editUser-body .modal-footer .btn-secondary:hover {
   background-color: #545b62;
 }
-.editEmployee .form-error {
+.editUser .editUser-body .modal-footer .btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+.editUser .editUser-body .modal-footer .btn-danger:hover {
+  background-color: #b02a37;
+}
+.editUser .form-error {
   color: #dc3545;
   font-size: 0.9rem;
 }
-.editEmployee .form-ok {
+.editUser .form-ok {
   color: #28a745;
   font-size: 0.9rem;
   text-align: center;
 }
 @media (max-width: 768px) {
-  .editEmployee .editEmployee-photo-and-info {
+  .editUser .editUser-body {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-  .editEmployee .editEmployee-photo-and-info .photoPreview img {
-    width: 120px;
-    height: 120px;
-  }
-  .editEmployee .editEmployee-body {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-  .editEmployee .modal-footer {
+  .editUser .modal-footer {
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
   }
 }
 @media (max-width: 500px) {
-  .editEmployee .editEmployeeCard {
+  .editUser .editUserCard {
     padding: 1rem;
   }
-  .editEmployee .editEmployeeHeader h3 {
+  .editUser .editUserHeader h3 {
     font-size: 1.2rem;
   }
-  .editEmployee .photoPreview img {
-    width: 100px;
-    height: 100px;
-  }
-  .editEmployee .editEmployee-body {
+  .editUser .editUser-body {
     gap: 0.5rem;
   }
-  .editEmployee .modal-footer button {
+  .editUser .modal-footer button {
     padding: 0.4rem 0.8rem;
     font-size: 0.8rem;
   }

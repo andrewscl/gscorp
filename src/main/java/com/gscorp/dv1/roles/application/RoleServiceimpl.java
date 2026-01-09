@@ -9,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gscorp.dv1.roles.infrastructure.Role;
 import com.gscorp.dv1.roles.infrastructure.RoleRepository;
+import com.gscorp.dv1.roles.infrastructure.RoleSelectProjection;
 import com.gscorp.dv1.roles.web.dto.RoleDto;
+import com.gscorp.dv1.roles.web.dto.RoleSelectDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -42,6 +44,17 @@ public class RoleServiceimpl implements RoleService{
     public Role findWithUsersById (Long id){
         return roleRepository.findWithUsersById(id)
             .orElseThrow(()-> new IllegalArgumentException("Rol no encontrado" + id));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<RoleSelectDto> getAllRolesSelectDto() {
+
+        List<RoleSelectProjection> projections = roleRepository.findAllProjections();
+
+        return projections.stream()
+                .map(RoleSelectDto::fromProjection)
+                .toList();
     }
 
 }
