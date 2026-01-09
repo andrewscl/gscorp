@@ -5,16 +5,15 @@ import com.gscorp.dv1.clients.infrastructure.ClientSelectProjection;
 
 public record ClientSelectDto (
     Long id,
-    String name,
-    Boolean active
+    String name
 ) {
     public static ClientSelectDto fromEntity(Client client) {
         if (client == null) return null;
-        return new ClientSelectDto(client.getId(), client.getName(), client.getActive());
+        return new ClientSelectDto(client.getId(), client.getName());
     }
 
     public static ClientSelectDto fromProjection(ClientSelectProjection p) {
         if (p == null) return null;
-        return new ClientSelectDto(p.getId(), p.getName(), p.getActive());
+        return new ClientSelectDto(p.getId(), p.getName());
     }
 }
