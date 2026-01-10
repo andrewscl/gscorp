@@ -168,7 +168,7 @@ function attachDeleteHandler(form) {
 }
 
 function attachFormHandler() {
-  const form = document.getElementById('edit-user-form');
+  const form = document.getElementById('editUserForm');
   if (!form) return;
 
   // Intercept submit
