@@ -1,329 +1,259 @@
-.client-accounts-table {
-  font-family: "Inter", system-ui, Arial, sans-serif;
-  color: #111827;
-  margin: 2rem auto;
-  max-width: 1100px;
-  padding: 1rem;
+:root {
+  --topbar-height: 54px; /* same as layout topbar height */
+  --sidebar-width: 240px; /* same as layout sidebar width */
+  --content-horizontal-padding: 2.4rem; /* match .content horizontal padding in layout */
+  --site-visit-header-height: 0;
+}
+
+/* Reset */
+* {
   box-sizing: border-box;
-  /* Header */
-  /* Contenedor de la tabla */
-  /* Tabla */
-  /* Modal (opcional) */
-  /* Responsive */
 }
-.client-accounts-table .client-accounts-header {
+
+/* SCSS tokens */
+.clients-root {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 0.75rem;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  color: #162032;
+}
+
+/* Header area (title, meta, filters) */
+.clients-header {
   display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  /* Position to match layout (can be overridden in responsive rules) */
+  position: fixed;
+  top: calc(var(--topbar-height) + 1rem);
+  left: calc(var(--sidebar-width) + var(--content-horizontal-padding));
+  right: var(--content-horizontal-padding);
+  z-index: 1150;
+  border-radius: 10px;
+  border: 1px solid #e7eef9;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+  padding: 0.6rem;
+  box-sizing: border-box;
+  overflow: visible;
+  max-width: calc(100vw - var(--sidebar-width) - var(--content-horizontal-padding) * 2);
+  /* Filters toolbar */
+}
+.clients-header .title-row {
+  display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-.client-accounts-table .client-accounts-header h2 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin: 0;
-  color: #1f2937;
-  display: flex;
-  align-items: center;
-}
-.client-accounts-table .client-accounts-header h2 svg {
-  margin-right: 0.5rem;
-}
-.client-accounts-table .client-accounts-header .btn-primary,
-.client-accounts-table .client-accounts-header a.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  background-color: #2563eb;
-  color: #fff;
-  border-radius: 0.375rem;
-  border: none;
-  font-weight: 500;
-  cursor: pointer;
-  font-size: 0.95rem;
-  text-decoration: none;
-  transition: background-color 0.18s ease, transform 0.12s ease;
-}
-.client-accounts-table .client-accounts-header .btn-primary:hover,
-.client-accounts-table .client-accounts-header a.btn-primary:hover {
-  background-color: #1d4ed8;
-  transform: translateY(-1px);
-}
-.client-accounts-table .client-accounts-header .btn-primary svg,
-.client-accounts-table .client-accounts-header a.btn-primary svg {
-  display: inline-block;
-  vertical-align: middle;
-}
-.client-accounts-table .client-accounts-table-container {
-  padding: 1.25rem;
-  background-color: #fff;
-  border-radius: 0.75rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-}
-.client-accounts-table .client-accounts-table {
+  gap: 1rem;
   width: 100%;
-  border-collapse: collapse;
-  font-family: "Roboto", system-ui, Arial, sans-serif;
 }
-.client-accounts-table .client-accounts-table thead {
-  background-color: #f3f4f6;
-}
-.client-accounts-table .client-accounts-table thead th {
-  text-align: left;
-  padding: 0.75rem 1rem;
-  font-weight: 600;
-  color: #374151;
-  border-bottom: 2px solid #e5e7eb;
-  font-size: 0.9rem;
-}
-.client-accounts-table .client-accounts-table tbody tr {
-  border-bottom: 1px solid #e5e7eb;
-}
-.client-accounts-table .client-accounts-table tbody tr:hover {
-  background-color: #f9fafb;
-}
-.client-accounts-table .client-accounts-table tbody tr td {
-  padding: 0.75rem 1rem;
-  color: #4b5563;
-  font-size: 0.95rem;
-  vertical-align: middle;
-}
-.client-accounts-table .client-accounts-table tbody tr td.actions {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  align-items: center;
-}
-.client-accounts-table .client-accounts-table tbody tr td .tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.8rem;
-  border-radius: 0.375rem;
-  background: #e5e7eb;
-  color: #111827;
-}
-.client-accounts-table .client-accounts-table tbody tr td .tag::before {
-  content: "";
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 999px;
-  background: #9ca3af;
-}
-.client-accounts-table .client-accounts-table tbody tr td .tag.active {
-  background: #dcfce7;
-  color: #065f46;
-}
-.client-accounts-table .client-accounts-table tbody tr td .tag.active::before {
-  background: #10b981;
-}
-.client-accounts-table .client-accounts-table tbody tr td .tag.inactive {
-  background: #fee2e2;
-  color: #7f1d1d;
-}
-.client-accounts-table .client-accounts-table tbody tr td .tag.inactive::before {
-  background: #ef4444;
-}
-.client-accounts-table .client-accounts-table tbody tr td .btn-link,
-.client-accounts-table .client-accounts-table tbody tr td a.btn-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.4rem 0.8rem;
-  font-size: 0.85rem;
-  border-radius: 0.375rem;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  color: #111827;
-  text-decoration: none;
-  transition: background-color 0.15s, color 0.12s;
-}
-.client-accounts-table .client-accounts-table tbody tr td .btn-link:hover,
-.client-accounts-table .client-accounts-table tbody tr td a.btn-link:hover {
-  background-color: #f3f4f6;
-}
-.client-accounts-table .client-accounts-table tbody tr td .btn-danger {
-  background-color: transparent;
-  color: #b91c1c;
-  border: none;
-}
-.client-accounts-table .client-accounts-table tbody tr td .btn-danger:hover {
-  background-color: #fff5f5;
-}
-.client-accounts-table #createClientAccountModal.hidden,
-.client-accounts-table #createClientModal.hidden {
-  display: none;
-}
-.client-accounts-table #createClientAccountModal .modal-dialog,
-.client-accounts-table #createClientModal .modal-dialog {
-  background: #fff;
-  border-radius: 0.75rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  max-width: 560px;
-  margin: 8vh auto;
-  overflow: hidden;
-}
-.client-accounts-table #createClientAccountModal .modal-header,
-.client-accounts-table #createClientModal .modal-header {
+.clients-header .title-row .title-left {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.25rem;
-  border-bottom: 1px solid #e5e7eb;
+  gap: 0.6rem;
 }
-.client-accounts-table #createClientAccountModal .modal-header h3,
-.client-accounts-table #createClientModal .modal-header h3 {
-  margin: 0;
+.clients-header .title-row .title-left .icon-table {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+}
+.clients-header .title-row .title-left .title-text {
   font-size: 1.125rem;
   font-weight: 600;
-  color: #111827;
+  color: #162032;
+  line-height: 1;
 }
-.client-accounts-table #createClientAccountModal .modal-header .modal-close,
-.client-accounts-table #createClientModal .modal-header .modal-close {
-  background: transparent;
-  border: none;
-  font-size: 1.25rem;
-  cursor: pointer;
+.clients-header .title-row .clients-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  padding: 0.25rem 0.6rem;
+  background: #eef2ff;
+  color: #2563eb;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.03);
+  margin-left: auto;
+}
+.clients-header .header-meta {
+  margin-top: 0.35rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
   color: #6b7280;
 }
-.client-accounts-table #createClientAccountModal .modal-header .modal-close:hover,
-.client-accounts-table #createClientModal .modal-header .modal-close:hover {
-  color: #111827;
+.clients-header .header-meta p, .clients-header .header-meta span {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.2;
+  color: #6b7280;
 }
-.client-accounts-table #createClientAccountModal .modal-body,
-.client-accounts-table #createClientModal .modal-body {
-  padding: 1rem 1.25rem;
-}
-.client-accounts-table #createClientAccountModal .modal-body .form-group,
-.client-accounts-table #createClientModal .modal-body .form-group {
-  display: grid;
-  gap: 0.4rem;
-  margin-bottom: 0.9rem;
-}
-.client-accounts-table #createClientAccountModal .modal-body .form-group label,
-.client-accounts-table #createClientModal .modal-body .form-group label {
-  font-size: 0.9rem;
-  color: #374151;
+.clients-header .header-meta__summary {
+  margin: 0;
+  font-size: 0.85rem;
   font-weight: 500;
+  color: #162032;
 }
-.client-accounts-table #createClientAccountModal .modal-body .form-group input[type=text],
-.client-accounts-table #createClientAccountModal .modal-body .form-group select,
-.client-accounts-table #createClientAccountModal .modal-body .form-group textarea,
-.client-accounts-table #createClientModal .modal-body .form-group input[type=text],
-.client-accounts-table #createClientModal .modal-body .form-group select,
-.client-accounts-table #createClientModal .modal-body .form-group textarea {
-  width: 100%;
-  padding: 0.55rem 0.7rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.375rem;
-  font-size: 0.95rem;
+.clients-header .filters-row {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  padding: 0.5rem 0.5rem;
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e7eef9;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
 }
-.client-accounts-table #createClientAccountModal .modal-body .form-group input[type=text]:focus,
-.client-accounts-table #createClientAccountModal .modal-body .form-group select:focus,
-.client-accounts-table #createClientAccountModal .modal-body .form-group textarea:focus,
-.client-accounts-table #createClientModal .modal-body .form-group input[type=text]:focus,
-.client-accounts-table #createClientModal .modal-body .form-group select:focus,
-.client-accounts-table #createClientModal .modal-body .form-group textarea:focus {
+.clients-header .filters-row .filter-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  color: #6b7280;
+  min-width: 10ch;
+}
+.clients-header .filters-row .filter-item .filter-label {
+  font-weight: 500;
+  color: #6b7280;
+}
+.clients-header .filters-row .filter-item .filter-input,
+.clients-header .filters-row .filter-item .filter-select {
+  appearance: none;
+  border: 1px solid rgb(239.16, 243.78, 251.04);
+  padding: 0.45rem 0.6rem;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 14px;
+  color: #162032;
+  transition: border-color 0.12s ease, box-shadow 0.12s ease;
+}
+.clients-header .filters-row .filter-item .filter-input:focus,
+.clients-header .filters-row .filter-item .filter-select:focus {
   outline: none;
   border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+  box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.06);
 }
-.client-accounts-table #createClientAccountModal .modal-body .modal-footer,
-.client-accounts-table #createClientModal .modal-body .modal-footer {
+.clients-header .filters-row .filters-actions {
+  margin-left: auto;
   display: flex;
+  align-items: center;
   gap: 0.5rem;
-  justify-content: flex-end;
-  margin-top: 0.75rem;
 }
-.client-accounts-table #createClientAccountModal .modal-body .modal-footer .btn-primary,
-.client-accounts-table #createClientModal .modal-body .modal-footer .btn-primary {
-  background: #2563eb;
+.clients-header .filters-row .filters-actions .btn.btn-primary {
+  background: linear-gradient(180deg, #2563eb, rgb(19.4285714286, 79.6571428571, 211.7714285714));
   color: #fff;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 0.375rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 10px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  box-shadow: 0 6px 12px rgba(37, 99, 235, 0.12);
 }
-.client-accounts-table #createClientAccountModal .modal-body .modal-footer .btn-primary:hover,
-.client-accounts-table #createClientModal .modal-body .modal-footer .btn-primary:hover {
-  background: #1d4ed8;
+.clients-header .filters-row .filters-actions .btn.btn-primary:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.14);
 }
-.client-accounts-table #createClientAccountModal .modal-body .modal-footer .btn-secondary,
-.client-accounts-table #createClientModal .modal-body .modal-footer .btn-secondary {
-  background: #e5e7eb;
-  color: #111827;
+.clients-header .filters-row .filters-actions .btn.btn-primary:active {
+  transform: translateY(0) scale(0.995);
+  box-shadow: 0 4px 8px rgba(37, 99, 235, 0.1);
+}
+.clients-header .filters-row .filters-actions .btn.btn-primary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14);
+}
+
+/* Table container */
+.clients-table-container {
+  position: fixed;
+  top: calc(var(--site-visit-header-height) + var(--topbar-height) + 1.75rem);
+  bottom: 1rem;
+  left: calc(var(--sidebar-width) + var(--content-horizontal-padding));
+  right: var(--content-horizontal-padding);
+  border-radius: 10px;
+  overflow-x: auto;
+  overflow-y: auto;
+  background: #ffffff;
+  border: 1px solid #e7eef9;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
+}
+.clients-table-container .clients-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  font-size: 14px;
+  color: #162032;
+  table-layout: auto;
+  min-width: 0;
+}
+.clients-table-container .clients-table thead tr th {
+  position: sticky;
+  top: 0;
+  z-index: 1140;
+  text-align: left;
+  font-weight: 700;
+  padding: 0.9rem 0.85rem;
+  border-bottom: 1px solid #e7eef9;
+  color: #162032;
+  white-space: nowrap;
+  font-size: 13px;
+  background: #ffffff;
+}
+.clients-table-container .clients-table tbody tr {
+  transition: background 0.12s ease;
+  /* Ajuste de la columna Acciones */
+}
+.clients-table-container .clients-table tbody tr:hover {
+  background-color: rgba(37, 99, 235, 0.03);
+}
+.clients-table-container .clients-table tbody tr td {
+  padding: 0.65rem 0.85rem;
+  border-bottom: 1px solid #e7eef9;
+  vertical-align: middle;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+.clients-table-container .clients-table tbody tr td.actions {
+  width: 12%;
+  min-width: 120px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 0.4rem;
+}
+.clients-table-container .clients-table tbody tr td.actions .btn-link {
+  background: transparent;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 0.375rem;
+  color: #2563eb;
+  cursor: pointer;
+  padding: 0.25rem 0.4rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
 }
-.client-accounts-table #createClientAccountModal .modal-body .modal-footer .btn-secondary:hover,
-.client-accounts-table #createClientModal .modal-body .modal-footer .btn-secondary:hover {
-  background: rgb(217.4695652174, 220.3565217391, 226.1304347826);
+.clients-table-container .clients-table tbody tr td.actions .btn-link:hover {
+  color: rgb(19.4285714286, 79.6571428571, 211.7714285714);
 }
-.client-accounts-table #createClientAccountModal .modal-body .form-error,
-.client-accounts-table #createClientModal .modal-body .form-error {
-  margin-top: 0.5rem;
-  color: #b91c1c;
-  font-size: 0.9rem;
-}
-.client-accounts-table #createClientAccountModal .modal-body .form-ok,
-.client-accounts-table #createClientModal .modal-body .form-ok {
-  margin-top: 0.5rem;
-  color: #065f46;
-  font-size: 0.9rem;
-}
-@media (max-width: 640px) {
-  .client-accounts-table .client-accounts-header {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.5rem;
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  :root {
+    --sidebar-width: 0px;
   }
-  .client-accounts-table .client-accounts-header .btn-primary {
-    width: 100%;
+  .clients-header {
+    left: 1rem;
+    right: 1rem;
+    max-width: none;
   }
-  .client-accounts-table .client-accounts-table-container .client-accounts-table thead {
-    display: none;
-  }
-  .client-accounts-table .client-accounts-table-container .client-accounts-table tbody tr {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.25rem 0.75rem;
-    padding: 0.75rem 0;
-  }
-  .client-accounts-table .client-accounts-table-container .client-accounts-table tbody tr td {
-    padding: 0.25rem 0.25rem;
-  }
-  .client-accounts-table .client-accounts-table-container .client-accounts-table tbody tr td:nth-child(1)::before {
-    content: "ID";
-    font-weight: 600;
-    display: block;
-    color: #6b7280;
-  }
-  .client-accounts-table .client-accounts-table-container .client-accounts-table tbody tr td:nth-child(2)::before {
-    content: "Nombre";
-    font-weight: 600;
-    display: block;
-    color: #6b7280;
-  }
-  .client-accounts-table .client-accounts-table-container .client-accounts-table tbody tr td:nth-child(3)::before {
-    content: "Cliente";
-    font-weight: 600;
-    display: block;
-    color: #6b7280;
-  }
-  .client-accounts-table .client-accounts-table-container .client-accounts-table tbody tr td:nth-child(4) {
-    grid-column: 1/-1;
-    margin-top: 0.25rem;
-  }
-  .client-accounts-table .client-accounts-table-container .client-accounts-table tbody tr td:nth-child(4)::before {
-    content: "Acciones";
-    font-weight: 600;
-    display: block;
-    color: #6b7280;
-    margin-bottom: 0.25rem;
-  }
-  .client-accounts-table .client-accounts-table-container .client-accounts-table tbody tr td.actions {
-    justify-content: flex-start;
+  .clients-table-container {
+    left: 1rem;
+    right: 1rem;
+    max-width: none;
   }
 }/*# sourceMappingURL=clients-table.css.map */

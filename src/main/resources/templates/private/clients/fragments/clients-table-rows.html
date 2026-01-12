@@ -1,0 +1,28 @@
+      <tbody th:fragment="rows">
+        <tr th:each="c : ${clients}">
+          <td th:text="${c.id}"></td>
+          <td th:text="${c.name}"></td>
+          <td th:text="${c.taxId}">—</td>
+          <td th:text="${c.contactEmail}">—</td>
+
+          <!-- Tag de estado -->
+          <td>
+            <span class="tag"
+                  th:text="${c.active} ? 'Activo' : 'Inactivo'">Activo</span>
+          </td>
+
+          <td class="actions">
+            <button type="button"
+                    class="btn-link"
+                    th:attr="data-path=@{/private/clients/show/{id}(id=${c.id})}">
+              Ver
+            </button>
+
+            <button type="button"
+                    class="btn-link"
+                    th:attr="data-path=@{/private/clients/edit/{id}(id=${c.id})}">
+              Editar
+            </button>
+          </td>
+        </tr>
+      </tbody>
