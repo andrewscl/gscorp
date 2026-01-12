@@ -11,6 +11,7 @@
 }
 
 /* SCSS tokens */
+/* Rojo acceso con buen contraste */
 .clients-root {
   background: #ffffff;
   border-radius: 10px;
@@ -180,6 +181,8 @@
   background: #ffffff;
   border: 1px solid #e7eef9;
   box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
+  /* Modal (opcional) */
+  /* Responsive */
 }
 .clients-table-container .clients-table {
   width: 100%;
@@ -240,20 +243,178 @@
 .clients-table-container .clients-table tbody tr td.actions .btn-link:hover {
   color: rgb(19.4285714286, 79.6571428571, 211.7714285714);
 }
-
-/* Responsive adjustments */
-@media (max-width: 1024px) {
-  :root {
-    --sidebar-width: 0px;
+.clients-table-container #createClientAccountModal.hidden,
+.clients-table-container #createClientModal.hidden {
+  display: none;
+}
+.clients-table-container #createClientAccountModal .modal-dialog,
+.clients-table-container #createClientModal .modal-dialog {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  max-width: 560px;
+  margin: 8vh auto;
+  overflow: hidden;
+}
+.clients-table-container #createClientAccountModal .modal-header,
+.clients-table-container #createClientModal .modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid rgb(160.770212766, 165.9234042553, 176.229787234);
+}
+.clients-table-container #createClientAccountModal .modal-header h3,
+.clients-table-container #createClientModal .modal-header h3 {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+}
+.clients-table-container #createClientAccountModal .modal-header .modal-close,
+.clients-table-container #createClientModal .modal-header .modal-close {
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: #6b7280;
+}
+.clients-table-container #createClientAccountModal .modal-header .modal-close:hover,
+.clients-table-container #createClientModal .modal-header .modal-close:hover {
+  color: #111827;
+}
+.clients-table-container #createClientAccountModal .modal-body,
+.clients-table-container #createClientModal .modal-body {
+  padding: 1rem 1.25rem;
+}
+.clients-table-container #createClientAccountModal .modal-body .form-group,
+.clients-table-container #createClientModal .modal-body .form-group {
+  display: grid;
+  gap: 0.4rem;
+  margin-bottom: 0.9rem;
+}
+.clients-table-container #createClientAccountModal .modal-body .form-group label,
+.clients-table-container #createClientModal .modal-body .form-group label {
+  font-size: 0.9rem;
+  color: #374151;
+  font-weight: 500;
+}
+.clients-table-container #createClientAccountModal .modal-body .form-group input[type=text],
+.clients-table-container #createClientAccountModal .modal-body .form-group select,
+.clients-table-container #createClientAccountModal .modal-body .form-group textarea,
+.clients-table-container #createClientModal .modal-body .form-group input[type=text],
+.clients-table-container #createClientModal .modal-body .form-group select,
+.clients-table-container #createClientModal .modal-body .form-group textarea {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 0.95rem;
+}
+.clients-table-container #createClientAccountModal .modal-body .form-group input[type=text]:focus,
+.clients-table-container #createClientAccountModal .modal-body .form-group select:focus,
+.clients-table-container #createClientAccountModal .modal-body .form-group textarea:focus,
+.clients-table-container #createClientModal .modal-body .form-group input[type=text]:focus,
+.clients-table-container #createClientModal .modal-body .form-group select:focus,
+.clients-table-container #createClientModal .modal-body .form-group textarea:focus {
+  outline: none;
+  border-color: #e7eef9;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+.clients-table-container #createClientAccountModal .modal-body .modal-footer,
+.clients-table-container #createClientModal .modal-body .modal-footer {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-top: 0.75rem;
+}
+.clients-table-container #createClientAccountModal .modal-body .modal-footer .btn-primary,
+.clients-table-container #createClientModal .modal-body .modal-footer .btn-primary {
+  background: #e7eef9;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+}
+.clients-table-container #createClientAccountModal .modal-body .modal-footer .btn-primary:hover,
+.clients-table-container #createClientModal .modal-body .modal-footer .btn-primary:hover {
+  background: rgb(6.4166666667, 9.3333333333, 14.5833333333);
+}
+.clients-table-container #createClientAccountModal .modal-body .modal-footer .btn-secondary,
+.clients-table-container #createClientModal .modal-body .modal-footer .btn-secondary {
+  background: rgb(160.770212766, 165.9234042553, 176.229787234);
+  color: #111827;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+}
+.clients-table-container #createClientAccountModal .modal-body .modal-footer .btn-secondary:hover,
+.clients-table-container #createClientModal .modal-body .modal-footer .btn-secondary:hover {
+  background: rgb(149.6587234043, 155.4195744681, 166.9412765957);
+}
+.clients-table-container #createClientAccountModal .modal-body .form-error,
+.clients-table-container #createClientModal .modal-body .form-error {
+  margin-top: 0.5rem;
+  color: #dc2626;
+  font-size: 0.9rem;
+}
+.clients-table-container #createClientAccountModal .modal-body .form-ok,
+.clients-table-container #createClientModal .modal-body .form-ok {
+  margin-top: 0.5rem;
+  color: #065f46;
+  font-size: 0.9rem;
+}
+@media (max-width: 640px) {
+  .clients-table-container .client-accounts-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
   }
-  .clients-header {
-    left: 1rem;
-    right: 1rem;
-    max-width: none;
+  .clients-table-container .client-accounts-header .btn-primary {
+    width: 100%;
   }
-  .clients-table-container {
-    left: 1rem;
-    right: 1rem;
-    max-width: none;
+  .clients-table-container .client-accounts-table-container .client-accounts-table thead {
+    display: none;
+  }
+  .clients-table-container .client-accounts-table-container .client-accounts-table tbody tr {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.25rem 0.75rem;
+    padding: 0.75rem 0;
+  }
+  .clients-table-container .client-accounts-table-container .client-accounts-table tbody tr td {
+    padding: 0.25rem 0.25rem;
+  }
+  .clients-table-container .client-accounts-table-container .client-accounts-table tbody tr td:nth-child(1)::before {
+    content: "ID";
+    font-weight: 600;
+    display: block;
+    color: #6b7280;
+  }
+  .clients-table-container .client-accounts-table-container .client-accounts-table tbody tr td:nth-child(2)::before {
+    content: "Nombre";
+    font-weight: 600;
+    display: block;
+    color: #6b7280;
+  }
+  .clients-table-container .client-accounts-table-container .client-accounts-table tbody tr td:nth-child(3)::before {
+    content: "Cliente";
+    font-weight: 600;
+    display: block;
+    color: #6b7280;
+  }
+  .clients-table-container .client-accounts-table-container .client-accounts-table tbody tr td:nth-child(4) {
+    grid-column: 1/-1;
+    margin-top: 0.25rem;
+  }
+  .clients-table-container .client-accounts-table-container .client-accounts-table tbody tr td:nth-child(4)::before {
+    content: "Acciones";
+    font-weight: 600;
+    display: block;
+    color: #6b7280;
+    margin-bottom: 0.25rem;
+  }
+  .clients-table-container .client-accounts-table-container .client-accounts-table tbody tr td.actions {
+    justify-content: flex-start;
   }
 }/*# sourceMappingURL=clients-table.css.map */
