@@ -50,5 +50,7 @@ public interface ShiftRequestService {
             ShiftRequestType type
     );
 
+    public boolean deleteShiftRequest(Long Id);
+
 
 }

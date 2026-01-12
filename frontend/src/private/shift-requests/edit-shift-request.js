@@ -130,7 +130,7 @@ async function onSaveClick(e) {
 
   try {
     // PUT using fetchWithAuth; expects JSON on the server side
-    const url = `/private/shift-requests/${payload.id}`;
+    const url = `/api/shift-requests/${payload.id}`;
     const res = await fetchWithAuth(url, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -152,6 +152,54 @@ async function onSaveClick(e) {
   }
 }
 
+
+
+async function onDeleteShiftRequest() {
+  const idEl = document.querySelector('input[name="id"]');
+  const shiftRequestId = idEl ? idEl.value : null;
+
+  // Referencias a elementos para mostrar errores y mensajes
+  const errorBox = qs('#editShiftRequestError');
+  const okBox = qs('#editShiftRequestOk');
+
+  // Limpia cualquier mensaje previo en pantalla
+  if (errorBox) errorBox.style.display = 'none';
+  if (okBox) okBox.style.display = 'none';
+
+  // Validación: Verifica si se tiene el ID
+  if (!shiftRequestId) {
+    showError('No se puede eliminar porque falta el ID de la solicitud.');
+    return;
+  }
+
+  // Confirmación de eliminación
+  const confirmDelete = confirm('¿Estás seguro de que deseas eliminar esta solicitud de turno? Esta acción no se puede deshacer.');
+  if (!confirmDelete) return;
+
+  try {
+    // Realiza la solicitud DELETE al backend
+    const url = `/api/shift-requests/${shiftRequestId}`;
+    const res = await fetchWithAuth(url, { method: 'DELETE' });
+
+    // Manejo de errores en la respuesta
+    if (!res.ok) {
+      const errorText = await res.text().catch(() => `Error ${res.status}`);
+      throw new Error(errorText);
+    }
+
+    // Mostrar mensaje de éxito
+    showOk('Solicitud de turno eliminada correctamente.');
+    
+    // Redirigir al listado después de 1 segundo
+    setTimeout(() => navigateTo('/private/shift-requests/table-view'), 1000);
+  } catch (err) {
+    console.error('delete error', err);
+    showError(err.message || 'Error al eliminar la solicitud de turno.');
+  }
+}
+
+
+
 function onCancelClick(e) {
   e.preventDefault();
   navigateTo('/private/shift-requests/table-view');
@@ -161,6 +209,7 @@ function bind() {
   qs('#addScheduleBtn')?.addEventListener('click', () => addScheduleRow({}));
   qs('#saveShiftRequestBtn')?.addEventListener('click', onSaveClick);
   qs('#cancelEditBtn')?.addEventListener('click', onCancelClick);
+  qs('#deleteShiftRequestBtn')?.addEventListener('click', onDeleteShiftRequest);
   wireRemoveButtons();
   // ESC shortcut to go back
   document.addEventListener('keydown', (ev) => {

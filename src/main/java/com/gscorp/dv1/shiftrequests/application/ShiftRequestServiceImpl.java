@@ -53,6 +53,8 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
     private final ZoneResolver zoneResolver;
     private final TransactionTemplate transactionTemplate;
 
+
+
     @Override
     public List<ShiftRequestDto> findAll() {
         List<ShiftRequest> shiftRequests = shiftRequestRepository.findAll();
@@ -61,11 +63,15 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
             .toList();
     }
 
+
+
     @Override
     public Optional<ShiftRequestDto> findById(Long id) {
         return shiftRequestRepository.findById(id)
             .map(ShiftRequestDto::fromEntity);
     }
+
+
 
     @Override
     public Optional<ShiftRequestDto> update(Long id, CreateShiftRequest req) {
@@ -96,6 +102,7 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
     }
 
 
+
     @Override
     @Transactional(readOnly = true)
     public List<ShiftRequestDto> findByClientIds(Collection<Long> clientIds) {
@@ -107,6 +114,25 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
         return entities.stream()
                 .map(ShiftRequestDto::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+
+
+    @Override
+    @Transactional
+    public boolean deleteShiftRequest(Long id) {
+        try{
+            Optional<ShiftRequest> shiftRequestOpt = shiftRequestRepository.findById(id);
+            if(shiftRequestOpt.isPresent()){
+                shiftRequestRepository.delete(shiftRequestOpt.get());
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e){
+            log.error("Error deleting ShiftRequest with id {}: {}", id, e.getMessage(), e);
+            return false;
+        }
     }
 
 

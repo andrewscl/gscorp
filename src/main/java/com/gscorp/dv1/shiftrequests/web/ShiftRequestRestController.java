@@ -15,6 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,6 +55,8 @@ public class ShiftRequestRestController {
     private final ClientAccountService clientAccountService;
     private final ZoneResolver zoneResolver;
 
+
+
     @PostMapping("/create")
     public ResponseEntity<ShiftRequestDto> createShiftRequest(
         @jakarta.validation.Valid @RequestBody CreateShiftRequest req,
@@ -75,7 +78,9 @@ public class ShiftRequestRestController {
 
     }
 
-    @PutMapping("/edit/{id}")
+
+
+    @PutMapping("/{id}")
     public ResponseEntity<ShiftRequestDto> editShiftRequest(
         @PathVariable Long id,
         @jakarta.validation.Valid @RequestBody CreateShiftRequest req
@@ -86,6 +91,26 @@ public class ShiftRequestRestController {
             .map(ResponseEntity::ok)
             .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteShiftRequest(@PathVariable Long id) {
+        try {
+            boolean deleted = shiftRequestService.deleteShiftRequest(id);
+
+            if (deleted) {
+                return ResponseEntity.noContent().build(); // Retorna 204 si se eliminó correctamente
+            } else {
+                return ResponseEntity.notFound().build(); // Retorna 404 si no existe
+            }
+        } catch (Exception ex) {
+            log.error("Error al eliminar ShiftRequest con ID {}: {}", id, ex.getMessage(), ex);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "No se pudo eliminar la solicitud de turno.");
+        }
+    }
+
+
 
     @GetMapping("/sites/{siteId}/accounts")
     public ResponseEntity<List<ClientAccountDto>> getClientAccountsForSite(
@@ -101,6 +126,7 @@ public class ShiftRequestRestController {
 
         return ResponseEntity.ok(accounts);
     }
+
 
 
     @GetMapping("/forecast-series")
@@ -216,6 +242,7 @@ public class ShiftRequestRestController {
     }
 
 
+
     @GetMapping("/forecast-series/hourly")
     public ResponseEntity<List<Map<String, Object>>> getShiftRequestForecastHourly(
             Authentication authentication,
@@ -281,6 +308,8 @@ public class ShiftRequestRestController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener forecast hourly.");
         }
     }
+
+
 
 }   
     
