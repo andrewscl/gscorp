@@ -207,19 +207,36 @@ function onCancelClick(e) {
   navigateTo('/private/shift-requests/table-view');
 }
 
-function bind() {
+
+/* --- Bindings generales --- */
+function bindAddScheduleBtn() {
   qs('#addScheduleBtn')?.addEventListener('click', () => addScheduleRow({}));
+}
+
+function bindsaveShiftRequestBtn() {
   qs('#saveShiftRequestBtn')?.addEventListener('click', onSaveClick);
+}
+
+function bindcancelEditBtn() {
   qs('#cancelEditBtn')?.addEventListener('click', onCancelClick);
+}
+
+function binddeleteShiftRequestBtn() {
   qs('#deleteShiftRequestBtn')?.addEventListener('click', onDeleteShiftRequest);
+}
+
+
+
+(function init() {
+  bindAddScheduleBtn();
+  bindsaveShiftRequestBtn();
+  bindcancelEditBtn();
+  binddeleteShiftRequestBtn();
+
   wireRemoveButtons();
   // ESC shortcut to go back
   document.addEventListener('keydown', (ev) => {
     if (ev.key === 'Escape') navigateTo('/private/shift-requests/table-view');
   });
-}
 
-// auto-init when DOM ready
-document.addEventListener('DOMContentLoaded', () => {
-  try { bind(); } catch (e) { console.error(e); }
-});
+})();
