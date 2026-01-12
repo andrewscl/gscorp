@@ -243,6 +243,14 @@
 .clients-table-container .clients-table tbody tr td.actions .btn-link:hover {
   color: rgb(19.4285714286, 79.6571428571, 211.7714285714);
 }
+.clients-table-container #createClientAccountModal,
+.clients-table-container #createClientModal {
+  position: fixed; /* Fija el modal a la pantalla para que cubra todo */
+  inset: 0; /* Hace que ocupe todo el viewport */
+  display: none; /* Oculto por defecto */
+  background: rgba(0, 0, 0, 0.5); /* Fondo oscuro semi-transparente (overlay) */
+  z-index: 1050;
+}
 .clients-table-container #createClientAccountModal.hidden,
 .clients-table-container #createClientModal.hidden {
   display: none;
