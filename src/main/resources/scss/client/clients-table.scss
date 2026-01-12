@@ -291,14 +291,12 @@ $shadow-xs: 0 1px 4px rgba(15, 23, 42, 0.04);
   }
 
   /* Modal (opcional) */
-  #createClientAccountModal,
   #createClientModal {
 
     position: fixed; /* Fija el modal a la pantalla para que cubra todo */
     inset: 0; /* Hace que ocupe todo el viewport */
-    display: none; /* Oculto por defecto */
     background: rgba(0, 0, 0, 0.5); /* Fondo oscuro semi-transparente (overlay) */
-    z-index: 1050;
+    z-index: 1250;
 
     &.hidden { display: none; }
 
@@ -309,7 +307,7 @@ $shadow-xs: 0 1px 4px rgba(15, 23, 42, 0.04);
       max-width: 560px;
       margin: 8vh auto;
       overflow: hidden;
-      z-index: 1050;
+      z-index: 1260;
     }
 
     .modal-header {
