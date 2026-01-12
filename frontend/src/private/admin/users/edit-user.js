@@ -87,6 +87,8 @@ async function handleSave(form) {
   try {
     const payload = serializeFormToDto(form);
 
+    console.log('Payload generado:', payload);
+
     // Enviar PATCH con JSON (ajusta a PUT si tu API lo requiere)
     const res = await fetchWithAuth(endpoint, {
       method: 'PATCH',
