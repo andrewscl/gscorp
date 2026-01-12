@@ -263,6 +263,7 @@
   max-width: 560px;
   margin: 8vh auto;
   overflow: hidden;
+  z-index: 1050;
 }
 .clients-table-container #createClientAccountModal .modal-header,
 .clients-table-container #createClientModal .modal-header {
