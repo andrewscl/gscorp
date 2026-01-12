@@ -4,6 +4,8 @@ import { navigateTo } from '../../navigation-handler.js';
 const qs = (s) => document.querySelector(s);
 const qsa = (s) => Array.from(document.querySelectorAll(s));
 
+console.log("edit-shift-request.js cargado");
+
 function nextIndex(tbody) {
   const rows = tbody.querySelectorAll('tr');
   let max = -1;
