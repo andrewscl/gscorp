@@ -1,4 +1,4 @@
-<div th:fragment="createClient">
+<div th:fragment="content">
   <div class="form-container client-create">
     <h2>Crear Cliente</h2>
 
@@ -35,13 +35,14 @@
 
       <div class="form-actions">
         <button type="submit" class="btn-primary">Crear Cliente</button>
-        <button type="button" class="btn-secondary" data-path="/private/admin/clients">Cancelar</button>
+        <button type="button" class="btn-secondary"
+                          th:attr="data-path=@{/private/clients/table-view}">Cancelar</button>
       </div>
 
       <div id="clientFormMessage" class="form-message"></div>
     </form>
 
     <!-- JS que maneja submit via fetch (sin th:action) -->
-    <script type="module" src="/js/private/admin/clients/create-client.js"></script>
+    <script type="module" src="/js/private/clients/create-client.js"></script>
   </div>
 </div>

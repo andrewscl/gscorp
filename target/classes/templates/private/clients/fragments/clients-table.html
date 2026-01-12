@@ -40,7 +40,8 @@
 
             <div class="filters-actions">
 
-                <button id="createClientBtn" class="btn btn-primary" aria-label="Crear cliente">
+                <button id="createClientBtn" class="btn btn-primary"
+                th:attr="data-path=@{/private/clients/create}" aria-label="Crear cliente">
                     <!-- icono + -->
                     <svg class="icon icon-plus" width="16" height="16" viewBox="0 0 16 16" focusable="false" aria-hidden="true">
                         <circle cx="8" cy="8" r="7" fill="#dbeafe" stroke="#1e3a8a" stroke-width="1"/>
@@ -74,56 +75,5 @@
     </table>
   </div>
 
-  <!-- Modal Crear Cliente -->
-  <div id="createClientModal" class="modal hidden" aria-hidden="true" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-header">
-        <h3>Crear cliente</h3>
-        <button type="button" class="modal-close" id="closeCreateClient">&times;</button>
-      </div>
-
-      <form id="createClientForm" class="modal-body">
-        <div class="form-group">
-          <label for="clientName">Nombre</label>
-          <input type="text" id="clientName" name="name" placeholder="Nombre corto" required />
-        </div>
-
-        <div class="form-group">
-          <label for="clientLegalName">Razón social</label>
-          <input type="text" id="clientLegalName" name="legalName" placeholder="Razón social" />
-        </div>
-
-        <div class="form-group">
-          <label for="clientTaxId">RUT / NIT</label>
-          <input type="text" id="clientTaxId" name="taxId" placeholder="00.000.000-0" />
-        </div>
-
-        <div class="form-group">
-          <label for="clientEmail">Mail contacto</label>
-          <input type="email" id="clientEmail" name="contactEmail" placeholder="contacto@cliente.com" />
-        </div>
-
-        <div class="form-group">
-          <label for="clientPhone">Teléfono</label>
-          <input type="text" id="clientPhone" name="contactPhone" placeholder="+56 9 1234 5678" />
-        </div>
-
-        <div class="form-group" style="display:flex;align-items:center;gap:.5rem">
-          <input type="checkbox" id="clientActive" name="active" checked />
-          <label for="clientActive" style="margin:0">Activo</label>
-        </div>
-
-        <div class="modal-footer">
-          <button type="submit" class="btn-primary">Crear</button>
-          <button type="button" class="btn-secondary" id="cancelCreateClient">Cancelar</button>
-        </div>
-
-        <div class="form-error" id="createClientError"></div>
-        <div class="form-ok" id="createClientOk" style="display:none;">Cliente creado ✅</div>
-      </form>
-    </div>
-  </div>
-
-  <script type="module" src="/js/private/clients/create-client.js"></script>
   <script type="module" src="/js/private/clients/clients-table.js"></script>
 </div>

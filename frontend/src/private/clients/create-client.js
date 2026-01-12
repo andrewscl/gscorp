@@ -6,29 +6,6 @@ console.log('create-client.js cargado');
 
 const qs  = (s) => document.querySelector(s);
 
-function openModal() {
-  const m = qs('#createClientModal');
-  if (!m) return;
-  m.classList.remove('hidden');
-  m.setAttribute('aria-hidden', 'false');
-  document.body.classList.add('no-scroll');
-  setTimeout(() => qs('#clientName')?.focus(), 0);
-}
-
-function closeModal() {
-  const m = qs('#createClientModal');
-  if (!m) return;
-  m.classList.add('hidden');
-  m.setAttribute('aria-hidden', 'true');
-  document.body.classList.remove('no-scroll');
-
-  qs('#createClientForm')?.reset();
-  const msg = qs('#createClientError');
-  const ok  = qs('#createClientOk');
-  if (msg) msg.textContent = '';
-  if (ok)  ok.style.display = 'none';
-}
-
 /* --- Crear cliente --- */
 async function onSubmitCreate(e) {
   e.preventDefault();
@@ -77,9 +54,6 @@ async function onSubmitCreate(e) {
 
 /* --- Bindings --- */
 function bindModal() {
-  qs('#createClientBtn')?.addEventListener('click', openModal);
-  qs('#closeCreateClient')?.addEventListener('click', closeModal);
-  qs('#cancelCreateClient')?.addEventListener('click', closeModal);
   qs('#createClientForm')?.addEventListener('submit', onSubmitCreate);
   document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') closeModal(); });
 }

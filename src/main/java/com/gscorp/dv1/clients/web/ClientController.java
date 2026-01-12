@@ -19,6 +19,11 @@ public class ClientController {
     @Autowired
     private ClientService clientService;
 
+    @GetMapping("/create")
+    public String createClient(Model model) {
+        return "private/clients/views/create-client-view";
+    }
+
     @GetMapping("/dashboard")
     public String getClientsDashboard(Model model) {
         model.addAttribute("clients", clientService.getAllClients());
