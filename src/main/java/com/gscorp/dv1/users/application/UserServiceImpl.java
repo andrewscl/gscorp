@@ -347,32 +347,44 @@ public class UserServiceImpl implements UserService{
 
         // Asociaciones: roles
         if (dto.roleIds() != null) {
-            Set<Role> roles = new HashSet<>();
+            Set<Role> newRoles = new HashSet<>();
+
             if (!dto.roleIds().isEmpty()) {
-                Iterable<Role> found = roleRepo.findAllById(dto.roleIds());
-                found.forEach(roles::add);
-                // opcional: validar que se encontraron todas las ids solicitadas
-                if (roles.size() != dto.roleIds().size()) {
-                    log.warn("Algunas roleIds no existen al actualizar user {}: solicitado={}, encontrados={}", userId, dto.roleIds(), roles.size());
+                Iterable<Role> foundRoles = roleRepo.findAllById(dto.roleIds());
+                foundRoles.forEach(newRoles::add);
+
+                //Validar si se encontraron todas las roleIds solicitadas
+                if (newRoles.size() != dto.roleIds().size()) {
+                    log.warn("Algunas roleIds no existen al actualizar user {}: solicitado={}, encontrados={}", userId, dto.roleIds(), newRoles.size());
                     // Puedes optar por lanzar excepción en lugar de ignorar
                     // throw new EntityNotFoundException("Algunas roles no existen");
                 }
             }
-            user.setRoles(roles);
+
+            //Quitar roles que ya no están
+            user.getRoles().removeIf(role -> !newRoles.contains(role));
+
+            //Agregar nuevas relaciones
+            for (Role newRole : newRoles) {
+                if (!user.getRoles().contains(newRole)) {
+                    user.getRoles().add(newRole);
+                }
+            }
         }
 
         // Asociaciones: clients
         if (dto.clientIds() != null) {
-            Set<Client> clients = new HashSet<>();
-            if (!dto.clientIds().isEmpty()) {
-                Iterable<Client> found = clientRepo.findAllById(dto.clientIds());
-                found.forEach(clients::add);
-                if (clients.size() != dto.clientIds().size()) {
-                    log.warn("Algunas clientIds no existen al actualizar user {}: solicitado={}, encontrados={}", userId, dto.clientIds(), clients.size());
-                    // opcional: lanzar excepción
+            Set<Client> newClients = new HashSet<>(clientRepo.findAllById(dto.clientIds()));
+
+            //Quitar clients que ya no están
+            user.getClients().removeIf(client -> !newClients.contains(client));
+
+            //Agregar nuevas relaciones
+            for (Client newClient : newClients) {
+                if (!user.getClients().contains(newClient)) {
+                    user.getClients().add(newClient);
                 }
             }
-            user.setClients(clients);
         }
 
         // Employee (one-to-one)
