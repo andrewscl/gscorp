@@ -23,13 +23,13 @@ function showStatus(message, { error = false, timeout = 4000 } = {}) {
 
 function serializeFormToDto(form) {
   // Construye el payload respetando los nombres del UserUpdateDto
-  const usernameEl = qs('#user-username', form);
-  const mailEl = qs('#user-mail', form);
-  const activeEl = qs('#user-active', form);
-  const rolesEl = qs('#user-roleIds', form);
-  const clientsEl = qs('#user-clientIds', form);
-  const employeeEl = qs('#user-employeeId', form);
-  const tzEl = qs('#user-timeZone', form);
+  const usernameEl = qs('#userusername', form);
+  const mailEl = qs('#userMail', form);
+  const activeEl = qs('#userActive', form);
+  const rolesEl = qs('#userRoles', form);
+  const clientsEl = qs('#userClients', form);
+  const employeeEl = qs('#userEmployeeId', form);
+  const tzEl = qs('#userTimeZone', form);
 
   const payload = {};
 
