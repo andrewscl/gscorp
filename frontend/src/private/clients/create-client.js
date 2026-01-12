@@ -1,64 +1,89 @@
-// /js/private/admin/clients/create-client.js
 import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
 
 console.log('create-client.js cargado');
 
-const qs  = (s) => document.querySelector(s);
+// Selector reducido para simplificar el acceso al DOM
+const qs = (s) => document.querySelector(s);
 
-/* --- Crear cliente --- */
+/* --- Limpia Mensajes --- */
+function clearMessages() {
+  const message = qs('#clientFormMessage');
+  if (message) {
+    message.textContent = '';
+    message.classList.remove('error', 'success');
+  }
+}
+
+/* --- Muestra Mensajes --- */
+function showMessage(type, text) {
+  const message = qs('#clientFormMessage');
+  if (message) {
+    message.textContent = text;
+    message.classList.add(type); // `type` puede ser 'error' o 'success'
+  }
+}
+
+/* --- Valida los Datos del Formulario --- */
+function validateFormData({ name, contactEmail }) {
+  if (!name) {
+    showMessage('error', 'El nombre es obligatorio.');
+    return false;
+  }
+
+  if (contactEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactEmail)) {
+    showMessage('error', 'El correo electrónico no es válido.');
+    return false;
+  }
+
+  return true;
+}
+
+/* --- Enviar Formulario --- */
 async function onSubmitCreate(e) {
   e.preventDefault();
 
-  
-  const name        = qs('#clientName')?.value?.trim();
-  const legalName   = qs('#clientLegalName')?.value?.trim() || null;
-  const taxId       = qs('#clientTaxId')?.value?.trim() || null;
-  const contactEmail= qs('#clientEmail')?.value?.trim() || null;
-  const contactPhone= qs('#clientPhone')?.value?.trim() || null;
-  const active      = !!qs('#clientActive')?.checked;
+  const name = qs('#clientName')?.value?.trim();
+  const legalName = qs('#clientLegalName')?.value?.trim() || null;
+  const taxId = qs('#clientTaxId')?.value?.trim() || null;
+  const contactEmail = qs('#clientEmail')?.value?.trim() || null;
+  const contactPhone = qs('#clientPhone')?.value?.trim() || null;
+  const active = !!qs('#clientActive')?.checked;
 
-  const err = qs('#createClientError');
-  const ok  = qs('#createClientOk');
-  if (err) err.textContent = '';
-  if (ok)  ok.style.display = 'none';
+  clearMessages();
 
-  if (!name) {
-    if (err) err.textContent = 'El nombre es obligatorio.';
-    return;
-  }
+  const formData = { name, legalName, taxId, contactEmail, contactPhone, active };
+
+  if (!validateFormData(formData)) return;
 
   try {
-    // Ajusta el endpoint si en tu backend usas otro (p.ej. /api/admin/clients/create)
-    const res = await fetchWithAuth('/api/clients/create', {
+    const response = await fetchWithAuth('/api/clients/create', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, legalName, taxId, contactEmail, contactPhone, active })
+      body: JSON.stringify(formData),
     });
 
-    if (!res.ok) {
-      const msg = await res.text().catch(() => '');
-      throw new Error(msg || 'No se pudo crear el cliente');
+    if (!response.ok) {
+      const error = await response.text().catch(() => 'Error desconocido');
+      throw new Error(error || 'No se pudo crear el cliente.');
     }
 
-    if (ok) ok.style.display = 'block';
+    showMessage('success', 'Cliente creado correctamente.');
+
     setTimeout(() => {
-      closeModal();
-      // Vuelve al listado
       navigateTo('/private/clients/table-view');
-    }, 600);
-  } catch (e2) {
-    if (err) err.textContent = e2.message;
+    }, 1000);
+  } catch (error) {
+    showMessage('error', error.message || 'Hubo un error al crear el cliente.');
   }
 }
 
-/* --- Bindings --- */
-function bindModal() {
-  qs('#createClientForm')?.addEventListener('submit', onSubmitCreate);
-  document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') closeModal(); });
+/* --- Inicialización --- */
+function bindCreateClientForm() {
+  const form = qs('#createClientForm');
+  if (form) form.addEventListener('submit', onSubmitCreate);
 }
 
-/* --- init --- */
 (function init() {
-  bindModal();
+  bindCreateClientForm();
 })();
