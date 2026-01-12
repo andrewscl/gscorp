@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.hibernate.Hibernate;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -325,6 +326,11 @@ public class UserServiceImpl implements UserService{
         }
 
         User user = optUser.get();
+
+        // Inicializa las colecciones que podrían ser usadas fuera del contexto
+        Hibernate.initialize(user.getClients());
+        Hibernate.initialize(user.getRoles());
+
 
         // Campos simples
         if (dto.username() != null) {
