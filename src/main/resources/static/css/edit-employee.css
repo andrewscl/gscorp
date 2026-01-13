@@ -1,131 +1,177 @@
-.editUser {
+@charset "UTF-8";
+.editEmployee {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+  font-family: "Poppins", Arial, sans-serif;
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+.editEmployee .editEmployeeCard {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  /* Formularios adicionales */
+}
+.editEmployee .editEmployeeCard .editEmployeeHeader {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.editEmployee .editEmployeeCard .editEmployeeHeader h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333;
+}
+.editEmployee .editEmployeeCard .editEmployee-photo-and-info {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+@media screen and (max-width: 768px) {
+  .editEmployee .editEmployeeCard .editEmployee-photo-and-info {
+    grid-template-columns: 1fr; /* Pila las columnas en pantallas pequeñas */
+  }
+}
+.editEmployee .editEmployeeCard .editEmployee-photo-and-info .employeePhoto {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 auto;
-  padding: 1rem;
-  max-width: 1000px;
-  background-color: #f8f9fa;
 }
-.editUser .editUserCard {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
-  width: 100%;
-  max-width: 900px;
-  box-sizing: border-box;
-}
-.editUser .editUserHeader {
-  text-align: center;
-}
-.editUser .editUserHeader h3 {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 1.5rem;
-}
-.editUser .editUser-body {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
-  width: 100%;
-}
-.editUser .editUser-body .form-group {
-  display: flex;
-  flex-direction: column;
-}
-.editUser .editUser-body .form-group label {
-  font-size: 0.85rem;
+.editEmployee .editEmployeeCard .editEmployee-photo-and-info .employeePhoto label {
   font-weight: bold;
   margin-bottom: 0.5rem;
   color: #555;
 }
-.editUser .editUser-body .form-group input,
-.editUser .editUser-body .form-group select {
-  padding: 0.5rem;
+.editEmployee .editEmployeeCard .editEmployee-photo-and-info .employeePhoto .photoPreview {
+  margin-bottom: 1rem;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: #e5e5e5;
+  overflow: hidden;
+}
+.editEmployee .editEmployeeCard .editEmployee-photo-and-info .employeePhoto .photoPreview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.editEmployee .editEmployeeCard .editEmployee-photo-and-info .employeePhoto input[type=file] {
+  width: 100%;
   font-size: 0.9rem;
+}
+.editEmployee .editEmployeeCard .editEmployee-photo-and-info .editEmployee-body {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+@media screen and (max-width: 768px) {
+  .editEmployee .editEmployeeCard .editEmployee-photo-and-info .editEmployee-body {
+    grid-template-columns: 1fr; /* Una sola columna en móviles */
+  }
+}
+.editEmployee .editEmployeeCard .editEmployee-photo-and-info .editEmployee-body .form-group {
+  display: flex;
+  flex-direction: column;
+}
+.editEmployee .editEmployeeCard .editEmployee-photo-and-info .editEmployee-body .form-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+.editEmployee .editEmployeeCard .editEmployee-photo-and-info .editEmployee-body .form-group input,
+.editEmployee .editEmployeeCard .editEmployee-photo-and-info .editEmployee-body .form-group select {
+  padding: 0.75rem;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  background: #fff;
+  border-radius: 8px;
+  font-size: 0.95rem;
 }
-.editUser .editUser-body .form-group input[type=text],
-.editUser .editUser-body .form-group input[type=email],
-.editUser .editUser-body .form-group input[type=checkbox],
-.editUser .editUser-body .form-group select {
-  max-width: 100%;
+.editEmployee .editEmployeeCard .editEmployee-photo-and-info .editEmployee-body .form-group select {
+  appearance: none; /* Elimina estilos predeterminados */
 }
-.editUser .editUser-body #userActive {
-  max-width: 100px;
+.editEmployee .editEmployeeCard .editEmployee-photo-and-info .editEmployee-body .form-group input[readonly] {
+  background: #f5f5f5;
+  cursor: not-allowed;
 }
-.editUser .editUser-body .modal-footer {
+.editEmployee .editEmployeeCard form {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+@media screen and (max-width: 1024px) {
+  .editEmployee .editEmployeeCard form {
+    grid-template-columns: 1fr 1fr; /* Dos columnas en tablet */
+  }
+}
+@media screen and (max-width: 768px) {
+  .editEmployee .editEmployeeCard form {
+    grid-template-columns: 1fr; /* Una columna en móviles */
+  }
+}
+.editEmployee .editEmployeeCard form .form-group {
+  display: flex;
+  flex-direction: column;
+}
+.editEmployee .editEmployeeCard form .form-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+.editEmployee .editEmployeeCard form .form-group input,
+.editEmployee .editEmployeeCard form .form-group select {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+.editEmployee .editEmployeeCard form .form-error {
+  display: none;
+  color: #d9534f;
+  font-size: 0.9rem;
+}
+.editEmployee .editEmployeeCard form .form-ok {
+  color: #5cb85c;
+  font-size: 0.9rem;
+}
+.editEmployee .editEmployeeCard form .modal-footer {
   grid-column: span 3;
   display: flex;
-  justify-content: flex-end;
-  margin-top: 1.5rem;
+  justify-content: space-between;
+  padding: 1rem 0;
 }
-.editUser .editUser-body .modal-footer button {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 4px;
+.editEmployee .editEmployeeCard form .btn-primary {
+  background: #007bff;
+  color: #fff;
+  text-transform: uppercase;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
-  font-size: 0.9rem;
-  transition: background-color 0.2s ease;
+  transition: background 0.3s;
 }
-.editUser .editUser-body .modal-footer .btn-primary {
-  background-color: #007bff;
-  color: white;
+.editEmployee .editEmployeeCard form .btn-primary:hover {
+  background: #0056b3;
 }
-.editUser .editUser-body .modal-footer .btn-primary:hover {
-  background-color: #0056b3;
+.editEmployee .editEmployeeCard form .btn-secondary {
+  background: #6c757d;
+  color: #fff;
+  text-transform: uppercase;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
 }
-.editUser .editUser-body .modal-footer .btn-secondary {
-  background-color: #6c757d;
-  color: white;
-}
-.editUser .editUser-body .modal-footer .btn-secondary:hover {
-  background-color: #545b62;
-}
-.editUser .editUser-body .modal-footer .btn-danger {
-  background-color: #dc3545;
-  color: white;
-}
-.editUser .editUser-body .modal-footer .btn-danger:hover {
-  background-color: #b02a37;
-}
-.editUser .form-error {
-  color: #dc3545;
-  font-size: 0.9rem;
-}
-.editUser .form-ok {
-  color: #28a745;
-  font-size: 0.9rem;
-  text-align: center;
-}
-@media (max-width: 768px) {
-  .editUser .editUser-body {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-  .editUser .modal-footer {
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-  }
-}
-@media (max-width: 500px) {
-  .editUser .editUserCard {
-    padding: 1rem;
-  }
-  .editUser .editUserHeader h3 {
-    font-size: 1.2rem;
-  }
-  .editUser .editUser-body {
-    gap: 0.5rem;
-  }
-  .editUser .modal-footer button {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.8rem;
-  }
+.editEmployee .editEmployeeCard form .btn-secondary:hover {
+  background: #565e64;
 }/*# sourceMappingURL=edit-employee.css.map */

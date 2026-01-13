@@ -1,160 +1,197 @@
-// Root section for the edit user screen
-.editUser {
+.editEmployee {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin: 0 auto;
-  padding: 1rem;
-  max-width: 1000px; // Set maximum width for larger screens
-  background-color: #f8f9fa; // Optional: general light background
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+  font-family: 'Poppins', Arial, sans-serif;
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 
-  // Card wrapper for better contrast
-  .editUserCard {
-    background: #fff; // White background for the card
-    border: 1px solid #ddd; // Subtle border
-    border-radius: 8px; // Rounded corners for modern look
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); // Light shadow for subtle elevation
-    padding: 2rem; // Add spacing inside the card
-    width: 100%;
-    max-width: 900px; // Limit the width of the card
-    box-sizing: border-box;
-  }
-
-  // Header section styles
-  .editUserHeader {
-    text-align: center;
-    h3 {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #333;
-      margin-bottom: 1.5rem; // Space below the header
-    }
-  }
-
-  // Body of the form
-  .editUser-body {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); // Flexible layout for form fields
-    gap: 1rem; // Space between grid items
+  .editEmployeeCard {
+    display: flex;
+    flex-direction: column;
     width: 100%;
 
-    .form-group {
-      display: flex;
-      flex-direction: column;
+    .editEmployeeHeader {
+      text-align: center;
+      margin-bottom: 2rem;
 
-      label {
-        font-size: 0.85rem;
-        font-weight: bold;
-        margin-bottom: 0.5rem;
-        color: #555; // Subtle darker color for labels
-      }
-
-      input,
-      select {
-        padding: 0.5rem;
-        font-size: 0.9rem;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        background: #fff; // Light background for inputs
-      }
-
-      input[type="text"],
-      input[type="email"],
-      input[type="checkbox"],
-      select {
-        max-width: 100%; // Ensure inputs don't exceed container width
+      h3 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #333;
       }
     }
 
-    // Custom styles for specific small input fields (e.g., 'Activo')
-    #userActive {
-      max-width: 100px; // Smaller checkbox input
+    .editEmployee-photo-and-info {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+
+      @media screen and (max-width: 768px) {
+        grid-template-columns: 1fr; /* Pila las columnas en pantallas pequeñas */
+      }
+
+      .employeePhoto {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        label {
+          font-weight: bold;
+          margin-bottom: 0.5rem;
+          color: #555;
+        }
+
+        .photoPreview {
+          margin-bottom: 1rem;
+          width: 180px;
+          height: 180px;
+          border-radius: 50%;
+          background: #e5e5e5;
+          overflow: hidden;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+
+        input[type="file"] {
+          width: 100%;
+          font-size: 0.9rem;
+        }
+      }
+
+      .editEmployee-body {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+
+        @media screen and (max-width: 768px) {
+          grid-template-columns: 1fr; /* Una sola columna en móviles */
+        }
+
+        .form-group {
+          display: flex;
+          flex-direction: column;
+          label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+          }
+
+          input,
+          select {
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 0.95rem;
+          }
+
+          select {
+            appearance: none; /* Elimina estilos predeterminados */
+          }
+
+          input[readonly] {
+            background: #f5f5f5;
+            cursor: not-allowed;
+          }
+        }
+      }
     }
 
-    // Button group styles in the footer
-    .modal-footer {
-      grid-column: span 3; // Spread footer section across all columns
-      display: flex;
-      justify-content: flex-end; // Align buttons to the right
-      margin-top: 1.5rem;
+    /* Formularios adicionales */
+    form {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
 
-      button {
-        padding: 0.5rem 1rem;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
+      @media screen and (max-width: 1024px) {
+        grid-template-columns: 1fr 1fr; /* Dos columnas en tablet */
+      }
+
+      @media screen and (max-width: 768px) {
+        grid-template-columns: 1fr; /* Una columna en móviles */
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+
+        label {
+          font-size: 0.9rem;
+          font-weight: 600;
+          margin-bottom: 0.5rem;
+          color: #333;
+        }
+
+        input,
+        select {
+          padding: 0.75rem;
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          font-size: 0.95rem;
+        }
+      }
+
+      .form-error {
+        display: none;
+        color: #d9534f;
         font-size: 0.9rem;
-        transition: background-color 0.2s ease;
+      }
+
+      .form-ok {
+        color: #5cb85c;
+        font-size: 0.9rem;
+      }
+
+      .modal-footer {
+        grid-column: span 3;
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem 0;
       }
 
       .btn-primary {
-        background-color: #007bff;
-        color: white;
+        background: #007bff;
+        color: #fff;
+        text-transform: uppercase;
+        padding: 0.75rem 1.5rem;
+        border: 0;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+
         &:hover {
-          background-color: #0056b3;
+          background: #0056b3;
         }
       }
 
       .btn-secondary {
-        background-color: #6c757d;
-        color: white;
+        background: #6c757d;
+        color: #fff;
+        text-transform: uppercase;
+        padding: 0.75rem 1.5rem;
+        border: 0;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+
         &:hover {
-          background-color: #545b62;
+          background: #565e64;
         }
       }
-
-      .btn-danger {
-        background-color: #dc3545;
-        color: white;
-        &:hover {
-          background-color: #b02a37;
-        }
-      }
-    }
-  }
-
-  // Success or error messages
-  .form-error {
-    color: #dc3545;
-    font-size: 0.9rem;
-  }
-
-  .form-ok {
-    color: #28a745;
-    font-size: 0.9rem;
-    text-align: center;
-  }
-
-  // Responsive Design Adjustments
-  @media (max-width: 768px) {
-    .editUser-body {
-      grid-template-columns: 1fr; // Single column for form fields on smaller screens
-      gap: 1rem; // Maintain spacing between fields
-    }
-
-    .modal-footer {
-      flex-direction: column; // Stack buttons vertically
-      align-items: center;
-      gap: 0.5rem;
-    }
-  }
-
-  @media (max-width: 500px) {
-    .editUserCard {
-      padding: 1rem; // Reduce padding for smaller screens
-    }
-
-    .editUserHeader h3 {
-      font-size: 1.2rem; // Slightly smaller for small screens
-    }
-
-    .editUser-body {
-      gap: 0.5rem; // Reduce gap between fields for smaller screens
-    }
-
-    .modal-footer button {
-      padding: 0.4rem 0.8rem; // Adjust button sizes for smaller screens
-      font-size: 0.8rem;
     }
   }
 }
