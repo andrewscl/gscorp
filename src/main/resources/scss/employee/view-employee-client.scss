@@ -1,104 +1,91 @@
 .employee-fragment-client {
+  /* Contenedor general */
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  max-width: 1200px;
+  max-width: 900px;
   margin: 2rem auto;
+  padding: 1.5rem;
   font-family: 'Poppins', Arial, sans-serif;
+  border-radius: 12px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
 
-  /* Contenedor principal */
+  @media screen and (max-width: 768px) {
+    padding: 1rem;
+  }
+
+  /* Tarjeta */
   .employee-card {
     display: grid;
-    grid-template-columns: 1.5fr 2fr; /* Foto + Detalles */
+    grid-template-columns: 1.5fr 3fr;
     gap: 2rem;
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    align-items: start;
     padding: 1.5rem;
-    overflow: hidden;
+    background-color: #fafafa;
+    border-radius: 12px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
 
     @media screen and (max-width: 768px) {
-      grid-template-columns: 1fr; /* En móviles, colapsa a una columna */
+      grid-template-columns: 1fr; /* Cambia a una sola columna en pantallas pequeñas */
     }
+  }
 
-    /* Sección de la foto */
-    .employee-photo {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #f0f0f0;
+  /* Foto del empleado */
+  .employee-photo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #e9ecef;
+    border-radius: 12px;
+    overflow: hidden;
+    padding: 1rem;
+
+    img {
+      width: 100%;
+      max-width: 250px;
       border-radius: 12px;
-      padding: 1rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      object-fit: cover;
+      transition: transform 0.3s ease;
 
-      img {
-        width: 100%;
-        max-width: 300px;
-        height: auto;
-        border-radius: 12px;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-        object-fit: cover;
+      &:hover {
+        transform: scale(1.05);
       }
     }
+  }
 
-    /* Información del empleado */
-    .employee-details {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
+  /* Detalles del empleado */
+  .employee-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
 
-      .employee-header {
-        h2 {
-          font-size: 1.8rem;
-          font-weight: 700;
-          color: #222222;
-        }
+    h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #212529;
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
 
-        p {
-          font-size: 1rem;
-          color: #666666;
+    p {
+      font-size: 1rem;
+      color: #495057;
+      margin: 0.25rem 0;
 
-          strong {
-            font-weight: 600;
-            color: #333333;
-          }
-
-          a {
-            color: #3178d2;
-            text-decoration: none;
-
-            &:hover {
-              text-decoration: underline;
-            }
-          }
-        }
+      strong {
+        font-weight: 600;
+        color: #343a40;
       }
 
-      .employee-job-info {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr); /* Dos columnas para sección laboral */
-        gap: 1rem;
+      a {
+        color: #007bff;
+        text-decoration: none;
 
-        .job-item {
-          background-color: #f9f9f9;
-          padding: 0.75rem 1rem;
-          border-radius: 8px;
-          border: 1px solid #e2e2e2;
-
-          p {
-            font-size: 0.9rem;
-            font-weight: bold;
-            margin-bottom: 0.25rem;
-            color: #555555;
-          }
-
-          span {
-            font-size: 1rem;
-            color: #222222;
-          }
-        }
-
-        @media screen and (max-width: 768px) {
-          grid-template-columns: 1fr; /* Colapsa a una columna en móviles */
+        &:hover {
+          text-decoration: underline;
+          color: #0056b3;
         }
       }
     }
@@ -106,16 +93,18 @@
 
   /* Proyectos asociados */
   .employee-projects {
+    margin-top: 1.5rem;
     background-color: #ffffff;
+    border: 1px solid #e3e3e3;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 
     h3 {
       font-size: 1.4rem;
-      font-weight: 700;
+      font-weight: 600;
+      color: #007bff;
       margin-bottom: 1rem;
-      color: #3178d2;
     }
 
     ul {
@@ -124,34 +113,37 @@
 
       li {
         font-size: 1rem;
-        color: #555555;
         margin-bottom: 0.5rem;
+        color: #495057;
       }
     }
 
     span {
       font-size: 1rem;
-      color: #999999;
+      color: #868e96;
     }
   }
 
-  /* Acciones */
+  /* Botón de acciones */
   .actions {
     display: flex;
     justify-content: center;
+    margin-top: 1.5rem;
 
     .vs-btn {
-      padding: 0.75rem 1.5rem;
-      border-radius: 5px;
-      background-color: #3178d2;
+      padding: 0.75rem 2rem;
+      background-color: #007bff;
       color: #ffffff;
+      text-decoration: none;
       font-size: 1rem;
       font-weight: bold;
+      border-radius: 24px;
       text-transform: uppercase;
-      text-decoration: none;
+      transition: all 0.3s ease-in-out;
 
       &:hover {
-        background-color: #275ea8;
+        background-color: #0056b3;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
       }
     }
   }

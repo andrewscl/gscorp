@@ -8,46 +8,29 @@
 
     <!-- Información del empleado -->
     <div class="employee-details">
-      <div class="employee-header">
-        <h2 th:text="${employee.name} + ' ' + ${employee.fatherSurname} + ' ' + ${employee.motherSurname}">
-          John Doe
-        </h2>
-        <p>
-          <strong>RUT/ID:</strong>
-          <span th:text="${employee.rut}">12345678-9</span>
-        </p>
-        <p>
-          <strong>Correo:</strong>
-          <a th:href="'mailto:' + ${employee.mail}" th:text="${employee.mail}">correo@empresa.com</a>
-        </p>
-        <p>
-          <strong>Teléfono:</strong>
-          <span th:text="${employee.phone}">+56 9 8765 4321</span>
-        </p>
-      </div>
-
-      <!-- Información laboral -->
-      <div class="employee-job-info">
-        <div class="job-item">
-          <p><strong>Cargo:</strong></p>
-          <span th:text="${employee.position}">Analista</span>
-        </div>
-
-        <div class="job-item">
-          <p><strong>Horario de Trabajo:</strong></p>
-          <span th:text="${employee.workSchedule}">Tiempo Completo</span>
-        </div>
-
-        <div class="job-item">
-          <p><strong>Turnos:</strong></p>
-          <span th:text="${employee.shiftSystem}">Turno Diurno</span>
-        </div>
-
-        <div class="job-item">
-          <p><strong>Fecha de Ingreso:</strong></p>
-          <span th:text="${#temporals.format(employee.hireDate, 'dd/MM/yyyy')}">01/01/2020</span>
-        </div>
-      </div>
+      <h2 th:text="${employee.name} + ' ' + ${employee.fatherSurname} + ' ' + ${employee.motherSurname}">
+        John Doe
+      </h2>
+      <p>
+        <strong>RUT:</strong>
+        <span th:text="${employee.rut}">12345678-9</span>
+      </p>
+      <p>
+        <strong>Correo:</strong>
+        <a th:href="'mailto:' + ${employee.mail}" th:text="${employee.mail}">correo@empresa.com</a>
+      </p>
+      <p>
+        <strong>Teléfono:</strong>
+        <span th:text="${employee.phone}">+56 9 8765 4321</span>
+      </p>
+      <p>
+        <strong>Cargo:</strong>
+        <span th:text="${employee.position}">Analista</span>
+      </p>
+      <p>
+        <strong>Fecha de ingreso:</strong>
+        <span th:text="${#temporals.format(employee.hireDate, 'dd/MM/yyyy')}">01/01/2020</span>
+      </p>
     </div>
   </div>
 
