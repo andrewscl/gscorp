@@ -1,142 +1,138 @@
 @charset "UTF-8";
 .employee-fragment-client {
-  display: grid;
-  grid-template-columns: 1fr 2fr; /* Foto en 1 columna, datos en 2 columnas */
+  display: flex;
+  flex-direction: column;
   gap: 2rem;
-  align-items: start;
-  justify-content: center;
-  margin: 2rem auto;
   max-width: 1200px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  padding: 2rem;
-  font-family: "Roboto", Arial, sans-serif;
-  /* Estilo para la sección de foto del empleado */
-  /* Contenido principal del empleado */
-  /* Información laboral en columna */
+  margin: 2rem auto;
+  font-family: "Poppins", Arial, sans-serif;
+  /* Contenedor principal */
   /* Proyectos asociados */
-  /* Layout Mobile */
+  /* Acciones */
 }
-.employee-fragment-client .employee-photo {
+.employee-fragment-client .employee-card {
+  display: grid;
+  grid-template-columns: 1.5fr 2fr; /* Foto + Detalles */
+  gap: 2rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  overflow: hidden;
+  /* Sección de la foto */
+  /* Información del empleado */
+}
+@media screen and (max-width: 768px) {
+  .employee-fragment-client .employee-card {
+    grid-template-columns: 1fr; /* En móviles, colapsa a una columna */
+  }
+}
+.employee-fragment-client .employee-card .employee-photo {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f4f4f4;
-  border-radius: 8px;
+  background-color: #f0f0f0;
+  border-radius: 12px;
   padding: 1rem;
 }
-.employee-fragment-client .employee-photo img {
+.employee-fragment-client .employee-card .employee-photo img {
   width: 100%;
-  max-width: 250px;
+  max-width: 300px;
   height: auto;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  object-fit: cover;
 }
-.employee-fragment-client .employee-info {
-  grid-column: span 2; /* Ocupa ambas columnas */
-  margin-bottom: 1rem;
+.employee-fragment-client .employee-card .employee-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
-.employee-fragment-client .employee-info h2 {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #212121;
-  margin-bottom: 0.5rem;
+.employee-fragment-client .employee-card .employee-details .employee-header h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #222222;
 }
-.employee-fragment-client .employee-info p {
+.employee-fragment-client .employee-card .employee-details .employee-header p {
   font-size: 1rem;
-  margin: 0.25rem 0;
-  color: #616161;
+  color: #666666;
 }
-.employee-fragment-client .employee-info p strong {
+.employee-fragment-client .employee-card .employee-details .employee-header p strong {
   font-weight: 600;
-  color: #333;
+  color: #333333;
 }
-.employee-fragment-client .employee-info p a {
-  color: #1976d2;
+.employee-fragment-client .employee-card .employee-details .employee-header p a {
+  color: #3178d2;
   text-decoration: none;
 }
-.employee-fragment-client .employee-info p a:hover {
+.employee-fragment-client .employee-card .employee-details .employee-header p a:hover {
   text-decoration: underline;
 }
-.employee-fragment-client .employee-job-info {
+.employee-fragment-client .employee-card .employee-details .employee-job-info {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Dos columnas */
+  grid-template-columns: repeat(2, 1fr); /* Dos columnas para sección laboral */
   gap: 1rem;
-  padding: 1.5rem;
-  margin: 1rem 0;
-  background-color: #fafafa;
+}
+.employee-fragment-client .employee-card .employee-details .employee-job-info .job-item {
+  background-color: #f9f9f9;
+  padding: 0.75rem 1rem;
   border-radius: 8px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #e2e2e2;
 }
-.employee-fragment-client .employee-job-info p {
-  margin: 0.5rem 0;
-  display: flex;
-  justify-content: space-between;
-  font-size: 1rem;
-  color: #424242;
-}
-.employee-fragment-client .employee-job-info p strong {
-  color: #212121;
-}
-.employee-fragment-client .employee-job-info p span {
-  text-transform: capitalize;
-}
-.employee-fragment-client ul {
-  padding-left: 1.5rem;
-}
-.employee-fragment-client ul li {
-  color: #424242;
-  margin-bottom: 0.5rem;
-  position: relative;
-  padding-left: 1.25rem;
-}
-.employee-fragment-client ul li::before {
-  content: "-"; /* Viñeta personalizada */
-  position: absolute;
-  left: 0;
-  color: #1976d2;
-}
-.employee-fragment-client .actions {
-  grid-column: span 2;
-  text-align: center;
-  margin-top: 1.5rem;
-}
-.employee-fragment-client .actions .vs-btn {
-  display: inline-block;
-  padding: 0.75rem 2rem;
-  font-size: 1rem;
+.employee-fragment-client .employee-card .employee-details .employee-job-info .job-item p {
+  font-size: 0.9rem;
   font-weight: bold;
-  border-radius: 24px;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: #fff;
-  background-color: #1976d2;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 0.25rem;
+  color: #555555;
 }
-.employee-fragment-client .actions .vs-btn:hover {
-  background-color: #1565c0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+.employee-fragment-client .employee-card .employee-details .employee-job-info .job-item span {
+  font-size: 1rem;
+  color: #222222;
 }
 @media screen and (max-width: 768px) {
-  .employee-fragment-client {
-    grid-template-columns: 1fr; /* Colapsa a columna única */
-    gap: 1.5rem;
+  .employee-fragment-client .employee-card .employee-details .employee-job-info {
+    grid-template-columns: 1fr; /* Colapsa a una columna en móviles */
   }
-  .employee-fragment-client .employee-info,
-  .employee-fragment-client .actions {
-    grid-column: span 1;
-    text-align: center;
-  }
-  .employee-fragment-client .employee-info h2,
-  .employee-fragment-client .actions h2 {
-    font-size: 1.5rem;
-  }
-  .employee-fragment-client .employee-job-info {
-    grid-template-columns: 1fr; /* Cambia a una columna */
-  }
-  .employee-fragment-client .employee-photo img {
-    max-width: 200px;
-  }
+}
+.employee-fragment-client .employee-projects {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+}
+.employee-fragment-client .employee-projects h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #3178d2;
+}
+.employee-fragment-client .employee-projects ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+}
+.employee-fragment-client .employee-projects ul li {
+  font-size: 1rem;
+  color: #555555;
+  margin-bottom: 0.5rem;
+}
+.employee-fragment-client .employee-projects span {
+  font-size: 1rem;
+  color: #999999;
+}
+.employee-fragment-client .actions {
+  display: flex;
+  justify-content: center;
+}
+.employee-fragment-client .actions .vs-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  background-color: #3178d2;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.employee-fragment-client .actions .vs-btn:hover {
+  background-color: #275ea8;
 }/*# sourceMappingURL=view-employee-client.css.map */

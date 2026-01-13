@@ -1,161 +1,158 @@
 .employee-fragment-client {
-  display: grid;
-  grid-template-columns: 1fr 2fr; /* Foto en 1 columna, datos en 2 columnas */
+  display: flex;
+  flex-direction: column;
   gap: 2rem;
-  align-items: start;
-  justify-content: center;
-  margin: 2rem auto;
   max-width: 1200px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  padding: 2rem;
-  font-family: 'Roboto', Arial, sans-serif;
+  margin: 2rem auto;
+  font-family: 'Poppins', Arial, sans-serif;
 
-  /* Estilo para la sección de foto del empleado */
-  .employee-photo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f4f4f4;
-    border-radius: 8px;
-    padding: 1rem;
+  /* Contenedor principal */
+  .employee-card {
+    display: grid;
+    grid-template-columns: 1.5fr 2fr; /* Foto + Detalles */
+    gap: 2rem;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    overflow: hidden;
 
-    img {
-      width: 100%;
-      max-width: 250px;
-      height: auto;
+    @media screen and (max-width: 768px) {
+      grid-template-columns: 1fr; /* En móviles, colapsa a una columna */
+    }
+
+    /* Sección de la foto */
+    .employee-photo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f0f0f0;
       border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    }
-  }
+      padding: 1rem;
 
-  /* Contenido principal del empleado */
-  .employee-info {
-    grid-column: span 2; /* Ocupa ambas columnas */
-    margin-bottom: 1rem;
-
-    h2 {
-      font-size: 2rem;
-      font-weight: bold;
-      color: #212121;
-      margin-bottom: 0.5rem;
+      img {
+        width: 100%;
+        max-width: 300px;
+        height: auto;
+        border-radius: 12px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+        object-fit: cover;
+      }
     }
 
-    p {
-      font-size: 1rem;
-      margin: 0.25rem 0;
-      color: #616161;
+    /* Información del empleado */
+    .employee-details {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
 
-      strong {
-        font-weight: 600;
-        color: #333;
+      .employee-header {
+        h2 {
+          font-size: 1.8rem;
+          font-weight: 700;
+          color: #222222;
+        }
+
+        p {
+          font-size: 1rem;
+          color: #666666;
+
+          strong {
+            font-weight: 600;
+            color: #333333;
+          }
+
+          a {
+            color: #3178d2;
+            text-decoration: none;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
       }
 
-      a {
-        color: #1976d2; // Enlace estilizado
-        text-decoration: none;
+      .employee-job-info {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* Dos columnas para sección laboral */
+        gap: 1rem;
 
-        &:hover {
-          text-decoration: underline;
+        .job-item {
+          background-color: #f9f9f9;
+          padding: 0.75rem 1rem;
+          border-radius: 8px;
+          border: 1px solid #e2e2e2;
+
+          p {
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+            color: #555555;
+          }
+
+          span {
+            font-size: 1rem;
+            color: #222222;
+          }
+        }
+
+        @media screen and (max-width: 768px) {
+          grid-template-columns: 1fr; /* Colapsa a una columna en móviles */
         }
       }
     }
   }
 
-  /* Información laboral en columna */
-  .employee-job-info {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Dos columnas */
-    gap: 1rem;
-    padding: 1.5rem;
-    margin: 1rem 0;
-    background-color: #fafafa;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-
-    p {
-      margin: 0.5rem 0;
-      display: flex;
-      justify-content: space-between;
-      font-size: 1rem;
-      color: #424242;
-
-      strong {
-        color: #212121;
-      }
-
-      span {
-        text-transform: capitalize;
-      }
-    }
-  }
-
   /* Proyectos asociados */
-  ul {
-    padding-left: 1.5rem;
+  .employee-projects {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
 
-    li {
-      color: #424242;
-      margin-bottom: 0.5rem;
-      position: relative;
-      padding-left: 1.25rem;
+    h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #3178d2;
+    }
 
-      &::before {
-        content: '-'; /* Viñeta personalizada */
-        position: absolute;
-        left: 0;
-        color: #1976d2;
+    ul {
+      list-style-type: disc;
+      padding-left: 1.5rem;
+
+      li {
+        font-size: 1rem;
+        color: #555555;
+        margin-bottom: 0.5rem;
       }
+    }
+
+    span {
+      font-size: 1rem;
+      color: #999999;
     }
   }
 
+  /* Acciones */
   .actions {
-    grid-column: span 2;
-    text-align: center;
-    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
 
     .vs-btn {
-      display: inline-block;
-      padding: 0.75rem 2rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 5px;
+      background-color: #3178d2;
+      color: #ffffff;
       font-size: 1rem;
       font-weight: bold;
-      border-radius: 24px;
       text-transform: uppercase;
       text-decoration: none;
-      color: #fff;
-      background-color: #1976d2;
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
 
       &:hover {
-        background-color: #1565c0;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        background-color: #275ea8;
       }
-    }
-  }
-
-  /* Layout Mobile */
-  @media screen and (max-width: 768px) {
-    grid-template-columns: 1fr; /* Colapsa a columna única */
-    gap: 1.5rem;
-
-    .employee-info,
-    .actions {
-      grid-column: span 1;
-      text-align: center;
-
-      h2 {
-        font-size: 1.5rem;
-      }
-    }
-
-    .employee-job-info {
-      grid-template-columns: 1fr; /* Cambia a una columna */
-    }
-
-    .employee-photo img {
-      max-width: 200px;
     }
   }
 }
