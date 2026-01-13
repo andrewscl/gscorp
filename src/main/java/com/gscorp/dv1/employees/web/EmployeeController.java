@@ -159,6 +159,21 @@ public class EmployeeController {
         return "private/employees/views/view-employee-view";
     }
 
+    @GetMapping("/show-client-view/{id}")
+    public String showClientViewEmployee(
+                        @PathVariable Long id,
+                        Model model,
+                        Authentication authentication){
+
+        Long userId = userService.getUserIdFromAuthentication(authentication);
+        if (userId == null) {
+            return "redirect:/login";
+        }
+
+        
+
+    }
+
 
     @GetMapping("/edit/{id}")
     public String editEmployee(@PathVariable Long id, Model model){

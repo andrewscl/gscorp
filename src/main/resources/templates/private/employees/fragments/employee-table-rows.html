@@ -54,7 +54,10 @@
 
     <!-- Acciones -->
     <td class="actions">
+      
+      <!-- Vista para Administración y Recursos Humanos -->
       <button type="button" class="btn-link action-btn" title="Ver"
+              th:if="${#authorization.expression('hasRole(''ANALYST'') or hasRole(''ADMIN'')')}"
               th:attr="data-path=@{/private/employees/show/{id}(id=${e.id})}">
         <span aria-hidden="true">Ver</span>
         <span class="visually-hidden" th:text="${'Ver empleado ' + (e.fullName != null ? e.fullName : e.id)}">Ver empleado</span>
@@ -65,6 +68,15 @@
               th:attr="data-path=@{/private/employees/edit/{id}(id=${e.id})}" title="Editar">
         Editar
       </button>
+
+      <!-- Vista para Clientes y Supervisión-->
+      <button type="button" class="btn-link action-btn" title="Ver"
+              th:if="${#authorization.expression('hasRole(''CLIENT'') or hasRole(''SUPERVISION'')')}"
+              th:attr="data-path=@{/private/employees/show-client-view/{id}(id=${e.id})}">
+        <span aria-hidden="true">Ver</span>
+        <span class="visually-hidden" th:text="${'Ver empleado ' + (e.fullName != null ? e.fullName : e.id)}">Ver empleado</span>
+      </button>
+
     </td>
   </tr>
 

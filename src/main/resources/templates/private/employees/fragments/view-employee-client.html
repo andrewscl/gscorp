@@ -1,0 +1,55 @@
+<div class="employee-fragment">
+  <!-- Foto del empleado -->
+  <div class="employee-photo">
+    <img th:src="${employee.photoUrl}" alt="Foto de [[${employee.name}]]" class="photo" />
+  </div>
+
+  <!-- Información básica -->
+  <div class="employee-info">
+    <h2 th:text="${employee.name} + ' ' + ${employee.fatherSurname} + ' ' + ${employee.motherSurname}">
+      John Doe
+    </h2>
+    <p>
+      <strong>RUT/ID:</strong>
+      <span th:text="${employee.rut}">12345678-9</span>
+    </p>
+    <p>
+      <strong>Correo:</strong>
+      <a th:href="'mailto:' + ${employee.mail}" th:text="${employee.mail}">correo@empresa.com</a>
+    </p>
+    <p>
+      <strong>Teléfono:</strong>
+      <span th:text="${employee.phone}">+56 9 8765 4321</span>
+    </p>
+  </div>
+
+  <!-- Información laboral -->
+  <div class="employee-job-info">
+    <p>
+      <strong>Cargo:</strong>
+      <span th:text="${employee.position.name}">Analista</span>
+    </p>
+    <p>
+      <strong>Horario de Trabajo:</strong>
+      <span th:text="${employee.workSchedule}">Tiempo Completo</span>
+    </p>
+    <p>
+      <strong>Turnos:</strong>
+      <span th:text="${employee.shiftSystem}">Turno Diurno</span>
+    </p>
+    <p>
+      <strong>Fecha de Ingreso:</strong>
+      <span th:text="${#temporals.format(employee.hireDate, 'dd/MM/yyyy')}">01/01/2020</span>
+    </p>
+  </div>
+
+  <!-- Proyectos (opcional) -->
+  <p>
+    <strong>Proyectos Asociados:</strong>
+    <ul th:if="${not #lists.isEmpty(projectIds)}">
+      <li th:each="id : ${projectIds}" th:text="'Proyecto #' + ${id}">Proyecto 1</li>
+    </ul>
+    <span th:unless="${not #lists.isEmpty(projectIds)}">Sin proyectos asignados.</span>
+  </p>
+
+</div>
