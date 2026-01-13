@@ -1,135 +1,130 @@
 @charset "UTF-8";
 .employee-fragment-client {
-  /* Contenedor general */
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  max-width: 900px;
+  gap: 2.5rem;
+  max-width: 1100px;
   margin: 2rem auto;
-  padding: 1.5rem;
-  font-family: "Poppins", Arial, sans-serif;
-  border-radius: 12px;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-  background-color: #ffffff;
-  /* Tarjeta */
-  /* Foto del empleado */
-  /* Detalles del empleado */
+  padding: 2rem;
+  font-family: "Open Sans", Arial, sans-serif;
+  border-radius: 15px;
+  background: #fdfdfd;
+  /* Contenedor principal */
   /* Proyectos asociados */
-  /* Botón de acciones */
-}
-@media screen and (max-width: 768px) {
-  .employee-fragment-client {
-    padding: 1rem;
-  }
+  /* Acciones */
 }
 .employee-fragment-client .employee-card {
   display: grid;
-  grid-template-columns: 1.5fr 3fr;
+  grid-template-columns: 1.5fr 2.5fr;
   gap: 2rem;
-  align-items: start;
-  padding: 1.5rem;
-  background-color: #fafafa;
+  background: #ffffff;
   border-radius: 12px;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  /* Sección de la foto */
+  /* Información general del empleado */
 }
 @media screen and (max-width: 768px) {
   .employee-fragment-client .employee-card {
-    grid-template-columns: 1fr; /* Cambia a una sola columna en pantallas pequeñas */
+    grid-template-columns: 1fr; /* Cambia a una columna para móviles */
   }
 }
-.employee-fragment-client .employee-photo {
+.employee-fragment-client .employee-card .employee-photo {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #e9ecef;
-  border-radius: 12px;
-  overflow: hidden;
-  padding: 1rem;
+  background: #f5f5f5;
+  border-right: 1px solid #e3e3e3;
 }
-.employee-fragment-client .employee-photo img {
-  width: 100%;
-  max-width: 250px;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  object-fit: cover;
+.employee-fragment-client .employee-card .employee-photo img {
+  max-width: 200px;
+  height: auto;
+  border-radius: 50%;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
   transition: transform 0.3s ease;
 }
-.employee-fragment-client .employee-photo img:hover {
+.employee-fragment-client .employee-card .employee-photo img:hover {
   transform: scale(1.05);
 }
-.employee-fragment-client .employee-details {
+.employee-fragment-client .employee-card .employee-details {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  justify-content: center;
+  padding: 1.5rem;
 }
-.employee-fragment-client .employee-details h2 {
-  font-size: 1.8rem;
+.employee-fragment-client .employee-card .employee-details .employee-name {
+  font-size: 2rem;
   font-weight: 700;
-  color: #212529;
-  margin-bottom: 0.5rem;
-  line-height: 1.2;
+  color: #212121;
+  margin-bottom: 1rem;
 }
-.employee-fragment-client .employee-details p {
+.employee-fragment-client .employee-card .employee-details .employee-info-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.employee-fragment-client .employee-card .employee-details .employee-info-list li {
   font-size: 1rem;
-  color: #495057;
-  margin: 0.25rem 0;
+  color: #555555;
+  line-height: 1.5;
 }
-.employee-fragment-client .employee-details p strong {
+.employee-fragment-client .employee-card .employee-details .employee-info-list li strong {
   font-weight: 600;
-  color: #343a40;
+  color: #333333;
+  margin-right: 0.5rem;
 }
-.employee-fragment-client .employee-details p a {
-  color: #007bff;
+.employee-fragment-client .employee-card .employee-details .employee-info-list li a {
+  color: #0066cc;
   text-decoration: none;
 }
-.employee-fragment-client .employee-details p a:hover {
+.employee-fragment-client .employee-card .employee-details .employee-info-list li a:hover {
   text-decoration: underline;
-  color: #0056b3;
 }
 .employee-fragment-client .employee-projects {
-  margin-top: 1.5rem;
-  background-color: #ffffff;
+  padding: 1.5rem;
   border: 1px solid #e3e3e3;
   border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  background: #ffffff;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08);
 }
 .employee-fragment-client .employee-projects h3 {
-  font-size: 1.4rem;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 700;
   color: #007bff;
   margin-bottom: 1rem;
 }
 .employee-fragment-client .employee-projects ul {
-  list-style-type: disc;
+  list-style: disc;
   padding-left: 1.5rem;
 }
 .employee-fragment-client .employee-projects ul li {
   font-size: 1rem;
+  color: #444444;
   margin-bottom: 0.5rem;
-  color: #495057;
 }
 .employee-fragment-client .employee-projects span {
   font-size: 1rem;
-  color: #868e96;
+  color: #aaaaaa;
 }
 .employee-fragment-client .actions {
   display: flex;
   justify-content: center;
-  margin-top: 1.5rem;
+  margin-top: 1rem;
 }
 .employee-fragment-client .actions .vs-btn {
   padding: 0.75rem 2rem;
-  background-color: #007bff;
-  color: #ffffff;
-  text-decoration: none;
   font-size: 1rem;
   font-weight: bold;
-  border-radius: 24px;
-  text-transform: uppercase;
-  transition: all 0.3s ease-in-out;
+  color: #ffffff;
+  background: #007bff;
+  text-decoration: none;
+  border-radius: 25px;
+  transition: all 0.3s ease;
 }
 .employee-fragment-client .actions .vs-btn:hover {
-  background-color: #0056b3;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  background: #0056b3;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
 }/*# sourceMappingURL=view-employee-client.css.map */

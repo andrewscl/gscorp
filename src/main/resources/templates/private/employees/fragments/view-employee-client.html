@@ -8,29 +8,31 @@
 
     <!-- Información del empleado -->
     <div class="employee-details">
-      <h2 th:text="${employee.name} + ' ' + ${employee.fatherSurname} + ' ' + ${employee.motherSurname}">
+      <h2 class="employee-name" th:text="${employee.name} + ' ' + ${employee.fatherSurname} + ' ' + ${employee.motherSurname}">
         John Doe
       </h2>
-      <p>
-        <strong>RUT:</strong>
-        <span th:text="${employee.rut}">12345678-9</span>
-      </p>
-      <p>
-        <strong>Correo:</strong>
-        <a th:href="'mailto:' + ${employee.mail}" th:text="${employee.mail}">correo@empresa.com</a>
-      </p>
-      <p>
-        <strong>Teléfono:</strong>
-        <span th:text="${employee.phone}">+56 9 8765 4321</span>
-      </p>
-      <p>
-        <strong>Cargo:</strong>
-        <span th:text="${employee.position}">Analista</span>
-      </p>
-      <p>
-        <strong>Fecha de ingreso:</strong>
-        <span th:text="${#temporals.format(employee.hireDate, 'dd/MM/yyyy')}">01/01/2020</span>
-      </p>
+      <ul class="employee-info-list">
+        <li>
+          <strong>RUT:</strong>
+          <span th:text="${employee.rut}">12345678-9</span>
+        </li>
+        <li>
+          <strong>Correo:</strong>
+          <a th:href="'mailto:' + ${employee.mail}" th:text="${employee.mail}">correo@empresa.com</a>
+        </li>
+        <li>
+          <strong>Teléfono:</strong>
+          <span th:text="${employee.phone}">+56 9 8765 4321</span>
+        </li>
+        <li>
+          <strong>Cargo:</strong>
+          <span th:text="${employee.position}">Analista</span>
+        </li>
+        <li>
+          <strong>Fecha de ingreso:</strong>
+          <span th:text="${#temporals.format(employee.hireDate, 'dd/MM/yyyy')}">01/01/2020</span>
+        </li>
+      </ul>
     </div>
   </div>
 
