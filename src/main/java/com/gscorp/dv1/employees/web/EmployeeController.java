@@ -162,13 +162,7 @@ public class EmployeeController {
     @GetMapping("/show-client-view/{id}")
     public String showClientViewEmployee(
                         @PathVariable Long id,
-                        Model model,
-                        Authentication authentication){
-
-        Long userId = userService.getUserIdFromAuthentication(authentication);
-        if (userId == null) {
-            return "redirect:/login";
-        }
+                        Model model){
 
         var employee = employeeService.findByIdViewEmployee(id);
         List<Long> projectIds = employeeService.findProjectIdsByEmployeeId(id);
