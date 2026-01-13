@@ -1,120 +1,167 @@
-.employee-fragment {
+@charset "UTF-8";
+.employee-fragment-client {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 2rem auto;
-  max-width: 800px;
-  padding: 2rem;
-  background-color: #f9f9f9;
-  border: 1px solid #e3e3e3;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  /* Diseño Responsive */
 }
-.employee-fragment .employee-photo {
-  margin-bottom: 1.5rem;
+.employee-fragment-client .employee-photo {
+  width: 100%;
+  background: #f5f5f5;
+  padding: 2rem 0;
+  display: flex;
+  justify-content: center;
 }
-.employee-fragment .employee-photo img {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
+.employee-fragment-client .employee-photo img {
+  width: 180px;
+  height: 180px;
   object-fit: cover;
-  border: 3px solid #ddd;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border: 6px solid #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
 }
-.employee-fragment .employee-info {
-  text-align: center;
-  margin-bottom: 2rem;
+.employee-fragment-client .employee-photo img:hover {
+  transform: scale(1.05);
 }
-.employee-fragment .employee-info h2 {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #333;
+.employee-fragment-client .employee-info,
+.employee-fragment-client .employee-job-info {
+  width: 100%;
+  padding: 2rem 3rem;
+  text-align: left;
+  font-family: "Inter", Arial, sans-serif;
+}
+.employee-fragment-client .employee-info h2,
+.employee-fragment-client .employee-job-info h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #333333;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+}
+.employee-fragment-client .employee-info h2::before,
+.employee-fragment-client .employee-job-info h2::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 24px;
+  background-color: #007bff;
+  margin-right: 0.75rem;
+}
+.employee-fragment-client .employee-info p,
+.employee-fragment-client .employee-job-info p {
   margin-bottom: 1rem;
-}
-.employee-fragment .employee-info p {
   font-size: 1rem;
-  color: #555;
-  margin: 0.25rem 0;
+  line-height: 1.6;
+  color: #555555;
 }
-.employee-fragment .employee-info p strong {
-  font-weight: bold;
-  color: #222;
+.employee-fragment-client .employee-info p strong,
+.employee-fragment-client .employee-job-info p strong {
+  color: #333333;
+  font-weight: 600;
 }
-.employee-fragment .employee-info p a {
+.employee-fragment-client .employee-info p a,
+.employee-fragment-client .employee-job-info p a {
   color: #007bff;
   text-decoration: none;
 }
-.employee-fragment .employee-info p a:hover {
+.employee-fragment-client .employee-info p a:hover,
+.employee-fragment-client .employee-job-info p a:hover {
   text-decoration: underline;
 }
-.employee-fragment .employee-job-info {
-  width: 100%;
-  text-align: left;
-  margin-bottom: 2rem;
+.employee-fragment-client .employee-info p span,
+.employee-fragment-client .employee-job-info p span {
+  color: #666666;
+  font-weight: 500;
 }
-.employee-fragment .employee-job-info p {
-  font-size: 1rem;
-  color: #555;
-  line-height: 1.5;
-  margin: 0.5rem 0;
+.employee-fragment-client .employee-job-info {
+  background-color: #f9f9f9;
+  border-top: 1px solid #e6e6e6;
+  border-bottom: 1px solid #e6e6e6;
 }
-.employee-fragment .employee-job-info p strong {
-  font-weight: bold;
-  color: #222;
-}
-.employee-fragment .employee-job-info p span {
-  color: #333;
-}
-.employee-fragment ul {
-  list-style-type: disc;
-  padding-left: 1.5rem;
-  margin: 0.5rem 0;
-}
-.employee-fragment ul li {
-  font-size: 1rem;
-  color: #333;
-  margin-bottom: 0.5rem;
-}
-.employee-fragment .actions {
+.employee-fragment-client .employee-job-info p {
   display: flex;
-  justify-content: center;
-  margin-top: 2rem;
+  justify-content: space-between;
 }
-.employee-fragment .actions .vs-btn {
-  padding: 0.75rem 1.5rem;
+.employee-fragment-client .employee-job-info p strong {
+  color: #004f8e;
+}
+.employee-fragment-client .employee-job-info p span {
+  text-transform: capitalize;
+}
+.employee-fragment-client ul {
+  padding-left: 1.5rem;
+}
+.employee-fragment-client ul li {
+  color: #444444;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  position: relative;
+  padding-left: 1rem;
+}
+.employee-fragment-client ul li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #007bff;
+}
+.employee-fragment-client .actions {
+  padding: 2rem 3rem;
+  text-align: center;
+}
+.employee-fragment-client .actions .vs-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-size: 1rem;
   font-weight: bold;
-  border: none;
-  border-radius: 5px;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  text-transform: uppercase;
   text-decoration: none;
-  text-align: center;
+  letter-spacing: 1px;
+  transition: all 0.3s ease-in-out;
   cursor: pointer;
+  border: none;
 }
-.employee-fragment .actions .vs-btn.vs-secondary {
+.employee-fragment-client .actions .vs-btn.vs-secondary {
   background-color: #6c757d;
-  color: #fff;
+  color: #ffffff;
 }
-.employee-fragment .actions .vs-btn.vs-secondary:hover {
+.employee-fragment-client .actions .vs-btn.vs-secondary:hover {
   background-color: #5a6268;
 }
 @media screen and (max-width: 768px) {
-  .employee-fragment {
-    padding: 1.5rem;
+  .employee-fragment-client {
+    max-width: 100%;
+    margin: 1rem;
   }
-  .employee-fragment .employee-photo img {
-    width: 120px;
-    height: 120px;
+  .employee-fragment-client .employee-info,
+  .employee-fragment-client .employee-job-info {
+    padding: 1.5rem 2rem;
   }
-  .employee-fragment .employee-info h2 {
+  .employee-fragment-client .employee-info p, .employee-fragment-client .employee-info li,
+  .employee-fragment-client .employee-job-info p,
+  .employee-fragment-client .employee-job-info li {
+    font-size: 0.9rem;
+  }
+  .employee-fragment-client .employee-info h2,
+  .employee-fragment-client .employee-job-info h2 {
     font-size: 1.5rem;
   }
-  .employee-fragment .employee-info p,
-  .employee-fragment .employee-job-info p,
-  .employee-fragment ul li {
-    font-size: 0.9rem;
+  .employee-fragment-client .actions .vs-btn {
+    font-size: 0.85rem;
+    padding: 0.5rem 1.2rem;
   }
-  .employee-fragment .actions .vs-btn {
-    padding: 0.6rem 1.2rem;
-    font-size: 0.9rem;
+  .employee-fragment-client .employee-photo img {
+    width: 140px;
+    height: 140px;
   }
 }/*# sourceMappingURL=view-employee-client.css.map */
