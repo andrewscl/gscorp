@@ -1,97 +1,84 @@
 @charset "UTF-8";
 .employee-fragment-client {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 2fr; /* Foto en 1 columna, datos en 2 columnas */
+  gap: 2rem;
+  align-items: start;
+  justify-content: center;
   margin: 2rem auto;
-  max-width: 900px;
+  max-width: 1200px;
   background-color: #ffffff;
   border-radius: 12px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  /* Diseño Responsive */
+  padding: 2rem;
+  font-family: "Roboto", Arial, sans-serif;
+  /* Estilo para la sección de foto del empleado */
+  /* Contenido principal del empleado */
+  /* Información laboral en columna */
+  /* Proyectos asociados */
+  /* Layout Mobile */
 }
 .employee-fragment-client .employee-photo {
-  width: 100%;
-  background: #f5f5f5;
-  padding: 2rem 0;
   display: flex;
   justify-content: center;
+  align-items: center;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  padding: 1rem;
 }
 .employee-fragment-client .employee-photo img {
-  width: 180px;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 6px solid #ffffff;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease;
-}
-.employee-fragment-client .employee-photo img:hover {
-  transform: scale(1.05);
-}
-.employee-fragment-client .employee-info,
-.employee-fragment-client .employee-job-info {
   width: 100%;
-  padding: 2rem 3rem;
-  text-align: left;
-  font-family: "Inter", Arial, sans-serif;
+  max-width: 250px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
-.employee-fragment-client .employee-info h2,
-.employee-fragment-client .employee-job-info h2 {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #333333;
-  margin-bottom: 1.5rem;
-  display: flex;
-  align-items: center;
-}
-.employee-fragment-client .employee-info h2::before,
-.employee-fragment-client .employee-job-info h2::before {
-  content: "";
-  display: inline-block;
-  width: 4px;
-  height: 24px;
-  background-color: #007bff;
-  margin-right: 0.75rem;
-}
-.employee-fragment-client .employee-info p,
-.employee-fragment-client .employee-job-info p {
+.employee-fragment-client .employee-info {
+  grid-column: span 2; /* Ocupa ambas columnas */
   margin-bottom: 1rem;
+}
+.employee-fragment-client .employee-info h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #212121;
+  margin-bottom: 0.5rem;
+}
+.employee-fragment-client .employee-info p {
   font-size: 1rem;
-  line-height: 1.6;
-  color: #555555;
+  margin: 0.25rem 0;
+  color: #616161;
 }
-.employee-fragment-client .employee-info p strong,
-.employee-fragment-client .employee-job-info p strong {
-  color: #333333;
+.employee-fragment-client .employee-info p strong {
   font-weight: 600;
+  color: #333;
 }
-.employee-fragment-client .employee-info p a,
-.employee-fragment-client .employee-job-info p a {
-  color: #007bff;
+.employee-fragment-client .employee-info p a {
+  color: #1976d2;
   text-decoration: none;
 }
-.employee-fragment-client .employee-info p a:hover,
-.employee-fragment-client .employee-job-info p a:hover {
+.employee-fragment-client .employee-info p a:hover {
   text-decoration: underline;
 }
-.employee-fragment-client .employee-info p span,
-.employee-fragment-client .employee-job-info p span {
-  color: #666666;
-  font-weight: 500;
-}
 .employee-fragment-client .employee-job-info {
-  background-color: #f9f9f9;
-  border-top: 1px solid #e6e6e6;
-  border-bottom: 1px solid #e6e6e6;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Dos columnas */
+  gap: 1rem;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  background-color: #fafafa;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
 }
 .employee-fragment-client .employee-job-info p {
+  margin: 0.5rem 0;
   display: flex;
   justify-content: space-between;
+  font-size: 1rem;
+  color: #424242;
 }
 .employee-fragment-client .employee-job-info p strong {
-  color: #004f8e;
+  color: #212121;
 }
 .employee-fragment-client .employee-job-info p span {
   text-transform: capitalize;
@@ -100,68 +87,56 @@
   padding-left: 1.5rem;
 }
 .employee-fragment-client ul li {
-  color: #444444;
-  font-size: 1rem;
+  color: #424242;
   margin-bottom: 0.5rem;
   position: relative;
-  padding-left: 1rem;
+  padding-left: 1.25rem;
 }
 .employee-fragment-client ul li::before {
-  content: "•";
+  content: "-"; /* Viñeta personalizada */
   position: absolute;
   left: 0;
-  color: #007bff;
+  color: #1976d2;
 }
 .employee-fragment-client .actions {
-  padding: 2rem 3rem;
+  grid-column: span 2;
   text-align: center;
+  margin-top: 1.5rem;
 }
 .employee-fragment-client .actions .vs-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
+  padding: 0.75rem 2rem;
   font-size: 1rem;
   font-weight: bold;
-  padding: 0.75rem 1.5rem;
-  border-radius: 25px;
+  border-radius: 24px;
   text-transform: uppercase;
   text-decoration: none;
-  letter-spacing: 1px;
-  transition: all 0.3s ease-in-out;
-  cursor: pointer;
-  border: none;
+  color: #fff;
+  background-color: #1976d2;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
-.employee-fragment-client .actions .vs-btn.vs-secondary {
-  background-color: #6c757d;
-  color: #ffffff;
-}
-.employee-fragment-client .actions .vs-btn.vs-secondary:hover {
-  background-color: #5a6268;
+.employee-fragment-client .actions .vs-btn:hover {
+  background-color: #1565c0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 @media screen and (max-width: 768px) {
   .employee-fragment-client {
-    max-width: 100%;
-    margin: 1rem;
+    grid-template-columns: 1fr; /* Colapsa a columna única */
+    gap: 1.5rem;
   }
   .employee-fragment-client .employee-info,
-  .employee-fragment-client .employee-job-info {
-    padding: 1.5rem 2rem;
-  }
-  .employee-fragment-client .employee-info p, .employee-fragment-client .employee-info li,
-  .employee-fragment-client .employee-job-info p,
-  .employee-fragment-client .employee-job-info li {
-    font-size: 0.9rem;
+  .employee-fragment-client .actions {
+    grid-column: span 1;
+    text-align: center;
   }
   .employee-fragment-client .employee-info h2,
-  .employee-fragment-client .employee-job-info h2 {
+  .employee-fragment-client .actions h2 {
     font-size: 1.5rem;
   }
-  .employee-fragment-client .actions .vs-btn {
-    font-size: 0.85rem;
-    padding: 0.5rem 1.2rem;
+  .employee-fragment-client .employee-job-info {
+    grid-template-columns: 1fr; /* Cambia a una columna */
   }
   .employee-fragment-client .employee-photo img {
-    width: 140px;
-    height: 140px;
+    max-width: 200px;
   }
 }/*# sourceMappingURL=view-employee-client.css.map */
