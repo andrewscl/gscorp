@@ -170,8 +170,13 @@ public class EmployeeController {
             return "redirect:/login";
         }
 
-        
+        var employee = employeeService.findByIdViewEmployee(id);
+        List<Long> projectIds = employeeService.findProjectIdsByEmployeeId(id);
 
+        model.addAttribute("employee", employee);
+        model.addAttribute("projectIds", projectIds);
+
+        return "private/employees/views/view-employee-client-view";
     }
 
 
