@@ -1,4 +1,4 @@
-<div class="employee-fragment">
+<section th:fragment="content" class="employee-fragment">
   <!-- Foto del empleado -->
   <div class="employee-photo">
     <img th:src="${employee.photoUrl}" alt="Foto de [[${employee.name}]]" class="photo" />
@@ -52,4 +52,4 @@
     <span th:unless="${not #lists.isEmpty(projectIds)}">Sin proyectos asignados.</span>
   </p>
 
-</div>
+</section>
