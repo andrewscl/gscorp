@@ -9,6 +9,9 @@ const qs  = (s) => document.querySelector(s);
 async function onSubmitCreate(e) {
   e.preventDefault();
 
+  const submitBtn = e.submitter || qs('#submitCreateEmployee button[type="submit"]');
+  submitBtn && (submitBtn.disabled = true);
+
   // Campos básicos
   const name                 = qs('#employeeName')?.value?.trim();
   const fatherSurname        = qs('#employeeFatherSurname')?.value?.trim() || null;
@@ -67,6 +70,7 @@ async function onSubmitCreate(e) {
 
   if (!name) {
     if (err) err.textContent = 'El nombre es obligatorio.';
+    submitBtn && (submitBtn.disabled = false);
     return;
   }
 
