@@ -132,6 +132,13 @@
       </div>
 
       <div class="form-group">
+        <label for="employeeProfessions">Profesión(es)</label>
+        <select id="employeeProfessions" name="professionIds" multiple required>
+          <option th:each="prof : ${professions}" th:value="${prof.id}" th:text="${prof.name}"></option>
+        </select>
+      </div>
+
+      <div class="form-group">
         <label for="employeePrevitionalSystem">Sistema previsional</label>
         <select id="employeePrevitionalSystem" name="previtionalSystem" required>
           <option value="">Seleccione sistema previsional</option>
