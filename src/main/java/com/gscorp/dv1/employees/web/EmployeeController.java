@@ -183,6 +183,7 @@ public class EmployeeController {
         model.addAttribute("nationalities", nationalityService.findAll());
         model.addAttribute("maritalStatuses", MaritalStatus.values());
         model.addAttribute("studyLevels", StudyLevel.values());
+        model.addAttribute("professions", professionService.findAll());
         model.addAttribute("previtionalSystems", PrevitionalSystem.values());
         model.addAttribute("pensionEntities", PensionEntity.values());
         model.addAttribute("healthSystems", HealthSystem.values());
