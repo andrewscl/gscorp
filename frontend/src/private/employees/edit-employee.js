@@ -114,7 +114,7 @@ async function onSubmitEdit(e) {
 
     // Ajusta el endpoint si en tu backend usas otro
     const res = await fetchWithAuth(`/api/employees/update/${id}`, {
-      method: 'PUT',
+      method: 'PATCH',
       body: formData
     });
 
