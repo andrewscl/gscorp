@@ -132,9 +132,12 @@
       </div>
 
       <div class="form-group">
-        <label for="employeeProfessions">Profesión(es)</label>
-        <select id="employeeProfessions" name="professionIds" multiple required>
-          <option th:each="prof : ${professions}" th:value="${prof.id}" th:text="${prof.name}"></option>
+        <label for="employeeProfessions">Profesiones asociadas</label>
+        <select id="employeeProfessions" name="professionIds" multiple>
+          <option th:each="p : ${professions}" 
+                  th:selected="${professionIds.contains(p.id)}" 
+                  th:value="${p.id}" 
+                  th:text="${p.name}"></option>
         </select>
       </div>
 
