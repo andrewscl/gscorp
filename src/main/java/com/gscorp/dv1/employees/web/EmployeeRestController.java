@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -57,8 +56,7 @@ public class EmployeeRestController {
     @PatchMapping(path = "/update/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> patchEmployee(
             @PathVariable("id") Long id,
-            @RequestPart(value = "employee", required = false)
-            UpdateEmployeeRequest updateEmployeeRequest) {
+            @Valid @ModelAttribute UpdateEmployeeRequest updateEmployeeRequest) {
 
         // Validaciones iniciales
         if (id == null) {
