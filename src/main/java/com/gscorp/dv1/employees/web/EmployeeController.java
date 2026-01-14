@@ -155,6 +155,7 @@ public class EmployeeController {
         List<Long> projectIds = employeeService.findProjectIdsByEmployeeId(id);
         model.addAttribute("employee", employee);
         model.addAttribute("projects", projectService.findAll());
+        model.addAttribute("professions", professionService.findAll());
         model.addAttribute("projectIds", projectIds);
         return "private/employees/views/view-employee-view";
     }
