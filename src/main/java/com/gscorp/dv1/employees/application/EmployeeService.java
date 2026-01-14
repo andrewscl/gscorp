@@ -23,6 +23,8 @@ public interface EmployeeService {
 
     List<Long> findProjectIdsByEmployeeId(Long employeeId);
 
+    List<Long> findProfessionIdsByEmployeeId(Long employeeId);
+
     Employee saveEmployee(Employee employee);
 
     Optional<Employee> findById(Long id);

@@ -153,10 +153,12 @@ public class EmployeeController {
     public String showEmployee(@PathVariable Long id, Model model){
         var employee = employeeService.findByIdViewEmployee(id);
         List<Long> projectIds = employeeService.findProjectIdsByEmployeeId(id);
+        List<Long> professionIds = employeeService.findProfessionIdsByEmployeeId(id);
         model.addAttribute("employee", employee);
         model.addAttribute("projects", projectService.findAll());
         model.addAttribute("professions", professionService.findAll());
         model.addAttribute("projectIds", projectIds);
+        model.addAttribute("professionIds", professionIds);
         return "private/employees/views/view-employee-view";
     }
 
@@ -179,6 +181,7 @@ public class EmployeeController {
     public String editEmployee(@PathVariable Long id, Model model){
         var employee = employeeService.findByIdEditEmployee(id);
         List<Long> projectIds = employeeService.findProjectIdsByEmployeeId(id);
+        List<Long> professionIds = employeeService.findProfessionIdsByEmployeeId(id);
         model.addAttribute("employee", employee);
         model.addAttribute("genders", Gender.values());
         model.addAttribute("nationalities", nationalityService.findAll());
@@ -199,6 +202,7 @@ public class EmployeeController {
         model.addAttribute("positions", positionService.findAll());
         model.addAttribute("projects", projectService.findAll());
         model.addAttribute("projectIds", projectIds);
+        model.addAttribute("professionIds", professionIds);
         return "private/employees/views/edit-employee-view";
     }
 
