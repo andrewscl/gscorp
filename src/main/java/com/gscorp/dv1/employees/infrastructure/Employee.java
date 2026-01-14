@@ -146,10 +146,18 @@ public class Employee {
     @JsonIgnore
     private User user;
 
-    @ManyToMany(mappedBy = "employees", fetch = FetchType.LAZY)
+    // Relación: Un proyecto tiene varios empleados, y un empleado puede estar en varios proyectos
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "employee_project",
+        joinColumns = @JoinColumn(name = "employee_id"),
+        inverseJoinColumns = @JoinColumn(name = "project_id")
+    )
     @Builder.Default
     @JsonIgnore
     private Set<Project> projects = new HashSet<>();
+
+
 
     // Fechas de auditoría (requieren dependencias Hibernate)
     @CreationTimestamp

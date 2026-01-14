@@ -10,14 +10,16 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gscorp.dv1.clients.infrastructure.Client;
-import com.gscorp.dv1.employees.infrastructure.Employee;
+import com.gscorp.dv1.users.infrastructure.User;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "project")
@@ -45,16 +47,13 @@ public class Project {
     @JsonIgnore
     private Client client;
 
-    // Relación: Un proyecto tiene varios empleados, y un empleado puede estar en varios proyectos
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "employee_project",
-        joinColumns = @JoinColumn(name = "project_id"),
-        inverseJoinColumns = @JoinColumn(name = "employee_id")
-    )
-    @Builder.Default
-    @JsonIgnore
-    private Set<Employee> employees = new HashSet<>();
+  // Relación inversa del ManyToMany definido en User.roles
+  @Builder.Default
+  @ManyToMany(mappedBy = "projects", fetch = FetchType.LAZY)
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
+  private Set<User> employees = new HashSet<>();
+
 
     // Fechas de auditoría (requieren dependencias Hibernate)
     @CreationTimestamp
