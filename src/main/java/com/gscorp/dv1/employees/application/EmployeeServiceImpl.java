@@ -345,11 +345,22 @@ public class EmployeeServiceImpl implements EmployeeService {
         
         // Actualización de relaciones con entidades externas
         entity.setNationality(req.getNationalityId() != null ? nationalityService.findById(req.getNationalityId()) : null);
-        entity.setProfessions(
-            (req.getProfessionIds() != null && !req.getProfessionIds().isEmpty())
-            ? new HashSet<>(professionService.findAllById(req.getProfessionIds()))
-            : Set.of()
-        );
+
+        // Actualizar profesiones
+        if (req.getProfessionIds() != null) {
+            Set<Profession> newProfessions = new HashSet<>(professionService.findAllById(req.getProfessionIds()));
+
+            //Quitar profesiones que ya no están
+            entity.getProfessions().removeIf(profession -> !newProfessions.contains(profession));
+
+            //Agregar nuevas relaciones
+            for (Profession newProfession : newProfessions) {
+                if (!entity.getProfessions().contains(newProfession)) {
+                    entity.getProfessions().add(newProfession);
+                }
+            }
+        }
+
         entity.setBank(req.getBankId() != null ? bankService.findById(req.getBankId()) : null);
         entity.setPosition(req.getPositionId() != null ? positionService.findById(req.getPositionId()) : null);
         entity.setShiftPattern(req.getShiftPatternId() != null ? shiftPatternService.findById(req.getShiftPatternId()) : null);
@@ -387,16 +398,19 @@ public class EmployeeServiceImpl implements EmployeeService {
             }
         }
 
-        // Actualizar proyectos
-        Set<Project> projects =
-            (req.getProjectIds() != null && !req.getProjectIds().isEmpty())
-            ? new HashSet<>(projectService.findEntitiesById(req.getProjectIds()))
-            : Set.of();
-        entity.setProjects(projects);
+        // Actualizar projects
+        if (req.getProjectIds() != null) {
+            Set<Project> newProjects = new HashSet<>(projectService.findEntitiesById(req.getProjectIds()));
 
-        // Asignar los proyectos al empleado (relación inversa)
-        for (Project p : projects) {
-            p.getEmployees().add(entity);
+            //Quitar proyectos que ya no están
+            entity.getProjects().removeIf(project -> !newProjects.contains(project));
+
+            //Agregar nuevas relaciones
+            for (Project newProject : newProjects) {
+                if (!entity.getProjects().contains(newProject)) {
+                    entity.getProjects().add(newProject);
+                }
+            }
         }
 
         // Guardar cambiosen la base de datos

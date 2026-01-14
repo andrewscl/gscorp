@@ -65,7 +65,7 @@ public class UpdateEmployeeRequest {
 
         private StudyLevel studyLevel;
 
-        private Set<Long> professionIds;
+        private Set<Long> professionIds = new HashSet<>();
 
         private PrevitionalSystem previtionalSystem;
 
