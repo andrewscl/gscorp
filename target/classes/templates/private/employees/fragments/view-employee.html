@@ -94,6 +94,16 @@
       </div>
 
       <div class="form-group">
+        <label for="employeeProfessions">Profesión(es)</label>
+        <select id="employeeProfessions" name="professionIds" multiple readonly>
+          <option th:each="p : ${professions}" 
+                  th:selected="${professionIds.contains(p.id)}" 
+                  th:value="${p.id}" 
+                  th:text="${p.name}"></option>
+        </select>
+      </div>
+
+      <div class="form-group">
         <label for="employeePrevitionalSystem">Sistema previsional</label>
         <input type="text" id="employeePrevitionalSystem" th:value="${employee.previtionalSystem}" readonly />
       </div>
