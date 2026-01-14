@@ -31,7 +31,9 @@ public interface EmployeeService {
 
     Employee createEmployeeFromRequest(CreateEmployeeRequest req);
 
-    Employee updateEmployeeFromRequest(UpdateEmployeeRequest req);
+
+    Optional<EmployeeViewDto> updateEmployee(Long id, UpdateEmployeeRequest req);
+
 
     List<Employee> findAllWithProjects();
 

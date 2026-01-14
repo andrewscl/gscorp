@@ -305,15 +305,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @Transactional
-    public Employee updateEmployeeFromRequest(UpdateEmployeeRequest req) {
+    public Optional<EmployeeViewDto> updateEmployee(Long id, UpdateEmployeeRequest req) {
         
-        if (req.getId() == null) {
+        if (id == null) {
             throw new IllegalArgumentException("El ID del empleado es requerido para la actualización.");
         }
 
         // Cargar la entidad existente
-        Employee entity = employeeRepository.findById(req.getId())
-            .orElseThrow(() -> new EntityNotFoundException("No se encontró el empleado con ID: " + req.getId()));
+        Employee entity = employeeRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("No se encontró el empleado con ID: " + id));
 
         // Inicializar relaciones perezosas (lazy)
         Hibernate.initialize(entity.getNationality());
@@ -390,8 +390,16 @@ public class EmployeeServiceImpl implements EmployeeService {
             p.getEmployees().add(entity);
         }
 
-        // Guardar cambios
-        return employeeRepository.save(entity);
+        // Guardar cambiosen la base de datos
+        Employee updatedEmployee = employeeRepository.save(entity);
+
+        Optional<EmployeeViewProjection> projectionOpt = employeeRepository
+                                            .findEmployeeViewProjectionById(updatedEmployee.getId());
+        if (projectionOpt.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(EmployeeViewDto.fromProjection(projectionOpt.get()));
     }
 
 }

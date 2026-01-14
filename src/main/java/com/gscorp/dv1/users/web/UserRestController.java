@@ -59,38 +59,40 @@ public class UserRestController {
                 return ResponseEntity.ok(UserDto.fromEntity(user));
         }
 
+
+
         @PatchMapping("/{id}")
         public ResponseEntity<?> patchUser(@PathVariable("id") Long id, @RequestBody JsonNode body) {
 
-        if (id == null) {
-            return ResponseEntity.badRequest().body(error("userId requerido"));
-        }
-
-        if (body == null || body.isNull()) {
-            return ResponseEntity.badRequest().body(error("body requerido"));
-        }
-
-        try {
-            UserUpdateDto dto = buildDtoFromJson(body);
-
-            Optional<User> updated = userService.updateUser(id, dto);
-            if (updated.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error("Usuario no encontrado"));
+            if (id == null) {
+                return ResponseEntity.badRequest().body(error("userId requerido"));
             }
 
-            // Mapear a una vista segura para devolver (no exponer password, etc.)
-            UserViewDto view = UserViewDto.from(updated.get());
-            return ResponseEntity.ok(view);
+            if (body == null || body.isNull()) {
+                return ResponseEntity.badRequest().body(error("body requerido"));
+            }
 
-        } catch (IllegalArgumentException ex) {
-            log.debug("Bad request updating user {}: {}", id, ex.getMessage());
-            return ResponseEntity.badRequest().body(error(ex.getMessage()));
-        } catch (Exception ex) {
-            log.error("Error actualizando usuario " + id, ex);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(error("Error interno actualizando usuario"));
+            try {
+                UserUpdateDto dto = buildDtoFromJson(body);
+
+                Optional<User> updated = userService.updateUser(id, dto);
+                if (updated.isEmpty()) {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error("Usuario no encontrado"));
+                }
+
+                // Mapear a una vista segura para devolver (no exponer password, etc.)
+                UserViewDto view = UserViewDto.from(updated.get());
+                return ResponseEntity.ok(view);
+
+            } catch (IllegalArgumentException ex) {
+                log.debug("Bad request updating user {}: {}", id, ex.getMessage());
+                return ResponseEntity.badRequest().body(error(ex.getMessage()));
+            } catch (Exception ex) {
+                log.error("Error actualizando usuario " + id, ex);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(error("Error interno actualizando usuario"));
+            }
         }
-    }
 
 
 
