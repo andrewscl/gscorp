@@ -10,7 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gscorp.dv1.clients.infrastructure.Client;
-import com.gscorp.dv1.users.infrastructure.User;
+import com.gscorp.dv1.employees.infrastructure.Employee;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -52,7 +52,7 @@ public class Project {
   @ManyToMany(mappedBy = "projects", fetch = FetchType.LAZY)
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
-  private Set<User> employees = new HashSet<>();
+  private Set<Employee> employees = new HashSet<>();
 
 
     // Fechas de auditoría (requieren dependencias Hibernate)
