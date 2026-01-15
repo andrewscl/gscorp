@@ -228,7 +228,7 @@
   font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
   font-size: 14px;
   color: #162032;
-  table-layout: fixed;
+  table-layout: auto;
   /* Cabecera de tabla */
 }
 .employees-table-container .employees-table thead tr th {
@@ -281,13 +281,14 @@
 .employees-table-container .employees-table tbody tr td.cell-name .meta {
   font-size: 0.85rem;
   color: #6b7280;
+  white-space: nowrap;
 }
 .employees-table-container .employees-table tbody tr td.cell-rut {
-  width: 10%;
+  width: 12%;
   text-align: center;
 }
 .employees-table-container .employees-table tbody tr td.cell-username {
-  width: 12%;
+  width: 10%;
 }
 .employees-table-container .employees-table tbody tr td.cell-contact {
   width: 25%;

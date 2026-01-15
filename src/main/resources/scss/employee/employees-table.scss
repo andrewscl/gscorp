@@ -259,7 +259,7 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
     font-family: $font-family;
     font-size: $base-font-size;
     color: $color-primary;
-    table-layout: fixed; // Asegura proporciones fijas entre columnas
+    table-layout: auto;
 
     /* Cabecera de tabla */
     thead {
@@ -320,16 +320,17 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
             .meta {
               font-size: 0.85rem;
               color: $color-muted;
+              white-space: nowrap;
             }
           }
 
           &.cell-rut {
-            width: 10%; // Moderado para RUT
+            width: 12%; // Moderado para RUT
             text-align: center;
           }
 
           &.cell-username {
-            width: 12%; // Espacio suficiente para username
+            width: 10%;
           }
 
           &.cell-contact {
