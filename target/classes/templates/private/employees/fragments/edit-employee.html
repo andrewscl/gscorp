@@ -35,27 +35,25 @@
           <label for="employeeMotherSurname">Apellido materno</label>
           <input type="text" id="employeeMotherSurname" name="motherSurname" th:value="${employee.motherSurname}" placeholder="Apellido materno" />
         </div>
+        <div class="form-group">
+          <label for="employeeRut">RUT</label>
+          <input type="text" id="employeeRut" name="rut" th:value="${employee.rut}" placeholder="RUT" />
+        </div>
+        <div class="form-group">
+          <label for="employeeMail">Email</label>
+          <input type="email" id="employeeMail" name="mail" th:value="${employee.mail}" placeholder="Email" />
+        </div>
+        <div class="form-group">
+          <label for="employeePhone">Teléfono</label>
+          <input type="text" id="employeePhone" name="phone" th:value="${employee.phone}" placeholder="Teléfono" />
+        </div>
+
       </div>
 
     </div>
 
 
     <form id="editEmployeeForm" class="editEmployee-body">
-
-      <div class="form-group">
-        <label for="employeeRut">RUT</label>
-        <input type="text" id="employeeRut" name="rut" th:value="${employee.rut}" placeholder="RUT" />
-      </div>
-
-      <div class="form-group">
-        <label for="employeeMail">Email</label>
-        <input type="email" id="employeeMail" name="mail" th:value="${employee.mail}" placeholder="Email" />
-      </div>
-
-      <div class="form-group">
-        <label for="employeePhone">Teléfono</label>
-        <input type="text" id="employeePhone" name="phone" th:value="${employee.phone}" placeholder="Teléfono" />
-      </div>
 
       <div class="form-group">
         <label for="employeeSecondaryPhone">Teléfono secundario</label>
