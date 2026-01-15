@@ -2,39 +2,39 @@
 .editEmployee {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  max-width: 1200px;
-  margin: 2rem auto;
-  padding: 2rem;
+  gap: 1.5rem; /* Reduce el espacio entre secciones */
+  max-width: 1000px; /* Reduce el ancho para mejor uso del espacio */
+  margin: 1.5rem auto; /* Reduce márgenes generales */
+  padding: 1.5rem;
   font-family: "Poppins", Arial, sans-serif;
-  background: #f9f9f9;
+  background: #ffffff; /* Fondo limpio */
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 .editEmployee .editEmployeeCard {
   display: flex;
   flex-direction: column;
+  gap: 1.5rem; /* Reduce el espacio interno */
   width: 100%;
-  /* Formularios adicionales */
+  /* Diseño para el formulario principal */
 }
 .editEmployee .editEmployeeCard .editEmployeeHeader {
   text-align: center;
-  margin-bottom: 2rem;
 }
 .editEmployee .editEmployeeCard .editEmployeeHeader h3 {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #333;
+  font-size: 1.75rem; /* Tamaño más compacto */
+  font-weight: 600;
+  color: #162032;
 }
 .editEmployee .editEmployeeCard .editEmployee-photo-and-info {
   display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 2rem;
-  margin-bottom: 2rem;
+  grid-template-columns: 1.2fr 2fr; /* Proporción ajustada: foto y datos */
+  gap: 1.5rem; /* Menos espacio entre columnas */
+  margin-bottom: 1.5rem;
 }
 @media screen and (max-width: 768px) {
   .editEmployee .editEmployeeCard .editEmployee-photo-and-info {
-    grid-template-columns: 1fr; /* Pila las columnas en pantallas pequeñas */
+    grid-template-columns: 1fr; /* Una columna en móviles */
   }
 }
 .editEmployee .editEmployeeCard .editEmployee-photo-and-info .employeePhoto {
@@ -49,10 +49,10 @@
 }
 .editEmployee .editEmployeeCard .editEmployee-photo-and-info .employeePhoto .photoPreview {
   margin-bottom: 1rem;
-  width: 180px;
-  height: 180px;
+  width: 160px; /* Tamaño más compacto */
+  height: 160px;
   border-radius: 50%;
-  background: #e5e5e5;
+  background: #f5f5f5;
   overflow: hidden;
 }
 .editEmployee .editEmployeeCard .editEmployee-photo-and-info .employeePhoto .photoPreview img {
@@ -61,56 +61,47 @@
   object-fit: cover;
 }
 .editEmployee .editEmployeeCard .editEmployee-photo-and-info .employeePhoto input[type=file] {
-  width: 100%;
-  font-size: 0.9rem;
+  font-size: 0.85rem; /* Compactar texto */
 }
 .editEmployee .editEmployeeCard .editEmployee-photo-and-info .editEmployee-body {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr; /* Una columna para más compactación móvil */
   gap: 1rem;
-}
-@media screen and (max-width: 768px) {
-  .editEmployee .editEmployeeCard .editEmployee-photo-and-info .editEmployee-body {
-    grid-template-columns: 1fr; /* Una sola columna en móviles */
-  }
 }
 .editEmployee .editEmployeeCard .editEmployee-photo-and-info .editEmployee-body .form-group {
   display: flex;
   flex-direction: column;
 }
 .editEmployee .editEmployeeCard .editEmployee-photo-and-info .editEmployee-body .form-group label {
-  font-size: 0.9rem;
+  font-size: 0.85rem; /* Texto más compacto */
   font-weight: 600;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
   color: #333;
 }
 .editEmployee .editEmployeeCard .editEmployee-photo-and-info .editEmployee-body .form-group input,
 .editEmployee .editEmployeeCard .editEmployee-photo-and-info .editEmployee-body .form-group select {
-  padding: 0.75rem;
+  padding: 0.6rem; /* Controles más compactos */
   border: 1px solid #ccc;
   border-radius: 8px;
-  font-size: 0.95rem;
-}
-.editEmployee .editEmployeeCard .editEmployee-photo-and-info .editEmployee-body .form-group select {
-  appearance: none; /* Elimina estilos predeterminados */
+  font-size: 0.9rem;
 }
 .editEmployee .editEmployeeCard .editEmployee-photo-and-info .editEmployee-body .form-group input[readonly] {
-  background: #f5f5f5;
+  background: #f0f0f0; /* Fondo para campos bloqueados */
   cursor: not-allowed;
 }
 .editEmployee .editEmployeeCard form {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: repeat(3, 1fr); /* 3 columnas ajustadas */
+  gap: 1.2rem; /* Menos espacio en columnas */
 }
 @media screen and (max-width: 1024px) {
   .editEmployee .editEmployeeCard form {
-    grid-template-columns: 1fr 1fr; /* Dos columnas en tablet */
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas en pantallas más pequeñas */
   }
 }
 @media screen and (max-width: 768px) {
   .editEmployee .editEmployeeCard form {
-    grid-template-columns: 1fr; /* Una columna en móviles */
+    grid-template-columns: 1fr; /* 1 columna en móviles */
   }
 }
 .editEmployee .editEmployeeCard form .form-group {
@@ -118,60 +109,50 @@
   flex-direction: column;
 }
 .editEmployee .editEmployeeCard form .form-group label {
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
+  font-size: 0.85rem; /* Texto compacto */
+  font-weight: 500; /* Enfatiza claridad visual */
+  margin-bottom: 0.4rem; /* Menos espacio en etiquetas */
   color: #333;
 }
 .editEmployee .editEmployeeCard form .form-group input,
 .editEmployee .editEmployeeCard form .form-group select {
-  padding: 0.75rem;
+  padding: 0.6rem;
   border: 1px solid #ccc;
   border-radius: 8px;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
 .editEmployee .editEmployeeCard form .form-error {
-  display: none;
   color: #d9534f;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 .editEmployee .editEmployeeCard form .form-ok {
   color: #5cb85c;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 .editEmployee .editEmployeeCard form .modal-footer {
   grid-column: span 3;
   display: flex;
-  justify-content: space-between;
+  justify-content: center; /* Centrar botones */
+  gap: 1rem;
   padding: 1rem 0;
 }
-.editEmployee .editEmployeeCard form .btn-primary {
+.editEmployee .editEmployeeCard form .modal-footer button {
+  padding: 0.6rem 1.5rem; /* Botones compactos */
+  border-radius: 6px; /* Bordes menos pronunciados */
+  font-size: 0.9rem; /* Ajustar texto */
+}
+.editEmployee .editEmployeeCard form .modal-footer .btn-primary {
   background: #007bff;
   color: #fff;
-  text-transform: uppercase;
-  padding: 0.75rem 1.5rem;
-  border: 0;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
   transition: background 0.3s;
 }
-.editEmployee .editEmployeeCard form .btn-primary:hover {
+.editEmployee .editEmployeeCard form .modal-footer .btn-primary:hover {
   background: #0056b3;
 }
-.editEmployee .editEmployeeCard form .btn-secondary {
+.editEmployee .editEmployeeCard form .modal-footer .btn-secondary {
   background: #6c757d;
   color: #fff;
-  text-transform: uppercase;
-  padding: 0.75rem 1.5rem;
-  border: 0;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s;
 }
-.editEmployee .editEmployeeCard form .btn-secondary:hover {
+.editEmployee .editEmployeeCard form .modal-footer .btn-secondary:hover {
   background: #565e64;
 }/*# sourceMappingURL=edit-employee.css.map */
