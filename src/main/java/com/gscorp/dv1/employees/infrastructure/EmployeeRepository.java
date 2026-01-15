@@ -181,7 +181,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
 
     @Query(value = """
         SELECT p.name
-        FROM projects p
+        FROM project p
         JOIN employee_project ep ON ep.project_id = p.id
         WHERE ep.employee_id = :employeeId
         """, nativeQuery = true)
