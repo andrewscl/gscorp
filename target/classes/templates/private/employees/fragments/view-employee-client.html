@@ -33,22 +33,26 @@
           <span th:text="${#temporals.format(employee.hireDate, 'dd/MM/yyyy')}">01/01/2020</span>
         </li>
       </ul>
+
+      <!-- Proyectos Asociados -->
+      <div class="employee-projects">
+        <h3>Proyectos Asociados</h3>
+        <ul th:if="${not #lists.isEmpty(projectNames)}">
+          <li th:each="name : ${projectNames}" th:text="${name}">Proyecto 1</li>
+        </ul>
+        <span th:unless="${not #lists.isEmpty(projectNames)}">Sin proyectos asignados.</span>
+      </div>
+
+      <!-- Botones de acciones -->
+      <div class="actions">
+        <a class="vs-btn vs-secondary" 
+          href="#"
+          data-path="/private/employees/table-view">Volver</a>
+      </div>
+
     </div>
+
   </div>
 
-  <!-- Proyectos Asociados -->
-  <div class="employee-projects">
-    <h3>Proyectos Asociados</h3>
-    <ul th:if="${not #lists.isEmpty(projectIds)}">
-      <li th:each="id : ${projectIds}" th:text="'Proyecto #' + ${id}">Proyecto 1</li>
-    </ul>
-    <span th:unless="${not #lists.isEmpty(projectIds)}">Sin proyectos asignados.</span>
-  </div>
 
-  <!-- Botones de acciones -->
-  <div class="actions">
-    <a class="vs-btn vs-secondary" 
-       href="#"
-       data-path="/private/employees/table-view">Volver</a>
-  </div>
 </section>

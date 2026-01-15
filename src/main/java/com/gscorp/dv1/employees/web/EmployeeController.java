@@ -149,8 +149,11 @@ public class EmployeeController {
     }
 
 
+
     @GetMapping("/show/{id}")
-    public String showEmployee(@PathVariable Long id, Model model){
+    public String showEmployee(
+                        @PathVariable Long id,
+                        Model model){
         var employee = employeeService.findByIdViewEmployee(id);
         List<Long> projectIds = employeeService.findProjectIdsByEmployeeId(id);
         List<Long> professionIds = employeeService.findProfessionIdsByEmployeeId(id);
@@ -162,19 +165,22 @@ public class EmployeeController {
         return "private/employees/views/view-employee-view";
     }
 
+
+
     @GetMapping("/show-client-view/{id}")
     public String showClientViewEmployee(
                         @PathVariable Long id,
                         Model model){
 
         var employee = employeeService.findByIdViewEmployee(id);
-        List<Long> projectIds = employeeService.findProjectIdsByEmployeeId(id);
+        List<String> projectNames = employeeService.findProjectNamesByEmployeeId(id);
 
         model.addAttribute("employee", employee);
-        model.addAttribute("projectIds", projectIds);
+        model.addAttribute("projectNames", projectNames);
 
         return "private/employees/views/view-employee-client-view";
     }
+
 
 
     @GetMapping("/edit/{id}")

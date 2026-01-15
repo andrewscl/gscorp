@@ -178,6 +178,17 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
     List<Long> findProjectIdsByEmployeeId(
                                 @Param("employeeId") Long employeeId);
 
+
+    @Query(value = """
+        SELECT p.name
+        FROM projects p
+        JOIN employee_project ep ON ep.project_id = p.id
+        WHERE ep.employee_id = :employeeId
+        """, nativeQuery = true)
+    List<String> findProjectNamesByEmployeeId(
+                                @Param("employeeId") Long employeeId);
+
+
     @Query(value =
       "SELECT profession_id FROM employee_profession WHERE employee_id = :employeeId",
                                         nativeQuery = true)
