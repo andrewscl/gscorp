@@ -243,46 +243,37 @@
   text-overflow: ellipsis;
 }
 .employees-table-container .employees-table tbody {
-  /* Fila vacía */
+  /* Estilo para filas vacías */
 }
 .employees-table-container .employees-table tbody tr:hover {
-  background-color: rgba(37, 99, 235, 0.06);
-  transition: background-color 0.2s ease;
+  background-color: rgba(37, 99, 235, 0.03);
 }
 .employees-table-container .employees-table tbody tr td {
-  padding: 0.75rem 1rem;
+  padding: 0.65rem 0.85rem;
   border-bottom: 1px solid #e7eef9;
   vertical-align: middle;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  /* Sombras sutiles para celdas */
-  /* Ajustes por clases de celdas */
-}
-.employees-table-container .employees-table tbody tr td:not(.actions) {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  /* Ajustes por clase de celda */
 }
 .employees-table-container .employees-table tbody tr td.cell-id {
-  width: 5%;
+  width: 3%;
   text-align: center;
   font-weight: bold;
   color: #6b7280;
 }
 .employees-table-container .employees-table tbody tr td.cell-photo {
   width: 8%;
-  padding: 0;
+  padding-left: 0;
+  padding-right: 0;
 }
 .employees-table-container .employees-table tbody tr td.cell-photo img.avatar {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  border: 1px solid hsl(216.6666666667, 60%, 104.1176470588%);
   object-fit: cover;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
-}
-.employees-table-container .employees-table tbody tr td.cell-photo img.avatar:hover {
-  transform: scale(1.1);
+  border: 1px solid hsl(216.6666666667, 60%, 104.1176470588%);
 }
 .employees-table-container .employees-table tbody tr td.cell-name {
   width: 30%;
@@ -290,23 +281,18 @@
   color: #162032;
 }
 .employees-table-container .employees-table tbody tr td.cell-name .meta {
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   color: #6b7280;
 }
 .employees-table-container .employees-table tbody tr td.cell-rut {
-  width: 12%;
+  width: 10%;
   text-align: center;
-  color: hsl(218.5714285714, 38.8888888889%, -5.8823529412%);
 }
 .employees-table-container .employees-table tbody tr td.cell-username {
-  width: 10%;
-  font-size: 0.95rem;
-  text-align: center;
-  font-weight: 500;
-  color: rgb(37.5833333333, 54.6666666667, 85.4166666667);
+  width: 12%;
 }
 .employees-table-container .employees-table tbody tr td.cell-contact {
-  width: 20%;
+  width: 25%;
 }
 .employees-table-container .employees-table tbody tr td.cell-contact a {
   color: #2563eb;
@@ -318,7 +304,6 @@
 }
 .employees-table-container .employees-table tbody tr td.cell-contact span {
   color: #162032;
-  font-weight: 500;
 }
 .employees-table-container .employees-table tbody tr td.cell-status {
   width: 7%;
@@ -328,38 +313,32 @@
   padding: 0.3rem 0.6rem;
   font-size: 0.8rem;
   font-weight: bold;
-  display: inline-block;
   border-radius: 12px;
 }
 .employees-table-container .employees-table tbody tr td.cell-status .badge.badge-success {
-  background-color: rgb(111.4179104478, 242.5820895522, 199.1194029851);
+  background-color: rgb(158.3582089552, 246.6417910448, 217.3880597015);
   color: #10b981;
-  border: 1px solid rgb(19.4285714286, 79.6571428571, 211.7714285714);
 }
 .employees-table-container .employees-table tbody tr td.cell-status .badge.badge-muted {
   background-color: #f3f4f6;
   color: #6b7280;
 }
 .employees-table-container .employees-table tbody tr td.actions {
-  width: 15%;
+  width: 10%;
   text-align: center;
 }
 .employees-table-container .employees-table tbody tr td.actions .action-btn {
-  padding: 0.35rem 0.6rem;
-  font-size: 0.9rem;
-  border: none;
+  padding: 0.4rem 0.6rem;
+  font-size: 12px;
   background: transparent;
   color: #2563eb;
-  text-decoration: underline;
-  font-weight: bold;
-  transition: all 0.3s ease;
 }
 .employees-table-container .employees-table tbody tr td.actions .action-btn:hover {
   color: rgb(19.4285714286, 79.6571428571, 211.7714285714);
 }
 .employees-table-container .employees-table tbody .empty td {
   text-align: center;
-  padding: 1.5rem;
+  padding: 1.5rem 0;
   color: #6b7280;
   font-style: italic;
 }

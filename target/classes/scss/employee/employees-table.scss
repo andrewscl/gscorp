@@ -278,151 +278,128 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
       }
     }
 
-tbody {
-  tr {
-    &:hover {
-      background-color: rgba($btn-blue, 0.06); // Hovery visual
-      transition: background-color 0.2s ease; // Suavizar transiciones
-    }
+    tbody {
+      tr {
+        &:hover {
+          background-color: rgba($btn-blue, 0.03);
+        }
 
-    td {
-      padding: 0.75rem 1rem; // Espaciado más amplio
-      border-bottom: 1px solid $color-border;
-      vertical-align: middle;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+        td {
+          padding: 0.65rem 0.85rem;
+          border-bottom: 1px solid $color-border;
+          vertical-align: middle;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
 
-      /* Sombras sutiles para celdas */
-      &:not(.actions) {
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-      }
+          /* Ajustes por clase de celda */
+          &.cell-id {
+            width: 3%; // Reduce el ancho de la columna ID
+            text-align: center;
+            font-weight: bold; // Hace que se vea visualmente más importante
+            color: $color-muted; // Color más suave
+          }
 
-      /* Ajustes por clases de celdas */
-      &.cell-id {
-        width: 5%; // ID compacta
-        text-align: center;
-        font-weight: bold;
-        color: $color-muted; // Más sutil
-      }
+          &.cell-photo {
+            width: 8%; // Mantén el espacio de la foto
+            padding-left: 0;
+            padding-right: 0;
 
-      &.cell-photo {
-        width: 8%; // Más espacio para las fotos
-        padding: 0;
+            img.avatar {
+              width: 36px; // Ligera reducción del tamaño
+              height: 36px;
+              border-radius: 50%;
+              object-fit: cover;
+              border: 1px solid color.adjust($color-border, $lightness: 10%);
+            }
+          }
 
-        img.avatar {
-          width: 40px;
-          height: 40px;
-          border-radius: 50%; // Imágenes redondas
-          border: 1px solid color.adjust($color-border, $lightness: 10%);
-          object-fit: cover;
-          box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-          transition: transform 0.2s ease;
+          &.cell-name {
+            width: 30%; // Más espacio para nombres largos
+            font-weight: 600;
+            color: $color-primary;
 
-          &:hover {
-            transform: scale(1.1); // Efecto zoom
+            .meta {
+              font-size: 0.85rem;
+              color: $color-muted;
+            }
+          }
+
+          &.cell-rut {
+            width: 10%; // Moderado para RUT
+            text-align: center;
+          }
+
+          &.cell-username {
+            width: 12%; // Espacio suficiente para username
+          }
+
+          &.cell-contact {
+            width: 25%; // Prioridad para contacto (email y teléfono)
+
+            a {
+              color: $btn-blue;
+              text-decoration: underline; // Que parezcan enlaces
+              transition: color 0.2s ease;
+
+              &:hover {
+                color: $btn-blue-dark;
+              }
+            }
+
+            span {
+              color: $color-primary;
+            }
+          }
+
+          &.cell-status {
+            width: 7%; // Compacto para el estado
+            text-align: center;
+
+            .badge {
+              padding: 0.3rem 0.6rem;
+              font-size: 0.8rem;
+              font-weight: bold;
+              border-radius: 12px;
+
+              &.badge-success {
+                background-color: color.adjust(#10b981, $lightness: 40%);
+                color: #10b981;
+              }
+
+              &.badge-muted {
+                background-color: #f3f4f6;
+                color: $color-muted;
+              }
+            }
+          }
+
+          &.actions {
+            width: 10%; // Ligera reducción del ancho de las acciones
+            text-align: center;
+
+            .action-btn {
+              padding: 0.4rem 0.6rem;
+              font-size: 12px;
+              background: transparent;
+              color: $btn-blue;
+
+              &:hover {
+                color: $btn-blue-dark;
+              }
+            }
           }
         }
       }
 
-      &.cell-name {
-        width: 30%; // Más espacio para nombres largos
-        font-weight: 600; // Destacar nombres
-        color: $color-primary;
-
-        .meta {
-          font-size: 0.875rem; // Tamaño reducido para metadatos
-          color: $color-muted; // Más claro
-        }
-      }
-
-      &.cell-rut {
-        width: 12%;
+      /* Estilo para filas vacías */
+      .empty td {
         text-align: center;
-        color: color.adjust($color-primary, $lightness: -20%); // Más énfasis en el color
-      }
-
-      &.cell-username {
-        width: 10%;
-        font-size: 0.95rem;
-        text-align: center;
-        font-weight: 500;
-        color: color.adjust($color-primary, $lightness: 10%);
-      }
-
-      &.cell-contact {
-        width: 20%; // Prioridad para contactos largos
-
-        a {
-          color: $btn-blue;
-          text-decoration: underline; // Que parezcan enlaces
-          transition: color 0.2s ease;
-
-          &:hover {
-            color: $btn-blue-dark;
-          }
-        }
-
-        span {
-          color: $color-primary;
-          font-weight: 500;
-        }
-      }
-
-      &.cell-status {
-        width: 7%;
-        text-align: center;
-
-        .badge {
-          padding: 0.3rem 0.6rem;
-          font-size: 0.8rem;
-          font-weight: bold;
-          display: inline-block;
-          border-radius: 12px;
-
-          &.badge-success {
-            background-color: color.adjust(#10b981, $lightness: 30%); // Verde claro
-            color: #10b981; // Verde activo
-            border: 1px solid $btn-blue-dark; // Bordes finos
-          }
-
-          &.badge-muted {
-            background-color: #f3f4f6; // Gris para inactivos
-            color: $color-muted;
-          }
-        }
-      }
-
-      &.actions {
-        width: 15%;
-        text-align: center;
-
-        .action-btn {
-          padding: 0.35rem 0.6rem;
-          font-size: 0.9rem;
-          border: none;
-          background: transparent;
-          color: $btn-blue;
-          text-decoration: underline;
-          font-weight: bold;
-          transition: all 0.3s ease;
-
-          &:hover {
-            color: $btn-blue-dark;
-          }
-        }
+        padding: 1.5rem 0;
+        color: $color-muted;
+        font-style: italic;
       }
     }
-  }
-
-  /* Fila vacía */
-  .empty td {
-    text-align: center;
-    padding: 1.5rem;
-    color: $color-muted;
-    font-style: italic;
-  }
-}
 
 
   }
