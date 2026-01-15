@@ -4,7 +4,7 @@
   gap: 1.5rem; /* Reduce el espacio entre secciones */
   max-width: 1000px; /* Reduce el ancho para mejor uso del espacio */
   margin: 1rem auto; /* Reduce márgenes generales */
-  padding: 1.5rem;
+  padding: 1rem 2rem;
   font-family: 'Poppins', Arial, sans-serif;
   background: #ffffff; /* Fondo limpio */
   border-radius: 12px;
@@ -18,6 +18,7 @@
 
     .editEmployeeHeader {
       text-align: center;
+      position: fixed;
 
       h3 {
         font-size: 1.5rem; /* Tamaño más compacto */
@@ -28,6 +29,7 @@
 
     .editEmployee-photo-and-info {
       display: grid;
+      position: fixed;
       grid-template-columns: 1.2fr 2fr; /* Proporción ajustada: foto y datos */
       gap: 1.5rem; /* Menos espacio entre columnas */
       margin-bottom: 1.25rem;
