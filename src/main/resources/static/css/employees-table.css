@@ -230,7 +230,7 @@
   font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
   font-size: 14px;
   color: #162032;
-  table-layout: auto;
+  table-layout: fixed;
   min-width: 0;
 }
 .employees-table-container .employees-table thead tr th {
@@ -254,10 +254,6 @@
   /* Ajuste de la columna ID */
   /* Ajuste de la columna Foto */
   /* Ajuste de la columna Nombre */
-  /* Ajuste de la columna Cargo */
-  /* Ajuste de la columna RUT */
-  /* Ajuste de la columna Contacto */
-  /* Ajuste de la columna Estado */
   /* Ajuste de la columna Acciones */
 }
 .employees-table-container .employees-table tbody tr:hover {
@@ -269,7 +265,8 @@
   vertical-align: middle;
   white-space: normal;
   word-break: break-word;
-  overflow-wrap: anywhere;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .employees-table-container .employees-table tbody tr .cell-id {
   width: 6%; /* Reducido para mantener espacio visual */
@@ -277,7 +274,7 @@
   text-align: center;
 }
 .employees-table-container .employees-table tbody tr .cell-photo {
-  width: 56px;
+  width: 8%;
   max-width: 56px;
   padding-left: 0.4rem;
   padding-right: 0.4rem;
@@ -290,7 +287,7 @@
   display: block;
 }
 .employees-table-container .employees-table tbody tr .cell-name {
-  width: 20%; /* Espacio adicional para nombres largos */
+  width: 25%; /* Espacio adicional para nombres largos */
 }
 .employees-table-container .employees-table tbody tr .cell-name .name {
   font-weight: 600;
@@ -301,24 +298,22 @@
   color: #6b7280;
   margin-top: 0.25rem;
 }
-.employees-table-container .employees-table tbody tr td:nth-child(3) {
-  width: 18%;
-  max-width: 24ch;
-}
-.employees-table-container .employees-table tbody tr td:nth-child(4) {
+.employees-table-container .employees-table tbody tr .cell-rut {
   width: 12%;
   max-width: 14ch;
   text-align: center;
 }
-.employees-table-container .employees-table tbody tr td:nth-child(5) {
-  width: 20%;
-  max-width: 22ch;
+.employees-table-container .employees-table tbody tr .cell-username {
+  width: 15%;
 }
-.employees-table-container .employees-table tbody tr td:nth-child(5) a {
+.employees-table-container .employees-table tbody tr .cell-contact {
+  width: 20%;
+}
+.employees-table-container .employees-table tbody tr .cell-contact a {
   color: #2563eb;
   text-decoration: none;
 }
-.employees-table-container .employees-table tbody tr td:nth-child(5) a:hover {
+.employees-table-container .employees-table tbody tr .cell-contact a:hover {
   text-decoration: underline;
 }
 .employees-table-container .employees-table tbody tr td.cell-status {
@@ -342,7 +337,7 @@
   color: #6b7280;
   border: 1px solid rgb(247.32, 249.56, 253.08);
 }
-.employees-table-container .employees-table tbody tr td.actions {
+.employees-table-container .employees-table tbody tr .actions {
   width: 12%;
   min-width: 120px;
   white-space: nowrap;
@@ -351,7 +346,7 @@
   justify-content: space-around;
   gap: 0.4rem;
 }
-.employees-table-container .employees-table tbody tr td.actions .btn-link {
+.employees-table-container .employees-table tbody tr .actions .btn-link {
   background: transparent;
   border: none;
   color: #2563eb;
@@ -361,7 +356,7 @@
   font-weight: 600;
   font-size: 13px;
 }
-.employees-table-container .employees-table tbody tr td.actions .btn-link:hover {
+.employees-table-container .employees-table tbody tr .actions .btn-link:hover {
   color: rgb(19.4285714286, 79.6571428571, 211.7714285714);
 }
 .employees-table-container .employees-table tbody tr.empty td.empty {

@@ -259,7 +259,7 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
     font-family: $font-family;
     font-size: $base-font-size;
     color: $color-primary;
-    table-layout: auto;
+    table-layout: fixed;
     min-width: 0;
 
     thead {
@@ -294,7 +294,8 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
           vertical-align: middle;
           white-space: normal;
           word-break: break-word;
-          overflow-wrap: anywhere;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         /* Ajuste de la columna ID */
@@ -306,7 +307,7 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
 
         /* Ajuste de la columna Foto */
         .cell-photo {
-          width: 56px;
+          width: 8%;
           max-width: 56px;
           padding-left: 0.4rem;
           padding-right: 0.4rem;
@@ -322,7 +323,7 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
 
         /* Ajuste de la columna Nombre */
         .cell-name {
-          width: 20%; /* Espacio adicional para nombres largos */
+          width: 25%; /* Espacio adicional para nombres largos */
 
           .name {
             font-weight: 600;
@@ -336,35 +337,27 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
           }
         }
 
-        /* Ajuste de la columna Cargo */
-        td:nth-child(3) {
-          width: 18%;
-          max-width: 24ch;
-        }
-
-        /* Ajuste de la columna RUT */
-        td:nth-child(4) {
+        .cell-rut {
           width: 12%;
           max-width: 14ch;
           text-align: center;
         }
 
-        /* Ajuste de la columna Contacto */
-        td:nth-child(5) {
-          width: 20%;
-          max-width: 22ch;
+        .cell-username {
+          width: 15%;
+        }
 
+        .cell-contact {
+          width: 20%;
           a {
             color: $btn-blue;
             text-decoration: none;
-
             &:hover {
               text-decoration: underline;
             }
           }
         }
 
-        /* Ajuste de la columna Estado */
         td.cell-status {
           width: 8%;
           text-align: center;
@@ -391,7 +384,7 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
         }
 
         /* Ajuste de la columna Acciones */
-        td.actions {
+        .actions {
           width: 12%;
           min-width: 120px;
           white-space: nowrap;
