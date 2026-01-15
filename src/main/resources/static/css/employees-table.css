@@ -258,15 +258,13 @@
   /* Ajustes por clase de celda */
 }
 .employees-table-container .employees-table tbody tr td.cell-id {
-  width: 3%;
+  width: 2.5%;
   text-align: center;
   font-weight: bold;
   color: #6b7280;
 }
 .employees-table-container .employees-table tbody tr td.cell-photo {
-  width: 8%;
-  padding-left: 0;
-  padding-right: 0;
+  width: 6%;
 }
 .employees-table-container .employees-table tbody tr td.cell-photo img.avatar {
   width: 36px;

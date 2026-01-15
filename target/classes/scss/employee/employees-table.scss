@@ -294,16 +294,14 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
 
           /* Ajustes por clase de celda */
           &.cell-id {
-            width: 3%; // Reduce el ancho de la columna ID
+            width: 2.5%; // Reduce el ancho de la columna ID
             text-align: center;
             font-weight: bold; // Hace que se vea visualmente más importante
             color: $color-muted; // Color más suave
           }
 
           &.cell-photo {
-            width: 8%; // Mantén el espacio de la foto
-            padding-left: 0;
-            padding-right: 0;
+            width: 6%; // Mantén el espacio de la foto
 
             img.avatar {
               width: 36px; // Ligera reducción del tamaño
