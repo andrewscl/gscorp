@@ -65,12 +65,11 @@
 }
 .editEmployee .editEmployeeCard .editEmployee-photo-and-info .editEmployee-body {
   display: grid;
-  grid-template-columns: 2fr; /* Una columna para más compactación móvil */
+  grid-template-columns: 2fr;
   gap: 1rem;
 }
 .editEmployee .editEmployeeCard .editEmployee-photo-and-info .editEmployee-body .form-group {
   display: flex;
-  flex-direction: column;
 }
 .editEmployee .editEmployeeCard .editEmployee-photo-and-info .editEmployee-body .form-group label {
   font-size: 0.85rem; /* Texto más compacto */
