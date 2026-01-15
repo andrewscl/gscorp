@@ -324,15 +324,6 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
             }
           }
 
-          &.cell-rut {
-            width: 12%; // Moderado para RUT
-            text-align: center;
-          }
-
-          &.cell-username {
-            width: 10%;
-          }
-
           &.cell-contact {
             width: 25%; // Prioridad para contacto (email y teléfono)
 
@@ -377,16 +368,46 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
             width: 10%; // Ligera reducción del ancho de las acciones
             text-align: center;
 
-            .action-btn {
-              padding: 0.4rem 0.6rem;
-              font-size: 12px;
-              background: transparent;
-              color: $btn-blue;
+          .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.35rem 0.75rem;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: $btn-blue;
+            text-decoration: none;
+            border: 1px solid color.adjust($btn-blue, $lightness: -20%);
+            border-radius: $radius; // Usamos el radio general definido (10px)
+            background: #eef2ff; // Fondo claro para diferenciar el botón
+            transition: all 0.3s ease;
 
-              &:hover {
-                color: $btn-blue-dark;
-              }
+            /* Estado al pasar el cursor */
+            &:hover {
+              background: $btn-blue; // Fondo azul intenso en hover
+              color: #fff; // Letra en blanco
+              box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2); // Sombra suave
+              transform: translateY(-2px); // Efecto de levantado
             }
+
+            /* Estado activo */
+            &:active {
+              transform: translateY(0); // Botón vuelve al estado original
+              box-shadow: 0 2px 4px rgba(37, 99, 235, 0.14); // Menos sombra
+            }
+
+            /* Botones deshabilitados */
+            &:disabled {
+              opacity: 0.6;
+              cursor: not-allowed;
+              background: #e5e7eb; // Grey claro para estado deshabilitado
+              color: $color-muted;
+              border-color: $color-border;
+              box-shadow: none;
+              transform: none;
+            }
+          }
+
           }
         }
       }

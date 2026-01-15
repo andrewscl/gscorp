@@ -9,7 +9,6 @@
     <td class="cell-photo">
       <img
         th:src="${e.photoUrl != null && e.photoUrl != '' ? e.photoUrl : '/images/avatar-placeholder.png'}"
-        th:alt="${'Empleado'}"
         width="40" height="40"
         class="avatar avatar-sm" />
     </td>
@@ -23,14 +22,6 @@
         <span th:text="${e.positionName}">Cargo</span>
       </div>
     </td>
-
-    <!-- RUT -->
-    <td class="cell-rut"
-          th:text="${e.rut != null ? e.rut : '—'}">RUT</td>
-
-    <!-- Usuario -->
-    <td class="cell-username"
-          th:text="${e.username != null ? e.username : '—'}">Username</td>
 
     <!-- Contacto (email / teléfono) -->
     <td class="cell-contact">
