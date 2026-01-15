@@ -4,7 +4,7 @@
   flex-direction: column;
   gap: 1.5rem; /* Reduce el espacio entre secciones */
   max-width: 1000px; /* Reduce el ancho para mejor uso del espacio */
-  margin: 1.5rem auto; /* Reduce márgenes generales */
+  margin: 1rem auto; /* Reduce márgenes generales */
   padding: 1.5rem;
   font-family: "Poppins", Arial, sans-serif;
   background: #ffffff; /* Fondo limpio */
@@ -22,7 +22,7 @@
   text-align: center;
 }
 .editEmployee .editEmployeeCard .editEmployeeHeader h3 {
-  font-size: 1.75rem; /* Tamaño más compacto */
+  font-size: 1.5rem; /* Tamaño más compacto */
   font-weight: 600;
   color: #162032;
 }
@@ -65,7 +65,7 @@
 }
 .editEmployee .editEmployeeCard .editEmployee-photo-and-info .editEmployee-body {
   display: grid;
-  grid-template-columns: 1fr; /* Una columna para más compactación móvil */
+  grid-template-columns: 2fr; /* Una columna para más compactación móvil */
   gap: 1rem;
 }
 .editEmployee .editEmployeeCard .editEmployee-photo-and-info .editEmployee-body .form-group {
