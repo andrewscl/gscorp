@@ -14,7 +14,7 @@
 .editEmployee .editEmployeeCard {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem; /* Reduce el espacio interno */
+  gap: 1.25rem; /* Reduce el espacio interno */
   width: 100%;
   /* Diseño para el formulario principal */
 }
@@ -30,7 +30,7 @@
   display: grid;
   grid-template-columns: 1.2fr 2fr; /* Proporción ajustada: foto y datos */
   gap: 1.5rem; /* Menos espacio entre columnas */
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 @media screen and (max-width: 768px) {
   .editEmployee .editEmployeeCard .editEmployee-photo-and-info {
@@ -65,7 +65,7 @@
 }
 .editEmployee .editEmployeeCard .editEmployee-photo-and-info .editEmployee-body {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 1rem;
 }
 .editEmployee .editEmployeeCard .editEmployee-photo-and-info .editEmployee-body .form-group {

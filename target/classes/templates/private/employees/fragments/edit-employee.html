@@ -40,6 +40,10 @@
           <input type="text" id="employeeRut" name="rut" th:value="${employee.rut}" placeholder="RUT" />
         </div>
         <div class="form-group">
+          <label for="employeeBirthDate">Fecha de nacimiento</label>
+          <input type="date" id="employeeBirthDate" name="birthDate" th:value="${employee.birthDate}" placeholder="Fecha de nacimiento" />
+        </div>
+        <div class="form-group">
           <label for="employeeMail">Email</label>
           <input type="email" id="employeeMail" name="mail" th:value="${employee.mail}" placeholder="Email" />
         </div>
@@ -47,34 +51,24 @@
           <label for="employeePhone">Teléfono</label>
           <input type="text" id="employeePhone" name="phone" th:value="${employee.phone}" placeholder="Teléfono" />
         </div>
-
+        <div class="form-group">
+          <label for="employeeSecondaryPhone">Teléfono secundario</label>
+          <input type="text" id="employeeSecondaryPhone" name="secondaryPhone" th:value="${employee.secondaryPhone}" placeholder="Teléfono secundario" />
+        </div>
       </div>
 
     </div>
 
 
     <form id="editEmployeeForm" class="editEmployee-body">
-
-      <div class="form-group">
-        <label for="employeeSecondaryPhone">Teléfono secundario</label>
-        <input type="text" id="employeeSecondaryPhone" name="secondaryPhone" th:value="${employee.secondaryPhone}" placeholder="Teléfono secundario" />
-      </div>
-
       <div class="form-group">
         <label for="employeeHireDate">Fecha de contratación</label>
         <input type="date" id="employeeHireDate" name="hireDate" th:value="${employee.hireDate}" placeholder="Fecha de contratación" />
       </div>
-
-      <div class="form-group">
-        <label for="employeeBirthDate">Fecha de nacimiento</label>
-        <input type="date" id="employeeBirthDate" name="birthDate" th:value="${employee.birthDate}" placeholder="Fecha de nacimiento" />
-      </div>
-
       <div class="form-group">
         <label for="employeeExitDate">Fecha de salida</label>
         <input type="date" id="employeeExitDate" name="exitDate" th:value="${employee.exitDate}" placeholder="Fecha de salida" />
       </div>
-
       <div class="form-group">
         <label for="employeeAddress">Dirección</label>
         <input type="text" id="employeeAddress" name="address" th:value="${employee.address}" placeholder="Dirección" />
@@ -126,16 +120,6 @@
                   th:selected="${employee.studyLevel == s}"
                   th:value="${s}"
                   th:text="${s.displayName}"></option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="employeeProfessions">Profesiones asociadas</label>
-        <select id="employeeProfessions" name="professionIds" multiple>
-          <option th:each="p : ${professions}" 
-                  th:selected="${professionIds.contains(p.id)}" 
-                  th:value="${p.id}" 
-                  th:text="${p.name}"></option>
         </select>
       </div>
 
@@ -281,6 +265,16 @@
         <select id="employeeProjects" name="projectIds" multiple>
           <option th:each="p : ${projects}" 
                   th:selected="${projectIds.contains(p.id)}" 
+                  th:value="${p.id}" 
+                  th:text="${p.name}"></option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="employeeProfessions">Profesiones asociadas</label>
+        <select id="employeeProfessions" name="professionIds" multiple>
+          <option th:each="p : ${professions}" 
+                  th:selected="${professionIds.contains(p.id)}" 
                   th:value="${p.id}" 
                   th:text="${p.name}"></option>
         </select>
