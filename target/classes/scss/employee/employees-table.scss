@@ -325,12 +325,14 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
           }
 
           &.cell-contact {
-            width: 25%; // Prioridad para contacto (email y teléfono)
+            display: flex;
+            flex-direction: column; /* Asegura que el contenido se coloque en columnas */
+            gap: 0.4rem; /* Espacio entre email y teléfono */
 
             a {
               color: $btn-blue;
-              text-decoration: underline; // Que parezcan enlaces
-              transition: color 0.2s ease;
+              text-decoration: underline;
+              font-size: 0.95rem;
 
               &:hover {
                 color: $btn-blue-dark;
@@ -338,7 +340,13 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
             }
 
             span {
+              font-size: 0.95rem; /* Para el teléfono */
               color: $color-primary;
+            }
+
+            .muted {
+              color: $color-muted;
+              font-style: italic; /* Indica falta de contacto */
             }
           }
 

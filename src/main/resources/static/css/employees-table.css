@@ -284,18 +284,25 @@
   white-space: nowrap;
 }
 .employees-table-container .employees-table tbody tr td.cell-contact {
-  width: 25%;
+  display: flex;
+  flex-direction: column; /* Asegura que el contenido se coloque en columnas */
+  gap: 0.4rem; /* Espacio entre email y teléfono */
 }
 .employees-table-container .employees-table tbody tr td.cell-contact a {
   color: #2563eb;
   text-decoration: underline;
-  transition: color 0.2s ease;
+  font-size: 0.95rem;
 }
 .employees-table-container .employees-table tbody tr td.cell-contact a:hover {
   color: rgb(19.4285714286, 79.6571428571, 211.7714285714);
 }
 .employees-table-container .employees-table tbody tr td.cell-contact span {
+  font-size: 0.95rem; /* Para el teléfono */
   color: #162032;
+}
+.employees-table-container .employees-table tbody tr td.cell-contact .muted {
+  color: #6b7280;
+  font-style: italic; /* Indica falta de contacto */
 }
 .employees-table-container .employees-table tbody tr td.cell-status {
   width: 7%;
