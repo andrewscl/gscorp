@@ -69,11 +69,12 @@
 
       .editEmployee-body {
         display: grid;
-        grid-template-columns: 2fr;
+        grid-template-columns: 1fr 1fr;
         gap: 1rem;
 
         .form-group {
           display: flex;
+          flex-direction: column;
 
           label {
             font-size: 0.85rem; /* Texto más compacto */
@@ -96,6 +97,7 @@
           }
         }
       }
+
     }
 
     /* Diseño para el formulario principal */
