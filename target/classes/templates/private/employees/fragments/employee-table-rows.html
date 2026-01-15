@@ -23,15 +23,27 @@
       </div>
     </td>
 
-    <!-- Contacto (email / teléfono) -->
+    <!-- Contacto (email y teléfono) -->
     <td class="cell-contact">
-      <div th:if="${e.mail != null && e.mail != ''}">
+      <!-- Mostrar email y teléfono juntos si ambos existen -->
+      <div th:if="${e.mail != null && e.mail != '' && e.phone != null && e.phone != ''}">
         <a th:href="${'mailto:' + e.mail}" th:text="${e.mail}">email@dominio</a>
-      </div>
-      <div th:if="${(e.mail == null || e.mail == '') and (e.phone != null && e.phone != '')}">
+        <span> | </span> <!-- Separador entre email y teléfono -->
         <span th:text="${e.phone}">+56 9 1234 5678</span>
       </div>
-      <div th:if="${(e.mail == null || e.mail == '') and (e.phone == null || e.phone == '')}">
+
+      <!-- Mostrar solo email si existe -->
+      <div th:if="${e.mail != null && e.mail != '' && (e.phone == null || e.phone == '')}">
+        <a th:href="${'mailto:' + e.mail}" th:text="${e.mail}">email@dominio</a>
+      </div>
+
+      <!-- Mostrar solo teléfono si existe -->
+      <div th:if="${(e.mail == null || e.mail == '') && e.phone != null && e.phone != ''}">
+        <span th:text="${e.phone}">+56 9 1234 5678</span>
+      </div>
+
+      <!-- Mostrar guion si no hay contacto -->
+      <div th:if="${e.mail == null || e.mail == '' && e.phone == null || e.phone == ''}">
         <span class="muted">—</span>
       </div>
     </td>
