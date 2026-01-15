@@ -212,8 +212,6 @@
   position: fixed;
   border-radius: 10px;
   overflow-x: auto;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
   background: #ffffff;
   border: 1px solid #e7eef9;
   box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
@@ -231,140 +229,78 @@
   font-size: 14px;
   color: #162032;
   table-layout: fixed;
-  min-width: 0;
+  /* Cabecera de tabla */
+  /* Cuerpo de tabla */
 }
 .employees-table-container .employees-table thead tr th {
-  position: sticky;
-  top: 0;
-  z-index: 1140;
-  text-align: left;
-  font-weight: 700;
   padding: 0.9rem 0.85rem;
   border-bottom: 1px solid #e7eef9;
+  font-weight: 700;
+  text-align: left;
   color: #162032;
-  white-space: nowrap;
-  font-size: 13px;
   background: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .employees-table-container .employees-table tbody {
-  /* Estilo para las filas vacías */
-}
-.employees-table-container .employees-table tbody tr {
-  transition: background 0.12s ease;
-  /* Ajuste de la columna ID */
-  /* Ajuste de la columna Foto */
-  /* Ajuste de la columna Nombre */
-  /* Ajuste de la columna Acciones */
+  /* Estilo de fila vacía */
 }
 .employees-table-container .employees-table tbody tr:hover {
-  background: rgba(37, 99, 235, 0.03);
+  background-color: rgba(37, 99, 235, 0.03);
 }
 .employees-table-container .employees-table tbody tr td {
   padding: 0.65rem 0.85rem;
   border-bottom: 1px solid #e7eef9;
   vertical-align: middle;
-  white-space: normal;
-  word-break: break-word;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  /* Ajuste por clase de celda */
 }
-.employees-table-container .employees-table tbody tr .cell-id {
-  width: 6%; /* Reducido para mantener espacio visual */
-  max-width: 8ch;
+.employees-table-container .employees-table tbody tr td.cell-id {
+  width: 5%;
   text-align: center;
 }
-.employees-table-container .employees-table tbody tr .cell-photo {
-  width: 8%;
-  max-width: 56px;
-  padding-left: 0.4rem;
-  padding-right: 0.4rem;
+.employees-table-container .employees-table tbody tr td.cell-photo {
+  width: 6%;
+  padding-left: 0;
+  padding-right: 0;
 }
-.employees-table-container .employees-table tbody tr .cell-photo img.avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
-  object-fit: cover;
-  display: block;
+.employees-table-container .employees-table tbody tr td.cell-name {
+  width: 25%;
 }
-.employees-table-container .employees-table tbody tr .cell-name {
-  width: 25%; /* Espacio adicional para nombres largos */
-}
-.employees-table-container .employees-table tbody tr .cell-name .name {
-  font-weight: 600;
-  color: #162032;
-}
-.employees-table-container .employees-table tbody tr .cell-name .meta {
-  font-size: 12px;
-  color: #6b7280;
-  margin-top: 0.25rem;
-}
-.employees-table-container .employees-table tbody tr .cell-rut {
+.employees-table-container .employees-table tbody tr td.cell-rut {
   width: 12%;
-  max-width: 14ch;
-  text-align: center;
 }
-.employees-table-container .employees-table tbody tr .cell-username {
-  width: 15%;
+.employees-table-container .employees-table tbody tr td.cell-username {
+  width: 10%;
 }
-.employees-table-container .employees-table tbody tr .cell-contact {
+.employees-table-container .employees-table tbody tr td.cell-contact {
   width: 20%;
 }
-.employees-table-container .employees-table tbody tr .cell-contact a {
-  color: #2563eb;
-  text-decoration: none;
-}
-.employees-table-container .employees-table tbody tr .cell-contact a:hover {
-  text-decoration: underline;
-}
 .employees-table-container .employees-table tbody tr td.cell-status {
-  width: 8%;
+  width: 7%;
+}
+.employees-table-container .employees-table tbody tr td.actions {
+  width: 15%;
   text-align: center;
 }
-.employees-table-container .employees-table tbody tr td.cell-status .badge {
-  display: inline-block;
-  padding: 0.25rem 0.5rem;
-  border-radius: 999px;
-  font-size: 0.8rem;
-  font-weight: 600;
-}
-.employees-table-container .employees-table tbody tr td.cell-status .badge-success {
-  background: #ecfdf5;
-  color: #10b981;
-  border: 1px solid rgb(158.3582089552, 246.6417910448, 217.3880597015);
-}
-.employees-table-container .employees-table tbody tr td.cell-status .badge-muted {
-  background: #f3f4f6;
-  color: #6b7280;
-  border: 1px solid rgb(247.32, 249.56, 253.08);
-}
-.employees-table-container .employees-table tbody tr .actions {
-  width: 12%;
-  min-width: 120px;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  gap: 0.4rem;
-}
-.employees-table-container .employees-table tbody tr .actions .btn-link {
-  background: transparent;
+.employees-table-container .employees-table tbody tr td.actions .action-btn {
+  padding: 0.4rem 0.6rem;
+  font-size: 12px;
   border: none;
+  background: transparent;
   color: #2563eb;
-  cursor: pointer;
-  padding: 0.25rem 0.4rem;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 13px;
 }
-.employees-table-container .employees-table tbody tr .actions .btn-link:hover {
+.employees-table-container .employees-table tbody tr td.actions .action-btn:hover {
   color: rgb(19.4285714286, 79.6571428571, 211.7714285714);
 }
-.employees-table-container .employees-table tbody tr.empty td.empty {
+.employees-table-container .employees-table tbody .empty td {
   text-align: center;
-  padding: 2rem;
-  color: #6b7280;
+  padding: 1.5rem 0;
   font-style: italic;
-  white-space: normal;
+  color: #6b7280;
 }
 
 /* Paginator */

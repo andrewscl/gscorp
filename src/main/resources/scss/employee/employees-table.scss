@@ -16,8 +16,9 @@ $base-font-size: 14px;
 $radius: 10px;
 
 $btn-blue: #2563eb;
-$btn-blue-dark: darken($btn-blue, 8%);
+$btn-blue-dark: color.adjust($btn-blue, $lightness: -8%);
 $color-card-bg: #ffffff;
+
 $color-primary: #162032;
 $color-muted: #6b7280;
 $color-border: #e7eef9;
@@ -143,8 +144,9 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
       .filter-input,
       .filter-select {
         appearance: none;
-        border: 1px solid lighten($color-border, 2%);
+        border: 1px solid color.adjust($color-border, $lightness: 2%);
         padding: 0.45rem 0.6rem;
+        
         border-radius: 8px;
         background: #fff;
         font-size: $base-font-size;
@@ -241,8 +243,6 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
   position: fixed;
   border-radius: $radius;
   overflow-x: auto;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
   background: $color-card-bg;
   border: 1px solid $color-border;
   box-shadow: $shadow-sm;
@@ -259,172 +259,101 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
     font-family: $font-family;
     font-size: $base-font-size;
     color: $color-primary;
-    table-layout: fixed;
-    min-width: 0;
+    table-layout: fixed; // Asegura proporciones fijas entre columnas
 
+    /* Cabecera de tabla */
     thead {
       tr {
         th {
-          position: sticky;
-          top: 0;
-          z-index: 1140;
-          text-align: left;
-          font-weight: 700;
           padding: 0.9rem 0.85rem;
           border-bottom: 1px solid $color-border;
+          font-weight: 700;
+          text-align: left;
           color: $color-primary;
-          white-space: nowrap;
-          font-size: 13px;
           background: $color-card-bg;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
       }
     }
 
+    /* Cuerpo de tabla */
     tbody {
       tr {
-        transition: background 0.12s ease;
-
         &:hover {
-          background: rgba($btn-blue, 0.03);
+          background-color: rgba($btn-blue, 0.03);
         }
 
         td {
           padding: 0.65rem 0.85rem;
           border-bottom: 1px solid $color-border;
           vertical-align: middle;
-          white-space: normal;
-          word-break: break-word;
+          white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-        }
 
-        /* Ajuste de la columna ID */
-        .cell-id {
-          width: 6%; /* Reducido para mantener espacio visual */
-          max-width: 8ch;
-          text-align: center;
-        }
-
-        /* Ajuste de la columna Foto */
-        .cell-photo {
-          width: 8%;
-          max-width: 56px;
-          padding-left: 0.4rem;
-          padding-right: 0.4rem;
-
-          img.avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            object-fit: cover;
-            display: block;
-          }
-        }
-
-        /* Ajuste de la columna Nombre */
-        .cell-name {
-          width: 25%; /* Espacio adicional para nombres largos */
-
-          .name {
-            font-weight: 600;
-            color: $color-primary;
+          /* Ajuste por clase de celda */
+          &.cell-id {
+            width: 5%;     // Reduce la columna ID
+            text-align: center;
           }
 
-          .meta {
-            font-size: 12px;
-            color: $color-muted;
-            margin-top: 0.25rem;
-          }
-        }
-
-        .cell-rut {
-          width: 12%;
-          max-width: 14ch;
-          text-align: center;
-        }
-
-        .cell-username {
-          width: 15%;
-        }
-
-        .cell-contact {
-          width: 20%;
-          a {
-            color: $btn-blue;
-            text-decoration: none;
-            &:hover {
-              text-decoration: underline;
-            }
-          }
-        }
-
-        td.cell-status {
-          width: 8%;
-          text-align: center;
-
-          .badge {
-            display: inline-block;
-            padding: 0.25rem 0.5rem;
-            border-radius: 999px;
-            font-size: 0.8rem;
-            font-weight: 600;
+          &.cell-photo {
+            width: 6%;
+            padding-left: 0;
+            padding-right: 0;
           }
 
-          .badge-success {
-            background: #ecfdf5;
-            color: #10b981;
-            border: 1px solid color.adjust(#10b981, $lightness: 40%);
+          &.cell-name {
+            width: 25%;    // Da más espacio al nombre
           }
 
-          .badge-muted {
-            background: #f3f4f6;
-            color: $color-muted;
-            border: 1px solid color.adjust($color-border, $lightness: 4%);
+          &.cell-rut {
+            width: 12%;    // Define ancho moderado para RUT
           }
-        }
 
-        /* Ajuste de la columna Acciones */
-        .actions {
-          width: 12%;
-          min-width: 120px;
-          white-space: nowrap;
-          display: flex;
-          align-items: center;
-          justify-content: space-around;
-          gap: 0.4rem;
+          &.cell-username {
+            width: 10%;
+          }
 
-          .btn-link {
-            background: transparent;
-            border: none;
-            color: $btn-blue;
-            cursor: pointer;
-            padding: 0.25rem 0.4rem;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 13px;
+          &.cell-contact {
+            width: 20%;    // Mantén amplio para contacto
+          }
 
-            &:hover {
-              color: $btn-blue-dark;
+          &.cell-status {
+            width: 7%;     // Compacto para estado
+          }
+
+          &.actions {
+            width: 15%;    // Define suficiente espacio para botones
+            text-align: center;
+
+            .action-btn {
+              padding: 0.4rem 0.6rem;
+              font-size: 12px;
+              border: none;
+              background: transparent;
+              color: $btn-blue;
+
+              &:hover {
+                color: $btn-blue-dark;
+              }
             }
           }
         }
       }
 
-      /* Estilo para las filas vacías */
-      tr.empty td.empty {
+      /* Estilo de fila vacía */
+      .empty td {
         text-align: center;
-        padding: 2rem;
-        color: $color-muted;
+        padding: 1.5rem 0;
         font-style: italic;
-        white-space: normal;
+        color: $color-muted;
       }
     }
-
-
   }
 }
-
-
 
 /* Paginator */
 .employees-paginator {
