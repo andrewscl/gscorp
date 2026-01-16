@@ -84,12 +84,15 @@
   margin-bottom: 0.1rem;
   color: #333;
 }
-.viewEmployee .viewEmployeeHeaderCard .viewEmployee-infoCard .viewEmployee-body .form-group span,
-.viewEmployee .viewEmployeeHeaderCard .viewEmployee-infoCard .viewEmployee-body .form-group select {
-  padding: 0.5rem; /* Controles más compactos */
-  border: 1px solid #ccc;
-  border-radius: 8px;
+.viewEmployee .viewEmployeeHeaderCard .viewEmployee-infoCard .viewEmployee-body .form-group span {
+  display: block; /* Cambia de inline a block para asegurar área rectangular */
+  padding: 0.5rem; /* Agrega el mismo padding que los inputs */
+  border: 1px solid #ccc; /* Agrega un borde similar al de los inputs */
+  border-radius: 8px; /* Bordes redondeados */
   font-size: 0.8rem;
+  background-color: #f7f7f7; /* Fondo gris claro para distinguir */
+  color: #333; /* Color del texto */
+  white-space: pre-wrap;
 }
 .viewEmployee .viewEmployeeDetailsCard {
   position: fixed; /* Fija el formulario a la ventana */

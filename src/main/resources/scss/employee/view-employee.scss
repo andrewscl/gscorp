@@ -92,12 +92,15 @@
               color: #333;
             }
 
-            span,
-            select {
-              padding: 0.5rem; /* Controles más compactos */
-              border: 1px solid #ccc;
-              border-radius: 8px;
+            span{
+              display: block; /* Cambia de inline a block para asegurar área rectangular */
+              padding: 0.5rem; /* Agrega el mismo padding que los inputs */
+              border: 1px solid #ccc; /* Agrega un borde similar al de los inputs */
+              border-radius: 8px; /* Bordes redondeados */
               font-size: 0.8rem;
+              background-color: #f7f7f7; /* Fondo gris claro para distinguir */
+              color: #333; /* Color del texto */
+              white-space: pre-wrap;
             }
 
           }
