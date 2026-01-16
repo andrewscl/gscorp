@@ -167,18 +167,22 @@
         <span th:text="${employee.position}">Desarrollador</span>
       </div>
 
-      <div class="form-group">
-        <label>Proyectos asociados</label>
-        <ul>
-          <li th:each="project : ${employee.projects}" th:text="${project.name}">Proyecto A</li>
+      <!-- Proyectos Asociados -->
+      <div class="employee-projects">
+        <h3>Proyectos Asociados</h3>
+        <ul th:if="${not #lists.isEmpty(projectNames)}">
+          <li th:each="name : ${projectNames}" th:text="${name}">Proyecto 1</li>
         </ul>
+        <span th:unless="${not #lists.isEmpty(projectNames)}">Sin proyectos asignados.</span>
       </div>
 
-      <div class="form-group">
-        <label>Profesiones asociadas</label>
-        <ul>
-          <li th:each="profession : ${employee.professions}" th:text="${profession.name}">Ingeniero</li>
+      <!-- Profesiones Asociadas -->
+      <div class="employee-professions">
+        <h3>Profesiones Asociadas</h3>
+        <ul th:if="${not #lists.isEmpty(professionNames)}">
+          <li th:each="name : ${professionNames}" th:text="${name}">Ingeniero</li>
         </ul>
+        <span th:unless="${not #lists.isEmpty(professionNames)}">Sin profesiones asignadas.</span>
       </div>
 
     </div>

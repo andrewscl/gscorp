@@ -106,7 +106,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findProfessionIdsByEmployeeId(employeeId);
     }
 
-
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> findProfessionNamesByEmployeeId(Long employeeId) {
+        return employeeRepository.findProfessionNamesByEmployeeId(employeeId);
+    }
 
 
     @Override

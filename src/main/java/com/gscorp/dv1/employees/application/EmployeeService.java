@@ -27,6 +27,8 @@ public interface EmployeeService {
 
     List<Long> findProfessionIdsByEmployeeId(Long employeeId);
 
+    List<String> findProfessionNamesByEmployeeId(Long employeeId);
+
     Employee saveEmployee(Employee employee);
 
     Optional<Employee> findById(Long id);

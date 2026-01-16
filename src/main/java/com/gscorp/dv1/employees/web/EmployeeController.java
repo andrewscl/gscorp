@@ -155,13 +155,11 @@ public class EmployeeController {
                         @PathVariable Long id,
                         Model model){
         var employee = employeeService.findByIdViewEmployee(id);
-        List<Long> projectIds = employeeService.findProjectIdsByEmployeeId(id);
-        List<Long> professionIds = employeeService.findProfessionIdsByEmployeeId(id);
+        List<String> projectNames = employeeService.findProjectNamesByEmployeeId(id);
+        List<String> professionNames = employeeService.findProfessionNamesByEmployeeId(id);
         model.addAttribute("employee", employee);
-        model.addAttribute("projects", projectService.findAll());
-        model.addAttribute("professions", professionService.findAll());
-        model.addAttribute("projectIds", projectIds);
-        model.addAttribute("professionIds", professionIds);
+        model.addAttribute("projectNames", projectNames);
+        model.addAttribute("professionNames", professionNames);
         return "private/employees/views/view-employee-view";
     }
 
