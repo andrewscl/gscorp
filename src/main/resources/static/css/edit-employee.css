@@ -34,6 +34,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* Estilizamos el botón para actualizar la foto */
 }
 .editEmployee .editEmployeeHeaderCard .employeePhoto label {
   font-weight: bold;
@@ -53,8 +54,23 @@
   height: 100%;
   object-fit: cover;
 }
-.editEmployee .editEmployeeHeaderCard .employeePhoto input[type=file] {
-  font-size: 0.85rem; /* Compactar texto */
+.editEmployee .editEmployeeHeaderCard .employeePhoto .updatePhotoButton {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: #007bff; /* Botón azul primario */
+  border: none;
+  border-radius: 8px; /* Bordes redondeados */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.editEmployee .editEmployeeHeaderCard .employeePhoto .updatePhotoButton:hover {
+  background-color: #0056b3; /* Cambiamos el color al pasar el cursor */
+}
+.editEmployee .editEmployeeHeaderCard .employeePhoto .updatePhotoButton:active {
+  background-color: #003a75; /* Color más oscuro al hacer clic */
 }
 .editEmployee .editEmployeeHeaderCard .editEmployee-infoCard {
   display: flex;

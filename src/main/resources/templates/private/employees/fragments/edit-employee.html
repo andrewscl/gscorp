@@ -4,11 +4,12 @@
 
       <!-- Foto -->
       <div class="employeePhoto">
-        <label for="employeePhoto">Fotografía</label>
         <div class="photoPreview">
           <img th:src="${employee.photoUrl}" alt="Foto del empleado" />
         </div>
-        <input type="file" id="employeePhoto" name="photo" accept="image/*" />
+        <!-- Aquí hacemos un input visible usando un botón estilizado -->
+        <input type="file" id="employeePhoto" name="photo" accept="image/*" hidden>
+        <label for="employeePhoto" class="updatePhotoButton">Actualizar foto</label>
       </div>
 
       <div class="editEmployee-infoCard">

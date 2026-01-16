@@ -55,8 +55,26 @@
           }
         }
 
-        input[type="file"] {
-          font-size: 0.85rem; /* Compactar texto */
+        /* Estilizamos el botón para actualizar la foto */
+        .updatePhotoButton {
+          display: inline-block;
+          padding: 0.5rem 1rem;
+          font-size: 0.85rem;
+          font-weight: 600;
+          color: #fff;
+          background-color: #007bff; /* Botón azul primario */
+          border: none;
+          border-radius: 8px; /* Bordes redondeados */
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+
+          &:hover {
+            background-color: #0056b3; /* Cambiamos el color al pasar el cursor */
+          }
+
+          &:active {
+            background-color: #003a75; /* Color más oscuro al hacer clic */
+          }
         }
     }
 
