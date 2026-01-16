@@ -27,6 +27,7 @@
     right: var(--content-horizontal-padding);
     background: #ffffff;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    padding: 1rem 2rem;
 
     .employeePhoto {
         display: flex;
@@ -124,7 +125,7 @@
     max-height: calc(100vh - var(--header-height) - var(--topbar-height) - 2rem); /* Altura máxima dinámica */
     background: #fff;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    padding: 1rem 0.5rem;
+    padding: 1rem 2rem;
     border-radius: 12px;
 
     /* Diseño para el formulario principal */
