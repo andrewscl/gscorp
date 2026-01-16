@@ -143,7 +143,26 @@ function bindEditEmployeeForm() {
   qs('#cancelEditEmployee')?.addEventListener('click', onCancelEdit);
 }
 
+
+function setHeaderHeight() {
+  const header = document.querySelector('.editEmployeeHeaderCard'); // Selecciona el encabezado
+
+  if (header) {
+    // Obtén la altura del encabezado dinámicamente
+    const headerHeight = header.offsetHeight;
+
+    // Setea la variable CSS en el :root
+    document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
+  }
+}
+
+
+// Llamar al ajuste después de que se renderice el DOM
+window.addEventListener('resize', setHeaderHeight); // Recalcular en caso de redimensionar la ventana
+
+
 /* --- init --- */
 (function init() {
   bindEditEmployeeForm();
+  setHeaderHeight();
 })();
