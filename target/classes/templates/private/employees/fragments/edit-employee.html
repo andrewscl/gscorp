@@ -1,12 +1,6 @@
 <section th:fragment="content" class="editEmployee">
 
-  <div class="editEmployeeCard">
-
-    <div class="editEmployeeHeader">
-      <h3>Editar empleado</h3>
-    </div>
-
-    <div class="editEmployee-photo-and-info">
+  <div class="editEmployeeHeaderCard">
 
       <!-- Foto -->
       <div class="employeePhoto">
@@ -17,48 +11,58 @@
         <input type="file" id="employeePhoto" name="photo" accept="image/*" />
       </div>
 
-      <!-- Datos personales -->
-      <div class="editEmployee-body">
-        <div class="form-group">
-          <label for="employeeId">Id</label>
-          <input type="text" id="employeeId" name="id" th:value="${employee.id}" placeholder="Id" readonly/>
+      <div class="editEmployee-infoCard">
+
+        <div class="editEmployeeHeader">
+          <h3>Editar empleado</h3>
         </div>
-        <div class="form-group">
-          <label for="employeeName">Nombre</label>
-          <input type="text" id="employeeName" name="name" th:value="${employee.name}" placeholder="Nombre" required />
+
+        <!-- Datos personales -->
+        <div class="editEmployee-body">
+          <div class="form-group">
+            <label for="employeeId">Id</label>
+            <input type="text" id="employeeId" name="id" th:value="${employee.id}" placeholder="Id" readonly/>
+          </div>
+          <div class="form-group">
+            <label for="employeeName">Nombre</label>
+            <input type="text" id="employeeName" name="name" th:value="${employee.name}" placeholder="Nombre" required />
+          </div>
+          <div class="form-group">
+            <label for="employeeFatherSurname">Apellido paterno</label>
+            <input type="text" id="employeeFatherSurname" name="fatherSurname" th:value="${employee.fatherSurname}" placeholder="Apellido paterno" />
+          </div>
+          <div class="form-group">
+            <label for="employeeMotherSurname">Apellido materno</label>
+            <input type="text" id="employeeMotherSurname" name="motherSurname" th:value="${employee.motherSurname}" placeholder="Apellido materno" />
+          </div>
+          <div class="form-group">
+            <label for="employeeRut">RUT</label>
+            <input type="text" id="employeeRut" name="rut" th:value="${employee.rut}" placeholder="RUT" />
+          </div>
+          <div class="form-group">
+            <label for="employeeBirthDate">Fecha de nacimiento</label>
+            <input type="date" id="employeeBirthDate" name="birthDate" th:value="${employee.birthDate}" placeholder="Fecha de nacimiento" />
+          </div>
+          <div class="form-group">
+            <label for="employeeMail">Email</label>
+            <input type="email" id="employeeMail" name="mail" th:value="${employee.mail}" placeholder="Email" />
+          </div>
+          <div class="form-group">
+            <label for="employeePhone">Teléfono</label>
+            <input type="text" id="employeePhone" name="phone" th:value="${employee.phone}" placeholder="Teléfono" />
+          </div>
+          <div class="form-group">
+            <label for="employeeSecondaryPhone">Teléfono secundario</label>
+            <input type="text" id="employeeSecondaryPhone" name="secondaryPhone" th:value="${employee.secondaryPhone}" placeholder="Teléfono secundario" />
+          </div>
         </div>
-        <div class="form-group">
-          <label for="employeeFatherSurname">Apellido paterno</label>
-          <input type="text" id="employeeFatherSurname" name="fatherSurname" th:value="${employee.fatherSurname}" placeholder="Apellido paterno" />
-        </div>
-        <div class="form-group">
-          <label for="employeeMotherSurname">Apellido materno</label>
-          <input type="text" id="employeeMotherSurname" name="motherSurname" th:value="${employee.motherSurname}" placeholder="Apellido materno" />
-        </div>
-        <div class="form-group">
-          <label for="employeeRut">RUT</label>
-          <input type="text" id="employeeRut" name="rut" th:value="${employee.rut}" placeholder="RUT" />
-        </div>
-        <div class="form-group">
-          <label for="employeeBirthDate">Fecha de nacimiento</label>
-          <input type="date" id="employeeBirthDate" name="birthDate" th:value="${employee.birthDate}" placeholder="Fecha de nacimiento" />
-        </div>
-        <div class="form-group">
-          <label for="employeeMail">Email</label>
-          <input type="email" id="employeeMail" name="mail" th:value="${employee.mail}" placeholder="Email" />
-        </div>
-        <div class="form-group">
-          <label for="employeePhone">Teléfono</label>
-          <input type="text" id="employeePhone" name="phone" th:value="${employee.phone}" placeholder="Teléfono" />
-        </div>
-        <div class="form-group">
-          <label for="employeeSecondaryPhone">Teléfono secundario</label>
-          <input type="text" id="employeeSecondaryPhone" name="secondaryPhone" th:value="${employee.secondaryPhone}" placeholder="Teléfono secundario" />
-        </div>
+
       </div>
 
-    </div>
+  </div>
 
+
+  <div class="editEmployeeDetailsCard">
 
     <form id="editEmployeeForm" class="editEmployee-body">
       <div class="form-group">

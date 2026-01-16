@@ -3,31 +3,25 @@
   flex-direction: column;
   gap: 1.5rem; /* Reduce el espacio entre secciones */
   max-width: 1000px; /* Reduce el ancho para mejor uso del espacio */
-  margin: 1rem auto; /* Reduce márgenes generales */
-  padding: 1rem 2rem;
+  margin: 0.5rem auto; /* Reduce márgenes generales */
+  padding: 0.5rem 2rem;
   font-family: 'Poppins', Arial, sans-serif;
   background: #ffffff; /* Fondo limpio */
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 
-  .editEmployeeCard {
+  .editEmployeeHeaderCard {
     display: flex;
     flex-direction: column;
     gap: 1.25rem; /* Reduce el espacio interno */
     width: 100%;
+    z-index: 10;
+    position: fixed;
+    background: #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 
-    .editEmployeeHeader {
-      text-align: center;
-
-      h3 {
-        font-size: 1.25rem; /* Tamaño más compacto */
-        font-weight: 600;
-        color: #162032;
-      }
-    }
-
-    .editEmployee-photo-and-info {
-      display: grid;
+    .employeePhoto{
+      display: flex;
       grid-template-columns: 1.2fr 2fr; /* Proporción ajustada: foto y datos */
       gap: 1.5rem; /* Menos espacio entre columnas */
       margin-bottom: 1.25rem;
@@ -66,8 +60,9 @@
           font-size: 0.85rem; /* Compactar texto */
         }
       }
+    }
 
-      .editEmployee-body {
+    .editEmployee-body {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         gap: 1rem;
@@ -79,7 +74,7 @@
           label {
             font-size: 0.8rem; /* Texto más compacto */
             font-weight: 600;
-            margin-bottom: 0.2rem;
+            margin-bottom: 0.1rem;
             color: #333;
           }
 
@@ -96,9 +91,17 @@
             cursor: not-allowed;
           }
         }
-      }
-
     }
+
+  }
+
+
+  .editEmployeeDetailsCard{
+    margin-top: 210px;
+    display: block;
+    overflow-y: auto;
+    max-height: calc(100vh - 220px);
+    padding: 1rem 0.5rem;
 
     /* Diseño para el formulario principal */
     form {
@@ -178,4 +181,6 @@
       }
     }
   }
+
+
 }
