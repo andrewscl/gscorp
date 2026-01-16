@@ -1,8 +1,14 @@
+:root {
+  --topbar-height: 54px;                /* same as layout topbar height */
+  --sidebar-width: 240px;               /* same as layout sidebar width */
+  --content-horizontal-padding: 2.4rem; /* match .content horizontal padding in layout */
+  --header-height: 0;
+}
+
 .editEmployee {
   display: flex;
   flex-direction: column;
   gap: 1.5rem; /* Reduce el espacio entre secciones */
-  max-width: 1000px; /* Reduce el ancho para mejor uso del espacio */
   margin: 0.5rem auto; /* Reduce márgenes generales */
   padding: 0.5rem 2rem;
   font-family: 'Poppins', Arial, sans-serif;
@@ -17,6 +23,9 @@
     width: calc(100% - 4rem);
     z-index: 10;
     position: fixed;
+    top: calc(var(--topbar-height) + 1rem);
+    left: calc(var(--sidebar-width) + var(--content-horizontal-padding));
+    right: var(--content-horizontal-padding);
     background: #ffffff;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 
@@ -87,11 +96,17 @@
 
 
   .editEmployeeDetailsCard{
+
     margin-top: 210px;
     display: block;
     overflow-y: auto;
     max-height: calc(100vh - 220px);
     padding: 1rem 0.5rem;
+
+    top: calc(var(--header-height) + var(--topbar-height) + 1.75rem);
+    bottom: 1rem;
+    left: calc(var(--sidebar-width) + var(--content-horizontal-padding));
+    right: var(--content-horizontal-padding);
 
     /* Diseño para el formulario principal */
     form {
