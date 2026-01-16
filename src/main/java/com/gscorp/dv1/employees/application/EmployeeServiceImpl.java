@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Value;
@@ -388,20 +389,35 @@ public class EmployeeServiceImpl implements EmployeeService {
         entity.setAddress(req.getAddress());
         entity.setActive(true);
 
-        // Procesar la fotografía si se proporciona
-        MultipartFile photo = req.getPhoto();
-        if (photo != null && !photo.isEmpty()) {
-            try {
-                String extension = getExtension(photo.getOriginalFilename());
-                String fileName = "employee_photo_" + System.currentTimeMillis() + "_" + (req.getRut() != null ? req.getRut() : "no_rut") + "." + (extension != null ? extension : "jpg");
-                File destDir = new File(uploadDir);
-                if (!destDir.exists()) destDir.mkdirs();
-                File dest = new File(destDir, fileName);
-                photo.transferTo(dest);
-                entity.setPhotoUrl(uploadDir + "/" + fileName);
-            } catch (IOException e) {
-                throw new RuntimeException("Error al guardar la fotografía", e);
+
+        String photoUrl = null;
+        try {
+            //Fotografias
+            MultipartFile photo = req.getPhoto();
+            if(photo != null && !photo.isEmpty()) {
+                // Generar el nombre del archivo
+                String originalFilename = photo.getOriginalFilename();
+                String fileExtension = "";
+                if (originalFilename != null && originalFilename.contains(".")) {
+                    fileExtension = originalFilename.substring(originalFilename.lastIndexOf('.'));
+                }
+                String storedFilename = UUID.randomUUID().toString() + fileExtension;
+
+                //Directorio fisico donde se guardara el archivo
+                File dest = new File(uploadDir, "photos");
+                if(!dest.exists()) dest.mkdirs();
+                File storedFile = new File(dest, storedFilename);
+                photo.transferTo(storedFile);
+                photoUrl = "/files/employees/photos/" + storedFilename;
             }
+
+        } catch (IOException e) {
+            throw new RuntimeException("Error al guardar los archivos multimedia", e);
+        }
+
+        //Actualiza la fotografia solo si se envio una nueva
+        if(photoUrl != null){
+        entity.setPhotoUrl(photoUrl);
         }
 
         // Actualizar projects
