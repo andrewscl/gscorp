@@ -3,8 +3,7 @@
   display: grid;
   grid-template-columns: 1.5fr 2.5fr; /* Foto y detalles en dos columnas */
   gap: 2rem;
-  max-width: 1200px;
-  margin: 2rem auto;
+  margin: 0 auto;
   padding: 2rem;
   font-family: "Open Sans", Arial, sans-serif;
   border-radius: 15px;
@@ -51,8 +50,8 @@
   padding: 1rem;
 }
 .employee-fragment-client .employee-details .employee-name {
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: 1.2rem;
+  font-weight: 600;
   color: #212121;
   text-align: left;
 }
