@@ -84,16 +84,12 @@
   margin-bottom: 0.1rem;
   color: #333;
 }
-.viewEmployee .viewEmployeeHeaderCard .viewEmployee-infoCard .viewEmployee-body .form-group input,
+.viewEmployee .viewEmployeeHeaderCard .viewEmployee-infoCard .viewEmployee-body .form-group span,
 .viewEmployee .viewEmployeeHeaderCard .viewEmployee-infoCard .viewEmployee-body .form-group select {
   padding: 0.5rem; /* Controles más compactos */
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 0.8rem;
-}
-.viewEmployee .viewEmployeeHeaderCard .viewEmployee-infoCard .viewEmployee-body .form-group input[readonly] {
-  background: #f0f0f0; /* Fondo para campos bloqueados */
-  cursor: not-allowed;
 }
 .viewEmployee .viewEmployeeDetailsCard {
   position: fixed; /* Fija el formulario a la ventana */

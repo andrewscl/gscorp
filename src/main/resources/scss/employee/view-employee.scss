@@ -92,7 +92,7 @@
               color: #333;
             }
 
-            input,
+            span,
             select {
               padding: 0.5rem; /* Controles más compactos */
               border: 1px solid #ccc;
@@ -100,10 +100,6 @@
               font-size: 0.8rem;
             }
 
-            input[readonly] {
-              background: #f0f0f0; /* Fondo para campos bloqueados */
-              cursor: not-allowed;
-            }
           }
       }
 
