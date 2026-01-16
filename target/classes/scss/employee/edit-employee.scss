@@ -13,7 +13,6 @@
   padding: 0.5rem 2rem;
   font-family: 'Poppins', Arial, sans-serif;
   background: #ffffff; /* Fondo limpio */
-  border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 
   .editEmployeeHeaderCard {
@@ -28,6 +27,7 @@
     background: #ffffff;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     padding: 1rem 2rem;
+    border-radius: 12px;
 
     .employeePhoto {
         display: flex;
@@ -68,10 +68,13 @@
 
       .editEmployeeHeader{
         text-align: left;
+        padding-bottom: 0.5rem 0;
+        margin-bottom: 0.5rem;
         h3{
-          font-size: 1.5rem;
-          font-weight: bold;
+          font-size: 1.2rem;
+          font-weight: 600;
           color: #333;
+          margin: 0;
         }
 
       }
@@ -108,8 +111,6 @@
       }
 
     }
-
-
 
   }
 
