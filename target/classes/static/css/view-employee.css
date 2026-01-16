@@ -1,3 +1,4 @@
+@charset "UTF-8";
 :root {
   --topbar-height: 54px; /* Same as layout topbar height */
   --sidebar-width: 240px; /* Same as layout sidebar width */
@@ -105,6 +106,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3 adjusted columns */
   gap: 1.2rem;
+  /* Estilos para proyectos asociados */
 }
 @media screen and (max-width: 1024px) {
   .viewEmployee .viewEmployeeDetailsCard .viewEmployee-body {
@@ -133,4 +135,41 @@
   border-radius: 8px;
   font-size: 0.8rem;
   background: #f7f7f7; /* Light background for differentiation */
+}
+.viewEmployee .viewEmployeeDetailsCard .viewEmployee-body .employee-projects,
+.viewEmployee .viewEmployeeDetailsCard .viewEmployee-body .employee-professions {
+  margin-top: 1.2rem; /* Separación con el grupo anterior */
+  padding: 1rem;
+  background-color: #f9f9f9; /* Fondo para resaltar las listas */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+.viewEmployee .viewEmployeeDetailsCard .viewEmployee-body .employee-projects h3,
+.viewEmployee .viewEmployeeDetailsCard .viewEmployee-body .employee-professions h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 0.8rem;
+}
+.viewEmployee .viewEmployeeDetailsCard .viewEmployee-body .employee-projects ul,
+.viewEmployee .viewEmployeeDetailsCard .viewEmployee-body .employee-professions ul {
+  padding-left: 1.5rem; /* Espaciado de la lista */
+  list-style: disc; /* Estilo del marcador */
+  margin: 0;
+}
+.viewEmployee .viewEmployeeDetailsCard .viewEmployee-body .employee-projects ul li,
+.viewEmployee .viewEmployeeDetailsCard .viewEmployee-body .employee-professions ul li {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 0.5rem; /* Espaciado entre elementos de la lista */
+}
+.viewEmployee .viewEmployeeDetailsCard .viewEmployee-body .employee-projects ul li:last-child,
+.viewEmployee .viewEmployeeDetailsCard .viewEmployee-body .employee-professions ul li:last-child {
+  margin-bottom: 0; /* Sin margen inferior para el último */
+}
+.viewEmployee .viewEmployeeDetailsCard .viewEmployee-body .employee-projects span,
+.viewEmployee .viewEmployeeDetailsCard .viewEmployee-body .employee-professions span {
+  font-size: 0.9rem; /* Tamaño del mensaje cuando no haya datos */
+  color: #888;
+  font-style: italic;
 }/*# sourceMappingURL=view-employee.css.map */

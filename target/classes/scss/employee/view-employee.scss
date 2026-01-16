@@ -146,6 +146,49 @@
           background: #f7f7f7; /* Light background for differentiation */
         }
       }
+
+
+      /* Estilos para proyectos asociados */
+      .employee-projects,
+      .employee-professions {
+        margin-top: 1.2rem; /* Separación con el grupo anterior */
+        padding: 1rem;
+        background-color: #f9f9f9; /* Fondo para resaltar las listas */
+        border: 1px solid #ddd;
+        border-radius: 8px;
+
+        h3 {
+          font-size: 1rem;
+          font-weight: 600;
+          color: #444;
+          margin-bottom: 0.8rem;
+        }
+
+        ul {
+          padding-left: 1.5rem; /* Espaciado de la lista */
+          list-style: disc; /* Estilo del marcador */
+          margin: 0;
+
+          li {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 0.5rem; /* Espaciado entre elementos de la lista */
+
+            &:last-child {
+              margin-bottom: 0; /* Sin margen inferior para el último */
+            }
+          }
+        }
+
+        span {
+          font-size: 0.9rem; /* Tamaño del mensaje cuando no haya datos */
+          color: #888;
+          font-style: italic;
+        }
+      }
+
+
+
     }
   }
 }
