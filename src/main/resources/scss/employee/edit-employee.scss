@@ -11,26 +11,16 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 
   .editEmployeeHeaderCard {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* Ajusta columnas para mejor distribución */
     gap: 1.25rem; /* Reduce el espacio interno */
-    width: 100%;
+    width: calc(100% - 4rem);
     z-index: 10;
     position: fixed;
     background: #ffffff;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 
-    .employeePhoto{
-      display: flex;
-      grid-template-columns: 1.2fr 2fr; /* Proporción ajustada: foto y datos */
-      gap: 1.5rem; /* Menos espacio entre columnas */
-      margin-bottom: 1.25rem;
-
-      @media screen and (max-width: 768px) {
-        grid-template-columns: 1fr; /* Una columna en móviles */
-      }
-
-      .employeePhoto {
+    .employeePhoto {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -59,8 +49,8 @@
         input[type="file"] {
           font-size: 0.85rem; /* Compactar texto */
         }
-      }
     }
+
 
     .editEmployee-body {
         display: grid;
