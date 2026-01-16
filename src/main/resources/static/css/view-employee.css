@@ -1,25 +1,24 @@
-@charset "UTF-8";
 :root {
-  --topbar-height: 54px; /* same as layout topbar height */
-  --sidebar-width: 240px; /* same as layout sidebar width */
-  --content-horizontal-padding: 2.4rem; /* match .content horizontal padding in layout */
+  --topbar-height: 54px; /* Same as layout topbar height */
+  --sidebar-width: 240px; /* Same as layout sidebar width */
+  --content-horizontal-padding: 2.4rem; /* Match .content horizontal padding in layout */
   --header-height: 0;
 }
 
 .viewEmployee {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem; /* Reduce el espacio entre secciones */
-  margin: 0.5rem auto; /* Reduce márgenes generales */
+  gap: 1.5rem; /* Reduce spacing between sections */
+  margin: 0.5rem auto;
   padding: 0.5rem 2rem;
   font-family: "Poppins", Arial, sans-serif;
-  background: #ffffff; /* Fondo limpio */
+  background: #ffffff; /* Clean background */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 .viewEmployee .viewEmployeeHeaderCard {
   display: grid;
-  grid-template-columns: 1fr 2fr; /* Ajusta columnas para mejor distribución */
-  gap: 1.25rem; /* Reduce el espacio interno */
+  grid-template-columns: 1fr 2fr; /* Better column distribution */
+  gap: 1.25rem; /* Reduce internal spacing */
   z-index: 10;
   position: fixed;
   top: calc(var(--topbar-height) + 1rem);
@@ -34,15 +33,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-.viewEmployee .viewEmployeeHeaderCard .employeePhoto label {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  color: #555;
+  /* Eliminated the update photo button */
 }
 .viewEmployee .viewEmployeeHeaderCard .employeePhoto .photoPreview {
   margin-bottom: 1rem;
-  width: 160px; /* Tamaño más compacto */
+  width: 160px; /* Compact size */
   height: 160px;
   border-radius: 50%;
   background: #f5f5f5;
@@ -60,7 +55,7 @@
 }
 .viewEmployee .viewEmployeeHeaderCard .viewEmployee-infoCard .viewEmployeeHeader {
   text-align: left;
-  padding-bottom: 0.5rem 0;
+  padding-bottom: 0.5rem;
   margin-bottom: 0.5rem;
 }
 .viewEmployee .viewEmployeeHeaderCard .viewEmployee-infoCard .viewEmployeeHeader h3 {
@@ -79,99 +74,63 @@
   flex-direction: column;
 }
 .viewEmployee .viewEmployeeHeaderCard .viewEmployee-infoCard .viewEmployee-body .form-group label {
-  font-size: 0.8rem; /* Texto más compacto */
+  font-size: 0.8rem; /* Compact text */
   font-weight: 600;
   margin-bottom: 0.1rem;
   color: #333;
 }
 .viewEmployee .viewEmployeeHeaderCard .viewEmployee-infoCard .viewEmployee-body .form-group span {
-  display: block; /* Cambia de inline a block para asegurar área rectangular */
-  padding: 0.5rem; /* Agrega el mismo padding que los inputs */
-  border: 1px solid #ccc; /* Agrega un borde similar al de los inputs */
-  border-radius: 8px; /* Bordes redondeados */
+  display: block;
+  padding: 0.5rem; /* Similar appearance to inputs */
+  border: 1px solid #ccc;
+  border-radius: 8px;
   font-size: 0.8rem;
-  background-color: #f7f7f7; /* Fondo gris claro para distinguir */
-  color: #333; /* Color del texto */
-  white-space: pre-wrap;
+  background-color: #f7f7f7; /* Highlight the read-only field */
+  color: #333;
 }
 .viewEmployee .viewEmployeeDetailsCard {
-  position: fixed; /* Fija el formulario a la ventana */
-  top: calc(var(--header-height) + var(--topbar-height) + 2rem); /* Posición debajo del encabezado */
-  left: calc(var(--sidebar-width) + var(--content-horizontal-padding)); /* Alineado al sidebar */
-  right: var(--content-horizontal-padding); /* Espaciado lateral */
-  bottom: 1rem; /* Espaciado inferior */
-  overflow-y: auto; /* Permitir scroll interno */
-  max-height: calc(100vh - var(--header-height) - var(--topbar-height) - 2rem); /* Altura máxima dinámica */
+  position: fixed;
+  top: calc(var(--header-height) + var(--topbar-height) + 2rem); /* Position below header */
+  left: calc(var(--sidebar-width) + var(--content-horizontal-padding));
+  right: var(--content-horizontal-padding);
+  bottom: 1rem;
+  overflow-y: auto;
+  max-height: calc(100vh - var(--header-height) - var(--topbar-height) - 2rem); /* Dynamic max height */
   background: #fff;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   padding: 1rem 2rem;
   border-radius: 12px;
-  /* Diseño para el formulario principal */
 }
-.viewEmployee .viewEmployeeDetailsCard form {
+.viewEmployee .viewEmployeeDetailsCard .viewEmployee-body {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 columnas ajustadas */
-  gap: 1.2rem; /* Menos espacio en columnas */
+  grid-template-columns: repeat(3, 1fr); /* 3 adjusted columns */
+  gap: 1.2rem;
 }
 @media screen and (max-width: 1024px) {
-  .viewEmployee .viewEmployeeDetailsCard form {
-    grid-template-columns: repeat(2, 1fr); /* 2 columnas en pantallas más pequeñas */
+  .viewEmployee .viewEmployeeDetailsCard .viewEmployee-body {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
   }
 }
 @media screen and (max-width: 768px) {
-  .viewEmployee .viewEmployeeDetailsCard form {
-    grid-template-columns: 1fr; /* 1 columna en móviles */
+  .viewEmployee .viewEmployeeDetailsCard .viewEmployee-body {
+    grid-template-columns: 1fr; /* 1 column on mobiles */
   }
 }
-.viewEmployee .viewEmployeeDetailsCard form .form-group {
+.viewEmployee .viewEmployeeDetailsCard .viewEmployee-body .form-group {
   display: flex;
   flex-direction: column;
 }
-.viewEmployee .viewEmployeeDetailsCard form .form-group label {
-  font-size: 0.8rem; /* Texto compacto */
-  font-weight: 500; /* Enfatiza claridad visual */
-  margin-bottom: 0.2rem; /* Menos espacio en etiquetas */
+.viewEmployee .viewEmployeeDetailsCard .viewEmployee-body .form-group label {
+  font-size: 0.8rem; /* Compact text */
+  font-weight: 500;
+  margin-bottom: 0.2rem; /* Less space in labels */
   color: #333;
 }
-.viewEmployee .viewEmployeeDetailsCard form .form-group input,
-.viewEmployee .viewEmployeeDetailsCard form .form-group select {
+.viewEmployee .viewEmployeeDetailsCard .viewEmployee-body .form-group span {
+  display: block;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 0.8rem;
-}
-.viewEmployee .viewEmployeeDetailsCard form .form-error {
-  color: #d9534f;
-  font-size: 0.85rem;
-}
-.viewEmployee .viewEmployeeDetailsCard form .form-ok {
-  color: #5cb85c;
-  font-size: 0.85rem;
-}
-.viewEmployee .viewEmployeeDetailsCard form .modal-footer {
-  grid-column: span 3;
-  display: flex;
-  justify-content: center; /* Centrar botones */
-  gap: 1rem;
-  padding: 1rem 0;
-}
-.viewEmployee .viewEmployeeDetailsCard form .modal-footer button {
-  padding: 0.6rem 1.5rem; /* Botones compactos */
-  border-radius: 6px; /* Bordes menos pronunciados */
-  font-size: 0.9rem; /* Ajustar texto */
-}
-.viewEmployee .viewEmployeeDetailsCard form .modal-footer .btn-primary {
-  background: #007bff;
-  color: #fff;
-  transition: background 0.3s;
-}
-.viewEmployee .viewEmployeeDetailsCard form .modal-footer .btn-primary:hover {
-  background: #0056b3;
-}
-.viewEmployee .viewEmployeeDetailsCard form .modal-footer .btn-secondary {
-  background: #6c757d;
-  color: #fff;
-}
-.viewEmployee .viewEmployeeDetailsCard form .modal-footer .btn-secondary:hover {
-  background: #565e64;
+  background: #f7f7f7; /* Light background for differentiation */
 }/*# sourceMappingURL=view-employee.css.map */

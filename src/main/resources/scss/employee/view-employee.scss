@@ -1,24 +1,24 @@
 :root {
-  --topbar-height: 54px;                /* same as layout topbar height */
-  --sidebar-width: 240px;               /* same as layout sidebar width */
-  --content-horizontal-padding: 2.4rem; /* match .content horizontal padding in layout */
+  --topbar-height: 54px;                /* Same as layout topbar height */
+  --sidebar-width: 240px;               /* Same as layout sidebar width */
+  --content-horizontal-padding: 2.4rem; /* Match .content horizontal padding in layout */
   --header-height: 0;
 }
 
 .viewEmployee {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem; /* Reduce el espacio entre secciones */
-  margin: 0.5rem auto; /* Reduce márgenes generales */
+  gap: 1.5rem; /* Reduce spacing between sections */
+  margin: 0.5rem auto;
   padding: 0.5rem 2rem;
   font-family: 'Poppins', Arial, sans-serif;
-  background: #ffffff; /* Fondo limpio */
+  background: #ffffff; /* Clean background */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 
   .viewEmployeeHeaderCard {
     display: grid;
-    grid-template-columns: 1fr 2fr; /* Ajusta columnas para mejor distribución */
-    gap: 1.25rem; /* Reduce el espacio interno */
+    grid-template-columns: 1fr 2fr; /* Better column distribution */
+    gap: 1.25rem; /* Reduce internal spacing */
     z-index: 10;
     position: fixed;
     top: calc(var(--topbar-height) + 1rem);
@@ -30,112 +30,100 @@
     border-radius: 12px;
 
     .employeePhoto {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
-        label {
-          font-weight: bold;
-          margin-bottom: 0.5rem;
-          color: #555;
+      .photoPreview {
+        margin-bottom: 1rem;
+        width: 160px; /* Compact size */
+        height: 160px;
+        border-radius: 50%;
+        background: #f5f5f5;
+        overflow: hidden;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
         }
+      }
 
-        .photoPreview {
-          margin-bottom: 1rem;
-          width: 160px; /* Tamaño más compacto */
-          height: 160px;
-          border-radius: 50%;
-          background: #f5f5f5;
-          overflow: hidden;
-
-          img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-          }
-        }
-
+      /* Eliminated the update photo button */
     }
-
 
     .viewEmployee-infoCard {
       display: flex;
       flex-direction: column;
       gap: 1rem;
 
-      .viewEmployeeHeader{
+      .viewEmployeeHeader {
         text-align: left;
-        padding-bottom: 0.5rem 0;
+        padding-bottom: 0.5rem;
         margin-bottom: 0.5rem;
-        h3{
+
+        h3 {
           font-size: 1.2rem;
           font-weight: 600;
           color: #333;
           margin: 0;
         }
-
       }
 
       .viewEmployee-body {
-          display: grid;
-          grid-template-columns: 1fr 1fr 1fr;
-          gap: 1rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1rem;
 
-          .form-group {
-            display: flex;
-            flex-direction: column;
+        .form-group {
+          display: flex;
+          flex-direction: column;
 
-            label {
-              font-size: 0.8rem; /* Texto más compacto */
-              font-weight: 600;
-              margin-bottom: 0.1rem;
-              color: #333;
-            }
-
-            span{
-              display: block; /* Cambia de inline a block para asegurar área rectangular */
-              padding: 0.5rem; /* Agrega el mismo padding que los inputs */
-              border: 1px solid #ccc; /* Agrega un borde similar al de los inputs */
-              border-radius: 8px; /* Bordes redondeados */
-              font-size: 0.8rem;
-              background-color: #f7f7f7; /* Fondo gris claro para distinguir */
-              color: #333; /* Color del texto */
-              white-space: pre-wrap;
-            }
-
+          label {
+            font-size: 0.8rem; /* Compact text */
+            font-weight: 600;
+            margin-bottom: 0.1rem;
+            color: #333;
           }
+
+          span {
+            display: block;
+            padding: 0.5rem; /* Similar appearance to inputs */
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            background-color: #f7f7f7; /* Highlight the read-only field */
+            color: #333;
+          }
+        }
       }
-
     }
-
   }
 
-
-  .viewEmployeeDetailsCard{
-    position: fixed; /* Fija el formulario a la ventana */
-    top: calc(var(--header-height) + var(--topbar-height) + 2rem); /* Posición debajo del encabezado */
-    left: calc(var(--sidebar-width) + var(--content-horizontal-padding)); /* Alineado al sidebar */
-    right: var(--content-horizontal-padding); /* Espaciado lateral */
-    bottom: 1rem; /* Espaciado inferior */
-    overflow-y: auto; /* Permitir scroll interno */
-    max-height: calc(100vh - var(--header-height) - var(--topbar-height) - 2rem); /* Altura máxima dinámica */
+  .viewEmployeeDetailsCard {
+    position: fixed;
+    top: calc(var(--header-height) + var(--topbar-height) + 2rem); /* Position below header */
+    left: calc(var(--sidebar-width) + var(--content-horizontal-padding));
+    right: var(--content-horizontal-padding);
+    bottom: 1rem;
+    overflow-y: auto;
+    max-height: calc(100vh - var(--header-height) - var(--topbar-height) - 2rem); /* Dynamic max height */
     background: #fff;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     padding: 1rem 2rem;
     border-radius: 12px;
 
-    /* Diseño para el formulario principal */
-    form {
+    .viewEmployee-body {
       display: grid;
-      grid-template-columns: repeat(3, 1fr); /* 3 columnas ajustadas */
-      gap: 1.2rem; /* Menos espacio en columnas */
+      grid-template-columns: repeat(3, 1fr); /* 3 adjusted columns */
+      gap: 1.2rem;
 
       @media screen and (max-width: 1024px) {
-        grid-template-columns: repeat(2, 1fr); /* 2 columnas en pantallas más pequeñas */
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
       }
 
       @media screen and (max-width: 768px) {
-        grid-template-columns: 1fr; /* 1 columna en móviles */
+        grid-template-columns: 1fr; /* 1 column on mobiles */
       }
 
       .form-group {
@@ -143,65 +131,21 @@
         flex-direction: column;
 
         label {
-          font-size: 0.8rem; /* Texto compacto */
-          font-weight: 500;  /* Enfatiza claridad visual */
-          margin-bottom: 0.2rem; /* Menos espacio en etiquetas */
+          font-size: 0.8rem; /* Compact text */
+          font-weight: 500;
+          margin-bottom: 0.2rem; /* Less space in labels */
           color: #333;
         }
 
-        input,
-        select {
+        span {
+          display: block;
           padding: 0.5rem;
           border: 1px solid #ccc;
           border-radius: 8px;
           font-size: 0.8rem;
-        }
-      }
-
-      .form-error {
-        color: #d9534f;
-        font-size: 0.85rem;
-      }
-
-      .form-ok {
-        color: #5cb85c;
-        font-size: 0.85rem;
-      }
-
-      .modal-footer {
-        grid-column: span 3; // Centrado en 3 columnas
-        display: flex;
-        justify-content: center; /* Centrar botones */
-        gap: 1rem;
-        padding: 1rem 0;
-
-        button {
-          padding: 0.6rem 1.5rem; /* Botones compactos */
-          border-radius: 6px; /* Bordes menos pronunciados */
-          font-size: 0.9rem; /* Ajustar texto */
-        }
-
-        .btn-primary {
-          background: #007bff;
-          color: #fff;
-          transition: background 0.3s;
-
-          &:hover {
-            background: #0056b3;
-          }
-        }
-
-        .btn-secondary {
-          background: #6c757d;
-          color: #fff;
-
-          &:hover {
-            background: #565e64;
-          }
+          background: #f7f7f7; /* Light background for differentiation */
         }
       }
     }
   }
-
-
 }
