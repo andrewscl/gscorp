@@ -408,7 +408,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 if(!dest.exists()) dest.mkdirs();
                 File storedFile = new File(dest, storedFilename);
                 photo.transferTo(storedFile);
-                photoUrl = "/files/employees_photos/" + storedFilename;
+                photoUrl = "/files/employee_photos/" + storedFilename;
             }
 
         } catch (IOException e) {
