@@ -33,7 +33,7 @@ export default defineConfig({
         'private/sites/create-site': path.resolve(__dirname, './src/private/sites/create-site.js'),
         'private/sites/view-site': path.resolve(__dirname, './src/private/sites/view-site.js'),
         'private/sites/edit-site': path.resolve(__dirname, './src/private/sites/edit-site.js'),
-        'private/sites/sites-table': path.resolve(__dirname, './src/private/sites/sites-map.js'),
+        'private/sites/sites-map': path.resolve(__dirname, './src/private/sites/sites-map.js'),
         'private/projects/create-project': path.resolve(__dirname, './src/private/projects/create-project.js'),
         'private/projects/edit-project': path.resolve(__dirname, './src/private/projects/edit-project.js'),
         'private/projects/view-project': path.resolve(__dirname, './src/private/projects/view-project.js'),
