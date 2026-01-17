@@ -75,7 +75,7 @@ public class SiteController {
 
         model.addAttribute("sites", siteProjections);
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
-        return "private/sites/views/set-site-coordinates-view";
+        return "private/sites/views/sites-map-view";
     }
 
 }
