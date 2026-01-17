@@ -15,12 +15,12 @@ public record SiteDtoProjection (
         if(site == null) return null;
 
         return new SiteDtoProjection(
-            site.id(),
-            site.name(),
-            site.address(),
-            site.lat(),
-            site.lon(),
-            site.timeZone()
+            site.getId(),
+            site.getName(),
+            site.getAddress(),
+            site.getLat(),
+            site.getLon(),
+            site.getTimeZone()
         );
     }
 }
