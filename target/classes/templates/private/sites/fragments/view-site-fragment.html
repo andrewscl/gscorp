@@ -1,0 +1,75 @@
+<section th:fragment="content" class="detail-section view-site">
+
+  <h2>Ver Sitio</h2>
+  <p class="meta-id"><strong>ID:</strong> <span th:text="${site.id}"></span></p>
+
+  <form id="viewSiteForm" class="card form">
+
+    <!-- Proyecto solo lectura -->
+    <div class="form-group">
+      <label>Proyecto</label>
+      <span class="readonly-field"
+        th:text="${site.project != null ? site.project.name : '—'}"></span>
+      <small>Un sitio pertenece a un único proyecto.</small>
+    </div>
+
+    <hr class="form-separator" />
+
+    <div class="form-group">
+      <label for="siteName">Nombre</label>
+      <input id="siteName" name="name" type="text"
+             th:value="${site.name}" readonly tabindex="-1" />
+    </div>
+
+    <div class="form-group">
+      <label for="siteAddress">Dirección</label>
+      <input id="siteAddress" name="address" type="text"
+             th:value="${site.address}" placeholder="Calle 123, Comuna" readonly tabindex="-1" />
+    </div>
+
+    <div class="form-row coordinates-row">
+      <div class="form-group">
+        <label for="siteLat">Latitud</label>
+        <input id="siteLat" name="lat" type="number" step="any"
+               th:value="${site.lat}" placeholder="-33.45" readonly tabindex="-1" />
+      </div>
+      <div class="form-group">
+        <label for="siteLon">Longitud</label>
+        <input id="siteLon" name="lon" type="number" step="any"
+               th:value="${site.lon}" placeholder="-70.66" readonly tabindex="-1" />
+      </div>
+    </div>
+
+    <!-- Mapa solo visualización -->
+    <div class="form-group">
+      <label>Ubicación en mapa</label>
+      <div id="siteMap" class="view-site-map"></div>
+      <small>Visualización de la ubicación geográfica del sitio.</small>
+    </div>
+
+    <div class="form-group">
+      <label for="siteTz">Zona horaria</label>
+      <input id="siteTz" name="timeZone" type="text"
+             th:value="${site.timeZone}" placeholder="America/Santiago"
+                  readonly tabindex="-1" />
+      <small>Usa un identificador IANA válido (ej: America/Santiago).</small>
+    </div>
+
+    <div class="form-group active-row">
+      <input id="siteActive" name="active" type="checkbox"
+             th:checked="${site.active}" disabled tabindex="-1" />
+      <label for="siteActive" style="margin:0">Activo</label>
+    </div>
+
+    <div class="actions">
+      <a class="vs-btn vs-secondary" href="#"
+         data-path="/private/sites/table-view">Volver al listado</a>
+    </div>
+
+    <div id="editSiteError" class="form-error"></div>
+    <div id="editSiteOk" class="form-ok" style="display:none;">Cambios guardados ✅</div>
+  </form>
+
+<script type="module" src="/js/private/sites/view-site.js"></script>
+
+</section>

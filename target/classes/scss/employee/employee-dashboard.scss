@@ -1,0 +1,87 @@
+/* Employee dashboard – compacto y elegante */
+#dashboard-root {
+  --gap: clamp(10px, 1.6vw, 16px);
+
+  padding: var(--gap);
+  display: grid;
+  gap: var(--gap);
+
+  > h5 {
+    margin: 0;
+    font-weight: 700;
+    font-size: clamp(18px, 2vw, 20px);
+    color: #111827;
+  }
+
+  .employees-button {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--gap);
+
+    @media (min-width: 560px) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    @media (min-width: 960px) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    /* El link .h2 luce como botón bajo perfil */
+    .h2 {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+
+      height: 46px;                 /* compacto */
+      padding: 0 14px;              /* sin exceso vertical */
+      border-radius: 12px;
+      background: #fff;
+      color: #0f172a;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: .95rem;
+      letter-spacing: .2px;
+
+      border: 1px solid rgba(15,23,42,.10);
+      box-shadow: 0 1px 2px rgba(15,23,42,.04);
+      transition:
+        background .2s ease,
+        border-color .15s ease,
+        box-shadow .15s ease,
+        transform .08s ease;
+
+      &:hover {
+        background: #f8fafc;
+        border-color: rgba(15,23,42,.16);
+        box-shadow: 0 2px 6px rgba(15,23,42,.08);
+        transform: translateY(-1px);
+      }
+      &:active {
+        transform: translateY(0);
+        box-shadow: 0 1px 2px rgba(0,0,0,.08) inset;
+      }
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(37,99,235,.25);
+      }
+
+      .icon {
+        inline-size: 1.1rem;
+        block-size: 1.1rem;
+        display: inline-block;
+      }
+    }
+
+    /* Variantes opcionales */
+    .h2.is-primary {
+      background: #1d4ed8; color: #fff; border-color: transparent;
+      &:hover { background: #1e40af; box-shadow: 0 4px 12px rgba(29,78,216,.22); }
+      &:focus { box-shadow: 0 0 0 3px rgba(29,78,216,.35); }
+    }
+
+    .h2.is-ghost {
+      background: transparent;
+      border-color: rgba(15,23,42,.18);
+      &:hover { background: rgba(2,6,23,.03); }
+    }
+
+    /* Aún más pequeño si quieres: .h2--sm */
+    .h2.h2--sm { height: 40px; padding: 0 12px; border-radius: 10px; font-size: .9rem; }
+  }
+}

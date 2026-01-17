@@ -1,0 +1,78 @@
+<section th:fragment="content" class="detail-section view-site-supervision-visit">
+
+  <h2>Ver Visita de Supervisión</h2>
+  <p class="meta-id"><strong>ID:</strong> <span th:text="${visit.id}"></span></p>
+
+  <form id="viewSiteSupervisionVisitForm" class="card form">
+
+    <!-- Sitio solo lectura -->
+    <div class="form-group">
+      <label>Sitio</label>
+      <span class="readonly-field"
+        th:text="${visit.siteName != null ? visit.siteName : '—'}"></span>
+      <small>Instalación supervisada en esta visita.</small>
+    </div>
+
+    <!-- Supervisor solo lectura -->
+    <div class="form-group">
+      <label>Supervisor</label>
+      <span class="readonly-field"
+        th:text="${visit.employeeName != null ? visit.employeeName : '—'}"></span>
+      <small>Empleado que realizó la visita.</small>
+    </div>
+
+    <div class="form-group">
+      <label for="visitDateTime">Fecha y Hora</label>
+      <input id="visitDateTime" name="visitDateTime" type="text"
+             th:value="${#temporals.format(visit.visitDateTime, 'yyyy-MM-dd HH:mm')}" readonly tabindex="-1" />
+    </div>
+
+    <div class="form-group">
+      <label for="visitDescription">Descripción</label>
+      <textarea id="visitDescription" name="description" readonly tabindex="-1"
+                th:text="${visit.description}"></textarea>
+    </div>
+
+    <!-- Mapa solo visualización -->
+    <div class="form-group">
+      <label>Ubicación en mapa</label>
+      <div id="visitMap" class="view-site-map"></div>
+      <small>Visualización de la ubicación registrada en la visita.</small>
+    </div>
+
+    <div class="form-group">
+      <label>Fotografía</label>
+      <div th:if="${visit.photoPath != null}">
+        <a th:href="${visit.photoPath}" target="_blank">
+          <img th:src="${visit.photoPath}" alt="Foto de supervisión" style="max-width:180px; border-radius:6px;">
+        </a>
+      </div>
+      <div th:if="${visit.photoPath == null}">
+        <span>—</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Video</label>
+      <div th:if="${visit.videoPath != null}">
+        <a th:href="${visit.videoPath}" target="_blank">
+          <span class="tag tag-video">Ver video</span>
+        </a>
+      </div>
+      <div th:if="${visit.videoPath == null}">
+        <span>—</span>
+      </div>
+    </div>
+
+    <div class="actions">
+      <a class="vs-btn vs-secondary" href="#"
+         data-path="/private/site-supervision-visits/table-view">Volver al listado</a>
+    </div>
+
+    <div id="viewVisitError" class="form-error"></div>
+    <div id="viewVisitOk" class="form-ok" style="display:none;">Datos cargados ✅</div>
+  </form>
+
+  <script type="module" src="/js/private/site-visits/view-site-visit.js"></script>
+
+</section>

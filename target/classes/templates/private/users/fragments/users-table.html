@@ -1,0 +1,135 @@
+<div th:fragment="content">
+
+    <div class="users-header">
+
+        <!-- título + badge -->
+        <div class="title-row" role="heading" aria-level="2">
+        <div class="title-left" aria-hidden="true">
+            <!-- Icono tabla -->
+            <svg class="icon icon-table" width="24" height="24" viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+            <rect x="2" y="4" width="20" height="16" rx="2" fill="#eef2ff" stroke="#2563eb" stroke-width="1"/>
+            <path d="M6 12h12M6 8h12M6 16h8" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span class="title-text">Usuarios</span>
+        </div>
+
+        <!-- badge con cantidad de registros -->
+        <span class="users-count"
+                th:if="${usersPage != null}"
+                th:text="${usersPage.totalElements} + ' registro' + (usersPage.totalElements == 1 ? '' : 's')"
+                aria-live="polite" aria-atomic="true"></span>
+        </div>
+
+        <!-- header-meta (opcional: poder incluir fragmento resumen si lo necesitas) -->
+        <div class="header-meta">
+        </div>
+
+        <!-- toolbar / filtros -->
+        <div class="filters-row" role="toolbar" aria-label="Filtros de usuarios">
+            <label class="filter-item">
+                <span class="filter-label">Buscar</span>
+                <input id="filter-q" class="filter-input" type="search" name="q" placeholder="Nombre, RUT..."
+                    th:value="${qVar}" />
+            </label>
+
+            <button id="applyFiltersBtn" type="button" class="btn btn-secondary"
+                    data-ajax-url="/private/users/table-search"
+                    aria-label="Aplicar filtros">
+                Aplicar
+            </button>
+
+            <div class="filters-actions">
+
+                <button id="createUserBtn" class="btn btn-primary" aria-label="Crear usuario">
+                    <!-- icono + -->
+                    <svg class="icon icon-plus" width="16" height="16" viewBox="0 0 16 16" focusable="false" aria-hidden="true">
+                        <circle cx="8" cy="8" r="7" fill="#dbeafe" stroke="#1e3a8a" stroke-width="1"/>
+                        <path d="M8 5v6M5 8h6" stroke="#1e3a8a" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    Crear Usuario
+                </button>
+
+                <button id="inviteUserBtn" class="btn btn-primary"
+                        th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}"
+                        th:attr="data-path=@{/private/users/invite-user}" aria-label="Invitar usuario">
+                    <!-- icono + -->
+                    <svg class="icon icon-plus" width="16" height="16" viewBox="0 0 16 16" focusable="false" aria-hidden="true">
+                        <circle cx="8" cy="8" r="7" fill="#dbeafe" stroke="#1e3a8a" stroke-width="1"/>
+                        <path d="M8 5v6M5 8h6" stroke="#1e3a8a" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    Invitar Usuario
+                </button>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="users-table-container">
+        <table class="users-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>username</th>
+                    <th>mail</th>
+                    <th>acciones</th>
+                </tr>
+            </thead>
+
+        <tbody th:replace="private/users/fragments/users-table-rows :: rows"></tbody>
+
+        </table>
+    </div>
+
+    <!-- Modal Crear Usuario -->
+    <div id="createUserModal" class="modal hidden" aria-hidden="true" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-header">
+        <h3>Crear usuario</h3>
+        <button type="button" class="modal-close" id="closeCreateUser">&times;</button>
+        </div>
+
+        <form id="createUserForm" class="modal-body">
+        <div class="form-group">
+            <label for="newUsername">Nombre de usuario</label>
+            <input type="text" id="newUsername" name="username" required />
+        </div>
+
+        <div class="form-group">
+            <label for="newMail">Mail</label>
+            <input type="mail" id="newMail" name="mail" />
+        </div>
+
+        <div class="form-group">
+            <label for="newPassword">Contraseña</label>
+            <input type="password" id="newPassword" name="password" required />
+        </div>
+
+        <div class="form-group">
+            <label>Roles</label>
+            <div id="roleChoices"><!-- JS insertará checkboxes --></div>
+            <small>Si no seleccionas ninguno, se asignará <strong>CLIENT</strong> por defecto.</small>
+        </div>
+
+        <div class="form-group">
+            <label>Clientes</label>
+            <div id="clientChoices"><!-- JS insertará checkboxes --></div>
+            <small>Si no seleccionas ninguno, se asignará <strong>CLIENT</strong> por defecto.</small>
+        </div>
+
+        <div class="modal-footer">
+            <button type="submit" class="btn-primary">Crear</button>
+            <button type="button" class="btn-secondary" id="cancelCreateUser">Cancelar</button>
+        </div>
+
+        <div class="form-error" id="createUserError"></div>
+        <div class="form-ok" id="createUserOk" style="display:none;">Usuario creado ✅</div>
+        </form>
+    </div>
+    </div>
+
+    <script type="module" src="/js/private/admin/users/create-user.js"></script>
+    <script type="module" src="/js/private/admin/users/users-table.js"></script>
+
+</div>
+

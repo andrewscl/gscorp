@@ -1,0 +1,48 @@
+<div th:fragment="signin">
+
+    <div class="signin-page">
+
+        <div class="signin-container">
+
+            <div id="logo-container" class="logo-container">
+                <img id="logo" class="logo" th:src="@{/img/logo-mail.png}"
+                                                            alt="Logo" />
+            </div>
+
+            <h1>Iniciar Sesión</h1>
+
+            <div th:if="${param.error}" class="alert alert-danger">
+                Credenciales inválidas.
+            </div>
+            <div th:if="${param.logout}" class="alert alert-info">
+                Has cerrado sesión correctamente.
+            </div>
+            <div th:if="${param.registrationSuccess}" class="alert alert-success">
+                Registro completado con éxito. ¡Inicia sesión!
+            </div>
+
+            <form id="signinForm">
+                <div class="form-group">
+                    <label for="username">Nombre de Usuario:</label>
+                    <input type="text" id="username" name="username" 
+                            placeholder="Tu nombre de usuario" 
+                                class="form-control" required autofocus />
+                </div>
+
+                <div class="form-group">
+                    <input type="password" id="password" name="password"
+                                placeholder="Tu contraseña" class="form-control"
+                                    required />
+                    <button type="button" id="togglePassword" class="togglePassword">Mostrar</button>
+                </div>
+
+                <button type="button" id="loginBtn" class="btn btn-primary">Iniciar Sesión</button>
+            </form>
+
+        </div>
+
+    </div>
+
+    <script type="module" src="/js/signin.js"></script>
+
+</div>

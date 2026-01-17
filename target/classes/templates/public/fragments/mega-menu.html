@@ -1,0 +1,140 @@
+<!-- mega-menu Fragment -->
+<nav th:fragment="mega-menu" id="navbar" class="navbar transparent" role="navigation">
+
+    <div class="mega-menu-content">
+
+        <!-- Logo -->
+        <div id="logo-container" class="logo-container">
+            <img class="logo visible"
+                    th:src="@{/img/logo-sin-nombre.png}" alt="Logo"
+                        href="#" data-path="/public/home"/>
+            <h1 class="texto-logo" id="texto-logo">GSCorp</h1>
+        </div>
+
+        <!-- Botón hamburguesa para dispositivos móviles -->
+        <button id="menu-toggle" class="menu-toggle"
+                aria-controls="nav-links" aria-expanded="false"
+                aria-label="Abrir menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <!-- Enlaces de navegación -->
+        <ul id="nav-links" class="nav-links">
+
+            <!--Nosotros-->
+            <li class="nav-item has-mega-menu">
+                <a>Nosotros
+                    <svg class="arrow-icon" viewBox="0 0 24 24" width="16" height="16">
+                        <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </a>
+                <div class="mega-menu">
+                    <div class="mega-column">
+                        <a class="h2"
+                            href="#" data-path="/public/us">Acerca de nosotros</a>
+                        <a class="menu-link"
+                            href="#" data-path="/public/values">Nuestros valores</a>
+                        <a class="menu-link"
+                            href="#" data-path="/public/governance">Gobierno corporativo</a>
+                        <a class="menu-link"
+                            href="#" data-path="/public/organization">Nuestra organización</a>
+                        <a class="menu-link"
+                            href="#" data-path="/public/history">Nuestra historia</a>
+                    </div>
+                </div>
+            </li>
+
+            <!--Sostenibilidad-->
+            <li class="nav-item has-mega-menu">
+                <a>Sostenibilidad
+                    <svg class="arrow-icon" viewBox="0 0 24 24" width="16" height="16">
+                        <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </a>
+                <div class="mega-menu">
+                    <div class="mega-column">
+                        <a href="#"
+                            data-path="/public/sustainability"class="h2">Sostenibilidad</a>
+                        <a class="menu-link"
+                            href="#" data-path="/public/sustainability-impact">Un fuerte impacto positivo
+                                                                            en la sociedad</a>
+                        <a class="menu-link"
+                            href="#" data-path="/public/sustainability-strategy">Estrategia de sostenibilidad:
+                                                                            áreas de enfoque y objetivos</a>
+                        <a class="menu-link"
+                            href="#" data-path="/public/sustainability-community">Participación comunitaria</a>
+                    </div>
+                </div>
+            </li>
+
+            <!--Servicios-->
+            <li class="nav-item has-mega-menu">
+                <a>Servicios
+                    <svg class="arrow-icon" viewBox="0 0 24 24" width="16" height="16">
+                        <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </a>
+                <div class="mega-menu">
+                    <a class="h2 menu-link" href="#" data-path="/public/services">Nuestros servicios</a>
+                    <div class="mega-column">
+                        <a class="h2 menu-link" href="#" data-path="/public/security">Seguridad Privada</a>
+                        <a >Seguridad presencial</a>
+                        <a >Vigilancia movil</a>
+                        <a >Vigilancia remota</a>
+                    </div>
+                    <div class="mega-column">
+                        <a class="h2 menu-link" href="#" data-path="/public/clean">Aseo y Mantención</a>
+                        <a >Limpieza de oficinas y edificios</a>
+                        <a >Mantención de oficinas</a>
+                        <a >Limpieza industrial</a>
+                    </div>
+                    <div class="mega-column">
+                        <a class="h2 menu-link" href="#" data-path="/public/outsourcing">Outsourcing</a>
+                        <a >Servicios transitorios</a>
+                        <a >Seguridad en eventos</a>
+                        <a >Servicios especiales</a>
+                    </div>
+                    <div class="mega-column">
+                        <a class="h2 menu-link" href="#" data-path="/public/commerce">Comercialización</a>
+                        <a >Comercialización</a>
+                        <a >Gestión de compras</a>
+                        <a >Gestión de importaciones</a>
+                    </div>
+                </div>
+            </li>
+
+            <!--Contacto-->
+            <li class="nav-item has-mega-menu">
+                <a href="#"
+                    data-path="/public/contact">Contacto
+                    <svg class="arrow-icon" viewBox="0 0 24 24" width="16" height="16">
+                        <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </a>
+                <div class="mega-menu mega-menu-contact"
+                        th:insert="~{public/fragments/mega-menu-contact-fragment :: mega-menu-contact}">
+                </div>
+            </li>
+
+            <!--Acceso-->
+            <li class="nav-item has-mega-menu">
+                <a >Acceso
+                    <svg class="arrow-icon" viewBox="0 0 24 24" width="16" height="16">
+                        <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </a>
+                <div class="mega-menu">
+                    <div class="mega-column">
+                        <a class="h2" href="#"
+                            data-path="/shell/auth" data-target="/auth/signin">Signin</a>
+                    </div>
+                </div>
+            </li>
+
+        </ul>
+    
+    </div>
+
+</nav>

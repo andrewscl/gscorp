@@ -1,0 +1,198 @@
+// Paleta moderna
+$primary: #3949ab;
+$primary-dark: #1a237e;
+$accent: #00bfae;
+$gray-bg: #f6f8fa;
+$gray-border: #e3e7ef;
+$danger: #e53935;
+$danger-bg: #ffcdd2;
+$success: #388e3c;
+$success-bg: #c8e6c9;
+$label: #343a40;
+
+// Layout principal
+.createEmployee {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px #21212111;
+  padding: 2.5rem 2rem 2rem 2rem;
+  max-width: 750px;
+  margin: 2.5rem auto;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+
+  .createEmployeeHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+
+    h3 {
+      margin: 0;
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: $primary-dark;
+      letter-spacing: .01em;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 2.1rem;
+      color: #b0b3bb;
+      cursor: pointer;
+      transition: color 0.18s;
+      &:hover {
+        color: $danger;
+      }
+    }
+  }
+
+  // Grid de dos columnas para desktop, una para mobile
+  .createEmployee-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.3rem 2rem; // row-gap col-gap
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.18rem;
+      margin-bottom: 0.2rem;
+
+      label {
+        font-size: 1rem;
+        font-weight: 600;
+        color: $label;
+        margin-bottom: 0.14rem;
+        letter-spacing: .01em;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="date"],
+      input[type="file"],
+      select {
+        padding: 0.55rem 0.95rem;
+        border-radius: 7px;
+        border: 1px solid $gray-border;
+        font-size: 1rem;
+        background: $gray-bg;
+        color: #222;
+        font-weight: 500;
+        box-shadow: none;
+        transition: border .15s, box-shadow .15s;
+        &:focus {
+          outline: none;
+          border-color: $primary;
+          background: #f0f4fc;
+        }
+      }
+
+      select[multiple] {
+        min-height: 90px;
+        font-size: 0.97rem;
+      }
+
+      input[type="checkbox"] {
+        width: 1.2rem;
+        height: 1.2rem;
+        accent-color: $primary;
+      }
+    }
+
+    // Checkbox en una columna completa
+    .form-group[style*="display:flex"] {
+      grid-column: 1 / -1;
+    }
+  }
+
+  // Footer botones a la derecha en desktop, abajo en mobile
+  .modal-footer {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.1rem;
+    margin-top: 2rem;
+
+    .btn-primary {
+      background: $primary;
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      padding: 0.65rem 1.7rem;
+      font-size: 1.06rem;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: .01em;
+      transition: background 0.18s, transform 0.11s;
+      &:hover, &:focus {
+        background: $primary-dark;
+        transform: translateY(-1px) scale(1.03);
+      }
+    }
+    .btn-secondary {
+      background: $gray-border;
+      color: $primary-dark;
+      border: none;
+      border-radius: 7px;
+      padding: 0.65rem 1.7rem;
+      font-size: 1.06rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s;
+      &:hover, &:focus {
+        background: #f0f4fc;
+        color: $primary;
+      }
+    }
+  }
+
+  // Mensajes
+  .form-error {
+    grid-column: 1 / -1;
+    color: $danger;
+    font-size: 1.05rem;
+    margin-top: 0.7rem;
+    padding: 0.7rem;
+    background: $danger-bg;
+    border-radius: 5px;
+    display: none;
+  }
+  .form-ok {
+    grid-column: 1 / -1;
+    color: $success;
+    font-size: 1.05rem;
+    margin-top: 0.7rem;
+    padding: 0.7rem;
+    background: $success-bg;
+    border-radius: 5px;
+    display: none;
+  }
+
+  // Responsive
+  @media (max-width: 900px) {
+    max-width: 99vw;
+    padding: 1.3rem 0.5rem;
+
+    .createEmployeeHeader {
+      h3 { font-size: 1.35rem; }
+    }
+    .createEmployee-body {
+      grid-template-columns: 1fr;
+      gap: 1rem 0;
+    }
+    .modal-footer {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.6rem;
+      margin-top: 1.2rem;
+    }
+    .form-error, .form-ok {
+      font-size: 1rem;
+      padding: 0.55rem;
+      margin-top: 0.5rem;
+    }
+  }
+}

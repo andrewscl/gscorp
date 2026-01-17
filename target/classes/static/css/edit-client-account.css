@@ -1,0 +1,324 @@
+@charset "UTF-8";
+body {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.5;
+}
+
+h1 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #1e293b;
+  line-height: 1.2;
+}
+
+h2 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #1e293b;
+  line-height: 1.2;
+  margin: 0 0 1rem 0;
+}
+
+h3 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #1e293b;
+  line-height: 1.2;
+}
+
+h4 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #1e293b;
+  line-height: 1.2;
+}
+
+p {
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.5;
+  margin-bottom: 0.25rem;
+}
+
+.p1 {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.55;
+  margin-bottom: 0.5rem;
+}
+
+.p2 {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+}
+
+.p3 {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.65;
+  margin-bottom: 1.5rem;
+}
+
+/* Estilos anidados para la vista de edición de ClientAccount,
+   siguiendo el patrón de .detail-section mostrado por el usuario. */
+.detail-section.edit-client-account {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+  color: #0f172a;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 2rem clamp(1rem, 2vw, 2rem);
+  /* Form groups */
+  /* Grid row for form when there is a photo/side column */
+  /* Message area */
+  /* Actions (guardar / cancelar) */
+  /* Thumbnail / photo placeholder (optional section on right) */
+  /* Small utility helpers */
+  /* Responsive tweaks */
+}
+.detail-section.edit-client-account h2 {
+  margin-bottom: 1.1rem;
+  font-size: clamp(1.28rem, 1.5vw, 1.7rem);
+  font-weight: 700;
+  color: #1e293b;
+  letter-spacing: -0.4px;
+}
+.detail-section.edit-client-account .meta-id {
+  margin-bottom: 0.8rem;
+}
+.detail-section.edit-client-account .meta-id strong {
+  color: #334155;
+  font-weight: 600;
+}
+.detail-section.edit-client-account .meta-id span {
+  color: #0f172a;
+}
+.detail-section.edit-client-account .card.form {
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.detail-section.edit-client-account .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+  /* Editable states */
+  /* Readonly variant (used in view fragment) */
+}
+.detail-section.edit-client-account .form-group label {
+  font-size: 1rem;
+  color: #334155;
+  font-weight: 600;
+  margin-bottom: 0.1rem;
+}
+.detail-section.edit-client-account .form-group input[type=text],
+.detail-section.edit-client-account .form-group input[type=number],
+.detail-section.edit-client-account .form-group select,
+.detail-section.edit-client-account .form-group textarea {
+  padding: 0.62rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #fff;
+  color: #0f172a;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-shadow: none;
+  outline: none;
+}
+.detail-section.edit-client-account .form-group input:focus,
+.detail-section.edit-client-account .form-group select:focus,
+.detail-section.edit-client-account .form-group textarea:focus {
+  border-color: #93c5fd;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.06);
+}
+.detail-section.edit-client-account .form-group input[readonly],
+.detail-section.edit-client-account .form-group textarea[readonly],
+.detail-section.edit-client-account .form-group select[disabled],
+.detail-section.edit-client-account .form-group .readonly-field {
+  background: #f4f4f5;
+  color: #64748b;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.detail-section.edit-client-account .form-group textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+.detail-section.edit-client-account .form-group select {
+  min-width: 7rem;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, #94a3b8 50%), linear-gradient(135deg, #94a3b8 50%, transparent 50%);
+  background-position: calc(100% - 18px) calc(1rem + 1px), calc(100% - 13px) calc(1rem + 1px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 2.3rem;
+}
+.detail-section.edit-client-account .form-group small {
+  color: #64748b;
+  font-size: 0.92rem;
+  margin-top: 0.18rem;
+}
+.detail-section.edit-client-account .form-row {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 1.5rem;
+}
+.detail-section.edit-client-account .form-row .form-group {
+  margin: 0;
+}
+.detail-section.edit-client-account .form-message {
+  margin-top: 0.4rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  display: block;
+}
+.detail-section.edit-client-account .form-message.form-error {
+  color: #b91c1c;
+  background: #fff5f5;
+  border: 1px solid #fee2e2;
+}
+.detail-section.edit-client-account .form-message.form-ok {
+  color: #065f46;
+  background: #ecfdf5;
+  border: 1px solid #bbf7d0;
+}
+.detail-section.edit-client-account .form-error {
+  color: #ef4444;
+  font-size: 1rem;
+  margin-top: 0.8rem;
+}
+.detail-section.edit-client-account .form-ok {
+  color: #219150;
+  font-size: 1rem;
+  margin-top: 0.8rem;
+  display: none;
+}
+.detail-section.edit-client-account .actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+  margin-top: 1.4rem;
+}
+.detail-section.edit-client-account .actions .vs-btn {
+  padding: 0.6rem 1.3rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  border: 1px solid transparent;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.detail-section.edit-client-account .actions .vs-btn.vs-primary {
+  background: #06b6d4;
+  color: #fff;
+  border-color: #06b6d4;
+}
+.detail-section.edit-client-account .actions .vs-btn.vs-primary:hover {
+  background: #0aaebf;
+}
+.detail-section.edit-client-account .actions .vs-btn.vs-secondary {
+  background: #fff;
+  color: #1e293b;
+  border: 1px solid #e2e8f0;
+}
+.detail-section.edit-client-account .actions .vs-btn.vs-secondary:hover {
+  background: #f8fafc;
+}
+.detail-section.edit-client-account .photo-box .incident-photo-thumb {
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f1f5f9;
+  background: #fff;
+  display: block;
+  object-fit: contain;
+}
+.detail-section.edit-client-account .photo-box .no-photo-placeholder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 160px;
+  border-radius: 8px;
+  border: 1px dashed #e5e7eb;
+  color: #64748b;
+  background: #fafafa;
+}
+.detail-section.edit-client-account .required {
+  color: #ef4444;
+  margin-left: 0.15rem;
+  font-weight: 700;
+}
+@media (max-width: 880px) {
+  .detail-section.edit-client-account {
+    padding: 1.4rem clamp(0.8rem, 3vw, 1.2rem);
+  }
+  .detail-section.edit-client-account .form-row {
+    grid-template-columns: 1fr;
+  }
+  .detail-section.edit-client-account .photo-box .incident-photo-thumb,
+  .detail-section.edit-client-account .photo-box .no-photo-placeholder {
+    max-width: 320px;
+  }
+  .detail-section.edit-client-account .actions {
+    justify-content: center;
+  }
+}
+@media (max-width: 640px) {
+  .detail-section.edit-client-account {
+    padding: 1rem 0.6rem;
+  }
+  .detail-section.edit-client-account .photo-box .incident-photo-thumb,
+  .detail-section.edit-client-account .photo-box .no-photo-placeholder {
+    max-width: 220px;
+  }
+  .detail-section.edit-client-account .actions {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: stretch;
+  }
+  .detail-section.edit-client-account .actions .vs-btn {
+    width: 100%;
+  }
+}/*# sourceMappingURL=edit-client-account.css.map */

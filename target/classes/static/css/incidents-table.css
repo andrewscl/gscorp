@@ -1,0 +1,225 @@
+@charset "UTF-8";
+/* ===== Incidentes (tabla + header + botones con iconos) ===== */
+.incidents-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.incidents-header h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+  color: #1f2937;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.incidents-header h2 svg {
+  vertical-align: middle;
+  margin-right: 0.25rem;
+  margin-top: -2px;
+}
+.incidents-header .btn-primary {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 1.1rem;
+  background-color: #dc2626;
+  color: #fff;
+  border: none;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background-color 0.2s;
+}
+.incidents-header .btn-primary svg {
+  vertical-align: middle;
+  margin-right: 0.18rem;
+}
+.incidents-header .btn-primary:hover {
+  background-color: #991b1b;
+}
+
+.incident-table-container {
+  padding: 1.5rem;
+  background-color: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+.incident-table-container .incidents-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Roboto", sans-serif;
+}
+.incident-table-container .incidents-table thead {
+  background-color: #f3f4f6;
+}
+.incident-table-container .incidents-table thead th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  color: #374151;
+  border-bottom: 2px solid #e5e7eb;
+}
+.incident-table-container .incidents-table tbody tr {
+  border-bottom: 1px solid #e5e7eb;
+}
+.incident-table-container .incidents-table tbody tr:hover {
+  background-color: #f9fafb;
+}
+.incident-table-container .incidents-table tbody tr td {
+  padding: 0.75rem 1rem;
+  color: #4b5563;
+  font-size: 0.95rem;
+  vertical-align: middle;
+  /* Etiquetas de estado con icono */
+}
+.incident-table-container .incidents-table tbody tr td .tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.86rem;
+  border-radius: 0.375rem;
+  background: #e5e7eb;
+  color: #111827;
+}
+.incident-table-container .incidents-table tbody tr td .tag::before {
+  display: none;
+}
+.incident-table-container .incidents-table tbody tr td .tag svg {
+  margin-right: 0.16rem;
+  vertical-align: middle;
+}
+.incident-table-container .incidents-table tbody tr td .tag.open {
+  background: #fde68a;
+  color: #92400e;
+}
+.incident-table-container .incidents-table tbody tr td .tag.inprogress {
+  background: #bfdbfe;
+  color: #1e3a8a;
+}
+.incident-table-container .incidents-table tbody tr td .tag.closed {
+  background: #f1f5f9;
+  color: #64748b;
+}
+.incident-table-container .incidents-table tbody tr td.actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.incident-table-container .incidents-table tbody tr td.actions .btn-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.18rem;
+  background-color: #e5e7eb;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  text-decoration: none;
+  color: #111827;
+  transition: background-color 0.2s;
+}
+.incident-table-container .incidents-table tbody tr td.actions .btn-link svg {
+  vertical-align: middle;
+  margin-right: 0.14rem;
+}
+.incident-table-container .incidents-table tbody tr td.actions .btn-link:hover {
+  background-color: #d1d5db;
+}
+
+/* ===== Responsive tweaks ===== */
+@media (max-width: 640px) {
+  .incidents-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+  .incidents-header .btn-primary {
+    width: 100%;
+  }
+  .incident-table-container .incidents-table thead {
+    display: none;
+  }
+  .incident-table-container .incidents-table tbody tr {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.25rem 0.75rem;
+    padding: 0.75rem 0;
+  }
+  .incident-table-container .incidents-table tbody tr td {
+    padding: 0.25rem 0.25rem;
+  }
+  .incident-table-container .incidents-table tbody tr td:nth-child(1)::before {
+    content: "ID";
+    font-weight: 600;
+    display: block;
+    color: #6b7280;
+  }
+  .incident-table-container .incidents-table tbody tr td:nth-child(2)::before {
+    content: "Sitio";
+    font-weight: 600;
+    display: block;
+    color: #6b7280;
+  }
+  .incident-table-container .incidents-table tbody tr td:nth-child(3)::before {
+    content: "Tipo";
+    font-weight: 600;
+    display: block;
+    color: #6b7280;
+  }
+  .incident-table-container .incidents-table tbody tr td:nth-child(4)::before {
+    content: "Estado";
+    font-weight: 600;
+    display: block;
+    color: #6b7280;
+  }
+  .incident-table-container .incidents-table tbody tr td:nth-child(5)::before {
+    content: "Apertura";
+    font-weight: 600;
+    display: block;
+    color: #6b7280;
+  }
+  .incident-table-container .incidents-table tbody tr td:nth-child(6)::before {
+    content: "Primera resp.";
+    font-weight: 600;
+    display: block;
+    color: #6b7280;
+  }
+  .incident-table-container .incidents-table tbody tr td:nth-child(7)::before {
+    content: "Cierre";
+    font-weight: 600;
+    display: block;
+    color: #6b7280;
+  }
+  .incident-table-container .incidents-table tbody tr td:nth-child(8)::before {
+    content: "SLA (min)";
+    font-weight: 600;
+    display: block;
+    color: #6b7280;
+  }
+  .incident-table-container .incidents-table tbody tr td:nth-child(9)::before {
+    content: "Descripción";
+    font-weight: 600;
+    display: block;
+    color: #6b7280;
+  }
+  .incident-table-container .incidents-table tbody tr td:nth-child(10) {
+    grid-column: 1/-1;
+    margin-top: 0.25rem;
+  }
+  .incident-table-container .incidents-table tbody tr td:nth-child(10)::before {
+    content: "Acciones";
+    font-weight: 600;
+    display: block;
+    color: #6b7280;
+    margin-bottom: 0.25rem;
+  }
+  .incident-table-container .incidents-table tbody tr td .actions {
+    justify-content: flex-start;
+  }
+}/*# sourceMappingURL=incidents-table.css.map */

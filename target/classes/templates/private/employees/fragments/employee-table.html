@@ -1,0 +1,146 @@
+<div th:fragment="content">
+
+  <div class="employees-header"
+       th:with="qVar=${q != null ? q : ''},
+                statusVar=${active != null ? (active ? 'ACTIVE' : 'INACTIVE') : 'ALL'},
+                projectVar=${projectId != null ? projectId : ''},
+                positionVar=${positionId != null ? positionId : ''}">
+
+    <!-- título + badge -->
+    <div class="title-row" role="heading" aria-level="2">
+      <div class="title-left" aria-hidden="true">
+        <!-- Icono tabla -->
+        <svg class="icon icon-table" width="24" height="24" viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+          <rect x="2" y="4" width="20" height="16" rx="2" fill="#eef2ff" stroke="#2563eb" stroke-width="1"/>
+          <path d="M6 12h12M6 8h12M6 16h8" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span class="title-text">Empleados</span>
+      </div>
+
+      <!-- badge con cantidad de registros -->
+      <span class="employees-count"
+            th:if="${employeesPage != null}"
+            th:text="${employeesPage.totalElements} + ' registro' + (employeesPage.totalElements == 1 ? '' : 's')"
+            aria-live="polite" aria-atomic="true"></span>
+    </div>
+
+    <!-- header-meta (opcional: poder incluir fragmento resumen si lo necesitas) -->
+    <div class="header-meta">
+      <!-- ejemplo: mostrar el total activo / inactivo -->
+      <div class="meta-row">
+        <span class="meta-item">Activos: <strong th:text="${employeesActiveCount != null ? employeesActiveCount : '–'}"></strong></span>
+        <span class="meta-item">Inactivos: <strong th:text="${employeesInactiveCount != null ? employeesInactiveCount : '–'}"></strong></span>
+      </div>
+    </div>
+
+    <!-- toolbar / filtros -->
+    <div class="filters-row" role="toolbar" aria-label="Filtros de empleados">
+      <label class="filter-item">
+        <span class="filter-label">Buscar</span>
+        <input id="filter-q" class="filter-input" type="search" name="q" placeholder="Nombre, RUT..."
+               th:value="${qVar}" />
+      </label>
+
+      <label class="filter-item">
+        <span class="filter-label">Estado</span>
+        <select id="filter-status" class="filter-select" name="active" aria-label="Estado">
+          <option th:value="''" th:selected="${statusVar == 'ALL'}">Todos</option>
+          <option th:value="true" th:selected="${statusVar == 'ACTIVE'}">Activo</option>
+          <option th:value="false" th:selected="${statusVar == 'INACTIVE'}">Inactivo</option>
+        </select>
+      </label>
+
+      <label class="filter-item">
+        <span class="filter-label">Proyecto</span>
+        <select id="filter-project" class="filter-select" name="projectId" aria-label="Proyecto">
+          <option th:value="''" th:selected="${projectVar == ''}">Todos</option>
+          <option th:each="p : ${projects}"
+                  th:value="${p.id}"
+                  th:text="${p.name}"
+                  th:selected="${projectVar != '' and p.id == projectVar}"></option>
+        </select>
+      </label>
+
+      <label class="filter-item">
+        <span class="filter-label">Cargo</span>
+        <select id="filter-position" class="filter-select" name="positionId" aria-label="Cargo">
+          <option th:value="''" th:selected="${positionVar == ''}">Todos</option>
+          <option th:each="pos : ${positions}"
+                  th:value="${pos.id}"
+                  th:text="${pos.name}"
+                  th:selected="${positionVar != '' and pos.id == positionVar}"></option>
+        </select>
+      </label>
+
+      <button id="applyFiltersBtn" type="button" class="btn btn-secondary"
+              data-ajax-url="/private/employees/table-search"
+              aria-label="Aplicar filtros">
+        Aplicar
+      </button>
+
+      <div class="filters-actions">
+        <button id="createEmployeeBtn" class="btn btn-primary"
+                th:if="${#authorization.expression('hasRole(''ANALYST'') or hasRole(''ADMINISTRATOR'')')}"
+                th:attr="data-path=@{/private/employees/create}" aria-label="Crear empleado">
+          <!-- icono + -->
+          <svg class="icon icon-plus" width="16" height="16" viewBox="0 0 16 16" focusable="false" aria-hidden="true">
+            <circle cx="8" cy="8" r="7" fill="#dbeafe" stroke="#1e3a8a" stroke-width="1"/>
+            <path d="M8 5v6M5 8h6" stroke="#1e3a8a" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Nuevo Empleado
+        </button>
+
+        <button id="exportEmployeesBtn" class="btn btn-outline" type="button"
+                th:attr="data-ajax-url=@{/private/employees/export(q=${qVar}, active=${statusVar == 'ALL' ? '' : statusVar}, projectId=${projectVar}, positionId=${positionVar})}">
+          Exportar
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Tabla -->
+  <div class="employees-table-container">
+    <table class="employees-table" role="table" aria-label="Tabla de empleados">
+      <caption class="visually-hidden">Listado de empleados</caption>
+
+      <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Foto</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Contacto</th>
+          <th scope="col">Estado</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+
+      <!-- filas: reemplazamos por fragmento parcial que renderiza rows -->
+      <tbody th:replace="private/employees/fragments/employee-table-rows :: rows"></tbody>
+    </table>
+  </div>
+
+  <!-- Paginador (simple) -->
+  <nav class="employees-paginator" aria-label="Paginador de empleados" th:if="${employeesPage != null}">
+    <ul class="pagination">
+      <li th:if="${employeesPage.hasPrevious()}">
+        <a th:href="@{/private/employees/table-view(page=${employeesPage.number-1}, size=${employeesPage.size}, q=${q}, active=${active}, projectId=${projectId}, positionId=${positionId})}">«</a>
+      </li>
+
+      <li th:each="i : ${#numbers.sequence(0, employeesPage.totalPages - 1)}"
+          th:classappend="${i == employeesPage.number} ? 'active'">
+        <a th:href="@{/private/employees/table-view(page=${i}, size=${employeesPage.size}, q=${q}, active=${active}, projectId=${projectId}, positionId=${positionId})}"
+           th:text="${i + 1}">1</a>
+      </li>
+
+      <li th:if="${employeesPage.hasNext()}">
+        <a th:href="@{/private/employees/table-view(page=${employeesPage.number+1}, size=${employeesPage.size}, q=${q}, active=${active}, projectId=${projectId}, positionId=${positionId})}">»</a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- JS modules that implement AJAX table-search and row updates -->
+  <script type="module" src="/js/private/employees/employee-table.js"></script>
+  <script type="module" src="/js/private/employees/employee-table-update.js"></script>
+
+</div>

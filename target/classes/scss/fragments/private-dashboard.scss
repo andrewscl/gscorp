@@ -1,0 +1,346 @@
+// =================== Dashboard Private Layout Modern ===================
+
+// VARIABLES
+$sidebar-width: 240px;
+$topbar-height: 54px;
+$main-bg: linear-gradient(120deg, #f6f8fa 0%, #e7ebf3 100%);
+$sidebar-bg: #ffffff;
+$sidebar-color: #494f56;
+$topbar-bg: #fff;
+$content-bg: #f9fafb;
+
+// ------------------ LAYOUT ------------------
+body[data-layout="private"] {
+  min-height: 100vh;
+  margin: 0;
+  background: $main-bg;
+  font-family: 'Inter', 'Roboto', Arial, sans-serif;
+  display: flex;
+
+  // -------- SIDEBAR FIXED & SCROLLABLE --------
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: $sidebar-width;
+    height: 100vh;
+    background: $sidebar-bg;
+    color: $sidebar-color;
+    border-right: 1px solid #e5e7eb;
+    box-shadow: 3px 0 24px rgba(44, 62, 80, 0.08);
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; // menu scroll interno
+
+    .logo-container {
+      text-align: center;
+      margin-bottom: 2.1rem;
+      height: 54px;
+      .logo {
+        max-width: 140px;
+        height: auto;
+        max-height: 100%;
+        filter: drop-shadow(0 2px 8px rgba(55, 65, 81, .12));
+      }
+    }
+
+    .menu {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+
+      .menu-item,
+      summary {
+        font-family: 'Roboto', Arial, sans-serif;
+        font-size: 0.9rem;
+        font-weight: 400;
+        display: flex;
+        align-items: center;
+        gap: .76rem;
+        padding: 0.4rem 1rem;
+        color: #222e3a;
+        background: transparent;
+        border-radius: 7px;
+        cursor: pointer;
+        transition: background .18s, color .18s;
+        letter-spacing: 0.01em;
+        position: relative;
+
+        &::before {
+          content: '';
+          display: inline-block;
+          width: 8px; height: 8px;
+          border-radius: 50%;
+          background: #e0e7ef;
+          margin-right: 2px;
+        }
+
+        &:hover, &:focus-visible {
+          background: #e9eef6;
+          color: #2563eb;
+          outline: none;
+          &::before { background: #2563eb; }
+        }
+      }
+
+      .menu-group {
+        transition: box-shadow .18s;
+        &[open] {
+          box-shadow: 0 2px 18px rgba(44, 62, 80, 0.05);
+        }
+
+        summary.menu-item {
+          &::after {
+            content: "▸";
+            position: absolute;
+            right: 1.1rem;
+            top: 50%;
+            transform: translateY(-50%) rotate(90deg);
+            font-size: 0.9rem;
+            color: #94a3b8;
+            transition: transform .18s, color .18s;
+          }
+        }
+        &[open] summary.menu-item::after {
+          transform: translateY(-50%) rotate(180deg);
+          color: #2563eb;
+        }
+
+        .submenu {
+          margin-top: 0.2rem;
+          padding-left: 1.1rem;
+          display: flex;
+          flex-direction: column;
+          gap: .09rem;
+
+          .submenu-item {
+            display: flex;
+            align-items: center;
+            padding: 0.48rem 1rem;
+            color: #475569;
+            background: transparent;
+            border-radius: 7px;
+            text-decoration: none;
+            font-family: 'Roboto', Arial, sans-serif;
+            font-size: 0.85rem;
+            font-weight: 300;
+            letter-spacing: 0.01em;
+            position: relative;
+            transition: background .18s, color .18s;
+
+            &::before {
+              content: '';
+              display: inline-block;
+              width: 6px; height: 6px;
+              border-radius: 50%;
+              background: #e0e7ef;
+              margin-right: 6px;
+            }
+            &:hover, &:focus-visible {
+              background: #e9eef6;
+              color: #2563eb;
+              outline: none;
+              &::before { background: #2563eb; }
+            }
+          }
+        }
+      }
+    }
+
+    .toggle-sidebar {
+      margin-top: auto;
+      background: #f9fafb;
+      color: #1f2937;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(56, 83, 117, 0.04);
+      cursor: pointer;
+      font-size: 1.38rem;
+      padding: .45rem 1.1rem;
+      transition: background .18s, color .18s, box-shadow .18s;
+      &:hover, &:focus-visible {
+        background: #e9eef6;
+        color: #2563eb;
+        outline: none;
+        box-shadow: 0 4px 18px rgba(56, 83, 117, 0.09);
+      }
+    }
+  }
+
+  // -------- MAIN CONTENT + TOPBAR --------
+  .main-content {
+    margin-left: $sidebar-width;
+    width: calc(100vw - #{$sidebar-width});
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: $content-bg;
+
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: $sidebar-width;
+      right: 0;
+      height: $topbar-height;
+      z-index: 1100;
+      background: $topbar-bg;
+      display: flex;
+      align-items: center;
+      padding: 0 2rem;
+      border-bottom: 1px solid #e5e7eb;
+      box-shadow: 0 2px 18px rgba(44,62,80,0.03);
+
+      .title {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #494f56;
+        letter-spacing: -.02em;
+      }
+
+      .topbar-right {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+
+        .user-actions {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          .user-name { font-weight: 500; color: #374151; }
+          .logout-btn {
+            color: #ef4444;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            &:hover { text-decoration: underline; }
+          }
+        }
+        //Selector explicito para sobreescribir el estilo global del botón hamburguesa
+        body[data-layout="private"] .main-content .topbar .topbar-right .topbar-burger {
+          display: none;
+          width: 40px;
+          height: 40px;
+          border: 0;
+          background: transparent;
+          cursor: pointer;
+          font-size: 1.25rem;
+          line-height: 1;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+
+    .content {
+      flex-grow: 1;
+      margin-top: $topbar-height;
+      padding: 1.2rem 2.4rem;
+      background: $content-bg;
+      border-radius: 20px 20px 0 0;
+      box-shadow: 0 8px 24px rgba(44, 62, 80, 0.05);
+      min-height: calc(100vh - #{$topbar-height});
+      overflow-y: auto;
+    }
+  }
+
+  // -------- SCRIM (sidebar overlay en móvil) --------
+  .sidebar-scrim {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.32);
+    z-index: 999;
+    display: none;
+  }
+}
+
+// ----------- RESPONSIVE / MOBILE -------------
+@media (max-width: 1024px) {
+  body[data-layout="private"] {
+    // Sidebar: off-screen by default on mobile, slide-in when body has .sidebar-open
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: min(83vw, 320px);
+      height: 100dvh;
+      overflow-y: auto;
+      box-shadow: 0 10px 24px rgba(55,65,81,0.17);
+      z-index: 1200; /* superior al topbar y al scrim */
+      transition: transform .25s cubic-bezier(.42,.04,.58,1);
+      transform: translateX(-100%); /* hidden by default */
+      will-change: transform;
+    }
+
+    .main-content {
+      margin-left: 0;
+      width: 100vw;
+
+      .topbar {
+        left: 0;
+        width: 100vw;
+
+        /* Mostrar el botón hamburguesa solo en mobile (misma especificidad que la regla desktop) */
+        .topbar-right {
+          .topbar-burger {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 1.15rem;
+            color: #374151;
+            transition: background .18s, color .18s, transform .12s;
+          }
+          .topbar-burger:focus {
+            outline: 2px solid rgba(37,99,235,0.18);
+            outline-offset: 2px;
+          }
+        }
+      }
+
+      .content {
+        padding: 1.4rem 0.4rem 1.2rem 0.4rem;
+        border-radius: 14px;
+      }
+    }
+
+    // Scrim (overlay) hidden by default, shown when sidebar-open
+    .sidebar-scrim {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.32);
+      z-index: 1190; /* debajo de la sidebar */
+      display: none;
+    }
+
+    // Estado abierto: controlado añadiendo/removiendo la clase .sidebar-open en el <body>
+    // (JS debe hacer: document.body.classList.toggle('sidebar-open'))
+    // Usamos selector con la misma especificidad para garantizar que se aplique en mobile.
+    &.sidebar-open {
+      .sidebar {
+        transform: translateX(0); /* traer la sidebar a la vista */
+      }
+      .sidebar-scrim {
+        display: block;
+      }
+      overflow: hidden;
+    }
+  }
+
+  /* Alternativa explícita si la clase .sidebar-open se aplica directamente al body
+     (esto hace la regla aún más directa y evita ambigüedades si la estructura cambia) */
+  body[data-layout="private"].sidebar-open {
+    .sidebar { transform: translateX(0); z-index: 1200; }
+    .sidebar-scrim { display: block; z-index: 1190; }
+    overflow: hidden;
+  }
+}

@@ -1,0 +1,22 @@
+<tbody th:fragment="rows">
+                <tr th:each="user : ${usersPage.content}">
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.username}"></td>
+                    <td th:text="${user.mail}"></td>
+
+                    <td class="actions">
+                        <button type="button"
+                                class="btn-link"
+                                th:attr="data-path=@{/private/users/show/{id}(id=${user.id})}">
+                            Ver
+                        </button>
+
+                        <button type="button"
+                                class="btn-link"
+                                th:attr="data-path=@{/private/users/edit/{id}(id=${user.id})}">
+                            Editar
+                        </button>
+
+                    </td>
+                </tr>
+</tbody>

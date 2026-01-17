@@ -1,0 +1,312 @@
+@charset "UTF-8";
+/* client-dashboard.scss - versión refinada
+   Recomendaciones aplicadas:
+   - asegurar tamaño/position para contenedores de charts
+   - placeholder para "no data"
+   - reducir uso de !important
+   - conservar variables para ajustes rápidos
+*/
+#client-dashboard-root {
+  --bg: #f8fafc;
+  --card-bg: #ffffff;
+  --muted: #6b7280;
+  --text: #0f172a;
+  --accent: #0ea5e9;
+  --accent-2: #f59e0b;
+  --success: #10b981;
+  --danger: #ef4444;
+  --surface-shadow: 0 8px 24px rgba(2,6,23,0.06);
+  --card-radius: 12px;
+  --card-padding: 10px;
+  --gap: 1rem;
+  --max-width: 1200px;
+  /* Altura única y variables para charts */
+  --chart-height-default: 260px;
+  --chart-height-daily: var(--chart-height-default);
+  --chart-height-weekly: var(--chart-height-default);
+  --chart-height-full: 300px;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px;
+  color: var(--text);
+  font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: transparent;
+  /* Chart body: regla central y explícita para eCharts */
+  /* placeholder para "no data" o errores */
+  /* asegurar que el canvas/SVG de eCharts ocupe todo el contenedor */
+  /* Donut styles */
+  /* Integrated donuts: limit max-width to avoid ocupar todo el espacio izquierdo */
+}
+#client-dashboard-root .container-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+#client-dashboard-root .card {
+  box-sizing: border-box;
+  background: var(--card-bg);
+  border-radius: var(--card-radius);
+  padding: var(--card-padding);
+  box-shadow: var(--surface-shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-height: 140px;
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
+}
+#client-dashboard-root .card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(2, 6, 23, 0.08);
+}
+#client-dashboard-root .card h5 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+#client-dashboard-root .chart-body,
+#client-dashboard-root div[id^=chart-] {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  position: relative; /* importante para overlays/placeholder */
+  height: var(--chart-height-default); /* default, puede ser sobrescrito por row-specific */
+  min-height: 160px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+  overflow: hidden;
+}
+#client-dashboard-root .chart-placeholder {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  font-size: 14px;
+  pointer-events: none;
+  z-index: 2;
+  background: transparent;
+}
+#client-dashboard-root .chart-body > div,
+#client-dashboard-root .chart-body canvas,
+#client-dashboard-root .chart-body svg {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+#client-dashboard-root .card-top.split {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+}
+#client-dashboard-root .split-left {
+  flex: 0 0 48%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#client-dashboard-root .split-right {
+  flex: 1 1 52%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  justify-content: center;
+  min-height: 72px;
+}
+#client-dashboard-root .card-totals {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+#client-dashboard-root .total-label {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+#client-dashboard-root .total-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text);
+}
+#client-dashboard-root .meta.small.muted {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+#client-dashboard-root .charts {
+  display: grid;
+  gap: 1.25rem;
+  width: 100%;
+  box-sizing: border-box;
+  grid-template-columns: repeat(3, 1fr);
+}
+@media (max-width: 1100px) {
+  #client-dashboard-root .charts {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 640px) {
+  #client-dashboard-root .charts {
+    grid-template-columns: 1fr;
+  }
+}
+#client-dashboard-root .charts .card {
+  min-height: 180px;
+}
+#client-dashboard-root .charts.hourly {
+  margin-bottom: 0.8rem;
+}
+#client-dashboard-root .charts.hourly .card > .chart-body {
+  height: var(--chart-height-daily);
+}
+#client-dashboard-root .charts.daily {
+  margin-bottom: 0.8rem;
+}
+#client-dashboard-root .charts.daily .card > .chart-body {
+  height: var(--chart-height-weekly);
+}
+#client-dashboard-root .charts.full-width {
+  display: block;
+  margin-top: 1rem;
+}
+#client-dashboard-root .charts.full-width .card {
+  width: 100%;
+}
+#client-dashboard-root .charts.full-width .card > .chart-body {
+  height: var(--chart-height-full);
+  min-height: 220px;
+}
+#client-dashboard-root .hourly-donut,
+#client-dashboard-root .daily-donut,
+#client-dashboard-root .weekly-donut {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  background: transparent;
+  padding: 0;
+  border-radius: 6px;
+  box-shadow: none;
+  min-width: 0;
+}
+#client-dashboard-root .hourly-donut.integrated,
+#client-dashboard-root .daily-donut.integrated,
+#client-dashboard-root .weekly-donut.integrated {
+  width: 100%;
+  max-width: 160px; /* limita el ancho dentro del split-left */
+  height: 140px;
+  min-height: 120px;
+  max-height: 160px;
+  background: transparent;
+  padding: 0;
+}
+#client-dashboard-root .hourly-donut.compact,
+#client-dashboard-root .daily-donut.compact,
+#client-dashboard-root .weekly-donut.compact {
+  width: 72px;
+  height: 72px;
+  padding: 6px;
+  border-radius: 8px;
+  background: var(--card-bg);
+  box-shadow: var(--surface-shadow);
+}
+#client-dashboard-root .card .card-header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+#client-dashboard-root .donut-meta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 12px;
+  color: var(--muted);
+}
+#client-dashboard-root .donut-meta .meta-item {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+#client-dashboard-root .donut-meta .meta-value {
+  font-weight: 700;
+  color: var(--text);
+}
+#client-dashboard-root h5 {
+  font-size: 1rem;
+  margin: 0;
+  color: var(--text);
+}
+#client-dashboard-root .muted {
+  color: var(--muted);
+}
+#client-dashboard-root .card:focus-within {
+  outline: 3px solid rgba(14, 165, 233, 0.12);
+  outline-offset: 2px;
+}
+#client-dashboard-root .inline-tooltip {
+  background: rgba(2, 6, 23, 0.95);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.12);
+}
+@media (max-width: 900px) {
+  #client-dashboard-root .hourly-donut.integrated,
+  #client-dashboard-root .daily-donut.integrated,
+  #client-dashboard-root .weekly-donut.integrated {
+    height: 120px;
+    min-height: 100px;
+  }
+  #client-dashboard-root .card {
+    padding: 12px;
+  }
+}
+@media (max-width: 720px) {
+  #client-dashboard-root .card-top.split {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  #client-dashboard-root .split-left, #client-dashboard-root .split-right {
+    flex: 1 1 100%;
+  }
+  #client-dashboard-root .hourly-donut.integrated, #client-dashboard-root .daily-donut.integrated, #client-dashboard-root .weekly-donut.integrated {
+    height: 120px;
+  }
+  #client-dashboard-root .card > .chart-body {
+    height: 220px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #client-dashboard-root * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+#client-dashboard-root .visually-hidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+  border: 0;
+  padding: 0;
+  margin: -1px;
+}
+#client-dashboard-root .muted {
+  color: var(--muted);
+}
+#client-dashboard-root .text {
+  color: var(--text);
+}/*# sourceMappingURL=client-dashboard.css.map */
