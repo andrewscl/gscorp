@@ -1,47 +1,61 @@
 :root {
-  --topbar-height: 54px;                /* same as layout topbar height */
-  --sidebar-width: 240px;               /* same as layout sidebar width */
-  --content-horizontal-padding: 2.4rem; /* match .content horizontal padding in layout */
-  --header-height: 0;
+  --topbar-height: 54px;              /* Altura del topbar */
+  --sidebar-width: 240px;             /* Ancho del sidebar */
+  --header-height: 54px;              /* Altura de la barra de título */
+  --actions-width: 200px;             /* Ancho de las acciones flotantes */
 }
 
 #site-map-section {
-  width: 100%;
-  padding: 0;
-  background-color: #42455d;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-top: var(--topbar-height);   /* Respeta el espacio del topbar */
+  margin-left: var(--sidebar-width); /* Respeta el espacio del sidebar */
+  height: calc(100vh - var(--topbar-height)); /* Altura ajustada según el viewport */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 
   h3 {
+    height: var(--header-height);
+    line-height: var(--header-height);
     text-align: center;
-    margin: 0.5rem 0;
+    margin: 0;
     font-size: 1.25rem;
     font-weight: 600;
     color: #ffffff;
+    background-color: #42455d;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   #site-map {
+    flex: 1; /* Ocupa todo el espacio restante */
     width: 100%;
-    height: 500px;
-    border: 1px solid #ddd;
+    position: relative; /* Para colocar elementos flotantes dentro */
   }
 
   #site-map-actions {
-    margin-top: 1rem;
+    position: absolute; /* Hacer que floten sobre el mapa */
+    top: 1rem;          /* Distancia desde la parte superior del mapa */
+    right: 1rem;        /* Distancia desde la parte derecha del mapa */
+    width: var(--actions-width); /* Ancho fijo */
+    background-color: rgba(255, 255, 255, 0.9); /* Fondo ligeramente opaco */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    padding: 0.5rem;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 
     label {
-      font-size: 1rem;
+      font-size: 0.9rem;
       font-weight: 500;
-      color: #555;
+      color: #333;
     }
 
     select {
-      padding: 0.5rem;
+      padding: 0.4rem;
       border: 1px solid #ccc;
       border-radius: 4px;
-      font-size: 1rem;
+      font-size: 0.9rem;
       background-color: #f9f9f9;
       color: #333;
 
@@ -55,18 +69,30 @@
 
   #site-map-error {
     margin-top: 0.5rem;
-    color: #d9534f; /* Color rojo para mensajes de error */
+    color: #d9534f;
     font-size: 0.9rem;
     font-style: italic;
   }
 
   @media screen and (max-width: 768px) {
+    margin-left: 0; /* Quita el sidebar en pantallas pequeñas */
+    height: 100%;  /* Ajusta la altura */
+
+    h3 {
+      height: auto;
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+
     #site-map {
-      height: 300px; /* Altura reducida para pantallas pequeñas */
+      height: calc(100vh - var(--header-height)); /* Ajusta el mapa para pantallas pequeñas */
     }
 
     #site-map-actions {
-      flex-direction: column;
+      top: auto; /* Ajusta la posición flotante */
+      bottom: 1rem; /* Coloca las acciones en la parte inferior */
+      right: 1rem;
+      width: var(--actions-width); /* Mantén el ancho fijo */
     }
   }
 }
