@@ -5,8 +5,6 @@
 }
 
 #site-map-section {
-  margin-top: var(--topbar-height);   /* Respeta el espacio del topbar */
-  margin-left: var(--sidebar-width); /* Respeta el espacio del sidebar */
   height: calc(100vh - var(--topbar-height)); /* Altura ajustada según el viewport */
   display: flex;
   flex-direction: column;
