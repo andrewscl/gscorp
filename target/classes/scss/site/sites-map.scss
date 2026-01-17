@@ -1,7 +1,6 @@
 :root {
   --topbar-height: 54px;              /* Altura del topbar */
   --sidebar-width: 240px;             /* Ancho del sidebar */
-  --header-height: 54px;              /* Altura de la barra de título */
   --actions-width: 200px;             /* Ancho de las acciones flotantes */
 }
 
@@ -11,23 +10,20 @@
   height: calc(100vh - var(--topbar-height)); /* Altura ajustada según el viewport */
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 
   h3 {
-    height: var(--header-height);
-    line-height: var(--header-height);
     text-align: center;
     margin: 0;
     font-size: 1.25rem;
     font-weight: 600;
     color: #ffffff;
     background-color: #42455d;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   #site-map {
     flex: 1; /* Ocupa todo el espacio restante */
     width: 100%;
+    height: 100%;
     position: relative; /* Para colocar elementos flotantes dentro */
   }
 
