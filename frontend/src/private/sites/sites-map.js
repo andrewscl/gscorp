@@ -1,0 +1,193 @@
+import { fetchWithAuth } from '../../auth.js';
+import { navigateTo } from '../../navigation-handler.js';
+
+
+let map, markers = [], sites = [];
+
+// Inicializa el mapa
+function initMap() {
+  const mapDiv = document.getElementById('site-map');
+  
+  if (!mapDiv || !window.google || !google.maps) {
+    showMapError('No se pudo cargar Google Maps.');
+    return;
+  }
+
+  // Crea el mapa con un centro y zoom predeterminados
+  map = new google.maps.Map(mapDiv, {
+    center: { lat: -33.45, lng: -70.65 }, // Por defecto, Santiago
+    zoom: 8,
+    mapTypeId: 'roadmap',
+  });
+
+  // Escucha el select para centrarse en sitios seleccionados
+  const select = document.getElementById('site-select');
+  select?.addEventListener('change', onSiteSelected);
+
+  // Obtén los sitios desde tu REST API
+  fetchSites();
+}
+
+
+// Muestra un error en pantalla
+function showMapError(message) {
+  const errorDiv = document.getElementById('site-map-error');
+  if (errorDiv) {
+    errorDiv.textContent = message;
+    errorDiv.style.display = "block";
+  }
+}
+
+// Función para limpiar el mensaje de error cuando ya no aplica
+function clearMapError() {
+  const errorDiv = document.getElementById('site-map-error');
+  if (errorDiv) errorDiv.style.display = "none";
+}
+
+// Agrega los sitios al mapa y llena el select
+function addSitesToMapAndSelect(siteData) {
+  markers.forEach(marker => marker.setMap(null)); // Limpia marcadores anteriores
+  markers = [];
+  sites = siteData; // Actualiza la lista global de sitios
+
+  const select = document.getElementById('site-select');
+  if (select) {
+    select.innerHTML = '<option value="">Seleccionar sitio</option>'; // Resetea el select
+  }
+
+  const bounds = new google.maps.LatLngBounds();
+  siteData.forEach(site => {
+    if (typeof site.lat === 'number' && typeof site.lon === 'number') {
+      const position = { lat: site.lat, lng: site.lon };
+
+      // Añade un marcador al mapa
+      const marker = new google.maps.Marker({
+        position,
+        map,
+        title: site.name,
+      });
+
+      // InfoWindow para mostrar información del sitio al hacer clic
+      const infoWindow = new google.maps.InfoWindow({
+        content: `<h4>${site.name}</h4><p>Dirección: ${site.address}</p><p>Zona horaria: ${site.timeZone}</p>`,
+      });
+
+      marker.addListener('click', () => infoWindow.open(map, marker));
+      markers.push(marker);
+
+      // Extender límites para encerrar todos los marcadores en el mapa
+      bounds.extend(position);
+
+      // Agregar una entrada a la etiqueta <select>
+      if (select) {
+        const option = document.createElement('option');
+        option.value = site.id;
+        option.textContent = site.name;
+        select.appendChild(option);
+      }
+    }
+  });
+
+  // Ajusta el mapa para mostrar todos los marcadores
+  if (siteData.length > 0) {
+    map.fitBounds(bounds);
+  } else {
+    // Centro predeterminado cuando no hay sitios válidos
+    map.setCenter({ lat: -33.45, lng: -70.65 });
+    map.setZoom(8);
+    showMapError('No hay sitios para mostrar.');
+  }
+
+  onSiteHover();
+}
+
+
+// Maneja el cambio en el select
+function onSiteSelected() {
+  const select = document.getElementById('site-select');
+  if (!select) return;
+
+  const siteId = select.value;
+  const foundSite = sites.find(site => String(site.id) === siteId); // Busca el objeto del sitio seleccionado
+  if (foundSite) {
+    map.setCenter({ lat: foundSite.lat, lng: foundSite.lon });
+    map.setZoom(15);
+  }
+}
+
+
+// Obtiene los sitios desde el servidor usando fetchWithAuth
+async function fetchSites() {
+  try {
+    const res = await fetchWithAuth('/api/sites/projections-by-user', {
+      method: 'GET',
+      headers: { 'Accept': 'application/json' },
+    });
+
+    if (!res.ok) {
+      showMapError('Error al cargar sitios. Intente nuevamente.');
+      return;
+    }
+
+    const siteData = await res.json();
+    clearMapError();
+    // Valida que es un arreglo y que los elementos tienen las propiedades necesarias
+    if (!Array.isArray(siteData) || !siteData.every(site => site.id && site.lat && site.lon)) {
+    showMapError('Datos de sitios inválidos.');
+    return;
+    }
+
+    addSitesToMapAndSelect(siteData); // Llenar el mapa y las opciones del select
+  } catch (error) {
+    console.error('Fallo al obtener sitios:', error);
+    showMapError('Error al cargar sitios. Intente nuevamente.');
+  }
+}
+
+
+// Inicializa el mapa cuando todo esté listo
+function waitForGoogleMapsAndInit(retry = 0) {
+  if (window.google && window.google.maps) {
+    initMap();
+  } else if (retry < 10) {
+    setTimeout(() => waitForGoogleMapsAndInit(retry + 1), 300 + 150 * retry);
+  } else {
+    showMapError("No se pudo cargar Google Maps. Intente más tarde.");
+  }
+}
+
+
+function onSiteHover() {
+  const select = document.getElementById('site-select');
+  if (!select) return;
+
+  select.addEventListener('mouseover', (event) => {
+    const hoveredSiteId = event.target.value;
+    if (!hoveredSiteId) return;
+
+    const hoveredSite = sites.find(site => String(site.id) === hoveredSiteId);
+    if (hoveredSite) {
+      // Resaltar el marcador o aplicar un efecto al mismo "hover"
+      markers.forEach(marker => {
+        if (marker.getTitle() === hoveredSite.name) {
+          marker.setIcon('https://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png');
+        } else {
+          marker.setIcon('https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png');
+        }
+      });
+    }
+  });
+
+  select.addEventListener('mouseleave', () => {
+    // Restaurar marcadores al salir del hover
+    markers.forEach(marker => {
+      marker.setIcon('https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png');
+    });
+  });
+}
+
+
+/* --- init --- */
+(function init() {
+    waitForGoogleMapsAndInit();
+})();

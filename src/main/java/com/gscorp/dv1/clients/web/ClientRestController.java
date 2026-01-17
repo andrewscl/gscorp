@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,10 +18,7 @@ import com.gscorp.dv1.attendance.application.AttendanceServiceImpl;
 import com.gscorp.dv1.clients.application.ClientService;
 import com.gscorp.dv1.clients.infrastructure.Client;
 import com.gscorp.dv1.clients.web.dto.ClientDto;
-import com.gscorp.dv1.clients.web.dto.ClientKpisDto;
 import com.gscorp.dv1.clients.web.dto.CreateClientRequest;
-import com.gscorp.dv1.incidents.application.IncidentService;
-import com.gscorp.dv1.patrol.application.PatrolRunService;
 import com.gscorp.dv1.projects.application.ProjectService;
 import com.gscorp.dv1.projects.web.dto.ProjectSelectDto;
 import com.gscorp.dv1.sitevisits.application.SiteVisitService;
@@ -39,8 +35,6 @@ public class ClientRestController {
     private final ClientService clientService;
     private final AttendanceServiceImpl attendanceService;
     private final SiteVisitService siteSupervisionVisitService;
-    private final PatrolRunService patrolRunService;
-    private final IncidentService incidentService;
     private final ProjectService projectService;
 
     @PostMapping("/create")
@@ -87,45 +81,6 @@ public class ClientRestController {
             "asistenciaHoy", asistenciaHoy,
             "visitasHoy", visitasHoy
         );
-    }
-
-    // Reemplazar el método antiguo por este en la clase ClientRestController
-    @GetMapping("/dashboard/kpis")
-    public ResponseEntity<ClientKpisDto> getClientDashboardKpis (
-        @RequestParam(required = false, name = "clientIds") List<Long> clientIds,
-        @RequestParam(required = false, name = "clientId") Long clientId, // compatibilidad legacy
-        Authentication authentication
-    ) {
-
-    // resolver clientIds (usa ClientService para centralizar validación/roles)
-    List<Long> resolved = clientService.resolveClientIdsOrDefault(authentication, clientIds, clientId);
-
-    // si no hay clients, devolver 0s para evitar NPEs en frontend
-    if (resolved == null || resolved.isEmpty()) {
-        return ResponseEntity.ok(new ClientKpisDto(0L, 0L, 0L, 0L));
-    }
-
-    LocalDate today = LocalDate.now();
-
-    String action = "IN";
-    String tz = "America/Santiago"; // zona por defecto, da igual porque es para "hoy"
-
-    long asistenciaHoy = attendanceService.countByClientIdsAndDate(resolved, today, action, tz);
-
-    long rondasHoy = patrolRunService.countByClientIdsAndDate(resolved, today);
-
-    long visitasHoy = siteSupervisionVisitService.countByClientIdsAndDate(resolved, today);
-
-    long incidentesAbiertos = 0L;
-    try {
-        incidentesAbiertos = incidentService.countOpenByClientIds(resolved);
-    } catch (Exception ignore) {
-        // si no tienes incidentService implementado o falla, devolvemos 0 en vez de propagar error
-    }
-
-    ClientKpisDto dto = new ClientKpisDto(asistenciaHoy, rondasHoy, visitasHoy, incidentesAbiertos);
-    return ResponseEntity.ok(dto);
-
     }
 
 

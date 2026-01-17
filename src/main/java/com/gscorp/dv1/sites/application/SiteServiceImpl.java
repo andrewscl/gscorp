@@ -1,5 +1,6 @@
 package com.gscorp.dv1.sites.application;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -10,10 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gscorp.dv1.clients.application.ClientService;
 import com.gscorp.dv1.sites.infrastructure.Site;
+import com.gscorp.dv1.sites.infrastructure.SiteProjection;
 import com.gscorp.dv1.sites.infrastructure.SiteSelectProjection;
 import com.gscorp.dv1.sites.infrastructure.SiteRepository;
 import com.gscorp.dv1.sites.web.dto.SetSiteCoordinatesDto;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
+import com.gscorp.dv1.sites.web.dto.SiteDtoProjection;
 import com.gscorp.dv1.sites.web.dto.SiteSelectDto;
 import com.gscorp.dv1.sites.web.dto.UpdateLatLon;
 
@@ -231,6 +234,26 @@ public class SiteServiceImpl implements SiteService{
                + Math.cos(Math.toRadians(lat1))*Math.cos(Math.toRadians(lat2))
                * Math.sin(dLon/2)*Math.sin(dLon/2);
     return 2*R*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<SiteDtoProjection> findSiteProjectionsByClientIds(List<Long> clientIds) {
+
+        if (clientIds == null || clientIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        List<SiteProjection>  siteProjections = siteRepository.findSiteProjectionsByClientIds(clientIds);
+
+        // Mapea cada SiteProjection a SiteDtoProjection usando el método fromEntity
+        List<SiteDtoProjection> dtolist = siteProjections.stream()
+            .map(SiteDtoProjection::fromEntity) // Convierte cada proyección usando el método
+            .toList(); // Convierte el stream en una lista
+        
+        return dtolist;
+
     }
 
 

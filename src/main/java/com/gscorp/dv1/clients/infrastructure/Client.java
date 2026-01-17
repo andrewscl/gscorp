@@ -52,7 +52,7 @@ public class Client {
   @Column(nullable=false)
   private Boolean active = true;   // ✅ se respeta en el builder
 
-  // Relación inversa del ManyToMany definido en User.roles
+  // Relación inversa del ManyToMany
   @Builder.Default
   @ManyToMany(mappedBy = "clients", fetch = FetchType.LAZY)
   @ToString.Exclude
