@@ -1,20 +1,13 @@
 package com.gscorp.dv1.sites.web;
 
-import java.util.List;
-
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.gscorp.dv1.clients.application.ClientService;
-import com.gscorp.dv1.clients.web.dto.ClientSelectDto;
 import com.gscorp.dv1.projects.application.ProjectService;
 import com.gscorp.dv1.sites.application.SiteService;
-import com.gscorp.dv1.sites.web.dto.SiteDtoProjection;
-import com.gscorp.dv1.users.application.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,10 +16,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SiteController {
 
-    private final UserService userService;
     private final SiteService siteService;
     private final ProjectService projectService;
-    private final ClientService clientService;
 
     private String googleCloudApiKey = System.getenv("GOOGLE_CLOUD_API_KEY");
 
@@ -61,19 +52,8 @@ public class SiteController {
 
     @GetMapping("/sites-map")
     public String getSitesMap(
-            Model model,
-            Authentication authentication) {
+            Model model) {
 
-            Long userId = userService.getUserIdFromAuthentication(authentication);
-
-            List<ClientSelectDto> clientDtos = clientService.findClientsByUserId(userId);
-
-            List<SiteDtoProjection> siteProjections =
-                                        siteService.findSiteProjectionsByClientIds(clientDtos.stream()
-                                                                        .map(ClientSelectDto::id)
-                                                                        .toList());
-
-        model.addAttribute("sites", siteProjections);
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
         return "private/sites/views/sites-map-view";
     }
