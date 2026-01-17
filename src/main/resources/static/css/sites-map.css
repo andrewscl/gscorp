@@ -5,10 +5,16 @@
   --actions-width: 200px; /* Ancho de las acciones flotantes */
 }
 
+#content {
+  display: flex;
+  height: calc(100vh - var(--topbar-height));
+  margin-left: var(--sidebar-width);
+}
+
 #site-map-section {
-  height: calc(100vh - var(--topbar-height)); /* Altura ajustada según el viewport */
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 #site-map-section h3 {
   text-align: center;
