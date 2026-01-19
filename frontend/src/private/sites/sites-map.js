@@ -60,11 +60,20 @@ function addSitesToMapAndSelect(siteData) {
     if (typeof site.lat === 'number' && typeof site.lon === 'number') {
       const position = { lat: site.lat, lng: site.lon };
 
-      // Añade un marcador al mapa
-      const marker = new google.maps.Marker({
-        position,
-        map,
-        title: site.name,
+      // Create content for the marker
+      const markerContent = document.createElement('div');
+      markerContent.innerHTML = `
+        <div style="background-color: white; border: 1px solid black; padding: 5px; border-radius: 3px;">
+          <strong>${site.name}</strong>
+        </div>
+      `;
+
+      // Crear un marcador avanzado
+      const marker = new google.maps.marker.AdvancedMarkerElement({
+        map,                     // Mapa al que se vincula el marcador
+        position: position,      // Posición del marcador
+        title: site.name,        // Título (texto de acceso rápido)
+        content: markerContent,  // Contenido HTML personalizado
       });
 
       // InfoWindow para mostrar información del sitio al hacer clic
