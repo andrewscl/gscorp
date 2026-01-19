@@ -166,7 +166,7 @@ function waitForGoogleMapsAndInit(retry = 0) {
 }
 
 // Expone la función en el ámbito global
-window.waitForGoogleMapsAndInit = waitForGoogleMapsAndInit;
+globalThis.waitForGoogleMapsAndInit = waitForGoogleMapsAndInit;
 
 
 function onSiteHover() {
