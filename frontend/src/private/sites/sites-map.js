@@ -165,6 +165,9 @@ function waitForGoogleMapsAndInit(retry = 0) {
   }
 }
 
+// Expone la función en el ámbito global
+window.waitForGoogleMapsAndInit = waitForGoogleMapsAndInit;
+
 
 function onSiteHover() {
   const select = document.getElementById('site-select');

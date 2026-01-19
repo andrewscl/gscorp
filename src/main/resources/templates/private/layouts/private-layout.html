@@ -121,7 +121,7 @@
     <script type="module" src="/js/init-router.js"></script>
     <script type="module" src="/js/private/menu/private-menu.js"></script>
     <script th:src="'https://maps.googleapis.com/maps/api/js?key=' +
-            ${googlecloudapikey} + '&libraries=marker&callback=onGoogleMapsReady'"
+            ${googlecloudapikey} + '&libraries=marker&callback=waitForGoogleMapsAndInit'"
             async defer>
     </script>
 
