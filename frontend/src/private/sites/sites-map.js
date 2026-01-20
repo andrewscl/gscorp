@@ -18,6 +18,7 @@ function initMap() {
     center: { lat: -33.45, lng: -70.65 }, // Por defecto, Santiago
     zoom: 8,
     mapTypeId: 'roadmap',
+    mapId: googleMapsConfig.mapId
   });
 
   // Escucha el select para centrarse en sitios seleccionados

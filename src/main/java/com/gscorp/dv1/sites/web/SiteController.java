@@ -20,6 +20,7 @@ public class SiteController {
     private final ProjectService projectService;
 
     private String googleCloudApiKey = System.getenv("GOOGLE_CLOUD_API_KEY");
+    private String googleMapId = System.getenv("GOOGLE_MAP_ID");
 
     @GetMapping("/table-view")
     public String getSitesTableView(Model model) {
@@ -32,6 +33,8 @@ public class SiteController {
     public String showSite (@PathVariable Long id, Model model){
         var site = siteService.findByIdWithProjects(id);
         model.addAttribute("site", site);
+        model.addAttribute("googlecloudapikey", googleCloudApiKey);
+        model.addAttribute("googlemapid", googleMapId);
         return "private/sites/views/view-site-view";
     }
 
@@ -40,6 +43,7 @@ public class SiteController {
         var site = siteService.findByIdWithProjects(id);
         model.addAttribute("site", site);
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
+        model.addAttribute("googlemapid", googleMapId);
         return "private/sites/views/edit-site-view";
     }
 
@@ -47,14 +51,15 @@ public class SiteController {
     public String setSiteCoordinates(Model model) {
         model.addAttribute("sites", siteService.getAllSites());
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
+        model.addAttribute("googlemapid", googleMapId);
         return "private/sites/views/set-site-coordinates-view";
     }
 
     @GetMapping("/sites-map")
     public String getSitesMap(
             Model model) {
-
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
+        model.addAttribute("googlemapid", googleMapId);
         return "private/sites/views/sites-map-view";
     }
 
