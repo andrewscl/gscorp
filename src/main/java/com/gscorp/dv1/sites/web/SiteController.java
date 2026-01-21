@@ -58,6 +58,14 @@ public class SiteController {
     @GetMapping("/sites-map")
     public String getSitesMap(
             Model model) {
+
+        if (googleCloudApiKey == null || googleMapId == null) {
+            throw new IllegalStateException("Faltan valores en Google Maps API Key o Map ID.");
+        }
+
+        System.out.println("Google API Key: " + googleCloudApiKey);
+        System.out.println("Google Map ID: " + googleMapId);
+
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
         model.addAttribute("googlemapid", googleMapId);
         return "private/sites/views/sites-map-view";
