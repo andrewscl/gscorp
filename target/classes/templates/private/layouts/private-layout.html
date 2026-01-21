@@ -118,20 +118,10 @@
 
     </div>
 
-    
-
     <script th:src="'https://maps.googleapis.com/maps/api/js?key=' +
-            ${googlecloudapikey} + '&libraries=marker&callback=waitForGoogleMapsAndInit'"
-            async defer>
+                ${googlecloudapikey} + '&libraries=marker&map_ids=' +
+                ${googlemapid} + '&callback=waitForGoogleMapsAndInit'" async defer>
     </script>
-
-    <script type="text/javascript">
-        const googleMapsConfig = {
-            apiKey: '[[${googlecloudapikey}]]',
-            mapId: '[[${googlemapid}]]'
-        };
-    </script>
-
 
     <script type="module" src="/js/init-router.js"></script>
     <script type="module" src="/js/private/menu/private-menu.js"></script>
