@@ -7,6 +7,8 @@ let map, markers = [], sites = [];
 // Inicializa el mapa
 function initMap() {
   const mapDiv = document.getElementById('site-map');
+
+  console.log('Google Maps Config:', googleMapsConfig);
   
   if (!mapDiv || !window.google || !google.maps) {
     showMapError('No se pudo cargar Google Maps.');
