@@ -213,5 +213,5 @@ function onSiteHover() {
 
 /* --- init --- */
 (function init() {
-    initMap();
+    waitForGoogleMapsAndInit();
 })();
