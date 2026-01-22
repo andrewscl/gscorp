@@ -1,13 +1,11 @@
 import { fetchWithAuth } from '../../auth.js';
-import { navigateTo } from '../../navigation-handler.js';
-
 
 let map, markers = [], sites = [];
 
 let mapInitialized = false;
 
 // Inicializa el mapa
-function initMap(retry=0) {
+globalThis.initMap = function initMap(retry=0) {
 
   if(mapInitialized) {
     console.log('[initMap] Mapa ya inicializado, no se hace nada.');
@@ -60,6 +58,20 @@ function initMap(retry=0) {
   mapInitialized = true; // Marca como inicializado
 
 }
+
+
+// Exporta el método `init` que será invocado por `executeFragmentModules`
+export function init({ container, path }) {
+  console.log('[site-map.js] Iniciando módulo.');
+
+  // Llama a la inicialización del mapa
+  initMap();
+}
+
+globalThis.googleMapsLoaded = () => {
+  console.log('[Google Maps] API cargada correctamente.');
+};
+
 
 
 // Muestra un error en pantalla
@@ -228,11 +240,3 @@ function onSiteHover() {
     });
   });
 }
-
-
-/* --- init --- */
-(function init() {
-    initMap();
-})();
-
-globalThis.initMap = initMap;
