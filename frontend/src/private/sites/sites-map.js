@@ -5,7 +5,7 @@ import { navigateTo } from '../../navigation-handler.js';
 let map, markers = [], sites = [];
 
 // Inicializa el mapa
-function initMap() {
+function initMap(retry=0) {
 
   console.log(`[initMap] Intento ${retry}: google.maps disponible:`, typeof google !== 'undefined' && typeof google.maps !== 'undefined');
 
