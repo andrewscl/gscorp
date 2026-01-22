@@ -8,9 +8,12 @@ let map, markers = [], sites = [];
 function initMap() {
   const mapDiv = document.getElementById('site-map');
 
+  console.log('mapDiv:', mapDiv);
+
   console.log('Google Maps Config:', googleMapsConfig);
   
   if (!mapDiv || !window.google || !google.maps) {
+    console.log('google.maps:', typeof google !== 'undefined' && typeof google.maps !== 'undefined');
     showMapError('No se pudo cargar Google Maps.');
     return;
   }
