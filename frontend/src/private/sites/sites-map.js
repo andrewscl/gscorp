@@ -181,22 +181,35 @@ function onSiteHover() {
     if (!hoveredSiteId) return;
 
     const hoveredSite = sites.find(site => String(site.id) === hoveredSiteId);
+
     if (hoveredSite) {
-      // Resaltar el marcador o aplicar un efecto al mismo "hover"
+      // Cambia el contenido de los marcadores al hacer hover
       markers.forEach(marker => {
-        if (marker.getTitle() === hoveredSite.name) {
-          marker.setIcon('https://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png');
+        if (marker.title === hoveredSite.name) {
+          marker.content.innerHTML = `
+            <div style="background-color: #0000FF; color: white; border-radius: 8px; padding: 5px;">
+              <strong>${hoveredSite.name}</strong>
+            </div>
+          `;
         } else {
-          marker.setIcon('https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png');
+          marker.content.innerHTML = `
+            <div style="background-color: #FF0000; color: white; border-radius: 8px; padding: 5px;">
+              <strong>${marker.title}</strong>
+            </div>
+          `;
         }
       });
     }
   });
 
   select.addEventListener('mouseleave', () => {
-    // Restaurar marcadores al salir del hover
+    // Restaura los marcadores al salir del hover
     markers.forEach(marker => {
-      marker.setIcon('https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png');
+      marker.content.innerHTML = `
+        <div style="background-color: #FF0000; color: white; border-radius: 8px; padding: 5px;">
+          <strong>${marker.title}</strong>
+        </div>
+      `;
     });
   });
 }
