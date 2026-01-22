@@ -168,10 +168,6 @@ function waitForGoogleMapsAndInit(retry = 0) {
   }
 }
 
-// Expone la función en el ámbito global
-globalThis.waitForGoogleMapsAndInit = waitForGoogleMapsAndInit;
-
-
 function onSiteHover() {
   const select = document.getElementById('site-select');
   if (!select) return;
@@ -217,5 +213,5 @@ function onSiteHover() {
 
 /* --- init --- */
 (function init() {
-    waitForGoogleMapsAndInit();
+    initMap();
 })();
