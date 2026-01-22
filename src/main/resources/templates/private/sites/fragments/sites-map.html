@@ -20,17 +20,32 @@
     <div id="site-map-error" style="display:none; color:red;" th:text="#{site.map.error}"></div>
   </div>
 
-  <script th:src="'https://maps.googleapis.com/maps/api/js?key=' +
-                ${googlecloudapikey} + '&libraries=marker&map_ids=' +
-                ${googlemapid} + '&callback=waitForGoogleMapsAndInit&loading=async'" async defer>
-  </script>
+
 
   <script type="text/javascript">
         const googleMapsConfig = {
             apiKey: '[[${googlecloudapikey}]]',
             mapId: '[[${googlemapid}]]' 
         };
+      // Define la función global antes de cargar Google Maps
+      globalThis.waitForGoogleMapsAndInit = function waitForGoogleMapsAndInit(retry = 0) {
+          console.log('Intento:', retry, '| Google:', !!window.google, '| Maps:', !!window.google?.maps);
+
+          if (window.google && window.google.maps) {
+              initMap();
+          } else if (retry < 10) {
+              setTimeout(() => waitForGoogleMapsAndInit(retry + 1), 300 + 150 * retry);
+          } else {
+              showMapError("No se pudo cargar Google Maps. Intente más tarde.");
+          }
+      };
   </script>
+
+  <script th:src="'https://maps.googleapis.com/maps/api/js?key=' +
+                ${googlecloudapikey} + '&libraries=marker&map_ids=' +
+                ${googlemapid} + '&callback=waitForGoogleMapsAndInit&loading=async'" async defer>
+  </script>
+
 
   <script type="module" src="/js/private/sites/sites-map.js"></script>
 
