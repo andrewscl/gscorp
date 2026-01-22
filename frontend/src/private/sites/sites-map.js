@@ -1,10 +1,18 @@
 import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
 
+
 let map, markers = [], sites = [];
 
+let mapInitialized = false;
+
 // Inicializa el mapa
-globalThis.initMap = function initMap(retry=0) {
+function initMap(retry=0) {
+
+  if(mapInitialized) {
+    console.log('[initMap] Mapa ya inicializado, no se hace nada.');
+    return;
+  }
 
   console.log(`[initMap] Intento ${retry}: google.maps disponible:`, typeof google !== 'undefined' && typeof google.maps !== 'undefined');
 
@@ -47,7 +55,12 @@ globalThis.initMap = function initMap(retry=0) {
 
   // Obtén los sitios desde tu REST API
   fetchSites();
+
+  console.log('[initMap] Mapa inicializado exitosamente.');
+  mapInitialized = true; // Marca como inicializado
+
 }
+
 
 // Muestra un error en pantalla
 function showMapError(message) {
@@ -215,3 +228,11 @@ function onSiteHover() {
     });
   });
 }
+
+
+/* --- init --- */
+(function init() {
+    initMap();
+})();
+
+globalThis.initMap = initMap;
