@@ -130,6 +130,10 @@
             apiKey: '[[${googlecloudapikey}]]',
             mapId: '[[${googlemapid}]]' 
         };
+        // Define la función en el ámbito global directamente en el layout
+        globalThis.waitForGoogleMapsAndInit = function waitForGoogleMapsAndInit() {
+            console.warn("La función waitForGoogleMapsAndInit fue llamada, pero aún no se ha definido la lógica.");
+        };
     </script>
 
 
