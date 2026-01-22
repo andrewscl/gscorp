@@ -120,23 +120,6 @@
 
     </div>
 
-    <script th:src="'https://maps.googleapis.com/maps/api/js?key=' +
-                ${googlecloudapikey} + '&libraries=marker&map_ids=' +
-                ${googlemapid} + '&callback=waitForGoogleMapsAndInit&loading=async'" async defer>
-    </script>
-
-    <script type="text/javascript">
-        const googleMapsConfig = {
-            apiKey: '[[${googlecloudapikey}]]',
-            mapId: '[[${googlemapid}]]' 
-        };
-        // Define la función en el ámbito global directamente en el layout
-        globalThis.waitForGoogleMapsAndInit = function waitForGoogleMapsAndInit() {
-            console.warn("La función waitForGoogleMapsAndInit fue llamada, pero aún no se ha definido la lógica.");
-        };
-    </script>
-
-
     <script type="module" src="/js/init-router.js"></script>
     <script type="module" src="/js/private/menu/private-menu.js"></script>
 
