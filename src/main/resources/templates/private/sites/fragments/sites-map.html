@@ -20,10 +20,11 @@
     <div id="site-map-error" style="display:none; color:red;" th:text="#{site.map.error}"></div>
   </div>
 
+  <script th:src="'https://maps.googleapis.com/maps/api/js?key=' +
+                    ${googlecloudapikey} + '&libraries=marker&map_ids=' +
+                    ${googlemapid} + '&callback=init&loading=async'" async defer>
+  </script>
+
   <script type="module" src="/js/private/sites/sites-map.js"></script>
-
-
-
-
 
 </section>
