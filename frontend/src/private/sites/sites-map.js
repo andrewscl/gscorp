@@ -6,6 +6,22 @@ let map, markers = [], sites = [];
 
 // Inicializa el mapa
 function initMap() {
+
+  console.log(`[initMap] Intento ${retry}: google.maps disponible:`, typeof google !== 'undefined' && typeof google.maps !== 'undefined');
+
+  if (!window.google || !google.maps) {
+    if (retry < 10) {
+      console.warn(`[initMap] Google Maps no disponible. Reintentando... (#${retry})`);
+      setTimeout(() => initMap(retry + 1), 500); // Reintenta cada 500ms, hasta 10 veces
+    } else {
+      console.error(`[initMap] No logró cargar Google Maps después de ${retry} intentos.`);
+      showMapError('No se pudo cargar Google Maps. Intente más tarde.');
+    }
+    return;
+  }
+
+  console.log('[initMap] Google Maps cargado correctamente.');
+
   const mapDiv = document.getElementById('site-map');
 
   console.log('mapDiv:', mapDiv);
