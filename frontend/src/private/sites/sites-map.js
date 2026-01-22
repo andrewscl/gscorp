@@ -10,10 +10,10 @@ function initMap() {
 
   console.log('Google Maps Config:', googleMapsConfig);
   
-  //if (!mapDiv || !window.google || !google.maps) {
-  //  showMapError('No se pudo cargar Google Maps.');
-  //  return;
-  //}
+  if (!mapDiv || !window.google || !google.maps) {
+    showMapError('No se pudo cargar Google Maps.');
+    return;
+  }
 
   // Crea el mapa con un centro y zoom predeterminados
   map = new google.maps.Map(mapDiv, {
