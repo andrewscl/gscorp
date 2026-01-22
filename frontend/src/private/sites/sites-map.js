@@ -10,10 +10,10 @@ function initMap() {
 
   console.log('Google Maps Config:', googleMapsConfig);
   
-  if (!mapDiv || !window.google || !google.maps) {
-    showMapError('No se pudo cargar Google Maps.');
-    return;
-  }
+  //if (!mapDiv || !window.google || !google.maps) {
+  //  showMapError('No se pudo cargar Google Maps.');
+  //  return;
+  //}
 
   // Crea el mapa con un centro y zoom predeterminados
   map = new google.maps.Map(mapDiv, {
@@ -157,17 +157,6 @@ async function fetchSites() {
 }
 
 
-// Inicializa el mapa cuando todo esté listo
-function waitForGoogleMapsAndInit(retry = 0) {
-  if (window.google && window.google.maps) {
-    initMap();
-  } else if (retry < 10) {
-    setTimeout(() => waitForGoogleMapsAndInit(retry + 1), 300 + 150 * retry);
-  } else {
-    showMapError("No se pudo cargar Google Maps. Intente más tarde.");
-  }
-}
-
 function onSiteHover() {
   const select = document.getElementById('site-select');
   if (!select) return;
@@ -213,5 +202,5 @@ function onSiteHover() {
 
 /* --- init --- */
 (function init() {
-    waitForGoogleMapsAndInit();
+    initMap();
 })();
