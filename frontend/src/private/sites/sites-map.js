@@ -1,11 +1,10 @@
 import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
 
-
 let map, markers = [], sites = [];
 
 // Inicializa el mapa
-function initMap(retry=0) {
+globalThis.initMap = function initMap(retry=0) {
 
   console.log(`[initMap] Intento ${retry}: google.maps disponible:`, typeof google !== 'undefined' && typeof google.maps !== 'undefined');
 
@@ -49,7 +48,6 @@ function initMap(retry=0) {
   // Obtén los sitios desde tu REST API
   fetchSites();
 }
-
 
 // Muestra un error en pantalla
 function showMapError(message) {
@@ -217,9 +215,3 @@ function onSiteHover() {
     });
   });
 }
-
-
-/* --- init --- */
-(function init() {
-    initMap();
-})();
