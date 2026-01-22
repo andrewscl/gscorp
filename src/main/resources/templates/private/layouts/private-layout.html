@@ -116,6 +116,8 @@
                 th:replace="~{private/layouts/private-layout :: empty}"></div>
         </section>
 
+        
+
     </div>
 
     <script th:src="'https://maps.googleapis.com/maps/api/js?key=' +
@@ -126,7 +128,7 @@
     <script type="text/javascript">
         const googleMapsConfig = {
             apiKey: '[[${googlecloudapikey}]]',
-            mapId: '[[${googlemapid}]]'
+            mapId: '[[${googlemapid}]]' 
         };
     </script>
 
