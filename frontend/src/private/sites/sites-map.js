@@ -14,12 +14,27 @@ function loadGoogleMapsAPI(apiKey, mapId) {
       return;
     }
 
+    // Prevenir múltiples cargas paralelas
+    if (googleMapsScriptLoading) {
+      console.warn('[loadGoogleMapsAPI] Carga de Google Maps ya está en proceso.');
+      const interval = setInterval(() => {
+        if (window.google && google.maps) {
+          clearInterval(interval);
+          resolve();
+        }
+      }, 200);
+      return;
+    }
+
+    googleMapsScriptLoading = true; // Establecer como en proceso
+
     // Crear el script
     const script = document.createElement('script');
+    script.id = 'google-maps-script'; //Agregar un id unico para rastreo
     script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=marker&map_ids=${mapId}`;
     script.async = true;
     script.defer = true;
-    script.setAttribute('loading', 'lazy');
+    script.setAttribute('loading', 'async');
 
     // Resuelve la promesa cuando el script se carga correctamente
     script.onload = () => {
