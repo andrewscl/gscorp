@@ -19,6 +19,7 @@ function loadGoogleMapsAPI(apiKey, mapId) {
     script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=marker&map_ids=${mapId}`;
     script.async = true;
     script.defer = true;
+    script.setAttribute('loading', 'lazy');
 
     // Resuelve la promesa cuando el script se carga correctamente
     script.onload = () => {
