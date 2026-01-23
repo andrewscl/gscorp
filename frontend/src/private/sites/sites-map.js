@@ -5,7 +5,7 @@ let map, markers = [], sites = [];
 let mapInitialized = false;
 
 // Inicializa el mapa
-globalThis.initMap = function initMap(retry=0) {
+function initMap(retry=0) {
 
   if(mapInitialized) {
     console.log('[initMap] Mapa ya inicializado, no se hace nada.');
@@ -57,21 +57,8 @@ globalThis.initMap = function initMap(retry=0) {
   console.log('[initMap] Mapa inicializado exitosamente.');
   mapInitialized = true; // Marca como inicializado
 
+
 }
-
-
-// Exporta el método `init` que será invocado por `executeFragmentModules`
-export function init({ container, path }) {
-  console.log('[site-map.js] Iniciando módulo.');
-
-  // Llama a la inicialización del mapa
-  initMap();
-}
-
-globalThis.googleMapsLoaded = () => {
-  console.log('[Google Maps] API cargada correctamente.');
-};
-
 
 
 // Muestra un error en pantalla
@@ -155,7 +142,6 @@ function addSitesToMapAndSelect(siteData) {
   onSiteHover();
 }
 
-
 // Maneja el cambio en el select
 function onSiteSelected() {
   const select = document.getElementById('site-select');
@@ -168,7 +154,6 @@ function onSiteSelected() {
     map.setZoom(15);
   }
 }
-
 
 // Obtiene los sitios desde el servidor usando fetchWithAuth
 async function fetchSites() {
@@ -197,7 +182,6 @@ async function fetchSites() {
     showMapError('Error al cargar sitios. Intente nuevamente.');
   }
 }
-
 
 function onSiteHover() {
   const select = document.getElementById('site-select');
@@ -240,3 +224,10 @@ function onSiteHover() {
     });
   });
 }
+
+/* --- init --- */
+(function init() {
+    initMap();
+})();
+
+globalThis.initMap = initMap;
