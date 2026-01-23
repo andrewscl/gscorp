@@ -2,6 +2,7 @@ import { fetchWithAuth } from '../../auth.js';
 
 let map, markers = [], sites = [];
 
+let googleMapsScriptLoading = false;
 let mapInitialized = false;
 
 // Cargar dinámicamente el script de Google Maps
