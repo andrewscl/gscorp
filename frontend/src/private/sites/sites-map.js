@@ -29,7 +29,7 @@ function loadGoogleMapsAPI(apiKey, mapId) {
     // Crear el script
     const script = document.createElement('script');
     script.id = 'google-maps-script'; //Agregar un id unico para rastreo
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=marker&map_ids=${mapId}&callback=googleMapsLoaded&loading=async`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=core&map_ids=${mapId}&callback=googleMapsLoaded&loading=async`;
     script.async = true;
     script.defer = true;
 
