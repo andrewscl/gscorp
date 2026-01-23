@@ -47,7 +47,15 @@ function loadGoogleMapsAPI(apiKey, mapId) {
     // El callback global será ejecutado cuando el script termine de cargarse
     window.googleMapsLoaded = () => {
       console.log('[googleMapsLoaded] Google Maps cargado exitosamente.');
-      resolve();
+
+      // Validar si google.maps y sus clases están disponibles
+      if (window.google && google.maps && google.maps.Map) {
+        console.log('[googleMapsLoaded] google.maps está completamente inicializado.');
+        resolve(); // Resolver la promesa si google.maps está listo
+      } else {
+        console.error('[googleMapsLoaded] google.maps no está completamente definido después de la carga.');
+        reject(new Error('Google Maps cargado pero subcomponentes como google.maps.Map no están disponibles.'));
+      }
     };
 
     // Rechaza la promesa si ocurre un error al cargar el script
@@ -69,8 +77,6 @@ function initMap() {
     google: window.google,
     maps: window.google?.maps,
     Map: window.google?.maps?.Map,
-    LatLng: window.google?.maps?.LatLng,
-    Marker: window.google?.maps?.Marker,
   });
 
   if (!google || !google.maps || !google.maps.Map) {
