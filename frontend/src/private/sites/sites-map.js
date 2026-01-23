@@ -2,7 +2,6 @@ import { fetchWithAuth } from '../../auth.js';
 
 let map, markers = [], sites = [];
 
-let googleMapsScriptLoading = false;
 let mapInitialized = false;
 
 // Cargar dinámicamente el script de Google Maps
@@ -15,9 +14,9 @@ function loadGoogleMapsAPI(apiKey, mapId) {
       return;
     }
 
-    // Prevenir múltiples cargas paralelas
-    if (googleMapsScriptLoading) {
-      console.warn('[loadGoogleMapsAPI] Carga de Google Maps ya está en proceso.');
+    // Evitar múltiple carga del script
+    if (document.getElementById('google-maps-script')) {
+      console.log('[loadGoogleMapsAPI] Script ya existe en el DOM.');
       const interval = setInterval(() => {
         if (window.google && google.maps) {
           clearInterval(interval);
@@ -27,19 +26,17 @@ function loadGoogleMapsAPI(apiKey, mapId) {
       return;
     }
 
-    googleMapsScriptLoading = true; // Establecer como en proceso
-
     // Crear el script
     const script = document.createElement('script');
     script.id = 'google-maps-script'; //Agregar un id unico para rastreo
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=marker&map_ids=${mapId}`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=marker&map_ids=${mapId}&callback=googleMapsLoaded`;
     script.async = true;
     script.defer = true;
     script.setAttribute('loading', 'async');
 
-    // Resuelve la promesa cuando el script se carga correctamente
-    script.onload = () => {
-      console.log('[loadGoogleMapsAPI] Google Maps API cargada correctamente.');
+    // El callback global será ejecutado cuando el script termine de cargarse
+    window.googleMapsLoaded = () => {
+      console.log('[googleMapsLoaded] Google Maps cargado exitosamente.');
       resolve();
     };
 
