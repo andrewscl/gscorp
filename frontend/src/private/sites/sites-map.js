@@ -64,6 +64,20 @@ function loadGoogleMapsAPI(apiKey, mapId) {
 // Inicializa el mapa
 function initMap() {
 
+  // Verificar si google.maps y sus dependencias están disponibles
+  console.log('[initMap] Verificando google.maps:', {
+    google: window.google,
+    maps: window.google?.maps,
+    Map: window.google?.maps?.Map,
+    LatLng: window.google?.maps?.LatLng,
+    Marker: window.google?.maps?.Marker,
+  });
+
+  if (!google || !google.maps || !google.maps.Map) {
+    console.error('[initMap] No se puede inicializar el mapa porque google.maps.Map no está definido.');
+    return;
+  }
+
   if(mapInitialized) {
     console.log('[initMap] Mapa ya inicializado, no se hace nada.');
     return;
@@ -80,7 +94,6 @@ function initMap() {
   map = new google.maps.Map(mapDiv, {
     center: { lat: -33.45, lng: -70.65 }, // Por defecto, Santiago
     zoom: 8,
-    mapTypeId: 'roadmap',
     mapId: googleMapsConfig.mapId,
     disableDefaultUI: true,
     renderer: 'canvas',
