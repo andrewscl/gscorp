@@ -72,7 +72,8 @@ function initMap() {
     zoom: 8,
     mapTypeId: 'roadmap',
     mapId: googleMapsConfig.mapId,
-    disableDefaultUI: true
+    disableDefaultUI: true,
+    renderer: 'canvas',
   });
 
   // Escucha el select para centrarse en sitios seleccionados
