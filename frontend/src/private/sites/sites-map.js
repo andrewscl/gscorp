@@ -207,8 +207,12 @@ function onSiteHover() {
 (function init() {
 
   console.log('Google Maps Config:', googleMapsConfig);
+  console.log('[init] IIFE iniciado');
 
-  console.log('[init] Verificando disponibilidad de Google Maps...');
+  globalThis.googleMapsLoaded = () => {
+    console.log('[googleMapsLoaded] Google Maps cargado con éxito.');
+    initMap(); //inicializa el mapa directamente cuando Google Maps esté listo
+  };
 
   function waitForGoogleMaps(retry = 0) {
     if (window.google && google.maps) {
