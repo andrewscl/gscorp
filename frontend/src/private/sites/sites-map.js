@@ -60,6 +60,7 @@ function initMap() {
   }
 
   const mapDiv = document.getElementById('site-map');
+  console.log('[initMap] Inicializando mapa en el contenedor:', mapDiv);
   if (!mapDiv) {
     console.error('[initMap] Contenedor del mapa no encontrado.');
     return;
