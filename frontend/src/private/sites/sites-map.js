@@ -240,6 +240,12 @@ function onSiteHover() {
 /* --- init --- */
 (function init() {
 
+  if (window.google && google.maps) {
+    console.log('[init] Google Maps ya estaba cargada anteriormente.');
+    initMap(); // Inicializar directamente si ya está listo
+    return;
+  }
+
   console.log('Google Maps Config:', googleMapsConfig);
   console.log('[init] IIFE iniciado');
 
