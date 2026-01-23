@@ -81,7 +81,7 @@ function initMap() {
   select?.addEventListener('change', onSiteSelected);
 
   // Obtén los sitios desde tu REST API
-  fetchSites();
+  //fetchSites();
 
   console.log('[initMap] Mapa inicializado exitosamente.');
   mapInitialized = true; // Marca como inicializado
