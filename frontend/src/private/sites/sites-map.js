@@ -257,9 +257,20 @@ function onSiteHover() {
 (function init() {
 
   if (window.google && google.maps) {
-    console.log('[init] Google Maps ya estaba cargada anteriormente.');
-    initMap(); // Inicializar directamente si ya está listo
-    return;
+
+    console.log('[init] Verificando google.maps:', {
+      Map: google.maps?.Map,
+      LatLng: google.maps?.LatLng,
+      MapTypeId: google.maps?.MapTypeId,
+    });
+
+    if (google.maps.Map && google.maps.LatLng) {
+      console.log('[init] Google Maps ya completamente cargados.');
+      initMap(); // Inicia el mapa directamente si todo está listo
+      return;
+    } else {
+      console.warn('[init] Google Maps incompleto, recargando...');
+    }
   }
 
   console.log('Google Maps Config:', googleMapsConfig);
