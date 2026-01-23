@@ -4,6 +4,39 @@ let map, markers = [], sites = [];
 
 let mapInitialized = false;
 
+// Cargar dinámicamente el script de Google Maps
+function loadGoogleMapsAPI(apiKey, mapId) {
+  return new Promise((resolve, reject) => {
+    // Verificar si ya se cargó el script
+    if (window.google && google.maps) {
+      console.log('[loadGoogleMapsAPI] Google Maps ya estaba disponible.');
+      resolve(); // Google Maps ya está listo
+      return;
+    }
+
+    // Crear el script
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=marker&map_ids=${mapId}`;
+    script.async = true;
+    script.defer = true;
+
+    // Resuelve la promesa cuando el script se carga correctamente
+    script.onload = () => {
+      console.log('[loadGoogleMapsAPI] Google Maps API cargada correctamente.');
+      resolve();
+    };
+
+    // Rechaza la promesa si ocurre un error al cargar el script
+    script.onerror = () => {
+      console.error('[loadGoogleMapsAPI] Error cargando Google Maps API.');
+      reject(new Error('No se pudo cargar Google Maps API'));
+    };
+
+    // Agregar el script al DOM
+    document.head.appendChild(script);
+  });
+}
+
 // Inicializa el mapa
 function initMap() {
 
@@ -209,24 +242,17 @@ function onSiteHover() {
   console.log('Google Maps Config:', googleMapsConfig);
   console.log('[init] IIFE iniciado');
 
-  globalThis.googleMapsLoaded = () => {
-    console.log('[googleMapsLoaded] Google Maps cargado con éxito.');
-    initMap(); //inicializa el mapa directamente cuando Google Maps esté listo
-  };
-
-  function waitForGoogleMaps(retry = 0) {
-    if (window.google && google.maps) {
-      console.log('[init] Google Maps disponible. Inicializando mapa.');
+  // Cargar Google Maps API y luego inicializar el mapa
+  loadGoogleMapsAPI(googleMapsConfig.apiKey, googleMapsConfig.mapId)
+    .then(() => {
+      console.log('[init] Google Maps API lista. Inicializando mapa.');
       initMap();
-    } else if (retry < 10) {
-      console.warn(`[init] Google Maps no disponible aún. Reintentando... (#${retry + 1})`);
-      setTimeout(() => waitForGoogleMaps(retry + 1), 500);
-    } else {
-      console.error('[init] Google Maps no cargó después de varios intentos.');
-      showMapError('Error al cargar Google Maps.');
-    }
-  }
+    })
+    .catch((error) => {
+      console.error('[init] Error durante la carga de Google Maps:', error);
+      showMapError('No se pudo cargar Google Maps. Intente más tarde.');
+  });
 
-  waitForGoogleMaps();
+
 
 })();
