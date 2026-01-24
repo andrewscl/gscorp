@@ -1,13 +1,15 @@
 import { fetchWithAuth } from '../../auth.js';
 
 let map, markers = [], sites = [];
-
+let initInitialized = false;
 let mapInitialized = false;
+
+
 
 // Cargar dinámicamente el script de Google Maps
 function loadGoogleMapsAPI(apiKey, mapId) {
   return new Promise((resolve, reject) => {
-    // Verificar si ya se cargó el script
+
     if (window.google && google.maps) {
       console.log('[loadGoogleMapsAPI] Google Maps ya estaba disponible.');
       resolve(); // Google Maps ya está listo
@@ -33,7 +35,7 @@ function loadGoogleMapsAPI(apiKey, mapId) {
     script.async = true;
     script.defer = true;
 
-    // Manejador para el evento "onload"
+    /*// Manejador para el evento "onload"
     script.onload = () => {
       if (window.google && google.maps) {
         console.log('[loadGoogleMapsAPI] Script cargado y Google Maps disponible.');
@@ -42,7 +44,7 @@ function loadGoogleMapsAPI(apiKey, mapId) {
         console.error('[loadGoogleMapsAPI] Script cargado, pero Google Maps no está disponible.');
         reject(new Error('Google Maps cargado pero no inicializado correctamente.'));
       }
-    };
+    };*/
 
     // El callback global será ejecutado cuando el script termine de cargarse
     window.googleMapsLoaded = () => {
@@ -285,25 +287,14 @@ function onSiteHover() {
 /* --- init --- */
 (function init() {
 
-  if (window.google && google.maps) {
+  console.log('[init] IIFE iniciado');
 
-    console.log('[init] Verificando google.maps:', {
-      Map: google.maps?.Map,
-      LatLng: google.maps?.LatLng,
-      MapTypeId: google.maps?.MapTypeId,
-    });
-
-    if (google.maps.Map && google.maps.LatLng) {
-      console.log('[init] Google Maps ya completamente cargados.');
-      initMap(); // Inicia el mapa directamente si todo está listo
-      return;
-    } else {
-      console.warn('[init] Google Maps incompleto, recargando...');
-    }
+  if(initInitialized) {
+    console.log('[init] Ya inicializado, evita doble inicialización.');
+    return;
   }
 
-  console.log('Google Maps Config:', googleMapsConfig);
-  console.log('[init] IIFE iniciado');
+  initInitialized = true;
 
   // Cargar Google Maps API y luego inicializar el mapa
   loadGoogleMapsAPI(googleMapsConfig.apiKey, googleMapsConfig.mapId)
@@ -315,7 +306,5 @@ function onSiteHover() {
       console.error('[init] Error durante la carga de Google Maps:', error);
       showMapError('No se pudo cargar Google Maps. Intente más tarde.');
   });
-
-
 
 })();
