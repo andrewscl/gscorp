@@ -1,10 +1,7 @@
 import { fetchWithAuth } from '../../auth.js';
 
 let map, markers = [], sites = [];
-let initInitialized = false;
 let mapInitialized = false;
-
-
 
 // Cargar dinámicamente el script de Google Maps
 function loadGoogleMapsAPI(apiKey, mapId) {
@@ -34,17 +31,6 @@ function loadGoogleMapsAPI(apiKey, mapId) {
     script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=core&map_ids=${mapId}&callback=googleMapsLoaded&loading=async`;
     script.async = true;
     script.defer = true;
-
-    /*// Manejador para el evento "onload"
-    script.onload = () => {
-      if (window.google && google.maps) {
-        console.log('[loadGoogleMapsAPI] Script cargado y Google Maps disponible.');
-        resolve(); // Resuelve la promesa si google.maps está listo
-      } else {
-        console.error('[loadGoogleMapsAPI] Script cargado, pero Google Maps no está disponible.');
-        reject(new Error('Google Maps cargado pero no inicializado correctamente.'));
-      }
-    };*/
 
     // El callback global será ejecutado cuando el script termine de cargarse
     window.googleMapsLoaded = () => {
@@ -294,7 +280,7 @@ function onSiteHover() {
     return;
   }
 
-  initInitialized = true;
+  let initInitialized = true;
 
   // Cargar Google Maps API y luego inicializar el mapa
   loadGoogleMapsAPI(googleMapsConfig.apiKey, googleMapsConfig.mapId)
