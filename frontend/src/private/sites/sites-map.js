@@ -89,9 +89,7 @@ function initMap() {
   map = new google.maps.Map(mapDiv, {
     center: { lat: -33.45, lng: -70.65 }, // Por defecto, Santiago
     zoom: 8,
-    mapId: googleMapsConfig.mapId,
-    disableDefaultUI: true,
-    renderer: 'canvas',
+    //mapId: googleMapsConfig.mapId,
   });
 
   // Escucha el select para centrarse en sitios seleccionados
