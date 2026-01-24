@@ -38,13 +38,6 @@ public class ShiftController {
         return "private/shifts/views/create-shift-view";
     }
 
-    @GetMapping("/create-bulk")
-    public String createShiftBulk(Model model) {
-        model.addAttribute("sites", 
-                        siteService.getAllSites());
-        return "private/shifts/views/create-shift-bulk-view";
-    }
-
     @GetMapping("/show/{id}")
     public String showShift(@PathVariable Long id, Model model) {
         model.addAttribute("sites", 
