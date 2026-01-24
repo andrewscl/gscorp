@@ -1,6 +1,16 @@
 import { fetchWithAuth } from './auth.js';
 
+    let currentRoute = null;
+
     export async function navigateTo(path, force = false) {
+
+    if (path === currentRoute && !force) {
+      console.warn(`[navigateTo] Ruta ya cargada: ${path}. Evitando carga duplicada.`);
+      return;
+    }
+
+    console.log(`[navigateTo] Actualizando currentRoute a: ${path}`);
+    currentRoute = path;
 
     const targetLayout = detectLayout(path);
     const currentLayout = document.body.getAttribute('data-layout');

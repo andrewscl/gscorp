@@ -2,7 +2,6 @@ import { fetchWithAuth } from '../../auth.js';
 
 let map, markers = [], sites = [];
 let mapInitialized = false;
-let initInitialized = false;
 
 // Cargar dinámicamente el script de Google Maps
 function loadGoogleMapsAPI(apiKey, mapId) {
@@ -274,12 +273,6 @@ function onSiteHover() {
 
 /* --- init --- */
 (function init() {
-
-  if (initInitialized) {
-    console.log('[init] Ya inicializado, no se hace nada.');
-    return;
-  }
-  initInitialized = true;
 
   console.log('[init] IIFE iniciado');
 
