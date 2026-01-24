@@ -2,9 +2,11 @@ import { fetchWithAuth } from '../../auth.js';
 
 let map, markers = [], sites = [];
 let mapInitialized = false;
+let initInitialized = false;
 
 // Cargar dinámicamente el script de Google Maps
 function loadGoogleMapsAPI(apiKey, mapId) {
+
   return new Promise((resolve, reject) => {
 
     if (window.google && google.maps) {
@@ -273,14 +275,13 @@ function onSiteHover() {
 /* --- init --- */
 (function init() {
 
-  console.log('[init] IIFE iniciado');
-
-  if(initInitialized) {
-    console.log('[init] Ya inicializado, evita doble inicialización.');
+  if (initInitialized) {
+    console.log('[init] Ya inicializado, no se hace nada.');
     return;
   }
+  initInitialized = true;
 
-  let initInitialized = true;
+  console.log('[init] IIFE iniciado');
 
   // Cargar Google Maps API y luego inicializar el mapa
   loadGoogleMapsAPI(googleMapsConfig.apiKey, googleMapsConfig.mapId)
