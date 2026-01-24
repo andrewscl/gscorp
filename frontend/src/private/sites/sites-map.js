@@ -1,203 +1,82 @@
 import { fetchWithAuth } from '../../auth.js';
 
-let map, markers = [], sites = [];
-let mapInitialized = false;
-
-// Cargar dinámicamente el script de Google Maps
-function loadGoogleMapsAPI(apiKey, mapId) {
-
-  return new Promise((resolve, reject) => {
-
-    if (window.google && google.maps) {
-      console.log('[loadGoogleMapsAPI] Google Maps ya estaba disponible.');
-      resolve(); // Google Maps ya está listo
-      return;
+// Función para cargar el script de Google Maps - Moderno y modular
+const loadGoogleMapsAPI = (() => {
+  let isScriptLoaded = false; // Bandera para evitar duplicados
+  let scriptPromise = null; // Promesa para gestionar la carga del script
+  
+  return (apiKey) => {
+    if (isScriptLoaded) {
+      return scriptPromise; // Si el script ya está cargado, devuelve la promesa
     }
 
-    // Evitar múltiple carga del script
-    if (document.getElementById('google-maps-script')) {
-      console.log('[loadGoogleMapsAPI] Script ya existe en el DOM.');
-      const interval = setInterval(() => {
-        if (window.google && google.maps) {
-          clearInterval(interval);
-          resolve();
-        }
-      }, 200);
-      return;
-    }
+    // Crear la promesa de carga del script
+    scriptPromise = new Promise((resolve, reject) => {
+      // Crear el script dinámicamente
+      const script = document.createElement('script');
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&v=weekly`;
+      script.async = true;
+      script.defer = true;
 
-    // Crear el script
-    const script = document.createElement('script');
-    script.id = 'google-maps-script'; //Agregar un id unico para rastreo
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=core&map_ids=${mapId}&callback=googleMapsLoaded&loading=async`;
-    script.async = true;
-    script.defer = true;
+      // Resolver cuando el script se cargue correctamente
+      script.onload = () => {
+        console.log('[Google Maps API] Script cargado correctamente.');
+        isScriptLoaded = true;
+        resolve();
+      };
 
-    // El callback global será ejecutado cuando el script termine de cargarse
-    window.googleMapsLoaded = () => {
-      console.log('[googleMapsLoaded] Google Maps cargado exitosamente.');
+      // Rechazar si ocurre algún error al cargar el script
+      script.onerror = (error) => {
+        console.error('[Google Maps API] Error al cargar el script:', error);
+        reject(new Error('Error al cargar Google Maps API'));
+      };
 
-      // Validar si google.maps y sus clases están disponibles
-      if (window.google && google.maps && google.maps.Map) {
-        console.log('[googleMapsLoaded] google.maps está completamente inicializado.');
-        resolve(); // Resolver la promesa si google.maps está listo
-      } else {
-        console.error('[googleMapsLoaded] google.maps no está completamente definido después de la carga.');
-        reject(new Error('Google Maps cargado pero subcomponentes como google.maps.Map no están disponibles.'));
-      }
-    };
+      // Adjuntar el script al <head>
+      document.head.appendChild(script);
+    });
 
-    // Rechaza la promesa si ocurre un error al cargar el script
-    script.onerror = () => {
-      console.error('[loadGoogleMapsAPI] Error cargando Google Maps API.');
-      reject(new Error('No se pudo cargar Google Maps API'));
-    };
+    return scriptPromise; // Devolver la promesa para su uso
+  };
+})();
 
-    // Agregar el script al DOM
-    document.head.appendChild(script);
-  });
-}
 
-// Inicializa el mapa
-function initMap() {
-
-  // Verificar si google.maps y sus dependencias están disponibles
-  console.log('[initMap] Verificando google.maps:', {
-    google: window.google,
-    maps: window.google?.maps,
-    Map: window.google?.maps?.Map,
-  });
-
-  if (!google || !google.maps || !google.maps.Map) {
-    console.error('[initMap] No se puede inicializar el mapa porque google.maps.Map no está definido.');
+// Función para inicializar el mapa
+const initMap = async () => {
+  const mapContainer = document.getElementById('site-map'); // Div contenedor del mapa
+  if (!mapContainer) {
+    console.warn('[initMap] Contenedor #site-map no encontrado en el DOM.');
     return;
   }
 
-  if(mapInitialized) {
-    console.log('[initMap] Mapa ya inicializado, no se hace nada.');
-    return;
+  try {
+    // Importar las bibliotecas necesarias usando el enfoque moderno de Google
+    const { Map } = await google.maps.importLibrary("maps");
+    const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+
+    // Crear e inicializar el mapa
+    const map = new Map(mapContainer, {
+      center: { lat: -33.4489, lng: -70.6693 }, // Coordenadas ejemplo (Santiago)
+      zoom: 12, // Nivel de zoom inicial
+      mapId: googleMapsConfig.mapId, // Personaliza con Map ID de Google Cloud
+      disableDefaultUI: true, // Opcional: Desactiva los controles predeterminados
+    });
+    console.log('[initMap] Mapa inicializado.');
+
+    // Crear un marcador avanzado como ejemplo
+    const content = document.createElement('div');
+    content.textContent = 'Este es un marcador avanzado';
+    new AdvancedMarkerElement({
+      map, // Adjuntar al mapa
+      position: { lat: -33.4489, lng: -70.6693 }, // Posición del marcador
+      content, // Contenido personalizado del marcador
+    });
+
+    console.log('[initMap] Marcador avanzado añadido al mapa.');
+  } catch (error) {
+    console.error('[initMap] Error al inicializar el mapa:', error);
   }
+};
 
-  const mapDiv = document.getElementById('site-map');
-  console.log('[initMap] Inicializando mapa en el contenedor:', mapDiv);
-  if (!mapDiv) {
-    console.error('[initMap] Contenedor del mapa no encontrado.');
-    return;
-  }
-
-  // Crea el mapa con un centro y zoom predeterminados
-  map = new google.maps.Map(mapDiv, {
-    center: { lat: -33.45, lng: -70.65 }, // Por defecto, Santiago
-    zoom: 8,
-    //mapId: googleMapsConfig.mapId,
-  });
-
-  // Escucha el select para centrarse en sitios seleccionados
-  const select = document.getElementById('site-select');
-  select?.addEventListener('change', onSiteSelected);
-
-  // Obtén los sitios desde tu REST API
-  //fetchSites();
-
-  console.log('[initMap] Mapa inicializado exitosamente.');
-  mapInitialized = true; // Marca como inicializado
-
-}
-
-
-// Muestra un error en pantalla
-function showMapError(message) {
-  const errorDiv = document.getElementById('site-map-error');
-  if (errorDiv) {
-    errorDiv.textContent = message;
-    errorDiv.style.display = "block";
-  }
-}
-
-// Función para limpiar el mensaje de error cuando ya no aplica
-function clearMapError() {
-  const errorDiv = document.getElementById('site-map-error');
-  if (errorDiv) errorDiv.style.display = "none";
-}
-
-// Agrega los sitios al mapa y llena el select
-function addSitesToMapAndSelect(siteData) {
-  markers.forEach(marker => marker.setMap(null)); // Limpia marcadores anteriores
-  markers = [];
-  sites = siteData; // Actualiza la lista global de sitios
-
-  const select = document.getElementById('site-select');
-  if (select) {
-    select.innerHTML = '<option value="">Seleccionar sitio</option>'; // Resetea el select
-  }
-
-  const bounds = new google.maps.LatLngBounds();
-  siteData.forEach(site => {
-    if (typeof site.lat === 'number' && typeof site.lon === 'number') {
-      const position = { lat: site.lat, lng: site.lon };
-
-      // Create content for the marker
-      const markerContent = document.createElement('div');
-      markerContent.innerHTML = `
-        <div style="background-color: white; border: 1px solid black; padding: 5px; border-radius: 3px;">
-          <strong>${site.name}</strong>
-        </div>
-      `;
-
-      // Crear un marcador avanzado
-      const marker = new google.maps.marker.AdvancedMarkerElement({
-        map,                     // Mapa al que se vincula el marcador
-        position: position,      // Posición del marcador
-        title: site.name,        // Título (texto de acceso rápido)
-        content: markerContent,  // Contenido HTML personalizado
-      });
-
-      // InfoWindow para mostrar información del sitio al hacer clic
-      const infoWindow = new google.maps.InfoWindow({
-        content: `<h4>${site.name}</h4><p>Dirección: ${site.address}</p><p>Zona horaria: ${site.timeZone}</p>`,
-      });
-
-      marker.addListener('click', () => infoWindow.open(map, marker));
-      markers.push(marker);
-
-      // Extender límites para encerrar todos los marcadores en el mapa
-      bounds.extend(position);
-
-      // Agregar una entrada a la etiqueta <select>
-      if (select) {
-        const option = document.createElement('option');
-        option.value = site.id;
-        option.textContent = site.name;
-        select.appendChild(option);
-      }
-    }
-  });
-
-  // Ajusta el mapa para mostrar todos los marcadores
-  if (siteData.length > 0) {
-    map.fitBounds(bounds);
-  } else {
-    // Centro predeterminado cuando no hay sitios válidos
-    map.setCenter({ lat: -33.45, lng: -70.65 });
-    map.setZoom(8);
-    showMapError('No hay sitios para mostrar.');
-  }
-
-  onSiteHover();
-}
-
-// Maneja el cambio en el select
-function onSiteSelected() {
-  const select = document.getElementById('site-select');
-  if (!select) return;
-
-  const siteId = select.value;
-  const foundSite = sites.find(site => String(site.id) === siteId); // Busca el objeto del sitio seleccionado
-  if (foundSite) {
-    map.setCenter({ lat: foundSite.lat, lng: foundSite.lon });
-    map.setZoom(15);
-  }
-}
 
 // Obtiene los sitios desde el servidor usando fetchWithAuth
 async function fetchSites() {
@@ -227,62 +106,23 @@ async function fetchSites() {
   }
 }
 
-function onSiteHover() {
-  const select = document.getElementById('site-select');
-  if (!select) return;
-
-  select.addEventListener('mouseover', (event) => {
-    const hoveredSiteId = event.target.value;
-    if (!hoveredSiteId) return;
-
-    const hoveredSite = sites.find(site => String(site.id) === hoveredSiteId);
-
-    if (hoveredSite) {
-      // Cambia el contenido de los marcadores al hacer hover
-      markers.forEach(marker => {
-        if (marker.title === hoveredSite.name) {
-          marker.content.innerHTML = `
-            <div style="background-color: #0000FF; color: white; border-radius: 8px; padding: 5px;">
-              <strong>${hoveredSite.name}</strong>
-            </div>
-          `;
-        } else {
-          marker.content.innerHTML = `
-            <div style="background-color: #FF0000; color: white; border-radius: 8px; padding: 5px;">
-              <strong>${marker.title}</strong>
-            </div>
-          `;
-        }
-      });
-    }
-  });
-
-  select.addEventListener('mouseleave', () => {
-    // Restaura los marcadores al salir del hover
-    markers.forEach(marker => {
-      marker.content.innerHTML = `
-        <div style="background-color: #FF0000; color: white; border-radius: 8px; padding: 5px;">
-          <strong>${marker.title}</strong>
-        </div>
-      `;
-    });
-  });
-}
 
 /* --- init --- */
-(function init() {
+(async function init() {
 
   console.log('[init] IIFE iniciado');
 
-  // Cargar Google Maps API y luego inicializar el mapa
-  loadGoogleMapsAPI(googleMapsConfig.apiKey, googleMapsConfig.mapId)
-    .then(() => {
-      console.log('[init] Google Maps API lista. Inicializando mapa.');
-      initMap();
-    })
-    .catch((error) => {
-      console.error('[init] Error durante la carga de Google Maps:', error);
-      showMapError('No se pudo cargar Google Maps. Intente más tarde.');
-  });
+  const apiKey = googleMapsConfig.apiKey;
+
+  try {
+    //Cargar y esperar Google Maps API
+    await loadGoogleMapsAPI(apiKey);
+
+    // Inicializar el mapa
+    initMap();
+
+  } catch (error) {
+    console.error('[site-map.js] Error al cargar la API de Google Maps:', error);
+  }
 
 })();

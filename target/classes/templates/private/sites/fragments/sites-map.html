@@ -1,23 +1,11 @@
 <section th:fragment="content">
 
   <div id="site-map-section">
-    <!-- Título del mapa -->
+
     <h3 th:text="#{site.map.title}">Mapa de Sitios</h3>
 
-    <!-- Contenedor del mapa -->
     <div id="site-map" style="width: 100%; height: 500px; border: 1px solid #ccc;"></div>
 
-    <!-- Acciones del mapa -->
-    <div id="site-map-actions">
-      <label for="site-select" th:text="#{site.map.select.label}">Seleccione un sitio:</label>
-      <select id="site-select" name="siteId">
-        <!-- Opción por defecto -->
-        <option value="" th:text="#{site.map.select.default}">Seleccionar sitio</option>
-      </select>
-    </div>
-
-    <!-- Elemento de error -->
-    <div id="site-map-error" style="display:none; color:red;" th:text="#{site.map.error}"></div>
   </div>
 
   <script type="module" src="/js/private/sites/sites-map.js"></script>
