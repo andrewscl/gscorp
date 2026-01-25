@@ -7,8 +7,7 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  height: calc(100vh - var(--topbar-height)); /* Altura completa menos el topbar */
-  margin-left: var(--sidebar-width); /* Deja espacio para el sidebar */
+  height: calc(100vh - var(--topbar-height));
 
   h3 {
     text-align: center;
