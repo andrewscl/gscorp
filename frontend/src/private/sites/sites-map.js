@@ -55,20 +55,26 @@ const initMap = async () => {
 
     // Crear e inicializar el mapa
     const map = new Map(mapContainer, {
-      center: { lat: -33.4489, lng: -70.6693 }, // Coordenadas ejemplo (Santiago)
+      center: { lat: -33.4489, lng: -70.6693 },
       zoom: 12, // Nivel de zoom inicial
       mapId: googleMapsConfig.mapId, // Personaliza con Map ID de Google Cloud
-      disableDefaultUI: true, // Opcional: Desactiva los controles predeterminados
+      disableDefaultUI: true, // Desactiva los controles predeterminados
     });
     console.log('[initMap] Mapa inicializado.');
 
-    // Crear un marcador avanzado como ejemplo
-    const content = document.createElement('div');
-    content.textContent = 'Este es un marcador avanzado';
-    new AdvancedMarkerElement({
-      map, // Adjuntar al mapa
+    // Crear las características y contenido del marcador avanzado
+    const markerContent = document.createElement('div');
+    markerContent.style.backgroundColor = '#fff';
+    markerContent.style.border = '1px solid grey';
+    markerContent.style.padding = '4px 8px';
+    markerContent.style.borderRadius = '8px';
+    markerContent.textContent = 'Marcador Avanzado Ejemplo';
+
+    // Crear el marcador avanzado
+    const advancedMarker = new AdvancedMarkerElement({
+      map: map, // asociar al mapa
       position: { lat: -33.4489, lng: -70.6693 }, // Posición del marcador
-      content, // Contenido personalizado del marcador
+      content: markerContent, // Contenido personalizado del marcador
     });
 
     console.log('[initMap] Marcador avanzado añadido al mapa.');
