@@ -51,7 +51,7 @@ const initMap = async () => {
   try {
     // Importar las bibliotecas necesarias usando el enfoque moderno de Google
     const { Map } = await google.maps.importLibrary("maps");
-    const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+    const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
 
     // Crear e inicializar el mapa
     const map = new Map(mapContainer, {
@@ -70,11 +70,33 @@ const initMap = async () => {
     markerContent.style.borderRadius = '8px';
     markerContent.textContent = 'Marcador Avanzado Ejemplo';
 
+    // Crear el estilo del pin
+    const pin = new PinElement({
+      scale : 1.5,
+      color: '#4285F4',
+    });
+
+    // Crear un contenedor para el pin y el contenido del tooltip
+    const markerContainer = document.createElement('div');
+    markerContainer.style.position = 'relative';
+    markerContainer.appendChild(pin.getElement()); // Añadir el pin al contenedor
+    markerContainer.appendChild(markerContent); // Añadir el contenido al contenedor
+
     // Crear el marcador avanzado
     const advancedMarker = new AdvancedMarkerElement({
       map: map, // asociar al mapa
       position: { lat: -33.4489, lng: -70.6693 }, // Posición del marcador
-      content: markerContent, // Contenido personalizado del marcador
+      content: markerContainer, // Contenido personalizado del marcador
+    });
+
+    // Mostrar el contenido del tooltip
+    pin.element.addEventListener('mouseenter', () => {
+      markerContent.style.display = 'block';
+    });
+
+    // Ocultar el contenido del tooltip
+    pin.element.addEventListener('mouseleave', () => {
+      markerContent.style.display = 'none';
     });
 
     console.log('[initMap] Marcador avanzado añadido al mapa.');
