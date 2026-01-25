@@ -1,13 +1,16 @@
 :root {
   --topbar-height: 54px;
   --sidebar-width: 240px;
+  --content-padding-updown: 1.2rem;
 }
 
 #site-map-section {
   display: flex;
   flex-direction: column;
   flex: 1;
-  height: calc(100vh - var(--topbar-height));
+  height: calc(100vh
+           - var(--topbar-height)
+           - var(--content-padding-updown)*2);
 
   h3 {
     text-align: center;
