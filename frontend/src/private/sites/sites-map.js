@@ -4,7 +4,7 @@ import { fetchWithAuth } from '../../auth.js';
 const loadGoogleMapsAPI = (() => {
   let isScriptLoaded = false; // Bandera para evitar duplicados
   let scriptPromise = null; // Promesa para gestionar la carga del script
-  
+
   return (apiKey) => {
     if (isScriptLoaded) {
       return scriptPromise; // Si el script ya está cargado, devuelve la promesa

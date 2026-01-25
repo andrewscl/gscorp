@@ -1,14 +1,15 @@
 @charset "UTF-8";
 :root {
-  --topbar-height: 54px; /* Altura del topbar */
-  --sidebar-width: 240px; /* Ancho del sidebar */
-  --actions-width: 200px; /* Ancho de las acciones flotantes */
+  --topbar-height: 54px;
+  --sidebar-width: 240px;
 }
 
 #site-map-section {
   display: flex;
   flex-direction: column;
   flex: 1;
+  height: calc(100vh - var(--topbar-height)); /* Altura completa menos el topbar */
+  margin-left: var(--sidebar-width); /* Deja espacio para el sidebar */
 }
 #site-map-section h3 {
   text-align: center;
