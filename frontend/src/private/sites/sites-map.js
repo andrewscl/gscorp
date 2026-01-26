@@ -108,6 +108,10 @@ async function addSitesToMapAndSelect(sites) {
     const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
 
   sites.forEach(site => {
+
+    // crear una instancia para LatLngBounds
+    const bounds = new google.maps.LatLngBounds();
+
     // Crear contenido personalizado para el tooltip
     const markerContent = document.createElement('div');
     markerContent.style.backgroundColor = '#fff';
@@ -153,8 +157,15 @@ async function addSitesToMapAndSelect(sites) {
       markerContent.style.display = 'none'; // Ocultar el tooltip
     });
 
+    // Agregar las coordenadas del sitio a bounds
+    bounds.extend(new google.maps.LatLng(site.lat, site.lon));
+
     console.log(`[addSitesToMapAndSelect] Marcador añadido para sitio: ${site.id}`);
   });
+
+  // Ajustar el mapa para mostrar todos los marcadores
+  window.mapInstance.fitBounds(bounds);
+
 }
 
 
