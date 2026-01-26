@@ -51,7 +51,6 @@ const initMap = async () => {
   try {
     // Importar las bibliotecas necesarias usando el enfoque moderno de Google
     const { Map } = await google.maps.importLibrary("maps");
-    const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
 
     // Crear e inicializar el mapa
     const map = new Map(mapContainer, {
@@ -102,7 +101,10 @@ async function fetchSites() {
 
 
 // Función para agregar sitios al mapa como marcadores
-function addSitesToMapAndSelect(sites) {
+async function addSitesToMapAndSelect(sites) {
+
+    const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
+
   sites.forEach(site => {
     // Crear contenido personalizado para el tooltip
     const markerContent = document.createElement('div');
