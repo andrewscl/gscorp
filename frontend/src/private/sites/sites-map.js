@@ -96,16 +96,22 @@ const initMap = async () => {
       map: map, // asociar al mapa
       position: { lat: -33.4489, lng: -70.6693 },
       pin: pin, // Posición del marcador
-      content: markerContainer, // Contenido personalizado del marcador
     });
 
+    // Acceder al nodo DOM del marcador avanzado para adjuntar al tooltip
+    const markerDOM = advancedMarker.element;
+
+    // Configurar position relative para el contenedor del marcador
+    markerDOM.style.position = 'relative';
+      markerDOM.appendChild(markerContent); //Adjuntar el tooltip al marcador
+
     // Mostrar el contenido del tooltip
-    advancedMarker.addEventListener('mouseenter', () => {
+    markerDOM.addEvewntListener('mouseover', () => {
       markerContent.style.display = 'block';
     });
 
     // Ocultar el contenido del tooltip
-    advancedMarker.addEventListener('mouseleave', () => {
+    markerDOM.addEventListener('mouseout', () => {
       markerContent.style.display = 'none';
     });
 
