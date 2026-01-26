@@ -79,7 +79,9 @@ const initMap = async () => {
     // Crear el estilo del pin
     const pin = new PinElement({
       scale : 1.5,
-      color: '#4285F4',
+      glyphColor: '#3176e3',
+      background:'#359dd1',
+      border: '#1d4d9b',
     });
 
     // Crear un contenedor para el pin y el contenido del tooltip
