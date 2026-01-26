@@ -94,7 +94,6 @@ const initMap = async () => {
     const advancedMarker = new AdvancedMarkerElement({
       map: map, // asociar al mapa
       position: { lat: -33.4489, lng: -70.6693 },
-      pin: pin, // Posición del marcador
       content: markerContainer, // Contenido del marcador
     });
 
