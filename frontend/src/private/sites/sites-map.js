@@ -62,52 +62,9 @@ const initMap = async () => {
     });
     console.log('[initMap] Mapa inicializado.');
 
-    // Crear las características y contenido del marcador avanzado
-    const markerContent = document.createElement('div');
-    markerContent.style.backgroundColor = '#fff';
-    markerContent.style.border = '1px solid grey';
-    markerContent.style.padding = '4px 8px';
-    markerContent.style.borderRadius = '8px';
-    markerContent.style.boxShadow = '0 2px 6px rgba(0,0,0,0.3)';
-    markerContent.style.position = 'absolute';
-    markerContent.style.top = '-40px'; //Posicionar el tooltip encima del pin.
-    markerContent.style.left = '50%';
-    markerContent.style.transform = 'translateX(-50%)';
-    markerContent.style.display = 'none'; // Oculto por defecto
-    markerContent.textContent = 'Marcador Avanzado Ejemplo';
+    // Obtener y añadir los sitios al mapa
+    await fetchSites();
 
-    // Crear el estilo del pin
-    const pin = new PinElement({
-      scale : 0.8,
-      glyphColor: '#3176e3',
-      background:'#359dd1',
-      borderColor: '#1d4d9b',
-    });
-
-    // Crear un contenedor para el pin y el contenido del tooltip
-    const markerContainer = document.createElement('div');
-    markerContainer.style.position = 'relative';
-    markerContainer.appendChild(pin.element); // Añadir el pin al contenedor
-    markerContainer.appendChild(markerContent); // Añadir el contenido al contenedor
-
-    // Crear el marcador avanzado
-    const advancedMarker = new AdvancedMarkerElement({
-      map: map, // asociar al mapa
-      position: { lat: -33.4489, lng: -70.6693 },
-      content: markerContainer, // Contenido del marcador
-    });
-
-    // Mostrar el contenido del tooltip
-    markerContainer.addEventListener('mouseover', () => {
-      markerContent.style.display = 'block';
-    });
-
-    // Ocultar el contenido del tooltip
-    markerContainer.addEventListener('mouseout', () => {
-      markerContent.style.display = 'none';
-    });
-
-    console.log('[initMap] Marcador avanzado añadido al mapa.');
   } catch (error) {
     console.error('[initMap] Error al inicializar el mapa:', error);
   }
@@ -129,6 +86,7 @@ async function fetchSites() {
 
     const siteData = await res.json();
     clearMapError();
+
     // Valida que es un arreglo y que los elementos tienen las propiedades necesarias
     if (!Array.isArray(siteData) || !siteData.every(site => site.id && site.lat && site.lon)) {
     showMapError('Datos de sitios inválidos.');
@@ -136,10 +94,64 @@ async function fetchSites() {
     }
 
     addSitesToMapAndSelect(siteData); // Llenar el mapa y las opciones del select
+    
   } catch (error) {
     console.error('Fallo al obtener sitios:', error);
     showMapError('Error al cargar sitios. Intente nuevamente.');
   }
+}
+
+
+// Función para agregar sitios al mapa como marcadores
+function addSitesToMapAndSelect(sites) {
+  sites.forEach(site => {
+    // Crear contenido personalizado para el tooltip
+    const markerContent = document.createElement('div');
+    markerContent.style.backgroundColor = '#fff';
+    markerContent.style.border = '1px solid grey';
+    markerContent.style.padding = '4px 8px';
+    markerContent.style.borderRadius = '8px';
+    markerContent.style.boxShadow = '0 2px 6px rgba(0,0,0,0.3)';
+    markerContent.style.position = 'absolute';
+    markerContent.style.top = '-40px'; // Encima del pin
+    markerContent.style.left = '50%';
+    markerContent.style.transform = 'translateX(-50%)';
+    markerContent.style.whiteSpace = 'nowrap';
+    markerContent.style.display = 'none'; // Ocultar inicialmente
+    markerContent.textContent = `Sitio: ${site.name || 'Sin Nombre'}`; // Texto dinámico
+
+    // Crear estilo del marcador (PinElement)
+    const pin = new PinElement({
+      scale: 0.8,
+      glyphColor: '#3176e3',
+      background: '#359dd1',
+      borderColor: '#1d4d9b',
+    });
+
+    // Crear contenedor para el marcador y el contenido dinámico
+    const markerContainer = document.createElement('div');
+    markerContainer.style.position = 'relative';
+    markerContainer.appendChild(pin.element); // Añadir el PinElement
+    markerContainer.appendChild(markerContent); // Añadir el tooltip
+
+    // Crear el marcador avanzado
+    const advancedMarker = new AdvancedMarkerElement({
+      map: window.mapInstance, // Asociar al mapa inicializado
+      position: { lat: site.lat, lng: site.lon }, // Posición del sitio
+      content: markerContainer, // Contenedor para el pin y el contenido
+    });
+
+    // Hover para mostrar el tooltip
+    markerContainer.addEventListener('mouseenter', () => {
+      markerContent.style.display = 'block'; // Mostrar el tooltip
+    });
+
+    markerContainer.addEventListener('mouseleave', () => {
+      markerContent.style.display = 'none'; // Ocultar el tooltip
+    });
+
+    console.log(`[addSitesToMapAndSelect] Marcador añadido para sitio: ${site.id}`);
+  });
 }
 
 
