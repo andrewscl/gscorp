@@ -87,7 +87,6 @@ const initMap = async () => {
     // Crear un contenedor para el pin y el contenido del tooltip
     const markerContainer = document.createElement('div');
     markerContainer.style.position = 'relative';
-
     markerContainer.appendChild(pin.element); // Añadir el pin al contenedor
     markerContainer.appendChild(markerContent); // Añadir el contenido al contenedor
 
