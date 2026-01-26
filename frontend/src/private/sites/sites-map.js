@@ -96,7 +96,7 @@ const initMap = async () => {
       map: map, // asociar al mapa
       position: { lat: -33.4489, lng: -70.6693 },
       pin: pin, // Posición del marcador
-      content: markerContainer, // Contenido personalizado del marcador
+      content: markerContent, // Contenido personalizado del marcador
     });
 
     // Mostrar el contenido del tooltip
