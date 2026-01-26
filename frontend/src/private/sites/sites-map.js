@@ -87,8 +87,6 @@ const initMap = async () => {
     // Crear un contenedor para el pin y el contenido del tooltip
     const markerContainer = document.createElement('div');
     markerContainer.style.position = 'relative';
-    markerContainer.style.width = '44px';
-    markerContainer.style.height = '44px';
 
     markerContainer.appendChild(pin.element); // Añadir el pin al contenedor
     markerContainer.appendChild(markerContent); // Añadir el contenido al contenedor
@@ -102,12 +100,12 @@ const initMap = async () => {
     });
 
     // Mostrar el contenido del tooltip
-    markerContainer.addEventListener('mouseenter', () => {
+    advancedMarker.addEventListener('mouseenter', () => {
       markerContent.style.display = 'block';
     });
 
     // Ocultar el contenido del tooltip
-    markerContainer.addEventListener('mouseleave', () => {
+    advancedMarker.addEventListener('mouseleave', () => {
       markerContent.style.display = 'none';
     });
 
