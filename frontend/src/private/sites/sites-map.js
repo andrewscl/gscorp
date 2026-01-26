@@ -80,24 +80,23 @@ async function fetchSites() {
     });
 
     if (!res.ok) {
-      showMapError('Error al cargar sitios. Intente nuevamente.');
+      console.log('Error al cargar sitios. Intente nuevamente.');
       return;
     }
 
     const siteData = await res.json();
-    clearMapError();
 
     // Valida que es un arreglo y que los elementos tienen las propiedades necesarias
     if (!Array.isArray(siteData) || !siteData.every(site => site.id && site.lat && site.lon)) {
-    showMapError('Datos de sitios inválidos.');
+    console.log('Datos de sitios inválidos.');
     return;
     }
 
     addSitesToMapAndSelect(siteData); // Llenar el mapa y las opciones del select
-    
+
   } catch (error) {
     console.error('Fallo al obtener sitios:', error);
-    showMapError('Error al cargar sitios. Intente nuevamente.');
+    console.log('Error al cargar sitios. Intente nuevamente.');
   }
 }
 
