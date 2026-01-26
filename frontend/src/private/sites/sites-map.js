@@ -81,7 +81,7 @@ const initMap = async () => {
       scale : 1.5,
       glyphColor: '#3176e3',
       background:'#359dd1',
-      border: '#1d4d9b',
+      borderColor: '#1d4d9b',
     });
 
     // Crear un contenedor para el pin y el contenido del tooltip
