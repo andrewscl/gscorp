@@ -61,6 +61,8 @@ const initMap = async () => {
     });
     console.log('[initMap] Mapa inicializado.');
 
+    window.mapInstance = map; // Guardar la instancia del mapa globalmente
+
     // Obtener y añadir los sitios al mapa
     await fetchSites();
 
