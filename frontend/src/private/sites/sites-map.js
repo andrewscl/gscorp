@@ -78,7 +78,7 @@ const initMap = async () => {
 
     // Crear el estilo del pin
     const pin = new PinElement({
-      scale : 1.5,
+      scale : 1,
       glyphColor: '#3176e3',
       background:'#359dd1',
       borderColor: '#1d4d9b',
