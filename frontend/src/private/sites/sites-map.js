@@ -68,6 +68,12 @@ const initMap = async () => {
     markerContent.style.border = '1px solid grey';
     markerContent.style.padding = '4px 8px';
     markerContent.style.borderRadius = '8px';
+    markerContent.style.boxShadow = '0 2px 6px rgba(0,0,0,0.3)';
+    markerContent.style.position = 'absolute';
+    markerContent.style.top = '-40px'; //Posicionar el tooltip encima del pin.
+    markerContent.style.left = '50%';
+    markerContent.style.transform = 'translateX(-50%)';
+    markerContent.style.display = 'none'; // Oculto por defecto
     markerContent.textContent = 'Marcador Avanzado Ejemplo';
 
     // Crear el estilo del pin
@@ -79,7 +85,10 @@ const initMap = async () => {
     // Crear un contenedor para el pin y el contenido del tooltip
     const markerContainer = document.createElement('div');
     markerContainer.style.position = 'relative';
-    markerContainer.appendChild(pin.getElement()); // Añadir el pin al contenedor
+    markerContainer.style.width = '44px';
+    markerContainer.style.height = '44px';
+
+    markerContainer.appendChild(pin.element); // Añadir el pin al contenedor
     markerContainer.appendChild(markerContent); // Añadir el contenido al contenedor
 
     // Crear el marcador avanzado
@@ -90,12 +99,12 @@ const initMap = async () => {
     });
 
     // Mostrar el contenido del tooltip
-    pin.element.addEventListener('mouseenter', () => {
+    markerContainer.addEventListener('mouseenter', () => {
       markerContent.style.display = 'block';
     });
 
     // Ocultar el contenido del tooltip
-    pin.element.addEventListener('mouseleave', () => {
+    markerContainer.addEventListener('mouseleave', () => {
       markerContent.style.display = 'none';
     });
 
