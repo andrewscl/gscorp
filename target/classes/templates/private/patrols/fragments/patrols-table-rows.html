@@ -1,0 +1,27 @@
+<tbody th:fragment="rows">
+
+    <tr th:each="p : ${patrols}" th:data-id="${p.id}">
+        <td th:text="${p.id}"></td>
+        <td th:text="${p.name}"></td>
+        <td th:text="${p.siteName != null ? p.siteName : '—'}"></td>
+        <td th:text="${p.dayFrom != null ? p.dayFrom + ' - ' + p.dayTo : '—'}"></td>
+        <td th:text="${p.startTime != null ? #temporals.format(p.startTime, 'HH:mm') : '—'}"></td>
+        <td class="actions">
+            <button type="button" class="btn-link"
+                th:attr="data-path=@{/private/patrols/show/{id}(id=${p.id})}">
+            Ver
+            </button>
+
+            <button type="button" class="btn-link"
+                th:attr="data-path=@{/private/patrols/edit/{id}(id=${p.id})}"
+                th:if="${#authorization.expression('hasRole(''ANALYST'')')}">
+            Editar
+            </button>
+        </td>
+    </tr>
+
+    <tr th:if="${#lists.isEmpty(patrols)}">
+          <td colspan="7" class="empty">No se encontraron registros para el rango seleccionado.</td>
+    </tr>
+
+</tbody>

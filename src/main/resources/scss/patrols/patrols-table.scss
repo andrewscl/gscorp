@@ -1,0 +1,194 @@
+@Use "sass:color";
+
+:root {
+  --topbar-height: 54px;                /* same as layout topbar height */
+  --sidebar-width: 240px;               /* same as layout sidebar width */
+  --content-horizontal-padding: 2.4rem; /* match .content horizontal padding in layout */
+  --site-visit-header-height: 0;
+}
+
+/* Reset */
+* { box-sizing: border-box; }
+
+/* SCSS tokens */
+$font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+$base-font-size: 14px;
+$radius: 10px;
+
+$btn-blue: #2563eb;
+$btn-blue-dark: darken($btn-blue, 8%);
+$color-card-bg: #ffffff;
+$color-primary: #162032;
+$color-muted: #6b7280;
+$color-border: #e7eef9;
+
+$shadow-sm: 0 6px 18px rgba(15, 23, 42, 0.04);
+$shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
+
+
+/* Fixed header and nested internals for the shift-requests fragment */
+.patrols-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  color: $color-primary;
+
+  position: fixed;
+  top: calc(var(--topbar-height) + 1rem);
+  left: calc(var(--sidebar-width) + var(--content-horizontal-padding));
+  right: var(--content-horizontal-padding);
+  z-index: 1150;
+  border-radius: 10px;
+  border: 1px solid $color-border;
+  box-shadow: 0 8px 20px rgba(15,23,42,0.04);
+  padding: 0.6rem;
+  box-sizing: border-box;
+  overflow: visible;
+  max-width: calc(100vw - var(--sidebar-width) - (var(--content-horizontal-padding) * 2));
+
+  /* title row: left = icon + title, right = count badge */
+  .title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    background: transparent;
+
+    .title-left {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+
+      .icon-table {
+        flex: 0 0 auto;
+        width: 24px;
+        height: 24px;
+      }
+
+      .title-text {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: $color-primary;
+        line-height: 1;
+      }
+    }
+
+    .patrols-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 48px;
+      padding: 0.25rem 0.6rem;
+      background: #eef2ff;
+      color: $btn-blue;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      box-shadow: 0 1px 0 rgba(15,23,42,0.03);
+      margin-left: auto;
+    }
+  }
+
+  /* optional header meta area */
+  .header-meta {
+    margin-top: 0.35rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+    color: $color-muted;
+
+    p, span {
+      margin: 0;
+      font-size: 0.8rem;
+      line-height: 1.2;
+      color: $color-muted;
+    }
+
+    &__dates { font-size: 0.8rem; color: $color-muted; margin: 0; }
+    &__summary { font-size: 0.85rem; font-weight: 500; color: $color-primary; margin: 0; }
+  }
+
+  /* filters toolbar */
+  .filters-actions-row {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    padding: 0.5rem 0.5rem;
+    background: $color-card-bg;
+    border-radius: 8px;
+    border: 1px solid $color-border;
+    box-shadow: $shadow-sm;
+
+    .filter-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      font-size: 0.85rem;
+      color: $color-muted;
+      min-width: 10ch;
+
+      .filter-label { font-weight: 500; color: $color-muted; }
+
+      .filter-input {
+        appearance: none;
+        border: 1px solid lighten($color-border, 2%);
+        padding: 0.45rem 0.6rem;
+        border-radius: 8px;
+        background: #fff;
+        font-size: $base-font-size;
+        color: $color-primary;
+        transition: border-color .12s ease, box-shadow .12s ease;
+
+        &:focus {
+          outline: none;
+          border-color: $btn-blue;
+          box-shadow: 0 0 0 6px rgba($btn-blue, 0.06);
+        }
+      }
+    }
+
+    .actions-row{
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        .btn {
+        transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease,
+                    color 120ms ease, border-color 120ms ease;
+        will-change: transform, box-shadow;
+
+        &.btn-primary {
+            background: linear-gradient(180deg, $btn-blue, color.adjust($btn-blue, $lightness: -8%));
+            color: #fff;
+            border: none;
+            padding: 0.45rem 0.75rem;
+            border-radius: 10px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            box-shadow: 0 6px 12px rgba(37, 99, 235, 0.12);
+        }
+
+        &.btn-secondary {
+            background: transparent;
+            border: 1px solid $color-border;
+            color: $btn-blue;
+            padding: 0.35rem 0.6rem;
+            border-radius: 10px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        }
+
+    }
+
+  }
+
+}
