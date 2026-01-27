@@ -29,9 +29,7 @@ import lombok.Setter;
 @Entity
 @Table (name="patrols", indexes = {
     @Index(name = "ix_patrols_name", columnList = "name"),
-    @Index(name = "ix_patrols_periodicity", columnList = "periodicity"),
     @Index(name = "ix_patrols_site_id", columnList = "site_id")
-
     })
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class Patrol {
