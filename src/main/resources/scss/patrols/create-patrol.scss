@@ -16,10 +16,11 @@
     }
 
     .patrol-form-header {
-        background-color: #f8f9fa;
+        background-color: #ffffff;
         border-top-left-radius: 12px;
         border-top-right-radius: 12px;
-        padding: 20px;
+        border-bottom: 1px solid #e9ecef;
+        padding: 10px;
         letter-spacing: 1px;
         text-align: center;
         position: relative;
@@ -38,8 +39,96 @@
     }
 
     .patrol-form-body{
+        display: grid; //diseño oredenado y adaptable
+        gap: 15px; //espaciado entre filas
+        background: #ffffff;
+        padding: 25px;
 
+        .form-group{
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            
+            label {
+                @include roboto-font(0.875rem, 500);
+                color: $cool-gray-700;
+            }
 
+            input,
+            select,
+            textarea {
+                padding: 10px;
+                font-size: 1rem;
+                border: 1px solid #ced4da;
+                border-radius: 8px;
+                @include roboto-font(0.875rem, 500);
+                color: $cool-gray-800;
+                transition: border-color 0.2s, box-shadow 0.2s;
+
+                &::placeholder {
+                    color: #adb5bd;
+                }
+
+                &:focus {
+                    border-color: #4e54c8;
+                    box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
+                    outline: none;
+                }
+            }
+
+            textarea {
+                resize: vertical;
+                @include roboto-font(1rem, 400);
+                color: $cool-gray-800;
+                min-height: 100px;
+            }
+        }
+
+        .input-with-icon {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+
+            .input-icon-wrap {
+                position: relative;
+                display: flex;
+                align-items: center;
+                
+                input{
+                    flex: 1;
+                }
+
+                .icon-btn {
+                    position: absolute;
+                    right: 8px;
+                    background: transparent;
+                    border: none;
+                    cursor: pointer;
+
+                    svg {
+                        width: 20px;
+                        height: 20px;
+                        fill: $cool-gray-500;
+                        transition: color 0.2s ease;
+
+                        &:hover {
+                            fill: $accent-blue;
+                        }
+                    }
+                } 
+            }
+        }
+
+        .day-range {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+
+            .form-group {
+                flex: none;
+            }
+        }
+        
 
     }
 

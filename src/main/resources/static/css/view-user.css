@@ -204,4 +204,9 @@ p {
     grid-template-columns: 1fr;
     row-gap: 0.25rem;
   }
+}/*# sourceMappingURL=view-user.css.map */-width: 640px) {
+  .detail-section > p {
+    grid-template-columns: 1fr;
+    row-gap: 0.25rem;
+  }
 }/*# sourceMappingURL=view-user.css.map */

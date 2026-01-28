@@ -95,10 +95,11 @@ p {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 .hs-form .patrol-form-header {
-  background-color: #f8f9fa;
+  background-color: #ffffff;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
-  padding: 20px;
+  border-bottom: 1px solid #e9ecef;
+  padding: 10px;
   letter-spacing: 1px;
   text-align: center;
   position: relative;
@@ -113,6 +114,96 @@ p {
   background: linear-gradient(90deg, #4e54c8, #8f94fb);
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
+}
+.hs-form .patrol-form-body {
+  display: grid;
+  gap: 15px;
+  background: #ffffff;
+  padding: 25px;
+}
+.hs-form .patrol-form-body .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.hs-form .patrol-form-body .form-group label {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #374151;
+}
+.hs-form .patrol-form-body .form-group input,
+.hs-form .patrol-form-body .form-group select,
+.hs-form .patrol-form-body .form-group textarea {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #1f2937;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.hs-form .patrol-form-body .form-group input::placeholder,
+.hs-form .patrol-form-body .form-group select::placeholder,
+.hs-form .patrol-form-body .form-group textarea::placeholder {
+  color: #adb5bd;
+}
+.hs-form .patrol-form-body .form-group input:focus,
+.hs-form .patrol-form-body .form-group select:focus,
+.hs-form .patrol-form-body .form-group textarea:focus {
+  border-color: #4e54c8;
+  box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
+  outline: none;
+}
+.hs-form .patrol-form-body .form-group textarea {
+  resize: vertical;
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #1f2937;
+  min-height: 100px;
+}
+.hs-form .patrol-form-body .input-with-icon {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.hs-form .patrol-form-body .input-with-icon .input-icon-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.hs-form .patrol-form-body .input-with-icon .input-icon-wrap input {
+  flex: 1;
+}
+.hs-form .patrol-form-body .input-with-icon .input-icon-wrap .icon-btn {
+  position: absolute;
+  right: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+.hs-form .patrol-form-body .input-with-icon .input-icon-wrap .icon-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: #6b7280;
+  transition: color 0.2s ease;
+}
+.hs-form .patrol-form-body .input-with-icon .input-icon-wrap .icon-btn svg:hover {
+  fill: #3b82f6;
+}
+.hs-form .patrol-form-body .day-range {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.hs-form .patrol-form-body .day-range .form-group {
+  flex: none;
 }
 .hs-form .patrol-form-footer {
   display: flex;
