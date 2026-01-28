@@ -2,7 +2,7 @@
   --topbar-height: 54px; /* same as layout topbar height */
   --sidebar-width: 240px; /* same as layout sidebar width */
   --content-horizontal-padding: 2.4rem; /* match .content horizontal padding in layout */
-  --patrol-header-height: 0;
+  --patrols-header-height: 0;
 }
 
 /* Reset */
@@ -179,7 +179,7 @@
   box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
   padding: 0 0.6rem 0.6rem 0.6rem;
   box-sizing: border-box;
-  top: calc(var(--site-visit-header-height) + var(--topbar-height) + 1.75rem);
+  top: calc(var(--patrols-header-height) + var(--topbar-height) + 1.75rem);
   bottom: 1rem;
   left: calc(var(--sidebar-width) + var(--content-horizontal-padding));
   right: var(--content-horizontal-padding);
