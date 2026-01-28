@@ -22,8 +22,8 @@ public record PatrolDto (
             p.getName(),
             p.getDescription(),
             p.getSiteName(),
-            p.getDayFrom(),
-            p.getDayTo(),
+            DayOfWeek.fromDayNumber(p.getDayFrom()),
+            DayOfWeek.fromDayNumber(p.getDayTo()),
             p.getStartTime()
         );
 
