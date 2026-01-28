@@ -1,1 +1,1 @@
-
+(function(){const r=".patrols-header",d=document.documentElement;let e=null,t=null;function n(){const i=document.querySelector(r);if(!i)return;const a=i.offsetHeight;d.style.setProperty("--patrols-header-height",`${a}px`)}function o(){e&&cancelAnimationFrame(e),e=requestAnimationFrame(()=>{t&&clearTimeout(t),t=setTimeout(()=>{n()},80)})}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",()=>{n(),window.addEventListener("resize",o)}):(n(),window.addEventListener("resize",o))})();
