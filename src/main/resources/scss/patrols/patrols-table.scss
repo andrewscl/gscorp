@@ -171,6 +171,17 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
             align-items: center;
             gap: 0.4rem;
             box-shadow: 0 6px 12px rgba(37, 99, 235, 0.12);
+
+            &:hover {
+              transform: translateY(-2px);
+              box-shadow: 0 10px 30px rgba($btn-blue, 0.12);
+              filter: brightness(1.03);
+            }
+            &:active { transform: translateY(0); }
+            &:focus {
+              outline: none;
+              box-shadow: 0 0 0 6px rgba($btn-blue, 0.10);
+            }
         }
 
         &.btn-secondary {
@@ -183,6 +194,17 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
             display: inline-flex;
             align-items: center;
             gap: 0.4rem;
+
+            &:hover {
+              background: rgba($btn-blue, 0.04);
+              border-color: rgba($btn-blue, 0.12);
+              color: $btn-blue-dark;
+            }
+            &:focus {
+              outline: none;
+              box-shadow: 0 0 0 6px rgba($btn-blue, 0.06);
+            }
+
         }
 
         }
