@@ -44,10 +44,10 @@ public class Patrol {
     @Column(nullable=false, length=160)
     private String description;
 
-    @Column(name = "day_from", nullable = false, length = 12)
+    @Column(name = "day_from", nullable = false, length = 1)
     private DayOfWeek dayFrom;
 
-    @Column(name = "day_to", nullable = false, length = 12)
+    @Column(name = "day_to", nullable = false, length = 1)
     private DayOfWeek dayTo;
 
     @Column(nullable=true)

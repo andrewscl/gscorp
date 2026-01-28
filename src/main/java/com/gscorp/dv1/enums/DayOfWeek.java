@@ -29,7 +29,7 @@ public enum DayOfWeek {
         return this.name().toLowerCase();
     }
 
-    public static DayOfWeek fromDayOfWeek(int dayNumber) {
+    public static DayOfWeek fromDayNumber(int dayNumber) {
         for (DayOfWeek day : DayOfWeek.values()) {
             if (day.getDayNumber() == dayNumber) {
                 return day;
