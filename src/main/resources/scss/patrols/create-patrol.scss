@@ -15,9 +15,63 @@
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
 
-    .create-patrol-header {
+    .patrol-form-header {
+        background: linear-gradient(135deg, #4e54c8, #8f94fb);
+        color: #ffffff;
+        padding: 20px;
+    }
+
+    .patrol-form-body{
+
+
+
+    }
+
+    .patrol-form-footer {
         display: flex;
-        
+        justify-content: flex-end;
+        gap: 15px;
+        padding: 15px;
+        background: #f8f9fa;
+        border-top: 1px solid #e9ecef;
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
+
+        .btn {
+            padding: 10px 18px;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        &.btn-primary {
+            background: #4e54c8;
+            color: #ffffff;
+            &:hover {
+                background: #3d4188;
+                transform: translateY(-2px);
+            }
+            &:active {
+                background: #2c2e66;
+                transform: translateY(1px);
+            }
+        }
+
+        &.btn-secondary {
+            background: #e9ecef; // Fondo más discreto para cancelar
+            color: #495057; // Gris oscuro para texto
+            &:hover {
+                background: #d6d8db; // Fondo oscurecido en hover
+                transform: translateY(-2px);
+            }
+            &:active {
+                background: #babec2; // Más oscuro aún al hacer clic
+                transform: translateY(1px);
+            }
+        }
 
     }
 
