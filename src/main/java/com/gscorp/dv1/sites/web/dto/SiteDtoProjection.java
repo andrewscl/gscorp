@@ -10,7 +10,7 @@ public record SiteDtoProjection (
     Double lon,
     String timeZone
 ){
-    public static SiteDtoProjection fromEntity(SiteProjection site){
+    public static SiteDtoProjection fromProjection(SiteProjection site){
 
         if(site == null) return null;
 

@@ -19,6 +19,7 @@ import com.gscorp.dv1.sites.web.dto.SiteDto;
 import com.gscorp.dv1.sites.web.dto.SiteDtoProjection;
 import com.gscorp.dv1.sites.web.dto.SiteSelectDto;
 import com.gscorp.dv1.sites.web.dto.UpdateLatLon;
+import com.gscorp.dv1.users.application.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,7 @@ public class SiteServiceImpl implements SiteService{
 
     private final SiteRepository siteRepository;
     private final ClientService clientService;
+    private final UserService userService;
 
     @Override
     @Transactional
@@ -249,11 +251,32 @@ public class SiteServiceImpl implements SiteService{
 
         // Mapea cada SiteProjection a SiteDtoProjection usando el método fromEntity
         List<SiteDtoProjection> dtolist = siteProjections.stream()
-            .map(SiteDtoProjection::fromEntity) // Convierte cada proyección usando el método
+            .map(SiteDtoProjection::fromProjection) // Convierte cada proyección usando el método
             .toList(); // Convierte el stream en una lista
         
         return dtolist;
 
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<SiteDtoProjection> findSiteProjectionsByUserId(Long userId) {
+
+        List<Long> clientIds = userService.getClientIdsForUser(userId);
+        if (clientIds == null || clientIds.isEmpty()) {
+            throw new IllegalArgumentException(
+                "User with ID " + userId + " is not associated with any clients."
+            );
+        }
+
+        List<SiteProjection> siteProjections = siteRepository.findSiteProjectionsByClientIds(clientIds);
+
+        List<SiteDtoProjection> dtolist = siteProjections.stream()
+            .map(SiteDtoProjection::fromProjection)
+            .toList();
+
+        return dtolist;
     }
 
 

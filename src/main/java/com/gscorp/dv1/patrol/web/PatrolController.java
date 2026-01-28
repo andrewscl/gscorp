@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.gscorp.dv1.enums.DayOfWeek;
 import com.gscorp.dv1.patrol.application.PatrolService;
 import com.gscorp.dv1.patrol.web.dto.PatrolDto;
+import com.gscorp.dv1.sites.application.SiteService;
+import com.gscorp.dv1.sites.web.dto.SiteDtoProjection;
 import com.gscorp.dv1.users.application.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ public class PatrolController {
 
     private final UserService userService;
     private final PatrolService patrolService;
+    private final SiteService siteService;
     
     @GetMapping("/table-view")
     public String getPatrolsTableView(
@@ -46,8 +49,19 @@ public class PatrolController {
     }
 
     @GetMapping("/create")
-    public String getCreatePatrolForm (Model model) {
+    public String getCreatePatrolForm (
+                    Model model,
+                    Authentication authentication) {
+
+        Long userId = userService.getUserIdFromAuthentication(authentication);
+        if(userId == null) {
+            return "redirect:/login";
+        }
+
+        List<SiteDtoProjection> sites = siteService.findSiteProjectionsByUserId(userId);
+
         model.addAttribute("DayOfWeek", DayOfWeek.values());
+        model.addAttribute("siteList", sites);
         return "private/patrols/views/create-patrol-view";
     }
 
