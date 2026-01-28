@@ -2,6 +2,7 @@
 @use 'mixins' as * ;
 @use 'palette' as * ;
 
+
 // Estilos generales de tipografía
 body {
   @include roboto-font($base-font-size, 400);
