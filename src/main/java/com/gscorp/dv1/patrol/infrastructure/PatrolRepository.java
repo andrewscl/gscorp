@@ -19,11 +19,12 @@ public interface PatrolRepository extends JpaRepository<Patrol, Long>{
                 p.dayFrom       AS dayFrom,
                 p.dayTo         AS dayTo,
                 p.startTime     AS startTime
-            FROM patrol p
+            FROM Patrol p
             JOIN p.site s
             JOIN s.project pr
             WHERE pr.client.id IN :clientIds
     """)
-    List<PatrolProjection> findByClientIdsPatrolProjections(@Param("clientIds") List<Long> clientIds);
+    List<PatrolProjection> findByClientIdsPatrolProjections(
+        @Param("clientIds") List<Long> clientIds);
 
 }
