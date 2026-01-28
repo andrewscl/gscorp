@@ -34,7 +34,7 @@ public class PatrolServiceImpl implements PatrolService {
         }
 
         List<PatrolProjection> patrolProjections =
-                                    patrolRepository.findAllPatrolProjections(clientIds);
+                                    patrolRepository.findByClientIdsPatrolProjections(clientIds);
         if(patrolProjections == null || patrolProjections.isEmpty()) {
             log.info("No patrols found for user ID: {}", userId);
             return Collections.emptyList();

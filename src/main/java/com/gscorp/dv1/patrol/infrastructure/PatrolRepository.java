@@ -24,6 +24,6 @@ public interface PatrolRepository extends JpaRepository<Patrol, Long>{
             JOIN s.project pr
             WHERE pr.client.id IN :clientIds
     """)
-    List<PatrolProjection> findAllPatrolProjections(@Param("clientIds") List<Long> clientIds);
+    List<PatrolProjection> findByClientIdsPatrolProjections(@Param("clientIds") List<Long> clientIds);
 
 }
