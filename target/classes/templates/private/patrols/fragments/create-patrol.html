@@ -14,7 +14,7 @@
 
     <div class="form-group">
       <label for="site">Sitio</label>
-      <select id="site" th:field="*{siteId}" required>
+      <select id="site" name="siteId" required>
         <option value="">Seleccione un sitio</option>
         <option th:each="site : ${siteList}"
                 th:value="${site.id}"
