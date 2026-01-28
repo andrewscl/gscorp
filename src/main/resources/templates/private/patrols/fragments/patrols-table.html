@@ -28,7 +28,7 @@
     <div class="filters-actions-row" role="toolbar" aria-label="Filtros de supervisión">
 
       <label class="filter-item">
-        <span class="site-label">Sitio</span>
+        <span class="site-label">Instalación</span>
         <input id="filter-site" class="filter-input" type="text"/>
       </label>
 
@@ -41,7 +41,7 @@
       <div class="actions-row">
         <button id="createPatrolBtn" class="btn btn-primary"
                 th:if="${#authorization.expression('hasRole(''ANALYST'')')}"
-                th:attr="data-path=@{/private/patrols/create}" aria-label="Registrar visita">
+                th:attr="data-path=@{/private/patrols/create}" aria-label="Crear Ronda de Supervisión">
           <!-- icono + -->
           <svg class="icon icon-plus" width="16" height="16" viewBox="0 0 16 16" focusable="false">
             <circle cx="8" cy="8" r="7" fill="#dbeafe" stroke="#1e3a8a" stroke-width="1"/>

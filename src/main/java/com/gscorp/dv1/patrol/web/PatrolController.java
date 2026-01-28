@@ -48,7 +48,7 @@ public class PatrolController {
     @GetMapping("/create")
     public String getCreatePatrolForm (Model model) {
         model.addAttribute("DayOfWeek", DayOfWeek.values());
-        return "private/patrols/views/create-patrol-form";
+        return "private/patrols/views/create-patrol-view";
     }
 
 
