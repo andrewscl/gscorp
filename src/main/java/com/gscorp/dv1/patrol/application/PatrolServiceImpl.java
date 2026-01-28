@@ -21,7 +21,7 @@ public class PatrolServiceImpl implements PatrolService {
 
     private final PatrolRepository patrolRepository;
     private final UserService userService;
-
+ 
     @Override
     @Transactional(readOnly = true)
     public List<PatrolDto> getPatrolsByUserId(Long userId) {

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PatrolRepository extends JpaRepository<Patrol, Long>{
 
-    @Query("""
+     @Query("""
             SELECT
                 p.id            AS id,
                 p.name          AS name,
