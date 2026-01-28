@@ -6,9 +6,11 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.gscorp.dv1.enums.DayOfWeek;
+import com.gscorp.dv1.enums.DayOfWeekConverter;
 import com.gscorp.dv1.sites.infrastructure.Site;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -45,9 +47,11 @@ public class Patrol {
     private String description;
 
     @Column(name = "day_from", nullable = false, length = 1)
+    @Convert(converter = DayOfWeekConverter.class)
     private DayOfWeek dayFrom;
 
     @Column(name = "day_to", nullable = false, length = 1)
+    @Convert(converter = DayOfWeekConverter.class)
     private DayOfWeek dayTo;
 
     @Column(nullable=true)
