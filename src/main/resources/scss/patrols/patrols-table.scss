@@ -1,4 +1,4 @@
-@Use "sass:color";
+@use "sass:color";
 
 :root {
   --topbar-height: 54px;                /* same as layout topbar height */
@@ -16,7 +16,7 @@ $base-font-size: 14px;
 $radius: 10px;
 
 $btn-blue: #2563eb;
-$btn-blue-dark: darken($btn-blue, 8%);
+$btn-blue-dark: color.scale($btn-blue, $lightness: -8%);
 $color-card-bg: #ffffff;
 $color-primary: #162032;
 $color-muted: #6b7280;
@@ -133,7 +133,7 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
 
       .filter-input {
         appearance: none;
-        border: 1px solid lighten($color-border, 2%);
+        border: 1px solid color.scale($color-border, $lightness: 2%);
         padding: 0.45rem 0.6rem;
         border-radius: 8px;
         background: #fff;
@@ -161,7 +161,7 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
         will-change: transform, box-shadow;
 
         &.btn-primary {
-            background: linear-gradient(180deg, $btn-blue, color.adjust($btn-blue, $lightness: -8%));
+            background: linear-gradient(180deg, $btn-blue, color.scale($btn-blue, $lightness: -8%));
             color: #fff;
             border: none;
             padding: 0.45rem 0.75rem;

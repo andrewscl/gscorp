@@ -1,0 +1,168 @@
+:root {
+  --topbar-height: 54px; /* same as layout topbar height */
+  --sidebar-width: 240px; /* same as layout sidebar width */
+  --content-horizontal-padding: 2.4rem; /* match .content horizontal padding in layout */
+  --site-visit-header-height: 0;
+}
+
+/* Reset */
+* {
+  box-sizing: border-box;
+}
+
+/* SCSS tokens */
+/* Fixed header and nested internals for the shift-requests fragment */
+.patrols-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  color: #162032;
+  position: fixed;
+  top: calc(var(--topbar-height) + 1rem);
+  left: calc(var(--sidebar-width) + var(--content-horizontal-padding));
+  right: var(--content-horizontal-padding);
+  z-index: 1150;
+  border-radius: 10px;
+  border: 1px solid #e7eef9;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+  padding: 0.6rem;
+  box-sizing: border-box;
+  overflow: visible;
+  max-width: calc(100vw - var(--sidebar-width) - var(--content-horizontal-padding) * 2);
+  /* title row: left = icon + title, right = count badge */
+  /* optional header meta area */
+  /* filters toolbar */
+}
+.patrols-header .title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  background: transparent;
+}
+.patrols-header .title-row .title-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.patrols-header .title-row .title-left .icon-table {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+}
+.patrols-header .title-row .title-left .title-text {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #162032;
+  line-height: 1;
+}
+.patrols-header .title-row .patrols-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  padding: 0.25rem 0.6rem;
+  background: #eef2ff;
+  color: #2563eb;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.03);
+  margin-left: auto;
+}
+.patrols-header .header-meta {
+  margin-top: 0.35rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+  color: #6b7280;
+}
+.patrols-header .header-meta p, .patrols-header .header-meta span {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.2;
+  color: #6b7280;
+}
+.patrols-header .header-meta__dates {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin: 0;
+}
+.patrols-header .header-meta__summary {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #162032;
+  margin: 0;
+}
+.patrols-header .filters-actions-row {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  padding: 0.5rem 0.5rem;
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e7eef9;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
+}
+.patrols-header .filters-actions-row .filter-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  color: #6b7280;
+  min-width: 10ch;
+}
+.patrols-header .filters-actions-row .filter-item .filter-label {
+  font-weight: 500;
+  color: #6b7280;
+}
+.patrols-header .filters-actions-row .filter-item .filter-input {
+  appearance: none;
+  border: 1px solid rgb(231.48, 238.34, 249.12);
+  padding: 0.45rem 0.6rem;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 14px;
+  color: #162032;
+  transition: border-color 0.12s ease, box-shadow 0.12s ease;
+}
+.patrols-header .filters-actions-row .filter-item .filter-input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.06);
+}
+.patrols-header .filters-actions-row .actions-row {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.patrols-header .filters-actions-row .actions-row .btn {
+  transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease, color 120ms ease, border-color 120ms ease;
+  will-change: transform, box-shadow;
+}
+.patrols-header .filters-actions-row .actions-row .btn.btn-primary {
+  background: linear-gradient(180deg, #2563eb, rgb(21.0285714286, 86.2171428571, 229.2114285714));
+  color: #fff;
+  border: none;
+  padding: 0.45rem 0.75rem;
+  border-radius: 10px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  box-shadow: 0 6px 12px rgba(37, 99, 235, 0.12);
+}
+.patrols-header .filters-actions-row .actions-row .btn.btn-secondary {
+  background: transparent;
+  border: 1px solid #e7eef9;
+  color: #2563eb;
+  padding: 0.35rem 0.6rem;
+  border-radius: 10px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}/*# sourceMappingURL=patrols-table.css.map */
