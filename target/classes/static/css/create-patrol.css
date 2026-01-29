@@ -99,7 +99,7 @@ p {
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
   border-bottom: 1px solid #e9ecef;
-  padding: 10px;
+  padding: 7.5px;
   letter-spacing: 1px;
   text-align: center;
   position: relative;
@@ -137,7 +137,6 @@ p {
 .hs-form .patrol-form-body .form-group select,
 .hs-form .patrol-form-body .form-group textarea {
   padding: 10px;
-  font-size: 1rem;
   border: 1px solid #ced4da;
   border-radius: 8px;
   font-family: "Roboto", sans-serif;
@@ -168,42 +167,42 @@ p {
   color: #1f2937;
   min-height: 100px;
 }
-.hs-form .patrol-form-body .input-with-icon {
+.hs-form .patrol-form-body .day-range {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+.hs-form .patrol-form-body .day-range .form-group {
+  flex: none;
+}
+.hs-form .patrol-form-body .day-range .input-with-icon {
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
-.hs-form .patrol-form-body .input-with-icon .input-icon-wrap {
+.hs-form .patrol-form-body .day-range .input-with-icon .input-icon-wrap {
   position: relative;
   display: flex;
   align-items: center;
 }
-.hs-form .patrol-form-body .input-with-icon .input-icon-wrap input {
+.hs-form .patrol-form-body .day-range .input-with-icon .input-icon-wrap input {
   flex: 1;
 }
-.hs-form .patrol-form-body .input-with-icon .input-icon-wrap .icon-btn {
+.hs-form .patrol-form-body .day-range .input-with-icon .input-icon-wrap .icon-btn {
   position: absolute;
   right: 8px;
   background: transparent;
   border: none;
   cursor: pointer;
 }
-.hs-form .patrol-form-body .input-with-icon .input-icon-wrap .icon-btn svg {
-  width: 20px;
-  height: 20px;
-  fill: #6b7280;
+.hs-form .patrol-form-body .day-range .input-with-icon .input-icon-wrap .icon-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: #3b82f6;
   transition: color 0.2s ease;
 }
-.hs-form .patrol-form-body .input-with-icon .input-icon-wrap .icon-btn svg:hover {
+.hs-form .patrol-form-body .day-range .input-with-icon .input-icon-wrap .icon-btn svg:hover {
   fill: #3b82f6;
-}
-.hs-form .patrol-form-body .day-range {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-.hs-form .patrol-form-body .day-range .form-group {
-  flex: none;
 }
 .hs-form .patrol-form-footer {
   display: flex;

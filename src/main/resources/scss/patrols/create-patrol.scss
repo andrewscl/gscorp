@@ -20,7 +20,7 @@
         border-top-left-radius: 12px;
         border-top-right-radius: 12px;
         border-bottom: 1px solid #e9ecef;
-        padding: 10px;
+        padding: 7.5px;
         letter-spacing: 1px;
         text-align: center;
         position: relative;
@@ -58,7 +58,6 @@
             select,
             textarea {
                 padding: 10px;
-                font-size: 1rem;
                 border: 1px solid #ced4da;
                 border-radius: 8px;
                 @include roboto-font(0.875rem, 500);
@@ -84,48 +83,48 @@
             }
         }
 
-        .input-with-icon {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-
-            .input-icon-wrap {
-                position: relative;
-                display: flex;
-                align-items: center;
-                
-                input{
-                    flex: 1;
-                }
-
-                .icon-btn {
-                    position: absolute;
-                    right: 8px;
-                    background: transparent;
-                    border: none;
-                    cursor: pointer;
-
-                    svg {
-                        width: 20px;
-                        height: 20px;
-                        fill: $cool-gray-500;
-                        transition: color 0.2s ease;
-
-                        &:hover {
-                            fill: $accent-blue;
-                        }
-                    }
-                } 
-            }
-        }
-
         .day-range {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 10px;
 
             .form-group {
                 flex: none;
+            }
+
+            .input-with-icon {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+
+                .input-icon-wrap {
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    
+                    input{
+                        flex: 1;
+                    }
+
+                    .icon-btn {
+                        position: absolute;
+                        right: 8px;
+                        background: transparent;
+                        border: none;
+                        cursor: pointer;
+
+                        svg {
+                            width: 16px;
+                            height: 16px;
+                            fill: $accent-blue;
+                            transition: color 0.2s ease;
+
+                            &:hover {
+                                fill: $accent-blue;
+                            }
+                        }
+                    } 
+                }
             }
         }
         
