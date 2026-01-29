@@ -99,7 +99,7 @@ p {
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
   border-bottom: 1px solid #e9ecef;
-  padding: 5px 0;
+  padding: 2.5px 0;
   letter-spacing: 1px;
   text-align: center;
   position: relative;
@@ -165,7 +165,7 @@ p {
   font-weight: 400;
   letter-spacing: 0.02em;
   color: #1f2937;
-  min-height: 75px;
+  min-height: 50px;
 }
 .hs-form .patrol-form-body .day-range {
   display: grid;
