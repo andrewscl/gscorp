@@ -1,6 +1,7 @@
 package com.gscorp.dv1.patrol.infrastructure;
 
 import java.time.OffsetDateTime;
+import java.time.OffsetTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -49,11 +50,11 @@ public class Patrol {
     @Column(name = "day_to", nullable = false, length = 1)
     private Integer dayTo;
 
-    @Column(nullable=true)
-    private OffsetDateTime startTime;
+    @Column(nullable=false)
+    private OffsetTime startTime;
 
     @Column(nullable=true)
-    private OffsetDateTime endTime;
+    private OffsetTime endTime;
 
     @Builder.Default
     @Column(nullable=false)

@@ -1,6 +1,6 @@
 package com.gscorp.dv1.patrol.web.dto;
 
-import java.time.OffsetDateTime;
+import java.time.OffsetTime;
 
 import com.gscorp.dv1.enums.DayOfWeek;
 import com.gscorp.dv1.patrol.infrastructure.PatrolProjection;
@@ -12,7 +12,7 @@ public record PatrolDto (
     String siteName,
     DayOfWeek dayFrom,
     DayOfWeek dayTo,
-    OffsetDateTime startTime
+    OffsetTime startTime
 ){
 
     public static PatrolDto fromProjection(PatrolProjection p) {

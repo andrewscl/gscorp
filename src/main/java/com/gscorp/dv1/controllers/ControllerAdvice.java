@@ -7,6 +7,8 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.gscorp.dv1.exceptions.ResourceNotFoundException;
+
 @RestControllerAdvice
 public class ControllerAdvice {
 
@@ -18,6 +20,11 @@ public class ControllerAdvice {
     @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
     public ResponseEntity<Void> handleUnauthenticated() {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<String> handleResourceNotFound(ResourceNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
     @ExceptionHandler(Exception.class)

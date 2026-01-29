@@ -2,10 +2,12 @@ package com.gscorp.dv1.patrol.application;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gscorp.dv1.patrol.infrastructure.Patrol;
 import com.gscorp.dv1.patrol.infrastructure.PatrolProjection;
 import com.gscorp.dv1.patrol.infrastructure.PatrolRepository;
 import com.gscorp.dv1.patrol.web.dto.PatrolDto;
@@ -45,6 +47,23 @@ public class PatrolServiceImpl implements PatrolService {
                                             .toList();
 
          return patrolDtos;
+    }
+
+
+    @Override
+    @Transactional
+    public PatrolDto savePatrol (Patrol patrol){
+
+        Patrol saved = patrolRepository.save(patrol);
+
+        Optional<PatrolProjection> savedProjectionOpt =
+                                        patrolRepository.findProjectionById(saved.getId());
+
+        return PatrolDto.fromProjection(
+                savedProjectionOpt.orElseThrow(() ->
+                    new IllegalStateException("Saved patrol projection not found, id=" + saved.getId())
+                )
+        );
     }
 
 }

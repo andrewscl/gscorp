@@ -1,6 +1,6 @@
 package com.gscorp.dv1.patrol.infrastructure;
 
-import java.time.OffsetDateTime;
+import java.time.OffsetTime;
 
 public interface PatrolProjection {
     
@@ -10,6 +10,6 @@ public interface PatrolProjection {
     String getSiteName();
     Integer getDayFrom();
     Integer getDayTo();
-    OffsetDateTime getStartTime();
+    OffsetTime getStartTime();
 
 }

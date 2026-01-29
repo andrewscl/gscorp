@@ -6,11 +6,33 @@
       <h4>Crear Ronda de Supervisión</h4>
     </div>
 
+
+    <div class="patrol-alert-container">
+        <!-- Alerta de éxito -->
+        <div class="alert alert-success" role="alert" aria-live="polite">
+            <span class="alert-icon">✅</span>
+            <span class="alert-message"></span> <!-- Mensaje dinámico -->
+        </div>
+
+        <!-- Alerta de error -->
+        <div class="alert alert-error" role="alert" aria-live="assertive">
+            <span class="alert-icon">❌</span>
+            <span class="alert-message"></span> <!-- Mensaje dinámico -->
+        </div>
+
+        <!-- Alerta de cancelación -->
+        <div class="alert alert-cancel" role="alert" aria-live="polite">
+            <span class="alert-icon">⚠️</span>
+            <span class="alert-message"></span> <!-- Mensaje dinámico -->
+        </div>
+    </div>
+
+
     <form class="patrol-form-body" id="patrol-form-body">
 
       <div class="form-group">
         <label for="site">Sitio</label>
-        <select id="site" name="siteId" required>
+        <select id="siteId" name="siteId" required>
           <option value="">Seleccione un sitio</option>
           <option th:each="site : ${siteList}"
                   th:value="${site.id}"
@@ -74,5 +96,7 @@
     </div>
 
   </div>
+
+  <script type="module" src="/js/private/patrols/create-patrol.js"></script>
 
 </div>
