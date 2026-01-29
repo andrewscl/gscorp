@@ -223,27 +223,27 @@ p {
   cursor: pointer;
   transition: all 0.2s ease;
 }
-.hs-form .patrol-form-footer.btn-primary {
+.hs-form .patrol-form-footer .btn.btn-primary {
   background: #4e54c8;
   color: #ffffff;
 }
-.hs-form .patrol-form-footer.btn-primary:hover {
+.hs-form .patrol-form-footer .btn.btn-primary:hover {
   background: #3d4188;
   transform: translateY(-2px);
 }
-.hs-form .patrol-form-footer.btn-primary:active {
+.hs-form .patrol-form-footer .btn.btn-primary:active {
   background: #2c2e66;
   transform: translateY(1px);
 }
-.hs-form .patrol-form-footer.btn-secondary {
+.hs-form .patrol-form-footer .btn.btn-secondary {
   background: #e9ecef;
   color: #495057;
 }
-.hs-form .patrol-form-footer.btn-secondary:hover {
+.hs-form .patrol-form-footer .btn.btn-secondary:hover {
   background: #d6d8db;
   transform: translateY(-2px);
 }
-.hs-form .patrol-form-footer.btn-secondary:active {
+.hs-form .patrol-form-footer .btn.btn-secondary:active {
   background: #babec2;
   transform: translateY(1px);
 }/*# sourceMappingURL=create-patrol.css.map */
