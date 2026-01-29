@@ -20,7 +20,7 @@
         border-top-left-radius: 12px;
         border-top-right-radius: 12px;
         border-bottom: 1px solid #e9ecef;
-        padding: 7.5px;
+        padding: 7.5px 0;
         letter-spacing: 1px;
         text-align: center;
         position: relative;
@@ -77,9 +77,9 @@
 
             textarea {
                 resize: vertical;
-                @include roboto-font(1rem, 400);
+                @include roboto-font(0.875rem, 400);
                 color: $cool-gray-800;
-                min-height: 100px;
+                min-height: 75px;
             }
         }
 
