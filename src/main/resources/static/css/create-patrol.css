@@ -118,7 +118,9 @@ p {
 .hs-form .patrol-alert-container {
   display: none; /* Oculto inicialmente */
   width: 100%;
-  position: relative;
+  position: absolute;
+  top: 50px;
+  left: 0;
 }
 .hs-form .patrol-alert-container .alert {
   display: flex;
