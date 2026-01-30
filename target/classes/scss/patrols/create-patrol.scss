@@ -146,44 +146,45 @@
 
             .form-group {
                 flex: none;
-            }
+                max-width: 160px;
 
-            .input-with-icon {
-                display: flex;
-                flex-direction: column;
-                gap: 5px;
-
-                .input-icon-wrap {
-                    position: relative;
+                &.input-with-icon {
                     display: flex;
-                    align-items: center;
-                    
-                    input{
-                        flex: 1;
-                    }
+                    flex-direction: column;
+                    gap: 5px;
+                    max-width: 100px;
 
-                    .icon-btn {
-                        position: absolute;
-                        right: 8px;
-                        background: transparent;
-                        border: none;
-                        cursor: pointer;
-
-                        svg {
-                            width: 16px;
-                            height: 16px;
-                            fill: $accent-blue;
-                            transition: color 0.2s ease;
-
-                            &:hover {
-                                fill: $accent-blue;
-                            }
+                    .input-icon-wrap {
+                        position: relative;
+                        display: flex;
+                        align-items: center;
+                        
+                        input{
+                            flex: 1;
                         }
-                    } 
+
+                        .icon-btn {
+                            position: absolute;
+                            right: 8px;
+                            background: transparent;
+                            border: none;
+                            cursor: pointer;
+
+                            svg {
+                                width: 16px;
+                                height: 16px;
+                                fill: $accent-blue;
+                                transition: color 0.2s ease;
+
+                                &:hover {
+                                    fill: $accent-blue;
+                                }
+                            }
+                        } 
+                    }
                 }
             }
         }
-        
 
     }
 

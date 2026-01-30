@@ -221,34 +221,36 @@ p {
 }
 .hs-form .patrol-form-body .day-range .form-group {
   flex: none;
+  max-width: 160px;
 }
-.hs-form .patrol-form-body .day-range .input-with-icon {
+.hs-form .patrol-form-body .day-range .form-group.input-with-icon {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  max-width: 100px;
 }
-.hs-form .patrol-form-body .day-range .input-with-icon .input-icon-wrap {
+.hs-form .patrol-form-body .day-range .form-group.input-with-icon .input-icon-wrap {
   position: relative;
   display: flex;
   align-items: center;
 }
-.hs-form .patrol-form-body .day-range .input-with-icon .input-icon-wrap input {
+.hs-form .patrol-form-body .day-range .form-group.input-with-icon .input-icon-wrap input {
   flex: 1;
 }
-.hs-form .patrol-form-body .day-range .input-with-icon .input-icon-wrap .icon-btn {
+.hs-form .patrol-form-body .day-range .form-group.input-with-icon .input-icon-wrap .icon-btn {
   position: absolute;
   right: 8px;
   background: transparent;
   border: none;
   cursor: pointer;
 }
-.hs-form .patrol-form-body .day-range .input-with-icon .input-icon-wrap .icon-btn svg {
+.hs-form .patrol-form-body .day-range .form-group.input-with-icon .input-icon-wrap .icon-btn svg {
   width: 16px;
   height: 16px;
   fill: #3b82f6;
   transition: color 0.2s ease;
 }
-.hs-form .patrol-form-body .day-range .input-with-icon .input-icon-wrap .icon-btn svg:hover {
+.hs-form .patrol-form-body .day-range .form-group.input-with-icon .input-icon-wrap .icon-btn svg:hover {
   fill: #3b82f6;
 }
 .hs-form .patrol-form-footer {
