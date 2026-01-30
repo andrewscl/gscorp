@@ -119,7 +119,6 @@ p {
   display: none; /* Oculto inicialmente */
   width: 100%;
   position: relative;
-  margin-top: 1rem;
 }
 .hs-form .patrol-alert-container .alert {
   display: flex;

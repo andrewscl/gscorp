@@ -47,7 +47,7 @@ async function onClickCreate(e) {
         displayAlert(alertSuccess, '¡Formulario enviado correctamente!'); // Mostrar alerta de éxito
 
         setTimeout(() => {
-            navigateTo('/private/sites/table-view'); // recarga el listado
+            navigateTo('/private/patrols/table-view'); // recarga el listado
         }, 3000);
 
     } catch (error) {
@@ -67,7 +67,7 @@ async function onClickCancel(e) {
     displayAlert(alertCancel, 'La creación de la ronda de supervisión ha sido cancelada.');
 
     setTimeout(() => {
-        navigateTo('/private/sites/table-view'); // recarga el listado
+        navigateTo('/private/patrols/table-view'); // recarga el listado
     }, 3000);
 }
 
