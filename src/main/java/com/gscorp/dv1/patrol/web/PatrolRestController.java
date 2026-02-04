@@ -81,10 +81,8 @@ public class PatrolRestController {
         var entity = Patrol.builder()
             .site(site.get())
             .name(req.name())
-            .description(req.description())
             .dayFrom(req.dayFrom())
             .dayTo(req.dayTo())
-            .startTime(startTime)
             .build();
 
         PatrolDto saved = patrolService.savePatrol(entity);

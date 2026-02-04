@@ -45,11 +45,6 @@
         <input type="text" id="patrolName" name="name" placeholder="Nombre de la ronda de supervisión" required />
       </div>
 
-      <div class="form-group">
-        <label for="patrolDescription">Descripción</label>
-        <textarea id="patrolDescription" name="description" placeholder="Descripción de la ronda de supervisión" required></textarea>
-      </div>
-
       <div class="day-range">
         <div class="form-group">
           <label>Dia desde</label>
@@ -70,20 +65,23 @@
                     th:text="${day.getDisplayNameInSpanish}">Día</option> 
           </select>
         </div>
+      </div>
 
-        <div class="form-group input-with-icon">
-          <label>Hora inicio</label>
-          <div class="input-icon-wrap">
-            <input type="time" name="schedules[${idx}][startTime]" value="${(prefill && prefill.startTime)||''}" required />
-            <button type="button" class="icon-btn clock-btn" aria-label="Abrir selector hora">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.4"/>
-                <path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-              </svg>
-            </button>
+      <div class="time-patrol-schedules">
+        <div class="panel schedules-panel">
+          <div class="panel-header">
+            <label>Horarios por día</label>
+            <button type="button" id="addTimeRange" class="btn-mini">+ Añadir hora</button>
           </div>
-        </div>
 
+          <div id="patrolSchedulesList" class="schedules-list">
+            <!-- JS injecta aquí -->
+          </div>
+
+          <small class="time-schedules-help">
+            Ej: 08:00, 10:00, 14:00, etc.
+          </small>
+        </div>
       </div>
 
     </form>

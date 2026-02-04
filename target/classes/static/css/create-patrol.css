@@ -171,7 +171,7 @@ p {
 .hs-form .patrol-form-body .form-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 .hs-form .patrol-form-body .form-group label {
   font-family: "Roboto", sans-serif;
@@ -216,42 +216,16 @@ p {
 }
 .hs-form .patrol-form-body .day-range {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
 .hs-form .patrol-form-body .day-range .form-group {
   flex: none;
-  max-width: 160px;
+  max-width: 120px;
 }
-.hs-form .patrol-form-body .day-range .form-group.input-with-icon {
+.hs-form .patrol-form-body .time-patrol-schedules {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  max-width: 100px;
-}
-.hs-form .patrol-form-body .day-range .form-group.input-with-icon .input-icon-wrap {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-.hs-form .patrol-form-body .day-range .form-group.input-with-icon .input-icon-wrap input {
-  flex: 1;
-}
-.hs-form .patrol-form-body .day-range .form-group.input-with-icon .input-icon-wrap .icon-btn {
-  position: absolute;
-  right: 8px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-}
-.hs-form .patrol-form-body .day-range .form-group.input-with-icon .input-icon-wrap .icon-btn svg {
-  width: 16px;
-  height: 16px;
-  fill: #3b82f6;
-  transition: color 0.2s ease;
-}
-.hs-form .patrol-form-body .day-range .form-group.input-with-icon .input-icon-wrap .icon-btn svg:hover {
-  fill: #3b82f6;
 }
 .hs-form .patrol-form-footer {
   display: flex;
@@ -264,9 +238,11 @@ p {
   border-bottom-right-radius: 12px;
 }
 .hs-form .patrol-form-footer .btn {
-  padding: 10px 18px;
-  font-size: 1rem;
-  font-weight: bold;
+  padding: 9px 18px;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
   border: none;
   border-radius: 8px;
   cursor: pointer;

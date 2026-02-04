@@ -1,13 +1,15 @@
 package com.gscorp.dv1.patrol.infrastructure;
 
 import java.time.OffsetDateTime;
-import java.time.OffsetTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.gscorp.dv1.sites.infrastructure.Site;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -17,8 +19,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,20 +42,11 @@ public class Patrol {
     @Column(nullable=false, length=64)
     private String name;
 
-    @Column(nullable=false, length=160)
-    private String description;
-
     @Column(name = "day_from", nullable = false, length = 1)
     private Integer dayFrom;
 
     @Column(name = "day_to", nullable = false, length = 1)
     private Integer dayTo;
-
-    @Column(nullable=false)
-    private OffsetTime startTime;
-
-    @Column(nullable=true)
-    private OffsetTime endTime;
 
     @Builder.Default
     @Column(nullable=false)
@@ -76,18 +68,8 @@ public class Patrol {
     @Column(nullable = true)
     private String updatedBy;
 
-    @PrePersist
-    private void onPrePersist() {
-        if(startTime != null && endTime != null && startTime.isAfter(endTime)) {
-            throw new IllegalArgumentException("startTime no puede ser posterior a endTime");
-        }
-    }
-
-    @PreUpdate
-    private void onPreUpdate() {
-        if(startTime != null && endTime != null && startTime.isAfter(endTime)) {
-            throw new IllegalArgumentException("startTime no puede ser posterior a endTime");
-        }
-    }
+    @OneToMany(mappedBy = "patrol", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<PatrolSchedule> schedules = new ArrayList<>();
 
 }
