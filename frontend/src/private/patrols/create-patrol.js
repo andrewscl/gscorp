@@ -92,10 +92,18 @@ function displayAlert(alertElement, message, timeout = 5000) {
     }, timeout);
 }
 
+async function onClickAddTimeSchedule(e) {
+    e.preventDefault();
+
+    
+
+}
+
 
 function bindEvents() {
     qs('#createPatrolBtn')?.addEventListener('click', onClickCreate);
     qs('#cancelCreatePatrolBtn')?.addEventListener('click', onClickCancel);
+    qs('#addTimeScheduleBtn')?.addEventListener('click', onClickAddTimeSchedule);
 }
 
 (function init() {

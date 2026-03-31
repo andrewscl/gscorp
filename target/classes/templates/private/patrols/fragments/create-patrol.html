@@ -71,11 +71,15 @@
         <div class="panel schedules-panel">
           <div class="panel-header">
             <label>Horarios por día</label>
-            <button type="button" id="addTimeRange" class="btn-mini">+ Añadir hora</button>
+            <button type="button" id="addTimeScheduleBtn" class="btn-mini">+ Añadir hora</button>
           </div>
 
           <div id="patrolSchedulesList" class="schedules-list">
-            <!-- JS injecta aquí -->
+            <div class="schedule">
+              <input type="time" name="scheduleTime[]" class="schedule-input"
+                      placeholder="08:00" required />
+              <button type="button" class="btn-mini btn-remove-schedule">Eliminar</button>
+            </div>
           </div>
 
           <small class="time-schedules-help">

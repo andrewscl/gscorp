@@ -94,13 +94,13 @@
 
     }
 
-    .patrol-form-body{
+    .patrol-form-body {
         display: grid; //diseño oredenado y adaptable
         gap: 15px; //espaciado entre filas
         background: #ffffff;
         padding: 25px;
 
-        .form-group{
+        .form-group {
             display: flex;
             flex-direction: column;
             gap: 6px;
@@ -108,6 +108,7 @@
             label {
                 @include roboto-font(0.875rem, 500);
                 color: $cool-gray-700;
+                padding-left: 10px;
             }
 
             input,
@@ -154,6 +155,7 @@
         .time-patrol-schedules {
             display: flex;
             flex-direction: column;
+            margin-top: 1px;
 
             .panel {
                 background: $cool-gray-100;
