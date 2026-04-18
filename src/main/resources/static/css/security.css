@@ -91,14 +91,6 @@ p {
   height: 80vh;
   max-width: 100%;
   max-height: 100vh;
-  /* (opcional) velo para contraste del texto
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(0deg, rgba(0,0,0,.45), rgba(0,0,0,.25));
-    pointer-events: none;
-  }*/
 }
 .security-image img {
   width: 100%;
@@ -143,6 +135,16 @@ p {
   background-color: rgb(27, 36.9, 53.1);
   border-color: rgb(27, 36.9, 53.1);
 }
+.security-image {
+  /* (opcional) velo para contraste del texto
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, rgba(0,0,0,.45), rgba(0,0,0,.25));
+    pointer-events: none;
+  }*/
+}
 @media (max-width: 768px) {
   .security-image .security-image {
     height: 70vh;
@@ -176,7 +178,6 @@ p {
   height: 60vh;
   max-height: 60vh;
   margin-bottom: 1.5rem;
-  /* ==== Móvil: imagen arriba, texto abajo ==== */
 }
 .text-image-right .container {
   display: flex;
@@ -220,6 +221,9 @@ p {
     opacity: 1;
     transform: scale(1.05);
   }
+}
+.text-image-right {
+  /* ==== Móvil: imagen arriba, texto abajo ==== */
 }
 @media (max-width: 768px) {
   .text-image-right {
@@ -306,7 +310,6 @@ p {
   background-color: white;
   align-items: stretch;
   box-sizing: border-box;
-  /* Responsivo */
 }
 .servicios-seguridad .column {
   display: flex;
@@ -329,6 +332,9 @@ p {
   height: 100%;
   object-fit: cover;
   display: block;
+}
+.servicios-seguridad {
+  /* Responsivo */
 }
 @media (max-width: 1024px) {
   .servicios-seguridad {

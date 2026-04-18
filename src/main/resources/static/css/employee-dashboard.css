@@ -16,9 +16,6 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--gap);
-  /* El link .h2 luce como botón bajo perfil */
-  /* Variantes opcionales */
-  /* Aún más pequeño si quieres: .h2--sm */
 }
 @media (min-width: 560px) {
   #dashboard-root .employees-button {
@@ -29,6 +26,9 @@
   #dashboard-root .employees-button {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+}
+#dashboard-root .employees-button {
+  /* El link .h2 luce como botón bajo perfil */
 }
 #dashboard-root .employees-button .h2 {
   display: inline-flex;
@@ -67,6 +67,9 @@
   block-size: 1.1rem;
   display: inline-block;
 }
+#dashboard-root .employees-button {
+  /* Variantes opcionales */
+}
 #dashboard-root .employees-button .h2.is-primary {
   background: #1d4ed8;
   color: #fff;
@@ -85,6 +88,9 @@
 }
 #dashboard-root .employees-button .h2.is-ghost:hover {
   background: rgba(2, 6, 23, 0.03);
+}
+#dashboard-root .employees-button {
+  /* Aún más pequeño si quieres: .h2--sm */
 }
 #dashboard-root .employees-button .h2.h2--sm {
   height: 40px;

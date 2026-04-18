@@ -54,7 +54,6 @@
   /* limitar ancho para coincidir con el ancho disponible del content */
   max-width: calc(100vw - var(--sidebar-width) - var(--content-horizontal-padding) * 2);
   /* --- New header layout: title-row, header-meta, filters-row --- */
-  /* filters toolbar (kept mostly as before) */
 }
 .attendance-header .title-row {
   display: flex;
@@ -118,6 +117,9 @@
   font-size: 0.85rem;
   font-weight: 500;
   color: #162032;
+}
+.attendance-header {
+  /* filters toolbar (kept mostly as before) */
 }
 .attendance-header .filters-row {
   display: flex;
@@ -275,10 +277,6 @@
 }
 .attendance-table-container .attendance-table tbody tr {
   transition: background 0.12s ease;
-  /* Sitio: limitar su máximo para que no "coma" todo el ancho */
-  /* Empleado: permitir algo más de espacio pero truncar si es necesario */
-  /* Acción: tamaño medio */
-  /* Distancia y Precisión: centradas y sin wrapping */
 }
 .attendance-table-container .attendance-table tbody tr:hover {
   background: rgba(37, 99, 235, 0.03);
@@ -299,20 +297,32 @@
   text-overflow: ellipsis;
   font-weight: 600;
 }
+.attendance-table-container .attendance-table tbody tr {
+  /* Sitio: limitar su máximo para que no "coma" todo el ancho */
+}
 .attendance-table-container .attendance-table tbody tr thead th:nth-child(2),
 .attendance-table-container .attendance-table tbody tr tbody td:nth-child(2) {
   white-space: nowrap;
   max-width: 20ch;
+}
+.attendance-table-container .attendance-table tbody tr {
+  /* Empleado: permitir algo más de espacio pero truncar si es necesario */
 }
 .attendance-table-container .attendance-table tbody tr thead th:nth-child(3),
 .attendance-table-container .attendance-table tbody tr tbody td:nth-child(3) {
   white-space: nowrap;
   max-width: 28ch;
 }
+.attendance-table-container .attendance-table tbody tr {
+  /* Acción: tamaño medio */
+}
 .attendance-table-container .attendance-table tbody tr thead th:nth-child(4),
 .attendance-table-container .attendance-table tbody tr tbody td:nth-child(4) {
   white-space: nowrap;
   max-width: 20ch;
+}
+.attendance-table-container .attendance-table tbody tr {
+  /* Distancia y Precisión: centradas y sin wrapping */
 }
 .attendance-table-container .attendance-table tbody tr thead th:nth-child(5), .attendance-table-container .attendance-table tbody tr tbody td:nth-child(5),
 .attendance-table-container .attendance-table tbody tr thead th:nth-child(6), .attendance-table-container .attendance-table tbody tr tbody td:nth-child(6) {

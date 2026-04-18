@@ -290,20 +290,17 @@ body[data-layout=private] .sidebar-scrim {
     z-index: 1190; /* debajo de la sidebar */
     display: none;
   }
-  body[data-layout=private].sidebar-open {
-    overflow: hidden;
-  }
   body[data-layout=private].sidebar-open .sidebar {
     transform: translateX(0); /* traer la sidebar a la vista */
   }
   body[data-layout=private].sidebar-open .sidebar-scrim {
     display: block;
   }
-  /* Alternativa explícita si la clase .sidebar-open se aplica directamente al body
-     (esto hace la regla aún más directa y evita ambigüedades si la estructura cambia) */
   body[data-layout=private].sidebar-open {
     overflow: hidden;
   }
+  /* Alternativa explícita si la clase .sidebar-open se aplica directamente al body
+     (esto hace la regla aún más directa y evita ambigüedades si la estructura cambia) */
   body[data-layout=private].sidebar-open .sidebar {
     transform: translateX(0);
     z-index: 1200;
@@ -311,5 +308,8 @@ body[data-layout=private] .sidebar-scrim {
   body[data-layout=private].sidebar-open .sidebar-scrim {
     display: block;
     z-index: 1190;
+  }
+  body[data-layout=private].sidebar-open {
+    overflow: hidden;
   }
 }/*# sourceMappingURL=private-dashboard.css.map */

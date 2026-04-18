@@ -13,8 +13,6 @@
   box-sizing: border-box;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   color: #1f2937;
-  /* Optional root modifier: apply .compact on the section to tighten paddings & fonts */
-  /* Responsive: stack the grid into single column on small screens */
 }
 .detail-section.view-shift-request h2 {
   font-size: 1.4rem;
@@ -37,20 +35,14 @@
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
-  /* Default: stacked label (label above control) */
-  /* Use a 2-column grid for grouped rows (.form-row) */
-  /* Make date/time controls slightly narrower visually */
-  /* Specific narrow controls (reduce visual width so they don't span the whole card) */
-  /* Status field should not take entire width: cap it */
-  /* Utility to mark inputs shorter if you want to force a short width from template */
-  /* Align the 'Volver al listado' actions to the left on narrow screens, to the right otherwise */
-  /* schedules table compact styling */
-  /* compact messages */
 }
 .detail-section.view-shift-request form.card.form .form-separator {
   border: none;
   border-bottom: 1px solid #e6e9ee;
   margin: 0.45rem 0;
+}
+.detail-section.view-shift-request form.card.form {
+  /* Default: stacked label (label above control) */
 }
 .detail-section.view-shift-request form.card.form .form-group {
   display: flex;
@@ -90,6 +82,9 @@
   color: #9ca3af;
   font-size: 0.85rem;
 }
+.detail-section.view-shift-request form.card.form {
+  /* Use a 2-column grid for grouped rows (.form-row) */
+}
 .detail-section.view-shift-request form.card.form .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -99,10 +94,16 @@
 .detail-section.view-shift-request form.card.form .form-row .form-group {
   margin-bottom: 0;
 }
+.detail-section.view-shift-request form.card.form {
+  /* Make date/time controls slightly narrower visually */
+}
 .detail-section.view-shift-request form.card.form .form-row input[type=date],
 .detail-section.view-shift-request form.card.form .form-row input[type=time],
 .detail-section.view-shift-request form.card.form .form-row input[type=datetime-local] {
   max-width: 240px;
+}
+.detail-section.view-shift-request form.card.form {
+  /* Specific narrow controls (reduce visual width so they don't span the whole card) */
 }
 .detail-section.view-shift-request form.card.form #shiftRequestCode {
   max-width: 260px;
@@ -112,19 +113,31 @@
   max-width: 320px;
   width: 100%;
 }
+.detail-section.view-shift-request form.card.form {
+  /* Status field should not take entire width: cap it */
+}
 .detail-section.view-shift-request form.card.form #shiftRequestStatus {
   max-width: 320px;
   width: 100%;
 }
+.detail-section.view-shift-request form.card.form {
+  /* Utility to mark inputs shorter if you want to force a short width from template */
+}
 .detail-section.view-shift-request form.card.form .input--short, .detail-section.view-shift-request form.card.form input.input--short {
   max-width: 320px;
   width: 100%;
+}
+.detail-section.view-shift-request form.card.form {
+  /* Align the 'Volver al listado' actions to the left on narrow screens, to the right otherwise */
 }
 .detail-section.view-shift-request form.card.form .actions {
   display: flex;
   justify-content: flex-end;
   gap: 0.6rem;
   margin-top: 0.6rem;
+}
+.detail-section.view-shift-request form.card.form {
+  /* schedules table compact styling */
 }
 .detail-section.view-shift-request form.card.form .schedules-list {
   overflow-x: auto;
@@ -136,7 +149,6 @@
   font-size: 0.92rem;
   table-layout: auto;
   margin-top: 0.2rem;
-  /* Column sizing hints (days wider, times narrow) */
 }
 .detail-section.view-shift-request form.card.form .schedules-table thead th {
   text-align: left;
@@ -152,6 +164,9 @@
   vertical-align: middle;
   white-space: nowrap;
 }
+.detail-section.view-shift-request form.card.form .schedules-table {
+  /* Column sizing hints (days wider, times narrow) */
+}
 .detail-section.view-shift-request form.card.form .schedules-table thead th:nth-child(1), .detail-section.view-shift-request form.card.form .schedules-table tbody td:nth-child(1) {
   width: 56%;
 }
@@ -160,6 +175,9 @@
 .detail-section.view-shift-request form.card.form .schedules-table thead th:nth-child(4), .detail-section.view-shift-request form.card.form .schedules-table tbody td:nth-child(4) {
   width: 14%;
   min-width: 72px;
+}
+.detail-section.view-shift-request form.card.form {
+  /* compact messages */
 }
 .detail-section.view-shift-request form.card.form .form-error {
   color: #b91c1c;
@@ -174,6 +192,9 @@
   padding: 0.38rem 0.6rem;
   border-radius: 0.35rem;
   font-size: 0.92rem;
+}
+.detail-section.view-shift-request {
+  /* Optional root modifier: apply .compact on the section to tighten paddings & fonts */
 }
 .detail-section.view-shift-request.compact {
   padding: 0.6rem;
@@ -192,18 +213,23 @@
 .detail-section.view-shift-request.compact form.card.form .schedules-table {
   font-size: 0.86rem;
 }
+.detail-section.view-shift-request {
+  /* Responsive: stack the grid into single column on small screens */
+}
 @media (max-width: 680px) {
   .detail-section.view-shift-request {
     padding: 0.7rem;
   }
   .detail-section.view-shift-request form.card.form {
     padding: 0.7rem;
-    /* allow inputs to stretch on mobile */
   }
   .detail-section.view-shift-request form.card.form .form-row {
     display: flex;
     flex-direction: column;
     gap: 0.6rem;
+  }
+  .detail-section.view-shift-request form.card.form {
+    /* allow inputs to stretch on mobile */
   }
   .detail-section.view-shift-request form.card.form input[readonly], .detail-section.view-shift-request form.card.form textarea[readonly] {
     width: 100%;

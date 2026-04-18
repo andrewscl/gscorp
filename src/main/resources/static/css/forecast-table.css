@@ -22,7 +22,6 @@
   margin-bottom: 1rem;
   font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
   color: #162032;
-  /* Card visual alrededor de los filtros */
 }
 .forecast-header h2 {
   display: flex;
@@ -31,6 +30,9 @@
   margin: 0;
   font-size: 1.125rem;
   font-weight: 600;
+}
+.forecast-header {
+  /* Card visual alrededor de los filtros */
 }
 .forecast-header .filters-row {
   display: flex;
@@ -157,7 +159,6 @@
 }
 .forecast-table-container .forecasts-table tbody tr {
   transition: background 0.12s ease;
-  /* Resaltar botón "Ver" (sin tocar HTML) */
 }
 .forecast-table-container .forecasts-table tbody tr:hover {
   background: rgba(37, 99, 235, 0.03);
@@ -257,6 +258,9 @@
 .forecast-table-container .forecasts-table tbody tr .btn-link:focus {
   outline: none;
   box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.06);
+}
+.forecast-table-container .forecasts-table tbody tr {
+  /* Resaltar botón "Ver" (sin tocar HTML) */
 }
 .forecast-table-container .forecasts-table tbody tr button.btn-link.action-btn[title=Ver],
 .forecast-table-container .forecasts-table tbody tr button.btn-link.action-btn[aria-label=Ver] {

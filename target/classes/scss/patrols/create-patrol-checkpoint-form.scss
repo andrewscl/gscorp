@@ -1,99 +1,147 @@
-// Estilos recomendados para el formulario de creación de checkpoints en un sitio
-
-#checkpoint-form {
-  max-width: 440px;
+// Contenedor principal del formulario
+.hs-form {
+  max-width: 600px; // Un poco más ancho para albergar los paneles laterales si escalas
   margin: 2rem auto;
-  padding: 1.6rem 1.2rem 1.4rem 1.2rem;
-  border-radius: 10px;
-  background: #f8fafc;
-  box-shadow: 0 2px 15px rgba(32,64,128,0.07);
-  font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+  padding: 1.6rem;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Roboto, sans-serif;
 
-  .form-group,
-  .form-row {
-    margin-bottom: 1.1rem;
+  .patrol-form-header h4 {
+    color: #1e3a8a;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 0.5rem;
+  }
+
+  // Grupos de control estándar
+  .form-group {
+    margin-bottom: 1.2rem;
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
-  }
 
-  .form-row {
-    flex-direction: row;
-    gap: 1.2rem;
+    label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #334155;
+    }
 
-    .form-group {
-      flex: 1 1 0%;
+    input, select {
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 0.6rem 0.8rem;
+      font-size: 1rem;
+      transition: all 0.2s;
+
+      &:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        outline: none;
+      }
     }
   }
 
-  label {
-    font-size: 1rem;
-    font-weight: 500;
-    color: #204080;
-    margin-bottom: 0.1rem;
-    letter-spacing: 0.01em;
+  // Rango de días en una sola fila
+  .day-range {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
   }
 
-  input[type="text"],
-  input[type="number"],
-  select,
-  textarea {
-    border: 1px solid #cdd9ed;
-    border-radius: 6px;
-    padding: 0.5rem 0.75rem;
-    font-size: 1rem;
-    font-family: inherit;
-    color: #22304a;
-    background: #fff;
-    transition: border-color 0.19s;
-    box-sizing: border-box;
+  // --- Estilo de Paneles Dinámicos (Schedules y Checkpoints) ---
+  .panel {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
 
-    &:focus {
-      border-color: #2563eb;
-      outline: none;
-      background: #f5f8fd;
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+
+      label {
+        font-weight: 700;
+        color: #1e40af;
+        margin: 0;
+      }
     }
   }
 
-  textarea {
-    min-height: 2.1em;
-    max-height: 8em;
-    resize: vertical;
+  // Estilo para cada fila de input + botón eliminar
+  .schedule, .checkpoint-item {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+
+    input {
+      flex: 1; // El input toma todo el espacio disponible
+    }
   }
 
-  button[type="submit"] {
-    margin-top: 0.7rem;
-    display: block;
-    width: 100%;
-    background: linear-gradient(90deg, #2563eb 0%, #0ea5e9 100%);
-    color: #fff;
-    font-weight: 600;
-    padding: 0.7rem 1rem;
-    font-size: 1.12rem;
-    border: none;
+  // Botones de acción
+  .btn-mini {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
     border-radius: 6px;
-    box-shadow: 0 1px 5px rgba(51,96,225,0.03);
     cursor: pointer;
-    letter-spacing: 0.02em;
-    transition: background 0.16s, box-shadow 0.16s, transform 0.15s;
+    border: 1px solid transparent;
+    transition: 0.2s;
 
-    &:hover,
-    &:focus {
-      background: linear-gradient(90deg, #1742b0 0%, #1093d4 100%);
-      box-shadow: 0 2px 16px rgba(32,100,214,0.12);
-      transform: translateY(-1px) scale(1.015);
+    &#addTimeScheduleBtn, &#addCheckpointBtn {
+      background: #dcfce7;
+      color: #166534;
+      &:hover { background: #bbf7d0; }
     }
+
+    &.btn-remove, &.btn-remove-schedule {
+      background: #fee2e2;
+      color: #991b1b;
+      &:hover { background: #fecaca; }
+    }
+  }
+
+  .help-text, .time-schedules-help {
+    display: block;
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-top: 0.5rem;
+  }
+
+  // Footer con botones principales
+  .patrol-form-footer {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+
+    .btn {
+      flex: 1;
+      padding: 0.8rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.1s;
+
+      &:active { transform: scale(0.98); }
+    }
+
+    .btn-primary { background: #2563eb; color: white; }
+    .btn-secondary { background: #e2e8f0; color: #475569; }
   }
 }
 
-// Responsive
-@media (max-width: 600px) {
-  #checkpoint-form {
-    max-width: 97vw;
-    padding: 1.1rem 0.2rem;
-    .form-row {
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-  }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 500px) {
+  .hs-form .day-range { grid-template-columns: 1fr; }
 }

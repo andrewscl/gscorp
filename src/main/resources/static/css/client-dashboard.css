@@ -32,11 +32,6 @@
   color: var(--text);
   font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   background: transparent;
-  /* Chart body: regla central y explícita para eCharts */
-  /* placeholder para "no data" o errores */
-  /* asegurar que el canvas/SVG de eCharts ocupe todo el contenedor */
-  /* Donut styles */
-  /* Integrated donuts: limit max-width to avoid ocupar todo el espacio izquierdo */
 }
 #client-dashboard-root .container-inner {
   max-width: var(--max-width);
@@ -65,6 +60,9 @@
   font-weight: 600;
   color: var(--text);
 }
+#client-dashboard-root {
+  /* Chart body: regla central y explícita para eCharts */
+}
 #client-dashboard-root .chart-body,
 #client-dashboard-root div[id^=chart-] {
   display: block;
@@ -78,6 +76,9 @@
   border-radius: 8px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
   overflow: hidden;
+}
+#client-dashboard-root {
+  /* placeholder para "no data" o errores */
 }
 #client-dashboard-root .chart-placeholder {
   position: absolute;
@@ -93,6 +94,9 @@
   pointer-events: none;
   z-index: 2;
   background: transparent;
+}
+#client-dashboard-root {
+  /* asegurar que el canvas/SVG de eCharts ocupe todo el contenedor */
 }
 #client-dashboard-root .chart-body > div,
 #client-dashboard-root .chart-body canvas,
@@ -185,6 +189,9 @@
   height: var(--chart-height-full);
   min-height: 220px;
 }
+#client-dashboard-root {
+  /* Donut styles */
+}
 #client-dashboard-root .hourly-donut,
 #client-dashboard-root .daily-donut,
 #client-dashboard-root .weekly-donut {
@@ -197,6 +204,9 @@
   border-radius: 6px;
   box-shadow: none;
   min-width: 0;
+}
+#client-dashboard-root {
+  /* Integrated donuts: limit max-width to avoid ocupar todo el espacio izquierdo */
 }
 #client-dashboard-root .hourly-donut.integrated,
 #client-dashboard-root .daily-donut.integrated,

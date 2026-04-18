@@ -36,7 +36,6 @@
   align-items: center;
   justify-content: center;
   padding: 0.5rem;
-  /* Eliminated the update photo button */
 }
 .viewEmployee .viewEmployeeHeaderCard .employeePhoto .photoPreview {
   margin-bottom: 1rem;
@@ -51,6 +50,9 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
+}
+.viewEmployee .viewEmployeeHeaderCard .employeePhoto {
+  /* Eliminated the update photo button */
 }
 .viewEmployee .viewEmployeeHeaderCard .viewEmployee-infoCard {
   display: flex;
@@ -109,7 +111,6 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3 adjusted columns */
   gap: 1.2rem;
-  /* Estilos para proyectos asociados */
 }
 @media screen and (max-width: 1024px) {
   .viewEmployee .viewEmployeeDetailsCard .viewEmployee-body {
@@ -138,6 +139,9 @@
   border-radius: 8px;
   font-size: 0.8rem;
   background: #f7f7f7; /* Light background for differentiation */
+}
+.viewEmployee .viewEmployeeDetailsCard .viewEmployee-body {
+  /* Estilos para proyectos asociados */
 }
 .viewEmployee .viewEmployeeDetailsCard .viewEmployee-body .employee-projects,
 .viewEmployee .viewEmployeeDetailsCard .viewEmployee-body .employee-professions {

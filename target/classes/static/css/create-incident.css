@@ -61,8 +61,6 @@
   display: grid;
   gap: 0.52rem;
   margin-bottom: 1.2rem;
-  /* Estilo específico para el input file moderno */
-  /* Preview de imagen */
 }
 .create-incident-body .form-group label {
   font-size: 0.95rem;
@@ -88,6 +86,9 @@
   outline: none;
   border-color: #dc2626;
   box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.14);
+}
+.create-incident-body .form-group {
+  /* Estilo específico para el input file moderno */
 }
 .create-incident-body .form-group input[type=file] {
   padding: 0.4rem 0.5rem;
@@ -116,6 +117,9 @@
   font-size: 0.82rem;
   color: #6b7280;
   margin-top: 0.25rem;
+}
+.create-incident-body .form-group {
+  /* Preview de imagen */
 }
 .create-incident-body .form-group #incidentPhotoPreview {
   margin-top: 0.5rem;

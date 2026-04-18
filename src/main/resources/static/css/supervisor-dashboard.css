@@ -3,7 +3,6 @@
   padding: var(--gap);
   display: grid;
   gap: var(--gap);
-  /* Responsive: dos columnas en pantallas medianas, tres en grandes */
 }
 #dashboard-root .supervisor-button {
   display: grid;
@@ -42,6 +41,9 @@
 #dashboard-root .supervisor-button .h2:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.23);
+}
+#dashboard-root {
+  /* Responsive: dos columnas en pantallas medianas, tres en grandes */
 }
 @media (min-width: 560px) {
   #dashboard-root .supervisor-button {

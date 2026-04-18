@@ -39,7 +39,6 @@
   box-sizing: border-box;
   overflow: visible;
   max-width: calc(100vw - var(--sidebar-width) - var(--content-horizontal-padding) * 2);
-  /* Filters toolbar */
 }
 .clients-header .title-row {
   display: flex;
@@ -97,6 +96,9 @@
   font-size: 0.85rem;
   font-weight: 500;
   color: #162032;
+}
+.clients-header {
+  /* Filters toolbar */
 }
 .clients-header .filters-row {
   display: flex;
@@ -181,7 +183,6 @@
   background: #ffffff;
   border: 1px solid #e7eef9;
   box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
-  /* Responsive */
 }
 .clients-table-container .clients-table {
   width: 100%;
@@ -207,7 +208,6 @@
 }
 .clients-table-container .clients-table tbody tr {
   transition: background 0.12s ease;
-  /* Ajuste de la columna Acciones */
 }
 .clients-table-container .clients-table tbody tr:hover {
   background-color: rgba(37, 99, 235, 0.03);
@@ -219,6 +219,9 @@
   white-space: normal;
   word-break: break-word;
   overflow-wrap: anywhere;
+}
+.clients-table-container .clients-table tbody tr {
+  /* Ajuste de la columna Acciones */
 }
 .clients-table-container .clients-table tbody tr td.actions {
   width: 12%;
@@ -241,6 +244,9 @@
 }
 .clients-table-container .clients-table tbody tr td.actions .btn-link:hover {
   color: rgb(19.4285714286, 79.6571428571, 211.7714285714);
+}
+.clients-table-container {
+  /* Responsive */
 }
 @media (max-width: 640px) {
   .clients-table-container .client-accounts-header {

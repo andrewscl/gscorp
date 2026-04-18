@@ -96,13 +96,6 @@ p {
   max-width: 980px;
   margin: 0 auto;
   padding: 2rem clamp(1rem, 2vw, 2rem);
-  /* Form groups */
-  /* Grid row for form when there is a photo/side column */
-  /* Message area */
-  /* Actions (guardar / cancelar) */
-  /* Thumbnail / photo placeholder (optional section on right) */
-  /* Small utility helpers */
-  /* Responsive tweaks */
 }
 .detail-section.edit-client-account h2 {
   margin-bottom: 1.1rem;
@@ -130,12 +123,13 @@ p {
   flex-direction: column;
   gap: 1.25rem;
 }
+.detail-section.edit-client-account {
+  /* Form groups */
+}
 .detail-section.edit-client-account .form-group {
   display: flex;
   flex-direction: column;
   gap: 0.18rem;
-  /* Editable states */
-  /* Readonly variant (used in view fragment) */
 }
 .detail-section.edit-client-account .form-group label {
   font-size: 1rem;
@@ -157,11 +151,17 @@ p {
   box-shadow: none;
   outline: none;
 }
+.detail-section.edit-client-account .form-group {
+  /* Editable states */
+}
 .detail-section.edit-client-account .form-group input:focus,
 .detail-section.edit-client-account .form-group select:focus,
 .detail-section.edit-client-account .form-group textarea:focus {
   border-color: #93c5fd;
   box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.06);
+}
+.detail-section.edit-client-account .form-group {
+  /* Readonly variant (used in view fragment) */
 }
 .detail-section.edit-client-account .form-group input[readonly],
 .detail-section.edit-client-account .form-group textarea[readonly],
@@ -192,6 +192,9 @@ p {
   font-size: 0.92rem;
   margin-top: 0.18rem;
 }
+.detail-section.edit-client-account {
+  /* Grid row for form when there is a photo/side column */
+}
 .detail-section.edit-client-account .form-row {
   display: grid;
   grid-template-columns: 1fr 320px;
@@ -199,6 +202,9 @@ p {
 }
 .detail-section.edit-client-account .form-row .form-group {
   margin: 0;
+}
+.detail-section.edit-client-account {
+  /* Message area */
 }
 .detail-section.edit-client-account .form-message {
   margin-top: 0.4rem;
@@ -227,6 +233,9 @@ p {
   font-size: 1rem;
   margin-top: 0.8rem;
   display: none;
+}
+.detail-section.edit-client-account {
+  /* Actions (guardar / cancelar) */
 }
 .detail-section.edit-client-account .actions {
   display: flex;
@@ -263,6 +272,9 @@ p {
 .detail-section.edit-client-account .actions .vs-btn.vs-secondary:hover {
   background: #f8fafc;
 }
+.detail-section.edit-client-account {
+  /* Thumbnail / photo placeholder (optional section on right) */
+}
 .detail-section.edit-client-account .photo-box .incident-photo-thumb {
   max-width: 100%;
   width: 100%;
@@ -285,10 +297,16 @@ p {
   color: #64748b;
   background: #fafafa;
 }
+.detail-section.edit-client-account {
+  /* Small utility helpers */
+}
 .detail-section.edit-client-account .required {
   color: #ef4444;
   margin-left: 0.15rem;
   font-weight: 700;
+}
+.detail-section.edit-client-account {
+  /* Responsive tweaks */
 }
 @media (max-width: 880px) {
   .detail-section.edit-client-account {

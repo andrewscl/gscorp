@@ -101,7 +101,6 @@ p {
   z-index: 1000;
   transition: background-color 0.4s, box-shadow 0.4s;
   /* Estado transparente inicial */
-  /* Estado con fondo sólido al hacer scroll */
 }
 .navbar.transparent {
   background-color: transparent;
@@ -121,6 +120,9 @@ p {
 .navbar.transparent .mega-menu-content .menu-toggle {
   color: white;
   filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.45));
+}
+.navbar {
+  /* Estado con fondo sólido al hacer scroll */
 }
 .navbar.solid {
   background-color: #ffffff;
@@ -221,7 +223,6 @@ p {
   display: flex;
   height: 100%;
   align-items: center;
-  /* SOLO desktop: abrir mega-menu por hover */
 }
 .navbar .mega-menu-content .nav-links .nav-item a {
   display: flex;
@@ -238,6 +239,9 @@ p {
 .navbar .mega-menu-content .nav-links .nav-item a .arrow-icon {
   transition: transform 0.3s ease;
   color: #3b82f6;
+}
+.navbar .mega-menu-content .nav-links .nav-item {
+  /* SOLO desktop: abrir mega-menu por hover */
 }
 @media (hover: hover) and (pointer: fine) {
   .navbar .mega-menu-content .nav-links .nav-item:hover > a .arrow-icon {
@@ -356,17 +360,17 @@ p {
     -webkit-overflow-scrolling: touch;
     display: none;
     flex-direction: column;
-    /* Fila (item raíz) */
   }
   .navbar .mega-menu-content #nav-links.open {
     display: flex;
+  }
+  .navbar .mega-menu-content #nav-links {
+    /* Fila (item raíz) */
   }
   .navbar .mega-menu-content #nav-links > .nav-item {
     position: relative;
     display: block;
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-    /* Panel del mega (acordeón) */
-    /* Mostrar panel del item activo */
   }
   .navbar .mega-menu-content #nav-links > .nav-item > a { /* Título padre (tappable) */
     display: flex;
@@ -384,6 +388,9 @@ p {
   .navbar .mega-menu-content #nav-links > .nav-item.open-sub > a .arrow-icon {
     transform: rotate(180deg);
   }
+  .navbar .mega-menu-content #nav-links > .nav-item {
+    /* Panel del mega (acordeón) */
+  }
   .navbar .mega-menu-content #nav-links > .nav-item > .mega-menu {
     /* Resets contundentes vs desktop */
     position: static !important;
@@ -400,7 +407,6 @@ p {
     display: none;
     overflow: visible;
     /* Cabecera dentro del panel */
-    /* Opciones internas */
   }
   .navbar .mega-menu-content #nav-links > .nav-item > .mega-menu > .h2, .navbar .mega-menu-content #nav-links > .nav-item > .mega-menu > .h2.menu-link {
     display: block;
@@ -415,6 +421,9 @@ p {
     width: 100%;
     padding: 0;
     margin: 0 0 0.5rem;
+  }
+  .navbar .mega-menu-content #nav-links > .nav-item > .mega-menu {
+    /* Opciones internas */
   }
   .navbar .mega-menu-content #nav-links > .nav-item > .mega-menu a {
     display: block;
@@ -435,6 +444,9 @@ p {
     max-width: 100%;
     height: auto;
     display: block;
+  }
+  .navbar .mega-menu-content #nav-links > .nav-item {
+    /* Mostrar panel del item activo */
   }
   .navbar .mega-menu-content #nav-links > .nav-item.open-sub > .mega-menu {
     display: block !important;

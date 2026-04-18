@@ -34,7 +34,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* Estilizamos el botón para actualizar la foto */
 }
 .editEmployee .editEmployeeHeaderCard .employeePhoto label {
   font-weight: bold;
@@ -53,6 +52,9 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+.editEmployee .editEmployeeHeaderCard .employeePhoto {
+  /* Estilizamos el botón para actualizar la foto */
 }
 .editEmployee .editEmployeeHeaderCard .employeePhoto .updatePhotoButton {
   display: inline-block;

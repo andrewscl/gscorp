@@ -7,9 +7,6 @@
   z-index: 10000;
   font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Helvetica Neue", sans-serif;
   /* ---------- Botón flotante ---------- */
-  /* Responsive: botón un pelín más pequeño en móviles */
-  /* Reduced motion */
-  /* ---------- Panel del chat ---------- */
 }
 #chat-widget #chat-button {
   inline-size: 56px;
@@ -28,8 +25,6 @@
   will-change: transform;
   backface-visibility: hidden;
   transform: translateZ(0);
-  /* Estado abierto (tu JS debe setear aria-expanded="true") */
-  /* Badge opcional (no leídos) */
 }
 #chat-widget #chat-button .icon {
   inline-size: 24px;
@@ -59,9 +54,15 @@
   outline: 3px solid rgba(10, 102, 194, 0.35);
   outline-offset: 3px;
 }
+#chat-widget #chat-button {
+  /* Estado abierto (tu JS debe setear aria-expanded="true") */
+}
 #chat-widget #chat-button[aria-expanded=true] {
   background: linear-gradient(180deg, #0a66c2, #0a5bb0);
   transform: scale(1.02);
+}
+#chat-widget #chat-button {
+  /* Badge opcional (no leídos) */
 }
 #chat-widget #chat-button .badge {
   position: absolute;
@@ -73,12 +74,18 @@
   background: #ef4444;
   box-shadow: 0 0 0 2px #fff;
 }
+#chat-widget {
+  /* Responsive: botón un pelín más pequeño en móviles */
+}
 @media (max-width: 480px) {
   #chat-widget #chat-button {
     inline-size: 52px;
     block-size: 52px;
     border-radius: 14px;
   }
+}
+#chat-widget {
+  /* Reduced motion */
 }
 @media (prefers-reduced-motion: reduce) {
   #chat-widget #chat-button {
@@ -87,6 +94,9 @@
   #chat-widget #chat-button .icon .dot {
     animation: none;
   }
+}
+#chat-widget {
+  /* ---------- Panel del chat ---------- */
 }
 #chat-widget #chat-container {
   margin-block-start: 12px;
@@ -102,11 +112,6 @@
   border: 1px solid rgba(15, 23, 42, 0.12);
   box-shadow: 0 24px 60px rgba(2, 6, 23, 0.22);
   /* Aplica blur si el navegador lo soporta */
-  /* Oculto por defecto (tu JS alterna .hidden) */
-  /* ---------- Header ---------- */
-  /* ---------- Mensajes ---------- */
-  /* ---------- Input ---------- */
-  /* tarjeta del formulario dentro de mensajes */
 }
 @supports (backdrop-filter: blur(10px)) {
   #chat-widget #chat-container {
@@ -115,11 +120,17 @@
     background: rgba(255, 255, 255, 0.72);
   }
 }
+#chat-widget #chat-container {
+  /* Oculto por defecto (tu JS alterna .hidden) */
+}
 #chat-widget #chat-container.hidden {
   display: none;
 }
 #chat-widget #chat-container.is-open {
   animation: chat-in 0.18s ease-out both;
+}
+#chat-widget #chat-container {
+  /* ---------- Header ---------- */
 }
 #chat-widget #chat-container .chat-header {
   position: sticky;
@@ -166,6 +177,9 @@
 #chat-widget #chat-container .chat-header #chat-close:focus-visible {
   outline: 3px solid rgba(255, 255, 255, 0.5);
   outline-offset: 3px;
+}
+#chat-widget #chat-container {
+  /* ---------- Mensajes ---------- */
 }
 #chat-widget #chat-container #chat-messages {
   flex: 1 1 auto;
@@ -218,6 +232,9 @@
   margin-block-start: 0.28rem;
   font-size: 0.75rem;
   color: #475569;
+}
+#chat-widget #chat-container {
+  /* ---------- Input ---------- */
 }
 #chat-widget #chat-container .chat-input {
   display: grid;
@@ -295,6 +312,9 @@
 #chat-widget #chat-container .chat-actions .cta-btn:focus-visible {
   outline: 3px solid rgba(10, 102, 194, 0.35);
   outline-offset: 3px;
+}
+#chat-widget #chat-container {
+  /* tarjeta del formulario dentro de mensajes */
 }
 #chat-widget #chat-container .lead-form {
   background: #fff;
@@ -410,7 +430,6 @@
     border-color: rgba(255, 255, 255, 0.18);
   }
   /* ---------- Responsive ---------- */
-  /* ---------- Reduced Motion ---------- */
 }
 @media (prefers-color-scheme: dark) and (max-width: 480px) {
   #chat-container {
@@ -420,6 +439,9 @@
     border-radius: 18px;
     margin: 0;
   }
+}
+@media (prefers-color-scheme: dark) {
+  /* ---------- Reduced Motion ---------- */
 }
 @media (prefers-color-scheme: dark) and (prefers-reduced-motion: reduce) {
   #chat-button, #chat-container {

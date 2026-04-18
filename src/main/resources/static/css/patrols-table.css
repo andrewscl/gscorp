@@ -30,8 +30,6 @@
   overflow: visible;
   max-width: calc(100vw - var(--sidebar-width) - var(--content-horizontal-padding) * 2);
   /* title row: left = icon + title, right = count badge */
-  /* optional header meta area */
-  /* filters toolbar */
 }
 .patrols-header .title-row {
   display: flex;
@@ -71,6 +69,9 @@
   box-shadow: 0 1px 0 rgba(15, 23, 42, 0.03);
   margin-left: auto;
 }
+.patrols-header {
+  /* optional header meta area */
+}
 .patrols-header .header-meta {
   margin-top: 0.35rem;
   display: flex;
@@ -95,6 +96,9 @@
   font-weight: 500;
   color: #162032;
   margin: 0;
+}
+.patrols-header {
+  /* filters toolbar */
 }
 .patrols-header .filters-actions-row {
   display: flex;

@@ -91,14 +91,6 @@ p {
   height: 60vh;
   max-width: 100%;
   max-height: 100vh;
-  /* (opcional) velo para contraste del texto
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(0deg, rgba(0,0,0,.45), rgba(0,0,0,.25));
-    pointer-events: none;
-  }*/
 }
 .governance-image img {
   width: 100%;
@@ -143,6 +135,16 @@ p {
   background-color: rgb(27, 36.9, 53.1);
   border-color: rgb(27, 36.9, 53.1);
 }
+.governance-image {
+  /* (opcional) velo para contraste del texto
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, rgba(0,0,0,.45), rgba(0,0,0,.25));
+    pointer-events: none;
+  }*/
+}
 
 .text-container-big {
   padding: 0 45vw 0 5rem;
@@ -161,7 +163,6 @@ p {
 .text-video-governance {
   height: auto;
   max-height: none;
-  /* ==== Móvil: video arriba, texto abajo ==== */
 }
 .text-video-governance .container {
   display: flex;
@@ -190,6 +191,9 @@ p {
   padding: 0 1rem 0 1rem;
   border-radius: 1rem;
   overflow: hidden;
+}
+.text-video-governance {
+  /* ==== Móvil: video arriba, texto abajo ==== */
 }
 @media (max-width: 768px) {
   .text-video-governance {
@@ -238,7 +242,6 @@ p {
   height: auto;
   max-height: none;
   margin-bottom: 1.5rem;
-  /* ==== Móvil: imagen arriba, texto abajo ==== */
 }
 .text-image-governance .container {
   display: flex;
@@ -282,6 +285,9 @@ p {
     opacity: 1;
     transform: scale(1.05);
   }
+}
+.text-image-governance {
+  /* ==== Móvil: imagen arriba, texto abajo ==== */
 }
 @media (max-width: 768px) {
   .text-image-governance {

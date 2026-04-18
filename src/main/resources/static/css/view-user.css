@@ -94,16 +94,15 @@ p {
   max-width: 820px;
   margin: 0 auto;
   padding: 1.25rem clamp(1rem, 2vw, 2rem);
-  /* Filas label/valor con altura uniforme */
-  /* Bloque de roles (añade class="roles-block" en tu HTML) */
-  /* Acciones (añade class="actions" en tu HTML) */
-  /* Responsive */
 }
 .detail-section > h2 {
   margin: 0 0 1rem;
   font-size: clamp(1.25rem, 1.5vw, 1.6rem);
   font-weight: 700;
   color: #1e293b;
+}
+.detail-section {
+  /* Filas label/valor con altura uniforme */
 }
 .detail-section > p {
   display: grid;
@@ -129,18 +128,23 @@ p {
   color: #0f172a;
   word-break: break-word;
 }
+.detail-section {
+  /* Bloque de roles (añade class="roles-block" en tu HTML) */
+}
 .detail-section > .block {
   margin-top: 1rem;
   margin-bottom: 1.25rem;
   border-top: 1px dashed #e2e8f0;
   padding-top: 1rem;
-  /* Chips locales (no afectan tablas) */
 }
 .detail-section > .block > strong {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 600;
   color: #334155;
+}
+.detail-section > .block {
+  /* Chips locales (no afectan tablas) */
 }
 .detail-section > .block .tag {
   display: inline-flex;
@@ -159,6 +163,9 @@ p {
 .detail-section > .block em {
   color: #64748b;
   font-size: 0.95rem;
+}
+.detail-section {
+  /* Acciones (añade class="actions" en tu HTML) */
 }
 .detail-section > .actions {
   display: flex;
@@ -198,6 +205,9 @@ p {
 }
 .detail-section > .actions .vs-danger:hover, .detail-section > .actions .btn.danger:hover {
   background: #dc2626;
+}
+.detail-section {
+  /* Responsive */
 }
 @media (max-width: 640px) {
   .detail-section > p {

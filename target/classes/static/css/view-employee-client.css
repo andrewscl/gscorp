@@ -9,15 +9,14 @@
   border-radius: 15px;
   background: #ffffff;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.12);
-  /* Sección de la Foto */
-  /* Información del empleado */
-  /* Proyectos Asociados */
-  /* Acciones (Botones) */
 }
 @media screen and (max-width: 768px) {
   .employee-fragment-client {
     grid-template-columns: 1fr; /* Cambia a una sola columna en dispositivos móviles */
   }
+}
+.employee-fragment-client {
+  /* Sección de la Foto */
 }
 .employee-fragment-client .employee-photo {
   display: flex;
@@ -42,6 +41,9 @@
   .employee-fragment-client .employee-photo {
     margin-bottom: 0; /* Elimina margen adicional en móviles */
   }
+}
+.employee-fragment-client {
+  /* Información del empleado */
 }
 .employee-fragment-client .employee-details {
   display: flex;
@@ -85,6 +87,9 @@
 .employee-fragment-client .employee-details .employee-info-list li a:hover {
   text-decoration: underline;
 }
+.employee-fragment-client {
+  /* Proyectos Asociados */
+}
 .employee-fragment-client .employee-projects {
   margin-top: 0.75rem;
   padding: 1.25rem;
@@ -111,6 +116,9 @@
 .employee-fragment-client .employee-projects span {
   font-size: 1rem;
   color: #aaaaaa;
+}
+.employee-fragment-client {
+  /* Acciones (Botones) */
 }
 .employee-fragment-client .actions {
   display: flex;
