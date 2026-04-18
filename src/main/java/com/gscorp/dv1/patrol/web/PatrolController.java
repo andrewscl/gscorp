@@ -53,17 +53,18 @@ public class PatrolController {
                     Model model,
                     Authentication authentication) {
 
-        Long userId = userService.getUserIdFromAuthentication(authentication);
+        Long userId = userService
+                            .getUserIdFromAuthentication(authentication);
         if(userId == null) {
             return "redirect:/login";
         }
 
-        List<SiteDtoProjection> sites = siteService.findSiteProjectionsByUserId(userId);
+        List<SiteDtoProjection> sites = siteService
+                            .findSiteProjectionsByUserId(userId);
 
         model.addAttribute("DayOfWeek", DayOfWeek.values());
         model.addAttribute("siteList", sites);
         return "private/patrols/views/create-patrol-view";
     }
-
 
 }

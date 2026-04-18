@@ -1,10 +1,5 @@
 package com.gscorp.dv1.patrol.web;
 
-import java.time.DateTimeException;
-import java.time.Instant;
-import java.time.LocalTime;
-import java.time.OffsetTime;
-import java.time.ZoneId;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
@@ -16,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.gscorp.dv1.components.ZoneResolver;
-import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.exceptions.ResourceNotFoundException;
 import com.gscorp.dv1.patrol.application.PatrolService;
 import com.gscorp.dv1.patrol.infrastructure.Patrol;
@@ -40,7 +33,6 @@ public class PatrolRestController {
     private final PatrolService patrolService;
     private final SiteService siteService;
     private final UserService userService;
-    private final ZoneResolver zoneResolver;
 
     @PostMapping("/create")
     public ResponseEntity<PatrolDto> createPatrol(
@@ -61,20 +53,6 @@ public class PatrolRestController {
 
         if (site.isEmpty()) {
             throw new ResourceNotFoundException("Site not found: " + siteId);
-        }
-
-        //Resolver zona horaria
-        ZoneResolutionResult zoneResolution = zoneResolver.resolveZone(userId, req.tz());
-        ZoneId resolvedZone = zoneResolution.zoneId();
-
-        //Convertir startime recibido como String a OffsetTime en zona resuelta
-        String startTimeStr = req.startTime();
-        OffsetTime startTime;
-        try {
-            startTime = OffsetTime.parse(startTimeStr);
-        } catch (DateTimeException ex) {
-            LocalTime localTime = LocalTime.parse(startTimeStr);
-            startTime = localTime.atOffset(resolvedZone.getRules().getOffset(Instant.now()));
         }
 
         //Construir entidad
