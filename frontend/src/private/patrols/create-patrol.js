@@ -146,14 +146,6 @@ function onClickRemoveItem(e) {
 }
 
 
-// Manejador genérico para eliminar elementos de listas dinámicas
-function onClickRemoveItem(e) {
-    if (e.target.classList.contains('btn-remove') || e.target.classList.contains('btn-remove-schedule')) {
-        e.target.parentElement.remove();
-    }
-}
-
-
 function bindEvents() {
     // acciones principales
     qs('#createPatrolBtn')?.addEventListener('click', onClickCreate);
