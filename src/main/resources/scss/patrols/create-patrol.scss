@@ -202,7 +202,8 @@
                     display: flex;
                     flex-direction: column;
 
-                    .schedule {
+                    .schedule,
+                    .checkpoint-item {
                         display: flex;
                         flex-direction: row;
                         align-items: center;
