@@ -146,6 +146,7 @@ function onClickRemoveItem(e) {
 }
 
 
+
 function bindEvents() {
     // acciones principales
     qs('#createPatrolBtn')?.addEventListener('click', onClickCreate);
