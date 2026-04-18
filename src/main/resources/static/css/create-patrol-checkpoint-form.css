@@ -13,55 +13,58 @@
   border-bottom: 2px solid #f1f5f9;
   padding-bottom: 0.5rem;
 }
-.hs-form .form-group {
+.hs-form .patrol-form-body .form-group {
   margin-bottom: 1.2rem;
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
 }
-.hs-form .form-group label {
+.hs-form .patrol-form-body .form-group label {
   font-size: 0.9rem;
   font-weight: 600;
   color: #334155;
 }
-.hs-form .form-group input, .hs-form .form-group select {
+.hs-form .patrol-form-body .form-group input, .hs-form .patrol-form-body .form-group select {
   border: 1px solid #cbd5e1;
   border-radius: 8px;
   padding: 0.6rem 0.8rem;
   font-size: 1rem;
   transition: all 0.2s;
 }
-.hs-form .form-group input:focus, .hs-form .form-group select:focus {
+.hs-form .patrol-form-body .form-group input:focus, .hs-form .patrol-form-body .form-group select:focus {
   border-color: #2563eb;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
   outline: none;
 }
-.hs-form .day-range {
+.hs-form .patrol-form-body .day-range {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
-.hs-form .panel {
+.hs-form .patrol-form-body .checkpoints-container .panel,
+.hs-form .patrol-form-body .time-patrol-schedules .panel {
   background: #f8fafc;
   border: 1px solid #e2e8f0;
   border-radius: 10px;
   padding: 1rem;
   margin-bottom: 1.5rem;
 }
-.hs-form .panel .panel-header {
+.hs-form .patrol-form-body .checkpoints-container .panel .panel-header,
+.hs-form .patrol-form-body .time-patrol-schedules .panel .panel-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
 }
-.hs-form .panel .panel-header label {
+.hs-form .patrol-form-body .checkpoints-container .panel .panel-header label,
+.hs-form .patrol-form-body .time-patrol-schedules .panel .panel-header label {
   font-weight: 700;
   color: #1e40af;
   margin: 0;
 }
 .hs-form .schedule, .hs-form .checkpoint-item {
   display: flex;
-  gap: 0.5rem;
+  gap: 2rem;
   margin-bottom: 0.75rem;
   align-items: center;
   animation: fadeIn 0.3s ease;
