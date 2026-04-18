@@ -312,6 +312,16 @@ p {
   font-weight: 500;
   letter-spacing: 0.02em;
 }
+.hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .schedule input[type=time],
+.hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .checkpoint-item input[type=time],
+.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoints-list .schedule input[type=time],
+.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoints-list .checkpoint-item input[type=time],
+.hs-form .patrol-form-body .checkpoints-container .panel .schedules-list .schedule input[type=time],
+.hs-form .patrol-form-body .checkpoints-container .panel .schedules-list .checkpoint-item input[type=time],
+.hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .schedule input[type=time],
+.hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .checkpoint-item input[type=time] {
+  max-width: 5rem;
+}
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .schedule input::placeholder,
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .checkpoint-item input::placeholder,
 .hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoints-list .schedule input::placeholder,
