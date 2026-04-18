@@ -152,7 +152,8 @@
             }
         }
 
-        .time-patrol-schedules {
+        .time-patrol-schedules,
+        .checkpoints-container {
             display: flex;
             flex-direction: column;
             margin-top: 1px;
@@ -195,7 +196,8 @@
                     }
                 }
 
-                &.schedule-list {
+                &.schedules-list,
+                &.checkpoints-list {
                     padding: 10px 15px;
                     display: flex;
                     flex-direction: column;
