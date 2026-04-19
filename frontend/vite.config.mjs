@@ -69,7 +69,9 @@ export default defineConfig({
         'private/forecast/forecast-table': path.resolve(__dirname, './src/private/forecast/forecast-table.js'),
         'private/forecast/create-forecast': path.resolve(__dirname, './src/private/forecast/create-forecast.js'),
         'private/patrols/patrols-table': path.resolve(__dirname, './src/private/patrols/patrols-table.js'),
-        'private/patrols/create-patrol': path.resolve(__dirname, './src/private/patrols/create-patrol.js')
+        'private/patrols/create-patrol': path.resolve(__dirname, './src/private/patrols/create-patrol.js'),
+        'private/patrols/edit-patrol': path.resolve(__dirname, './src/private/patrols/edit-patrol.js')
+
       },
       output: {
         entryFileNames: '[name].js'
