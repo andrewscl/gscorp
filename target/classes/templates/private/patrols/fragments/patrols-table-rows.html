@@ -6,16 +6,18 @@
         <td th:text="${p.siteName != null ? p.siteName : '—'}"></td>
         <td th:text="${p.dayFrom != null ? p.dayFrom + ' - ' + p.dayTo : '—'}"></td>
         <td class="actions">
+
             <button type="button" class="btn-view"
                 th:attr="data-path=@{/private/patrols/show/{id}(id=${p.id})}">
             Ver
             </button>
 
             <button type="button" class="btn-edit"
-                th:attr="data-path=@{/private/patrols/edit/{id}(id=${p.id})}"
+                th:attr="data-path=@{/private/patrols/edit/{id}(id=${p.externalId})}"
                 th:if="${#authorization.expression('hasRole(''ANALYST'')')}">
             Editar
             </button>
+
         </td>
     </tr>
 
