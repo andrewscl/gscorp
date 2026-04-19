@@ -7,6 +7,9 @@ const qsa = (s) => document.querySelectorAll(s);
 async function onClickCreate(e) {
     e.preventDefault();
 
+    const btn = e.target;
+    btn.disabled = true; // Deshabilitar el botón para evitar múltiples clics
+
     // Contenedor de alertas
     const alertSuccess = qs('.alert-success');
     const alertError = qs('.alert-error');
@@ -14,10 +17,10 @@ async function onClickCreate(e) {
     //Generar payload dinámico con los datos del formulario
     const payload = {
     siteId : Number(qs('#siteId')?.value),
-    patrolName : qs('#patrolName')?.value?.trim(),
+    name : qs('#patrolName')?.value?.trim(),
+    description : qs('#patrolDescription')?.value?.trim(),
     dayFrom : Number(qs('#dayFrom')?.value),
     dayTo : Number(qs('#dayTo')?.value),
-    startTime : qs('#startTime')?.value,
     // Recolectar Array de Horarios
     scheduleTimes : Array.from(qsa('input[name="scheduleTime[]"]'))
                                .map(input => input.value)
@@ -29,7 +32,8 @@ async function onClickCreate(e) {
     };
 
     // Validaciones
-    if (!siteId || !patrolName || !dayFrom || !dayTo || !startTime) {
+    if (!payload.siteId || !payload.name || !payload.description ||
+        !payload.dayFrom || !payload.dayTo) {
         displayAlert(alertError, 'Por favor, complete todos los campos obligatorios.');
         return;
     }
@@ -43,6 +47,7 @@ async function onClickCreate(e) {
 
         // Verificar respuesta del servidor
         if (!response.ok) {
+            btn.disabled = false; // Rehabilitar el botón para permitir reintentos
             const errorData = await response.json(); // Intentar capturar un mensaje detallado
             displayAlert(alertError,
                     `Error: ${errorData.message || 'Ocurrió un problema al enviar el formulario.'}`);
@@ -59,6 +64,7 @@ async function onClickCreate(e) {
         // Manejo de errores de red u otros errores inesperados
         console.error(`[onClickCreate] Ocurrio un problema: ${error.message}`, error);
         displayAlert(alertError, 'Error inesperado. Intente más tarde.');
+        btn.disabled = false; // Rehabilitar el botón para permitir reintentos
     }
 
 }
@@ -98,7 +104,7 @@ function displayAlert(alertElement, message, timeout = 5000) {
 }
 
 
-async function onClickAddTimeSchedule(e) {
+function onClickAddTimeSchedule(e) {
     e.preventDefault();
     const container = qs('#patrolSchedulesList');
     const div = document.createElement('div');
@@ -144,7 +150,6 @@ function onClickRemoveItem(e) {
         }
     }
 }
-
 
 
 function bindEvents() {

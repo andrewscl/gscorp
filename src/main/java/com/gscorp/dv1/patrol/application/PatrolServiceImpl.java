@@ -1,16 +1,21 @@
 package com.gscorp.dv1.patrol.application;
 
+import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gscorp.dv1.patrol.infrastructure.Patrol;
+import com.gscorp.dv1.patrol.infrastructure.PatrolCheckpoint;
 import com.gscorp.dv1.patrol.infrastructure.PatrolProjection;
 import com.gscorp.dv1.patrol.infrastructure.PatrolRepository;
+import com.gscorp.dv1.patrol.infrastructure.PatrolSchedule;
+import com.gscorp.dv1.patrol.web.dto.CreatePatrolRequest;
 import com.gscorp.dv1.patrol.web.dto.PatrolDto;
+import com.gscorp.dv1.sites.infrastructure.Site;
+import com.gscorp.dv1.sites.infrastructure.SiteRepository;
 import com.gscorp.dv1.users.application.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class PatrolServiceImpl implements PatrolService {
 
     private final PatrolRepository patrolRepository;
+    private final SiteRepository siteRepository;
     private final UserService userService;
  
     @Override
@@ -52,18 +58,51 @@ public class PatrolServiceImpl implements PatrolService {
 
     @Override
     @Transactional
-    public PatrolDto savePatrol (Patrol patrol){
+    public PatrolDto savePatrol (CreatePatrolRequest request, Long userId){
+
+        Site site = siteRepository.getReferenceById(request.siteId());
+
+        Patrol patrol = Patrol.builder()
+                                .name(request.name())
+                                .dayFrom(request.dayFrom())
+                                .dayTo(request.dayTo())
+                                .active(true)
+                                .site(site)
+                                .createdBy(userId.toString())
+                                .updatedBy(userId.toString())
+                                .build();
+
+        //Agregar schedules y checkpoints
+        if (request.scheduleTimes() != null) {
+            request.scheduleTimes().forEach(timeStr -> {
+                if (timeStr != null && !timeStr.isBlank()) {
+                    patrol.addSchedule(PatrolSchedule.builder()
+                        .startTime(LocalTime.parse(timeStr))
+                        .active(true)
+                        .build());
+                }
+            });
+        }
+
+        if (request.checkpoints() != null) {
+            request.checkpoints().forEach(name -> 
+                patrol.addCheckpoint(PatrolCheckpoint.builder()
+                    .name(name)
+                    .minutesToReach(0) // Por ahora se setea en 0, luego se podrá modificar
+                    .build())
+            );
+        }
 
         Patrol saved = patrolRepository.save(patrol);
 
-        Optional<PatrolProjection> savedProjectionOpt =
-                                        patrolRepository.findProjectionById(saved.getId());
+        return patrolRepository.findProjectionById(saved.getId())
+                .map(PatrolDto::fromProjection)
+                .orElseThrow(() ->
+                    new IllegalStateException(
+                            "Patrol not found after saving with ID: "
+                                 + saved.getId())
+                );
 
-        return PatrolDto.fromProjection(
-                savedProjectionOpt.orElseThrow(() ->
-                    new IllegalStateException("Saved patrol projection not found, id=" + saved.getId())
-                )
-        );
     }
 
 }

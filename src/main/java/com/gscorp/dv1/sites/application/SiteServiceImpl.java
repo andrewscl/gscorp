@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gscorp.dv1.clients.application.ClientService;
+import com.gscorp.dv1.exceptions.ResourceNotFoundException;
 import com.gscorp.dv1.sites.infrastructure.Site;
 import com.gscorp.dv1.sites.infrastructure.SiteProjection;
 import com.gscorp.dv1.sites.infrastructure.SiteSelectProjection;
@@ -277,6 +278,26 @@ public class SiteServiceImpl implements SiteService{
             .toList();
 
         return dtolist;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public SiteSelectDto findSelectDtoById(Long siteId) {
+
+        SiteDtoProjection siteDtoProjection =
+                siteRepository.findProjectionById(siteId)
+                .orElseThrow(() ->
+                    new ResourceNotFoundException("Site no encontrado con ID: " + siteId)
+                );
+
+        SiteSelectDto response = new SiteSelectDto(
+            siteDtoProjection.id(),
+            siteDtoProjection.name(),
+            siteDtoProjection.lat(),
+            siteDtoProjection.lon()
+        );
+
+        return response;
     }
 
 

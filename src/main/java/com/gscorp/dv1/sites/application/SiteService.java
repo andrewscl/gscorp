@@ -44,4 +44,5 @@ public interface SiteService {
 
     List<SiteDtoProjection> findSiteProjectionsByUserId(Long userId);
 
+    SiteSelectDto findSelectDtoById(Long siteId);
 }

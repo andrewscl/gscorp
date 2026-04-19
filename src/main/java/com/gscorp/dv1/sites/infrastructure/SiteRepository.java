@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.gscorp.dv1.sites.web.dto.SiteDtoProjection;
 import com.gscorp.dv1.sites.web.dto.SiteSelectDto;
 
 @Repository
@@ -81,5 +82,6 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
         @Param("clientIds") List<Long> clientIds
     );
 
+    Optional<SiteDtoProjection> findProjectionById(Long id);
 
 }

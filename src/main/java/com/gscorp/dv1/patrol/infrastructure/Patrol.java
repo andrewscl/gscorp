@@ -3,6 +3,7 @@ package com.gscorp.dv1.patrol.infrastructure;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -20,6 +21,7 @@ import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,15 +34,25 @@ import lombok.Setter;
     @Index(name = "ix_patrols_name", columnList = "name"),
     @Index(name = "ix_patrols_site_id", columnList = "site_id")
     })
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Patrol {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "external_id", unique=true,
+                        nullable=false, updatable=false)
+    private UUID externalId;
+
     @Column(nullable=false, length=64)
     private String name;
+
+    @Column(name = "description", length=255)
+    private String description;
 
     @Column(name = "day_from", nullable = false, length = 1)
     private Integer dayFrom;
@@ -68,8 +80,32 @@ public class Patrol {
     @Column(nullable = true)
     private String updatedBy;
 
-    @OneToMany(mappedBy = "patrol", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "patrol", cascade = CascadeType.ALL
+                                            , orphanRemoval = true)
     @Builder.Default
     private List<PatrolSchedule> schedules = new ArrayList<>();
+
+    @OneToMany(mappedBy = "patrol", cascade = CascadeType.ALL
+                                            , orphanRemoval = true)
+    @Builder.Default
+    private List<PatrolCheckpoint> checkpoints = new ArrayList<>();
+
+    @PrePersist
+    protected void onCreate() {
+        if (this.externalId == null) {
+            this.externalId = UUID.randomUUID();
+        }
+    }
+
+
+    public void addSchedule(PatrolSchedule schedule) {
+        schedules.add(schedule);
+        schedule.setPatrol(this); // Esto es lo que vincula la FK en la BD
+    }
+
+    public void addCheckpoint(PatrolCheckpoint checkpoint) {
+        checkpoints.add(checkpoint);
+        checkpoint.setPatrol(this);
+    }
 
 }
