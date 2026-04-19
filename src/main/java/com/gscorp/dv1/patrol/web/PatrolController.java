@@ -70,7 +70,7 @@ public class PatrolController {
 
     @GetMapping("/edit/{id}")
     public String getEditPatrolForm (
-                    @PathVariable String externalId,
+                    @PathVariable("id") String externalId,
                     Model model,
                     Authentication authentication) {
 
