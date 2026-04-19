@@ -64,6 +64,7 @@ public class PatrolServiceImpl implements PatrolService {
 
         Patrol patrol = Patrol.builder()
                                 .name(request.name())
+                                .description(request.description())
                                 .dayFrom(request.dayFrom())
                                 .dayTo(request.dayTo())
                                 .active(true)
