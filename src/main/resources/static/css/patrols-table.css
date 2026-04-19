@@ -372,9 +372,14 @@ p {
   cursor: pointer;
 }
 .patrols-table-container .patrols-table tbody tr .btn-view {
+  background-color: #64748b;
+  color: white;
+  border: none;
   padding: 0.4rem 0.8rem;
   font-size: 0.85rem;
-  border-width: 1px;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .patrols-table-container .patrols-table tbody tr .btn-view:hover {
   transform: translateY(-3px);
@@ -382,33 +387,29 @@ p {
   border-color: #475569;
 }
 .patrols-table-container .patrols-table tbody tr .btn-edit {
-  background-color: transparent;
-  color: #2563eb;
-  border: 2px solid #2563eb;
+  background-color: #2563eb;
+  color: #fff;
   padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
   font-weight: 600;
-  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2);
-  transition: all 0.3s ease, box-shadow 0.2s;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s ease;
 }
 .patrols-table-container .patrols-table tbody tr .btn-edit:hover {
-  background-color: #2563eb;
-  color: white;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
-  transform: translateY(-2px);
-}
-.patrols-table-container .patrols-table tbody tr .btn-edit:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+  background-color: #1d4ed8;
 }
 .patrols-table-container .patrols-table tbody tr .btn-edit {
-  padding: 0.4rem 0.8rem;
+  padding: 0.45rem 0.9rem;
   font-size: 0.85rem;
-  border-width: 1px;
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .patrols-table-container .patrols-table tbody tr .btn-edit:hover {
+  background-color: #1d4ed8;
   transform: translateY(-3px);
-  box-shadow: 0 8px 15px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+  color: white;
 }
 .patrols-table-container .patrols-table tbody tr .btn-edit:active {
   transform: translateY(0);
