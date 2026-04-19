@@ -1,4 +1,9 @@
 @use "sass:color";
+@use '../base/mixins' as *;
+@use '../base/btn-mixins' as *;
+@use '../base/variables' as *;
+@use '../base/palette' as *;
+@use '../base/typography' as *;
 
 :root {
   --topbar-height: 54px;                /* same as layout topbar height */
