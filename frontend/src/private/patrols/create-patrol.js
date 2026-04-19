@@ -34,7 +34,8 @@ async function onClickCreate(e) {
     // Validaciones
     if (!payload.siteId || !payload.name ||
         !payload.dayFrom || !payload.dayTo) {
-        displayAlert(alertError, 'Por favor, complete todos los campos obligatorios.');
+        displayAlert(alertError,
+            'Por favor, complete todos los campos obligatorios.');
         return;
     }
 
