@@ -71,20 +71,20 @@ async function onClickCreate(e) {
 }
 
 
-async function onClickCancel(e) {
-    e.preventDefault();
+// funcion cancelar
+export async function onClickCancel(e, message = 'La operación ha sido cancelada.') {
+    if (e && e.preventDefault) e.preventDefault();
 
     const alertCancel = qs('.alert-cancel');
-
-    displayAlert(alertCancel, 'La creación de la ronda de supervisión ha sido cancelada.');
+    displayAlert(alertCancel, message);
 
     setTimeout(() => {
-        navigateTo('/private/patrols/table-view'); // recarga el listado
-    }, 3000);
+        navigateTo('/private/patrols/table-view');
+    }, 2000); // Bajé a 2s para que no sea tan lenta la espera
 }
 
 
-function displayAlert(alertElement, message, timeout = 5000) {
+export function displayAlert(alertElement, message, timeout = 5000) {
     const alertContainer = qs('.patrol-alert-container'); // Selecciona el contenedor de alertas
 
     // Asegurar que el contenedor es visible
@@ -104,8 +104,8 @@ function displayAlert(alertElement, message, timeout = 5000) {
     }, timeout);
 }
 
-
-function onClickAddTimeSchedule(e) {
+// --- Lógica de schedules ---
+export function onClickAddTimeSchedule(e) {
     e.preventDefault();
     const container = qs('#patrolSchedulesList');
     const div = document.createElement('div');
@@ -118,8 +118,8 @@ function onClickAddTimeSchedule(e) {
 }
 
 
-// --- Lógica de Puntos de Control ---
-function onClickAddCheckpoint(e) {
+// --- Lógica de checkpoints ---
+export function onClickAddCheckpoint(e) {
     e.preventDefault();
     const container = qs('#checkpointsList');
     if(!container) return; // Validación de seguridad
@@ -137,7 +137,7 @@ function onClickAddCheckpoint(e) {
 
 
 // Manejador genérico para eliminar elementos
-function onClickRemoveItem(e) {
+export function onClickRemoveItem(e) {
     // Verificamos si el clic fue en un botón de eliminar
     const isRemoveButton = e.target.classList.contains('btn-remove') || 
                            e.target.classList.contains('btn-remove-schedule');

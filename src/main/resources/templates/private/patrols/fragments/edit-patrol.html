@@ -1,0 +1,82 @@
+<div th:fragment="content">
+  <div class="hs-form">
+    <div class="patrol-form-header">
+      <h4>Editar Ronda de Supervisión</h4>
+      <p class="text-sm text-gray-500">Modificando: <strong th:text="${patrol.name}"></strong></p>
+    </div>
+
+    <div class="patrol-alert-container">
+        <!-- Alerta de éxito -->
+        <div class="alert alert-success" role="alert" aria-live="polite">
+            <span class="alert-icon">✅</span>
+            <span class="alert-message"></span> <!-- Mensaje dinámico -->
+        </div>
+
+        <!-- Alerta de error -->
+        <div class="alert alert-error" role="alert" aria-live="assertive">
+            <span class="alert-icon">❌</span>
+            <span class="alert-message"></span> <!-- Mensaje dinámico -->
+        </div>
+
+        <!-- Alerta de cancelación -->
+        <div class="alert alert-cancel" role="alert" aria-live="polite">
+            <span class="alert-icon">⚠️</span>
+            <span class="alert-message"></span> <!-- Mensaje dinámico -->
+        </div>
+    </div>
+
+    <form class="patrol-form-body" id="edit-patrol-form">
+      <input type="hidden" id="patrolExternalId"
+                        th:value="${patrol.externalId}" />
+
+      <div class="form-group">
+        <label for="siteId">Sitio / Instalación</label>
+        <input type="text" 
+            class="form-control-static" 
+            th:value="${patrol.siteName}" 
+            readonly 
+            disabled />
+        <input type="hidden" id="siteId"
+                            th:value="${patrol.siteId}" />
+      </div>
+
+      <div class="form-group">
+        <label for="patrolName">Nombre</label>
+        <input type="text" id="patrolName" name="name" th:value="${patrol.name}" required />
+      </div>
+
+      <div class="time-patrol-schedules">
+        <div class="panel">
+          <label>Horarios configurados</label>
+          <div id="patrolSchedulesList" class="schedules-list">
+            <div th:each="sch : ${patrol.schedules}" class="schedule">
+              <input type="time" name="scheduleTime[]" class="schedule-input" th:value="${sch.startTime}" required />
+              <button type="button" class="btn-mini btn-remove">Eliminar</button>
+            </div>
+          </div>
+          <button type="button" id="addTimeScheduleBtn" class="btn-mini">+ Añadir otro horario</button>
+        </div>
+      </div>
+
+      <div class="checkpoints-container">
+        <div class="panel">
+          <label>Puntos de Control</label>
+          <div id="checkpointsList" class="checkpoints-list">
+            <div th:each="cp : ${patrol.checkpoints}" class="checkpoint-item">
+              <input type="text" name="checkpointName[]" th:value="${cp.name}" required />
+              <button type="button" class="btn-mini btn-remove">Eliminar</button>
+            </div>
+          </div>
+          <button type="button" id="addCheckpointBtn" class="btn-mini">+ Añadir punto</button>
+        </div>
+      </div>
+    </form>
+
+    <div class="patrol-form-footer">
+      <button class="btn btn-primary" id="updatePatrolBtn">Guardar Cambios</button>
+      <button class="btn btn-secondary" onclick="window.history.back()">Volver</button>
+    </div>
+  </div>
+
+  <script type="module" src="/js/private/patrols/edit-patrol.js"></script>
+</div>

@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gscorp.dv1.enums.DayOfWeek;
@@ -65,6 +66,28 @@ public class PatrolController {
         model.addAttribute("DayOfWeek", DayOfWeek.values());
         model.addAttribute("siteList", sites);
         return "private/patrols/views/create-patrol-view";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String getEditPatrolForm (
+                    @PathVariable String externalId,
+                    Model model,
+                    Authentication authentication) {
+
+        Long userId = userService
+                            .getUserIdFromAuthentication(authentication);
+        if(userId == null) {
+            return "redirect:/login";
+        }
+
+        //Buscar ragistro patrol por externalId
+        PatrolDto patrol = patrolService
+                            .getPatrolByExternalId(externalId);
+
+        model.addAttribute("patrol", patrol);
+        model.addAttribute("DayOfWeek", DayOfWeek.values());
+        return "private/patrols/views/edit-patrol-view";
+    
     }
 
 }

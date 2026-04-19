@@ -19,6 +19,7 @@ import com.gscorp.dv1.sites.infrastructure.Site;
 import com.gscorp.dv1.sites.infrastructure.SiteRepository;
 import com.gscorp.dv1.users.application.UserService;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -109,6 +110,18 @@ public class PatrolServiceImpl implements PatrolService {
                                  + saved.getId())
                 );
 
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public PatrolDto getPatrolByExternalId(String externalId) {
+        return patrolRepository.findProjectionByExternalId(externalId)
+                .map(PatrolDto::fromProjection)
+                .orElseThrow(() ->
+                    new EntityNotFoundException(
+                            "No patrol found with external ID: " + externalId)
+                );
     }
 
 }

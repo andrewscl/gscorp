@@ -297,44 +297,48 @@ $shadow-xs: 0 1px 4px rgba(15,23,42,0.04);
           width: 12%;
           min-width: 120px;
           white-space: nowrap;
+          gap: 0.4rem;
+
+          .btn-view {
+            @include btn-cool-gray;
+            // Ajustamos el tamaño para que quepa en la tabla
+            background-color: #64748b;
+            color: white;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            &:hover {
+                transform: translateY(-3px); // Se levanta un poquito más
+                box-shadow: 0 5px 12px rgba(0,0,0,0.15); // La sombra se estira
+                border-color: #475569;
+            }
+          }
+
+          .btn-edit {
+            @include btn-primary-blue; 
+            padding: 0.45rem 0.9rem; // Sobrescribimos el padding del mixin para la tabla
+            font-size: 0.85rem;
+            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+            &:hover {
+                background-color: #1d4ed8; // azul más fuerte
+                transform: translateY(-3px);
+                // La sombra azul que tanto nos gustó
+                box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4); 
+                color: white;
+            }
+            &:active {
+                  transform: translateY(0); // Efecto de "presionar" al hacer clic
+            }
+          } 
+
         }
 
-        .btn-view {
-          @include btn-cool-gray;
-          // Ajustamos el tamaño para que quepa en la tabla
-          background-color: #64748b;
-          color: white;
-          border: none;
-          padding: 0.4rem 0.8rem;
-          font-size: 0.85rem;
-          font-weight: 600;
-          border-radius: 0.5rem;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          &:hover {
-              transform: translateY(-3px); // Se levanta un poquito más
-              box-shadow: 0 5px 12px rgba(0,0,0,0.15); // La sombra se estira
-              border-color: #475569;
-          }
-        }
 
-        .btn-edit {
-          @include btn-primary-blue; 
-          padding: 0.45rem 0.9rem; // Sobrescribimos el padding del mixin para la tabla
-          font-size: 0.85rem;
-          box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-          &:hover {
-              background-color: #1d4ed8; // azul más fuerte
-              transform: translateY(-3px);
-              // La sombra azul que tanto nos gustó
-              box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4); 
-              color: white;
-          }
-          &:active {
-                transform: translateY(0); // Efecto de "presionar" al hacer clic
-          }
-        }
 
       }
 

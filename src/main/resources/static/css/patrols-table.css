@@ -356,8 +356,9 @@ p {
   width: 12%;
   min-width: 120px;
   white-space: nowrap;
+  gap: 0.4rem;
 }
-.patrols-table-container .patrols-table tbody tr .btn-view {
+.patrols-table-container .patrols-table tbody tr td.actions .btn-view {
   background-color: transparent;
   border: 2px solid #64748b;
   color: #334155;
@@ -366,12 +367,12 @@ p {
   font-weight: 600;
   transition: all 0.3s ease;
 }
-.patrols-table-container .patrols-table tbody tr .btn-view:hover {
+.patrols-table-container .patrols-table tbody tr td.actions .btn-view:hover {
   background-color: #64748b;
   color: white;
   cursor: pointer;
 }
-.patrols-table-container .patrols-table tbody tr .btn-view {
+.patrols-table-container .patrols-table tbody tr td.actions .btn-view {
   background-color: #64748b;
   color: white;
   border: none;
@@ -381,12 +382,12 @@ p {
   border-radius: 0.5rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.patrols-table-container .patrols-table tbody tr .btn-view:hover {
+.patrols-table-container .patrols-table tbody tr td.actions .btn-view:hover {
   transform: translateY(-3px);
   box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
   border-color: #475569;
 }
-.patrols-table-container .patrols-table tbody tr .btn-edit {
+.patrols-table-container .patrols-table tbody tr td.actions .btn-edit {
   background-color: #2563eb;
   color: #fff;
   padding: 0.75rem 1.5rem;
@@ -396,22 +397,22 @@ p {
   border-radius: 0.5rem;
   transition: background-color 0.3s ease;
 }
-.patrols-table-container .patrols-table tbody tr .btn-edit:hover {
+.patrols-table-container .patrols-table tbody tr td.actions .btn-edit:hover {
   background-color: #1d4ed8;
 }
-.patrols-table-container .patrols-table tbody tr .btn-edit {
+.patrols-table-container .patrols-table tbody tr td.actions .btn-edit {
   padding: 0.45rem 0.9rem;
   font-size: 0.85rem;
   box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.patrols-table-container .patrols-table tbody tr .btn-edit:hover {
+.patrols-table-container .patrols-table tbody tr td.actions .btn-edit:hover {
   background-color: #1d4ed8;
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
   color: white;
 }
-.patrols-table-container .patrols-table tbody tr .btn-edit:active {
+.patrols-table-container .patrols-table tbody tr td.actions .btn-edit:active {
   transform: translateY(0);
 }
 .patrols-table-container .patrols-table tbody tr.empty td.empty {

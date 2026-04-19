@@ -49,4 +49,22 @@ public interface PatrolRepository extends JpaRepository<Patrol, Long>{
     Optional<PatrolProjection> findProjectionById (
                                     @Param("id") Long id);
 
+
+    @Query ("""
+        SELECT
+            p.id            AS id,
+            p.externalId    AS externalId,
+            p.name          AS name,
+            p.description   AS description,
+            s.name          AS siteName,
+            p.dayFrom       AS dayFrom,
+            p.dayTo         AS dayTo,
+            p.active        AS active
+        FROM Patrol p
+        JOIN p.site s
+        WHERE p.externalId = :externalId
+    """)
+    Optional<PatrolProjection> findProjectionByExternalId (
+                                    @Param("externalId") String externalId);
+
 }

@@ -14,6 +14,6 @@ public interface PatrolService {
                     Long userId
     );
 
-    
+    PatrolDto getPatrolByExternalId(String externalId);
 
 }
