@@ -1,12 +1,13 @@
 package com.gscorp.dv1.patrol.infrastructure;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public interface PatrolCheckpointProjection {
     UUID getExternalId();
     String getName();
-    Double getLatitude();
-    Double getLongitude();
+    BigDecimal getLatitude();
+    BigDecimal getLongitude();
     Integer getMinutesToReach();
     Boolean getActive();
 }

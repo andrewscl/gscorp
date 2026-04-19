@@ -1,5 +1,6 @@
 package com.gscorp.dv1.patrol.infrastructure;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
@@ -34,11 +35,11 @@ public class PatrolCheckpoint {
 
     private String name;
 
-    @Column(precision = 10, scale = 8)
-    private Double latitude;
+    @Column(name = "latitude", precision = 10, scale = 8)
+    private BigDecimal latitude;
 
-    @Column(precision = 11, scale = 8)
-    private Double longitude;
+    @Column(name = "longitude", precision = 11, scale = 8)
+    private BigDecimal longitude;
 
     // MINUTOS ESTIMADOS para llegar a este punto desde el punto anterior
     // (O desde el inicio de la ronda si es el primer punto)
