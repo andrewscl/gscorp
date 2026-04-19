@@ -37,7 +37,7 @@ public interface PatrolRepository extends JpaRepository<Patrol, Long>{
             p.description   AS description,
             s.name          AS siteName,
             p.dayFrom       AS dayFrom,
-            p.dayTo         AS dayTo
+            p.dayTo         AS dayTo,
             p.active        AS active
         FROM Patrol p
         JOIN p.site s
