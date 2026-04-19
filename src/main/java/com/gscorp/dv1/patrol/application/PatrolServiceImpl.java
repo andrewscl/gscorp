@@ -1,5 +1,6 @@
 package com.gscorp.dv1.patrol.application;
 
+import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +30,7 @@ public class PatrolServiceImpl implements PatrolService {
     private final PatrolRepository patrolRepository;
     private final SiteRepository siteRepository;
     private final UserService userService;
- 
+
     @Override
     @Transactional(readOnly = true)
     public List<PatrolDto> getPatrolsByUserId(Long userId) {
@@ -42,7 +43,8 @@ public class PatrolServiceImpl implements PatrolService {
         }
 
         List<PatrolProjection> patrolProjections =
-                                    patrolRepository.findByClientIdsPatrolProjections(clientIds);
+                                    patrolRepository
+                                    .findByClientIdsPatrolProjections(clientIds);
         if(patrolProjections == null || patrolProjections.isEmpty()) {
             log.info("No patrols found for user ID: {}", userId);
             return Collections.emptyList();
@@ -89,7 +91,10 @@ public class PatrolServiceImpl implements PatrolService {
             request.checkpoints().forEach(name -> 
                 patrol.addCheckpoint(PatrolCheckpoint.builder()
                     .name(name)
-                    .minutesToReach(0) // Por ahora se setea en 0, luego se podrá modificar
+                    .latitude(BigDecimal.ZERO)
+                    .longitude(BigDecimal.ZERO)
+                    .minutesToReach(0)
+                    .active(true)
                     .build())
             );
         }

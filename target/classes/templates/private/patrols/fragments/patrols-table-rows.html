@@ -5,7 +5,6 @@
         <td th:text="${p.name}"></td>
         <td th:text="${p.siteName != null ? p.siteName : '—'}"></td>
         <td th:text="${p.dayFrom != null ? p.dayFrom + ' - ' + p.dayTo : '—'}"></td>
-        <td th:text="${p.startTime != null ? #temporals.format(p.startTime, 'HH:mm') : '—'}"></td>
         <td class="actions">
             <button type="button" class="btn-link"
                 th:attr="data-path=@{/private/patrols/show/{id}(id=${p.id})}">
