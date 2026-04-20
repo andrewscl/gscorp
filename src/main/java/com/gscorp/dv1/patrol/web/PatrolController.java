@@ -86,6 +86,7 @@ public class PatrolController {
 
         model.addAttribute("patrol", patrol);
         model.addAttribute("DayOfWeek", DayOfWeek.values());
+        System.out.println("Schedules encontrados: " + patrol.schedules().size());
         return "private/patrols/views/edit-patrol-view";
     
     }

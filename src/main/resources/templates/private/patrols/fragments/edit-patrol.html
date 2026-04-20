@@ -50,7 +50,8 @@
           <label>Horarios configurados</label>
           <div id="patrolSchedulesList" class="schedules-list">
             <div th:each="sch : ${patrol.schedules}" class="schedule">
-              <input type="time" name="scheduleTime[]" class="schedule-input" th:value="${sch.startTime}" required />
+              <input type="time" name="scheduleTime[]" class="schedule-input"
+                                    th:value="${#temporals.format(sch.startTime, 'HH:mm')}" required />
               <button type="button" class="btn-mini btn-remove">Eliminar</button>
             </div>
           </div>
