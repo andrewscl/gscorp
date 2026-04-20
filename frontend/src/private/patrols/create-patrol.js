@@ -129,8 +129,7 @@ export function onClickAddCheckpoint(e) {
     div.innerHTML = `
         <input type="text" name="checkpointName[]"
                 placeholder="Nombre del punto (ej: Bodega A)" required />
-        <button type="button" 
-                class="btn-mini btn-remove">Eliminar</button>
+        <button type="button" class="btn-mini btn-remove">Eliminar</button>
     `;
     container.appendChild(div);
 }

@@ -82,7 +82,7 @@
             <div th:each="cp : ${patrol.checkpoints}" class="checkpoint-item">
               <input type="text" name="checkpointName[]" th:value="${cp.name}" required />
               <button type="button" class="btn btn-outline-secondary btn-toggle-status"
-                                id="toggleButton" onclick="toggleSchedule(this)">
+                                id="toggleButton" onclick="toggleCheckpoint(this)">
                 <span class="status-text">Activo</span>
               </button>
               <button type="button" class="btn-mini btn-remove"

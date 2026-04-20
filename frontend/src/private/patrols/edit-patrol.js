@@ -17,6 +17,9 @@ async function handleUpdate(e) {
     const schedules = Array.from(qsa('.schedule')).map(container => {
         const timeInput = container.querySelector('input[name="scheduleTime[]"]');
         const statusSpan = container.querySelector('.status-text');
+
+        if(!timeInput) return null;
+
         return {
             startTime: timeInput.value,
             active: statusSpan.innerText === 'Activo' // Determinar estado por el texto
@@ -74,7 +77,6 @@ async function handleUpdate(e) {
         displayAlert(alertError, "Error de conexión con el servidor.");
     }
 }
-
 
 function toggleSchedule(button) {
     const container = button.closest('.schedule-item');

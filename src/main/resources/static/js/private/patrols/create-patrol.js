@@ -4,6 +4,5 @@ import{f as m}from"../../auth.js";import{n as d}from"../../navigation-handler.js
     `,a.appendChild(n)}function h(e){e.preventDefault();const a=t("#checkpointsList");if(!a)return;const n=document.createElement("div");n.className="checkpoint-item",n.innerHTML=`
         <input type="text" name="checkpointName[]"
                 placeholder="Nombre del punto (ej: Bodega A)" required />
-        <button type="button" 
-                class="btn-mini btn-remove">Eliminar</button>
+        <button type="button" class="btn-mini btn-remove">Eliminar</button>
     `,a.appendChild(n)}function l(e){if(e.target.classList.contains("btn-remove")||e.target.classList.contains("btn-remove-schedule")){const n=e.target.closest(".checkpoint-item, .schedule");n&&n.remove()}}function b(){t("#createPatrolBtn")?.addEventListener("click",p),t("#cancelCreatePatrolBtn")?.addEventListener("click",v),t("#addTimeScheduleBtn")?.addEventListener("click",f),t("#addCheckpointBtn")?.addEventListener("click",h),t("#checkpointsList")?.addEventListener("click",l),t("#patrolSchedulesList")?.addEventListener("click",l)}(function(){b()})();export{h as a,l as b,v as c,s as d,f as o};
