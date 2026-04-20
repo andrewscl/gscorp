@@ -1,0 +1,171 @@
+.createEmployee {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(33, 33, 33, 0.0666666667);
+  padding: 2.5rem 2rem 2rem 2rem;
+  max-width: 750px;
+  margin: 2.5rem auto;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+.createEmployee .createEmployeeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+.createEmployee .createEmployeeHeader h3 {
+  margin: 0;
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: #1a237e;
+  letter-spacing: 0.01em;
+}
+.createEmployee .createEmployeeHeader .modal-close {
+  background: none;
+  border: none;
+  font-size: 2.1rem;
+  color: #b0b3bb;
+  cursor: pointer;
+  transition: color 0.18s;
+}
+.createEmployee .createEmployeeHeader .modal-close:hover {
+  color: #e53935;
+}
+.createEmployee .createEmployee-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.3rem 2rem;
+}
+.createEmployee .createEmployee-body .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+  margin-bottom: 0.2rem;
+}
+.createEmployee .createEmployee-body .form-group label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #343a40;
+  margin-bottom: 0.14rem;
+  letter-spacing: 0.01em;
+}
+.createEmployee .createEmployee-body .form-group input[type=text],
+.createEmployee .createEmployee-body .form-group input[type=email],
+.createEmployee .createEmployee-body .form-group input[type=date],
+.createEmployee .createEmployee-body .form-group input[type=file],
+.createEmployee .createEmployee-body .form-group select {
+  padding: 0.55rem 0.95rem;
+  border-radius: 7px;
+  border: 1px solid #e3e7ef;
+  font-size: 1rem;
+  background: #f6f8fa;
+  color: #222;
+  font-weight: 500;
+  box-shadow: none;
+  transition: border 0.15s, box-shadow 0.15s;
+}
+.createEmployee .createEmployee-body .form-group input[type=text]:focus,
+.createEmployee .createEmployee-body .form-group input[type=email]:focus,
+.createEmployee .createEmployee-body .form-group input[type=date]:focus,
+.createEmployee .createEmployee-body .form-group input[type=file]:focus,
+.createEmployee .createEmployee-body .form-group select:focus {
+  outline: none;
+  border-color: #3949ab;
+  background: #f0f4fc;
+}
+.createEmployee .createEmployee-body .form-group select[multiple] {
+  min-height: 90px;
+  font-size: 0.97rem;
+}
+.createEmployee .createEmployee-body .form-group input[type=checkbox] {
+  width: 1.2rem;
+  height: 1.2rem;
+  accent-color: #3949ab;
+}
+.createEmployee .createEmployee-body .form-group[style*="display:flex"] {
+  grid-column: 1/-1;
+}
+.createEmployee .modal-footer {
+  grid-column: 1/-1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.1rem;
+  margin-top: 2rem;
+}
+.createEmployee .modal-footer .btn-primary {
+  background: #3949ab;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 0.65rem 1.7rem;
+  font-size: 1.06rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  transition: background 0.18s, transform 0.11s;
+}
+.createEmployee .modal-footer .btn-primary:hover, .createEmployee .modal-footer .btn-primary:focus {
+  background: #1a237e;
+  transform: translateY(-1px) scale(1.03);
+}
+.createEmployee .modal-footer .btn-secondary {
+  background: #e3e7ef;
+  color: #1a237e;
+  border: none;
+  border-radius: 7px;
+  padding: 0.65rem 1.7rem;
+  font-size: 1.06rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+.createEmployee .modal-footer .btn-secondary:hover, .createEmployee .modal-footer .btn-secondary:focus {
+  background: #f0f4fc;
+  color: #3949ab;
+}
+.createEmployee .form-error {
+  grid-column: 1/-1;
+  color: #e53935;
+  font-size: 1.05rem;
+  margin-top: 0.7rem;
+  padding: 0.7rem;
+  background: #ffcdd2;
+  border-radius: 5px;
+  display: none;
+}
+.createEmployee .form-ok {
+  grid-column: 1/-1;
+  color: #388e3c;
+  font-size: 1.05rem;
+  margin-top: 0.7rem;
+  padding: 0.7rem;
+  background: #c8e6c9;
+  border-radius: 5px;
+  display: none;
+}
+@media (max-width: 900px) {
+  .createEmployee {
+    max-width: 99vw;
+    padding: 1.3rem 0.5rem;
+  }
+  .createEmployee .createEmployeeHeader h3 {
+    font-size: 1.35rem;
+  }
+  .createEmployee .createEmployee-body {
+    grid-template-columns: 1fr;
+    gap: 1rem 0;
+  }
+  .createEmployee .modal-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6rem;
+    margin-top: 1.2rem;
+  }
+  .createEmployee .form-error, .createEmployee .form-ok {
+    font-size: 1rem;
+    padding: 0.55rem;
+    margin-top: 0.5rem;
+  }
+}/*# sourceMappingURL=create-employee.css.map */

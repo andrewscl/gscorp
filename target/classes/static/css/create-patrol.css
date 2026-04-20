@@ -224,7 +224,8 @@ p {
 }
 .hs-form .patrol-form-body .day-range .form-group {
   flex: none;
-  max-width: 120px;
+  max-width: 180px;
+  width: 100%;
 }
 .hs-form .patrol-form-body .time-patrol-schedules,
 .hs-form .patrol-form-body .checkpoints-container {
@@ -320,7 +321,7 @@ p {
 .hs-form .patrol-form-body .checkpoints-container .panel .schedules-list .checkpoint-item input[type=time],
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .schedule input[type=time],
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .checkpoint-item input[type=time] {
-  max-width: 5rem;
+  max-width: 7.5rem;
 }
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .schedule input::placeholder,
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .checkpoint-item input::placeholder,

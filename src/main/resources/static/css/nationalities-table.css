@@ -1,0 +1,84 @@
+.nationalities-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.3rem 1.5rem 1rem 1.5rem;
+}
+.nationalities-header h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+.nationalities-header #createNationalityBtn {
+  background: #4177f6;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.6rem 1.3rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.nationalities-header #createNationalityBtn:hover {
+  background: #275bca;
+}
+
+.nationalities-table-container {
+  padding: 0 1.5rem 1.5rem 1.5rem;
+  overflow-x: auto;
+}
+.nationalities-table-container .nationalities-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+}
+.nationalities-table-container .nationalities-table th, .nationalities-table-container .nationalities-table td {
+  padding: 0.85rem 1.1rem;
+  font-size: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
+.nationalities-table-container .nationalities-table th {
+  background: #f8fafc;
+  color: #334155;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.nationalities-table-container .nationalities-table tbody tr:last-child td {
+  border-bottom: none;
+}
+.nationalities-table-container .nationalities-table .actions {
+  display: flex;
+  gap: 0.6rem;
+}
+.nationalities-table-container .nationalities-table .actions .btn-link {
+  background: none;
+  border: none;
+  color: #4177f6;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0 0.2rem;
+  transition: color 0.13s;
+}
+.nationalities-table-container .nationalities-table .actions .btn-link:hover {
+  color: #e11d48;
+}
+
+@media (max-width: 600px) {
+  .nationalities-header,
+  .nationalities-table-container {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  .nationalities-table th,
+  .nationalities-table td {
+    padding: 0.7rem 0.5rem;
+    font-size: 0.93rem;
+  }
+}/*# sourceMappingURL=nationalities-table.css.map */

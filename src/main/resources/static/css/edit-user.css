@@ -1,0 +1,132 @@
+.detail-section {
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  background: #ffffff;
+  border: 1px solid #e6eef8;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+  color: #0f172a;
+  min-width: 320px;
+}
+.detail-section h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.125rem;
+  color: #1e3a8a;
+  font-weight: 600;
+}
+.detail-section .status-message {
+  font-size: 0.95rem;
+  color: #6b7280;
+  margin-bottom: 0.6rem;
+}
+.detail-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.detail-section form .form-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-end;
+}
+.detail-section form .form-row label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 8ch;
+  flex: 1 1 auto;
+  font-size: 0.95rem;
+  color: #6b7280;
+}
+.detail-section form .form-row label input[type=text],
+.detail-section form .form-row label input[type=email],
+.detail-section form .form-row label select,
+.detail-section form .form-row label input[type=number],
+.detail-section form .form-row label input[type=date] {
+  border: 1px solid #e6eef8;
+  padding: 0.4rem 0.5rem;
+  border-radius: 6px;
+  background: #ffffff;
+  font-size: 14px;
+  color: #0f172a;
+  transition: border-color 0.12s ease;
+}
+.detail-section form .form-row label input[readonly] {
+  background: white;
+}
+.detail-section form .form-row label select[multiple] {
+  min-height: 6.5rem;
+}
+.detail-section form .form-row label select:focus, .detail-section form .form-row label input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.06);
+}
+.detail-section form .roles-block, .detail-section form .clients-block {
+  margin-top: 0.5rem;
+}
+.detail-section form .roles-block .tags, .detail-section form .clients-block .tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.35rem;
+}
+.detail-section form .roles-block .tag, .detail-section form .clients-block .tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.45rem;
+  border-radius: 999px;
+  background: #f8fafc;
+  border: 1px solid #e6eef8;
+  color: #1e3a8a;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+.detail-section form .roles-block em, .detail-section form .clients-block em {
+  color: #6b7280;
+  font-style: italic;
+}
+.detail-section form .actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+.detail-section form .actions .vs-btn {
+  padding: 0.45rem 0.65rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.detail-section form .actions .vs-primary {
+  background: linear-gradient(180deg, #1e3a8a, rgb(22.7142857143, 43.9142857143, 104.4857142857));
+  color: #fff;
+  border: none;
+  box-shadow: 0 6px 18px rgba(16, 24, 40, 0.06);
+}
+.detail-section form .actions .vs-secondary {
+  background: transparent;
+  border: 1px solid #e6eef8;
+  color: #1e3a8a;
+}
+.detail-section form .actions .vs-danger {
+  background: linear-gradient(180deg, #ef4444, rgb(236.5881773399, 39.8118226601, 39.8118226601));
+  color: #fff;
+  border: none;
+}
+
+/* Responsive */
+@media (max-width: 760px) {
+  .detail-section form .form-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .detail-section .actions {
+    flex-direction: column-reverse;
+    gap: 0.5rem;
+    align-items: stretch;
+  }
+}/*# sourceMappingURL=edit-user.css.map */
