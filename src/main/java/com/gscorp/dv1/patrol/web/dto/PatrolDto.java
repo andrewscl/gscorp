@@ -36,7 +36,8 @@ public record PatrolDto (
 
         // Mapeo de puntos de control
         List<PatrolCheckpointDto> checkpointList =
-            p.getCheckpoints() == null ? List.of(): p.getCheckpoints().stream()
+            p.getCheckpoints() == null ? List.of():
+                                p.getCheckpoints().stream()
             .map(c -> new PatrolCheckpointDto(
                 c.getExternalId(),
                 c.getName(),
