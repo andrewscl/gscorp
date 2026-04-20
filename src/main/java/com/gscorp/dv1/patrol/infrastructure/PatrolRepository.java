@@ -57,6 +57,7 @@ public interface PatrolRepository extends JpaRepository<Patrol, Long>{
             p.externalId    AS externalId,
             p.name          AS name,
             p.description   AS description,
+            s.id            AS siteId,
             s.name          AS siteName,
             p.dayFrom       AS dayFrom,
             p.dayTo         AS dayTo,

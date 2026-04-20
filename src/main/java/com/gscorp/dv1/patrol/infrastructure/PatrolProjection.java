@@ -9,6 +9,7 @@ public interface PatrolProjection {
     UUID getExternalId();
     String getName();
     String getDescription();
+    Long getSiteId();
     String getSiteName();
     Integer getDayFrom();
     Integer getDayTo();
@@ -17,4 +18,5 @@ public interface PatrolProjection {
     //Proyecciones anidadas
     List<PatrolScheduleProjection> getSchedules();
     List<PatrolCheckpointProjection> getCheckpoints();
+    
 }
