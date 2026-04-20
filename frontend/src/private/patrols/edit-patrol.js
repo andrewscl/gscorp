@@ -65,6 +65,8 @@ async function handleUpdate(e) {
     }
 }
 
+
+
 function bindEvents() {
     // Botón Guardar Cambios
     const updateBtn = qs('#updatePatrolBtn');
@@ -75,13 +77,18 @@ function bindEvents() {
     // Botones dinámicos (Añadir/Eliminar)
     qs('#addTimeScheduleBtn').addEventListener('click', onClickAddTimeSchedule);
     qs('#addCheckpointBtn').addEventListener('click', onClickAddCheckpoint);
+
     /* Delegación de eventos para eliminar puntos de control y horarios*/
     qs('#checkpointsList')?.addEventListener('click', onClickRemoveItem);
     qs('#patrolSchedulesList')?.addEventListener('click', onClickRemoveItem);
-    // En edit-patrol.js
-    qs('#cancelCreatePatrolBtn')?.addEventListener('click', (e) => 
-        onClickCancel(e, 'La edición de la ronda ha sido cancelada.')
-    );
+
+    // Botón Cancelar con mensaje personalizado
+    const cancelBtn = qs('#cancelEditPatrolBtn');
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', (e) => 
+            onClickCancel(e, 'La edición de la ronda ha sido cancelada.')
+        );
+    }
 }
 
 (function init() {
