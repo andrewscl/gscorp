@@ -26,10 +26,24 @@ async function handleUpdate(e) {
         };
     }).filter(sch => sch.startTime !== ""); // Filtrar horarios vacíos
 
-    // Recolectar checkpoints
-    const checkpoints = Array.from(qsa('input[name="checkpointName[]"]'))
-                              .map(input => input.value.trim())
-                              .filter(val => val !== "");
+    // Recolectar checkpoints como objetos
+    const checkpoints = Array.from(qsa('.checkpoint-item')).map(container => {
+        const inputName = container.querySelector('input[name="checkpointName[]"]');
+        const statusSpan = container.querySelector('.status-text');
+
+        // Validación de seguridad para evitar el error 'reading value'
+        if (!inputName) return null;
+
+        return {
+            siteId: parseInt(qs('#siteId').value),
+            name: inputName.value.trim(),
+            latitude: 0.0,
+            longitude: 0.0,
+            minutesToReach: 0,
+            // Si hay statusSpan usamos su texto, si no (caso de nuevos), es true
+            active: statusSpan ? (statusSpan.innerText.trim() === 'Activo') : true,
+        };
+    }).filter(cp => cp !== null && cp.name !== "");
 
     const externalId = qs('#patrolExternalId')?.value; // ID de la ronda a actualizar
     // Alertas
