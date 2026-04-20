@@ -47,7 +47,12 @@
 
       <div class="time-patrol-schedules">
         <div class="panel">
-          <label>Horarios configurados</label>
+
+          <div class="panel-header">
+            <label>Horarios configurados</label>
+            <button type="button" id="addTimeScheduleBtn" class="btn-mini">+ Añadir otro horario</button>
+          </div>
+
           <div id="patrolSchedulesList" class="schedules-list">
             <div th:each="sch : ${patrol.schedules}" class="schedule">
               <input type="time" name="scheduleTime[]" class="schedule-input"
@@ -55,7 +60,7 @@
               <button type="button" class="btn-mini btn-remove">Eliminar</button>
             </div>
           </div>
-          <button type="button" id="addTimeScheduleBtn" class="btn-mini">+ Añadir otro horario</button>
+
         </div>
       </div>
 
