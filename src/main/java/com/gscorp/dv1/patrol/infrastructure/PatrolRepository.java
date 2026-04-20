@@ -64,8 +64,8 @@ public interface PatrolRepository extends JpaRepository<Patrol, Long>{
             p.active        AS active
         FROM Patrol p
         JOIN p.site s
-        LEFT JOIN FETCH p.schedules sc
-        LEFT JOIN FETCH p.checkpoints c
+        LEFT JOIN FETCH p.schedules
+        LEFT JOIN FETCH p.checkpoints
         WHERE p.externalId = :externalId
     """)
     Optional<PatrolProjection> findProjectionByExternalId (
