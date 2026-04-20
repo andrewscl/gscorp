@@ -66,16 +66,22 @@
 
       <div class="checkpoints-container">
         <div class="panel">
-          <label>Puntos de Control</label>
+
+          <div class="panel-header">
+            <label>Puntos de Control</label>
+            <button type="button" id="addCheckpointBtn" class="btn-mini">+ Añadir punto</button>
+          </div>
+
           <div id="checkpointsList" class="checkpoints-list">
             <div th:each="cp : ${patrol.checkpoints}" class="checkpoint-item">
               <input type="text" name="checkpointName[]" th:value="${cp.name}" required />
               <button type="button" class="btn-mini btn-remove">Eliminar</button>
             </div>
           </div>
-          <button type="button" id="addCheckpointBtn" class="btn-mini">+ Añadir punto</button>
+
         </div>
       </div>
+
     </form>
 
     <div class="patrol-form-footer">

@@ -216,7 +216,7 @@
                             border-radius: 4px;
                             @include roboto-font(0.875rem, 500);
                             &[type="time"] {
-                                max-width: 7.5rem;
+                                max-width: 6.5rem;
                             }
                             &::placeholder {
                                 color: #adb5bd;
