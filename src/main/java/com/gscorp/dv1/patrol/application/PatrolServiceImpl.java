@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -115,7 +116,10 @@ public class PatrolServiceImpl implements PatrolService {
 
     @Override
     @Transactional(readOnly = true)
-    public PatrolDto getPatrolByExternalId(String externalId) {
+    public PatrolDto getPatrolByExternalId(String externalIdStr) {
+
+        UUID externalId = UUID.fromString(externalIdStr);
+
         return patrolRepository.findProjectionByExternalId(externalId)
                 .map(PatrolDto::fromProjection)
                 .orElseThrow(() ->

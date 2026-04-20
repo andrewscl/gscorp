@@ -2,6 +2,7 @@ package com.gscorp.dv1.patrol.infrastructure;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -65,6 +66,6 @@ public interface PatrolRepository extends JpaRepository<Patrol, Long>{
         WHERE p.externalId = :externalId
     """)
     Optional<PatrolProjection> findProjectionByExternalId (
-                                    @Param("externalId") String externalId);
+                                    @Param("externalId") UUID externalId);
 
 }
