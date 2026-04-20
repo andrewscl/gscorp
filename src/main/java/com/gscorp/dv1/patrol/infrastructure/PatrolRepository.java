@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -32,43 +31,15 @@ public interface PatrolRepository extends JpaRepository<Patrol, Long>{
         @Param("clientIds") List<Long> clientIds);
 
 
-    @EntityGraph(attributePaths = {"schedules", "checkpoints"})
     @Query ("""
-        SELECT
-            p.id            AS id,
-            p.externalId    AS externalId,
-            p.name          AS name,
-            p.description   AS description,
-            s.name          AS siteName,
-            p.dayFrom       AS dayFrom,
-            p.dayTo         AS dayTo,
-            p.active        AS active
-        FROM Patrol p
-        JOIN p.site s
-        WHERE p.id = :id
-    """)
-    Optional<PatrolProjection> findProjectionById (
-                                    @Param("id") Long id);
-
-
-    @Query ("""
-        SELECT
-            p.id            AS id,
-            p.externalId    AS externalId,
-            p.name          AS name,
-            p.description   AS description,
-            s.id            AS siteId,
-            s.name          AS siteName,
-            p.dayFrom       AS dayFrom,
-            p.dayTo         AS dayTo,
-            p.active        AS active
+        SELECT p
         FROM Patrol p
         JOIN p.site s
         LEFT JOIN FETCH p.schedules
         LEFT JOIN FETCH p.checkpoints
         WHERE p.externalId = :externalId
     """)
-    Optional<PatrolProjection> findProjectionByExternalId (
-                                    @Param("externalId") UUID externalId);
+    Optional<Patrol> findProjectionByExternalId (
+                            @Param("externalId") UUID externalId);
 
 }

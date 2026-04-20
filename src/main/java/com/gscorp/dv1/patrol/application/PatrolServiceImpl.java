@@ -44,8 +44,7 @@ public class PatrolServiceImpl implements PatrolService {
             );
         }
 
-        List<PatrolProjection> patrolProjections =
-                                    patrolRepository
+        List<PatrolProjection> patrolProjections = patrolRepository
                                     .findByClientIdsPatrolProjections(clientIds);
         if(patrolProjections == null || patrolProjections.isEmpty()) {
             log.info("No patrols found for user ID: {}", userId);
@@ -103,13 +102,7 @@ public class PatrolServiceImpl implements PatrolService {
 
         Patrol saved = patrolRepository.save(patrol);
 
-        return patrolRepository.findProjectionById(saved.getId())
-                .map(PatrolDto::fromProjection)
-                .orElseThrow(() ->
-                    new IllegalStateException(
-                            "Patrol not found after saving with ID: "
-                                 + saved.getId())
-                );
+        return PatrolDto.fromEntity(saved);
 
     }
 
@@ -121,7 +114,7 @@ public class PatrolServiceImpl implements PatrolService {
         UUID externalId = UUID.fromString(externalIdStr);
 
         return patrolRepository.findProjectionByExternalId(externalId)
-                .map(PatrolDto::fromProjection)
+                .map(PatrolDto::fromEntity)
                 .orElseThrow(() ->
                     new EntityNotFoundException(
                             "No patrol found with external ID: " + externalId)
