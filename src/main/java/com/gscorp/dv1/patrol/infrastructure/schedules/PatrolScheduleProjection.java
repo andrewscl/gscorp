@@ -1,4 +1,4 @@
-package com.gscorp.dv1.patrol.infrastructure;
+package com.gscorp.dv1.patrol.infrastructure.schedules;
 
 import java.time.LocalTime;
 import java.util.UUID;

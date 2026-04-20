@@ -1,4 +1,4 @@
-package com.gscorp.dv1.patrol.infrastructure;
+package com.gscorp.dv1.patrol.infrastructure.checkpoints;
 
 import java.math.BigDecimal;
 import java.util.UUID;

@@ -1,7 +1,9 @@
-package com.gscorp.dv1.patrol.infrastructure;
+package com.gscorp.dv1.patrol.infrastructure.checkpoints;
 
-import java.time.LocalTime;
+import java.math.BigDecimal;
 import java.util.UUID;
+
+import com.gscorp.dv1.patrol.infrastructure.patrols.Patrol;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,42 +23,50 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "patrol_schedules",
+@Table(name = "patrol_checkpoints",
         indexes = {
-            @Index(name = "ix_patrol_schedules_patrol_id", columnList = "patrol_id"),
-            @Index(name = "ix_patrol_schedules_external_id", columnList = "external_id")
+            @Index(name = "ix_patrol_checkpoints_patrol_id", columnList = "patrol_id"),
+            @Index(name = "ix_patrol_checkpoints_external_id", columnList = "external_id")
         })
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PatrolSchedule {
+public class PatrolCheckpoint {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //Indicador para uso API Frontend
     @Column(name = "external_id", unique = true, nullable = false, updatable = false)
     private UUID externalId;
 
-    @Column(nullable=false)
-    private LocalTime startTime;
+    private String name;
+
+    @Column(name = "latitude", precision = 10, scale = 8)
+    private BigDecimal latitude;
+
+    @Column(name = "longitude", precision = 11, scale = 8)
+    private BigDecimal longitude;
+
+    // MINUTOS ESTIMADOS para llegar a este punto desde el punto anterior
+    // (O desde el inicio de la ronda si es el primer punto)
+    @Column(name = "minutes_to_reach")
+    private Integer minutesToReach;
 
     @Builder.Default
-    @Column(nullable=false)
+    @Column(nullable = false)
     private Boolean active = true;
 
-    // Relación de pertenencia al Patrol
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patrol_id", nullable = false)
     private Patrol patrol;
 
     @PrePersist
     protected void onCreate() {
-        if (externalId == null) {
-            externalId = UUID.randomUUID();
+        if (this.externalId == null) {
+            this.externalId = UUID.randomUUID();
         }
     }
 

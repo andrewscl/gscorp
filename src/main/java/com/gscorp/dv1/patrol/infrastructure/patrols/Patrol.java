@@ -1,4 +1,4 @@
-package com.gscorp.dv1.patrol.infrastructure;
+package com.gscorp.dv1.patrol.infrastructure.patrols;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -8,6 +8,8 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.gscorp.dv1.patrol.infrastructure.checkpoints.PatrolCheckpoint;
+import com.gscorp.dv1.patrol.infrastructure.schedules.PatrolSchedule;
 import com.gscorp.dv1.sites.infrastructure.Site;
 
 import jakarta.persistence.CascadeType;

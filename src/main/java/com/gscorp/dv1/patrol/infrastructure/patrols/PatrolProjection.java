@@ -1,6 +1,5 @@
-package com.gscorp.dv1.patrol.infrastructure;
+package com.gscorp.dv1.patrol.infrastructure.patrols;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface PatrolProjection {
@@ -14,9 +13,5 @@ public interface PatrolProjection {
     Integer getDayFrom();
     Integer getDayTo();
     Boolean getActive();
-    
-    //Proyecciones anidadas
-    List<PatrolScheduleProjection> getSchedules();
-    List<PatrolCheckpointProjection> getCheckpoints();
-    
+  
 }

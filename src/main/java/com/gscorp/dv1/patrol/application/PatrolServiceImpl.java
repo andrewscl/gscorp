@@ -9,11 +9,15 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gscorp.dv1.patrol.infrastructure.Patrol;
-import com.gscorp.dv1.patrol.infrastructure.PatrolCheckpoint;
-import com.gscorp.dv1.patrol.infrastructure.PatrolProjection;
-import com.gscorp.dv1.patrol.infrastructure.PatrolRepository;
-import com.gscorp.dv1.patrol.infrastructure.PatrolSchedule;
+import com.gscorp.dv1.patrol.infrastructure.checkpoints.PatrolCheckpoint;
+import com.gscorp.dv1.patrol.infrastructure.checkpoints.PatrolCheckpointProjection;
+import com.gscorp.dv1.patrol.infrastructure.checkpoints.PatrolCheckpointRepository;
+import com.gscorp.dv1.patrol.infrastructure.patrols.Patrol;
+import com.gscorp.dv1.patrol.infrastructure.patrols.PatrolProjection;
+import com.gscorp.dv1.patrol.infrastructure.patrols.PatrolRepository;
+import com.gscorp.dv1.patrol.infrastructure.schedules.PatrolSchedule;
+import com.gscorp.dv1.patrol.infrastructure.schedules.PatrolScheduleProjection;
+import com.gscorp.dv1.patrol.infrastructure.schedules.PatrolScheduleRepository;
 import com.gscorp.dv1.patrol.web.dto.CreatePatrolRequest;
 import com.gscorp.dv1.patrol.web.dto.PatrolDto;
 import com.gscorp.dv1.sites.infrastructure.Site;
@@ -30,6 +34,8 @@ import lombok.extern.slf4j.Slf4j;
 public class PatrolServiceImpl implements PatrolService {
 
     private final PatrolRepository patrolRepository;
+    private final PatrolScheduleRepository patrolScheduleRepository;
+    private final PatrolCheckpointRepository patrolCheckpointRepository;
     private final SiteRepository siteRepository;
     private final UserService userService;
 
@@ -55,7 +61,7 @@ public class PatrolServiceImpl implements PatrolService {
                                             .map(PatrolDto::fromProjection)
                                             .toList();
 
-         return patrolDtos;
+        return patrolDtos;
     }
 
 
@@ -102,7 +108,20 @@ public class PatrolServiceImpl implements PatrolService {
 
         Patrol saved = patrolRepository.save(patrol);
 
-        return PatrolDto.fromEntity(saved);
+        PatrolProjection savedProjection = patrolRepository.findProjectionById(saved.getId())
+            .orElseThrow(() -> new EntityNotFoundException(
+                "Failed to retrieve saved patrol with ID: " + saved.getId()
+            ));
+
+        // Get schedules
+        List<PatrolScheduleProjection> schedules = patrolScheduleRepository
+                .findByPatrolId(savedProjection.getId());
+
+        // Get checkpoints
+        List<PatrolCheckpointProjection> checkpoints = patrolCheckpointRepository
+                .findByPatrolId(savedProjection.getId());
+
+        return PatrolDto.fromProjection(savedProjection, schedules, checkpoints);
 
     }
 
@@ -113,12 +132,23 @@ public class PatrolServiceImpl implements PatrolService {
 
         UUID externalId = UUID.fromString(externalIdStr);
 
-        return patrolRepository.findProjectionByExternalId(externalId)
-                .map(PatrolDto::fromEntity)
+        // Get projection
+        PatrolProjection patrolProjection = patrolRepository.findProjectionByExternalId(externalId)
                 .orElseThrow(() ->
                     new EntityNotFoundException(
                             "No patrol found with external ID: " + externalId)
                 );
+
+        // Get schedules
+        List<PatrolScheduleProjection> schedules = patrolScheduleRepository
+                .findByPatrolId(patrolProjection.getId());
+
+        // Get checkpoints
+        List<PatrolCheckpointProjection> checkpoints = patrolCheckpointRepository
+                .findByPatrolId(patrolProjection.getId());
+
+        return PatrolDto.fromProjection(
+                            patrolProjection, schedules, checkpoints);
     }
 
 }
