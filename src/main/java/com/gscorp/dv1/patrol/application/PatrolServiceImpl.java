@@ -18,8 +18,9 @@ import com.gscorp.dv1.patrol.infrastructure.patrols.PatrolRepository;
 import com.gscorp.dv1.patrol.infrastructure.schedules.PatrolSchedule;
 import com.gscorp.dv1.patrol.infrastructure.schedules.PatrolScheduleProjection;
 import com.gscorp.dv1.patrol.infrastructure.schedules.PatrolScheduleRepository;
-import com.gscorp.dv1.patrol.web.dto.CreatePatrolRequest;
-import com.gscorp.dv1.patrol.web.dto.PatrolDto;
+import com.gscorp.dv1.patrol.web.dto.patrols.CreatePatrolRequest;
+import com.gscorp.dv1.patrol.web.dto.patrols.PatrolDto;
+import com.gscorp.dv1.patrol.web.dto.patrols.UpdatePatrolRequest;
 import com.gscorp.dv1.sites.infrastructure.Site;
 import com.gscorp.dv1.sites.infrastructure.SiteRepository;
 import com.gscorp.dv1.users.application.UserService;
@@ -151,4 +152,99 @@ public class PatrolServiceImpl implements PatrolService {
                             patrolProjection, schedules, checkpoints);
     }
 
+
+    @Override
+    @Transactional
+    public PatrolDto updatePatrol(
+        String externalIdStr,
+        UpdatePatrolRequest request,
+        Long userId
+    ) {
+
+        UUID externalId = UUID.fromString(externalIdStr);
+
+        Patrol patrol = patrolRepository.findByExternalId(externalId)
+                .orElseThrow(() ->
+                    new EntityNotFoundException(
+                            "No patrol found with external ID: " + externalId)
+                );
+
+        //Actualizamos campos básicos
+        patrol.setName(request.name());
+        patrol.setDescription(request.description());
+        patrol.setDayFrom(request.dayFrom());
+        patrol.setDayTo(request.dayTo());
+        patrol.setActive(request.active());
+        patrol.setUpdatedBy(userId.toString());
+
+        //Sincronizar schedules
+        if(request.schedules() != null) {
+            request.schedules().forEach(dto->{
+                //Buscar si existe el horario
+                patrolScheduleRepository
+                            .findByPatrolIdAndStartTime(patrol.getId(), dto.startTime())
+                    .ifPresentOrElse(
+                        existing -> existing.setActive(dto.active()),
+                        () -> {
+                            //Si no existe lo creamos
+                            if(Boolean.TRUE.equals(dto.active())){
+                                patrolScheduleRepository.save(PatrolSchedule.builder()
+                                    .startTime(dto.startTime())
+                                    .active(true)
+                                    .patrol(patrol)
+                                    .build());
+                            }
+                            
+                        }
+                    );
+            });
+        }
+
+        //Sincronizar checkpoints
+        if(request.checkpoints() != null) {
+            request.checkpoints().forEach(dto->{
+                //Buscar si existe el horario
+                patrolCheckpointRepository
+                            .findByPatrolIdAndName(patrol.getId(), dto.name())
+                    .ifPresentOrElse(
+                        existing -> existing.setActive(dto.active()),
+                        () -> {
+                            //Si no existe lo creamos
+                            if(Boolean.TRUE.equals(dto.active())){
+                                patrolCheckpointRepository.save(PatrolCheckpoint.builder()
+                                    .name(dto.name())
+                                    .latitude(dto.latitude())
+                                    .longitude(dto.longitude())
+                                    .minutesToReach(dto.minutesToReach())
+                                    .active(true)
+                                    .patrol(patrol)
+                                    .build());
+                            }
+                            
+                        }
+                    );
+            });
+        }
+
+        //Guardar
+        patrolRepository.save(patrol);
+
+        // Get projection
+        PatrolProjection patrolProjection = patrolRepository.findProjectionByExternalId(externalId)
+                .orElseThrow(() ->
+                    new EntityNotFoundException(
+                            "No patrol found with external ID: " + externalId)
+                );
+
+        // Get schedules
+        List<PatrolScheduleProjection> schedules = patrolScheduleRepository
+                .findByPatrolId(patrol.getId());
+
+        // Get checkpoints
+        List<PatrolCheckpointProjection> checkpoints = patrolCheckpointRepository
+                .findByPatrolId(patrol.getId());
+
+        return PatrolDto.fromProjection(
+                            patrolProjection, schedules, checkpoints);
+    }
 }

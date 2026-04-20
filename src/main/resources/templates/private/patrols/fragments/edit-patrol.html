@@ -56,8 +56,14 @@
           <div id="patrolSchedulesList" class="schedules-list">
             <div th:each="sch : ${patrol.schedules}" class="schedule">
               <input type="time" name="scheduleTime[]" class="schedule-input"
-                                    th:value="${#temporals.format(sch.startTime, 'HH:mm')}" required />
-              <button type="button" class="btn-mini btn-remove">Eliminar</button>
+                      th:value="${#temporals.format(sch.startTime, 'HH:mm')}" required />
+              <button type="button" class="btn btn-outline-secondary btn-toggle-status"
+                                id="toggleSchedule" onclick="toggleSchedule(this)">
+                <span class="status-text">Activo</span>
+              </button>
+              <button type="button" class="btn-mini btn-remove"
+              th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
+                          Eliminar</button>              
             </div>
           </div>
 
@@ -75,7 +81,12 @@
           <div id="checkpointsList" class="checkpoints-list">
             <div th:each="cp : ${patrol.checkpoints}" class="checkpoint-item">
               <input type="text" name="checkpointName[]" th:value="${cp.name}" required />
-              <button type="button" class="btn-mini btn-remove">Eliminar</button>
+              <button type="button" class="btn btn-outline-secondary btn-toggle-status"
+                                id="toggleButton" onclick="toggleSchedule(this)">
+                <span class="status-text">Activo</span>
+              </button>
+              <button type="button" class="btn-mini btn-remove"
+              th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">Eliminar</button>
             </div>
           </div>
 

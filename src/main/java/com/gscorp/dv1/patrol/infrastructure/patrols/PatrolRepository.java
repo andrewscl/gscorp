@@ -69,4 +69,12 @@ public interface PatrolRepository extends JpaRepository<Patrol, Long>{
     Optional<PatrolProjection> findProjectionByExternalId (
                                     @Param("externalId") UUID externalId);
 
+    @Query ("""
+        SELECT p
+        FROM Patrol p
+        JOIN FETCH p.site s
+        WHERE p.externalId = :externalId
+    """)
+    Optional<Patrol> findByExternalId (
+                                    @Param("externalId") UUID externalId);
 }

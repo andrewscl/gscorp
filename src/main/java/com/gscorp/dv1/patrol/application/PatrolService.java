@@ -2,8 +2,9 @@ package com.gscorp.dv1.patrol.application;
 
 import java.util.List;
 
-import com.gscorp.dv1.patrol.web.dto.CreatePatrolRequest;
-import com.gscorp.dv1.patrol.web.dto.PatrolDto;
+import com.gscorp.dv1.patrol.web.dto.patrols.CreatePatrolRequest;
+import com.gscorp.dv1.patrol.web.dto.patrols.PatrolDto;
+import com.gscorp.dv1.patrol.web.dto.patrols.UpdatePatrolRequest;
 
 public interface PatrolService {
 
@@ -15,5 +16,11 @@ public interface PatrolService {
     );
 
     PatrolDto getPatrolByExternalId(String externalId);
+
+    PatrolDto updatePatrol (
+                    String externalId,
+                    UpdatePatrolRequest request,
+                    Long userId
+    );
 
 }

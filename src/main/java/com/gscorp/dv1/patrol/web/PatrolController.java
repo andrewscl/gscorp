@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gscorp.dv1.enums.DayOfWeek;
 import com.gscorp.dv1.patrol.application.PatrolService;
-import com.gscorp.dv1.patrol.web.dto.PatrolDto;
+import com.gscorp.dv1.patrol.web.dto.patrols.PatrolDto;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.web.dto.SiteDtoProjection;
 import com.gscorp.dv1.users.application.UserService;

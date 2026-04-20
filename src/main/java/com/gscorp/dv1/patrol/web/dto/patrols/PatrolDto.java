@@ -1,4 +1,4 @@
-package com.gscorp.dv1.patrol.web.dto;
+package com.gscorp.dv1.patrol.web.dto.patrols;
 
 import java.util.List;
 import java.util.UUID;
@@ -7,6 +7,8 @@ import com.gscorp.dv1.enums.DayOfWeek;
 import com.gscorp.dv1.patrol.infrastructure.checkpoints.PatrolCheckpointProjection;
 import com.gscorp.dv1.patrol.infrastructure.patrols.PatrolProjection;
 import com.gscorp.dv1.patrol.infrastructure.schedules.PatrolScheduleProjection;
+import com.gscorp.dv1.patrol.web.dto.checkpoints.PatrolCheckpointDto;
+import com.gscorp.dv1.patrol.web.dto.schedules.PatrolScheduleDto;
 
 public record PatrolDto (
     Long id,

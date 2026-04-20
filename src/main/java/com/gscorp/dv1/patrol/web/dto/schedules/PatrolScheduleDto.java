@@ -1,4 +1,4 @@
-package com.gscorp.dv1.patrol.web.dto;
+package com.gscorp.dv1.patrol.web.dto.schedules;
 
 import java.time.LocalTime;
 import java.util.UUID;

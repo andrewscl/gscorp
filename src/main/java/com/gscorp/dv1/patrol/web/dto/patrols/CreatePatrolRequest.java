@@ -1,4 +1,4 @@
-package com.gscorp.dv1.patrol.web.dto;
+package com.gscorp.dv1.patrol.web.dto.patrols;
 
 import java.util.List;
 

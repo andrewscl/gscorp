@@ -12,12 +12,27 @@ const qsa = (s) => document.querySelectorAll(s);
 
 async function handleUpdate(e) {
     e.preventDefault();
-    
+
+    // Recolectar schedules con su estado activo/inactivo
+    const schedules = Array.from(qsa('.schedule')).map(container => {
+        const timeInput = container.querySelector('input[name="scheduleTime[]"]');
+        const statusSpan = container.querySelector('.status-text');
+        return {
+            startTime: timeInput.value,
+            active: statusSpan.innerText === 'Activo' // Determinar estado por el texto
+        };
+    }).filter(sch => sch.startTime !== ""); // Filtrar horarios vacíos
+
+    // Recolectar checkpoints
+    const checkpoints = Array.from(qsa('input[name="checkpointName[]"]'))
+                              .map(input => input.value.trim())
+                              .filter(val => val !== "");
+
     const externalId = qs('#patrolExternalId')?.value; // ID de la ronda a actualizar
-    // Contenedor de alertas
+    // Alertas
     const alertSuccess = qs('.alert-success');
     const alertError = qs('.alert-error');
-    
+
     // 1. Recolección de datos (Payload)
     const payload = {
         siteId: parseInt(qs('#siteId').value),
@@ -25,13 +40,8 @@ async function handleUpdate(e) {
         description: qs('#patrolDescription').value.trim(),
         dayFrom: parseInt(qs('#dayFrom').value),
         dayTo: parseInt(qs('#dayTo').value),
-        // Recolectar listas
-        scheduleTimes: Array.from(qsa('input[name="scheduleTime[]"]'))
-                            .map(input => input.value)
-                            .filter(val => val !== ""),
-        checkpoints: Array.from(qsa('input[name="checkpointName[]"]'))
-                          .map(input => input.value.trim())
-                          .filter(val => val !== "")
+        schedules: schedules,
+        checkpoints: checkpoints
     };
 
     // 2. Validación básica
@@ -43,7 +53,7 @@ async function handleUpdate(e) {
 
     // 3. Envío al Servidor
     try {
-        const response = await fetchWithAuth(`/api/patrols/${externalId}`, {
+        const response = await fetchWithAuth(`/api/patrols/update/${externalId}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
@@ -66,6 +76,46 @@ async function handleUpdate(e) {
 }
 
 
+function toggleSchedule(button) {
+    const container = button.closest('.schedule-item');
+    const statusText = button.querySelector('.status-text');
+    const isCurrentlyActive = container.getAttribute('data-active') === 'true';
+
+    if (isCurrentlyActive) {
+        // Pasar a INACTIVO
+        container.setAttribute('data-active', 'false');
+        container.style.opacity = "0.5"; // Feedback visual
+        button.classList.replace('btn-outline-success', 'btn-outline-secondary');
+        statusText.innerText = 'Inactivo';
+    } else {
+        // Pasar a ACTIVO
+        container.setAttribute('data-active', 'true');
+        container.style.opacity = "1";
+        button.classList.replace('btn-outline-secondary', 'btn-outline-success');
+        statusText.innerText = 'Activo';
+    }
+}
+
+function toggleCheckpoint(button) {
+    const container = button.closest('.checkpoint-item');
+    const statusText = button.querySelector('.status-text');
+    const isCurrentlyActive = container.getAttribute('data-active') === 'true';
+
+    if (isCurrentlyActive) {
+        // Pasar a INACTIVO
+        container.setAttribute('data-active', 'false');
+        container.style.opacity = "0.5"; // Feedback visual
+        button.classList.replace('btn-outline-success', 'btn-outline-secondary');
+        statusText.innerText = 'Inactivo';
+    } else {
+        // Pasar a ACTIVO
+        container.setAttribute('data-active', 'true');
+        container.style.opacity = "1";
+        button.classList.replace('btn-outline-secondary', 'btn-outline-success');
+        statusText.innerText = 'Activo';
+    }
+}
+
 
 function bindEvents() {
     // Botón Guardar Cambios
@@ -81,6 +131,10 @@ function bindEvents() {
     /* Delegación de eventos para eliminar puntos de control y horarios*/
     qs('#checkpointsList')?.addEventListener('click', onClickRemoveItem);
     qs('#patrolSchedulesList')?.addEventListener('click', onClickRemoveItem);
+
+    /* Delegación de eventos para alternar estado de horarios */
+    qs('#toggleSchedule')?.addEventListener('click', toggleSchedule);
+    qs('#toggleCheckpoint')?.addEventListener('click', toggleCheckpoint);
 
     // Botón Cancelar con mensaje personalizado
     const cancelBtn = qs('#cancelEditPatrolBtn');
