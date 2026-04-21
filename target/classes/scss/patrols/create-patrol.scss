@@ -194,6 +194,30 @@
                             background-color: #312fa4;
                         }
                     }
+
+                    .btn-slate {
+                        // Usamos la base de tu mixin slate
+                        @include btn-slate(); 
+                        
+                        // Ajustamos para que encaje en el panel-header
+                        padding: 4px 10px;      // Padding reducido similar al btn-mini
+                        font-size: 0.75rem;     // Misma fuente que el mini
+                        border-radius: 4px;     // Mismo radio para consistencia
+                        cursor: pointer;
+                        
+                        i {
+                            font-size: 0.85rem; // Ícono ligeramente más grande que el texto
+                            color: #60a5fa;     // Un azul brillante para resaltar que es un mapa
+                        }
+
+                        &:hover {
+                            background-color: #0f172a;
+                            i {
+                                color: #93c5fd; // Brilla más al pasar el mouse
+                            }
+                        }
+                    }
+
                 }
 
                 .schedules-list,
