@@ -41,7 +41,7 @@ const loadGoogleMapsAPI = (() => {
 
 // Función para inicializar el mapa
 const initMap = async () => {
-  const mapContainer = document.getElementById('patrol-map-picker'); // Div contenedor del mapa
+  const mapContainer = document.getElementById('patrols-map-picker'); // Div contenedor del mapa
   if (!mapContainer) {
     console.warn('[initMap] Contenedor #site-map no encontrado en el DOM.');
     return;
@@ -69,6 +69,34 @@ const initMap = async () => {
     console.error('[initMap] Error al inicializar el mapa:', error);
   }
 };
+
+
+// Obtiene la información del sitio desde el servidor usando fetchWithAuth
+async function fetchTargetSite() {
+  try {
+    const res = await fetchWithAuth('/api/sites/projections-by-user', {
+      method: 'GET',
+      headers: { 'Accept': 'application/json' },
+    });
+
+    if (!res.ok) {
+      console.log('Error al cargar sitios. Intente nuevamente.');
+      return;
+    }
+
+    const siteData = await res.json();
+
+    const site = siteData.find(s => s.id == window.targetSiteId);
+
+    if(site){
+        addSiteToMapAndSelect(site);
+    }
+
+  } catch (error) {
+    console.error('Fallo al obtener sitios:', error);
+    console.log('Error al cargar sitios. Intente nuevamente.');
+  }
+}
 
 
 // Función para agregar sitios al mapa como marcadores
@@ -134,34 +162,6 @@ async function addSiteToMapAndSelect(site) {
     window.mapInstance.fitBounds(bounds);
 
 }
-
-// Obtiene la información del sitio desde el servidor usando fetchWithAuth
-async function fetchTargetSite() {
-  try {
-    const res = await fetchWithAuth('/api/sites/projections-by-user', {
-      method: 'GET',
-      headers: { 'Accept': 'application/json' },
-    });
-
-    if (!res.ok) {
-      console.log('Error al cargar sitios. Intente nuevamente.');
-      return;
-    }
-
-    const siteData = await res.json();
-
-    const site = siteData.find(s => s.id == window.targetSiteId);
-
-    if(site){
-        addSiteToMapAndSelect(site);
-    }
-
-  } catch (error) {
-    console.error('Fallo al obtener sitios:', error);
-    console.log('Error al cargar sitios. Intente nuevamente.');
-  }
-}
-
 
 /* --- init --- */
 (async function init() {

@@ -1,0 +1,45 @@
+:root {
+  --topbar-height: 54px;
+  --sidebar-width: 240px;
+  --content-padding-updown: 1.2rem;
+}
+
+#patrols-map-section {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: calc(100vh
+           - var(--topbar-height)
+           - var(--content-padding-updown)*2);
+
+  h3 {
+    text-align: center;
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #42455d;
+  }
+
+  #patrols-map-picker {
+    flex: 1; /* Ocupa todo el espacio restante */
+    width: 100%;
+    height: 100%;
+  }
+
+  @media screen and (max-width: 768px) {
+    margin-left: 0; /* Quita el sidebar en pantallas pequeñas */
+    height: 100%;  /* Ajusta la altura */
+
+    h3 {
+      height: auto;
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+
+    #patrols-map-picker {
+      height: calc(100vh - var(--header-height)); /* Ajusta el mapa para pantallas pequeñas */
+    }
+
+  }
+}
