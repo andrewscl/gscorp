@@ -92,7 +92,10 @@ async function fetchTargetSite() {
     return;
     }
 
-    const site = siteData.find(s => s.id == window.targetSiteId);
+    console.log("Buscando targetSiteId:", window.targetSiteId);
+    console.log("IDs disponibles en siteData:", siteData.map(s => s.id));
+
+    const site = siteData.find(s => Number(s.id) === Number(window.targetSiteId));
 
     console.log('site: ' + site);
 
