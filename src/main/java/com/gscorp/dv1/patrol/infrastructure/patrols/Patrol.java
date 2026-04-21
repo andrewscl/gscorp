@@ -1,6 +1,5 @@
 package com.gscorp.dv1.patrol.infrastructure.patrols;
 
-import java.time.DayOfWeek;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,10 +57,10 @@ public class Patrol {
     private String description;
 
     @Column(name = "day_from", nullable = false, length = 1)
-    private DayOfWeek dayFrom;
+    private Integer dayFrom;
 
     @Column(name = "day_to", nullable = false, length = 1)
-    private DayOfWeek dayTo;
+    private Integer dayTo;
 
     @Builder.Default
     @Column(nullable=false)
