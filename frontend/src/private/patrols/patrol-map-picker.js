@@ -72,7 +72,7 @@ const initMap = async () => {
     await fetchTargetSite();
 
     map.addListener("click", (event) => {
-      addCheckpoint(event.LatLng);
+      addCheckpoint(event.latLng);
     });
 
   } catch (error) {
@@ -188,7 +188,7 @@ async function addSiteToMapAndSelect(site) {
 
 }
 
-async function addCheckpoint (latlng) {
+async function addCheckpoint (latLng) {
     const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
 
     const order = checkpoints.length + 1;
