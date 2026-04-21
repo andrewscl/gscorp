@@ -86,11 +86,17 @@ async function fetchTargetSite() {
 
     const siteData = await res.json();
 
+    // Valida que es un arreglo y que los elementos tienen las propiedades necesarias
+    if (!Array.isArray(siteData) || !siteData.every(site => site.id && site.lat && site.lon)) {
+    console.log('Datos de sitios inválidos.');
+    return;
+    }
+
     const site = siteData.find(s => s.id == window.targetSiteId);
 
-    if(site){
-        addSiteToMapAndSelect(site);
-    }
+    console.log('site: ' + site);
+
+    addSiteToMapAndSelect(site);
 
   } catch (error) {
     console.error('Fallo al obtener sitios:', error);
