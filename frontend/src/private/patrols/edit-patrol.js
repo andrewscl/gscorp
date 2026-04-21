@@ -57,6 +57,7 @@ async function handleUpdate(e) {
         description: qs('#patrolDescription').value.trim(),
         dayFrom: parseInt(qs('#dayFrom').value),
         dayTo: parseInt(qs('#dayTo').value),
+        active: true,
         schedules: schedules,
         checkpoints: checkpoints
     };
