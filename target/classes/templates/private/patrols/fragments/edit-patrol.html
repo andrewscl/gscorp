@@ -53,6 +53,28 @@
                   th:text="${patrol.description}"></textarea>
       </div>
 
+      <div class="day-range">
+        <div class="form-group">
+          <label>Dia desde</label>
+          <select id="dayFrom" name="dayFrom" required>
+            <option value="" disabled selected>Seleccione día</option>
+            <option th:each="day : ${DayOfWeek}"
+                    th:value="${day.dayNumber}"
+                    th:text="${day.getDisplayNameInSpanish}">Día</option> 
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Dia hasta</label>
+          <select id="dayTo" name="dayTo" required>
+            <option value="" disabled selected>Seleccione día</option>
+            <option th:each="day : ${DayOfWeek}"
+                    th:value="${day.dayNumber}"
+                    th:text="${day.getDisplayNameInSpanish}">Día</option> 
+          </select>
+        </div>
+      </div>
+
       <div class="time-patrol-schedules">
         <div class="panel">
 
