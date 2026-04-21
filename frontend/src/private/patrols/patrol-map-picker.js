@@ -59,6 +59,7 @@ const initMap = async () => {
       zoom: 12, // Nivel de zoom inicial
       mapId: googleMapsConfig.mapId, // Personaliza con Map ID de Google Cloud
       disableDefaultUI: true, // Desactiva los controles predeterminados
+      mapTypeId: 'hybrid',
     });
     console.log('[initMap] Mapa inicializado.');
 
