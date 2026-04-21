@@ -9,6 +9,26 @@
 
   </div>
 
+  <div class="checkpoint-controls mt-3">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5>Lista de Puntos de Control</h5>
+            <button type="button" id="btn-clear-path" class="btn btn-outline-danger btn-sm">Limpiar Ruta</button>
+        </div>
+        <table class="table table-sm mt-2" id="checkpoint-table">
+            <thead>
+                <tr>
+                    <th>Orden</th>
+                    <th>Latitud</th>
+                    <th>Longitud</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody id="checkpoint-list-body">
+                </tbody>
+        </table>
+        <button type="button" id="btn-confirm-map" class="btn btn-primary w-100">Confirmar Ruta en Mapa</button>
+    </div>
+
   <script type="module" src="/js/private/patrols/patrol-map-picker.js"></script>
 
 </section>

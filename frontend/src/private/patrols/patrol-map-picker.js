@@ -1,5 +1,8 @@
 import { fetchWithAuth } from '../../auth.js';
 
+let checkpoints = [] //Lista de objetos {lat, lng, order}
+let checkpointMarkers = [] //referencia a los marcadores
+
 // Función para cargar el script de Google Maps - Moderno y modular
 const loadGoogleMapsAPI = (() => {
   let isScriptLoaded = false; // Bandera para evitar duplicados
@@ -68,11 +71,14 @@ const initMap = async () => {
     // Obtener y añadir los sitios al mapa
     await fetchTargetSite();
 
+    map.addListener("click", (event) => {
+      addCheckpoint(event.LatLng);
+    });
+
   } catch (error) {
     console.error('[initMap] Error al inicializar el mapa:', error);
   }
 };
-
 
 // Obtiene la información del sitio desde el servidor usando fetchWithAuth
 async function fetchTargetSite() {
@@ -117,7 +123,6 @@ async function fetchTargetSite() {
     console.log('Error al cargar sitios. Intente nuevamente.');
   }
 }
-
 
 // Función para agregar sitios al mapa como marcadores
 async function addSiteToMapAndSelect(site) {
@@ -182,6 +187,75 @@ async function addSiteToMapAndSelect(site) {
     window.mapInstance.fitBounds(bounds);
 
 }
+
+async function addCheckpoint (latlng) {
+    const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
+
+    const order = checkpoints.length + 1;
+
+    // 1. Crear un estilo diferente para que no se confunda con el sitio base
+    const pin = new PinElement({
+        glyph: order.toString(), // Muestra el número de la ronda
+        background: "#FBBC04",    // Color amarillo/naranja para checkpoints
+        borderColor: "#137333",
+        glyphColor: "white",
+    });
+
+    // 2. Crear el marcador en el mapa
+    const marker = new AdvancedMarkerElement({
+        map: window.mapInstance,
+        position: latLng,
+        content: pin.element,
+        title: `Punto de control ${order}`,
+    });
+
+    // 3. Guardar en nuestros arrays
+    checkpoints.push({
+        lat: latLng.lat(),
+        lng: latLng.lng(),
+        order: order
+    });
+    checkpointMarkers.push(marker);
+
+    console.log("Checkpoints actuales:", checkpoints);
+}
+
+function updateCheckpointTable(){
+    const tbody = document.getElementById('checkpoint-list-body');
+    tbody.innerHTML = ''; // Limpiar
+
+    checkpoints.forEach((point, index) => {
+        const row = `
+            <tr>
+                <td><span class="badge bg-secondary">${point.order}</span></td>
+                <td>${point.lat.toFixed(6)}</td>
+                <td>${point.lng.toFixed(6)}</td>
+                <td>
+                    <button class="btn btn-sm btn-link text-danger" onclick="removeCheckpoint(${index})">
+                        Eliminar
+                    </button>
+                </td>
+            </tr>`;
+        tbody.insertAdjacentHTML('beforeend', row);
+    });
+}
+
+// Función para eliminar un punto específico
+window.removeCheckpoint = function(index) {
+    // 1. Quitar marcador del mapa
+    checkpointMarkers[index].setMap(null);
+    
+    // 2. Eliminar de los arrays
+    checkpoints.splice(index, 1);
+    checkpointMarkers.splice(index, 1);
+    
+    // 3. Reordenar
+    checkpoints.forEach((p, i) => p.order = i + 1);
+    
+    // 4. Actualizar visuales
+    updateCheckpointTable();
+    updatePathLine(); // La línea roja que conecta los puntos
+};
 
 /* --- init --- */
 (async function init() {
