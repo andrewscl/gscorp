@@ -70,7 +70,8 @@ export default defineConfig({
         'private/forecast/create-forecast': path.resolve(__dirname, './src/private/forecast/create-forecast.js'),
         'private/patrols/patrols-table': path.resolve(__dirname, './src/private/patrols/patrols-table.js'),
         'private/patrols/create-patrol': path.resolve(__dirname, './src/private/patrols/create-patrol.js'),
-        'private/patrols/edit-patrol': path.resolve(__dirname, './src/private/patrols/edit-patrol.js')
+        'private/patrols/edit-patrol': path.resolve(__dirname, './src/private/patrols/edit-patrol.js'),
+        'private/patrols/patrol-map-picker': path.resolve(__dirname, './src/private/patrols/patrol-map-picker.js')
 
       },
       output: {

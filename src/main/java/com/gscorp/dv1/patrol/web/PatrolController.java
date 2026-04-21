@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gscorp.dv1.enums.DayOfWeek;
 import com.gscorp.dv1.patrol.application.PatrolService;
@@ -26,7 +27,10 @@ public class PatrolController {
     private final UserService userService;
     private final PatrolService patrolService;
     private final SiteService siteService;
-    
+
+    private String googleCloudApiKey = System.getenv("GOOGLE_CLOUD_API_KEY");
+    private String googleMapId = System.getenv("GOOGLE_MAP_ID");
+
     @GetMapping("/table-view")
     public String getPatrolsTableView(
                     Model model,
@@ -90,5 +94,26 @@ public class PatrolController {
         return "private/patrols/views/edit-patrol-view";
     
     }
+
+    @GetMapping("/edit-map-picker/{siteId}")
+    public String getMapPicker (
+        @PathVariable Long siteId, //El sitio es parte de la ruta
+        @RequestParam(defaultValue = "picker") String mode, // el modo es parametro
+        Model model
+    ){
+
+        if (googleCloudApiKey == null || googleMapId == null) {
+            throw new IllegalStateException("Faltan valores en Google Maps API Key o Map ID.");
+        }
+
+        model.addAttribute("googlecloudapikey", googleCloudApiKey);
+        model.addAttribute("googlemapid", googleMapId);
+        model.addAttribute("targetSiteId", siteId);
+        model.addAttribute("mode", mode);
+
+        return "private/patrols/views/patrols-map-picker-view";
+
+    }
+
 
 }

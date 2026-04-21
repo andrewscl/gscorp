@@ -138,6 +138,26 @@ function toggleCheckpoint(button) {
     }
 }
 
+/**
+ * Navega a la vista de mapa para capturar checkpoints.
+ * Usa el siteId seleccionado en el formulario.
+ */
+function openMapPicker() {
+    const siteSelect = document.getElementById('siteId'); // Tu select de sitios
+    const siteId = siteSelect ? siteSelect.value : null;
+
+    if (!siteId || siteId === "") {
+        // Usar una alerta o un toast personalizado si tienes uno
+        alert("Por favor, selecciona un sitio para poder ubicar los puntos en el mapa.");
+        return;
+    }
+
+    console.log(`[Navigation] Accediendo al mapa para el sitio ID: ${siteId}`);
+    
+    // Navegación SPA usando la ruta con PathVariable que definimos en el Controller
+    navigateTo(`/private/patrols/edit-map-picker/${siteId}`);
+}
+
 
 function bindEvents() {
     // Botón Guardar Cambios
@@ -165,6 +185,9 @@ function bindEvents() {
             onClickCancel(e, 'La edición de la ronda ha sido cancelada.')
         );
     }
+
+    //Boton para acceder al mapa
+    qs('#addMapCheckpointBtn')?.addEventListener('click', openMapPicker);
 }
 
 (function init() {
