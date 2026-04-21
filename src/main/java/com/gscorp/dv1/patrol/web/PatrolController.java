@@ -110,6 +110,7 @@ public class PatrolController {
         model.addAttribute("googlemapid", googleMapId);
         model.addAttribute("targetSiteId", siteId);
         model.addAttribute("mode", mode);
+        System.out.println(siteId);
 
         return "private/patrols/views/patrols-map-picker-view";
 
