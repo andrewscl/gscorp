@@ -2,6 +2,8 @@ import { fetchWithAuth } from '../../auth.js';
 
 let checkpoints = [] //Lista de objetos {lat, lng, order}
 let checkpointMarkers = [] //referencia a los marcadores
+let patrolPathLine = null;
+let currentInfoWindow = null;
 
 // Función para cargar el script de Google Maps - Moderno y modular
 const loadGoogleMapsAPI = (() => {
@@ -188,6 +190,27 @@ async function addSiteToMapAndSelect(site) {
 
 }
 
+async function showInfoWindow(marker, index) {
+    const { InfoWindow } = await google.maps.importLibrary("maps");
+
+    // Cerrar el anterior si existe
+    if (currentInfoWindow) currentInfoWindow.close();
+
+    currentInfoWindow = new InfoWindow({
+        content: `
+            <div style="color:black; padding:5px; font-family: sans-serif;">
+                <strong style="display:block; margin-bottom:5px;">Punto de Control ${index + 1}</strong>
+                <button class="btn btn-xs btn-danger" 
+                        style="padding: 2px 5px; font-size: 11px;"
+                        onclick="removeCheckpoint(${index})">
+                    Eliminar Punto
+                </button>
+            </div>`
+    });
+
+    currentInfoWindow.open(window.mapInstance, marker);
+}
+
 async function addCheckpoint (latLng) {
     const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
 
@@ -209,14 +232,23 @@ async function addCheckpoint (latLng) {
         title: `Punto de control ${order}`,
     });
 
+    // --- Listener  ---
+    marker.addListener("click", () => {
+      const index = checkpointMarkers.indexOf(marker);
+      showInfoWindow(marker, index);
+    });
+
     // 3. Guardar en nuestros arrays
     checkpoints.push({
         lat: latLng.lat(),
         lng: latLng.lng(),
         order: order
     });
+
     checkpointMarkers.push(marker);
 
+    updateCheckpointTable();
+    updatePathLine();
     console.log("Checkpoints actuales:", checkpoints);
 }
 
@@ -240,22 +272,100 @@ function updateCheckpointTable(){
     });
 }
 
-// Función para eliminar un punto específico
+function setupButtons() {
+    document.getElementById('btn-clear-path')?.addEventListener('click', () => {
+        if(confirm("¿Borrar todos los puntos?")) clearAllCheckpoints();
+    });
+
+    document.getElementById('btn-confirm-map')?.addEventListener('click', () => {
+        confirmRoute();
+    });
+}
+
 window.removeCheckpoint = function(index) {
-    // 1. Quitar marcador del mapa
-    checkpointMarkers[index].setMap(null);
+    // 1. Validación de seguridad y quitar del mapa físico
+    if (checkpointMarkers[index]) {
+        checkpointMarkers[index].setMap(null);
+    }
     
-    // 2. Eliminar de los arrays
+    // 2. Eliminar de los arrays de estado
     checkpoints.splice(index, 1);
     checkpointMarkers.splice(index, 1);
     
-    // 3. Reordenar
+    // 3. Re-indexar el orden lógico (para que la data sea consistente)
     checkpoints.forEach((p, i) => p.order = i + 1);
     
-    // 4. Actualizar visuales
-    updateCheckpointTable();
-    updatePathLine(); // La línea roja que conecta los puntos
+    // 4. EL PASO CLAVE: Redibujar visuales
+    // Opción A: redrawMap() -> Si borras y creas todo de nuevo
+    // Opción B: updateMarkersAndPath() -> Si solo actualizas lo que quedó
+    redrawMarkers();  // Actualiza los números (1, 2, 3...) en los pines amarillos
+    updatePathLine(); // Recalcula la línea roja para que no queden huecos
+    updateCheckpointTable(); // Refresca la tabla inferior
+    
+    // Cerramos cualquier InfoWindow abierto para que no quede flotando
+    if (currentInfoWindow) currentInfoWindow.close();
 };
+
+function redrawMarkers() {
+    // Recorremos los marcadores que quedaron para actualizar su número visual
+    checkpointMarkers.forEach((marker, i) => {
+        const order = i + 1;
+        
+        // Creamos el nuevo pin con el número actualizado
+        const pin = new google.maps.marker.PinElement({
+            glyphText: order.toString(),
+            background: "#FBBC04"
+        });
+        
+        // Actualizamos el contenido del marcador sin borrarlo del mapa
+        marker.content = pin.element;
+        marker.title = `Punto ${order}`;
+        
+        // MUY IMPORTANTE: Actualizamos el evento click del marcador 
+        // para que apunte al nuevo índice, de lo contrario borraría el punto equivocado
+        google.maps.event.clearInstanceListeners(marker);
+        marker.addListener("click", () => {
+            showInfoWindow(marker, i); // Función auxiliar para mostrar el botón eliminar
+        });
+    });
+}
+
+function updatePathLine() {
+    const pathCoordinates = checkpoints.map(p => ({ lat: p.lat, lng: p.lng }));
+
+    if (patrolPathLine) {
+        patrolPathLine.setPath(pathCoordinates);
+    } else {
+        patrolPathLine = new google.maps.Polyline({
+            path: pathCoordinates,
+            geodesic: true,
+            strokeColor: "#FF0000",
+            strokeOpacity: 1.0,
+            strokeWeight: 3,
+            map: window.mapInstance
+        });
+    }
+}
+
+function clearAllCheckpoints() {
+    // 1. Quitar todos los marcadores del mapa
+    checkpointMarkers.forEach(m => m.setMap(null));
+    
+    // 2. Resetear arrays
+    checkpointMarkers = [];
+    checkpoints = [];
+    
+    // 3. Limpiar línea
+    if (patrolPathLine) {
+        patrolPathLine.setPath([]);
+    }
+    
+    // 4. Actualizar tabla
+    updateCheckpointTable();
+    
+    if (currentInfoWindow) currentInfoWindow.close();
+    console.log("Ruta reseteada correctamente.");
+}
 
 /* --- init --- */
 (async function init() {
@@ -270,6 +380,7 @@ window.removeCheckpoint = function(index) {
 
     // Inicializar el mapa
     initMap();
+    setupButtons();
 
   } catch (error) {
     console.error('[site-map.js] Error al cargar la API de Google Maps:', error);
