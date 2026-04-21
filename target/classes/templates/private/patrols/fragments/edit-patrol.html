@@ -45,6 +45,14 @@
         <input type="text" id="patrolName" name="name" th:value="${patrol.name}" required />
       </div>
 
+      <div class="form-group">
+        <label for="patrolDescription">Descripción</label>
+        <textarea id="patrolDescription"
+                  name="description"
+                  placeholder="Descripción de la ronda de supervisión"
+                  th:text="${patrol.description}"></textarea>
+      </div>
+
       <div class="time-patrol-schedules">
         <div class="panel">
 

@@ -46,8 +46,10 @@
 
       <div class="form-group">
         <label for="patrolDescription">Descripción</label>
-        <input type="text" id="patrolDescription" name="description"
-                placeholder="Descripción de la ronda de supervisión" />
+        <textarea id="patrolDescription"
+                  name="description"
+                  placeholder="Descripción de la ronda de supervisión"
+                  th:text="${patrol.description}"></textarea>
       </div>
 
       <div class="day-range">

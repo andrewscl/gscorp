@@ -212,10 +212,10 @@ p {
   resize: vertical;
   font-family: "Roboto", sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   letter-spacing: 0.02em;
   color: #1f2937;
-  min-height: 50px;
+  min-height: 80px;
 }
 .hs-form .patrol-form-body .day-range {
   display: grid;

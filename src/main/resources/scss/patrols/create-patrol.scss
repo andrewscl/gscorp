@@ -134,9 +134,9 @@
 
             textarea {
                 resize: vertical;
-                @include roboto-font(0.875rem, 400);
+                @include roboto-font(0.875rem, 500);
                 color: $cool-gray-800;
-                min-height: 50px;
+                min-height: 80px;
             }
         }
 
