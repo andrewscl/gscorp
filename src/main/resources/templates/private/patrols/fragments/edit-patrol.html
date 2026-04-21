@@ -2,7 +2,6 @@
   <div class="hs-form">
     <div class="patrol-form-header">
       <h4>Editar Ronda de Supervisión</h4>
-      <p class="text-sm text-gray-500">Modificando: <strong th:text="${patrol.name}"></strong></p>
     </div>
 
     <div class="patrol-alert-container">
@@ -57,9 +56,10 @@
         <div class="form-group">
           <label>Dia desde</label>
           <select id="dayFrom" name="dayFrom" required>
-            <option value="" disabled>Seleccione día</option> <option th:each="day : ${DayOfWeek}"
+            <option value="" disabled>Seleccione día</option>
+            <option th:each="day : ${DayOfWeek}"
                     th:value="${day.dayNumber}"
-                    th:selected="${day.dayNumber == patrol.dayFrom}"
+                    th:selected="${day.dayNumber == patrol.dayFrom.dayNumber}"
                     th:text="${day.getDisplayNameInSpanish}">Día</option> 
           </select>
         </div>
@@ -67,9 +67,10 @@
         <div class="form-group">
           <label>Dia hasta</label>
           <select id="dayTo" name="dayTo" required>
-            <option value="" disabled>Seleccione día</option> <option th:each="day : ${DayOfWeek}"
+            <option value="" disabled>Seleccione día</option>
+            <option th:each="day : ${DayOfWeek}"
                     th:value="${day.dayNumber}"
-                    th:selected="${day.dayNumber == patrol.dayTo}"
+                    th:selected="${day.dayNumber == patrol.dayTo.dayNumber}"
                     th:text="${day.getDisplayNameInSpanish}">Día</option> 
           </select>
         </div>
