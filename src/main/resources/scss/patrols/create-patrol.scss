@@ -196,26 +196,28 @@
                         }
                     }
 
-                    .btn-slate {
-                        // Usamos la base de tu mixin slate
-                        @include btn-slate(); 
-                        
-                        // Ajustamos para que encaje en el panel-header
-                        padding: 4px 10px;      // Padding reducido similar al btn-mini
-                        font-size: 0.75rem;     // Misma fuente que el mini
-                        border-radius: 4px;     // Mismo radio para consistencia
+                    .btn-map-picker {
+                        display: flex;
+                        align-items: center;
+                        gap: 6px;
+                        background-color: #f0f9ff; // Fondo celeste muy claro
+                        color: #0369a1;            // Texto azul océano
+                        border: 1px solid #bae6fd;
+                        padding: 6px 12px;
+                        border-radius: 6px;
+                        font-size: 0.75rem;
+                        font-weight: 600;
                         cursor: pointer;
-                        
+                        transition: all 0.2s ease;
+
                         i {
-                            font-size: 0.85rem; // Ícono ligeramente más grande que el texto
-                            color: #60a5fa;     // Un azul brillante para resaltar que es un mapa
+                            color: #0ea5e9; // Icono azul brillante
                         }
 
                         &:hover {
-                            background-color: #0f172a;
-                            i {
-                                color: #93c5fd; // Brilla más al pasar el mouse
-                            }
+                            background-color: #e0f2fe;
+                            border-color: #7dd3fc;
+                            transform: translateY(-1px);
                         }
                     }
 
@@ -262,29 +264,31 @@
                         }
 
                         .btn-toggle-status {
-                            // Usamos el mixin de borde variable
-                            @include btn-outline-variant(#64748b, 6px); // Usamos un gris azulado (cool-gray)
-                            
-                            // Sobreescribimos el padding para que sea un botón pequeño (compacto)
-                            padding: 4px 12px !important; 
-                            font-size: 0.75rem !important;
-                            min-width: 80px;
-                            text-align: center;
+                            // Estado Activo (Verde)
+                            background-color: transparent;
+                            color: #10b981; // Verde esmeralda
+                            border: 2px solid #10b981;
+                            padding: 4px 12px;
+                            border-radius: 6px;
+                            font-size: 0.75rem;
+                            font-weight: 700;
+                            transition: all 0.2s ease;
 
-                            // Estilo cuando el estado cambia a "Eliminar" o "Inactivo" (Rojo)
+                            &:hover {
+                                background-color: #10b981;
+                                color: white;
+                            }
+
+                            // Clase para cuando cambia a "Eliminar"
                             &.btn-danger-status {
-                                border-color: #ef4444;
                                 color: #ef4444;
-                                box-shadow: 0 2px 6px rgba(239, 68, 68, 0.2);
-
+                                border-color: #ef4444;
                                 &:hover {
                                     background-color: #ef4444;
                                     color: white;
-                                    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
                                 }
                             }
                         }
-
 
                     }
                 }
