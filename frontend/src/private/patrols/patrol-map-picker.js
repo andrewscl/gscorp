@@ -43,9 +43,11 @@ const loadGoogleMapsAPI = (() => {
 const initMap = async () => {
   const mapContainer = document.getElementById('patrols-map-picker'); // Div contenedor del mapa
   if (!mapContainer) {
-    console.warn('[initMap] Contenedor #site-map no encontrado en el DOM.');
+    console.warn('[initMap] Contenedor #patrols-map-picker no encontrado en el DOM.');
     return;
   }
+
+  console.log('siteId en initMap: ' + window.targetSiteId);
 
   try {
     // Importar las bibliotecas necesarias usando el enfoque moderno de Google
