@@ -18,13 +18,18 @@ async function handleUpdate(e) {
         const timeInput = container.querySelector('input[name="scheduleTime[]"]');
         const statusSpan = container.querySelector('.status-text');
 
-        if(!timeInput) return null;
+        if(timeInput) {
+            return {
+                startTime: timeInput.value,
+                // LÓGICA DE PROTECCIÓN:
+                // Si 'statusSpan' existe (registro viejo), leemos su texto.
+                // Si 'statusSpan' es null (registro nuevo), asignamos true automáticamente.
+                active: statusSpan ? (statusSpan.innerText.trim() === "Activo") : true
+            };
+        }
+        return null;
 
-        return {
-            startTime: timeInput.value,
-            active: statusSpan.innerText === 'Activo' // Determinar estado por el texto
-        };
-    }).filter(sch => sch.startTime !== ""); // Filtrar horarios vacíos
+    }).filter(container => container !== null && container.startTime !== "");
 
     // Recolectar checkpoints como objetos
     const checkpoints = Array.from(qsa('.checkpoint-item')).map(container => {
