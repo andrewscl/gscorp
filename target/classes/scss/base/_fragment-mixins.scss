@@ -203,7 +203,7 @@
         max-width: $m-img-max-w;
         max-height: $m-img-max-h;
         object-fit: $use-fit;
-        align-self: if($m-center, center, flex-start);
+        align-self: if(sass($m-center): center; else: flex-start);
 
         @if $img-aspect != null {
           /* Si quieres mantener aspecto también en móvil */

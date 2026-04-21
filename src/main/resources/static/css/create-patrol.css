@@ -275,6 +275,48 @@ p {
 .hs-form .patrol-form-body .checkpoints-container .panel-header .btn-mini:active {
   background-color: #312fa4;
 }
+.hs-form .patrol-form-body .time-patrol-schedules .panel-header .btn-slate,
+.hs-form .patrol-form-body .checkpoints-container .panel-header .btn-slate {
+  background-color: #1e293b;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  font-weight: 500;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s ease;
+}
+.hs-form .patrol-form-body .time-patrol-schedules .panel-header .btn-slate i,
+.hs-form .patrol-form-body .checkpoints-container .panel-header .btn-slate i {
+  font-size: 1rem;
+}
+.hs-form .patrol-form-body .time-patrol-schedules .panel-header .btn-slate:hover,
+.hs-form .patrol-form-body .checkpoints-container .panel-header .btn-slate:hover {
+  background-color: #0f172a;
+}
+.hs-form .patrol-form-body .time-patrol-schedules .panel-header .btn-slate,
+.hs-form .patrol-form-body .checkpoints-container .panel-header .btn-slate {
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.hs-form .patrol-form-body .time-patrol-schedules .panel-header .btn-slate i,
+.hs-form .patrol-form-body .checkpoints-container .panel-header .btn-slate i {
+  font-size: 0.85rem;
+  color: #60a5fa;
+}
+.hs-form .patrol-form-body .time-patrol-schedules .panel-header .btn-slate:hover,
+.hs-form .patrol-form-body .checkpoints-container .panel-header .btn-slate:hover {
+  background-color: #0f172a;
+}
+.hs-form .patrol-form-body .time-patrol-schedules .panel-header .btn-slate:hover i,
+.hs-form .patrol-form-body .checkpoints-container .panel-header .btn-slate:hover i {
+  color: #93c5fd;
+}
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list,
 .hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoints-list,
 .hs-form .patrol-form-body .checkpoints-container .panel .schedules-list,
@@ -357,6 +399,84 @@ p {
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .schedule .btn-remove:hover,
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .checkpoint-item .btn-remove:hover {
   background-color: #e60000;
+}
+.hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .schedule .btn-toggle-status,
+.hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .checkpoint-item .btn-toggle-status,
+.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoints-list .schedule .btn-toggle-status,
+.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoints-list .checkpoint-item .btn-toggle-status,
+.hs-form .patrol-form-body .checkpoints-container .panel .schedules-list .schedule .btn-toggle-status,
+.hs-form .patrol-form-body .checkpoints-container .panel .schedules-list .checkpoint-item .btn-toggle-status,
+.hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .schedule .btn-toggle-status,
+.hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .checkpoint-item .btn-toggle-status {
+  background-color: transparent;
+  color: #64748b;
+  border: 2px solid #64748b;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(100, 116, 139, 0.2);
+  transition: all 0.3s ease, box-shadow 0.2s;
+}
+.hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .schedule .btn-toggle-status:hover,
+.hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .checkpoint-item .btn-toggle-status:hover,
+.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoints-list .schedule .btn-toggle-status:hover,
+.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoints-list .checkpoint-item .btn-toggle-status:hover,
+.hs-form .patrol-form-body .checkpoints-container .panel .schedules-list .schedule .btn-toggle-status:hover,
+.hs-form .patrol-form-body .checkpoints-container .panel .schedules-list .checkpoint-item .btn-toggle-status:hover,
+.hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .schedule .btn-toggle-status:hover,
+.hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .checkpoint-item .btn-toggle-status:hover {
+  background-color: #64748b;
+  color: white;
+  box-shadow: 0 4px 12px rgba(100, 116, 139, 0.4);
+  transform: translateY(-2px);
+}
+.hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .schedule .btn-toggle-status:active,
+.hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .checkpoint-item .btn-toggle-status:active,
+.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoints-list .schedule .btn-toggle-status:active,
+.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoints-list .checkpoint-item .btn-toggle-status:active,
+.hs-form .patrol-form-body .checkpoints-container .panel .schedules-list .schedule .btn-toggle-status:active,
+.hs-form .patrol-form-body .checkpoints-container .panel .schedules-list .checkpoint-item .btn-toggle-status:active,
+.hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .schedule .btn-toggle-status:active,
+.hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .checkpoint-item .btn-toggle-status:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(100, 116, 139, 0.3);
+}
+.hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .schedule .btn-toggle-status,
+.hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .checkpoint-item .btn-toggle-status,
+.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoints-list .schedule .btn-toggle-status,
+.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoints-list .checkpoint-item .btn-toggle-status,
+.hs-form .patrol-form-body .checkpoints-container .panel .schedules-list .schedule .btn-toggle-status,
+.hs-form .patrol-form-body .checkpoints-container .panel .schedules-list .checkpoint-item .btn-toggle-status,
+.hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .schedule .btn-toggle-status,
+.hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .checkpoint-item .btn-toggle-status {
+  padding: 4px 12px !important;
+  font-size: 0.75rem !important;
+  min-width: 80px;
+  text-align: center;
+}
+.hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .schedule .btn-toggle-status.btn-danger-status,
+.hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .checkpoint-item .btn-toggle-status.btn-danger-status,
+.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoints-list .schedule .btn-toggle-status.btn-danger-status,
+.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoints-list .checkpoint-item .btn-toggle-status.btn-danger-status,
+.hs-form .patrol-form-body .checkpoints-container .panel .schedules-list .schedule .btn-toggle-status.btn-danger-status,
+.hs-form .patrol-form-body .checkpoints-container .panel .schedules-list .checkpoint-item .btn-toggle-status.btn-danger-status,
+.hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .schedule .btn-toggle-status.btn-danger-status,
+.hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .checkpoint-item .btn-toggle-status.btn-danger-status {
+  border-color: #ef4444;
+  color: #ef4444;
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.2);
+}
+.hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .schedule .btn-toggle-status.btn-danger-status:hover,
+.hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .checkpoint-item .btn-toggle-status.btn-danger-status:hover,
+.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoints-list .schedule .btn-toggle-status.btn-danger-status:hover,
+.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoints-list .checkpoint-item .btn-toggle-status.btn-danger-status:hover,
+.hs-form .patrol-form-body .checkpoints-container .panel .schedules-list .schedule .btn-toggle-status.btn-danger-status:hover,
+.hs-form .patrol-form-body .checkpoints-container .panel .schedules-list .checkpoint-item .btn-toggle-status.btn-danger-status:hover,
+.hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .schedule .btn-toggle-status.btn-danger-status:hover,
+.hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .checkpoint-item .btn-toggle-status.btn-danger-status:hover {
+  background-color: #ef4444;
+  color: white;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
 }
 .hs-form .patrol-form-body .time-patrol-schedules .panel .time-schedules-help,
 .hs-form .patrol-form-body .checkpoints-container .panel .time-schedules-help {
