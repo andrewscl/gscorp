@@ -62,9 +62,9 @@ async function handleUpdate(e) {
     };
 
     // 2. Validación básica
-    if (!payload.name || payload.checkpoints.length === 0) {
+    if (!payload.name) {
         displayAlert(alertError,
-                        "El nombre y al menos un punto de control son obligatorios.");
+                        "El nombre del punto de control es obligatorio.");
         return;
     }
 
