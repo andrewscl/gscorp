@@ -75,6 +75,14 @@ const initMap = async () => {
 
 // Obtiene la información del sitio desde el servidor usando fetchWithAuth
 async function fetchTargetSite() {
+  const input = document.getElementById('target-site-id');
+  const siteId = input ? input.value : null;
+
+  if (!siteId) {
+        console.error("No se pudo obtener el ID del sitio del input oculto");
+        return;
+  }
+
   try {
     const res = await fetchWithAuth('/api/sites/projections-by-user', {
       method: 'GET',
@@ -94,10 +102,10 @@ async function fetchTargetSite() {
     return;
     }
 
-    console.log("Buscando targetSiteId:", window.targetSiteId);
+    console.log("Buscando siteId:", siteId);
     console.log("IDs disponibles en siteData:", siteData.map(s => s.id));
 
-    const site = siteData.find(s => Number(s.id) === Number(window.targetSiteId));
+    const site = siteData.find(s => Number(s.id) === Number(siteId));
 
     console.log('site: ' + site);
 

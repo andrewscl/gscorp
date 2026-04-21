@@ -1,9 +1,5 @@
 <section th:fragment="content">
-    <script th:inline="javascript">
-        // Se ejecuta inmediatamente cuando el fragmento entra al DOM
-        window.targetSiteId = /*[[${targetSiteId}]]*/ 0 ;
-        console.log("[Fragment] Cargando mapa para el sitio:", window.targetSiteId);
-    </script>
+  <input type="hidden" id="target-site-id" th:value="${targetSiteId}">
 
   <div id="patrols-map-section">
 
