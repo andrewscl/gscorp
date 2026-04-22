@@ -143,6 +143,7 @@ function toggleCheckpoint(button) {
  * Usa el siteId seleccionado en el formulario.
  */
 function openMapPicker() {
+    const uuid = document.getElementById('patrolExternalId').value;
     const siteSelect = document.getElementById('siteId'); // Tu select de sitios
     const siteId = siteSelect ? siteSelect.value : null;
 
@@ -155,7 +156,7 @@ function openMapPicker() {
     console.log(`[Navigation] Accediendo al mapa para el sitio ID: ${siteId}`);
     
     // Navegación SPA usando la ruta con PathVariable que definimos en el Controller
-    navigateTo(`/private/patrols/edit-map-picker/${siteId}`);
+    navigateTo(`/private/patrols/edit-map-picker/${uuid}?siteId=${siteId}`);
 }
 
 
@@ -188,19 +189,15 @@ function bindEvents() {
     if (updateBtn) {
         updateBtn.addEventListener('click', handleUpdate);
     }
-
     // Botones dinámicos (Añadir/Eliminar)
     qs('#addTimeScheduleBtn').addEventListener('click', onClickAddTimeSchedule);
     qs('#addCheckpointBtn').addEventListener('click', onClickAddCheckpoint);
-
     /* Delegación de eventos para eliminar puntos de control y horarios*/
     qs('#checkpointsList')?.addEventListener('click', onClickRemoveItem);
     qs('#patrolSchedulesList')?.addEventListener('click', onClickRemoveItem);
-
     /* Delegación de eventos para alternar estado de horarios */
     qs('#toggleSchedule')?.addEventListener('click', toggleSchedule);
     qs('#toggleCheckpoint')?.addEventListener('click', toggleCheckpoint);
-
     // Botón Cancelar con mensaje personalizado
     const cancelBtn = qs('#cancelEditPatrolBtn');
     if (cancelBtn) {
@@ -208,7 +205,6 @@ function bindEvents() {
             onClickCancel(e, 'La edición de la ronda ha sido cancelada.')
         );
     }
-
     //Boton para acceder al mapa
     qs('#addMapCheckpointBtn')?.addEventListener('click', openMapPicker);
 
