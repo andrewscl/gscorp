@@ -214,13 +214,18 @@ p {
   border-bottom: 1px solid #f1f3f5;
 }
 .checkpoint-controls .table-responsive table tbody td .btn-link {
-  background: none;
+  background-color: #4e54c8;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
   border: none;
-  color: #dc3545;
   cursor: pointer;
-  font-size: 0.8rem;
-  padding: 0;
+  transition: background-color 0.2s;
 }
 .checkpoint-controls .table-responsive table tbody td .btn-link:hover {
-  text-decoration: underline;
+  background-color: #3d3fb3;
+}
+.checkpoint-controls .table-responsive table tbody td .btn-link:active {
+  background-color: #312fa4;
 }/*# sourceMappingURL=patrols-map.css.map */

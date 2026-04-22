@@ -139,14 +139,22 @@
                 border-bottom: 1px solid #f1f3f5;
 
                 .btn-link {
-                    background: none;
+                    background-color: #4e54c8;
+                    color: white;
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                    font-size: 0.75rem;
                     border: none;
-                    color: #dc3545;
                     cursor: pointer;
-                    font-size: 0.8rem;
-                    padding: 0;
-                    &:hover { text-decoration: underline; }
+                    transition: background-color 0.2s;
+                    &:hover {
+                        background-color: #3d3fb3;
+                    }
+                    &:active {
+                        background-color: #312fa4;
+                    }
                 }
+
             }
         }
     }
