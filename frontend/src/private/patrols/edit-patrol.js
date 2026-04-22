@@ -159,6 +159,29 @@ function openMapPicker() {
 }
 
 
+/**
+ * Procesa la sincronización de checkpoints desde el almacenamiento local
+ */
+function syncMapCheckpoints() {
+    const savedPoints = localStorage.getItem('pending_checkpoints');
+    
+    if (savedPoints) {
+        console.log("[EditPatrol] Sincronizando puntos encontrados...");
+        
+        const input = document.getElementById('checkpoints-json-field');
+        if (input) {
+            input.value = savedPoints;
+            
+            // Si tienes una función para repintar la tabla visualmente:
+            // if (typeof renderTable === 'function') renderTable(JSON.parse(savedPoints));
+        }
+
+        localStorage.removeItem('pending_checkpoints');
+        console.log("[EditPatrol] LocalStorage limpiado.");
+    }
+}
+
+
 function bindEvents() {
     // Botón Guardar Cambios
     const updateBtn = qs('#updatePatrolBtn');
@@ -188,6 +211,12 @@ function bindEvents() {
 
     //Boton para acceder al mapa
     qs('#addMapCheckpointBtn')?.addEventListener('click', openMapPicker);
+
+    // ESCUCHADOR: Espera a que el navigation-handler confirme la carga
+    document.addEventListener('route:loaded', () => {
+            syncMapCheckpoints(); // <--- Llamamos a la función separada
+    }, { once: true });
+
 }
 
 (function init() {

@@ -1,9 +1,12 @@
 import { fetchWithAuth } from '../../auth.js';
+import { navigateTo } from '../../navigation-handler.js';
 
 let checkpoints = [] //Lista de objetos {lat, lng, order}
 let checkpointMarkers = [] //referencia a los marcadores
 let patrolPathLine = null;
 let currentInfoWindow = null;
+
+const qs  = (s) => document.querySelector(s);
 
 // Función para cargar el script de Google Maps - Moderno y modular
 const loadGoogleMapsAPI = (() => {
@@ -367,10 +370,31 @@ function clearAllCheckpoints() {
     console.log("Ruta reseteada correctamente.");
 }
 
+async function handleConfirmAndExit() {
+if (checkpoints.length === 0) {
+        alert("Define al menos un punto en la ruta antes de confirmar.");
+        return;
+    }
+
+    // 1. Persistimos los datos para la siguiente "pantalla"
+    localStorage.setItem('pending_checkpoints', JSON.stringify(checkpoints));
+
+    // 2. Obtenemos el ID para la ruta
+    const targetSiteId = document.getElementById('target-site-id').value;
+    const path = `/private/patrols/edit/${targetSiteId}`;
+
+    // 3. Navegación controlada (maneja el token y el fragmento automáticamente)
+    console.log(`[MapPicker] Finalizando edición. Navegando a ${path}`);
+    await navigateTo(path);
+}
+
 /* --- init --- */
 (async function init() {
 
   console.log('[init] IIFE iniciado');
+
+    qs('#btn-confirm-map')
+          .addEventListener('click', handleConfirmAndExit);
 
   const apiKey = googleMapsConfig.apiKey;
 
