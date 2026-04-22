@@ -265,8 +265,15 @@ async function addCheckpoint (latLng) {
 
     // --- Listener  ---
     marker.addListener("click", () => {
-      const index = checkpointMarkers.indexOf(marker);
-      showInfoWindow(marker, index);
+        const index = checkpointMarkers.indexOf(marker);
+        console.log("Marcador clickeado. Índice encontrado:", index);
+        console.log("Total marcadores en array:", checkpointMarkers.length);
+        
+        if (index !== -1) {
+            showInfoWindow(marker, index);
+        } else {
+            console.error("Error: El marcador clickeado no existe en checkpointMarkers.");
+        }
     });
 
     // 3. Guardar en nuestros arrays
