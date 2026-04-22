@@ -159,24 +159,55 @@ function openMapPicker() {
     navigateTo(`/private/patrols/edit-map-picker/${uuid}/${siteId}`);
 }
 
+function addCheckpointFromMap(point) {
+    const container = qs('#checkpointsList');
+    if(!container) return;
+
+    const div = document.createElement('div');
+    div.className = 'checkpoint-item map-point'; // Clase extra para saber que viene del mapa
+    div.innerHTML = `
+        <div class="checkpoint-info">
+            <strong>Punto Mapa:</strong>
+            <small>${point.lat.toFixed(5)}, ${point.lng.toFixed(5)}</small>
+        </div>
+        <input type="hidden" name="checkpointLat[]" value="${point.lat}" />
+        <input type="hidden" name="checkpointLng[]" value="${point.lng}" />
+        <input type="text" name="checkpointName[]" 
+               placeholder="Nombre del punto (ej: Bodega A)" 
+               value="${point.name || ''}" required />
+        <button type="button" class="btn-mini btn-remove">Eliminar</button>
+    `;
+    container.appendChild(div);
+}
+
 
 /**
  * Procesa la sincronización de checkpoints desde el almacenamiento local
  */
 function syncMapCheckpoints() {
-    const savedPoints = localStorage.getItem('pending_checkpoints');
+    const savedPointsRaw = localStorage.getItem('pending_checkpoints');
     
-    if (savedPoints) {
+    if (savedPointsRaw) {
         console.log("[EditPatrol] Sincronizando puntos encontrados...");
         
-        const input = document.getElementById('checkpoints-json-field');
-        if (input) {
-            input.value = savedPoints;
+        try {
+            // 1. Convertimos el string a Array de objetos
+            const points = JSON.parse(savedPointsRaw);
             
-            // Si tienes una función para repintar la tabla visualmente:
-            // if (typeof renderTable === 'function') renderTable(JSON.parse(savedPoints));
+            // 2. Llenamos el input hidden por si el backend lo usa
+            const input = document.getElementById('checkpoints-json-field');
+            if (input) input.value = savedPointsRaw;
+
+            // 3. Iteramos sobre el Array real para crear el HTML
+            points.forEach(point => {
+                addCheckpointFromMap(point);
+            });
+
+        } catch (e) {
+            console.error("[EditPatrol] Error al procesar JSON de puntos:", e);
         }
 
+        // 4. Limpiamos el buzón
         localStorage.removeItem('pending_checkpoints');
         console.log("[EditPatrol] LocalStorage limpiado.");
     }
