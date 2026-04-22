@@ -1,19 +1,63 @@
-import{f as u}from"../../auth.js";import{n as y}from"../../navigation-handler.js";let l=[],c=[],d=null,s=null;const f=e=>document.querySelector(e),h=(()=>{let e=!1,t=null;return o=>(e||(t=new Promise((r,n)=>{const a=document.createElement("script");a.src=`https://maps.googleapis.com/maps/api/js?key=${o}&v=weekly`,a.async=!0,a.defer=!0,a.onload=()=>{console.log("[Google Maps API] Script cargado correctamente."),e=!0,r()},a.onerror=i=>{console.error("[Google Maps API] Error al cargar el script:",i),n(new Error("Error al cargar Google Maps API"))},document.head.appendChild(a)})),t)})(),w=async()=>{const e=document.getElementById("patrols-map-picker");if(!e){console.warn("[initMap] Contenedor #patrols-map-picker no encontrado en el DOM.");return}console.log("siteId en initMap: "+window.targetSiteId);try{const{Map:t}=await google.maps.importLibrary("maps"),o=new t(e,{center:{lat:-33.4489,lng:-70.6693},zoom:8,mapId:googleMapsConfig.mapId,disableDefaultUI:!0,mapTypeId:"hybrid"});console.log("[initMap] Mapa inicializado."),window.mapInstance=o,await b(),o.addListener("click",r=>{I(r.latLng)})}catch(t){console.error("[initMap] Error al inicializar el mapa:",t)}};async function b(){const e=document.getElementById("target-site-id"),t=e?e.value:null;if(!t){console.error("No se pudo obtener el ID del sitio del input oculto");return}try{const o=await u("/api/sites/projections-by-user",{method:"GET",headers:{Accept:"application/json"}});if(!o.ok){console.log("Error al cargar sitios. Intente nuevamente.");return}const r=await o.json();if(!Array.isArray(r)||!r.every(a=>a.id&&a.lat&&a.lon)){console.log("Datos de sitios inválidos.");return}console.log("Buscando siteId:",t),console.log("IDs disponibles en siteData:",r.map(a=>a.id));const n=r.find(a=>Number(a.id)===Number(t));console.log("site: "+n),k(n)}catch(o){console.error("Fallo al obtener sitios:",o),console.log("Error al cargar sitios. Intente nuevamente.")}}async function k(e){const{AdvancedMarkerElement:t,PinElement:o}=await google.maps.importLibrary("marker"),r=new google.maps.LatLngBounds,n=document.createElement("div");n.style.backgroundColor="#fff",n.style.border="1px solid grey",n.style.padding="4px 8px",n.style.borderRadius="8px",n.style.boxShadow="0 2px 6px rgba(0,0,0,0.3)",n.style.position="absolute",n.style.top="-40px",n.style.left="50%",n.style.transform="translateX(-50%)",n.style.whiteSpace="nowrap",n.style.display="none",n.textContent=`Sitio: ${e.name||"Sin Nombre"}`;const a=new o({scale:.8,glyphColor:"#3176e3",background:"#359dd1",borderColor:"#1d4d9b"}),i=document.createElement("div");i.style.position="relative",i.appendChild(a.element),i.appendChild(n),new t({map:window.mapInstance,position:{lat:e.lat,lng:e.lon},content:i}),i.addEventListener("mouseenter",()=>{n.style.display="block"}),i.addEventListener("mouseleave",()=>{n.style.display="none"}),r.extend(new google.maps.LatLng(e.lat,e.lon)),console.log(`[addSitesToMapAndSelect] Marcador añadido para sitio: ${e.id}`),window.mapInstance.fitBounds(r)}async function m(e,t){const{InfoWindow:o}=await google.maps.importLibrary("maps");s&&s.close(),s=new o({content:`
-            <div style="color:black; padding:5px; font-family: sans-serif;">
-                <strong style="display:block; margin-bottom:5px;">Punto de Control ${t+1}</strong>
+import{f as g}from"../../auth.js";import{n as y}from"../../navigation-handler.js";let s=[],c=[],d=null,l=null;const b=e=>document.querySelector(e),f=(()=>{let e=!1,t=null;return n=>(e||(t=new Promise((a,o)=>{const i=document.createElement("script");i.src=`https://maps.googleapis.com/maps/api/js?key=${n}&v=weekly`,i.async=!0,i.defer=!0,i.onload=()=>{console.log("[Google Maps API] Script cargado correctamente."),e=!0,a()},i.onerror=r=>{console.error("[Google Maps API] Error al cargar el script:",r),o(new Error("Error al cargar Google Maps API"))},document.head.appendChild(i)})),t)})(),h=async()=>{const e=document.getElementById("patrols-map-picker");if(!e){console.warn("[initMap] Contenedor #patrols-map-picker no encontrado en el DOM.");return}console.log("siteId en initMap: "+window.targetSiteId);try{const{Map:t}=await google.maps.importLibrary("maps"),n=new t(e,{center:{lat:-33.4489,lng:-70.6693},zoom:8,mapId:googleMapsConfig.mapId,disableDefaultUI:!0,mapTypeId:"hybrid"});console.log("[initMap] Mapa inicializado."),window.mapInstance=n,await w(),n.addListener("click",a=>{k(a.latLng)})}catch(t){console.error("[initMap] Error al inicializar el mapa:",t)}};async function w(){const e=document.getElementById("target-site-id"),t=e?e.value:null;if(!t){console.error("No se pudo obtener el ID del sitio del input oculto");return}try{const n=await g("/api/sites/projections-by-user",{method:"GET",headers:{Accept:"application/json"}});if(!n.ok){console.log("Error al cargar sitios. Intente nuevamente.");return}const a=await n.json();if(!Array.isArray(a)||!a.every(i=>i.id&&i.lat&&i.lon)){console.log("Datos de sitios inválidos.");return}console.log("Buscando siteId:",t),console.log("IDs disponibles en siteData:",a.map(i=>i.id));const o=a.find(i=>Number(i.id)===Number(t));console.log("site: "+o),x(o)}catch(n){console.error("Fallo al obtener sitios:",n),console.log("Error al cargar sitios. Intente nuevamente.")}}async function x(e){const{AdvancedMarkerElement:t,PinElement:n}=await google.maps.importLibrary("marker"),a=new google.maps.LatLngBounds,o=document.createElement("div");o.style.backgroundColor="#fff",o.style.border="1px solid grey",o.style.padding="4px 8px",o.style.borderRadius="8px",o.style.boxShadow="0 2px 6px rgba(0,0,0,0.3)",o.style.position="absolute",o.style.top="-40px",o.style.left="50%",o.style.transform="translateX(-50%)",o.style.whiteSpace="nowrap",o.style.display="none",o.textContent=`Sitio: ${e.name||"Sin Nombre"}`;const i=new n({scale:.8,glyphColor:"#3176e3",background:"#359dd1",borderColor:"#1d4d9b"}),r=document.createElement("div");r.style.position="relative",r.appendChild(i.element),r.appendChild(o),new t({map:window.mapInstance,position:{lat:e.lat,lng:e.lon},content:r}),r.addEventListener("mouseenter",()=>{o.style.display="block"}),r.addEventListener("mouseleave",()=>{o.style.display="none"}),a.extend(new google.maps.LatLng(e.lat,e.lon)),console.log(`[addSitesToMapAndSelect] Marcador añadido para sitio: ${e.id}`),window.mapInstance.fitBounds(a)}async function m(e,t){const{InfoWindow:n}=await google.maps.importLibrary("maps");l&&l.close(),l=new n({content:`
+            <div style="color:black; padding:10px; font-family: sans-serif; min-width: 200px;">
+                <strong style="display:block; margin-bottom:8px; border-bottom: 1px solid #ccc;">
+                    Configuración Punto ${t+1}
+                </strong>
+                
+                <div style="margin-bottom: 8px;">
+                    <label style="font-size: 11px; display:block;">Nombre del lugar:</label>
+                    <input type="text" id="infowindow-name-${t}" 
+                           value="${point.name||""}" 
+                           oninput="updateCheckpointData(${t}, 'name', this.value)"
+                           style="width:100%; font-size:12px; padding:4px; border:1px solid #ccc; border-radius:4px;">
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                    <div style="flex:1;">
+                        <label style="font-size: 11px; display:block;">Permanencia (min):</label>
+                        <input type="number" 
+                               value="${point.stayTime||5}" 
+                               oninput="updateCheckpointData(${t}, 'stayTime', this.value)"
+                               style="width:100%; font-size:12px; padding:4px; border:1px solid #ccc;">
+                    </div>
+                    <div style="flex:1; ${transitDisplay}">
+                        <label style="font-size: 11px; display:block;">Tránsito (min):</label>
+                        <input type="number" 
+                               value="${point.transitTime||3}" 
+                               oninput="updateCheckpointData(${t}, 'transitTime', this.value)"
+                               style="width:100%; font-size:12px; padding:4px; border:1px solid #ccc;">
+                    </div>
+                </div>
+
                 <button class="btn btn-xs btn-danger" 
-                        style="padding: 2px 5px; font-size: 11px;"
+                        style="width:100%; padding: 5px; font-size: 11px; cursor:pointer;"
                         onclick="removeCheckpoint(${t})">
                     Eliminar Punto
                 </button>
-            </div>`}),s.open(window.mapInstance,e)}async function I(e){const{AdvancedMarkerElement:t,PinElement:o}=await google.maps.importLibrary("marker"),r=l.length+1,n=new o({glyph:r.toString(),background:"#FBBC04",borderColor:"#137333",glyphColor:"white"}),a=new t({map:window.mapInstance,position:e,content:n.element,title:`Punto de control ${r}`});a.addListener("click",()=>{const i=c.indexOf(a);m(a,i)}),l.push({lat:e.lat(),lng:e.lng(),order:r}),c.push(a),p(),g(),console.log("Checkpoints actuales:",l)}function p(){const e=document.getElementById("checkpoint-list-body");e.innerHTML="",l.forEach((t,o)=>{const r=`
+            </div>`}),l.open(window.mapInstance,e)}async function k(e){const{AdvancedMarkerElement:t,PinElement:n}=await google.maps.importLibrary("marker"),a=s.length+1,o=new n({glyph:a.toString(),background:"#FBBC04",borderColor:"#137333",glyphColor:"white"}),i=new t({map:window.mapInstance,position:e,content:o.element,title:`Punto de control ${a}`});i.addListener("click",()=>{const r=c.indexOf(i);m(i,r)}),s.push({lat:e.lat(),lng:e.lng(),order:a,name:`Punto ${a}`,stayTime:5,transitTime:a===1?0:3}),c.push(i),p(),u(),console.log("Checkpoints actuales:",s)}function p(){const e=document.getElementById("checkpoint-list-body");e.innerHTML="",s.forEach((t,n)=>{const a=n===0?'<span class="text-muted">---</span>':`${t.transitTime||0} min`,o=`
             <tr>
-                <td><span class="badge bg-secondary">${t.order}</span></td>
-                <td>${t.lat.toFixed(6)}</td>
-                <td>${t.lng.toFixed(6)}</td>
+                <td class="text-center">
+                    <span class="badge bg-primary">${n+1}</span>
+                </td>
                 <td>
-                    <button class="btn btn-sm btn-link text-danger" onclick="removeCheckpoint(${o})">
-                        Eliminar
+                    <div class="fw-bold text-truncate" style="max-width: 150px;" title="${t.name||"Sin nombre"}">
+                        ${t.name||'<i class="text-muted">Punto sin nombre</i>'}
+                    </div>
+                </td>
+                <td class="small text-muted">
+                    ${t.lat.toFixed(5)}, ${t.lng.toFixed(5)}
+                </td>
+                <td class="text-center">
+                    ${t.stayTime||0} min
+                </td>
+                <td class="text-center">
+                    ${a}
+                </td>
+                <td class="text-end">
+                    <button class="btn btn-sm btn-outline-danger border-0" 
+                            onclick="removeCheckpoint(${n})" 
+                            title="Eliminar punto">
+                        <i class="bi bi-trash"></i> Eliminar
                     </button>
                 </td>
-            </tr>`;e.insertAdjacentHTML("beforeend",r)})}function E(){document.getElementById("btn-clear-path")?.addEventListener("click",()=>{confirm("¿Borrar todos los puntos?")&&M()}),f("#btn-confirm-map").addEventListener("click",v)}window.removeCheckpoint=function(e){c[e]&&c[e].setMap(null),l.splice(e,1),c.splice(e,1),l.forEach((t,o)=>t.order=o+1),C(),g(),p(),s&&s.close()};function C(){c.forEach((e,t)=>{const o=t+1,r=new google.maps.marker.PinElement({glyphText:o.toString(),background:"#FBBC04"});e.content=r.element,e.title=`Punto ${o}`,google.maps.event.clearInstanceListeners(e),e.addListener("click",()=>{m(e,t)})})}function g(){const e=l.map(t=>({lat:t.lat,lng:t.lng}));d?d.setPath(e):d=new google.maps.Polyline({path:e,geodesic:!0,strokeColor:"#FF0000",strokeOpacity:1,strokeWeight:3,map:window.mapInstance})}function M(){c.forEach(e=>e.setMap(null)),c=[],l=[],d&&d.setPath([]),p(),s&&s.close(),console.log("Ruta reseteada correctamente.")}async function v(){if(l.length===0){alert("Define al menos un punto en la ruta antes de confirmar.");return}localStorage.setItem("pending_checkpoints",JSON.stringify(l));const t=`/private/patrols/edit/${document.getElementById("target-patrol-externalId").value}`;console.log(`[MapPicker] Finalizando edición. Navegando a ${t}`),await y(t)}(async function(){console.log("[init] IIFE iniciado");const t=googleMapsConfig.apiKey;try{await h(t),w(),E()}catch(o){console.error("[site-map.js] Error al cargar la API de Google Maps:",o)}})();
+            </tr>`;e.insertAdjacentHTML("beforeend",o)})}function v(){document.getElementById("btn-clear-path")?.addEventListener("click",()=>{confirm("¿Borrar todos los puntos?")&&E()}),b("#btn-confirm-map").addEventListener("click",C)}window.removeCheckpoint=function(e){c[e]&&c[e].setMap(null),s.splice(e,1),c.splice(e,1),s.forEach((t,n)=>t.order=n+1),I(),u(),p(),l&&l.close()};function I(){c.forEach((e,t)=>{const n=t+1,a=new google.maps.marker.PinElement({glyphText:n.toString(),background:"#FBBC04"});e.content=a.element,e.title=`Punto ${n}`,google.maps.event.clearInstanceListeners(e),e.addListener("click",()=>{m(e,t)})})}function u(){const e=s.map(t=>({lat:t.lat,lng:t.lng}));d?d.setPath(e):d=new google.maps.Polyline({path:e,geodesic:!0,strokeColor:"#FF0000",strokeOpacity:1,strokeWeight:3,map:window.mapInstance})}function E(){c.forEach(e=>e.setMap(null)),c=[],s=[],d&&d.setPath([]),p(),l&&l.close(),console.log("Ruta reseteada correctamente.")}async function C(){if(s.length===0){alert("Define al menos un punto en la ruta antes de confirmar.");return}localStorage.setItem("pending_checkpoints",JSON.stringify(s));const t=`/private/patrols/edit/${document.getElementById("target-patrol-externalId").value}`;console.log(`[MapPicker] Finalizando edición. Navegando a ${t}`),await y(t)}(async function(){console.log("[init] IIFE iniciado");const t=googleMapsConfig.apiKey;try{await f(t),h(),v()}catch(n){console.error("[site-map.js] Error al cargar la API de Google Maps:",n)}})();

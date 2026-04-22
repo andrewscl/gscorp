@@ -201,10 +201,38 @@ async function showInfoWindow(marker, index) {
 
     currentInfoWindow = new InfoWindow({
         content: `
-            <div style="color:black; padding:5px; font-family: sans-serif;">
-                <strong style="display:block; margin-bottom:5px;">Punto de Control ${index + 1}</strong>
+            <div style="color:black; padding:10px; font-family: sans-serif; min-width: 200px;">
+                <strong style="display:block; margin-bottom:8px; border-bottom: 1px solid #ccc;">
+                    Configuración Punto ${index + 1}
+                </strong>
+                
+                <div style="margin-bottom: 8px;">
+                    <label style="font-size: 11px; display:block;">Nombre del lugar:</label>
+                    <input type="text" id="infowindow-name-${index}" 
+                           value="${point.name || ''}" 
+                           oninput="updateCheckpointData(${index}, 'name', this.value)"
+                           style="width:100%; font-size:12px; padding:4px; border:1px solid #ccc; border-radius:4px;">
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                    <div style="flex:1;">
+                        <label style="font-size: 11px; display:block;">Permanencia (min):</label>
+                        <input type="number" 
+                               value="${point.stayTime || 5}" 
+                               oninput="updateCheckpointData(${index}, 'stayTime', this.value)"
+                               style="width:100%; font-size:12px; padding:4px; border:1px solid #ccc;">
+                    </div>
+                    <div style="flex:1; ${transitDisplay}">
+                        <label style="font-size: 11px; display:block;">Tránsito (min):</label>
+                        <input type="number" 
+                               value="${point.transitTime || 3}" 
+                               oninput="updateCheckpointData(${index}, 'transitTime', this.value)"
+                               style="width:100%; font-size:12px; padding:4px; border:1px solid #ccc;">
+                    </div>
+                </div>
+
                 <button class="btn btn-xs btn-danger" 
-                        style="padding: 2px 5px; font-size: 11px;"
+                        style="width:100%; padding: 5px; font-size: 11px; cursor:pointer;"
                         onclick="removeCheckpoint(${index})">
                     Eliminar Punto
                 </button>
@@ -245,7 +273,10 @@ async function addCheckpoint (latLng) {
     checkpoints.push({
         lat: latLng.lat(),
         lng: latLng.lng(),
-        order: order
+        order: order,
+        name: `Punto ${order}`, // Nombre por defecto para que no nazca vacío
+        stayTime: 5,            // 5 minutos de permanencia por defecto
+        transitTime: order === 1 ? 0 : 3 // 0 si es el primero, 3 min si es traslado
     });
 
     checkpointMarkers.push(marker);
@@ -260,19 +291,41 @@ function updateCheckpointTable(){
     tbody.innerHTML = ''; // Limpiar
 
     checkpoints.forEach((point, index) => {
+        // Lógica para el tiempo de tránsito (el primer punto no tiene tránsito previo)
+        const transitText = index === 0 ? 
+            '<span class="text-muted">---</span>' : 
+            `${point.transitTime || 0} min`;
+
         const row = `
             <tr>
-                <td><span class="badge bg-secondary">${point.order}</span></td>
-                <td>${point.lat.toFixed(6)}</td>
-                <td>${point.lng.toFixed(6)}</td>
+                <td class="text-center">
+                    <span class="badge bg-primary">${index + 1}</span>
+                </td>
                 <td>
-                    <button class="btn btn-sm btn-link text-danger" onclick="removeCheckpoint(${index})">
-                        Eliminar
+                    <div class="fw-bold text-truncate" style="max-width: 150px;" title="${point.name || 'Sin nombre'}">
+                        ${point.name || '<i class="text-muted">Punto sin nombre</i>'}
+                    </div>
+                </td>
+                <td class="small text-muted">
+                    ${point.lat.toFixed(5)}, ${point.lng.toFixed(5)}
+                </td>
+                <td class="text-center">
+                    ${point.stayTime || 0} min
+                </td>
+                <td class="text-center">
+                    ${transitText}
+                </td>
+                <td class="text-end">
+                    <button class="btn btn-sm btn-outline-danger border-0" 
+                            onclick="removeCheckpoint(${index})" 
+                            title="Eliminar punto">
+                        <i class="bi bi-trash"></i> Eliminar
                     </button>
                 </td>
             </tr>`;
         tbody.insertAdjacentHTML('beforeend', row);
     });
+
 }
 
 function setupButtons() {
