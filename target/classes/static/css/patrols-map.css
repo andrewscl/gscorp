@@ -95,7 +95,8 @@ p {
   display: flex;
   flex-direction: column;
   flex: 1;
-  height: calc(100vh - var(--topbar-height) - var(--content-padding-updown) * 2);
+  height: calc(90vh - var(--topbar-height) - var(--content-padding-updown) * 2);
+  min-height: 500px;
 }
 #patrols-map-section h3 {
   text-align: center;
