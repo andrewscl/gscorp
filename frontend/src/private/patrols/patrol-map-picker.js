@@ -280,9 +280,8 @@ function setupButtons() {
         if(confirm("¿Borrar todos los puntos?")) clearAllCheckpoints();
     });
 
-    document.getElementById('btn-confirm-map')?.addEventListener('click', () => {
-        confirmRoute();
-    });
+    qs('#btn-confirm-map')
+          .addEventListener('click', handleConfirmAndExit);
 }
 
 window.removeCheckpoint = function(index) {
@@ -392,9 +391,6 @@ if (checkpoints.length === 0) {
 (async function init() {
 
   console.log('[init] IIFE iniciado');
-
-    qs('#btn-confirm-map')
-          .addEventListener('click', handleConfirmAndExit);
 
   const apiKey = googleMapsConfig.apiKey;
 
