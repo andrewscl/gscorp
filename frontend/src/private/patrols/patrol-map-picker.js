@@ -196,15 +196,17 @@ async function addSiteToMapAndSelect(site) {
 async function showInfoWindow(marker, index) {
     const { InfoWindow } = await google.maps.importLibrary("maps");
 
-    // Cerrar el anterior si existe
-    if (currentInfoWindow) currentInfoWindow.close();
-
     const point = checkpoints[index];
 
     if(!point) {
         console.error("No se encontró el punto para el índice:", index);
         return;
     }
+
+    const transitDisplay = index === 0 ? 'display:none;' : 'display:block;';
+
+    // Cerrar el anterior si existe
+    if (currentInfoWindow) currentInfoWindow.close();
 
     currentInfoWindow = new InfoWindow({
         content: `
