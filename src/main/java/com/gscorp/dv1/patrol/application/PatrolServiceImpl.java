@@ -205,9 +205,16 @@ public class PatrolServiceImpl implements PatrolService {
             request.checkpoints().forEach(dto->{
                 //Buscar si existe el horario
                 patrolCheckpointRepository
-                            .findByPatrolIdAndName(patrol.getId(), dto.name())
+                    .findByPatrolIdAndName(patrol.getId(), dto.name())
                     .ifPresentOrElse(
-                        existing -> existing.setActive(dto.active()),
+                        existing -> {
+                            existing.setActive(dto.active());
+                            existing.setLatitude(dto.latitude());
+                            existing.setLongitude(dto.longitude());
+                            existing.setCheckpointOrder(dto.checkpointOrder());
+                            existing.setStayTime(dto.stayTime());
+                            existing.setMinutesToReach(dto.minutesToReach());
+                        },
                         () -> {
                             //Si no existe lo creamos
                             if(Boolean.TRUE.equals(dto.active())){
@@ -215,6 +222,8 @@ public class PatrolServiceImpl implements PatrolService {
                                     .name(dto.name())
                                     .latitude(dto.latitude())
                                     .longitude(dto.longitude())
+                                    .checkpointOrder(dto.checkpointOrder())
+                                    .stayTime(dto.stayTime())
                                     .minutesToReach(dto.minutesToReach())
                                     .active(true)
                                     .patrol(patrol)

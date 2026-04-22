@@ -8,6 +8,8 @@ public record PatrolCheckpointDto (
     String name,
     BigDecimal latitude,
     BigDecimal longitude,
+    Integer checkpointOrder,
+    Integer stayTime,
     Integer minutesToReach,
     Boolean active
 ){

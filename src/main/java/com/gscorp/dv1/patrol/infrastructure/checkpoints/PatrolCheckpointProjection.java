@@ -8,6 +8,8 @@ public interface PatrolCheckpointProjection {
     String getName();
     BigDecimal getLatitude();
     BigDecimal getLongitude();
+    Integer getCheckpointOrder();
+    Integer getStayTime();
     Integer getMinutesToReach();
     Boolean getActive();
 }

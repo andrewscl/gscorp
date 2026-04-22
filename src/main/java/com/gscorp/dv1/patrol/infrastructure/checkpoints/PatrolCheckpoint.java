@@ -50,6 +50,12 @@ public class PatrolCheckpoint {
     @Column(name = "longitude", precision = 11, scale = 8)
     private BigDecimal longitude;
 
+    @Column(name = "checkpoint_order")
+    private Integer checkpointOrder;
+
+    @Column(name = "stay_time")
+    private Integer stayTime;
+
     // MINUTOS ESTIMADOS para llegar a este punto desde el punto anterior
     // (O desde el inicio de la ronda si es el primer punto)
     @Column(name = "minutes_to_reach")

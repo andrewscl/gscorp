@@ -45,6 +45,8 @@ public record PatrolDto (
                         c.getName(),
                         c.getLatitude(),
                         c.getLongitude(),
+                        c.getCheckpointOrder(),
+                        c.getStayTime(),
                         c.getMinutesToReach(),
                         c.getActive()
                 ))

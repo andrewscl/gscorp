@@ -213,7 +213,7 @@ p {
   color: #495057;
   border-bottom: 1px solid #f1f3f5;
 }
-.checkpoint-controls .table-responsive table tbody td .btn-link {
+.checkpoint-controls .table-responsive table tbody td .btn-outline-danger {
   background-color: #e60000;
   color: white;
   padding: 4px 8px;
@@ -223,9 +223,9 @@ p {
   cursor: pointer;
   transition: background-color 0.2s;
 }
-.checkpoint-controls .table-responsive table tbody td .btn-link:hover {
+.checkpoint-controls .table-responsive table tbody td .btn-outline-danger:hover {
   background-color: #3d3fb3;
 }
-.checkpoint-controls .table-responsive table tbody td .btn-link:active {
+.checkpoint-controls .table-responsive table tbody td .btn-outline-danger:active {
   background-color: #312fa4;
 }/*# sourceMappingURL=patrols-map.css.map */

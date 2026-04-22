@@ -14,7 +14,7 @@ async function handleUpdate(e) {
     e.preventDefault();
 
     // Recolectar schedules con su estado activo/inactivo
-    const schedules = Array.from(qsa('.schedule')).map(container => {
+        const schedules = Array.from(qsa('.schedule')).map(container => {
         const timeInput = container.querySelector('input[name="scheduleTime[]"]');
         const statusSpan = container.querySelector('.status-text');
 
@@ -32,20 +32,23 @@ async function handleUpdate(e) {
     }).filter(container => container !== null && container.startTime !== "");
 
     // Recolectar checkpoints como objetos
-    const checkpoints = Array.from(qsa('.checkpoint-item')).map(container => {
+    const checkpoints = Array.from(qsa('.checkpoint-item')).map((container, index) => {
         const inputName = container.querySelector('input[name="checkpointName[]"]');
+        const inputLat = container.querySelector('input[name="checkpointLat[]"]');
+        const inputLng = container.querySelector('input[name="checkpointLng[]"]');
+        const inputStay = container.querySelector('input[name="checkpointStayTime[]"]');
+        const inputTransit = container.querySelector('input[name="checkpointTransitTime[]"]');
         const statusSpan = container.querySelector('.status-text');
 
-        // Validación de seguridad para evitar el error 'reading value'
         if (!inputName) return null;
 
         return {
-            siteId: parseInt(qs('#siteId').value),
             name: inputName.value.trim(),
-            latitude: 0.0,
-            longitude: 0.0,
-            minutesToReach: 0,
-            // Si hay statusSpan usamos su texto, si no (caso de nuevos), es true
+            latitude: inputLat ? parseFloat(inputLat.value) : 0.0,
+            longitude: inputLng ? parseFloat(inputLng.value) : 0.0,
+            stayTime: inputStay ? parseInt(inputStay.value) : 5,
+            minutesToReach: inputTransit ? parseInt(inputTransit.value) : 0, // TransitTime
+            order: index + 1,
             active: statusSpan ? (statusSpan.innerText.trim() === 'Activo') : true,
         };
     }).filter(cp => cp !== null && cp.name !== "");
