@@ -95,7 +95,7 @@ p {
   display: flex;
   flex-direction: column;
   flex: 1;
-  height: calc(80vh - var(--topbar-height) - var(--content-padding-updown) * 2);
+  height: calc(100vh - var(--topbar-height) - var(--content-padding-updown) * 2);
 }
 #patrols-map-section h3 {
   text-align: center;
@@ -121,7 +121,7 @@ p {
     font-size: 1rem;
   }
   #patrols-map-section #patrols-map-picker {
-    height: calc(80vh - var(--header-height)); /* Ajusta el mapa para pantallas pequeñas */
+    height: calc(100vh - var(--header-height)); /* Ajusta el mapa para pantallas pequeñas */
   }
 }
 

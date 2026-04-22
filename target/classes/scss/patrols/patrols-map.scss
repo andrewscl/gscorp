@@ -14,7 +14,7 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  height: calc(80vh
+  height: calc(100vh
            - var(--topbar-height)
            - var(--content-padding-updown)*2);
 
@@ -44,7 +44,7 @@
     }
 
     #patrols-map-picker {
-      height: calc(80vh - var(--header-height)); /* Ajusta el mapa para pantallas pequeñas */
+      height: calc(100vh - var(--header-height)); /* Ajusta el mapa para pantallas pequeñas */
     }
 
   }
