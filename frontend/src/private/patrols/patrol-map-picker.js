@@ -379,8 +379,8 @@ if (checkpoints.length === 0) {
     localStorage.setItem('pending_checkpoints', JSON.stringify(checkpoints));
 
     // 2. Obtenemos el ID para la ruta
-    const targetSiteId = document.getElementById('target-site-id').value;
-    const path = `/private/patrols/edit/${targetSiteId}`;
+    const patrolExternalId = document.getElementById('target-patrol-externalId').value;
+    const path = `/private/patrols/edit/${patrolExternalId}`;
 
     // 3. Navegación controlada (maneja el token y el fragmento automáticamente)
     console.log(`[MapPicker] Finalizando edición. Navegando a ${path}`);

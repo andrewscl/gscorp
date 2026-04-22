@@ -1,6 +1,7 @@
 package com.gscorp.dv1.patrol.web;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -95,9 +96,10 @@ public class PatrolController {
     
     }
 
-    @GetMapping("/edit-map-picker/{siteId}")
+    @GetMapping("/edit-map-picker/{externalId}/{siteId}")
     public String getMapPicker (
         @PathVariable Long siteId, //El sitio es parte de la ruta
+        @PathVariable UUID externalId, //El sitio es parte de la ruta
         @RequestParam(defaultValue = "picker") String mode, // el modo es parametro
         Model model
     ){
@@ -109,6 +111,7 @@ public class PatrolController {
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
         model.addAttribute("googlemapid", googleMapId);
         model.addAttribute("targetSiteId", siteId);
+        model.addAttribute("patrolExternalId", externalId);
         model.addAttribute("mode", mode);
         System.out.println(siteId);
 
