@@ -168,7 +168,6 @@ function addCheckpointFromMap(point) {
 
     div.innerHTML = `
         <div class="checkpoint-info">
-            <strong>Punto Mapa:</strong>
             <small>${point.lat.toFixed(5)}, ${point.lng.toFixed(5)}</small>
         </div>
         
