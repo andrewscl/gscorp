@@ -165,18 +165,32 @@ function addCheckpointFromMap(point) {
 
     const div = document.createElement('div');
     div.className = 'checkpoint-item map-point'; // Clase extra para saber que viene del mapa
+
     div.innerHTML = `
         <div class="checkpoint-info">
             <strong>Punto Mapa:</strong>
             <small>${point.lat.toFixed(5)}, ${point.lng.toFixed(5)}</small>
         </div>
+        
         <input type="hidden" name="checkpointLat[]" value="${point.lat}" />
         <input type="hidden" name="checkpointLng[]" value="${point.lng}" />
-        <input type="text" name="checkpointName[]" 
-               placeholder="Nombre del punto (ej: Bodega A)" 
-               value="${point.name || ''}" required />
+        
+        <div class="checkpoint-inputs" style="display: flex; gap: 5px; flex-grow: 1;">
+            <input type="text" name="checkpointName[]" 
+                   placeholder="Nombre" value="${point.name || ''}" required />
+            
+            <input type="number" name="checkpointStayTime[]" 
+                   title="Permanencia (min)" value="${point.stayTime || 5}" 
+                   style="width: 60px;" required />
+            
+            <input type="number" name="checkpointTransitTime[]" 
+                   title="Tránsito (min)" value="${point.transitTime || 3}" 
+                   style="width: 60px;" required />
+        </div>
+
         <button type="button" class="btn-mini btn-remove">Eliminar</button>
     `;
+
     container.appendChild(div);
 }
 
