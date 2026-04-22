@@ -199,6 +199,13 @@ async function showInfoWindow(marker, index) {
     // Cerrar el anterior si existe
     if (currentInfoWindow) currentInfoWindow.close();
 
+    const point = checkpoints[index];
+
+    if(!point) {
+        console.error("No se encontró el punto para el índice:", index);
+        return;
+    }
+
     currentInfoWindow = new InfoWindow({
         content: `
             <div style="color:black; padding:10px; font-family: sans-serif; min-width: 200px;">
