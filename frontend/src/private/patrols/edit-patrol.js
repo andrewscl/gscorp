@@ -156,7 +156,7 @@ function openMapPicker() {
     console.log(`[Navigation] Accediendo al mapa para el sitio ID: ${siteId}`);
     
     // Navegación SPA usando la ruta con PathVariable que definimos en el Controller
-    navigateTo(`/private/patrols/edit-map-picker/${uuid}?siteId=${siteId}`);
+    navigateTo(`/private/patrols/edit-map-picker/${uuid}/${siteId}`);
 }
 
 
