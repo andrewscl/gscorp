@@ -2,6 +2,7 @@ package com.gscorp.dv1.patrol.infrastructure.checkpoints;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -25,5 +26,8 @@ public interface PatrolCheckpointRepository
 
     Optional<PatrolCheckpoint> findByPatrolIdAndName(
                                 Long patrolId, String name);
+
+    Optional<PatrolCheckpoint>
+                        findByExternalId(UUID externalId);
 
 }

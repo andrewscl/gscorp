@@ -2,8 +2,8 @@ package com.gscorp.dv1.patrol.web.dto.patrols;
 
 import java.util.List;
 
-import com.gscorp.dv1.patrol.web.dto.checkpoints.UpdateCheckpointDto;
-import com.gscorp.dv1.patrol.web.dto.schedules.UpdateScheduleDto;
+import com.gscorp.dv1.patrol.web.dto.checkpoints.UpdatePatrolCheckpointRequest;
+import com.gscorp.dv1.patrol.web.dto.schedules.UpdatePatrolScheduleRequest;
 
 public record UpdatePatrolRequest (
     Long siteId,
@@ -12,6 +12,6 @@ public record UpdatePatrolRequest (
     Integer dayFrom,
     Integer dayTo,
     Boolean active,
-    List<UpdateScheduleDto> schedules,
-    List<UpdateCheckpointDto> checkpoints
+    List<UpdatePatrolScheduleRequest> schedules,
+    List<UpdatePatrolCheckpointRequest> checkpoints
 ){}

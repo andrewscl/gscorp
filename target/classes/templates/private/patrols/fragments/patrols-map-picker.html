@@ -2,7 +2,7 @@
     <input type="hidden" id="target-site-id" th:value="${targetSiteId}">
     <input type="hidden" id="target-patrol-externalId" th:value="${patrolExternalId}">
     <input type="hidden" id="preloaded-checkpoints-data" 
-           th:value="${@jacksonObjectMapper.writeValueAsString(checkpoints)}">
+       th:value="${T(com.fasterxml.jackson.databind.ObjectMapper).new().writeValueAsString(checkpoints)}">
 
     <div id="patrols-map-section">
 

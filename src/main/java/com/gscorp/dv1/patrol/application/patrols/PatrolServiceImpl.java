@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -203,23 +204,34 @@ public class PatrolServiceImpl implements PatrolService {
         //Sincronizar checkpoints
         if(request.checkpoints() != null) {
             request.checkpoints().forEach(dto->{
-                //Buscar si existe el horario
-                patrolCheckpointRepository
-                    .findByPatrolIdAndName(patrol.getId(), dto.name())
-                    .ifPresentOrElse(
+                //Comenzar con la caja vacia por defecto
+                Optional<PatrolCheckpoint> existingOpt = Optional.empty();
+                //intenta buscar el externalID si no es nulo o vacio
+                if (dto.externalId() != null || !dto.externalId().isBlank()){
+                    try{
+                        UUID externalCheckpointId = UUID.fromString(dto.externalId());
+                        existingOpt = patrolCheckpointRepository
+                                            .findByExternalId(externalCheckpointId);
+                    } catch (IllegalArgumentException e) {
+                        existingOpt = Optional.empty();
+                    }
+                }
+                existingOpt.ifPresentOrElse(
+                    //Actuaizacion
                         existing -> {
-                            existing.setActive(dto.active());
                             existing.setName(dto.name());
                             existing.setLatitude(dto.latitude());
                             existing.setLongitude(dto.longitude());
                             existing.setCheckpointOrder(dto.checkpointOrder());
                             existing.setStayTime(dto.stayTime());
                             existing.setMinutesToReach(dto.minutesToReach());
+                            existing.setActive(dto.active());
                         },
                         () -> {
                             //Si no existe lo creamos
                             if(Boolean.TRUE.equals(dto.active())){
                                 patrolCheckpointRepository.save(PatrolCheckpoint.builder()
+                                    .externalId(UUID.randomUUID())
                                     .name(dto.name())
                                     .latitude(dto.latitude())
                                     .longitude(dto.longitude())
@@ -230,7 +242,6 @@ public class PatrolServiceImpl implements PatrolService {
                                     .patrol(patrol)
                                     .build());
                             }
-                            
                         }
                     );
             });

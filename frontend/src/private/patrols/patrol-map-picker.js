@@ -1,4 +1,4 @@
-    import { fetchWithAuth } from '../../auth.js';
+import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
 
 let checkpoints = [] //Lista de objetos {lat, lng, order}
@@ -475,7 +475,10 @@ const loadExistingCheckpoints = async () => {
         const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
 
         for (const cp of preloaded) {
-            const position = { lat: parseFloat(cp.latitude), lng: parseFloat(cp.longitude) };
+            const position = {
+                lat: parseFloat(cp.latitude),
+                lng: parseFloat(cp.longitude) 
+            };
 
             // Dibujar marcador (tu lógica existente)
             const pin = new PinElement({

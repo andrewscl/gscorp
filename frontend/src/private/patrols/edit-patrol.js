@@ -43,12 +43,13 @@ async function handleUpdate(e) {
         if (!inputName) return null;
 
         return {
+            externalId: container.querySelector('input[name="checkpointExternalId[]"]')?.value || null,
             name: inputName.value.trim(),
             latitude: inputLat ? parseFloat(inputLat.value) : 0.0,
             longitude: inputLng ? parseFloat(inputLng.value) : 0.0,
+            checkpointOrder: index + 1,
             stayTime: inputStay ? parseInt(inputStay.value) : 5,
             minutesToReach: inputTransit ? parseInt(inputTransit.value) : 0, // TransitTime
-            order: index + 1,
             active: statusSpan ? (statusSpan.innerText.trim() === 'Activo') : true,
         };
     }).filter(cp => cp !== null && cp.name !== "");
