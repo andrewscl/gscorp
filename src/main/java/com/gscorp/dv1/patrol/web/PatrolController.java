@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gscorp.dv1.enums.DayOfWeek;
 import com.gscorp.dv1.patrol.application.checkpoints.PatrolCheckpointService;
 import com.gscorp.dv1.patrol.application.patrols.PatrolService;
@@ -31,6 +33,7 @@ public class PatrolController {
     private final PatrolService patrolService;
     private final SiteService siteService;
     private final PatrolCheckpointService PatrolCheckpointService;
+    private final ObjectMapper objectMapper;
 
     private String googleCloudApiKey = System.getenv("GOOGLE_CLOUD_API_KEY");
     private String googleMapId = System.getenv("GOOGLE_MAP_ID");
@@ -114,14 +117,18 @@ public class PatrolController {
 
         List<PatrolCheckpointDto> checkpoints =
             PatrolCheckpointService.getCheckpointsByExternalId(externalId);
+        try {
+            String checkpointsJson = objectMapper.writeValueAsString(checkpoints);
+            model.addAttribute("checkpoints", checkpointsJson);
+        } catch (JsonProcessingException e) {
+            model.addAttribute("checkpoints", "[]");
+        }
 
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
         model.addAttribute("googlemapid", googleMapId);
         model.addAttribute("targetSiteId", siteId);
         model.addAttribute("patrolExternalId", externalId);
         model.addAttribute("mode", mode);
-        model.addAttribute("checkpoints", checkpoints);
-        System.out.println(siteId);
 
         return "private/patrols/views/patrols-map-picker-view";
 
