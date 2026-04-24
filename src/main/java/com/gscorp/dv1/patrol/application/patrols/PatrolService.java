@@ -1,4 +1,4 @@
-package com.gscorp.dv1.patrol.application;
+package com.gscorp.dv1.patrol.application.patrols;
 
 import java.util.List;
 

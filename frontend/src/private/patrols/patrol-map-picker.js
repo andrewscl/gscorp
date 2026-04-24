@@ -1,4 +1,4 @@
-import { fetchWithAuth } from '../../auth.js';
+    import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
 
 let checkpoints = [] //Lista de objetos {lat, lng, order}
@@ -75,6 +75,9 @@ const initMap = async () => {
 
     // Obtener y añadir los sitios al mapa
     await fetchTargetSite();
+
+    //Obtener y cargar sitios existentes
+    await loadExistingCheckpoints();
 
     map.addListener("click", (event) => {
       addCheckpoint(event.latLng);
@@ -455,6 +458,64 @@ if (checkpoints.length === 0) {
     console.log(`[MapPicker] Finalizando edición. Navegando a ${path}`);
     await navigateTo(path);
 }
+
+const loadExistingCheckpoints = async () => {
+    const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
+    
+    // Obtenemos la lista que inyectaste en el modelo
+    const preloaded = window.checkpoints || [];
+    
+    if (preloaded.length === 0) return;
+
+    console.log(`[loadExistingCheckpoints] Dibujando ${preloaded.length} puntos...`);
+
+    for (const cp of preloaded) {
+        const position = { lat: parseFloat(cp.latitude), lng: parseFloat(cp.longitude) };
+
+        // 1. Crear el Pin con el número de orden real de la DB
+        const pin = new PinElement({
+            glyph: cp.checkpointOrder.toString(),
+            background: "#FBBC04", 
+            borderColor: "#137333",
+            glyphColor: "white",
+        });
+
+        // 2. Crear el marcador avanzado
+        const marker = new AdvancedMarkerElement({
+            map: window.mapInstance,
+            position: position,
+            content: pin.element,
+            title: cp.name,
+        });
+
+        // 3. Sincronizar arrays locales (IMPORTANTE para no perder el externalId)
+        checkpoints.push({
+            externalId: cp.externalId, // Mantenemos la referencia de la DB
+            lat: position.lat,
+            lng: position.lng,
+            order: cp.checkpointOrder,
+            name: cp.name,
+            stayTime: cp.stayTime,
+            transitTime: cp.minutesToReach
+        });
+
+        checkpointMarkers.push(marker);
+
+        // 4. Listener para el InfoWindow (permitir editar puntos existentes)
+        marker.addListener("click", () => {
+            const index = checkpointMarkers.indexOf(marker);
+            if (index !== -1) showInfoWindow(marker, index);
+        });
+    }
+
+    // Actualizar visuales finales
+    updateCheckpointTable();
+    updatePathLine();
+
+    // Centrar mapa en el primer punto de la ronda
+    window.mapInstance.setCenter({ lat: parseFloat(preloaded[0].latitude), lng: parseFloat(preloaded[0].longitude) });
+    window.mapInstance.setZoom(16);
+};
 
 /* --- init --- */
 (async function init() {

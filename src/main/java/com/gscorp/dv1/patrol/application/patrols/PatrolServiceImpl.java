@@ -1,4 +1,4 @@
-package com.gscorp.dv1.patrol.application;
+package com.gscorp.dv1.patrol.application.patrols;
 
 import java.math.BigDecimal;
 import java.time.LocalTime;
@@ -120,7 +120,7 @@ public class PatrolServiceImpl implements PatrolService {
 
         // Get checkpoints
         List<PatrolCheckpointProjection> checkpoints = patrolCheckpointRepository
-                .findByPatrolId(savedProjection.getId());
+                .findByPatrolIdOrderByCheckpointOrderAsc(savedProjection.getId());
 
         return PatrolDto.fromProjection(savedProjection, schedules, checkpoints);
 
@@ -146,7 +146,7 @@ public class PatrolServiceImpl implements PatrolService {
 
         // Get checkpoints
         List<PatrolCheckpointProjection> checkpoints = patrolCheckpointRepository
-                .findByPatrolId(patrolProjection.getId());
+                .findByPatrolIdOrderByCheckpointOrderAsc(patrolProjection.getId());
 
         return PatrolDto.fromProjection(
                             patrolProjection, schedules, checkpoints);
@@ -209,6 +209,7 @@ public class PatrolServiceImpl implements PatrolService {
                     .ifPresentOrElse(
                         existing -> {
                             existing.setActive(dto.active());
+                            existing.setName(dto.name());
                             existing.setLatitude(dto.latitude());
                             existing.setLongitude(dto.longitude());
                             existing.setCheckpointOrder(dto.checkpointOrder());
@@ -251,7 +252,7 @@ public class PatrolServiceImpl implements PatrolService {
 
         // Get checkpoints
         List<PatrolCheckpointProjection> checkpoints = patrolCheckpointRepository
-                .findByPatrolId(patrol.getId());
+                .findByPatrolIdOrderByCheckpointOrderAsc(patrol.getId());
 
         return PatrolDto.fromProjection(
                             patrolProjection, schedules, checkpoints);

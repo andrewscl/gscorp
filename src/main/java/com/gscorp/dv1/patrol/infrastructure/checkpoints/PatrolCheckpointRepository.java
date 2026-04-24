@@ -15,7 +15,8 @@ public interface PatrolCheckpointRepository
      * @param patrolId ID interno de la ronda.
      * @return Lista de puntos de control.
      */
-    List<PatrolCheckpointProjection> findByPatrolId(Long patrolId);
+    List<PatrolCheckpointProjection>
+                        findByPatrolIdOrderByCheckpointOrderAsc(Long patrolId);
 
     /**
      * Opcional: Si necesitas solo los activos para el formulario.

@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gscorp.dv1.enums.DayOfWeek;
-import com.gscorp.dv1.patrol.application.PatrolService;
+import com.gscorp.dv1.patrol.application.checkpoints.PatrolCheckpointService;
+import com.gscorp.dv1.patrol.application.patrols.PatrolService;
+import com.gscorp.dv1.patrol.web.dto.checkpoints.PatrolCheckpointDto;
 import com.gscorp.dv1.patrol.web.dto.patrols.PatrolDto;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.web.dto.SiteDtoProjection;
@@ -28,6 +30,7 @@ public class PatrolController {
     private final UserService userService;
     private final PatrolService patrolService;
     private final SiteService siteService;
+    private final PatrolCheckpointService PatrolCheckpointService;
 
     private String googleCloudApiKey = System.getenv("GOOGLE_CLOUD_API_KEY");
     private String googleMapId = System.getenv("GOOGLE_MAP_ID");
@@ -105,14 +108,19 @@ public class PatrolController {
     ){
 
         if (googleCloudApiKey == null || googleMapId == null) {
-            throw new IllegalStateException("Faltan valores en Google Maps API Key o Map ID.");
+            throw new
+            IllegalStateException("Faltan valores en Google Maps API Key o Map ID.");
         }
+
+        List<PatrolCheckpointDto> checkpoints =
+            PatrolCheckpointService.getCheckpointsByExternalId(externalId);
 
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
         model.addAttribute("googlemapid", googleMapId);
         model.addAttribute("targetSiteId", siteId);
         model.addAttribute("patrolExternalId", externalId);
         model.addAttribute("mode", mode);
+        model.addAttribute("checkpoints", checkpoints);
         System.out.println(siteId);
 
         return "private/patrols/views/patrols-map-picker-view";

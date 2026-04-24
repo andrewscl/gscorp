@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.gscorp.dv1.patrol.application.PatrolService;
+import com.gscorp.dv1.patrol.application.patrols.PatrolService;
 import com.gscorp.dv1.patrol.web.dto.patrols.CreatePatrolRequest;
 import com.gscorp.dv1.patrol.web.dto.patrols.PatrolDto;
 import com.gscorp.dv1.patrol.web.dto.patrols.UpdatePatrolRequest;
