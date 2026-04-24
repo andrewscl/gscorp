@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.gscorp.dv1.patrol.infrastructure.checkpoints.PatrolCheckpoint;
 import com.gscorp.dv1.patrol.infrastructure.checkpoints.PatrolCheckpointProjection;
@@ -207,7 +208,7 @@ public class PatrolServiceImpl implements PatrolService {
                 //Comenzar con la caja vacia por defecto
                 Optional<PatrolCheckpoint> existingOpt = Optional.empty();
                 //intenta buscar el externalID si no es nulo o vacio
-                if (dto.externalId() != null || !dto.externalId().isBlank()){
+                if (StringUtils.hasText(dto.externalId())){
                     try{
                         UUID externalCheckpointId = UUID.fromString(dto.externalId());
                         existingOpt = patrolCheckpointRepository
