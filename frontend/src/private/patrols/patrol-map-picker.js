@@ -460,61 +460,63 @@ if (checkpoints.length === 0) {
 }
 
 const loadExistingCheckpoints = async () => {
-    const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
-    
-    // Obtenemos la lista que inyectaste en el modelo
-    const preloaded = window.checkpoints || [];
-    
-    if (preloaded.length === 0) return;
-
-    console.log(`[loadExistingCheckpoints] Dibujando ${preloaded.length} puntos...`);
-
-    for (const cp of preloaded) {
-        const position = { lat: parseFloat(cp.latitude), lng: parseFloat(cp.longitude) };
-
-        // 1. Crear el Pin con el número de orden real de la DB
-        const pin = new PinElement({
-            glyph: cp.checkpointOrder.toString(),
-            background: "#FBBC04", 
-            borderColor: "#137333",
-            glyphColor: "white",
-        });
-
-        // 2. Crear el marcador avanzado
-        const marker = new AdvancedMarkerElement({
-            map: window.mapInstance,
-            position: position,
-            content: pin.element,
-            title: cp.name,
-        });
-
-        // 3. Sincronizar arrays locales (IMPORTANTE para no perder el externalId)
-        checkpoints.push({
-            externalId: cp.externalId, // Mantenemos la referencia de la DB
-            lat: position.lat,
-            lng: position.lng,
-            order: cp.checkpointOrder,
-            name: cp.name,
-            stayTime: cp.stayTime,
-            transitTime: cp.minutesToReach
-        });
-
-        checkpointMarkers.push(marker);
-
-        // 4. Listener para el InfoWindow (permitir editar puntos existentes)
-        marker.addListener("click", () => {
-            const index = checkpointMarkers.indexOf(marker);
-            if (index !== -1) showInfoWindow(marker, index);
-        });
+    // 1. Buscamos el input oculto
+    const dataInput = document.getElementById('preloaded-checkpoints-data');
+    if (!dataInput || !dataInput.value) {
+        console.warn("No se encontraron puntos pre-cargados en el DOM.");
+        return;
     }
 
-    // Actualizar visuales finales
-    updateCheckpointTable();
-    updatePathLine();
+    try {
+        // 2. Parseamos el JSON
+        const preloaded = JSON.parse(dataInput.value);
+        if (preloaded.length === 0) return;
 
-    // Centrar mapa en el primer punto de la ronda
-    window.mapInstance.setCenter({ lat: parseFloat(preloaded[0].latitude), lng: parseFloat(preloaded[0].longitude) });
-    window.mapInstance.setZoom(16);
+        const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
+
+        for (const cp of preloaded) {
+            const position = { lat: parseFloat(cp.latitude), lng: parseFloat(cp.longitude) };
+
+            // Dibujar marcador (tu lógica existente)
+            const pin = new PinElement({
+                glyph: cp.checkpointOrder.toString(),
+                background: "#FBBC04",
+                borderColor: "#137333",
+                glyphColor: "white",
+            });
+
+            const marker = new AdvancedMarkerElement({
+                map: window.mapInstance,
+                position: position,
+                content: pin.element,
+                title: cp.name,
+            });
+
+            // Sincronizar arrays globales del JS
+            checkpoints.push({
+                externalId: cp.externalId,
+                lat: position.lat,
+                lng: position.lng,
+                order: cp.checkpointOrder,
+                name: cp.name,
+                stayTime: cp.stayTime,
+                transitTime: cp.minutesToReach
+            });
+            checkpointMarkers.push(marker);
+        }
+
+        // 3. Actualizar visuales
+        updatePathLine();
+        
+        // Centrar mapa en el primer punto si existe
+        window.mapInstance.setCenter({ 
+            lat: parseFloat(preloaded[0].latitude), 
+            lng: parseFloat(preloaded[0].longitude) 
+        });
+
+    } catch (e) {
+        console.error("Error al parsear los puntos ocultos:", e);
+    }
 };
 
 /* --- init --- */
