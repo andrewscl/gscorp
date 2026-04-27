@@ -510,6 +510,9 @@ const loadExistingCheckpoints = async () => {
 
         // 3. Actualizar visuales
         updatePathLine();
+
+        // 4. Actualizar listado de puntos.
+        updateCheckpointTable();
         
         // Centrar mapa en el primer punto si existe
         window.mapInstance.setCenter({ 
