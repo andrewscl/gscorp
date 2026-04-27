@@ -81,7 +81,7 @@ public class PatrolController {
 
     @GetMapping("/edit/{id}")
     public String getEditPatrolForm (
-                    @PathVariable("id") String externalId,
+                    @PathVariable("id") String externalIdStr,
                     Model model,
                     Authentication authentication) {
 
@@ -91,9 +91,20 @@ public class PatrolController {
             return "redirect:/login";
         }
 
+        UUID externalId = UUID.fromString(externalIdStr);
+
+        List<PatrolCheckpointDto> checkpoints =
+            PatrolCheckpointService.getCheckpointsByExternalId(externalId);
+        try {
+            String checkpointsJson = objectMapper.writeValueAsString(checkpoints);
+            model.addAttribute("checkpoints", checkpointsJson);
+        } catch (JsonProcessingException e) {
+            model.addAttribute("checkpoints", "[]");
+        }
+
         //Buscar ragistro patrol por externalId
         PatrolDto patrol = patrolService
-                            .getPatrolByExternalId(externalId);
+                            .getPatrolByExternalId(externalIdStr);
 
         model.addAttribute("patrol", patrol);
         model.addAttribute("DayOfWeek", DayOfWeek.values());
