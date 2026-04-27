@@ -211,7 +211,7 @@ function initCheckpoints() {
     } else {
         console.log('[Analista] Cargando checkpoints desde la BD...');
         const dbInput = document.getElementById('checkpoints-initial-data');
-        if(dbinput && dbInput.value){
+        if(dbInput && dbInput.value){
             const points = JSON.parse(dbInput.value);
             points.forEach(p => addCheckpoints(p));
         }
