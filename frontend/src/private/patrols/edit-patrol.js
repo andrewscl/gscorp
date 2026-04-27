@@ -167,7 +167,7 @@ function addCheckpoints(point) {
     if(!container) return;
 
     const div = document.createElement('div');
-    div.className = 'checkpoint-item map-point'; // Clase extra para saber que viene del mapa
+    div.className = 'checkpoint-item map-point';
 
     div.innerHTML = `
         <div class="checkpoint-info">
