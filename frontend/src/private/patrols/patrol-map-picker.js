@@ -347,15 +347,6 @@ function updateCheckpointTable(){
 
 }
 
-function setupButtons() {
-    document.getElementById('btn-clear-path')?.addEventListener('click', () => {
-        if(confirm("¿Borrar todos los puntos?")) clearAllCheckpoints();
-    });
-
-    qs('#btn-confirm-map')
-          .addEventListener('click', handleConfirmAndExit);
-}
-
 window.removeCheckpoint = function(index) {
     // 1. Validación de seguridad y quitar del mapa físico
     if (checkpointMarkers[index]) {
@@ -524,6 +515,24 @@ const loadExistingCheckpoints = async () => {
         console.error("Error al parsear los puntos ocultos:", e);
     }
 };
+
+async function cancelPath () {
+    const path = `/private/patrols/edit/${patrolExternalId}`;
+    console.log(`[MapPicker] Cancelando edición en el mapa. Navegando a ${path}`);
+    await navigateTo(path);
+}
+
+function setupButtons() {
+    document.getElementById('btn-clear-path')?.addEventListener('click', () => {
+        if(confirm("¿Borrar todos los puntos?")) clearAllCheckpoints();
+    });
+
+    qs('#btn-confirm-map')
+          .addEventListener('click', handleConfirmAndExit);
+
+    qs('#btn-cancel-path')
+          .addEventListener('click', cancelPath);
+}
 
 /* --- init --- */
 (async function init() {

@@ -78,6 +78,28 @@
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s ease;
+
+            // --- BOTÓN VOLVER (NUEVO) ---
+            &#btn-cancel-path {
+                background: #ffffff;
+                color: #6c757d;
+                border: 1px solid #dee2e6;
+                flex: 0 0 auto;
+
+                &:hover {
+                    background: #f8f9fa;
+                    color: #343a40;
+                    border-color: #adb5bd;
+                    transform: translateY(-2px);
+                }
+
+                &:active {
+                    background: #e9ecef;
+                    transform: translateY(1px);
+                }
+
+                i { color: #6c757d; } // Color del icono
+            }
             
             // Botón Limpiar (Equivalente a tu btn-secondary)
             &#btn-clear-path {

@@ -197,6 +197,22 @@ function addCheckpointFromMap(point) {
     container.appendChild(div);
 }
 
+function loadPointsFromMap () {
+    const rawData = localStorage.getItem('pending_checkpoints');
+    if(rawData) {
+        const mapPoints = JSON.parse(rawData);
+
+        // Reemplaza la lista completa
+        this.checkpointsList = mapPoints;
+
+        // Refrescar la tabla visual
+        renderTable();
+
+        // Limpiar storage para evitar reprocesamientos accidentales
+        localStorage.removeItem('pending_checkpoints');
+    }
+}
+
 
 /**
  * Procesa la sincronización de checkpoints desde el almacenamiento local
@@ -210,6 +226,12 @@ function syncMapCheckpoints() {
         try {
             // 1. Convertimos el string a Array de objetos
             const points = JSON.parse(savedPointsRaw);
+
+            //Eliminar los puntos viejos
+            const container = document.querySelector('checkPointsList');
+            if(container) {
+                container.innerHTML = '';
+            }
             
             // 2. Llenamos el input hidden por si el backend lo usa
             const input = document.getElementById('checkpoints-json-field');
