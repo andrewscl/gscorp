@@ -1,7 +1,6 @@
 <div th:fragment="content">
   <div class="hs-form">
-    <input type="hidden" name="checkpointsJson"
-                            id="input-checkpoints-json">
+    <input type="hidden" id="checkpoints-initial-data" th:value="${patrol.checkpoints}">    
     <div class="patrol-form-header">
       <h4>Editar Ronda de Supervisión</h4>
     </div>
@@ -116,15 +115,6 @@
           </div>
 
           <div id="checkpointsList" class="checkpoints-list">
-            <div th:each="cp : ${patrol.checkpoints}" class="checkpoint-item">
-              <input type="text" name="checkpointName[]" th:value="${cp.name}" required />
-              <button type="button" class="btn btn-outline-secondary btn-toggle-status"
-                                id="toggleCheckpoint" onclick="toggleCheckpoint(this)">
-                <span class="status-text">Activo</span>
-              </button>
-              <button type="button" class="btn-mini btn-remove"
-              th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">Eliminar</button>
-            </div>
           </div>
 
         </div>
