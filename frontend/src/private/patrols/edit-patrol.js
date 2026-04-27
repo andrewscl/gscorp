@@ -166,12 +166,15 @@ function addCheckpoints(point) {
     const container = qs('#checkpointsList');
     if(!container) return;
 
+    const latFixed = Number(point.lat || 0).toFixed(6);
+    const lngFixed = Number(point.lng || 0).toFixed(6);
+
     const div = document.createElement('div');
     div.className = 'checkpoint-item map-point';
 
     div.innerHTML = `
         <div class="checkpoint-info">
-            <small>${point.lat.toFixed(5)}, ${point.lng.toFixed(5)}</small>
+            <small>${latFixed}, ${lngFixed}</small>
         </div>
         
         <input type="hidden" name="checkpointLat[]" value="${point.lat}" />
