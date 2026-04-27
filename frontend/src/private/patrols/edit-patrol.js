@@ -1,7 +1,6 @@
 import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
 import { onClickAddTimeSchedule,
-        onClickAddCheckpoint,
         onClickRemoveItem,
         onClickCancel,
         displayAlert
@@ -163,7 +162,7 @@ function openMapPicker() {
     navigateTo(`/private/patrols/edit-map-picker/${uuid}/${siteId}`);
 }
 
-function addCheckpointFromMap(point) {
+function addCheckpoints(point) {
     const container = qs('#checkpointsList');
     if(!container) return;
 
@@ -197,53 +196,36 @@ function addCheckpointFromMap(point) {
     container.appendChild(div);
 }
 
-/**
- * Procesa la sincronización de checkpoints desde el almacenamiento local
- */
-function syncMapCheckpoints() {
-    const savedPointsRaw = localStorage.getItem('pending_checkpoints');
-    
-    if (savedPointsRaw) {
-        console.log("[EditPatrol] Sincronizando puntos encontrados...");
-        
-        try {
-            // 1. Convertimos el string a Array de objetos
-            const points = JSON.parse(savedPointsRaw);
+function initCheckpoints() {
+    const container = document.getElementById('checkpointsList');
+    if(!container) return
 
-            // 2. Llenamos el input hidden por si el backend lo usa
-            const input = document.getElementById('checkpoints-json-field');
-            if (input) input.value = savedPointsRaw;
+    // Intenta obtener checkpoints del mapa
+    const mapData = localStorage.getItem('pending_checkpoints');
 
-            // 3. Iteramos sobre el Array real para crear el HTML
-            points.forEach(point => {
-                addCheckpointFromMap(point);
-            });
-
-        } catch (e) {
-            console.error("[EditPatrol] Error al procesar JSON de puntos:", e);
-        }
-
-        // 4. Limpiamos el buzón
+    if(mapData) {
+        console.log('[Analista] Cargando checkpoints desde el Map...');
+        const points = JSON.parse(mapData);
+        points.forEach(p => addCheckpoints(p));
         localStorage.removeItem('pending_checkpoints');
-        console.log("[EditPatrol] LocalStorage limpiado.");
+    } else {
+        console.log('[Analista] Cargando checkpoints desde la BD...');
+        const dbInput = document.getElementById('checkpoints-initial-data');
+        if(dbinput && dbInput.value){
+            const points = JSON.parse(dbInput.value);
+            points.forEach(p => addCheckpoints(p));
+        }
     }
 }
 
-
-
 function bindEvents() {
-    // Botón Guardar Cambios
     const updateBtn = qs('#updatePatrolBtn');
     if (updateBtn) {
         updateBtn.addEventListener('click', handleUpdate);
     }
-    // Botones dinámicos (Añadir/Eliminar)
     qs('#addTimeScheduleBtn').addEventListener('click', onClickAddTimeSchedule);
-    qs('#addCheckpointBtn').addEventListener('click', onClickAddCheckpoint);
-    /* Delegación de eventos para eliminar puntos de control y horarios*/
     qs('#checkpointsList')?.addEventListener('click', onClickRemoveItem);
     qs('#patrolSchedulesList')?.addEventListener('click', onClickRemoveItem);
-    /* Delegación de eventos para alternar estado de horarios */
     qs('#toggleSchedule')?.addEventListener('click', toggleSchedule);
     qs('#toggleCheckpoint')?.addEventListener('click', toggleCheckpoint);
     // Botón Cancelar con mensaje personalizado
@@ -253,12 +235,11 @@ function bindEvents() {
             onClickCancel(e, 'La edición de la ronda ha sido cancelada.')
         );
     }
-    //Boton para acceder al mapa
     qs('#addMapCheckpointBtn')?.addEventListener('click', openMapPicker);
 
     // ESCUCHADOR: Espera a que el navigation-handler confirme la carga
     document.addEventListener('route:loaded', () => {
-            syncMapCheckpoints(); // <--- Llamamos a la función separada
+            initCheckpoints(); // <--- Llamamos a la función separada
     }, { once: true });
 
 }
