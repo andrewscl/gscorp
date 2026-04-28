@@ -186,11 +186,11 @@ function addCheckpoints(point) {
             
             <input type="number" name="checkpointStayTime[]" 
                    title="Permanencia (min)" value="${point.stayTime || 5}" 
-                   style="width: 60px;" required />
+                   required />
             
             <input type="number" name="checkpointTransitTime[]" 
                    title="Tránsito (min)" value="${point.transitTime || 3}" 
-                   style="width: 60px;" required />
+                   required />
         </div>
 
         <button type="button" class="btn-mini btn-remove">Eliminar</button>
