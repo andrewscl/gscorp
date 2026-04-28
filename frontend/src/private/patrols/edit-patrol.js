@@ -180,20 +180,17 @@ function addCheckpoints(point) {
             <input type="hidden" name="checkpointLng[]" value="${point.lng}" />
         </div>
 
-        <div class="checkpoint-inputs" style="display: flex; gap: 5px; flex-grow: 1;">
-            <input type="text" name="checkpointName[]" 
-                   placeholder="Nombre" value="${point.name || ''}" required />
-            
-            <input type="number" name="checkpointStayTime[]" 
-                   title="Permanencia (min)" value="${point.stayTime || 5}" 
-                   required />
-            
-            <input type="number" name="checkpointTransitTime[]" 
-                   title="Tránsito (min)" value="${point.transitTime || 3}" 
-                   required />
-        </div>
+        <input type="text" name="checkpointName[]" 
+               placeholder="Nombre" value="${point.name || ''}" required />
 
-        <button type="button" class="btn-mini btn-remove">Eliminar</button>
+        <input type="number" name="checkpointStayTime[]" 
+               title="Permanencia (min)" value="${point.stayTime || 5}" 
+               required />
+
+        <input type="number" name="checkpointTransitTime[]" 
+               title="Tránsito (min)" value="${point.transitTime || 3}" 
+               required />
+
     `;
 
     container.appendChild(div);
