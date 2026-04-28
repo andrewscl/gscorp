@@ -236,6 +236,11 @@
                         align-items: center;
                         gap: 10px;
 
+                        .checkpoint-info{
+                            min-width:150px;
+                            border-right: 1px solid #dee2e6;
+                        }
+
                         input {
                             flex: 1;
                             padding: 8px;
