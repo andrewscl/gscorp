@@ -240,7 +240,6 @@
                             display: flex;
                             align-items: center;
                             gap: 8px;
-                            min-width:150px;
                             @include roboto-font(0.875rem, 500);
                             white-space: nowrap;
                         }
@@ -252,7 +251,7 @@
                             border-radius: 4px;
                             @include roboto-font(0.875rem, 500);
                             &[type="time"], &[type="number"] {
-                                max-width: 6.5rem;
+                                max-width: 3.5rem;
                             }
                             &::placeholder {
                                 color: #adb5bd;
