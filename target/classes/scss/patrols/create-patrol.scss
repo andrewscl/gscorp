@@ -236,9 +236,13 @@
                         align-items: center;
                         gap: 10px;
 
-                        .checkpoint-info{
+                        .checkpoint-coords{
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
                             min-width:150px;
                             @include roboto-font(0.875rem, 500);
+                            white-space: nowrap;
                         }
 
                         input {
@@ -247,7 +251,7 @@
                             border: 1px solid #ced4da;
                             border-radius: 4px;
                             @include roboto-font(0.875rem, 500);
-                            &[type="time"] {
+                            &[type="time"], &[type="number"] {
                                 max-width: 6.5rem;
                             }
                             &::placeholder {

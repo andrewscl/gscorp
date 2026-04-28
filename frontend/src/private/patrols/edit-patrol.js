@@ -173,13 +173,13 @@ function addCheckpoints(point) {
     div.className = 'checkpoint-item map-point';
 
     div.innerHTML = `
-        <div class="checkpoint-info">
-            <small>${latFixed}, ${lngFixed}</small>
+        <div class="checkpoint-coords">
+            <i class="fa-solid fa-location-dot"></i>
+            <code>${latFixed}, ${lngFixed}</code>
+            <input type="hidden" name="checkpointLat[]" value="${point.lat}" />
+            <input type="hidden" name="checkpointLng[]" value="${point.lng}" />
         </div>
 
-        <input type="hidden" name="checkpointLat[]" value="${point.lat}" />
-        <input type="hidden" name="checkpointLng[]" value="${point.lng}" />
-        
         <div class="checkpoint-inputs" style="display: flex; gap: 5px; flex-grow: 1;">
             <input type="text" name="checkpointName[]" 
                    placeholder="Nombre" value="${point.name || ''}" required />
