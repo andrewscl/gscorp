@@ -166,34 +166,34 @@ function addCheckpoints(point) {
     const container = qs('#checkpointsList');
     if(!container) return;
 
-    const latFixed = Number(point.latitude || 0).toFixed(6);
-    const lngFixed = Number(point.longitude || 0).toFixed(6);
+    const latFixed = Number(point.lat || 0).toFixed(6);
+    const lngFixed = Number(point.lng || 0).toFixed(6);
 
     const div = document.createElement('div');
     div.className = 'checkpoint-item map-point';
 
     div.innerHTML = `
-        <div class="checkpoint-info me-3">
-            <div class="text-muted">
-                <div><i class="fa-solid fa-location-dot"></i> LAT: ${latFixed}</div>
-                <div><i class="fa-solid fa-map-pin"></i> LNG: ${lngFixed}</div>
-            </div>
+        <div class="checkpoint-info">
+            <small>${latFixed}, ${lngFixed}</small>
         </div>
 
-        <input type="hidden" name="checkpointLat[]" value="${point.latitude}" />
-        <input type="hidden" name="checkpointLng[]" value="${point.longitude}" />
-        <input type="hidden" name="checkpointExternalId[]" value="${point.externalId || ''}" />
+        <input type="hidden" name="checkpointLat[]" value="${point.lat}" />
+        <input type="hidden" name="checkpointLng[]" value="${point.lng}" />
+        
+        <div class="checkpoint-inputs" style="display: flex; gap: 5px; flex-grow: 1;">
+            <input type="text" name="checkpointName[]" 
+                   placeholder="Nombre" value="${point.name || ''}" required />
+            
+            <input type="number" name="checkpointStayTime[]" 
+                   title="Permanencia (min)" value="${point.stayTime || 5}" 
+                   style="width: 60px;" required />
+            
+            <input type="number" name="checkpointTransitTime[]" 
+                   title="Tránsito (min)" value="${point.transitTime || 3}" 
+                   style="width: 60px;" required />
+        </div>
 
-        <input type="text" name="checkpointName[]" 
-               placeholder="Nombre" value="${point.name || ''}" required />
-
-        <input type="number" name="checkpointStayTime[]" 
-               title="Permanencia (min)" value="${point.stayTime || 5}" 
-               required />
-
-        <input type="number" name="checkpointTransitTime[]" 
-               title="Tránsito (min)" value="${point.transitTime || 3}" 
-               required />
+        <button type="button" class="btn-mini btn-remove">Eliminar</button>
     `;
 
     container.appendChild(div);
