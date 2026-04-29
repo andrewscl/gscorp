@@ -324,7 +324,7 @@ function updateCheckpointTable(){
                     </div>
                 </td>
                 <td class="small text-muted">
-                    ${point.lat.toFixed(5)}, ${point.lng.toFixed(5)}
+                    ${point.latitude.toFixed(5)}, ${point.longitude.toFixed(5)}
                 </td>
                 <td class="text-center">
                     ${point.stayTime || 0} min
@@ -395,7 +395,7 @@ function redrawMarkers() {
 
 function updatePathLine() {
     const pathCoordinates = checkpoints.map(p => ({
-                                lat: p.latitude, lng: p.longitude }));
+                                latitude: p.latitude, longitude: p.longitude }));
 
     if (patrolPathLine) {
         patrolPathLine.setPath(pathCoordinates);
