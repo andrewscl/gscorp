@@ -517,7 +517,7 @@ const loadExistingCheckpoints = async () => {
 };
 
 async function cancelPath () {
-    const path = `/private/patrols/edit/${patrolExternalId}`;
+    const path = `/private/patrols/edit/${window.patrolExternalId}`;
     console.log(`[MapPicker] Cancelando edición en el mapa. Navegando a ${path}`);
     await navigateTo(path);
 }
