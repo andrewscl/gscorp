@@ -4,11 +4,6 @@
 @use '../base/palette' as *;
 @use '../base/typography' as *;
 
-$width-coords: 12rem; 
-$width-time: 6.5rem;
-$width-number: 4.5rem;
-$width-btn: 4rem;
-
 .hs-form{
 
     width: 90%;
@@ -162,11 +157,11 @@ $width-btn: 4rem;
         .checkpoints-container {
             display: flex;
             flex-direction: column;
-            margin-top: 1rem;
+            margin-top: 1px;
 
             .panel {
                 background: $cool-gray-100;
-                border: 1px solid #ececec;
+                border: 1px solid ececec;
                 border-radius: 8px;
 
                 &-header {
@@ -228,19 +223,6 @@ $width-btn: 4rem;
 
                 }
 
-                .checkpoint-header {
-                    display: flex;
-                    gap: 1rem;
-                    padding: 0.75rem 1rem;
-                    @include roboto-font(0.85rem, 500);
-                    font-weight: bold;
-                    color: #495057;
-                    .col-coords { flex: 0 0 $width-coords; }
-                    .col-name   { flex: 1; }
-                    .col-time   { flex: 0 0 $width-number; }
-                    .col-action { flex: 0 0 $width-btn; }
-}
-
                 .schedules-list,
                 .checkpoints-list {
                     padding: 10px 15px;
@@ -251,33 +233,28 @@ $width-btn: 4rem;
                     .checkpoint-item {
                         display: flex;
                         align-items: center;
-                        gap: 1rem;
+                        gap: 10px;
 
                         .checkpoint-coords{
                             display: flex;
-                            gap: 0.2rem;
+                            align-items: center;
+                            gap: 8px;
                             @include roboto-font(0.875rem, 500);
-                            width: $width-coords;
+                            white-space: nowrap;
                             code {
+                                padding: 2px 6px;
                                 color: #555;
                             }
                         }
 
                         input {
+                            flex: 1;
                             padding: 8px;
                             border: 1px solid #ced4da;
                             border-radius: 4px;
                             @include roboto-font(0.875rem, 500);
-                            &[type="time"] {
-                                flex: 0 0 $width-time;
-                                width: $width-time;
-                            }
-                            &[type="number"]{
-                                flex: 0 0 $width-number;
-                                width: $width-number;
-                            }
-                            &[type="text"]{
-                                flex: 1;
+                            &[type="time"], &[type="number"] {
+                                max-width: 4.5rem;
                             }
                             &::placeholder {
                                 color: #adb5bd;
@@ -289,9 +266,9 @@ $width-btn: 4rem;
                             color: white;
                             border: none;
                             border-radius: 4px;
-                            padding: 0.4rem;
+                            padding: 4px 8px;
                             cursor: pointer;
-                            flex: 0 0 $width-btn;
+
                             &:hover{
                                 background-color: #e60000;
                             }
@@ -302,12 +279,12 @@ $width-btn: 4rem;
                             background-color: transparent;
                             color: #10b981; // Verde esmeralda
                             border: 2px solid #10b981;
-                            padding: 0.4rem;
+                            padding: 4px 12px;
                             border-radius: 6px;
                             font-size: 0.75rem;
                             font-weight: 700;
                             transition: all 0.2s ease;
-                            flex: 0 0 $width-btn;
+
                             &:hover {
                                 background-color: #10b981;
                                 color: white;
@@ -326,6 +303,8 @@ $width-btn: 4rem;
 
                     }
                 }
+
+                
 
                 .time-schedules-help {
                     padding: 5px 15px;
