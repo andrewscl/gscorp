@@ -74,7 +74,7 @@ const initMap = async () => {
     // Obtener y añadir los sitios al mapa
     await fetchTargetSite();
 
-    //Obtener y cargar sitios existentes
+    //Obtener y cargar checkpoints existentes
     await loadExistingCheckpoints();
 
     map.addListener("click", (event) => {
@@ -288,8 +288,8 @@ async function addCheckpoint (latLng) {
 
     // 3. Guardar en nuestros arrays
     checkpoints.push({
-        lat: latLng.lat(),
-        lng: latLng.lng(),
+        latitude: latLng.lat(),
+        longitude: latLng.lng(),
         order: order,
         name: `Punto ${order}`, // Nombre por defecto para que no nazca vacío
         stayTime: 5,            // 5 minutos de permanencia por defecto
@@ -394,7 +394,8 @@ function redrawMarkers() {
 }
 
 function updatePathLine() {
-    const pathCoordinates = checkpoints.map(p => ({ lat: p.lat, lng: p.lng }));
+    const pathCoordinates = checkpoints.map(p => ({
+                                lat: p.latitude, lng: p.longitude }));
 
     if (patrolPathLine) {
         patrolPathLine.setPath(pathCoordinates);
