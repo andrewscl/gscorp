@@ -362,7 +362,6 @@ p {
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .schedule input[type=time],
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .checkpoint-item input[type=time] {
   width: 6rem;
-  flex: 0 0 6rem;
 }
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .schedule input[type=number],
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .checkpoint-item input[type=number],
@@ -373,7 +372,6 @@ p {
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .schedule input[type=number],
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .checkpoint-item input[type=number] {
   width: 4.5rem;
-  flex: 0 0 4.5rem;
 }
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .schedule input[type=text],
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .checkpoint-item input[type=text],
@@ -384,7 +382,6 @@ p {
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .schedule input[type=text],
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .checkpoint-item input[type=text] {
   width: 10rem;
-  flex: 0 0 10rem;
 }
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .schedule input::placeholder,
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .checkpoint-item input::placeholder,

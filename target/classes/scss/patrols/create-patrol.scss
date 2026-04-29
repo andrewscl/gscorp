@@ -256,15 +256,15 @@ $width-btn: 6rem;
                             @include roboto-font(0.875rem, 500);
                             &[type="time"] {
                                 width: $width-time;
-                                flex: 0 0 $width-time;
+                                //flex: 0 0 $width-time;
                             }
                             &[type="number"]{
                                 width: $width-number;
-                                flex: 0 0 $width-number;
+                                //flex: 0 0 $width-number;
                             }
                             &[type="text"]{
                                 width: $width-text;
-                                flex: 0 0 $width-text;
+                                //flex: 0 0 $width-text;
                             }
                             &::placeholder {
                                 color: #adb5bd;
