@@ -230,7 +230,14 @@ $width-btn: 6rem;
 
                 .checkpoint-header{
                     display: flex;
+                    gap: 1rem;
+                    padding: 0.75rem 1rem;
+                    @include roboto-font(0.85rem, 600);
 
+                    .col-coords { width: $width-coords; }
+                    .col-name   { flex: 1; } // El nombre siempre es elástico
+                    .col-time   { width: $width-time; }
+                    .col-action { width: $width-btn; }
                 }
 
                 .schedules-list,
@@ -255,7 +262,6 @@ $width-btn: 6rem;
                         }
 
                         input {
-                            flex: 1;
                             padding: 8px;
                             border: 1px solid #ced4da;
                             border-radius: 4px;
