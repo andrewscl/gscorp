@@ -13,7 +13,7 @@ $width-btn: 6rem;
 .hs-form{
 
     width: 90%;
-    max-width: 45rem;
+    max-width: 40rem;
     margin: 0 auto;
     background: #ffffff;
     border-radius: 12px;
@@ -238,7 +238,7 @@ $width-btn: 6rem;
 
                 .schedules-list,
                 .checkpoints-list {
-                    padding: 10px 15px;
+                    padding: 0.7rem 1rem;
                     display: flex;
                     flex-direction: column;
 
@@ -253,6 +253,7 @@ $width-btn: 6rem;
                             display: flex;
                             align-items: center;
                             gap: 0.7rem;
+                            margin-bottom: 0.5rem;
                             @include roboto-font(0.875rem, 500);
                         }
 
@@ -260,6 +261,7 @@ $width-btn: 6rem;
                             padding: 0.7rem;
                             border: 1px solid #ced4da;
                             border-radius: 4px;
+                            margin-bottom: 0.5rem;
                             @include roboto-font(0.875rem, 500);
                             &[type="time"] {
                                 width: $width-time;
