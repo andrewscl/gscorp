@@ -7,6 +7,7 @@
 $width-coords: 12rem; 
 $width-time: 5.5rem;
 $width-number: 4rem;
+$width-text: 10rem;
 $width-btn: 6rem;
 
 .hs-form{
@@ -235,7 +236,7 @@ $width-btn: 6rem;
                     @include roboto-font(0.85rem, 600);
 
                     .col-coords { width: $width-coords; }
-                    .col-name   { flex: 1; } // El nombre siempre es elástico
+                    .col-name   { width: $width-text; } // El nombre siempre es elástico
                     .col-time   { width: $width-time; }
                     .col-action { width: $width-btn; }
                 }
@@ -254,7 +255,7 @@ $width-btn: 6rem;
                         gap: 10px;
 
                         .checkpoint-coords{
-                            display: flex !important;
+                            display: flex;
                             align-items: center;
                             gap: 8px;
                             @include roboto-font(0.875rem, 500);
@@ -271,6 +272,9 @@ $width-btn: 6rem;
                             }
                             &[type="number"]{
                                 width: $width-number;
+                            }
+                            &[type="text"]{
+                                width: $width-text;
                             }
                             &::placeholder {
                                 color: #adb5bd;
