@@ -86,7 +86,7 @@ p {
 
 .hs-form {
   width: 90%;
-  max-width: 40rem;
+  max-width: 45rem;
   margin: 0 auto;
   background: #ffffff;
   border-radius: 12px;
@@ -319,7 +319,7 @@ p {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 1rem;
+  gap: 0.8rem;
 }
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .schedule .checkpoint-coords,
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .checkpoint-item .checkpoint-coords,
@@ -331,7 +331,7 @@ p {
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .checkpoint-item .checkpoint-coords {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 0.7rem;
   font-family: "Roboto", sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
@@ -345,7 +345,7 @@ p {
 .hs-form .patrol-form-body .checkpoints-container .panel .schedules-list .checkpoint-item input,
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .schedule input,
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .checkpoint-item input {
-  padding: 0.8rem;
+  padding: 0.7rem;
   border: 1px solid #ced4da;
   border-radius: 4px;
   font-family: "Roboto", sans-serif;
@@ -361,8 +361,8 @@ p {
 .hs-form .patrol-form-body .checkpoints-container .panel .schedules-list .checkpoint-item input[type=time],
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .schedule input[type=time],
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .checkpoint-item input[type=time] {
-  width: 5.5rem;
-  flex: 0 0 5.5rem;
+  width: 6rem;
+  flex: 0 0 6rem;
 }
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .schedule input[type=number],
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .checkpoint-item input[type=number],
@@ -372,8 +372,8 @@ p {
 .hs-form .patrol-form-body .checkpoints-container .panel .schedules-list .checkpoint-item input[type=number],
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .schedule input[type=number],
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .checkpoint-item input[type=number] {
-  width: 4rem;
-  flex: 0 0 4rem;
+  width: 4.5rem;
+  flex: 0 0 4.5rem;
 }
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .schedule input[type=text],
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .checkpoint-item input[type=text],
