@@ -232,16 +232,15 @@
                     .schedule,
                     .checkpoint-item {
                         display: flex;
-                        flex-direction: row;
                         align-items: center;
                         gap: 10px;
 
                         .checkpoint-coords{
-                            display: flex !important;
+                            display: flex;
                             align-items: center;
                             gap: 8px;
                             @include roboto-font(0.875rem, 500);
-                            white-space: nowrap !important;
+                            white-space: nowrap;
                             code {
                                 background: #f4f4f4;
                                 padding: 2px 6px;
@@ -258,7 +257,7 @@
                             border-radius: 4px;
                             @include roboto-font(0.875rem, 500);
                             &[type="time"], &[type="number"] {
-                                max-width: 3.5rem;
+                                min-width: 6.5rem;
                             }
                             &::placeholder {
                                 color: #adb5bd;

@@ -154,6 +154,25 @@ p {
   cursor: pointer;
   transition: all 0.2s ease;
 }
+.checkpoint-controls .checkpoint-actions .btn#btn-cancel-path {
+  background: #ffffff;
+  color: #6c757d;
+  border: 1px solid #dee2e6;
+  flex: 0 0 auto;
+}
+.checkpoint-controls .checkpoint-actions .btn#btn-cancel-path:hover {
+  background: #f8f9fa;
+  color: #343a40;
+  border-color: #adb5bd;
+  transform: translateY(-2px);
+}
+.checkpoint-controls .checkpoint-actions .btn#btn-cancel-path:active {
+  background: #e9ecef;
+  transform: translateY(1px);
+}
+.checkpoint-controls .checkpoint-actions .btn#btn-cancel-path i {
+  color: #6c757d;
+}
 .checkpoint-controls .checkpoint-actions .btn#btn-clear-path {
   background: #e9ecef;
   color: #495057;
