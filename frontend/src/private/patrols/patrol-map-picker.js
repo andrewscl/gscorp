@@ -395,7 +395,7 @@ function redrawMarkers() {
 
 function updatePathLine() {
     const pathCoordinates = checkpoints.map(p => ({
-                                lat: p.latitude, lng: p.longitude }));
+                                lat: p.lat, lng: p.lng }));
 
     if (patrolPathLine) {
         patrolPathLine.setPath(pathCoordinates);
