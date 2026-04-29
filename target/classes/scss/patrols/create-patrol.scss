@@ -261,10 +261,10 @@ $width-btn: 6rem;
                             border-radius: 4px;
                             @include roboto-font(0.875rem, 500);
                             &[type="time"] {
-                                flex: 0 0 $width-time;
+                                width: $width-time;
                             }
                             &[type="number"]{
-                                flex: 0 0 $width-number;
+                                width: $width-number;
                             }
                             &::placeholder {
                                 color: #adb5bd;
