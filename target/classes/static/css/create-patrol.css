@@ -314,7 +314,7 @@ p {
 }
 .hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoint-header .col-coords,
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoint-header .col-coords {
-  width: 12rem;
+  width: 13rem;
 }
 .hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoint-header .col-name,
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoint-header .col-name {
@@ -357,7 +357,7 @@ p {
   align-items: center;
   gap: 0.7rem;
   margin-bottom: 0.5rem;
-  width: 12rem;
+  width: 13rem;
   font-family: "Roboto", sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
