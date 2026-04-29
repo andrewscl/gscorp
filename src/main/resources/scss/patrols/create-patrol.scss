@@ -240,17 +240,17 @@ $width-btn: 6rem;
                         display: flex;
                         flex-direction: row;
                         align-items: center;
-                        gap: 10px;
+                        gap: 1rem;
 
                         .checkpoint-coords{
                             display: flex;
                             align-items: center;
-                            gap: 8px;
+                            gap: 0.8rem;
                             @include roboto-font(0.875rem, 500);
                         }
 
                         input {
-                            padding: 8px;
+                            padding: 0.8rem;
                             border: 1px solid #ced4da;
                             border-radius: 4px;
                             @include roboto-font(0.875rem, 500);
