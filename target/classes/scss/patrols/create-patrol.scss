@@ -234,10 +234,10 @@ $width-btn: 6rem;
                     padding: 0.75rem 1rem;
                     @include roboto-font(0.85rem, 600);
 
-                    .col-coords { width: $width-coords; }
-                    .col-name   { width: $width-text; } // El nombre siempre es elástico
-                    .col-time   { width: $width-time; }
-                    .col-action { width: $width-btn; }
+                    .col-coords { flex: 0 0 $width-coords; }
+                    .col-name   { flex: 0 0 $width-text; } // El nombre siempre es elástico
+                    .col-time   { flex: 0 0 $width-time; }
+                    .col-action { flex: 0 0 $width-btn; }
                 }
 
                 .schedules-list,
@@ -267,13 +267,13 @@ $width-btn: 6rem;
                             border-radius: 4px;
                             @include roboto-font(0.875rem, 500);
                             &[type="time"] {
-                                width: $width-time;
+                                flex: 0 0 $width-time;
                             }
                             &[type="number"]{
-                                width: $width-number;
+                                flex: 0 0 $width-number;
                             }
                             &[type="text"]{
-                                width: $width-text;
+                                flex: 0 0 $width-text;
                             }
                             &::placeholder {
                                 color: #adb5bd;
