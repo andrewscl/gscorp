@@ -229,6 +229,13 @@ $width-btn: 6rem;
 
                 }
 
+                .checkpoint-header{
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    gap: 1rem;
+                }
+
                 .schedules-list,
                 .checkpoints-list {
                     padding: 10px 15px;
