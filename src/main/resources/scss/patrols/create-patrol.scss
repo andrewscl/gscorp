@@ -230,10 +230,7 @@ $width-btn: 6rem;
 
                 .checkpoint-header{
                     display: flex;
-                    .col-coords { flex: 0 0 $width-coords; }
-                    .col-name   { flex: 1; } // El nombre siempre es elástico
-                    .col-time   { flex: 0 0 $width-time; text-align: center; }
-                    .col-action { flex: 0 0 $width-btn; }
+
                 }
 
                 .schedules-list,

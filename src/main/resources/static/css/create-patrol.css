@@ -304,23 +304,6 @@ p {
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoint-header {
   display: flex;
 }
-.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoint-header .col-coords,
-.hs-form .patrol-form-body .checkpoints-container .panel .checkpoint-header .col-coords {
-  flex: 0 0 12rem;
-}
-.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoint-header .col-name,
-.hs-form .patrol-form-body .checkpoints-container .panel .checkpoint-header .col-name {
-  flex: 1;
-}
-.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoint-header .col-time,
-.hs-form .patrol-form-body .checkpoints-container .panel .checkpoint-header .col-time {
-  flex: 0 0 5.5rem;
-  text-align: center;
-}
-.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoint-header .col-action,
-.hs-form .patrol-form-body .checkpoints-container .panel .checkpoint-header .col-action {
-  flex: 0 0 6rem;
-}
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list,
 .hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoints-list,
 .hs-form .patrol-form-body .checkpoints-container .panel .schedules-list,
