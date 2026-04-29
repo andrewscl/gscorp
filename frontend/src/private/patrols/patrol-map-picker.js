@@ -463,11 +463,17 @@ const loadExistingCheckpoints = async () => {
 
         const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
 
+        // Crear el objeto bounds
+        const bounds = new google.maps.LatLngBounds();
+
         for (const cp of preloaded) {
             const position = {
                 lat: parseFloat(cp.latitude),
                 lng: parseFloat(cp.longitude) 
             };
+
+            // Extender los limites para incluir la posicion
+            bounds.extend(position);
 
             // Dibujar marcador (tu lógica existente)
             const pin = new PinElement({
@@ -504,10 +510,7 @@ const loadExistingCheckpoints = async () => {
         updateCheckpointTable();
         
         // Centrar mapa en el primer punto si existe
-        window.mapInstance.setCenter({ 
-            lat: parseFloat(preloaded[0].latitude), 
-            lng: parseFloat(preloaded[0].longitude) 
-        });
+        window.mapInstance.fitBounds(bounds);
 
     } catch (e) {
         console.error("Error al parsear los puntos ocultos:", e);
