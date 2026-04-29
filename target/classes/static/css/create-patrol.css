@@ -300,32 +300,6 @@ p {
   border-color: #7dd3fc;
   transform: translateY(-1px);
 }
-.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoint-header,
-.hs-form .patrol-form-body .checkpoints-container .panel .checkpoint-header {
-  display: flex;
-  gap: 1rem;
-  padding: 0.75rem 1rem;
-  font-family: "Roboto", sans-serif;
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoint-header .col-coords,
-.hs-form .patrol-form-body .checkpoints-container .panel .checkpoint-header .col-coords {
-  flex: 0 0 12rem;
-}
-.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoint-header .col-name,
-.hs-form .patrol-form-body .checkpoints-container .panel .checkpoint-header .col-name {
-  flex: 0 0 10rem;
-}
-.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoint-header .col-time,
-.hs-form .patrol-form-body .checkpoints-container .panel .checkpoint-header .col-time {
-  flex: 0 0 5.5rem;
-}
-.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoint-header .col-action,
-.hs-form .patrol-form-body .checkpoints-container .panel .checkpoint-header .col-action {
-  flex: 0 0 6rem;
-}
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list,
 .hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoints-list,
 .hs-form .patrol-form-body .checkpoints-container .panel .schedules-list,
