@@ -493,8 +493,8 @@ const loadExistingCheckpoints = async () => {
             // Sincronizar arrays globales del JS
             checkpoints.push({
                 externalId: cp.externalId,
-                lat: position.lat,
-                lng: position.lng,
+                lat: position.latitude,
+                lng: position.longitude,
                 order: cp.checkpointOrder,
                 name: cp.name,
                 stayTime: cp.stayTime,
