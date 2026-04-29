@@ -234,7 +234,7 @@ $width-btn: 6rem;
                     flex-direction: row;
                     align-items: center;
                     gap: 0.8rem;
-                    padding: 0.5rem 1rem;
+                    padding: 0.5rem 1rem 0 1rem;
                     @include roboto-font(0.875rem, 600);
                     .col-coords{ width: $width-coords; }
                     .col-name{ width: $width-text; }
@@ -260,6 +260,7 @@ $width-btn: 6rem;
                             align-items: center;
                             gap: 0.7rem;
                             margin-bottom: 0.5rem;
+                            width: $width-coords;
                             @include roboto-font(0.875rem, 500);
                         }
 
@@ -271,15 +272,12 @@ $width-btn: 6rem;
                             @include roboto-font(0.875rem, 500);
                             &[type="time"] {
                                 width: $width-time;
-                                //flex: 0 0 $width-time;
                             }
                             &[type="number"]{
                                 width: $width-number;
-                                //flex: 0 0 $width-number;
                             }
                             &[type="text"]{
                                 width: $width-text;
-                                //flex: 0 0 $width-text;
                             }
                             &::placeholder {
                                 color: #adb5bd;
