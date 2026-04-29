@@ -516,6 +516,7 @@ const loadExistingCheckpoints = async () => {
 
 async function cancelPath () {
     const patrolExternalId = document.getElementById('target-patrol-externalId');
+    console.log(`[MapPicker] Navegando a patrol: ${patrolExternalId}`);
     const path = `/private/patrols/edit/${patrolExternalId}`;
     console.log(`[MapPicker] Cancelando edición en el mapa. Navegando a ${path}`);
     await navigateTo(path);
