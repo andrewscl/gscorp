@@ -469,8 +469,8 @@ const loadExistingCheckpoints = async () => {
 
         for (const cp of preloaded) {
             const position = {
-                latitude: parseFloat(cp.latitude),
-                longitude: parseFloat(cp.longitude) 
+                lat: parseFloat(cp.latitude),
+                lng: parseFloat(cp.longitude) 
             };
 
             // Extender los limites para incluir la posicion
