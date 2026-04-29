@@ -4,6 +4,11 @@
 @use '../base/palette' as *;
 @use '../base/typography' as *;
 
+$width-coords: 12rem; 
+$width-time: 5.5rem;
+$width-number: 4rem;
+$width-btn: 6rem;
+
 .hs-form{
 
     width: 90%;
@@ -223,6 +228,14 @@
 
                 }
 
+                .checkpoint-header{
+                    display: flex;
+                    .col-coords { flex: 0 0 $width-coords; }
+                    .col-name   { flex: 1; } // El nombre siempre es elástico
+                    .col-time   { flex: 0 0 $width-time; text-align: center; }
+                    .col-action { flex: 0 0 $width-btn; }
+                }
+
                 .schedules-list,
                 .checkpoints-list {
                     padding: 10px 15px;
@@ -250,9 +263,11 @@
                             border: 1px solid #ced4da;
                             border-radius: 4px;
                             @include roboto-font(0.875rem, 500);
-                            &[type="time"], &[type="number"] {
-                                width: 3.5rem;
-                                max-width: 3.5rem;
+                            &[type="time"] {
+                                flex: 0 0 $width-time;
+                            }
+                            &[type="number"]{
+                                flex: 0 0 $width-number;
                             }
                             &::placeholder {
                                 color: #adb5bd;

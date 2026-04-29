@@ -300,6 +300,27 @@ p {
   border-color: #7dd3fc;
   transform: translateY(-1px);
 }
+.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoint-header,
+.hs-form .patrol-form-body .checkpoints-container .panel .checkpoint-header {
+  display: flex;
+}
+.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoint-header .col-coords,
+.hs-form .patrol-form-body .checkpoints-container .panel .checkpoint-header .col-coords {
+  flex: 0 0 12rem;
+}
+.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoint-header .col-name,
+.hs-form .patrol-form-body .checkpoints-container .panel .checkpoint-header .col-name {
+  flex: 1;
+}
+.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoint-header .col-time,
+.hs-form .patrol-form-body .checkpoints-container .panel .checkpoint-header .col-time {
+  flex: 0 0 5.5rem;
+  text-align: center;
+}
+.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoint-header .col-action,
+.hs-form .patrol-form-body .checkpoints-container .panel .checkpoint-header .col-action {
+  flex: 0 0 6rem;
+}
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list,
 .hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoints-list,
 .hs-form .patrol-form-body .checkpoints-container .panel .schedules-list,
@@ -355,23 +376,25 @@ p {
   font-weight: 500;
   letter-spacing: 0.02em;
 }
-.hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .schedule input[type=time], .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .schedule input[type=number],
+.hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .schedule input[type=time],
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .checkpoint-item input[type=time],
-.hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .checkpoint-item input[type=number],
 .hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoints-list .schedule input[type=time],
-.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoints-list .schedule input[type=number],
 .hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoints-list .checkpoint-item input[type=time],
-.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoints-list .checkpoint-item input[type=number],
 .hs-form .patrol-form-body .checkpoints-container .panel .schedules-list .schedule input[type=time],
-.hs-form .patrol-form-body .checkpoints-container .panel .schedules-list .schedule input[type=number],
 .hs-form .patrol-form-body .checkpoints-container .panel .schedules-list .checkpoint-item input[type=time],
-.hs-form .patrol-form-body .checkpoints-container .panel .schedules-list .checkpoint-item input[type=number],
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .schedule input[type=time],
+.hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .checkpoint-item input[type=time] {
+  flex: 0 0 5.5rem;
+}
+.hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .schedule input[type=number],
+.hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .checkpoint-item input[type=number],
+.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoints-list .schedule input[type=number],
+.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoints-list .checkpoint-item input[type=number],
+.hs-form .patrol-form-body .checkpoints-container .panel .schedules-list .schedule input[type=number],
+.hs-form .patrol-form-body .checkpoints-container .panel .schedules-list .checkpoint-item input[type=number],
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .schedule input[type=number],
-.hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .checkpoint-item input[type=time],
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .checkpoint-item input[type=number] {
-  width: 3.5rem;
-  max-width: 3.5rem;
+  flex: 0 0 4rem;
 }
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .schedule input::placeholder,
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .checkpoint-item input::placeholder,
