@@ -61,7 +61,7 @@ const initMap = async () => {
 
     // Crear e inicializar el mapa
     const map = new Map(mapContainer, {
-      center: { latitude: -33.4489, longitude: -70.6693 },
+      center: { lat: -33.4489, lng: -70.6693 },
       zoom: 8, // Nivel de zoom inicial
       mapId: googleMapsConfig.mapId, // Personaliza con Map ID de Google Cloud
       disableDefaultUI: true, // Desactiva los controles predeterminados
