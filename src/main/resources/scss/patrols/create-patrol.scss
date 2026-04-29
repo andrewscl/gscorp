@@ -4,6 +4,10 @@
 @use '../base/palette' as *;
 @use '../base/typography' as *;
 
+$width-coords: 12rem; 
+$width-time: 4.5rem;
+$width-btn: 4rem;
+
 .hs-form{
 
     width: 90%;
@@ -157,11 +161,11 @@
         .checkpoints-container {
             display: flex;
             flex-direction: column;
-            margin-top: 1px;
+            margin-top: 1rem;
 
             .panel {
                 background: $cool-gray-100;
-                border: 1px solid ececec;
+                border: 1px solid #ececec;
                 border-radius: 8px;
 
                 &-header {
@@ -225,18 +229,18 @@
 
                 .checkpoint-header {
                     display: flex;
-                    gap: 15px;
-                    padding: 10px;
+                    gap: 1rem;
+                    padding: 0.75rem 1rem;
                     background: #f8f9fa;
-                    border-radius: 8px 8px 0 0;
+                    border-radius: 0.5rem 0.5rem 0 0;
                     border: 1px solid #dee2e6;
-                    @include roboto-font(0.875rem, 500);
+                    @include roboto-font(0.85rem, 500);
                     font-weight: bold;
                     color: #495057;
-                    .col-coords { flex: 0 0 130px; }
+                    .col-coords { flex: 0 0 $width-coords; }
                     .col-name   { flex: 1; }
-                    .col-time   { flex: 0 0 4.5rem; text-align: center; }
-                    .col-action { flex: 0 0 80px; }
+                    .col-time   { flex: 0 0 $width-time; }
+                    .col-action { flex: 0 0 $width-btn; }
 }
 
                 .schedules-list,
@@ -253,12 +257,10 @@
 
                         .checkpoint-coords{
                             display: flex;
-                            align-items: center;
-                            gap: 8px;
+                            gap: 0.2rem;
                             @include roboto-font(0.875rem, 500);
-                            white-space: nowrap;
+                            width: $width-coords;
                             code {
-                                padding: 2px 6px;
                                 color: #555;
                             }
                         }
@@ -270,7 +272,8 @@
                             border-radius: 4px;
                             @include roboto-font(0.875rem, 500);
                             &[type="time"], &[type="number"] {
-                                max-width: 4.5rem;
+                                flex: 0 0 $width-time;
+                                width: $width-time;
                             }
                             &::placeholder {
                                 color: #adb5bd;
@@ -282,9 +285,9 @@
                             color: white;
                             border: none;
                             border-radius: 4px;
-                            padding: 4px 8px;
+                            padding: 0.4rem;
                             cursor: pointer;
-
+                            flex: 0 0 $width-btn;
                             &:hover{
                                 background-color: #e60000;
                             }
@@ -295,12 +298,12 @@
                             background-color: transparent;
                             color: #10b981; // Verde esmeralda
                             border: 2px solid #10b981;
-                            padding: 4px 12px;
+                            padding: 0.4rem;
                             border-radius: 6px;
                             font-size: 0.75rem;
                             font-weight: 700;
                             transition: all 0.2s ease;
-
+                            flex: 0 0 $width-btn;
                             &:hover {
                                 background-color: #10b981;
                                 color: white;
@@ -319,8 +322,6 @@
 
                     }
                 }
-
-                
 
                 .time-schedules-help {
                     padding: 5px 15px;

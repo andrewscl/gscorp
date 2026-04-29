@@ -231,12 +231,12 @@ p {
 .hs-form .patrol-form-body .checkpoints-container {
   display: flex;
   flex-direction: column;
-  margin-top: 1px;
+  margin-top: 1rem;
 }
 .hs-form .patrol-form-body .time-patrol-schedules .panel,
 .hs-form .patrol-form-body .checkpoints-container .panel {
   background: #f3f4f6;
-  border: 1px solid ececec;
+  border: 1px solid #ececec;
   border-radius: 8px;
 }
 .hs-form .patrol-form-body .time-patrol-schedules .panel-header,
@@ -303,13 +303,13 @@ p {
 .hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoint-header,
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoint-header {
   display: flex;
-  gap: 15px;
-  padding: 10px;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
   background: #f8f9fa;
-  border-radius: 8px 8px 0 0;
+  border-radius: 0.5rem 0.5rem 0 0;
   border: 1px solid #dee2e6;
   font-family: "Roboto", sans-serif;
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   font-weight: 500;
   letter-spacing: 0.02em;
   font-weight: bold;
@@ -317,7 +317,7 @@ p {
 }
 .hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoint-header .col-coords,
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoint-header .col-coords {
-  flex: 0 0 130px;
+  flex: 0 0 12rem;
 }
 .hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoint-header .col-name,
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoint-header .col-name {
@@ -326,11 +326,10 @@ p {
 .hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoint-header .col-time,
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoint-header .col-time {
   flex: 0 0 4.5rem;
-  text-align: center;
 }
 .hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoint-header .col-action,
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoint-header .col-action {
-  flex: 0 0 80px;
+  flex: 0 0 4rem;
 }
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list,
 .hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoints-list,
@@ -361,13 +360,12 @@ p {
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .schedule .checkpoint-coords,
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .checkpoint-item .checkpoint-coords {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  gap: 0.2rem;
   font-family: "Roboto", sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
   letter-spacing: 0.02em;
-  white-space: nowrap;
+  width: 12rem;
 }
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .schedule .checkpoint-coords code,
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .checkpoint-item .checkpoint-coords code,
@@ -377,7 +375,6 @@ p {
 .hs-form .patrol-form-body .checkpoints-container .panel .schedules-list .checkpoint-item .checkpoint-coords code,
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .schedule .checkpoint-coords code,
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .checkpoint-item .checkpoint-coords code {
-  padding: 2px 6px;
   color: #555;
 }
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .schedule input,
@@ -412,7 +409,8 @@ p {
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .schedule input[type=number],
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .checkpoint-item input[type=time],
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .checkpoint-item input[type=number] {
-  max-width: 4.5rem;
+  flex: 0 0 4.5rem;
+  width: 4.5rem;
 }
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .schedule input::placeholder,
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .checkpoint-item input::placeholder,
@@ -436,8 +434,9 @@ p {
   color: white;
   border: none;
   border-radius: 4px;
-  padding: 4px 8px;
+  padding: 0.4rem;
   cursor: pointer;
+  flex: 0 0 4rem;
 }
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .schedule .btn-remove:hover,
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .checkpoint-item .btn-remove:hover,
@@ -460,11 +459,12 @@ p {
   background-color: transparent;
   color: #10b981;
   border: 2px solid #10b981;
-  padding: 4px 12px;
+  padding: 0.4rem;
   border-radius: 6px;
   font-size: 0.75rem;
   font-weight: 700;
   transition: all 0.2s ease;
+  flex: 0 0 4rem;
 }
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .schedule .btn-toggle-status:hover,
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .checkpoint-item .btn-toggle-status:hover,
