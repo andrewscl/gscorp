@@ -55,8 +55,6 @@ const initMap = async () => {
     return;
   }
 
-  console.log('siteId en initMap: ' + window.targetSiteId);
-
   try {
     // Importar las bibliotecas necesarias usando el enfoque moderno de Google
     const { Map } = await google.maps.importLibrary("maps");
@@ -517,7 +515,8 @@ const loadExistingCheckpoints = async () => {
 };
 
 async function cancelPath () {
-    const path = `/private/patrols/edit/${window.patrolExternalId}`;
+    const patrolExternalId = document.getElementById('target-patrol-externalId');
+    const path = `/private/patrols/edit/${patrolExternalId}`;
     console.log(`[MapPicker] Cancelando edición en el mapa. Navegando a ${path}`);
     await navigateTo(path);
 }
