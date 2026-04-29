@@ -346,7 +346,7 @@ p {
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .checkpoint-item {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 1rem;
 }
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .schedule .checkpoint-coords,
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list .checkpoint-item .checkpoint-coords,
@@ -382,7 +382,6 @@ p {
 .hs-form .patrol-form-body .checkpoints-container .panel .schedules-list .checkpoint-item input,
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .schedule input,
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .checkpoint-item input {
-  flex: 1;
   padding: 8px;
   border: 1px solid #ced4da;
   border-radius: 4px;

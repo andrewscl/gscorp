@@ -251,7 +251,7 @@ $width-btn: 4rem;
                     .checkpoint-item {
                         display: flex;
                         align-items: center;
-                        gap: 10px;
+                        gap: 1rem;
 
                         .checkpoint-coords{
                             display: flex;
@@ -264,7 +264,6 @@ $width-btn: 4rem;
                         }
 
                         input {
-                            flex: 1;
                             padding: 8px;
                             border: 1px solid #ced4da;
                             border-radius: 4px;
