@@ -305,7 +305,15 @@ p {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 1rem;
+  gap: 0.8rem;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoint-header .col-coords,
+.hs-form .patrol-form-body .checkpoints-container .panel .checkpoint-header .col-coords {
+  width: 12rem;
 }
 .hs-form .patrol-form-body .time-patrol-schedules .panel .schedules-list,
 .hs-form .patrol-form-body .time-patrol-schedules .panel .checkpoints-list,

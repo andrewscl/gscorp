@@ -233,7 +233,9 @@ $width-btn: 6rem;
                     display: flex;
                     flex-direction: row;
                     align-items: center;
-                    gap: 1rem;
+                    gap: 0.8rem;
+                    @include roboto-font(0.875rem, 600);
+                    .col-coords{ width: $width-coords}
                 }
 
                 .schedules-list,
