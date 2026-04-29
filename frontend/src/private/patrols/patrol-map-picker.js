@@ -288,8 +288,8 @@ async function addCheckpoint (latLng) {
 
     // 3. Guardar en nuestros arrays
     checkpoints.push({
-        latitude: latLng.latitude(),
-        longitude: latLng.longitude(),
+        latitude: latLng.lat(),
+        longitude: latLng.lng(),
         order: order,
         name: `Punto ${order}`, // Nombre por defecto para que no nazca vacío
         stayTime: 5,            // 5 minutos de permanencia por defecto
