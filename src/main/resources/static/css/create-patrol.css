@@ -86,6 +86,7 @@ p {
 
 .hs-form {
   width: 90%;
+  max-width: 40rem;
   margin: 0 auto;
   background: #ffffff;
   border-radius: 12px;
