@@ -469,8 +469,8 @@ const loadExistingCheckpoints = async () => {
 
         for (const cp of preloaded) {
             const position = {
-                lat: parseFloat(cp.latitude),
-                lng: parseFloat(cp.longitude) 
+                latitude: parseFloat(cp.latitude),
+                longitude: parseFloat(cp.longitude) 
             };
 
             // Extender los limites para incluir la posicion
@@ -494,8 +494,8 @@ const loadExistingCheckpoints = async () => {
             // Sincronizar arrays globales del JS
             checkpoints.push({
                 externalId: cp.externalId,
-                lat: position.lat,
-                lng: position.lng,
+                latitude: position.lat,
+                longitude: position.lng,
                 order: cp.checkpointOrder,
                 name: cp.name,
                 stayTime: cp.stayTime,
