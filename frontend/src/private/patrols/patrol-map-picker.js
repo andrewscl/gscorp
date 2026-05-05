@@ -496,7 +496,7 @@ const loadExistingCheckpoints = async () => {
                 externalId: cp.externalId,
                 latitude: position.lat,
                 longitude: position.lng,
-                order: cp.checkpointOrder,
+                checkpointOrder: cp.checkpointOrder,
                 name: cp.name,
                 stayTime: cp.stayTime,
                 transitTime: cp.minutesToReach
