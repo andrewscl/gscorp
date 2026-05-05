@@ -14,4 +14,6 @@ public record UpdatePatrolRequest (
     Boolean active,
     List<UpdatePatrolScheduleRequest> schedules,
     List<UpdatePatrolCheckpointRequest> checkpoints
-){}
+){
+    
+}

@@ -28,34 +28,10 @@ async function handleUpdate(e) {
         }
         return null;
 
-    }).filter(container => container !== null && container.startTime !== "");
+        }).filter(container => container !== null && container.startTime !== "");
 
-    /*
-    Checkpoints
-    */
-
-    // Rutina de recolección de checkpoints
-    const checkpoints = Array.from(qsa('.checkpoint-item')).map((container, index) => {
-        const inputName = container.querySelector('input[name="checkpointName[]"]');
-        const inputLat = container.querySelector('input[name="checkpointLat[]"]');
-        const inputLng = container.querySelector('input[name="checkpointLng[]"]');
-        const inputStay = container.querySelector('input[name="checkpointStayTime[]"]');
-        const inputTransit = container.querySelector('input[name="checkpointTransitTime[]"]');
-        const statusSpan = container.querySelector('.status-text');
-
-        if (!inputName) return null;
-
-        return {
-            externalId: container.querySelector('input[name="checkpointExternalId[]"]')?.value || null,
-            name: inputName.value.trim(),
-            latitude: inputLat ? parseFloat(inputLat.value) : 0.0,
-            longitude: inputLng ? parseFloat(inputLng.value) : 0.0,
-            checkpointOrder: index + 1,
-            stayTime: inputStay ? parseInt(inputStay.value) : 5,
-            minutesToReach: inputTransit ? parseInt(inputTransit.value) : 0, // TransitTime
-            active: statusSpan ? (statusSpan.innerText.trim() === 'Activo') : true,
-        };
-    }).filter(cp => cp !== null && cp.name !== "");
+    // Ejecutar sincronización y guardar el resultado
+    const consolidatedCheckpoints = syncCheckpoints();
 
     const externalId = qs('#patrolExternalId')?.value; // ID de la ronda a actualizar
     // Alertas
@@ -71,7 +47,7 @@ async function handleUpdate(e) {
         dayTo: parseInt(qs('#dayTo').value),
         active: true,
         schedules: schedules,
-        checkpoints: checkpoints
+        checkpoints: consolidatedCheckpoints
     };
 
     // 2. Validación básica
@@ -170,6 +146,7 @@ function syncCheckpoints () {
             stayTime: cp.stayTime || 5,
             minutesToReach: cp.transitTime || 0,
             active: cp.active !== undefined ? cp.active : true,
+            deleted: false
         })
     });
     /*
