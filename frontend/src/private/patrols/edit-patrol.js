@@ -238,7 +238,7 @@ function initCheckpoints() {
         console.log('[Analista] Cargando checkpoints desde el Map...');
         const points = JSON.parse(mapData);
         points.forEach(p => addCheckpoints(p));
-        //localStorage.removeItem('pending_checkpoints');
+        localStorage.removeItem('pending_checkpoints');
     } else {
         console.log('[Analista] Cargando checkpoints desde la BD...');
         const dbInput = document.getElementById('checkpoints-initial-data');
