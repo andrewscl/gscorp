@@ -266,15 +266,23 @@ $width-btn: 6rem;
 
                         input {
                             padding: 0.7rem;
+                            border: 1px solid #ced4da;
+                            border-radius: 4px;
                             margin-bottom: 0.5rem;
                             @include roboto-font(0.875rem, 500);
                             &[type="time"] {
                                 width: $width-time;
                             }
                             &[type="number"]{
+                                background-color: transparent;
+                                border: none;
                                 width: $width-number;
+                                user-select: none;
+                                -webkit-user-select: none;
+                                cursor: default;
                             }
                             &[type="text"]{
+                                border: none;
                                 width: $width-text;
                             }
                             &::placeholder {
