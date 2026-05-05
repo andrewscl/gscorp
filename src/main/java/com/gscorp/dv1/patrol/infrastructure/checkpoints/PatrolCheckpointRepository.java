@@ -5,7 +5,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface PatrolCheckpointRepository 
@@ -29,5 +32,10 @@ public interface PatrolCheckpointRepository
 
     Optional<PatrolCheckpoint>
                         findByExternalId(UUID externalId);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM PatrolCheckpoint p WHERE p.externalId = :externalId")
+    void deleteByExternalId(UUID externalId);
 
 }

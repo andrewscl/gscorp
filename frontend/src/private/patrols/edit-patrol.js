@@ -30,7 +30,11 @@ async function handleUpdate(e) {
 
     }).filter(container => container !== null && container.startTime !== "");
 
-    // Recolectar checkpoints como objetos
+    /*
+    Checkpoints
+    */
+
+    // Rutina de recolección de checkpoints
     const checkpoints = Array.from(qsa('.checkpoint-item')).map((container, index) => {
         const inputName = container.querySelector('input[name="checkpointName[]"]');
         const inputLat = container.querySelector('input[name="checkpointLat[]"]');
@@ -140,6 +144,55 @@ function toggleCheckpoint(button) {
         statusText.innerText = 'Activo';
     }
 }
+
+function syncCheckpoints () {
+    // Recolectar checkpoints iniciales
+    const initialDataRaw = document.getElementById('checkpoints-initial-data').value;
+    const initialCheckpoints = JSON.parse(initialDataRaw || []);
+    // Obtener datos pendientes de localStorage
+    const pendingDataRaw = localStorage.getItem('pending_checkpoints');
+    const pendingCheckpoints = JSON.parse(pendingDataRaw || []);
+    // Map para facilitar la busqueda por ID
+    const finalList = new Map();
+    /*
+        Procesar los pendientes (nuevos y modificados)
+        Los pendientes mandan spbre los modificados
+    */
+    pendingCheckpoints.forEach(cp => {
+        // Usa externalId si existe, si no, una llave temporal para el map
+        const key = cp.externalId || `new_${Math.random()}`;
+        finalList.set(key, {
+            externalId: cp.externalId || null,
+            name: cp.name.trim(),
+            latitude: cp.latitude || 0.0,
+            longitude: cp.longitude || 0.0,
+            checkpointOrder: cp.checkpointOrder || 0.0,
+            stayTime: cp.stayTime || 5,
+            minutesToReach: cp.transitTime || 0,
+            active: cp.active !== undefined ? cp.active : true,
+        })
+    });
+    /*
+        Tratar eliminaciones
+        Compara los checkpoints iniciales con los que estan en la lista final
+        si un Id inicial no esta en los pendientes, significa que fue eliminado.
+    */
+    const sendData = [];
+    // Agregar lo que esta en finalList
+    finalList.forEach(cp => sendData.push(cp));
+    // Identificar los que estaban en initialDataRaw
+    initialCheckpoints.forEach(ini => {
+        const existYet = pendingCheckpoints.some
+            (p => p.externalId === ini.externalId);
+        if(!existYet){
+            //Enviar una bandera de eliminación
+            sendData.push({
+                ...ini, deleted: true
+            });
+        }
+    });
+    return sendData;
+};
 
 /**
  * Navega a la vista de mapa para capturar checkpoints.

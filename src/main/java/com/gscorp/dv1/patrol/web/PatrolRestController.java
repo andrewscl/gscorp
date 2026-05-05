@@ -63,7 +63,8 @@ public class PatrolRestController {
         //Resolver usuario
         Long userId = userService.getUserIdFromAuthentication(authentication);
         if (userId == null) {
-            throw new AuthenticationCredentialsNotFoundException("Usuario no autenticado");
+            throw new
+            AuthenticationCredentialsNotFoundException("Usuario no autenticado");
         }
 
         PatrolDto updated = patrolService.updatePatrol(externalId, req, userId);

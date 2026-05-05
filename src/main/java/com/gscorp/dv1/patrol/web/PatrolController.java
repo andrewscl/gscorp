@@ -51,7 +51,7 @@ public class PatrolController {
         List<PatrolDto> patrols = patrolService.getPatrolsByUserId(userId);
         if(patrols == null || patrols.isEmpty()) {
             model.addAttribute("infoMessage", 
-                "No se encontraron rondas de supervisión asociadas a su usuario.");
+            "No se encontraron rondas de supervisión asociadas a su usuario.");
         } else {
             model.addAttribute("patrols", patrols);
         }

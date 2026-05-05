@@ -10,5 +10,6 @@ public record UpdatePatrolCheckpointRequest (
     Integer checkpointOrder,
     Integer stayTime,
     Integer minutesToReach,
-    Boolean active
+    Boolean active,
+    Boolean delete
 ){}

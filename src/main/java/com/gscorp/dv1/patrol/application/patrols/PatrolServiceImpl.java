@@ -111,9 +111,12 @@ public class PatrolServiceImpl implements PatrolService {
 
         Patrol saved = patrolRepository.save(patrol);
 
-        PatrolProjection savedProjection = patrolRepository.findProjectionById(saved.getId())
-            .orElseThrow(() -> new EntityNotFoundException(
-                "Failed to retrieve saved patrol with ID: " + saved.getId()
+        PatrolProjection savedProjection = patrolRepository
+                                .findProjectionById(saved.getId())
+            .orElseThrow(() ->
+                new EntityNotFoundException(
+                "Failed to retrieve saved patrol with ID: "
+                + saved.getId()
             ));
 
         // Get schedules
@@ -205,9 +208,20 @@ public class PatrolServiceImpl implements PatrolService {
         //Sincronizar checkpoints
         if(request.checkpoints() != null) {
             request.checkpoints().forEach(dto->{
+
+                // Eliminar checkpoint
+                if(Boolean.TRUE.equals(dto.deleted())) {
+                    if(StringUtils.hasText(dto.externalId())) {
+                        UUID deleteId = UUID.fromString(dto.externalId());
+                        patrolCheckpointRepository.deleteByExternalId(deleteId);
+                    }
+                    return;
+                }
+
                 //Comenzar con la caja vacia por defecto
                 Optional<PatrolCheckpoint> existingOpt = Optional.empty();
-                //intenta buscar el externalID si no es nulo o vacio
+
+                // Actualizar checkpoint
                 if (StringUtils.hasText(dto.externalId())){
                     try{
                         UUID externalCheckpointId = UUID.fromString(dto.externalId());
@@ -218,8 +232,8 @@ public class PatrolServiceImpl implements PatrolService {
                     }
                 }
                 existingOpt.ifPresentOrElse(
-                    //Actuaizacion
                         existing -> {
+                            // Actualizar datos existentes
                             existing.setName(dto.name());
                             existing.setLatitude(dto.latitude());
                             existing.setLongitude(dto.longitude());
@@ -229,8 +243,8 @@ public class PatrolServiceImpl implements PatrolService {
                             existing.setActive(dto.active());
                         },
                         () -> {
-                            //Si no existe lo creamos
-                            if(Boolean.TRUE.equals(dto.active())){
+                            // Crear nuevo solo sino esta marcado para borrar y no existe
+                            if(dto.name()!= null && !dto.name().isBlank()){
                                 patrolCheckpointRepository.save(PatrolCheckpoint.builder()
                                     .externalId(UUID.randomUUID())
                                     .name(dto.name())
@@ -239,7 +253,7 @@ public class PatrolServiceImpl implements PatrolService {
                                     .checkpointOrder(dto.checkpointOrder())
                                     .stayTime(dto.stayTime())
                                     .minutesToReach(dto.minutesToReach())
-                                    .active(true)
+                                    .active(dto.active() != null ? dto.active() : true)
                                     .patrol(patrol)
                                     .build());
                             }
