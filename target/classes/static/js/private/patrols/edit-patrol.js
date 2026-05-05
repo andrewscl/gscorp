@@ -7,10 +7,7 @@ import{f as h}from"../../auth.js";import{n as v}from"../../navigation-handler.js
         </div>
 
         <div class="field text">${e.name||"-"}</div>
-
-        <div class="metrics-container">
-            <div class="field number">${e.stayTime||5}</div>
-            <div class="field number">${e.transitTime||3}</div>
-        </div>
+        <div class="field number">${e.stayTime||5}</div>
+        <div class="field number">${e.transitTime||3}</div>
 
     `,t.appendChild(s)}function S(){if(!document.getElementById("checkpointsList"))return;const t=localStorage.getItem("pending_checkpoints");if(t)console.log("[Analista] Cargando checkpoints desde el Map..."),JSON.parse(t).forEach(o=>m(o));else{console.log("[Analista] Cargando checkpoints desde la BD...");const n=document.getElementById("checkpoints-initial-data");if(n&&n.value&&n.value.trim()!="")try{const o=JSON.parse(n.value);console.log(`[Analista] Encontrados ${o.length} puntos en BD`),o.forEach(s=>m(s))}catch{console.warn("La BD no tiene JSON válido o está vacía")}else console.log("[Analista] No hay puntos previos ni en Mapa ni en BD.")}}function A(){const e=i("#updatePatrolBtn");e&&e.addEventListener("click",k),i("#addTimeScheduleBtn").addEventListener("click",y),i("#checkpointsList")?.addEventListener("click",p),i("#patrolSchedulesList")?.addEventListener("click",p),i("#toggleSchedule")?.addEventListener("click",E),i("#toggleCheckpoint")?.addEventListener("click",I);const t=i("#cancelEditPatrolBtn");t&&t.addEventListener("click",n=>f(n,"La edición de la ronda ha sido cancelada.")),i("#addMapCheckpointBtn")?.addEventListener("click",T),document.addEventListener("route:loaded",()=>{S()},{once:!0})}(function(){A()})();

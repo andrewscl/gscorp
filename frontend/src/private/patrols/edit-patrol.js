@@ -213,11 +213,8 @@ function addCheckpoints(point) {
         </div>
 
         <div class="field text">${point.name || '-'}</div>
-
-        <div class="metrics-container">
-            <div class="field number">${point.stayTime || 5}</div>
-            <div class="field number">${point.transitTime || 3}</div>
-        </div>
+        <div class="field number">${point.stayTime || 5}</div>
+        <div class="field number">${point.transitTime || 3}</div>
 
     `;
 
