@@ -489,6 +489,29 @@ const loadExistingCheckpoints = async () => {
                 position: position,
                 content: pin.element,
                 title: cp.name,
+                gmpDraggable: true,
+            });
+
+            // 2. Escuchar el final del arrastre
+            marker.addListener("dragend", ({ latLng }) => {
+                const newPos = marker.position; // Obtiene la nueva posición
+                
+                // 3. Actualizar el objeto en tu array global 'checkpoints'
+                // Buscamos por externalId o por índice si no tiene
+                const index = checkpointMarkers.indexOf(marker);
+                if (index !== -1) {
+                    checkpoints[index].latitude = newPos.lat;
+                    checkpoints[index].longitude = newPos.lng;
+                    
+                    console.log(`Punto ${checkpoints[index].name} movido a:`, newPos.lat, newPos.lng);
+                    
+                    // 4. Refrescar visuales (línea y tabla)
+                    updatePathLine();
+                    updateCheckpointTable(); 
+                    
+                    // 5. Guardar en localStorage para no perder el cambio si recarga
+                    localStorage.setItem('pending_checkpoints', JSON.stringify(checkpoints));
+                }
             });
 
             // Sincronizar arrays globales del JS
