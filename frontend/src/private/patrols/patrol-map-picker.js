@@ -492,24 +492,28 @@ const loadExistingCheckpoints = async () => {
                 gmpDraggable: true,
             });
 
-            // 2. Escuchar el final del arrastre
-            marker.addListener("dragend", ({ latLng }) => {
-                const newPos = marker.position; // Obtiene la nueva posición
-                
-                // 3. Actualizar el objeto en tu array global 'checkpoints'
-                // Buscamos por externalId o por índice si no tiene
+            // 3. EVENTO: Detectar el final del movimiento
+            marker.addListener("dragend", () => {
+                // Obtener nueva posición
+                const newPos = marker.position; 
+                const lat = (typeof newPos.lat === 'function') ? newPos.lat() : newPos.lat;
+                const lng = (typeof newPos.lng === 'function') ? newPos.lng() : newPos.lng;
+
+                // Buscar qué punto del array corresponde a este marcador
                 const index = checkpointMarkers.indexOf(marker);
+                
                 if (index !== -1) {
-                    checkpoints[index].latitude = newPos.lat;
-                    checkpoints[index].longitude = newPos.lng;
-                    
-                    console.log(`Punto ${checkpoints[index].name} movido a:`, newPos.lat, newPos.lng);
-                    
-                    // 4. Refrescar visuales (línea y tabla)
-                    updatePathLine();
-                    updateCheckpointTable(); 
-                    
-                    // 5. Guardar en localStorage para no perder el cambio si recarga
+                    // Actualizar datos en el array global
+                    checkpoints[index].latitude = lat;
+                    checkpoints[index].longitude = lng;
+
+                    console.log(`Punto ${checkpoints[index].name} actualizado a:`, lat, lng);
+
+                    // Actualizar visuales (Línea roja y tabla lateral)
+                    if (typeof updatePathLine === 'function') updatePathLine();
+                    if (typeof updateCheckpointTable === 'function') updateCheckpointTable();
+
+                    // Guardar en LocalStorage para no perder cambios al refrescar
                     localStorage.setItem('pending_checkpoints', JSON.stringify(checkpoints));
                 }
             });
