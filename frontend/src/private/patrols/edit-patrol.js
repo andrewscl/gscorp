@@ -71,6 +71,8 @@ async function handleUpdate(e) {
             setTimeout(() => {
                 navigateTo('/private/patrols/table-view'); // Redirigir a la tabla
             }, 1500);
+            localStorage.removeItem('pending_checkpoints');
+            
         } else {
             const errorData = await response.json();
             displayAlert(alertError
