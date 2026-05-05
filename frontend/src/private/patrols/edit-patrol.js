@@ -212,17 +212,12 @@ function addCheckpoints(point) {
             <input type="hidden" name="checkpointLng[]" value="${point.longitude}" />
         </div>
 
-        <input type="text" name="checkpointName[]" 
-               placeholder="Nombre" value="${point.name || ''}"
-               readonly />
+        <div class="field text">${point.name || '-'}</div>
 
-        <input type="number" name="checkpointStayTime[]" 
-               title="Permanencia (min)" value="${point.stayTime || 5}" 
-               readonly />
-
-        <input type="number" name="checkpointTransitTime[]" 
-               title="Tránsito (min)" value="${point.transitTime || 3}" 
-               readonly />
+        <div class="metrics-container">
+            <div class="field number">${point.stayTime || 5}</div>
+            <div class="field number">${point.transitTime || 3}</div>
+        </div>
 
     `;
 

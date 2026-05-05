@@ -273,7 +273,18 @@ $width-btn: 6rem;
                             &[type="time"] {
                                 width: $width-time;
                             }
-                            &[type="number"]{
+                            &::placeholder {
+                                color: #adb5bd;
+                            }
+                        }
+
+                        .field {
+                            padding: 0.7rem;
+                            border: 1px solid #ced4da;
+                            border-radius: 4px;
+                            margin-bottom: 0.5rem;
+                            @include roboto-font(0.875rem, 500);
+                            &.number{
                                 background-color: transparent;
                                 border: none;
                                 width: $width-number;
@@ -281,12 +292,9 @@ $width-btn: 6rem;
                                 -webkit-user-select: none;
                                 cursor: default;
                             }
-                            &[type="text"]{
+                            &.text{
                                 border: none;
                                 width: $width-text;
-                            }
-                            &::placeholder {
-                                color: #adb5bd;
                             }
                         }
 
