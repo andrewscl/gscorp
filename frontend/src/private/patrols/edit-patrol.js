@@ -124,10 +124,10 @@ function toggleCheckpoint(button) {
 function syncCheckpoints () {
     // Recolectar checkpoints iniciales
     const initialDataRaw = document.getElementById('checkpoints-initial-data').value;
-    const initialCheckpoints = JSON.parse(initialDataRaw || []);
+    const initialCheckpoints = JSON.parse(initialDataRaw || "[]");
     // Obtener datos pendientes de localStorage
     const pendingDataRaw = localStorage.getItem('pending_checkpoints');
-    const pendingCheckpoints = JSON.parse(pendingDataRaw || []);
+    const pendingCheckpoints = JSON.parse(pendingDataRaw || "[]");
     // Map para facilitar la busqueda por ID
     const finalList = new Map();
     /*
