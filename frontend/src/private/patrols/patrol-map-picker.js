@@ -489,7 +489,6 @@ const loadExistingCheckpoints = async () => {
                 position: position,
                 content: pin.element,
                 title: cp.name,
-                gmpDraggable: true,
             });
 
             // Sincronizar arrays globales del JS
