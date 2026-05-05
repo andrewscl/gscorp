@@ -238,13 +238,20 @@ function initCheckpoints() {
         console.log('[Analista] Cargando checkpoints desde el Map...');
         const points = JSON.parse(mapData);
         points.forEach(p => addCheckpoints(p));
-        localStorage.removeItem('pending_checkpoints');
+        //localStorage.removeItem('pending_checkpoints');
     } else {
         console.log('[Analista] Cargando checkpoints desde la BD...');
         const dbInput = document.getElementById('checkpoints-initial-data');
-        if(dbInput && dbInput.value){
-            const points = JSON.parse(dbInput.value);
-            points.forEach(p => addCheckpoints(p));
+        if(dbInput && dbInput.value && dbInput.value.trim()!=""){
+            try{
+                const points = JSON.parse(dbInput.value);
+                console.log(`[Analista] Encontrados ${points.length} puntos en BD`);
+                points.forEach(p => addCheckpoints(p));
+            } catch (e) {
+                console.warn("La BD no tiene JSON válido o está vacía");
+            }
+        } else {
+            console.log('[Analista] No hay puntos previos ni en Mapa ni en BD.');
         }
     }
 }
