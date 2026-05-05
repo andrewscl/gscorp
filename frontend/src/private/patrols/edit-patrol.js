@@ -72,7 +72,6 @@ async function handleUpdate(e) {
                 navigateTo('/private/patrols/table-view'); // Redirigir a la tabla
             }, 1500);
             localStorage.removeItem('pending_checkpoints');
-
         } else {
             const errorData = await response.json();
             displayAlert(alertError
@@ -213,14 +212,17 @@ function addCheckpoints(point) {
             <input type="hidden" name="checkpointLng[]" value="${point.longitude}" />
         </div>
 
-    <div class="checkpoint-info">
-        <span class="checkpoint-name"><strong>${point.name || 'Sin nombre'}</strong></span>
-        
-        <div class="checkpoint-metrics">
-            <span><i class="fa-regular fa-clock"></i> Estancia: ${stayTime} min</span>
-            <span><i class="fa-solid fa-person-walking"></i> Tránsito: ${transitTime} min</span>
-        </div>
-    </div>
+        <input type="text" name="checkpointName[]" 
+               placeholder="Nombre" value="${point.name || ''}"
+               readonly />
+
+        <input type="number" name="checkpointStayTime[]" 
+               title="Permanencia (min)" value="${point.stayTime || 5}" 
+               readonly />
+
+        <input type="number" name="checkpointTransitTime[]" 
+               title="Tránsito (min)" value="${point.transitTime || 3}" 
+               readonly />
 
     `;
 

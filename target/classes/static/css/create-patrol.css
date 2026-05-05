@@ -372,8 +372,6 @@ p {
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .schedule input,
 .hs-form .patrol-form-body .checkpoints-container .panel .checkpoints-list .checkpoint-item input {
   padding: 0.7rem;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
   margin-bottom: 0.5rem;
   font-family: "Roboto", sans-serif;
   font-size: 0.875rem;

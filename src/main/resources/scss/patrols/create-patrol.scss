@@ -264,41 +264,21 @@ $width-btn: 6rem;
                             @include roboto-font(0.875rem, 500);
                         }
 
-                        .checkpoint-info {
-                            display: flex;
-                            flex-direction: column;
-                            gap: 0.5rem;
-
-                            .checkpoint-name {
-                                // Reemplaza al antiguo input[type="text"]
-                                display: block;
-                                width: $width-text; 
-                                padding: 0.4rem 0; // Menos padding que el input para que no se vea inflado
-                                @include roboto-font(1rem, 600); // Un poco más grande y negrita
-                                color: #212529;
+                        input {
+                            padding: 0.7rem;
+                            margin-bottom: 0.5rem;
+                            @include roboto-font(0.875rem, 500);
+                            &[type="time"] {
+                                width: $width-time;
                             }
-
-                            .checkpoint-metrics {
-                                display: flex;
-                                gap: 1rem;
-                                
-                                span {
-                                    // Reemplaza a los inputs number/time
-                                    display: flex;
-                                    align-items: center;
-                                    gap: 0.4rem;
-                                    padding: 0.5rem 0.7rem;
-                                    background-color: #f1f3f5; // Un fondo suave para que parezca una etiqueta/badge
-                                    border-radius: 4px;
-                                    border: 1px solid #e9ecef;
-                                    @include roboto-font(0.875rem, 500);
-                                    color: #495057;
-
-                                    i {
-                                        color: $color-primary; // El icono resalta el dato
-                                        font-size: 0.9rem;
-                                    }
-                                }
+                            &[type="number"]{
+                                width: $width-number;
+                            }
+                            &[type="text"]{
+                                width: $width-text;
+                            }
+                            &::placeholder {
+                                color: #adb5bd;
                             }
                         }
 
