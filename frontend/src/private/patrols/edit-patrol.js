@@ -32,6 +32,7 @@ async function handleUpdate(e) {
 
     // Ejecutar sincronización y guardar el resultado
     const consolidatedCheckpoints = syncCheckpoints();
+    console.log("Checkpoints a enviar:", JSON.stringify(consolidatedCheckpoints, null, 2));
 
     const externalId = qs('#patrolExternalId')?.value; // ID de la ronda a actualizar
     // Alertas
