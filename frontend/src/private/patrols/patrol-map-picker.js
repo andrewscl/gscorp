@@ -290,7 +290,7 @@ async function addCheckpoint (latLng) {
     checkpoints.push({
         latitude: latLng.lat(),
         longitude: latLng.lng(),
-        chackpointOrder: order,
+        checkpointOrder: order,
         name: `Punto ${order}`, // Nombre por defecto para que no nazca vacío
         stayTime: 5,            // 5 minutos de permanencia por defecto
         transitTime: order === 1 ? 0 : 3 // 0 si es el primero, 3 min si es traslado
