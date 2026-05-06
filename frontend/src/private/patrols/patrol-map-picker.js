@@ -211,42 +211,33 @@ async function showInfoWindow(marker, index) {
 
     currentInfoWindow = new InfoWindow({
         content: `
-            <div style="color:black; padding:10px; font-family: sans-serif; min-width: 200px;">
-                <strong style="display:block; margin-bottom:8px; border-bottom: 1px solid #ccc;">
-                    Configuración Punto ${index + 1}
-                </strong>
-                
-                <div style="margin-bottom: 8px;">
-                    <label style="font-size: 11px; display:block;">Nombre del lugar:</label>
-                    <input type="text" id="infowindow-name-${index}" 
-                           value="${point.name || ''}" 
-                           oninput="updateCheckpointData(${index}, 'name', this.value)"
-                           style="width:100%; font-size:12px; padding:4px; border:1px solid #ccc; border-radius:4px;">
+        <div class="custom-infowindow">
+            <div class="iw-header">
+                <i class="fa-solid fa-gear"></i>
+                <span>Configuración ${cp.name}</span>
+            </div>
+            
+            <div class="iw-body">
+                <div class="iw-field">
+                    <label>Nombre del lugar:</label>
+                    <input type="text" value="${cp.name}" id="iw-name-${cp.externalId}">
                 </div>
-
-                <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-                    <div style="flex:1;">
-                        <label style="font-size: 11px; display:block;">Permanencia (min):</label>
-                        <input type="number" 
-                               value="${point.stayTime || 5}" 
-                               oninput="updateCheckpointData(${index}, 'stayTime', this.value)"
-                               style="width:100%; font-size:12px; padding:4px; border:1px solid #ccc;">
-                    </div>
-                    <div style="flex:1; ${transitDisplay}">
-                        <label style="font-size: 11px; display:block;">Tránsito (min):</label>
-                        <input type="number" 
-                               value="${point.transitTime || 3}" 
-                               oninput="updateCheckpointData(${index}, 'transitTime', this.value)"
-                               style="width:100%; font-size:12px; padding:4px; border:1px solid #ccc;">
-                    </div>
+                <div class="iw-field">
+                    <label>Permanencia (min):</label>
+                    <input type="number" value="${cp.stayTime}" id="iw-stay-${cp.externalId}">
                 </div>
+            </div>
 
-                <button class="btn btn-xs btn-danger" 
-                        style="width:100%; padding: 5px; font-size: 11px; cursor:pointer;"
-                        onclick="removeCheckpoint(${index})">
-                    Eliminar Punto
+            <div class="iw-actions">
+                <button class="btn-iw-move" id="btn-move-${cp.externalId}">
+                    <i class="fa-solid fa-arrows-up-down-left-right"></i> Mover Punto
                 </button>
-            </div>`
+                <button class="btn-iw-delete" onclick="removeCheckpoint('${cp.externalId}')">
+                    <i class="fa-solid fa-trash"></i> Eliminar
+                </button>
+            </div>
+        </div>
+        `
     });
 
     currentInfoWindow.open(window.mapInstance, marker);
@@ -538,6 +529,8 @@ function setupButtons() {
     qs('#btn-cancel-path')
           .addEventListener('click', cancelPath);
 }
+
+const handleMarkerSelection = 
 
 /* --- init --- */
 (async function init() {

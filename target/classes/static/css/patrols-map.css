@@ -247,4 +247,86 @@ p {
 }
 .checkpoint-controls .table-responsive table tbody td .btn-outline-danger:active {
   background-color: #312fa4;
+}
+
+.custom-infowindow {
+  padding: 10px;
+  max-width: 220px;
+  font-family: "Roboto", sans-serif;
+}
+.custom-infowindow .iw-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #5f6368;
+  font-weight: 600;
+  border-bottom: 1px solid #e8eaed;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+.custom-infowindow .iw-header i {
+  color: #1a73e8;
+}
+.custom-infowindow .iw-body .iw-field {
+  margin-bottom: 10px;
+}
+.custom-infowindow .iw-body .iw-field label {
+  display: block;
+  font-size: 11px;
+  color: #70757a;
+  margin-bottom: 4px;
+}
+.custom-infowindow .iw-body .iw-field input {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+.custom-infowindow .iw-body .iw-field input:focus {
+  border-color: #1a73e8;
+  outline: none;
+}
+.custom-infowindow .iw-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 15px;
+}
+.custom-infowindow .iw-actions button {
+  border: none;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background 0.2s;
+}
+.custom-infowindow .iw-actions .btn-iw-move {
+  background-color: #fbbc04;
+  color: #202124;
+}
+.custom-infowindow .iw-actions .btn-iw-move:hover {
+  background-color: #f2ab00;
+}
+.custom-infowindow .iw-actions .btn-iw-delete {
+  background-color: #fce8e6;
+  color: #d93025;
+}
+.custom-infowindow .iw-actions .btn-iw-delete:hover {
+  background-color: #fad2cf;
+}
+
+/* Tip: Para quitar el padding blanco extra de Google Maps */
+.gm-style-iw {
+  padding: 0 !important;
+}
+
+.gm-style-iw-d {
+  overflow: hidden !important;
 }/*# sourceMappingURL=patrols-map.css.map */
