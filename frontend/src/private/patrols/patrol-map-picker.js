@@ -228,34 +228,28 @@ async function showInfoWindow(marker, index) {
                     </div>
                 </div>
 
-
-
-                <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-                    <div style="flex:1;">
-                        <label style="font-size: 11px; display:block;">Permanencia (min):</label>
+                <div class="iw-body iw-flex">
+                    <div class="iw-field">
+                        <label>Permanencia (min):</label>
                         <input type="number" 
                                value="${point.stayTime || 5}" 
-                               oninput="updateCheckpointData(${index}, 'stayTime', this.value)"
-                               style="width:100%; font-size:12px; padding:4px; border:1px solid #ccc;">
+                               oninput="updateCheckpointData(${index}, 'stayTime', this.value)">
                     </div>
-                    <div style="flex:1; ${transitDisplay}">
-                        <label style="font-size: 11px; display:block;">Tránsito (min):</label>
+                    <div class="iw-field" ${transitDisplay}">
+                        <label>Tránsito (min):</label>
                         <input type="number" 
                                value="${point.transitTime || 3}" 
-                               oninput="updateCheckpointData(${index}, 'transitTime', this.value)"
-                               style="width:100%; font-size:12px; padding:4px; border:1px solid #ccc;">
+                               oninput="updateCheckpointData(${index}, 'transitTime', this.value)">
                     </div>
                 </div>
 
-                <button class="btn btn-xs btn-danger" 
-                        style="width:100%; padding: 5px; font-size: 11px; cursor:pointer;"
-                        onclick="removeCheckpoint(${index})">
-                    Eliminar Punto
+                <button class="btn-drag" 
+                            onclick="toggleDraggable(${index})">
+                    Mover Punto
                 </button>
 
-                <button class="btn btn-xs btn-danger" 
-                        style="width:100%; padding: 5px; font-size: 11px; cursor:pointer;"
-                        onclick="removeCheckpoint(${index})">
+                <button class="btn-remove" 
+                            onclick="removeCheckpoint(${index})">
                     Eliminar Punto
                 </button>
             </div>`
@@ -550,6 +544,39 @@ function setupButtons() {
     qs('#btn-cancel-path')
           .addEventListener('click', cancelPath);
 }
+
+/* --- función global para activar el drag de un punto en el mapa --- */
+const toggleDraggable = (index) => {
+
+    const marker = checkpointMarkers[index];
+    
+    if (marker) {
+        // Activamos el movimiento
+        marker.gmpDraggable = true;
+        
+        // Opcional: Cambiar el cursor para que el usuario sepa que puede arrastrar
+        marker.content.style.cursor = 'move';
+        
+        // Cerramos el InfoWindow para que no estorbe durante el arrastre
+        if (window.infoWindowInstance) window.infoWindowInstance.close();
+
+        // Agregamos el listener para cuando termine de moverlo (si no existe ya)
+        marker.addListener('dragend', (event) => {
+            const newPos = marker.position; // AdvancedMarker actualiza su posición automáticamente
+            
+            // 1. Actualizamos nuestro array de datos global
+            checkpoints[index].latitude = newPos.lat;
+            checkpoints[index].longitude = newPos.lng;
+
+            // 2. Redibujamos la línea y actualizamos la tabla
+            updatePathLine();
+            updateCheckpointTable();
+            
+            // 3. (Opcional) Desactivar drag después de moverlo una vez
+            // marker.gmpDraggable = false;
+        });
+    }
+};
 
 /* --- init --- */
 (async function init() {

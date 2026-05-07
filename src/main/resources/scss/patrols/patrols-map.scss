@@ -247,16 +247,12 @@
             transition: background 0.2s;
         }
 
-        .btn-iw-move {
-            background-color: #fbbc04;
-            color: #202124;
-            &:hover { background-color: #f2ab00; }
+        .btn-drag {
+            @include btn-primary-hsys;
         }
 
-        .btn-iw-delete {
-            background-color: #fce8e6;
-            color: #d93025;
-            &:hover { background-color: #fad2cf; }
+        .btn-remove {
+            @include btn-seconday-hsys;
         }
     }
 }
