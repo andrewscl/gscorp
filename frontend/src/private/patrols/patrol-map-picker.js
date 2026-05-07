@@ -547,36 +547,49 @@ function setupButtons() {
           .addEventListener('click', cancelPath);
 }
 
-/* --- función global para activar el drag de un punto en el mapa --- */
 const toggleDraggable = (index) => {
-
     const marker = checkpointMarkers[index];
     
     if (marker) {
-        // Activamos el movimiento
+        // 1. Forzamos la propiedad draggable
         marker.gmpDraggable = true;
         
-        // Opcional: Cambiar el cursor para que el usuario sepa que puede arrastrar
-        marker.content.style.cursor = 'move';
+        // 2. IMPORTANTE: El cursor debe aplicarse al elemento de contenido
+        if (marker.content) {
+            marker.content.style.cursor = 'move';
+            // Opcional: un efecto visual para saber que está activo
+            marker.content.style.opacity = "0.8";
+        }
         
-        // Cerramos el InfoWindow para que no estorbe durante el arrastre
-        if (window.infoWindowInstance) window.infoWindowInstance.close();
+        // 3. Cerramos el InfoWindow (tu instancia global)
+        if (window.infoWindowInstance) {
+            window.infoWindowInstance.close();
+        }
 
-        // Agregamos el listener para cuando termine de moverlo (si no existe ya)
+        // 4. Listener mejorado
+        // Usamos 'gmp-dragend' que es el evento específico de Advanced Markers
         marker.addListener('dragend', (event) => {
-            const newPos = marker.position; // AdvancedMarker actualiza su posición automáticamente
+            // En AdvancedMarkers, la posición está en event.latLng o marker.position
+            const newPos = marker.position; 
             
-            // 1. Actualizamos nuestro array de datos global
-            checkpoints[index].latitude = newPos.lat;
-            checkpoints[index].longitude = newPos.lng;
+            const newLat = typeof newPos.lat === 'function' ? newPos.lat() : newPos.lat;
+            const newLng = typeof newPos.lng === 'function' ? newPos.lng() : newPos.lng;
 
-            // 2. Redibujamos la línea y actualizamos la tabla
+            // Actualizamos datos globales
+            checkpoints[index].latitude = newLat;
+            checkpoints[index].longitude = newLng;
+
+            // Feedback visual: quitar opacidad
+            if (marker.content) marker.content.style.opacity = "1";
+
+            // Actualizamos mapa y tabla
             updatePathLine();
             updateCheckpointTable();
             
-            // 3. (Opcional) Desactivar drag después de moverlo una vez
-            // marker.gmpDraggable = false;
+            console.log(`Punto ${index} movido a: ${newLat}, ${newLng}`);
         });
+        
+        alert("Ahora puedes arrastrar el marcador amarillo en el mapa.");
     }
 };
 
