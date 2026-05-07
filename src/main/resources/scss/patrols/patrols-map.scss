@@ -218,6 +218,9 @@
                 }
             }
         }
+        &.iw-flex{
+            display: flex;
+        }
     }
 
     .iw-actions {
@@ -252,12 +255,4 @@
             &:hover { background-color: #fad2cf; }
         }
     }
-}
-
-/* Tip: Para quitar el padding blanco extra de Google Maps */
-.gm-style-iw {
-    padding: 0 !important;
-}
-.gm-style-iw-d {
-    overflow: hidden !important;
 }

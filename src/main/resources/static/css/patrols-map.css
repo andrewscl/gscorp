@@ -288,6 +288,9 @@ p {
   border-color: #1a73e8;
   outline: none;
 }
+.custom-infowindow .iw-body.iw-flex {
+  display: flex;
+}
 .custom-infowindow .iw-actions {
   display: flex;
   flex-direction: column;
@@ -320,13 +323,4 @@ p {
 }
 .custom-infowindow .iw-actions .btn-iw-delete:hover {
   background-color: #fad2cf;
-}
-
-/* Tip: Para quitar el padding blanco extra de Google Maps */
-.gm-style-iw {
-  padding: 0 !important;
-}
-
-.gm-style-iw-d {
-  overflow: hidden !important;
 }/*# sourceMappingURL=patrols-map.css.map */
