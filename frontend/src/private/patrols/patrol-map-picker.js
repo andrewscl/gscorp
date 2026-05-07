@@ -497,6 +497,7 @@ const loadExistingCheckpoints = async () => {
                 position: position,
                 content: pin.element,
                 title: cp.name,
+                gmpDraggable: false,
             });
 
             // Sincronizar arrays globales del JS
@@ -547,7 +548,7 @@ function setupButtons() {
           .addEventListener('click', cancelPath);
 }
 
-const toggleDraggable = (index) => {
+window.toggleDraggable = (index) => {
     const marker = checkpointMarkers[index];
     
     if (marker) {
