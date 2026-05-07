@@ -180,9 +180,8 @@
 
 
 .custom-infowindow {
-    padding: 10px;
-    max-width: 220px;
-    font-family: 'Roboto', sans-serif;
+    padding: 0.9rem;
+    max-width: 20rem;
 
     .iw-header {
         display: flex;
@@ -201,17 +200,17 @@
             margin-bottom: 10px;
             label {
                 display: block;
-                font-size: 11px;
                 color: #70757a;
                 margin-bottom: 4px;
+                @include roboto-font(0.875rem, 600);
             }
             input {
                 width: 100%;
                 padding: 6px 8px;
                 border: 1px solid #dadce0;
                 border-radius: 4px;
-                font-size: 13px;
                 box-sizing: border-box;
+                @include roboto-font(0.875rem, 500);
                 &:focus {
                     border-color: #1a73e8;
                     outline: none;

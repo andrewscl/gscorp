@@ -250,9 +250,8 @@ p {
 }
 
 .custom-infowindow {
-  padding: 10px;
-  max-width: 220px;
-  font-family: "Roboto", sans-serif;
+  padding: 0.9rem;
+  max-width: 20rem;
 }
 .custom-infowindow .iw-header {
   display: flex;
@@ -272,17 +271,23 @@ p {
 }
 .custom-infowindow .iw-body .iw-field label {
   display: block;
-  font-size: 11px;
   color: #70757a;
   margin-bottom: 4px;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 .custom-infowindow .iw-body .iw-field input {
   width: 100%;
   padding: 6px 8px;
   border: 1px solid #dadce0;
   border-radius: 4px;
-  font-size: 13px;
   box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
 }
 .custom-infowindow .iw-body .iw-field input:focus {
   border-color: #1a73e8;
