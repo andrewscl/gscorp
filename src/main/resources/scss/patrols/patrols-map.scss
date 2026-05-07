@@ -182,6 +182,7 @@
 .custom-infowindow {
     padding: 0.9rem;
     max-width: 20rem;
+    min-width: 15rem;
 
     .iw-header {
         display: flex;
@@ -201,14 +202,14 @@
             label {
                 display: block;
                 color: #70757a;
-                margin-bottom: 4px;
+                margin-bottom: 0.4rem;
                 @include roboto-font(0.875rem, 600);
             }
             input {
                 width: 100%;
-                padding: 6px 8px;
+                padding: 0.4rem 0.6rem;
                 border: 1px solid #dadce0;
-                border-radius: 4px;
+                border-radius: 0.4rem;
                 box-sizing: border-box;
                 @include roboto-font(0.875rem, 500);
                 &:focus {
