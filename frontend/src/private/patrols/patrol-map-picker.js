@@ -243,15 +243,17 @@ async function showInfoWindow(marker, index) {
                     </div>
                 </div>
 
-                <button class="btn-drag" 
-                            onclick="toggleDraggable(${index})">
-                    Mover Punto
-                </button>
+                <div class="iw-actions">
+                    <button class="btn-drag" 
+                                onclick="toggleDraggable(${index})">
+                        Mover Punto
+                    </button>
+                    <button class="btn-remove" 
+                                onclick="removeCheckpoint(${index})">
+                        Eliminar Punto
+                    </button>
+                </div>
 
-                <button class="btn-remove" 
-                            onclick="removeCheckpoint(${index})">
-                    Eliminar Punto
-                </button>
             </div>`
     });
 

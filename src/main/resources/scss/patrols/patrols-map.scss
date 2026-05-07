@@ -1,3 +1,4 @@
+@use "sass:color";
 @use '../base/mixins' as *;
 @use '../base/btn-mixins' as *;
 @use '../base/variables' as *;
@@ -230,29 +231,25 @@
     .iw-actions {
         display: flex;
         flex-direction: column;
-        gap: 8px;
-        margin-top: 15px;
-
-        button {
-            border: none;
-            border-radius: 4px;
-            padding: 8px;
-            font-size: 12px;
-            font-weight: 500;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            transition: background 0.2s;
-        }
-
+        gap: 0.5rem;
+        margin-top: 0.8rem;
+        border-top: 0.1rem solid $slate-200;
         .btn-drag {
-            @include btn-primary-hsys;
+            @include btn-primary-variant(
+                $bg-color: $accent-blue,
+                $padding: 0.4rem 0.8rem,
+                $border-radius: 6px
+            );
+            font-size: 11px; // Tamaño pequeño para el mapa
         }
-
         .btn-remove {
-            @include btn-seconday-hsys;
+            @include btn-primary-variant(
+                $bg-color: $accent-red,
+                $padding: 0.4rem 0.8rem,
+                $border-radius: 6px
+            );
+            font-size: 11px;
         }
     }
+
 }

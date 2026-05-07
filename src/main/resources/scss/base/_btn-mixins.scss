@@ -1,3 +1,6 @@
+@use "sass:color";
+@use '../base/palette' as *;
+
 @mixin btn-primary(){
         background-color: #0a66c2;
         color: white;
@@ -62,18 +65,39 @@
         }
 }
 
-@mixin btn-primary-blue (){
-        background-color: #2563eb; // Azul moderno
-        color: #fff;
-        padding: 0.75rem 1.5rem;
-        font-weight: 600;
-        font-size: 1rem;
-        border: none;
-        border-radius: 0.5rem;
-        transition: background-color 0.3s ease;
 
+@mixin btn-base(
+        $padding: 0.75rem 1.5rem,
+        $border-radius: 0.5rem) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: $padding;
+    border-radius: $border-radius;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+
+@mixin btn-primary-variant (
+                $bg-color: $accent-blue,
+                $color: #fff,
+                $padding: 0.75rem 1.5rem,
+                $border-radius: 0.5rem){
+        @include btn-base(
+            $padding: $padding,
+            $border-radius: $border-radius);
+        background-color: $bg-color;
+        color: $color;
         &:hover {
-            background-color: #1d4ed8;
+            background-color: color.scale($bg-color, $lightness: -10%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba($bg-color, 0.4); 
+        }
+        &:active {
+            transform: translateY(0);
         }
 }
 
@@ -154,51 +178,4 @@
     transform: translateY(0);
     box-shadow: 0 2px 6px rgba($color, 0.3);
   }
-}
-
-@mixin btn-primary-hsys {
-    background: linear-gradient(180deg, $btn-blue, color.scale($btn-blue, $lightness: -8%));
-    color: #fff;
-    border: none;
-    padding: 0.45rem 0.75rem;
-    border-radius: 10px;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    box-shadow: 0 6px 12px rgba(37, 99, 235, 0.12);
-
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba($btn-blue, 0.12);
-      filter: brightness(1.03);
-    }
-    &:active { transform: translateY(0); }
-    &:focus {
-      outline: none;
-      box-shadow: 0 0 0 6px rgba($btn-blue, 0.10);
-    }
-}
-
-@mixin btn-secondary-hsys {
-    background: transparent;
-    border: 1px solid $color-border;
-    color: $btn-blue;
-    padding: 0.35rem 0.6rem;
-    border-radius: 10px;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-
-    &:hover {
-      background: rgba($btn-blue, 0.04);
-      border-color: rgba($btn-blue, 0.12);
-      color: $btn-blue-dark;
-    }
-    &:focus {
-      outline: none;
-      box-shadow: 0 0 0 6px rgba($btn-blue, 0.06);
-    }
-
 }

@@ -31,15 +31,17 @@ import{f as w}from"../../auth.js";import{n as g}from"../../navigation-handler.js
                     </div>
                 </div>
 
-                <button class="btn-drag" 
-                            onclick="toggleDraggable(${e})">
-                    Mover Punto
-                </button>
+                <div class="iw-actions">
+                    <button class="btn-drag" 
+                                onclick="toggleDraggable(${e})">
+                        Mover Punto
+                    </button>
+                    <button class="btn-remove" 
+                                onclick="removeCheckpoint(${e})">
+                        Eliminar Punto
+                    </button>
+                </div>
 
-                <button class="btn-remove" 
-                            onclick="removeCheckpoint(${e})">
-                    Eliminar Punto
-                </button>
             </div>`}),c.open(window.mapInstance,t)}async function I(t){const{AdvancedMarkerElement:e,PinElement:a}=await google.maps.importLibrary("marker"),r=l.length+1,o=new a({glyph:r.toString(),background:"#FBBC04",borderColor:"#137333",glyphColor:"white"}),n=new e({map:window.mapInstance,position:t,content:o.element,title:`Punto de control ${r}`});n.addListener("click",()=>{const i=s.indexOf(n);console.log("Marcador clickeado. Índice encontrado:",i),console.log("Total marcadores en array:",s.length),i!==-1?y(n,i):console.error("Error: El marcador clickeado no existe en checkpointMarkers.")}),l.push({latitude:t.lat(),longitude:t.lng(),checkpointOrder:r,name:`Punto ${r}`,stayTime:5,transitTime:r===1?0:3}),s.push(n),p(),m(),console.log("Checkpoints actuales:",l)}function p(){const t=document.getElementById("checkpoint-list-body");t.innerHTML="",l.forEach((e,a)=>{const r=a===0?'<span class="text-muted">---</span>':`${e.transitTime||0} min`,o=`
             <tr>
                 <td class="text-center">
