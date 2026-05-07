@@ -211,21 +211,24 @@ async function showInfoWindow(marker, index) {
 
     currentInfoWindow = new InfoWindow({
         content: `
-            <div class="custom-infowindow" style="color:black; padding:10px; font-family: sans-serif; min-width: 200px;">
+            <div class="custom-infowindow">
 
                 <div class="iw-header">
-                    <strong style="display:block; margin-bottom:8px; border-bottom: 1px solid #ccc;">
+                    <strong >
                         Configuración Punto ${index + 1}
                     </strong>
                 </div>
-                
-                <div style="margin-bottom: 8px;">
-                    <label style="font-size: 11px; display:block;">Nombre del lugar:</label>
-                    <input type="text" id="infowindow-name-${index}" 
-                           value="${point.name || ''}" 
-                           oninput="updateCheckpointData(${index}, 'name', this.value)"
-                           style="width:100%; font-size:12px; padding:4px; border:1px solid #ccc; border-radius:4px;">
+
+                <div class="iw-body">
+                    <div class="iw-field">
+                        <label>Nombre del punto:</label>
+                        <input type="text" id="infowindow-name-${index}" 
+                            value="${point.name || ''}" 
+                            oninput="updateCheckpointData(${index}, 'name', this.value)">
+                    </div>
                 </div>
+
+
 
                 <div style="display: flex; gap: 10px; margin-bottom: 10px;">
                     <div style="flex:1;">
