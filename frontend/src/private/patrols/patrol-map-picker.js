@@ -211,10 +211,13 @@ async function showInfoWindow(marker, index) {
 
     currentInfoWindow = new InfoWindow({
         content: `
-            <div style="color:black; padding:10px; font-family: sans-serif; min-width: 200px;">
-                <strong style="display:block; margin-bottom:8px; border-bottom: 1px solid #ccc;">
-                    Configuración Punto ${index + 1}
-                </strong>
+            <div class="custom-infowindow" style="color:black; padding:10px; font-family: sans-serif; min-width: 200px;">
+
+                <div class="iw-header">
+                    <strong style="display:block; margin-bottom:8px; border-bottom: 1px solid #ccc;">
+                        Configuración Punto ${index + 1}
+                    </strong>
+                </div>
                 
                 <div style="margin-bottom: 8px;">
                     <label style="font-size: 11px; display:block;">Nombre del lugar:</label>
@@ -240,6 +243,12 @@ async function showInfoWindow(marker, index) {
                                style="width:100%; font-size:12px; padding:4px; border:1px solid #ccc;">
                     </div>
                 </div>
+
+                <button class="btn btn-xs btn-danger" 
+                        style="width:100%; padding: 5px; font-size: 11px; cursor:pointer;"
+                        onclick="removeCheckpoint(${index})">
+                    Eliminar Punto
+                </button>
 
                 <button class="btn btn-xs btn-danger" 
                         style="width:100%; padding: 5px; font-size: 11px; cursor:pointer;"
