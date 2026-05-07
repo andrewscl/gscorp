@@ -290,6 +290,10 @@ p {
 }
 .custom-infowindow .iw-body.iw-flex {
   display: flex;
+  gap: 0.5rem;
+}
+.custom-infowindow .iw-body.iw-flex .iw-field {
+  flex: 1;
 }
 .custom-infowindow .iw-actions {
   display: flex;

@@ -220,6 +220,10 @@
         }
         &.iw-flex{
             display: flex;
+            gap: 0.5rem;
+            .iw-field{
+                flex: 1;
+            }
         }
     }
 
