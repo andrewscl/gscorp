@@ -62,12 +62,12 @@ public class UserRestController {
 
 
         @PatchMapping("/{id}")
-        public ResponseEntity<?> patchUser(@PathVariable("id") Long id, @RequestBody JsonNode body) {
-
+        public ResponseEntity<?> patchUser(
+                                    @PathVariable("id") Long id,
+                                    @RequestBody JsonNode body) {
             if (id == null) {
                 return ResponseEntity.badRequest().body(error("userId requerido"));
             }
-
             if (body == null || body.isNull()) {
                 return ResponseEntity.badRequest().body(error("body requerido"));
             }

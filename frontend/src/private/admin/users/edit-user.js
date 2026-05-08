@@ -5,8 +5,10 @@
 import { fetchWithAuth } from '../../../auth.js';
 import { navigateTo } from '../../../navigation-handler.js';
 
-function qs(sel, ctx = document) { return ctx.querySelector(sel); }
-function qsa(sel, ctx = document) { return Array.from(ctx.querySelectorAll(sel)); }
+function qs(sel, ctx = document) {
+    return ctx.querySelector(sel); }
+function qsa(sel, ctx = document) {
+    return Array.from(ctx.querySelectorAll(sel)); }
 
 function showStatus(message, { error = false, timeout = 4000 } = {}) {
   const el = document.getElementById('user-status');
@@ -160,15 +162,6 @@ function initDetectTz(form) {
   });
 }
 
-function attachDeleteHandler(form) {
-  const btn = qs('#deleteUserBtn', form);
-  if (!btn) return;
-  btn.addEventListener('click', (e) => {
-    e.preventDefault();
-    handleDelete(btn);
-  });
-}
-
 function attachFormHandler() {
   const form = document.getElementById('editUserForm');
   if (!form) return;
@@ -182,16 +175,20 @@ function attachFormHandler() {
   // Detect TZ button
   initDetectTz(form);
 
-  // Delete handler
-  attachDeleteHandler(form);
 }
 
-// Auto-init
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', attachFormHandler);
-} else {
-  attachFormHandler();
+/* --- Bindings --- */
+function bindModal() {
+  qs('#saveUserBtn')?.addEventListener('click', handleSave);
+  qs('#deleteUserBtn')?.addEventListener('click', handleDelete);
+  qs('#detectUserTimeZone')?.addEventListener('click', initDetectTz);
+  document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') closeModal(); });
 }
+
+/* --- init --- */
+(function init() {
+  bindModal();
+})();
 
 // Exports para tests o uso programático
 export {
