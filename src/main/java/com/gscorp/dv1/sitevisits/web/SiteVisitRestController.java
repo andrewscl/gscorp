@@ -28,7 +28,7 @@ import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
 import com.gscorp.dv1.sitevisits.application.SiteVisitService;
-import com.gscorp.dv1.sitevisits.web.dto.CreateSiteSupervisionVisitRequest;
+import com.gscorp.dv1.sitevisits.web.dto.CreateSiteSupervisionVisit;
 import com.gscorp.dv1.sitevisits.web.dto.SiteVisitCountDto;
 import com.gscorp.dv1.sitevisits.web.dto.SiteVisitDto;
 import com.gscorp.dv1.sitevisits.web.dto.SiteVisitHourlyDto;
@@ -59,7 +59,7 @@ public class SiteVisitRestController {
 
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<SiteVisitDto> createSiteSupervisionVisit(
-        @Valid @ModelAttribute CreateSiteSupervisionVisitRequest req,
+        @Valid @ModelAttribute CreateSiteSupervisionVisit req,
         UriComponentsBuilder ucb,
         Authentication authentication) {
 

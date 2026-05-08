@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @RequiredArgsConstructor
 @Getter @Setter
-public class CreateSiteSupervisionVisitRequest {
+public class CreateSiteSupervisionVisit {
 
     private Long siteId;
     private OffsetDateTime visitDateTime;

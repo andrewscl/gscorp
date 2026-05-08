@@ -1,3 +1,4 @@
+@use "sass:color";
 @use '../base/mixins' as *;
 @use '../base/btn-mixins' as *;
 @use '../base/variables' as *;
@@ -180,9 +181,9 @@
 
 
 .custom-infowindow {
-    padding: 10px;
-    max-width: 220px;
-    font-family: 'Roboto', sans-serif;
+    padding: 0.9rem;
+    max-width: 20rem;
+    min-width: 15rem;
 
     .iw-header {
         display: flex;
@@ -201,21 +202,28 @@
             margin-bottom: 10px;
             label {
                 display: block;
-                font-size: 11px;
                 color: #70757a;
-                margin-bottom: 4px;
+                margin-bottom: 0.4rem;
+                @include roboto-font(0.875rem, 600);
             }
             input {
                 width: 100%;
-                padding: 6px 8px;
+                padding: 0.4rem 0.6rem;
                 border: 1px solid #dadce0;
-                border-radius: 4px;
-                font-size: 13px;
+                border-radius: 0.4rem;
                 box-sizing: border-box;
+                @include roboto-font(0.875rem, 500);
                 &:focus {
                     border-color: #1a73e8;
                     outline: none;
                 }
+            }
+        }
+        &.iw-flex{
+            display: flex;
+            gap: 0.5rem;
+            .iw-field{
+                flex: 1;
             }
         }
     }
@@ -223,41 +231,25 @@
     .iw-actions {
         display: flex;
         flex-direction: column;
-        gap: 8px;
-        margin-top: 15px;
-
-        button {
-            border: none;
-            border-radius: 4px;
-            padding: 8px;
-            font-size: 12px;
-            font-weight: 500;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            transition: background 0.2s;
+        gap: 0.5rem;
+        margin-top: 0.8rem;
+        border-top: 0.1rem solid $slate-200;
+        .btn-drag {
+            @include btn-primary-variant(
+                $bg-color: $accent-blue,
+                $padding: 0.4rem 0.8rem,
+                $border-radius: 6px
+            );
+            font-size: 11px; // Tamaño pequeño para el mapa
         }
-
-        .btn-iw-move {
-            background-color: #fbbc04;
-            color: #202124;
-            &:hover { background-color: #f2ab00; }
-        }
-
-        .btn-iw-delete {
-            background-color: #fce8e6;
-            color: #d93025;
-            &:hover { background-color: #fad2cf; }
+        .btn-remove {
+            @include btn-primary-variant(
+                $bg-color: $accent-red,
+                $padding: 0.4rem 0.8rem,
+                $border-radius: 6px
+            );
+            font-size: 11px;
         }
     }
-}
 
-/* Tip: Para quitar el padding blanco extra de Google Maps */
-.gm-style-iw {
-    padding: 0 !important;
-}
-.gm-style-iw-d {
-    overflow: hidden !important;
 }

@@ -5,7 +5,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.List;
 
-import com.gscorp.dv1.sitevisits.web.dto.CreateSiteSupervisionVisitRequest;
+import com.gscorp.dv1.sitevisits.web.dto.CreateSiteSupervisionVisit;
 import com.gscorp.dv1.sitevisits.web.dto.SiteVisitCountDto;
 import com.gscorp.dv1.sitevisits.web.dto.SiteVisitDto;
 import com.gscorp.dv1.sitevisits.web.dto.SiteVisitHourlyDto;
@@ -14,7 +14,7 @@ import com.gscorp.dv1.sitevisits.web.dto.SiteVisitPointDto;
 public interface SiteVisitService {
 
     SiteVisitDto createSiteSupervisionVisitRequest(
-                                CreateSiteSupervisionVisitRequest req, Long userId);
+                                CreateSiteSupervisionVisit req, Long userId);
 
     List<SiteVisitDto> findByUserAndDateBetween(
                                 Long userId,

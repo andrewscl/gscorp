@@ -36,7 +36,7 @@ import com.gscorp.dv1.sitevisits.infrastructure.SiteVisit;
 import com.gscorp.dv1.sitevisits.infrastructure.SiteVisitDtoProjection;
 import com.gscorp.dv1.sitevisits.infrastructure.SiteVisitHourlyCountProjection;
 import com.gscorp.dv1.sitevisits.infrastructure.SiteVisitRepository;
-import com.gscorp.dv1.sitevisits.web.dto.CreateSiteSupervisionVisitRequest;
+import com.gscorp.dv1.sitevisits.web.dto.CreateSiteSupervisionVisit;
 import com.gscorp.dv1.sitevisits.web.dto.SiteVisitCountDto;
 import com.gscorp.dv1.sitevisits.web.dto.SiteVisitDto;
 import com.gscorp.dv1.sitevisits.web.dto.SiteVisitHourlyDto;
@@ -67,7 +67,8 @@ public class SiteVisitServiceImpl implements SiteVisitService{
     @Override
     @Transactional
     public SiteVisitDto createSiteSupervisionVisitRequest(
-                                CreateSiteSupervisionVisitRequest req, Long userId) {
+                                CreateSiteSupervisionVisit req,
+                                Long userId) {
 
         String photoPath = null, videoPath = null;
         try {
