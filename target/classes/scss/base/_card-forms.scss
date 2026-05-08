@@ -169,16 +169,21 @@ $width-btn: 6rem;
                 }
 
                 &.btn-secondary {
-                    background: #e9ecef; // Fondo más discreto para cancelar
-                    color: #495057; // Gris oscuro para texto
-                    &:hover {
-                        background: #d6d8db; // Fondo oscurecido en hover
-                        transform: translateY(-2px);
-                    }
-                    &:active {
-                        background: #babec2; // Más oscuro aún al hacer clic
-                        transform: translateY(1px);
-                    }
+                 @include btn-primary-variant (
+                        $bg-color: $slate-200,
+                        $color: #fff,
+                        $padding: 0.75rem 1.5rem,
+                        $border-radius: 0.5rem
+                    );
+                }
+
+                &.btn-danger {
+                 @include btn-primary-variant (
+                        $bg-color: $accent-red,
+                        $color: #fff,
+                        $padding: 0.75rem 1.5rem,
+                        $border-radius: 0.5rem
+                    );
                 }
 
             }
