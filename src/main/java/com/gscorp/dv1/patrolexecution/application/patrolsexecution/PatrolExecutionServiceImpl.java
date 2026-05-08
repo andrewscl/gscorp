@@ -3,6 +3,7 @@ package com.gscorp.dv1.patrolexecution.application.patrolsexecution;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import com.gscorp.dv1.employees.application.EmployeeService;
 import com.gscorp.dv1.employees.infrastructure.Employee;
 import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
 import com.gscorp.dv1.patrol.infrastructure.patrols.Patrol;
+import com.gscorp.dv1.patrol.infrastructure.patrols.PatrolRepository;
 import com.gscorp.dv1.patrolexecution.infrastructure.patrolsexecution.PatrolExecution;
 import com.gscorp.dv1.patrolexecution.infrastructure.patrolsexecution.PatrolExecutionRepository;
 import com.gscorp.dv1.patrolexecution.web.dto.patrolsexecution.CreatePatrolExecutionRequest;
@@ -21,6 +23,7 @@ import com.gscorp.dv1.patrolexecution.web.dto.patrolsexecution.PatrolExecutionDt
 import com.gscorp.dv1.shared.FileStorageService;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +35,7 @@ public class PatrolExecutionServiceImpl implements PatrolExecutionService{
     
     private final FileStorageService fileStorageService;
     private final EmployeeService employeeService;
-    private final Patrol patrol;
+    private final PatrolRepository patrolRepository;
     private final ZoneResolver zoneResolver;
     private final PatrolExecutionRepository patrolExecutionRepository;
 
@@ -46,6 +49,7 @@ public class PatrolExecutionServiceImpl implements PatrolExecutionService{
     @Transactional
     public PatrolExecutionDto createPatrolExecution(
                         CreatePatrolExecutionRequest request,
+                        UUID patrolExternalId,
                         Long userId){
         String filePhotoPath = "/files/patrols_files/photos/";
         String fileVideoPath = "/files/patrols_files/videos/";
@@ -74,10 +78,14 @@ public class PatrolExecutionServiceImpl implements PatrolExecutionService{
         // obtener referencia (proxy) a Employee sin SELECT inmediato
         Employee employeeRef = em.getReference(Employee.class, employee.id());
 
+        Patrol patrol = patrolRepository.findByExternalId(patrolExternalId)
+                                    .orElseThrow(() -> new EntityNotFoundException(
+                                        "Failed to retrieve saved patrol with ID: "
+                                                + patrolExternalId ));
+
         OffsetDateTime patrolDateTime = null;
         String clientTimezoneToStore = null;
         String timezoneSourceToStore = null;
-
         if (request.getPatrolDateTime() != null) {
             // Cliente ya envió un OffsetDateTime (inequívoco)
             patrolDateTime = request.getPatrolDateTime();
