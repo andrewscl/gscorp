@@ -51,8 +51,8 @@ public class PatrolExecutionServiceImpl implements PatrolExecutionService{
                         CreatePatrolExecutionRequest request,
                         UUID patrolExternalId,
                         Long userId){
-        String filePhotoPath = "/files/patrols_files/photos/";
-        String fileVideoPath = "/files/patrols_files/videos/";
+        String filePhotoPath = "/files/patrol_files/photos/";
+        String fileVideoPath = "/files/patrol_files/videos/";
 
         String photoPath = null; String videoPath = null;
         try {
