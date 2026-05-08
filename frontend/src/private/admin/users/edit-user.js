@@ -161,6 +161,7 @@ function initDetectTz(form) {
 }
 
 function attachFormHandler() {
+  console.log("[edit-user] attachFormHandlder ejecutado");
   const form = document.getElementById('editUserForm');
   if (!form) return;
 
