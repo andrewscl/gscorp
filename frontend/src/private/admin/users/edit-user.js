@@ -5,7 +5,7 @@ const qs  = (s) => document.querySelector(s);
 const qa  = (s) => document.querySelectorAll(s);
 
 function showStatus(message, { error = false, timeout = 4000 } = {}) {
-  const el = document.getElementById('user-status');
+  const el = document.getElementById('editUserError');
   if (!el) return;
   el.textContent = message;
   el.style.color = error ? '#b91c1c' : '';
@@ -18,18 +18,33 @@ function showStatus(message, { error = false, timeout = 4000 } = {}) {
 
 async function updateUser () {
 
-  const endpoint = "/api/users/{id}";
-
+  
   if (updateBtn) updateBtn.disabled = true;
   if (deleteBtn) deleteBtn.disabled = true;
 
+  /* definir variables */
+  const userId = qs('#userId')?.value?.trim();
+  const userUsername = qs('#userUsername')?.value?.trim();
+  const userMail = qs('#userMail')?.value?.trim();
+  const userActive = qs('#userActive')?.checked;
+  const employeeId = qs('#employeeId')?.value || null;
+  const userTimeZone = qs('#userTimeZone')?.value?.trim();
 
-  const payload = {}
+  const payload = {
+    userUsername,
+    userMail,
+    userActive,
+    roleIds: Array.from(qs('#userRoles')?.selectedOptions || [])
+                                                      .map(o => o.value).filter(Boolean),
+    clientIds: Array.from(qs('#userClients')?.selectedOptions || [])
+                                                      .map(o => o.value).filter(Boolean),
+    EmployeeId,
+    userTimeZone
+  }
 
   try {
-
     console.log('Payload generado:', payload);
-    const res = await fetchWithAuth(endpoint, {
+    const res = await fetchWithAuth(`/api/users/${userId}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
@@ -52,15 +67,13 @@ async function updateUser () {
 }
 
 async function deleteUser() {
-  const id = btn.getAttribute('data-id') || null;
-  if (!id) return;
-
   const ok = window.confirm('¿Eliminar este usuario? Esta acción no se puede deshacer.');
   if (!ok) return;
 
-  btn.disabled = true;
+  if (deleteBtn) deleteBtn.disabled = true;
+
   try {
-    const res = await fetchWithAuth(`/api/users/${id}`, { method: 'DELETE' });
+    const res = await fetchWithAuth(`/api/users/${userId}`, { method: 'DELETE' });
     if (!res.ok) {
       const text = await res.text().catch(() => '');
       throw new Error(text || `Error al eliminar (HTTP ${res.status})`);
@@ -70,7 +83,7 @@ async function deleteUser() {
   } catch (err) {
     console.error('Error eliminando usuario', err);
     alert('No se pudo eliminar: ' + (err.message || err));
-    btn.disabled = false;
+    deleteBtn.disabled = true;
   }
 }
 
