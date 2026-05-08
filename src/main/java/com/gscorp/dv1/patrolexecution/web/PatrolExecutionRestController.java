@@ -1,5 +1,7 @@
 package com.gscorp.dv1.patrolexecution.web;
 
+import java.util.UUID;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +34,7 @@ public class PatrolExecutionRestController {
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<PatrolExecutionDto> createSiteSupervisionVisit(
         @Valid @ModelAttribute CreatePatrolExecutionRequest req,
+        UUID patrolExternalId,
         UriComponentsBuilder ucb,
         Authentication authentication) {
 
@@ -43,7 +46,7 @@ public class PatrolExecutionRestController {
         }
 
         PatrolExecutionDto created =
-                patrolExecutionService.createPatrolExecution(req, userId);
+                patrolExecutionService.createPatrolExecution(req, patrolExternalId, userId);
 
         var location = ucb.path("/api/patrol-execution/{id}")
                             .buildAndExpand(created.id()).toUri();
