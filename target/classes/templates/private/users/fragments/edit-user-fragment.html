@@ -77,20 +77,20 @@
         <button type="button" id="detectUserTimeZone" class="vs-btn vs-secondary">Detectar zona</button>
       </div>
 
-      <!-- Botones de control -->
-      <div class="footer">
-        <button type="submit" id="saveUserBtn" data-id="${user.id}" class="btn-primary">Guardar cambios</button>
-        <button type="button" id="cancelEditUserBtn" class="btn-secondary"
-                th:attr="data-path=@{/private/users/table-view}">Cancelar</button>
-        <button type="button" id="deleteUserBtn" class="btn-danger"
-                th:attr="data-id=${user.id}">Eliminar usuario</button>
-      </div>
-
       <!-- Mensajes del formulario -->
       <div class="form-error" id="editUserError"></div>
       <div class="form-ok" id="editUserOk" style="display: none;">Usuario actualizado ✅</div>
 
     </form>
+
+      <!-- Botones de control -->
+    <div class="footer">
+      <button type="submit" id="saveUserBtn" data-id="${user.id}" class="btn-primary">Guardar cambios</button>
+      <button type="button" id="cancelEditUserBtn" class="btn-secondary"
+              th:attr="data-path=@{/private/users/table-view}">Cancelar</button>
+      <button type="button" id="deleteUserBtn" class="btn-danger"
+              th:attr="data-id=${user.id}">Eliminar usuario</button>
+    </div>
 
   </div>
 
