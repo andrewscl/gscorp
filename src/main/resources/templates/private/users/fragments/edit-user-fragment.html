@@ -2,12 +2,12 @@
 
   <div class="hs-form">
 
-    <div class="patrol-form-header">
+    <div class="header">
       <h3>Editar usuario</h3>
     </div>
 
     <!-- Información básica y formulario -->
-    <form id="editUserForm" class="patrol-form-body"
+    <form id="editUserForm" class="body"
           th:attr="data-user-endpoint=@{/api/users/{id}(id=${user.id})}" method="PATCH">
 
       <!-- Información básica del usuario -->
@@ -78,7 +78,7 @@
       </div>
 
       <!-- Botones de control -->
-      <div class="modal-footer">
+      <div class="footer">
         <button type="submit" id="saveUserBtn" data-id="${user.id}" class="btn-primary">Guardar cambios</button>
         <button type="button" id="cancelEditUserBtn" class="btn-secondary"
                 th:attr="data-path=@{/private/users/table-view}">Cancelar</button>
