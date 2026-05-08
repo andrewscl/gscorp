@@ -412,13 +412,4 @@ p {
   color: #6b7280;
   font-style: italic;
   white-space: normal;
-}/*# sourceMappingURL=patrols-table.css.map */.btn-edit:active {
-  transform: translateY(0);
-}
-.patrols-table-container .patrols-table tbody tr.empty td.empty {
-  text-align: center;
-  padding: 2rem;
-  color: #6b7280;
-  font-style: italic;
-  white-space: normal;
 }/*# sourceMappingURL=patrols-table.css.map */
