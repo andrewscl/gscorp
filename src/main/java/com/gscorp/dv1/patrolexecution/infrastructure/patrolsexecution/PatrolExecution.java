@@ -84,7 +84,7 @@ public class PatrolExecution {
     @Column(name="latitude")
     private BigDecimal latitude;
 
-    @Column(name="latitude")
+    @Column(name="longitude")
     private BigDecimal longitude;
 
     // Guarda la zona IANA utilizada para interpretar/mostrar la hora (ej. "America/Santiago")
