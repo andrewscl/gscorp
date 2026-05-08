@@ -1,123 +1,57 @@
-// Script para la vista de edición de usuario
-// - Intercepta el submit del formulario y lo envía como PATCH JSON al endpoint
-// - Maneja delete (DELETE) y detect TZ (Intl API)
-// - Usa fetchWithAuth y navigateTo
 import { fetchWithAuth } from '../../../auth.js';
 import { navigateTo } from '../../../navigation-handler.js';
 
-function qs(sel, ctx = document) { return ctx.querySelector(sel); }
-function qsa(sel, ctx = document) { return Array.from(ctx.querySelectorAll(sel)); }
+const qs  = (s) => document.querySelector(s);
+const qa  = (s) => document.querySelectorAll(s);
 
 function showStatus(message, { error = false, timeout = 4000 } = {}) {
   const el = document.getElementById('user-status');
   if (!el) return;
   el.textContent = message;
-  el.style.color = error ? '#b91c1c' : ''; // rojo en error, default otherwise
+  el.style.color = error ? '#b91c1c' : '';
   if (timeout > 0) {
     setTimeout(() => {
-      // restore default text color after timeout
       el.style.color = '';
     }, timeout);
   }
 }
 
-function serializeFormToDto(form) {
-  // Construye el payload respetando los nombres del UserUpdateDto
-  const usernameEl = qs('#userusername', form);
-  const mailEl = qs('#userMail', form);
-  const activeEl = qs('#userActive', form);
-  const rolesEl = qs('#userRoles', form);
-  const clientsEl = qs('#userClients', form);
-  const employeeEl = qs('#userEmployeeId', form);
-  const tzEl = qs('#userTimeZone', form);
+async function updateUser () {
 
-  const payload = {};
+  const endpoint = "/api/users/{id}";
 
-  // Strings: usar null si vacío para indicar "clear" o no definido según tu API
-  if (usernameEl) {
-    const v = String(usernameEl.value ?? '').trim();
-    payload.username = v === '' ? null : v;
-  }
-
-  if (mailEl) {
-    const v = String(mailEl.value ?? '').trim();
-    payload.mail = v === '' ? null : v;
-  }
-
-  if (activeEl) {
-    payload.active = !!activeEl.checked;
-  }
-
-  if (rolesEl) {
-    const vals = Array.from(rolesEl.selectedOptions).map(o => o.value).filter(v => v !== '').map(Number);
-    payload.roleIds = vals;
-  }
-
-  if (clientsEl) {
-    const vals = Array.from(clientsEl.selectedOptions).map(o => o.value).filter(v => v !== '').map(Number);
-    payload.clientIds = vals;
-  }
-
-  if (employeeEl) {
-    const v = employeeEl.value;
-    // si está vacío -> enviar null (limpiar); si tiene valor -> number
-    payload.employeeId = (v === '' || v == null) ? null : Number(v);
-  }
-
-  if (tzEl) {
-    const v = String(tzEl.value ?? '').trim();
-    payload.timeZone = v === '' ? null : v;
-  }
-
-  return payload;
-}
-
-async function handleSave(form) {
-  const endpoint = form.dataset.userEndpoint || form.getAttribute('data-user-endpoint');
-  if (!endpoint) {
-    showStatus('Endpoint del usuario no configurado', { error: true, timeout: 0 });
-    return;
-  }
-
-  const saveBtn = qs('#saveUserBtn', form);
-  const deleteBtn = qs('#deleteUserBtn', form);
-  if (saveBtn) saveBtn.disabled = true;
+  if (updateBtn) updateBtn.disabled = true;
   if (deleteBtn) deleteBtn.disabled = true;
 
+
+  const payload = {}
+
   try {
-    const payload = serializeFormToDto(form);
 
     console.log('Payload generado:', payload);
-
-    // Enviar PATCH con JSON (ajusta a PUT si tu API lo requiere)
     const res = await fetchWithAuth(endpoint, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     });
 
-    if (!res.ok) {
-      // intenta parsear JSON con mensaje, si no, texto plano
-      let body;
-      try { body = await res.json(); } catch (e) { body = { message: await res.text().catch(() => '') }; }
-      const msg = body?.message || body?.error || `Error al guardar (HTTP ${res.status})`;
-      throw new Error(msg);
-    }
-
-    showStatus('Usuario actualizado correctamente', { error: false, timeout: 2000 });
-
-    // Opcional: navegar de vuelta al listado o recargar la vista detalle
-    // Aquí navegamos al listado tras una pequeña espera para que el usuario vea el mensaje
+    showStatus('Usuario actualizado correctamente',
+                                        { error: false, timeout: 2000 });
     setTimeout(() => navigateTo('/private/users/table-view', true), 700);
+
   } catch (err) {
+
     console.error('Error guardando usuario', err);
-    showStatus('No se pudo guardar: ' + (err.message || err), { error: true, timeout: 5000 });
-    if (saveBtn) saveBtn.disabled = false;
+    showStatus('No se pudo guardar: ' +
+                    (err.message || err), { error: true, timeout: 5000 });
+    if (updateBtn) updateBtn.disabled = false;
     if (deleteBtn) deleteBtn.disabled = false;
+
   }
+
 }
 
-async function handleDelete(btn) {
+async function deleteUser() {
   const id = btn.getAttribute('data-id') || null;
   if (!id) return;
 
@@ -140,58 +74,29 @@ async function handleDelete(btn) {
   }
 }
 
-function initDetectTz(form) {
-  const btn = qs('#detect-user-tz', form);
-  const tzInput = qs('#user-timeZone', form);
-  if (!btn || !tzInput) return;
-  btn.addEventListener('click', () => {
-    try {
-      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      if (tz) {
-        tzInput.value = tz;
-        showStatus(`Zona detectada: ${tz}`, { error: false, timeout: 2000 });
-      } else {
-        showStatus('No se pudo detectar la zona en este navegador', { error: true, timeout: 4000 });
-      }
-    } catch (e) {
-      console.warn('Detect TZ failed', e);
-      showStatus('Error detectando zona', { error: true, timeout: 4000 });
-    }
-  });
+const cancelEditUser = () => {
+    showStatus('La edición del usuario a sido cancelada.',
+                                        { error: false, timeout: 2000 });
+    setTimeout(() => navigateTo('/private/users/table-view', true), 700);
 }
 
-function attachFormHandler() {
-  console.log("[edit-user] attachFormHandlder ejecutado");
-  const form = document.getElementById('editUserForm');
-  if (!form) return;
-
-  // Intercept submit
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    handleSave(form);
-  });
-
-  // Detect TZ button
-  initDetectTz(form);
-
-  const deleteBtn = qs('#deleteUserBtn', form);
-  if (deleteBtn) {
-    deleteBtn.addEventListener('click', () => {
-      handleDelete(deleteBtn); // Ahora sí pasamos el botón correcto al hacer clic
-    });
-  }
+function bindEditUser() {
+    const updateBtn = qs('#updateUserBtn');
+    if (updateBtn) {
+        updateBtn.addEventListener('click', updateUser);
+    }
+    const cancelBtn = qs('#cancelUserBtn');
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', cancelEditUser);
+    }
+    const deleteBtn = qs('#deleteUserBtn');
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', deleteUser);
+    }
 
 }
 
 /* --- init --- */
 (function init() {
-  attachFormHandler();
+  bindEditUser();
 })();
-
-// Exports para tests o uso programático
-export {
-  serializeFormToDto,
-  handleSave,
-  handleDelete,
-  attachFormHandler
-};

@@ -7,8 +7,7 @@
     </div>
 
     <!-- Información básica y formulario -->
-    <form id="editUserForm" class="body"
-          th:attr="data-user-endpoint=@{/api/users/{id}(id=${user.id})}" method="PATCH">
+    <div id="editUserForm" class="body">
 
       <!-- Información básica del usuario -->
       <div class="form-group">
@@ -82,16 +81,16 @@
       <div class="form-error" id="editUserError"></div>
       <div class="form-ok" id="editUserOk" style="display: none;">Usuario actualizado ✅</div>
 
-    </form>
+    </div>
 
-      <!-- Botones de control -->
+    <!-- Botones de control -->
     <div class="footer">
-      <button type="submit" id="saveUserBtn" data-id="${user.id}"
-                                                  class="btn btn-primary">Guardar cambios</button>
-      <button type="button" id="cancelEditUserBtn" class="btn btn-secondary"
-              th:attr="data-path=@{/private/users/table-view}">Cancelar</button>
-      <button type="button" id="deleteUserBtn" class="btn btn-danger"
-              th:attr="data-id=${user.id}">Eliminar usuario</button>
+      <button type="submit" id="updateUserBtn"
+                                class="btn btn-primary">Guardar cambios</button>
+      <button type="button" id="cancelUserBtn"
+                                class="btn btn-secondary">Cancelar</button>
+      <button type="button" id="deleteUserBtn"
+                                class="btn btn-danger">Eliminar usuario</button>
     </div>
 
   </div>
