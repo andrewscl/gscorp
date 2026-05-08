@@ -5,10 +5,8 @@
 import { fetchWithAuth } from '../../../auth.js';
 import { navigateTo } from '../../../navigation-handler.js';
 
-function qs(sel, ctx = document) {
-    return ctx.querySelector(sel); }
-function qsa(sel, ctx = document) {
-    return Array.from(ctx.querySelectorAll(sel)); }
+function qs(sel, ctx = document) { return ctx.querySelector(sel); }
+function qsa(sel, ctx = document) { return Array.from(ctx.querySelectorAll(sel)); }
 
 function showStatus(message, { error = false, timeout = 4000 } = {}) {
   const el = document.getElementById('user-status');
@@ -175,19 +173,18 @@ function attachFormHandler() {
   // Detect TZ button
   initDetectTz(form);
 
-}
+  const deleteBtn = qs('#deleteUserBtn', form);
+  if (deleteBtn) {
+    deleteBtn.addEventListener('click', () => {
+      handleDelete(deleteBtn); // Ahora sí pasamos el botón correcto al hacer clic
+    });
+  }
 
-/* --- Bindings --- */
-function bindModal() {
-  qs('#saveUserBtn')?.addEventListener('click', handleSave);
-  qs('#deleteUserBtn')?.addEventListener('click', handleDelete);
-  qs('#detectUserTimeZone')?.addEventListener('click', initDetectTz);
-  document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') closeModal(); });
 }
 
 /* --- init --- */
 (function init() {
-  bindModal();
+  attachFormHandler();
 })();
 
 // Exports para tests o uso programático
