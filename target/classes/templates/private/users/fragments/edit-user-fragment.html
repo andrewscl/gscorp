@@ -74,7 +74,6 @@
         <label for="userTimeZone">Zona horaria (IANA)</label>
         <input type="text" id="userTimeZone" name="timeZone"
                th:value="${user.timeZone}" placeholder="Europe/Madrid" />
-        <button type="button" id="detectUserTimeZone" class="vs-btn vs-secondary">Detectar zona</button>
       </div>
 
       <!-- Mensajes del formulario -->
@@ -85,10 +84,11 @@
 
       <!-- Botones de control -->
     <div class="footer">
-      <button type="submit" id="saveUserBtn" data-id="${user.id}" class="btn-primary">Guardar cambios</button>
-      <button type="button" id="cancelEditUserBtn" class="btn-secondary"
+      <button type="submit" id="saveUserBtn" data-id="${user.id}"
+                                                  class="btn btn-primary">Guardar cambios</button>
+      <button type="button" id="cancelEditUserBtn" class="btn btn-secondary"
               th:attr="data-path=@{/private/users/table-view}">Cancelar</button>
-      <button type="button" id="deleteUserBtn" class="btn-danger"
+      <button type="button" id="deleteUserBtn" class="btn btn-danger"
               th:attr="data-id=${user.id}">Eliminar usuario</button>
     </div>
 

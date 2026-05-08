@@ -54,7 +54,6 @@
   /* limitar ancho para coincidir con el ancho disponible del content */
   max-width: calc(100vw - var(--sidebar-width) - var(--content-horizontal-padding) * 2);
   /* --- New header layout: title-row, header-meta, filters-row --- */
-  /* filters toolbar (kept mostly as before) */
 }
 .site-visit-header .title-row {
   display: flex;
@@ -119,6 +118,9 @@
   font-weight: 500;
   color: #162032;
 }
+.site-visit-header {
+  /* filters toolbar (kept mostly as before) */
+}
 .site-visit-header .filters-row {
   display: flex;
   gap: 0.6rem;
@@ -161,6 +163,7 @@
   will-change: transform, box-shadow;
 }
 .site-visit-header .filters-row .btn.btn-primary {
+  /* ejemplo con color.adjust para crear la variante oscura */
   background: linear-gradient(180deg, #2563eb, rgb(19.4285714286, 79.6571428571, 211.7714285714));
   color: #fff;
   border: none;
@@ -170,6 +173,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
+  box-shadow: 0 6px 12px rgba(37, 99, 235, 0.12);
 }
 .site-visit-header .filters-row .btn.btn-primary:hover {
   transform: translateY(-2px) scale(1.01);
@@ -183,12 +187,6 @@
   outline: none;
   box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14);
 }
-.site-visit-header .filters-row .btn.btn-primary:disabled, .site-visit-header .filters-row .btn.btn-primary.is-disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
 .site-visit-header .filters-row .btn.btn-secondary {
   background: transparent;
   border: 1px solid #e7eef9;
@@ -196,10 +194,15 @@
   padding: 0.35rem 0.6rem;
   border-radius: 10px;
   font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 .site-visit-header .filters-row .btn.btn-secondary:hover {
-  background: rgba(37, 99, 235, 0.06); /* requiere que $btn-blue se convierta a rgba; si no, usar a color literal */
-  border-color: white;
+  /* uso de color.change para un fondo translúcido a partir de la variable $btn-blue */
+  background: rgba(37, 99, 235, 0.06);
+  /* ajustar borde: aumentar lightness (si quieres oscurecer, usa valor negativo) */
+  border-color: hsl(216.6666666667, 60%, 100.1176470588%);
   transform: translateY(-1px);
 }
 .site-visit-header .filters-row .btn.btn-secondary:active {
@@ -212,6 +215,14 @@
 .site-visit-header .filters-row .btn.btn-secondary:disabled, .site-visit-header .filters-row .btn.btn-secondary.is-disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-visit-header .filters-row .btn {
+    transition: none !important;
+    transform: none !important;
+  }
 }
 .site-visit-header .filters-row .filters-actions {
   margin-left: auto;
