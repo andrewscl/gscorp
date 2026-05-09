@@ -10,9 +10,9 @@ const alertCancel = qs('.alert-cancel');
 
 async function updateUser () {
 
-  const updateBtn = qs('#updateUserBtn');
-  const cancelBtn = qs('#cancelUserBtn');
-  const deleteBtn = qs('#deleteUserBtn');
+  const updateBtn = qs('.btn-primary');
+  const cancelBtn = qs('.btn-secondary');
+  const deleteBtn = qs('.btn-danger');
   if (updateBtn) updateBtn.disabled = true;
   if (cancelBtn) cancelBtn.disabled = true;
   if (deleteBtn) deleteBtn.disabled = true;
