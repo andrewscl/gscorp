@@ -7,6 +7,8 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       input: {
+        'shared/display-alert': path.resolve(__dirname, './src/shared/display-alert.js'),
+        'shared/dom-utils': path.resolve(__dirname, './src/shared/dom-utils.js'),
         'auth': path.resolve(__dirname, './src/auth.js'),
         'auth/define-password': path.resolve(__dirname, './src/auth/define-password.js'),
         'contact': path.resolve(__dirname, './src/contact.js'),

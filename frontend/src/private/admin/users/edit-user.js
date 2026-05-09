@@ -47,7 +47,7 @@ async function updateUser () {
 
     displayAlert(alertSuccess, 'Usuario actualizado correctamente', 2500);
     
-    setTimeout(() => navigateTo('/private/users/table-view', true), 700);
+    setTimeout(() => navigateTo('/private/users/table-view', true), 1500);
 
   } catch (err) {
 
