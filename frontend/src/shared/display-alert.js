@@ -2,7 +2,7 @@ export function displayAlert(
                     alertElement,
                     message,
                     timeout = 5000) {
-    const alertContainer = qs('.patrol-alert-container'); // Selecciona el contenedor de alertas
+    const alertContainer = qs('.alert-container'); // Selecciona el contenedor de alertas
 
     // Asegurar que el contenedor es visible
     alertContainer.style.display = 'block';
