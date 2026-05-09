@@ -1,0 +1,22 @@
+<!-- src/main/resources/templates/shared/alerts.html -->
+<div th:fragment="form-alerts" class="alert-container" style="display: none;">
+    <!-- Alerta de éxito -->
+    <div class="alert alert-success" role="alert" aria-live="polite">
+        <span class="alert-icon">✅</span>
+        <span class="alert-message"></span>
+    </div>
+
+    <!-- Alerta de error -->
+    <div class="alert alert-error" role="alert" aria-live="assertive">
+        <span class="alert-icon">❌</span>
+        <span class="alert-message"></span>
+    </div>
+
+    <!-- Alerta de cancelación -->
+    <div class="alert alert-cancel" role="alert" aria-live="polite">
+        <span class="alert-icon">⚠️</span>
+        <span class="alert-message"></span>
+    </div>
+
+    
+</div>

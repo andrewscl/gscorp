@@ -1,20 +1,12 @@
 import { fetchWithAuth } from '../../../auth.js';
 import { navigateTo } from '../../../navigation-handler.js';
+import { displayAlert } from '../../../shared/display-alert.js';
 
 const qs  = (s) => document.querySelector(s);
 const qa  = (s) => document.querySelectorAll(s);
-
-function showStatus(message, { error = false, timeout = 4000 } = {}) {
-  const el = document.getElementById('editUserError');
-  if (!el) return;
-  el.textContent = message;
-  el.style.color = error ? '#b91c1c' : '';
-  if (timeout > 0) {
-    setTimeout(() => {
-      el.style.color = '';
-    }, timeout);
-  }
-}
+const alertSuccess = qs('.alert-success');
+const alertError = qs('.alert-error');
+const alertCancel = qs('.alert-cancel');
 
 async function updateUser () {
 
@@ -53,15 +45,14 @@ async function updateUser () {
       body: JSON.stringify(payload),
     });
 
-    showStatus('Usuario actualizado correctamente',
-                                        { error: false, timeout: 2000 });
+    displayAlert(alertSuccess, 'Usuario actualizado correctamente', 2500);
+    
     setTimeout(() => navigateTo('/private/users/table-view', true), 700);
 
   } catch (err) {
 
-    console.error('Error guardando usuario', err);
-    showStatus('No se pudo guardar: ' +
-                    (err.message || err), { error: true, timeout: 5000 });
+    displayAlert(alertError, 'No se pudo guardar: ' + (err.message || err), 2500);
+
     if (updateBtn) updateBtn.disabled = false;
     if (cancelBtn) cancelBtn.disabled = false;
     if (deleteBtn) deleteBtn.disabled = false;
@@ -82,11 +73,15 @@ async function deleteUser() {
       const text = await res.text().catch(() => '');
       throw new Error(text || `Error al eliminar (HTTP ${res.status})`);
     }
-    // navegar al listado
-    navigateTo('/private/users/table-view', true);
+
+    displayAlert(alertSuccess, 'El usuario fue eliminado', 2500);
+
+    setTimeout(() => navigateTo('/private/users/table-view', true), 2000);
+
   } catch (err) {
-    console.error('Error eliminando usuario', err);
-    alert('No se pudo eliminar: ' + (err.message || err));
+
+    displayAlert(alertError, 'No se pudo eliminar: ' + (err.message || err), 2500);
+
     deleteBtn.disabled = true;
   }
 }
