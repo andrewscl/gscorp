@@ -10,7 +10,7 @@ export function displayAlert(
     alertContainer.style.display = 'block';
 
     // Actualizar el mensaje dentro de la alerta
-    const alertMessage = alertElement.querySelector('.alert'); // Solo el texto dinámico
+    const alertMessage = alertElement.querySelector('.alert-message'); // Solo el texto dinámico
     if(alertMessage) alertMessage.textContent = message; // Establece el texto dinámico
 
     // Mostrar la alerta específica dinámica
