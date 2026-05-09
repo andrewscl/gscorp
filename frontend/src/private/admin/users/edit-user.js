@@ -30,7 +30,7 @@ async function updateUser () {
   const userUsername = qs('#userUsername')?.value?.trim();
   const userMail = qs('#userMail')?.value?.trim();
   const userActive = qs('#userActive')?.checked;
-  const employeeId = qs('#employeeId')?.value || null;
+  const employeeId = qs('#userEmployeeId')?.value || null;
   const userTimeZone = qs('#userTimeZone')?.value?.trim();
 
   const payload = {
