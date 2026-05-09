@@ -93,15 +93,15 @@ const cancelEditUser = () => {
 }
 
 function bindEditUser() {
-    const updateBtn = qs('#updateUserBtn');
+    const updateBtn = qs('.alert-success');
     if (updateBtn) {
         updateBtn.addEventListener('click', updateUser);
     }
-    const cancelBtn = qs('#cancelUserBtn');
+    const cancelBtn = qs('.alert-cancel');
     if (cancelBtn) {
         cancelBtn.addEventListener('click', cancelEditUser);
     }
-    const deleteBtn = qs('#deleteUserBtn');
+    const deleteBtn = qs('.alert-error');
     if (deleteBtn) {
         deleteBtn.addEventListener('click', deleteUser);
     }
