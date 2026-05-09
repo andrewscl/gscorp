@@ -117,31 +117,26 @@ $width-btn: 6rem;
                 .alert-icon {
                     font-size: 1.5rem;
                 }
-
                 &.alert-success {
                     background-color: #d1f7d6; /* Verde claro */
                     color: #256029; /* Verde oscuro */
                     border: 1px solid #a4e5aa;
                 }
-
                 &.alert-error {
                     background-color: #fde4e4; /* Rojo claro */
                     color: #a61d1d; /* Rojo oscuro */
                     border: 1px solid #f5b3b3;
                 }
-
                 &.alert-cancel {
                     background-color: #fff3cd; /* Amarillo claro */
                     color: #856404; /* Amarillo oscuro */
                     border: 1px solid #ffeeba;
                 }
-
                 /* Mostrar alerta */
                 &.alert-show {
                     opacity: 1;
                     transform: translateY(0);
                 }
-
             }
 
         }
