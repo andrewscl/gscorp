@@ -18,8 +18,11 @@ function showStatus(message, { error = false, timeout = 4000 } = {}) {
 
 async function updateUser () {
 
-  
+  const updateBtn = qs('#updateUserBtn');
+  const cancelBtn = qs('#cancelUserBtn');
+  const deleteBtn = qs('#deleteUserBtn');
   if (updateBtn) updateBtn.disabled = true;
+  if (cancelBtn) cancelBtn.disabled = true;
   if (deleteBtn) deleteBtn.disabled = true;
 
   /* definir variables */
@@ -60,6 +63,7 @@ async function updateUser () {
     showStatus('No se pudo guardar: ' +
                     (err.message || err), { error: true, timeout: 5000 });
     if (updateBtn) updateBtn.disabled = false;
+    if (cancelBtn) cancelBtn.disabled = false;
     if (deleteBtn) deleteBtn.disabled = false;
 
   }
