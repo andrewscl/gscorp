@@ -1,3 +1,5 @@
+import { qs } from './dom-utils';
+
 export function displayAlert(
                     alertElement,
                     message,
@@ -16,7 +18,12 @@ export function displayAlert(
 
     // Ocultar automáticamente después del timeout
     setTimeout(() => {
-        alertElement.classList.remove('alert-show'); // Remueve la clase de mostrar
-        alertContainer.style.display = 'none'; // Esconde todo el contenedor
+        alertElement.classList.remove('alert-show');
+
+        if(!document.querySelector('alert-show')) {
+            alertContainer.style.display = 'none';
+        }
+
     }, timeout);
+
 }
