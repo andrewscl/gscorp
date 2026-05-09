@@ -41,9 +41,9 @@ async function updateUser () {
                                                       .map(o => o.value).filter(Boolean),
     clientIds: Array.from(qs('#userClients')?.selectedOptions || [])
                                                       .map(o => o.value).filter(Boolean),
-    EmployeeId,
+    employeeId,
     userTimeZone
-  }
+  };
 
   try {
     console.log('Payload generado:', payload);
