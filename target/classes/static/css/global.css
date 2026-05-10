@@ -108,6 +108,7 @@ p {
 .hs-table .hs-table .hs-table-header {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 0.6rem;
   color: #1e293b;
   background-color: #f8fafc;
@@ -139,7 +140,7 @@ p {
 }
 .hs-table .hs-table .hs-table-header .title-row .title-left .title-text {
   font-family: "Montserrat", sans-serif;
-  font-size: 1rem;
+  font-size: 2rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   color: #1e293b;
@@ -393,4 +394,4 @@ p {
   color: #6b7280;
   font-style: italic;
   white-space: normal;
-}/*# sourceMappingURL=global.css.map */s.map */
+}/*# sourceMappingURL=global.css.map */

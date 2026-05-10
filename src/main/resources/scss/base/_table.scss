@@ -27,6 +27,7 @@
     .hs-table-header {
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
       gap: 0.6rem;
       color: $primary-color;
       background-color: $background-color;
@@ -56,8 +57,8 @@
           gap: 0.6rem;
 
           .title-text {
-            @include montserrat-font(1rem, 600);
-            color: $primary-color;
+            @include montserrat-font(2rem, 600);
+            color: $heading-color;
             line-height: 1;
           }
         }
