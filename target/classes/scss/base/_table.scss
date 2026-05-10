@@ -5,11 +5,19 @@
 @use '../base/btn-mixins' as *;
 @use '../base/typography' as *;
 
+/*
 :root {
     --topbar-height: #{$topbar-height};
     --sidebar-width: #{$sidebar-width};
     --content-horizontal-padding: #{$content-horizontal-padding};
     --header-height: 0;
+}*/
+
+:root {
+  --topbar-height: 54px;                /* same as layout topbar height */
+  --sidebar-width: 240px;               /* same as layout sidebar width */
+  --content-horizontal-padding: 2.4rem; /* match .content horizontal padding in layout */
+  --patrols-header-height: 0;
 }
 
 @mixin hs-table() {

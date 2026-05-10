@@ -91,11 +91,18 @@ p {
   margin-bottom: 1.5rem;
 }
 
+/*
 :root {
-  --topbar-height: 54px;
-  --sidebar-width: 240px;
-  --content-horizontal-padding: 2.4rem;
-  --header-height: 0;
+    --topbar-height: 54px;
+    --sidebar-width: 240px;
+    --content-horizontal-padding: 2.4rem;
+    --header-height: 0;
+}*/
+:root {
+  --topbar-height: 54px; /* same as layout topbar height */
+  --sidebar-width: 240px; /* same as layout sidebar width */
+  --content-horizontal-padding: 2.4rem; /* match .content horizontal padding in layout */
+  --patrols-header-height: 0;
 }
 
 .hs-table .hs-table .hs-table-header {
@@ -386,4 +393,4 @@ p {
   color: #6b7280;
   font-style: italic;
   white-space: normal;
-}/*# sourceMappingURL=global.css.map */ss.map */
+}/*# sourceMappingURL=global.css.map */
