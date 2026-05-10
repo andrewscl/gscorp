@@ -9,7 +9,6 @@
             th:text="${count + ' registro' + (count == 1 ? '' : 's')}"></span>
     </div>
 
-    <!-- El slot de filtros y acciones ahora es uno solo para mantener el flexbox -->
     <div class="filters-actions-row">
       <div class="filter-group" style="display: flex; gap: 0.6rem;">
          <th:block th:replace="${filters}"></th:block>
@@ -19,6 +18,7 @@
          <th:block th:replace="${actions}"></th:block>
       </div>
     </div>
+
   </div>
 
   <div class="table-container">
