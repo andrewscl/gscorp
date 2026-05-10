@@ -4,3 +4,9 @@
 @use 'base/variables' as * ;
 @use 'base/mixins' as * ;
 @use 'base/typography' as * ;
+@use 'base/table' as * ;
+
+// clase global para toda la app
+.hs-table {
+    @include hs-table();
+}
