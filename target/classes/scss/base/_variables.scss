@@ -1,7 +1,7 @@
 @use 'palette' as *;
 
 // Tamaños
-$base-font-size: 16px;
+$base-font-size: 1rem;
 
 // Tipografías
 $primary-font: 'Roboto', sans-serif;
@@ -20,6 +20,6 @@ $muted-color: $cool-gray-500;
 $topbar-height: 54px;
 $sidebar-width: 240px;
 $content-horizontal-padding: 2.4rem;
-$patrols-header-height: 0;
-
-
+$radius: 0.7rem;
+$shadow-sm: 0 0.5rem 1.1rem rgba(15, 23, 42, 0.04);
+$shadow-xs: 0 0.1rem 0.4rem rgba(15,23,42,0.04);

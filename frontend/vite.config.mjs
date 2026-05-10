@@ -58,6 +58,7 @@ export default defineConfig({
         'private/shift-requests/shift-request-table-update': path.resolve(__dirname, './src/private/shift-requests/shift-request-table-update.js'),
         'private/shifts/create-shift': path.resolve(__dirname, './src/private/shifts/create-shift.js'),
         'private/sites/set-coordinates': path.resolve(__dirname, './src/private/sites/set-coordinates.js'),
+        'private/sites/sites-table': path.resolve(__dirname, './src/private/sites/sites-table.js'),
         'private/site-visits/view-site-visit': path.resolve(__dirname, './src/private/site-visits/view-site-visit.js'),
         'private/site-visits/create-site-visit': path.resolve(__dirname, './src/private/site-visits/create-site-visit.js'),
         'private/site-visits/edit-site-visit': path.resolve(__dirname, './src/private/site-visits/edit-site-visit.js'),
