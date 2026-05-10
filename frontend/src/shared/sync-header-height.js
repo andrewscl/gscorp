@@ -3,6 +3,8 @@
  * @param {string} selector - El selector del elemento a medir (ej: '.hs-table-header')
  * @param {string} variableName - El nombre de la variable CSS (ej: '--header-height')
  */
+// shared/sync-header.js
+
 export function initHeaderSync(selector = '.hs-table-header', variableName = '--header-height') {
     const root = document.documentElement;
     let rafId = null;
@@ -13,6 +15,10 @@ export function initHeaderSync(selector = '.hs-table-header', variableName = '--
         if (el) {
             const h = el.offsetHeight;
             root.style.setProperty(variableName, `${h}px`);
+            console.log(`✅ Sincronizado: ${selector} = ${h}px`);
+        } else {
+            // Si no lo encuentra, reintenta en el siguiente frame
+            requestAnimationFrame(setVar);
         }
     }
 
@@ -24,14 +30,10 @@ export function initHeaderSync(selector = '.hs-table-header', variableName = '--
         });
     }
 
-    // Ejecución inmediata
+    // Ejecutar inmediatamente
     setVar();
 
-    // Listener de resize (se limpia automáticamente si la página se recarga, 
-    // pero en SPA hay que tener cuidado de no duplicarlos)
-    window.removeEventListener('resize', onResize); // Evita duplicados
+    // Limpiar y añadir el evento
+    window.removeEventListener('resize', onResize);
     window.addEventListener('resize', onResize);
-    
-    // Retornamos la función por si necesitamos dispararla manualmente
-    return setVar;
 }
