@@ -1,1 +1,1 @@
-import{s as e}from"../../shared/sync-header-height.js";console.log("archivo cargado.");console.log("importación exitosa.");(function(){console.log("syncHeaderHeight ejecución autoimvocada..."),e(".hs-table-header","--header-height")})();
+
