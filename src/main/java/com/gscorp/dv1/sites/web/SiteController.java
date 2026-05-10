@@ -24,9 +24,11 @@ public class SiteController {
 
     @GetMapping("/table-view")
     public String getSitesTableView(Model model) {
-        model.addAttribute("sites", siteService.getAllSites());
-        model.addAttribute("projects", projectService.findAllWithClientsAndEmployees());
-        return "private/sites/views/sites-table-view";
+        model.addAttribute("sites",
+                                            siteService.getAllSites());
+        model.addAttribute("projects",
+                        projectService.findAllWithClientsAndEmployees());
+        return "private/sites/views/sites-list";
     }
 
     @GetMapping("/show/{id}")

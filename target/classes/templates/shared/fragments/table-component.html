@@ -1,0 +1,39 @@
+<!-- shared/components.html -->
+<div th:fragment="smart-table(title, count, filters, actions, thead, tbody)">
+  <div class="header">
+    <div class="title-row">
+      <div class="title-left">
+        <span class="title-text" th:text="${title}"></span>
+      </div>
+      <span class="count" th:if="${count != null}" 
+            th:text="${count + ' registro' + (count == 1 ? '' : 's')}"></span>
+    </div>
+
+    <!-- El slot de filtros y acciones ahora es uno solo para mantener el flexbox -->
+    <div class="filters-actions-row">
+      <div class="filter-group" style="display: flex; gap: 0.6rem;">
+         <th:block th:replace="${filters}"></th:block>
+      </div>
+      
+      <div class="actions-row">
+         <th:block th:replace="${actions}"></th:block>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table class="table">
+      <thead>
+        <tr th:replace="${thead}"></tr>
+      </thead>
+      <tbody>
+        <!-- Lógica de tabla vacía integrada -->
+        <tr th:if="${count == 0}">
+          <td colspan="100%" style="text-align:center; padding: 2rem;">No hay datos disponibles</td>
+        </tr>
+        <th:block th:insert="${tbody}"></th:block>
+      </tbody>
+    </table>
+  </div>
+
+</div>
