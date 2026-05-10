@@ -7,6 +7,7 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       input: {
+        'shared/sync-header-height': path.resolve(__dirname, './src/shared/sync-header-height.js'),
         'shared/display-alert': path.resolve(__dirname, './src/shared/display-alert.js'),
         'shared/dom-utils': path.resolve(__dirname, './src/shared/dom-utils.js'),
         'auth': path.resolve(__dirname, './src/auth.js'),

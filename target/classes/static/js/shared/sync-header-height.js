@@ -1,0 +1,1 @@
+function d(t=".header",c="--header-height"){const i=document.documentElement;let e=null;function o(){const r=document.querySelector(t);if(r){const u=r.getBoundingClientRect().height;i.style.setProperty(c,`${u}px`)}}const s=new ResizeObserver(()=>{e&&clearTimeout(e),e=setTimeout(o,50)}),n=document.querySelector(t);n&&(s.observe(n),o())}export{d as s};

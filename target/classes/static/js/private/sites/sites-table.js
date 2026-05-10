@@ -1,1 +1,1 @@
-function h(t=".header",d="--header-height"){const i=document.documentElement;let e=null;function n(){const r=document.querySelector(t);if(r){const u=r.getBoundingClientRect().height;i.style.setProperty(d,`${u}px`)}}const c=new ResizeObserver(()=>{e&&clearTimeout(e),e=setTimeout(n,50)}),o=document.querySelector(t);o&&(c.observe(o),n())}document.addEventListener("DOMContentLoaded",()=>{h(".header","--header-height")});
+import{s as e}from"../../shared/sync-header-height.js";document.addEventListener("DOMContentLoaded",()=>{e(".header","--header-height")});
