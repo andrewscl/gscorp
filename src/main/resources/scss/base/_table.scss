@@ -22,8 +22,6 @@
 
 @mixin hs-table() {
 
-  .hs-table {
-
     .hs-table-header {
       display: flex;
       flex-direction: column;
@@ -252,8 +250,6 @@
         }
       }
     }
-
-  }
 
 }
 
