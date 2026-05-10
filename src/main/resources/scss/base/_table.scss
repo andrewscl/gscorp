@@ -5,14 +5,14 @@
 @use '../base/btn-mixins' as *;
 @use '../base/typography' as *;
 
-@mixin hs-table() {
-
-  :root {
+:root {
     --topbar-height: #{$topbar-height};
     --sidebar-width: #{$sidebar-width};
     --content-horizontal-padding: #{$content-horizontal-padding};
     --header-height: 0;
-  }
+}
+
+@mixin hs-table() {
 
   .hs-table {
 

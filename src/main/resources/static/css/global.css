@@ -91,12 +91,13 @@ p {
   margin-bottom: 1.5rem;
 }
 
-.hs-table :root {
+:root {
   --topbar-height: 54px;
   --sidebar-width: 240px;
   --content-horizontal-padding: 2.4rem;
   --header-height: 0;
 }
+
 .hs-table .hs-table .hs-table-header {
   display: flex;
   flex-direction: column;
@@ -385,4 +386,4 @@ p {
   color: #6b7280;
   font-style: italic;
   white-space: normal;
-}/*# sourceMappingURL=global.css.map */
+}/*# sourceMappingURL=global.css.map */ss.map */

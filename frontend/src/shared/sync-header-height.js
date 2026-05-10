@@ -12,8 +12,6 @@ export function syncHeaderHeight(selector = '.hs-table-header', variableName = '
             root.style.setProperty(variableName, `${height}px`);
         }
     }
-
-    // Observer: Esto es mejor que el resize, porque detecta si el header 
     // cambia de tamaño internamente (ej: aparece una alerta o se expande un filtro)
     const observer = new ResizeObserver(() => {
         if (timeoutId) clearTimeout(timeoutId);
