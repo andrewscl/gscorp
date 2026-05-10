@@ -1,4 +1,6 @@
-export function syncHeaderHeight(selector = '.header', variableName = '--header-height') {
+console.log('[Module] sync header height loaded');
+
+export function syncHeaderHeight(selector = '.hs-table-header', variableName = '--header-height') {
     const root = document.documentElement;
     let timeoutId = null;
 
@@ -24,3 +26,7 @@ export function syncHeaderHeight(selector = '.header', variableName = '--header-
         update();
     }
 }
+
+function init (){
+    syncHeaderHeight('.hs-table-header', '--header-height');
+};

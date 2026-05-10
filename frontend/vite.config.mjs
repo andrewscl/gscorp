@@ -5,6 +5,7 @@ export default defineConfig({
   build: {
     outDir: '../src/main/resources/static/js',
     emptyOutDir: true,
+    preserveEntrySignatures: 'exports-only',
     rollupOptions: {
       input: {
         'shared/sync-header-height': path.resolve(__dirname, './src/shared/sync-header-height.js'),
@@ -79,7 +80,9 @@ export default defineConfig({
 
       },
       output: {
-        entryFileNames: '[name].js'
+        format: 'esm',
+        entryFileNames: '[name].js',
+        chunkFileNames: 'chunks/[name]-[hash].js',
       }
     }
   }
