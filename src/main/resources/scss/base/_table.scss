@@ -14,7 +14,7 @@
     --header-height: 0;
   }
 
-  .header {
+  .hs-table-header {
     display: flex;
     flex-direction: column;
     gap: 0.6rem;
@@ -136,7 +136,7 @@
   }
 
   /* Table area */
-  .table-container {
+  .hs-table-container {
     position: fixed;
     border-radius: $radius;
     overflow-x: auto;
@@ -152,7 +152,7 @@
     left: calc(var(--sidebar-width) + var(--content-horizontal-padding));
     right: var(--content-horizontal-padding);
 
-    .patrols-table {
+    .table {
       width: 100%;
       border-collapse: collapse;
       @include roboto-font(0.875rem, 500);
