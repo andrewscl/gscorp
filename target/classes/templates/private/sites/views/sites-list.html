@@ -44,11 +44,10 @@
         <th>acciones</th>
     </tr>
 
-    <th:block id="siteRows">
-        <th:block th:replace=
-            "private/sites/fragments/site-table-rows :: rows"></tbody>
+    <th:block id="siteRows" h:replace=
+            "private/sites/fragments/site-table-rows :: rows">
     </th:block>
 
-      <script type="module" src="/js/private/sites/sites-table.js"></script>
+    <script type="module" src="/js/private/sites/sites-table.js"></script>
 
-<div>
+</div>
