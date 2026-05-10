@@ -1,8 +1,10 @@
+@use "sass:color";
+@use '../base/palette' as *;
 @use '../base/variables' as *;
 @use '../base/mixins' as *;
 @use '../base/btn-mixins' as *;
 @use '../base/typography' as *;
-@use '../base/palette' as *;
+
 
 @mixin hs-table() {
 
@@ -12,8 +14,8 @@
     gap: 0.6rem;
     color: $primary-color;
     position: fixed;
-    top: calc(var($topbar-height) + 1rem);
-    left: calc(var($sidebar-width) + var($content-horizontal-padding));
+    top: calc($topbar-height + 1rem);
+    left: calc($sidebar-width + $content-horizontal-padding);
     right: var($content-horizontal-padding);
     z-index: 1150;
     border-radius: 10px;
@@ -22,7 +24,7 @@
     padding: 0.6rem;
     box-sizing: border-box;
     overflow: visible;
-    max-width: calc(100vw - var($sidebar-width) - (var($content-horizontal-padding) * 2));
+    max-width: calc(100vw - $sidebar-width - ($content-horizontal-padding * 2));
     .title-row {
       display: flex;
       align-items: center;
