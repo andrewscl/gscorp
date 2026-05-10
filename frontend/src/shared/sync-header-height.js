@@ -5,6 +5,8 @@
  */
 // shared/sync-header.js
 
+console.log(`[sync-header] sync-header activado.`);
+
 export function initHeaderSync(selector = '.hs-table-header', variableName = '--header-height') {
     const root = document.documentElement;
     let rafId = null;
