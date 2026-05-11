@@ -77,7 +77,7 @@
         display: flex;
         justify-content: space-between;
         gap: 0.6rem;
-        align-items: center;
+        align-items: flex-start;
         padding: 0.5rem 0.5rem;
         background: transparent;
 
@@ -90,6 +90,7 @@
 
             .filter-item {
             display: flex;
+            flex-direction: column;
             gap: 0.25rem;
             color: $muted-color;
             min-width: 10ch;
