@@ -46,12 +46,12 @@ async function updateSite() {
     const siteTimeZone = qs('#siteTimeZone')?.value?.trim();
     const siteActive = qs('#siteActive')?.checked;
     const payload = {
-      siteName,
-      siteAddress,
-      siteLat,
-      siteLon,
-      siteTimeZone,
-      siteActive
+      name: siteName,
+      address: siteAddress,
+      lat: siteLat,
+      lon: siteLon,
+      timeZone: siteTimeZone,
+      active: siteActive
     };
     try {
       const res = await fetchWithAuth(`/api/sites/update/${id}`, {

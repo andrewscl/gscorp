@@ -119,7 +119,9 @@ public class SiteRestController {
                         return ResponseEntity.ok(updated);
                 } catch (Exception e) {
                         e.printStackTrace();
-                        return ResponseEntity.badRequest().body("No se pudo guardar el sitio: " + e.getMessage());
+                        return ResponseEntity
+                                .badRequest()
+                                        .body("No se pudo guardar el sitio: " + e.getMessage());
                 }
         }
 
