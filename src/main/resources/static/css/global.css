@@ -109,7 +109,7 @@ p {
   position: fixed;
   display: flex;
   gap: 0.8rem;
-  background-color: #ffffff;
+  background-color: #b3261e;
   top: calc(var(--topbar-height) + 1rem);
   left: calc(var(--sidebar-width) + var(--content-horizontal-padding));
   right: var(--content-horizontal-padding);
@@ -131,7 +131,7 @@ p {
 }
 .hs-table .hs-table-header .hs-title-row .title-left .title-text {
   font-family: "Montserrat", sans-serif;
-  font-size: 2rem;
+  font-size: 1.25rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   color: #1e293b;
@@ -170,7 +170,10 @@ p {
   gap: 0.2rem;
 }
 .hs-table .hs-table-header .hs-filters-actions-row .filter-group .filter-item .filter-label {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.75rem;
   font-weight: 500;
+  letter-spacing: 0.02em;
   color: #6b7280;
 }
 .hs-table .hs-table-header .hs-filters-actions-row .filter-group .filter-item .filter-input {
@@ -595,8 +598,4 @@ p {
 }
 .hs-form .footer .btn.btn-danger:active {
   transform: translateY(0);
-}/*# sourceMappingURL=global.css.map */68, 0.4);
-}
-.hs-form .footer .btn.btn-danger:active {
-  transform: translateY(0);
-}/*# sourceMappingURL=global.css.map */
+}/*# sourceMappingURL=global.css.map */ourceMappingURL=global.css.map */

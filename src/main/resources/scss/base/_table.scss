@@ -26,7 +26,7 @@
       position: fixed;
       display: flex;
       gap: 0.8rem;
-      background-color: $white;
+      background-color: $red-800;
       top: calc(var(--topbar-height) + 1rem);
       left: calc(var(--sidebar-width) + var(--content-horizontal-padding));
       right: var(--content-horizontal-padding);
@@ -46,7 +46,7 @@
         .title-left {
           display: flex;
           .title-text {
-            @include montserrat-font(2rem, 600);
+            @include montserrat-font(1.25rem, 600);
             color: $heading-color;
           }
         }
@@ -81,7 +81,7 @@
             flex-direction: column;
             gap: 0.2rem;
               .filter-label {
-                font-weight: 500;
+                @include roboto-font(0.75rem, 500);
                 color: $muted-color;
               }
               .filter-input {
