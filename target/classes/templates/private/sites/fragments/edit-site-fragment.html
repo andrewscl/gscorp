@@ -2,6 +2,8 @@
 
   <div class="hs-form">
 
+  <input type="hidden" id="siteId" th:value="${site.id}" />
+
     <div class="header">
       <h2>Editar Sitio</h2>
       <p class="meta-id"><strong>ID:</strong> <span th:text="${site.id}"></span></p>
@@ -15,7 +17,6 @@
           th:text="${site.project != null ? site.project.name : '—'}"></span>
         <input type="hidden" name="projectId"
           th:value="${site.project != null ? site.project.id : ''}" />
-        <small>Un sitio pertenece a un único proyecto.</small>
       </div>
 
       <hr class="form-separator" />
@@ -63,13 +64,13 @@
 
     </div>
 
+    </div>
+
     <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
 
     <div th:replace="~{shared/fragments/footer-buttons ::
                         footer-buttons(true, 'Actualizar usuario', 'Eliminar usuario')}"></div>
 
-
-  </div>
 
 
 
