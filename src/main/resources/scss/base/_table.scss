@@ -43,13 +43,11 @@
       .title-row {
         display: flex;
         align-items: center;
-        //gap: 1rem;
         width: 100%;
         .title-left {
           display: flex;
           align-items: center;
           gap: 0.6rem;
-
           .title-text {
             @include montserrat-font(2rem, 600);
             color: $heading-color;
@@ -74,33 +72,28 @@
         display: flex;
         justify-content: space-between;
         gap: 0.6rem;
-        padding: 0.2rem 0.5rem;
+        padding: 0.2rem 0;
         width: 100%;
 
         .filter-group {
           display: flex;
-          flex-direction: row;
           gap: 1rem;
-          width: auto;
 
             .filter-item {
             display: flex;
             flex-direction: column;
             gap: 0.2rem;
-            color: $muted-color;
-
-              .filter-label { font-weight: 500; color: $muted-color; }
-
+              .filter-label {
+                font-weight: 500;
+                color: $muted-color;
+              }
               .filter-input {
                 appearance: none;
                 border: 1px solid color.scale($border-color, $lightness: 2%);
                 padding: 0.45rem 0.6rem;
                 border-radius: 8px;
-                //background: #fff;
-                font-size: $base-font-size;
                 color: $primary-color;
                 transition: border-color .12s ease, box-shadow .12s ease;
-
                 &:focus {
                   outline: none;
                   border-color: $accent-blue;
