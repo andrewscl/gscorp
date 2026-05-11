@@ -172,14 +172,15 @@ p {
   flex-direction: row;
   flex-wrap: nowrap;
   gap: 1rem;
-  flex: 1;
+  flex: 0 1 auto;
+  width: auto;
 }
 .hs-table .hs-table-header .filters-actions-row .filter-group .filter-item {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
   color: #6b7280;
-  flex: 0 1 auto;
+  flex: 0 0 auto;
 }
 .hs-table .hs-table-header .filters-actions-row .filter-group .filter-item .filter-label {
   font-weight: 500;
@@ -192,7 +193,6 @@ p {
   border: 1px solid rgb(226.58, 232.46, 240.3);
   padding: 0.45rem 0.6rem;
   border-radius: 8px;
-  background: #fff;
   font-size: 1rem;
   color: #1e293b;
   transition: border-color 0.12s ease, box-shadow 0.12s ease;

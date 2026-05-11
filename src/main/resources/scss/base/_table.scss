@@ -84,14 +84,15 @@
           flex-direction: row;
           flex-wrap: nowrap;
           gap: 1rem;
-          flex: 1;
+          flex: 0 1 auto;
+          width: auto;
 
             .filter-item {
             display: flex;
             flex-direction: column;
             gap: 0.2rem;
             color: $muted-color;
-            flex: 0 1 auto;
+            flex: 0 0 auto;
 
               .filter-label { font-weight: 500; color: $muted-color; }
 
@@ -102,7 +103,7 @@
                 border: 1px solid color.scale($border-color, $lightness: 2%);
                 padding: 0.45rem 0.6rem;
                 border-radius: 8px;
-                background: #fff;
+                //background: #fff;
                 font-size: $base-font-size;
                 color: $primary-color;
                 transition: border-color .12s ease, box-shadow .12s ease;
