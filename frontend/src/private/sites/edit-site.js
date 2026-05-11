@@ -38,6 +38,7 @@ async function updateSite() {
     if (updateBtn) updateBtn.disabled = true;
     if (cancelBtn) cancelBtn.disabled = true;
     if (deleteBtn) deleteBtn.disabled = true;
+    const id = qs('#siteId')?.value?.trim();
     const siteName = qs('#siteName')?.value?.trim();
     const siteAddress = qs('#siteAddress')?.value?.trim();
     const siteLat = qs('#siteLat')?.value?.trim();
