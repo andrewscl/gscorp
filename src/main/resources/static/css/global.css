@@ -108,7 +108,8 @@ p {
 .hs-table .hs-table-header {
   position: fixed;
   display: flex;
-  gap: 0.6rem;
+  gap: 0.8rem;
+  background-color: #ffffff;
   top: calc(var(--topbar-height) + 1rem);
   left: calc(var(--sidebar-width) + var(--content-horizontal-padding));
   right: var(--content-horizontal-padding);
@@ -124,14 +125,13 @@ p {
 .hs-table .hs-table-header .hs-title-row {
   display: flex;
   align-items: center;
-  width: 100%;
 }
 .hs-table .hs-table-header .hs-title-row .title-left {
   display: flex;
 }
 .hs-table .hs-table-header .hs-title-row .title-left .title-text {
   font-family: "Montserrat", sans-serif;
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   color: #1e293b;
@@ -595,7 +595,7 @@ p {
 }
 .hs-form .footer .btn.btn-danger:active {
   transform: translateY(0);
-}/*# sourceMappingURL=global.css.map */ba(239, 68, 68, 0.4);
+}/*# sourceMappingURL=global.css.map */68, 0.4);
 }
 .hs-form .footer .btn.btn-danger:active {
   transform: translateY(0);
