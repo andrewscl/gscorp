@@ -1,6 +1,6 @@
-@use '../base/mixins' as *;
-@use '../base/variables' as *;
-@use '../base/palette' as *;
-@use '../base/typography' as *;
-@use '../base/fragment-mixins' as *;
+@use '../base/panel-cards' as *;
 
+
+.dual-panel-card {
+    @include dual-panel-card(1, 1);
+}
