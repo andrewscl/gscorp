@@ -25,10 +25,9 @@
     .hs-table-header {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
       gap: 0.6rem;
       color: $primary-color;
-      background-color: $background-color;
+      background-color: $white;
       position: fixed;
       top: calc(var(--topbar-height) + 1rem);
       left: calc(var(--sidebar-width) + var(--content-horizontal-padding));
@@ -76,12 +75,10 @@
       }
       .filters-actions-row {
         display: flex;
+        justify-content: space-between;
         gap: 0.6rem;
         align-items: center;
         padding: 0.5rem 0.5rem;
-        background: $white;
-        border-radius: 8px;
-        border: 1px solid $border-color;
 
         .filter-group {
           display: flex;
@@ -116,8 +113,6 @@
               justify-content: flex-end;
               gap: 1rem;
               padding: 1rem;
-              background: #f8f9fa;
-              border-top: 0.1rem solid $slate-200;
               border-bottom-left-radius: 0.8rem;
               border-bottom-right-radius: 0.8rem;
               .btn {
@@ -150,7 +145,7 @@
       overflow-x: auto;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
-      background: $background-color;
+      background: $white;
       border: 1px solid $border-color;
       box-shadow: $shadow-sm;
       padding: 0 0.6rem 0.6rem 0.6rem;
