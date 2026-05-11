@@ -22,7 +22,7 @@
     // Panel de Contenido (Izquierdo)
     .panel-main {
         flex: $ratio-left;
-        padding: 1rem 2rem;
+        padding: 0 2rem;
         display: flex;
         flex-direction: column;
         border-right: 1px solid rgba($border-color, 0.5);
@@ -36,7 +36,7 @@
             display: flex;
             flex-direction: column;
             gap: 1.5rem; // Más espacio entre bloques de datos
-            padding-top: 1rem;
+            padding-top: 0.5rem;
 
             .form-group {
                 display: flex;

@@ -100,7 +100,7 @@ p {
 }
 .dual-panel-card .panel-main {
   flex: 1;
-  padding: 1rem 2rem;
+  padding: 0 2rem;
   display: flex;
   flex-direction: column;
   border-right: 1px solid rgba(226, 232, 240, 0.5);
@@ -116,7 +116,7 @@ p {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  padding-top: 1rem;
+  padding-top: 0.5rem;
 }
 .dual-panel-card .panel-main .panel-body .form-group {
   display: flex;
@@ -183,7 +183,7 @@ p {
     height: 350px;
     flex: none;
   }
-}/*# sourceMappingURL=view-site.css.map */mall {
+}/*# sourceMappingURL=view-site.css.map */small {
   color: #64748b;
   font-size: 0.92rem;
   margin-top: 0.18rem;
