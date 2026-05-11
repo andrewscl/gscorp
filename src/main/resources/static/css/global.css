@@ -170,6 +170,7 @@ p {
 .hs-table .hs-table-header .filters-actions-row .filter-group {
   display: flex;
   flex-direction: row;
+  flex-wrap: nowrap;
   gap: 1rem;
   flex: 1;
 }
@@ -178,14 +179,15 @@ p {
   flex-direction: column;
   gap: 0.2rem;
   color: #6b7280;
-  min-width: 10rem;
+  flex: 0 1 auto;
 }
 .hs-table .hs-table-header .filters-actions-row .filter-group .filter-item .filter-label {
   font-weight: 500;
   color: #6b7280;
 }
 .hs-table .hs-table-header .filters-actions-row .filter-group .filter-item .filter-input {
-  width: 100%;
+  width: 12rem;
+  min-width: 8rem;
   appearance: none;
   border: 1px solid rgb(226.58, 232.46, 240.3);
   padding: 0.45rem 0.6rem;
