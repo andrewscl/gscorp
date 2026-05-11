@@ -130,7 +130,6 @@ p {
   justify-content: space-between;
   gap: 1rem;
   width: 100%;
-  background: transparent;
 }
 .hs-table .hs-table-header .title-row .title-left {
   display: flex;
@@ -165,30 +164,28 @@ p {
   display: flex;
   justify-content: space-between;
   gap: 0.6rem;
-  align-items: flex-end;
-  padding: 0.5rem 0.5rem;
-  background: transparent;
+  padding: 0.2rem 0.5rem;
   width: 100%;
 }
 .hs-table .hs-table-header .filters-actions-row .filter-group {
   display: flex;
   flex-direction: row;
   gap: 1rem;
-  align-items: flex-end;
-  min-width: 8rem;
+  flex: 1;
 }
 .hs-table .hs-table-header .filters-actions-row .filter-group .filter-item {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.2rem;
   color: #6b7280;
-  min-width: 10ch;
+  min-width: 10rem;
 }
 .hs-table .hs-table-header .filters-actions-row .filter-group .filter-item .filter-label {
   font-weight: 500;
   color: #6b7280;
 }
 .hs-table .hs-table-header .filters-actions-row .filter-group .filter-item .filter-input {
+  width: 100%;
   appearance: none;
   border: 1px solid rgb(226.58, 232.46, 240.3);
   padding: 0.45rem 0.6rem;
