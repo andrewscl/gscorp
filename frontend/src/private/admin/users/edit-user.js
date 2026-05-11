@@ -46,13 +46,11 @@ async function updateUser () {
     });
 
     displayAlert(alertSuccess, 'Usuario actualizado correctamente', 2500);
-    
     setTimeout(() => navigateTo('/private/users/table-view', true), 1500);
 
   } catch (err) {
 
     displayAlert(alertError, 'No se pudo guardar: ' + (err.message || err), 2500);
-
     if (updateBtn) updateBtn.disabled = false;
     if (cancelBtn) cancelBtn.disabled = false;
     if (deleteBtn) deleteBtn.disabled = false;
@@ -79,10 +77,8 @@ async function deleteUser() {
     setTimeout(() => navigateTo('/private/users/table-view', true), 2000);
 
   } catch (err) {
-
     displayAlert(alertError, 'No se pudo eliminar: ' + (err.message || err), 2500);
-
-    deleteBtn.disabled = true;
+    deleteBtn.disabled = false;
   }
 }
 

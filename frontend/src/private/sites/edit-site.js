@@ -1,97 +1,89 @@
 import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
+import { displayAlert } from '../../shared/display-alert.js';
 
-// Eliminar sitio
-const deleteBtn = document.querySelector('#deleteSiteBtn');
-if (deleteBtn) {
-  deleteBtn.addEventListener('click', async () => {
-    const id = deleteBtn.getAttribute('data-id');
-    if (!id) return;
+const qs  = (s) => document.querySelector(s);
+const qa  = (s) => document.querySelectorAll(s);
+const alertSuccess = qs('.alert-success');
+const alertError = qs('.alert-error');
+const alertCancel = qs('.alert-cancel');
 
-    const ok = window.
-          confirm('¿Eliminar este sitio? Esta acción no se puede deshacer.');
-    if (!ok) return;
+async function deleteSite () {
+  const ok = window.confirm('¿Eliminar este usuario? Esta acción no se puede deshacer.');
+  if (!ok) return;
 
-    deleteBtn.disabled = true;
+  if (deleteBtn) deleteBtn.disabled = true;
 
     try {
       const res = await fetchWithAuth(`/api/sites/${id}`,
                                                       { method: 'DELETE' });
-
       if (!res.ok) {
         const msg = await res.text().catch(() => '');
         throw new Error(msg || `No se pudo eliminar (HTTP ${res.status})`);
       }
 
-      // vuelta al listado
-      navigateTo('/private/sites/table-view', true);
-    } catch (e) {
-      alert(e.message || 'Error al eliminar el sitio.');
+      displayAlert(alertSuccess, 'El sitio fue eliminado', 2500);
+
+      setTimeout(() => navigateTo('/private/sites/table-view', true), 2000);
+    } catch (err) {
+      displayAlert(alertError, 'No se pudo eliminar: ' + (err.message || err), 2500);
       deleteBtn.disabled = false;
     }
-  });
 }
 
-// Guardar cambios
-const form = document.getElementById('editSiteForm');
-if (form) {
-  form.addEventListener('submit', async (ev) => {
-    ev.preventDefault();
-
-    const id = form.querySelector('button[type="submit"]')?.getAttribute('data-id');
-    if (!id) return;
-
-    const fd = new FormData(form);
-    // Convierte a objeto plano
-    const data = {};
-    fd.forEach((value, key) => {
-      if (key === 'active') {
-        data[key] = form.querySelector('#siteActive').checked;
-      } else {
-        data[key] = value;
-      }
-    });
-
-    const errorDiv = document.getElementById('editSiteError');
-    const okDiv = document.getElementById('editSiteOk');
-    errorDiv.textContent = '';
-    okDiv.style.display = 'none';
-
+async function updateSite() {
+    const updateBtn = qs('.btn-primary');
+    const cancelBtn = qs('.btn-secondary');
+    const deleteBtn = qs('.btn-danger');
+    if (updateBtn) updateBtn.disabled = true;
+    if (cancelBtn) cancelBtn.disabled = true;
+    if (deleteBtn) deleteBtn.disabled = true;
+    const siteName = qs('#siteName')?.value?.trim();
+    const siteAddress = qs('#siteAddress')?.value?.trim();
+    const siteLat = qs('#siteLat')?.value?.trim();
+    const siteLon = qs('#siteLon')?.value?.trim();
+    const siteTimeZone = qs('#siteTimeZone')?.value?.trim();
+    const siteActive = qs('#siteActive')?.checked;
+    const payload = {
+      siteName,
+      siteAddress,
+      siteLat,
+      siteLon,
+      siteTimeZone,
+      siteActive
+    };
     try {
       const res = await fetchWithAuth(`/api/sites/update/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       });
-
       if (!res.ok) {
         const msg = await res.text().catch(() => '');
         throw new Error(msg || `No se pudo guardar (HTTP ${res.status})`);
       }
-
-      okDiv.style.display = '';
-      navigateTo('/private/sites/table-view', true);
+      displayAlert(alertSuccess, 'Sitio actualizado correctamente', 2500);
+      setTimeout(() => navigateTo('/private/sites/table-view', true), 1500);
     } catch (e) {
-      errorDiv.textContent = e.message || 'Error al guardar el sitio.';
+      displayAlert(alertError, 'No se pudo guardar: ' + (e.message || e), 2500);
+      if (updateBtn) updateBtn.disabled = false;
+      if (cancelBtn) cancelBtn.disabled = false;
+      if (deleteBtn) deleteBtn.disabled = false;
     }
-  });
 }
 
 // Geolocalización: botón para obtener lat/lon y guardar directo en backend
 const getLocationBtn = document.getElementById('getLocationBtn');
 const latInput = document.getElementById('siteLat');
 const lonInput = document.getElementById('siteLon');
-
 if (getLocationBtn && latInput && lonInput) {
   getLocationBtn.addEventListener('click', async () => {
     if (!navigator.geolocation) {
       alert("Geolocalización no soportada por tu navegador.");
       return;
     }
-
     getLocationBtn.disabled = true;
     getLocationBtn.textContent = "Obteniendo ubicación...";
-
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         latInput.value = position.coords.latitude;
@@ -102,7 +94,6 @@ if (getLocationBtn && latInput && lonInput) {
           getLocationBtn.disabled = false;
         }, 1500);
         alert(`Precisión estimada: ${Math.round(position.coords.accuracy)} metros`);
-
         // === GUARDAR DIRECTAMENTE EN EL BACKEND ===
         // Obtén el ID del sitio (ajusta según tu HTML)
         const id = form?.querySelector('button[type="submit"]')?.getAttribute('data-id');
@@ -110,7 +101,6 @@ if (getLocationBtn && latInput && lonInput) {
           alert("No se pudo determinar el ID del sitio para guardar la ubicación.");
           return;
         }
-
         try {
           const res = await fetchWithAuth(`/api/sites/update-location/${id}`, {
             method: 'PUT',
@@ -143,3 +133,29 @@ if (getLocationBtn && latInput && lonInput) {
     );
   });
 }
+
+const cancelEditSite = () => {
+    displayAlert(alertCancel, 'La edición del sitio a sido cancelada.', 2500);
+    setTimeout(() => navigateTo('/private/sites/table-view', true), 2000);
+}
+
+function bindEditSite() {
+    const updateBtn = qs('.btn-primary');
+    if (updateBtn) {
+        updateBtn.addEventListener('click', updateSite);
+    }
+    const cancelBtn = qs('.btn-secondary');
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', cancelEditSite);
+    }
+    const deleteBtn = qs('.btn-danger');
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', deleteSite);
+    }
+
+}
+
+/* --- init --- */
+(function init() {
+  bindEditSite();
+})();

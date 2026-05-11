@@ -22,6 +22,7 @@ import com.gscorp.dv1.projects.infrastructure.Project;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.infrastructure.Site;
 import com.gscorp.dv1.sites.web.dto.CreateSiteRequest;
+import com.gscorp.dv1.sites.web.dto.UpdateSiteRequest;
 import com.gscorp.dv1.sites.web.dto.SetSiteCoordinatesDto;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
 import com.gscorp.dv1.sites.web.dto.SiteDtoProjection;
@@ -109,7 +110,10 @@ public class SiteRestController {
         }
 
         @PutMapping("/update/{id}")
-        public ResponseEntity<?> updateSite(@PathVariable Long id, @RequestBody SiteDto in) {
+        public ResponseEntity<?> updateSite(
+                @PathVariable Long id,
+                @RequestBody UpdateSiteRequest in
+                ) {
                 try {
                         SiteDto updated = siteService.updateSite(id, in);
                         return ResponseEntity.ok(updated);

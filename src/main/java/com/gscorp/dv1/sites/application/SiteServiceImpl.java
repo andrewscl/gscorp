@@ -15,6 +15,7 @@ import com.gscorp.dv1.sites.infrastructure.Site;
 import com.gscorp.dv1.sites.infrastructure.SiteProjection;
 import com.gscorp.dv1.sites.infrastructure.SiteSelectProjection;
 import com.gscorp.dv1.sites.infrastructure.SiteRepository;
+import com.gscorp.dv1.sites.web.dto.UpdateSiteRequest;
 import com.gscorp.dv1.sites.web.dto.SetSiteCoordinatesDto;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
 import com.gscorp.dv1.sites.web.dto.SiteDtoProjection;
@@ -98,21 +99,21 @@ public class SiteServiceImpl implements SiteService{
 
     @Override
     @Transactional
-    public SiteDto updateSite(Long id, SiteDto siteDto) {
+    public SiteDto updateSite(Long id, UpdateSiteRequest request) {
         Site site = siteRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("No existe el sitio con id " + id));
 
-        site.setName(siteDto.name());
-        site.setAddress(siteDto.address());
-        site.setTimeZone(siteDto.timeZone());
-        site.setLat(siteDto.lat());
-        site.setLon(siteDto.lon());
-        site.setActive(Boolean.TRUE.equals(siteDto.active()));
+        site.setName(request.name());
+        site.setAddress(request.address());
+        site.setTimeZone(request.timeZone());
+        site.setLat(request.lat());
+        site.setLon(request.lon());
+        site.setActive(Boolean.TRUE.equals(request.active()));
 
 
         // Si permites cambiar el proyecto asociado:
-        // if (siteDto.projectId() != null) {
-        //     Project project = projectRepo.findById(siteDto.projectId()).orElse(null);
+        // if (request.projectId() != null) {
+        //     Project project = projectRepo.findById(request.projectId()).orElse(null);
         //     site.setProject(project);
         // }
 

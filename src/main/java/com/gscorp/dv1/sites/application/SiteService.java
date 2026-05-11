@@ -9,6 +9,7 @@ import com.gscorp.dv1.sites.web.dto.SiteDto;
 import com.gscorp.dv1.sites.web.dto.SiteDtoProjection;
 import com.gscorp.dv1.sites.web.dto.SiteSelectDto;
 import com.gscorp.dv1.sites.web.dto.UpdateLatLon;
+import com.gscorp.dv1.sites.web.dto.UpdateSiteRequest;
 
 public interface SiteService {
 
@@ -24,7 +25,7 @@ public interface SiteService {
 
     Site updateSiteLocation(Long id, UpdateLatLon updateLatLon);
 
-    SiteDto updateSite(Long id, SiteDto siteDto);
+    SiteDto updateSite(Long id, UpdateSiteRequest request);
 
     SetSiteCoordinatesDto setCoordinates(Long siteId, Double latitude, Double longitude);
 
