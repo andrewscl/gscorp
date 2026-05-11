@@ -165,30 +165,22 @@ p {
   display: flex;
   justify-content: space-between;
   gap: 0.6rem;
-  align-items: flex-start;
+  align-items: center;
   padding: 0.5rem 0.5rem;
-  background: transparent;
-  width: 100%;
 }
 .hs-table .hs-table-header .filters-actions-row .filter-group {
   display: flex;
-  gap: 1rem;
-  align-items: center;
-  flex-wrap: nowrap;
-  width: auto;
-}
-.hs-table .hs-table-header .filters-actions-row .filter-group .filter-item {
-  display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 0.25rem;
+  font-size: 0.85rem;
   color: #6b7280;
   min-width: 10ch;
 }
-.hs-table .hs-table-header .filters-actions-row .filter-group .filter-item .filter-label {
+.hs-table .hs-table-header .filters-actions-row .filter-group .filter-label {
   font-weight: 500;
   color: #6b7280;
 }
-.hs-table .hs-table-header .filters-actions-row .filter-group .filter-item .filter-input {
+.hs-table .hs-table-header .filters-actions-row .filter-group .filter-input {
   appearance: none;
   border: 1px solid rgb(226.58, 232.46, 240.3);
   padding: 0.45rem 0.6rem;
@@ -198,7 +190,7 @@ p {
   color: #1e293b;
   transition: border-color 0.12s ease, box-shadow 0.12s ease;
 }
-.hs-table .hs-table-header .filters-actions-row .filter-group .filter-item .filter-input:focus {
+.hs-table .hs-table-header .filters-actions-row .filter-group .filter-input:focus {
   outline: none;
   border-color: #3b82f6;
   box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.06);
@@ -208,7 +200,8 @@ p {
   justify-content: flex-end;
   gap: 1rem;
   padding: 1rem;
-  background: transparent;
+  border-bottom-left-radius: 0.8rem;
+  border-bottom-right-radius: 0.8rem;
 }
 .hs-table .hs-table-header .filters-actions-row .actions-row .btn {
   font-family: "Roboto", sans-serif;
@@ -609,6 +602,10 @@ p {
   background-color: rgb(236.5802955665, 39.7197044335, 39.7197044335);
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+}
+.hs-form .footer .btn.btn-danger:active {
+  transform: translateY(0);
+}/*# sourceMappingURL=global.css.map */px rgba(239, 68, 68, 0.4);
 }
 .hs-form .footer .btn.btn-danger:active {
   transform: translateY(0);

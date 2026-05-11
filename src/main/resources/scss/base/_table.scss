@@ -77,16 +77,16 @@
         display: flex;
         justify-content: space-between;
         gap: 0.6rem;
-        align-items: flex-start;
+        //align-items: flex-end;
         padding: 0.5rem 0.5rem;
         background: transparent;
         width: 100%;
 
         .filter-group {
           display: flex;
+          flex-direction: row;
           gap: 1rem;
-          align-items: center;
-          flex-wrap: nowrap;
+          //align-items: flex-end;
           width: auto;
 
             .filter-item {
