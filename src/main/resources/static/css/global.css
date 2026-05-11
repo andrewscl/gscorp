@@ -178,6 +178,8 @@ p {
   color: #6b7280;
 }
 .hs-table .hs-table-header .hs-filters-actions-row .filter-group .filter-item .filter-input {
+  width: 12rem;
+  min-width: 10rem;
   appearance: none;
   border: 1px solid rgb(226.58, 232.46, 240.3);
   padding: 0.5rem 0.6rem;
