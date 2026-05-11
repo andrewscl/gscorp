@@ -38,14 +38,12 @@
       overflow: visible;
       max-width: calc(100vw - var(--sidebar-width) -
                                     (var(--content-horizontal-padding) * 2));
-      .title-row {
+      .hs-title-row {
         display: flex;
         align-items: center;
         width: 100%;
         .title-left {
           display: flex;
-          align-items: center;
-          gap: 0.8rem;
           .title-text {
             @include montserrat-font(2.5rem, 600);
             color: $heading-color;
@@ -65,7 +63,7 @@
           margin-left: auto;
         }
       }
-      .filters-actions-row {
+      .hs-filters-actions-row {
         display: flex;
         justify-content: space-between;
         gap: 0.6rem;
