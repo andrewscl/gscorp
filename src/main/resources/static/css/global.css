@@ -117,7 +117,7 @@ p {
   z-index: 1150;
   border-radius: 0.8rem;
   border: 1px solid #e2e8f0;
-  padding: 0.6rem 1rem;
+  padding: 0.6rem 2rem;
   box-sizing: border-box;
   overflow: visible;
   max-width: calc(100vw - var(--sidebar-width) - var(--content-horizontal-padding) * 2);
@@ -126,6 +126,7 @@ p {
   display: flex;
   align-items: center;
   border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 0.6rem;
 }
 .hs-table .hs-table-header .hs-title-row .title-left {
   display: flex;
@@ -157,7 +158,6 @@ p {
   display: flex;
   justify-content: space-between;
   gap: 0.6rem;
-  padding: 0.2rem 0;
   width: 100%;
 }
 .hs-table .hs-table-header .hs-filters-actions-row .filter-group {
@@ -180,7 +180,7 @@ p {
 .hs-table .hs-table-header .hs-filters-actions-row .filter-group .filter-item .filter-input {
   appearance: none;
   border: 1px solid rgb(226.58, 232.46, 240.3);
-  padding: 0.45rem 0.6rem;
+  padding: 0.5rem 0.6rem;
   border-radius: 8px;
   color: #1e293b;
   transition: border-color 0.12s ease, box-shadow 0.12s ease;
