@@ -1,0 +1,86 @@
+.invite-user-container {
+  max-width: 420px;
+  margin: 2.5rem auto;
+  padding: 2rem 2.5rem 1.5rem 2.5rem;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 18px rgba(30, 40, 60, 0.1);
+  font-family: "Segoe UI", "Roboto", Arial, sans-serif;
+}
+.invite-user-container h2 {
+  margin-bottom: 1.6rem;
+  font-size: 1.5rem;
+  color: #2d3a4b;
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+.invite-user-container form {
+  display: flex;
+  flex-direction: column;
+}
+.invite-user-container form label {
+  margin-bottom: 0.3rem;
+  font-weight: 500;
+  color: #3c4663;
+  font-size: 1rem;
+}
+.invite-user-container form input[type=text],
+.invite-user-container form input[type=email],
+.invite-user-container form select {
+  padding: 0.5rem 0.7rem;
+  margin-bottom: 1.1rem;
+  border: 1px solid #d3d8e4;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+  background: #fafcff;
+}
+.invite-user-container form input[type=text]:focus,
+.invite-user-container form input[type=email]:focus,
+.invite-user-container form select:focus {
+  border-color: #4f8cff;
+  outline: none;
+  background: #fff;
+}
+.invite-user-container form #inviteUserError {
+  color: #e74c3c;
+  font-size: 0.98rem;
+  margin-bottom: 0.7rem;
+  min-height: 1.1em;
+}
+.invite-user-container form button[type=submit] {
+  background: #4f8cff;
+  margin-top: 0.2rem;
+}
+.invite-user-container button {
+  background: #bfc9d8;
+  color: #2d3a4b;
+  margin: 0.7rem auto 0 auto;
+  display: block;
+}
+.invite-user-container button:hover, .invite-user-container button:focus {
+  background: #a6b0c0;
+}
+.invite-user-container #inviteUserSuccess {
+  color: #27ae60;
+  font-size: 1.07rem;
+  margin-top: 1.1rem;
+  text-align: center;
+  font-weight: 500;
+  display: none;
+}
+
+.invite-user-btn, .invite-user-container form button[type=submit], .invite-user-container button {
+  padding: 0.6rem 1.1rem;
+  font-size: 1.08rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.18s, color 0.18s;
+}
+.invite-user-btn:disabled, .invite-user-container form button[type=submit]:disabled, .invite-user-container button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}/*# sourceMappingURL=invite-user.css.map */

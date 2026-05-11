@@ -170,7 +170,7 @@ p {
 }
 .hs-table .hs-table-header .filters-actions-row .filter-group {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 0.25rem;
   font-size: 0.85rem;
   color: #6b7280;
@@ -389,9 +389,4 @@ p {
   color: #6b7280;
   font-style: italic;
   white-space: normal;
-}/*# sourceMappingURL=global.css.map */lign: center;
-  padding: 2rem;
-  color: #6b7280;
-  font-style: italic;
-  white-space: normal;
-}/*# sourceMappingURL=global.css.map */
+}/*# sourceMappingURL=global.css.map */ */
