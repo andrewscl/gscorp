@@ -81,32 +81,33 @@
         padding: 0.5rem 0.5rem;
         background: transparent;
 
-        .filter-item {
+        .filter-group {
           display: flex;
-          flex-direction: row;
-          gap: 0.25rem;
-          font-size: 0.85rem;
-          color: $muted-color;
-          min-width: 10ch;
+          gap: 0.6rem;
+            .filter-item {
+            display: flex;
+            gap: 0.25rem;
+            color: $muted-color;
+            min-width: 10ch;
+              .filter-label { font-weight: 500; color: $muted-color; }
 
-          .filter-label { font-weight: 500; color: $muted-color; }
+              .filter-input {
+                appearance: none;
+                border: 1px solid color.scale($border-color, $lightness: 2%);
+                padding: 0.45rem 0.6rem;
+                border-radius: 8px;
+                background: #fff;
+                font-size: $base-font-size;
+                color: $primary-color;
+                transition: border-color .12s ease, box-shadow .12s ease;
 
-          .filter-input {
-            appearance: none;
-            border: 1px solid color.scale($border-color, $lightness: 2%);
-            padding: 0.45rem 0.6rem;
-            border-radius: 8px;
-            background: #fff;
-            font-size: $base-font-size;
-            color: $primary-color;
-            transition: border-color .12s ease, box-shadow .12s ease;
-
-            &:focus {
-              outline: none;
-              border-color: $accent-blue;
-              box-shadow: 0 0 0 6px rgba($accent-blue, 0.06);
+                &:focus {
+                  outline: none;
+                  border-color: $accent-blue;
+                  box-shadow: 0 0 0 6px rgba($accent-blue, 0.06);
+                }
+              }
             }
-          }
         }
 
         .actions-row{
@@ -114,6 +115,7 @@
               justify-content: flex-end;
               gap: 1rem;
               padding: 1rem;
+              background: transparent;
               .btn {
                 @include roboto-font(0.85rem, 600);
                 &.btn-primary {

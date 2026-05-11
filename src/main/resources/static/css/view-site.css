@@ -82,7 +82,10 @@ p {
   color: #334155;
   line-height: 1.65;
   margin-bottom: 1.5rem;
-}/*# sourceMappingURL=view-site.css.map */d: #fff;
+}
+
+.detail-section.view-site {
+  background: #fff;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
   box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
