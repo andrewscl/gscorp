@@ -22,7 +22,7 @@
     // Panel de Contenido (Izquierdo)
     .panel-main {
         flex: $ratio-left;
-        padding: 2rem;
+        padding: 1rem 2rem;
         display: flex;
         flex-direction: column;
         border-right: 1px solid rgba($border-color, 0.5);
