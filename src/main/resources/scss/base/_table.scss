@@ -79,8 +79,9 @@
         gap: 0.6rem;
         align-items: center;
         padding: 0.5rem 0.5rem;
+        background: transparent;
 
-        .filter-group {
+        .filter-item {
           display: flex;
           flex-direction: row;
           gap: 0.25rem;
@@ -113,8 +114,6 @@
               justify-content: flex-end;
               gap: 1rem;
               padding: 1rem;
-              border-bottom-left-radius: 0.8rem;
-              border-bottom-right-radius: 0.8rem;
               .btn {
                 @include roboto-font(0.85rem, 600);
                 &.btn-primary {

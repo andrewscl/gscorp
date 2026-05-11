@@ -1,16 +1,17 @@
 <section th:fragment="content">
 
-  <div class="hs-form readonly-mode">
-
+  <div class="view-site">
   <input type="hidden" id="siteId" th:value="${site.id}" />
+
+  <div class="info-card">
 
     <div class="header">
       <h3>Editar Sitio</h3>
       <p class="meta-id"><strong>ID:</strong> <span th:text="${site.id}"></span></p>
     </div>
 
-    <div id="editSiteForm" class="body">
-      <!-- Proyecto solo lectura -->
+    <div id="viewSite" class="body">
+
       <div class="form-group">
         <label>Proyecto</label>
         <span class="readonly-field"
@@ -21,27 +22,27 @@
 
       <hr class="form-separator" />
 
-        <div class="form-group">
+      <div class="form-group">
           <label>Nombre</label>
           <span th:text="${site.name}"></span>
-        </div>
+      </div>
 
-        <div class="form-group">
+      <div class="form-group">
           <label>Dirección</label>
           <span th:text="${site.address}"></span>
         </div>
 
       <div class="form-row">
 
-        <div class="form-group">
+      <div class="form-group">
           <label>Latitud</label>
           <span th:text="${site.lat}"></span>
-        </div>
+      </div>
 
-        <div class="form-group">
+      <div class="form-group">
           <label>Longitud</label>
           <span th:text="${site.lon}"></span>
-        </div>
+      </div>
 
       </div>
 
@@ -57,10 +58,14 @@
 
     </div>
 
+  </div>
+
+  <div class="map-container"></div>
+
     <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
 
     <div th:replace="~{shared/fragments/footer-buttons ::
-                        footer-buttons(true, 'Actualizar usuario', 'Eliminar usuario')}"></div>
+                        footer-buttons(false, 'Actualizar usuario', 'Eliminar usuario')}"></div>
 
     </div>
 
