@@ -21,5 +21,17 @@ $topbar-height: 54px;
 $sidebar-width: 240px;
 $content-horizontal-padding: 2.4rem;
 $radius: 0.7rem;
+
+
+// Sombras sutiles para elementos pequeños (inputs, botones)
+$shadow-xs: 0 0.1rem 0.4rem rgba(15, 23, 42, 0.04);
+
+// Sombra estándar para tarjetas y contenedores
 $shadow-sm: 0 0.5rem 1.1rem rgba(15, 23, 42, 0.04);
-$shadow-xs: 0 0.1rem 0.4rem rgba(15,23,42,0.04);
+
+// Sombra para elementos flotantes (Dropdowns, Headers fijos)
+$shadow-md: 0 8px 20px rgba(15, 23, 42, 0.08);
+
+// Sombra para Modales o elementos con mucha profundidad
+$shadow-lg: 0 15px 35px rgba(15, 23, 42, 0.12);
+
