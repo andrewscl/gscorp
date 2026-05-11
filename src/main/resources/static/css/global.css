@@ -117,7 +117,7 @@ p {
   z-index: 1150;
   border-radius: 0.8rem;
   border: 1px solid #e2e8f0;
-  padding: 0.6rem;
+  padding: 0.6rem 1rem;
   box-sizing: border-box;
   overflow: visible;
   max-width: calc(100vw - var(--sidebar-width) - var(--content-horizontal-padding) * 2);
@@ -125,6 +125,7 @@ p {
 .hs-table .hs-table-header .hs-title-row {
   display: flex;
   align-items: center;
+  border-bottom: 1px solid #e2e8f0;
 }
 .hs-table .hs-table-header .hs-title-row .title-left {
   display: flex;
@@ -598,4 +599,4 @@ p {
 }
 .hs-form .footer .btn.btn-danger:active {
   transform: translateY(0);
-}/*# sourceMappingURL=global.css.map */ss.map */
+}/*# sourceMappingURL=global.css.map */
