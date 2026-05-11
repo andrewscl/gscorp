@@ -109,7 +109,7 @@ p {
   position: fixed;
   display: flex;
   gap: 0.8rem;
-  background-color: #b3261e;
+  background-color: #ffffff !important;
   top: calc(var(--topbar-height) + 1rem);
   left: calc(var(--sidebar-width) + var(--content-horizontal-padding));
   right: var(--content-horizontal-padding);
@@ -598,4 +598,4 @@ p {
 }
 .hs-form .footer .btn.btn-danger:active {
   transform: translateY(0);
-}/*# sourceMappingURL=global.css.map */ourceMappingURL=global.css.map */
+}/*# sourceMappingURL=global.css.map */gURL=global.css.map */

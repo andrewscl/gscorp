@@ -26,7 +26,7 @@
       position: fixed;
       display: flex;
       gap: 0.8rem;
-      background-color: $red-800;
+      background-color: $white !important;
       top: calc(var(--topbar-height) + 1rem);
       left: calc(var(--sidebar-width) + var(--content-horizontal-padding));
       right: var(--content-horizontal-padding);
