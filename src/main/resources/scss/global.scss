@@ -5,8 +5,13 @@
 @use 'base/mixins' as * ;
 @use 'base/typography' as * ;
 @use 'base/table' as * ;
+@use 'base/card-forms' as * ;
 
 // clase global para toda la app
 .hs-table {
     @include hs-table();
+}
+
+.hs-form{
+  @include hs-form($max_w: 40rem);
 }
