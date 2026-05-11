@@ -82,9 +82,7 @@
         .filter-group {
           display: flex;
           flex-direction: row;
-          flex-wrap: nowrap;
           gap: 1rem;
-          flex: 1 1 auto;
           width: auto;
 
             .filter-item {
@@ -92,13 +90,10 @@
             flex-direction: column;
             gap: 0.2rem;
             color: $muted-color;
-            flex: 0 0 auto;
 
               .filter-label { font-weight: 500; color: $muted-color; }
 
               .filter-input {
-                width: 12rem;
-                min-width: 8rem;
                 appearance: none;
                 border: 1px solid color.scale($border-color, $lightness: 2%);
                 padding: 0.45rem 0.6rem;
