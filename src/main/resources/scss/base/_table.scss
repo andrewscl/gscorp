@@ -68,6 +68,7 @@
       .hs-filters-actions-row {
         display: flex;
         justify-content: space-between;
+        align-items: flex-end;
         gap: 0.6rem;
         width: 100%;
 
@@ -97,6 +98,9 @@
                   outline: none;
                   border-color: $accent-blue;
                   box-shadow: 0 0 0 6px rgba($accent-blue, 0.06);
+                }
+                &[type="text"] {
+                  width: 18rem;
                 }
               }
             }

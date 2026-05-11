@@ -157,6 +157,7 @@ p {
 .hs-table .hs-table-header .hs-filters-actions-row {
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
   gap: 0.6rem;
   width: 100%;
 }
@@ -191,6 +192,9 @@ p {
   outline: none;
   border-color: #3b82f6;
   box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.06);
+}
+.hs-table .hs-table-header .hs-filters-actions-row .filter-group .filter-item .filter-input[type=text] {
+  width: 18rem;
 }
 .hs-table .hs-table-header .hs-filters-actions-row .actions-row {
   display: flex;
