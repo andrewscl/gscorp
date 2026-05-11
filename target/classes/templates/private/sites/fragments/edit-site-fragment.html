@@ -5,7 +5,7 @@
   <input type="hidden" id="siteId" th:value="${site.id}" />
 
     <div class="header">
-      <h2>Editar Sitio</h2>
+      <h3>Editar Sitio</h3>
       <p class="meta-id"><strong>ID:</strong> <span th:text="${site.id}"></span></p>
     </div>
 
@@ -64,17 +64,14 @@
 
     </div>
 
-    </div>
+
 
     <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
 
     <div th:replace="~{shared/fragments/footer-buttons ::
                         footer-buttons(true, 'Actualizar usuario', 'Eliminar usuario')}"></div>
 
-
-
-
-
+    </div>
 
   <script type="module" src="/js/private/sites/edit-site.js"></script>
 
