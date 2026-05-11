@@ -8,8 +8,6 @@
     background: $white;
     border-radius: 0.8rem;
     border: 1px solid $border-color;
-    padding: 0;
-
     overflow: hidden;
     display: flex;
     //min-height: 480px;
@@ -29,6 +27,7 @@
         border-right: 1px solid rgba($border-color, 0.5);
 
         .panel-header {
+            padding: 0;
             @include montserrat-font(1.25rem, 600);
         }
 
