@@ -168,6 +168,7 @@ p {
   align-items: flex-start;
   padding: 0.5rem 0.5rem;
   background: transparent;
+  width: 100%;
 }
 .hs-table .hs-table-header .filters-actions-row .filter-group {
   display: flex;
