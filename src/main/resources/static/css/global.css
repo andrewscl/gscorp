@@ -129,7 +129,7 @@ p {
 .hs-table .hs-table-header .title-row .title-left {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.8rem;
 }
 .hs-table .hs-table-header .title-row .title-left .title-text {
   font-family: "Montserrat", sans-serif;
@@ -137,7 +137,6 @@ p {
   font-weight: 600;
   letter-spacing: 0.02em;
   color: #1e293b;
-  line-height: 1;
 }
 .hs-table .hs-table-header .title-row .count {
   display: inline-flex;
@@ -598,7 +597,7 @@ p {
 }
 .hs-form .footer .btn.btn-danger:active {
   transform: translateY(0);
-}/*# sourceMappingURL=global.css.map */(239, 68, 68, 0.4);
+}/*# sourceMappingURL=global.css.map */w: 0 8px 20px rgba(239, 68, 68, 0.4);
 }
 .hs-form .footer .btn.btn-danger:active {
   transform: translateY(0);
