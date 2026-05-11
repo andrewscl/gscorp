@@ -1,5 +1,4 @@
 <section th:fragment="content">
-  <div class="view-site">
   <input type="hidden" id="siteId" th:value="${site.id}" />
 
   <div class="dual-panel-card">
@@ -59,7 +58,6 @@
 
   </div>
 
-  </div>
     <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
     <div th:replace="~{shared/fragments/footer-buttons ::
                         footer-buttons(false, 'Actualizar usuario', 'Eliminar usuario')}"></div>
