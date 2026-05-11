@@ -107,7 +107,6 @@ p {
 
 .hs-table .hs-table-header {
   display: flex;
-  flex-direction: column;
   gap: 0.6rem;
   color: #1e293b;
   background-color: #ffffff;
@@ -127,8 +126,6 @@ p {
 .hs-table .hs-table-header .title-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
   width: 100%;
 }
 .hs-table .hs-table-header .title-row .title-left {
@@ -606,4 +603,4 @@ p {
 }
 .hs-form .footer .btn.btn-danger:active {
   transform: translateY(0);
-}/*# sourceMappingURL=global.css.map */
+}/*# sourceMappingURL=global.css.map */eMappingURL=global.css.map */

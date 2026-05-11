@@ -24,7 +24,6 @@
 
     .hs-table-header {
       display: flex;
-      flex-direction: column;
       gap: 0.6rem;
       color: $primary-color;
       background-color: $white;
@@ -44,8 +43,7 @@
       .title-row {
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        gap: 1rem;
+        //gap: 1rem;
         width: 100%;
         .title-left {
           display: flex;
