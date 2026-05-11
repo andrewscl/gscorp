@@ -83,7 +83,11 @@
 
         .filter-group {
           display: flex;
-          gap: 0.6rem;
+          gap: 1rem;
+          align-items: center;
+          flex-wrap: nowrap;
+          width: auto;
+
             .filter-item {
             display: flex;
             gap: 0.25rem;
