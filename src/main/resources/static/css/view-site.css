@@ -106,6 +106,48 @@ p {
 .dual-panel-card .panel-main .panel-body {
   flex: 1;
 }
+.dual-panel-card .panel-main .panel-body .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.dual-panel-card .panel-main .panel-body .form-group label {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #6b7280;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+.dual-panel-card .panel-main .panel-body .form-group .form-value {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #1e293b;
+  min-height: 1.5rem;
+  word-break: break-word;
+}
+.dual-panel-card .panel-main .panel-body .form-group .badge {
+  align-self: flex-start;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+}
+.dual-panel-card .panel-main .panel-body .form-separator {
+  border: 0;
+  border-top: 1px solid rgba(226, 232, 240, 0.6);
+  margin: 0.5rem 0;
+}
+.dual-panel-card .panel-main .panel-body .form-row {
+  display: flex;
+  gap: 1.5rem;
+}
+.dual-panel-card .panel-main .panel-body .form-row .form-group {
+  flex: 1;
+}
 .dual-panel-card .panel-aside {
   flex: 1;
   position: relative;
@@ -130,46 +172,7 @@ p {
     height: 350px;
     flex: none;
   }
-}/*# sourceMappingURL=view-site.css.map */1rem;
-}
-.detail-section.view-site .form-group input,
-.detail-section.view-site .form-group select {
-  padding: 0.62rem 1rem;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  font-size: 1rem;
-  background: #fff;
-  color: #0f172a;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  pointer-events: none;
-}
-.detail-section.view-site .form-group input[readonly], .detail-section.view-site .form-group input:disabled,
-.detail-section.view-site .form-group select[readonly],
-.detail-section.view-site .form-group select:disabled {
-  background: #f4f4f5;
-  color: #64748b;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-.detail-section.view-site .form-group select {
-  min-width: 7rem;
-  appearance: none;
-  pointer-events: none;
-}
-.detail-section.view-site .form-group .readonly-field,
-.detail-section.view-site .form-group span {
-  padding: 0.62rem 1rem;
-  border-radius: 8px;
-  background: #f4f4f5;
-  color: #1e293b;
-  font-size: 1rem;
-  border: 1px solid #e5e7eb;
-  min-height: 2.25rem;
-  display: flex;
-  align-items: center;
-  word-break: break-word;
-  pointer-events: none;
-  user-select: none;
+}/*# sourceMappingURL=view-site.css.map */  user-select: none;
 }
 .detail-section.view-site .form-group input[type=checkbox] {
   accent-color: #4177f6;

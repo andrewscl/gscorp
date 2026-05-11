@@ -28,7 +28,49 @@
 
         .panel-body {
             flex: 1;
-            // Estilos de formularios o texto aquí
+
+            .form-group {
+                display: flex;
+                flex-direction: column;
+                gap: 0.25rem;
+
+                label {
+                    @include roboto-font(0.85rem, 500);
+                    color: $muted-color;
+                    margin: 0;
+                    text-transform: uppercase; // Le da un toque más "dashboard"
+                    letter-spacing: 0.025em;
+                }
+
+                .form-value {
+                    @include montserrat-font(1rem, 600);
+                    color: $primary-color;
+                    min-height: 1.5rem;
+                    word-break: break-word; // Evita que direcciones largas rompan el layout
+                }
+                
+                // Estilo especial para el estado (Activo/Inactivo)
+                .badge {
+                    align-self: flex-start;
+                    padding: 0.4rem 0.8rem;
+                    border-radius: 6px;
+                    font-size: 0.75rem;
+                }
+            }
+            .form-separator {
+                border: 0;
+                border-top: 1px solid rgba($border-color, 0.6);
+                margin: 0.5rem 0;
+            }
+            .form-row {
+                display: flex;
+                gap: 1.5rem;
+                
+                .form-group {
+                    flex: 1;
+                }
+            }
+
         }
     }
 
