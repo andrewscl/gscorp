@@ -102,6 +102,10 @@ p {
 }
 .dual-panel-card .panel-main .panel-header {
   margin-bottom: 2rem;
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 .dual-panel-card .panel-main .panel-body {
   flex: 1;
@@ -172,11 +176,7 @@ p {
     height: 350px;
     flex: none;
   }
-}/*# sourceMappingURL=view-site.css.map */  user-select: none;
-}
-.detail-section.view-site .form-group input[type=checkbox] {
-  accent-color: #4177f6;
-  width: 1.1rem;
+}/*# sourceMappingURL=view-site.css.map */  width: 1.1rem;
   height: 1.1rem;
   margin-right: 0.2rem;
   background: #fff;

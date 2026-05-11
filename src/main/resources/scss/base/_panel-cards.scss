@@ -23,7 +23,7 @@
 
         .panel-header {
             margin-bottom: 2rem;
-            // Estilos de títulos y meta-datos aquí
+            @include montserrat-font(1.25rem, 600);
         }
 
         .panel-body {
