@@ -106,11 +106,9 @@ p {
 }
 
 .hs-table .hs-table-header {
+  position: fixed;
   display: flex;
   gap: 0.6rem;
-  color: #1e293b;
-  background-color: #ffffff;
-  position: fixed;
   top: calc(var(--topbar-height) + 1rem);
   left: calc(var(--sidebar-width) + var(--content-horizontal-padding));
   right: var(--content-horizontal-padding);
@@ -135,7 +133,7 @@ p {
 }
 .hs-table .hs-table-header .title-row .title-left .title-text {
   font-family: "Montserrat", sans-serif;
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   color: #1e293b;
@@ -166,6 +164,7 @@ p {
 }
 .hs-table .hs-table-header .filters-actions-row .filter-group {
   display: flex;
+  flex-direction: row;
   gap: 1rem;
 }
 .hs-table .hs-table-header .filters-actions-row .filter-group .filter-item {
@@ -599,6 +598,8 @@ p {
 }
 .hs-form .footer .btn.btn-danger:active {
   transform: translateY(0);
-}/*# sourceMappingURL=global.css.map */.hs-form .footer .btn.btn-danger:active {
+}/*# sourceMappingURL=global.css.map */(239, 68, 68, 0.4);
+}
+.hs-form .footer .btn.btn-danger:active {
   transform: translateY(0);
 }/*# sourceMappingURL=global.css.map */

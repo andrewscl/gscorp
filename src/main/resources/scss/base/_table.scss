@@ -23,11 +23,9 @@
 @mixin hs-table() {
 
     .hs-table-header {
+      position: fixed;
       display: flex;
       gap: 0.6rem;
-      color: $primary-color;
-      background-color: $white;
-      position: fixed;
       top: calc(var(--topbar-height) + 1rem);
       left: calc(var(--sidebar-width) + var(--content-horizontal-padding));
       right: var(--content-horizontal-padding);
@@ -49,7 +47,7 @@
           align-items: center;
           gap: 0.6rem;
           .title-text {
-            @include montserrat-font(2rem, 600);
+            @include montserrat-font(2.5rem, 600);
             color: $heading-color;
             line-height: 1;
           }
@@ -77,6 +75,7 @@
 
         .filter-group {
           display: flex;
+          flex-direction: row;
           gap: 1rem;
 
             .filter-item {

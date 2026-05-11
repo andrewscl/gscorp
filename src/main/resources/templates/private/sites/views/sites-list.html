@@ -8,19 +8,20 @@
 )}">
 
     <th:block id="siteFilters">
-        <label class="filter-item">
+        <div class="filter-item">
             <span class="filter-label">Sitios</span>
             <select id="filter-dept" class="filter-input">
                 <option value="">Todos</option>
                 <option value="HR">Sitio 1</option>
                 <option value="OPS">Sitio 2</option>
             </select>
-        </label>
+        </div>
 
-        <label class="filter-item">
-        <span class="filter-label">Nombre</span>
-        <input id="filter-name" class="filter-input" type="text" placeholder="Buscar empleado..."/>
-        </label>
+        <div class="filter-item">
+            <span class="filter-label">Nombre</span>
+            <input id="filter-name" class="filter-input" type="text"
+                            placeholder="Buscar empleado..."/>
+        </div>
     </th:block>
 
     <th:block id="siteActions">
