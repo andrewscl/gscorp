@@ -1,5 +1,6 @@
 @use '../base/panel-cards' as *;
 @use '../base/alerts' as *;
+@use '../base/footer-buttons' as *;
 
 .dual-panel-card {
     @include dual-panel-card(1, 1);
