@@ -3,9 +3,12 @@
 
 .dual-panel-card {
     @include dual-panel-card(1, 1);
-
 }
 
 .alert-container {
     @include alert-container();
+}
+
+.footer {
+    @include footer();
 }
