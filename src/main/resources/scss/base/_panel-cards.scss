@@ -21,13 +21,12 @@
     // Panel de Contenido (Izquierdo)
     .panel-main {
         flex: $ratio-left;
-        padding: 0 2rem;
+        padding: 0 2rem 1rem 2rem; ;
         display: flex;
         flex-direction: column;
         border-right: 1px solid rgba($border-color, 0.5);
 
         .panel-header {
-            padding: 0;
             @include montserrat-font(1.25rem, 600);
         }
 

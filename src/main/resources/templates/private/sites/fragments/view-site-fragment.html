@@ -10,7 +10,7 @@
       <div id="panel-body" class="panel-body">
         <div class="form-group">
           <label>Proyecto</label>
-          <span class="readonly-field"
+          <span class="form-value"
             th:text="${site.project != null ? site.project.name : '—'}"></span>
           <input type="hidden" name="projectId"
             th:value="${site.project != null ? site.project.id : ''}" />
@@ -18,32 +18,33 @@
         <hr class="form-separator" />
         <div class="form-group">
             <label>Nombre</label>
-            <span th:text="${site.name}"></span>
+            <span class="form-value"
+                            th:text="${site.name}"></span>
         </div>
         <div class="form-group">
             <label>Dirección</label>
-            <span th:text="${site.address}"></span>
+            <span class="form-value" th:text="${site.address}"></span>
         </div>
         <div class="form-row">
 
         <div class="form-group">
             <label>Latitud</label>
-            <span th:text="${site.lat}"></span>
+            <span class="form-value" th:text="${site.lat}"></span>
         </div>
 
         <div class="form-group">
             <label>Longitud</label>
-            <span th:text="${site.lon}"></span>
+            <span class="form-value" th:text="${site.lon}"></span>
         </div>
 
         </div>
         <div class="form-group">
             <label>Zona horaria</label>
-            <span th:text="${site.timeZone}"></span>
+            <span class="form-value" th:text="${site.timeZone}"></span>
         </div>
         <div class="form-group">
             <label>Activo</label>
-            <span th:text="${site.active}"></span>
+            <span class="form-value" th:text="${site.active}"></span>
         </div>
       </div>
     </div>
