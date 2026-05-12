@@ -4,16 +4,16 @@
                         showCancel=false, cancelText='Cancelar',
                         showDelete=false, deleteText='Eliminar')">
 
-        <button th:if="${sSubmit}" type="submit" class="btn btn-primary" 
-                th:text="${sText}">
+        <button th:if="${showSubmit}" type="submit" class="btn btn-primary" 
+                th:text="${submitText}">
         </button>
 
-        <button th:if="${sCancel}" type="button" class="btn btn-secondary"
-                th:text="${cText}">
+        <button th:if="${showCancel}" type="button" class="btn btn-secondary"
+                th:text="${cancelText}">
         </button>
 
-        <button th:if="${sDelete}" type="button" class="btn btn-danger" 
-                th:text="${dText}">
+        <button th:if="${showDelete}" type="button" class="btn btn-danger" 
+                th:text="${deleteText}">
         </button>
 
 </div>
