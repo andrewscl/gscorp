@@ -5,11 +5,11 @@
                         showDelete=false, deleteText='Eliminar')">
 
         <th:block th:with="
-                sSubmit=${showSubmit ?: false}.
-                sText=${submitText ?: 'Guardar'}.
-                sCancel=${showCancel ?: false}.
-                cText=${cancelText ?: 'Cancelar'}.
-                sDelete=${showDelete ?: false}.
+                sSubmit=${showSubmit ?: false},
+                sText=${submitText ?: 'Guardar'},
+                sCancel=${showCancel ?: false},
+                cText=${cancelText ?: 'Cancelar'},
+                sDelete=${showDelete ?: false},
                 dText=${deleteText ?: 'Eliminar'}">
 
         <button th:if="${sSubmit}" type="submit" class="btn btn-primary" 
