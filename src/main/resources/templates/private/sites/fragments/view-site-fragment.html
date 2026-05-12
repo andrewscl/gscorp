@@ -61,7 +61,10 @@
   <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
 
   <div th:replace="~{shared/fragments/footer-buttons ::
-                      footer-buttons(showCancel=true, cancelText='Volver')}"></div>
+                      footer-buttons(
+                              false, 'null',
+                              true, 'Volver',
+                              false, 'null')}"></div>
 
   <script type="module" src="/js/private/sites/view-site.js"></script>
 
