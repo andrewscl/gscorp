@@ -1,4 +1,10 @@
 @charset "UTF-8";
+/* Verde claro */
+/* Rojo claro */
+/* Amarillo claro */
+/* Verde oscuro */
+/* Rojo oscuro */
+/* Amarillo oscuro */
 body {
   font-family: "Roboto", sans-serif;
   font-size: 1rem;
@@ -319,9 +325,6 @@ p {
     gap: 0.5rem;
   }
   .detail-section.view-site-supervision-visit .actions .vs-btn {
-    width: 100%;
-  }
-}/*# sourceMappingURL=view-site-supervision-visit.css.map */ervision-visit .actions .vs-btn {
     width: 100%;
   }
 }/*# sourceMappingURL=view-site-supervision-visit.css.map */
