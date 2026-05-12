@@ -82,7 +82,12 @@
     <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
 
     <div th:replace="~{shared/fragments/footer-buttons ::
-                        footer-buttons(true, 'Actualizar usuario', 'Eliminar usuario')}"></div>
+                        footer-buttons( showSubmit: true,
+                                        showCancel: true,
+                                        showDelete: true,
+                                        submitText: 'Actualizar usuario',
+                                        cancelText: 'Volver',
+                                        deleteText: 'Eliminar usuario')}"></div>
 
   </div>
 

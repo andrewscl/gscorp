@@ -1,18 +1,20 @@
 <div th:fragment
-        ="footer-buttons(showDelete, submitText, deleteText)"
-                                class="hs-footer-actions">
-    <!-- Botón Primario (Siempre visible) -->
-    <button type="submit" 
+        ="footer-buttons(showSubmit, showCancel, showDelete,
+                        submitText, cancelText, deleteText)"
+                                        class="hs-footer-actions">
+
+    <button th:if="${showSubmit}" 
+            type="submit"  
             class="btn btn-primary" 
             th:text="${submitText ?: 'Guardar'}">
     </button>
 
-    <!-- Botón Secundario (Siempre visible) -->
-    <button type="button" 
-            class="btn btn-secondary">Cancelar
+    <button th:if="${showCancel}" 
+            type="button" 
+            class="btn btn-secondary"
+            th:text="${cancelText ?: 'Cancelar'}">
     </button>
 
-    <!-- Botón de Acción Peligrosa (Condicional) -->
     <button th:if="${showDelete}" 
             type="button" 
             class="btn btn-danger" 
