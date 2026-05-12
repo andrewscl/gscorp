@@ -240,57 +240,84 @@ p {
 .alert-container .alert.alert-show {
   opacity: 1;
   transform: translateY(0);
-}/*# sourceMappingURL=view-site.css.map */margin-top: 1.7rem;
 }
-.detail-section.view-site .actions .vs-btn {
-  padding: 0.6rem 1.3rem;
-  border-radius: 10px;
-  font-weight: 600;
-  font-size: 1rem;
-  border: 1px solid transparent;
-  text-decoration: none;
+
+.hs-footer-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 15px;
+  background: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+.hs-footer-actions .btn {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.hs-footer-actions .btn.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  background-color: #3b82f6;
+  color: #fff;
 }
-.detail-section.view-site .actions .vs-btn.vs-secondary {
-  background: #fff;
-  color: #1e293b;
-  border: 1px solid #e2e8f0;
+.hs-footer-actions .btn.btn-primary:hover {
+  background-color: rgb(29.8390243902, 111.4024390244, 244.6609756098);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
 }
-.detail-section.view-site .actions .vs-btn.vs-secondary:hover {
-  background: #f8fafc;
+.hs-footer-actions .btn.btn-primary:active {
+  transform: translateY(0);
 }
-.detail-section.view-site .form-error {
-  color: #ef4444;
-  font-size: 1rem;
-  margin-top: 0.8rem;
+.hs-footer-actions .btn.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  background-color: #e2e8f0;
+  color: #fff;
 }
-.detail-section.view-site .form-ok {
-  color: #219150;
-  font-size: 1rem;
-  margin-top: 0.8rem;
-  display: none;
+.hs-footer-actions .btn.btn-secondary:hover {
+  background-color: rgb(195.2863636364, 207.6409090909, 224.1136363636);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(226, 232, 240, 0.4);
 }
-@media (max-width: 640px) {
-  .detail-section.view-site {
-    padding: 1rem 0.5rem;
-  }
-  .detail-section.view-site .form-row {
-    grid-template-columns: 1fr;
-    padding: 0.8rem 0.3rem;
-    gap: 0.5rem;
-  }
-  .detail-section.view-site #siteMap,
-  .detail-section.view-site .view-site-map {
-    height: 220px;
-    margin-top: 0.3rem;
-  }
-  .detail-section.view-site .actions {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.5rem;
-  }
-  .detail-section.view-site .actions .vs-btn {
-    width: 100%;
-  }
+.hs-footer-actions .btn.btn-secondary:active {
+  transform: translateY(0);
+}
+.hs-footer-actions .btn.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  background-color: #ef4444;
+  color: #fff;
+}
+.hs-footer-actions .btn.btn-danger:hover {
+  background-color: rgb(236.5802955665, 39.7197044335, 39.7197044335);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+}
+.hs-footer-actions .btn.btn-danger:active {
+  transform: translateY(0);
 }/*# sourceMappingURL=view-site.css.map */
