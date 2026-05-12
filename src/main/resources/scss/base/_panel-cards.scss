@@ -27,7 +27,7 @@
         border-right: 1px solid rgba($border-color, 0.5);
 
         .panel-header {
-            @include montserrat-font(1.25rem, 600);
+            @include montserrat-font(1.2rem, 600);
         }
 
         .panel-body {
@@ -73,7 +73,7 @@
             .form-separator {
                 border: 0;
                 border-top: 1px solid rgba($border-color, 0.5);
-                margin: 0.4rem 0;
+                margin: 0.2rem 0;
                 width: 100%;
             }
         }

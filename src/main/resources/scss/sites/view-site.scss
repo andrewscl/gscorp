@@ -1,6 +1,11 @@
 @use '../base/panel-cards' as *;
-
+@use '../base/alerts' as *;
 
 .dual-panel-card {
     @include dual-panel-card(1, 1);
+
+}
+
+.alert-container {
+    @include alert-container();
 }
