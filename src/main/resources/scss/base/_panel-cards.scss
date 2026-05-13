@@ -37,7 +37,7 @@
                 flex-direction: column;
                 gap: 0.35rem;
                 label {
-                    @include roboto-font(0.7rem, 600); // Más pequeña y bold
+                    @include montserrat-font(0.7rem, 600); // Más pequeña y bold
                     color: $muted-color; // Gris suave
                     text-transform: uppercase; // Estilo "etiqueta"
                     letter-spacing: 0.05em;
@@ -45,7 +45,7 @@
                 }
 
                 .form-value {
-                    @include montserrat-font(0.95rem, 500); // Fuente principal
+                    @include montserrat-font(0.95rem, 400); // Fuente principal
                     color: $heading-color; // Casi negro o azul muy oscuro
                     line-height: 1.4;
                     
@@ -82,7 +82,9 @@
         position: relative;
         display: flex;
         flex-direction: column;
-        background: $background-color; // Color base neutro
+        background: $background-color;
+        width: 100%;
+        height: 100%;
 
         .panel-aside-content {
             flex: 1;
@@ -91,8 +93,8 @@
             h3{
                 text-align: center;
                 margin: 0;
-                padding: 0.75rem 0;
-                @include roboto-font($size: 1rem, $weight: 600);
+                padding: 0.6rem 0;
+                @include montserrat-font($size: 1rem, $weight: 600);
                 color: $white;
                 background-color: $background-dark-color;
             }
@@ -100,6 +102,7 @@
                 border-radius: 0 0 0.8rem 0;
                 margin: 0;
                 padding: 0;
+                overflow: hidden;
             }
         }
     }
