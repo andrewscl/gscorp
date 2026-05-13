@@ -24,11 +24,9 @@
         display: flex;
         flex-direction: column;
         border-right: 1px solid rgba($border-color, 0.5);
-
         .panel-header {
             @include montserrat-font(1.1rem, 600);
         }
-
         .panel-body {
             display: flex;
             flex-direction: column;
@@ -76,7 +74,6 @@
                 width: 100%;
             }
         }
-
     }
 
     // Panel de Soporte/Visual (Derecho)
