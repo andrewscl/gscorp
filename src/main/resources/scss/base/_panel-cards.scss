@@ -82,7 +82,7 @@
         position: relative;
         display: flex;
         flex-direction: column;
-        background: #f8fafc; // Color base neutro
+        background: $background-color; // Color base neutro
 
         .panel-aside-content {
             flex: 1;
@@ -95,11 +95,11 @@
                 color: $white;
                 background-color: $background-dark-color;
             }
-            .content{
-                width: 100%;
-                height: 100%;
+            //.content{
+                //width: 100%;
+                //height: 100%;
                 
-            }
+            //}
         }
     }
 
