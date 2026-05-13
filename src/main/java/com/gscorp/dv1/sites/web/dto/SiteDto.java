@@ -26,7 +26,7 @@ public record SiteDto (
             site.getTimeZone(),
             site.getLat(),
             site.getLon(),
-            site.isActive()
+            site.getActive()
         );
     }
 }
