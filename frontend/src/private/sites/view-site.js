@@ -17,7 +17,7 @@ const startViewMap = async () => {
   const id = qs('#siteId').value;
 
   try {
-
+    console.log('Loading Google Maps API...');
     await loadGoogleMapsAPI(apiKey);
     const map = await initMap('map');
 
@@ -28,6 +28,7 @@ const startViewMap = async () => {
 
     const siteData = await response.json();
 
+    console.log('Site data:', siteData);
     await addAdvancedMarker(map, siteData.name, siteData.lat, siteData.lon);
 
     const bounds = new google.maps.LatLngBounds();
@@ -50,6 +51,8 @@ function bindViewSite() {
 
 (async function init() {
   bindViewSite();
+  console.log('Initializing view site page...');
 
   await startViewMap();
+  console.log('View site page initialized.');
 })();
