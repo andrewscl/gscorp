@@ -185,6 +185,9 @@ p {
   color: #ffffff;
   background-color: #1e293b;
 }
+.dual-panel-card .panel-aside .panel-aside-content .content {
+  border-radius: 0 0 0.8rem 0;
+}
 @media (max-width: 992px) {
   .dual-panel-card {
     flex-direction: column;
