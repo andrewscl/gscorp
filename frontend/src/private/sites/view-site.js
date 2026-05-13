@@ -14,6 +14,8 @@ const cancelViewSite = (e) => {
 const startViewMap = async () => {
   const apiKey = googleMapsConfig.apiKey;
 
+  const id = qs('#siteId').value;
+
   try {
 
     await loadGoogleMapsAPI(apiKey);
