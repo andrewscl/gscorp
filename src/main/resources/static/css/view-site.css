@@ -175,6 +175,10 @@ p {
   width: 100%;
   height: 100%;
 }
+.dual-panel-card .panel-aside .panel-aside-content .content {
+  width: 100%;
+  height: 100%;
+}
 @media (max-width: 992px) {
   .dual-panel-card {
     flex-direction: column;
