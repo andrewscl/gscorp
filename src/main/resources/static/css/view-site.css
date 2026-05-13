@@ -178,6 +178,7 @@ p {
 .dual-panel-card .panel-aside .panel-aside-content h3 {
   text-align: center;
   margin: 0;
+  padding: 0.75rem 0;
   font-family: "Roboto", sans-serif;
   font-size: 1rem;
   font-weight: 600;
@@ -187,6 +188,8 @@ p {
 }
 .dual-panel-card .panel-aside .panel-aside-content .content {
   border-radius: 0 0 0.8rem 0;
+  margin: 0;
+  padding: 0;
 }
 @media (max-width: 992px) {
   .dual-panel-card {
