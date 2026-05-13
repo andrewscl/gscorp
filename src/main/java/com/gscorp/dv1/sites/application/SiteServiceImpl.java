@@ -41,11 +41,21 @@ public class SiteServiceImpl implements SiteService{
         return siteRepository.save(site);
     }
 
+
     @Override
     @Transactional(readOnly = true)
     public Optional<Site> findById(Long id){
         return siteRepository.findById(id);
     }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<SiteDto> findDtoById (Long id) {
+        return siteRepository.findByIdWithProject(id)
+                            .map(site -> SiteDto.fromEntity(site));
+    }
+
 
     @Override
     public List<SiteDto>getAllSites(){

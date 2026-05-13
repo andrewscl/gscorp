@@ -42,7 +42,6 @@ public class SiteRestController {
     private final UserService userService;
     private final ClientService clientService;
 
-
     @PostMapping("/create")
     public ResponseEntity <SiteDto> createSite(
         @Valid @RequestBody CreateSiteRequest req,
@@ -92,14 +91,12 @@ public class SiteRestController {
 
         }
 
-
         //Borrar site
         @DeleteMapping("/{id}")
         public ResponseEntity<Void> delete(@PathVariable Long id){
                 siteService.deleteById(id);
                 return ResponseEntity.noContent().build();
         }
-
 
         //Actualizar latitud y longitud
         @PutMapping("/update-location/{id}")
@@ -131,7 +128,6 @@ public class SiteRestController {
         return ResponseEntity.ok(updated);
         }
 
-
         @GetMapping("/projections-by-user")
         public ResponseEntity<List<SiteDtoProjection>> getSiteProjectionsByUser(
                 Authentication authentication
@@ -146,6 +142,13 @@ public class SiteRestController {
 
                 return ResponseEntity.ok(siteProjections);
 
+        }
+
+        @GetMapping("/{id}")
+        public ResponseEntity<SiteDto> getSiteById(@PathVariable Long id) {
+                return siteService.findDtoById(id)
+                        .map(ResponseEntity::ok)
+                        .orElse(ResponseEntity.notFound().build());
         }
 
 }

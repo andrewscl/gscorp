@@ -19,6 +19,8 @@ public interface SiteService {
 
     Optional<Site> findById (Long id);
 
+    Optional<SiteDto> findDtoById (Long id);
+
     List<SiteDto> getAllSites();
 
     Site findByIdWithProjects(Long id);

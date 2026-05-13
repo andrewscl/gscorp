@@ -10,4 +10,21 @@ public record SiteDto (
     Double lat,
     Double lon,
     Boolean active
-) {}
+) {
+    public static SiteDto fromEntity(Site site){
+
+        if(site == null) return null;
+
+        return new SiteDto(
+            site.getId(),
+            site.getProject() != null ? site.getProject().getId() : null,
+            site.getProject() != null ? site.getProject().getName() : null,
+            site.getName(),
+            site.getAddress(),
+            site.getTimeZone(),
+            site.getLat(),
+            site.getLon(),
+            site.isActive()
+        );
+    }
+}

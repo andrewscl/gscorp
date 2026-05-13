@@ -153,7 +153,6 @@ function bindEditSite() {
     if (deleteBtn) {
         deleteBtn.addEventListener('click', deleteSite);
     }
-
 }
 
 /* --- init --- */

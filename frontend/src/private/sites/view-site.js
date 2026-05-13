@@ -1,9 +1,42 @@
 import { navigateTo } from '../../navigation-handler.js';
+import { fetchWithAuth } from '../../auth.js';
+import loadGoogleMapsAPI from '../../shared/maps/googlemaps-loader.js';
+import { initMap } from '../../shared/maps/init-map.js';
+import { addAdvancedMarker } from '../../shared/maps/advanced-marker.js';
 
 const qs  = (s) => document.querySelector(s);
 
-const cancelViewSite = () => {
-    setTimeout(() => navigateTo('/private/sites/table-view', true), 1500);
+const cancelViewSite = (e) => {
+    e.target.disabled = true;
+    setTimeout(() => navigateTo('/private/sites/table-view', true), 1000);
+}
+
+const startViewMap = async () => {
+  const apiKey = googleMapsConfig.apiKey;
+
+  try {
+
+    await loadGoogleMapsAPI(apiKey);
+    const map = await initMap('map');
+
+    const response = await fetchWithAuth(`/api/sites/${id}`, {
+      method: 'GET',
+      headers: { 'Accept': 'application/json' },
+    });
+
+    const siteData = await response.json();
+
+    await addAdvancedMarker(map, siteData.name, siteData.lat, siteData.lon);
+
+    const bounds = new google.maps.LatLngBounds();
+    bounds.extend({ lat: parseFloat(siteData.lat), lng: parseFloat(siteData.lon) });
+    map.fitBounds(bounds);
+    map.setZoom(15);
+
+  } catch (error) {
+    console.error('[site-map.js] Error al cargar la API de Google Maps:'
+                                                                    , error);
+  }
 }
 
 function bindViewSite() {
@@ -13,7 +46,8 @@ function bindViewSite() {
     }
 }
 
-/* --- init --- */
-(function init() {
+(async function init() {
   bindViewSite();
+
+  await startViewMap();
 })();
