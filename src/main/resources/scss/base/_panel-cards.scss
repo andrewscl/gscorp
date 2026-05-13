@@ -12,6 +12,7 @@
     display: flex;
     box-shadow: $shadow-sm;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    max-height: 70vh;
     &:hover {
         transform: translateY(-5px);
         box-shadow: $shadow-md;
