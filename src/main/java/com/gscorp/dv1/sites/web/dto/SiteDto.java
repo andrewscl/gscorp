@@ -13,7 +13,7 @@ public record SiteDto (
     Double lon,
     Boolean active
 ) {
-    public static SiteDto fromEntity(Site site){
+    public static SiteDto fromEntity ( Site site){
 
         if(site == null) return null;
 
