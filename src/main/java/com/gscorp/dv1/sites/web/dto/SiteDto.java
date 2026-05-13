@@ -1,5 +1,7 @@
 package com.gscorp.dv1.sites.web.dto;
 
+import com.gscorp.dv1.sites.domain.Site;
+
 public record SiteDto (
     Long id,
     Long projectId,
