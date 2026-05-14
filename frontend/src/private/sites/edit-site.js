@@ -1,6 +1,7 @@
 import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
 import { displayAlert } from '../../shared/display-alert.js';
+import { addAdvancedMarker } from '../../shared/maps/add-advanced-marker.js';
 import { enableMarkerDrag } from '../../shared/maps/enable-marker-drag.js';
 import { startViewMap } from './view-site.js';
 

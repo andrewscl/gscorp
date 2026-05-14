@@ -33,7 +33,7 @@ $ratio-right: 1;
               gap: .18rem;
 
               label {
-                @include montserrat-font(0.8rem, 500);
+                @include montserrat-font(0.7rem, 500);
                 color: $label-text-color;
                 margin-bottom: .1rem;
               }
@@ -43,7 +43,7 @@ $ratio-right: 1;
                 padding: .62rem 1rem;
                 border: 1px solid #e5e7eb;
                 border-radius: 8px;
-                @include montserrat-font(1rem, 400);
+                @include montserrat-font(1rem, 300);
                 background: #fff;
                 color: $input-text-color;
                 transition: border-color .2s, box-shadow .2s;
