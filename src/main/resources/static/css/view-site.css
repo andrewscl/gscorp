@@ -159,9 +159,9 @@ p {
   letter-spacing: 0.02em;
   color: #1e293b;
   line-height: 1.4;
-  border: 0.1rem solid #94a3b8;
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.3rem;
+  border: 0.1rem solid #e2e8f0;
+  padding: 0.4rem 0.75rem;
+  border-radius: 0.5rem;
 }
 .dual-panel-card .panel-main .panel-body .form-group .form-value:empty::before {
   content: "—";

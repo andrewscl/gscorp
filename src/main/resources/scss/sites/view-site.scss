@@ -45,9 +45,9 @@ $ratio-right: 1;
                     @include roboto-font(0.95rem, 400); // Fuente principal
                     color: $heading-color; // Casi negro o azul muy oscuro
                     line-height: 1.4;
-                    border: 0.1rem solid $slate-400;
-                    padding: 0.5rem 0.75rem;
-                    border-radius: 0.3rem;
+                    border: 0.1rem solid $slate-200;
+                    padding: 0.4rem 0.75rem;
+                    border-radius: 0.5rem;
                     // Para que los datos vacíos no rompan la estética
                     &:empty::before {
                         content: '—';
