@@ -2,13 +2,13 @@
 
 // Tamaños
 $base-font-size: 1rem;
+$header-text-height: 1.1rem;
 
 // Tipografías
 $primary-font: 'Roboto', sans-serif;
 $heading-font: 'Montserrat', sans-serif;
 
 // Colores
-$heading-color: $slate-800;
 $text-color: $slate-700;
 $background-color: $slate-50;
 $background-dark-color: $slate-800;
@@ -17,6 +17,12 @@ $secondary-color: $slate-500;
 $border-color: $slate-200;
 $hover-color: $accent-blue;
 $muted-color: $cool-gray-500;
+
+
+$heading-color: $slate-800;
+$label-text-color: $slate-500;
+$input-text-color: $slate-700;
+
 
 $topbar-height: 54px;
 $sidebar-width: 240px;
@@ -47,7 +53,3 @@ $alert-success-border: #a4e5aa;
 $alert-error-border: #f5b3b3;
 $alert-cancel-border: #ffeeba;
 
-$header-text-height: 1.1rem;
-
-$label-text-color: $slate-800;
-$input-text-color: $slate-700;

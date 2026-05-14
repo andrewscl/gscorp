@@ -127,8 +127,10 @@ p {
 .dual-panel-card .panel-main .panel-header {
   font-family: "Montserrat", sans-serif;
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.02em;
+  letter-spacing: -0.02em;
+  color: #1e293b;
 }
 .dual-panel-card .panel-main .panel-body {
   display: flex;
@@ -141,7 +143,7 @@ p {
   gap: 0.35rem;
 }
 .dual-panel-card .panel-main .panel-body .form-group label {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.02em;
@@ -151,12 +153,13 @@ p {
   margin: 0;
 }
 .dual-panel-card .panel-main .panel-body .form-group .form-value {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 0.95rem;
   font-weight: 400;
   letter-spacing: 0.02em;
   color: #1e293b;
   line-height: 1.4;
+  border: 0.1rem solid #94a3b8;
 }
 .dual-panel-card .panel-main .panel-body .form-group .form-value:empty::before {
   content: "—";

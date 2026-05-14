@@ -20,7 +20,9 @@ $ratio-right: 1;
         flex-direction: column;
         border-right: 1px solid rgba($border-color, 0.5);
         .panel-header {
-            @include montserrat-font($header-text-height, 600);
+            @include montserrat-font($header-text-height, 700);
+            letter-spacing: -0.02em;
+            color: $heading-color;
         }
         .panel-body {
             display: flex;
@@ -43,7 +45,7 @@ $ratio-right: 1;
                     @include roboto-font(0.95rem, 400); // Fuente principal
                     color: $heading-color; // Casi negro o azul muy oscuro
                     line-height: 1.4;
-                    
+                    border: 0.1rem solid $slate-400;
                     // Para que los datos vacíos no rompan la estética
                     &:empty::before {
                         content: '—';
