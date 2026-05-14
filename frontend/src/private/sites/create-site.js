@@ -69,8 +69,18 @@ async function onSubmitCreate(e) {
   const lon = lonStr ? Number(lonStr) : null;
 
   // Validaciones mínimas
-  if (!projectId) { err && (err.textContent = 'Debes seleccionar un proyecto.'); return; }
-  if (!name)      { err && (err.textContent = 'El nombre es obligatorio.'); return; }
+  if (!projectId) {
+    displayAlert(alertError, 'El proyecto es obligatorio.', 1500);
+    return;
+  }
+  if (!name) {
+    displayAlert(alertError, 'El nombre es obligatorio.', 1500);
+    return;
+  }
+  if (lat === null || lon === null) {
+    displayAlert(alertError, 'Las coordenadas son obligatorias. Haz click en el mapa para seleccionarlas.', 1500);
+    return;
+  }
 
   // Deshabilita submit durante el POST
   const submitBtn = e.submitter || qs('#createSiteForm button[type="submit"]');
