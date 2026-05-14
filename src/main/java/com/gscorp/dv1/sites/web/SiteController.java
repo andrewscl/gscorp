@@ -31,6 +31,14 @@ public class SiteController {
         return "private/sites/views/sites-list";
     }
 
+    @GetMapping("/create")
+    public String createSite(Model model) {
+        model.addAttribute("projects", projectService.findAllWithClientsAndEmployees());
+        model.addAttribute("googlecloudapikey", googleCloudApiKey);
+        model.addAttribute("googlemapid", googleMapId);
+        return "private/sites/views/create-site-view";
+    }
+
     @GetMapping("/show/{id}")
     public String showSite (@PathVariable Long id, Model model){
         var site = siteService.findByIdWithProjects(id);

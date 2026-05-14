@@ -5,7 +5,8 @@
  */
 // shared/sync-header.js
 
-export function initHeaderSync(selector = '.hs-table-header', variableName = '--header-height') {
+export function initHeaderSync(selector = '.hs-table-header',
+                                        variableName = '--header-height') {
     const root = document.documentElement;
     let rafId = null;
     let timeoutId = null;
@@ -21,7 +22,6 @@ export function initHeaderSync(selector = '.hs-table-header', variableName = '--
             requestAnimationFrame(setVar);
         }
     }
-
     function onResize() {
         if (rafId) cancelAnimationFrame(rafId);
         rafId = requestAnimationFrame(() => {
@@ -29,7 +29,6 @@ export function initHeaderSync(selector = '.hs-table-header', variableName = '--
             timeoutId = setTimeout(setVar, 80);
         });
     }
-
     // Ejecutar inmediatamente
     setVar();
 

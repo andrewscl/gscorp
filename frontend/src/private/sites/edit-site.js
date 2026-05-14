@@ -176,8 +176,6 @@ function startEditMap() {
   });
 }
 
-
-
 /* --- init --- */
 (function init() {
 

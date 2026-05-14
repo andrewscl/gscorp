@@ -21,7 +21,7 @@ export const startViewMap = async () => {
     await loadGoogleMapsAPI(apiKey);
     const map = await initMap('map', {
       mapTypeId: 'hybrid',
-      zoom: 14,
+      zoom: 10,
     });
 
     const response = await fetchWithAuth(`/api/sites/${id}`, {

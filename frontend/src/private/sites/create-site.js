@@ -1,59 +1,46 @@
 import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
+import { enableMarkerDrag } from '../../shared/maps/enable-marker-drag.js';
 
 const qs  = (s) => document.querySelector(s);
+const qa  = (s) => document.querySelectorAll(s);
+const alertSuccess = qs('.alert-success');
+const alertError = qs('.alert-error');
+const alertCancel = qs('.alert-cancel');
 
-function openModal() {
-  const m = qs('#createSiteModal');
-  if (!m) return;
-  m.classList.remove('hidden');
-  m.setAttribute('aria-hidden', 'false');
-  document.body.classList.add('no-scroll');
-  setTimeout(() => qs('#siteName')?.focus(), 0);
+
+async function startCreateMap() {
+  const apiKey = googleMapsConfig.apiKey;
+
+  console.log('Loading Google Maps API...');
+  await loadGoogleMapsAPI(apiKey);
+  const map = await initMap('map', {
+    mapTypeId: 'hybrid',
+    zoom: 10,
+  });
+
+  map.addListener('click', async (event) => {
+    const lat = event.latLng.lat();
+    const lon = event.latLng.lng();
+
+    if(!mainMarker){
+      mainMarker = await addAdvancedMarker(
+                                map, 'Nombre del sitio', lat, lon);
+
+      enableMarkerDrag(mainMarker, (newPos) => {
+          qs('#siteLat').value = newPos.lat();
+          qs('#siteLon').value = newPos.lng();
+      });
+
+
+    } else {
+      mainMarker.position = { lat, lng: lon };
+    }
+    qs('#siteLat').value = lat;
+    qs('#siteLon').value = lon;
+  });
 }
 
-function closeModal() {
-  const m = qs('#createSiteModal');
-  if (!m) return;
-  m.classList.add('hidden');
-  m.setAttribute('aria-hidden', 'true');
-  document.body.classList.remove('no-scroll');
-
-  qs('#createSiteForm')?.reset();
-  const err = qs('#createSiteError');
-  const ok  = qs('#createSiteOk');
-  if (err) err.textContent = '';
-  if (ok)  ok.style.display = 'none';
-}
-
-/** (Opcional) Si el <select> viene vacío, intenta cargar proyectos vía API */
-async function maybeLoadProjects() {
-  const sel = qs('#siteProjectId');
-  if (!sel) return;
-
-  const hasOptions = sel.querySelectorAll('option').length > 1; // ya hay proyectos renderizados por Thymeleaf
-  if (hasOptions) return;
-
-  try {
-    const res = await fetchWithAuth('/api/projects/all');
-    if (!res.ok) return;
-
-    const data = await res.json(); // [{id, name, ...}]
-    // Limpia y re-render
-    sel.innerHTML = '<option value="" disabled selected>Selecciona un proyecto…</option>';
-    data.forEach(p => {
-      const opt = document.createElement('option');
-      opt.value = String(p.id);
-      opt.textContent = p.name;
-      sel.appendChild(opt);
-    });
-  } catch { /* noop */ }
-}
-
-async function onClickCreate() {
-  openModal();
-  await maybeLoadProjects();
-}
 
 async function onSubmitCreate(e) {
   e.preventDefault();
@@ -120,14 +107,28 @@ async function onSubmitCreate(e) {
   }
 }
 
-function bindModal() {
-  qs('#createSiteBtn')?.addEventListener('click', onClickCreate);
-  qs('#closeCreateSite')?.addEventListener('click', closeModal);
-  qs('#cancelCreateSite')?.addEventListener('click', closeModal);
-  qs('#createSiteForm')?.addEventListener('submit', onSubmitCreate);
-  document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') closeModal(); });
+
+const cancelCreateSite = () => {
+    displayAlert(alertCancel, 'La creación del sitio a sido cancelada.', 2000);
+    setTimeout(() => navigateTo('/private/sites/table-view', true), 2000);
 }
 
+
+function bindCreateSite() {
+    const createBtn = qs('.btn-primary');
+    if (createBtn) {
+        createBtn.addEventListener('click', onSubmitCreate);
+    }
+    const cancelBtn = qs('.btn-secondary');
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', cancelCreateSite);
+    }
+  }
+
+
 (function init() {
-  bindModal();
+  bindCreateSite();
+
+  startCreateMap();
+
 })();
