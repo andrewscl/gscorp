@@ -24,37 +24,36 @@
         <div class="form-group">
           <label for="siteName">Nombre</label>
           <input id="siteName" name="name" type="text"
-                th:value="${site.name}" required />
+                                placeholder="Nombre del sitio" required />
         </div>
 
         <div class="form-group">
           <label for="siteAddress">Dirección</label>
           <input id="siteAddress" name="address" type="text"
-                th:value="${site.address}" placeholder="Calle 123, Comuna" />
+                                placeholder="Calle 123, Comuna" />
         </div>
 
         <div class="form-row coordinates-row">
           <div class="form-group">
             <label for="siteLat">Latitud</label>
             <input id="siteLat" name="lat" type="number" step="any"
-                  th:value="${site.lat}" placeholder="-33.45" />
+                                placeholder="-33.45" />
           </div>
           <div class="form-group">
             <label for="siteLon">Longitud</label>
             <input id="siteLon" name="lon" type="number" step="any"
-                  th:value="${site.lon}" placeholder="-70.66" />
+                                placeholder="-70.66" />
           </div>
         </div>
 
         <div class="form-group">
           <label for="siteTz">Zona horaria</label>
           <input id="siteTz" name="timeZone" type="text"
-                th:value="${site.timeZone}" placeholder="America/Santiago" />
+                                placeholder="America/Santiago" />
         </div>
 
         <div class="form-group active-row">
-          <input id="siteActive" name="active" type="checkbox"
-                th:checked="${site.active}" />
+          <input id="siteActive" name="active" type="checkbox"/>
           <label for="siteActive" style="margin:0">Activo</label>
         </div>
 
@@ -72,7 +71,7 @@
 
     <div th:replace="~{shared/fragments/footer-buttons ::
                         footer-buttons(
-                            true, 'Actualizar usuario',
+                            true, 'Crear sitio',
                             true, 'Cancelar',
                             false, '')}"></div>
       
