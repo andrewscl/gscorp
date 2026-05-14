@@ -4,6 +4,8 @@
 @use '../base/typography' as *;
 @use '../base/fragment-mixins' as *;
 @use '../base/panel-cards' as *;
+@use '../base/alerts' as *;
+@use '../base/footer-buttons' as *;
 
 $ratio-left: 1;
 $ratio-right: 1;
@@ -121,11 +123,13 @@ $ratio-right: 1;
         }
     }
 
-  .meta-id {
-    margin-bottom: .8rem;
-    strong { color: #334155; font-weight: 600; }
-    span   { color: #0f172a; }
-  }
+.alert-container {
+    @include alert-container();
+}
+
+.hs-footer-actions {
+    @include footer();
+}
 
 
   @media (max-width: 640px) {
