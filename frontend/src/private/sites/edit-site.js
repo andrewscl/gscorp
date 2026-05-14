@@ -46,7 +46,7 @@ async function updateSite() {
     const siteAddress = qs('#siteAddress')?.value?.trim();
     const siteLat = qs('#siteLat')?.value?.trim();
     const siteLon = qs('#siteLon')?.value?.trim();
-    const siteTimeZone = qs('#siteTimeZone')?.value?.trim();
+    const siteTimeZone = qs('#siteTZ')?.value?.trim();
     const siteActive = qs('#siteActive')?.checked;
     const payload = {
       name: siteName,
