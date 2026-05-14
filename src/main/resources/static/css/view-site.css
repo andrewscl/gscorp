@@ -245,15 +245,24 @@ p {
   color: #256029;
   border: 1px solid #a4e5aa;
 }
+.alert-container .alert.alert-success .alert-message {
+  vertical-align: middle;
+}
 .alert-container .alert.alert-error {
   background-color: #fde4e4;
   color: #a61d1d;
   border: 1px solid #f5b3b3;
 }
+.alert-container .alert.alert-error .alert-message {
+  vertical-align: middle;
+}
 .alert-container .alert.alert-cancel {
   background-color: #fff3cd;
   color: #856404;
   border: 1px solid #ffeeba;
+}
+.alert-container .alert.alert-cancel .alert-message {
+  vertical-align: middle;
 }
 .alert-container .alert {
   /* Mostrar alerta */

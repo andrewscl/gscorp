@@ -35,16 +35,25 @@
             background-color: $alert-success;
             color: $alert-success-dark;
             border: 1px solid $alert-success-border;
+            .alert-message {
+                vertical-align: middle;
+            }
         }
         &.alert-error {
             background-color: $alert-error;
             color: $alert-error-dark;
             border: 1px solid $alert-error-border;
+            .alert-message {
+                vertical-align: middle;
+            }
         }
         &.alert-cancel {
             background-color: $alert-cancel;
             color: $alert-cancel-dark;
             border: 1px solid $alert-cancel-border;
+            .alert-message {
+                vertical-align: middle;
+            }
         }
         /* Mostrar alerta */
         &.alert-show {
