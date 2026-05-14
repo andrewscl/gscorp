@@ -4,6 +4,7 @@ import loadGoogleMapsAPI from '../../shared/maps/googlemaps-loader.js';
 import { initMap } from '../../shared/maps/init-map.js';
 import { addAdvancedMarker } from '../../shared/maps/advanced-marker.js'; 
 import { enableMarkerDrag } from '../../shared/maps/enable-marker-drag.js';
+import { displayAlert } from '../../shared/display-alert.js';
 
 const qs  = (s) => document.querySelector(s);
 const qa  = (s) => document.querySelectorAll(s);
@@ -11,6 +12,7 @@ const alertSuccess = qs('.alert-success');
 const alertError = qs('.alert-error');
 const alertCancel = qs('.alert-cancel');
 
+let mainMarker = null;
 
 async function startCreateMap() {
   const apiKey = googleMapsConfig.apiKey;
