@@ -163,8 +163,12 @@ function startEditMap() {
     if (result) {
       const { map, siteData, initialMarker } = result;
       enableMarkerDrag(initialMarker, (coords) => {
-        qs('#siteLat').value = coords.lat();
-        qs('#siteLon').value = coords.lng();
+        // extraer coordenadas
+        const newLat = typeof coords.lat === 'function' ? coords.lat() : coords.lat;
+        const newLon = typeof coords.lon === 'function' ? coords.lon() : coords.lon;
+        // actualizar inputs
+        qs('#siteLat').value = newLat;
+        qs('#siteLon').value = newLon;
       });
     }
   });
