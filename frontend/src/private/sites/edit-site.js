@@ -1,6 +1,8 @@
 import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
 import { displayAlert } from '../../shared/display-alert.js';
+import { enableMarkerDrag } from '../../shared/maps/enable-marker-drag.js';
+import { startViewMap } from './view-site.js';
 
 const qs  = (s) => document.querySelector(s);
 const qa  = (s) => document.querySelectorAll(s);
@@ -155,7 +157,30 @@ function bindEditSite() {
     }
 }
 
+function startEditMap() {
+  startViewMap().then(async (result) => {
+    if (result) {
+      const { map, siteData } = result;
+      const marker = await addAdvancedMarker(
+                              map,
+                              siteData.name,
+                              siteData.lat,
+                              siteData.lon);
+      enableMarkerDrag(marker, (coords) => {
+        qs('#siteLat').value = coords.lat();
+        qs('#siteLon').value = coords.lng();
+      });
+    }
+  });
+}
+
+
+
 /* --- init --- */
 (function init() {
+
   bindEditSite();
+  
+  startEditMap();
+
 })();

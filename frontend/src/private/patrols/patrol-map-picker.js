@@ -550,8 +550,7 @@ function setupButtons() {
 
 window.toggleDraggable = (index) => {
     const marker = checkpointMarkers[index];
-    
-    if (marker) {
+        if (marker) {
         // 1. Forzamos la propiedad draggable
         marker.gmpDraggable = true;
         
@@ -566,30 +565,23 @@ window.toggleDraggable = (index) => {
         if (window.infoWindowInstance) {
             window.infoWindowInstance.close();
         }
-
         // 4. Listener mejorado
         // Usamos 'gmp-dragend' que es el evento específico de Advanced Markers
         marker.addListener('dragend', (event) => {
             // En AdvancedMarkers, la posición está en event.latLng o marker.position
             const newPos = marker.position; 
-            
             const newLat = typeof newPos.lat === 'function' ? newPos.lat() : newPos.lat;
             const newLng = typeof newPos.lng === 'function' ? newPos.lng() : newPos.lng;
-
             // Actualizamos datos globales
             checkpoints[index].latitude = newLat;
             checkpoints[index].longitude = newLng;
-
             // Feedback visual: quitar opacidad
             if (marker.content) marker.content.style.opacity = "1";
-
             // Actualizamos mapa y tabla
             updatePathLine();
             updateCheckpointTable();
-            
             console.log(`Punto ${index} movido a: ${newLat}, ${newLng}`);
         });
-        
         alert("Ahora puedes arrastrar el marcador amarillo en el mapa.");
     }
 };

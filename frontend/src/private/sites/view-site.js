@@ -11,7 +11,7 @@ const cancelViewSite = (e) => {
     setTimeout(() => navigateTo('/private/sites/table-view', true), 1000);
 }
 
-const startViewMap = async () => {
+export const startViewMap = async () => {
   const apiKey = googleMapsConfig.apiKey;
 
   const id = qs('#siteId').value;
@@ -21,6 +21,7 @@ const startViewMap = async () => {
     await loadGoogleMapsAPI(apiKey);
     const map = await initMap('map', {
       mapTypeId: 'hybrid',
+      zoom: 14,
     });
 
     const response = await fetchWithAuth(`/api/sites/${id}`, {
@@ -37,6 +38,8 @@ const startViewMap = async () => {
     bounds.extend({ lat: parseFloat(siteData.lat), lng: parseFloat(siteData.lon) });
     map.fitBounds(bounds);
     map.setZoom(15);
+
+    return { map, siteData };
 
   } catch (error) {
     console.error('[site-map.js] Error al cargar la API de Google Maps:'
