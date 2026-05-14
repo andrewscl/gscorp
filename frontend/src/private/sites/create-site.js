@@ -69,7 +69,7 @@ async function onSubmitCreate(e) {
   const lon = lonStr ? Number(lonStr) : null;
 
   // Validaciones mínimas
-  if (!projectId) {
+  if (!projectId || projectId === 0) {
     displayAlert(alertError, 'El proyecto es obligatorio.', 1500);
     return;
   }
