@@ -1,4 +1,5 @@
 import { initHeaderSync } from "../../shared/sync-header-height";
+import { navigateTo } from "../../navigation-handler";
 
 const qs  = (s) => document.querySelector(s);
 
