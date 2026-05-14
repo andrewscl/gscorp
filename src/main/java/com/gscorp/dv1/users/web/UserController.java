@@ -61,7 +61,7 @@ public class UserController {
         model.addAttribute("usersPage", usersPage);
         model.addAttribute("qVar", safeQ);
 
-        return "private/users/views/users-table-view";
+        return "private/users/views/users-list";
     }
 
     @GetMapping("/invite-user")

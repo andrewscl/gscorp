@@ -32,7 +32,7 @@ $ratio-right: 1;
             .form-group {
                 display: flex;
                 flex-direction: column;
-                gap: 0.35rem;
+                gap: 0.3rem;
                 label {
                     @include roboto-font(0.7rem, 600); // Más pequeña y bold
                     color: $muted-color; // Gris suave

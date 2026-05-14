@@ -1,0 +1,45 @@
+<div th:replace="~{shared/fragments/table-component :: smart-table(
+    title='Gestión de Usuarios',
+    count=${usersCount},
+    filters=~{::#userFilters},
+    actions=~{::#userActions},
+    thead=~{::#userHeader},
+    tbody=~{private/users/fragments/users-table-rows :: rows}
+)}">
+
+    <th:block id="userFilters">
+        <div class="filter-item">
+            <span class="filter-label">Usuarios</span>
+            <select id="filter-dept" class="filter-input" name="siteId" required>
+                <option value="">Todos los usuarios</option>
+                <option th:each="s : ${users}"
+                        th:value="${s.id}"
+                        th:text="${s.name}"></option>
+            </select>
+        </div>
+        <div class="filter-item">
+            <span class="filter-label">Nombre</span>
+            <input id="filter-name" class="filter-input" type="text"
+                        placeholder="Buscar usuario..."/>
+        </div>
+    </th:block>
+
+    <th:block id="userActions">
+        <button class="btn btn-secondary" id="exportCsv">
+        Exportar CSV
+        </button>
+        
+        <button class="btn btn-primary" id="addUserBtn">
+        Nuevo Usuario
+        </button>
+    </th:block>
+
+    <tr id="userHeader">
+        <th>ID</th>
+        <th>Username</th>
+        <th>Mail</th>
+        <th>Project</th>
+        <th>Role</th>
+        <th>Active</th>
+        <th>Actions</th>
+    </tr>
