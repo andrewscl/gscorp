@@ -5,9 +5,12 @@
 @use '../base/fragment-mixins' as *;
 @use '../base/panel-cards' as *;
 
+$ratio-left: 1;
+$ratio-right: 1;
+
 .dual-panel-card {
     @include dual-panel-card();
-        // Panel de Contenido (Izquierdo)
+
     .panel-main {
         flex: $ratio-left;
         padding: 0 2rem 1rem 2rem; ;
