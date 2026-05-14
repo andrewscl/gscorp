@@ -32,7 +32,7 @@ $ratio-right: 1;
                 flex-direction: column;
                 gap: 0.35rem;
                 label {
-                    @include montserrat-font(0.7rem, 600); // Más pequeña y bold
+                    @include roboto-font(0.7rem, 600); // Más pequeña y bold
                     color: $muted-color; // Gris suave
                     text-transform: uppercase; // Estilo "etiqueta"
                     letter-spacing: 0.05em;
@@ -40,7 +40,7 @@ $ratio-right: 1;
                 }
 
                 .form-value {
-                    @include montserrat-font(0.95rem, 400); // Fuente principal
+                    @include roboto-font(0.95rem, 400); // Fuente principal
                     color: $heading-color; // Casi negro o azul muy oscuro
                     line-height: 1.4;
                     
