@@ -44,9 +44,6 @@
             <input id="siteLon" name="lon" type="number" step="any"
                   th:value="${site.lon}" placeholder="-70.66" />
           </div>
-          <div class="form-group">
-            <button type="button" id="getLocationBtn" class="vs-btn vs-secondary">Obtener ubicación actual</button>
-          </div>
         </div>
 
         <div class="form-group">
@@ -64,14 +61,13 @@
 
       </div>
     </div>
-
     <div class="panel-aside">
       <div class="panel-aside-content">
         <h3>Ubicación</h3>
         <div class="content" id="map"></div>
       </div>
     </div>
-
+  </div>
 
     <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
 
@@ -80,8 +76,6 @@
                             true, 'Actualizar usuario',
                             true, 'Cancelar',
                             true, 'Eliminar usuario')}"></div>
-
-    </div>
 
   <script type="module" src="/js/private/sites/edit-site.js"></script>
 
