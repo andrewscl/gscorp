@@ -55,7 +55,7 @@ async function startCreateMap() {
 async function onSubmitCreate(e) {
   e.preventDefault();
 
-  const projectId = Number(qs('#siteProjectId')?.value);
+  const projectId = Number(qs('#projectId')?.value);
   const name     = qs('#siteName')?.value?.trim();
   const code     = qs('#siteCode')?.value?.trim() || null;
   const address  = qs('#siteAddress')?.value?.trim() || null;
