@@ -32,14 +32,14 @@ export const startViewMap = async () => {
     const siteData = await response.json();
 
     console.log('Site data:', siteData);
-    await addAdvancedMarker(map, siteData.name, siteData.lat, siteData.lon);
+    const initialMarker = await addAdvancedMarker(map, siteData.name, siteData.lat, siteData.lon);
 
     const bounds = new google.maps.LatLngBounds();
     bounds.extend({ lat: parseFloat(siteData.lat), lng: parseFloat(siteData.lon) });
     map.fitBounds(bounds);
     map.setZoom(15);
 
-    return { map, siteData };
+    return { map, siteData, initialMarker };
 
   } catch (error) {
     console.error('[site-map.js] Error al cargar la API de Google Maps:'

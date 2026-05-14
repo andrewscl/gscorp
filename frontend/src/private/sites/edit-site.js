@@ -161,13 +161,8 @@ function bindEditSite() {
 function startEditMap() {
   startViewMap().then(async (result) => {
     if (result) {
-      const { map, siteData } = result;
-      const marker = await addAdvancedMarker(
-                              map,
-                              siteData.name,
-                              siteData.lat,
-                              siteData.lon);
-      enableMarkerDrag(marker, (coords) => {
+      const { map, siteData, initialMarker } = result;
+      enableMarkerDrag(initialMarker, (coords) => {
         qs('#siteLat').value = coords.lat();
         qs('#siteLon').value = coords.lng();
       });
