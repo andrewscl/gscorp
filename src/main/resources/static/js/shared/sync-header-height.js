@@ -1,1 +1,1 @@
-
+function l(i=".hs-table-header",a="--header-height"){const c=document.documentElement;let e=null,t=null;function n(){const r=document.querySelector(i);if(r){const s=r.offsetHeight;c.style.setProperty(a,`${s}px`),console.log(`✅ Sincronizado: ${i} = ${s}px`)}else requestAnimationFrame(n)}function o(){e&&cancelAnimationFrame(e),e=requestAnimationFrame(()=>{t&&clearTimeout(t),t=setTimeout(n,80)})}n(),window.removeEventListener("resize",o),window.addEventListener("resize",o)}export{l as i};
