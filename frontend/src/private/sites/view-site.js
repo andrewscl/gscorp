@@ -20,7 +20,7 @@ const startViewMap = async () => {
     console.log('Loading Google Maps API...');
     await loadGoogleMapsAPI(apiKey);
     const map = await initMap('map', {
-      mapTypeId: 'hybrid' 
+      mapTypeId: 'hybrid',
     });
 
     const response = await fetchWithAuth(`/api/sites/${id}`, {
