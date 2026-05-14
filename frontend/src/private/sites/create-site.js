@@ -52,14 +52,8 @@ async function startCreateMap() {
   });
 }
 
-
 async function onSubmitCreate(e) {
   e.preventDefault();
-
-  const err = qs('#createSiteError');
-  const ok  = qs('#createSiteOk');
-  if (err) err.textContent = '';
-  if (ok)  ok.style.display = 'none';
 
   const projectId = Number(qs('#siteProjectId')?.value);
   const name     = qs('#siteName')?.value?.trim();
@@ -96,20 +90,11 @@ async function onSubmitCreate(e) {
         active
       })
     });
-
     if (!res.ok) {
-      let msg = '';
-      try { msg = await res.text(); } catch {}
-      if (!msg) msg = `Error ${res.status}`;
-      throw new Error(msg);
+      displayAlert(alertError, 'El sitio no pudo ser creado.', 1500);
     }
-
-    ok && (ok.style.display = 'block');
-
-    setTimeout(() => {
-      closeModal();
-      navigateTo('/private/sites/table-view'); // recarga el listado
-    }, 600);
+    displayAlert(alertSuccess, 'El sitio ha sido creado exitosamente.', 1500);
+    setTimeout(() => { navigateTo('/private/sites/table-view'); }, 1500);
 
   } catch (e2) {
     err && (err.textContent = e2.message || 'No se pudo crear el sitio');
