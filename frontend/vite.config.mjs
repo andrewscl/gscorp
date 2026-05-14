@@ -13,7 +13,7 @@ export default defineConfig({
         'shared/dom-utils': path.resolve(__dirname, './src/shared/dom-utils.js'),
         'shared/maps/googlemaps-loader': path.resolve(__dirname, './src/shared/maps/googlemaps-loader.js'),
         'shared/maps/init-map': path.resolve(__dirname, './src/shared/maps/init-map.js'),
-        'shared/maps/add-advanced-marker': path.resolve(__dirname, './src/shared/maps/add-advanced-marker.js'),
+        'shared/maps/advanced-marker': path.resolve(__dirname, './src/shared/maps/advanced-marker.js'),
         'shared/maps/enable-marker-drag': path.resolve(__dirname, './src/shared/maps/enable-marker-drag.js'),
         'auth': path.resolve(__dirname, './src/auth.js'),
         'auth/define-password': path.resolve(__dirname, './src/auth/define-password.js'),

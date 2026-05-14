@@ -1,5 +1,8 @@
 import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
+import loadGoogleMapsAPI from '../../shared/maps/googlemaps-loader.js';
+import { initMap } from '../../shared/maps/init-map.js';
+import { addAdvancedMarker } from '../../shared/maps/advanced-marker.js'; 
 import { enableMarkerDrag } from '../../shared/maps/enable-marker-drag.js';
 
 const qs  = (s) => document.querySelector(s);
