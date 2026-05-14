@@ -25,24 +25,30 @@ async function startCreateMap() {
   });
 
   map.addListener('click', async (event) => {
-    const lat = event.latLng.lat();
-    const lon = event.latLng.lng();
+    const lat = typeof event.latLng.lat === 'function' ? event.latLng.lat() : event.latLng.lat;
+    const lon = typeof event.latLng.lng === 'function' ? event.latLng.lng() : event.latLng.lng;
+
+    const inputLat = qs('#siteLat');
+    const inputLon = qs('#siteLon');
 
     if(!mainMarker){
       mainMarker = await addAdvancedMarker(
-                                map, 'Nombre del sitio', lat, lon);
+                                map, 'Nuevo sitio', lat, lon);
 
       enableMarkerDrag(mainMarker, (newPos) => {
-          qs('#siteLat').value = newPos.lat();
-          qs('#siteLon').value = newPos.lng();
+        const newLat = typeof newPos.lat === 'function' ? newPos.lat() : newPos.lat;
+        const newLon = typeof newPos.lng === 'function' ? newPos.lng() : newPos.lng;
+        if(inputLat) inputLat.value = newLat;
+        if(inputLon) inputLon.value = newLon;
       });
-
 
     } else {
       mainMarker.position = { lat, lng: lon };
     }
-    qs('#siteLat').value = lat;
-    qs('#siteLon').value = lon;
+
+    // Actualizar inputs tras el click
+      if(inputLat) inputLat.value = lat;
+      if(inputLon) inputLon.value = lon;
   });
 }
 
