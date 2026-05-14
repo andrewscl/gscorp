@@ -15,6 +15,7 @@ export const initMap = async (containerId, options = {}) => {
             mapId: options.mapId || googleMapsConfig.mapId,
             disableDefaultUI: options.disableDefaultUI !== undefined ? 
                                             options.disableDefaultUI : true,
+            mapTypeId: options.mapTypeId || 'roadmap',
         });
 
         console.log(`[initMap] Mapa en #${containerId} inicializado.`);
