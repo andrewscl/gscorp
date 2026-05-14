@@ -118,11 +118,11 @@ const cancelCreateSite = () => {
 
 
 function bindCreateSite() {
-    const createBtn = qs('.btn-primary');
+    const createBtn = qs('#submit');
     if (createBtn) {
         createBtn.addEventListener('click', onSubmitCreate);
     }
-    const cancelBtn = qs('.btn-secondary');
+    const cancelBtn = qs('#cancel');
     if (cancelBtn) {
         cancelBtn.addEventListener('click', cancelCreateSite);
     }
