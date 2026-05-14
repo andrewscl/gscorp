@@ -20,7 +20,7 @@ $ratio-right: 1;
         flex-direction: column;
         border-right: 1px solid rgba($border-color, 0.5);
         .panel-header {
-            @include montserrat-font(1.1rem, 600);
+            @include montserrat-font($header-text-height, 600);
         }
         .panel-body {
             display: flex;
@@ -33,9 +33,8 @@ $ratio-right: 1;
               gap: .18rem;
 
               label {
-                font-size: 1rem;
-                color: #334155;
-                font-weight: 600;
+                @include montserrat-font(0.8rem, 500);
+                color: $label-text-color;
                 margin-bottom: .1rem;
               }
 
@@ -44,9 +43,9 @@ $ratio-right: 1;
                 padding: .62rem 1rem;
                 border: 1px solid #e5e7eb;
                 border-radius: 8px;
-                font-size: 1rem;
+                @include montserrat-font(1rem, 400);
                 background: #fff;
-                color: #0f172a;
+                color: $input-text-color;
                 transition: border-color .2s, box-shadow .2s;
                 &:focus {
                   border-color: #4177f6;

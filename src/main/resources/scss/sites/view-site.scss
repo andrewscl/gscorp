@@ -20,7 +20,7 @@ $ratio-right: 1;
         flex-direction: column;
         border-right: 1px solid rgba($border-color, 0.5);
         .panel-header {
-            @include montserrat-font(1.1rem, 600);
+            @include montserrat-font($header-text-height, 600);
         }
         .panel-body {
             display: flex;
