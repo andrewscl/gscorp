@@ -163,9 +163,11 @@ function startEditMap() {
     if (result) {
       const { map, siteData, initialMarker } = result;
       enableMarkerDrag(initialMarker, (coords) => {
+        const position = initialMarker.position;
+
         // extraer coordenadas
-        const newLat = typeof coords.lat === 'function' ? coords.lat() : coords.lat;
-        const newLon = typeof coords.lon === 'function' ? coords.lon() : coords.lon;
+        const newLat = position.lat;
+        const newLon = position.lng;
         // actualizar inputs
         qs('#siteLat').value = newLat;
         qs('#siteLon').value = newLon;
