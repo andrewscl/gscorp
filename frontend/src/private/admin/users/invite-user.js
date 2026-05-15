@@ -7,7 +7,7 @@ const qs = (s) => document.querySelector(s);
 const alertSuccess = qs('.alert-success');
 const alertError = qs('.alert-error');
 const alertCancel = qs('.alert-cancel');
-
+const inviteUserBtn = qs('#submit');
 
 async function onSubmitInviteUser(e) {
   e.preventDefault();
@@ -54,6 +54,7 @@ async function onSubmitInviteUser(e) {
     }
 
     if (ok) ok.style.display = 'block';
+    displayAlert(alertSuccess, 'Usuario invitado correctamente.', 1500);
     setTimeout(() => {navigateTo('/private/users/table-view');}, 900);
   } catch (e2) {
     if (err) err.textContent = e2.message;
