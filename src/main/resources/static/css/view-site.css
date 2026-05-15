@@ -325,13 +325,13 @@ p {
   cursor: pointer;
   transition: all 0.3s ease;
   text-decoration: none;
-  background-color: #94a3b8;
+  background-color: #cbd5e1;
   color: #ffffff;
 }
 .hs-footer-actions .btn.btn-secondary:hover {
-  background-color: rgb(128.0426966292, 145.8404494382, 170.7573033708);
+  background-color: rgb(175.8585365854, 191.0780487805, 209.3414634146);
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(148, 163, 184, 0.4);
+  box-shadow: 0 8px 20px rgba(203, 213, 225, 0.4);
 }
 .hs-footer-actions .btn.btn-secondary:active {
   transform: translateY(0);
