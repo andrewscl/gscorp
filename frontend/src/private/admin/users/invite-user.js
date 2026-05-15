@@ -29,8 +29,8 @@ async function onSubmitInviteUser(e) {
   const employeeId = Number(qs('#inviteEmployeeId')?.value) || null;
 
   if (!username || !mail) {
-    if (err) err.textContent = 'Nombre de usuario y correo electrónico son obligatorios.';
-    return;
+      displayAlert(alertError, 'El nombre de usuario y el correo electrónico son obligatorios.', 1500);
+      return;
   }
 
   inviteUserBtn && (inviteUserBtn.disabled = true);
@@ -56,10 +56,12 @@ async function onSubmitInviteUser(e) {
     if (ok) ok.style.display = 'block';
     displayAlert(alertSuccess, 'Usuario invitado correctamente.', 1500);
     setTimeout(() => {navigateTo('/private/users/table-view');}, 900);
+
   } catch (e2) {
-    if (err) err.textContent = e2.message;
+        displayAlert(alertError, 'Error al invitar al usuario.', 1500);
+
   } finally {
-    submitBtn && (submitBtn.disabled = false);
+    inviteUserBtn && (inviteUserBtn.disabled = false);
   }
 }
 
