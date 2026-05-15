@@ -64,7 +64,7 @@ public class UserController {
         return "private/users/views/users-list";
     }
 
-    @GetMapping("/invite-user")
+    @GetMapping("/invite")
     public String getInviteUserView(Model model) {
         model.addAttribute("users", userService.findAllWithRolesAndClients());
         model.addAttribute("clients", clientService.getAllClients());
