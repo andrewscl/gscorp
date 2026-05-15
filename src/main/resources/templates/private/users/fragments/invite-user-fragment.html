@@ -2,7 +2,7 @@
                                             th:fragment="content">
 
   <div class="header">
-    <h2>Invitar nuevo usuario</h2>
+    <h3>Invitar nuevo usuario</h3>
   </div>
 
   <div class="body" id="inviteUserForm">
@@ -51,6 +51,14 @@
     </div>
 
   </div>
+
+  <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
+
+  <div th:replace="~{shared/fragments/footer-buttons ::
+                        footer-buttons(
+                            true, 'Invitar Usuario',
+                            true, 'Cancelar',
+                            false, '')}"></div>
 
   <script type="module" src="/js/private/admin/users/invite-user.js"></script>
 

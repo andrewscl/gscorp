@@ -1,11 +1,18 @@
 import { fetchWithAuth } from '../../../auth.js';
 import { navigateTo } from '../../../navigation-handler.js';
+import { displayAlert } from '../../../shared/display-alert.js';
 
 const qs = (s) => document.querySelector(s);
 
-/* --- Invitar usuario --- */
+const alertSuccess = qs('.alert-success');
+const alertError = qs('.alert-error');
+const alertCancel = qs('.alert-cancel');
+
+
 async function onSubmitInviteUser(e) {
   e.preventDefault();
+
+  inviteUserBtn.disabled = true;
 
   const username = qs('#inviteUsername')?.value?.trim();
   const mail = qs('#inviteMail')?.value?.trim();
@@ -21,19 +28,12 @@ async function onSubmitInviteUser(e) {
   //Obtener empleados seleccionados (select)
   const employeeId = Number(qs('#inviteEmployeeId')?.value) || null;
 
-  const err = qs('#inviteUserError');
-  const ok = qs('#inviteUserSuccess');
-  if (err) err.textContent = '';
-  if (ok) ok.style.display = 'none';
-
   if (!username || !mail) {
     if (err) err.textContent = 'Nombre de usuario y correo electrónico son obligatorios.';
     return;
   }
 
-  // Deshabilita submit durante el POST
-  const submitBtn = e.submitter || qs('#inviteUserForm button[type="submit"]');
-  submitBtn && (submitBtn.disabled = true);
+  inviteUserBtn && (inviteUserBtn.disabled = true);
 
   try {
     const res = await fetchWithAuth('/api/users/invite', {
@@ -49,16 +49,12 @@ async function onSubmitInviteUser(e) {
     });
 
     if (!res.ok) {
-      let msg = '';
-      try { msg = await res.text(); } catch {}
-      if (!msg) msg = `Error ${res.status}`;
-      throw new Error(msg);
+      displayAlert(alertError, 'No se pudo invitar al usuario.', 1500);
+      return;
     }
 
     if (ok) ok.style.display = 'block';
-    setTimeout(() => {
-      navigateTo('/private/users/table-view');
-    }, 900);
+    setTimeout(() => {navigateTo('/private/users/table-view');}, 900);
   } catch (e2) {
     if (err) err.textContent = e2.message;
   } finally {
@@ -66,28 +62,24 @@ async function onSubmitInviteUser(e) {
   }
 }
 
+const cancelInviteUser = () => {
+  displayAlert(alertCancel, '¿Estás seguro que deseas cancelar la invitación?', 3000);
+  setTimeout(() => {navigateTo('/private/users/table-view');}, 3000);
+}
+
 /* --- Bindings --- */
 function bindInviteUserForm() {
-  qs('#inviteUserForm')?.addEventListener('submit', onSubmitInviteUser);
-}
-
-function bindCancelInviteUser() {
-  qs('#cancelInviteUser')?.addEventListener('click', (e) => {
-    e.preventDefault();
-    navigateTo('/private/users/table-view');
-  });
-}
-
-function bindCloseInviteUser() {
-  qs('#closeInviteUser')?.addEventListener('click', (e) => {
-    e.preventDefault();
-    navigateTo('/private/users/table-view');
-  });
+  const inviteUserBtn = qs('#submit');
+  if(inviteUserBtn) {
+    inviteUserBtn.addEventListener('click', onSubmitInviteUser);
+  }
+  const cancelBtn = qs('#cancel');
+  if(cancelBtn) {
+    cancelBtn.addEventListener('click', cancelInviteUser);
+  }
 }
 
 /* --- init --- */
 (function init() {
   bindInviteUserForm();
-  bindCancelInviteUser();
-  bindCloseInviteUser();
 })();
