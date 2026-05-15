@@ -63,8 +63,8 @@ async function deleteUser() {
   const ok = window.confirm('¿Eliminar este usuario? Esta acción no se puede deshacer.');
   if (!ok) return;
 
+  const userId = qs('#userId')?.value?.trim();
   const deleteBtn = qs('.btn-danger');
-
   if (deleteBtn) deleteBtn.disabled = true;
 
   try {
