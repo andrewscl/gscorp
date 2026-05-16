@@ -94,13 +94,9 @@ public class UserController {
     public String editUser(@PathVariable Long id, Model model){
 
         UserViewDto userDto = userService.findWithRolesAndClientsById(id);
-
         List<RoleSelectDto> roles = roleService.getAllRolesSelectDto();
-
         List<ClientSelectDto> clients = clientService.getAllClientsSelectDto();
-
         List<EmployeeSelectDto> employees = employeeService.getAllEmployeesSelectDto();
-
         model.addAttribute("user", userDto);
         model.addAttribute("roles", roles);
         model.addAttribute("clients", clients);
