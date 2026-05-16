@@ -30,29 +30,31 @@
         <input type="checkbox" id="userActive" name="active" th:checked="${user.active}" />
       </div>
 
-      <!-- Roles -->
-      <div class="form-group">
-        <label for="userRoles">Roles</label>
-        <select id="userRoles" name="roleIds" multiple size="6">
-          <!-- Itera sobre "roles" disponibles -->
-          <option th:each="role : ${roles}" 
-                  th:value="${role.id}" 
-                  th:text="${role.role}" 
-                  th:selected="${user.roleIds != null and user.roleIds.contains(role.id)}">
-          </option>
-        </select>
-      </div>
+      <div class="form-row">
+        <!-- Roles -->
+        <div class="form-group">
+          <label for="userRoles">Roles</label>
+          <select id="userRoles" name="roleIds" multiple size="6">
+            <!-- Itera sobre "roles" disponibles -->
+            <option th:each="role : ${roles}" 
+                    th:value="${role.id}" 
+                    th:text="${role.role}" 
+                    th:selected="${user.roleIds != null and user.roleIds.contains(role.id)}">
+            </option>
+          </select>
+        </div>
 
-      <!-- Clientes -->
-      <div class="form-group">
-        <label for="userClients">Clientes</label>
-        <select id="userClients" name="clientIds" multiple size="6">
-          <option th:each="client : ${clients}"
-                  th:value="${client.id}"
-                  th:text="${client.name}"
-                  th:selected="${user.clientIds != null and user.clientIds.contains(client.id)}">
-          </option>
-        </select>
+        <!-- Clientes -->
+        <div class="form-group">
+          <label for="userClients">Clientes</label>
+          <select id="userClients" name="clientIds" multiple size="6">
+            <option th:each="client : ${clients}"
+                    th:value="${client.id}"
+                    th:text="${client.name}"
+                    th:selected="${user.clientIds != null and user.clientIds.contains(client.id)}">
+            </option>
+          </select>
+        </div>
       </div>
 
       <!-- Empleado único asociado -->
