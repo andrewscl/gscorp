@@ -1,5 +1,6 @@
 package com.gscorp.dv1.users.web.dto;
 
+import com.gscorp.dv1.enums.UserStatus;
 import com.gscorp.dv1.users.infrastructure.UserTableProjection;
 
 public record UserTableDto (
