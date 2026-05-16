@@ -9,20 +9,21 @@
     <!-- Información básica y formulario -->
     <div id="editUserForm" class="body">
 
-      <!-- Información básica del usuario -->
       <div class="form-group">
         <label for="userId">ID</label>
         <input type="text" id="userId" name="id" th:value="${user.id}" readonly />
       </div>
 
-      <div class="form-group">
-        <label for="userUsername">Username</label>
-        <input type="text" id="userUsername" name="username" th:value="${user.username}" required />
-      </div>
-
-      <div class="form-group">
-        <label for="userMail">Correo Electrónico</label>
-        <input type="email" id="userMail" name="mail" th:value="${user.mail}" required />
+      <!-- Nombre de usuario y email -->      
+      <div class="form-row w-custom">
+        <div class="form-group col-30">
+          <label for="userUsername">Username</label>
+          <input type="text" id="userUsername" name="username" th:value="${user.username}" required />
+        </div>
+        <div class="form-group col-70">
+          <label for="userMail">Correo Electrónico</label>
+          <input type="email" id="userMail" name="mail" th:value="${user.mail}" required />
+        </div>
       </div>
 
       <div class="form-group">
@@ -30,6 +31,7 @@
         <input type="checkbox" id="userActive" name="active" th:checked="${user.active}" />
       </div>
 
+      <!-- Roles y clientes -->      
       <div class="form-row">
         <!-- Roles -->
         <div class="form-group">

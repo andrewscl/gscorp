@@ -493,6 +493,33 @@ p {
 .hs-form .body .form-row .form-group {
   flex: 1;
 }
+.hs-form .body .form-row-custom .col-10 {
+  flex: 0 0 10%;
+}
+.hs-form .body .form-row-custom .col-20 {
+  flex: 0 0 20%;
+}
+.hs-form .body .form-row-custom .col-30 {
+  flex: 0 0 30%;
+}
+.hs-form .body .form-row-custom .col-40 {
+  flex: 0 0 40%;
+}
+.hs-form .body .form-row-custom .col-50 {
+  flex: 0 0 50%;
+}
+.hs-form .body .form-row-custom .col-60 {
+  flex: 0 0 60%;
+}
+.hs-form .body .form-row-custom .col-70 {
+  flex: 0 0 70%;
+}
+.hs-form .body .form-row-custom .col-80 {
+  flex: 0 0 80%;
+}
+.hs-form .body .form-row-custom .col-90 {
+  flex: 0 0 90%;
+}
 .hs-form .alert-container {
   display: none;
   width: auto;

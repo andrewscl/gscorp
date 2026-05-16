@@ -102,6 +102,18 @@
                 }
             }
 
+            .form-row-custom {
+                .col-10 { flex : 0 0 10%; };
+                .col-20 { flex : 0 0 20%; };
+                .col-30 { flex : 0 0 30%; };
+                .col-40 { flex : 0 0 40%; };
+                .col-50 { flex : 0 0 50%; };
+                .col-60 { flex : 0 0 60%; };
+                .col-70 { flex : 0 0 70%; };
+                .col-80 { flex : 0 0 80%; };
+                .col-90 { flex : 0 0 90%; };
+            }
+
         }
 
         .alert-container {

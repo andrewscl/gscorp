@@ -186,6 +186,33 @@ p {
 .invite-user-container .body .form-row .form-group {
   flex: 1;
 }
+.invite-user-container .body .form-row-custom .col-10 {
+  flex: 0 0 10%;
+}
+.invite-user-container .body .form-row-custom .col-20 {
+  flex: 0 0 20%;
+}
+.invite-user-container .body .form-row-custom .col-30 {
+  flex: 0 0 30%;
+}
+.invite-user-container .body .form-row-custom .col-40 {
+  flex: 0 0 40%;
+}
+.invite-user-container .body .form-row-custom .col-50 {
+  flex: 0 0 50%;
+}
+.invite-user-container .body .form-row-custom .col-60 {
+  flex: 0 0 60%;
+}
+.invite-user-container .body .form-row-custom .col-70 {
+  flex: 0 0 70%;
+}
+.invite-user-container .body .form-row-custom .col-80 {
+  flex: 0 0 80%;
+}
+.invite-user-container .body .form-row-custom .col-90 {
+  flex: 0 0 90%;
+}
 .invite-user-container .alert-container {
   display: none;
   width: auto;
