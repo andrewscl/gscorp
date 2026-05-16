@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.gscorp.dv1.clients.infrastructure.Client;
+import com.gscorp.dv1.enums.UserStatus;
 import com.gscorp.dv1.roles.infrastructure.Role;
 import com.gscorp.dv1.users.infrastructure.User;
 
@@ -16,6 +17,7 @@ public record UserViewDto(
         Long id,
         String username,
         String mail,
+        UserStatus status,
         Boolean active,
         Set<Long> roleIds,
         Set<String> roleNames,
@@ -63,6 +65,7 @@ public record UserViewDto(
                 u.getId(),
                 u.getUsername(),
                 u.getMail(),
+                u.getStatus(),
                 u.getActive(),
                 roleIds,
                 roleNames,
