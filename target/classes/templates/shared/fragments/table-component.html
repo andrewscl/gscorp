@@ -3,7 +3,7 @@
         class="hs-table">
 
     <div class="hs-table-header">
-      <div class="title-row">
+      <div class="hs-title-row">
         <div class="title-left">
           <span class="title-text" th:text="${title}"></span>
         </div>
@@ -11,8 +11,8 @@
               th:text="${count + ' registro' + (count == 1 ? '' : 's')}"></span>
       </div>
 
-      <div class="filters-actions-row">
-        <div class="filter-group" style="display: flex; gap: 0.6rem;">
+      <div class="hs-filters-actions-row">
+        <div class="filter-group">
           <th:block th:replace="${filters}"></th:block>
         </div>
         

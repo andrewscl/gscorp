@@ -8,20 +8,22 @@
 )}">
 
     <th:block id="siteFilters">
-        <label class="filter-item">
-        <span class="filter-label">Sitios</span>
 
-        <select id="filter-dept" class="filter-input">
-            <option value="">Todos</option>
-            <option value="HR">Sitio 1</option>
-            <option value="OPS">Sitio 2</option>
-        </select>
-        </label>
+        <div class="filter-item">
+            <span class="filter-label">Sitios</span>
+            <select id="filter-dept" class="filter-input" name="siteId" required>
+                <option value="">Todos los sitios</option>
+                <option th:each="s : ${sites}"
+                        th:value="${s.id}"
+                        th:text="${s.name}"></option>
+            </select>
+        </div>
 
-        <label class="filter-item">
-        <span class="filter-label">Nombre</span>
-        <input id="filter-name" class="filter-input" type="text" placeholder="Buscar empleado..."/>
-        </label>
+        <div class="filter-item">
+            <span class="filter-label">Nombre</span>
+            <input id="filter-name" class="filter-input" type="text"
+                        placeholder="Buscar sitio..."/>
+        </div>
     </th:block>
 
     <th:block id="siteActions">
@@ -29,7 +31,7 @@
         Exportar CSV
         </button>
         
-        <button class="btn btn-primary" id="addEmployeeBtn">
+        <button class="btn btn-primary" id="addSiteBtn">
         Nuevo Sitio
         </button>
     </th:block>
@@ -47,4 +49,3 @@
 </div>
 
 <script type="module" src="/js/private/sites/sites-table.js"></script>
-<script type="module" src="/js/private/sites/create-site.js"></script>

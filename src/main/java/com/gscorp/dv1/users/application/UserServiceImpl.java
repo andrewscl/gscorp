@@ -31,6 +31,7 @@ import com.gscorp.dv1.clients.infrastructure.Client;
 import com.gscorp.dv1.clients.infrastructure.ClientRepository;
 import com.gscorp.dv1.employees.infrastructure.Employee;
 import com.gscorp.dv1.employees.infrastructure.EmployeeRepository;
+import com.gscorp.dv1.enums.UserStatus;
 import com.gscorp.dv1.roles.infrastructure.Role;
 import com.gscorp.dv1.roles.infrastructure.RoleRepository;
 import com.gscorp.dv1.users.infrastructure.User;
@@ -153,7 +154,7 @@ public class UserServiceImpl implements UserService{
         user.setActive(true);
         //NO contraseña aun, ni token (El controller gestiona eso)
         user.setPassword(null);
-        user.setStatus(request.status() != null ? request.status() : UserStatus.INVITED);
+        user.setStatus(UserStatus.INVITED);
         user.setInvitationToken(null);
         user.setInvitationTokenExpiry(null);
 

@@ -1,0 +1,26 @@
+@use '../base/mixins' as *;
+@use '../base/btn-mixins' as *;
+@use '../base/typography' as *;
+@use '../base/palette' as *;
+@use '../base/variables' as *;
+
+@mixin dual-panel-card() {
+    background: $white;
+    border-radius: 0.8rem;
+    border: 1px solid $border-color;
+    overflow: hidden;
+    display: flex;
+    box-shadow: $shadow-sm;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: $shadow-md;
+    }
+
+    // Adaptabilidad para móviles
+    @media (max-width: 992px) {
+        flex-direction: column;
+        .panel-main { border-right: none; border-bottom: 1px solid $border-color; }
+        .panel-aside { height: 350px; flex: none; }
+    }
+}

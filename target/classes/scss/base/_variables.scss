@@ -2,24 +2,54 @@
 
 // Tamaños
 $base-font-size: 1rem;
+$header-text-height: 1.1rem;
 
 // Tipografías
 $primary-font: 'Roboto', sans-serif;
 $heading-font: 'Montserrat', sans-serif;
 
 // Colores
-$heading-color: $slate-800;
 $text-color: $slate-700;
 $background-color: $slate-50;
+$background-dark-color: $slate-800;
 $primary-color: $slate-800;
-$secondary-color: $slate-500;
+$secondary-color: $slate-300;
 $border-color: $slate-200;
 $hover-color: $accent-blue;
 $muted-color: $cool-gray-500;
+
+
+$heading-color: $slate-800;
+$label-text-color: $slate-400;
+$input-text-color: $slate-700;
+
 
 $topbar-height: 54px;
 $sidebar-width: 240px;
 $content-horizontal-padding: 2.4rem;
 $radius: 0.7rem;
+
+
+// Sombras sutiles para elementos pequeños (inputs, botones)
+$shadow-xs: 0 0.1rem 0.4rem rgba(15, 23, 42, 0.04);
+
+// Sombra estándar para tarjetas y contenedores
 $shadow-sm: 0 0.5rem 1.1rem rgba(15, 23, 42, 0.04);
-$shadow-xs: 0 0.1rem 0.4rem rgba(15,23,42,0.04);
+
+// Sombra para elementos flotantes (Dropdowns, Headers fijos)
+$shadow-md: 0 8px 20px rgba(15, 23, 42, 0.08);
+
+// Sombra para Modales o elementos con mucha profundidad
+$shadow-lg: 0 15px 35px rgba(15, 23, 42, 0.12);
+
+
+$alert-success: #d1f7d6; /* Verde claro */
+$alert-error: #fde4e4; /* Rojo claro */
+$alert-cancel: #fff3cd; /* Amarillo claro */
+$alert-success-dark: #256029; /* Verde oscuro */
+$alert-error-dark: #a61d1d; /* Rojo oscuro */
+$alert-cancel-dark: #856404; /* Amarillo oscuro */
+$alert-success-border: #a4e5aa;
+$alert-error-border: #f5b3b3;
+$alert-cancel-border: #ffeeba;
+
