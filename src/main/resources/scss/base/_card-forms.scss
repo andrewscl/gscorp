@@ -15,8 +15,8 @@
         max-width: $max_w;
         margin: 0 auto;
         background: #ffffff;
-        border-radius: 12px;
-        box-shadow: 0 4x 8px rgba(0, 0, 0, 0.1);
+        border-radius: 0.8rem;
+        box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
         transition: transform 0.2s ease, box-shadow 0.2s ease;
 
         &:hover {
@@ -26,33 +26,32 @@
 
         .header {
             background-color: #ffffff;
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
-            border-bottom: 1px solid #e9ecef;
-            padding: 1px 0;
-            letter-spacing: 1px;
+            border-top-left-radius: 0.8rem;
+            border-top-right-radius: 0.8rem;
+            border-bottom: 0.1rem solid #e9ecef;
+            padding: 0.1rem 0;
+            letter-spacing: 0.1rem;
             text-align: center;
             position: relative;
             @include montserrat-font(1.1rem, 700);
-
             &::before {
                 content: '';
                 position: absolute;
                 top: 0;
                 left: 0;
                 width: 100%;
-                height: 4px;
+                height: 0.25rem;
                 background: linear-gradient(90deg, #4e54c8, #8f94fb);
-                border-top-left-radius: 12px;
-                border-top-right-radius: 12px;
+                border-top-left-radius: 0.8rem;
+                border-top-right-radius: 0.8rem;
             }
         }
 
         .body {
             display: grid;
-            gap: 1rem; //espaciado entre filas
+            gap: 1rem;
             background: #ffffff;
-            padding: 2rem;
+            padding: 1.5rem 2rem;
 
             .form-group {
                 display: flex;
