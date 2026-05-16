@@ -50,6 +50,10 @@ public class User {
 
     private Boolean active;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name="status")
+    private UserStatus status;
+
     private String invitationToken;
 
     private LocalDateTime invitationTokenExpiry;

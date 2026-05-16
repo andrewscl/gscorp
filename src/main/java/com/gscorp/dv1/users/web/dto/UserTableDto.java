@@ -9,6 +9,7 @@ public record UserTableDto (
     String mail,
     String phone,
     Boolean active,
+    UserStatus status,
     Long employeeId
 
 ){
@@ -23,6 +24,7 @@ public record UserTableDto (
             p.getMail(),
             p.getPhone(),
             p.getActive(),
+            p.getStatus(),
             p.getEmployeeId()
         );
     }

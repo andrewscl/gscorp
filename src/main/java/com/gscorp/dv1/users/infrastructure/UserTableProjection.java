@@ -6,6 +6,7 @@ public interface UserTableProjection {
     String getMail();
     String getPhone();
     Boolean getActive();
+    UserStatus getStatus();
     Long getEmployeeId();
     
 }

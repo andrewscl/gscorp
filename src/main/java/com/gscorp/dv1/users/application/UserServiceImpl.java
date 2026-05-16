@@ -153,6 +153,7 @@ public class UserServiceImpl implements UserService{
         user.setActive(true);
         //NO contraseña aun, ni token (El controller gestiona eso)
         user.setPassword(null);
+        user.setStatus(request.status() != null ? request.status() : UserStatus.INVITED);
         user.setInvitationToken(null);
         user.setInvitationTokenExpiry(null);
 

@@ -1,0 +1,27 @@
+<section th:fragment="content" class="emailInvitation">
+
+  <div class="email-form">
+
+        <div class="email-header-form">
+            <div class="logo">
+                <img src="https://sesan.cl/img/logo-mail.png" alt="SESAN Logo">
+            </div>
+            <div class="text-header">
+                <h3>Bienvenido a la plataforma!</h3>
+            </div>
+        </div>
+
+        <div class="email-body-form">
+            <p>Hola, [Nombre del usuario]</p>
+            <p>Te escribimos para informarte que has sido invitado a unirte a la plataforma SESAN.</p>
+            <p>Para aceptar la invitación, haz clic en el siguiente enlace:</p>
+            <button th:href="@{${invitationLink}}" class="btn-primary">Aceptar Invitación</button>
+        </div>
+
+        <div class="email-footer-form">
+            <p>Si no has solicitado esta invitación, puedes ignorar este correo.</p>
+        </div>
+
+    </div>
+
+</section>

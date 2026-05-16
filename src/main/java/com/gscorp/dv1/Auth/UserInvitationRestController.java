@@ -41,31 +41,29 @@ public class UserInvitationRestController {
     public ResponseEntity<?> inviteUser(@RequestBody InviteUserRequest request) {
         // Crear el usuario invitado
         User user = userService.createInvitedUser(request);
-
         // Crear el token de invitación (válido por 24 horas)
         PasswordResetToken token = passwordResetTokenService.
                                             createToken(user, INVITE_TTL);
-
         // Enviar el correo de invitación con diseño mejorado y logo
-        String subject = "Bienvenido a GSCorp";
+        String subject = "Bienvenido a SESAN";
         String htmlBody = """
             <div style="background:#f7f7f9;padding:32px;">
-            <div style="max-width:420px;margin:auto;background:white;padding:32px 24px;border-radius:10px;box-shadow:0 2px 12px rgba(30,40,60,0.13);font-family:'Segoe UI','Roboto',Arial,sans-serif;">
+            <div style="max-width:25rem;margin:auto;background:white;padding:32px 24px;border-radius:10px;box-shadow:0 2px 12px rgba(30,40,60,0.13);font-family:'Segoe UI','Roboto',Arial,sans-serif;">
                 <div style="text-align:center;margin-bottom:24px;">
-                <img src="https://gscorp.cl/img/logo-mail.png" alt="GSCorp Logo" style="height:90px;max-width:260px;">
+                    <img src="https://sesan.cl/img/logo-mail.png" alt="SESAN Logo" style="height:9.6rem;max-width:16rem;">
                 </div>
-                <h2 style="color:#2d3a4b;margin-bottom:16px;text-align:center;">¡Bienvenido/a a la plataforma!</h2>
-                <p style="font-size:1.06rem;color:#444;">
-                Hola <b>%s</b>,
-                </p>
-                <p style="font-size:1.06rem;color:#444;">
-                Te han invitado a la plataforma. Haz click en el siguiente botón para definir tu contraseña:
-                </p>
+                    <h2 style="color:#2d3a4b;margin-bottom:16px;text-align:center;">¡Bienvenido/a a la plataforma!</h2>
+                    <p style="font-size:1.06rem;color:#444;">
+                        Hola <b>%s</b>,
+                    </p>
+                    <p style="font-size:1.06rem;color:#444;">
+                        Te compartimos el acceso a la plataforma. Haz click en el siguiente botón para definir tu contraseña:
+                    </p>
                 <div style="text-align:center;margin:32px 0 28px 0;">
-                <a href="https://gscorp.cl/auth/define-password?token=%s"
-                    style="background:#4f8cff;color:white;padding:14px 28px;border-radius:6px;text-decoration:none;font-weight:600;font-size:1.12rem;display:inline-block;">
-                    Definir contraseña
-                </a>
+                    <a href="https://gscorp.cl/auth/define-password?token=%s"
+                        style="background:#4f8cff;color:white;padding:14px 28px;border-radius:6px;text-decoration:none;font-weight:600;font-size:1.12rem;display:inline-block;">
+                        Definir contraseña
+                    </a>
                 </div>
                 <p style="font-size:0.99rem;color:#777;">
                 Si el botón no funciona, copia y pega este enlace en tu navegador:<br>
