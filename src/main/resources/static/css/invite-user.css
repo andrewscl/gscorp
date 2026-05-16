@@ -130,7 +130,7 @@ p {
 }
 .invite-user-container .body {
   display: grid;
-  gap: 15px;
+  gap: 1rem;
   background: #ffffff;
   padding: 2rem;
 }
@@ -187,31 +187,31 @@ p {
   flex: 1;
 }
 .invite-user-container .body .form-row.w-custom .col-10 {
-  flex: 0 0 10%;
+  flex: 0 0 calc(10% - 0.9rem);
 }
 .invite-user-container .body .form-row.w-custom .col-20 {
-  flex: 0 0 20%;
+  flex: 0 0 calc(20% - 0.8rem);
 }
 .invite-user-container .body .form-row.w-custom .col-30 {
-  flex: 0 0 30%;
+  flex: 0 0 calc(30% - 0.7rem);
 }
 .invite-user-container .body .form-row.w-custom .col-40 {
-  flex: 0 0 40%;
+  flex: 0 0 calc(40% - 0.6rem);
 }
 .invite-user-container .body .form-row.w-custom .col-50 {
-  flex: 0 0 50%;
+  flex: 0 0 calc(50% - 0.5rem);
 }
 .invite-user-container .body .form-row.w-custom .col-60 {
-  flex: 0 0 60%;
+  flex: 0 0 calc(60% - 0.4rem);
 }
 .invite-user-container .body .form-row.w-custom .col-70 {
-  flex: 0 0 70%;
+  flex: 0 0 calc(70% - 0.3rem);
 }
 .invite-user-container .body .form-row.w-custom .col-80 {
-  flex: 0 0 80%;
+  flex: 0 0 calc(80% - 0.2rem);
 }
 .invite-user-container .body .form-row.w-custom .col-90 {
-  flex: 0 0 90%;
+  flex: 0 0 calc(90% - 0.1rem);
 }
 .invite-user-container .alert-container {
   display: none;

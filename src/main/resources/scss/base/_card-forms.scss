@@ -49,8 +49,8 @@
         }
 
         .body {
-            display: grid; //diseño oredenado y adaptable
-            gap: 15px; //espaciado entre filas
+            display: grid;
+            gap: 1rem; //espaciado entre filas
             background: #ffffff;
             padding: 2rem;
 
@@ -101,15 +101,15 @@
                     flex: 1;
                 }
                 &.w-custom {
-                .col-10 { flex : 0 0 10%; };
-                .col-20 { flex : 0 0 20%; };
-                .col-30 { flex : 0 0 30%; };
-                .col-40 { flex : 0 0 40%; };
-                .col-50 { flex : 0 0 50%; };
-                .col-60 { flex : 0 0 60%; };
-                .col-70 { flex : 0 0 70%; };
-                .col-80 { flex : 0 0 80%; };
-                .col-90 { flex : 0 0 90%; };
+                .col-10 { flex : 0 0 calc(10% - (1rem * 0.9)); };
+                .col-20 { flex : 0 0 calc(20% - (1rem * 0.8)); };
+                .col-30 { flex : 0 0 calc(30% - (1rem * 0.7)); };
+                .col-40 { flex : 0 0 calc(40% - (1rem * 0.6)); };
+                .col-50 { flex : 0 0 calc(50% - (1rem * 0.5)); };
+                .col-60 { flex : 0 0 calc(60% - (1rem * 0.4)); };
+                .col-70 { flex : 0 0 calc(70% - (1rem * 0.3)); };
+                .col-80 { flex : 0 0 calc(80% - (1rem * 0.2)); };
+                .col-90 { flex : 0 0 calc(90% - (1rem * 0.1)); };
                 }
             }
 

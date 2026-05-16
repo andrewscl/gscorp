@@ -9,26 +9,23 @@
     <!-- Información básica y formulario -->
     <div id="editUserForm" class="body">
 
-      <div class="form-group">
-        <label for="userId">ID</label>
-        <input type="text" id="userId" name="id" th:value="${user.id}" readonly />
-      </div>
-
-      <!-- Nombre de usuario y email -->      
+      <!-- ID y username -->
       <div class="form-row w-custom">
         <div class="form-group col-30">
+          <label for="userId">ID</label>
+          <input type="text" id="userId" name="id" th:value="${user.id}" readonly />
+        </div>
+        <div class="form-group col-70">
           <label for="userUsername">Username</label>
           <input type="text" id="userUsername" name="username" th:value="${user.username}" required />
         </div>
-        <div class="form-group col-70">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
           <label for="userMail">Correo Electrónico</label>
           <input type="email" id="userMail" name="mail" th:value="${user.mail}" required />
         </div>
-      </div>
-
-      <div class="form-group">
-        <label for="userActive">Activo</label>
-        <input type="checkbox" id="userActive" name="active" th:checked="${user.active}" />
       </div>
 
       <!-- Roles y clientes -->      
@@ -72,13 +69,19 @@
         </select>
       </div>
 
-      <!-- Zona horaria -->
-      <div class="form-group">
-        <label for="userTimeZone">Zona horaria (IANA)</label>
-        <input type="text" id="userTimeZone" name="timeZone"
-               th:value="${user.timeZone}" placeholder="Europe/Madrid" />
-        <button type="button" id="detectUserTimeZone"
-                                    class="vs-btn vs-secondary">Detectar zona</button>
+      <!-- Estados del usuario -->
+      <div class="form-row w-custom">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="userStatus">Estado</label>
+            <span type="text" id="userStatus" name="status" th:value="${user.status}">
+            </span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="userActive">Activo</label>
+          <input type="checkbox" id="userActive" name="active" th:checked="${user.active}" />
+        </div>
       </div>
 
     </div>
