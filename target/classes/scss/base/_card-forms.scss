@@ -57,7 +57,7 @@
             .form-group {
                 display: flex;
                 flex-direction: column;
-                gap: 6px;
+                gap: 0.25rem;
                 
                 label {
                     @include roboto-font(0.875rem, 500);
@@ -66,8 +66,7 @@
                 }
 
                 input,
-                select,
-                textarea {
+                select {
                     padding: 10px;
                     border: 1px solid #ced4da;
                     border-radius: 8px;
@@ -91,6 +90,15 @@
                     @include roboto-font(0.875rem, 500);
                     color: $cool-gray-800;
                     min-height: 80px;
+                }
+            }
+
+            .form-row {
+                display: flex;
+                gap: 1rem;
+                width: 100%;
+                .form-group {
+                    flex: 1;
                 }
             }
 

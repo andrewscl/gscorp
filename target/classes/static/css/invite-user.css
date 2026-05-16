@@ -137,7 +137,7 @@ p {
 .invite-user-container .body .form-group {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 0.25rem;
 }
 .invite-user-container .body .form-group label {
   font-family: "Roboto", sans-serif;
@@ -148,8 +148,7 @@ p {
   padding-left: 0.8rem;
 }
 .invite-user-container .body .form-group input,
-.invite-user-container .body .form-group select,
-.invite-user-container .body .form-group textarea {
+.invite-user-container .body .form-group select {
   padding: 10px;
   border: 1px solid #ced4da;
   border-radius: 8px;
@@ -161,13 +160,11 @@ p {
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 .invite-user-container .body .form-group input::placeholder,
-.invite-user-container .body .form-group select::placeholder,
-.invite-user-container .body .form-group textarea::placeholder {
+.invite-user-container .body .form-group select::placeholder {
   color: #adb5bd;
 }
 .invite-user-container .body .form-group input:focus,
-.invite-user-container .body .form-group select:focus,
-.invite-user-container .body .form-group textarea:focus {
+.invite-user-container .body .form-group select:focus {
   border-color: #4e54c8;
   box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
   outline: none;
@@ -180,6 +177,14 @@ p {
   letter-spacing: 0.02em;
   color: #1f2937;
   min-height: 80px;
+}
+.invite-user-container .body .form-row {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+.invite-user-container .body .form-row .form-group {
+  flex: 1;
 }
 .invite-user-container .alert-container {
   display: none;

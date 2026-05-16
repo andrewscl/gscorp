@@ -444,7 +444,7 @@ p {
 .hs-form .body .form-group {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 0.25rem;
 }
 .hs-form .body .form-group label {
   font-family: "Roboto", sans-serif;
@@ -455,8 +455,7 @@ p {
   padding-left: 0.8rem;
 }
 .hs-form .body .form-group input,
-.hs-form .body .form-group select,
-.hs-form .body .form-group textarea {
+.hs-form .body .form-group select {
   padding: 10px;
   border: 1px solid #ced4da;
   border-radius: 8px;
@@ -468,13 +467,11 @@ p {
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 .hs-form .body .form-group input::placeholder,
-.hs-form .body .form-group select::placeholder,
-.hs-form .body .form-group textarea::placeholder {
+.hs-form .body .form-group select::placeholder {
   color: #adb5bd;
 }
 .hs-form .body .form-group input:focus,
-.hs-form .body .form-group select:focus,
-.hs-form .body .form-group textarea:focus {
+.hs-form .body .form-group select:focus {
   border-color: #4e54c8;
   box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
   outline: none;
@@ -487,6 +484,14 @@ p {
   letter-spacing: 0.02em;
   color: #1f2937;
   min-height: 80px;
+}
+.hs-form .body .form-row {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+.hs-form .body .form-row .form-group {
+  flex: 1;
 }
 .hs-form .alert-container {
   display: none;
