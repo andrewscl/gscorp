@@ -60,7 +60,7 @@ public class UserInvitationRestController {
                         Te compartimos el acceso a la plataforma. Haz click en el siguiente botón para definir tu contraseña:
                     </p>
                 <div style="text-align:center;margin:32px 0 28px 0;">
-                    <a href="https://gscorp.cl/auth/define-password?token=%s"
+                    <a href="https://sesan.cl/auth/define-password?token=%s"
                         style="background:#4f8cff;color:white;padding:14px 28px;border-radius:6px;text-decoration:none;font-weight:600;font-size:1.12rem;display:inline-block;">
                         Definir contraseña
                     </a>
