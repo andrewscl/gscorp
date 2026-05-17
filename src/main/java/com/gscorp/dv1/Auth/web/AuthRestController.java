@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gscorp.dv1.auth.application.PasswordResetTokenService;
 import com.gscorp.dv1.auth.infrastructure.PasswordResetToken;
+import com.gscorp.dv1.enums.UserStatus;
 import com.gscorp.dv1.users.application.UserService;
 import com.gscorp.dv1.users.infrastructure.User;
 import com.gscorp.dv1.users.web.dto.SetPasswordRequest;
@@ -43,6 +44,7 @@ public class AuthRestController {
 
                 // 2. Cambiar la contraseña (encriptada)
                 user.setPassword(passwordEncoder.encode(request.password()));
+                user.setStatus(UserStatus.ACTIVE);
                 userService.save(user);
 
                 // 3. Marcar el token como usado
