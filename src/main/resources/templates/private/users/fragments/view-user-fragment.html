@@ -51,7 +51,7 @@
       <div class="form-row w-custom">
         <div class="form-group col-50">
             <label>Estado</label>
-            <span class="form-value" th:text="${user.status}"></span>
+            <span class="form-value" th:text="${user.status.getDisplayName()}"></span>
         </div>
         <div class="form-group col-50">
             <label>Active</label>
