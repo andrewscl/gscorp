@@ -149,6 +149,8 @@ p {
 }
 .hs-form .body .form-group .form-value {
   padding: 0.65rem;
+  border: 0.09rem solid #ced4da;
+  border-radius: 0.5rem;
   font-family: "Roboto", sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
