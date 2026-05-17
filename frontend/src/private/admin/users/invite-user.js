@@ -58,6 +58,7 @@ async function onSubmitInviteUser(e) {
     setTimeout(() => {navigateTo('/private/users/table-view');}, 900);
 
   } catch (e2) {
+        console.error("el error es: ", e2);
         displayAlert(alertError, 'Error al invitar al usuario.', 1500);
 
   } finally {
