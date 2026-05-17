@@ -18,28 +18,31 @@ async function updateUser () {
   if (deleteBtn) deleteBtn.disabled = true;
 
   /* definir variables */
-  const userId = qs('#userId')?.value?.trim();
-  const userUsername = qs('#userUsername')?.value?.trim();
-  const userMail = qs('#userMail')?.value?.trim();
-  const userActive = qs('#userActive')?.checked;
+  const id = qs('#userId')?.value?.trim();
+  const username = qs('#userUsername')?.value?.trim();
+  const mail = qs('#userMail')?.value?.trim();
+  const status = qs('#userStatus')?.value?.trim();
+  const active = qs('#userActive')?.checked;
   const employeeId = qs('#userEmployeeId')?.value || null;
-  const userTimeZone = qs('#userTimeZone')?.value?.trim();
+  const timeZone = qs('#userTimeZone')?.value?.trim();
 
   const payload = {
-    userUsername,
-    userMail,
-    userActive,
+    id,
+    username,
+    mail,
+    status,
+    active,
     roleIds: Array.from(qs('#userRoles')?.selectedOptions || [])
                                                       .map(o => o.value).filter(Boolean),
     clientIds: Array.from(qs('#userClients')?.selectedOptions || [])
                                                       .map(o => o.value).filter(Boolean),
     employeeId,
-    userTimeZone
+    timeZone
   };
 
   try {
     console.log('Payload generado:', payload);
-    const res = await fetchWithAuth(`/api/users/${userId}`, {
+    const res = await fetchWithAuth(`/api/users/${id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
