@@ -77,7 +77,7 @@
                         display: inline-flex;
                         align-items: center;
                         background-color: $cool-gray-50; // Gris claro elegante y neutral
-                        color: #4a5568;            // Texto gris oscuro legible
+                        color: $slate-500;            // Texto gris oscuro legible
                         padding: 0.3rem 0.75rem;
                         @include roboto-font(0.8rem, 500);
                         text-transform: uppercase; // Mantiene consistencia visual si vienen en minúsculas

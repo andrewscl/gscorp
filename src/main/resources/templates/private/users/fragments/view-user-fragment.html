@@ -30,8 +30,10 @@
       <div class="form-row w-custom">
         <div class="form-group col-50">
           <label>Roles:</label>
-          <span class="tag" th:each="r : ${user.roleNames}"
+          <div class="tag-container">
+            <span class="tag" th:each="r : ${user.roleNames}"
                                             th:text="${r}"></span>
+          </div>
           <em th:if="${#lists.isEmpty(user.roleNames)}">Sin roles</em>
         </div>
         <div class="form-group col-50">
