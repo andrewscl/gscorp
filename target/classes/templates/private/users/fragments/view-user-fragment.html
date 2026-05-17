@@ -42,9 +42,14 @@
             <span class="tag" th:each="c : ${user.clientNames}"
                                             th:text="${c}"></span>
           </div>
-
           <em th:if="${#lists.isEmpty(user.clientNames)}">Sin clientes</em>
         </div>
+      </div>
+
+      <div class="form-group">
+        <label>Empleado</label>
+        <span class="form-value"
+                        th:text="${employee.fullName}"></span>
       </div>
 
     </div>
