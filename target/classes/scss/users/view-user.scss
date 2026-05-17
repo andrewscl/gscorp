@@ -4,6 +4,6 @@
 @use '../base/typography' as *;
 @use '../base/fragment-mixins' as *;
 
-.detail-section{
-    @include detail-section ($label-width: 10rem);
+.hs-form{
+    @include hs-form ($max-w: 40rem);
 }

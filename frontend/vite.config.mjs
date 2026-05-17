@@ -31,6 +31,7 @@ export default defineConfig({
         'private/admin/users/edit-user': path.resolve(__dirname, './src/private/admin/users/edit-user.js'),
         'private/admin/users/users-table': path.resolve(__dirname, './src/private/admin/users/users-table.js'),
         'private/admin/users/invite-user': path.resolve(__dirname, './src/private/admin/users/invite-user.js'),
+        'private/admin/users/view-user': path.resolve(__dirname, './src/private/admin/users/view-user.js'),
         'private/attendance/attendance': path.resolve(__dirname, './src/private/attendance/attendance.js'),
         'private/attendance/attendance-table': path.resolve(__dirname, './src/private/attendance/attendance-table.js'),
         'private/attendance/attendance-table-update': path.resolve(__dirname, './src/private/attendance/attendance-table-update.js'),
