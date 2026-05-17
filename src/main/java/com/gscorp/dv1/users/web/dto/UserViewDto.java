@@ -24,6 +24,7 @@ public record UserViewDto(
         Set<Long> clientIds,
         Set<String> clientNames,
         Long employeeId,
+        String employeeName,
         String timeZone
 ) {
     public static UserViewDto from(User u) {
@@ -61,6 +62,13 @@ public record UserViewDto(
 
         Long empId = u.getEmployee() == null ? null : u.getEmployee().getId();
 
+        String empName = u.getEmployee() == null ? "ninguno" :
+            String.join(" ",
+                u.getEmployee().getName() != null ? u.getEmployee().getName() : "",
+                u.getEmployee().getFatherSurname() != null ? u.getEmployee().getFatherSurname() : "",
+                u.getEmployee().getMotherSurname() != null ? u.getEmployee().getMotherSurname() : ""
+            ).trim();
+
         return new UserViewDto(
                 u.getId(),
                 u.getUsername(),
@@ -72,6 +80,7 @@ public record UserViewDto(
                 clientIds,
                 clientNames,
                 empId,
+                empName,
                 u.getTimeZone()
         );
     }
