@@ -9,15 +9,17 @@
     <div class="body">
 
       <div class="form-row w-custom">
-        <div class="form-group col-30">
+        <div class="form-group col-20">
             <label>ID</label>
-            <span class="form-value"
-                            th:text="${user.id}"></span>
+            <span class="form-value" th:text="${user.id}"></span>
         </div>
-        <div class="form-group col-70">
+        <div class="form-group col-35">
             <label>Usuario</label>
-            <span class="form-value"
-                            th:text="${user.username}"></span>
+            <span class="form-value" th:text="${user.username}"></span>
+        </div>
+        <div class="form-group col-45">
+          <label>Empleado</label>
+          <span class="form-value" th:text="${user.employeeName}"></span>
         </div>
       </div>
 
@@ -46,9 +48,15 @@
         </div>
       </div>
 
-      <div class="form-group">
-        <label>Empleado</label>
-        <span class="form-value" th:text="${user.employeeName}"></span>
+      <div class="form-row w-custom">
+        <div class="form-group col-20">
+            <label>Estado</label>
+            <span class="form-value" th:text="${user.status}"></span>
+        </div>
+        <div class="form-group col-35">
+            <label>Active</label>
+            <span class="form-value" th:text="${user.active}"></span>
+        </div>
       </div>
 
     </div>
