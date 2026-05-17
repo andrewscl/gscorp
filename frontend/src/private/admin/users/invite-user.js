@@ -52,18 +52,14 @@ async function onSubmitInviteUser(e) {
       displayAlert(alertError, 'No se pudo invitar al usuario.', 1500);
       return;
     }
-
-    if (res.ok) ok.style.display = 'block';
     displayAlert(alertSuccess, 'Usuario invitado correctamente.', 1500);
     setTimeout(() => {navigateTo('/private/users/table-view');}, 900);
-
+    inviteUserBtn && (inviteUserBtn.disabled = false);
   } catch (e2) {
         console.error("el error es: ", e2);
         displayAlert(alertError, 'Error al invitar al usuario.', 1500);
-
-  } finally {
-    inviteUserBtn && (inviteUserBtn.disabled = false);
   }
+
 }
 
 const cancelInviteUser = () => {
