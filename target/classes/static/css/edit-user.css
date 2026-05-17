@@ -103,7 +103,7 @@ p {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
-.hs-form .header {
+.hs-form .hs-form-header {
   background-color: #ffffff;
   border-top-left-radius: 0.8rem;
   border-top-right-radius: 0.8rem;
@@ -117,7 +117,7 @@ p {
   font-weight: 700;
   letter-spacing: 0.02em;
 }
-.hs-form .header::before {
+.hs-form .hs-form-header::before {
   content: "";
   position: absolute;
   top: 0;

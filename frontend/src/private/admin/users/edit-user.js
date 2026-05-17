@@ -85,9 +85,7 @@ async function deleteUser() {
 }
 
 const cancelEditUser = () => {
-
     displayAlert(alertCancel, 'La edición del usuario a sido cancelada.', 2500);
-
     setTimeout(() => navigateTo('/private/users/table-view', true), 2000);
 }
 
