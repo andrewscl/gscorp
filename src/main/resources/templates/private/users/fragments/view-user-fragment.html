@@ -27,15 +27,17 @@
                         th:text="${user.mail}"></span>
       </div>
 
-      <div class="form-row">
-        <div class="form-group">
-          <strong>Roles:</strong>
-          <span th:each="r : ${user.roleNames}" th:text="${r}" class="tag"></span>
+      <div class="form-row w-custom">
+        <div class="form-group col-50">
+          <label>Roles:</label>
+          <span class="tag" th:each="r : ${user.roleNames}"
+                                            th:text="${r}"></span>
           <em th:if="${#lists.isEmpty(user.roleNames)}">Sin roles</em>
         </div>
-        <div class="form-group">
-          <strong>Clientes:</strong>
-          <span th:each="c : ${user.clientNames}" th:text="${c}" class="tag"></span>
+        <div class="form-group col-50">
+          <label>Clientes:</label>
+          <span class="tag" th:each="c : ${user.clientNames}"
+                                            th:text="${c}"></span>
           <em th:if="${#lists.isEmpty(user.clientNames)}">Sin clientes</em>
         </div>
       </div>
