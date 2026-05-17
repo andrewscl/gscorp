@@ -52,6 +52,7 @@ public interface UserRepository extends JpaRepository<User, Long>{
                 u.mail AS mail,
                 u.phone AS phone,
                 u.active AS active,
+                u.status AS status,
                 e.id AS employeeId
             FROM User u
             LEFT JOIN u.employee e

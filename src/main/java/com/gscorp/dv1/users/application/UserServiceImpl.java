@@ -141,11 +141,10 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> findAllWithRolesAndClients(){
         return userRepo.findAllWithRolesAndClients();
     }
-
-
 
     @Override
     public User createInvitedUser(InviteUserRequest request) {
@@ -334,8 +333,6 @@ public class UserServiceImpl implements UserService{
         Hibernate.initialize(user.getClients());
         Hibernate.initialize(user.getRoles());
 
-
-        // Campos simples
         if (dto.username() != null) {
             user.setUsername(dto.username().trim());
         }
