@@ -67,8 +67,8 @@ public class UserInvitationRestController {
                 </div>
                 <p style="font-size:0.99rem;color:#777;">
                 Si el botón no funciona, copia y pega este enlace en tu navegador:<br>
-                <a href="https://gscorp.cl/auth/define-password?token=%s" style="color:#4f8cff;">
-                    https://gscorp.cl/auth/define-password?token=%s
+                <a href="https://sesan.cl/auth/define-password?token=%s" style="color:#4f8cff;">
+                    https://sesan.cl/auth/define-password?token=%s
                 </a>
                 </p>
                 <p style="color:#a0a3ad;font-size:0.93rem;margin-top:20px;">
