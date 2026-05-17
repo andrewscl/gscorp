@@ -61,13 +61,16 @@
 
     </div>
 
-    <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
+    <div class="hs-form-footer">
+      <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
 
-    <div th:replace="~{shared/fragments/footer-buttons ::
-                        footer-buttons(
-                                true, 'Re-enviar email de verificación',
-                                true, 'Volver',
-                                false, '')}"></div>
+      <div th:replace="~{shared/fragments/footer-buttons ::
+                          footer-buttons(
+                                  true, 'Re-enviar email de verificación',
+                                  true, 'Volver',
+                                  false, '')}"></div>
+    </div>
+
   </div>
 
 

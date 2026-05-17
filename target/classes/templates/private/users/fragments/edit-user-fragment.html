@@ -9,13 +9,24 @@
     <div id="editUserForm" class="body">
 
       <div class="form-row w-custom">
-        <div class="form-group col-30">
+        <div class="form-group col-20">
           <label for="userId">ID</label>
           <input type="text" id="userId" name="id" th:value="${user.id}" readonly />
         </div>
-        <div class="form-group col-70">
+        <div class="form-group col-30">
           <label for="userUsername">Username</label>
           <input type="text" id="userUsername" name="username" th:value="${user.username}" required />
+        </div>
+        <div class="form-group col-50">
+          <label for="userEmployeeId">Empleado Asociado</label>
+          <select id="userEmployeeId" name="employeeId">
+            <option value="">-- ninguno --</option>
+            <option th:each="employee : ${employees}"
+                    th:value="${employee.id}"
+                    th:text="${employee.fullName != null ? employee.fullName : 'Empleado ' + employee.id}"
+                    th:selected="${user.employeeId != null and user.employeeId == employee.id}">
+            </option>
+          </select>
         </div>
       </div>
 
@@ -50,25 +61,11 @@
         </div>
       </div>
 
-      <!-- Empleado único asociado -->
-      <div class="form-group">
-        <label for="userEmployeeId">Empleado Asociado</label>
-        <select id="userEmployeeId" name="employeeId">
-          <option value="">-- ninguno --</option>
-          <option th:each="employee : ${employees}"
-                  th:value="${employee.id}"
-                  th:text="${employee.fullName != null ? employee.fullName : 'Empleado ' + employee.id}"
-                  th:selected="${user.employeeId != null and user.employeeId == employee.id}">
-          </option>
-        </select>
-      </div>
-
-      <!-- Estados del usuario -->
       <div class="form-row w-custom">
         <div class="form-row">
           <div class="form-group col-50">
             <label for="userStatus">Estado</label>
-            <span type="text" id="userStatus" name="status" th:value="${user.status}">
+            <span type="text" id="userStatus" name="status" th:value="${user.status.getDisplayName()}">
             </span>
           </div>
         </div>
@@ -80,13 +77,16 @@
 
     </div>
 
-    <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
+    <div class="hs-form-footer">
+      <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
 
-    <div th:replace="~{shared/fragments/footer-buttons ::
-                        footer-buttons(
-                                true, 'Actualizar usuario',
-                                true, 'Cancelar',
-                                true, 'Eliminar usuario')}"></div>
+      <div th:replace="~{shared/fragments/footer-buttons ::
+                          footer-buttons(
+                                  true, 'Actualizar usuario',
+                                  true, 'Cancelar',
+                                  true, 'Eliminar usuario')}"></div>
+    </div>
+
 
   </div>
 
