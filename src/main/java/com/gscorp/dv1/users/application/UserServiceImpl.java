@@ -133,6 +133,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserViewDto findWithRolesAndClientsById(Long id){
         User user = userRepo.findWithRolesAndClientsById(id)
             .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado: " + id));
