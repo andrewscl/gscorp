@@ -142,7 +142,7 @@ public class UserInvitationRestController {
 
     private String buildDefinePasswordLink(String token) {
         // prefer configurable base url in properties
-        return "https://gscorp.cl/auth/define-password?token=" + token;
+        return "https://sesan.cl/auth/define-password?token=" + token;
     }
 
     private String maskPhone(String phone) {

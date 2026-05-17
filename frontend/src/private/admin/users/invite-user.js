@@ -53,7 +53,7 @@ async function onSubmitInviteUser(e) {
       return;
     }
 
-    if (ok) ok.style.display = 'block';
+    if (res.ok) ok.style.display = 'block';
     displayAlert(alertSuccess, 'Usuario invitado correctamente.', 1500);
     setTimeout(() => {navigateTo('/private/users/table-view');}, 900);
 
