@@ -49,15 +49,16 @@
 
     </div>
 
-  </div>
+    <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
 
-  <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
-
-  <div th:replace="~{shared/fragments/footer-buttons ::
+    <div th:replace="~{shared/fragments/footer-buttons ::
                         footer-buttons(
                                 true, 'Re-enviar email de verificación',
                                 true, 'Volver',
                                 false, '')}"></div>
+  </div>
+
+
 
   <script type="module" src="/js/private/admin/users/view-user.js"></script>
 
