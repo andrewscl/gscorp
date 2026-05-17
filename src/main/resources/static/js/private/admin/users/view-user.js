@@ -1,1 +1,1 @@
-function i(){const n=qs(".btn-secondary");n&&n.addEventListener("click",cancelViewSite)}(async function(){i()})();
+import{n}from"../../../navigation-handler.js";import"../../../auth.js";const t=e=>document.querySelector(e);t(".alert-success");t(".alert-error");t(".alert-cancel");const c=()=>{setTimeout(()=>n("/private/users/table-view",!0),1e3)};function r(){const e=t(".btn-secondary");e&&e.addEventListener("click",c)}(async function(){r()})();
