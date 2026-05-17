@@ -3,6 +3,7 @@
 @use '../base/palette' as *;
 @use '../base/typography' as *;
 @use '../base/fragment-mixins' as *;
+@use '../base/card-forms' as *;
 
 .hs-form{
     @include hs-form ($max_w: 40rem);

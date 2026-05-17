@@ -57,26 +57,30 @@
                 display: flex;
                 flex-direction: column;
                 gap: 0.25rem;
-                
+
                 label {
                     @include roboto-font(0.875rem, 500);
                     color: $cool-gray-700;
                     padding-left: 0.8rem;
                 }
 
+                .form-value{
+                    padding: 0.65rem;
+                    @include roboto-font(0.875rem, 500);
+                    color: $cool-gray-800;
+                }
+
                 input,
                 select {
-                    padding: 10px;
-                    border: 1px solid #ced4da;
-                    border-radius: 8px;
+                    padding: 0.65rem;
+                    border: 0.09rem solid #ced4da;
+                    border-radius: 0.5rem;
                     @include roboto-font(0.875rem, 500);
                     color: $cool-gray-800;
                     transition: border-color 0.2s, box-shadow 0.2s;
-
                     &::placeholder {
                         color: #adb5bd;
                     }
-
                     &:focus {
                         border-color: #4e54c8;
                         box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
