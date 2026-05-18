@@ -367,7 +367,7 @@ body[data-layout=private] .sidebar-scrim {
     top: 0;
     left: 0;
     width: 100vw;
-    height: 3.5rem;
+    height: 4.8rem;
     z-index: 1100;
     border-bottom: 0.1rem solid #e5e7eb;
     display: flex;
@@ -386,7 +386,7 @@ body[data-layout=private] .sidebar-scrim {
     display: flex;
     text-align: center;
     margin-bottom: 0.1rem;
-    height: 3.5rem;
+    height: 4rem;
   }
   body[data-layout=private] .main-content .topbar .topbar-left .logo-container .logo {
     max-width: 4rem;

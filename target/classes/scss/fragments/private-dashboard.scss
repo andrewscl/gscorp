@@ -293,7 +293,7 @@ body[data-layout="private"] {
         top: 0;
         left: 0;
         width: 100vw;
-        height: $topbar-height;
+        height: $topbar-height-mobile;
         z-index: 1100;
         border-bottom: 0.1rem solid $cool-gray-200;
         display: flex;
@@ -310,7 +310,7 @@ body[data-layout="private"] {
             display: flex;
             text-align: center;
             margin-bottom: 0.1rem;
-            height: 3.5rem;
+            height: 4rem;
             .logo {
               max-width: 4rem;
               height: auto;
