@@ -92,7 +92,7 @@
     <button class="toggle-sidebar" id="toggleSidebar">☰</button>
 </div>
 
-<div th:fragment="topbar">
+<th:block th:fragment="topbar">
         <div class="topbar__left">
             <div id="logo-container" class="topbar__left__logo">
                 <img id="logo" class="logo" th:src="@{/img/logo_sin_nombre.png}" alt="Logo" />
@@ -104,4 +104,4 @@
                         aria-label="Abrir menú"
                             aria-expanded="false">☰</button>
         </div>
-</div>
+</th:block>
