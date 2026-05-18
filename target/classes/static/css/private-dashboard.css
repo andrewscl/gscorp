@@ -376,6 +376,12 @@ body[data-layout=private] .sidebar-scrim {
     padding: 0 1.2rem;
     box-sizing: border-box;
   }
+  body[data-layout=private] .main-content .topbar .topbar-left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.8rem;
+  }
   body[data-layout=private] .main-content .topbar .topbar-left .logo-container {
     display: flex;
     text-align: center;
@@ -396,6 +402,10 @@ body[data-layout=private] .sidebar-scrim {
     letter-spacing: 0.02em;
     color: #475569;
     letter-spacing: -0.02em;
+  }
+  body[data-layout=private] .main-content .topbar .topbar-right {
+    display: flex;
+    align-items: center;
   }
   body[data-layout=private] .main-content .topbar .topbar-right .topbar-burger {
     display: flex;
