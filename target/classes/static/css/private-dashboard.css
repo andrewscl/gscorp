@@ -385,11 +385,14 @@ body[data-layout=private] .sidebar-scrim {
   body[data-layout=private] .main-content .topbar .topbar-left .logo-container {
     display: flex;
     align-items: center;
+    height: 4rem;
+    margin: 0;
   }
   body[data-layout=private] .main-content .topbar .topbar-left .logo-container .logo {
-    max-width: 6rem;
-    height: auto;
+    width: 100%;
+    width: auto;
     max-height: 100%;
+    object-fit: contain;
   }
   body[data-layout=private] .main-content .topbar .topbar-left .title {
     margin: 0;

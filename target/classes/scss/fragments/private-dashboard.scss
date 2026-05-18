@@ -309,10 +309,13 @@ body[data-layout="private"] {
           .logo-container {
             display: flex;
             align-items: center;
+            height: 4rem;
+            margin: 0;
             .logo {
-              max-width: 6rem;
-              height: auto;
+              width: 100%;
+              width: auto;
               max-height: 100%;
+              object-fit: contain;
             }
           }
           .title {
