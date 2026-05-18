@@ -1,4 +1,4 @@
-<div th:fragment="sidebar">
+<section th:fragment="sidebar">
     <div id="logo-container" class="logo-container">
         <img id="logo" class="logo" th:src="@{/img/logo_sin_nombre.png}" alt="Logo" />
     </div>
@@ -21,16 +21,18 @@
                     data-path="/public/home">GSCorp</a>
     </nav>
     <button class="toggle-sidebar" id="toggleSidebar">☰</button>
-</div>
+</section>
 
-<div th:fragment="topbar">
-    <div id="logo-container" class="logo-container">
-        <img id="logo" class="logo" th:src="@{/img/logo_sin_nombre.png}" alt="Logo" />
-    </div>
-    <h1 class="title">Colaboradores</h1>
-    <div class="topbar-right">
-        <button class="topbar-burger" id="topbarToggleSidebar"
-                    aria-label="Abrir menú"
-                        aria-expanded="false">☰</button>
-    </div>
-</div>
+<section th:fragment="topbar">
+        <div class="topbar__left">
+            <div id="logo-container" class="topbar-logo">
+                <img id="logo" class="logo" th:src="@{/img/logo_sin_nombre.png}" alt="Logo" />
+            </div>
+            <h1 class="title">Colaboradores</h1>
+        </div>
+        <div class="topbar__right">
+            <button class="topbar-burger" id="topbarToggleSidebar"
+                        aria-label="Abrir menú"
+                            aria-expanded="false">☰</button>
+        </div>
+</section>

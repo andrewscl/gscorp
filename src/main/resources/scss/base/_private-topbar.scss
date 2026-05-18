@@ -1,0 +1,84 @@
+// Variables para tema claro
+$bg-light: #ffffff;       // Fondo blanco limpio para la barra
+$border-light: #e2e8f0;   // Gris muy suave para los bordes divisorios (estilo Tailwind/Moderno)
+$text-main: #1e293b;      // Gris oscuro/antracita para los títulos principales (mejor que negro puro)
+$text-muted: #64748b;     // Gris medio para subtítulos e información secundaria
+$avatar-bg: #f1f5f9;      // Fondo gris tenue para el círculo del avatar
+
+.main-content{
+    .topbar{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: $bg-light;
+        padding: 16px 32px;
+        border-bottom: 1px solid $border-light;
+        width: 100%;
+        box-sizing: border-box;
+        &__left {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            .topbar-logo {
+                display: none;
+            }
+            h2 {
+                            margin: 0;
+                            font-size: 1.35rem;
+                            font-weight: 600;
+                            color: $text-main;
+                            letter-spacing: -0.02em;
+            }
+            p {
+                            margin: 0;
+                            font-size: 0.85rem;
+                            color: $text-muted;
+            }
+        }
+        &__right {
+                        display: flex;
+                        align-items: center;
+                        gap: 16px;
+                        .user-info {
+                            display: flex;
+                            flex-direction: column;
+                            text-align: right;
+                            .user-name {
+                                font-size: 0.9rem;
+                                font-weight: 500;
+                                color: $text-main;
+                            }
+                            .user-role {
+                                font-size: 0.75rem;
+                                color: $text-muted;
+                                font-weight: 400;
+                            }
+                        }
+                        // Círculo para las iniciales del usuario
+                        .user-avatar {
+                            width: 36px;
+                            height: 36px;
+                            background-color: $avatar-bg;
+                            border: 1px solid $border-light;
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            color: $text-main;
+                            font-weight: 600;
+                            font-size: 0.85rem;
+                        }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+.main-content {
+    .topbar {
+        &__left {
+                    display: flex;
+                }
+        }
+    }
+}
+
