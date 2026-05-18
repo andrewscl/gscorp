@@ -1,0 +1,127 @@
+@mixin dashboard-mobile-operations () {
+    .dashboard-mobile-operations {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        width: 100%;
+        
+        // 1. Bienvenida
+        &__welcome {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            
+            .welcome-text {
+                &__title { font-size: 1.4rem; margin: 0; color: #1f2937; font-weight: 700; }
+                &__subtitle { font-size: 0.9rem; margin: 0.2rem 0 0 0; color: #6b7280; }
+            }
+            .welcome-date__badge {
+                background: #e0e7ef;
+                padding: 0.4rem 0.8rem;
+                border-radius: 20px;
+                font-size: 0.8rem;
+                font-weight: 600;
+                color: #4b5563;
+            }
+        }
+
+        // 2. Tarjeta de Asistencia Grande
+        .attendance-card {
+            background: #ffffff;
+            border-radius: $radius; // Reutiliza tus 0.7rem o el valor de la app
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            border: 1px solid #e5e7eb;
+
+            &__status {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                .status-dot { width: 10px; height: 10px; border-radius: 50%; background: #ef4444; } // Rojo por defecto
+                .status-text { font-size: 0.85rem; font-weight: 600; color: #4b5563; }
+            }
+
+            &__time {
+                font-weight: 700;
+                color: #1f2937;
+                .current-time { font-size: 2.8rem; }
+                .current-seconds { font-size: 1.4rem; color: #9ca3af; }
+            }
+
+            &__btn {
+                width: 100%;
+                background: #2563eb; // Tu azul corporativo
+                color: white;
+                border: none;
+                padding: 1rem;
+                font-size: 1.1rem;
+                font-weight: 600;
+                border-radius: $radius;
+                cursor: pointer;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 0.5rem;
+                box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+                transition: transform 0.1s ease;
+                
+                &:active { transform: scale(0.98); }
+            }
+
+            &__footer {
+                font-size: 0.75rem;
+                color: #9ca3af;
+                margin: 0;
+            }
+
+            // Cambio dinámico de estado (Si ya entró, cambia a verde)
+            &.state--working {
+                .status-dot { background: #10b981; }
+                .__btn { background: #dc2626; box-shadow: 0 4px 14px rgba(220, 38, 38, 0.3); } // Cambia a botón rojo de salida
+            }
+        }
+
+        // 3. Grid de 2 columnas
+        .shortcut-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); // Genera las 2 columnas perfectas en móvil
+            gap: 1rem;
+
+            .shortcut-item {
+                background: white;
+                text-decoration: none;
+                padding: 1rem;
+                border-radius: $radius;
+                border: 1px solid #e5e7eb;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+                display: flex;
+                flex-direction: column;
+                gap: 0.8rem;
+                
+                &__icon-wrapper {
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 10px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 1.2rem;
+                    
+                    // Variaciones de colores pastel de fondo para los íconos
+                    &.type--blue { background: #eff6ff; }
+                    &.type--green { background: #ecfdf5; }
+                    &.type--orange { background: #fff7ed; }
+                    &.type--purple { background: #f5f3ff; }
+                }
+
+                .shortcut-title { font-size: 0.95rem; margin: 0; color: #1f2937; font-weight: 600; }
+                .shortcut-desc { font-size: 0.75rem; margin: 0.2rem 0 0 0; color: #6b7280; line-height: 1.2; }
+            }
+        }
+    }
+}
+

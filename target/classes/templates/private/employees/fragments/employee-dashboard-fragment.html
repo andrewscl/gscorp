@@ -1,14 +1,83 @@
 <div id="dashboard-root" th:fragment="content">
 
-  <div class="employees-button">
-    <a class="h2" href="#"
-        data-path="/private/attendance/attdc-view">Control de Asistencia</a>
-  </div>
+<div class="dashboard-mobile-operations">
+    
+    <header class="dashboard-mobile-operations__welcome">
+        <div class="welcome-text">
+            <h2 class="welcome-text__title">¡Hola, Juan Pérez! 👋</h2>
+            <p class="welcome-text__subtitle">Buenos días. Recuerda marcar tu entrada de hoy.</p>
+        </div>
+        <div class="welcome-date">
+            <span class="welcome-date__badge">Lunes, 18 de Mayo</span>
+        </div>
+    </header>
 
-  <div class="employees-button">
-    <a class="h2" href="#"
-        data-path="/private/requirements">Solicitudes</a>
-  </div>
+    <section class="attendance-card state--checkin">
+        <div class="attendance-card__status">
+            <span class="status-dot"></span>
+            <span class="status-text">Turno no iniciado</span>
+        </div>
+        
+        <div class="attendance-card__time">
+            <span class="current-time">08:30</span>
+            <span class="current-seconds">:45</span>
+        </div>
+
+        <button class="attendance-card__btn" type="button">
+            <span class="btn-icon">⏱️</span>
+            <span class="btn-text">Registrar Entrada</span>
+        </button>
+
+        <div class="attendance-card__footer">
+            <p>Último marcaje: Viernes 15, 18:05 hrs (Salida)</p>
+        </div>
+    </section>
+
+    <nav class="shortcut-grid">
+        
+        <a th:href="@{/solicitudes}" class="shortcut-item">
+            <div class="shortcut-item__icon-wrapper type--blue">
+                <span class="shortcut-icon">🗂️</span>
+            </div>
+            <div class="shortcut-item__content">
+                <h3 class="shortcut-title">Solicitudes RRHH</h3>
+                <p class="shortcut-desc">Permisos, vacaciones y licencias</p>
+            </div>
+        </a>
+
+        <a th:href="@{/historial}" class="shortcut-item">
+            <div class="shortcut-item__icon-wrapper type--green">
+                <span class="shortcut-icon">📅</span>
+            </div>
+            <div class="shortcut-item__content">
+                <h3 class="shortcut-title">Mi Historial</h3>
+                <p class="shortcut-desc">Revisa tus marcas mensuales</p>
+            </div>
+        </a>
+
+        <a th:href="@{/horarios}" class="shortcut-item">
+            <div class="shortcut-item__icon-wrapper type--orange">
+                <span class="shortcut-icon">⏳</span>
+            </div>
+            <div class="shortcut-item__content">
+                <h3 class="shortcut-title">Mis Horarios</h3>
+                <p class="shortcut-desc">Consulta tus turnos asignados</p>
+            </div>
+        </a>
+
+        <a th:href="@{/documentos}" class="shortcut-item">
+            <div class="shortcut-item__icon-wrapper type--purple">
+                <span class="shortcut-icon">📄</span>
+            </div>
+            <div class="shortcut-item__content">
+                <h3 class="shortcut-title">Documentos</h3>
+                <p class="shortcut-desc">Liquidaciones y contratos</p>
+            </div>
+        </a>
+
+    </nav>
+
+</div>
 
   <!-- Tu navigation-handler ejecutará init() de este módulo -->
   <script type="module" src="/assets/private/client.js"></script>
