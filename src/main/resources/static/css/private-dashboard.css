@@ -388,7 +388,7 @@ body[data-layout=private] .sidebar-scrim {
     height: 4rem;
   }
   body[data-layout=private] .main-content .topbar .topbar-left .logo-container .logo {
-    max-width: 4rem;
+    max-width: 6rem;
     height: auto;
     max-height: 100%;
   }
