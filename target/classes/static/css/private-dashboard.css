@@ -375,7 +375,6 @@ body[data-layout=private] .sidebar-scrim {
     justify-content: space-between;
     padding: 0 1.2rem;
     box-sizing: border-box;
-    margin-top: -0.7rem;
   }
   body[data-layout=private] .main-content .topbar .topbar-left {
     display: flex;
@@ -386,7 +385,7 @@ body[data-layout=private] .sidebar-scrim {
   body[data-layout=private] .main-content .topbar .topbar-left .logo-container {
     display: flex;
     text-align: center;
-    margin-bottom: 2.1rem;
+    margin-bottom: 0.1rem;
     height: 3.5rem;
   }
   body[data-layout=private] .main-content .topbar .topbar-left .logo-container .logo {
