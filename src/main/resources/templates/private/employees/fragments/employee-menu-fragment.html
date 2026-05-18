@@ -18,21 +18,21 @@
             </div>
         </details>
         <a class="menu-item" href="#"
-                    data-path="/public/home">GSCorp</a>
+                    data-path="/public/home">SESAN</a>
     </nav>
     <button class="toggle-sidebar" id="toggleSidebar">☰</button>
 </section>
 
-<section th:fragment="topbar">
-        <div class="topbar__left">
-            <div id="logo-container" class="topbar-logo">
+<th:block th:fragment="topbar">
+        <div class="topbar-left">
+            <div id="logo-container" class="logo-container">
                 <img id="logo" class="logo" th:src="@{/img/logo_sin_nombre.png}" alt="Logo" />
             </div>
-            <h1 class="title">Colaboradores</h1>
+            <h1 class="title">Operaciones</h1>
         </div>
-        <div class="topbar__right">
+        <div class="topbar-right">
             <button class="topbar-burger" id="topbarToggleSidebar"
                         aria-label="Abrir menú"
                             aria-expanded="false">☰</button>
         </div>
-</section>
+</th:block>
