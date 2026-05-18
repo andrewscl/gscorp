@@ -19,15 +19,6 @@ $avatar-bg: #f1f5f9;      // Fondo gris tenue para el círculo del avatar
             display: flex;
             flex-direction: column;
             gap: 2px;
-            &__logo {
-                display: none;
-                .logo{
-                    height: 6rem;
-                    width: auto;
-                    display: block;
-                    object-fit: contain;
-                }
-            }
             h2 {
                             margin: 0;
                             font-size: 1.35rem;
@@ -39,6 +30,15 @@ $avatar-bg: #f1f5f9;      // Fondo gris tenue para el círculo del avatar
                             margin: 0;
                             font-size: 0.85rem;
                             color: $text-muted;
+            }
+        }
+        &__left__logo {
+            display: none;
+            .logo{
+                height: 6rem;
+                width: auto;
+                display: block;
+                object-fit: contain;
             }
         }
         &__right {
