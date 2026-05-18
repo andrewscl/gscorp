@@ -375,6 +375,7 @@ body[data-layout=private] .sidebar-scrim {
     justify-content: space-between;
     padding: 0 1.2rem;
     box-sizing: border-box;
+    margin-top: -0.7rem;
   }
   body[data-layout=private] .main-content .topbar .topbar-left {
     display: flex;
@@ -389,7 +390,7 @@ body[data-layout=private] .sidebar-scrim {
     height: 3.5rem;
   }
   body[data-layout=private] .main-content .topbar .topbar-left .logo-container .logo {
-    max-width: 8rem;
+    max-width: 4rem;
     height: auto;
     max-height: 100%;
     filter: drop-shadow(0 2px 8px rgba(55, 65, 81, 0.12));
@@ -397,8 +398,8 @@ body[data-layout=private] .sidebar-scrim {
   body[data-layout=private] .main-content .topbar .topbar-left .title {
     margin: 0;
     font-family: "Montserrat", sans-serif;
-    font-size: 0.9rem;
-    font-weight: 600;
+    font-size: 1.1rem;
+    font-weight: 700;
     letter-spacing: 0.02em;
     color: #475569;
     letter-spacing: -0.02em;

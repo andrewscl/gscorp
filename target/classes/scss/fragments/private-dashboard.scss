@@ -301,6 +301,7 @@ body[data-layout="private"] {
         justify-content: space-between;
         padding: 0 1.2rem;
         box-sizing: border-box;
+        margin-top: -0.7rem;
         .topbar-left {
           display: flex;
           flex-direction: row;
@@ -312,7 +313,7 @@ body[data-layout="private"] {
             margin-bottom: 2.1rem;
             height: 3.5rem;
             .logo {
-              max-width: 8rem;
+              max-width: 4rem;
               height: auto;
               max-height: 100%;
               filter: drop-shadow(0 2px 8px rgba(55, 65, 81, .12));
@@ -320,7 +321,7 @@ body[data-layout="private"] {
           }
           .title {
             margin: 0;
-            @include montserrat-font(0.9rem, 600);
+            @include montserrat-font(1.1rem, 700);
             color: $slate-600;
             letter-spacing: -.02em;
           }
@@ -328,7 +329,7 @@ body[data-layout="private"] {
         .topbar-right {
           display: flex;
           align-items: center;
-          
+
           .topbar-burger {
             display: flex;
             align-items: center;
