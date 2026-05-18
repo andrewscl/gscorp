@@ -1,13 +1,9 @@
-// =================== Dashboard Private Layout Modern ===================
+@use '../base/palette' as *;
+@use '../base/mixins' as *;
+@use '../base/variables' as *;
+@use '../base/typography' as *;
 
-// VARIABLES
-$sidebar-width: 240px;
-$topbar-height: 54px;
-$main-bg: linear-gradient(120deg, #f6f8fa 0%, #e7ebf3 100%);
-$sidebar-bg: #ffffff;
-$sidebar-color: #494f56;
-$topbar-bg: #fff;
-$content-bg: #f9fafb;
+// =================== Dashboard Private Layout Modern ===================
 
 // ------------------ LAYOUT ------------------
 body[data-layout="private"] {
@@ -190,15 +186,27 @@ body[data-layout="private"] {
       display: flex;
       align-items: center;
       padding: 0 2rem;
-      border-bottom: 1px solid #e5e7eb;
+      border-bottom: 1px solid $cool-gray-200;
       box-shadow: 0 2px 18px rgba(44,62,80,0.03);
-
-      .title {
-        margin: 0;
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: #494f56;
-        letter-spacing: -.02em;
+      .topbar-left {
+        .logo-container {
+          display: none;
+          text-align: center;
+          margin-bottom: 2.1rem;
+          height: 54px;
+          .logo {
+            max-width: 140px;
+            height: auto;
+            max-height: 100%;
+            filter: drop-shadow(0 2px 8px rgba(55, 65, 81, .12));
+          }
+        }
+        .title {
+          margin: 0;
+          @include montserrat-font(1.1rem, 700);
+          color: $slate-600;
+          letter-spacing: -.02em;
+        }
       }
 
       .topbar-right {
@@ -283,8 +291,26 @@ body[data-layout="private"] {
       .topbar {
         left: 0;
         width: 100vw;
-
-        /* Mostrar el botón hamburguesa solo en mobile (misma especificidad que la regla desktop) */
+        .topbar-left {
+          .logo-container {
+            display: flex;
+            text-align: center;
+            margin-bottom: 2.1rem;
+            height: 54px;
+            .logo {
+              max-width: 140px;
+              height: auto;
+              max-height: 100%;
+              filter: drop-shadow(0 2px 8px rgba(55, 65, 81, .12));
+            }
+          }
+          .title {
+            margin: 0;
+            @include montserrat-font(1.1rem, 700);
+            color: $slate-600;
+            letter-spacing: -.02em;
+          }
+        }
         .topbar-right {
           .topbar-burger {
             display: flex;
