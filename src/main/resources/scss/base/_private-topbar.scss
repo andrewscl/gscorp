@@ -21,6 +21,12 @@ $avatar-bg: #f1f5f9;      // Fondo gris tenue para el círculo del avatar
             gap: 2px;
             &__logo {
                 display: none;
+                .logo{
+                    height: 6rem;
+                    width: auto;
+                    display: block;
+                    object-fit: contain;
+                }
             }
             h2 {
                             margin: 0;
