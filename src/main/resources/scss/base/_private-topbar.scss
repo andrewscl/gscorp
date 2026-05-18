@@ -19,7 +19,7 @@ $avatar-bg: #f1f5f9;      // Fondo gris tenue para el círculo del avatar
             display: flex;
             flex-direction: column;
             gap: 2px;
-            .topbar-logo {
+            &__logo {
                 display: none;
             }
             h2 {
@@ -76,9 +76,12 @@ $avatar-bg: #f1f5f9;      // Fondo gris tenue para el círculo del avatar
 .main-content {
     .topbar {
         &__left {
-                    display: flex;
-                }
+            &__logo{
+                display: flex;
+            }
         }
     }
+}
+
 }
 
