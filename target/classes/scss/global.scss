@@ -6,6 +6,7 @@
 @use 'base/typography' as * ;
 @use 'base/table' as * ;
 @use 'base/card-forms' as * ;
+@use 'base/private-topbar' as * ;
 
 // clase global para toda la app
 .hs-table {
@@ -14,4 +15,8 @@
 
 .hs-form{
   @include hs-form($max_w: 40rem);
+}
+
+.main-content{
+  @include topbar();
 }

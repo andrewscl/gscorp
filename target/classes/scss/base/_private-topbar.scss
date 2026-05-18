@@ -5,7 +5,8 @@ $text-main: #1e293b;      // Gris oscuro/antracita para los títulos principales
 $text-muted: #64748b;     // Gris medio para subtítulos e información secundaria
 $avatar-bg: #f1f5f9;      // Fondo gris tenue para el círculo del avatar
 
-.main-content{
+@mixin topbar(){
+
     .topbar{
         display: flex;
         justify-content: space-between;
@@ -76,18 +77,18 @@ $avatar-bg: #f1f5f9;      // Fondo gris tenue para el círculo del avatar
                         }
         }
     }
-}
 
-@media (max-width: 768px) {
-.main-content {
-    .topbar {
-        &__left {
-            &__logo{
-                display: flex;
+    @media (max-width: 768px) {
+        .topbar {
+            &__left {
+                &__logo{
+                    display: flex;
+                }
             }
         }
     }
-}
 
 }
+
+
 
