@@ -384,7 +384,7 @@ body[data-layout=private] .sidebar-scrim {
   }
   body[data-layout=private] .main-content .topbar .topbar-left .logo-container {
     display: flex;
-    text-align: center;
+    align-items: center;
     height: 4rem;
   }
   body[data-layout=private] .main-content .topbar .topbar-left .logo-container .logo {
