@@ -373,7 +373,8 @@ body[data-layout=private] .sidebar-scrim {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 0 0;
+    align-items: center;
+    padding: 0 1.2rem;
     box-sizing: border-box;
   }
   body[data-layout=private] .main-content .topbar .topbar-left {
