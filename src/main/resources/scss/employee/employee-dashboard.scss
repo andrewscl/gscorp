@@ -1,14 +1,14 @@
 @use '../base/palette' as *;
 @use '../base/mixins' as *;
 @use '../base/variables' as *;
-@use '../basetypography' as *;
+@use '../base/typography' as *;
 @use '../base/dashboard-mobile' as * ;
 
 @media (max-width: 1024px) {
   body[data-layout="private"] {
     .main-content{
       .content{
-        @include dashboard-mobile-operations ();
+        @include dashboard-mobile ();
       }
     }
   }

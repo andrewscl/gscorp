@@ -1,5 +1,8 @@
-@mixin dashboard-mobile-operations () {
-    .dashboard-mobile-operations {
+@use '../base/palette' as * ;
+@use '../base/variables' as * ;
+
+@mixin dashboard-mobile () {
+    .dashboard-mobile {
         display: flex;
         flex-direction: column;
         gap: 1.5rem;
@@ -47,14 +50,14 @@
 
             &__time {
                 font-weight: 700;
-                color: #1f2937;
+                color: $slate-800;
                 .current-time { font-size: 2.8rem; }
                 .current-seconds { font-size: 1.4rem; color: #9ca3af; }
             }
 
             &__btn {
                 width: 100%;
-                background: #2563eb; // Tu azul corporativo
+                background: $accent-blue;
                 color: white;
                 border: none;
                 padding: 1rem;
