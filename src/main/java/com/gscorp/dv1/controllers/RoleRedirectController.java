@@ -5,12 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.gscorp.dv1.users.application.UserService;
-
 @Controller
 public class RoleRedirectController {
-
-    UserService userService;
 
     @GetMapping({"/private", "/private/"})
     public String redirectByRole(
@@ -18,10 +14,6 @@ public class RoleRedirectController {
                 String fragment,
                 Authentication auth) {
         if( auth==null || !auth.isAuthenticated()){
-            return "redirect:/auth/signin";
-        }
-        Long userId = userService.getUserIdFromAuthentication(auth);
-        if (userId == null) {
             return "redirect:/auth/signin";
         }
 
