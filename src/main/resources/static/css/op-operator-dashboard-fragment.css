@@ -14,6 +14,9 @@
   display: flex;
   flex-direction: column;
 }
+.op-operator-dashboard-mobile .dashboard-welcome .welcome-text {
+  padding: 1rem;
+}
 .op-operator-dashboard-mobile .dashboard-welcome .welcome-text__title {
   font-family: "Montserrat", sans-serif;
   font-size: 1.4rem;
@@ -168,4 +171,4 @@
   margin: 0.2rem 0 0 0;
   color: #6b7280;
   line-height: 1.2;
-}/*# sourceMappingURL=op-operator-dashboard-fragment.css.map */ent.css.map */
+}/*# sourceMappingURL=op-operator-dashboard-fragment.css.map */
