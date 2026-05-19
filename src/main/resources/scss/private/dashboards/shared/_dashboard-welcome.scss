@@ -3,7 +3,7 @@
 @use '../../../abstracts/mixins' as * ;
 
 @mixin dashboard-welcome () {
-    &__welcome {
+    .op-operator-dashboard-mobile__welcome {
         display: flex;
         justify-content: space-between;
         align-items: center;

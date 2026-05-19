@@ -10,12 +10,12 @@
   gap: 1.5rem;
   width: 100%;
 }
-.op-operator-dashboard-mobile__welcome {
+.op-operator-dashboard-mobile .op-operator-dashboard-mobile__welcome {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.op-operator-dashboard-mobile__welcome .welcome-text__title {
+.op-operator-dashboard-mobile .op-operator-dashboard-mobile__welcome .welcome-text__title {
   font-family: "Montserrat", sans-serif;
   font-size: 1.4rem;
   font-weight: 700;
@@ -23,7 +23,7 @@
   margin: 0;
   color: #1f2937;
 }
-.op-operator-dashboard-mobile__welcome .welcome-text__subtitle {
+.op-operator-dashboard-mobile .op-operator-dashboard-mobile__welcome .welcome-text__subtitle {
   font-family: "Montserrat", sans-serif;
   font-size: 0.9rem;
   font-weight: 500;
@@ -31,7 +31,7 @@
   margin: 0.2rem 0 0 0;
   color: #6b7280;
 }
-.op-operator-dashboard-mobile__welcome .welcome-date__badge {
+.op-operator-dashboard-mobile .op-operator-dashboard-mobile__welcome .welcome-date__badge {
   background: #e0e7ef;
   padding: 0.4rem 0.8rem;
   border-radius: 20px;

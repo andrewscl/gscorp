@@ -1,7 +1,8 @@
-@use '../base/mixins' as *;
-@use '../base/variables' as *;
-@use '../base/palette' as *;
-@use '../base/typography' as *;
+@use '../abstracts/mixins' as *;
+@use '../abstracts/variables' as *;
+@use '../abstracts/palette' as *;
+@use '../abstracts/typography' as *;
+@use '../abstracts/fragment-mixins' as *;
 
 .corporate-footer {
   background-color: $cool-gray-800;
