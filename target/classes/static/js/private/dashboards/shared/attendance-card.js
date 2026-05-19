@@ -1,0 +1,1 @@
+import{n as e}from"../../../navigation-handler.js";import"../../../auth.js";const n=t=>document.querySelector(t);async function a(){const t=n("#attendance-card-btn");t.disabled=!0,setTimeout(()=>e("/private/attendance/attdc-view",!0),1e3)}function c(){n("#attendance-card-btn")?.addEventListener("click",a)}(function(){c()})();
