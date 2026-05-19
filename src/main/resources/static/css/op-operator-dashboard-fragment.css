@@ -109,6 +109,9 @@
   background: #dc2626;
   box-shadow: 0 4px 14px rgba(220, 38, 38, 0.3);
 }
+.op-operator-dashboard-mobile .dashboard-mobile-card .dashboard-card-header {
+  padding: 0 1rem;
+}
 .op-operator-dashboard-mobile .dashboard-mobile-card .dashboard-card-header .dashboard-card-title {
   font-family: "Montserrat", sans-serif;
   font-size: 1.2rem;

@@ -418,7 +418,7 @@ body[data-layout=private] .sidebar-scrim {
     background: transparent;
     cursor: pointer;
     font-size: 3rem;
-    color: #64748b;
+    color: #334155;
     transition: background 0.18s, color 0.18s, transform 0.12s;
   }
   body[data-layout=private] .main-content .topbar .topbar-right .topbar-burger:focus {

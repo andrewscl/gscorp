@@ -6,6 +6,7 @@
     .dashboard-mobile-card {
 
         .dashboard-card-header{
+            padding: 0 1rem;
             .dashboard-card-title{
                 @include montserrat-font(1.2rem, 600);
             }
