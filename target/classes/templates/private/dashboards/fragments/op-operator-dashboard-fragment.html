@@ -1,0 +1,37 @@
+<th:block id="dashboard-root" th:fragment="content">
+    <div class="op-operator-dashboard-mobile">
+        <th:block th:replace="~{private/dashboards/shared/dashboard-welcome :: content}">
+        </th:block>
+
+        <th:block th:replace="~{private/dashboards/shared/attendance-card :: content}">
+        </th:block>
+
+        <th:block th:replace="~{private/dashboards/shared/operational-card :: content}">
+        </th:block>
+
+        <th:block th:replace="~{private/dashboards/shared/administravite-shortcuts :: content}">
+        </th:block>
+    </div>
+</th:block>  
+
+
+
+
+
+
+
+<div id="dashboard-root" th:fragment="content">
+
+  </div>
+
+  <div class="employees-button">
+    <a class="h2" href="#"
+        data-path="/private/attendance/attdc-view">Control de Asistencia</a>
+  </div>
+
+  <div class="employees-button">
+    <a class="h2" href="#"
+        data-path="/private/requirements">Solicitudes</a>
+  </div>
+
+</div>

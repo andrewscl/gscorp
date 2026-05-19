@@ -69,7 +69,7 @@ public class EmployeeController {
     
     @GetMapping("/dashboard")
     public String getPrivateDashboardView (Model model) {
-        return "private/employees/views/employee-dashboard-view";
+        return "private/dashboards/views/op-operator-dashboard-view";
     }
 
 

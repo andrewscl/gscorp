@@ -1,33 +1,13 @@
 @use '../base/palette' as * ;
 @use '../base/variables' as * ;
+@use '../shared/dashboard-welcome' as *;
 
-@mixin dashboard-mobile () {
-    .dashboard-mobile {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-        width: 100%;
-        
-        // 1. Bienvenida
-        &__welcome {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            
-            .welcome-text {
-                &__title { font-size: 1.4rem; margin: 0; color: #1f2937; font-weight: 700; }
-                &__subtitle { font-size: 0.9rem; margin: 0.2rem 0 0 0; color: #6b7280; }
-            }
-            .welcome-date__badge {
-                background: #e0e7ef;
-                padding: 0.4rem 0.8rem;
-                border-radius: 20px;
-                font-size: 0.8rem;
-                font-weight: 600;
-                color: #4b5563;
-            }
-        }
-
+.op-operator-dashboard-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    @include dashboard-welcome();
         // 2. Tarjeta de Asistencia Grande
         .attendance-card {
             background: #ffffff;
@@ -87,7 +67,6 @@
                 .__btn { background: #dc2626; box-shadow: 0 4px 14px rgba(220, 38, 38, 0.3); } // Cambia a botón rojo de salida
             }
         }
-
         // 3. Grid de 2 columnas
         .shortcut-grid {
             display: grid;
@@ -125,6 +104,5 @@
                 .shortcut-desc { font-size: 0.75rem; margin: 0.2rem 0 0 0; color: #6b7280; line-height: 1.2; }
             }
         }
-    }
 }
 
