@@ -1,6 +1,6 @@
 <th:block id="dashboard-root" th:fragment="content">
     <div class="op-operator-dashboard-mobile">
-        <th:block th:replace="~{private/dashboards/shared/dashboard-welcome :: content}">
+        <th:block th:replace="~{private/dashboards/shared/dashboard-welcome :: content(${employee})}">
         </th:block>
 
         <th:block th:replace="~{private/dashboards/shared/attendance-card :: content}">

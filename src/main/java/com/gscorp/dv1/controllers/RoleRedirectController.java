@@ -5,15 +5,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.gscorp.dv1.users.application.UserService;
+
 @Controller
 public class RoleRedirectController {
 
-    @GetMapping({"/private", "/private/"})
-    public String redirectByRole(Authentication auth,
-                @RequestParam(value="fragment", required=false)
-                    String fragment) {
+    UserService userService;
 
+    @GetMapping({"/private", "/private/"})
+    public String redirectByRole(
+                @RequestParam(value="fragment", required=false)
+                String fragment,
+                Authentication auth) {
         if( auth==null || !auth.isAuthenticated()){
+            return "redirect:/auth/signin";
+        }
+        Long userId = userService.getUserIdFromAuthentication(auth);
+        if (userId == null) {
             return "redirect:/auth/signin";
         }
 
@@ -37,8 +45,8 @@ public class RoleRedirectController {
             return prefix + "private/rrhh/dashboard" + suffix;
 
         if(has(auth, "ROLE_EMPLOYEE"))
-            return prefix + "private/employees/dashboard" + suffix;
-            
+            return prefix + "private/employees/dashboard/" + suffix;
+
         if(has(auth, "ROLE_SUPERVISOR"))
             return prefix + "private/supervisors/dashboard" + suffix;
 

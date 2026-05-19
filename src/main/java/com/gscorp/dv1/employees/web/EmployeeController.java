@@ -35,6 +35,7 @@ import com.gscorp.dv1.projects.application.ProjectService;
 import com.gscorp.dv1.projects.web.dto.ProjectDto;
 import com.gscorp.dv1.shiftpatterns.application.ShiftPatternService;
 import com.gscorp.dv1.users.application.UserService;
+import com.gscorp.dv1.users.web.dto.UserViewDto;
 
 import lombok.AllArgsConstructor;
 
@@ -68,10 +69,19 @@ public class EmployeeController {
     private PositionService positionService;
     
     @GetMapping("/dashboard")
-    public String getPrivateDashboardView (Model model) {
+    public String getPrivateDashboardView (
+            @PathVariable Long id,
+            Model model,
+            Authentication authentication) {
+            Long userId = userService.getUserIdFromAuthentication(authentication);
+            if (userId == null) {
+                return "redirect:/login";
+            }
+            UserViewDto userViewDto = userService.findWithRolesAndClientsById(userId);
+            var employee = employeeService.findByIdViewEmployee(userViewDto.employeeId());
+            model.addAttribute("employee", employee);            
         return "private/dashboards/views/op-operator-dashboard-view";
     }
-
 
     @GetMapping("/table-view")
     public String getEmployeesTableView (
@@ -121,7 +131,6 @@ public class EmployeeController {
 
     }
 
-
     @GetMapping("/create")
     public String getCreateEmployeeView (Model model) {
 
@@ -147,8 +156,6 @@ public class EmployeeController {
 
         return "private/employees/views/create-employee-view";
     }
-
-
 
     @GetMapping("/show/{id}")
     public String showEmployee(
