@@ -70,7 +70,6 @@ public class EmployeeController {
     
     @GetMapping("/dashboard")
     public String getPrivateDashboardView (
-            @PathVariable Long id,
             Model model,
             Authentication authentication) {
             Long userId = userService.getUserIdFromAuthentication(authentication);
