@@ -12,8 +12,7 @@
 }
 .op-operator-dashboard-mobile .dashboard-welcome {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
 }
 .op-operator-dashboard-mobile .dashboard-welcome .welcome-text__title {
   font-family: "Montserrat", sans-serif;
@@ -32,6 +31,9 @@
   color: #6b7280;
 }
 .op-operator-dashboard-mobile .dashboard-welcome .welcome-date__badge {
+  align-self: flex-end;
+}
+.op-operator-dashboard-mobile .dashboard-welcome .welcome-date__badge__badge {
   background: #e0e7ef;
   padding: 0.4rem 0.8rem;
   border-radius: 20px;

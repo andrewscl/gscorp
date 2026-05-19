@@ -5,8 +5,7 @@
 @mixin dashboard-welcome () {
     .dashboard-welcome {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        flex-direction: column;
         .welcome-text {
             &__title {
                 @include montserrat-font(1.4rem, 700);
@@ -18,12 +17,15 @@
                 color: #6b7280; }
         }
         .welcome-date__badge {
-            background: #e0e7ef;
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #4b5563;
+            align-self: flex-end;
+            &__badge{
+                background: #e0e7ef;
+                padding: 0.4rem 0.8rem;
+                border-radius: 20px;
+                font-size: 0.8rem;
+                font-weight: 600;
+                color: #4b5563;
+            }
         }
     }
 }
