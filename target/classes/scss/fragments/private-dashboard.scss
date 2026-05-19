@@ -321,8 +321,8 @@ body[data-layout="private"] {
           }
           .title {
             margin: 0;
-            @include montserrat-font(1.1rem, 700);
-            color: $slate-600;
+            @include montserrat-font(1.2rem, 700);
+            color: $slate-800;
             letter-spacing: -.02em;
           }
         }

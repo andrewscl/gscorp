@@ -109,12 +109,18 @@
   background: #dc2626;
   box-shadow: 0 4px 14px rgba(220, 38, 38, 0.3);
 }
-.op-operator-dashboard-mobile .shortcut-grid {
+.op-operator-dashboard-mobile .dashboard-mobile-card .dashboard-card-header .dashboard-card-title {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.op-operator-dashboard-mobile .dashboard-mobile-card .shortcut-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
 }
-.op-operator-dashboard-mobile .shortcut-grid .shortcut-item {
+.op-operator-dashboard-mobile .dashboard-mobile-card .shortcut-grid .shortcut-item {
   background: white;
   text-decoration: none;
   padding: 1rem;
@@ -125,7 +131,7 @@
   flex-direction: column;
   gap: 0.8rem;
 }
-.op-operator-dashboard-mobile .shortcut-grid .shortcut-item__icon-wrapper {
+.op-operator-dashboard-mobile .dashboard-mobile-card .shortcut-grid .shortcut-item__icon-wrapper {
   width: 40px;
   height: 40px;
   border-radius: 10px;
@@ -134,25 +140,25 @@
   justify-content: center;
   font-size: 1.2rem;
 }
-.op-operator-dashboard-mobile .shortcut-grid .shortcut-item__icon-wrapper.type--blue {
+.op-operator-dashboard-mobile .dashboard-mobile-card .shortcut-grid .shortcut-item__icon-wrapper.type--blue {
   background: #eff6ff;
 }
-.op-operator-dashboard-mobile .shortcut-grid .shortcut-item__icon-wrapper.type--green {
+.op-operator-dashboard-mobile .dashboard-mobile-card .shortcut-grid .shortcut-item__icon-wrapper.type--green {
   background: #ecfdf5;
 }
-.op-operator-dashboard-mobile .shortcut-grid .shortcut-item__icon-wrapper.type--orange {
+.op-operator-dashboard-mobile .dashboard-mobile-card .shortcut-grid .shortcut-item__icon-wrapper.type--orange {
   background: #fff7ed;
 }
-.op-operator-dashboard-mobile .shortcut-grid .shortcut-item__icon-wrapper.type--purple {
+.op-operator-dashboard-mobile .dashboard-mobile-card .shortcut-grid .shortcut-item__icon-wrapper.type--purple {
   background: #f5f3ff;
 }
-.op-operator-dashboard-mobile .shortcut-grid .shortcut-item .shortcut-title {
+.op-operator-dashboard-mobile .dashboard-mobile-card .shortcut-grid .shortcut-item .shortcut-title {
   font-size: 0.95rem;
   margin: 0;
   color: #1f2937;
   font-weight: 600;
 }
-.op-operator-dashboard-mobile .shortcut-grid .shortcut-item .shortcut-desc {
+.op-operator-dashboard-mobile .dashboard-mobile-card .shortcut-grid .shortcut-item .shortcut-desc {
   font-size: 0.75rem;
   margin: 0.2rem 0 0 0;
   color: #6b7280;
