@@ -30,10 +30,10 @@
   margin: 0.2rem 0 0 0;
   color: #6b7280;
 }
-.op-operator-dashboard-mobile .dashboard-welcome .welcome-date__badge {
+.op-operator-dashboard-mobile .dashboard-welcome .welcome-date {
   align-self: flex-end;
 }
-.op-operator-dashboard-mobile .dashboard-welcome .welcome-date__badge__badge {
+.op-operator-dashboard-mobile .dashboard-welcome .welcome-date__badge {
   background: #e0e7ef;
   padding: 0.4rem 0.8rem;
   border-radius: 20px;
@@ -168,4 +168,4 @@
   margin: 0.2rem 0 0 0;
   color: #6b7280;
   line-height: 1.2;
-}/*# sourceMappingURL=op-operator-dashboard-fragment.css.map */
+}/*# sourceMappingURL=op-operator-dashboard-fragment.css.map */ent.css.map */
