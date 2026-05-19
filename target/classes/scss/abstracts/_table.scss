@@ -1,9 +1,9 @@
 @use "sass:color";
-@use '../base/palette' as *;
-@use '../base/variables' as *;
-@use '../base/mixins' as *;
-@use '../base/btn-mixins' as *;
-@use '../base/typography' as *;
+@use 'palette' as *;
+@use 'variables' as *;
+@use 'mixins' as *;
+@use 'btn-mixins' as *;
+@use 'typography' as *;
 
 /*
 :root {

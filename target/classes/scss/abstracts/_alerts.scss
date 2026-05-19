@@ -1,6 +1,6 @@
-@use '../base/palette' as *;
-@use '../base/variables' as *;
-@use '../base/mixins' as *;
+@use 'palette' as *;
+@use 'variables' as *;
+@use 'mixins' as *;
 
 @mixin alert-container (){
     display: none;

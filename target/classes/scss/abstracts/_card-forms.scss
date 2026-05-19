@@ -1,10 +1,10 @@
-@use '../base/mixins' as *;
-@use '../base/btn-mixins' as *;
-@use '../base/typography' as *;
-@use '../base/palette' as *;
-@use '../base/variables' as *;
-@use '../base/alerts' as *;
-@use '../base/footer-buttons' as *;
+@use 'mixins' as *;
+@use 'btn-mixins' as *;
+@use 'typography' as *;
+@use 'palette' as *;
+@use 'variables' as *;
+@use 'alerts' as *;
+@use 'footer-buttons' as *;
 
 @mixin hs-form(
         $max_w: 40rem

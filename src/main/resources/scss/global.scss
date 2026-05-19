@@ -1,11 +1,11 @@
 //Importar archivos base
-@use 'base/reset' as * ;
-@use 'base/palette' as * ;
-@use 'base/variables' as * ;
-@use 'base/mixins' as * ;
-@use 'base/typography' as * ;
-@use 'base/table' as * ;
-@use 'base/card-forms' as * ;
+@use 'abstracts/reset' as * ;
+@use 'abstracts/palette' as * ;
+@use 'abstracts/variables' as * ;
+@use 'abstracts/mixins' as * ;
+@use 'abstracts/typography' as * ;
+@use 'abstracts/table' as * ;
+@use 'abstracts/card-forms' as * ;
 
 // clase global para toda la app
 .hs-table {

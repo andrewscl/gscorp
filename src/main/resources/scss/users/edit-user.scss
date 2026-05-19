@@ -1,4 +1,4 @@
-@use '../base/card-forms' as *;
+@use '../abstracts/card-forms' as *;
 
 .hs-form{
   @include hs-form($max_w: 40rem);
