@@ -1,0 +1,160 @@
+/* Verde claro */
+/* Rojo claro */
+/* Amarillo claro */
+/* Verde oscuro */
+/* Rojo oscuro */
+/* Amarillo oscuro */
+.op-operator-dashboard-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+.op-operator-dashboard-mobile__welcome {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.op-operator-dashboard-mobile__welcome .welcome-text__title {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin: 0;
+  color: #1f2937;
+}
+.op-operator-dashboard-mobile__welcome .welcome-text__subtitle {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  margin: 0.2rem 0 0 0;
+  color: #6b7280;
+}
+.op-operator-dashboard-mobile__welcome .welcome-date__badge {
+  background: #e0e7ef;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #4b5563;
+}
+.op-operator-dashboard-mobile .attendance-card {
+  background: #ffffff;
+  border-radius: 0.7rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid #e5e7eb;
+}
+.op-operator-dashboard-mobile .attendance-card__status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.op-operator-dashboard-mobile .attendance-card__status .status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ef4444;
+}
+.op-operator-dashboard-mobile .attendance-card__status .status-text {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #4b5563;
+}
+.op-operator-dashboard-mobile .attendance-card__time {
+  font-weight: 700;
+  color: #1e293b;
+}
+.op-operator-dashboard-mobile .attendance-card__time .current-time {
+  font-size: 2.8rem;
+}
+.op-operator-dashboard-mobile .attendance-card__time .current-seconds {
+  font-size: 1.4rem;
+  color: #9ca3af;
+}
+.op-operator-dashboard-mobile .attendance-card__btn {
+  width: 100%;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 0.7rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+  transition: transform 0.1s ease;
+}
+.op-operator-dashboard-mobile .attendance-card__btn:active {
+  transform: scale(0.98);
+}
+.op-operator-dashboard-mobile .attendance-card__footer {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  margin: 0;
+}
+.op-operator-dashboard-mobile .attendance-card.state--working .status-dot {
+  background: #10b981;
+}
+.op-operator-dashboard-mobile .attendance-card.state--working .__btn {
+  background: #dc2626;
+  box-shadow: 0 4px 14px rgba(220, 38, 38, 0.3);
+}
+.op-operator-dashboard-mobile .shortcut-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+.op-operator-dashboard-mobile .shortcut-grid .shortcut-item {
+  background: white;
+  text-decoration: none;
+  padding: 1rem;
+  border-radius: 0.7rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.op-operator-dashboard-mobile .shortcut-grid .shortcut-item__icon-wrapper {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+.op-operator-dashboard-mobile .shortcut-grid .shortcut-item__icon-wrapper.type--blue {
+  background: #eff6ff;
+}
+.op-operator-dashboard-mobile .shortcut-grid .shortcut-item__icon-wrapper.type--green {
+  background: #ecfdf5;
+}
+.op-operator-dashboard-mobile .shortcut-grid .shortcut-item__icon-wrapper.type--orange {
+  background: #fff7ed;
+}
+.op-operator-dashboard-mobile .shortcut-grid .shortcut-item__icon-wrapper.type--purple {
+  background: #f5f3ff;
+}
+.op-operator-dashboard-mobile .shortcut-grid .shortcut-item .shortcut-title {
+  font-size: 0.95rem;
+  margin: 0;
+  color: #1f2937;
+  font-weight: 600;
+}
+.op-operator-dashboard-mobile .shortcut-grid .shortcut-item .shortcut-desc {
+  font-size: 0.75rem;
+  margin: 0.2rem 0 0 0;
+  color: #6b7280;
+  line-height: 1.2;
+}/*# sourceMappingURL=op-operator-dashboard-fragment.css.map */

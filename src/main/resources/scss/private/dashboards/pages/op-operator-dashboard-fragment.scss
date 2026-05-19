@@ -1,5 +1,6 @@
-@use '../base/palette' as * ;
-@use '../base/variables' as * ;
+@use '../../../abstracts/palette' as * ;
+@use '../../../abstracts/mixins' as * ;
+@use '../../../abstracts/variables' as * ;
 @use '../shared/dashboard-welcome' as *;
 
 .op-operator-dashboard-mobile {
@@ -24,8 +25,15 @@
                 display: flex;
                 align-items: center;
                 gap: 0.5rem;
-                .status-dot { width: 10px; height: 10px; border-radius: 50%; background: #ef4444; } // Rojo por defecto
-                .status-text { font-size: 0.85rem; font-weight: 600; color: #4b5563; }
+                .status-dot {
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    background: #ef4444; } // Rojo por defecto
+                .status-text {
+                    font-size: 0.85rem;
+                    font-weight: 600;
+                    color: #4b5563; }
             }
 
             &__time {
