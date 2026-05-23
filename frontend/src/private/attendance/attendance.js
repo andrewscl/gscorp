@@ -1,7 +1,218 @@
 import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
+import loadGoogleMapsAPI from '../../shared/maps/googlemaps-loader.js';
+import { initMap } from '../../shared/maps/init-map.js';
+import { addAdvancedMarker } from '../../shared/maps/advanced-marker.js';
+import { displayAlert } from '../../shared/display-alert.js';
 
-// Encuentra el sitio más cercano y su distancia
+let googleMapInstance = null;
+let userMarkerInstance = null;
+let sitesList = [];
+const MAX_DISTANCE_GEOFENCE = 35;
+
+const qs  = (s) => document.querySelector(s);
+const alertSuccess = qs('.alert-success');
+const alertError = qs('.alert-error');
+const alertWarning = qs('.alert-warning');
+const alertInfo = qs('.alert-info');
+
+(async function init() {
+  bindEvents();
+  await initComponent();
+})();
+
+async function initComponent() {
+  const actionWidget = qs('#att-widget');
+  if (!actionWidget || actionWidget.dataset.attInit === '1') return;
+  actionWidget.dataset.attInit = '1';
+
+  setButtonsState(false, false);
+  displayAlert(alertInfo,
+        'Conectando con el servicio de Georreferenciación...', 1500);
+
+  try {
+    await loadSites();
+    await defineCurrentPosition();
+  } catch (e) {
+    console.error('[attendance] initComponent failed', e); 
+  }
+}
+
+async function syncAttendanceButtons() {
+  try {
+    const res = await fetchWithAuth('/api/attendance/last-punch');
+    if (!res) throw new Error ('No se pudo obtener el ultimo estado.');
+    const lastPunch = await res.json();
+    const action = lastPunch?.action ? String(lastPunch.action).toUpperCase() : 'OUT';
+    if (action === 'IN') {
+      setButtonsState(null, true);
+    } else {
+      setButtonsState(true, null);
+    }
+  } catch (e) {
+    console.error('[Attendance] Error al consigurar los botones');
+    displayAlert(alertError, 'Error al sincronizar el estado del usuario', 4000);
+    setButtonsState(false, false);
+  }
+}
+
+async function defineCurrentPosition() {
+  if (!navigator.geolocation) {
+    displayAlert(alertError, 'Geolocalización no soportada.', 3000);    
+    return;
+  }
+  displayAlert(alertInfo, 'Detectando el sitio mas cercano...', 3000);
+
+  try {
+    const pos = await new Promise((resolve, reject) =>
+      navigator.geolocation.getCurrentPosition(resolve, reject,
+                                  { enableHighAccuracy: true, timeout: 15000 })
+    );
+    if (!sitesList.length) {
+      displayAlert(alertError, 'No hay sitios configurados.', 3000);
+      return;
+    }
+    const nearestSite = getNearestSite(pos.coords.latitude,
+                                              pos.coords.longitude, sitesList);
+    if (nearestSite && nearestSite.distance <= MAX_DISTANCE_GEOFENCE) {
+      displayAlert(alertSuccess, `Estás en el sitio "${nearestSite.name}".
+                                          Puedes marcar asistencia aquí.`, 3000);
+
+      await syncAttendanceButtons();
+
+    } else if (nearestSite) {
+      displayAlert(alertInfo, `El sitio más cercano es "${nearestSite.name}" a
+          ${nearestSite.distance.toFixed(1)} metros. Acércate para marcar.`, 3000);
+      setTimeout(() => navigateTo('/private/employees/dashboard'), 1500);
+    } else {
+      displayAlert(alertError, 'No se encontró ningún sitio cercano.', 5000);
+    }
+  } catch (e) {
+    displayAlert(alertError, 'No fue posible obtener la ubicación: '
+                      + (e.message || 'Tiempo de espera agotado.'), 5000);
+  }
+}
+
+async function loadSites() {
+  try {
+    const res = await fetchWithAuth('/api/attendance/sites', { credentials: 'same-origin' });
+    if (!res.ok) throw new Error(`Error cargando sitios: ${res.status}`);
+    sitesList = await res.json();
+  } catch (e) {
+    console.error("No se pudo cargar la lista de sitios:", e);
+    sitesList = [];
+  }
+}
+
+async function punch(kind) {
+    const action = (String(kind).toUpperCase() === 'OUT') ? 'OUT' : 'IN';
+    const actionWidget = qs('#att-widget');
+    const endpoint = actionWidget?.dataset.punchEndpoint || '/api/attendance/punch';
+    try {
+      setButtonsState(false, false);
+      displayAlert(alertInfo, 'Obteniendo ubicación...', 3000);
+      const pos = await getCurrentPosition();
+      const nearestSite = getNearestSite(pos.coords.latitude, pos.coords.longitude, sitesList);
+      if (!nearestSite || nearestSite.distance > MAX_DISTANCE_GEOFENCE) {
+        displayAlert(alertWarning,
+                `No puede marcar asistencia: está a ${nearestSite ? nearestSite.distance.toFixed(1) :
+                                                  'N/A'} metros del sitio más cercano (máx 35m).`, 3000);
+        await syncAttendanceButtons();
+        return;
+      } else {
+        displayAlert(alertInfo, `Marcando asistencia en el sitio: ${nearestSite.name}`, 3000);
+      }
+      const payload = {
+        action, // "IN" | "OUT"
+        lat: pos.coords.latitude,
+        lon: pos.coords.longitude,
+        accuracy: pos.coords.accuracy,
+        siteId: nearestSite.id
+      };
+      displayAlert(alertInfo, 'Registrando asistencia...', 3000);
+      // Timeout de red (20s)
+      const ac = new AbortController();
+      const t  = setTimeout(() => ac.abort('timeout'), 20000);
+      const res = await fetchWithAuth(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload),
+        signal: ac.signal,
+        credentials: 'same-origin'
+      }).finally(() => clearTimeout(t));
+
+      let resData = {};
+      try {
+        resData = await res.json();
+      } catch {
+        try { resData = { textFallback: await res.text() }; } catch {}
+      }
+
+      if (!res.ok) {
+        let reason = `Error ${res.status}`;
+        if (resData?.error) {
+          reason = resData.error + (resData.details ? `: ${resData.details}` : '');
+        } else if (resData?.textFallback) {
+          reason = resData.textFallback;
+        }
+        throw new Error(reason);
+      }
+      const hora = resData.ts ? new Date(resData.ts).toLocaleTimeString('es-CL', { hour12: false }) : '';
+      const distancia = typeof resData.distanceMeters === 'number' ? `${resData.distanceMeters} metros` : '';
+      displayAlert(alertSuccess, `Marcación registrada correctamente${hora ? ' a las ' + hora :
+                                          ''}${distancia ? ' a ' + distancia : ''}. ✅`, 3000);
+      setTimeout(() => navigateTo('/private/employees/dashboard'), 1500);
+    } catch (e) {
+      displayAlert(alertError, 'Error en marcación: ' + (e?.message || 'desconocido'), 3000);
+      await syncAttendanceButtons();
+    }
+}
+
+function setButtonsState(inStatus, outStatus) {
+    const btnIn = qs('#att-in');
+    const btnOut = qs('#att-out');
+
+    if (btnIn) {
+      if(inStatus === null) {
+        btnIn.hidden = true;
+      } else {
+        btnIn.hidden = false;
+        btnIn.disabled = !inStatus;
+      }
+    }
+
+    if (btnOut) {
+      if(outStatus === null) {
+        btnOut.hidden = true;
+      } else {
+        btnOut.hidden = false;
+        btnOut.disabled = !outStatus;
+      }
+    }
+}
+
+// Inicializar botones
+function bindEvents() {
+    const btnIn = qs('#att-in');
+    const btnOut = qs('#att-out');
+    if(btnIn){btnIn.addEventListener('click', () => punch('IN'));}
+    if(btnOut){btnOut.addEventListener('click', () => punch('OUT'));}
+}
+
+//Funciones de utilidad operativa
+function getDistanceMeters(lat1, lon1, lat2, lon2) {
+  // Fórmula Haversine
+  const R = 6371000; // Radio tierra en metros
+  const toRad = x => x * Math.PI / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+            Math.sin(dLon/2) * Math.sin(dLon/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return R * c;
+}
+
 function getNearestSite(userLat, userLon, sites) {
   let nearest = null;
   let minDistance = Infinity;
@@ -16,314 +227,11 @@ function getNearestSite(userLat, userLon, sites) {
   return nearest;
 }
 
-let attendanceSites = [];
-
-// Cargar sitios desde API
-async function loadSites() {
-  try {
-    const res = await fetchWithAuth('/api/attendance/sites', { credentials: 'same-origin' });
-    if (!res.ok) throw new Error(`Error cargando sitios: ${res.status}`);
-    attendanceSites = await res.json();
-  } catch (e) {
-    console.error("No se pudo cargar la lista de sitios:", e);
-    attendanceSites = [];
-  }
-}
-
-// Mostrar información de sitio detectado en pantalla
-async function showCurrentSiteStatus() {
-  const statusEl = document.getElementById('att-status');
-  const infoEl = document.getElementById('att-site-info');
-
-  if (!navigator.geolocation) {
-    statusEl.textContent = "Geolocalización no soportada";
-    if (infoEl) infoEl.textContent = "";
-    return;
-  }
-  statusEl.textContent = "Detectando sitio más cercano...";
-  try {
-    const pos = await new Promise((resolve, reject) =>
-      navigator.geolocation.getCurrentPosition(resolve, reject,
-                                  { enableHighAccuracy: true, timeout: 15000 })
-    );
-    if (!attendanceSites.length) {
-      if (infoEl) infoEl.textContent = "No hay sitios configurados.";
-      return;
-    }
-    const nearestSite = getNearestSite(pos.coords.latitude,
-                                        pos.coords.longitude, attendanceSites);
-
-    if (nearestSite && nearestSite.distance <= 35) {
-      //Actualiza el mensaje principal de estado. (id=""att-status")
-      statusEl.textContent = `Estás en el sitio "${nearestSite.name}".
-          Puedes marcar asistencia aquí.`;
-      statusEl.style.color = "#059669";
-    } else if (nearestSite) {
-      statusEl.textContent = `El sitio más cercano es "${nearestSite.name}" a
-                              ${nearestSite.distance.toFixed(1)} metros. Acércate para marcar.`;
-      setTimeout(() => navigateTo('/private/employees/dashboard'), 1000);
-      if (infoEl) {
-        infoEl.textContent = "";
-        infoEl.style.color = "#d97706";
-      }
-    } else {
-      statusEl.textContent = "No se encontró ningún sitio cercano.";
-      if (infoEl) {
-        infoEl.textContent = "";
-        infoEl.style.color = "#b00020";
-      }
-    }
-  } catch (e) {
-    statusEl.textContent = "No se pudo obtener ubicación.";
-    if (infoEl) {
-      infoEl.textContent = "";
-      infoEl.style.color = "#b00020";
-    }
-  }
-}
-
-function initAttendanceWidget() {
-  const root = document.getElementById('att-widget');
-  if (!root || root.dataset.attInit === '1') return;
-  root.dataset.attInit = '1';
-
-  const statusEl = document.getElementById('att-status');
-  const btnIn    = document.getElementById('att-in');
-  const btnOut   = document.getElementById('att-out');
-  const endpoint = root.dataset.punchEndpoint || '/api/attendance/punch';
-
-  const setStatus = (t, isError = false) => {
-    if (!statusEl) return;
-    statusEl.textContent = t;
-    statusEl.style.color = isError ? '#b00020' : '#444';
-  };
-
-  const disable = (v) => {
-    if (btnIn)  btnIn.disabled  = v;
-    if (btnOut) btnOut.disabled = v;
-  };
-
-  const isSecureCtx = () =>
-    location.protocol === 'https:' ||
-    location.hostname === 'localhost' ||
-    location.hostname === '127.0.0.1';
-
-  const getPosition = () => new Promise((resolve, reject) => {
-    if (!navigator.geolocation) return reject(new Error('Geolocalización no soportada'));
-    navigator.geolocation.getCurrentPosition(
-      (p) => resolve(p),
-      (e) => reject(new Error(e.message || 'No se pudo obtener ubicación')),
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
-    );
-  });
-
-  async function punch(kind) {
-    const action = (String(kind).toUpperCase() === 'OUT') ? 'OUT' : 'IN';
-
-    try {
-      disable(true);
-
-      if (!isSecureCtx()) {
-        setStatus('Activa HTTPS (o usa localhost) para solicitar ubicación en móviles.', true);
-        return;
-      }
-
-      setStatus('Obteniendo ubicación...');
-      const pos = await getPosition();
-
-      // Espera a que los sitios estén cargados
-      if (!attendanceSites.length) {
-        setStatus('Cargando sitios, por favor espera...', true);
-        await loadSites();
-        if (!attendanceSites.length) {
-          setStatus('No se pudo cargar la lista de sitios.', true);
-          disable(false);
-          return;
-        }
-      }
-
-      // Determina el sitio más cercano
-      const nearestSite = getNearestSite(pos.coords.latitude, pos.coords.longitude, attendanceSites);
-
-      if (!nearestSite || nearestSite.distance > 35) {
-        setStatus(`No puede marcar asistencia: está a ${nearestSite ? nearestSite.distance.toFixed(1) : 'N/A'} metros del sitio más cercano (máx 35m).`, true);
-        disable(false);
-        showSiteInfo(nearestSite);
-        return;
-      } else {
-        // Mostrar mensaje de sitio permitido
-        showSiteInfo(nearestSite);
-        setStatus(`Marcando asistencia en el sitio: ${nearestSite.name}`);
-      }
-
-      const payload = {
-        action, // "IN" | "OUT"
-        lat: pos.coords.latitude,
-        lon: pos.coords.longitude,
-        accuracy: pos.coords.accuracy,
-        siteId: nearestSite.id
-      };
-
-      setStatus('Registrando asistencia...');
-
-      // Timeout de red (20s)
-      const ac = new AbortController();
-      const t  = setTimeout(() => ac.abort('timeout'), 20000);
-
-      const res = await fetchWithAuth(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(payload),
-        signal: ac.signal,
-        credentials: 'same-origin'
-      }).finally(() => clearTimeout(t));
-
-      if (!res.ok) {
-        let reason = `Error ${res.status}`;
-        try {
-          const errJson = await res.json();
-          if (errJson?.error) reason = errJson.error + (errJson.details ? `: ${errJson.details}` : '');
-        } catch {
-          try { reason = (await res.text()) || reason; } catch {}
-        }
-        throw new Error(reason);
-      }
-
-      const out = await res.json().catch(() => ({}));
-      
-      const hora = out.ts ? new Date(out.ts).toLocaleTimeString('es-CL', { hour12: false }) : '';
-      const distancia = typeof out.distanceMeters === 'number' ? `${out.distanceMeters} metros` : '';
-      setStatus(`Marcación registrada correctamente${hora ? ' a las ' + hora : ''}${distancia ? ' a ' + distancia : ''}. ✅`);
-
-      updateAttendanceButtons();
-      setTimeout(() => navigateTo('/private/employees/dashboard'), 600);
-
-    } catch (e) {
-      setStatus('Error en marcación: ' + (e?.message || 'desconocido'), true);
-    } finally {
-      disable(false);
-    }
-  }
-
-  btnIn?.addEventListener('click', () => punch('IN'));
-  btnOut?.addEventListener('click', () => punch('OUT'));
-
-  updateAttendanceButtons();
-  showCurrentLocationOnMap();
-  showCurrentSiteStatus(); // <-- Mostrar estado al cargar el widget
-}
-
-// Auto-init al cargar y cuando tu router inserte el fragmento
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', async () => {
-    await loadSites();
-    initAttendanceWidget();
-  });
-} else {
-  loadSites().then(initAttendanceWidget);
-}
-document.addEventListener('content:loaded', async () => {
-  await loadSites();
-  initAttendanceWidget();
-});
-
-async function updateAttendanceButtons() {
-  const btnIn  = document.getElementById('att-in');
-  const btnOut = document.getElementById('att-out');
-
-  // Consulta tu API (ajusta la URL si es necesario)
-  try {
-    const res = await fetchWithAuth('/api/attendance/last-punch', { credentials: 'same-origin' });
-
-    if (!res.ok) {
-      btnIn.style.display = '';
-      btnOut.style.display = 'none';
-      return;
-    }
-
-    const lastPunch = await res.json();
-    const action = lastPunch.action ?
-    lastPunch.action.toUpperCase() : null;
-
-    if (!action || action === 'OUT') {
-      btnIn.style.display = '';
-      btnOut.style.display = 'none';
-    } else if (action === 'IN') {
-      btnIn.style.display = 'none';
-      btnOut.style.display = '';
-    }
-  } catch {
-    btnIn.style.display = '';
-    btnOut.style.display = 'none';
-  }
-}
-
-function showCurrentLocationOnMap() {
-  const mapDiv = document.getElementById('att-map');
-  if (!mapDiv) return;
-
-  // Limpia el div si ya tenía un mapa
-  if (mapDiv._google_map) {
-    mapDiv._google_map = null;
-    mapDiv.innerHTML = "";
-  }
-
-  if (!navigator.geolocation) {
-    mapDiv.innerHTML = "<div style='padding:1em;text-align:center;color:#888'>Geolocalización no soportada</div>";
-    return;
-  }
-
+const getCurrentPosition = () => new Promise((resolve, reject) => {
+  if (!navigator.geolocation) return reject(new Error('Geolocalización no soportada'));
   navigator.geolocation.getCurrentPosition(
-    (pos) => {
-      const lat = pos.coords.latitude;
-      const lon = pos.coords.longitude;
-      if (window.google && window.google.maps) {
-        const map = new google.maps.Map(mapDiv, {
-          center: { lat, lng: lon },
-          zoom: 17,
-          mapTypeId: 'roadmap',
-          disableDefaultUI: true
-        });
-        new google.maps.Marker({ position: { lat, lng: lon }, map: map });
-        mapDiv._google_map = map;
-      } else {
-        mapDiv.innerHTML = "<div style='padding:1em;text-align:center;color:#888'>Google Maps no cargado</div>";
-      }
-    },
-    (err) => {
-      mapDiv.innerHTML = `<div style='padding:1em;text-align:center;color:#b00020'>No se pudo obtener ubicación.<br>${err.message}</div>`;
-    },
-    { enableHighAccuracy: true, timeout: 10000 }
+    (p) => resolve(p),
+    (e) => reject(new Error(e.message || 'No se pudo obtener ubicación')),
+    { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
   );
-}
-
-function getDistanceMeters(lat1, lon1, lat2, lon2) {
-  // Fórmula Haversine
-  const R = 6371000; // Radio tierra en metros
-  const toRad = x => x * Math.PI / 180;
-  const dLat = toRad(lat2 - lat1);
-  const dLon = toRad(lon2 - lon1);
-  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-            Math.sin(dLon/2) * Math.sin(dLon/2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-  return R * c;
-}
-
-function showSiteInfo(nearestSite) {
-  const infoEl = document.getElementById('att-site-info');
-  if (!infoEl) return;
-
-  if (!nearestSite) {
-    infoEl.textContent = "";
-    return;
-  }
-
-  if (nearestSite.distance <= 35) {
-    infoEl.textContent = `Estás en el sitio "${nearestSite.name}". Puedes marcar asistencia aquí.`;
-    infoEl.style.color = "#059669"; // verde
-  } else {
-    infoEl.textContent = `El sitio más cercano es "${nearestSite.name}" a ${nearestSite.distance.toFixed(1)} metros. Acércate para marcar.`;
-    infoEl.style.color = "#d97706"; // amarillo
-  }
-}
+});

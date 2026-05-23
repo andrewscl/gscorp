@@ -13,6 +13,10 @@ function bindEvents() {
     qs('#attendance-card-btn')?.addEventListener('click', onClickNavigate);
 }
 
+export async function getLastPunch() {
+    const res = await fetchWithAuth('/api/attendance/last-punch');
+}
+
 (function init() {
     bindEvents();
 })();   

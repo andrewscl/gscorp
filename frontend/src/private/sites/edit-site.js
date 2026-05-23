@@ -9,7 +9,7 @@ const qs  = (s) => document.querySelector(s);
 const qa  = (s) => document.querySelectorAll(s);
 const alertSuccess = qs('.alert-success');
 const alertError = qs('.alert-error');
-const alertCancel = qs('.alert-cancel');
+const alertCancel = qs('.alert-warning');
 
 async function deleteSite () {
   const ok = window.confirm('¿Eliminar este usuario? Esta acción no se puede deshacer.');

@@ -1,0 +1,21 @@
+<div th:fragment="action-buttons(endpoint, showIn, inText, showOut, outText)" 
+     id="att-widget"
+     th:data-punch-endpoint="${endpoint}" 
+     class="attendance-actions">
+     
+    <button id="att-in" 
+            th:if="${showIn}" 
+            th:text="${inText}"
+            class="attendance-btn attendance-btn--primary" 
+            type="button">
+            Marcar entrada
+    </button>
+    
+    <button id="att-out" 
+            th:if="${showOut}" 
+            th:text="${outText}"
+            class="attendance-btn attendance-btn--secondary" 
+            type="button">
+            Marcar salida
+    </button>
+</div>

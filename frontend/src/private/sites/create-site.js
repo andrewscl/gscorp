@@ -10,7 +10,7 @@ const qs  = (s) => document.querySelector(s);
 const qa  = (s) => document.querySelectorAll(s);
 const alertSuccess = qs('.alert-success');
 const alertError = qs('.alert-error');
-const alertCancel = qs('.alert-cancel');
+const alertCancel = qs('.alert-warning');
 
 let mainMarker = null;
 
