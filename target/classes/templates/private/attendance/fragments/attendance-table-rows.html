@@ -12,12 +12,12 @@
     <td class="actions">
       <button type="button"
               class="btn-view"
-              th:attr="data-path=@{/private/attendance/show/{id}(id=${s.id})}">
+              th:attr="data-path=@{/private/attendance/show/{id}(id=${p.id})}">
               Ver
       </button>
       <button type="button"
               class="btn-edit"
-              th:attr="data-path=@{/private/attendance/edit/{id}(id=${s.id})}"
+              th:attr="data-path=@{/private/attendance/edit/{id}(id=${p.id})}"
               th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
               Editar
       </button>
