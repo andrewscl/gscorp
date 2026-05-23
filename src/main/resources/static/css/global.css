@@ -97,13 +97,6 @@ p {
   margin-bottom: 1.5rem;
 }
 
-/*
-:root {
-    --topbar-height: 3.5rem;
-    --sidebar-width: 15rem;
-    --content-horizontal-padding: 2.4rem;
-    --header-height: 0;
-}*/
 :root {
   --topbar-height: 54px; /* same as layout topbar height */
   --sidebar-width: 240px; /* same as layout sidebar width */
@@ -297,7 +290,6 @@ p {
   border-bottom: 1px solid #e2e8f0;
   color: #1e293b;
   white-space: nowrap;
-  font-size: 0.9rem;
   background: #f8fafc;
 }
 .hs-table .hs-table-container .table tbody tr {
@@ -314,86 +306,10 @@ p {
   word-break: break-word;
   overflow-wrap: anywhere;
 }
-.hs-table .hs-table-container .table tbody tr td:first-child {
-  width: 5%;
-  max-width: 6ch;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-weight: 600;
-}
-.hs-table .hs-table-container .table tbody tr td:nth-child(2), .hs-table .hs-table-container .table tbody tr td:nth-child(3) {
-  width: 22%;
-  max-width: 30ch;
-}
-.hs-table .hs-table-container .table tbody tr td:nth-child(4) {
-  width: 16%;
-  max-width: 20ch;
-}
-.hs-table .hs-table-container .table tbody tr td:nth-child(5) {
-  width: 8%;
-  max-width: 8ch;
-  text-align: center;
-}
-.hs-table .hs-table-container .table tbody tr td.actions {
-  width: 12%;
-  min-width: 120px;
-  white-space: nowrap;
-  gap: 0.4rem;
-}
-.hs-table .hs-table-container .table tbody tr td.actions .btn-view {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.4rem 0.8rem;
-  border-radius: 0.5rem;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  background-color: #cbd5e1;
-  color: #fff;
-}
-.hs-table .hs-table-container .table tbody tr td.actions .btn-view:hover {
-  background-color: rgb(175.8585365854, 191.0780487805, 209.3414634146);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(203, 213, 225, 0.4);
-}
-.hs-table .hs-table-container .table tbody tr td.actions .btn-view:active {
-  transform: translateY(0);
-}
-.hs-table .hs-table-container .table tbody tr td.actions .btn-view {
-  font-size: 0.85rem;
-}
-.hs-table .hs-table-container .table tbody tr td.actions .btn-edit {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.45rem 0.9rem;
-  border-radius: 0.5rem;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  background-color: #3b82f6;
-  color: #fff;
-}
-.hs-table .hs-table-container .table tbody tr td.actions .btn-edit:hover {
-  background-color: rgb(29.8390243902, 111.4024390244, 244.6609756098);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
-}
-.hs-table .hs-table-container .table tbody tr td.actions .btn-edit:active {
-  transform: translateY(0);
-}
-.hs-table .hs-table-container .table tbody tr td.actions .btn-edit {
-  font-size: 0.85rem;
-}
 .hs-table .hs-table-container .table tbody tr.empty td.empty {
   text-align: center;
   padding: 2rem;
   color: #6b7280;
-  font-style: italic;
   white-space: normal;
 }
 
