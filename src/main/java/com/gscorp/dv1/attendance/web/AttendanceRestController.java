@@ -15,6 +15,7 @@ import com.gscorp.dv1.sites.web.dto.SiteDto;
 import com.gscorp.dv1.users.application.UserService;
 
 import java.net.URI;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -94,6 +95,20 @@ public class AttendanceRestController {
   @ResponseBody
   public List<SiteDto> getSitesApi() {
     return siteService.getAllSites();
+  }
+
+  @GetMapping("/user-sites")
+  @ResponseBody
+  public List<SiteDto> getAllSitesByUser(
+                          Authentication authentication) {
+
+    Long userId = userService.getUserIdFromAuthentication(authentication);
+            if (userId == null) {
+              // no autenticado: redirigir al login o devolver error según tu política
+              return Collections.emptyList();
+    }
+
+    return siteService.getAllSitesByUser(userId);
   }
 
 }

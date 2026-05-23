@@ -74,6 +74,21 @@ public class SiteServiceImpl implements SiteService{
                     .toList();
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<SiteDto> getAllSitesByUser(Long userId) {
+
+        List<Long> clientIds = clientService.getClientIdsByUserId(userId);
+        if(clientIds == null || clientIds.isEmpty()) {
+            return Collections.emptyList();
+            }
+
+        return siteRepository.findByProject_Client_IdIn(clientIds)
+            .stream()
+            .map(SiteDto::fromEntity)
+            .toList();
+    }
+
     //Eliminar sitio
     @Override
     @Transactional
