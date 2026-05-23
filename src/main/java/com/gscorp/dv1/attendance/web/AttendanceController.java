@@ -108,7 +108,7 @@ public class AttendanceController {
         model.addAttribute("toDate", to);
         model.addAttribute("clientTimeZone", clientTz != null ? clientTz : zr.zoneId().getId());
         model.addAttribute("attendance", attendanceRepo.findAll());
-        return "private/attendance/views/attendance-table-view";
+        return "private/attendance/views/attendance-list";
     }
 
 
