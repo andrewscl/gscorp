@@ -5,14 +5,6 @@
 @use 'btn-mixins' as *;
 @use 'typography' as *;
 
-/*
-:root {
-    --topbar-height: #{$topbar-height};
-    --sidebar-width: #{$sidebar-width};
-    --content-horizontal-padding: #{$content-horizontal-padding};
-    --header-height: 0;
-}*/
-
 :root {
   --topbar-height: 54px;                /* same as layout topbar height */
   --sidebar-width: 240px;               /* same as layout sidebar width */
@@ -181,9 +173,7 @@
         tbody {
           tr {
             transition: background .12s ease;
-
             &:hover { background: rgba($accent-blue, 0.03); }
-
             td {
               padding: 0.65rem 0.85rem;
               border-bottom: 1px solid $border-color;
@@ -192,7 +182,6 @@
               word-break: break-word;
               overflow-wrap: anywhere;
             }
-
             td:first-child {
               width: 5%;
               max-width: 6ch;
@@ -201,11 +190,9 @@
               text-overflow: ellipsis;
               font-weight: 600;
             }
-
             td:nth-child(2), td:nth-child(3) { width: 22%; max-width: 30ch; }
             td:nth-child(4) { width: 16%; max-width: 20ch; }
             td:nth-child(5) { width: 8%; max-width: 8ch; text-align: center; }
-
             td.actions {
               width: 12%;
               min-width: 120px;
@@ -229,9 +216,7 @@
               } 
 
             }
-
           }
-
           tr.empty td.empty {
             text-align: center;
             padding: 2rem;

@@ -78,6 +78,12 @@ async function defineCurrentPosition() {
       displayAlert(alertSuccess, `Estás en el sitio "${nearestSite.name}".
                                           Puedes marcar asistencia aquí.`, 3000);
 
+      const actionWidget = qs('#att-widget');
+      if(actionWidget) {
+        actionWidget.dataset.frozenSiteId = nearestSite.id;
+        actionWidget.dataset.frozenSiteName = nearestSite.name;
+      }
+
       await syncAttendanceButtons();
 
     } else if (nearestSite) {
@@ -111,7 +117,10 @@ async function punch(kind) {
     try {
       setButtonsState(false, false);
       displayAlert(alertInfo, 'Obteniendo ubicación...', 3000);
-      const pos = await getCurrentPosition();
+      const pos = await new Promise((resolve, reject) =>
+        navigator.geolocation.getCurrentPosition(resolve, reject,
+                                    { enableHighAccuracy: true, timeout: 15000 })
+      );
       const nearestSite = getNearestSite(pos.coords.latitude, pos.coords.longitude, sitesList);
       if (!nearestSite || nearestSite.distance > MAX_DISTANCE_GEOFENCE) {
         displayAlert(alertWarning,
