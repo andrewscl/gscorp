@@ -143,7 +143,6 @@
       bottom: 1rem;
       left: calc(var(--sidebar-width) + var(--content-horizontal-padding));
       right: var(--content-horizontal-padding);
-
       .table {
         width: 100%;
         border-collapse: collapse;
@@ -151,7 +150,6 @@
         color: $primary-color;
         table-layout: auto;
         min-width: 0;
-
         thead {
           tr {
             th {
@@ -164,12 +162,10 @@
               border-bottom: 1px solid $border-color;
               color: $primary-color;
               white-space: nowrap;
-              font-size: 0.9rem;
               background: $background-color;
             }
           }
         }
-
         tbody {
           tr {
             transition: background .12s ease;
@@ -182,51 +178,15 @@
               word-break: break-word;
               overflow-wrap: anywhere;
             }
-            td:first-child {
-              width: 5%;
-              max-width: 6ch;
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              font-weight: 600;
-            }
-            td:nth-child(2), td:nth-child(3) { width: 22%; max-width: 30ch; }
-            td:nth-child(4) { width: 16%; max-width: 20ch; }
-            td:nth-child(5) { width: 8%; max-width: 8ch; text-align: center; }
-            td.actions {
-              width: 12%;
-              min-width: 120px;
-              white-space: nowrap;
-              gap: 0.4rem;
-
-              .btn-view {
-                @include btn-primary-variant(
-                  $bg-color: $secondary-color,
-                  $padding: 0.4rem 0.8rem
-                );
-                font-size: 0.85rem;
-              }
-
-              .btn-edit {
-                @include btn-primary-variant(
-                    $bg-color: $accent-blue, 
-                    $padding: 0.45rem 0.9rem
-                );
-                font-size: 0.85rem;
-              } 
-
-            }
           }
           tr.empty td.empty {
             text-align: center;
             padding: 2rem;
             color: $muted-color;
-            font-style: italic;
             white-space: normal;
           }
         }
       }
     }
-
 }
 

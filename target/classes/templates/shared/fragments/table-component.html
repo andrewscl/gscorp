@@ -1,6 +1,6 @@
 <!-- shared/components.html -->
-<div th:fragment="smart-table(title, count, filters, actions, thead, tbody)"
-        class="hs-table">
+<div th:fragment="smart-table(title, count, filters, actions, thead, tbody, cutomClass)"
+        class="hs-table" th:classappend="${customClass}">
 
     <div class="hs-table-header">
       <div class="hs-title-row">
@@ -23,8 +23,6 @@
 
     </div>
 
-
-
   <div class="hs-table-container">
     <table class="table">
       <thead>
@@ -33,7 +31,8 @@
       <tbody>
         <!-- Lógica de tabla vacía integrada -->
         <tr th:if="${count == 0}">
-          <td colspan="100%" style="text-align:center; padding: 2rem;">No hay datos disponibles</td>
+          <td colspan="100%" style="text-align:center; padding: 2rem;">
+                                          No hay datos disponibles</td>
         </tr>
         <th:block th:insert="${tbody}"></th:block>
       </tbody>
