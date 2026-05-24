@@ -1,13 +1,11 @@
 <tbody th:fragment="rows">
   <tr th:each="p : ${punchs}" th:attr="data-id=${p.id}">
 
-    <td th:text="${#temporals.format(p.ts, 'yyyy-MM-dd HH:mm')}">2025-10-07 09:00</td>
-    <td th:text="${p.siteName != null ? p.siteName : '—'}">Oficina Central</td>
-    <td th:text="${p.employeeName != null ? p.employeeName + ' ' + p.employeeFatherSurname: '—'}">
-      Juan Pérez
-    </td>
-    <td th:text="${p.action != null ? p.action : '—'}">IN</td>
-    <td th:text="${p.distanceM != null ? #numbers.formatDecimal(p.distanceM, 1, 2) : '—'} + ' mts'">12.3</td>
+    <td th:text="${#temporals.format(p.ts, 'yyyy-MM-dd HH:mm')}"></td>
+    <td th:text="${p.siteName != null ? p.siteName : '—'}"></td>
+    <td th:text="${p.employeeName != null ? p.employeeName + ' ' + p.employeeFatherSurname: '—'}"></td>
+    <td th:text="${p.action != null ? (p.action == 'IN' ? 'Entrada' : 'Salida') : '—'}"></td>
+    <td th:text="${p.distanceM != null ? #numbers.formatDecimal(p.distanceM, 1, 2) : '—'} + ' mts'"></td>
     <td class="actions">
       <button type="button"
               class="btn-view"
