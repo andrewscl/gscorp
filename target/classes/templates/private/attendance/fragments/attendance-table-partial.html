@@ -1,8 +1,8 @@
-<tbody th:fragment="partial">
+<th:block th:fragment="partial">
   <tr th:if="${punchsCount == 0}">
     <td>No hay datos disponibles</td>
   </tr>
   <th:block
         th:if="${punchsCount > 0}"
         th:replace="private/attendance/fragments/attendance-table-rows :: rows"></th:block>
-</tbody>
+</th:block>
