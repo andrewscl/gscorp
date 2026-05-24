@@ -32,9 +32,7 @@ async function searchAttendance() {
   } catch (e) {
     clientTz = '';
   }
-  const url = `/private/attendance/table-search?from=
-                ${from}&to=${to}&siteId=${siteId}&
-                action=${encodeURIComponent(actionName)}&clientTz=${clientTz}`;
+  const url = `/private/attendance/table-search?from=${from}&to=${to}&siteId=${siteId}&action=${encodeURIComponent(actionName)}&clientTz=${clientTz}`;
   try {
     const res = await fetchWithAuth(url, { credentials: 'same-origin'});
     if(!res.ok) throw new Error(`Error HTTP: ${res.status}`);
