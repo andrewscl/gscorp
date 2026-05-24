@@ -38,6 +38,7 @@ async function searchAttendance() {
     const htmlResult = await res.text();
     const   tBody = qs('.hs-table-container .table tbody');
     if(tBody){
+      tBody.innerHTML = '';
       tBody.innerHTML = htmlResult;
     }
   } catch (err) {
