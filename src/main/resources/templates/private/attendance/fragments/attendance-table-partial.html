@@ -1,7 +1,8 @@
 <tbody th:fragment="partial">
-  <tr th:if="${count == 0}">
-    <td colspan="100%" style="text-align:center; padding: 2rem;">
-                                                            No hay datos disponibles</td>
+  <tr th:if="${punchsCount == 0}">
+    <td>No hay datos disponibles</td>
   </tr>
-  <th:block th:replace="private/attendance/fragments/attendance-table-rows :: rows"></th:block>
+  <th:block
+        th:if="${punchsCount > 0}"
+        th:replace="private/attendance/fragments/attendance-table-rows :: rows"></th:block>
 </tbody>

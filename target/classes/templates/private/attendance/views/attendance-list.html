@@ -1,6 +1,6 @@
 <div th:replace="~{shared/fragments/table-component :: smart-table(
     title='Registros de asistencia',
-    count=${attendanceCount},
+    count=${punchsCount},
     filters=~{::#punchFilters},
     actions=~{::#punchActions},
     thead=~{::#punchHeader},
@@ -9,7 +9,7 @@
 )}">
 
     <th:block class="count" th:if="${punchsCount != null}"
-        th:text="${punchsCount + ' registro' + (patrolsCount == 1 ? '' : 's')}"
+        th:text="${punchsCount + ' registro' + (punchsCount == 1 ? '' : 's')}"
         aria-live="polite" aria-atomic="true">
     </th:block>
 
