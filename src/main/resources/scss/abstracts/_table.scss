@@ -61,70 +61,23 @@
         display: flex;
         justify-content: space-between;
         align-items: flex-end;
+        flex-wrap: wrap;
         gap: 0.6rem;
         width: 100%;
-
         .filter-group {
           display: flex;
           flex-direction: row;
+          flex-wrap: wrap;
+          flex-grow: 1;
           gap: 1rem;
-
-            .filter-item {
-            display: flex;
-            flex-direction: column;
-            gap: 0.2rem;
-              .filter-label {
-                @include roboto-font(0.75rem, 500);
-                color: $muted-color;
-              }
-              .filter-input {
-                width: 12rem;
-                min-width: 10rem;
-                appearance: none;
-                border: 1px solid color.scale($border-color, $lightness: 2%);
-                padding: 0.5rem 0.6rem;
-                border-radius: 8px;
-                color: $primary-color;
-                transition: border-color .12s ease, box-shadow .12s ease;
-                &:focus {
-                  outline: none;
-                  border-color: $accent-blue;
-                  box-shadow: 0 0 0 6px rgba($accent-blue, 0.06);
-                }
-                &[type="text"] {
-                  width: 18rem;
-                }
-              }
-            }
         }
-
         .actions-row{
               display: flex;
               justify-content: flex-end;
               gap: 1rem;
               padding: 1rem;
               background: transparent;
-              .btn {
-                @include roboto-font(0.85rem, 600);
-                &.btn-primary {
-                  @include btn-primary-variant (
-                        $bg-color: $accent-blue,
-                        $color: $white,
-                        $padding: 0.4rem 1rem,
-                        $border-radius: 0.4rem
-                        );
-                }
-                &.btn-secondary {
-                  @include btn-primary-variant (
-                        $bg-color: $secondary-color,
-                        $color: $white,
-                        $padding: 0.4rem 1rem,
-                        $border-radius: 0.4rem
-                        );
-                }
-              }
         }
-
       }
     }
 
