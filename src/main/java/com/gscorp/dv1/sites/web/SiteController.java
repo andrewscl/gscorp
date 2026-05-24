@@ -1,5 +1,6 @@
 package com.gscorp.dv1.sites.web;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gscorp.dv1.projects.application.ProjectService;
 import com.gscorp.dv1.sites.application.SiteService;
+import com.gscorp.dv1.users.application.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,14 +20,24 @@ public class SiteController {
 
     private final SiteService siteService;
     private final ProjectService projectService;
+    private final UserService userService;
 
     private String googleCloudApiKey = System.getenv("GOOGLE_CLOUD_API_KEY");
     private String googleMapId = System.getenv("GOOGLE_MAP_ID");
 
     @GetMapping("/table-view")
-    public String getSitesTableView(Model model) {
+    public String getSitesTableView(
+                    Model model,
+                    Authentication authentication) {
+
+        Long userId = userService.getUserIdFromAuthentication(authentication);
+                if (userId == null) {
+                // no autenticado: redirigir al login o devolver error según tu política
+                return "redirect:/login";
+        }
+
         model.addAttribute("sites",
-                                            siteService.getAllSites());
+                                            siteService.getAllSitesByUser(userId));
         model.addAttribute("projects",
                         projectService.findAllWithClientsAndEmployees());
         return "private/sites/views/sites-list";

@@ -6,7 +6,7 @@ const qs = (s) => document.querySelector(s);
 
 const alertSuccess = qs('.alert-success');
 const alertError = qs('.alert-error');
-const alertCancel = qs('.alert-cancel');
+const alertCancel = qs('.alert-warning');
 const inviteUserBtn = qs('#submit');
 
 async function onSubmitInviteUser(e) {
