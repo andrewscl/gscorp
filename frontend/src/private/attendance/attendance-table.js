@@ -252,6 +252,7 @@ function startQuickRangeButtons() {
 /* init */
 (function init() {
   try {
+    initHeaderSync();
     initTableDelegation();
     bindApplyButton();
     startQuickRangeButtons();
