@@ -122,16 +122,13 @@ public class AttendanceController {
         @RequestParam(required=false) Long siteId,
         @RequestParam(required=false) Long projectId
         ) {
-
         Long userId = userService.getUserIdFromAuthentication(authentication);
         if (userId == null) {
             return "redirect:/login";
         }
-
         // Resolve zone
         ZoneResolutionResult zr = zoneResolver.resolveZone(userId, clientTz);
         ZoneId zone = zr.zoneId();
-
         // Defaults: si no vienen parámetros, mostrar últimos 7 días (incluye hoy)
         LocalDate today = LocalDate.now(zone);
         if (to == null) {
@@ -140,7 +137,6 @@ public class AttendanceController {
         if (from == null) {
             from = to.minusDays(7);
         }
-
         // Defensive: si from > to, intercambiar o devolver vacío; aquí intercambiamos por simplicidad
         if (from.isAfter(to)) {
             log.debug("from > to en request; intercambiando valores: from={}, to={}", from, to);
@@ -148,13 +144,10 @@ public class AttendanceController {
             from = to;
             to = tmp;
         }
-
         String resolvedZoneId = zone.getId();
-
         List<AttendancePunchDto> punchs =
             attendanceService.findByUserAndDateBetween(
                 userId, from, to, resolvedZoneId, siteId, projectId, action);
-
         model.addAttribute("punchs", punchs);
         model.addAttribute("attendanceCount", punchs != null ? punchs.size() : 0);
         model.addAttribute("fromDate", from);
