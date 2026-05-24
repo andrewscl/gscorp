@@ -1,4 +1,4 @@
-<tbody th:fragment="rows">
+<th:block th:fragment="rows">
   <tr th:each="p : ${punchs}" th:attr="data-id=${p.id}">
 
     <td th:text="${#temporals.format(p.ts, 'yyyy-MM-dd HH:mm')}"></td>
@@ -26,4 +26,4 @@
       No se encontraron registros para el rango seleccionado.
     </td>
   </tr>
-</tbody>
+</th:block>

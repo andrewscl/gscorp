@@ -50,7 +50,6 @@ async function searchAttendance() {
 
 (function init () {
   bindAttendanceTable();
-
   initHeaderSync('.hs-table-header','--header-height');
 
 })();
