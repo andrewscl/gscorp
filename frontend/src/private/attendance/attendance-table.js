@@ -1,5 +1,6 @@
 import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
+import { initHeaderSync } from '../../shared/sync-header-height.js';
 
 const qs = (s, ctx = document) => ctx.querySelector(s);
 const qsa = (s, ctx = document) => Array.from(ctx.querySelectorAll(s));
