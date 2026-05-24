@@ -101,7 +101,7 @@ async function defineCurrentPosition() {
 
 async function loadSites() {
   try {
-    const res = await fetchWithAuth('/api/attendance/user-sites', { credentials: 'same-origin' });
+    const res = await fetchWithAuth('/api/sites/user-sites', { credentials: 'same-origin' });
     if (!res.ok) throw new Error(`Error cargando sitios: ${res.status}`);
     sitesList = await res.json();
   } catch (e) {

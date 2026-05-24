@@ -100,8 +100,7 @@ public class AttendanceController {
         // cantidad de registros encontrados
         int punchsCount = punchs != null ? punchs.size() : 0;
         model.addAttribute("punchsCount", punchsCount);
-
-        model.addAttribute("sites", siteService.getAllSites());
+        model.addAttribute("sites", siteService.getAllSitesByUser(userId));
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
         model.addAttribute("punchs", punchs);
         model.addAttribute("fromDate", from);

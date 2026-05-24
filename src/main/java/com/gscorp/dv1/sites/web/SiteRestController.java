@@ -1,5 +1,6 @@
 package com.gscorp.dv1.sites.web;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -151,4 +153,17 @@ public class SiteRestController {
                         .orElse(ResponseEntity.notFound().build());
         }
 
+        @GetMapping("/user-sites")
+        @ResponseBody
+        public List<SiteDto> getAllSitesByUser(
+                                Authentication authentication) {
+
+        Long userId = userService.getUserIdFromAuthentication(authentication);
+                if (userId == null) {
+                // no autenticado: redirigir al login o devolver error según tu política
+                return Collections.emptyList();
+        }
+
+        return siteService.getAllSitesByUser(userId);
+        }
 }
