@@ -7,7 +7,7 @@
       Juan Pérez
     </td>
     <td th:text="${p.action != null ? p.action : '—'}">IN</td>
-    <td th:text="${p.distanceM != null ? #numbers.formatDecimal(p.distanceM, 1, 3) : '—'} + ' mts'">12.3</td>
+    <td th:text="${p.distanceM != null ? #numbers.formatDecimal(p.distanceM, 1, 2) : '—'} + ' mts'">12.3</td>
     <td class="actions">
       <button type="button"
               class="btn-view"
