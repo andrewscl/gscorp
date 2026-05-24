@@ -49,7 +49,7 @@ async function searchAttendance() {
 
 (function init () {
   bindAttendanceTable();
-  searchAttendance();
+
   initHeaderSync('.hs-table-header','--header-height');
 
 })();

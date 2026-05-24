@@ -1,0 +1,1 @@
+import{i as t}from"../../shared/sync-header-height.js";import{n as i}from"../../navigation-handler.js";import"../../auth.js";const n=e=>document.querySelector(e),a=e=>{e.target.disabled=!0,setTimeout(()=>i("/private/sites/create",!0),1e3)};function r(){const e=n("#addSiteBtn");e&&e.addEventListener("click",a)}(function(){r(),t(".hs-table-header","--header-height")})();
