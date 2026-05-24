@@ -32,7 +32,7 @@ async function searchAttendance() {
   } catch (e) {
     clientTz = '';
   }
-  const url = `/api/attendance/table-search?from=
+  const url = `/private/attendance/table-search?from=
                 ${from}&to=${to}&siteId=${siteId}&
                 action=${encodeURIComponent(actionName)}&clientTz=${clientTz}`;
   try {
