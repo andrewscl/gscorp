@@ -252,7 +252,7 @@ function startQuickRangeButtons() {
 /* init */
 (function init() {
   try {
-    initHeaderSync();
+    initHeaderSync('.hs-table-header','--header-height');
     initTableDelegation();
     bindApplyButton();
     startQuickRangeButtons();
