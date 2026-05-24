@@ -21,7 +21,7 @@
     </td>
   </tr>
 
-  <tr th:if="${#lists.isEmpty(items)}">
+  <tr th:if="${punchsCount === 0 }">
     <td colspan="9" class="empty" style="text-align:center;color:#6b7280">
       No se encontraron registros para el rango seleccionado.
     </td>
