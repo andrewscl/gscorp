@@ -255,30 +255,23 @@ public class AttendanceServiceImpl implements AttendanceService {
             log.debug("No clientIds for user {} -> returning zero series for {}..{}", userId, fromDate, toDate);
             return Collections.emptyList();
         }
-
         ZoneResolutionResult zr = zoneResolver.resolveZone(userId, clientTz);
         ZoneId zone = zr.zoneId();
-
         // intervalo [start, end)
         OffsetDateTime start = fromDate.atStartOfDay(zone).toOffsetDateTime();
         OffsetDateTime endExclusive = toDate.plusDays(1).atStartOfDay(zone).toOffsetDateTime();
-
-
         // llamar repo que espera OffsetDateTime límites
         List<AttendancePunchProjection> rows = repo
                                                 .findByClientIdsAndDateBetween(
                                                     clientIds, start, endExclusive, siteId, projectId, normalizedAction);
-
         if (rows == null || rows.isEmpty()) {
             log.debug("Attendance search returned 0 rows for userId={} from={} to={}", userId, fromDate, toDate);
             return Collections.emptyList();
         }
         log.debug("Attendance search returned {} rows (sample ids): {}", rows.size(),
                 rows.stream().limit(6).map(r -> r.getId()).toList());
-
         // mapear proyection -> DTO final y formatear según zone
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
         return rows.stream().map(p -> {
             // Determinar la zona para formateo: preferir la que venga en la proyección (visit created)
             ZoneId displayZone = zone;
@@ -292,7 +285,6 @@ public class AttendanceServiceImpl implements AttendanceService {
                     displayZone = zone;
                 }
             }
-
             String formatted = null;
             OffsetDateTime visitOffset = p.getTs();
             if (visitOffset != null) {
@@ -324,8 +316,6 @@ public class AttendanceServiceImpl implements AttendanceService {
                 formatted
             );
         }).collect(Collectors.toList());
-
-
     }
 
 

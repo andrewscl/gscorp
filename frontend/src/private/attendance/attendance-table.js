@@ -21,10 +21,9 @@ function bindAttendanceTable() {
 }
 
 async function searchAttendance() {
-  const from = qs('#filter-from')?.value || '';
-  const to = qs('#filter-to')?.value || '';
-  const siteId = qs('#filter-dept')?.value || '';
-  const actionName = qs('#filter-name')?.value || '';
+  const from = qs('#filter-from')?.value.trim() || '';
+  const to = qs('#filter-to')?.value.trim() || '';
+  const siteId = qs('#filter-dept')?.value.trim() || '';
 
   let clientTz = '';
   try{
@@ -32,7 +31,7 @@ async function searchAttendance() {
   } catch (e) {
     clientTz = '';
   }
-  const url = `/private/attendance/table-search?from=${from}&to=${to}&siteId=${siteId}&action=${encodeURIComponent(actionName)}&clientTz=${clientTz}`;
+  const url = `/private/attendance/table-search?from=${from}&to=${to}&siteId=${siteId}&clientTz=${clientTz}`;
   try {
     const res = await fetchWithAuth(url, { credentials: 'same-origin'});
     if(!res.ok) throw new Error(`Error HTTP: ${res.status}`);
