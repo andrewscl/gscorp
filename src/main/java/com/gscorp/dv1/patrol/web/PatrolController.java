@@ -110,7 +110,6 @@ public class PatrolController {
         model.addAttribute("DayOfWeek", DayOfWeek.values());
         System.out.println("Schedules encontrados: " + patrol.schedules().size());
         return "private/patrols/views/edit-patrol-view";
-    
     }
 
     @GetMapping("/edit-map-picker/{externalId}/{siteId}")
@@ -145,5 +144,37 @@ public class PatrolController {
 
     }
 
+    @GetMapping("/view/{id}")
+    public String getViewPatrolForm (
+                    @PathVariable("id") String externalIdStr,
+                    Model model,
+                    Authentication authentication) {
+
+        Long userId = userService
+                            .getUserIdFromAuthentication(authentication);
+        if(userId == null) {
+            return "redirect:/login";
+        }
+
+        UUID externalId = UUID.fromString(externalIdStr);
+
+        List<PatrolCheckpointDto> checkpoints =
+            PatrolCheckpointService.getCheckpointsByExternalId(externalId);
+        try {
+            String checkpointsJson = objectMapper.writeValueAsString(checkpoints);
+            model.addAttribute("checkpoints", checkpointsJson);
+        } catch (JsonProcessingException e) {
+            model.addAttribute("checkpoints", "[]");
+        }
+
+        //Buscar ragistro patrol por externalId
+        PatrolDto patrol = patrolService
+                            .getPatrolByExternalId(externalIdStr);
+
+        model.addAttribute("patrol", patrol);
+        model.addAttribute("DayOfWeek", DayOfWeek.values());
+        System.out.println("Schedules encontrados: " + patrol.schedules().size());
+        return "private/patrols/views/view-patrol-view";
+    }
 
 }

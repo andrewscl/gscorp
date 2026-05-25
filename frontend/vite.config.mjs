@@ -80,6 +80,7 @@ export default defineConfig({
         'private/patrols/patrols-table': path.resolve(__dirname, './src/private/patrols/patrols-table.js'),
         'private/patrols/create-patrol': path.resolve(__dirname, './src/private/patrols/create-patrol.js'),
         'private/patrols/edit-patrol': path.resolve(__dirname, './src/private/patrols/edit-patrol.js'),
+        'private/patrols/view-patrol': path.resolve(__dirname, './src/private/patrols/view-patrol.js'),
         'private/patrols/patrol-map-picker': path.resolve(__dirname, './src/private/patrols/patrol-map-picker.js'),
         'private/dashboards/shared/attendance-card': path.resolve(__dirname, './src/private/dashboards/shared/attendance-card.js')
 

@@ -1,0 +1,1 @@
+import{n}from"../../navigation-handler.js";import"../../auth.js";const o=t=>document.querySelector(t),e=()=>{setTimeout(()=>n("/private/patrols/table-view",!0),1e3)};function i(){const t=o(".btn-secondary");t&&t.addEventListener("click",e)}(function(){i()})();
