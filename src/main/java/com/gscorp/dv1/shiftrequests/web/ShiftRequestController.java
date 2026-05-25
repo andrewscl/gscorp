@@ -56,15 +56,12 @@ public class ShiftRequestController {
 
         Long userId = userService.getUserIdFromAuthentication(authentication);
         if (userId == null) {
-            // no autenticado: redirigir al login o devolver error según tu política
             return "redirect:/login";
         }
 
-        // Resolve zone (requested clientTz takes precedence if valid; ZoneResolver handles fallbacks)
         ZoneResolutionResult zr = zoneResolver.resolveZone(userId, clientTz);
         ZoneId zone = zr.zoneId();
 
-        // Defaults: si no vienen parámetros, mostrar últimos 7 días (incluye hoy)
         LocalDate today = LocalDate.now(zone);
         if (to == null) {
             to = today;
@@ -73,7 +70,6 @@ public class ShiftRequestController {
             from = to.minusDays(7);
         }
 
-        // Defensive: si from > to, intercambiar o devolver vacío; aquí intercambiamos por simplicidad
         if (from.isAfter(to)) {
             log.debug("from > to en request; intercambiando valores: from={}, to={}", from, to);
             LocalDate tmp = from;
@@ -92,6 +88,7 @@ public class ShiftRequestController {
                                                 type);
 
         model.addAttribute("shiftRequestsCount", shiftRequests.size());
+        model.addAttribute("sites", siteService.getAllSitesByUser(userId));
         model.addAttribute("shiftRequests", shiftRequests);
         model.addAttribute("shiftRequestTypes", ShiftRequestType.values());
         model.addAttribute("fromDate", from);

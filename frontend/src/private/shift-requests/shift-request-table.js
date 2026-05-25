@@ -42,7 +42,7 @@ async function searchAttendance() {
       tBody.innerHTML = htmlResult;
     }
   } catch (err) {
-    console.error("No se pudo procesar la búsqueda de asistencias:", err);
+    console.error("No se pudo procesar la búsqueda de requerimientos de servicio:", err);
   }
 }
 
