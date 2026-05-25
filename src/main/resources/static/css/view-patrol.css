@@ -175,38 +175,30 @@ p {
   content: "—";
   color: #cbd5e1;
 }
-.view-patrol-card .panel-main .panel-body .form-row {
-  display: flex;
-  gap: 2rem;
-  width: 100%;
-}
-.view-patrol-card .panel-main .panel-body .form-row .form-group {
-  flex: 1;
-}
-.view-patrol-card .panel-main .panel-body .form-row .day-range {
+.view-patrol-card .panel-main .panel-body .day-range {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
-.view-patrol-card .panel-main .panel-body .form-row .day-range .form-group {
+.view-patrol-card .panel-main .panel-body .day-range .form-group {
   flex: none;
   max-width: 180px;
   width: 100%;
 }
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container {
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules,
+.view-patrol-card .panel-main .panel-body .checkpoints-container {
   display: flex;
   flex-direction: column;
   margin-top: 1px;
 }
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel {
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel {
   background: #f3f4f6;
   border: 1px solid ececec;
   border-radius: 8px;
 }
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel-header,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel-header {
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel-header,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -214,16 +206,16 @@ p {
   background-color: #e5e7eb;
   border-bottom: 1px solid #d1d5db;
 }
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel-header label,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel-header label {
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel-header label,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel-header label {
   font-family: "Roboto", sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
   letter-spacing: 0.02em;
   color: #374151;
 }
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel-header .btn-mini,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel-header .btn-mini {
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel-header .btn-mini,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel-header .btn-mini {
   background-color: #4e54c8;
   color: white;
   padding: 4px 8px;
@@ -233,16 +225,16 @@ p {
   cursor: pointer;
   transition: background-color 0.2s;
 }
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel-header .btn-mini:hover,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel-header .btn-mini:hover {
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel-header .btn-mini:hover,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel-header .btn-mini:hover {
   background-color: #3d3fb3;
 }
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel-header .btn-mini:active,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel-header .btn-mini:active {
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel-header .btn-mini:active,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel-header .btn-mini:active {
   background-color: #312fa4;
 }
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel-header .btn-map-picker,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel-header .btn-map-picker {
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel-header .btn-map-picker,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel-header .btn-map-picker {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -256,18 +248,18 @@ p {
   cursor: pointer;
   transition: all 0.2s ease;
 }
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel-header .btn-map-picker i,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel-header .btn-map-picker i {
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel-header .btn-map-picker i,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel-header .btn-map-picker i {
   color: #0ea5e9;
 }
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel-header .btn-map-picker:hover,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel-header .btn-map-picker:hover {
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel-header .btn-map-picker:hover,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel-header .btn-map-picker:hover {
   background-color: #e0f2fe;
   border-color: #7dd3fc;
   transform: translateY(-1px);
 }
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .checkpoint-header,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .checkpoint-header {
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .checkpoint-header,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .checkpoint-header {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -278,47 +270,47 @@ p {
   font-weight: 600;
   letter-spacing: 0.02em;
 }
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .checkpoint-header .col-coords,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .checkpoint-header .col-coords {
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .checkpoint-header .col-coords,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .checkpoint-header .col-coords {
   width: 13rem;
 }
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .checkpoint-header .col-name,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .checkpoint-header .col-name {
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .checkpoint-header .col-name,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .checkpoint-header .col-name {
   width: 10rem;
 }
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .checkpoint-header .col-number,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .checkpoint-header .col-number {
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .checkpoint-header .col-number,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .checkpoint-header .col-number {
   width: 4.5rem;
 }
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .schedules-list,
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .checkpoints-list,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .schedules-list,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .checkpoints-list {
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .schedules-list,
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .checkpoints-list,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .schedules-list,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .checkpoints-list {
   padding: 0.7rem 1rem;
   display: flex;
   flex-direction: column;
 }
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .schedules-list .schedule,
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .schedules-list .checkpoint-item,
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .checkpoints-list .schedule,
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .checkpoints-list .checkpoint-item,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .schedules-list .schedule,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .schedules-list .checkpoint-item,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .checkpoints-list .schedule,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .checkpoints-list .checkpoint-item {
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .schedules-list .schedule,
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .schedules-list .checkpoint-item,
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .checkpoints-list .schedule,
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .checkpoints-list .checkpoint-item,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .schedules-list .schedule,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .schedules-list .checkpoint-item,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .checkpoints-list .schedule,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .checkpoints-list .checkpoint-item {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 0.8rem;
 }
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .schedules-list .schedule .checkpoint-coords,
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .schedules-list .checkpoint-item .checkpoint-coords,
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .checkpoints-list .schedule .checkpoint-coords,
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .checkpoints-list .checkpoint-item .checkpoint-coords,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .schedules-list .schedule .checkpoint-coords,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .schedules-list .checkpoint-item .checkpoint-coords,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .checkpoints-list .schedule .checkpoint-coords,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .checkpoints-list .checkpoint-item .checkpoint-coords {
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .schedules-list .schedule .checkpoint-coords,
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .schedules-list .checkpoint-item .checkpoint-coords,
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .checkpoints-list .schedule .checkpoint-coords,
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .checkpoints-list .checkpoint-item .checkpoint-coords,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .schedules-list .schedule .checkpoint-coords,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .schedules-list .checkpoint-item .checkpoint-coords,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .checkpoints-list .schedule .checkpoint-coords,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .checkpoints-list .checkpoint-item .checkpoint-coords {
   display: flex;
   align-items: center;
   gap: 0.7rem;
@@ -329,14 +321,14 @@ p {
   font-weight: 500;
   letter-spacing: 0.02em;
 }
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .schedules-list .schedule input,
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .schedules-list .checkpoint-item input,
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .checkpoints-list .schedule input,
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .checkpoints-list .checkpoint-item input,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .schedules-list .schedule input,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .schedules-list .checkpoint-item input,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .checkpoints-list .schedule input,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .checkpoints-list .checkpoint-item input {
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .schedules-list .schedule input,
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .schedules-list .checkpoint-item input,
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .checkpoints-list .schedule input,
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .checkpoints-list .checkpoint-item input,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .schedules-list .schedule input,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .schedules-list .checkpoint-item input,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .checkpoints-list .schedule input,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .checkpoints-list .checkpoint-item input {
   padding: 0.7rem;
   border: 1px solid #ced4da;
   border-radius: 4px;
@@ -346,34 +338,34 @@ p {
   font-weight: 500;
   letter-spacing: 0.02em;
 }
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .schedules-list .schedule input[type=time],
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .schedules-list .checkpoint-item input[type=time],
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .checkpoints-list .schedule input[type=time],
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .checkpoints-list .checkpoint-item input[type=time],
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .schedules-list .schedule input[type=time],
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .schedules-list .checkpoint-item input[type=time],
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .checkpoints-list .schedule input[type=time],
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .checkpoints-list .checkpoint-item input[type=time] {
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .schedules-list .schedule input[type=time],
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .schedules-list .checkpoint-item input[type=time],
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .checkpoints-list .schedule input[type=time],
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .checkpoints-list .checkpoint-item input[type=time],
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .schedules-list .schedule input[type=time],
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .schedules-list .checkpoint-item input[type=time],
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .checkpoints-list .schedule input[type=time],
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .checkpoints-list .checkpoint-item input[type=time] {
   width: 6rem;
 }
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .schedules-list .schedule input::placeholder,
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .schedules-list .checkpoint-item input::placeholder,
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .checkpoints-list .schedule input::placeholder,
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .checkpoints-list .checkpoint-item input::placeholder,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .schedules-list .schedule input::placeholder,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .schedules-list .checkpoint-item input::placeholder,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .checkpoints-list .schedule input::placeholder,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .checkpoints-list .checkpoint-item input::placeholder {
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .schedules-list .schedule input::placeholder,
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .schedules-list .checkpoint-item input::placeholder,
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .checkpoints-list .schedule input::placeholder,
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .checkpoints-list .checkpoint-item input::placeholder,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .schedules-list .schedule input::placeholder,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .schedules-list .checkpoint-item input::placeholder,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .checkpoints-list .schedule input::placeholder,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .checkpoints-list .checkpoint-item input::placeholder {
   color: #adb5bd;
 }
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .schedules-list .schedule .field,
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .schedules-list .checkpoint-item .field,
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .checkpoints-list .schedule .field,
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .checkpoints-list .checkpoint-item .field,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .schedules-list .schedule .field,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .schedules-list .checkpoint-item .field,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .checkpoints-list .schedule .field,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .checkpoints-list .checkpoint-item .field {
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .schedules-list .schedule .field,
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .schedules-list .checkpoint-item .field,
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .checkpoints-list .schedule .field,
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .checkpoints-list .checkpoint-item .field,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .schedules-list .schedule .field,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .schedules-list .checkpoint-item .field,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .checkpoints-list .schedule .field,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .checkpoints-list .checkpoint-item .field {
   padding: 0.7rem;
   border: 1px solid #ced4da;
   border-radius: 4px;
@@ -383,14 +375,14 @@ p {
   font-weight: 500;
   letter-spacing: 0.02em;
 }
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .schedules-list .schedule .field.number,
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .schedules-list .checkpoint-item .field.number,
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .checkpoints-list .schedule .field.number,
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .checkpoints-list .checkpoint-item .field.number,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .schedules-list .schedule .field.number,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .schedules-list .checkpoint-item .field.number,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .checkpoints-list .schedule .field.number,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .checkpoints-list .checkpoint-item .field.number {
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .schedules-list .schedule .field.number,
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .schedules-list .checkpoint-item .field.number,
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .checkpoints-list .schedule .field.number,
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .checkpoints-list .checkpoint-item .field.number,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .schedules-list .schedule .field.number,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .schedules-list .checkpoint-item .field.number,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .checkpoints-list .schedule .field.number,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .checkpoints-list .checkpoint-item .field.number {
   background-color: transparent;
   border: none;
   width: 4.5rem;
@@ -398,19 +390,19 @@ p {
   -webkit-user-select: none;
   cursor: default;
 }
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .schedules-list .schedule .field.text,
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .schedules-list .checkpoint-item .field.text,
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .checkpoints-list .schedule .field.text,
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .checkpoints-list .checkpoint-item .field.text,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .schedules-list .schedule .field.text,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .schedules-list .checkpoint-item .field.text,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .checkpoints-list .schedule .field.text,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .checkpoints-list .checkpoint-item .field.text {
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .schedules-list .schedule .field.text,
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .schedules-list .checkpoint-item .field.text,
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .checkpoints-list .schedule .field.text,
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .checkpoints-list .checkpoint-item .field.text,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .schedules-list .schedule .field.text,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .schedules-list .checkpoint-item .field.text,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .checkpoints-list .schedule .field.text,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .checkpoints-list .checkpoint-item .field.text {
   border: none;
   width: 10rem;
 }
-.view-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .time-schedules-help,
-.view-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .time-schedules-help {
+.view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .time-schedules-help,
+.view-patrol-card .panel-main .panel-body .checkpoints-container .panel .time-schedules-help {
   padding: 5px 15px;
   font-size: 0.75rem;
   color: #4b5563;

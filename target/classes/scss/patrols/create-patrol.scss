@@ -5,12 +5,6 @@
 @use '../abstracts/fragment-mixins' as *;
 @use '../abstracts/btn-mixins' as *;
 
-$width-coords: 13rem; 
-$width-time: 6rem;
-$width-number: 4.5rem;
-$width-text: 10rem;
-$width-btn: 6rem;
-
 .hs-form{
 
     width: 90%;
