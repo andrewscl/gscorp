@@ -51,7 +51,7 @@ const startViewMap = async () => {
 
 const loadExistingCheckpoints = async () => {
     // 1. Buscamos el input oculto
-    const dataInput = document.getElementById('checkpoints-initial-data');
+    const dataInput = document.getElementById('checkpoints-data');
     if (!dataInput || !dataInput.value) {
         console.warn("No se encontraron puntos pre-cargados en el DOM.");
         return;
