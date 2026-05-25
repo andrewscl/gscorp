@@ -34,7 +34,7 @@
                 input,
                 select,
                 textarea {
-                    padding: 10px;
+                    padding: 0.4rem;
                     border: 1px solid #ced4da;
                     border-radius: 8px;
                     @include roboto-font(0.875rem, 500);
@@ -82,7 +82,7 @@
             .checkpoints-container {
                     display: flex;
                     flex-direction: column;
-                    margin-top: 1px;
+                    margin-top: 0.2rem;
                     .panel {
                         background: $cool-gray-100;
                         border: 1px solid ececec;
