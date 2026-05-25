@@ -28,6 +28,9 @@ const startViewMap = async () => {
       zoom: 10,
     });
 
+    window.mapInstance = map;
+    mapInstance = map;
+
     const response = await fetchWithAuth(`/api/sites/${id}`, {
       method: 'GET',
       headers: { 'Accept': 'application/json' },
@@ -138,8 +141,6 @@ function updatePathLine() {
         });
     }
 }
-
-
 
 function bindViewPatrol() {
     const backBtn = qs('.btn-secondary');
