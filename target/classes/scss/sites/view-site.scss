@@ -7,8 +7,8 @@
 @use '../abstracts/mixins' as *;
 
 
-$ratio-left: 1;
-$ratio-right: 1;    
+    $ratio-left: 1;
+    $ratio-right: 1;    
 
 .dual-panel-card {
     @include dual-panel-card();

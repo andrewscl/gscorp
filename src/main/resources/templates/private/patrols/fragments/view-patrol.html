@@ -26,13 +26,23 @@
           <div class="day-range">
             <div class="form-group">
               <label>Dia desde</label>
-              <span id="dayFromDisplay" class="readonly-field" th:text="${dayFrom != null ? dayFrom.getDisplayNameInSpanish : 'No seleccionado'}"></span>
-              <input type="hidden" id="dayFrom" name="dayFrom" th:value="${dayFrom?.dayNumber}">
+              <select id="dayFrom" name="dayFrom" readonly>
+                <option value="" disabled>Seleccione día</option>
+                <option th:each="day : ${DayOfWeek}"
+                        th:value="${day.dayNumber}"
+                        th:selected="${day.dayNumber == patrol.dayFrom.dayNumber}"
+                        th:text="${day.getDisplayNameInSpanish}">Día</option> 
+              </select>
             </div>
             <div class="form-group">
               <label>Dia hasta</label>
-              <span id="dayToDisplay" class="readonly-field" th:text="${dayTo != null ? dayTo.getDisplayNameInSpanish : 'No seleccionado'}"></span>
-              <input type="hidden" id="dayTo" name="dayTo" th:value="${dayTo?.dayNumber}">
+              <select id="dayTo" name="dayTo" readonly>
+                <option value="" disabled>Seleccione día</option>
+                <option th:each="day : ${DayOfWeek}"
+                        th:value="${day.dayNumber}"
+                        th:selected="${day.dayNumber == patrol.dayTo.dayNumber}"
+                        th:text="${day.getDisplayNameInSpanish}">Día</option> 
+              </select>
             </div>
           </div>
           <div class="time-patrol-schedules">
@@ -50,7 +60,7 @@
           </div>
         </div>
         </div>
-
+        
     </div>
 
     <div class="panel-aside">
