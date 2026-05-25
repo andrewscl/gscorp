@@ -160,6 +160,31 @@ p {
   letter-spacing: 0.05em;
   margin: 0;
 }
+.view-patrol-card .panel-main .panel-body .form-group input,
+.view-patrol-card .panel-main .panel-body .form-group select,
+.view-patrol-card .panel-main .panel-body .form-group textarea {
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #1f2937;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.view-patrol-card .panel-main .panel-body .form-group input::placeholder,
+.view-patrol-card .panel-main .panel-body .form-group select::placeholder,
+.view-patrol-card .panel-main .panel-body .form-group textarea::placeholder {
+  color: #adb5bd;
+}
+.view-patrol-card .panel-main .panel-body .form-group input:focus,
+.view-patrol-card .panel-main .panel-body .form-group select:focus,
+.view-patrol-card .panel-main .panel-body .form-group textarea:focus {
+  border-color: #4e54c8;
+  box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
+  outline: none;
+}
 .view-patrol-card .panel-main .panel-body .form-group .form-value {
   font-family: "Roboto", sans-serif;
   font-size: 0.95rem;
@@ -286,7 +311,7 @@ p {
 .view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .checkpoints-list,
 .view-patrol-card .panel-main .panel-body .checkpoints-container .panel .schedules-list,
 .view-patrol-card .panel-main .panel-body .checkpoints-container .panel .checkpoints-list {
-  padding: 0.7rem 1rem;
+  padding: 0.5rem 1rem;
   display: flex;
   flex-direction: column;
 }
@@ -329,7 +354,7 @@ p {
 .view-patrol-card .panel-main .panel-body .checkpoints-container .panel .schedules-list .checkpoint-item input,
 .view-patrol-card .panel-main .panel-body .checkpoints-container .panel .checkpoints-list .schedule input,
 .view-patrol-card .panel-main .panel-body .checkpoints-container .panel .checkpoints-list .checkpoint-item input {
-  padding: 0.7rem;
+  padding: 0.4rem;
   border: 1px solid #ced4da;
   border-radius: 4px;
   margin-bottom: 0.5rem;

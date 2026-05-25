@@ -31,6 +31,27 @@
                     margin: 0;
                 }
 
+                input,
+                select,
+                textarea {
+                    padding: 10px;
+                    border: 1px solid #ced4da;
+                    border-radius: 8px;
+                    @include roboto-font(0.875rem, 500);
+                    color: $cool-gray-800;
+                    transition: border-color 0.2s, box-shadow 0.2s;
+
+                    &::placeholder {
+                        color: #adb5bd;
+                    }
+
+                    &:focus {
+                        border-color: #4e54c8;
+                        box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
+                        outline: none;
+                    }
+                }
+
                 .form-value {
                     @include roboto-font(0.95rem, 400); // Fuente principal
                     color: $heading-color; // Casi negro o azul muy oscuro
@@ -140,7 +161,7 @@
 
                         .schedules-list,
                         .checkpoints-list {
-                            padding: 0.7rem 1rem;
+                            padding: 0.5rem 1rem;
                             display: flex;
                             flex-direction: column;
                             .schedule,
@@ -158,7 +179,7 @@
                                     @include roboto-font(0.875rem, 500);
                                 }
                                 input {
-                                    padding: 0.7rem;
+                                    padding: 0.4rem;
                                     border: 1px solid #ced4da;
                                     border-radius: 4px;
                                     margin-bottom: 0.5rem;
