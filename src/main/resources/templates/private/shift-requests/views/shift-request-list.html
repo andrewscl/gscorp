@@ -1,19 +1,19 @@
 <div th:replace="~{shared/fragments/table-component :: smart-table(
-    title='Registros de asistencia',
-    count=${punchsCount},
-    filters=~{::#punchFilters},
-    actions=~{::#punchActions},
-    thead=~{::#punchHeader},
-    tbody=~{private/attendance/fragments/attendance-table-rows :: rows},
-    customClass='attendance-table'
+    title='Requerimientos de Servicio',
+    count=${shiftRequestsCount},
+    filters=~{::#shiftRequestsFilters},
+    actions=~{::#shiftRequestsActions},
+    thead=~{::#shiftRequestsHeader},
+    tbody=~{private/shift-requests/fragments/shift-request-table-rows :: rows},
+    customClass='shift-request-table'
 )}">
 
-    <th:block class="count" th:if="${punchsCount != null}"
-        th:text="${punchsCount + ' registro' + (punchsCount == 1 ? '' : 's')}"
+    <th:block class="count" th:if="${shiftRequestsCount != null}"
+        th:text="${shiftRequestsCount + ' registro' + (shiftRequestsCount == 1 ? '' : 's')}"
         aria-live="polite" aria-atomic="true">
     </th:block>
 
-    <th:block id="punchFilters">
+    <th:block id="shiftRequestsFilters">
 
         <label class="filter-item">
             <span class="filter-label">Desde</span>
@@ -48,15 +48,16 @@
         </button>
     </th:block>
 
-    <tr id="punchHeader">
-        <th>Fecha</th>
-        <th>Instalación</th>
-        <th>Empleado</th>
-        <th>Evento</th>
-        <th>Distancia</th>
-        <th>Acción</th>
+    <tr id="shiftRequestsHeader">
+        <th>Id</th>
+        <th>Turno</th>
+        <th>Sitio</th>
+        <th>Tipo</th>
+        <th>Inicio</th>
+        <th>Termino</th>
+        <th>Descripción</th>
     </tr>
 
 </div>
 
-<script type="module" src="/js/private/attendance/attendance-table.js"></script>
+<script type="module" src="/js/private/shift-requests/shift-request-table.js"></script>

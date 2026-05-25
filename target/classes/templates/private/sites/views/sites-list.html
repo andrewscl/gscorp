@@ -31,8 +31,13 @@
         <button class="btn btn-secondary" id="exportCsv">
         Exportar CSV
         </button>
+
+        <button class="btn btn-primary" id="viewSitesMapBtn">
+        Ver mapa
+        </button>
         
-        <button class="btn btn-primary" id="addSiteBtn">
+        <button class="btn btn-primary" id="addSiteBtn"
+        th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
         Nuevo Sitio
         </button>
     </th:block>
