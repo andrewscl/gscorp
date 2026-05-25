@@ -99,7 +99,7 @@ public class ShiftRequestController {
         model.addAttribute("clientTimeZone"
                                             , clientTz != null ? clientTz : resolvedZoneId);
 
-        return "private/shift-requests/views/shift-request-table-view";
+        return "private/shift-requests/views/shift-request-list";
     }
 
     @GetMapping("/create")
