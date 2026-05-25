@@ -16,14 +16,12 @@
             th:text="${patrol.siteName != null ? patrol.siteName : '—'}"></span>
         </div>
 
-        <hr class="form-separator" />
-
         <div class="form-group">
             <label>Dirección</label>
             <span class="form-value" th:text="${patrol.siteName}"></span>
         </div>
-        <div class="form-row">
-          <div class="day-range">
+
+        <div class="day-range">
             <div class="form-group">
               <label>Dia desde</label>
               <select id="dayFrom" name="dayFrom" readonly>
@@ -44,8 +42,8 @@
                         th:text="${day.getDisplayNameInSpanish}">Día</option> 
               </select>
             </div>
-          </div>
-          <div class="time-patrol-schedules">
+        </div>
+        <div class="time-patrol-schedules">
               <div class="panel">
                   <div class="panel-header">
                       <label>Horarios configurados</label>
@@ -57,8 +55,8 @@
                       </div>
                   </div>
               </div>
-          </div>
         </div>
+
         </div>
         
     </div>
