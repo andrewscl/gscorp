@@ -23,13 +23,23 @@
             <span class="form-value" th:text="${patrol.siteName}"></span>
         </div>
         <div class="form-row">
+          <div class="day-range">
+            <div class="form-group">
+              <label>Dia desde</label>
+              <span id="dayFromDisplay" class="readonly-field" th:text="${dayFrom != null ? dayFrom.getDisplayNameInSpanish : 'No seleccionado'}"></span>
+              <input type="hidden" id="dayFrom" name="dayFrom" th:value="${dayFrom?.dayNumber}">
+            </div>
+            <div class="form-group">
+              <label>Dia hasta</label>
+              <span id="dayToDisplay" class="readonly-field" th:text="${dayTo != null ? dayTo.getDisplayNameInSpanish : 'No seleccionado'}"></span>
+              <input type="hidden" id="dayTo" name="dayTo" th:value="${dayTo?.dayNumber}">
+            </div>
+          </div>
           <div class="time-patrol-schedules">
               <div class="panel">
                   <div class="panel-header">
                       <label>Horarios configurados</label>
-                      <button type="button" id="addTimeScheduleBtn" class="btn-mini">+ Añadir otro horario</button>
                   </div>
-
                   <div id="patrolSchedulesList" class="schedules-list">
                       <div th:each="sch : ${patrol.schedules}" class="schedule">
                       <input type="time" name="scheduleTime[]" class="schedule-input"
