@@ -38,11 +38,11 @@
     </th:block>
 
     <th:block id="shiftRequestsActions">
-        <button class="btn btn-primary" id="searchAttendanceBtn">
+        <button class="btn btn-primary" id="searchShiftRequestsBtn">
         Buscar
         </button>
         
-        <button class="btn btn-primary" id="addAttendanceBtn"
+        <button class="btn btn-primary" id="addShiftRequestsBtn"
         th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
         Crear registro
         </button>
