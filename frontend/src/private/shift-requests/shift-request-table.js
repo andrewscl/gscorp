@@ -1,63 +1,55 @@
-(function () {
-  const elSelector = '.shift-requests-header';
-  const root = document.documentElement;
-  let rafId = null;
-  let timeoutId = null;
-  let mo = null;
+import { initHeaderSync } from "../../shared/sync-header-height";
+import { navigateTo } from "../../navigation-handler";
+import { fetchWithAuth } from "../../auth";
 
-  function setHeaderVar() {
-    const el = document.querySelector(elSelector);
-    if (!el) return;
-    // offsetHeight incluye padding y border; ajusta si necesitas margen extra
-    const h = el.offsetHeight;
-    root.style.setProperty('--shift-requests-header-height', `${h}px`);
+const qs  = (s) => document.querySelector(s);
+
+const createAttendanceRecord = (e) => {
+    e.target.disabled = true;
+    setTimeout(() => navigateTo('/private/shift-requests/create', true), 1000);
+}
+
+function bindAttendanceTable() {
+    const createAttendanceBtn = qs('#addShiftRequestsBtn');
+    if (createAttendanceBtn) {
+        createAttendanceBtn.addEventListener('click', createAttendanceRecord);
+    }
+    const searchAttendanceBtn = qs('#searchShiftRequestsBtn');
+    if (searchAttendanceBtn) {
+        searchAttendanceBtn.addEventListener('click', searchAttendance);
+    }
+}
+
+async function searchAttendance() {
+  const from = qs('#filter-from')?.value.trim() || '';
+  const to = qs('#filter-to')?.value.trim() || '';
+  const siteId = qs('#filter-dept')?.value.trim() || '';
+
+  let clientTz = '';
+  try{
+    clientTz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+  } catch (e) {
+    clientTz = '';
   }
-
-  // debounce resize using requestAnimationFrame + timeout
-  function onResize() {
-    if (rafId) cancelAnimationFrame(rafId);
-    rafId = requestAnimationFrame(() => {
-      if (timeoutId) clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        setHeaderVar();
-      }, 80);
-    });
+  const url = `/private/shift-requests/table-search?from=${from}&to=${to}&siteId=${siteId}&clientTz=${clientTz}`;
+  try {
+    const res = await fetchWithAuth(url, { credentials: 'same-origin'});
+    if(!res.ok) throw new Error(`Error HTTP: ${res.status}`);
+    const htmlResult = await res.text();
+    const   tBody = qs('.hs-table-container .table tbody');
+    if(tBody){
+      tBody.innerHTML = '';
+      tBody.innerHTML = htmlResult;
+    }
+  } catch (err) {
+    console.error("No se pudo procesar la búsqueda de asistencias:", err);
   }
+}
 
-  // Observe header for content changes (filters applied, count updates, etc.)
-  function observeHeaderMutations() {
-    const el = document.querySelector(elSelector);
-    if (!el) return;
-    // If there's an existing observer, disconnect it first
-    if (mo) mo.disconnect();
-    mo = new MutationObserver(() => {
-      // slight delay to allow layout to stabilize
-      setTimeout(setHeaderVar, 24);
-    });
-    mo.observe(el, { childList: true, subtree: true, characterData: true });
-  }
 
-  function init() {
-    setHeaderVar();
-    observeHeaderMutations();
-    window.addEventListener('resize', onResize);
-    // Recompute after fonts/images load if they can affect height
-    window.addEventListener('load', () => setTimeout(setHeaderVar, 50));
-  }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+(function init () {
+  bindAttendanceTable();
+  initHeaderSync('.hs-table-header','--header-height');
 
-  // Optional cleanup if needed in SPA/unload flows
-  // Expose a cleanup function in case fragments are removed and re-initialized
-  window.__shiftRequestsHeaderCleanup = function () {
-    try { window.removeEventListener('resize', onResize); } catch (e) {}
-    try { window.removeEventListener('load', setHeaderVar); } catch (e) {}
-    if (mo) { try { mo.disconnect(); } catch (e) {} mo = null; }
-    if (rafId) { try { cancelAnimationFrame(rafId); } catch (e) {} rafId = null; }
-    if (timeoutId) { try { clearTimeout(timeoutId); } catch (e) {} timeoutId = null; }
-  };
 })();
