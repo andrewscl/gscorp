@@ -1,5 +1,5 @@
 <section th:fragment="content">
-  <input type="hidden" id="siteId" th:value="${checkpoints-initial-data}" />
+  <input type="hidden" id="checkpoints-initial-data" th:value="${checkpoints-initial-data}" />
   <input type="hidden" id="patrolExternalId"
                         th:value="${patrol.externalId}" />
 
@@ -20,7 +20,7 @@
 
         <div class="form-group">
             <label>Dirección</label>
-            <span class="form-value" th:text="${site.address}"></span>
+            <span class="form-value" th:text="${patrol.siteName}"></span>
         </div>
         <div class="form-row">
 
