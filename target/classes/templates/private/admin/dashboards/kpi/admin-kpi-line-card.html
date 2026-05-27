@@ -1,0 +1,15 @@
+<div th:fragment="admin-kpi-line-card" id="admin-kpi-line-card" class="stats-grid">
+
+    <div class="stat-card">
+        <div class="stat-card__header">
+            <h3 class="stat-card__title">Usuarios</h3>
+            <th:block th:replace="~{shared/fragments/icons/common/clock-icons :: clock}"></th:block>
+        </div>
+        <div class="stat-card__body">
+            <p class="stat-card__value" th:text="${totalAsistencias}">1,240</p>
+            <p class="stat-card__label">Este mes</p>
+            <span class="stat-card__trend trend-up">+12% vs mes anterior</span>
+        </div>
+    </div>
+
+</div>
