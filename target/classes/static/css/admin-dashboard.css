@@ -1,48 +1,204 @@
-#dashboard-root {
-  padding: 1.5rem 1rem;
-  background: #f8fafc;
+/* Verde claro */
+/* Rojo claro */
+/* Amarillo claro */
+/* Verde oscuro */
+/* Rojo oscuro */
+/* Amarillo oscuro */
+body {
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.5;
 }
-#dashboard-root .charts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem 1.5rem;
-  margin-bottom: 2rem;
-  justify-content: flex-start;
+
+h1 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #475569;
+  line-height: 1.2;
 }
-#dashboard-root .charts .card {
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(60, 64, 67, 0.06);
-  min-width: 280px;
-  max-width: 340px;
-  width: 100%;
-  flex: 1 1 320px;
-  display: flex;
-  flex-direction: column;
-  padding: 1.3rem 1rem 1rem 1rem;
-  transition: box-shadow 0.15s;
-}
-#dashboard-root .charts .card h5 {
+
+h2 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #475569;
+  line-height: 1.2;
   margin: 0 0 1rem 0;
+}
+
+h3 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #475569;
+  line-height: 1.2;
+}
+
+h4 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #475569;
+  line-height: 1.2;
+}
+
+p {
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.5;
+  margin-bottom: 0.25rem;
+}
+
+.p1 {
+  font-family: "Roboto", sans-serif;
   font-size: 1.1rem;
-  color: #2d3748;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.55;
+  margin-bottom: 0.5rem;
+}
+
+.p2 {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+}
+
+.p3 {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.65;
+  margin-bottom: 1.5rem;
+}
+
+.ad-administrator-dashboard .stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.ad-administrator-dashboard .stats-grid .stat-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 0.875rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+.ad-administrator-dashboard .stats-grid .stat-card .stat-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  gap: 1rem;
+}
+.ad-administrator-dashboard .stats-grid .stat-card .stat-card__header .stat-card__title {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+  flex: 1;
+}
+.ad-administrator-dashboard .stats-grid .stat-card .stat-card__header .stat-card__icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0.5rem;
+  background: rgba(30, 41, 59, 0.1);
+  color: #1e293b;
+  border-radius: 0.5rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.ad-administrator-dashboard .stats-grid .stat-card .stat-card__header .stat-card__icon svg {
+  width: 100%;
+  height: 100%;
+  stroke-width: 2;
+}
+.ad-administrator-dashboard .stats-grid .stat-card .stat-card__body {
+  position: relative;
+  z-index: 1;
+}
+.ad-administrator-dashboard .stats-grid .stat-card .stat-card__body .stat-card__value {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2rem;
   font-weight: 700;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.02em;
+  color: #334155;
+  margin: 0.5rem 0;
+  line-height: 1.2;
 }
-#dashboard-root .charts .card > div[id^=chart-] {
-  flex: 1 0 230px;
-  height: 260px !important;
-}
-#dashboard-root .charts .card:hover {
-  box-shadow: 0 4px 18px rgba(60, 64, 67, 0.13);
-}
-@media (max-width: 900px) {
-  #dashboard-root .charts {
-    gap: 1.5rem 0;
-    flex-direction: column;
-    align-items: stretch;
+@media (max-width: 1024px) {
+  .ad-administrator-dashboard .stats-grid .stat-card .stat-card__body .stat-card__value {
+    font-size: 1.75rem;
   }
-  #dashboard-root .charts .card {
-    max-width: 100%;
+}
+@media (max-width: 640px) {
+  .ad-administrator-dashboard .stats-grid .stat-card .stat-card__body .stat-card__value {
+    font-size: 1.5rem;
+  }
+}
+.ad-administrator-dashboard .stats-grid .stat-card .stat-card__body .stat-card__label {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #94a3b8;
+  margin: 0.5rem 0 1rem 0;
+}
+.ad-administrator-dashboard .stats-grid .stat-card:hover {
+  border-color: #1e293b;
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.1);
+  transform: translateY(-4px);
+}
+.ad-administrator-dashboard .stats-grid .stat-card:hover .stat-card__icon {
+  transform: scale(1.1) rotate(5deg);
+}
+.ad-administrator-dashboard .stats-grid .stat-card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+.ad-administrator-dashboard .stats-grid .stat-card:hover::before {
+  top: -30%;
+  right: -30%;
+}
+@media (max-width: 768px) {
+  .ad-administrator-dashboard .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 }/*# sourceMappingURL=admin-dashboard.css.map */

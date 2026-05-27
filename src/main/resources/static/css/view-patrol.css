@@ -19,7 +19,7 @@ h1 {
   font-size: 2.5rem;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: #1e293b;
+  color: #475569;
   line-height: 1.2;
 }
 
@@ -28,7 +28,7 @@ h2 {
   font-size: 2rem;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: #1e293b;
+  color: #475569;
   line-height: 1.2;
   margin: 0 0 1rem 0;
 }
@@ -38,7 +38,7 @@ h3 {
   font-size: 1.5rem;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: #1e293b;
+  color: #475569;
   line-height: 1.2;
 }
 
@@ -47,7 +47,7 @@ h4 {
   font-size: 1.25rem;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: #1e293b;
+  color: #475569;
   line-height: 1.2;
 }
 
@@ -138,7 +138,7 @@ p {
   font-weight: 700;
   letter-spacing: 0.02em;
   letter-spacing: -0.02em;
-  color: #1e293b;
+  color: #475569;
 }
 .view-patrol-card .panel-main .panel-body {
   display: flex;
@@ -190,7 +190,7 @@ p {
   font-size: 0.95rem;
   font-weight: 400;
   letter-spacing: 0.02em;
-  color: #1e293b;
+  color: #475569;
   line-height: 1.4;
   border: 0.1rem solid #e2e8f0;
   padding: 0.4rem 0.75rem;

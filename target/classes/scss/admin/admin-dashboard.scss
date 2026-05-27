@@ -1,4 +1,4 @@
-@use '../abstracts/dashboards/kpi-cards';
+@use '../abstracts/dashboards/kpi-cards' as * ;
 
 .ad-administrator-dashboard {
   @include kpi-cards ();

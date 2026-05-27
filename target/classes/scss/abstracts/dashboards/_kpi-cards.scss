@@ -1,3 +1,9 @@
+@use "sass:color";
+@use '../palette' as *;
+@use '../variables' as *;
+@use '../mixins' as *;
+@use '../typography' as *;
+
 @mixin kpi-cards (){
 
     .stats-grid {
@@ -7,8 +13,8 @@
     margin-bottom: 2rem;
 
         .stat-card {
-        background: linear-gradient(135deg, #ffffff 0%, $gray-50 100%);
-        border: 1px solid $gray-200;
+        background: linear-gradient(135deg, #ffffff 0%, $slate-50 100%);
+        border: 1px solid $border-color;
         border-radius: 0.875rem;
         padding: 1.5rem;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
@@ -24,9 +30,8 @@
             gap: 1rem;
                 // Card Title
                 .stat-card__title {
-                font-size: 0.875rem;
-                font-weight: 600;
-                color: $gray-600;
+                @include montserrat-font(0.875rem, 600);
+                color: $heading-color;
                 text-transform: uppercase;
                 letter-spacing: 0.5px;
                 margin: 0;
@@ -59,9 +64,8 @@
             z-index: 1;
                 // Card Value
                 .stat-card__value {
-                    font-size: 2rem;
-                    font-weight: 700;
-                    color: $gray-900;
+                    @include montserrat-font(2rem, 700);
+                    color: $input-text-color;
                     margin: 0.5rem 0;
                     line-height: 1.2;
                     @media (max-width: 1024px) {
@@ -73,10 +77,9 @@
                 }
                 // Card Label
                 .stat-card__label {
-                    font-size: 0.875rem;
-                    color: $gray-600;
+                    @include montserrat-font(0.875rem, 500);
+                    color: $label-text-color;
                     margin: 0.5rem 0 1rem 0;
-                    font-weight: 500;
                 }
 
             }
