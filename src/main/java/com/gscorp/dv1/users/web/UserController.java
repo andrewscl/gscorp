@@ -15,6 +15,7 @@ import com.gscorp.dv1.clients.application.ClientService;
 import com.gscorp.dv1.clients.web.dto.ClientSelectDto;
 import com.gscorp.dv1.employees.application.EmployeeService;
 import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
+import com.gscorp.dv1.enums.UserStatus;
 import com.gscorp.dv1.roles.application.RoleService;
 import com.gscorp.dv1.roles.web.dto.RoleSelectDto;
 import com.gscorp.dv1.users.application.UserService;
@@ -47,19 +48,18 @@ public class UserController {
             // no autenticado: redirigir al login o devolver error según tu política
             return "redirect:/login";
         }
-
         // Normalizar page/size (Spring Data usa 0-based)
         int safePage = Math.max(0, page);
         int safeSize = Math.min(Math.max(5, size), 200); // límites: min 5, max 200
-
         // Normalizar q
         String safeQ = (q == null || q.trim().isEmpty()) ? null : q.trim();
-
         Page<UserTableDto> usersPage =
                 userService.getUserTable(safeQ, safePage, safeSize);
+        
 
         model.addAttribute("usersPage", usersPage);
         model.addAttribute("qVar", safeQ);
+        model.addAttribute("userStatus", UserStatus.values());
 
         return "private/users/views/users-list";
     }
@@ -73,8 +73,6 @@ public class UserController {
         return "private/users/views/invite-user-view";
     }
 
-
-
     @GetMapping("/show/{id}")
     public String showUser(@PathVariable Long id, Model model){
         UserViewDto userDto = userService.findWithRolesAndClientsById(id);
@@ -87,8 +85,6 @@ public class UserController {
         model.addAttribute("employees", employees);
         return "private/users/views/view-user-view";
     }
-
-
 
     @GetMapping("/edit/{id}")
     public String editUser(@PathVariable Long id, Model model){
