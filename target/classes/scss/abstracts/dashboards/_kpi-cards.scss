@@ -80,6 +80,54 @@
                     color: $label-text-color;
                     margin: 0.5rem 0 1rem 0;
                 }
+                // Card Trend
+                .stat-card__trend {
+                @include montserrat-font(0.8rem, 500);
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.375rem 0.75rem;
+                border-radius: 0.375rem;
+                transition: all 0.3s ease;
+                // Trend Up (Green)
+                &.trend-up {
+                    background: rgba($accent-green, 0.1);
+                    color: $accent-green;
+
+                    &::before {
+                    content: '↑';
+                    font-weight: bold;
+                    }
+                }
+                // Trend Down (Red)
+                &.trend-down {
+                    background: rgba($accent-red, 0.1);
+                    color: $accent-red;
+
+                    &::before {
+                    content: '↓';
+                    font-weight: bold;
+                    }
+                }
+                // Trend Neutral (Gray)
+                &.trend-neutral {
+                    background: rgba($slate-300, 0.2);
+                    color: $slate-300;
+
+                    &::before {
+                    content: '→';
+                    font-weight: bold;
+                    }
+                }
+                &.trend-warning {
+                    background: rgba($alert-error-dark, 0.1);
+                    color: $alert-error-dark;
+
+                    &::before {
+                    content: '⚠';
+                    }
+                }
+                }
 
             }
 
