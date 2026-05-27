@@ -13,7 +13,7 @@ public class UIChromeController {
     public String sidebar(Authentication auth) {
 
         if (has(auth,"ROLE_ADMINISTRATOR"))
-            return "private/admin/fragments/admin-menu-fragment :: sidebar";
+            return "private/admin/navigation/admin-menu-fragment :: sidebar";
 
         if (has(auth,"ROLE_ANALYST"))
             return "private/analyst/fragments/analyst-menu-fragment :: sidebar";
@@ -40,7 +40,7 @@ public class UIChromeController {
     public String topbar(Authentication auth) {
 
         if (has(auth,"ROLE_ADMINISTRATOR"))
-            return "private/admin/fragments/admin-menu-fragment :: topbar";
+            return "private/admin/navigation/admin-menu-fragment :: topbar";
 
         if (has(auth,"ROLE_ANALYST"))
             return "private/analyst/fragments/analyst-menu-fragment :: topbar";
