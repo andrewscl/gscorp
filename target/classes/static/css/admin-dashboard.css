@@ -142,6 +142,13 @@ p {
   height: 100%;
   stroke-width: 2;
 }
+@media (max-width: 480px) {
+  .ad-administrator-dashboard .stats-grid .stat-card .stat-card__header .stat-card__icon {
+    width: 2rem;
+    height: 2rem;
+    padding: 0.375rem;
+  }
+}
 .ad-administrator-dashboard .stats-grid .stat-card .stat-card__body {
   position: relative;
   z-index: 1;
@@ -163,6 +170,11 @@ p {
 @media (max-width: 640px) {
   .ad-administrator-dashboard .stats-grid .stat-card .stat-card__body .stat-card__value {
     font-size: 1.5rem;
+  }
+}
+@media (max-width: 480px) {
+  .ad-administrator-dashboard .stats-grid .stat-card .stat-card__body .stat-card__value {
+    font-size: 1.2rem;
   }
 }
 .ad-administrator-dashboard .stats-grid .stat-card .stat-card__body .stat-card__label {
@@ -240,8 +252,26 @@ p {
   right: -30%;
 }
 @media (max-width: 768px) {
+  .ad-administrator-dashboard .stats-grid .stat-card {
+    padding: 1.25rem;
+  }
+  .ad-administrator-dashboard .stats-grid .stat-card .stat-card__header {
+    margin-bottom: 1rem;
+  }
+}
+@media (max-width: 480px) {
+  .ad-administrator-dashboard .stats-grid .stat-card {
+    padding: 1rem;
+  }
+}
+@media (max-width: 768px) {
   .ad-administrator-dashboard .stats-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
+  }
+}
+@media (max-width: 480px) {
+  .ad-administrator-dashboard .stats-grid {
+    gap: 0.75rem;
   }
 }/*# sourceMappingURL=admin-dashboard.css.map */
