@@ -115,11 +115,10 @@ p {
 }
 .ad-administrator-dashboard .stats-grid .stat-card .stat-card__header .stat-card__title {
   font-family: "Montserrat", sans-serif;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   color: #475569;
-  text-transform: uppercase;
   letter-spacing: 0.5px;
   margin: 0;
   flex: 1;
@@ -201,4 +200,4 @@ p {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-}/*# sourceMappingURL=admin-dashboard.css.map *//
+}/*# sourceMappingURL=admin-dashboard.css.map */gURL=admin-dashboard.css.map */
