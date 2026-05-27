@@ -141,7 +141,7 @@ p {
   width: 100%;
   height: 100%;
   stroke-width: 2;
-  stroke: #1e293b;
+  stroke: inherit;
 }
 @media (max-width: 480px) {
   .ad-administrator-dashboard .stats-grid .stat-card .stat-card__header .stat-card__icon {
