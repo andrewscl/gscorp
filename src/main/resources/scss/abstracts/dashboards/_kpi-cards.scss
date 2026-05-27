@@ -30,7 +30,7 @@
             gap: 1rem;
                 // Card Title
                 .stat-card__title {
-                @include montserrat-font(0.8rem, 600);
+                @include montserrat-font(0.825rem, 600);
                 color: $heading-color;
                 letter-spacing: 0.5px;
                 margin: 0;
@@ -76,7 +76,7 @@
                 }
                 // Card Label
                 .stat-card__label {
-                    @include montserrat-font(0.875rem, 500);
+                    @include montserrat-font(0.8rem, 500);
                     color: $label-text-color;
                     margin: 0.5rem 0 1rem 0;
                 }

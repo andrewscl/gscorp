@@ -115,7 +115,7 @@ p {
 }
 .ad-administrator-dashboard .stats-grid .stat-card .stat-card__header .stat-card__title {
   font-family: "Montserrat", sans-serif;
-  font-size: 0.8rem;
+  font-size: 0.825rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   color: #475569;
@@ -166,7 +166,7 @@ p {
 }
 .ad-administrator-dashboard .stats-grid .stat-card .stat-card__body .stat-card__label {
   font-family: "Montserrat", sans-serif;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   font-weight: 500;
   letter-spacing: 0.02em;
   color: #94a3b8;
@@ -200,4 +200,4 @@ p {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-}/*# sourceMappingURL=admin-dashboard.css.map */gURL=admin-dashboard.css.map */
+}/*# sourceMappingURL=admin-dashboard.css.map */
