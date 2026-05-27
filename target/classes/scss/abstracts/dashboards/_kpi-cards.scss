@@ -48,8 +48,8 @@
                     justify-content: center;
                     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                     svg {
-                        width: 100%;
-                        height: 100%;
+                        width: 1.5rem;
+                        height: 1.5rem;
                         path {
                             stroke: $primary-color;
                         }
