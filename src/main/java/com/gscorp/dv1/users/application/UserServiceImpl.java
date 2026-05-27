@@ -6,6 +6,7 @@ import java.time.ZoneId;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -563,6 +564,18 @@ public class UserServiceImpl implements UserService{
 
         return projections.map(UserTableDto::fromProjection);
 
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Map<String, Long> getUsersStatistics () {
+        return Map.of(
+            "invitedUsers", userRepo.countByStatus(UserStatus.INVITED),            
+            "activeUsers", userRepo.countByStatus(UserStatus.ACTIVE),
+            "inactiveUsers", userRepo.countByStatus(UserStatus.INACTIVE),
+            "expiredUsers", userRepo.countByStatus(UserStatus.EXPIRED),
+            "suspendedUsers", userRepo.countByStatus(UserStatus.SUSPENDED)
+        );
     }
 
 }

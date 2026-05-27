@@ -11,6 +11,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.gscorp.dv1.enums.UserStatus;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{
     Optional<User> findByUsername(@Param("username") String username);
@@ -64,6 +66,8 @@ public interface UserRepository extends JpaRepository<User, Long>{
         @Param("q") String q,
         Pageable pageable
     );
+
+    Long countByStatus (UserStatus status);
 
     
 
