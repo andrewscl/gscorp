@@ -1,15 +1,72 @@
 <div th:fragment="admin-kpi-line-card" id="admin-kpi-line-card" class="stats-grid">
 
-    <div class="stat-card">
-        <div class="stat-card__header">
-            <h3 class="stat-card__title">Usuarios</h3>
-            <th:block th:replace="~{shared/fragments/icons/common/clock-icons :: clock}"></th:block>
+    <div class="stats-grid">
+    
+        <!-- Usuarios Invitados -->
+        <div class="stat-card">
+            <div class="stat-card__header">
+                <h3 class="stat-card__title">Usuarios Invitados</h3>
+                <div th:replace="~{shared/fragments/icons/analytics/users-icons :: users}"></div>
+            </div>
+            <div class="stat-card__body">
+                <p class="stat-card__value" th:text="${usuariosInvitados}">24</p>
+                <p class="stat-card__label">Pendiente de registro</p>
+                <span class="stat-card__trend trend-neutral">Sin cambios</span>
+            </div>
         </div>
-        <div class="stat-card__body">
-            <p class="stat-card__value" th:text="${totalAsistencias}">1,240</p>
-            <p class="stat-card__label">Este mes</p>
-            <span class="stat-card__trend trend-up">+12% vs mes anterior</span>
+
+        <!-- Usuarios Activos -->
+        <div class="stat-card">
+            <div class="stat-card__header">
+                <h3 class="stat-card__title">Usuarios Activos</h3>
+                <div th:replace="~{shared/fragments/icons/analytics/users-icons :: users}"></div>
+            </div>
+            <div class="stat-card__body">
+                <p class="stat-card__value" th:text="${usuariosActivos}">856</p>
+                <p class="stat-card__label">Conectados</p>
+                <span class="stat-card__trend trend-up">+12% vs mes anterior</span>
+            </div>
         </div>
+
+        <!-- Usuarios Inactivos -->
+        <div class="stat-card">
+            <div class="stat-card__header">
+                <h3 class="stat-card__title">Usuarios Inactivos</h3>
+                <div th:replace="~{shared/fragments/icons/analytics/users-icons :: users}"></div>
+            </div>
+            <div class="stat-card__body">
+                <p class="stat-card__value" th:text="${usuariosInactivos}">384</p>
+                <p class="stat-card__label">Sin actividad reciente</p>
+                <span class="stat-card__trend trend-down">-5% vs mes anterior</span>
+            </div>
+        </div>
+
+        <!-- Usuarios Expirados -->
+        <div class="stat-card">
+            <div class="stat-card__header">
+                <h3 class="stat-card__title">Usuarios Expirados</h3>
+                <div th:replace="~{shared/fragments/icons/status/alert-icons :: alert}"></div>
+            </div>
+            <div class="stat-card__body">
+                <p class="stat-card__value" th:text="${usuariosExpirados}">45</p>
+                <p class="stat-card__label">Requieren renovación</p>
+                <span class="stat-card__trend trend-warning">Acción requerida</span>
+            </div>
+        </div>
+
+        <!-- Usuarios Suspendidos -->
+        <div class="stat-card">
+            <div class="stat-card__header">
+                <h3 class="stat-card__title">Usuarios Suspendidos</h3>
+                <div th:replace="~{shared/fragments/icons/status/alert-icons :: alert}"></div>
+            </div>
+            <div class="stat-card__body">
+                <p class="stat-card__value" th:text="${usuariosSuspendidos}">12</p>
+                <p class="stat-card__label">Cuenta suspendida</p>
+                <span class="stat-card__trend trend-down">Acceso bloqueado</span>
+            </div>
+        </div>
+
     </div>
 
 </div>
