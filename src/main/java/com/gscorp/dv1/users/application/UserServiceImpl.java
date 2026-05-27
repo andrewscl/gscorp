@@ -540,7 +540,7 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional(readOnly = true)
     public Page<UserTableDto> getUserTable(
-            String q, int page, int size
+            String q, UserStatus status, int page, int size
     ){
 
         // Normalizar page/size (Spring Data usa 0-based)
@@ -553,14 +553,7 @@ public class UserServiceImpl implements UserService{
         PageRequest pg = PageRequest.of(safePage, safeSize);
 
         Page<UserTableProjection> projections =
-                userRepo.findTableRows(safeQ, pg);
-
-        // Evitar búsqueda si la query es nula/vacía
-        if (safeQ == null) {
-            projections = userRepo.findTableRows("", pg);
-        } else {
-            projections = userRepo.findTableRows(safeQ, pg);
-        }
+                userRepo.findTableRows(safeQ, status, pg);
 
         return projections.map(UserTableDto::fromProjection);
 

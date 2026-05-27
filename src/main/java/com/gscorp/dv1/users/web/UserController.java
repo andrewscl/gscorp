@@ -54,7 +54,7 @@ public class UserController {
         // Normalizar q
         String safeQ = (q == null || q.trim().isEmpty()) ? null : q.trim();
         Page<UserTableDto> usersPage =
-                userService.getUserTable(safeQ, safePage, safeSize);
+                userService.getUserTable(safeQ, null, safePage, safeSize);
         
 
         model.addAttribute("usersPage", usersPage);
@@ -101,6 +101,28 @@ public class UserController {
         return "private/users/views/edit-user-view";
     }
 
+    @GetMapping("/table-search")
+    public String getUserTableSearch(
+        Model model,
+        Authentication authentication,
+        @RequestParam(required = false) String q,
+        @RequestParam(required = false) UserStatus status,
+        @RequestParam(required = false, defaultValue = "0") int page,
+        @RequestParam(required = false, defaultValue = "100") int size){
+
+        Long userId = userService.getUserIdFromAuthentication(authentication);
+        if (userId == null) {
+            return "redirect:/login";
+        }
+
+        Page<UserTableDto> usersPage =
+                userService.getUserTable(q, status, page, size);
+
+        model.addAttribute("usersPage", usersPage);
+        model.addAttribute("qVar", (q == null) ? "" : q.trim());
+
+        return "private/users/fragments/users-table-partial :: partial";
+    }
 
 
 }
