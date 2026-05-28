@@ -197,6 +197,33 @@ p {
 .hs-table .hs-table-header .hs-filters-actions-row .filter-group .filter-item .filter-input[type=text] {
   width: 18rem;
 }
+.hs-table .hs-table-header .hs-filters-actions-row .filter-group .btn {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.hs-table .hs-table-header .hs-filters-actions-row .filter-group .btn.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 1rem;
+  border-radius: 0.4rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  background-color: #f1f5f9;
+  color: #ffffff;
+}
+.hs-table .hs-table-header .hs-filters-actions-row .filter-group .btn.btn-primary:hover {
+  background-color: rgb(206.7, 220.5, 234.3);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(241, 245, 249, 0.4);
+}
+.hs-table .hs-table-header .hs-filters-actions-row .filter-group .btn.btn-primary:active {
+  transform: translateY(0);
+}
 .hs-table .hs-table-header .actions-row {
   display: flex;
   justify-content: flex-end;

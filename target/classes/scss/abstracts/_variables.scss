@@ -68,3 +68,11 @@ $alert-success-border: #a4e5aa;
 $alert-error-border: #f5b3b3;
 $alert-cancel-border: #ffeeba;
 
+// En tu archivo de variables, abajo de tus colores generales:
+$btn-search-bg: $slate-100;              // Gris azulado muy suave, no compite con el $slate-800 primario
+$btn-search-border: $slate-200;          // Coincide con tu $border-color base
+$btn-search-text: $slate-700;            // Texto e icono legible pero no completamente negro
+$btn-search-hover-bg: $slate-200;        // Se oscurece sutilmente en hover
+$btn-search-hover-border: $slate-300;    // El borde se define mejor en hover
+$btn-search-hover-text: $slate-900;      // El texto gana fuerza al interactuar
+

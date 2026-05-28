@@ -96,6 +96,17 @@
               }
             }
           }
+          .btn {
+            @include roboto-font(0.85rem, 600);
+            &.btn-primary {
+              @include btn-primary-variant (
+              $bg-color: $btn-search-bg,
+              $color: $white,
+              $padding: 0.4rem 1rem,
+              $border-radius: 0.4rem
+              );
+            }
+          }
         }
       }
       .actions-row{
