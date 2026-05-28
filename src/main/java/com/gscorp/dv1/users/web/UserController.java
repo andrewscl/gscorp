@@ -52,6 +52,7 @@ public class UserController {
 
         model.addAttribute("usersPage", usersPage);
         model.addAttribute("userStatus", UserStatus.values());
+        model.addAttribute("usersCount",usersPage.getTotalElements());
 
         return "private/users/views/users-list";
     }
