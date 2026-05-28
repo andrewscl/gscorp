@@ -7,7 +7,6 @@
             </div>
             <div class="stat-card__body">
                 <p class="stat-card__value" th:text="${invitedUsers}">24</p>
-                <p class="stat-card__label">Pendiente de registro</p>
                 <span class="stat-card__trend trend-neutral">Sin cambios</span>
             </div>
         </div>
@@ -20,7 +19,6 @@
             </div>
             <div class="stat-card__body">
                 <p class="stat-card__value" th:text="${activeUsers}">856</p>
-                <p class="stat-card__label">Conectados</p>
                 <span class="stat-card__trend trend-up">+12% vs mes anterior</span>
             </div>
         </div>
@@ -33,7 +31,6 @@
             </div>
             <div class="stat-card__body">
                 <p class="stat-card__value" th:text="${inactiveUsers}">384</p>
-                <p class="stat-card__label">Sin actividad reciente</p>
                 <span class="stat-card__trend trend-down">-5% vs mes anterior</span>
             </div>
         </div>
@@ -46,7 +43,6 @@
             </div>
             <div class="stat-card__body">
                 <p class="stat-card__value" th:text="${expiredUsers}">45</p>
-                <p class="stat-card__label">Requieren renovación</p>
                 <span class="stat-card__trend trend-warning">Acción requerida</span>
             </div>
         </div>
@@ -59,7 +55,6 @@
             </div>
             <div class="stat-card__body">
                 <p class="stat-card__value" th:text="${suspendedUsers}">12</p>
-                <p class="stat-card__label">Cuenta suspendida</p>
                 <span class="stat-card__trend trend-down">Acceso bloqueado</span>
             </div>
         </div>
