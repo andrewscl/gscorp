@@ -42,7 +42,7 @@ async function searchUser(){
         }
 
         const hiddenCountInput = qs('#sync-users-count');
-        const headerCountSpan = qs('#count');
+        const headerCountSpan = qs('.count');
 
         if(hiddenCountInput && headerCountSpan){
             const newCount = parseInt(hiddenCountInput.value, 10) || 0;
