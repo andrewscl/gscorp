@@ -12,23 +12,23 @@
         <div class="filter-item">
             <span class="filter-label">Estado</span>
             <select id="filter-user-status" class="filter-input" name="userStatus" required>
-                <option value="">Todos los usuarios</option>
+                <option value="">Todos los estados</option>
                 <option th:each="us : ${userStatus}"
                         th:value="${us.name()}"
                         th:text="${us.displayName}"></option>
             </select>
         </div>
         <div class="filter-item">
-            <span class="filter-label">Usuario</span>
-            <input id="filter-user-name" class="filter-input" type="text"
-                        placeholder="Buscar usuario..."/>
+            <span class="filter-label">Busqueda</span>
+            <input id="filter-q" class="filter-input" type="text"
+                        placeholder="Buscar usuario o email..."/>
         </div>
-    </th:block>
-
-    <th:block id="userActions">
         <button class="btn btn-primary" id="searchUserBtn">
         Buscar
         </button>
+    </th:block>
+
+    <th:block id="userActions">
         <button class="btn btn-primary" id="inviteUserBtn"
             th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
         Invitar Usuario

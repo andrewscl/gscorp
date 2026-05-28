@@ -15,10 +15,10 @@ const createUser = (e) => {
 }
 
 async function searchUser(){
-    const queryText = qs('#filter-user-name')?.value.trim() || '';
+    const queryText = qs('#filter-q')?.value.trim() || '';
     const status = qs('#filter-user-status')?.value.trim() || '';
 
-    const params = new urlSearchParams();
+    const params = new URLSearchParams();
 
     if (queryText) params.append('q', queryText);
     if (status) params.append('status', status);
@@ -28,20 +28,22 @@ async function searchUser(){
     params.append('size', '100');
 
     //ensamblar url
-    const baseUrl = '/private/attendance/table-search';
+    const baseUrl = '/private/users/table-search';
     const url = params.toString() ? `${baseUrl}?${params.toString()}` : baseUrl;
 
     try {
         const res = await fetchWithAuth(url, { credentials: 'same-origin'});
         if(!res.ok) throw new Error(`Error HTTP: ${res.status}`);
+
         const htmlResult = await res.text();
+
         const tBody = qs('.hs-table-container .table tbody')
         if(tBody){
             tBody.innerHTML = '';
             tBody.innerHTML = htmlResult;
         }
     } catch (err) {
-        console.error("No se pudo procesar la búsqueda de asistencias:", err);
+        console.error("No se pudo procesar la búsqueda de usuarios:", err);
     }
 }
 

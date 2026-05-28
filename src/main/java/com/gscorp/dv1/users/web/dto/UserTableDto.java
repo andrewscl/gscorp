@@ -1,6 +1,7 @@
 package com.gscorp.dv1.users.web.dto;
 
 import com.gscorp.dv1.enums.UserStatus;
+import com.gscorp.dv1.users.infrastructure.User;
 import com.gscorp.dv1.users.infrastructure.UserTableProjection;
 
 public record UserTableDto (
@@ -16,9 +17,7 @@ public record UserTableDto (
 ){
 
     public static UserTableDto fromProjection (UserTableProjection p) {
-
         if (p == null) return null;
-
         return new UserTableDto(
             p.getId(),
             p.getUsername(),
@@ -27,6 +26,19 @@ public record UserTableDto (
             p.getActive(),
             p.getStatus(),
             p.getEmployeeId()
+        );
+    }
+
+    public static UserTableDto fromEntity (User user){
+        if (user == null) return null;
+        return new UserTableDto(
+            user.getId(),
+            user.getUsername(),
+            user.getMail(),
+            user.getPhone(),
+            user.getActive(),
+            user.getStatus(),
+            user.getEmployee() != null ? user.getEmployee().getId() : null
         );
     }
 

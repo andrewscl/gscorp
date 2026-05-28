@@ -93,12 +93,12 @@ public class UserController {
         return "private/users/views/edit-user-view";
     }
 
-/* 
+
     @GetMapping("/table-search")
     public String getUserTableSearch(
         Model model,
         Authentication authentication,
-        @RequestParam(required = false) String q,
+        @RequestParam(required = false, defaultValue = "") String q,
         @RequestParam(required = false) UserStatus status,
         @RequestParam(required = false, defaultValue = "0") int page,
         @RequestParam(required = false, defaultValue = "100") int size){
@@ -109,13 +109,14 @@ public class UserController {
         }
 
         Page<UserTableDto> usersPage =
-                userService.getUserTable(q, status, page, size);
+                userService.searchUsersWithEmployee(q, status, page, size);
 
         model.addAttribute("usersPage", usersPage);
-        model.addAttribute("qVar", (q == null) ? "" : q.trim());
+        model.addAttribute("status", status);
+        model.addAttribute("qVar", q);
+        model.addAttribute("userStatus", UserStatus.values());
 
         return "private/users/fragments/users-table-partial :: partial";
     }
-*/
 
 }

@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 
+import com.gscorp.dv1.enums.UserStatus;
 import com.gscorp.dv1.users.infrastructure.User;
 import com.gscorp.dv1.users.web.dto.CreateUserRequest;
 import com.gscorp.dv1.users.web.dto.InviteUserRequest;
@@ -41,6 +42,9 @@ public interface UserService {
     Optional<User> updateUser(Long userId, UserUpdateDto dto);
     Optional<Long> findEmployeeIdByUserId(Long userId);
     Page<UserTableDto> getAllUsersWithEmployee(int page, int size);
+
+    Page<UserTableDto> searchUsersWithEmployee(
+        String q, UserStatus status, int page, int size);
 
     Map<String, Long> getUsersStatistics ();
 

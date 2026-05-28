@@ -16,6 +16,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,7 @@ import com.gscorp.dv1.users.infrastructure.User;
 import com.gscorp.dv1.users.infrastructure.UserRepository;
 import com.gscorp.dv1.users.infrastructure.UserSpecRepository;
 import com.gscorp.dv1.users.infrastructure.UserTableProjection;
+import com.gscorp.dv1.users.infrastructure.specification.UserSpecifications;
 import com.gscorp.dv1.users.web.dto.CreateUserRequest;
 import com.gscorp.dv1.users.web.dto.InviteUserRequest;
 import com.gscorp.dv1.users.web.dto.InviteUserRequestWhatsApp;
@@ -560,6 +562,27 @@ public class UserServiceImpl implements UserService{
 
         return projections.map(UserTableDto::fromProjection);
     }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<UserTableDto> searchUsersWithEmployee(
+        String q, UserStatus status, int page, int size
+    ){
+
+        int safePage = Math.max(0, page);
+        int safeSize = Math.min(Math.max(5, size), 200);
+        String safeQ = (q == null || q.trim().isEmpty()) ? null : q.trim();
+
+        PageRequest pg = PageRequest.of(safePage, safeSize);
+
+        Specification<User> spec = UserSpecifications.searchUsers(safeQ, status);
+
+        Page<User> usersPage = userSpecRepo.findAll(spec, pg);
+
+        return usersPage.map(UserTableDto::fromEntity);
+    }
+
 
     @Override
     @Transactional(readOnly = true)
