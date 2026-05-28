@@ -116,6 +116,7 @@ public class UserController {
         model.addAttribute("status", status);
         model.addAttribute("qVar", q);
         model.addAttribute("userStatus", UserStatus.values());
+        model.addAttribute("usersCount",usersPage.getTotalElements());
 
         return "private/users/fragments/users-table-partial :: partial";
     }
