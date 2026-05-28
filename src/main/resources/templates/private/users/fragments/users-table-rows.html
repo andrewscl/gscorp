@@ -1,4 +1,4 @@
-<tbody th:fragment="rows">
+<th:block th:fragment="rows">
     <tr th:each="user : ${usersPage.content}">
         <td th:text="${user.id}"></td>
     <td th:text="${user.username}"></td>
@@ -19,4 +19,4 @@
 
         </td>
     </tr>
-</tbody>
+</th:block>
