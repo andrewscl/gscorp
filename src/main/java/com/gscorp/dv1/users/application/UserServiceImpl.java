@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.hibernate.Hibernate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -37,6 +38,7 @@ import com.gscorp.dv1.roles.infrastructure.Role;
 import com.gscorp.dv1.roles.infrastructure.RoleRepository;
 import com.gscorp.dv1.users.infrastructure.User;
 import com.gscorp.dv1.users.infrastructure.UserRepository;
+import com.gscorp.dv1.users.infrastructure.UserSpecRepository;
 import com.gscorp.dv1.users.infrastructure.UserTableProjection;
 import com.gscorp.dv1.users.web.dto.CreateUserRequest;
 import com.gscorp.dv1.users.web.dto.InviteUserRequest;
@@ -53,7 +55,12 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
 
+    @Autowired
     private final UserRepository userRepo;
+
+    @Autowired
+    private final UserSpecRepository userSpecRepo;
+
     private final RoleRepository roleRepo;
     private final ClientRepository clientRepo;
     private final PasswordEncoder encoder;
@@ -539,24 +546,19 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional(readOnly = true)
-    public Page<UserTableDto> getUserTable(
-            String q, UserStatus status, int page, int size
+    public Page<UserTableDto> getAllUsersWithEmployee(
+        int page, int size
     ){
 
-        // Normalizar page/size (Spring Data usa 0-based)
         int safePage = Math.max(0, page);
-        int safeSize = Math.min(Math.max(5, size), 200); // límites: min 5, max 200
-
-        // Normalizar query
-        String safeQ = (q == null || q.trim().isEmpty()) ? null : q.trim();
+        int safeSize = Math.min(Math.max(5, size), 200);
 
         PageRequest pg = PageRequest.of(safePage, safeSize);
+        Page<UserTableProjection> projections;
 
-        Page<UserTableProjection> projections =
-                userRepo.findTableRows(safeQ, status, pg);
+        projections = userRepo.findAllUsersWithEmployee(pg);
 
         return projections.map(UserTableDto::fromProjection);
-
     }
 
     @Override

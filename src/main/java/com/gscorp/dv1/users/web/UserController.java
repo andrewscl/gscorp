@@ -38,27 +38,19 @@ public class UserController {
     public String getUsersTableView(
             Model model,
             Authentication authentication,
-            @RequestParam(required = false) String q,
             @RequestParam(required = false, defaultValue = "0") int page,
             @RequestParam(required = false, defaultValue = "100") int size 
         ) {
 
         Long userId = userService.getUserIdFromAuthentication(authentication);
         if (userId == null) {
-            // no autenticado: redirigir al login o devolver error según tu política
             return "redirect:/login";
         }
-        // Normalizar page/size (Spring Data usa 0-based)
-        int safePage = Math.max(0, page);
-        int safeSize = Math.min(Math.max(5, size), 200); // límites: min 5, max 200
-        // Normalizar q
-        String safeQ = (q == null || q.trim().isEmpty()) ? null : q.trim();
+
         Page<UserTableDto> usersPage =
-                userService.getUserTable(safeQ, null, safePage, safeSize);
-        
+                userService.getAllUsersWithEmployee(page, size);
 
         model.addAttribute("usersPage", usersPage);
-        model.addAttribute("qVar", safeQ);
         model.addAttribute("userStatus", UserStatus.values());
 
         return "private/users/views/users-list";
@@ -101,6 +93,7 @@ public class UserController {
         return "private/users/views/edit-user-view";
     }
 
+/* 
     @GetMapping("/table-search")
     public String getUserTableSearch(
         Model model,
@@ -123,6 +116,6 @@ public class UserController {
 
         return "private/users/fragments/users-table-partial :: partial";
     }
-
+*/
 
 }

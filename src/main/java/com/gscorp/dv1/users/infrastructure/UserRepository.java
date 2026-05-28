@@ -58,17 +58,33 @@ public interface UserRepository extends JpaRepository<User, Long>{
                 e.id AS employeeId
             FROM User u
             LEFT JOIN u.employee e
-            WHERE (
+            WHERE
                 :q IS NULL
                 OR LOWER(u.username) LIKE LOWER(CONCAT('%',:q,'%'))
                 OR LOWER(u.mail) LIKE LOWER(CONCAT('%',:q,'%'))
-            )
-            AND (:status IS NULL OR u.status = :status)
             """
     )
     Page<UserTableProjection> findTableRows(
         @Param("q") String q,
-        @Param("status") UserStatus status,
+        Pageable pageable
+    );
+
+    @Query(
+        value = """
+            SELECT
+                u.id AS id,
+                u.username AS username,
+                u.mail AS mail,
+                u.phone AS phone,
+                u.active AS active,
+                u.status AS status,
+                e.id AS employeeId
+            FROM User u
+            LEFT JOIN u.employee e
+            """,
+        countQuery = "SELECT COUNT(u.id) FROM User u"
+    )
+    Page<UserTableProjection> findAllUsersWithEmployee(
         Pageable pageable
     );
 
