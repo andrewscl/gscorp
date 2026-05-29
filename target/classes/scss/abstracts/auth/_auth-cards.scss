@@ -54,6 +54,9 @@
         h1 {
             @include montserrat-font(1.6rem, 700);
             color: $primary-color;
+            text-align: center;
+            margin-top: 0.5rem;
+            margin-bottom: 1.75rem;
         }
 
         form {
