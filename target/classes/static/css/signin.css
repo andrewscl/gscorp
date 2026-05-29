@@ -131,7 +131,7 @@ p {
   width: auto;
   display: block;
 }
-.signin-page .auth-form-container h1 {
+.signin-page .auth-form-container .auth-form-title {
   font-family: "Montserrat", sans-serif;
   font-size: 1.6rem;
   font-weight: 700;
@@ -244,4 +244,4 @@ p {
 }
 .signin-page .auth-form-container form .btn-primary:active {
   transform: translateY(0);
-}/*# sourceMappingURL=signin.css.map */.map */
+}/*# sourceMappingURL=signin.css.map */

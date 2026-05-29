@@ -51,7 +51,7 @@
             }
         }
 
-        h1 {
+        .auth-form-title {
             @include montserrat-font(1.6rem, 700);
             color: $primary-color;
             text-align: center;
