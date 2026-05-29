@@ -64,6 +64,13 @@
             .form-group {
                 margin-bottom: 1.25rem;
                 position: relative;
+                label {
+                    display: block;
+                    margin-bottom: 0.4rem;
+                    color: $label-text-color;
+                    @include roboto-font(0.85rem, 600);
+                    text-align: left;
+                }
             }
         }
 
