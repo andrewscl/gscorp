@@ -96,35 +96,39 @@
                         }
                     }
                 }
-                input[type="password"].form-control {
-                    padding-right: calc(#{$toggle-width} + 1rem);
-                }
-                .togglePassword {
-                    position: absolute;
-                    top: 50%;
-                    right: 0.4rem;
-                    transform: translateY(-10%); 
-                    width: $toggle-width;
-                    padding: $toggle-padding;
-                    border-radius: 0.4rem;
-                    border: 1px solid $border-color;
-                    background-color: $background-muted;
-                    color: $text-color;
-                    font-weight: 600;
-                    font-size: 0.8rem;
-                    cursor: pointer;
-                    transition: all 0.2s ease;
-                    text-align: center;
-                    line-height: 1;
-                    &:hover {
-                        background-color: $border-color;
-                        color: $primary-color-strong;
+                .password-wrapper{
+                    position: relative;
+                    width: 100%;
+                    input[type="password"].form-control {
+                        padding-right: calc(#{$toggle-width} + 1rem);
                     }
-                    &:active {
-                        transform: translateY(-10%) scale(0.96);
-                    }
-                    &:focus {
-                        outline: none;
+                    .togglePassword {
+                        position: absolute;
+                        top: 50%;
+                        right: 0.4rem;
+                        transform: translateY(-50%); 
+                        width: $toggle-width;
+                        padding: $toggle-padding;
+                        border-radius: 0.4rem;
+                        border: 1px solid $border-color;
+                        background-color: $background-muted;
+                        color: $text-color;
+                        font-weight: 600;
+                        font-size: 0.8rem;
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+                        text-align: center;
+                        line-height: 1;
+                        &:hover {
+                            background-color: $border-color;
+                            color: $primary-color-strong;
+                        }
+                        &:active {
+                            transform: translateY(-10%) scale(0.96);
+                        }
+                        &:focus {
+                            outline: none;
+                        }
                     }
                 }
             }
