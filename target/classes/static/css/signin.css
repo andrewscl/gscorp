@@ -146,7 +146,7 @@ p {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
 }
 .signin-page .auth-form-container form .form-group {
   margin-bottom: 1.25rem;
@@ -245,4 +245,4 @@ p {
 }
 .signin-page .auth-form-container form .btn-primary:active {
   transform: translateY(0);
-}/*# sourceMappingURL=signin.css.map */
+}/*# sourceMappingURL=signin.css.map */*/
