@@ -52,10 +52,12 @@
         }
 
         .auth-form-title {
-            @include montserrat-font(1.3rem, 700);
-            color: $primary-color;
             text-align: center;
             margin-top: 0;
+            .auth-form-title-text {
+                @include montserrat-font(1.3rem, 700);
+                color: $primary-color;
+            }
         }
 
         form {
