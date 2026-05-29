@@ -185,14 +185,20 @@ p {
   color: #cbd5e1;
   transition: color 0.2s ease;
 }
-.signin-page .auth-form-container form .form-group input[type=password].form-control {
+.signin-page .auth-form-container form .form-group .password-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.signin-page .auth-form-container form .form-group .password-wrapper input[type=password].form-control {
   padding-right: calc(84px + 1rem);
 }
-.signin-page .auth-form-container form .form-group .togglePassword {
+.signin-page .auth-form-container form .form-group .password-wrapper .togglePassword {
   position: absolute;
-  top: 25%;
+  top: 50%;
   right: 0.4rem;
-  transform: translateY(-10%);
+  transform: translateY(-50%);
   width: 84px;
   padding: 0.45rem 0.75rem;
   border-radius: 0.4rem;
@@ -206,14 +212,14 @@ p {
   text-align: center;
   line-height: 1;
 }
-.signin-page .auth-form-container form .form-group .togglePassword:hover {
+.signin-page .auth-form-container form .form-group .password-wrapper .togglePassword:hover {
   background-color: #e2e8f0;
   color: #0f172a;
 }
-.signin-page .auth-form-container form .form-group .togglePassword:active {
+.signin-page .auth-form-container form .form-group .password-wrapper .togglePassword:active {
   transform: translateY(-10%) scale(0.96);
 }
-.signin-page .auth-form-container form .form-group .togglePassword:focus {
+.signin-page .auth-form-container form .form-group .password-wrapper .togglePassword:focus {
   outline: none;
 }
 .signin-page .auth-form-container form .btn-primary {
