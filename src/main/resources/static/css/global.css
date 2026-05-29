@@ -224,9 +224,6 @@ p {
 .hs-table .hs-table-header .hs-filters-actions-row .filter-group .btn.btn-primary:active {
   transform: translateY(0);
 }
-.hs-table .hs-table-header .hs-filters-actions-row .filter-group .btn.btn-primary {
-  align-self: flex-end;
-}
 .hs-table .hs-table-header .actions-row {
   display: flex;
   justify-content: flex-end;
