@@ -21,5 +21,8 @@
     .auth-form-container {
         width: 90%;
         max-width: $max-w;
+        margin: 0 auto;
+        background-color: $white;
+        border: 0.1rem solid $border-color;
     }
 }
