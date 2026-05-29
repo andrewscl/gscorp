@@ -45,7 +45,7 @@
             margin-bottom: 1.25rem;
             .logo {
                 height: $logo-height;
-                max-width: 18rem;
+                max-width: 22rem;
                 width: auto;
                 display: block;
             }
@@ -96,7 +96,7 @@
                         }
                     }
                 }
-                .password-wrapper{
+                .password-wrapper {
                     position: relative;
                     width: 100%;
                     input[type="password"].form-control {
