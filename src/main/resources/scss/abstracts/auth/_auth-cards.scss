@@ -6,7 +6,7 @@
 @use '../alerts' as *;
 @use '../footer-buttons' as *;
 
-@mixin auth-form ($max-w: 28rem, $logo-height: 7rem){
+@mixin auth-form ($max-w: 28rem, $logo-height: 8rem){
 
     background: $background-color;
     display: flex;

@@ -126,7 +126,7 @@ p {
   margin-bottom: 1.5rem;
 }
 .signin-page .auth-form-container .logo-container .logo {
-  height: 7rem;
+  height: 8rem;
   max-width: 22rem;
   width: auto;
   display: block;
@@ -228,7 +228,7 @@ p {
   margin-top: 0.5rem;
   font-family: "Montserrat", sans-serif;
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.02em;
   display: inline-flex;
   align-items: center;
