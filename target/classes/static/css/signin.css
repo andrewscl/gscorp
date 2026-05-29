@@ -117,5 +117,17 @@ p {
 .signin-page .auth-form-container:hover {
   transform: translateY(-0.25rem);
   box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
-  border-color: #94a3b8;
+  border-color: #cbd5e1;
+}
+.signin-page .auth-form-container .logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+.signin-page .auth-form-container .logo-container .logo {
+  height: 5.5rem;
+  max-width: 15rem;
+  width: auto;
+  display: block;
 }/*# sourceMappingURL=signin.css.map */

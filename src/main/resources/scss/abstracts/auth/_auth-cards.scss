@@ -6,7 +6,7 @@
 @use '../alerts' as *;
 @use '../footer-buttons' as *;
 
-@mixin auth-form ($max-w: 28rem){
+@mixin auth-form ($max-w: 28rem, $logo-height: 5.5rem){
 
     background: $background-color;
     display: flex;
@@ -36,6 +36,19 @@
             transform: translateY(-0.25rem);
             box-shadow: $shadow-md;
             border-color: $border-color-hover;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            .logo {
+                height: $logo-height;
+                max-width: 15rem;
+                width: auto;
+                display: block;
+            }
         }
 
     }

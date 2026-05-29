@@ -1,5 +1,5 @@
 @use '../abstracts/auth/auth-cards' as * ;
 
 .signin-page {
-  @include auth-form($max-w: 28rem);
+  @include auth-form($max-w: 28rem, $logo-height: 5.5rem);
 }
