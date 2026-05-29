@@ -138,7 +138,7 @@
             }
             .btn-primary {
                 margin-top: 0.5rem;
-                @include montserrat-font(1rem, 700);
+                @include montserrat-font(1rem, 600);
                 @include btn-primary-variant (
                     $bg-color: $accent-blue,
                     $color: $white,
