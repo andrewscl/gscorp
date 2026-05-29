@@ -142,17 +142,17 @@ p {
   letter-spacing: 0.02em;
   color: #1e293b;
 }
-.signin-page .auth-form-container form {
+.signin-page .auth-form-container .auth-form {
   display: flex;
   flex-direction: column;
   align-items: stretch;
   margin-top: 1rem;
 }
-.signin-page .auth-form-container form .form-group {
+.signin-page .auth-form-container .auth-form .form-group {
   margin-bottom: 1.25rem;
   position: relative;
 }
-.signin-page .auth-form-container form .form-group label {
+.signin-page .auth-form-container .auth-form .form-group label {
   display: block;
   margin-bottom: 0.4rem;
   color: #475569;
@@ -162,7 +162,7 @@ p {
   letter-spacing: 0.02em;
   text-align: left;
 }
-.signin-page .auth-form-container form .form-group .form-control {
+.signin-page .auth-form-container .auth-form .form-group .form-control {
   padding: 0.75rem;
   border: 0.1rem solid #e2e8f0;
   border-radius: 0.7rem;
@@ -176,27 +176,27 @@ p {
   box-sizing: border-box;
   transition: all 0.2s ease-in-out;
 }
-.signin-page .auth-form-container form .form-group .form-control::placeholder {
+.signin-page .auth-form-container .auth-form .form-group .form-control::placeholder {
   color: #94a3b8;
   font-weight: 400;
 }
-.signin-page .auth-form-container form .form-group .form-control:focus {
+.signin-page .auth-form-container .auth-form .form-group .form-control:focus {
   outline: none;
   border-color: #cbd5e1;
   box-shadow: 0 0 0 0.15rem rgba(203, 213, 225, 0.15);
 }
-.signin-page .auth-form-container form .form-group .form-control:focus::placeholder {
+.signin-page .auth-form-container .auth-form .form-group .form-control:focus::placeholder {
   color: #cbd5e1;
   transition: color 0.2s ease;
 }
-.signin-page .auth-form-container form .form-group .password-wrapper {
+.signin-page .auth-form-container .auth-form .form-group .password-wrapper {
   position: relative;
   width: 100%;
 }
-.signin-page .auth-form-container form .form-group .password-wrapper input[type=password].form-control {
+.signin-page .auth-form-container .auth-form .form-group .password-wrapper input[type=password].form-control {
   padding-right: calc(84px + 1rem);
 }
-.signin-page .auth-form-container form .form-group .password-wrapper .togglePassword {
+.signin-page .auth-form-container .auth-form .form-group .password-wrapper .togglePassword {
   position: absolute;
   top: 50%;
   right: 0.4rem;
@@ -214,17 +214,17 @@ p {
   text-align: center;
   line-height: 1;
 }
-.signin-page .auth-form-container form .form-group .password-wrapper .togglePassword:hover {
+.signin-page .auth-form-container .auth-form .form-group .password-wrapper .togglePassword:hover {
   background-color: #e2e8f0;
   color: #0f172a;
 }
-.signin-page .auth-form-container form .form-group .password-wrapper .togglePassword:active {
+.signin-page .auth-form-container .auth-form .form-group .password-wrapper .togglePassword:active {
   transform: translateY(-10%) scale(0.96);
 }
-.signin-page .auth-form-container form .form-group .password-wrapper .togglePassword:focus {
+.signin-page .auth-form-container .auth-form .form-group .password-wrapper .togglePassword:focus {
   outline: none;
 }
-.signin-page .auth-form-container form .btn-primary {
+.signin-page .auth-form-container .auth-form .btn-primary {
   margin-top: 0.5rem;
   display: inline-flex;
   align-items: center;
@@ -238,11 +238,11 @@ p {
   background-color: #3b82f6;
   color: #ffffff;
 }
-.signin-page .auth-form-container form .btn-primary:hover {
+.signin-page .auth-form-container .auth-form .btn-primary:hover {
   background-color: rgb(29.8390243902, 111.4024390244, 244.6609756098);
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
 }
-.signin-page .auth-form-container form .btn-primary:active {
+.signin-page .auth-form-container .auth-form .btn-primary:active {
   transform: translateY(0);
-}/*# sourceMappingURL=signin.css.map */*/
+}/*# sourceMappingURL=signin.css.map */
