@@ -190,7 +190,7 @@ p {
 }
 .signin-page .auth-form-container form .form-group .togglePassword {
   position: absolute;
-  top: 75%;
+  top: 50%;
   right: 0.4rem;
   transform: translateY(-10%);
   width: 84px;
