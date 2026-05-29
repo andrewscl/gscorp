@@ -42,7 +42,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 1rem;
+            margin-bottom: 3rem;
             .logo {
                 height: $logo-height;
                 max-width: 22rem;
@@ -53,7 +53,7 @@
 
         .auth-form-title {
             text-align: center;
-            margin-bottom: 1rem;
+            margin-bottom: 3rem;
             .auth-form-title-text {
                 @include montserrat-font(1.4rem, 700);
                 color: $primary-color;
