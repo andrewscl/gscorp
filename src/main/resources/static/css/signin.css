@@ -130,4 +130,11 @@ p {
   max-width: 15rem;
   width: auto;
   display: block;
+}
+.signin-page .auth-form-container h1 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #1e293b;
 }/*# sourceMappingURL=signin.css.map */

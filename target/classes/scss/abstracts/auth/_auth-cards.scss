@@ -6,7 +6,7 @@
 @use '../alerts' as *;
 @use '../footer-buttons' as *;
 
-@mixin auth-form ($max-w: 28rem, $logo-height: 5.5rem){
+@mixin auth-form ($max-w: 28rem, $logo-height: 7rem){
 
     background: $background-color;
     display: flex;
@@ -49,6 +49,11 @@
                 width: auto;
                 display: block;
             }
+        }
+
+        h1 {
+            @include montserrat-font(1.6rem, 700);
+            color: $primary-color;
         }
 
     }
