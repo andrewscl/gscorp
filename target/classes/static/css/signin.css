@@ -190,6 +190,7 @@ p {
 }
 .signin-page .auth-form-container form .form-group .togglePassword {
   position: absolute;
+  top: 25%;
   right: 0.4rem;
   transform: translateY(-10%);
   width: 84px;
@@ -236,4 +237,4 @@ p {
 }
 .signin-page .auth-form-container form .btn-primary:active {
   transform: translateY(0);
-}/*# sourceMappingURL=signin.css.map */n.css.map */
+}/*# sourceMappingURL=signin.css.map */
