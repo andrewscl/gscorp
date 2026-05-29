@@ -76,16 +76,24 @@
                     border: 0.1rem solid $border-color;
                     border-radius: $radius;
                     background-color: $white;
-                    @include roboto-font(0.97rem, 600);
+                    @include roboto-font(0.95rem, 500);
                     color: $primary-color;
                     width: 100%;
                     box-sizing: border-box;
                     transition: all 0.2s ease-in-out;
+                    &::placeholder{
+                        color: $slate-400;
+                        font-weight: 400;
+                    }
                     &:focus {
                         outline: none;
                         border-color: $border-color-hover;
                         box-shadow: 0 0 0 0.15rem rgba(
                                             $border-color-hover, 0.15);
+                        &::placeholder{
+                            color: $slate-300;
+                            transition: color 0.2s ease;
+                        }
                     }
                 }
                 input[type="password"].form-control {
