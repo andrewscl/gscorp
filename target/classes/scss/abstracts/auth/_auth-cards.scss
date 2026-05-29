@@ -56,5 +56,16 @@
             color: $primary-color;
         }
 
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            margin-top: 0.5rem;
+            .form-group {
+                margin-bottom: 1.25rem;
+                position: relative;
+            }
+        }
+
     }
 }

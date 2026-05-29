@@ -137,4 +137,13 @@ p {
   font-weight: 700;
   letter-spacing: 0.02em;
   color: #1e293b;
+}/*# sourceMappingURL=signin.css.map */m {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-top: 0.5rem;
+}
+.signin-page .auth-form-container form .form-group {
+  margin-bottom: 1.25rem;
+  position: relative;
 }/*# sourceMappingURL=signin.css.map */
