@@ -123,7 +123,7 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 .signin-page .auth-form-container .logo-container .logo {
   height: 7rem;
@@ -133,11 +133,11 @@ p {
 }
 .signin-page .auth-form-container .auth-form-title {
   text-align: center;
-  margin-top: 0;
+  margin: 0;
 }
 .signin-page .auth-form-container .auth-form-title .auth-form-title-text {
   font-family: "Montserrat", sans-serif;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   font-weight: 700;
   letter-spacing: 0.02em;
   color: #1e293b;
@@ -146,7 +146,7 @@ p {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  margin-top: 0;
+  margin-top: 0.5rem;
 }
 .signin-page .auth-form-container form .form-group {
   margin-bottom: 1.25rem;
