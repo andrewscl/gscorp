@@ -164,10 +164,10 @@ p {
   border-radius: 0.7rem;
   background-color: #ffffff;
   font-family: "Roboto", sans-serif;
-  font-size: 0.95rem;
+  font-size: 0.97rem;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: #334155;
+  color: #1e293b;
   width: 100%;
   box-sizing: border-box;
   transition: all 0.2s ease-in-out;
@@ -176,4 +176,56 @@ p {
   outline: none;
   border-color: #cbd5e1;
   box-shadow: 0 0 0 0.15rem rgba(203, 213, 225, 0.15);
+}
+.signin-page .auth-form-container form .form-group input[type=password].form-control {
+  padding-right: calc(84px + 1rem);
+}
+.signin-page .auth-form-container form .form-group .togglePassword {
+  position: absolute;
+  top: 50%;
+  right: 0.4rem;
+  transform: translateY(-10%);
+  width: 84px;
+  padding: 0.45rem 0.75rem;
+  border-radius: 0.4rem;
+  border: 1px solid #e2e8f0;
+  background-color: #f1f5f9;
+  color: #334155;
+  font-weight: 600;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  line-height: 1;
+}
+.signin-page .auth-form-container form .form-group .togglePassword:hover {
+  background-color: #e2e8f0;
+  color: #0f172a;
+}
+.signin-page .auth-form-container form .form-group .togglePassword:active {
+  transform: translateY(-10%) scale(0.96);
+}
+.signin-page .auth-form-container form .form-group .togglePassword:focus {
+  outline: none;
+}
+.signin-page .auth-form-container form .btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+.signin-page .auth-form-container form .btn-primary:hover {
+  background-color: rgb(29.8390243902, 111.4024390244, 244.6609756098);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+.signin-page .auth-form-container form .btn-primary:active {
+  transform: translateY(0);
 }/*# sourceMappingURL=signin.css.map */
