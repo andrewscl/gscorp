@@ -133,13 +133,12 @@ p {
 }
 .signin-page .auth-form-container .auth-form-title {
   font-family: "Montserrat", sans-serif;
-  font-size: 1.6rem;
+  font-size: 1.3rem;
   font-weight: 700;
   letter-spacing: 0.02em;
   color: #1e293b;
   text-align: center;
-  margin-top: 0.5rem;
-  margin-bottom: 1.75rem;
+  margin-top: 0;
 }
 .signin-page .auth-form-container form {
   display: flex;
@@ -244,4 +243,4 @@ p {
 }
 .signin-page .auth-form-container form .btn-primary:active {
   transform: translateY(0);
-}/*# sourceMappingURL=signin.css.map */
+}/*# sourceMappingURL=signin.css.map */rceMappingURL=signin.css.map */
