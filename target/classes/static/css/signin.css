@@ -142,7 +142,7 @@ p {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  margin-top: 0.5rem;
+  margin-top: 1.25rem;
 }
 .signin-page .auth-form-container form .form-group {
   margin-bottom: 1.25rem;
