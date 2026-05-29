@@ -151,10 +151,29 @@ p {
 .signin-page .auth-form-container form .form-group label {
   display: block;
   margin-bottom: 0.4rem;
-  color: #94a3b8;
+  color: #475569;
   font-family: "Roboto", sans-serif;
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   text-align: left;
+}
+.signin-page .auth-form-container form .form-group .form-control {
+  padding: 0.75rem;
+  border: 0.1rem solid #e2e8f0;
+  border-radius: 0.7rem;
+  background-color: #ffffff;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #334155;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.2s ease-in-out;
+}
+.signin-page .auth-form-container form .form-group .form-control:focus {
+  outline: none;
+  border-color: #cbd5e1;
+  box-shadow: 0 0 0 0.15rem rgba(203, 213, 225, 0.15);
 }/*# sourceMappingURL=signin.css.map */
