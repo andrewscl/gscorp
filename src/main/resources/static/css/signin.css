@@ -103,4 +103,5 @@ p {
 }
 .signin-page .auth-form-container {
   width: 90%;
+  max-width: 28rem;
 }/*# sourceMappingURL=signin.css.map */
