@@ -100,13 +100,7 @@ p {
   margin: 0;
   padding: 2rem;
   box-sizing: border-box;
-}/*# sourceMappingURL=signin.css.map */box-shadow 0.2s ease;
-  padding: 2.4rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
 }
-.signin-page:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+.signin-page .auth-form-container {
+  width: 90%;
 }/*# sourceMappingURL=signin.css.map */
