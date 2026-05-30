@@ -167,7 +167,7 @@ p {
   flex-wrap: wrap;
   flex-grow: 1;
   gap: 1rem;
-  align-items: flex-end;
+  align-items: center;
 }
 .hs-table .hs-table-header .hs-filters-actions-row .filter-group .filter-item {
   display: flex;
