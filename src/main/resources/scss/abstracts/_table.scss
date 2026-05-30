@@ -70,6 +70,7 @@
           flex-wrap: wrap;
           flex-grow: 1;
           gap: 1rem;
+          align-items: flex-end;
           .filter-item {
             display: flex;
             flex-direction: column;
@@ -95,16 +96,16 @@
                 width: 18rem;
               }
             }
-            .btn {
-              @include roboto-font(0.85rem, 600);
-              &.btn-primary {
-                @include btn-primary-variant (
-                $bg-color: $btn-search-bg,
-                $color: $white,
-                $padding: 0.4rem 1rem,
-                $border-radius: 0.4rem
-                );
-              }
+          }
+          .btn {
+            @include roboto-font(0.85rem, 600);
+            &.btn-primary {
+              @include btn-primary-variant (
+              $bg-color: $btn-search-bg,
+              $color: $white,
+              $padding: 0.4rem 1rem,
+              $border-radius: 0.4rem
+              );
             }
           }
         }
