@@ -60,7 +60,7 @@
       .hs-filters-actions-row {
         display: flex;
         justify-content: space-between;
-        align-items: flex-end;
+        align-items: center;
         flex-wrap: wrap;
         gap: 0.6rem;
         width: 100%;
@@ -115,6 +115,7 @@
           justify-content: flex-end;
           gap: 1rem;
           background: transparent;
+          align-items: center;
           .btn {
             @include roboto-font(0.85rem, 600);
             &.btn-primary {
