@@ -1,0 +1,7 @@
+@use '../abstracts/email/email-cards' as *;
+
+.email-invitation-card {
+
+  @include email-info-card($max-w: 28rem, $logo-height: 7rem);
+
+}

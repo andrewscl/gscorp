@@ -1,8 +1,8 @@
-@use 'palette' as *;
-@use 'mixins' as *;
+@use '../palette' as *;
+@use '../mixins' as *;
 @use 'btn-mixins' as *;
-@use 'typography' as *;
-@use 'variables' as *;
+@use '../typography' as *;
+@use '../variables' as *;
 
 @mixin footer (){
     display: flex;

@@ -1,15 +1,25 @@
-<section th:fragment="content" class="emailInvitation">
+<th:block th:fragment="content">
 
-  <div class="email-form">
+  <div class="email-invitation-card">
 
-        <div class="email-header-form">
+    <div class="email-info-card-container">
+
+        <div class="email-info-card-logo">
             <div class="logo">
                 <img src="https://sesan.cl/img/logo-mail.png" alt="SESAN Logo">
             </div>
-            <div class="text-header">
-                <h3>Bienvenido a la plataforma!</h3>
-            </div>
         </div>
+
+        <div class="email-info-card-title">
+            <h1>Bienvenido a la plataforma!</h1>
+        </div>
+
+    </div>
+
+
+
+
+
 
         <div class="email-body-form">
             <p>Hola, [Nombre del usuario]</p>
@@ -24,4 +34,4 @@
 
     </div>
 
-</section>
+</th:block>

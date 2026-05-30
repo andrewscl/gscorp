@@ -1,4 +1,4 @@
-package com.gscorp.dv1.auth;
+package com.gscorp.dv1.auth.web;
 
 import java.util.Optional;
 
