@@ -64,18 +64,23 @@
       </div>
 
       <div class="form-row w-custom">
-        <div class="form-row">
-          <div class="form-group col-50">
+        <div class="form-group col-50">
             <label for="userStatus">Estado</label>
-            <span type="text" id="userStatus" name="status" th:value="${user.status.getDisplayName()}">
-            </span>
-          </div>
+            <select id="userStatus" name="userStatus">
+              <option value="">-- ninguno --</option>
+              <option th:each="userStatus : ${userStatusList}"
+                      th:value="${userStatus}"
+                      th:text="${userStatus}"
+                      th:selected="${user != null && user.status == userStatus}">
+              </option>
+            </select>
         </div>
         <div class="form-group col-50">
           <label for="userActive">Activo</label>
           <input type="checkbox" id="userActive"
                                       name="active" th:checked="${user.active}" />
         </div>
+
       </div>
 
     </div>

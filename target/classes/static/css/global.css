@@ -156,7 +156,7 @@ p {
 .hs-table .hs-table-header .hs-filters-actions-row {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
   flex-wrap: wrap;
   gap: 0.6rem;
   width: 100%;
@@ -167,6 +167,7 @@ p {
   flex-wrap: wrap;
   flex-grow: 1;
   gap: 1rem;
+  align-items: center;
 }
 .hs-table .hs-table-header .hs-filters-actions-row .filter-group .filter-item {
   display: flex;
@@ -228,8 +229,8 @@ p {
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
-  padding: 1rem;
   background: transparent;
+  align-items: center;
 }
 .hs-table .hs-table-header .actions-row .btn {
   font-family: "Roboto", sans-serif;
