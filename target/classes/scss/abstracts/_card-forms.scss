@@ -120,6 +120,13 @@
                 width: 100%;
                 .form-group {
                     flex: 1;
+                    span {
+                        padding: 0.65rem;
+                        border: 0.09rem solid #ced4da;
+                        border-radius: 0.5rem;
+                        @include roboto-font(0.875rem, 500);
+                        color: $cool-gray-800;
+                    }
                 }
                 &.w-custom {
                 .col-10 { flex : 0 0 calc(10% - (1rem * 0.9)); };

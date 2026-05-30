@@ -387,4 +387,10 @@ p {
 }
 .hs-form .footer .btn.btn-danger:active {
   transform: translateY(0);
+}/*# sourceMappingURL=edit-user.css.map */r: rgb(236.5802955665, 39.7197044335, 39.7197044335);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+}
+.hs-form .footer .btn.btn-danger:active {
+  transform: translateY(0);
 }/*# sourceMappingURL=edit-user.css.map */
