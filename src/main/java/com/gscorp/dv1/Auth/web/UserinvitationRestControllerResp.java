@@ -41,7 +41,8 @@ public class UserinvitationRestControllerResp {
         String subject = "Bienvenido a SESAN";
         String htmlBody = """
             <div style="background:#f7f7f9;padding:32px;">
-            <div style="max-width:25rem;margin:auto;background:white;padding:32px 24px;border-radius:10px;box-shadow:0 2px 12px rgba(30,40,60,0.13);font-family:'Segoe UI','Roboto',Arial,sans-serif;">
+            <div style="max-width:25rem;margin:auto;background:white;padding:32px 24px;border-radius:10px;
+            box-shadow:0 2px 12px rgba(30,40,60,0.13);font-family:'Segoe UI','Roboto',Arial,sans-serif;">
                 <div style="text-align:center;margin-bottom:24px;">
                     <img src="https://sesan.cl/img/logo-mail.png" alt="SESAN Logo" style="height:9.6rem;max-width:16rem;">
                 </div>

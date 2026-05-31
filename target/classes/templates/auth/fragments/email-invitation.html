@@ -6,28 +6,28 @@
     <title>Bienvenido a SESAN</title>
 </head>
 
-<body style="background-color: #f8fafc; margin: 0; padding: 32px;
-        text-align: center; font-family: 'Roboto', 'Segoe UI', sans-serif;">
+<body style="background-color:#f8fafc; padding:32px;
+        text-align:center; font-family:'Roboto', 'Segoe UI', sans-serif;">
 
     <div class="email-invitation-card"
-    style="width: 90%; max-width: 500px; margin: 0 auto; background-color: #ffffff !important;
-        border: 1.6px solid #e7e5e4; border-radius: 11.2px; padding: 36px; 
-        box-shadow: 0 8px 17.6px rgba(15, 23, 42, 0.04);
-        box-sizing: border-box; text-align: center; align-items: center;">
+    style="width:90%; max-width:500px; background-color:#ffffff !important;
+        border:1.6px solid #e7e5e4; border-radius:11.2px; padding:36px; 
+        margin-bottom:24px ; box-shadow:0 8px 17.6px rgba(15, 23, 42, 0.04);
+        text-align:center;">
 
-            <div class="email-info-card-logo" style="margin-bottom: 24px;">
+            <div class="email-info-card-logo" style="margin-bottom:24px;">
                 <img src="https://sesan.cl/img/logo-mail.png" alt="SESAN Logo"
-                    style="height: 112px; max-width: 352px;">
+                    style="height:112px; max-width:352px;">
             </div>
 
-            <div class="email-info-card-title" style="margin-bottom: 24px;">
+            <div class="email-info-card-title" style="margin-bottom:24px;">
                 <h1>Bienvenido a la plataforma!</h1>
             </div>
 
-            <div class="email-info-body-card" style="margin-bottom: 24px;">
-                <p style="font-size:16.5px; color:#334155; margin-bottom: 0;">
+            <div class="email-info-body-card" style="margin-bottom:24px;">
+                <p style="font-size:16.5px; color:#334155;">
                                         Hola, <b th:text="${username}">Usuario</b></p>
-                <p style="font-size:16.5px; color:#334155; margin-bottom: 0;">
+                <p style="font-size:16.5px; color:#334155;">
                         Has sido invitado a unirte a la plataforma SESAN.</p>
                 <p style="font-size:16.5px; color:#334155;">
                         Para aceptar la invitación, haz clic en el siguiente enlace:</p>
@@ -36,8 +36,9 @@
                     th:href="'https://sesan.cl/auth/define-password?token=' + ${token}"
                     style="background:#3b82f6; color:white; padding:14px 28px;
                             border-radius:6px; text-decoration:none; font-weight:600;
-                            margin: 16px 0 16px 0; font-size:1.12rem; display:inline-block;">
+                            margin:16px 0 16px 0; font-size:1.12rem; display:inline-block;">
                                                                 Aceptar Invitación</a>
+
                 <p style="font-size:16px; color:#334155;">
                     Si el botón no funciona, copia y pega este enlace en tu navegador:<br>
                     <a class="email-auth-path"
@@ -45,13 +46,12 @@
                         th:text="'https://sesan.cl/auth/define-password?token=' + ${token}">
                     </a>
                 </p>
-
             </div>
 
-            <div class="email-info-footer-card">
-                <p style="font-size:15px; color:#334155;">
+            <div class="email-info-footer-card" style="margin-top:24px;">
+                <p style="margin: 0; font-size:15px; color:#334155;">
                                                         Este enlace expira en 24 horas</p>
-                <p style="font-size:15px; color:#334155;">
+                <p style="margin: 0; font-size:15px; color:#334155;">
                         Si no has solicitado esta invitación, puedes ignorar este correo.</p>
             </div>
 
