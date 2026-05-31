@@ -1,12 +1,7 @@
-@use '../mixins' as *;
-@use '../buttons/btn-mixins' as *;
-@use '../typography' as *;
 @use '../palette' as *;
 @use '../variables' as *;
-@use '../alerts' as *;
-@use '../buttons/footer-buttons' as *;
 
-@mixin email-info-card ($max-w: 420px, $logo-height: 112px){
+@mixin email-info-card ($max-w: 448px, $logo-height: 112px){
     background: $background-color;
     min-height: 100vh;
     width: 100%;

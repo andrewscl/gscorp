@@ -2,6 +2,6 @@
 
 .email-invitation-card {
 
-  @include email-info-card($max-w: 28rem, $logo-height: 7rem);
+  @include email-info-card($max-w: 448px, $logo-height: 112px);
 
 }
