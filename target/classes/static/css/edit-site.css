@@ -116,7 +116,7 @@ p {
 }
 .dual-panel-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 0.5rem 1.25rem rgba(15, 23, 42, 0.08);
 }
 @media (max-width: 992px) {
   .dual-panel-card {

@@ -4,7 +4,7 @@
 @use '../abstracts/mixins' as *;
 @use '../abstracts/typography' as *;
 @use '../abstracts/fragment-mixins' as *;
-@use '../abstracts/btn-mixins' as *;
+@use '../abstracts/buttons/btn-mixins' as *;
 
 :root {
   --topbar-height: 54px;                /* same as layout topbar height */

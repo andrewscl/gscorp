@@ -1,10 +1,10 @@
 @use '../mixins' as *;
-@use '../btn-mixins' as *;
+@use '../buttons/btn-mixins' as *;
 @use '../typography' as *;
 @use '../palette' as *;
 @use '../variables' as *;
 @use '../alerts' as *;
-@use '../footer-buttons' as *;
+@use '../buttons/footer-buttons' as *;
 
 @mixin auth-form ($max-w: 28rem, $logo-height: 7rem){
 

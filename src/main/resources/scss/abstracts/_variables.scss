@@ -32,6 +32,7 @@ $topbar-height-mobile: 4.8rem;
 $sidebar-width: 15rem;
 $content-horizontal-padding: 2.4rem;
 $radius: 0.7rem;
+$radius-email: 11.2px;
 $ratio-left: 1;
 $ratio-right: 1;
 
@@ -51,13 +52,12 @@ $content-bg: #f9fafb;
 
 // Sombras sutiles para elementos pequeños (inputs, botones)
 $shadow-xs: 0 0.1rem 0.4rem rgba(15, 23, 42, 0.04);
-
 // Sombra estándar para tarjetas y contenedores
 $shadow-sm: 0 0.5rem 1.1rem rgba(15, 23, 42, 0.04);
-
+$shadow-sm-email: 0 8px 17.6px rgba(15, 23, 42, 0.04);
 // Sombra para elementos flotantes (Dropdowns, Headers fijos)
-$shadow-md: 0 8px 20px rgba(15, 23, 42, 0.08);
-
+$shadow-md: 0 0.5rem 1.25rem rgba(15, 23, 42, 0.08);
+$shadow-md-email: 0 8px 20px rgba(15, 23, 42, 0.08);
 // Sombra para Modales o elementos con mucha profundidad
 $shadow-lg: 0 15px 35px rgba(15, 23, 42, 0.12);
 

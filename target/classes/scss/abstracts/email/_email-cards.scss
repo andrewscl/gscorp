@@ -4,51 +4,41 @@
 @use '../palette' as *;
 @use '../variables' as *;
 @use '../alerts' as *;
-@use '../footer-buttons' as *;
+@use '../buttons/footer-buttons' as *;
 
-@mixin email-info-card ($max-w: 28rem, $logo-height: 7rem){
-
+@mixin email-info-card ($max-w: 420px, $logo-height: 112px){
     background: $background-color;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     min-height: 100vh;
     width: 100%;
     margin: 0;
-    padding: 2rem;
+    padding: 32px;
     box-sizing: border-box;
 
     .email-info-card-container {
-
         width: 90%;
         max-width: $max-w;
         margin: 0 auto;
         background-color: $white;
-        border: 0.1rem solid $border-color;
-        border-radius: $radius;
-        box-shadow: $shadow-sm;
-        padding: 2.4rem;
+        border: 1.6px solid $border-color;
+        border-radius: $radius-email;
+        box-shadow: $shadow-sm-email;
+        padding: 36px;
         text-align: center;
         box-sizing: border-box;
         transition: transform 0.2s ease-in-out, 
                     box-shadow 0.2s ease-in-out, 
                     border-color 0.2s ease-in-out;
         &:hover {
-            transform: translateY(-0.25rem);
-            box-shadow: $shadow-md;
+            transform: translateY(-4px);
+            box-shadow: $shadow-md-email;
             border-color: $border-color-hover;
         }
 
         .email-info-card-logo {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 24px;
             .logo {
                 height: $logo-height;
-                max-width: 22rem;
-                width: auto;
-                display: block;
+                max-width: 352px;
             }
         }
 
