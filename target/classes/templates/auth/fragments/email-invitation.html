@@ -16,13 +16,9 @@ style="background-color: #f8fafc; margin: 0; padding: 0;
         box-shadow: 0 8px 17.6px rgba(15, 23, 42, 0.04); text-align: center;
         box-sizing: border-box;">
 
-            <div class="email-info-card-logo"
-            style="margin-bottom: 24px;">
-
-                <div class="logo"
-                style="height: 112px; max-width: 352px;">
-                    <img src="https://sesan.cl/img/logo-mail.png" alt="SESAN Logo">
-                </div>
+            <div class="email-info-card-logo" style="margin-bottom: 24px;">
+                <img src="https://sesan.cl/img/logo-mail.png" alt="SESAN Logo"
+                    style="height: 112px; max-width: 352px;">
             </div>
 
             <div class="email-info-card-title">
@@ -30,9 +26,12 @@ style="background-color: #f8fafc; margin: 0; padding: 0;
             </div>
 
             <div class="email-info-body-card">
-                <p>Hola, <b th:text="${username}">Usuario</b></p>
-                <p>Te escribimos para informarte que has sido invitado a unirte a la plataforma SESAN.</p>
-                <p>Para aceptar la invitación, haz clic en el siguiente enlace:</p>
+                <p style="font-size:1.06rem; color:#334155;">
+                                        Hola, <b th:text="${username}">Usuario</b></p>
+                <p style="font-size:1.06rem; color:#334155;">
+                        Has sido invitado a unirte a la plataforma SESAN.</p>
+                <p style="font-size:1.06rem; color:#334155;">
+                        Para aceptar la invitación, haz clic en el siguiente enlace:</p>
 
                 <a class="email-auth-button"
                     th:href="'https://sesan.cl/auth/define-password?token=' + ${token}">
