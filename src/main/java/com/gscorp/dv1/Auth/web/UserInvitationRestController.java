@@ -16,6 +16,7 @@ import org.springframework.util.StringUtils;
 
 import com.gscorp.dv1.auth.application.PasswordResetTokenService;
 import com.gscorp.dv1.auth.infrastructure.PasswordResetToken;
+import com.gscorp.dv1.services.EmailTemplateUtils;
 import com.gscorp.dv1.services.GmailService;
 import com.gscorp.dv1.services.WhatsAppService;
 import com.gscorp.dv1.users.application.UserService;
@@ -59,18 +60,20 @@ public class UserInvitationRestController {
             context.setVariable("username", user.getUsername());
             context.setVariable("token", token.getToken());
 
-            // Renderizar la plantilla externa
+            String cssPath = "static/css/email-user-invite.css";
             String htmlBody =
                 templateEngine.process("auth/fragments/email-invitation", context);
 
-            // Enviar 
-            gmailService.sendMail(user.getMail(), subject, htmlBody);
+            String finalHtmlBody =
+                EmailTemplateUtils.buildStyledEmail(htmlBody, cssPath);
+
+            gmailService.sendMail(user.getMail(), subject, finalHtmlBody);
 
             return ResponseEntity.ok("Invitación enviada correctamente");
 
         } catch (Exception e) {
             return ResponseEntity.internalServerError()
-                    .body("No se pudo enviar la invitación" + e.getMessage());
+                    .body("No se pudo enviar la invitación: " + e.getMessage());
         }
     }
 
