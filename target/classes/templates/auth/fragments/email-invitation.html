@@ -27,10 +27,10 @@
             </div>
 
             <div class="email-info-body-card" style="margin-bottom:24px;">
-                <p style="margin: 0; font-size:16.5px; color:#334155;">
+                <p style="margin: 0 0 12px 0; font-size:16.5px; color:#334155;">
                                         Hola, <b th:text="${username}">Usuario</b></p>
-                <p style="margin: 0; font-size:16.5px; color:#334155;">
-                        Has sido invitado a unirte a la plataforma SESAN.</p>
+                <p style="margin: 0 0 6px 0; font-size:16.5px; color:#334155;">
+                        Has sido invitado a unirte a la plataforma SESAN</p>
                 <p style="margin: 0; font-size:16.5px; color:#334155;">
                         Para aceptar la invitación, haz clic en el siguiente enlace:</p>
 
@@ -38,7 +38,7 @@
                     th:href="'https://sesan.cl/auth/define-password?token=' + ${token}"
                     style="background:#3b82f6; color:white; padding:14px 28px;
                             border-radius:6px; text-decoration:none; font-weight:600;
-                            margin:16px 0 16px 0; font-size:1.12rem; display:inline-block;">
+                            margin:18px 0 18px 0; font-size:17.92px; display:inline-block;">
                                                                 Aceptar Invitación</a>
 
                 <p style="margin: 0; font-size:16px; color:#334155;">
@@ -50,10 +50,12 @@
                 </p>
             </div>
 
+<hr style="border: 0; border-top: 1px solid #f1f5f9; margin: 24px 0;">
+
             <div class="email-info-footer-card" style="margin-top:24px;">
-                <p style="margin: 4px; font-size:15px; color:#334155;">
+                <p style="margin: 4px; font-size:15.5px; color:#334155;">
                                                         Este enlace expira en 24 horas</p>
-                <p style="margin: 0; font-size:15px; color:#334155;">
+                <p style="margin: 0; font-size:15.5px; color:#334155;">
                         Si no has solicitado esta invitación, puedes ignorar este correo.</p>
             </div>
         </div>
