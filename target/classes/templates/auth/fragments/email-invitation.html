@@ -6,10 +6,8 @@
     <title>Bienvenido a SESAN</title>
 </head>
 
-<body style="margin: 0; padding: 0; font-family: 'Roboto', 'Segoe UI', sans-serif;">
-
-    <div class="bg-email-invitation-card"
-            style="background-color:#f8fafc; padding: 32px 10px; text-align: center;">
+<body style="margin: 0; padding: 0; font-family: 'Roboto', 'Segoe UI', sans-serif;
+                background-color:#f8fafc">
 
         <div class="email-invitation-card"
             style="width:90%; max-width:500px; max-height: 400px; margin: 0 auto; background-color:#ffffff !important;
@@ -17,16 +15,14 @@
             box-shadow:0 8px 17.6px rgba(15, 23, 42, 0.04);
             box-sizing: border-box; text-align: center; display: inline-block;">
 
-            <div class="email-info-card-logo" style="margin-bottom:24px;">
+            <div class="email-info-card-logo" style="margin: 0;">
                 <img src="https://sesan.cl/img/logo-mail.png" alt="SESAN Logo"
                     style="height:112px; max-width:352px;">
             </div>
 
-            <div class="email-info-card-title" style="margin-bottom:20px;">
-                <h1 style="margin: 0; font-size: 26px;">Bienvenido a la plataforma!</h1>
-            </div>
+            <h1 style="margin: 0; font-size: 26px;">Bienvenido a la plataforma!</h1>
 
-            <div class="email-info-body-card" style="margin-bottom:20px;">
+            <div class="email-info-body-card" style="margin: 0;">
                 <p style="margin: 0 0 15px 0; font-size:16.5px; color:#334155;">
                                         Hola, <b th:text="${username}">Usuario</b></p>
                 <p style="margin: 0 0 6px 0; font-size:16.5px; color:#334155;">
@@ -36,7 +32,7 @@
 
                 <a class="email-auth-button"
                     th:href="'https://sesan.cl/auth/define-password?token=' + ${token}"
-                    style="background:#3b82f6; color:white; padding:14px 28px;
+                    style="background:#3b82f6; color:white; padding:14px 25px;
                             border-radius:6px; text-decoration:none; font-weight:600;
                             margin:18px 0 18px 0; font-size:17.92px; display:inline-block;">
                                                                 Aceptar Invitación</a>
@@ -52,15 +48,11 @@
 
             <hr style="border: 0; border-top: 1px solid #f1f5f9; margin: 24px 0;">
 
-            <div class="email-info-footer-card" style="margin: 0; padding: 0;">
-                <p style="margin: 4px; font-size:15.5px; color:#64748b;">
+            <p style="margin: 4px; font-size:15.5px; color:#64748b;">
                                                         Este enlace expira en 24 horas</p>
-                <p style="margin: 0; font-size:15.5px; color:#64748b;">
+            <p style="margin: 0; font-size:15.5px; color:#64748b;">
                         Si no has solicitado esta invitación, puedes ignorar este correo.</p>
-            </div>
         </div>
-
-    </div>
 
 </body>
 </html>
