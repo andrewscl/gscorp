@@ -248,4 +248,15 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
     """)
     Optional<EmployeeViewProjection> findEmployeeViewProjectionById(Long id);
 
+    @Query(value = """
+        SELECT 
+            e.id AS id, 
+            e.name AS name, 
+            e.father_surname AS fatherSurname, 
+            e.mother_surname AS motherSurname 
+        FROM employees e 
+        WHERE e.id = :id
+        """, nativeQuery = true)
+    Optional<EmployeeSelectProjection> findEmployeeSelectDtoById(@Param("id") Long id);
+
 }

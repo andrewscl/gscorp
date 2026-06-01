@@ -6,39 +6,46 @@
     <title>Bienvenido a SESAN</title>
 </head>
 
-<body style="margin: 0; padding: 0; font-family: 'Roboto', 'Segoe UI', sans-serif;
-                background-color:#f8fafc">
+<body style="font-family: 'Roboto', 'Segoe UI', sans-serif;">
+
+    <div class="bg-email-invite-card"
+            style="background-color:#f8fafc; padding: 32px 10px; text-align: center;">
 
         <div class="email-invitation-card"
-            style="width:90%; max-width:500px; max-height: 400px; margin: 0 auto; background-color:#ffffff !important;
-            border:1.6px solid #e7e5e4; border-radius:11.2px; padding:36px 32px 20px 32px; 
+            style="width:90%; max-width:480px; background-color:#ffffff !important;
+            border:1.6px solid #e7e5e4; border-radius:11.2px; 
             box-shadow:0 8px 17.6px rgba(15, 23, 42, 0.04);
             box-sizing: border-box; text-align: center; display: inline-block;">
 
-            <div class="email-info-card-logo" style="margin: 0;">
+            <div class="email-info-card-logo" style="margin: 0 0 16px 0;">
                 <img src="https://sesan.cl/img/logo-mail.png" alt="SESAN Logo"
                     style="height:112px; max-width:352px;">
             </div>
 
-            <h1 style="margin: 0; font-size: 26px;">Bienvenido a la plataforma!</h1>
+            <h1 style="font-size: 22px; margin: 0 0 20px 0;">Bienvenido a la plataforma!</h1>
 
-            <div class="email-info-body-card" style="margin: 0;">
-                <p style="margin: 0 0 15px 0; font-size:16.5px; color:#334155;">
-                                        Hola, <b th:text="${username}">Usuario</b></p>
-                <p style="margin: 0 0 6px 0; font-size:16.5px; color:#334155;">
-                        Has sido invitado a unirte a la plataforma SESAN</p>
-                <p style="margin: 0; font-size:16.5px; color:#334155;">
-                        Para aceptar la invitación, haz clic en el siguiente enlace:</p>
+            <div class="email-info-body-card">
+                <p style="font-size:16.5px; color:#334155; margin: 0 0 6px 0;">
+                                        Hola, <b th:text="${name}"></b></p>
+                <p style="font-size:16.5px; color:#334155; margin: 0 0 6px 0;">
+                    Has sido invitado a unirte a la plataforma SESAN</p>
+
+                <hr style="border: 0; border-top: 1px solid #f1f5f9; margin: 30px 0;">
+
+                <p style="font-size:16.5px; color:#334155; margin: 0 0 6px 0;">
+                    Tu nombre de usuario es: <b th:text="${username}"></b></p>
+                <p style="font-size:16.5px; color:#334155; margin: 0 0 0 0;">
+                    Para definir la contraseña, haz clic en el siguiente enlace:</p>
 
                 <a class="email-auth-button"
                     th:href="'https://sesan.cl/auth/define-password?token=' + ${token}"
                     style="background:#3b82f6; color:white; padding:14px 25px;
-                            border-radius:6px; text-decoration:none; font-weight:600;
-                            margin:18px 0 18px 0; font-size:17.92px; display:inline-block;">
+                            margin: 10px 0 16px 0; font-weight:600; font-size:17.92px;
+                            border-radius:6px; text-decoration:none; display:inline-block;">
                                                                 Aceptar Invitación</a>
 
-                <p style="margin: 0; font-size:16px; color:#334155;">
-                    Si el botón no funciona, copia y pega est   e enlace en tu navegador:<br>
+                <p style="font-size:15.75px; color:#334155;">
+                    Si el botón no funciona, copia y pega este enlace en tu navegador:<br>
                     <a class="email-auth-path"
                         th:href="'https://sesan.cl/auth/define-password?token=' + ${token}"
                         th:text="'https://sesan.cl/auth/define-password?token=' + ${token}">
@@ -46,13 +53,15 @@
                 </p>
             </div>
 
-            <hr style="border: 0; border-top: 1px solid #f1f5f9; margin: 24px 0;">
+            <hr style="border: 0; border-top: 1px solid #f1f5f9; margin: 30px 0;">
 
-            <p style="margin: 4px; font-size:15.5px; color:#64748b;">
+            <p style="font-size:15.5px; color:#64748b; margin: 0 0 6px 0;">
                                                         Este enlace expira en 24 horas</p>
-            <p style="margin: 0; font-size:15.5px; color:#64748b;">
+            <p style="font-size:15.5px; color:#64748b; margin: 0 0 0 0;">
                         Si no has solicitado esta invitación, puedes ignorar este correo.</p>
         </div>
+
+    </div>
 
 </body>
 </html>

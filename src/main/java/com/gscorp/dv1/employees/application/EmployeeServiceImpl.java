@@ -272,7 +272,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
 
-
     @Override
     @Transactional(readOnly = true)
     public EmployeeSelectDto findEmployeeByUserId(Long userId) {
@@ -280,7 +279,6 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .map(EmployeeSelectDto::fromProjection)
                 .orElse(null);
     }
-
 
 
     @Override
@@ -291,7 +289,6 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .map(EmployeeSelectDto::fromProjection)
                 .toList();
     }
-
 
 
     @Override
@@ -449,6 +446,16 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         return Optional.of(EmployeeViewDto.fromProjection(projectionOpt.get()));
+    }
+
+    @Override
+    @Transactional
+    public EmployeeSelectDto findEmployeeSelectDtoById(Long id){
+        return employeeRepository.findEmployeeSelectDtoById(id)
+                .map(EmployeeSelectDto::fromProjection)
+                .orElseThrow(
+                    () -> new
+                        EntityNotFoundException("Empleado no encontrado con id: " + id));
     }
 
 }

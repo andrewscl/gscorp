@@ -16,6 +16,8 @@ import org.springframework.util.StringUtils;
 
 import com.gscorp.dv1.auth.application.PasswordResetTokenService;
 import com.gscorp.dv1.auth.infrastructure.PasswordResetToken;
+import com.gscorp.dv1.employees.application.EmployeeService;
+import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
 import com.gscorp.dv1.services.EmailTemplateUtils;
 import com.gscorp.dv1.services.GmailService;
 import com.gscorp.dv1.services.WhatsAppService;
@@ -38,6 +40,7 @@ public class UserInvitationRestController {
     private final GmailService gmailService;
     private final PasswordResetTokenService passwordResetTokenService;
     private final WhatsAppService whatsAppService;
+    private final EmployeeService employeeService;
 
     @Autowired
     private TemplateEngine templateEngine;
@@ -49,6 +52,8 @@ public class UserInvitationRestController {
         // Crear el usuario invitado
         User user = userService.createInvitedUser(request);
         // Crear el token de invitación (válido por 24 horas)
+        EmployeeSelectDto employee = employeeService.findEmployeeSelectDtoById(request.employeeId());
+
         PasswordResetToken token = passwordResetTokenService.
                                             createToken(user, INVITE_TTL);
 
@@ -59,6 +64,7 @@ public class UserInvitationRestController {
             Context context = new Context();
             context.setVariable("username", user.getUsername());
             context.setVariable("token", token.getToken());
+            context.setVariable("name", employee.name());
 
             String cssPath = "static/css/email-user-invite.css";
             String htmlBody =
