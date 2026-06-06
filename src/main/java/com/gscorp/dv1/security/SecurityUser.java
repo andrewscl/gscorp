@@ -1,8 +1,8 @@
 package com.gscorp.dv1.security;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,23 +19,15 @@ public class SecurityUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
-        if ( user.getRoles() == null){
-            System.out.println("El usuario no tiene roles asignados (null).");
-            return List.of(); // devuelve una lista vacía
+        if ( user.getRole() == null){
+            System.out.println("El usuario no tiene role asignado (null).");
+            return Collections.emptyList();
         }
 
-        // Crear una copia segura para evitar ConcurrentModificationException
-        List<String> roles = user.getRoles().stream()
-            .map(r -> r.getRole())
-            .collect(Collectors.toList());
-
-        return roles.stream()
-        .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
-        .collect(Collectors.toList());
+        return List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().getRole()));
     }
 
-        @Override
+    @Override
     public String getPassword() {
         return user.getPassword();
     }
@@ -47,22 +39,22 @@ public class SecurityUser implements UserDetails {
 
      @Override
     public boolean isAccountNonExpired() {
-        return true; // o según tu lógica
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true; // o según tu lógica
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true; // o según tu lógica
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return true; // o según tu lógica
+        return true;
     }
 
     //Exponer del id para AuditorAware
@@ -70,7 +62,7 @@ public class SecurityUser implements UserDetails {
         return user != null ? user.getId() : null;
     }
 
-    //exponer el User si se desea crear desde otros puntos
+    //Exponer el User si se desea crear desde otros puntos
     public User getUser() {
         return user;
     }

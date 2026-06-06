@@ -1,0 +1,22 @@
+<th:block th:fragment="rows">
+    <tr th:each="company : ${companiesPage.content}">
+        <td th:text="${company.id}"></td>
+        <td th:text="${company.name}"></td>
+        <td th:text="${company.email}"></td>
+        <td th:text="${company.status.displayName}"></td>
+        <td th:text="${company.active}"></td>
+
+        <td class="actions">
+    <button type="button" class="btn-view"
+                th:attr="data-path=@{/private/companies/show/{id}(id=${company.id})}">
+        Ver
+    </button>
+
+    <button type="button" class="btn-edit"
+                th:attr="data-path=@{/private/companies/edit/{id}(id=${company.id})}">
+        Editar
+    </button>
+
+        </td>
+    </tr>
+</th:block>

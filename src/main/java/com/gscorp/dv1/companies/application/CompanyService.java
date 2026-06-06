@@ -1,0 +1,22 @@
+package com.gscorp.dv1.companies.application;
+
+import java.util.List;
+import java.util.Set;
+
+import org.springframework.data.domain.Page;
+
+import com.gscorp.dv1.companies.infrastructure.Company;
+import com.gscorp.dv1.companies.web.dto.CompanyTableDto;
+import com.gscorp.dv1.enums.CompanyStatus;
+
+public interface CompanyService {
+
+    List<Company> validateAndFindAllById(Set<Long> ids);
+
+    Page<CompanyTableDto> getAllCompaniesTableForAdmin(
+        int page, int size);
+
+    Page<CompanyTableDto> searchCompaniesTableByUserId(
+        Long userId, String q, CompanyStatus status, int page, int size);
+
+}

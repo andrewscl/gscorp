@@ -34,6 +34,7 @@ public class UserController {
     private final RoleService roleService;
     private final EmployeeService employeeService;
 
+
     @GetMapping("/table-view")
     public String getUsersTableView(
             Model model,
@@ -46,7 +47,6 @@ public class UserController {
         if (userId == null) {
             return "redirect:/login";
         }
-
         Page<UserTableDto> usersPage =
                 userService.getAllUsersWithEmployee(page, size);
 
@@ -56,6 +56,7 @@ public class UserController {
 
         return "private/users/views/users-list";
     }
+
 
     @GetMapping("/invite")
     public String getInviteUserView(Model model) {
@@ -117,7 +118,7 @@ public class UserController {
         model.addAttribute("status", status);
         model.addAttribute("qVar", q);
         model.addAttribute("userStatus", UserStatus.values());
-        model.addAttribute("count",usersPage.getTotalElements());
+        model.addAttribute("count", usersPage.getTotalElements());
 
         return "private/users/fragments/users-table-partial :: partial";
     }

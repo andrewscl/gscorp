@@ -5,9 +5,8 @@ import java.util.Set;
 public record InviteUserRequest (
     String username,
     String mail,
-    Set<Long> roleIds,
+    Long roleId,
+    Set<Long> companyIds,
     Set<Long> clientIds,
     Long employeeId
-){
-    
-}
+){}

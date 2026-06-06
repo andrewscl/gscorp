@@ -4,17 +4,19 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gscorp.dv1.bank.infrastructure.Bank;
+import com.gscorp.dv1.companies.infrastructure.Company;
 import com.gscorp.dv1.enums.BankAccountType;
 import com.gscorp.dv1.enums.ContractType;
 import com.gscorp.dv1.enums.Gender;
-import com.gscorp.dv1.enums.HealthSystem;
 import com.gscorp.dv1.enums.HealthEntity;
+import com.gscorp.dv1.enums.HealthSystem;
 import com.gscorp.dv1.enums.MaritalStatus;
 import com.gscorp.dv1.enums.PaymentMethod;
 import com.gscorp.dv1.enums.PensionEntity;
@@ -29,6 +31,7 @@ import com.gscorp.dv1.projects.infrastructure.Project;
 import com.gscorp.dv1.shiftpatterns.infrastructure.ShiftPattern;
 import com.gscorp.dv1.users.infrastructure.User;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -41,6 +44,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -59,6 +63,10 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "external_id", unique=true,
+                        nullable=false, updatable=false)
+    private UUID externalId;
 
     private String name;
     private String fatherSurname;
@@ -146,7 +154,10 @@ public class Employee {
     @JsonIgnore
     private User user;
 
-    // Relación: Un proyecto tiene varios empleados, y un empleado puede estar en varios proyectos
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id", nullable = false)
+    private Company company;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "employee_project",
@@ -157,13 +168,22 @@ public class Employee {
     @JsonIgnore
     private Set<Project> projects = new HashSet<>();
 
-
-
-    // Fechas de auditoría (requieren dependencias Hibernate)
     @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    @Column(nullable = false, updatable = false)
+    private String createdBy;
+
+    @Column(nullable = true)
+    private String updatedBy;
+
+    @PrePersist
+    protected void onCreate() {
+        if (this.externalId == null) {
+            this.externalId = UUID.randomUUID();
+        }
+    }
 
 }

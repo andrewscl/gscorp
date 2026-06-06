@@ -2,6 +2,7 @@ package com.gscorp.dv1.enums;
 
 public enum UserStatus {
     INVITED("Invitado"),
+    PENDING("Pendiente"),
     ACTIVE("Activo"),
     INACTIVE("Inactivo"),
     EXPIRED("Expirado"),

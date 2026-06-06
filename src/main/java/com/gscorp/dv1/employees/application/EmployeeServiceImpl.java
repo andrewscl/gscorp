@@ -41,6 +41,7 @@ import com.gscorp.dv1.projects.infrastructure.Project;
 import com.gscorp.dv1.shiftpatterns.application.ShiftPatternService;
 import com.gscorp.dv1.shiftpatterns.infrastructure.ShiftPattern;
 import com.gscorp.dv1.users.application.UserService;
+import com.gscorp.dv1.users.infrastructure.User;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -456,6 +457,18 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .orElseThrow(
                     () -> new
                         EntityNotFoundException("Empleado no encontrado con id: " + id));
+    }
+
+    @Override
+    @Transactional
+    public Employee validateAndAssignUser (Long employeeId, User user) {
+        Employee employee = employeeRepository.findById(employeeId)
+            .orElseThrow(() -> new EntityNotFoundException("Empleado no encontrado con id: " + employeeId));
+        if (employee.getUser() != null) {
+            throw new IllegalStateException("El empleado ya tiene un usuario asignado");
+        }
+        employee.setUser(user);
+        return employeeRepository.save(employee);
     }
 
 }

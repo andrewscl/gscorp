@@ -10,33 +10,30 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import com.gscorp.dv1.users.application.UserService;
-
-
 import lombok.RequiredArgsConstructor;
 
 @Component("auditorProvider")
 @RequiredArgsConstructor
-public class SpringSecurityAuditorAware implements AuditorAware<Long> {
+public class SpringSecurityAuditorAware implements AuditorAware<String> {
 
     private static final Logger log = LoggerFactory.getLogger(SpringSecurityAuditorAware.class);
 
-    private final UserService userService;
-
     @Override
-    public Optional<Long> getCurrentAuditor() {
+    public Optional<String> getCurrentAuditor() {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            if (auth == null || !auth.isAuthenticated()) {
+            if (auth == null || !auth.isAuthenticated() || "anonymousUser".equals(auth.getPrincipal())) {
                 log.debug("No auth -> empty auditor");
-                return Optional.empty();
+                return Optional.of("SYSTEM");
             }
-            Long userId = userService.getUserIdFromAuthentication(auth);
-            log.debug("AuditorAware resolved userId={}", userId);
-            return Optional.ofNullable(userId);
+
+            String username = auth.getName();
+            log.debug("AuditorAware resolved username={}", username);
+            return Optional.ofNullable(username);
+
         } catch (Exception e) {
-            log.warn("Error resolving auditor id", e);
-            return Optional.empty();
+            log.warn("Error resolving auditor username", e);
+            return Optional.of("SYSTEM");
         }
     }
 

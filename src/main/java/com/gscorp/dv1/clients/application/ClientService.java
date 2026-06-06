@@ -2,6 +2,7 @@ package com.gscorp.dv1.clients.application;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.security.core.Authentication;
 
@@ -38,6 +39,7 @@ public interface ClientService {
     List<ClientSelectDto> findClientsByUserId(Long userId);
 
     List<ClientSelectDto> getAllClientsSelectDto();
-    
+
+    List<Client> validateAndFindAllById(Set<Long> ids);
 
 }

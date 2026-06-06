@@ -10,7 +10,8 @@ public record UserUpdateDto(
     String username,
     String mail,
     Boolean active,
-    Set<Long> roleIds,
+    Long roleId,
+    Set<Long> companyIds,
     Set<Long> clientIds,
     Long employeeId,
     String timeZone

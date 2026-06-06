@@ -1,7 +1,7 @@
 package com.gscorp.dv1.users.application;
 
 import java.time.DateTimeException;
-import java.time.LocalDateTime;
+import java.time.Duration;
 import java.time.ZoneId;
 import java.util.Collections;
 import java.util.HashSet;
@@ -21,22 +21,18 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
-
-import com.google.i18n.phonenumbers.NumberParseException;
-import com.google.i18n.phonenumbers.PhoneNumberUtil;
-import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
-import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat;
-
 
 import com.gscorp.dv1.auth.application.PasswordResetTokenService;
+import com.gscorp.dv1.auth.infrastructure.PasswordResetToken;
+import com.gscorp.dv1.clients.application.ClientService;
 import com.gscorp.dv1.clients.infrastructure.Client;
-import com.gscorp.dv1.clients.infrastructure.ClientRepository;
-import com.gscorp.dv1.employees.infrastructure.Employee;
-import com.gscorp.dv1.employees.infrastructure.EmployeeRepository;
+import com.gscorp.dv1.companies.application.CompanyService;
+import com.gscorp.dv1.companies.infrastructure.Company;
+import com.gscorp.dv1.employees.application.EmployeeService;
+import com.gscorp.dv1.enums.AccountType;
 import com.gscorp.dv1.enums.UserStatus;
+import com.gscorp.dv1.roles.application.RoleService;
 import com.gscorp.dv1.roles.infrastructure.Role;
-import com.gscorp.dv1.roles.infrastructure.RoleRepository;
 import com.gscorp.dv1.users.infrastructure.User;
 import com.gscorp.dv1.users.infrastructure.UserRepository;
 import com.gscorp.dv1.users.infrastructure.UserSpecRepository;
@@ -44,7 +40,6 @@ import com.gscorp.dv1.users.infrastructure.UserTableProjection;
 import com.gscorp.dv1.users.infrastructure.specification.UserSpecifications;
 import com.gscorp.dv1.users.web.dto.CreateUserRequest;
 import com.gscorp.dv1.users.web.dto.InviteUserRequest;
-import com.gscorp.dv1.users.web.dto.InviteUserRequestWhatsApp;
 import com.gscorp.dv1.users.web.dto.UserTableDto;
 import com.gscorp.dv1.users.web.dto.UserUpdateDto;
 import com.gscorp.dv1.users.web.dto.UserViewDto;
@@ -57,19 +52,25 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
 
+    private final CompanyService companyService;
+    private final ClientService clientService;
+
     @Autowired
     private final UserRepository userRepo;
 
     @Autowired
     private final UserSpecRepository userSpecRepo;
 
-    private final RoleRepository roleRepo;
-    private final ClientRepository clientRepo;
-    private final PasswordEncoder encoder;
-    private final PasswordResetTokenService passwordResetTokenService;
-    private final EmployeeRepository employeeRepo;
+    @Autowired
+    private final EmployeeService employeeService;
 
-    //Crear usuario
+    private final RoleService roleService;
+    private final PasswordEncoder encoder;
+
+    @Autowired
+    private final PasswordResetTokenService passwordResetTokenService;
+
+    @Transactional
     public Long createUser (CreateUserRequest req){
         if(req.username()==null || req.username().isBlank())
             throw new IllegalArgumentException("username requerido");
@@ -78,42 +79,25 @@ public class UserServiceImpl implements UserService{
         if(userRepo.findByUsername(req.username()).isPresent())
             throw new DataIntegrityViolationException("El usuario ya existe");
 
+        Role role = roleService.findById(req.roleId());
+
         var u = new User();
         u.setUsername(req.username());
         u.setMail(req.mail());
         u.setPassword(encoder.encode(req.password()));
-        u.setRoles(new HashSet<>());
+        u.setRole(role);
+        u.setActive(true);
+        u.setStatus(UserStatus.ACTIVE);
+        u.setCompanies(new HashSet<>());
         u.setClients(new HashSet<>());
 
-        if (req.roleIds()!=null && !req.roleIds().isEmpty()) {
-            List<Role> roles = roleRepo.findAllById(req.roleIds());
-            if(roles.isEmpty())
-                throw new IllegalArgumentException("Roles invalidos");
-            u.getRoles().addAll(roles);
-        } else {
-            //Rol por defecto
-            Role def = roleRepo.findByRole("CLIENT")
-                .orElseThrow(() ->new IllegalStateException("Rol Client no existe"));
-            u.getRoles().add(def);
-        }
+        User user = userRepo.save(u);
 
-        if (req.clientIds()!=null && !req.clientIds().isEmpty()) {
-            List<Client> clients = clientRepo.findAllById(req.clientIds());
-            if(clients.isEmpty())
-                throw new IllegalArgumentException("Clientes invalidos");
-            u.getClients().addAll(clients);
-        } else {
-            /*Cliente por defecto
-            Client def = clientRepo.findByName("CLIENT")
-                .orElseThrow(() ->new IllegalStateException("Rol Client no existe"));
-            u.getRoles().add(def);*/
-        }
+        assignMatrixAndValidate(user, req.employeeId(), req.companyIds(), req.clientIds());
 
-        return userRepo.save(u).getId();
-        
+        return user.getId();
     }
 
-    //Eliminar usuario
     @Override
     @Transactional
     public void deleteById(Long id) {
@@ -132,11 +116,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> findAll(){
         return userRepo.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User findById(Long id){
         return userRepo.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
@@ -157,117 +143,92 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    @Transactional
     public User createInvitedUser(InviteUserRequest request) {
+        if(request.username()==null || request.username().isBlank())
+            throw new IllegalArgumentException("username requerido");
+        if(userRepo.findByUsername(request.username()).isPresent())
+            throw new DataIntegrityViolationException("El usuario ya existe");
+
+        Role role = roleService.findById(request.roleId());
+
         User user = new User();
         user.setUsername(request.username());
         user.setMail(request.mail());
-        user.setActive(true);
-        //NO contraseña aun, ni token (El controller gestiona eso)
+        user.setRole(role);
         user.setPassword(null);
+        user.setActive(false);
         user.setStatus(UserStatus.INVITED);
-        user.setInvitationToken(null);
-        user.setInvitationTokenExpiry(null);
+        user.setCompanies(new HashSet<>());
+        user.setClients(new HashSet<>());
 
-        // Asignar roles
-        if (request.roleIds() != null) {
-            Set<Role> roles = new HashSet<>();
-            for (Long roleId : request.roleIds()) {
-                    roleRepo.findById(roleId).ifPresent(roles::add);
-            }
-            user.setRoles(roles);
-        }
+        User savedUser = userRepo.save(user);
 
-        // Asignar clientes
-        if (request.clientIds() != null) {
-            Set<Client> clients = new HashSet<>();
-            for (Long clientId : request.clientIds()) {
-                clientRepo.findById(clientId).ifPresent(clients::add);
-            }
-            user.setClients(clients);
-        }
+        assignMatrixAndValidate(savedUser, request.employeeId(), request.companyIds(), request.clientIds());
 
-        //Asociar empleado
-        Employee employee = null;
-        if(request.employeeId() != null) {
-            employee = employeeRepo.findById(request.employeeId())
-                .orElseThrow(() -> new IllegalArgumentException("Empleado no encontrado"));
-
-            if(employee.getUser() != null) {
-                throw new IllegalArgumentException("Empleado ya asociado a un usuario");
-            }
-
-            // asignar en el owning side (User tiene @JoinColumn(employee_id))
-            user.setEmployee(employee);
-        }
-
-        // persistir usuario (incluye employee_id si fue seteado)
-        User savedUser;
-        try {
-            savedUser = userRepo.save(user);
-        } catch (DataIntegrityViolationException ex) {
-            // posible race condition si otro hilo asignó el mismo employee; manejar claramente
-            throw new IllegalStateException("No se pudo crear el usuario: conflicto de integridad", ex);
-        }
-
-        // sincronizar el lado inverso en memoria para la misma transacción
-        if (employee != null) {
-            employee.setUser(savedUser);
-            // no es necesario guardar employee porque employee es el lado inverso (la columna está en user)
-        }
+        passwordResetTokenService.createToken(savedUser, Duration.ofDays(7));
 
         return savedUser;
     }
 
 
-
-    //Valida token de invitación (para frontend)
     @Override
     public Boolean isInvitationTokenValid(String token) {
-        Optional<User> userOpt = userRepo.findByInvitationToken(token);
-        if (userOpt.isEmpty()) return false;
-        User user = userOpt.get();
-        return user.getInvitationTokenExpiry() != null && 
-               user.getInvitationTokenExpiry().isAfter(LocalDateTime.now());
-    }
-
-
-    //Define la contraseña a partir del token de invitación
-    @Override
-    public Boolean setPasswordFromInvitation(String token, String password){
-        Optional<User> userOpt = userRepo.findByInvitationToken(token);
-        if (userOpt.isEmpty()) return false;
-        User user = userOpt.get();
-        if (user.getInvitationTokenExpiry() == null || 
-            user.getInvitationTokenExpiry().isBefore(LocalDateTime.now())) {
+        Optional<PasswordResetToken> tokenOpt = passwordResetTokenService.findByToken(token);
+        if (tokenOpt.isEmpty()) {
             return false;
         }
+        return passwordResetTokenService.isValid(tokenOpt.get());
+    }
+
+    @Override
+    @Transactional
+    public Boolean setPasswordFromInvitation(String token, String password){
+
+        Optional<PasswordResetToken> tokenOpt = passwordResetTokenService.findByToken(token);
+        if (tokenOpt.isEmpty()) return false;
+
+        PasswordResetToken tokenEntity = tokenOpt.get();
+        if (!passwordResetTokenService.isValid(tokenEntity)) return false;
+
+        User user = tokenEntity.getUser();
+        if (user == null) return false;
+
+        //Establecer credenciales de seguridad y activación de la cuenta
         user.setPassword(encoder.encode(password));
-        //Invalida el token
-        user.setInvitationToken(null);
-        user.setInvitationTokenExpiry(null);
         user.setActive(true);
+        user.setStatus(UserStatus.ACTIVE);
+
         userRepo.save(user);
+        passwordResetTokenService.markAsUsed(tokenEntity);
+
         return true;
     }
 
     @Override
+    @Transactional
     public void save(User user) {
         userRepo.save(user);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Boolean isAdmin(User user) {
-        return user.getRoles().stream()
-            .anyMatch(role -> role.getRole().
-                                    equals("ADMINISTRATOR"));
+        if(user == null || user.getRole() == null) return false; 
+        return "ADMINISTRATOR".equalsIgnoreCase(user.getRole().getRole());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<User> findByUsername(String username) {
+        if (username == null || username.isBlank()) {
+            return Optional.empty();
+        }
         return userRepo.findByUsername(username);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Long getUserIdFromAuthentication(Authentication authentication) {
         String username = authentication.getName();
         User user = findByUsername(username)
@@ -276,6 +237,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean isAdmin(Authentication authentication) {
     Long id = getUserIdFromAuthentication(authentication);
     if (id == null) return false;
@@ -298,6 +260,7 @@ public class UserServiceImpl implements UserService{
      * - El resultado está cacheado por userId (cache "userZones") para reducir consultas.
      */
     @Override
+    @Transactional(readOnly = true)
     @Cacheable(value = "userZones", key = "#userId")
     public Optional<ZoneId> getUserZone(Long userId) {
         if (userId == null) {
@@ -325,7 +288,6 @@ public class UserServiceImpl implements UserService{
     }
 
 
-
     @Override
     @Transactional
     public Optional<User> updateUser(Long userId, UserUpdateDto dto) {
@@ -333,84 +295,44 @@ public class UserServiceImpl implements UserService{
         if (dto == null) throw new IllegalArgumentException("user update dto es requerido");
 
         Optional<User> optUser = userRepo.findById(userId);
-        if (optUser.isEmpty()) {
-            return Optional.empty();
-        }
+        if (optUser.isEmpty()) return Optional.empty();
 
         User user = optUser.get();
 
         // Inicializa las colecciones que podrían ser usadas fuera del contexto
         Hibernate.initialize(user.getClients());
-        Hibernate.initialize(user.getRoles());
+        Hibernate.initialize(user.getCompanies());
 
-        if (dto.username() != null) {
-            user.setUsername(dto.username().trim());
-        }
+        if (dto.username() != null) user.setUsername(dto.username().trim());
+        if (dto.mail() != null) user.setMail(dto.mail().trim());
+        if (dto.active() != null) user.setActive(dto.active());
 
-        if (dto.mail() != null) {
-            user.setMail(dto.mail().trim());
-        }
+        if (dto.roleId() != null && !dto.roleId().equals(user.getRole().getId())) {
+            Role newRole = roleService.findById(dto.roleId());
+            user.setRole(newRole);
 
-        if (dto.active() != null) {
-            user.setActive(dto.active());
-        }
+        user.getCompanies().clear();
+        user.getClients().clear();
 
-        // Asociaciones: roles
-        if (dto.roleIds() != null) {
-            Set<Role> newRoles = new HashSet<>();
+        assignMatrixAndValidate(user, dto.employeeId(), dto.companyIds(), dto.clientIds());
 
-            if (!dto.roleIds().isEmpty()) {
-                Iterable<Role> foundRoles = roleRepo.findAllById(dto.roleIds());
-                foundRoles.forEach(newRoles::add);
+        } else {
 
-                //Validar si se encontraron todas las roleIds solicitadas
-                if (newRoles.size() != dto.roleIds().size()) {
-                    log.warn("Algunas roleIds no existen al actualizar user {}: solicitado={}, encontrados={}", userId, dto.roleIds(), newRoles.size());
-                    // Puedes optar por lanzar excepción en lugar de ignorar
-                    // throw new EntityNotFoundException("Algunas roles no existen");
-                }
+            if(dto.companyIds() != null) {
+                List<Company> companies = companyService.validateAndFindAllById(dto.companyIds());
+                user.getCompanies().clear();
+                user.getCompanies().addAll(companies);
             }
-
-            //Quitar roles que ya no están
-            user.getRoles().removeIf(role -> !newRoles.contains(role));
-
-            //Agregar nuevas relaciones
-            for (Role newRole : newRoles) {
-                if (!user.getRoles().contains(newRole)) {
-                    user.getRoles().add(newRole);
-                }
+            if(dto.clientIds() != null) {
+                List<Client> clients = clientService.validateAndFindAllById(dto.clientIds());
+                user.getClients().clear();
+                user.getClients().addAll(clients);
+            }
+            if(dto.employeeId() != null && AccountType.COMPANY.equals(user.getRole().getAccountType())) {
+                employeeService.validateAndAssignUser(dto.employeeId(), user);
             }
         }
 
-        // Asociaciones: clients
-        if (dto.clientIds() != null) {
-            Set<Client> newClients = new HashSet<>(clientRepo.findAllById(dto.clientIds()));
-
-            //Quitar clients que ya no están
-            user.getClients().removeIf(client -> !newClients.contains(client));
-
-            //Agregar nuevas relaciones
-            for (Client newClient : newClients) {
-                if (!user.getClients().contains(newClient)) {
-                    user.getClients().add(newClient);
-                }
-            }
-        }
-
-        // Employee (one-to-one)
-        if (dto.employeeId() != null) {
-            Long empId = dto.employeeId();
-            Optional<Employee> empOpt = employeeRepo.findById(empId);
-            if (empOpt.isPresent()) {
-                user.setEmployee(empOpt.get());
-            } else {
-                log.warn("Employee id {} no encontrado al actualizar usuario {}", empId, userId);
-                // opcional: throw new EntityNotFoundException(...)
-                user.setEmployee(null);
-            }
-        }
-
-        // Time zone validation
         if (dto.timeZone() != null) {
             String tz = dto.timeZone().trim();
             if (tz.isEmpty()) {
@@ -425,123 +347,14 @@ public class UserServiceImpl implements UserService{
             }
         }
 
-        // Persistir cambios
-        User saved = userRepo.save(user);
-        return Optional.of(saved);
-    }
-
-
-
-        /**
-     * Crea un usuario invitado para envío vía WhatsApp.
-     *
-     * Validaciones y comportamiento:
-     * - normaliza y valida phone a E.164 (usa libphonenumber)
-     * - evita crear duplicados por teléfono o username
-     * - asigna roles y clientes indicados si existen
-     * - asocia empleado si se provee y no está ya asociado
-     * - deja password null (el controller/flow debe crear token y definir contraseña)
-     */
-    @Override
-    @Transactional
-    public User createInvitedUserWhatsApp(InviteUserRequestWhatsApp request) {
-        if (request == null) {
-            throw new IllegalArgumentException("Request no puede ser null");
-        }
-        if (!StringUtils.hasText(request.username())) {
-            throw new IllegalArgumentException("username es requerido");
-        }
-        // Normalizar teléfono a E.164
-        String normalizedPhone = normalizeToE164(request.phone());
-        if (normalizedPhone == null) {
-            throw new IllegalArgumentException("Teléfono inválido. Debe estar en formato internacional (E.164).");
-        }
-
-        // Comprobar duplicados por teléfono
-        Optional<User> existingByPhone = userRepo.findByPhone(normalizedPhone);
-        if (existingByPhone.isPresent()) {
-            throw new IllegalArgumentException("Ya existe un usuario con ese teléfono");
-        }
-
-        // Comprobar duplicado por username
-        Optional<User> existingByUsername = userRepo.findByUsername(request.username());
-        if (existingByUsername.isPresent()) {
-            throw new IllegalArgumentException("El nombre de usuario ya está en uso");
-        }
-
-        User user = new User();
-        user.setUsername(request.username());
-        user.setMail(null); // no email para envíos WhatsApp
-        user.setPhone(normalizedPhone);
-        user.setActive(true); // o false según tu política; aquí lo dejamos activo pero sin password
-        // marca canal preferido si tu entidad tiene el campo (opcional)
-        // user.setPreferredContactChannel(ContactChannel.WHATSAPP);
-
-        // Asignar roles
-        Set<Role> roles = new HashSet<>();
-        if (request.roleIds() != null) {
-            for (Long roleId : request.roleIds()) {
-                roleRepo.findById(roleId).ifPresent(roles::add);
-            }
-        }
-        user.setRoles(roles);
-
-        // Asignar clientes
-        Set<Client> clients = new HashSet<>();
-        if (request.clientIds() != null) {
-            for (Long clientId : request.clientIds()) {
-                clientRepo.findById(clientId).ifPresent(clients::add);
-            }
-        }
-        user.setClients(clients);
-
-        // Asociar empleado si se indica
-        if (request.employeeId() != null) {
-            Employee employee = employeeRepo.findById(request.employeeId())
-                    .orElseThrow(() -> new IllegalArgumentException("Empleado no encontrado"));
-            if (employee.getUser() != null) {
-                throw new IllegalArgumentException("Empleado ya asociado a un usuario");
-            }
-            // asociar
-            employeeRepo.findById(request.employeeId()).ifPresent(user::setEmployee);
-        }
-
-        // No establecer contraseña ni token en este punto.
-        user.setPassword(null);
-
-        // Guardar y devolver
-        return userRepo.save(user);
-    }
-
-    private static final PhoneNumberUtil PHONE_UTIL = PhoneNumberUtil.getInstance();
-
-    /**
-     * Normaliza número a formato E.164 usando libphonenumber.
-     * Devuelve null si no se puede parsear/validar.
-     */
-    private String normalizeToE164(String rawPhone) {
-        if (!StringUtils.hasText(rawPhone)) return null;
-        String s = rawPhone.trim();
-        try {
-            PhoneNumber pn = PHONE_UTIL.parse(s, null); // region null asume prefijo internacional
-            if (!PHONE_UTIL.isValidNumber(pn)) {
-                log.debug("Número no válido según libphonenumber: {}", rawPhone);
-                return null;
-            }
-            return PHONE_UTIL.format(pn, PhoneNumberFormat.E164);
-        } catch (NumberParseException e) {
-            log.debug("Error parseando número '{}' : {}", rawPhone, e.getMessage());
-            return null;
-        } catch (Exception e) {
-            log.error("Error inesperado parseando número '{}': {}", rawPhone, e.getMessage(), e);
-            return null;
-        }
+        return Optional.of(userRepo.save(user));
     }
 
 
     @Override
     @Transactional(readOnly = true)
     public Optional<Long> findEmployeeIdByUserId(Long userId) {
+        if (userId == null) return Optional.empty();
         return userRepo.findEmployeeIdByUserId(userId);
     }
 
@@ -595,5 +408,34 @@ public class UserServiceImpl implements UserService{
             "suspendedUsers", userRepo.countByStatus(UserStatus.SUSPENDED)
         );
     }
+
+
+    private void assignMatrixAndValidate(User user, Long employeeId, Set<Long> companyIds, Set<Long> clientIds){
+        switch (user.getRole().getAccountType()) {
+            case HOLDING -> {
+                if(employeeId != null) {
+                    throw new IllegalArgumentException("The accountType HOLDING cannot be associated with an employee");
+                }
+                List<Company> companies = companyService.validateAndFindAllById(companyIds);
+                user.getCompanies().addAll(companies);
+            }
+            case COMPANY -> {
+                if(employeeId == null) {
+                    throw new IllegalArgumentException("The accountType COMPANY must be associated with an employee");
+                }
+                List<Company> companies = companyService.validateAndFindAllById(companyIds);
+                user.getCompanies().addAll(companies);
+                employeeService.validateAndAssignUser(employeeId, user); 
+            }
+            case CLIENT -> {
+                if(employeeId != null) {
+                    throw new IllegalArgumentException("The accountType CLIENT cannot be associated with an employee");
+                }
+                List<Client> clients = clientService.validateAndFindAllById(clientIds);
+                user.getClients().addAll(clients);
+            }
+        }
+    }
+
 
 }

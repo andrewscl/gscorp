@@ -12,6 +12,7 @@ import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
 import com.gscorp.dv1.employees.web.dto.EmployeeTableDto;
 import com.gscorp.dv1.employees.web.dto.EmployeeViewDto;
 import com.gscorp.dv1.employees.web.dto.UpdateEmployeeRequest;
+import com.gscorp.dv1.users.infrastructure.User;
 
 public interface EmployeeService {
 
@@ -37,9 +38,7 @@ public interface EmployeeService {
 
     Employee createEmployeeFromRequest(CreateEmployeeRequest req);
 
-
     Optional<EmployeeViewDto> updateEmployee(Long id, UpdateEmployeeRequest req);
-
 
     List<Employee> findAllWithProjects();
 
@@ -55,5 +54,7 @@ public interface EmployeeService {
                 Long userId, String q, Boolean active, int page, int size);
 
     EmployeeSelectDto findEmployeeSelectDtoById(Long id);
+
+    Employee validateAndAssignUser (Long employeeId, User user);
 
 }

@@ -6,6 +6,8 @@ public record CreateUserRequest (
     String username,
     String mail,
     String password,
-    Set<Long> roleIds,
-    Set<Long> clientIds
+    Long roleId,
+    Set<Long> companyIds,
+    Set<Long> clientIds,
+    Long employeeId
 ){}

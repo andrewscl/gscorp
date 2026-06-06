@@ -97,33 +97,20 @@ public class UserRestController {
 
 
     private UserUpdateDto buildDtoFromJson(JsonNode body) {
-
-        // username
         String username = parseString(body, "username", true);
-
-        // mail
         String mail = parseString(body, "mail", true);
-
-        // active (Boolean)
         Boolean active = parseBoolean(body, "active");
-
-        // roleIds
-        Set<Long> roleIds = parseLongSet(body, "roleIds");
-
-        // clientIds
+        Long roleId = parseLongOrTextual(body, "roleId");
+        Set<Long> companyIds = parseLongSet(body, "companyIds");
         Set<Long> clientIds = parseLongSet(body, "clientIds");
-
-        // employeeId: if present and null => send null (service will interpret as "clear" or no-change per policy)
         Long employeeId = parseLongOrTextual(body, "employeeId");
-
-        // timeZone
         String timeZone = parseString(body, "timeZone", true);
-
         return new UserUpdateDto(
                 username,
                 mail,
                 active,
-                roleIds,
+                roleId,
+                companyIds,
                 clientIds,
                 employeeId,
                 timeZone

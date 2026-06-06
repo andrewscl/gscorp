@@ -3,6 +3,7 @@ package com.gscorp.dv1.clients.application;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.cache.annotation.Cacheable;
@@ -157,6 +158,22 @@ public class ClientServiceImpl implements ClientService{
         .stream()
         .map(ClientSelectDto::fromProjection)
         .collect(Collectors.toList());  
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Client> validateAndFindAllById(Set<Long> ids) {
+        if(ids == null || ids.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        List<Client> clients = clientRepo.findAllById(ids);
+
+        if (clients.size() != ids.size()) {
+            throw new IllegalArgumentException("Some client IDs are invalid");
+        }
+
+        return clients;
     }
 
 }

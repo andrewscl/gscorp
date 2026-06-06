@@ -6,8 +6,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.gscorp.dv1.clients.infrastructure.Client;
+import com.gscorp.dv1.companies.infrastructure.Company;
 import com.gscorp.dv1.enums.UserStatus;
-import com.gscorp.dv1.roles.infrastructure.Role;
 import com.gscorp.dv1.users.infrastructure.User;
 
 /**
@@ -19,8 +19,10 @@ public record UserViewDto(
         String mail,
         UserStatus status,
         Boolean active,
-        Set<Long> roleIds,
-        Set<String> roleNames,
+        Long roleId,
+        String roleName,
+        Set<Long> companyIds,
+        Set<String> companyNames,
         Set<Long> clientIds,
         Set<String> clientNames,
         Long employeeId,
@@ -28,21 +30,27 @@ public record UserViewDto(
         String timeZone
 ) {
     public static UserViewDto from(User u) {
-        Set<Long> roleIds = u.getRoles() == null ? Collections.emptySet()
-                : u.getRoles().stream()
+        Long roleId = u.getRole() == null ? null : u.getRole().getId();
+        String roleName = u.getRole() == null ? null : u.getRole().getRole();
+
+        Set<Long> companyIds = u.getCompanies() == null ? Collections.emptySet()
+                : u.getCompanies().stream()
                     .filter(Objects::nonNull)
-                    .map(Role::getId)
+                    .map(Company::getId)
                     .filter(Objects::nonNull)
                     .collect(Collectors.toSet());
 
-        Set<String> roleNames = u.getRoles() == null ? Collections.emptySet()
-                : u.getRoles().stream()
+        Set<String> companyNames = u.getCompanies() == null ? Collections.emptySet()
+                : u.getCompanies().stream()
                     .filter(Objects::nonNull)
-                    .map(r -> {
-                        // si en el futuro añades getName(), cámbialo aquí; por ahora usamos role (String)
-                        String name = r.getRole();
-                        return name == null ? null : name;
-                    })
+                    .map(Company::getName)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toSet());
+        
+        Set<String> clientNames = u.getClients() == null ? Collections.emptySet()
+                : u.getClients().stream()
+                    .filter(Objects::nonNull)
+                    .map(Client::getName)
                     .filter(Objects::nonNull)
                     .collect(Collectors.toSet());
 
@@ -50,13 +58,6 @@ public record UserViewDto(
                 : u.getClients().stream()
                     .filter(Objects::nonNull)
                     .map(Client::getId)
-                    .filter(Objects::nonNull)
-                    .collect(Collectors.toSet());
-
-        Set<String> clientNames = u.getClients() == null ? Collections.emptySet()
-                : u.getClients().stream()
-                    .filter(Objects::nonNull)
-                    .map(Client::getName)
                     .filter(Objects::nonNull)
                     .collect(Collectors.toSet());
 
@@ -75,8 +76,10 @@ public record UserViewDto(
                 u.getMail(),
                 u.getStatus(),
                 u.getActive(),
-                roleIds,
-                roleNames,
+                roleId,
+                roleName,
+                companyIds,
+                companyNames,
                 clientIds,
                 clientNames,
                 empId,

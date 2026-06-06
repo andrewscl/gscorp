@@ -1,14 +1,18 @@
 package com.gscorp.dv1.users.infrastructure;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gscorp.dv1.clients.infrastructure.Client;
+import com.gscorp.dv1.companies.infrastructure.Company;
 import com.gscorp.dv1.employees.infrastructure.Employee;
 import com.gscorp.dv1.enums.UserStatus;
 import com.gscorp.dv1.roles.infrastructure.Role;
@@ -24,7 +28,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -42,6 +48,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "external_id", unique=true,
+                        nullable=false, updatable=false)
+    private UUID externalId;
+
     @Column(name="username", unique=true, nullable=false, length=64)
     private String username;
 
@@ -57,41 +67,53 @@ public class User {
     @Column(name="status")
     private UserStatus status;
 
-    private String invitationToken;
+    @ManyToOne (fetch = FetchType.EAGER)
+    @JoinColumn (name = "role_id")
+    private Role role;
 
-    private LocalDateTime invitationTokenExpiry;
-
-    @ManyToMany (fetch = FetchType.EAGER) //Carga los roles junto con el usuario.
+    @ManyToMany (fetch = FetchType.LAZY)
     @JoinTable (
-        name = "users_role",
+        name = "users_companies",
         joinColumns = @JoinColumn(name="user_id"),
-        inverseJoinColumns = @JoinColumn(name="role_id")
+        inverseJoinColumns = @JoinColumn(name="company_id")
     )
-    private Set<Role> roles = new HashSet<>();
+    @JsonIgnore
+    private Set<Company> companies = new HashSet<>();
 
-    @ManyToMany (fetch = FetchType.LAZY) //Carga los clientes a los que el usuario tiene acceso.
+    @ManyToMany (fetch = FetchType.LAZY)
     @JoinTable (
         name = "users_clients",
         joinColumns = @JoinColumn(name="user_id"),
         inverseJoinColumns = @JoinColumn(name="client_id")
     )
-
     @JsonIgnore
     private Set<Client> clients = new HashSet<>();
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "employee_id")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
     @JsonIgnore
     private Employee employee;
 
-    // campo opcional para zona preferida del usuario (ej: "Europe/Madrid")
     @Column(name = "time_zone", length = 64)
     private String timeZone;
 
-    // Fechas de auditoría (requieren dependencias Hibernate)
     @CreationTimestamp
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
     @UpdateTimestamp
-    private LocalDateTime updatedAt;
+    private OffsetDateTime updatedAt;
+
+    @CreatedBy
+    @Column(nullable = false)
+    private String createdBy;
+
+    @LastModifiedBy
+    @Column(nullable = true)
+    private String updatedBy;
+
+    @PrePersist
+    protected void onCreate() {
+        if (this.externalId == null) {
+            this.externalId = UUID.randomUUID();
+        }
+    }
 
 }

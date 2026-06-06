@@ -12,7 +12,6 @@ import com.gscorp.dv1.enums.UserStatus;
 import com.gscorp.dv1.users.infrastructure.User;
 import com.gscorp.dv1.users.web.dto.CreateUserRequest;
 import com.gscorp.dv1.users.web.dto.InviteUserRequest;
-import com.gscorp.dv1.users.web.dto.InviteUserRequestWhatsApp;
 import com.gscorp.dv1.users.web.dto.UserTableDto;
 import com.gscorp.dv1.users.web.dto.UserUpdateDto;
 import com.gscorp.dv1.users.web.dto.UserViewDto;
@@ -25,7 +24,6 @@ public interface UserService {
     UserViewDto findWithRolesAndClientsById(Long id);
     List<User> findAllWithRolesAndClients();
     User createInvitedUser(InviteUserRequest request);
-    User createInvitedUserWhatsApp(InviteUserRequestWhatsApp request);
     Boolean isInvitationTokenValid(String token);
     Boolean setPasswordFromInvitation(String token, String password);
     void save(User user);
