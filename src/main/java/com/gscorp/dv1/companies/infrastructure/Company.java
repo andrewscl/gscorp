@@ -1,7 +1,9 @@
 package com.gscorp.dv1.companies.infrastructure;
 
 import java.time.OffsetDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -10,6 +12,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import com.gscorp.dv1.clients.infrastructure.Client;
 import com.gscorp.dv1.employees.infrastructure.Employee;
 import com.gscorp.dv1.enums.CompanyStatus;
+import com.gscorp.dv1.users.infrastructure.User;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,14 +21,17 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table (name="companies", indexes = {
@@ -62,6 +68,13 @@ public class Company {
 
     @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
     private List<Employee> employees;
+
+    // Relación inversa del ManyToMany
+    @Builder.Default
+    @ManyToMany(mappedBy = "companies", fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Set<User> users = new HashSet<>();
 
     @Builder.Default
     @Column(nullable=false)

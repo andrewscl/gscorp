@@ -1,8 +1,14 @@
 package com.gscorp.dv1.clients.infrastructure;
 
+import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import com.gscorp.dv1.companies.infrastructure.Company;
 import com.gscorp.dv1.users.infrastructure.User;
 
 import jakarta.persistence.Column;
@@ -12,7 +18,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,6 +41,10 @@ public class Client {
 
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
+  @Column(name = "external_id", unique=true,
+                        nullable=false, updatable=false)
+  private UUID externalId;
 
   @Column(nullable=false, length=160)
   private String name;
@@ -59,5 +72,29 @@ public class Client {
   @EqualsAndHashCode.Exclude
   private Set<User> users = new HashSet<>();
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "company_id", nullable=false)
+  private Company company;
+
   
+
+  @CreationTimestamp
+  private OffsetDateTime createdAt;
+
+  @UpdateTimestamp
+  private OffsetDateTime updatedAt;
+
+  @Column(nullable = false, updatable = false)
+  private String createdBy;
+
+  @Column(nullable = true)
+  private String updatedBy;
+
+  @PrePersist
+  protected void onCreate() {
+    if (this.externalId == null) {
+      this.externalId = UUID.randomUUID();
+    }
+  }
+
 }
