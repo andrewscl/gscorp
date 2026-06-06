@@ -73,7 +73,7 @@ public class Client {
   private Set<User> users = new HashSet<>();
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "company_id", nullable=false)
+  @JoinColumn(name = "company_id", nullable=true)
   private Company company;
 
   
