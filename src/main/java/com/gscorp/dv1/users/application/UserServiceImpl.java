@@ -24,10 +24,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gscorp.dv1.auth.application.PasswordResetTokenService;
 import com.gscorp.dv1.auth.infrastructure.PasswordResetToken;
-import com.gscorp.dv1.clients.application.ClientService;
 import com.gscorp.dv1.clients.infrastructure.Client;
-import com.gscorp.dv1.companies.application.CompanyService;
+import com.gscorp.dv1.clients.infrastructure.ClientRepository;
 import com.gscorp.dv1.companies.infrastructure.Company;
+import com.gscorp.dv1.companies.infrastructure.CompanyRepository;
 import com.gscorp.dv1.employees.application.EmployeeService;
 import com.gscorp.dv1.enums.AccountType;
 import com.gscorp.dv1.enums.UserStatus;
@@ -44,6 +44,7 @@ import com.gscorp.dv1.users.web.dto.UserTableDto;
 import com.gscorp.dv1.users.web.dto.UserUpdateDto;
 import com.gscorp.dv1.users.web.dto.UserViewDto;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,8 +53,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
 
-    private final CompanyService companyService;
-    private final ClientService clientService;
+    private final CompanyRepository companyRepository;
+    private final ClientRepository clientRepository;
 
     @Autowired
     private final UserRepository userRepo;
@@ -319,12 +320,19 @@ public class UserServiceImpl implements UserService{
         } else {
 
             if(dto.companyIds() != null) {
-                List<Company> companies = companyService.validateAndFindAllById(dto.companyIds());
+                List<Company> companies = companyRepository.findAllById(dto.companyIds());
+                if (companies.size() != dto.companyIds().size()) {
+                    throw new EntityNotFoundException("One or more company IDs are invalid");
+                }
                 user.getCompanies().clear();
                 user.getCompanies().addAll(companies);
             }
             if(dto.clientIds() != null) {
-                List<Client> clients = clientService.validateAndFindAllById(dto.clientIds());
+                List<Client> clients = clientRepository.findAllById(dto.clientIds());
+                if (clients.size() != dto.clientIds().size()) {
+                    throw new EntityNotFoundException("One or more company IDs are invalid");
+                }
+
                 user.getClients().clear();
                 user.getClients().addAll(clients);
             }
@@ -416,14 +424,20 @@ public class UserServiceImpl implements UserService{
                 if(employeeId != null) {
                     throw new IllegalArgumentException("The accountType HOLDING cannot be associated with an employee");
                 }
-                List<Company> companies = companyService.validateAndFindAllById(companyIds);
+                List<Company> companies = companyRepository.findAllById(companyIds);
+                if (companies.size() != companyIds.size()) {
+                    throw new EntityNotFoundException("One or more company IDs are invalid");
+                }
                 user.getCompanies().addAll(companies);
             }
             case COMPANY -> {
                 if(employeeId == null) {
                     throw new IllegalArgumentException("The accountType COMPANY must be associated with an employee");
                 }
-                List<Company> companies = companyService.validateAndFindAllById(companyIds);
+                List<Company> companies = companyRepository.findAllById(companyIds);
+                if (companies.size() != companyIds.size()) {
+                    throw new EntityNotFoundException("One or more company IDs are invalid");
+                }
                 user.getCompanies().addAll(companies);
                 employeeService.validateAndAssignUser(employeeId, user); 
             }
@@ -431,7 +445,11 @@ public class UserServiceImpl implements UserService{
                 if(employeeId != null) {
                     throw new IllegalArgumentException("The accountType CLIENT cannot be associated with an employee");
                 }
-                List<Client> clients = clientService.validateAndFindAllById(clientIds);
+                List<Client> clients = clientRepository.findAllById(clientIds);
+                if (clients.size() != clientIds.size()) {
+                    throw new EntityNotFoundException("One or more company IDs are invalid");
+                }
+
                 user.getClients().addAll(clients);
             }
         }
