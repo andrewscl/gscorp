@@ -28,7 +28,8 @@ import com.gscorp.dv1.clients.infrastructure.Client;
 import com.gscorp.dv1.clients.infrastructure.ClientRepository;
 import com.gscorp.dv1.companies.infrastructure.Company;
 import com.gscorp.dv1.companies.infrastructure.CompanyRepository;
-import com.gscorp.dv1.employees.application.EmployeeService;
+import com.gscorp.dv1.employees.infrastructure.Employee;
+import com.gscorp.dv1.employees.infrastructure.EmployeeRepository;
 import com.gscorp.dv1.enums.AccountType;
 import com.gscorp.dv1.enums.UserStatus;
 import com.gscorp.dv1.roles.application.RoleService;
@@ -63,7 +64,7 @@ public class UserServiceImpl implements UserService{
     private final UserSpecRepository userSpecRepo;
 
     @Autowired
-    private final EmployeeService employeeService;
+    private final EmployeeRepository employeeRepository;
 
     private final RoleService roleService;
     private final PasswordEncoder encoder;
@@ -337,7 +338,16 @@ public class UserServiceImpl implements UserService{
                 user.getClients().addAll(clients);
             }
             if(dto.employeeId() != null && AccountType.COMPANY.equals(user.getRole().getAccountType())) {
-                employeeService.validateAndAssignUser(dto.employeeId(), user);
+
+                //Asignar y guardar empleado
+                Employee employee = employeeRepository.findById(dto.employeeId())
+                    .orElseThrow(() -> new EntityNotFoundException("Empleado no encontrado con id: " + dto.employeeId()));
+                if (employee.getUser() != null) {
+                    throw new IllegalStateException("El empleado ya tiene un usuario asignado");
+                }
+                employee.setUser(user);
+                employeeRepository.save(employee);
+
             }
         }
 
@@ -439,7 +449,16 @@ public class UserServiceImpl implements UserService{
                     throw new EntityNotFoundException("One or more company IDs are invalid");
                 }
                 user.getCompanies().addAll(companies);
-                employeeService.validateAndAssignUser(employeeId, user); 
+
+                //Asignar y guardar empleado
+                Employee employee = employeeRepository.findById(employeeId)
+                    .orElseThrow(() -> new EntityNotFoundException("Empleado no encontrado con id: " + employeeId));
+                if (employee.getUser() != null) {
+                    throw new IllegalStateException("El empleado ya tiene un usuario asignado");
+                }
+                employee.setUser(user);
+                employeeRepository.save(employee);
+
             }
             case CLIENT -> {
                 if(employeeId != null) {
