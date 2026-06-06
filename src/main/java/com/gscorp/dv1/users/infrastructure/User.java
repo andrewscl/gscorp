@@ -89,7 +89,7 @@ public class User {
     @JsonIgnore
     private Set<Client> clients = new HashSet<>();
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id", unique = true)
     @JsonIgnore
     private Employee employee;
