@@ -103,7 +103,7 @@ public class User {
     private OffsetDateTime updatedAt;
 
     @CreatedBy
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String createdBy;
 
     @LastModifiedBy
