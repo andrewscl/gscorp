@@ -49,7 +49,7 @@ public class User {
     private Long id;
 
     @Column(name = "external_id", unique=true,
-                        nullable=false, updatable=false)
+                        nullable=true, updatable=false)
     private UUID externalId;
 
     @Column(name="username", unique=true, nullable=false, length=64)
