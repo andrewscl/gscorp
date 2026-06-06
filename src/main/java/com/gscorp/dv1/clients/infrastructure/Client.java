@@ -43,7 +43,7 @@ public class Client {
   private Long id;
 
   @Column(name = "external_id", unique=true,
-                        nullable=false, updatable=false)
+                        nullable=true, updatable=false)
   private UUID externalId;
 
   @Column(nullable=false, length=160)
@@ -84,7 +84,7 @@ public class Client {
   @UpdateTimestamp
   private OffsetDateTime updatedAt;
 
-  @Column(nullable = false, updatable = false)
+  @Column(nullable = true, updatable = false)
   private String createdBy;
 
   @Column(nullable = true)
