@@ -173,7 +173,7 @@ public class Employee {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = true, updatable = false)
     private String createdBy;
 
     @Column(nullable = true)
