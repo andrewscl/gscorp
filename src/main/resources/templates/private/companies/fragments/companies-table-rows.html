@@ -2,9 +2,8 @@
     <tr th:each="company : ${companiesPage.content}">
         <td th:text="${company.id}"></td>
         <td th:text="${company.name}"></td>
-        <td th:text="${company.email}"></td>
+        <td th:text="${company.legalName}"></td>
         <td th:text="${company.status.displayName}"></td>
-        <td th:text="${company.active}"></td>
 
         <td class="actions">
     <button type="button" class="btn-view"
