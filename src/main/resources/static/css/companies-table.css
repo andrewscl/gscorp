@@ -91,10 +91,10 @@ p {
 }
 
 .hs-table.companies-table .hs-table-container .table tbody tr td:nth-child(1) {
-  width: 30%;
+  width: 25%;
 }
 .hs-table.companies-table .hs-table-container .table tbody tr td:nth-child(2) {
-  width: 30%;
+  width: 25%;
 }
 .hs-table.companies-table .hs-table-container .table tbody tr td:nth-child(3) {
   width: 15%;
@@ -103,5 +103,5 @@ p {
   width: 15%;
 }
 .hs-table.companies-table .hs-table-container .table tbody tr td:nth-child(5) {
-  width: 10%;
+  width: 15%;
 }/*# sourceMappingURL=companies-table.css.map */

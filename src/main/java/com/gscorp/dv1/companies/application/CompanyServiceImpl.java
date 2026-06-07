@@ -20,6 +20,7 @@ import com.gscorp.dv1.companies.infrastructure.CompanySpecRepository;
 import com.gscorp.dv1.companies.infrastructure.projections.CompanyProjection;
 import com.gscorp.dv1.companies.infrastructure.specification.CompanySpecifications;
 import com.gscorp.dv1.companies.web.dto.CompanyDto;
+import com.gscorp.dv1.companies.web.dto.CompanySelectDto;
 import com.gscorp.dv1.companies.web.dto.CompanyTableDto;
 import com.gscorp.dv1.companies.web.dto.CreateCompanyRequest;
 import com.gscorp.dv1.enums.CompanyStatus;
@@ -117,6 +118,18 @@ public class CompanyServiceImpl implements CompanyService {
         Company savedCompany = companyRepository.save(company);
 
         return CompanyDto.fromEntity(savedCompany);
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CompanySelectDto> getAllCompaniesForSelect() {
+
+        List<Company> companies = companyRepository.findAll();
+
+        return companies.stream()
+                .map(CompanySelectDto::fromEntity)
+                .toList();
     }
 
 }

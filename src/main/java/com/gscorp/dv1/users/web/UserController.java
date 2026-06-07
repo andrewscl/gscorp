@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gscorp.dv1.clients.application.ClientService;
 import com.gscorp.dv1.clients.web.dto.ClientSelectDto;
+import com.gscorp.dv1.companies.application.CompanyService;
 import com.gscorp.dv1.employees.application.EmployeeService;
 import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
 import com.gscorp.dv1.enums.UserStatus;
@@ -30,6 +31,7 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 
     private final UserService userService;
+    private final CompanyService companyService;
     private final ClientService clientService;
     private final RoleService roleService;
     private final EmployeeService employeeService;
@@ -61,6 +63,7 @@ public class UserController {
     @GetMapping("/invite")
     public String getInviteUserView(Model model) {
         model.addAttribute("users", userService.findAllWithRolesAndClients());
+        model.addAttribute("companies", companyService.getAllCompaniesForSelect());
         model.addAttribute("clients", clientService.getAllClients());
         model.addAttribute("roles", roleService.getAllRoles());
         model.addAttribute("employees", employeeService.findAllUnassignedEmployees());

@@ -30,11 +30,11 @@
 
     <div class="form-row w-custom">
       <div class="form-group col-50">
-        <label>Roles:</label><br>
-        <div id="rolesCheckboxes">
-          <th:block th:each="role : ${roles}">
+        <label>Empresas:</label><br>
+        <div id="companiesCheckboxes">
+          <th:block th:each="company : ${companies}">
             <label>
-              <input type="checkbox" name="inviteRoleIds" th:value="${role.id}" th:text="${role.name}" />
+              <input type="checkbox" name="inviteCompanyIds" th:value="${company.id}" th:text="${company.name}" />
             </label><br>
           </th:block>
         </div>
