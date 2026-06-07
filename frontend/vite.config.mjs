@@ -27,6 +27,7 @@ export default defineConfig({
         'slideshow-video': path.resolve(__dirname, './src/slideshow-video.js'),
         'chat/chat': path.resolve(__dirname, './src/chat/chat.js'),
         'private/create-role': path.resolve(__dirname, './src/private/create-role.js'),
+        'private/admin/companies/companies-table': path.resolve(__dirname, './src/private/admin/companies/companies-table.js'),
         'private/admin/users/create-user': path.resolve(__dirname, './src/private/admin/users/create-user.js'),
         'private/admin/users/edit-user': path.resolve(__dirname, './src/private/admin/users/edit-user.js'),
         'private/admin/users/users-table': path.resolve(__dirname, './src/private/admin/users/users-table.js'),
@@ -83,6 +84,7 @@ export default defineConfig({
         'private/patrols/view-patrol': path.resolve(__dirname, './src/private/patrols/view-patrol.js'),
         'private/patrols/patrol-map-picker': path.resolve(__dirname, './src/private/patrols/patrol-map-picker.js'),
         'private/dashboards/shared/attendance-card': path.resolve(__dirname, './src/private/dashboards/shared/attendance-card.js')
+
 
       },
       output: {

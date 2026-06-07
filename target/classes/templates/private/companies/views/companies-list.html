@@ -1,5 +1,5 @@
 <div th:replace="~{shared/fragments/table-component :: smart-table(
-    title='Gestión de Compañias',
+    title='Gestión de Empresass',
     count=${count},
     filters=~{::#companyFilters},
     actions=~{::#companyActions},
@@ -23,13 +23,13 @@
             <input id="filter-q" class="filter-input" type="text"
                         placeholder="Buscar empresa..."/>
         </div>
-        <button class="btn btn-primary" id="searchCompanyBtn">
+        <button class="btn btn-primary" id="searchCompaniesBtn">
         Buscar
         </button>
     </th:block>
 
     <th:block id="companyActions">
-        <button class="btn btn-primary" id="addUserBtn"
+        <button class="btn btn-primary" id="addCompaniesBtn"
             th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
         Crear Empresa
         </button>
