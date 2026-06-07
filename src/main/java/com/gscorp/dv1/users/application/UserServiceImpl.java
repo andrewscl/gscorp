@@ -140,8 +140,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<User> findAllWithRolesAndClients(){
-        return userRepo.findAllWithRolesAndClients();
+    public List<User> findAllWithCompaniesAndClients(){
+        return userRepo.findAllWithCompaniesAndClients();
     }
 
     @Override

@@ -62,7 +62,6 @@ public class UserController {
 
     @GetMapping("/invite")
     public String getInviteUserView(Model model) {
-        model.addAttribute("users", userService.findAllWithRolesAndClients());
         model.addAttribute("companies", companyService.getAllCompaniesForSelect());
         model.addAttribute("clients", clientService.getAllClients());
         model.addAttribute("roles", roleService.getAllRoles());

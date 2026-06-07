@@ -22,7 +22,9 @@ public interface UserService {
     List<User> findAll();
     User findById(Long id);
     UserViewDto findWithRolesAndClientsById(Long id);
-    List<User> findAllWithRolesAndClients();
+
+    List<User> findAllWithCompaniesAndClients();
+    
     User createInvitedUser(InviteUserRequest request);
     Boolean isInvitationTokenValid(String token);
     Boolean setPasswordFromInvitation(String token, String password);

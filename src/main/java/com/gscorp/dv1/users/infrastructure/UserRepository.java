@@ -26,9 +26,9 @@ public interface UserRepository extends JpaRepository<User, Long>{
     Optional<User> findWithRolesAndClientsById(Long id);
 
 
-    @EntityGraph(attributePaths = {"roles", "clients"})
+    @EntityGraph(attributePaths = {"role", "companies", "clients"})
     @Query("select u from User u")
-    List<User> findAllWithRolesAndClients();
+    List<User> findAllWithCompaniesAndClients();    
 
 
     // NUEVO: devolver solo los IDs de los clients asociados al usuario
