@@ -24,7 +24,7 @@ public class AdminCompanyController {
     private final CompanyService companyService;
 
     @GetMapping("/table-view")
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    //@PreAuthorize("hasRole('ADMINISTRATOR')")
     public String getCompaniesTableView(
         Model model,
         Authentication authentication,
