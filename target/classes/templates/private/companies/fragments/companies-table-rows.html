@@ -1,8 +1,8 @@
 <th:block th:fragment="rows">
     <tr th:each="company : ${companiesPage.content}">
-        <td th:text="${company.id}"></td>
         <td th:text="${company.name}"></td>
         <td th:text="${company.legalName}"></td>
+        <td th:text="${company.taxId}"></td>
         <td th:text="${company.status.displayName}"></td>
 
         <td class="actions">
