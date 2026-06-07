@@ -11,7 +11,7 @@ public record CompanyDto (
     String name,
     String legalName,
     String taxId,
-    CompanyStatus companyStatus
+    CompanyStatus status
 ){
     public static CompanyDto fromEntity (Company company){
         if (company == null) return null;

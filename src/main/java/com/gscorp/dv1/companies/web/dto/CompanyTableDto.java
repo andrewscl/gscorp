@@ -12,7 +12,7 @@ public record CompanyTableDto (
     String name,
     String legalName,
     String taxId,
-    CompanyStatus companyStatus
+    CompanyStatus status
 
 ){
 
