@@ -15,8 +15,8 @@ import com.gscorp.dv1.enums.UserStatus;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{
-    Optional<User> findByUsername(@Param("username") String username);
 
+    Optional<User> findByUsername(@Param("username") String username);
 
     @Query("SELECT u FROM User u")
     List<User> findAllUsers();

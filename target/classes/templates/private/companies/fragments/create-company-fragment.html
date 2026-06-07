@@ -1,0 +1,37 @@
+<div id="inviteUserContainer" class="invite-user-container"
+                                            th:fragment="content">
+
+  <div class="hs-form-header">
+    <h3>Crear nueva empresa</h3>
+  </div>
+
+  <div class="body" id="inviteUserForm">
+
+    <div class="form-group">
+      <label for="name">Nombre de la empresa:</label>
+      <input type="text" id="name" required />
+    </div>
+
+    <div class="form-group">
+      <label for="legalName">Rezon social:</label>
+      <input type="text" id="legalName" required />
+    </div>
+
+    <div class="form-group">
+      <label for="taxId">Rut:</label>
+      <input type="text" id="taxId" required />
+    </div>
+
+  </div>
+
+  <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
+
+  <div th:replace="~{shared/fragments/footer-buttons ::
+                        footer-buttons(
+                            true, 'Crear empresa',
+                            true, 'Cancelar',
+                            false, '')}"></div>
+
+  <script type="module" src="/js/private/admin/users/invite-user.js"></script>
+
+</div>

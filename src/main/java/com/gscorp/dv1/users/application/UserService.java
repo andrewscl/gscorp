@@ -29,6 +29,7 @@ public interface UserService {
     void save(User user);
     Boolean isAdmin(User user);
     Optional<User> findByUsername(String username);
+
     Long getUserIdFromAuthentication(Authentication authentication);
     boolean isAdmin(Authentication authentication);
     List<Long> getClientIdsForUser(Long userId);

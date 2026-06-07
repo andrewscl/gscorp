@@ -3,11 +3,14 @@ package com.gscorp.dv1.companies.application;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +19,9 @@ import com.gscorp.dv1.companies.infrastructure.CompanyRepository;
 import com.gscorp.dv1.companies.infrastructure.CompanySpecRepository;
 import com.gscorp.dv1.companies.infrastructure.projections.CompanyProjection;
 import com.gscorp.dv1.companies.infrastructure.specification.CompanySpecifications;
+import com.gscorp.dv1.companies.web.dto.CompanyDto;
 import com.gscorp.dv1.companies.web.dto.CompanyTableDto;
+import com.gscorp.dv1.companies.web.dto.CreateCompanyRequest;
 import com.gscorp.dv1.enums.CompanyStatus;
 
 import lombok.RequiredArgsConstructor;
@@ -86,6 +91,32 @@ public class CompanyServiceImpl implements CompanyService {
         Page<Company> companies = companySpecRepo.findAll(spec, pg);
 
         return companies.map(CompanyTableDto::fromEntity);
+    }
+
+
+    @Override
+    @Transactional
+    public CompanyDto createCompany (
+            CreateCompanyRequest request){
+
+        Authentication authentication =
+                        SecurityContextHolder.getContext().getAuthentication();
+
+        String currentUser = (authentication != null) ?
+                                        authentication.getName() : "SYSTEM";
+
+        Company company = Company.builder()
+                            .externalId(UUID.randomUUID())
+                            .name(request.name())
+                            .legalName(request.legalName())
+                            .taxId(request.taxId())
+                            .status(CompanyStatus.ACTIVE)
+                            .createdBy(currentUser)
+                            .build();
+
+        Company savedCompany = companyRepository.save(company);
+
+        return CompanyDto.fromEntity(savedCompany);
     }
 
 }

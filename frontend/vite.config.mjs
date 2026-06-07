@@ -28,6 +28,7 @@ export default defineConfig({
         'chat/chat': path.resolve(__dirname, './src/chat/chat.js'),
         'private/create-role': path.resolve(__dirname, './src/private/create-role.js'),
         'private/admin/companies/companies-table': path.resolve(__dirname, './src/private/admin/companies/companies-table.js'),
+        'private/admin/companies/create-company': path.resolve(__dirname, './src/private/admin/companies/create-company.js'),
         'private/admin/users/create-user': path.resolve(__dirname, './src/private/admin/users/create-user.js'),
         'private/admin/users/edit-user': path.resolve(__dirname, './src/private/admin/users/edit-user.js'),
         'private/admin/users/users-table': path.resolve(__dirname, './src/private/admin/users/users-table.js'),

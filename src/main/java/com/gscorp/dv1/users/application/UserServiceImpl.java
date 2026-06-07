@@ -229,6 +229,7 @@ public class UserServiceImpl implements UserService{
         return userRepo.findByUsername(username);
     }
 
+
     @Override
     @Transactional(readOnly = true)
     public Long getUserIdFromAuthentication(Authentication authentication) {

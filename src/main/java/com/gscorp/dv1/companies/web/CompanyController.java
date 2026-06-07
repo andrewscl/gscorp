@@ -49,4 +49,16 @@ public class CompanyController {
         return "private/companies/views/companies-list";
     }
 
+    @GetMapping("/create")
+    public String createCompany (
+            Model model,
+            Authentication authentication) {
+
+        Long userId = userService.getUserIdFromAuthentication(authentication);
+                if (userId == null) {
+                return "redirect:/login";
+        }
+        return "private/companies/views/create-company-view";        
+    }
+
 }
