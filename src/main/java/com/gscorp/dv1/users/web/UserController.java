@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.gscorp.dv1.clients.application.ClientService;
 import com.gscorp.dv1.clients.web.dto.ClientSelectDto;
 import com.gscorp.dv1.companies.application.CompanyService;
+import com.gscorp.dv1.companies.web.dto.CompanySelectDto;
 import com.gscorp.dv1.employees.application.EmployeeService;
 import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
 import com.gscorp.dv1.enums.UserStatus;
@@ -84,13 +85,14 @@ public class UserController {
 
     @GetMapping("/edit/{id}")
     public String editUser(@PathVariable Long id, Model model){
-
         UserViewDto userDto = userService.findWithCompaniesAndClientsById(id);
         List<RoleSelectDto> roles = roleService.getAllRolesSelectDto();
         List<ClientSelectDto> clients = clientService.getAllClientsSelectDto();
+        List<CompanySelectDto> companies = companyService.getAllCompaniesForSelect();
         List<EmployeeSelectDto> employees = employeeService.getAllEmployeesSelectDto();
         model.addAttribute("user", userDto);
         model.addAttribute("roles", roles);
+        model.addAttribute("companies", companies);
         model.addAttribute("clients", clients);
         model.addAttribute("employees", employees);
         model.addAttribute("userStatusList", UserStatus.values());
