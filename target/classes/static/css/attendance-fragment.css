@@ -48,6 +48,37 @@
   overflow: hidden;
   box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
 }
+.attendance-card .attendance-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 15px;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+.attendance-card .attendance-actions .attendance-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  background-color: #3498db;
+  color: #fff;
+}
+.attendance-card .attendance-actions .attendance-btn:hover {
+  background-color: rgb(36.7380753138, 138.7882845188, 207.1619246862);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
+}
+.attendance-card .attendance-actions .attendance-btn:active {
+  transform: translateY(0);
+}
 .attendance-card .alert-container {
   display: none;
   width: auto;

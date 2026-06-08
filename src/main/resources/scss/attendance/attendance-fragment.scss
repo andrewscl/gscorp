@@ -2,6 +2,7 @@
 @use '../abstracts/variables' as *;
 @use '../abstracts/mixins' as *;
 @use '../abstracts/alerts' as *;
+@use '../abstracts/buttons/btn-mixins' as *;
 
 .attendance-card {
   background-color: $background-color;
@@ -27,8 +28,6 @@
     margin: 0;
   }
 
-
-// Contenedor del Mapa
   .attendance-map {
     display: flex;
     flex-direction: column;
@@ -57,7 +56,24 @@
     }
   }
 
-  
+
+  .attendance-actions{
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    padding: 15px;
+    background: $background-color;
+    border-top: 1px solid $border-color;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    .attendance-btn{
+      @include btn-primary-variant (
+                $bg-color: #3498db,
+                $color: #fff,
+                $padding: 0.75rem 1.5rem,
+                $border-radius: 0.5rem);
+    }
+  }
 
   .alert-container {
       @include alert-container();
