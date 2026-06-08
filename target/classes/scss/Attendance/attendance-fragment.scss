@@ -37,7 +37,6 @@
     h3 {
       color: $label-text-color;
       font-size: 0.85rem;
-      text-transform: uppercase;
       letter-spacing: 0.05em;
       margin: 0;
       font-weight: 600;
@@ -45,9 +44,8 @@
 
     .content {
       &#map {
+        margin: 0;
         width: 100%;
-        // 🔑 CLAVE PARA MÓVILES: Una altura fija controlada (entre 40vh y 45vh) 
-        // garantiza que el mapa sea grande, pero deje libre el 50% inferior para los botones.
         height: 42vh; 
         min-height: 260px;
         max-height: 380px;
