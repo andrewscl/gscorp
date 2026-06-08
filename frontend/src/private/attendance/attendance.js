@@ -25,31 +25,33 @@ const alertInfo = qs('.alert-info');
 
 
 export const startViewMap = async (nearestSite) => {
-  if (!nearestSite || !nearestSite.lat || !nearestSite.lon) {
-    console.warn('[site-map.js] No se proporcionaron datos válidos del sitio para el mapa.');
-    return;
-  }
-
   const apiKey = googleMapsConfig.apiKey;
 
   try {
-    console.log('Loading Google Maps API...');
-    await loadGoogleMapsAPI(apiKey);
+    if (!googleMapInstance) {
+      console.log('Loading Google Maps API...');
+      await loadGoogleMapsAPI(apiKey);
 
-    const map = await initMap('map', {
-      mapTypeId: 'hybrid',
-      zoom: 10,
-    });
+      googleMapInstance = await initMap('map', {
+        mapTypeId: 'hybrid',
+        zoom: 10,
+        center: {lat: -33.4489, lng: -70.6693}
+      });
+    }
 
-    console.log('Site data:', nearestSite);
-    const initialMarker = await addAdvancedMarker(map, nearestSite.name, nearestSite.lat, nearestSite.lon);
+    if (!nearestSite) return { map: googleMapInstance};
 
-    const bounds = new google.maps.LatLngBounds();
-    bounds.extend({ lat: parseFloat(nearestSite.lat), lng: parseFloat(nearestSite.lon) });
-    map.fitBounds(bounds);
-    map.setZoom(15);
+    if (userMarkerInstance){
+      userMarkerInstance.setMap(null);
+    }
 
-    return { map, nearestSite, initialMarker };
+    userMarkerInstance = await addAdvancedMarker(googleMapInstance, nearestSite.name, nearestSite.lat, nearestSite.lon);
+
+// ⚡ MEJORA CRÍTICA: En lugar de fitBounds, centramos instantáneamente al zoom deseado
+    googleMapInstance.setCenter({ lat: parseFloat(nearestSite.lat), lng: parseFloat(nearestSite.lon) });
+    googleMapInstance.setZoom(17); // Zoom óptimo y rápido para geocercas
+
+    return { map: googleMapInstance, nearestSite, initialMarker: userMarkerInstance };
 
   } catch (error) {
     console.error('[site-map.js] Error al cargar la API de Google Maps:'
@@ -59,9 +61,6 @@ export const startViewMap = async (nearestSite) => {
 
 
 async function initComponent() {
-  const actionWidget = qs('#att-widget');
-  if (!actionWidget || actionWidget.dataset.attInit === '1') return;
-  actionWidget.dataset.attInit = '1';
 
   setButtonsState(false, false);
   displayAlert(alertInfo,
@@ -69,6 +68,9 @@ async function initComponent() {
 
   try {
     await loadSites();
+
+    await startViewMap(null); 
+
     await defineCurrentPosition();
   } catch (e) {
     console.error('[attendance] initComponent failed', e); 
