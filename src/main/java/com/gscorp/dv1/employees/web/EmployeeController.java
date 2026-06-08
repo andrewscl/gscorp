@@ -76,7 +76,7 @@ public class EmployeeController {
             if (userId == null) {
                 return "redirect:/login";
             }
-            UserViewDto userViewDto = userService.findWithRolesAndClientsById(userId);
+            UserViewDto userViewDto = userService.findWithCompaniesAndClientsById(userId);
             var employee = employeeService.findByIdViewEmployee(userViewDto.employeeId());
             model.addAttribute("employee", employee);            
         return "private/dashboards/views/op-operator-dashboard-view";
