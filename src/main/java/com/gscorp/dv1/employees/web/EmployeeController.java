@@ -79,7 +79,7 @@ public class EmployeeController {
             UserViewDto userViewDto = userService.findWithCompaniesAndClientsById(userId);
             var employee = employeeService.findByIdViewEmployee(userViewDto.employeeId());
             model.addAttribute("employee", employee);            
-        return "private/dashboards/views/op-operator-dashboard-view";
+        return "private/ops/views/ops-dashboard-view";
     }
 
     @GetMapping("/table-view")
