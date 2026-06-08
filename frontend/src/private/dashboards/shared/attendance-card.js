@@ -7,7 +7,7 @@ function updateClock () {
 
     const hoursMinsElement = qs("#card-hours-mins");
     const secondsElement = qs("#card-seconds");
-    
+
     const now = new Date();
 
     const hours = String(now.getHours()).padStart(2, '0');
@@ -41,7 +41,8 @@ export async function getLastPunch() {
 (function init() {
 
     bindEvents();
+    updateClock();
 
-    setInterval(updateClock(), 1000);
+    setInterval(updateClock, 1000);
 })();
 
