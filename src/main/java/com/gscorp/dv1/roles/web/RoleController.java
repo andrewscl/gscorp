@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.gscorp.dv1.enums.AccountType;
 import com.gscorp.dv1.roles.application.RoleService;
+import com.gscorp.dv1.roles.web.dto.RoleDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,10 +31,14 @@ public class RoleController {
         return "private/roles/views/view-role-view";
     }
 
-    @GetMapping("/edit/{id}")
-    public String editRole(@PathVariable Long id, Model model){
-        var role = roleService.findWithUsersById(id);
+    @GetMapping("/edit/{externalId}")
+    public String editRole(@PathVariable String externalId, Model model){
+
+        RoleDto role = roleService.findByExternalId(externalId);
+
+        model.addAttribute("accountTypes", AccountType.values());
         model.addAttribute("role", role);
+        model.addAttribute("externalId", role.externalId());
         return "private/roles/views/edit-role-view";
     }
 

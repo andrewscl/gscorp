@@ -108,7 +108,6 @@ function bindEditUser() {
 
 }
 
-/* --- init --- */
 (function init() {
   bindEditUser();
 })();

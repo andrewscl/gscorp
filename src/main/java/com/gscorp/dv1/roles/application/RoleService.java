@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.gscorp.dv1.roles.web.dto.RoleDto;
 import com.gscorp.dv1.roles.web.dto.RoleSelectDto;
+import com.gscorp.dv1.roles.web.dto.UpdateRoleRequest;
 import com.gscorp.dv1.roles.infrastructure.Role;
 
 @Service
@@ -16,4 +17,10 @@ public interface RoleService {
     Role findWithUsersById(Long id);
 
     List<RoleSelectDto> getAllRolesSelectDto();
+
+    RoleDto patchRole (String externalId, UpdateRoleRequest request); 
+
+    RoleDto findByExternalId(String externalId);
+
+
 }

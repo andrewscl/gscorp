@@ -2,10 +2,12 @@ package com.gscorp.dv1.roles.infrastructure;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -17,5 +19,14 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
 
     @Query("SELECT r.id AS id, r.role AS role FROM Role r")
     List<RoleSelectProjection> findAllProjections();
+
+
+    @Query ("""
+        SELECT r
+        FROM Role r
+        WHERE r.externalId = :externalId
+    """)
+    Optional<Role> findByExternalId (
+                                    @Param("externalId") UUID externalId);
 
 }
