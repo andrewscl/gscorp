@@ -16,10 +16,52 @@ const alertError = qs('.alert-error');
 const alertWarning = qs('.alert-warning');
 const alertInfo = qs('.alert-info');
 
+
 (async function init() {
   bindEvents();
   await initComponent();
+
+  await startViewMap();
+  console.log('View attendance page initialized.');
 })();
+
+
+export const startViewMap = async () => {
+  const apiKey = googleMapsConfig.apiKey;
+
+  const id = qs('#siteId').value;
+
+  try {
+    console.log('Loading Google Maps API...');
+    await loadGoogleMapsAPI(apiKey);
+    const map = await initMap('map', {
+      mapTypeId: 'hybrid',
+      zoom: 10,
+    });
+
+    const response = await fetchWithAuth(`/api/sites/${id}`, {
+      method: 'GET',
+      headers: { 'Accept': 'application/json' },
+    });
+
+    const siteData = await response.json();
+
+    console.log('Site data:', siteData);
+    const initialMarker = await addAdvancedMarker(map, siteData.name, siteData.lat, siteData.lon);
+
+    const bounds = new google.maps.LatLngBounds();
+    bounds.extend({ lat: parseFloat(siteData.lat), lng: parseFloat(siteData.lon) });
+    map.fitBounds(bounds);
+    map.setZoom(15);
+
+    return { map, siteData, initialMarker };
+
+  } catch (error) {
+    console.error('[site-map.js] Error al cargar la API de Google Maps:'
+                                                                    , error);
+  }
+}
+
 
 async function initComponent() {
   const actionWidget = qs('#att-widget');
