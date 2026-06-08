@@ -140,6 +140,14 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional(readOnly = true)
+    public UserViewDto findWithCompaniesAndClientsById(Long id){
+        User user = userRepo.findWithCompaniesAndClientsById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado: " + id));
+        return UserViewDto.from(user);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<User> findAllWithCompaniesAndClients(){
         return userRepo.findAllWithCompaniesAndClients();
     }

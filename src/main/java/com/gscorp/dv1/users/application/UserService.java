@@ -23,6 +23,8 @@ public interface UserService {
     User findById(Long id);
     UserViewDto findWithRolesAndClientsById(Long id);
 
+    UserViewDto findWithCompaniesAndClientsById(Long id);
+
     List<User> findAllWithCompaniesAndClients();
     
     User createInvitedUser(InviteUserRequest request);

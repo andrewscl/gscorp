@@ -28,7 +28,16 @@ public interface UserRepository extends JpaRepository<User, Long>{
 
     @EntityGraph(attributePaths = {"role", "companies", "clients"})
     @Query("select u from User u")
-    List<User> findAllWithCompaniesAndClients();    
+    List<User> findAllWithCompaniesAndClients();
+    
+    @Query("""
+        SELECT u 
+        FROM User u 
+        LEFT JOIN FETCH u.companies 
+        LEFT JOIN FETCH u.clients 
+        WHERE u.id = :id
+    """)
+    Optional<User> findWithCompaniesAndClientsById(@Param("id") Long id);
 
 
     // NUEVO: devolver solo los IDs de los clients asociados al usuario
