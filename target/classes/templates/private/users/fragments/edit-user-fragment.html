@@ -36,18 +36,16 @@
           </select>
       </div>
 
-
-      <!-- Roles y clientes -->      
       <div class="form-row w-custom">
         <!-- Roles -->
         <div class="form-group col-50">
-          <label for="userRoles">Roles</label>
-          <select id="userRoles" name="roleIds" multiple size="6">
+          <label for="userCompanies">Empresas</label>
+          <select id="userCompanies" name="companyIds" multiple size="6">
             <!-- Itera sobre "roles" disponibles -->
-            <option th:each="role : ${roles}" 
-                    th:value="${role.id}" 
-                    th:text="${role.role}" 
-                    th:selected="${user.roleIds != null and user.roleIds.contains(role.id)}">
+            <option th:each="company : ${companies}" 
+                    th:value="${company.id}" 
+                    th:text="${company.name}" 
+                    th:selected="${user.companyIds != null and user.companyIds.contains(company.id)}">
             </option>
           </select>
         </div>

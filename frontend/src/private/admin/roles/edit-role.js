@@ -35,8 +35,8 @@ async function updateRole () {
       body: JSON.stringify(payload),
     });
 
-    displayAlert(alertSuccess, 'Usuario actualizado correctamente', 2500);
-    setTimeout(() => navigateTo('/private/users/table-view', true), 1500);
+    displayAlert(alertSuccess, 'Role actualizado correctamente', 2500);
+    setTimeout(() => navigateTo('/private/admin/roles', true), 1500);
   } catch (err) {
 
     displayAlert(alertError, 'No se pudo guardar: ' + (err.message || err), 2500);
@@ -48,8 +48,8 @@ async function updateRole () {
 
 
 const cancelEditRole = () => {
-    displayAlert(alertCancel, 'La edición del usuario a sido cancelada.', 2500);
-    setTimeout(() => navigateTo('/private/users/table-view', true), 2000);
+    displayAlert(alertCancel, 'La edición del Role a sido cancelada.', 2500);
+    setTimeout(() => navigateTo('/private/admin/roles', true), 2000);
 }
 
 function bindEditRole() {

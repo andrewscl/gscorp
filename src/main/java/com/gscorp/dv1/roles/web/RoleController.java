@@ -18,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 public class RoleController {
 
     private final RoleService roleService;
+
+    
     
     @GetMapping("/create")
     public String createRoleView() {
@@ -33,9 +35,7 @@ public class RoleController {
 
     @GetMapping("/edit/{externalId}")
     public String editRole(@PathVariable String externalId, Model model){
-
         RoleDto role = roleService.findByExternalId(externalId);
-
         model.addAttribute("accountTypes", AccountType.values());
         model.addAttribute("role", role);
         model.addAttribute("externalId", role.externalId());
