@@ -172,9 +172,9 @@ public class UserServiceImpl implements UserService{
         user.setCompanies(new HashSet<>());
         user.setClients(new HashSet<>());
 
-        User savedUser = userRepo.save(user);
+        assignMatrixAndValidate(user, request.employeeId(), request.companyIds(), request.clientIds());
 
-        assignMatrixAndValidate(savedUser, request.employeeId(), request.companyIds(), request.clientIds());
+        User savedUser = userRepo.save(user);
 
         passwordResetTokenService.createToken(savedUser, Duration.ofDays(7));
 
@@ -465,9 +465,8 @@ public class UserServiceImpl implements UserService{
                 if (employee.getUser() != null) {
                     throw new IllegalStateException("El empleado ya tiene un usuario asignado");
                 }
+                user.setEmployee(employee);
                 employee.setUser(user);
-                employeeRepository.save(employee);
-
             }
             case CLIENT -> {
                 if(employeeId != null) {
