@@ -17,16 +17,16 @@ async function onSubmitInviteUser(e) {
   const username = qs('#inviteUsername')?.value?.trim();
   const mail = qs('#inviteMail')?.value?.trim();
 
-  // Obtener roles seleccionados (checkboxes)
-  const roleIds = Array.from(document.querySelectorAll('input[name="inviteRoleIds"]:checked'))
-    .map(cb => Number(cb.value));
+  const companyIds = Array.from(qs('#userCompanies')?.selectedOptions || [])
+                .map(o => Number(o.value))
+                .filter(Boolean)
 
-  // Obtener clientes seleccionados (checkboxes)
-  const clientIds = Array.from(document.querySelectorAll('input[name="inviteClientIds"]:checked'))
-    .map(cb => Number(cb.value));
+  const clientIds = Array.from(qs('#userClients')?.selectedOptions || [])
+                .map(o => Number(o.value))
+                .filter(Boolean)
 
-  //Obtener empleados seleccionados (select)
   const employeeId = Number(qs('#inviteEmployeeId')?.value) || null;
+  const role = Number(qs('#inviteRoleId')?.value) || null;
 
   if (!username || !mail) {
       displayAlert(alertError, 'El nombre de usuario y el correo electrónico son obligatorios.', 1500);
@@ -42,7 +42,8 @@ async function onSubmitInviteUser(e) {
       body: JSON.stringify({
         username,
         mail,
-        roleIds: roleIds.length ? roleIds : null,
+        role,
+        companyIds: companyIds.length ? companyIds : null,
         clientIds: clientIds.length ? clientIds : null,
         employeeId
       })
