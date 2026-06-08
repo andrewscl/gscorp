@@ -3,10 +3,11 @@ import { navigateTo } from '../../../navigation-handler.js';
 
 const qs  = (s) => document.querySelector(s);
 
-const hoursMinsElement = qs("#card-hours-mins");
-const secondsElement = qs("#card-seconds");
-
 function updateClock () {
+
+    const hoursMinsElement = qs("#card-hours-mins");
+    const secondsElement = qs("#card-seconds");
+    
     const now = new Date();
 
     const hours = String(now.getHours()).padStart(2, '0');
@@ -38,6 +39,9 @@ export async function getLastPunch() {
 
 
 (function init() {
+
     bindEvents();
+
     setInterval(updateClock(), 1000);
-})();   
+})();
+
