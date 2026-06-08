@@ -7,8 +7,9 @@
         <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
     </th:block>
 
-    <div id="att-map-container" class="attendance-map">
-        <div id="att-map" class="attendance-map__canvas"></div>
+    <div class="attendance-map">
+        <h3>Ubicación</h3>
+        <div class="content" id="map"></div>
     </div>
 
     <th-block th:replace="~{shared/fragments/action-buttons :: action-buttons(
