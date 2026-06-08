@@ -45,8 +45,17 @@ public class AttendanceController {
 
 
     @GetMapping("/attdc-view")
-    public String getAttendanceView (Model model){
-        List<SiteDto> sites = siteService.getAllSites();
+    public String getAttendanceView (
+            Model model,
+            Authentication authentication){
+
+        Long userId = userService.getUserIdFromAuthentication(authentication);
+        if (userId == null) {
+            return "redirect:/login";
+        }
+
+        List<SiteDto> sites = siteService.getAllSitesByUser(userId);
+
         model.addAttribute("sites", sites);
         return "private/attendance/views/attendance-view";
     }

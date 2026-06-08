@@ -459,6 +459,20 @@ public class UserServiceImpl implements UserService{
                 }
                 user.getCompanies().addAll(companies);
 
+                if (clientIds != null && !clientIds.isEmpty()) {
+                    List<Client> clients = clientRepository.findAllById(clientIds);
+                    if (clients.size() != clientIds.size()) {
+                        throw new EntityNotFoundException("One or more client IDs are invalid");
+                    }
+                    user.getClients().addAll(clients);
+                    
+                    // Mantener consistencia bidireccional en memoria
+                    for (Client client : clients) {
+                        if (client.getUsers() == null) client.setUsers(new HashSet<>());
+                        client.getUsers().add(user);
+                    }
+                }
+
                 //Asignar y guardar empleado
                 Employee employee = employeeRepository.findById(employeeId)
                     .orElseThrow(() -> new EntityNotFoundException("Empleado no encontrado con id: " + employeeId));
