@@ -20,41 +20,36 @@ const alertInfo = qs('.alert-info');
 (async function init() {
   bindEvents();
   await initComponent();
-
-  await startViewMap();
   console.log('View attendance page initialized.');
 })();
 
 
-export const startViewMap = async () => {
-  const apiKey = googleMapsConfig.apiKey;
+export const startViewMap = async (nearestSite) => {
+  if (!nearestSite || !nearestSite.lat || !nearestSite.lon) {
+    console.warn('[site-map.js] No se proporcionaron datos válidos del sitio para el mapa.');
+    return;
+  }
 
-  const id = qs('#siteId').value;
+  const apiKey = googleMapsConfig.apiKey;
 
   try {
     console.log('Loading Google Maps API...');
     await loadGoogleMapsAPI(apiKey);
+
     const map = await initMap('map', {
       mapTypeId: 'hybrid',
       zoom: 10,
     });
 
-    const response = await fetchWithAuth(`/api/sites/${id}`, {
-      method: 'GET',
-      headers: { 'Accept': 'application/json' },
-    });
-
-    const siteData = await response.json();
-
-    console.log('Site data:', siteData);
-    const initialMarker = await addAdvancedMarker(map, siteData.name, siteData.lat, siteData.lon);
+    console.log('Site data:', nearestSite);
+    const initialMarker = await addAdvancedMarker(map, nearestSite.name, nearestSite.lat, nearestSite.lon);
 
     const bounds = new google.maps.LatLngBounds();
-    bounds.extend({ lat: parseFloat(siteData.lat), lng: parseFloat(siteData.lon) });
+    bounds.extend({ lat: parseFloat(nearestSite.lat), lng: parseFloat(nearestSite.lon) });
     map.fitBounds(bounds);
     map.setZoom(15);
 
-    return { map, siteData, initialMarker };
+    return { map, nearestSite, initialMarker };
 
   } catch (error) {
     console.error('[site-map.js] Error al cargar la API de Google Maps:'
@@ -106,35 +101,38 @@ async function defineCurrentPosition() {
   displayAlert(alertInfo, 'Detectando el sitio mas cercano...', 3000);
 
   try {
-    const pos = await new Promise((resolve, reject) =>
-      navigator.geolocation.getCurrentPosition(resolve, reject,
-                                  { enableHighAccuracy: true, timeout: 15000 })
-    );
-    if (!sitesList.length) {
-      displayAlert(alertError, 'No hay sitios configurados.', 3000);
-      return;
-    }
-    const nearestSite = getNearestSite(pos.coords.latitude,
+      const pos = await new Promise((resolve, reject) =>
+        navigator.geolocation.getCurrentPosition(resolve, reject,
+                                    { enableHighAccuracy: true, timeout: 15000 })
+      );
+      if (!sitesList.length) {
+        displayAlert(alertError, 'No hay sitios configurados.', 3000);
+        return;
+      }
+      const nearestSite = getNearestSite(pos.coords.latitude,
                                               pos.coords.longitude, sitesList);
-    if (nearestSite && nearestSite.distance <= MAX_DISTANCE_GEOFENCE) {
-      displayAlert(alertSuccess, `Estás en el sitio "${nearestSite.name}".
+      if (nearestSite && nearestSite.distance <= MAX_DISTANCE_GEOFENCE) {
+        displayAlert(alertSuccess, `Estás en el sitio "${nearestSite.name}".
                                           Puedes marcar asistencia aquí.`, 3000);
 
-      const actionWidget = qs('#att-widget');
-      if(actionWidget) {
-        actionWidget.dataset.frozenSiteId = nearestSite.id;
-        actionWidget.dataset.frozenSiteName = nearestSite.name;
+      if(nearestSite){
+        await startViewMap(nearestSite);
       }
 
       await syncAttendanceButtons();
 
-    } else if (nearestSite) {
-      displayAlert(alertInfo, `El sitio más cercano es "${nearestSite.name}" a
-          ${nearestSite.distance.toFixed(1)} metros. Acércate para marcar.`, 3000);
-      setTimeout(() => navigateTo('/private/employees/dashboard'), 1500);
-    } else {
-      displayAlert(alertError, 'No se encontró ningún sitio cercano.', 5000);
-    }
+      } else if (nearestSite) {
+        displayAlert(alertInfo, `El sitio más cercano es "${nearestSite.name}" a
+            ${nearestSite.distance.toFixed(1)} metros. Acércate para marcar.`, 3000);
+
+        if(nearestSite){
+        await startViewMap(nearestSite);
+        }
+
+        setTimeout(() => navigateTo('/private/employees/dashboard'), 1500);
+      } else {
+        displayAlert(alertError, 'No se encontró ningún sitio cercano.', 5000);
+      }
   } catch (e) {
     displayAlert(alertError, 'No fue posible obtener la ubicación: '
                       + (e.message || 'Tiempo de espera agotado.'), 5000);
