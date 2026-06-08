@@ -121,7 +121,7 @@ async function defineCurrentPosition() {
         await startViewMap(nearestSite);
       }
 
-      await syncAttendanceButtons();
+      //await syncAttendanceButtons();
 
       } else if (nearestSite) {
         displayAlert(alertInfo, `El sitio más cercano es "${nearestSite.name}" a
