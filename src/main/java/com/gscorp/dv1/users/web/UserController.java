@@ -71,7 +71,7 @@ public class UserController {
 
     @GetMapping("/show/{id}")
     public String showUser(@PathVariable Long id, Model model){
-        UserViewDto userDto = userService.findWithRolesAndClientsById(id);
+        UserViewDto userDto = userService.findWithCompaniesAndClientsById(id);
         List<RoleSelectDto> roles = roleService.getAllRolesSelectDto();
         List<ClientSelectDto> clients = clientService.getAllClientsSelectDto();
         List<EmployeeSelectDto> employees = employeeService.getAllEmployeesSelectDto();
@@ -85,7 +85,7 @@ public class UserController {
     @GetMapping("/edit/{id}")
     public String editUser(@PathVariable Long id, Model model){
 
-        UserViewDto userDto = userService.findWithRolesAndClientsById(id);
+        UserViewDto userDto = userService.findWithCompaniesAndClientsById(id);
         List<RoleSelectDto> roles = roleService.getAllRolesSelectDto();
         List<ClientSelectDto> clients = clientService.getAllClientsSelectDto();
         List<EmployeeSelectDto> employees = employeeService.getAllEmployeesSelectDto();
