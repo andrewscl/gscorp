@@ -26,7 +26,7 @@ async function onSubmitInviteUser(e) {
                 .filter(Boolean)
 
   const employeeId = Number(qs('#inviteEmployeeId')?.value) || null;
-  const role = Number(qs('#inviteRoleId')?.value) || null;
+  const roleId = Number(qs('#inviteRoleId')?.value) || null;
 
   if (!username || !mail) {
       displayAlert(alertError, 'El nombre de usuario y el correo electrónico son obligatorios.', 1500);
@@ -42,7 +42,7 @@ async function onSubmitInviteUser(e) {
       body: JSON.stringify({
         username,
         mail,
-        role,
+        roleId,
         companyIds: companyIds.length ? companyIds : null,
         clientIds: clientIds.length ? clientIds : null,
         employeeId

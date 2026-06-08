@@ -32,8 +32,8 @@
 
     <div class="form-row w-custom">
       <div class="form-group col-50">
-        <label for="companyClients">Empresas</label>
-        <select id="companyClients" name="companyIds" multiple size="6">
+        <label for="userCompanies">Empresas</label>
+        <select id="userCompanies" name="companyIds" multiple size="6">
           <option th:each="company : ${companies}"
                   th:value="${company.id}"
                   th:text="${company.name}">
