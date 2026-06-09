@@ -484,6 +484,10 @@ public class AttendanceServiceImpl implements AttendanceService {
     ZonedDateTime zdt = ts.toZonedDateTime();
     LocalDateTime ldt = zdt.toLocalDateTime();
 
+    System.out.println("OffsetDateTime: " + ts);
+    System.out.println("Offset: " + ts.getOffset());
+    System.out.println("LocalDateTime: " + ldt);
+
     DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern("EEEE dd", new Locale("es", "ES"));
     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
     String actionText = punch.getAction().equals("IN") ? "Entrada" : "Salida";
