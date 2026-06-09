@@ -1,0 +1,37 @@
+<div th:fragment="content" class="createShift">
+
+  <div class="createShiftHeader">
+    <h3>Crear Turno</h3>
+    <button type="button" class="modal-close" id="closeCreateShift">&times;</button>
+  </div>
+
+  <form id="createShiftForm" class="createShift-body">
+    <div class="form-group">
+      <label for="shiftSite">Sitio</label>
+      <select id="shiftSite" name="siteId" required>
+        <option value="">Seleccione sitio</option>
+        <option th:each="s : ${sites}" th:value="${s.id}" th:text="${s.name}"></option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="shiftStartTs">Fecha y Hora de Inicio</label>
+      <input type="datetime-local" id="shiftStartTs" name="startTs" required />
+    </div>
+    <div class="form-group">
+      <label for="shiftEndTs">Fecha y Hora de Término</label>
+      <input type="datetime-local" id="shiftEndTs" name="endTs" required />
+    </div>
+    <div class="form-group">
+      <label for="shiftPlannedGuards">Guardias Planificados</label>
+      <input type="number" id="shiftPlannedGuards" name="plannedGuards" min="1" placeholder="Ej: 1" required />
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn-primary">Crear</button>
+      <button type="button" class="btn-secondary" id="cancelCreateShift">Cancelar</button>
+    </div>
+    <div class="form-error" id="createShiftError"></div>
+    <div class="form-ok" id="createShiftOk" style="display:none;">Turno creado ✅</div>
+  </form>
+
+  <script type="module" src="/js/private/shifts/create-shift.js"></script>
+</div>

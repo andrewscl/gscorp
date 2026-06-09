@@ -1,0 +1,25 @@
+<div class="hs-footer-actions"
+        th:fragment = "footer-buttons(
+                        showSubmit, submitText,
+                        showCancel, cancelText,
+                        showDelete, deleteText)">
+
+        <button th:if="${showSubmit}" type="submit"
+                                        class="btn btn-primary"
+                                        id="submit"
+                th:text="${submitText}">
+        </button>
+
+        <button th:if="${showCancel}" type="button"
+                                        class="btn btn-secondary"
+                                        id="cancel"
+                th:text="${cancelText}">
+        </button>
+
+        <button th:if="${showDelete}" type="button"
+                                        class="btn btn-danger"
+                                        id="delete"
+                th:text="${deleteText}">
+        </button>
+
+</div>

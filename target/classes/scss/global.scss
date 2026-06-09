@@ -1,0 +1,15 @@
+@use 'abstracts/reset' as * ;
+@use 'abstracts/palette' as * ;
+@use 'abstracts/variables' as * ;
+@use 'abstracts/mixins' as * ;
+@use 'abstracts/typography' as * ;
+@use 'abstracts/table' as * ;
+@use 'abstracts/card-forms' as * ;
+
+.hs-table {
+    @include hs-table();
+}
+
+.hs-form{
+  @include hs-form($max_w: 40rem);
+}

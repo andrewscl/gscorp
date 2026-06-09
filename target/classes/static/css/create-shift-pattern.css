@@ -1,0 +1,135 @@
+.createShiftPattern {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+  border: 1px solid #e5e7eb;
+  max-width: 410px;
+  margin: 0 auto;
+  padding: 0;
+}
+.createShiftPattern .createShiftPatternHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.3rem 1.5rem 1rem 1.5rem;
+}
+.createShiftPattern .createShiftPatternHeader h3 {
+  font-size: 1.23rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+.createShiftPattern .createShiftPatternHeader .modal-close {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #888;
+  cursor: pointer;
+  padding: 0 0.3rem;
+  line-height: 1;
+  transition: color 0.13s;
+}
+.createShiftPattern .createShiftPatternHeader .modal-close:hover {
+  color: #e11d48;
+}
+.createShiftPattern .createShiftPattern-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  padding: 1rem 1.5rem 0 1.5rem;
+}
+.createShiftPattern .createShiftPattern-body .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.11rem;
+}
+.createShiftPattern .createShiftPattern-body .form-group label {
+  font-size: 1rem;
+  color: #334155;
+  font-weight: 600;
+  margin-bottom: 0.1rem;
+}
+.createShiftPattern .createShiftPattern-body .form-group input,
+.createShiftPattern .createShiftPattern-body .form-group select {
+  padding: 0.55rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #fff;
+  color: #0f172a;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.createShiftPattern .createShiftPattern-body .form-group input:disabled, .createShiftPattern .createShiftPattern-body .form-group input[readonly],
+.createShiftPattern .createShiftPattern-body .form-group select:disabled,
+.createShiftPattern .createShiftPattern-body .form-group select[readonly] {
+  background: #f4f4f5;
+  color: #64748b;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.createShiftPattern .createShiftPattern-body .form-group input[type=checkbox] {
+  accent-color: #4177f6;
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-right: 0.3rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+}
+.createShiftPattern .modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.7rem;
+  padding: 1.5rem 1.5rem 1.2rem 1.5rem;
+}
+.createShiftPattern .modal-footer .btn-primary {
+  padding: 0.6rem 1.3rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  border: 1px solid transparent;
+  background: #4177f6;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.createShiftPattern .modal-footer .btn-primary:hover {
+  background: #275bca;
+}
+.createShiftPattern .modal-footer .btn-secondary {
+  padding: 0.6rem 1.3rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  color: #1e293b;
+  transition: background 0.15s, color 0.15s;
+  cursor: pointer;
+}
+.createShiftPattern .modal-footer .btn-secondary:hover {
+  background: #f8fafc;
+}
+.createShiftPattern .form-error {
+  color: #ef4444;
+  font-size: 1rem;
+  margin: 0.7rem 0 0 0;
+  min-height: 1.3em;
+}
+.createShiftPattern .form-ok {
+  color: #219150;
+  font-size: 1rem;
+  margin: 0.7rem 0 0 0;
+  display: none;
+  min-height: 1.3em;
+}
+@media (max-width: 600px) {
+  .createShiftPattern {
+    max-width: 98vw;
+  }
+  .createShiftPattern .createShiftPatternHeader,
+  .createShiftPattern .createShiftPattern-body,
+  .createShiftPattern .modal-footer {
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
+  }
+}/*# sourceMappingURL=create-shift-pattern.css.map */

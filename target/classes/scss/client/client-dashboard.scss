@@ -1,0 +1,278 @@
+/* client-dashboard.scss - versión refinada
+   Recomendaciones aplicadas:
+   - asegurar tamaño/position para contenedores de charts
+   - placeholder para "no data"
+   - reducir uso de !important
+   - conservar variables para ajustes rápidos
+*/
+
+#client-dashboard-root {
+  --bg: #f8fafc;
+  --card-bg: #ffffff;
+  --muted: #6b7280;
+  --text: #0f172a;
+  --accent: #0ea5e9;
+  --accent-2: #f59e0b;
+  --success: #10b981;
+  --danger: #ef4444;
+  --surface-shadow: 0 8px 24px rgba(2,6,23,0.06);
+  --card-radius: 12px;
+  --card-padding: 10px;
+  --gap: 1rem;
+  --max-width: 1200px;
+
+  /* Altura única y variables para charts */
+  --chart-height-default: 260px;
+  --chart-height-daily: var(--chart-height-default);
+  --chart-height-weekly: var(--chart-height-default);
+  --chart-height-full: 300px;
+
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px;
+  color: var(--text);
+  font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: transparent;
+
+  .container-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .card {
+    box-sizing: border-box;
+    background: var(--card-bg);
+    border-radius: var(--card-radius);
+    padding: var(--card-padding);
+    box-shadow: var(--surface-shadow);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-height: 140px;
+    transition: transform .16s ease, box-shadow .16s ease;
+
+    &:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 40px rgba(2,6,23,0.08);
+    }
+
+    h5 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+  }
+
+  /* Chart body: regla central y explícita para eCharts */
+  .chart-body,
+  /* específicar elementos con id que empiezen por "chart-" */
+  div[id^="chart-"] {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    position: relative; /* importante para overlays/placeholder */
+    height: var(--chart-height-default); /* default, puede ser sobrescrito por row-specific */
+    min-height: 160px;
+    border-radius: 8px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+    overflow: hidden;
+  }
+
+  /* placeholder para "no data" o errores */
+  .chart-placeholder {
+    position: absolute;
+    left: 0; right: 0; top: 0; bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9ca3af;
+    font-size: 14px;
+    pointer-events: none;
+    z-index: 2;
+    background: transparent;
+  }
+
+  /* asegurar que el canvas/SVG de eCharts ocupe todo el contenedor */
+  .chart-body > div, /* suele ser el DOM que echarts crea */
+  .chart-body canvas,
+  .chart-body svg {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+  }
+
+  .card-top.split {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+  }
+
+  .split-left {
+    flex: 0 0 48%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .split-right {
+    flex: 1 1 52%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    justify-content: center;
+    min-height: 72px;
+  }
+
+  .card-totals { display: flex; flex-direction: column; gap: 4px; }
+  .total-label { font-size: 0.85rem; color: var(--muted); font-weight: 600; letter-spacing: 0.2px; }
+  .total-value { font-size: 1.6rem; font-weight: 700; color: var(--text); }
+  .meta.small.muted { font-size: 0.85rem; color: var(--muted); }
+
+  .charts {
+    display: grid;
+    gap: 1.25rem;
+    width: 100%;
+    box-sizing: border-box;
+    grid-template-columns: repeat(3, 1fr);
+
+    @media (max-width: 1100px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+    }
+
+    .card { min-height: 180px; }
+  }
+
+  .charts.hourly {
+    margin-bottom: 0.8rem;
+    .card { > .chart-body { height: var(--chart-height-daily); } }
+  }
+
+  .charts.daily {
+    margin-bottom: 0.8rem;
+    .card { > .chart-body { height: var(--chart-height-weekly); } }
+  }
+
+  .charts.full-width {
+    display: block;
+    margin-top: 1rem;
+    .card {
+      width: 100%;
+      > .chart-body {
+        height: var(--chart-height-full);
+        min-height: 220px;
+      }
+    }
+  }
+
+  /* Donut styles */
+  .hourly-donut,
+  .daily-donut,
+  .weekly-donut {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    background: transparent;
+    padding: 0;
+    border-radius: 6px;
+    box-shadow: none;
+    min-width: 0;
+  }
+
+  /* Integrated donuts: limit max-width to avoid ocupar todo el espacio izquierdo */
+  .hourly-donut.integrated,
+  .daily-donut.integrated,
+  .weekly-donut.integrated {
+    width: 100%;
+    max-width: 160px; /* limita el ancho dentro del split-left */
+    height: 140px;
+    min-height: 120px;
+    max-height: 160px;
+    background: transparent;
+    padding: 0;
+  }
+
+  .hourly-donut.compact,
+  .daily-donut.compact,
+  .weekly-donut.compact {
+    width: 72px;
+    height: 72px;
+    padding: 6px;
+    border-radius: 8px;
+    background: var(--card-bg);
+    box-shadow: var(--surface-shadow);
+  }
+
+  .card .card-header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .donut-meta {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 12px;
+    color: var(--muted);
+
+    .meta-item { display:flex; gap:6px; align-items:center; }
+    .meta-value { font-weight:700; color:var(--text); }
+  }
+
+  h5 { font-size: 1rem; margin: 0; color: var(--text); }
+  .muted { color: var(--muted); }
+
+  .card:focus-within {
+    outline: 3px solid rgba(14,165,233,0.12);
+    outline-offset: 2px;
+  }
+
+  .inline-tooltip {
+    background: rgba(2,6,23,0.95);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 13px;
+    box-shadow: 0 6px 18px rgba(2,6,23,0.12);
+  }
+
+  @media (max-width: 900px) {
+    .hourly-donut.integrated,
+    .daily-donut.integrated,
+    .weekly-donut.integrated { height: 120px; min-height: 100px; }
+    .card { padding: 12px; }
+  }
+
+  @media (max-width: 720px) {
+    .card-top.split { flex-direction: column; align-items: stretch; }
+    .split-left, .split-right { flex: 1 1 100%; }
+    .hourly-donut.integrated, .daily-donut.integrated, .weekly-donut.integrated { height: 120px; }
+    .card > .chart-body { height: 220px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+
+  .visually-hidden {
+    position: absolute !important;
+    height: 1px; width: 1px;
+    overflow: hidden; clip: rect(1px, 1px, 1px, 1px);
+    white-space: nowrap; border: 0; padding: 0; margin: -1px;
+  }
+
+  .muted { color: var(--muted); }
+  .text { color: var(--text); }
+}

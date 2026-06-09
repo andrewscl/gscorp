@@ -1,0 +1,117 @@
+@use '../abstracts/panel-cards' as *;
+@use '../abstracts/alerts' as *;
+@use '../abstracts/buttons/footer-buttons' as *;
+@use '../abstracts/palette' as *;
+@use '../abstracts/typography' as *;
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+
+    $ratio-left: 1;
+    $ratio-right: 1;    
+
+.dual-panel-card {
+    @include dual-panel-card();
+        // Panel de Contenido (Izquierdo)
+    .panel-main {
+        flex: $ratio-left;
+        padding: 0 2rem 1rem 2rem; ;
+        display: flex;
+        flex-direction: column;
+        border-right: 1px solid rgba($border-color, 0.5);
+        .panel-header {
+            @include montserrat-font($header-text-height, 700);
+            letter-spacing: -0.02em;
+            color: $heading-color;
+        }
+        .panel-body {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem; // Más espacio entre bloques de datos
+
+            .form-group {
+                display: flex;
+                flex-direction: column;
+                gap: 0.3rem;
+                label {
+                    @include roboto-font(0.7rem, 600); // Más pequeña y bold
+                    color: $muted-color; // Gris suave
+                    text-transform: uppercase; // Estilo "etiqueta"
+                    letter-spacing: 0.05em;
+                    margin: 0;
+                }
+
+                .form-value {
+                    @include roboto-font(0.95rem, 400); // Fuente principal
+                    color: $heading-color; // Casi negro o azul muy oscuro
+                    line-height: 1.4;
+                    border: 0.1rem solid $slate-200;
+                    padding: 0.4rem 0.75rem;
+                    border-radius: 0.5rem;
+                    // Para que los datos vacíos no rompan la estética
+                    &:empty::before {
+                        content: '—';
+                        color: #cbd5e1;
+                    }
+                }
+            }
+
+            // Fila doble para Latitud y Longitud
+            .form-row {
+                display: flex;
+                gap: 2rem;
+                width: 100%;
+
+                .form-group {
+                    flex: 1;
+                }
+            }
+            .form-separator {
+                border: 0;
+                border-top: 1px solid rgba($border-color, 0.5);
+                margin: 0.2rem 0;
+                width: 100%;
+            }
+        }
+    }
+    // Panel de Soporte/Visual (Derecho)
+    .panel-aside {
+        flex: $ratio-right;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        background: $background-color;
+        width: 100%;
+        height: 100%;
+
+        .panel-aside-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            h3{
+                text-align: center;
+                margin: 0;
+                padding: 0.6rem 0;
+                @include montserrat-font($size: 1rem, $weight: 600);
+                color: $white;
+                background-color: $background-dark-color;
+            }
+            .content{
+                min-height: 70vh;
+                border-radius: 0 0 0.8rem 0;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+            }
+        }
+    }
+}
+
+.alert-container {
+    @include alert-container();
+}
+
+.hs-footer-actions {
+    @include footer();
+}

@@ -1,0 +1,80 @@
+<section th:fragment="content" class="detail-section">
+
+  <div class="hs-form">
+
+    <div class="hs-form-header">
+      <h3>Usuario</h3>
+    </div>
+
+    <div class="body">
+
+      <div class="form-row w-custom">
+        <div class="form-group col-20">
+            <label>ID</label>
+            <span class="form-value" th:text="${user.id}"></span>
+        </div>
+        <div class="form-group col-30">
+            <label>Usuario</label>
+            <span class="form-value" th:text="${user.username}"></span>
+        </div>
+        <div class="form-group col-50">
+          <label>Empleado</label>
+          <span class="form-value" th:text="${user.employeeName}"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Mail</label>
+        <span class="form-value"
+                        th:text="${user.mail}"></span>
+      </div>
+
+      <div class="form-row w-custom">
+        <div class="form-group col-50">
+          <label>Roles:</label>
+          <div class="tag-container">
+            <span class="tag" th:each="r : ${user.roleNames}"
+                                            th:text="${r}"></span>
+          </div>
+          <em th:if="${#lists.isEmpty(user.roleNames)}">Sin roles</em>
+        </div>
+        <div class="form-group col-50">
+          <label>Clientes:</label>
+          <div class="tag-container">
+            <span class="tag" th:each="c : ${user.clientNames}"
+                                            th:text="${c}"></span>
+          </div>
+          <em th:if="${#lists.isEmpty(user.clientNames)}">Sin clientes</em>
+        </div>
+      </div>
+
+      <div class="form-row w-custom">
+        <div class="form-group col-50">
+            <label>Estado</label>
+            <span class="form-value" th:text="${user.status.getDisplayName()}"></span>
+        </div>
+        <div class="form-group col-50">
+            <label>Active</label>
+            <span class="form-value" th:text="${user.active}"></span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="hs-form-footer">
+      <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
+
+      <div th:replace="~{shared/fragments/footer-buttons ::
+                          footer-buttons(
+                                  true, 'Re-enviar email de verificación',
+                                  true, 'Volver',
+                                  false, '')}"></div>
+    </div>
+
+  </div>
+
+
+
+  <script type="module" src="/js/private/admin/users/view-user.js"></script>
+
+</section>

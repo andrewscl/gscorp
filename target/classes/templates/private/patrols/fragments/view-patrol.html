@@ -1,0 +1,85 @@
+<section th:fragment="content">
+  <input type="hidden" id="checkpoints-data" th:value="${checkpoints}" />
+  <input type="hidden" id="patrolExternalId"
+                        th:value="${patrol.externalId}" />
+  <input type="hidden" id="siteId"
+                        th:value="${patrol.siteId}" />
+
+  <div class="view-patrol-card">
+
+    <div class="panel-main">
+      <div class="panel-header">
+        <h3>Ver Ronda de Marcación</h3>
+      </div>
+      <div id="panel-body" class="panel-body">
+        <div class="form-group">
+          <label>Instalación</label>
+          <span class="form-value"
+            th:text="${patrol.siteName != null ? patrol.siteName : '—'}"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Dirección</label>
+            <span class="form-value" th:text="${patrol.siteName}"></span>
+        </div>
+
+        <div class="day-range">
+            <div class="form-group">
+              <label>Dia desde</label>
+              <select id="dayFrom" name="dayFrom" readonly>
+                <option value="" disabled>Seleccione día</option>
+                <option th:each="day : ${DayOfWeek}"
+                        th:value="${day.dayNumber}"
+                        th:selected="${day.dayNumber == patrol.dayFrom.dayNumber}"
+                        th:text="${day.getDisplayNameInSpanish}">Día</option> 
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Dia hasta</label>
+              <select id="dayTo" name="dayTo" readonly>
+                <option value="" disabled>Seleccione día</option>
+                <option th:each="day : ${DayOfWeek}"
+                        th:value="${day.dayNumber}"
+                        th:selected="${day.dayNumber == patrol.dayTo.dayNumber}"
+                        th:text="${day.getDisplayNameInSpanish}">Día</option> 
+              </select>
+            </div>
+        </div>
+        <div class="time-patrol-schedules">
+              <div class="panel">
+                  <div class="panel-header">
+                      <label>Horarios configurados</label>
+                  </div>
+                  <div id="patrolSchedulesList" class="schedules-list">
+                      <div th:each="sch : ${patrol.schedules}" class="schedule">
+                      <input type="time" name="scheduleTime[]" class="schedule-input"
+                              th:value="${#temporals.format(sch.startTime, 'HH:mm')}" readonly />
+                      </div>
+                  </div>
+              </div>
+        </div>
+
+        </div>
+        
+    </div>
+
+    <div class="panel-aside">
+      <div class="panel-aside-content">
+        <h3>Ubicación</h3>
+        <div class="content" id="map"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
+
+  <div th:replace="~{shared/fragments/footer-buttons ::
+                      footer-buttons(
+                              false, 'null',
+                              true, 'Volver',
+                              false, 'null')}"></div>
+
+  <script type="module" src="/js/private/patrols/view-patrol.js"></script>
+
+</section>
