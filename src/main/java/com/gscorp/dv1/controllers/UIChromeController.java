@@ -28,7 +28,7 @@ public class UIChromeController {
             return "private/rrhh/fragments/rrhh-menu-fragment :: sidebar";
 
         if (has(auth,"ROLE_EMPLOYEE"))        
-            return "private/employees/fragments/employee-menu-fragment :: sidebar";
+            return "private/ops/fragments/ops-menu-fragment :: sidebar";
 
         if (has(auth,"ROLE_SUPERVISOR"))        
             return "private/supervisors/fragments/supervisor-menu-fragment :: sidebar";
