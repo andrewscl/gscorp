@@ -482,11 +482,11 @@ public class AttendanceServiceImpl implements AttendanceService {
     OffsetDateTime ts = punch.getTs();
 
     LocalDateTime ldt;
-    if (punch.getClientTimezone() != null) {
+    if (punch.getClientTimezone() != null && !punch.getClientTimezone().isEmpty()) {
         ZoneId zoneId = ZoneId.of(punch.getClientTimezone());
         ldt = ts.atZoneSameInstant(zoneId).toLocalDateTime();
     } else {
-        ldt = ts.toLocalDateTime();
+        ldt = ts.withOffsetSameInstant(ts.getOffset()).toLocalDateTime();
     }
 
     DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern("EEEE dd", new Locale("es", "ES"));
