@@ -11,7 +11,7 @@
 
     <button class="attendance-card__btn" id="attendance-card-btn" type="button">
         <span class="btn-icon">⏱️</span>
-        <span class="btn-text" th:text="${nextAction}">Registrar Entrada</span>
+        <span class="btn-text" th:text="${nextAction != null ? nextAction : 'Nulo'}">Registrar Entrada</span>
     </button>
 
     <div class="attendance-card__footer">
