@@ -10,6 +10,7 @@ import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchDto;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchPointDto;
 import com.gscorp.dv1.attendance.web.dto.CreateAttendancePunchRequest;
+import com.gscorp.dv1.attendance.web.dto.GreetingInfo;
 import com.gscorp.dv1.attendance.web.dto.HourlyCountDto;
 import com.gscorp.dv1.attendance.web.dto.LastPunchInfo;
 
@@ -69,6 +70,8 @@ public interface AttendanceService {
     );
 
     LastPunchInfo getLastPunchInfo (Long userId);
+
+    GreetingInfo getGreetingInfo ();
 
 
 }

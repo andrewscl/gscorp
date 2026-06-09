@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gscorp.dv1.attendance.application.AttendanceService;
+import com.gscorp.dv1.attendance.web.dto.GreetingInfo;
 import com.gscorp.dv1.attendance.web.dto.LastPunchInfo;
 import com.gscorp.dv1.bank.application.BankService;
 import com.gscorp.dv1.employees.application.EmployeeService;
@@ -79,10 +80,15 @@ public class EmployeeController {
 
             LastPunchInfo lastPunchInfo = attendanceService.getLastPunchInfo(userId);
 
+            GreetingInfo greetingInfo = attendanceService.getGreetingInfo();
+
             model.addAttribute("employee", employee);
             model.addAttribute("currentDate", formattedDate);
             model.addAttribute("lastPunchText", lastPunchInfo.formattedText());
-            model.addAttribute("nextAction", lastPunchInfo.nextAction());                        
+            model.addAttribute("nextAction", lastPunchInfo.nextAction());
+            model.addAttribute("greeting", greetingInfo.greeting());
+            model.addAttribute("emoji", greetingInfo.emoji());
+            model.addAttribute("message", greetingInfo.message());
         return "private/ops/views/ops-operator-dashboard-view";
     }
 
@@ -219,5 +225,7 @@ public class EmployeeController {
         model.addAttribute("professionIds", professionIds);
         return "private/employees/views/edit-employee-view";
     }
+
+
 
 }

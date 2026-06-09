@@ -13,6 +13,7 @@ import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchDto;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchPointDto;
 import com.gscorp.dv1.attendance.web.dto.CreateAttendancePunchRequest;
+import com.gscorp.dv1.attendance.web.dto.GreetingInfo;
 import com.gscorp.dv1.attendance.web.dto.HourlyCountDto;
 import com.gscorp.dv1.attendance.web.dto.LastPunchInfo;
 import com.gscorp.dv1.components.ZoneResolver;
@@ -500,6 +501,27 @@ public class AttendanceServiceImpl implements AttendanceService {
     String nextAction = nextActionSource.equals("IN") ? "Registrar entrada" : "Registrar salida";
     
     return new LastPunchInfo(formattedText, nextAction);
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public GreetingInfo getGreetingInfo () {
+        int hour = LocalDateTime.now().getHour();
+
+        String greeting = hour < 12 ? "Buenos días" : 
+                         hour < 18 ? "Buenas tardes" : 
+                         "Buenas noches";
+        
+        String emoji = hour < 12 ? "🌅" : 
+                      hour < 18 ? "☀️" : 
+                      "🌙";
+        
+        String message = hour < 12 ? "Recuerda marcar tu entrada de hoy." : 
+                        hour < 18 ? "¿Ya marcaste tu entrada?" : 
+                        "Esperamos tu marcaje de salida.";
+        
+        return new GreetingInfo(greeting, emoji, message);
     }
 
 }
