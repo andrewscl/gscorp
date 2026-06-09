@@ -240,16 +240,18 @@ function setButtonsState(inStatus, outStatus) {
         btnIn.hidden = true;
       } else {
         btnIn.classList.remove('hidden');
+        btnIn.hidden = false;
         btnIn.disabled = !inStatus;
       }
     }
 
     if (btnOut) {
       if(outStatus === null) {
-        btnIn.classList.add('hidden');
+        btnOut.classList.add('hidden');
         btnOut.hidden = true;
       } else {
-        btnIn.classList.remove('hidden');
+        btnOut.classList.remove('hidden');
+        btnOut.hidden = false;
         btnOut.disabled = !outStatus;
       }
     }
