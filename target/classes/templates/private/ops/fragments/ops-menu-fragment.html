@@ -1,6 +1,6 @@
 <div th:fragment="sidebar">
     <div id="logo-container" class="logo-container">
-        <img id="logo" class="logo" th:src="@{/img/logo-sin-nombre.png}" alt="Logo" />
+        <img id="logo" class="logo" th:src="@{/img/logo_sin_nombre.png}" alt="Logo" />
     </div>
 
     <nav class="menu">
@@ -8,26 +8,27 @@
                 data-path="/private/employees/dashboard">Operaciones</a>
 
         <details class="menu-group">
-            <summary class="menu-item">Información</summary>
+            <summary class="menu-item">Operaciones</summary>
             <div class="submenu">
                 <a class="submenu-item" href="#"
-                    data-path="">En proceso</a>
+                    data-path="">Control de Acceso</a>
                 <a class="submenu-item" href="#"
-                    data-path="">En proceso</a>
+                    data-path="">Registro de Vehiculos</a>
+                <a class="submenu-item" href="#"
+                    data-path="">Control de Rondas</a>
             </div>
         </details>
         <details class="menu-group">
-            <summary class="menu-item">Solicitudes</summary>
+            <summary class="menu-item">Administración</summary>
             <div class="submenu">
-
                 <a class="submenu-item" href="#"
-                    data-path="">Operaciones</a>
-                <a class="submenu-item">-</a>
-
+                    data-path="">Solicitudes RRHH</a>
                 <a class="submenu-item" href="#"
-                    data-path="">Recursos Humanos</a>
-                <a class="submenu-item">-</a>
-
+                    data-path="">Mi historial</a>
+                <a class="submenu-item" href="#"
+                    data-path="">Mis horarios</a>
+                <a class="submenu-item" href="#"
+                    data-path="">Documentos</a>
             </div>
         </details>
         <a class="menu-item" href="#"
