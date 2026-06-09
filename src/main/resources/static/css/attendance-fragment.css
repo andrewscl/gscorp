@@ -83,7 +83,7 @@
 .attendance-card .attendance-actions .attendance-btn:active {
   transform: translateY(0);
 }
-.attendance-card .attendance-actions .hidden {
+.attendance-card .attendance-actions.hidden {
   display: none;
 }
 .attendance-card .alert-container {
