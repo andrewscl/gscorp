@@ -4,6 +4,7 @@
         <p class="welcome-text__subtitle">Buenos días. Recuerda marcar tu entrada de hoy.</p>
     </div>
     <div class="welcome-date">
-        <span class="welcome-date__badge">Lunes, 18 de Mayo</span>
+        <span class="welcome-date__badge"
+            th:text="${#temporals.format(#temporals.createNow(), 'EEEE, dd \'de\' MMMM', 'es_ES')}">Lunes, 18 de Mayo</span>
     </div>
 </header>
