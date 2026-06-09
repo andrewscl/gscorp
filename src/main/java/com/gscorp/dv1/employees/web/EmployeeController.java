@@ -1,6 +1,9 @@
 package com.gscorp.dv1.employees.web;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -72,13 +75,20 @@ public class EmployeeController {
     public String getPrivateDashboardView (
             Model model,
             Authentication authentication) {
+
             Long userId = userService.getUserIdFromAuthentication(authentication);
             if (userId == null) {
                 return "redirect:/login";
             }
+
             UserViewDto userViewDto = userService.findWithCompaniesAndClientsById(userId);
             var employee = employeeService.findByIdViewEmployee(userViewDto.employeeId());
-            model.addAttribute("employee", employee);            
+
+            LocalDateTime now = LocalDateTime.now();
+            String formattedDate = now.format(DateTimeFormatter.ofPattern("EEEE, dd 'de' MMMM", new Locale("es", "ES")));
+
+            model.addAttribute("employee", employee);
+            model.addAttribute("currentDate", formattedDate);            
         return "private/ops/views/ops-operator-dashboard-view";
     }
 
