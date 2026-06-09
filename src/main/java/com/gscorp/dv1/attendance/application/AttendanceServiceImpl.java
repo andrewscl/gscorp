@@ -481,13 +481,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     AttendancePunch punch = lastAttendancePunchOpt.get();
     OffsetDateTime ts = punch.getTs();
 
-    LocalDateTime ldt;
-    if (punch.getClientTimezone() != null && !punch.getClientTimezone().isEmpty()) {
-        ZoneId zoneId = ZoneId.of(punch.getClientTimezone());
-        ldt = ts.atZoneSameInstant(zoneId).toLocalDateTime();
-    } else {
-        ldt = ts.withOffsetSameInstant(ts.getOffset()).toLocalDateTime();
-    }
+    LocalDateTime ldt = ts.toZonedDateTime().toLocalDateTime();
 
     DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern("EEEE dd", new Locale("es", "ES"));
     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
