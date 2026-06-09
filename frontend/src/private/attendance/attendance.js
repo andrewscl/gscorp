@@ -121,7 +121,7 @@ async function defineCurrentPosition() {
         await startViewMap(nearestSite);
       }
 
-      //await syncAttendanceButtons();
+      await syncAttendanceButtons();
 
       } else if (nearestSite) {
         displayAlert(alertInfo, `El sitio más cercano es "${nearestSite.name}" a
@@ -225,18 +225,20 @@ function setButtonsState(inStatus, outStatus) {
 
     if (btnIn) {
       if(inStatus === null) {
+        btnIn.classList.add('hidden');
         btnIn.hidden = true;
       } else {
-        btnIn.hidden = false;
+        btnIn.classList.remove('hidden');
         btnIn.disabled = !inStatus;
       }
     }
 
     if (btnOut) {
       if(outStatus === null) {
+        btnIn.classList.add('hidden');
         btnOut.hidden = true;
       } else {
-        btnOut.hidden = false;
+        btnIn.classList.remove('hidden');
         btnOut.disabled = !outStatus;
       }
     }
