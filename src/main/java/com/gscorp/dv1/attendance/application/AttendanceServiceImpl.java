@@ -481,7 +481,8 @@ public class AttendanceServiceImpl implements AttendanceService {
     AttendancePunch punch = lastAttendancePunchOpt.get();
     OffsetDateTime ts = punch.getTs();
 
-    LocalDateTime ldt = ts.toZonedDateTime().toLocalDateTime();
+    ZonedDateTime zdt = ts.toZonedDateTime();
+    LocalDateTime ldt = zdt.toLocalDateTime();
 
     DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern("EEEE dd", new Locale("es", "ES"));
     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
