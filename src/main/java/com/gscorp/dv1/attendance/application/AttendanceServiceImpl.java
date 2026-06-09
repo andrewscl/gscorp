@@ -496,7 +496,8 @@ public class AttendanceServiceImpl implements AttendanceService {
                                 ldt.format(timeFormatter),
                                 actionText);
 
-    String nextAction = punch.getAction().equals("IN") ? "OUT" : "IN";
+    String nextActionSource = punch.getAction().equals("IN") ? "OUT" : "IN";
+    String nextAction = nextActionSource.equals("IN") ? "Registrar entrada" : "Registrar salida";
     
     return new LastPunchInfo(formattedText, nextAction);
     }
