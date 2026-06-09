@@ -62,7 +62,7 @@ export const startViewMap = async (nearestSite) => {
 
 async function initComponent() {
 
-  setButtonsState(false, false);
+  setButtonsState(null, null);
   displayAlert(alertInfo,
         'Conectando con el servicio de Georreferenciación...', 1500);
 
@@ -82,10 +82,21 @@ async function syncAttendanceButtons() {
     const res = await fetchWithAuth('/api/attendance/last-punch');
     if (!res) throw new Error ('No se pudo obtener el ultimo estado.');
     const lastPunch = await res.json();
+
+    console.log('[DEBUG] lastPunch:', lastPunch);
+    console.log('[DEBUG] lastPunch.action:', lastPunch.action);
+
     const action = lastPunch?.action ? String(lastPunch.action).toUpperCase() : 'OUT';
+    console.log('[DEBUG] action:', action);
+
     if (action === 'IN') {
+      // Está marcado IN → mostrar botón de SALIDA
+      console.log('[DEBUG] Showing OUT button (user is IN)');
       setButtonsState(null, true);
+
     } else {
+      // Está marcado OUT o sin registros → mostrar botón de ENTRADA
+      console.log('[DEBUG] Showing IN button (user is OUT or no records)');
       setButtonsState(true, null);
     }
   } catch (e) {
