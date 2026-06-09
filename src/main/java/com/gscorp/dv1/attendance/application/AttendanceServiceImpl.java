@@ -14,6 +14,7 @@ import com.gscorp.dv1.attendance.web.dto.AttendancePunchDto;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchPointDto;
 import com.gscorp.dv1.attendance.web.dto.CreateAttendancePunchRequest;
 import com.gscorp.dv1.attendance.web.dto.HourlyCountDto;
+import com.gscorp.dv1.attendance.web.dto.LastPunchInfo;
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.employees.application.EmployeeService;
@@ -470,12 +471,12 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Override
     @Transactional(readOnly = true)
-    public String getFornattedLastPunch (Long userId) {
+    public LastPunchInfo getLastPunchInfo (Long userId) {
 
     Optional<AttendancePunch> lastAttendancePunchOpt = repo.findFirstByUserIdOrderByTsDesc(userId);
 
     if(lastAttendancePunchOpt.isEmpty()) {
-        return "Sin marcajes registrados.";
+        return new LastPunchInfo("Sin marcajes registrados.", "IN");
     }
 
     AttendancePunch punch = lastAttendancePunchOpt.get();
@@ -486,18 +487,18 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     LocalDateTime ldt = punch.getTs().atZoneSameInstant(zoneId).toLocalDateTime();
 
-    System.out.println("zoneResult: " + zoneResult);
-    System.out.println("zoneId: " + zoneId);
-    System.out.println("ldt: " + ldt);
-
     DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern("EEEE dd", new Locale("es", "ES"));
     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
     String actionText = punch.getAction().equals("IN") ? "Entrada" : "Salida";
+
+    String formattedText = String.format("Último marcaje: %s, %s hrs (%s)",
+                                ldt.format(dayFormatter),
+                                ldt.format(timeFormatter),
+                                actionText);
+
+    String nextAction = punch.getAction().equals("IN") ? "OUT" : "IN";
     
-    return String.format("Último marcaje: %s, %s hrs (%s)",
-        ldt.format(dayFormatter),
-        ldt.format(timeFormatter),
-        actionText);
+    return new LastPunchInfo(formattedText, nextAction);
     }
 
 }

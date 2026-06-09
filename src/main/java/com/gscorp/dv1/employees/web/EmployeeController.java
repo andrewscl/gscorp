@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gscorp.dv1.attendance.application.AttendanceService;
+import com.gscorp.dv1.attendance.web.dto.LastPunchInfo;
 import com.gscorp.dv1.bank.application.BankService;
 import com.gscorp.dv1.employees.application.EmployeeService;
 import com.gscorp.dv1.employees.web.dto.EmployeeTableDto;
@@ -76,11 +77,12 @@ public class EmployeeController {
                 .ofPattern("EEEE, dd 'de' MMMM",
                                                 new Locale("es", "ES")));
 
-            String lastFormattedPunch = attendanceService.getFornattedLastPunch(userId);
+            LastPunchInfo lastPunchInfo = attendanceService.getLastPunchInfo(userId);
 
             model.addAttribute("employee", employee);
             model.addAttribute("currentDate", formattedDate);
-            model.addAttribute("lastPunchText", lastFormattedPunch);            
+            model.addAttribute("lastPunchText", lastPunchInfo.formattedText());
+            model.addAttribute("nextAction", lastPunchInfo.nextAction());                        
         return "private/ops/views/ops-operator-dashboard-view";
     }
 

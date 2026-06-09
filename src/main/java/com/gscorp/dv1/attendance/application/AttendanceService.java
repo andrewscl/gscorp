@@ -11,6 +11,7 @@ import com.gscorp.dv1.attendance.web.dto.AttendancePunchDto;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchPointDto;
 import com.gscorp.dv1.attendance.web.dto.CreateAttendancePunchRequest;
 import com.gscorp.dv1.attendance.web.dto.HourlyCountDto;
+import com.gscorp.dv1.attendance.web.dto.LastPunchInfo;
 
 public interface AttendanceService {
 
@@ -67,7 +68,7 @@ public interface AttendanceService {
         Long projectId
     );
 
-    String getFornattedLastPunch (Long userId);
+    LastPunchInfo getLastPunchInfo (Long userId);
 
 
 }
