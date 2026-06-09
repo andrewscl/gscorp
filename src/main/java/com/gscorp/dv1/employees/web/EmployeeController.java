@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.gscorp.dv1.attendance.application.AttendanceService;
 import com.gscorp.dv1.bank.application.BankService;
 import com.gscorp.dv1.employees.application.EmployeeService;
 import com.gscorp.dv1.employees.web.dto.EmployeeTableDto;
@@ -47,29 +47,15 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class EmployeeController {
 
-    @Autowired
     private EmployeeService employeeService;
-
-    @Autowired
     private ProjectService projectService;
-
-    @Autowired
     private UserService userService;
-
-    @Autowired
     private NationalityService nationalityService;
-
-    @Autowired
     private ProfessionService professionService;
-    
-    @Autowired
     private BankService bankService;
-
-    @Autowired
     private ShiftPatternService shiftPatternService;
-
-    @Autowired
     private PositionService positionService;
+    private AttendanceService attendanceService;
     
     @GetMapping("/dashboard")
     public String getPrivateDashboardView (
@@ -85,10 +71,16 @@ public class EmployeeController {
             var employee = employeeService.findByIdViewEmployee(userViewDto.employeeId());
 
             LocalDateTime now = LocalDateTime.now();
-            String formattedDate = now.format(DateTimeFormatter.ofPattern("EEEE, dd 'de' MMMM", new Locale("es", "ES")));
+            String formattedDate = now
+                .format(DateTimeFormatter
+                .ofPattern("EEEE, dd 'de' MMMM",
+                                                new Locale("es", "ES")));
+
+            String lastFormattedPunch = attendanceService.getFornattedLastPunch(userId);
 
             model.addAttribute("employee", employee);
-            model.addAttribute("currentDate", formattedDate);            
+            model.addAttribute("currentDate", formattedDate);
+            model.addAttribute("lastPunchText", lastFormattedPunch);            
         return "private/ops/views/ops-operator-dashboard-view";
     }
 

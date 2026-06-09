@@ -27,6 +27,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -464,6 +465,38 @@ public class AttendanceServiceImpl implements AttendanceService {
         log.debug("Service: hourly punches totalCountForDate={} (date={})", total, date);
 
         return series;
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public String getFornattedLastPunch (Long userId) {
+
+    Optional<AttendancePunch> lastAttendancePunchOpt = repo.findFirstByUserIdOrderByTsDesc(userId);
+
+    if(lastAttendancePunchOpt.isEmpty()) {
+        return "Sin marcajes registrados.";
+    }
+
+    AttendancePunch punch = lastAttendancePunchOpt.get();
+    OffsetDateTime ts = punch.getTs();
+
+    LocalDateTime ldt;
+    if (punch.getClientTimezone() != null) {
+        ZoneId zoneId = ZoneId.of(punch.getClientTimezone());
+        ldt = ts.atZoneSameInstant(zoneId).toLocalDateTime();
+    } else {
+        ldt = ts.toLocalDateTime();
+    }
+
+    DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern("EEEE dd", new Locale("es", "ES"));
+    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+    String actionText = punch.getAction().equals("IN") ? "Entrada" : "Salida";
+    
+    return String.format("Último marcaje: %s, %s hrs (%s)",
+        ldt.format(dayFormatter),
+        ldt.format(timeFormatter),
+        actionText);
     }
 
 }

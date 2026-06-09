@@ -67,5 +67,7 @@ public interface AttendanceService {
         Long projectId
     );
 
+    String getFornattedLastPunch (Long userId);
+
 
 }
