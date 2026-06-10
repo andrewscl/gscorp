@@ -1,7 +1,7 @@
       <tbody th:fragment="rows">
         <tr th:each="c : ${clients}">
-          <td th:text="${c.id()}"></td>
           <td th:text="${c.name()}"></td>
+          <td th:text="${c.legalName()}"></td>
           <td th:text="${c.taxId()} ?: '-' ">—</td>
           <td th:text="${c.contactEmail()} ?: '-' ">—</td>
 
@@ -16,13 +16,13 @@
 
           <td class="actions">
             <button type="button"
-                    class="btn-link"
+                    class="btn-view"
                     th:attr="data-path=@{/private/clients/show/{externalId}(externalId=${c.externalId()})}">
               Ver
             </button>
 
             <button type="button"
-                    class="btn-link"
+                    class="btn-edit"
                     th:attr="data-path=@{/private/clients/edit/{externalId}(externalId=${c.externalId()})}">
               Editar
             </button>

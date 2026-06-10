@@ -6,16 +6,15 @@
         <td th:text="${company.status.displayName}"></td>
 
         <td class="actions">
-    <button type="button" class="btn-view"
-                th:attr="data-path=@{/private/companies/show/{externalId}(externalId=${company.externalId})}">
-        Ver
-    </button>
+            <button type="button" class="btn-view"
+                        th:attr="data-path=@{/private/companies/show/{externalId}(externalId=${company.externalId})}">
+                Ver
+            </button>
 
-    <button type="button" class="btn-edit"
-                th:attr="data-path=@{/private/companies/edit/{externalId}(externalId=${company.externalId})}">
-        Editar
-    </button>
-
+            <button type="button" class="btn-edit"
+                        th:attr="data-path=@{/private/companies/edit/{externalId}(externalId=${company.externalId})}">
+                Editar
+            </button>
         </td>
     </tr>
 </th:block>
