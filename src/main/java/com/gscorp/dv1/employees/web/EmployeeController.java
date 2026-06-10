@@ -136,7 +136,7 @@ public class EmployeeController {
         model.addAttribute("q", safeQ);
         model.addAttribute("active", active);
 
-        return "private/employees/views/employees-table-view";
+        return "private/employees/views/employees-list";
 
     }
 
