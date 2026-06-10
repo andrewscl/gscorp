@@ -75,12 +75,11 @@
 
     <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
 
-    <div class="hs-form-footer">
-      <div th:replace="~{shared/fragments/footer-buttons ::
+    <div th:replace="~{shared/fragments/footer-buttons ::
                           footer-buttons(
                                   true, 'Actualizar usuario',
                                   true, 'Cancelar',
-                                  true, 'Eliminar usuario')}"></div>
+                                  true, 'Eliminar usuario')}">
     </div>
 
   <script type="module" src="/js/private/admin/users/edit-user.js"></script>
