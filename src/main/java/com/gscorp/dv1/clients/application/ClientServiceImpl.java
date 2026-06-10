@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.cache.annotation.Cacheable;
@@ -18,9 +19,11 @@ import com.gscorp.dv1.clients.infrastructure.Client;
 import com.gscorp.dv1.clients.infrastructure.ClientSelectProjection;
 import com.gscorp.dv1.clients.infrastructure.ClientRepository;
 import com.gscorp.dv1.clients.web.dto.ClientSelectDto;
+import com.gscorp.dv1.clients.web.dto.ClientWithCompanyDto;
 import com.gscorp.dv1.clients.web.dto.ClientDto;
 import com.gscorp.dv1.users.application.UserService;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -48,7 +51,7 @@ public class ClientServiceImpl implements ClientService{
     public List<ClientDto> getAllClients (){
         return clientRepo.findAll(Sort.by("name").ascending())
                     .stream()
-                    .map(c -> new ClientDto(c.getId(), c.getName(), c.getLegalName(), c.getTaxId(), c.getContactEmail(), c.getActive()))
+                    .map(c -> new ClientDto(c.getId(), c.getExternalId(), c.getName(), c.getLegalName(), c.getTaxId(), c.getContactEmail(), c.getActive()))
                     .toList();
     }
 
@@ -132,7 +135,7 @@ public class ClientServiceImpl implements ClientService{
         if (clients == null || clients.isEmpty()) return Collections.emptyList();
 
         return clients.stream()
-                .map(c -> new ClientDto(c.id(), c.name(), c.legalName(), c.taxId(), c.contactEmail(), c.active()))
+                .map(c -> new ClientDto(c.id(), c.externalId(), c.name(), c.legalName(), c.taxId(), c.contactEmail(), c.active()))
                 .collect(Collectors.toList());
     }
 
@@ -174,6 +177,32 @@ public class ClientServiceImpl implements ClientService{
         }
 
         return clients;
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<ClientWithCompanyDto> getAllClientsWithCompany() {
+        return clientRepo.findAll().stream()
+            .map(ClientWithCompanyDto::fromEntity)
+            .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public ClientWithCompanyDto getClientWithCompanyById(Long id) {
+        return clientRepo.findById(id)
+            .map(ClientWithCompanyDto::fromEntity)
+            .orElseThrow(() -> new EntityNotFoundException("Client no encontrado: " + id));
+    }
+
+    @Transactional(readOnly = true)
+    public ClientWithCompanyDto getClientWithCompanyByExternalId(UUID externalId) {
+
+        Client client = clientRepo.findByExternalId(externalId);
+        if(client == null){
+            throw new EntityNotFoundException("Client not found" + externalId);
+        }
+        
+    return ClientWithCompanyDto.fromEntity(client);
     }
 
 }

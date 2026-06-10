@@ -3,11 +3,13 @@ package com.gscorp.dv1.clients.application;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.security.core.Authentication;
 
 import com.gscorp.dv1.clients.infrastructure.Client;
 import com.gscorp.dv1.clients.web.dto.ClientSelectDto;
+import com.gscorp.dv1.clients.web.dto.ClientWithCompanyDto;
 import com.gscorp.dv1.clients.web.dto.ClientDto;
 
 public interface ClientService {
@@ -41,5 +43,11 @@ public interface ClientService {
     List<ClientSelectDto> getAllClientsSelectDto();
 
     List<Client> validateAndFindAllById(Set<Long> ids);
+
+    List<ClientWithCompanyDto> getAllClientsWithCompany();
+
+    ClientWithCompanyDto getClientWithCompanyById(Long id);
+
+    ClientWithCompanyDto getClientWithCompanyByExternalId(UUID externalId);
 
 }

@@ -2,6 +2,7 @@ package com.gscorp.dv1.clients.infrastructure;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -36,6 +37,10 @@ public interface ClientRepository extends JpaRepository<Client, Long>{
 
     @Query("SELECT c.id AS id, c.name AS name FROM Client c")
     List<ClientSelectProjection> findAllProjections();
+
+    Client findByExternalId (UUID externalId);
+
+
     
     
 }
