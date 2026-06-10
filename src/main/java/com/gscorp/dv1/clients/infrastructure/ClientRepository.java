@@ -27,7 +27,7 @@ public interface ClientRepository extends JpaRepository<Client, Long>{
        Requiere constructor público en ClientDto con la firma usada abajo.
        Evita cargar entidades completas y relaciones perezosas.
     */
-    @Query("select new com.gscorp.dv1.clients.web.dto.ClientDto(c.id, c.name, c.externalId, c.legalName, c.taxId, c.contactEmail, c.active) "
+    @Query("select new com.gscorp.dv1.clients.web.dto.ClientDto(c.id, c.externalId, c.name, c.legalName, c.taxId, c.contactEmail, c.active) "
          + "from Client c join c.users u where u.id = :userId order by c.name")
     List<ClientDto> findDtosByUserId(@Param("userId") Long userId);
 
