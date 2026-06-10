@@ -97,14 +97,11 @@ p {
   width: 25%;
 }
 .hs-table.clients-table .hs-table-container .table tbody tr td:nth-child(3) {
-  width: 10%;
-}
-.hs-table.clients-table .hs-table-container .table tbody tr td:nth-child(4) {
   width: 20%;
 }
 .hs-table.clients-table .hs-table-container .table tbody tr td:nth-child(5) {
-  width: 10%;
+  width: 15%;
 }
 .hs-table.clients-table .hs-table-container .table tbody tr td:nth-child(6) {
-  width: 15%;
+  width: 20%;
 }/*# sourceMappingURL=clients-table.css.map */
