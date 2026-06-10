@@ -62,7 +62,7 @@ public class Client {
   @Column(length=30)
   private String contactPhone;
 
-  @Column(name = "client_status", nullable = false)
+  @Column(name = "client_status", nullable = true)
   private ClientStatus status;
 
   @Builder.Default
