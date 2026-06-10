@@ -1,0 +1,1 @@
+import{q as r}from"./dom-utils.js";function i(e,o,a=5e3){const s=r(".alert-container");s.style.display="block";const t=e.querySelector(".alert-message");t&&(t.textContent=o),e.classList.add("alert-show"),setTimeout(()=>{e.classList.remove("alert-show"),document.querySelector("alert-show")||(s.style.display="none")},a)}export{i as d};
