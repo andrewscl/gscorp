@@ -1,10 +1,13 @@
 package com.gscorp.dv1.companies.web;
 
+import java.util.UUID;
+
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -61,6 +64,15 @@ public class CompanyController {
         return "private/companies/views/create-company-view";        
     }
 
-    
+    @GetMapping("/show/{externalId}")
+    public String showCompany(
+                    @PathVariable UUID externalId,
+                    Model model){
+
+        model.addAttribute("company",
+                companyService.findCompanyDtoByExternalId(externalId));
+
+        return "private/companies/views/view-company-view";
+    }
 
 }

@@ -1,6 +1,5 @@
-<section th:fragment="content" class="detail-section">
-
-  <div class="hs-form">
+<div id="viewUserContainer" class="view-user-container"
+                                        th:fragment="content">
 
     <div class="hs-form-header">
       <h3>Usuario</h3>
@@ -66,20 +65,15 @@
 
     </div>
 
-    <div class="hs-form-footer">
-      <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
+    <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
 
-      <div th:replace="~{shared/fragments/footer-buttons ::
+    <div th:replace="~{shared/fragments/footer-buttons ::
                           footer-buttons(
                                   true, 'Re-enviar email de verificación',
                                   true, 'Volver',
-                                  false, '')}"></div>
+                                  false, '')}">
     </div>
-
-  </div>
-
-
 
   <script type="module" src="/js/private/admin/users/view-user.js"></script>
 
-</section>
+</div>

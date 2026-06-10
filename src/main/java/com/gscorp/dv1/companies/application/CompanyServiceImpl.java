@@ -25,6 +25,7 @@ import com.gscorp.dv1.companies.web.dto.CompanyTableDto;
 import com.gscorp.dv1.companies.web.dto.CreateCompanyRequest;
 import com.gscorp.dv1.enums.CompanyStatus;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -130,6 +131,20 @@ public class CompanyServiceImpl implements CompanyService {
         return companies.stream()
                 .map(CompanySelectDto::fromEntity)
                 .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public CompanyDto findCompanyDtoByExternalId (UUID externalId) {
+
+        CompanyProjection companyProjection = 
+            companyRepository.findCompanyDtoByExternalId(externalId);
+
+        if (companyProjection == null) {
+            throw new EntityNotFoundException("Not found Company: " + externalId);
+        }
+
+        return CompanyDto.fromProjection(companyProjection);
     }
 
 }

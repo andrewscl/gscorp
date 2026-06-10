@@ -2,6 +2,7 @@ package com.gscorp.dv1.companies.application;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 
@@ -24,6 +25,8 @@ public interface CompanyService {
 
     CompanyDto createCompany (CreateCompanyRequest request);
 
-    List<CompanySelectDto> getAllCompaniesForSelect(); 
+    List<CompanySelectDto> getAllCompaniesForSelect();
+    
+    CompanyDto findCompanyDtoByExternalId (UUID externalId);
 
 }

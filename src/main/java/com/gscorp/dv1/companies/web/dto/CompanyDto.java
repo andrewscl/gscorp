@@ -3,6 +3,7 @@ package com.gscorp.dv1.companies.web.dto;
 import java.util.UUID;
 
 import com.gscorp.dv1.companies.infrastructure.Company;
+import com.gscorp.dv1.companies.infrastructure.projections.CompanyProjection;
 import com.gscorp.dv1.enums.CompanyStatus;
 
 public record CompanyDto (
@@ -22,6 +23,18 @@ public record CompanyDto (
             company.getLegalName() != null ? company.getLegalName().trim() : "",
             company.getTaxId() != null ? company.getTaxId().trim() : "",
             company.getStatus()
+        );
+    }
+
+    public static CompanyDto fromProjection (CompanyProjection projection){
+        if (projection == null) return null;
+        return new CompanyDto(
+            projection.getId(),
+            projection.getExternalId(),
+            projection.getName(),
+            projection.getLegalName(),
+            projection.getTaxId(),
+            projection.getStatus()
         );
     }
 
