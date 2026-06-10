@@ -28,14 +28,14 @@
         </button>
     </th:block>
 
-    <th:block id="companyActions">
-        <button class="btn btn-primary" id="addCompaniesBtn"
+    <th:block id="clientsActions">
+        <button class="btn btn-primary" id="addClientsBtn"
             th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
         Crear Cliente
         </button>
     </th:block>
 
-    <tr id="companyHeader">
+    <tr id="clientsHeader">
         <th>Cliente</th>
         <th>Razón Social</th>
         <th>Rut</th>
