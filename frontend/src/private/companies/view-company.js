@@ -7,7 +7,7 @@ const alertError = qs('.alert-error');
 const alertCancel = qs('.alert-warning');
 
 const cancelViewCompany = () => {
-    setTimeout(() => navigateTo('/private/companies/table-view', true), 1000);
+    setTimeout(() => navigateTo('/admin/companies/table-view', true), 1000);
 }
 
 function bindViewCompany() {

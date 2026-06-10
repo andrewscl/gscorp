@@ -31,7 +31,7 @@ public class ClientController {
     @GetMapping("/table-view")
     public String getClientsTableView(Model model) {
         model.addAttribute("clients", clientService.getAllClients());
-        return "private/clients/views/clients-table-view";
+        return "private/clients/views/clients-list";
     }
 
     @GetMapping("/show/{id}")
