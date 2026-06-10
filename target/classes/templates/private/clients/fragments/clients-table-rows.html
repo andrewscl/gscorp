@@ -3,9 +3,7 @@
           <td th:text="${c.name()}"></td>
           <td th:text="${c.legalName()}"></td>
           <td th:text="${c.taxId()} ?: '-' ">—</td>
-          <td th:text="${c.contactEmail()} ?: '-' ">—</td>
 
-          <!-- Tag de estado -->
           <td>
             <span class="tag"
                   th:classappend="${c.active()} ? 'tag-active' : 'tag-inactive'"
