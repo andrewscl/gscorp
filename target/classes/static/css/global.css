@@ -550,12 +550,12 @@ p {
 .hs-form .alert-container .alert.alert-error .alert-message {
   vertical-align: middle;
 }
-.hs-form .alert-container .alert.alert-cancel {
+.hs-form .alert-container .alert.alert-warning {
   background-color: #fff3cd;
   color: #856404;
   border: 1px solid #ffeeba;
 }
-.hs-form .alert-container .alert.alert-cancel .alert-message {
+.hs-form .alert-container .alert.alert-warning .alert-message {
   vertical-align: middle;
 }
 .hs-form .alert-container .alert {

@@ -137,12 +137,12 @@
 .attendance-card .alert-container .alert.alert-error .alert-message {
   vertical-align: middle;
 }
-.attendance-card .alert-container .alert.alert-cancel {
+.attendance-card .alert-container .alert.alert-warning {
   background-color: #fff3cd;
   color: #856404;
   border: 1px solid #ffeeba;
 }
-.attendance-card .alert-container .alert.alert-cancel .alert-message {
+.attendance-card .alert-container .alert.alert-warning .alert-message {
   vertical-align: middle;
 }
 .attendance-card .alert-container .alert {

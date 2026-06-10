@@ -297,12 +297,12 @@ p {
 .invite-user-container .alert-container .alert.alert-error .alert-message {
   vertical-align: middle;
 }
-.invite-user-container .alert-container .alert.alert-cancel {
+.invite-user-container .alert-container .alert.alert-warning {
   background-color: #fff3cd;
   color: #856404;
   border: 1px solid #ffeeba;
 }
-.invite-user-container .alert-container .alert.alert-cancel .alert-message {
+.invite-user-container .alert-container .alert.alert-warning .alert-message {
   vertical-align: middle;
 }
 .invite-user-container .alert-container .alert {
