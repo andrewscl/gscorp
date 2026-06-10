@@ -37,11 +37,9 @@
       </div>
 
       <div class="form-row w-custom">
-        <!-- Roles -->
         <div class="form-group col-50">
-          <label for="userCompanies">Empresas</label>
+          <label>Empresas</label>
           <select id="userCompanies" name="companyIds" multiple size="6">
-            <!-- Itera sobre "roles" disponibles -->
             <option th:each="company : ${companies}" 
                     th:value="${company.id}" 
                     th:text="${company.name}" 

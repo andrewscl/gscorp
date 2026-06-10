@@ -73,11 +73,11 @@ public class UserController {
     @GetMapping("/show/{id}")
     public String showUser(@PathVariable Long id, Model model){
         UserViewDto userDto = userService.findWithCompaniesAndClientsById(id);
-        List<RoleSelectDto> roles = roleService.getAllRolesSelectDto();
+        List<CompanySelectDto> companies = companyService.getAllCompaniesForSelect();
         List<ClientSelectDto> clients = clientService.getAllClientsSelectDto();
         List<EmployeeSelectDto> employees = employeeService.getAllEmployeesSelectDto();
         model.addAttribute("user", userDto);
-        model.addAttribute("roles", roles);
+        model.addAttribute("companies", companies);
         model.addAttribute("clients", clients);
         model.addAttribute("employees", employees);
         return "private/users/views/view-user-view";
@@ -87,8 +87,8 @@ public class UserController {
     public String editUser(@PathVariable Long id, Model model){
         UserViewDto userDto = userService.findWithCompaniesAndClientsById(id);
         List<RoleSelectDto> roles = roleService.getAllRolesSelectDto();
-        List<ClientSelectDto> clients = clientService.getAllClientsSelectDto();
         List<CompanySelectDto> companies = companyService.getAllCompaniesForSelect();
+        List<ClientSelectDto> clients = clientService.getAllClientsSelectDto();
         List<EmployeeSelectDto> employees = employeeService.getAllEmployeesSelectDto();
         model.addAttribute("user", userDto);
         model.addAttribute("roles", roles);
