@@ -14,6 +14,8 @@ import com.gscorp.dv1.users.infrastructure.User;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -62,6 +64,7 @@ public class Client {
   @Column(length=30)
   private String contactPhone;
 
+  @Enumerated(EnumType.STRING)
   @Column(name = "client_status", nullable = true)
   private ClientStatus status;
 
