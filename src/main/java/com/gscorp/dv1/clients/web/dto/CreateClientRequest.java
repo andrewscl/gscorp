@@ -1,13 +1,14 @@
 package com.gscorp.dv1.clients.web.dto;
 
-//DTO entrada
+import com.gscorp.dv1.enums.ClientStatus;
+
 public record CreateClientRequest (
-    @jakarta.validation.constraints.NotBlank
     String name,
     String legalName,
     String taxId,
     @jakarta.validation.constraints.Email
-    String contactEmail,
-    String contactPhone,
-    Boolean active
+    String email,
+    String phone,
+    ClientStatus status,
+    Long companyId
 ){}

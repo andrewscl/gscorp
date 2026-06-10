@@ -3,6 +3,7 @@ package com.gscorp.dv1.clients.web;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gscorp.dv1.clients.application.ClientService;
 import com.gscorp.dv1.clients.web.dto.ClientWithCompanyDto;
+import com.gscorp.dv1.companies.application.CompanyService;
+import com.gscorp.dv1.users.application.UserService;
 
 import lombok.AllArgsConstructor;
 
@@ -19,10 +22,23 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ClientController {
 
-    private ClientService clientService;
+    private final ClientService clientService;
+    private final UserService userService;
+    private final CompanyService companyService;
 
     @GetMapping("/create")
-    public String createClient(Model model) {
+    public String createClient(
+            Authentication authentication,
+            Model model) {
+
+        Long userId = userService.getUserIdFromAuthentication(authentication);
+                if (userId == null) {
+                return "redirect:/login";
+        }
+
+        model.addAttribute("companies"
+                , companyService.getAllCompaniesForSelect());
+
         return "private/clients/views/create-client-view";
     }
 

@@ -1,6 +1,6 @@
-import { initHeaderSync } from "../../../shared/sync-header-height";
-import { navigateTo } from "../../../navigation-handler";
-import { fetchWithAuth } from "../../../auth";
+import { initHeaderSync } from "../../shared/sync-header-height";
+import { navigateTo } from "../../navigation-handler";
+import { fetchWithAuth } from "../../auth";
 
 const qs  = (s) => document.querySelector(s);
 

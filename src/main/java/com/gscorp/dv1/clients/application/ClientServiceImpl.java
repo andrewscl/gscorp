@@ -12,6 +12,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,10 @@ import com.gscorp.dv1.clients.infrastructure.ClientSelectProjection;
 import com.gscorp.dv1.clients.infrastructure.ClientRepository;
 import com.gscorp.dv1.clients.web.dto.ClientSelectDto;
 import com.gscorp.dv1.clients.web.dto.ClientWithCompanyDto;
+import com.gscorp.dv1.clients.web.dto.CreateClientRequest;
+import com.gscorp.dv1.companies.infrastructure.Company;
+import com.gscorp.dv1.companies.infrastructure.CompanyRepository;
+import com.gscorp.dv1.enums.ClientStatus;
 import com.gscorp.dv1.clients.web.dto.ClientDto;
 import com.gscorp.dv1.users.application.UserService;
 
@@ -32,11 +37,34 @@ public class ClientServiceImpl implements ClientService{
 
     private final ClientRepository clientRepo;
     private final UserService userService;
+    private final CompanyRepository companyRepo;
 
     @Override
     @Transactional
-    public Client saveClient (Client client){
-        return clientRepo.save(client);
+    public ClientDto createClient (CreateClientRequest request){
+
+        Authentication authentication =
+                        SecurityContextHolder.getContext().getAuthentication();
+
+        String currentUser = (authentication != null) ?
+                                        authentication.getName() : "SYSTEM";
+
+        Company company = companyRepo.getReferenceById(request.companyId());
+
+        Client client = Client.builder()
+                            .name(request.name())
+                            .legalName(request.legalName())
+                            .taxId(request.taxId())
+                            .contactEmail(request.email())
+                            .contactPhone(request.phone())
+                            .status(ClientStatus.ACTIVE)
+                            .createdBy(currentUser)
+                            .company(company)
+                            .build();
+
+        Client savedClient = clientRepo.save(client);
+
+        return ClientDto.fromEntity(savedClient);
     }
 
     @Override

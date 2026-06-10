@@ -1,5 +1,6 @@
 package com.gscorp.dv1.clients.web;
 
+import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -13,16 +14,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gscorp.dv1.attendance.application.AttendanceServiceImpl;
 import com.gscorp.dv1.clients.application.ClientService;
-import com.gscorp.dv1.clients.infrastructure.Client;
 import com.gscorp.dv1.clients.web.dto.ClientDto;
 import com.gscorp.dv1.clients.web.dto.CreateClientRequest;
 import com.gscorp.dv1.projects.application.ProjectService;
 import com.gscorp.dv1.projects.web.dto.ProjectSelectDto;
 import com.gscorp.dv1.sitevisits.application.SiteVisitService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,26 +39,22 @@ public class ClientRestController {
     private final SiteVisitService siteSupervisionVisitService;
     private final ProjectService projectService;
 
+
     @PostMapping("/create")
     public ResponseEntity <ClientDto> createClient(
-        @jakarta.validation.Valid @RequestBody CreateClientRequest req,
-        org.springframework.web.util.UriComponentsBuilder ucb) {
-        var entity = Client.builder()
-            .name(req.name().trim())
-            .legalName(req.legalName())
-            .taxId(req.taxId())
-            .contactEmail(req.contactEmail())
-            .contactPhone(req.contactPhone())
-            .active(Boolean.TRUE.equals(req.active()))
-            .build();
-        var saved = clientService.saveClient(entity);  // que devuelva el guardado
-        var location = ucb.path("/api/clients/{id}").buildAndExpand(saved.getId()).toUri();
+        @Valid @RequestBody CreateClientRequest req,
+        UriComponentsBuilder ucb) {
 
-        var dto = new ClientDto(saved.getId(), saved.getExternalId(), saved.getName(), saved.getLegalName(), saved.getTaxId(),
-            saved.getContactEmail(), saved.getActive());
+        ClientDto newClient = clientService.createClient(req);
 
-        return ResponseEntity.created(location).body(dto);
+        URI location = ucb
+                        .path("/private/clients/{externalId}")
+                        .buildAndExpand(newClient.externalId())
+                        .toUri();
+
+        return ResponseEntity.created(location).body(newClient);
     }
+
 
     @GetMapping("/all")
     public ResponseEntity<List<ClientDto>> getAllClients() {

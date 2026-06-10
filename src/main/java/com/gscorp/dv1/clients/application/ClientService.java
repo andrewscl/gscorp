@@ -10,11 +10,13 @@ import org.springframework.security.core.Authentication;
 import com.gscorp.dv1.clients.infrastructure.Client;
 import com.gscorp.dv1.clients.web.dto.ClientSelectDto;
 import com.gscorp.dv1.clients.web.dto.ClientWithCompanyDto;
+import com.gscorp.dv1.clients.web.dto.CreateClientRequest;
 import com.gscorp.dv1.clients.web.dto.ClientDto;
 
 public interface ClientService {
 
-    Client saveClient (Client client);
+    ClientDto createClient (CreateClientRequest request);
+
     Client findById (Long id);
     List<ClientDto> getAllClients();
     Client findByIdWithUsers (Long id);

@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.gscorp.dv1.companies.infrastructure.Company;
+import com.gscorp.dv1.enums.ClientStatus;
 import com.gscorp.dv1.users.infrastructure.User;
 
 import jakarta.persistence.Column;
@@ -61,6 +62,9 @@ public class Client {
   @Column(length=30)
   private String contactPhone;
 
+  @Column(name = "client_status", nullable = false)
+  private ClientStatus status;
+
   @Builder.Default
   @Column(nullable=false)
   private Boolean active = true;   // ✅ se respeta en el builder
@@ -75,8 +79,6 @@ public class Client {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "company_id", nullable=true)
   private Company company;
-
-  
 
   @CreationTimestamp
   private OffsetDateTime createdAt;
