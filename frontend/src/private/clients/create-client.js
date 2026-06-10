@@ -9,7 +9,7 @@ const alertWarning = qs('.alert-warning');
 const alertInfo = qs('.alert-info');
 
 
-async function createCompany(e) {
+async function createClient(e) {
     e.preventDefault();
 
     const createBtn = qs('#submit');
