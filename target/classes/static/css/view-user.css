@@ -250,6 +250,11 @@ p {
 .hs-form .body .form-row.w-custom .col-90 {
   flex: 0 0 calc(90% - 0.1rem);
 }
+.hs-form .body .separator {
+  height: 0.1rem;
+  background-color: #e2e8f0;
+  margin: 1.2rem 0;
+}
 .hs-form .alert-container {
   display: none;
   width: auto;
