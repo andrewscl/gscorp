@@ -15,8 +15,8 @@ async function searchClients () {
 }
 
 function bindClientsTable() {
-    const addClientsBtn = qs('#addCompaniesBtn');
-    const searchClientsBtn = qs('#searchCompaniesBtn');
+    const addClientsBtn = qs('#addClientsBtn');
+    const searchClientsBtn = qs('#searchClientsBtn');
     if (addClientsBtn) {
         addClientsBtn.addEventListener('click', createClient);
     }
