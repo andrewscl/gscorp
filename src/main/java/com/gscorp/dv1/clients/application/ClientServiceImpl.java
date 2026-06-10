@@ -79,7 +79,15 @@ public class ClientServiceImpl implements ClientService{
     public List<ClientDto> getAllClients (){
         return clientRepo.findAll(Sort.by("name").ascending())
                     .stream()
-                    .map(c -> new ClientDto(c.getId(), c.getExternalId(), c.getName(), c.getLegalName(), c.getTaxId(), c.getContactEmail(), c.getActive()))
+                    .map(c -> new ClientDto(
+                                    c.getId(),
+                                    c.getExternalId(),
+                                    c.getName(),
+                                    c.getLegalName(),
+                                    c.getTaxId(),
+                                    c.getContactEmail(),
+                                    c.getStatus(),
+                                    c.getActive()))
                     .toList();
     }
 
@@ -163,7 +171,17 @@ public class ClientServiceImpl implements ClientService{
         if (clients == null || clients.isEmpty()) return Collections.emptyList();
 
         return clients.stream()
-                .map(c -> new ClientDto(c.id(), c.externalId(), c.name(), c.legalName(), c.taxId(), c.contactEmail(), c.active()))
+                .map(c -> new ClientDto(
+                                c.id(),
+                                c.externalId(),
+                                c.name(),
+                                c.legalName(),
+                                c.taxId(),
+                                c.contactEmail(),
+                                c.status(),
+                                c.active())
+                )
+
                 .collect(Collectors.toList());
     }
 

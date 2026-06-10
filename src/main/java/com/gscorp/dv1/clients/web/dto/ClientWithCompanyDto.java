@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import com.gscorp.dv1.clients.infrastructure.Client;
 import com.gscorp.dv1.companies.web.dto.CompanyDto;
+import com.gscorp.dv1.enums.ClientStatus;
 
 public record ClientWithCompanyDto (
     Long id,
@@ -11,7 +12,9 @@ public record ClientWithCompanyDto (
     String name,
     String legalName,
     String taxId,
-    String contactEmail,
+    String email,
+    String phone,
+    ClientStatus status,
     Boolean active,
     CompanyDto company
 ){
@@ -25,6 +28,8 @@ public record ClientWithCompanyDto (
             client.getLegalName(),
             client.getTaxId(),
             client.getContactEmail(),
+            client.getContactPhone(),
+            client.getStatus(),
             client.getActive(),
             CompanyDto.fromEntity(client.getCompany())
         );

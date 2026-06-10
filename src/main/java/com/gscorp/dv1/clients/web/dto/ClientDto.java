@@ -3,6 +3,7 @@ package com.gscorp.dv1.clients.web.dto;
 import java.util.UUID;
 
 import com.gscorp.dv1.clients.infrastructure.Client;
+import com.gscorp.dv1.enums.ClientStatus;
 
 public record ClientDto (
 
@@ -12,6 +13,7 @@ public record ClientDto (
     String legalName,
     String taxId,
     String contactEmail,
+    ClientStatus status,
     Boolean active)
     {
 
@@ -25,6 +27,7 @@ public record ClientDto (
                 client.getLegalName(),
                 client.getTaxId(),
                 client.getContactEmail(),
+                client.getStatus(),
                 client.getActive()
             );
 
