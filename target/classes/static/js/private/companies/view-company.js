@@ -1,0 +1,1 @@
+import{n as t}from"../../navigation-handler.js";import"../../auth.js";const n=e=>document.querySelector(e);n(".alert-success");n(".alert-error");n(".alert-warning");const i=()=>{setTimeout(()=>t("/private/companies/table-view",!0),1e3)};function a(){const e=n(".btn-secondary");e&&e.addEventListener("click",i)}(async function(){a()})();

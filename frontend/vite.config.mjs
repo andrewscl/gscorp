@@ -42,6 +42,7 @@ export default defineConfig({
         'private/clients/edit-client': path.resolve(__dirname, './src/private/clients/edit-client.js'),
         'private/clients/clients-table': path.resolve(__dirname, './src/private/clients/clients-table.js'),
         'private/sites/create-site': path.resolve(__dirname, './src/private/sites/create-site.js'),
+        'private/companies/view-company': path.resolve(__dirname, './src/private/companies/view-company.js'),
         'private/sites/view-site': path.resolve(__dirname, './src/private/sites/view-site.js'),
         'private/sites/edit-site': path.resolve(__dirname, './src/private/sites/edit-site.js'),
         'private/sites/sites-map': path.resolve(__dirname, './src/private/sites/sites-map.js'),
