@@ -14,6 +14,7 @@ import com.gscorp.dv1.bank.infrastructure.Bank;
 import com.gscorp.dv1.companies.infrastructure.Company;
 import com.gscorp.dv1.enums.BankAccountType;
 import com.gscorp.dv1.enums.ContractType;
+import com.gscorp.dv1.enums.EmployeeStatus;
 import com.gscorp.dv1.enums.Gender;
 import com.gscorp.dv1.enums.HealthEntity;
 import com.gscorp.dv1.enums.HealthSystem;
@@ -78,6 +79,10 @@ public class Employee {
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "client_status", nullable = true)
+    private EmployeeStatus status;
 
     @ManyToOne
     @JoinColumn(name = "nationality_id")

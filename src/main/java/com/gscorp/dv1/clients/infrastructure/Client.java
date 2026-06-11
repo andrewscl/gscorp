@@ -65,7 +65,7 @@ public class Client {
   private String contactPhone;
 
   @Enumerated(EnumType.STRING)
-  @Column(name = "client_status", nullable = true)
+  @Column(name = "client_status", nullable = false)
   private ClientStatus status;
 
   @Builder.Default
