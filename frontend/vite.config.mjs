@@ -53,7 +53,7 @@ export default defineConfig({
         'private/employees/create-employee': path.resolve(__dirname, './src/private/employees/create-employee.js'),
         'private/employees/view-employee': path.resolve(__dirname, './src/private/employees/view-employee.js'),
         'private/employees/edit-employee': path.resolve(__dirname, './src/private/employees/edit-employee.js'),
-        'private/employees/employee-table': path.resolve(__dirname, './src/private/employees/employees-table.js'),
+        'private/employees/employees-table': path.resolve(__dirname, './src/private/employees/employees-table.js'),
         'private/employees/employee-table-update': path.resolve(__dirname, './src/private/employees/employee-table-update.js'),
         'private/banks/create-bank': path.resolve(__dirname, './src/private/banks/create-bank.js'),
         'private/positions/create-position': path.resolve(__dirname, './src/private/positions/create-position.js'),
