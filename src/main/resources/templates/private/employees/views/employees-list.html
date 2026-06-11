@@ -13,15 +13,15 @@
             <span class="filter-label">Estado</span>
             <select id="filter-client-status" class="filter-input" name="clientStatus" required>
                 <option value="">Todos los estados</option>
-                <option th:each="cs : ${clientStatus}"
-                        th:value="${cs.name()}"
-                        th:text="${cs.displayName}"></option>
+                <option th:each="es : ${employeeStatus}"
+                        th:value="${es.name()}"
+                        th:text="${es.displayName}"></option>
             </select>
         </div>
         <div class="filter-item">
             <span class="filter-label">Busqueda</span>
             <input id="filter-q" class="filter-input" type="text"
-                        placeholder="Buscar cliente..."/>
+                        placeholder="Buscar empleado..."/>
         </div>
         <button class="btn btn-primary" id="searchEmployeesBtn">
         Buscar

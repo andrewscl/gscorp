@@ -1,6 +1,5 @@
 <tbody th:fragment="rows">
   <tr th:each="e : ${employees}">
-    <td th:text="${e.id != null ? e.id : '—'}">Id</td>
     <td class="cell-photo">
       <img
         th:src="${e.photoUrl}"
@@ -9,19 +8,18 @@
     </td>
     <td th:text="${e.fullName != null ? e.fullName : '—'}">Nombre Apellido</td>
     <td th:text="${e.positionName}">Cargo</td>
-    <td th:text="${e.mail}">email@dominio</td>
     <td th:text="${e.phone}">+56 9 1234 5678</td>
 
           <td class="actions">
             <button type="button"
                     class="btn-view"
-                    th:attr="data-path=@{/private/employees/show/{externalId}(externalId=${c.externalId()})}">
+                    th:attr="data-path=@{/private/employees/show/{externalId}(externalId=${e.externalId()})}">
               Ver
             </button>
 
             <button type="button"
                     class="btn-edit"
-                    th:attr="data-path=@{/private/employees/edit/{externalId}(externalId=${c.externalId()})}">
+                    th:attr="data-path=@{/private/employees/edit/{externalId}(externalId=${e.externalId()})}">
               Editar
             </button>
           </td>
