@@ -2,9 +2,11 @@ package com.gscorp.dv1.employees.infrastructure;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public interface EmployeeTableProjection {
     Long getId();
+    UUID getExternalId();
     String getPhotoUrl();
     String getName();
     String getFatherSurname();

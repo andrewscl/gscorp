@@ -70,21 +70,22 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
     @Query(
       value = """
         SELECT DISTINCT
-          e.id       AS id,
-          e.photoUrl AS photoUrl,
-          e.name     AS name,
+          e.id            AS id,
+          e.externalId    AS externalId,
+          e.photoUrl      AS photoUrl,
+          e.name          AS name,
           e.fatherSurname AS fatherSurname,
           e.motherSurname AS motherSurname,
-          e.rut      AS rut,
-          e.mail     AS mail,
-          e.phone    AS phone,
-          pos.name   AS positionName,
-          e.active   AS active,
-          e.hireDate AS hireDate,
-          e.createdAt AS createdAt,
-          usr.username AS username,
-          usr.mail AS userMail,
-          usr.phone AS userPhone
+          e.rut           AS rut,
+          e.mail          AS mail,
+          e.phone         AS phone,
+          pos.name        AS positionName,
+          e.active        AS active,
+          e.hireDate      AS hireDate,
+          e.createdAt     AS createdAt,
+          usr.username    AS username,
+          usr.mail        AS userMail,
+          usr.phone       AS userPhone
         FROM Employee e
         LEFT JOIN e.position pos
         LEFT JOIN e.user usr

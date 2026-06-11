@@ -2,12 +2,14 @@ package com.gscorp.dv1.employees.web.dto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import com.gscorp.dv1.employees.infrastructure.EmployeeTableProjection;
 
 public record EmployeeTableDto (
 
     Long id,
+    UUID externalId,
     String photoUrl,
     String name,
     String fatherSurname,
@@ -33,6 +35,7 @@ public record EmployeeTableDto (
 
         return new EmployeeTableDto(
             p.getId(),
+            p.getExternalId(),
             p.getPhotoUrl(),
             p.getName(),
             p.getFatherSurname(),
