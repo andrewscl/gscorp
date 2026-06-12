@@ -1,11 +1,11 @@
 <div th:fragment="tabPanelCard(title, tabs, customClass)"
-        class="tab-panel-card" th:classappend="${customClass}">
+            class="tab-panel-card" th:classappend="${customClass}">
 
   <div class="tabs-container">
     <button th:each="tab, iterStat : ${tabs}"
             class="tab"
             th:classappend="${iterStat.index == 0} ? 'active' : ''"
-            th:onclick="|selectTab(event, ${iterStat.index})|"
+            th:data-index="${iterStat.index}"
             th:text="${tab.label}">
     </button>
   </div>
