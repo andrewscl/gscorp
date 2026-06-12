@@ -28,7 +28,6 @@ public class EmployeeTabController {
     @GetMapping("/view/{externalId}")
     public String viewEmployee(
             @PathVariable UUID externalId,
-            Authentication authorization,
             Model model,
             Authentication authentication
         ){
