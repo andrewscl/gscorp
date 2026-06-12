@@ -1,1 +1,1 @@
-const o=e=>document.querySelector(e);export{o as q};
+const t=e=>document.querySelector(e),c=(e,o=document)=>o.querySelectorAll(e);export{t as a,c as q};

@@ -9,6 +9,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         'shared/sync-header-height': path.resolve(__dirname, './src/shared/sync-header-height.js'),
+        'shared/tabs-handler': path.resolve(__dirname, './src/shared/tabs-handler.js'),
         'shared/display-alert': path.resolve(__dirname, './src/shared/display-alert.js'),
         'shared/dom-utils': path.resolve(__dirname, './src/shared/dom-utils.js'),
         'shared/maps/googlemaps-loader': path.resolve(__dirname, './src/shared/maps/googlemaps-loader.js'),
