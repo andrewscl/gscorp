@@ -81,7 +81,7 @@ public class Employee {
     private Gender gender;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "client_status", nullable = true)
+    @Column(name = "employee_status", nullable = true)
     private EmployeeStatus status;
 
     @ManyToOne
