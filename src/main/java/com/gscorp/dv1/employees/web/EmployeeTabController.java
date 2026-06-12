@@ -45,7 +45,7 @@ public class EmployeeTabController {
         
         model.addAttribute("employee", employee);
         model.addAttribute("employeeTabs", employeeTabsService.getTabs());
-        return "/private/employees/fragments/view-employee";
+        return "private/employees/fragments/view-employee";
     }
 
 }
