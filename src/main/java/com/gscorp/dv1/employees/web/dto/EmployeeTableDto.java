@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.gscorp.dv1.employees.infrastructure.EmployeeTableProjection;
+import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeTableProjection;
 
 public record EmployeeTableDto (
 

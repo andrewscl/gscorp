@@ -10,7 +10,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -70,6 +69,7 @@ public class EmployeeController {
             }
 
             UserViewDto userViewDto = userService.findWithCompaniesAndClientsById(userId);
+
             var employee = employeeService.findByIdViewEmployee(userViewDto.employeeId());
 
             LocalDateTime now = LocalDateTime.now();
@@ -166,11 +166,12 @@ public class EmployeeController {
         return "private/employees/views/create-employee-view";
     }
 
-    @GetMapping("/show/{id}")
+/*     
+    @GetMapping("/show/{externalId}")
     public String showEmployee(
-                        @PathVariable Long id,
+                        @PathVariable UUID externalId,
                         Model model){
-        var employee = employeeService.findByIdViewEmployee(id);
+        var employee = employeeService.findByExternalIdViewEmployee(externalId);
         List<String> projectNames = employeeService.findProjectNamesByEmployeeId(id);
         List<String> professionNames = employeeService.findProfessionNamesByEmployeeId(id);
         model.addAttribute("employee", employee);
@@ -178,8 +179,6 @@ public class EmployeeController {
         model.addAttribute("professionNames", professionNames);
         return "private/employees/views/view-employee-view";
     }
-
-
 
     @GetMapping("/show-client-view/{id}")
     public String showClientViewEmployee(
@@ -194,8 +193,6 @@ public class EmployeeController {
 
         return "private/employees/views/view-employee-client-view";
     }
-
-
 
     @GetMapping("/edit/{id}")
     public String editEmployee(@PathVariable Long id, Model model){
@@ -224,7 +221,7 @@ public class EmployeeController {
         model.addAttribute("projectIds", projectIds);
         model.addAttribute("professionIds", professionIds);
         return "private/employees/views/edit-employee-view";
-    }
+    }*/
 
 
 

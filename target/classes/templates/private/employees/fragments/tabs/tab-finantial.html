@@ -1,0 +1,54 @@
+<th:block th:fragment="tabFinanciero">
+    <div class="dual-panel-card">
+        <div class="panel-main">
+            <h3>Datos Bancarios</h3>
+            <div class="form-group">
+                <label>Banco:</label>
+                <input th:value="${employee.bankName}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Tipo de Cuenta:</label>
+                <input th:value="${employee.bankAccountType}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Número de Cuenta:</label>
+                <input th:value="${employee.bankAccountNumber}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Método de Pago:</label>
+                <input th:value="${employee.paymentMethod}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Email:</label>
+                <input th:value="${employee.mail}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Teléfono:</label>
+                <input th:value="${employee.phone}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Teléfono Secundario:</label>
+                <input th:value="${employee.secondaryPhone}" readonly>
+            </div>
+        </div>
+        <div class="panel-aside">
+            <h3>Sistema de Previsión y Salud</h3>
+            <div class="form-group">
+                <label>Sistema Previsional:</label>
+                <input th:value="${employee.previtionalSystem}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Entidad de Pensión:</label>
+                <input th:value="${employee.pensionEntity}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Sistema de Salud:</label>
+                <input th:value="${employee.healthSystem}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Entidad de Salud:</label>
+                <input th:value="${employee.healthEntity}" readonly>
+            </div>
+        </div>
+    </div>
+</th:block>

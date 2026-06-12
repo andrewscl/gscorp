@@ -2,7 +2,7 @@ package com.gscorp.dv1.employees.web.dto;
 
 import java.time.LocalDate;
 
-import com.gscorp.dv1.employees.infrastructure.EmployeeViewProjection;
+import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeViewProjection;
 
 public record EmployeeViewDto (
 

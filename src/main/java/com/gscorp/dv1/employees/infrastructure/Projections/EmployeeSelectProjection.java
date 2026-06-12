@@ -1,4 +1,4 @@
-package com.gscorp.dv1.employees.infrastructure;
+package com.gscorp.dv1.employees.infrastructure.Projections;
 
 public interface EmployeeSelectProjection {
     Long getId();

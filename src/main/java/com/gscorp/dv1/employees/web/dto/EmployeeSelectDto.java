@@ -1,6 +1,6 @@
 package com.gscorp.dv1.employees.web.dto;
 
-import com.gscorp.dv1.employees.infrastructure.EmployeeSelectProjection;
+import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeSelectProjection;
 
 public record EmployeeSelectDto (
     Long id,

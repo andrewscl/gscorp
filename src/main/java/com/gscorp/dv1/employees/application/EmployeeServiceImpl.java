@@ -20,10 +20,10 @@ import com.gscorp.dv1.bank.application.BankService;
 import com.gscorp.dv1.bank.infrastructure.Bank;
 import com.gscorp.dv1.employees.infrastructure.Employee;
 import com.gscorp.dv1.employees.infrastructure.EmployeeRepository;
-import com.gscorp.dv1.employees.infrastructure.EmployeeSelectProjection;
-import com.gscorp.dv1.employees.infrastructure.EmployeeEditProjection;
-import com.gscorp.dv1.employees.infrastructure.EmployeeTableProjection;
-import com.gscorp.dv1.employees.infrastructure.EmployeeViewProjection;
+import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeEditProjection;
+import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeSelectProjection;
+import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeTableProjection;
+import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeViewProjection;
 import com.gscorp.dv1.employees.web.dto.CreateEmployeeRequest;
 import com.gscorp.dv1.employees.web.dto.EmployeeEditDto;
 import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
@@ -71,13 +71,22 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @Transactional(readOnly = true)
-    public EmployeeEditDto findByIdEditEmployee(Long id) {
-        EmployeeEditProjection projection = employeeRepository.findEmployeeEditProjectionById(id)
+    public EmployeeEditDto findByExternalIdEditEmployee(UUID externalId) {
+        EmployeeEditProjection projection = employeeRepository.findEmployeeEditProjectionByExternalId(externalId)
                 .orElseThrow(() ->
-                    new IllegalArgumentException("Employee not found with id: " + id));
+                    new IllegalArgumentException("Employee not found with id: " + externalId));
         return EmployeeEditDto.fromProjection(projection);
     }
 
+
+    @Override
+    @Transactional(readOnly = true)
+    public EmployeeViewDto findByExternalIdViewEmployee(UUID externalId) {
+        EmployeeViewProjection projection = employeeRepository.findEmployeeViewProjectionByExternalId(externalId)
+                .orElseThrow(() ->
+                    new IllegalArgumentException("Employee not found with id: " + externalId));
+        return EmployeeViewDto.fromProjection(projection);
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -437,11 +446,11 @@ public class EmployeeServiceImpl implements EmployeeService {
             }
         }
 
-        // Guardar cambiosen la base de datos
+        // Guardar cambios en la base de datos
         Employee updatedEmployee = employeeRepository.save(entity);
 
         Optional<EmployeeViewProjection> projectionOpt = employeeRepository
-                                            .findEmployeeViewProjectionById(updatedEmployee.getId());
+                                            .findEmployeeViewProjectionByExternalId(updatedEmployee.getExternalId());
         if (projectionOpt.isEmpty()) {
             return Optional.empty();
         }

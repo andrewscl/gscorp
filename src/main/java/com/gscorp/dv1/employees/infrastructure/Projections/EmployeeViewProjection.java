@@ -1,10 +1,12 @@
-package com.gscorp.dv1.employees.infrastructure;
+package com.gscorp.dv1.employees.infrastructure.Projections;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 public interface EmployeeViewProjection {
     
     Long getId();
+    UUID getExternalId();
     String getName();
     String getFatherSurname();
     String getMotherSurname();

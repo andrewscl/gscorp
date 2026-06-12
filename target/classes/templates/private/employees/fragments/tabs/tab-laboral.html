@@ -1,0 +1,40 @@
+<th:block th:fragment="tabLaboral">
+    <div class="dual-panel-card">
+        <div class="panel-main">
+            <h3>Información Laboral</h3>
+            <div class="form-group">
+                <label>Posición:</label>
+                <input th:value="${employee.position.name}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Tipo de Contrato:</label>
+                <input th:value="${employee.contractType}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Horario:</label>
+                <input th:value="${employee.workSchedule}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Sistema de Turno:</label>
+                <input th:value="${employee.shiftSystem}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Patrón de Turno:</label>
+                <input th:value="${employee.shiftPattern}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Fecha de Contratación:</label>
+                <input th:value="${employee.hireDate}" readonly>
+            </div>
+        </div>
+        <div class="panel-aside">
+            <h3>Proyectos Asignados</h3>
+            <div th:if="${employee.projects.isEmpty()}">
+                <p>Sin proyectos asignados</p>
+            </div>
+            <div th:each="project : ${employee.projects}" class="project-item">
+                <span th:text="${project.name}"></span>
+            </div>
+        </div>
+    </div>
+</th:block>

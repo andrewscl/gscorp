@@ -2,6 +2,7 @@ package com.gscorp.dv1.employees.infrastructure;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +11,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeEditProjection;
+import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeSelectProjection;
+import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeTableProjection;
+import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeViewProjection;
 
 
 @Repository
@@ -132,6 +138,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
 
     @Query("""
         SELECT e.id AS id,
+              e.externalId AS externalId,
               e.name AS name,
               e.fatherSurname AS fatherSurname,
               e.motherSurname AS motherSurname,
@@ -169,9 +176,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
         JOIN e.bank b
         JOIN e.shiftPattern s
         JOIN e.position pos
-        WHERE e.id = :id
+        WHERE e.externalId = :externalId
     """)
-    Optional<EmployeeEditProjection> findEmployeeEditProjectionById(Long id);
+    Optional<EmployeeEditProjection> findEmployeeEditProjectionByExternalId(UUID externalId);
 
     @Query(value =
       "SELECT project_id FROM employee_project WHERE employee_id = :employeeId",
@@ -208,6 +215,52 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
 
     @Query("""
         SELECT e.id AS id,
+              e.externalId as externalId,
+              e.name AS name,
+              e.fatherSurname AS fatherSurname,
+              e.motherSurname AS motherSurname,
+              e.photoUrl AS photoUrl,
+              e.rut AS rut,
+              e.mail AS mail,
+              e.phone AS phone,
+              e.secondaryPhone AS secondaryPhone,
+              e.hireDate AS hireDate,
+              e.birthDate AS birthDate,
+              e.exitDate AS exitDate,
+              e.address AS address,
+              e.active AS active,
+              e.gender AS gender,
+              n.name AS nationality,
+              e.maritalStatus AS maritalStatus,
+              e.studyLevel AS studyLevel,
+              p.name AS profession,
+              e.previtionalSystem AS previtionalSystem,
+              e.pensionEntity AS pensionEntity,
+              e.healthSystem AS healthSystem,
+              e.healthEntity AS healthEntity,
+              e.paymentMethod AS paymentMethod,
+              b.name AS bank,
+              e.bankAccountType AS bankAccountType,
+              e.bankAccountNumber AS bankAccountNumber,
+              e.contractType AS contractType,
+              e.workSchedule AS workSchedule,
+              e.shiftSystem AS shiftSystem,
+              s.name AS shiftPattern,
+              pos.name AS position
+        FROM Employee e
+        JOIN e.nationality n
+        JOIN e.professions p
+        JOIN e.bank b
+        JOIN e.shiftPattern s
+        JOIN e.position pos
+        WHERE e.externalId = :externalId
+    """)
+    Optional<EmployeeViewProjection> findEmployeeViewProjectionByExternalId(UUID externalId);
+
+
+    @Query("""
+        SELECT e.id AS id,
+              e.externalId as externalId,
               e.name AS name,
               e.fatherSurname AS fatherSurname,
               e.motherSurname AS motherSurname,
@@ -248,6 +301,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
         WHERE e.id = :id
     """)
     Optional<EmployeeViewProjection> findEmployeeViewProjectionById(Long id);
+
 
     @Query(value = """
         SELECT 

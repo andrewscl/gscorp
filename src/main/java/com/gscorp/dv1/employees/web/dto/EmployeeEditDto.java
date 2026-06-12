@@ -2,7 +2,7 @@ package com.gscorp.dv1.employees.web.dto;
 
 import java.time.LocalDate;
 
-import com.gscorp.dv1.employees.infrastructure.EmployeeEditProjection;
+import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeEditProjection;
 import com.gscorp.dv1.enums.BankAccountType;
 import com.gscorp.dv1.enums.ContractType;
 import com.gscorp.dv1.enums.Gender;

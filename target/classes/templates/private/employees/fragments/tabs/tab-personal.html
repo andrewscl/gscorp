@@ -1,0 +1,56 @@
+<th:block th:fragment="tabPersonal">
+    <div class="dual-panel-card">
+        <div class="panel-main">
+            <h3>Datos Personales</h3>
+            <div class="form-group">
+                <label>Nombre:</label>
+                <input th:value="${employee.name}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Apellido Paterno:</label>
+                <input th:value="${employee.fatherSurname}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Apellido Materno:</label>
+                <input th:value="${employee.motherSurname}" readonly>
+            </div>
+            <div class="form-group">
+                <label>RUT:</label>
+                <input th:value="${employee.rut}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Género:</label>
+                <input th:value="${employee.gender}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Fecha de Nacimiento:</label>
+                <input th:value="${employee.birthDate}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Dirección:</label>
+                <input th:value="${employee.address}" readonly>
+            </div>
+        </div>
+        <div class="panel-aside">
+            <h3>Información Adicional</h3>
+            <div class="form-group">
+                <label>Nacionalidad:</label>
+                <input th:value="${employee.nationalityName}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Estado Civil:</label>
+                <input th:value="${employee.maritalStatus}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Nivel de Estudio:</label>
+                <input th:value="${employee.studyLevel}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Profesiones:</label>
+                <div th:each="profession : ${employee.professions}">
+                    <span th:text="${profession.name}"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>

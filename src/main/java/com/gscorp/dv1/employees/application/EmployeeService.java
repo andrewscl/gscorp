@@ -2,6 +2,7 @@ package com.gscorp.dv1.employees.application;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 
@@ -18,7 +19,9 @@ public interface EmployeeService {
 
     List<Employee> findAll ();
 
-    EmployeeEditDto findByIdEditEmployee(Long id);
+    EmployeeEditDto findByExternalIdEditEmployee(UUID externalId);
+
+    EmployeeViewDto findByExternalIdViewEmployee(UUID externalId);
 
     EmployeeViewDto findByIdViewEmployee(Long id);
 

@@ -1,0 +1,34 @@
+package com.gscorp.dv1.shared.application;
+
+import java.util.List;
+
+import com.gscorp.dv1.shared.TabDto;
+
+public interface TabConfigProvider {
+
+    /**
+     * Obtiene todos los tabs disponibles
+     */
+    List<TabDto> getTabs();
+    
+    /**
+     * Obtiene un tab por índice
+     */
+    TabDto getTabByIndex(int index);
+    
+    /**
+     * Obtiene un tab por label
+     */
+    TabDto getTabByLabel(String label);
+    
+    /**
+     * Valida si un índice es válido
+     */
+    boolean isValidTabIndex(int index);
+    
+    /**
+     * Obtiene la cantidad total de tabs
+     */
+    int getTabCount();
+
+}
