@@ -7,7 +7,7 @@ const qsa = (s) => document.querySelectorAll(s);
 
 const cancelViewEmployee = () => {
     // Asumiendo una ruta similar a tu ejemplo de compañías
-    setTimeout(() => navigateTo('/admin/employees/table-view', true), 1000);
+    setTimeout(() => navigateTo('/private/employees/table-view', true), 1000);
 };
 
 function bindViewEmployee() {
