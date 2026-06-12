@@ -14,11 +14,11 @@ import com.gscorp.dv1.employees.application.EmployeeTabsServiceImpl;
 import com.gscorp.dv1.employees.web.dto.EmployeeViewDto;
 import com.gscorp.dv1.users.application.UserService;
 
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Controller
 @RequestMapping("/private/employees")
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class EmployeeTabController {
 
     private EmployeeService employeeService;
