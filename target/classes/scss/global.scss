@@ -7,9 +7,14 @@
 @use 'abstracts/card-forms' as * ;
 
 .hs-table {
-    @include hs-table();
+  @include hs-table();
 }
 
-.hs-form{
+.hs-form {
   @include hs-form($max_w: 40rem);
 }
+
+.tab-panel-card {
+  @include tab-panel-card($max_w: 50rem);
+}
+
