@@ -1,7 +1,8 @@
-<div th:replace="private/shared/fragments/panels/tab-panel-card :: tabPanelCard(
+<div th:replace="~{shared/fragments/panels/tab-panel-card :: tabPanelCard(
     title='Empleado',
     tabs=${tabs},
-    customClass='employee-tabs')">
+    customClass='employee-tabs'
+    )}">
 </div>
 
 <script type="module" src="/js/private/employees/view-employee.js"></script>
