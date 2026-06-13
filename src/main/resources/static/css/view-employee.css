@@ -199,20 +199,21 @@ p {
     opacity: 1;
   }
 }
-.view-employee .tab-panel-card .tab-content .dual-panel-tab {
+.view-employee .tab-panel-card .tab-content .panel-tab {
   display: flex;
+  gap: 1rem;
 }
-.view-employee .tab-panel-card .tab-content .dual-panel-tab .dual-panel-tab-column {
+.view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
-.view-employee .tab-panel-card .tab-content .dual-panel-tab .dual-panel-tab-column .form-group {
+.view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .form-group {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
 }
-.view-employee .tab-panel-card .tab-content .dual-panel-tab .dual-panel-tab-column .form-group label {
+.view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .form-group label {
   font-family: "Roboto", sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
@@ -220,7 +221,7 @@ p {
   color: #374151;
   padding-left: 0.65rem;
 }
-.view-employee .tab-panel-card .tab-content .dual-panel-tab .dual-panel-tab-column .form-group .form-value {
+.view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .form-group .form-value {
   padding: 0.5rem 0.65rem;
   border: 0.09rem solid #ced4da;
   border-radius: 0.5rem;
@@ -230,13 +231,13 @@ p {
   letter-spacing: 0.02em;
   color: #1f2937;
 }
-.view-employee .tab-panel-card .tab-content .dual-panel-tab .dual-panel-tab-column .form-group .tag-container {
+.view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .form-group .tag-container {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-top: 0.25rem;
 }
-.view-employee .tab-panel-card .tab-content .dual-panel-tab .dual-panel-tab-column .form-group .tag-container .tag {
+.view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .form-group .tag-container .tag {
   display: inline-flex;
   align-items: center;
   background-color: #f9fafb;
@@ -251,12 +252,12 @@ p {
   border: 1px solid #cbd5e1;
   transition: background-color 0.2s ease;
 }
-.view-employee .tab-panel-card .tab-content .dual-panel-tab .dual-panel-tab-column .form-group .tag-container .tag:hover {
+.view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .form-group .tag-container .tag:hover {
   background-color: #cbd5e1;
 }
-.view-employee .tab-panel-card .tab-content .dual-panel-tab .dual-panel-tab-column .form-group input,
-.view-employee .tab-panel-card .tab-content .dual-panel-tab .dual-panel-tab-column .form-group select,
-.view-employee .tab-panel-card .tab-content .dual-panel-tab .dual-panel-tab-column .form-group span {
+.view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .form-group input,
+.view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .form-group select,
+.view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .form-group span {
   padding: 0.65rem;
   border: 0.09rem solid #ced4da;
   border-radius: 0.5rem;
@@ -267,19 +268,19 @@ p {
   color: #1f2937;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
-.view-employee .tab-panel-card .tab-content .dual-panel-tab .dual-panel-tab-column .form-group input::placeholder,
-.view-employee .tab-panel-card .tab-content .dual-panel-tab .dual-panel-tab-column .form-group select::placeholder,
-.view-employee .tab-panel-card .tab-content .dual-panel-tab .dual-panel-tab-column .form-group span::placeholder {
+.view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .form-group input::placeholder,
+.view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .form-group select::placeholder,
+.view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .form-group span::placeholder {
   color: #adb5bd;
 }
-.view-employee .tab-panel-card .tab-content .dual-panel-tab .dual-panel-tab-column .form-group input:focus,
-.view-employee .tab-panel-card .tab-content .dual-panel-tab .dual-panel-tab-column .form-group select:focus,
-.view-employee .tab-panel-card .tab-content .dual-panel-tab .dual-panel-tab-column .form-group span:focus {
+.view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .form-group input:focus,
+.view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .form-group select:focus,
+.view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .form-group span:focus {
   border-color: #4e54c8;
   box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
   outline: none;
 }
-.view-employee .tab-panel-card .tab-content .dual-panel-tab .dual-panel-tab-column .form-group textarea {
+.view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .form-group textarea {
   resize: vertical;
   font-family: "Roboto", sans-serif;
   font-size: 0.875rem;
@@ -288,11 +289,11 @@ p {
   color: #1f2937;
   min-height: 80px;
 }
-.view-employee .tab-panel-card .tab-content .dual-panel-tab .dual-panel-tab-column .form-row {
+.view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .form-row {
   display: flex;
   gap: 2rem;
   width: 100%;
 }
-.view-employee .tab-panel-card .tab-content .dual-panel-tab .dual-panel-tab-column .form-row .form-group {
+.view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .form-row .form-group {
   flex: 1;
 }/*# sourceMappingURL=view-employee.css.map */

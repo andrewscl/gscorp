@@ -50,10 +50,10 @@
     .tab-panel-card {
         @include tab-panel-card(none);
         .tab-content {
-            .dual-panel-tab {
+            .panel-tab {
                 display: flex;
-                
-                .dual-panel-tab-column {
+                gap: 1rem;
+                .panel-tab-column {
                     display: flex;
                     flex-direction: column;
                     gap: 1rem;
