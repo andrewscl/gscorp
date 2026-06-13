@@ -16,7 +16,7 @@
     flex-direction: column;
     box-shadow: $shadow-sm;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    padding: 0.5rem 1rem;
+    padding: 1rem;
     .view-employee-header {
         display: flex;
         .ve-header-foto {
@@ -54,7 +54,6 @@
                 display: flex;
                 .panel-main {
                     display: grid;
-                    gap: 1rem;
                     padding: 0 2rem;
                     .form-group {
                         @include form-group-fields();
@@ -62,7 +61,6 @@
                 } 
                 .panel-aside {
                     display: grid;
-                    gap: 1rem;
                     padding: 0 2rem;
                     .form-group {
                         @include form-group-fields();
