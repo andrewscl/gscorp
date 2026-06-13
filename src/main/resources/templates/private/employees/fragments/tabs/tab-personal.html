@@ -22,7 +22,7 @@
                     <span th:text="${employee.rut}"></span>
                 </div>
                 <div class="form-group">
-                    <label>Fecha de Nacimiento:</label>
+                    <label>Fecha de Nac.:</label>
                     <span th:text="${employee.birthDate}"></span>
                 </div>
                 <div class="form-group">
@@ -47,16 +47,19 @@
                     <span th:text="${employee.gender}"></span>
                 </div>
             </div>
-            <div class="form-group">
-                <label>Nivel de Estudio:</label>
-                <span th:text="${employee.studyLevel}"></span>
-            </div>
-            <div class="form-group">
-                <label>Profesiones:</label>
-                <span th:each="ep : ${employeeProfessions}"
-                        class="badge"   
-                        th:text="${ep.name}">
-                </span>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Nivel de Estudio:</label>
+                    <span th:text="${employee.studyLevel}"></span>
+                </div>
+                <div class="form-group">
+                    <label>Profesiones:</label>
+                    <span th:each="ep : ${employeeProfessions}"
+                            class="badge"   
+                            th:text="${ep.name}">
+                    </span>
+                </div>
             </div>
         </div>
 
