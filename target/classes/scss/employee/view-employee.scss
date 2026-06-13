@@ -40,7 +40,7 @@
                 color: $primary-color;
             }
             .ve-header-text-info {
-                @include montserrat-font(0.9rem, 500);
+                @include montserrat-font(1rem, 500);
                 display: flex;
                 flex-direction: column;
                 gap: 0.25rem;
@@ -50,11 +50,19 @@
     }
 
     .tab-panel-card {
-        @include tab-panel-card();
+        @include tab-panel-card(none);
         .tab-content {
             .dual-panel-tab {
                 display: flex;
                 .panel-main {
+                    display: grid;
+                    gap: 1rem;
+                    padding: 0 2rem;
+                    .form-group {
+                        @include form-group-fields();
+                    }
+                } 
+                .panel-aside {
                     display: grid;
                     gap: 1rem;
                     padding: 0 2rem;
