@@ -3,6 +3,7 @@ package com.gscorp.dv1.projects.infrastructure;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.gscorp.dv1.projects.infrastructure.projections.ProjectSelectProjection;
 import com.gscorp.dv1.projects.web.dto.ProjectSelectDto;
 
 @Repository
@@ -43,6 +45,16 @@ public interface ProjectRepository extends JpaRepository<Project, Long>{
     List<ProjectProjection> findByClientIds(@Param("clientIds")
                                                 List<Long> clientIds);
 
-    
+    @Query("""
+        SELECT 
+            p.externalId as externalId,
+            p.name as name
+        FROM Project p 
+        JOIN p.employees e 
+        WHERE e.externalId = :employeeExternalId
+    """)
+    List<ProjectSelectProjection>
+        findProjectSelectProjectionsByEmployeeExternalId(
+                @Param("employeeExternalId") UUID employeeExternalId);
 
 }

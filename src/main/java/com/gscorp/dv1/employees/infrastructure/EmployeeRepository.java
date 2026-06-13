@@ -180,38 +180,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
     """)
     Optional<EmployeeEditProjection> findEmployeeEditProjectionByExternalId(UUID externalId);
 
-    @Query(value =
-      "SELECT project_id FROM employee_project WHERE employee_id = :employeeId",
-                                        nativeQuery = true)
-    List<Long> findProjectIdsByEmployeeId(
-                                @Param("employeeId") Long employeeId);
-
-
-    @Query(value = """
-        SELECT p.name
-        FROM project p
-        JOIN employee_project ep ON ep.project_id = p.id
-        WHERE ep.employee_id = :employeeId
-        """, nativeQuery = true)
-    List<String> findProjectNamesByEmployeeId(
-                                @Param("employeeId") Long employeeId);
-
-        @Query(value = """
-        SELECT p.name
-        FROM profession p
-        JOIN employee_profession ep ON ep.profession_id = p.id
-        WHERE ep.employee_id = :employeeId
-        """, nativeQuery = true)
-    List<String> findProfessionNamesByEmployeeId(
-                                @Param("employeeId") Long employeeId);
-
-
-    @Query(value =
-      "SELECT profession_id FROM employee_profession WHERE employee_id = :employeeId",
-                                        nativeQuery = true)
-    List<Long> findProfessionIdsByEmployeeId(
-                                @Param("employeeId") Long employeeId);
-
 
     @Query("""
         SELECT e.id AS id,

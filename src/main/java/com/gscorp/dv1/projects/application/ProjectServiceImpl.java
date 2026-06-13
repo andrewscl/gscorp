@@ -3,6 +3,7 @@ package com.gscorp.dv1.projects.application;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -26,18 +27,19 @@ public class ProjectServiceImpl implements ProjectService{
     private final ClientRepository clientRepository;
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Project> findAllWithClientsAndEmployees (){
         return projectRepository.findAll();
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Optional<Project> findById(Long id) {
         return projectRepository.findById(id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Project findByIdWithClients (Long id){
         return projectRepository.findById(id)
             .orElseThrow(()->
@@ -45,6 +47,7 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Client findClientById(Long clientId) {
         return clientRepository.findById(clientId)
                 .orElseThrow(() ->
@@ -81,13 +84,13 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Project> findEntitiesById(Set<Long> ids) {
         return projectRepository.findAllByIdWithEmployees(ids);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ProjectDto> findAll() {
         return projectRepository.findAll().stream()
                 .map(ProjectDto::fromEntity)
@@ -96,6 +99,7 @@ public class ProjectServiceImpl implements ProjectService{
 
 
     @Override
+    @Transactional(readOnly = true)
     public List<ProjectSelectDto> findByClientId(Long clientId) {
         if (clientId == null) return List.of();
         return projectRepository.findDtoByClientId(clientId);
@@ -103,7 +107,7 @@ public class ProjectServiceImpl implements ProjectService{
 
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ProjectDto> findByUserId (Long userId) {
 
         List<Long> clientIds = clientRepository.findClientIdsByUserId(userId);
@@ -118,6 +122,17 @@ public class ProjectServiceImpl implements ProjectService{
             .toList();
 
         return projectDtos;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ProjectSelectDto>
+                    findProjectSelectDtosByEmployeeExternalId(UUID employeeExternalId){
+        return projectRepository
+                .findProjectSelectProjectionsByEmployeeExternalId(employeeExternalId)
+                .stream()
+                .map(ProjectSelectDto::fromSelectProjection)
+                .toList();
     }
 
 

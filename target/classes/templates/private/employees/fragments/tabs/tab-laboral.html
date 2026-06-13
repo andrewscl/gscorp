@@ -28,13 +28,21 @@
             </div>
         </div>
         <div class="panel-aside">
-            <h3>Proyectos Asignados</h3>
-            <div th:if="${employee.projects.isEmpty()}">
-                <p>Sin proyectos asignados</p>
+
+            <div class="form-group">
+                <h3>Proyectos Asignados</h3>
+                <div class="badge-container">
+                    <div th:if="${employee.projects.isEmpty()}">
+                        <p>Sin proyectos asignados</p>
+                    </div>
+                    <span th:each="ep : ${employeeProjects}"
+                            class="badge"
+                            th:text="${ep.name}">
+                    </span>
+                </div>
             </div>
-            <div th:each="project : ${employee.projects}" class="project-item">
-                <span th:text="${project.name}"></span>
-            </div>
+
         </div>
+
     </div>
 </th:block>

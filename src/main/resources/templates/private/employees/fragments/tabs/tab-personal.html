@@ -45,12 +45,17 @@
                 <label>Nivel de Estudio:</label>
                 <input th:value="${employee.studyLevel}" readonly>
             </div>
+
             <div class="form-group">
                 <label>Profesiones:</label>
-                <div th:each="profession : ${employee.professions}">
-                    <span th:text="${profession.name}"></span>
+                <div class="badge-container">
+                    <span th:each="ep : ${employeeProfessions}"
+                            class="badge"   
+                            th:text="${ep.name}">
+                    </span>
                 </div>
             </div>
+
         </div>
     </div>
 </th:block>

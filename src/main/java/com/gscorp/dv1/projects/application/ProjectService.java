@@ -3,6 +3,7 @@ package com.gscorp.dv1.projects.application;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 import com.gscorp.dv1.clients.infrastructure.Client;
 import com.gscorp.dv1.projects.infrastructure.Project;
@@ -29,5 +30,8 @@ public interface ProjectService {
     List<ProjectSelectDto> findByClientId(Long clientId);
 
     List<ProjectDto> findByUserId(Long userId);
+
+    List<ProjectSelectDto>
+            findProjectSelectDtosByEmployeeExternalId(UUID externalId);
 
 }

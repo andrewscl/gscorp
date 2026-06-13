@@ -2,7 +2,7 @@ package com.gscorp.dv1.professions.web.dto;
 
 import com.gscorp.dv1.professions.infrastructure.Profession;
 
-public record ProfessionDto (
+    public record ProfessionDto (
     Long id,
     String name,
     String description,

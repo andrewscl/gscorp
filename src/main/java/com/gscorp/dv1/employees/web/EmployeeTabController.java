@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.gscorp.dv1.employees.application.EmployeeService;
 import com.gscorp.dv1.employees.application.EmployeeTabsServiceImpl;
 import com.gscorp.dv1.employees.web.dto.EmployeeViewDto;
+import com.gscorp.dv1.professions.application.ProfessionService;
+import com.gscorp.dv1.projects.application.ProjectService;
 import com.gscorp.dv1.users.application.UserService;
 
 import lombok.AllArgsConstructor;
@@ -24,6 +26,8 @@ public class EmployeeTabController {
     private EmployeeService employeeService;
     private EmployeeTabsServiceImpl employeeTabsService;
     private UserService userService;
+    private ProfessionService professionService;
+    private ProjectService projectService;
 
     @GetMapping("/view/{externalId}")
     public String viewEmployee(
@@ -42,9 +46,13 @@ public class EmployeeTabController {
         if (employee == null) {
             return "redirect:/private/employees";
         }
-        
+
         model.addAttribute("employee", employee);
         model.addAttribute("employeeTabs", employeeTabsService.getTabs());
+        model.addAttribute("employeeProfessions",
+                    professionService.findProfessionSelectDtosByEmployeeId(externalId));
+        model.addAttribute("employeeProjects",
+                    projectService.findProjectSelectDtosByEmployeeExternalId(externalId));
         return "private/employees/fragments/view-employee";
     }
 
