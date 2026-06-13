@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import com.gscorp.dv1.enums.BankAccountType;
 import com.gscorp.dv1.enums.ContractType;
+import com.gscorp.dv1.enums.EmployeeStatus;
 import com.gscorp.dv1.enums.Gender;
 import com.gscorp.dv1.enums.HealthEntity;
 import com.gscorp.dv1.enums.HealthSystem;
@@ -51,5 +52,5 @@ public interface EmployeeViewProjection {
     String getShiftPattern();
     String getPosition();
     String getCompany();
-
+    EmployeeStatus getEmployeeStatus();
 }

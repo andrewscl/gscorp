@@ -8,24 +8,29 @@
                         <span th:text="${employee.company}"></span>
                     </div>
                     <div class="form-group">
-                        <label>Tipo de Contrato:</label>
-                        <span th:text="${employee.contractType.displayName}"></span>
+                        <label>Cargo:</label>
+                        <span th:text="${employee.position}"></span>
                     </div>
+
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Fecha de Contratación:</label>
+                        <label>Estado:</label>
+                        <span th:text="${employee.employeeStatus.displayName}"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha de Inicio:</label>
                         <span th:text="${employee.hireDate}"></span>
                     </div>
                     <div class="form-group">
-                        <label>Tipo de Contrato:</label>
-                        <span th:text="${employee.contractType.displayName}"></span>
+                        <label>Fecha de Termino:</label>
+                        <span th:text="${employee.exitDate}"></span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Cargo:</label>
-                        <span th:text="${employee.position}"></span>
+                        <label>Tipo de Contrato:</label>
+                        <span th:text="${employee.contractType.displayName}"></span>
                     </div>
                     <div class="form-group">
                         <label>Proyectos Asignados</label>

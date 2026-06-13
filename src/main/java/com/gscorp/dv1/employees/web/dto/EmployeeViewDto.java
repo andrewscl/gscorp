@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeViewProjection;
 import com.gscorp.dv1.enums.BankAccountType;
 import com.gscorp.dv1.enums.ContractType;
+import com.gscorp.dv1.enums.EmployeeStatus;
 import com.gscorp.dv1.enums.Gender;
 import com.gscorp.dv1.enums.HealthEntity;
 import com.gscorp.dv1.enums.HealthSystem;
@@ -49,7 +50,8 @@ public record EmployeeViewDto (
     ShiftSystem shiftSystem,
     String shiftPattern,
     String position,
-    String company
+    String company,
+    EmployeeStatus employeeStatus
 ) {
     public static EmployeeViewDto
             fromProjection(EmployeeViewProjection p) {
@@ -85,7 +87,8 @@ public record EmployeeViewDto (
             p.getShiftSystem(),
             p.getShiftPattern(),
             p.getPosition(),
-            p.getCompany()
+            p.getCompany(),
+            p.getEmployeeStatus()
         );
     }
 }
