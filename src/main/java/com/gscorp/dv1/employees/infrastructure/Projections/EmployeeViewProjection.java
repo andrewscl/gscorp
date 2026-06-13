@@ -3,7 +3,18 @@ package com.gscorp.dv1.employees.infrastructure.Projections;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import com.gscorp.dv1.enums.BankAccountType;
+import com.gscorp.dv1.enums.ContractType;
 import com.gscorp.dv1.enums.Gender;
+import com.gscorp.dv1.enums.HealthEntity;
+import com.gscorp.dv1.enums.HealthSystem;
+import com.gscorp.dv1.enums.MaritalStatus;
+import com.gscorp.dv1.enums.PaymentMethod;
+import com.gscorp.dv1.enums.PensionEntity;
+import com.gscorp.dv1.enums.PrevitionalSystem;
+import com.gscorp.dv1.enums.ShiftSystem;
+import com.gscorp.dv1.enums.StudyLevel;
+import com.gscorp.dv1.enums.WorkSchedule;
 
 public interface EmployeeViewProjection {
     
@@ -24,19 +35,19 @@ public interface EmployeeViewProjection {
     Boolean getActive();
     Gender getGender();
     String getNationality();
-    String getMaritalStatus();
-    String getStudyLevel();
-    String getPrevitionalSystem();
-    String getPensionEntity();
-    String getHealthSystem();
-    String getHealthEntity();
-    String getPaymentMethod();
+    MaritalStatus getMaritalStatus();
+    StudyLevel getStudyLevel();
+    PrevitionalSystem getPrevitionalSystem();
+    PensionEntity getPensionEntity();
+    HealthSystem getHealthSystem();
+    HealthEntity getHealthEntity();
+    PaymentMethod getPaymentMethod();
     String getBank();
-    String getBankAccountType();
+    BankAccountType getBankAccountType();
     String getBankAccountNumber();
-    String getContractType();
-    String getWorkSchedule();
-    String getShiftSystem();
+    ContractType getContractType();
+    WorkSchedule getWorkSchedule();
+    ShiftSystem getShiftSystem();
     String getShiftPattern();
     String getPosition();
     String getCompany();

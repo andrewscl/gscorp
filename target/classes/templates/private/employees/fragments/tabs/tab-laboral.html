@@ -1,38 +1,48 @@
 <th:block th:fragment="tabLaboral">
         <div class="dual-panel-tab">
 
-            <div class="form-group">
-                <label>Cargo:</label>
-                <span th:text="${employee.position}"></span>
-            </div>
-            <div class="form-group">
-                <label>Tipo de Contrato:</label>
-                <span th:text="${employee.contractType}"></span>
-            </div>
-            <div class="form-group">
-                <label>Horario:</label>
-                <span th:text="${employee.workSchedule}"></span>
-            </div>
-            <div class="form-group">
-                <label>Sistema de Turno:</label>
-                <span th:text="${employee.shiftSystem}"></span>
-            </div>
-            <div class="form-group">
-                <label>Patron de turno:</label>
-                <span th:text="${employee.shiftPattern}"></span>
-            </div>
-            <div class="form-group">
-                <label>Fecha de Contratación:</label>
-                <span th:text="${employee.hireDate}"></span>
-            </div>
-            <div class="form-group">
-                <label>Proyectos Asignados</label>
-                <span th:each="ep : ${employeeProjects}"
-                            class="badge"
-                            th:text="${ep.name}">
-                </span>
+            <div class="panel-tab-column">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Fecha de Contratación:</label>
+                        <span th:text="${employee.hireDate}"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo de Contrato:</label>
+                        <span th:text="${employee.contractType}"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Cargo:</label>
+                        <span th:text="${employee.position}"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Proyectos Asignados</label>
+                        <span th:each="ep : ${employeeProjects}"
+                                    class="badge"
+                                    th:text="${ep.name}">
+                        </span>
+                    </div>
+                </div>
             </div>
 
+            <div class="panel-tab-column">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Horario:</label>
+                        <span th:text="${employee.workSchedule}"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Sistema de Turno:</label>
+                        <span th:text="${employee.shiftSystem}"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Patron de turno:</label>
+                        <span th:text="${employee.shiftPattern}"></span>
+                    </div>
+                </div>
+            </div>
 
     </div>
 </th:block>

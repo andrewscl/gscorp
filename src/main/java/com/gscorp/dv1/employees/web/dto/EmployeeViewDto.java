@@ -3,7 +3,18 @@ package com.gscorp.dv1.employees.web.dto;
 import java.time.LocalDate;
 
 import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeViewProjection;
+import com.gscorp.dv1.enums.BankAccountType;
+import com.gscorp.dv1.enums.ContractType;
 import com.gscorp.dv1.enums.Gender;
+import com.gscorp.dv1.enums.HealthEntity;
+import com.gscorp.dv1.enums.HealthSystem;
+import com.gscorp.dv1.enums.MaritalStatus;
+import com.gscorp.dv1.enums.PaymentMethod;
+import com.gscorp.dv1.enums.PensionEntity;
+import com.gscorp.dv1.enums.PrevitionalSystem;
+import com.gscorp.dv1.enums.ShiftSystem;
+import com.gscorp.dv1.enums.StudyLevel;
+import com.gscorp.dv1.enums.WorkSchedule;
 
 public record EmployeeViewDto (
 
@@ -23,19 +34,19 @@ public record EmployeeViewDto (
     Boolean active,
     Gender gender,
     String nationality,
-    String maritalStatus,
-    String studyLevel,
-    String previtionalSystem,
-    String pensionEntity,
-    String healthSystem,
-    String healthEntity,
-    String paymentMethod,
+    MaritalStatus maritalStatus,
+    StudyLevel studyLevel,
+    PrevitionalSystem previtionalSystem,
+    PensionEntity pensionEntity,
+    HealthSystem healthSystem,
+    HealthEntity healthEntity,
+    PaymentMethod paymentMethod,
     String bank,
-    String bankAccountType,
+    BankAccountType bankAccountType,
     String bankAccountNumber,
-    String contractType,
-    String workSchedule,
-    String shiftSystem,
+    ContractType contractType,
+    WorkSchedule workSchedule,
+    ShiftSystem shiftSystem,
     String shiftPattern,
     String position,
     String company
