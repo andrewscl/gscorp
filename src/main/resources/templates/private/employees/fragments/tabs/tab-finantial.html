@@ -1,23 +1,29 @@
 <th:block th:fragment="tabFinanciero">
-    <div class="dual-panel-tab">
-        <div class="panel-main">
-            <h3>Datos Bancarios</h3>
-            <div class="form-group">
-                <label>Banco:</label>
-                <input th:value="${employee.bank}" readonly>
-            </div>
-            <div class="form-group">
-                <label>Tipo de Cuenta:</label>
-                <input th:value="${employee.bankAccountType}" readonly>
-            </div>
-            <div class="form-group">
-                <label>Número de Cuenta:</label>
-                <input th:value="${employee.bankAccountNumber}" readonly>
+    <div class="panel-tab">
+
+        <div class="panel-tab-column">
+            <div class="panel-tab-column-title">
+                <h3>Datos Bancarios</h3>
             </div>
             <div class="form-group">
                 <label>Método de Pago:</label>
-                <input th:value="${employee.paymentMethod}" readonly>
+                <input th:value="${employee.paymentMethod.displayName}" readonly>
             </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Banco:</label>
+                    <span th:text="${employee.bank}"></span>
+                </div>
+                <div class="form-group">
+                    <label>Tipo de Cuenta:</label>
+                    <span th:text="${employee.bankAccountType.displayName}"></span>
+                </div>
+                <div class="form-group">
+                    <label>Número de Cuenta:</label>
+                    <input th:value="${employee.bankAccountNumber}" readonly>
+                </div>
+            </div>
+
             <div class="form-group">
                 <label>Email:</label>
                 <input th:value="${employee.mail}" readonly>
@@ -31,23 +37,29 @@
                 <input th:value="${employee.secondaryPhone}" readonly>
             </div>
         </div>
-        <div class="panel-aside">
-            <h3>Sistema de Previsión y Salud</h3>
-            <div class="form-group">
-                <label>Sistema Previsional:</label>
-                <input th:value="${employee.previtionalSystem}" readonly>
+        <div class="panel-tab-column">
+            <div class="panel-tab-column-title">
+                <h3>Sistemas de Previsión y Salud</h3>
             </div>
-            <div class="form-group">
-                <label>Entidad de Pensión:</label>
-                <input th:value="${employee.pensionEntity}" readonly>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Sistema Previsional:</label>
+                    <input th:value="${employee.previtionalSystem.displayName}" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Entidad de Pensión:</label>
+                    <input th:value="${employee.pensionEntity.displayName}" readonly>
+                </div>
             </div>
-            <div class="form-group">
-                <label>Sistema de Salud:</label>
-                <input th:value="${employee.healthSystem}" readonly>
-            </div>
-            <div class="form-group">
-                <label>Entidad de Salud:</label>
-                <input th:value="${employee.healthEntity}" readonly>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Sistema de Salud:</label>
+                    <input th:value="${employee.healthSystem.displayName}" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Entidad de Salud:</label>
+                    <input th:value="${employee.healthEntity.displayName}" readonly>
+                </div>
             </div>
         </div>
     </div>
