@@ -17,6 +17,7 @@
     box-shadow: $shadow-sm;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     padding: 1rem;
+    gap: 1rem;
     .view-employee-header {
         display: flex;
         gap: 2rem;

@@ -4,53 +4,53 @@
         <div class="panel-tab-column">
             <div class="form-group">
                 <label>Nombre:</label>
-                <input th:value="${employee.name}" readonly>
+                <span th:text="${employee.name}"></span>
             </div>
             <div class="form-row">
                 <div class="form-group">
                     <label>Apellido Paterno:</label>
-                    <input th:value="${employee.fatherSurname}" readonly>
+                    <span th:text="${employee.fatherSurname}"></span>
                 </div>
                 <div class="form-group">
                     <label>Apellido Materno:</label>
-                    <input th:value="${employee.motherSurname}" readonly>
+                    <span th:text="${employee.motherSurname}"></span>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
                     <label>Rut:</label>
-                    <input th:value="${employee.rut}" readonly>
+                    <span th:text="${employee.rut}"></span>
                 </div>
                 <div class="form-group">
                     <label>Fecha de Nacimiento:</label>
-                    <input th:value="${employee.birthDate}" readonly>
+                    <span th:text="${employee.birthDate}"></span>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
                     <label>Nacionalidad:</label>
-                    <input th:value="${employee.nationality}" readonly>
+                    <span th:text="${employee.nationality}"></span>
                 </div>
-            </div>
-            <div class="form-group">
-                <label>Género:</label>
-                <input th:value="${employee.gender}" readonly>
+                <div class="form-group">
+                    <label>Género:</label>
+                    <span th:text="${employee.gender}"></span>
+                </div>
             </div>
         </div>
 
         <div class="panel-tab-column">
             <div class="form-group">
                 <label>Dirección:</label>
-                <input th:value="${employee.address}" readonly>
+                <span th:text="${employee.address}"></span>
             </div>
             <div class="form-row">
                 <div class="form-group">
                     <label>Estado Civil:</label>
-                    <input th:value="${employee.maritalStatus}" readonly>
+                    <span th:text="${employee.maritalStatus}"></span>
                 </div>
                 <div class="form-group">
                     <label>Nivel de Estudio:</label>
-                    <input th:value="${employee.studyLevel}" readonly>
+                    <span th:value="${employee.studyLevel}"></span>
                 </div>
             </div>
             <div class="form-group">
