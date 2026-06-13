@@ -15,9 +15,9 @@ import lombok.RequiredArgsConstructor;
 public class EmployeeTabsServiceImpl implements TabConfigProvider {
 
     private static final List<TabDto> EMPLOYEE_TABS = Arrays.asList(
-        new TabDto("Personal", "/private/employees/fragments/tabs/tab-personal", "user", 0),
-        new TabDto("Laboral", "/private/employees/fragments/tabs/tab-laboral", "briefcase", 1),
-        new TabDto("Financiero", "/private/employees/fragments/tabs/tab-finantial", "credit-card", 2)
+        new TabDto("Personal", "private/employees/fragments/tabs/tab-personal", "user", 0),
+        new TabDto("Laboral", "private/employees/fragments/tabs/tab-laboral", "briefcase", 1),
+        new TabDto("Financiero", "private/employees/fragments/tabs/tab-finantial", "credit-card", 2)
     );
 
     @Override

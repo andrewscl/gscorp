@@ -14,7 +14,7 @@
        class="tab-content"
        th:classappend="${iterStat.index == 0} ? 'active' : ''"
        th:id="'tab-' + ${iterStat.index}">
-    <th:block th:replace="${tab.contentFragment}"></th:block>
+    <th:block th:replace="~{${tab.contentFragment}}"></th:block>
   </div>
 
 </div>
