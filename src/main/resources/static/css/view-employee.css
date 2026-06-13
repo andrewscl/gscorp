@@ -100,6 +100,9 @@ p {
   box-shadow: 0 0.5rem 1.1rem rgba(15, 23, 42, 0.04);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+.view-employee .view-employee-header {
+  display: flex;
+}
 .view-employee .tab-panel-card {
   max-width: 50rem;
   background: #ffffff;
@@ -166,4 +169,9 @@ p {
   to {
     opacity: 1;
   }
+}
+.view-employee .tab-panel-card .tab-content .dual-panel-tab .panel-main .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }/*# sourceMappingURL=view-employee.css.map */

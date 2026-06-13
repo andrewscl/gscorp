@@ -16,7 +16,7 @@
     box-shadow: $shadow-sm;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     .view-employee-header {
-
+        display: flex;
         .ve-header-foto {
             img {
 
@@ -37,7 +37,13 @@
         @include tab-panel-card();
         .tab-content {
             .dual-panel-tab {
-                
+                .panel-main {
+                    .form-group {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 0.25rem;
+                    }
+                }
             }
         }
     }
