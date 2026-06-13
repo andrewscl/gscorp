@@ -202,6 +202,7 @@ p {
 .view-employee .tab-panel-card .tab-content .dual-panel-tab {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: 1.5rem 2rem;
 }
 .view-employee .tab-panel-card .tab-content .dual-panel-tab .form-group {
   display: flex;
