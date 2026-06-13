@@ -103,6 +103,17 @@ p {
 .view-employee .view-employee-header {
   display: flex;
 }
+.view-employee .view-employee-header .ve-header-text .ve-header-text-title {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.view-employee .view-employee-header .ve-header-text .ve-header-text-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
 .view-employee .tab-panel-card {
   max-width: 50rem;
   background: #ffffff;

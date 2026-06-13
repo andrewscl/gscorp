@@ -25,10 +25,12 @@
 
         .ve-header-text {
             .ve-header-text-title {
-
+                @include montserrat-font(1.1rem, 700);
             }
             .ve-header-text-info {
-
+                display: flex;
+                flex-direction: column;
+                gap: 0.25rem;
             }
         }
     }
