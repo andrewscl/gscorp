@@ -1,5 +1,44 @@
+@use '../abstracts/mixins' as *;
+@use '../abstracts/buttons/btn-mixins' as *;
+@use '../abstracts/typography' as *;
+@use '../abstracts/palette' as *;
+@use '../abstracts/variables' as *;
 @use '../abstracts/tab-panel-card' as * ;
+@use '../abstracts/panel-cards' as * ;
 
-.tab-panel-card{
-    @include tab-panel-card;
+.view-employee {
+    background: $white;
+    border-radius: 0.8rem;
+    border: 1px solid $border-color;
+    overflow: hidden;
+    display: flex;
+    box-shadow: $shadow-sm;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    .view-employee-header {
+        .ve-header-foto {
+            img {
+
+            }
+        }
+
+        .ve-header-text {
+            .ve-header-text-title {
+
+            }
+            .ve-header-text-info {
+
+            }
+        }
+    }
+
+    .tab-panel-card {
+        @include tab-panel-card();
+        .tab-content {
+            .dual-panel-card {
+                @include dual-panel-card();
+            }
+        }
+    }
+
 }
+

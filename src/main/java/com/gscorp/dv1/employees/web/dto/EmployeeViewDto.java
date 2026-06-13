@@ -36,9 +36,11 @@ public record EmployeeViewDto (
     String workSchedule,
     String shiftSystem,
     String shiftPattern,
-    String position
+    String position,
+    String Company
 ) {
-    public static EmployeeViewDto fromProjection(EmployeeViewProjection p) {
+    public static EmployeeViewDto
+            fromProjection(EmployeeViewProjection p) {
         return new EmployeeViewDto(
             p.getId(),
             p.getName(),
@@ -70,7 +72,8 @@ public record EmployeeViewDto (
             p.getWorkSchedule(),
             p.getShiftSystem(),
             p.getShiftPattern(),
-            p.getPosition()
+            p.getPosition(),
+            p.getCompany()
         );
     }
 }

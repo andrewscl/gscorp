@@ -1,8 +1,33 @@
-<div th:replace="~{shared/fragments/panels/tab-panel-card :: tabPanelCard(
-    title='Empleado',
-    tabs=${employeeTabs},
-    customClass='employee-tabs'
-    )}">
+<div class="view-employee">
+
+    <div class="view-employee-header">
+        <div class="ve-header-foto">
+            <img th:src="${employee.photoUrl != null ? 
+                    employee.photoUrl : 'img/default-avatar.png'}">
+        </div>
+        <div class="ve-header-text">
+            <div class="ve-header-text-title">
+                <h3>Ficha de empleado</h3>
+            </div>
+            <div class="ve-header-text-info">
+                <h3>Ficha de empleado</h3>
+                <span th:text="${user.username}"></span>
+                <span th:text="${user.company}"></span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div th:replace="~{shared/fragments/panels/tab-panel-card :: tabPanelCard(
+        title='Empleado',
+        tabs=${employeeTabs},
+        customClass='employee-tabs'
+        )}">
+    </div>
+
 </div>
+
+
 
 <script type="module" src="/js/private/employees/view-employee.js"></script>

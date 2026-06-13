@@ -37,5 +37,6 @@ public interface EmployeeViewProjection {
     String getShiftSystem();
     String getShiftPattern();
     String getPosition();
+    String getCompany();
 
 }
