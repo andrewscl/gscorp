@@ -698,7 +698,7 @@ p {
 }
 .tab-panel-card .tab-content {
   display: none;
-  padding: 2rem;
+  padding: 1rem;
   animation: fadeIn 0.2s ease;
 }
 .tab-panel-card .tab-content.active {
@@ -706,7 +706,7 @@ p {
 }
 @media (max-width: 992px) {
   .tab-panel-card .tab-content {
-    padding: 1.5rem;
+    padding: 0.5rem;
   }
 }
 @keyframes fadeIn {

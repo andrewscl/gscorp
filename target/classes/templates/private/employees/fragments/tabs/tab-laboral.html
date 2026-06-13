@@ -1,35 +1,29 @@
 <th:block th:fragment="tabLaboral">
-    <div class="dual-panel-tab">
-        <div class="grid-col-group">
-            <div class="grid-col-group-title">
-                <h3>Contrato y Jornada</h3>
-            </div>
+        <div class="dual-panel-tab">
+
             <div class="form-group">
                 <label>Cargo:</label>
                 <span th:value="${employee.position}"></span>
             </div>
             <div class="form-group">
                 <label>Tipo de Contrato:</label>
-                <input th:value="${employee.contractType}"></span>
+                <span th:value="${employee.contractType}"></span>
             </div>
             <div class="form-group">
                 <label>Horario:</label>
-                <input th:value="${employee.workSchedule}" readonly>
+                <span th:value="${employee.workSchedule}"></span>
             </div>
             <div class="form-group">
                 <label>Sistema de Turno:</label>
-                <input th:value="${employee.shiftSystem}" readonly>
+                <span th:value="${employee.shiftSystem}"></span>
             </div>
             <div class="form-group">
                 <label>Patron de turno:</label>
-                <input th:value="${employee.shiftPattern}" readonly>
+                <span th:value="${employee.shiftPattern}"></span>
             </div>
-        </div>
-
-        <div class="grid-col-group">
             <div class="form-group">
                 <label>Fecha de Contratación:</label>
-                <input th:value="${employee.hireDate}" readonly>
+                <span th:value="${employee.hireDate}"></span>
             </div>
             <div class="form-group">
                 <label>Proyectos Asignados</label>
@@ -38,7 +32,7 @@
                             th:text="${ep.name}">
                 </span>
             </div>
-        </div>
+
 
     </div>
 </th:block>

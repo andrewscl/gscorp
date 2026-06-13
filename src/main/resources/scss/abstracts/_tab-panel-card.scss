@@ -47,13 +47,13 @@
 
     .tab-content {
         display: none;
-        padding: 2rem;
+        padding: 1rem;
         animation: fadeIn 0.2s ease;
         &.active {
             display: block;
         }
         @media (max-width: 992px) {
-            padding: 1.5rem;
+            padding: 0.5rem;
         }
     }
 
