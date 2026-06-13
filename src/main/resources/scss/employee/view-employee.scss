@@ -16,9 +16,9 @@
     flex-direction: column;
     box-shadow: $shadow-sm;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    padding: 0.5rem 1rem;
     .view-employee-header {
         display: flex;
-        gap: 2rem;
         .ve-header-foto {
             img {
                 width: 7.5rem;

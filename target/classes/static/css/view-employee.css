@@ -99,10 +99,10 @@ p {
   flex-direction: column;
   box-shadow: 0 0.5rem 1.1rem rgba(15, 23, 42, 0.04);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  padding: 0.5rem 1rem;
 }
 .view-employee .view-employee-header {
   display: flex;
-  gap: 2rem;
 }
 .view-employee .view-employee-header .ve-header-foto img {
   width: 7.5rem;
