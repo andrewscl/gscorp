@@ -107,10 +107,15 @@ p {
   gap: 2rem;
 }
 .view-employee .view-employee-header .ve-header-foto img {
-  width: 5rem;
-  height: 7rem;
+  width: 7.5rem;
+  height: 10rem;
   object-fit: cover;
-  border: 0.2rem solid #e2e8f0;
+  border: 0.1rem solid #e2e8f0;
+  border-radius: 0.8rem;
+}
+.view-employee .view-employee-header .ve-header-foto:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 1rem 2.2rem rgba(15, 23, 42, 0.12);
 }
 .view-employee .view-employee-header .ve-header-text .ve-header-text-title {
   font-family: "Montserrat", sans-serif;
@@ -202,7 +207,7 @@ p {
 .view-employee .tab-panel-card .tab-content .dual-panel-tab .panel-main {
   display: grid;
   gap: 1rem;
-  padding: 1.5rem 2rem;
+  padding: 0 2rem;
 }
 .view-employee .tab-panel-card .tab-content .dual-panel-tab .panel-main .form-group {
   display: flex;
