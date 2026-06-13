@@ -4,7 +4,7 @@
             <h3>Información Laboral</h3>
             <div class="form-group">
                 <label>Posición:</label>
-                <input th:value="${employee.position.name}" readonly>
+                <input th:value="${employee.position}" readonly>
             </div>
             <div class="form-group">
                 <label>Tipo de Contrato:</label>
@@ -32,9 +32,6 @@
             <div class="form-group">
                 <h3>Proyectos Asignados</h3>
                 <div class="badge-container">
-                    <div th:if="${employee.projects.isEmpty()}">
-                        <p>Sin proyectos asignados</p>
-                    </div>
                     <span th:each="ep : ${employeeProjects}"
                             class="badge"
                             th:text="${ep.name}">
