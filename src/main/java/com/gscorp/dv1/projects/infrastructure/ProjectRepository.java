@@ -47,7 +47,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long>{
 
     @Query("""
         SELECT 
-            p.externalId as externalId,
+            p.id as id,
             p.name as name
         FROM Project p 
         JOIN p.employees e 

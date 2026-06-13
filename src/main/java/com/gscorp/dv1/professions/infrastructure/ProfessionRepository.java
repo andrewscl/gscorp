@@ -21,7 +21,7 @@ public interface ProfessionRepository extends JpaRepository<Profession, Long> {
 
     @Query("""
         SELECT 
-            p.externalId as externalId,
+            p.id as id,
             p.name as name
         FROM Profession p 
         JOIN p.employees e 
