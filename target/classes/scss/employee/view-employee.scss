@@ -12,9 +12,11 @@
     border: 1px solid $border-color;
     overflow: hidden;
     display: flex;
+    flex-direction: column;
     box-shadow: $shadow-sm;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     .view-employee-header {
+
         .ve-header-foto {
             img {
 
@@ -34,8 +36,8 @@
     .tab-panel-card {
         @include tab-panel-card();
         .tab-content {
-            .dual-panel-card {
-                @include dual-panel-card();
+            .dual-panel-tab {
+                
             }
         }
     }
