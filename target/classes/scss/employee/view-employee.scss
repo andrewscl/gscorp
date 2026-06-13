@@ -51,21 +51,19 @@
         @include tab-panel-card(none);
         .tab-content {
             .dual-panel-tab {
-                display: flex;
-                .panel-main {
+                display: grid;
+                .grid-col-group {
                     display: grid;
                     padding: 0 2rem;
+                    gap: 0.5rem;
+                    .grid-col-group-title {
+                        @include montserrat-font(1rem, 700);
+                        color: $primary-color;
+                    }
                     .form-group {
                         @include form-group-fields();
                     }
                 } 
-                .panel-aside {
-                    display: grid;
-                    padding: 0 2rem;
-                    .form-group {
-                        @include form-group-fields();
-                    }
-                }
             }
         }
     }

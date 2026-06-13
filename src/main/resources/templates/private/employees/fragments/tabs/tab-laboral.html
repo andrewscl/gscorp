@@ -1,13 +1,16 @@
 <th:block th:fragment="tabLaboral">
     <div class="dual-panel-tab">
-        <div class="panel-main">
+        <div class="grid-col-group">
+            <div class="grid-col-group-title">
+                <h3>Contrato y Jornada</h3>
+            </div>
             <div class="form-group">
                 <label>Cargo:</label>
-                <input th:value="${employee.position}" readonly>
+                <span th:value="${employee.position}"></span>
             </div>
             <div class="form-group">
                 <label>Tipo de Contrato:</label>
-                <input th:value="${employee.contractType}" readonly>
+                <input th:value="${employee.contractType}"></span>
             </div>
             <div class="form-group">
                 <label>Horario:</label>
@@ -23,7 +26,7 @@
             </div>
         </div>
 
-        <div class="panel-aside">
+        <div class="grid-col-group">
             <div class="form-group">
                 <label>Fecha de Contratación:</label>
                 <input th:value="${employee.hireDate}" readonly>
