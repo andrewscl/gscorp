@@ -203,12 +203,15 @@ p {
 }
 .view-employee .tab-panel-card .tab-content .panel-tab {
   display: flex;
-  gap: 1rem;
+  gap: 2.5rem;
+  width: 100%;
 }
 .view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  flex: 1;
+  width: 50%;
 }
 .view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .form-group {
   display: flex;
