@@ -22,7 +22,7 @@
         background: $background-color;
         .tab {
             flex: 1;
-            padding: 1rem 1.5rem;
+            padding: 0.8rem 1.3rem;
             background: none;
             border: none;
             cursor: pointer;
@@ -40,7 +40,7 @@
             }
         }
         @media (max-width: 992px) {
-            padding: 0.8rem 1rem;
+            padding: 0.6rem 0.8rem;
             font-size: 0.9rem;
         }
     }

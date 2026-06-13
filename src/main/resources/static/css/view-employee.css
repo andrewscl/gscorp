@@ -154,7 +154,7 @@ p {
 }
 .view-employee .tab-panel-card .tabs-container .tab {
   flex: 1;
-  padding: 1rem 1.5rem;
+  padding: 0.8rem 1.3rem;
   background: none;
   border: none;
   cursor: pointer;
@@ -176,7 +176,7 @@ p {
 }
 @media (max-width: 992px) {
   .view-employee .tab-panel-card .tabs-container {
-    padding: 0.8rem 1rem;
+    padding: 0.6rem 0.8rem;
     font-size: 0.9rem;
   }
 }
@@ -263,7 +263,7 @@ p {
 .view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .form-group input,
 .view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .form-group select,
 .view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .form-group span {
-  padding: 0.65rem;
+  padding: 0.55rem;
   border: 0.09rem solid #ced4da;
   border-radius: 0.5rem;
   font-family: "Roboto", sans-serif;

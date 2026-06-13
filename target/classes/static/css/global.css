@@ -670,7 +670,7 @@ p {
 }
 .tab-panel-card .tabs-container .tab {
   flex: 1;
-  padding: 1rem 1.5rem;
+  padding: 0.8rem 1.3rem;
   background: none;
   border: none;
   cursor: pointer;
@@ -692,7 +692,7 @@ p {
 }
 @media (max-width: 992px) {
   .tab-panel-card .tabs-container {
-    padding: 0.8rem 1rem;
+    padding: 0.6rem 0.8rem;
     font-size: 0.9rem;
   }
 }
