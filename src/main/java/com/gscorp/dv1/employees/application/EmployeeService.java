@@ -25,10 +25,6 @@ public interface EmployeeService {
 
     EmployeeViewDto findByIdViewEmployee(Long id);
 
-    List<Long> findProjectIdsByEmployeeId(Long employeeId);
-
-    List<String> findProjectNamesByEmployeeId(Long employeeId);
-
     Employee saveEmployee(Employee employee);
 
     Optional<Employee> findById(Long id);
