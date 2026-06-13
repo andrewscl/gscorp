@@ -37,7 +37,7 @@ public record EmployeeViewDto (
     String shiftSystem,
     String shiftPattern,
     String position,
-    String Company
+    String company
 ) {
     public static EmployeeViewDto
             fromProjection(EmployeeViewProjection p) {
