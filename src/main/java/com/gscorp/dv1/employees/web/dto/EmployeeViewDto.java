@@ -51,7 +51,7 @@ public record EmployeeViewDto (
     String shiftPattern,
     String position,
     String company,
-    EmployeeStatus employeeStatus
+    EmployeeStatus status
 ) {
     public static EmployeeViewDto
             fromProjection(EmployeeViewProjection p) {
@@ -88,7 +88,7 @@ public record EmployeeViewDto (
             p.getShiftPattern(),
             p.getPosition(),
             p.getCompany(),
-            p.getEmployeeStatus()
+            p.getStatus()
         );
     }
 }

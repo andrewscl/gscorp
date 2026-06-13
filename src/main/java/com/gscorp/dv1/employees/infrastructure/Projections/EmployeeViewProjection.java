@@ -52,5 +52,5 @@ public interface EmployeeViewProjection {
     String getShiftPattern();
     String getPosition();
     String getCompany();
-    EmployeeStatus getEmployeeStatus();
+    EmployeeStatus getStatus();
 }
