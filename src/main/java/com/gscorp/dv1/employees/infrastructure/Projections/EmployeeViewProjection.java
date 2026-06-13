@@ -3,6 +3,8 @@ package com.gscorp.dv1.employees.infrastructure.Projections;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import com.gscorp.dv1.enums.Gender;
+
 public interface EmployeeViewProjection {
     
     Long getId();
@@ -20,7 +22,7 @@ public interface EmployeeViewProjection {
     LocalDate getExitDate();
     String getAddress();
     Boolean getActive();
-    String getGender();
+    Gender getGender();
     String getNationality();
     String getMaritalStatus();
     String getStudyLevel();

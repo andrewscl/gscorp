@@ -3,6 +3,7 @@ package com.gscorp.dv1.employees.web.dto;
 import java.time.LocalDate;
 
 import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeViewProjection;
+import com.gscorp.dv1.enums.Gender;
 
 public record EmployeeViewDto (
 
@@ -20,7 +21,7 @@ public record EmployeeViewDto (
     LocalDate exitDate,
     String address,
     Boolean active,
-    String gender,
+    Gender gender,
     String nationality,
     String maritalStatus,
     String studyLevel,
