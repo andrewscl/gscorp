@@ -103,6 +103,7 @@ p {
 }
 .view-employee .view-employee-header {
   display: flex;
+  gap: 2rem;
 }
 .view-employee .view-employee-header .ve-header-foto img {
   width: 7.5rem;

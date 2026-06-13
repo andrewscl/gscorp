@@ -26,6 +26,16 @@
                     <input th:value="${employee.birthDate}" readonly>
                 </div>
             </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Nacionalidad:</label>
+                    <input th:value="${employee.nationality}" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Género:</label>
+                <input th:value="${employee.gender}" readonly>
+            </div>
         </div>
 
         <div class="panel-tab-column">
@@ -35,22 +45,13 @@
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label>Nacionalidad:</label>
-                    <input th:value="${employee.nationality}" readonly>
-                </div>
-                <div class="form-group">
                     <label>Estado Civil:</label>
                     <input th:value="${employee.maritalStatus}" readonly>
                 </div>
-            </div>
-            
-            <div class="form-group">
-                <label>Género:</label>
-                <input th:value="${employee.gender}" readonly>
-            </div>
-            <div class="form-group">
-                <label>Nivel de Estudio:</label>
-                <input th:value="${employee.studyLevel}" readonly>
+                <div class="form-group">
+                    <label>Nivel de Estudio:</label>
+                    <input th:value="${employee.studyLevel}" readonly>
+                </div>
             </div>
             <div class="form-group">
                 <label>Profesiones:</label>
