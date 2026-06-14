@@ -14,7 +14,9 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import com.gscorp.dv1.auth.application.PasswordResetTokenService;
+import com.gscorp.dv1.auth.application.UserInvitationService;
 import com.gscorp.dv1.auth.infrastructure.PasswordResetToken;
+import com.gscorp.dv1.auth.web.dto.UserInvitationEmailDto;
 import com.gscorp.dv1.employees.application.EmployeeService;
 import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
 import com.gscorp.dv1.exceptions.ResourceNotFoundException;
@@ -37,6 +39,7 @@ public class UserInvitationRestController {
     private final GmailService gmailService;
     private final PasswordResetTokenService passwordResetTokenService;
     private final EmployeeService employeeService;
+    private final UserInvitationService userInvitationService;
 
     @Autowired
     private TemplateEngine templateEngine;
@@ -45,22 +48,18 @@ public class UserInvitationRestController {
 
     @PostMapping("/invite")
     public ResponseEntity<?> inviteUser(@RequestBody InviteUserRequest request) {
-        // Crear el usuario invitado
-        User user = userService.createInvitedUser(request);
-        // Crear el token de invitación (válido por 24 horas)
-        EmployeeSelectDto employee = employeeService.findEmployeeSelectDtoById(request.employeeId());
-
-        PasswordResetToken token = passwordResetTokenService.
-                                            createToken(user, INVITE_TTL);
-
-        String subject = "Bienvenido a SESAN";
 
         try {
+
+            UserInvitationEmailDto inviteData = userInvitationService.prepareInvitation(request);
+
+            String subject = "Bienvenido a SESAN";
+
             // Preparar las variables del proceso
             Context context = new Context();
-            context.setVariable("username", user.getUsername());
-            context.setVariable("token", token.getToken());
-            context.setVariable("name", employee.name());
+            context.setVariable("username", inviteData.username());
+            context.setVariable("token", inviteData.token());
+            context.setVariable("name", inviteData.displayName());
 
             String cssPath = "static/css/email-user-invite.css";
             String htmlBody =
@@ -69,7 +68,7 @@ public class UserInvitationRestController {
             String finalHtmlBody =
                 EmailTemplateUtils.buildStyledEmail(htmlBody, cssPath);
 
-            gmailService.sendMail(user.getMail(), subject, finalHtmlBody);
+            gmailService.sendMail(inviteData.email(), subject, finalHtmlBody);
 
             return ResponseEntity.ok("Invitación enviada correctamente");
 
