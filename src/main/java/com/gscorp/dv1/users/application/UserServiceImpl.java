@@ -146,7 +146,7 @@ public class UserServiceImpl implements UserService{
     public UserViewDto findWithCompaniesAndClientsByExternalId(UUID externalId){
         User user = userRepo.findWithCompaniesAndClientsByExternalId(externalId)
             .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado: " + externalId));
-        return UserViewDto.from(user);
+        return UserViewDto.from(user);  
     }
 
     @Override

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
@@ -36,6 +37,7 @@ import com.gscorp.dv1.positions.web.dto.PositionDto;
 import com.gscorp.dv1.professions.application.ProfessionService;
 import com.gscorp.dv1.projects.application.ProjectService;
 import com.gscorp.dv1.projects.web.dto.ProjectDto;
+import com.gscorp.dv1.security.SecurityUser;
 import com.gscorp.dv1.shiftpatterns.application.ShiftPatternService;
 import com.gscorp.dv1.users.application.UserService;
 import com.gscorp.dv1.users.web.dto.UserViewDto;
@@ -62,12 +64,20 @@ public class EmployeeController {
             Model model,
             Authentication authentication) {
 
-            Long userId = userService.getUserIdFromAuthentication(authentication);
-            if (userId == null) {
+            if(authentication == null || !authentication.isAuthenticated()) {
                 return "redirect:/login";
             }
 
-            UserViewDto userViewDto = userService.findWithCompaniesAndClientsById(userId);
+            Object principal = authentication.getPrincipal();
+            if(!(principal instanceof SecurityUser)) {
+                return "redirect:/login";
+            }
+
+            SecurityUser securityUser = (SecurityUser) principal;
+
+            UUID externalId = securityUser.getUser().getExternalId();
+
+            UserViewDto userViewDto = userService.findWithCompaniesAndClientsByExternalId(externalId);
 
             var employee = employeeService.findByIdViewEmployee(userViewDto.employeeId());
 
@@ -77,7 +87,7 @@ public class EmployeeController {
                 .ofPattern("EEEE, dd 'de' MMMM",
                                                 new Locale("es", "ES")));
 
-            DashboardHeaderInfo dashboardHeaderInfo = attendanceService.getDashboardHeader(userId);
+            DashboardHeaderInfo dashboardHeaderInfo = attendanceService.getDashboardHeader(userViewDto.id());
 
             model.addAttribute("employee", employee);
             model.addAttribute("currentDate", formattedDate);
