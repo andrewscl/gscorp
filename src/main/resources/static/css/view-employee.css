@@ -214,13 +214,6 @@ p {
   flex: 1;
   width: 50%;
 }
-.view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .panel-tab-column-title {
-  font-family: "Montserrat", sans-serif;
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: #1e293b;
-}
 .view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .form-group {
   display: flex;
   flex-direction: column;
