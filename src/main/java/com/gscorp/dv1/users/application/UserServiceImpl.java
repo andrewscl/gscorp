@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -130,6 +131,8 @@ public class UserServiceImpl implements UserService{
             .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
     }
 
+
+
     @Override
     @Transactional(readOnly = true)
     public UserViewDto findWithRolesAndClientsById(Long id){
@@ -140,9 +143,9 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional(readOnly = true)
-    public UserViewDto findWithCompaniesAndClientsById(Long id){
-        User user = userRepo.findWithCompaniesAndClientsById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado: " + id));
+    public UserViewDto findWithCompaniesAndClientsByExternalId(UUID externalId){
+        User user = userRepo.findWithCompaniesAndClientsByExternalId(externalId)
+            .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado: " + externalId));
         return UserViewDto.from(user);
     }
 
@@ -494,6 +497,13 @@ public class UserServiceImpl implements UserService{
                 user.getClients().addAll(clients);
             }
         }
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<User> findByExternalId(UUID externalId) {
+        return userRepo.findByExternalId(externalId);
     }
 
 

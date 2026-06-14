@@ -1,6 +1,7 @@
 package com.gscorp.dv1.users.web;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
@@ -70,9 +71,9 @@ public class UserController {
         return "private/users/views/invite-user-view";
     }
 
-    @GetMapping("/show/{id}")
-    public String showUser(@PathVariable Long id, Model model){
-        UserViewDto userDto = userService.findWithCompaniesAndClientsById(id);
+    @GetMapping("/show/{externalId}")
+    public String showUser(@PathVariable UUID externalId, Model model){
+        UserViewDto userDto = userService.findWithCompaniesAndClientsByExternalId(externalId);
         List<CompanySelectDto> companies = companyService.getAllCompaniesForSelect();
         List<ClientSelectDto> clients = clientService.getAllClientsSelectDto();
         List<EmployeeSelectDto> employees = employeeService.getAllEmployeesSelectDto();
@@ -83,9 +84,9 @@ public class UserController {
         return "private/users/views/view-user-view";
     }
 
-    @GetMapping("/edit/{id}")
-    public String editUser(@PathVariable Long id, Model model){
-        UserViewDto userDto = userService.findWithCompaniesAndClientsById(id);
+    @GetMapping("/edit/{externalId}")
+    public String editUser(@PathVariable UUID externalId, Model model){
+        UserViewDto userDto = userService.findWithCompaniesAndClientsByExternalId(externalId);
         List<RoleSelectDto> roles = roleService.getAllRolesSelectDto();
         List<CompanySelectDto> companies = companyService.getAllCompaniesForSelect();
         List<ClientSelectDto> clients = clientService.getAllClientsSelectDto();

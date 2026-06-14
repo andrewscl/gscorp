@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.gscorp.dv1.auth.JwtAuthenticationFilter;
 import com.gscorp.dv1.services.UserDetailsServiceImpl;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -44,6 +45,14 @@ public class SecurityConfig {
             .authenticationProvider(authenticationProvider())
             .addFilterBefore(jwtAuthenticationFilter,
                 UsernamePasswordAuthenticationFilter.class);
+
+        http.exceptionHandling(exception -> exception
+            .authenticationEntryPoint((request, response, authException) -> {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401 puro
+                response.setContentType("application/json");
+                response.getWriter().write("{\"error\": \"Expired session\"}");
+            })
+        );
 
         return http.build();
     }

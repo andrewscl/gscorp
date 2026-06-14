@@ -1,5 +1,7 @@
 package com.gscorp.dv1.users.web.dto;
 
+import java.util.UUID;
+
 import com.gscorp.dv1.enums.UserStatus;
 import com.gscorp.dv1.users.infrastructure.User;
 import com.gscorp.dv1.users.infrastructure.UserTableProjection;
@@ -7,6 +9,7 @@ import com.gscorp.dv1.users.infrastructure.UserTableProjection;
 public record UserTableDto (
 
     Long id,
+    UUID externalId,
     String username,
     String mail,
     String phone,
@@ -20,6 +23,7 @@ public record UserTableDto (
         if (p == null) return null;
         return new UserTableDto(
             p.getId(),
+            p.getExternalId(),
             p.getUsername(),
             p.getMail(),
             p.getPhone(),
@@ -33,6 +37,7 @@ public record UserTableDto (
         if (user == null) return null;
         return new UserTableDto(
             user.getId(),
+            user.getExternalId(),
             user.getUsername(),
             user.getMail(),
             user.getPhone(),

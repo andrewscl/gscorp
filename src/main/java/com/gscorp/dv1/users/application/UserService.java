@@ -4,6 +4,7 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
@@ -23,7 +24,7 @@ public interface UserService {
     User findById(Long id);
     UserViewDto findWithRolesAndClientsById(Long id);
 
-    UserViewDto findWithCompaniesAndClientsById(Long id);
+    UserViewDto findWithCompaniesAndClientsByExternalId(UUID ExternalId);
 
     List<User> findAllWithCompaniesAndClients();
     
@@ -50,5 +51,7 @@ public interface UserService {
         String q, UserStatus status, int page, int size);
 
     Map<String, Long> getUsersStatistics ();
+
+    Optional<User> findByExternalId(UUID externalId);
 
 }

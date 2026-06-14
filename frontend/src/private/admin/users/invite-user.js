@@ -51,6 +51,7 @@ async function onSubmitInviteUser(e) {
 
     if (!res.ok) {
       displayAlert(alertError, 'No se pudo invitar al usuario.', 1500);
+      inviteUserBtn.disabled = false;
       return;
     }
     displayAlert(alertSuccess, 'Usuario invitado correctamente.', 1500);

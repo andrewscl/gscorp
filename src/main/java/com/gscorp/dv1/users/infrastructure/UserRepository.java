@@ -2,6 +2,7 @@ package com.gscorp.dv1.users.infrastructure;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,9 +36,9 @@ public interface UserRepository extends JpaRepository<User, Long>{
         FROM User u 
         LEFT JOIN FETCH u.companies 
         LEFT JOIN FETCH u.clients 
-        WHERE u.id = :id
+        WHERE u.externalId = :externalId
     """)
-    Optional<User> findWithCompaniesAndClientsById(@Param("id") Long id);
+    Optional<User> findWithCompaniesAndClientsByExternalId(@Param("externalId") UUID externalId);
 
 
     // NUEVO: devolver solo los IDs de los clients asociados al usuario
@@ -96,6 +97,6 @@ public interface UserRepository extends JpaRepository<User, Long>{
 
     Long countByStatus (UserStatus status);
 
-    
+    Optional<User> findByExternalId (UUID externalId);
 
 }
