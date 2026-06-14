@@ -80,6 +80,7 @@ public interface UserRepository extends JpaRepository<User, Long>{
         value = """
             SELECT
                 u.id AS id,
+                u.externalId AS externalId,
                 u.username AS username,
                 u.mail AS mail,
                 u.phone AS phone,

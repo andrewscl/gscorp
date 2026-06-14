@@ -45,6 +45,7 @@ public interface UserService {
     Optional<ZoneId> getUserZone(Long userId);
     Optional<User> updateUser(Long userId, UserUpdateDto dto);
     Optional<Long> findEmployeeIdByUserId(Long userId);
+
     Page<UserTableDto> getAllUsersWithEmployee(int page, int size);
 
     Page<UserTableDto> searchUsersWithEmployee(
