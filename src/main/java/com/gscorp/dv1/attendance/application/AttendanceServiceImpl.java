@@ -13,9 +13,8 @@ import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchDto;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchPointDto;
 import com.gscorp.dv1.attendance.web.dto.CreateAttendancePunchRequest;
-import com.gscorp.dv1.attendance.web.dto.GreetingInfo;
 import com.gscorp.dv1.attendance.web.dto.HourlyCountDto;
-import com.gscorp.dv1.attendance.web.dto.LastPunchInfo;
+import com.gscorp.dv1.attendance.web.dto.DashboardHeaderInfo;
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.employees.application.EmployeeService;
@@ -26,6 +25,7 @@ import com.gscorp.dv1.users.application.UserService;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -472,56 +472,58 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Override
     @Transactional(readOnly = true)
-    public LastPunchInfo getLastPunchInfo (Long userId) {
+    public DashboardHeaderInfo getDashboardHeader (Long userId) {
 
-    Optional<AttendancePunch> lastAttendancePunchOpt = repo.findFirstByUserIdOrderByTsDesc(userId);
-
-    if(lastAttendancePunchOpt.isEmpty()) {
-        return new LastPunchInfo("Sin marcajes registrados.", "IN");
-    }
-
-    AttendancePunch punch = lastAttendancePunchOpt.get();
-
-    ZoneResolutionResult zoneResult = zoneResolver.resolveZone(
-        userId, punch.getClientTimezone());
-    ZoneId zoneId = zoneResult.zoneId();
-
-    LocalDateTime ldt = punch.getTs().atZoneSameInstant(zoneId).toLocalDateTime();
-
-    DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern("EEEE dd", new Locale("es", "ES"));
-    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-    String actionText = punch.getAction().equals("IN") ? "Entrada" : "Salida";
-
-    String formattedText = String.format("Último marcaje: %s, %s hrs (%s)",
-                                ldt.format(dayFormatter),
-                                ldt.format(timeFormatter),
-                                actionText);
-
-    String nextActionSource = punch.getAction().equals("IN") ? "OUT" : "IN";
-    String nextAction = nextActionSource.equals("IN") ? "Registrar entrada" : "Registrar salida";
-    
-    return new LastPunchInfo(formattedText, nextAction);
-    }
-
-
-    @Override
-    @Transactional(readOnly = true)
-    public GreetingInfo getGreetingInfo () {
         int hour = LocalDateTime.now().getHour();
+        String greeting = hour < 12 ? "Buenos días" : hour < 18 ? "Buenas tardes" : "Buenas noches";
+        String emoji = hour < 12 ? "🌅" : hour < 18 ? "☀️" : "🌙";
 
-        String greeting = hour < 12 ? "Buenos días" : 
-                         hour < 18 ? "Buenas tardes" : 
-                         "Buenas noches";
-        
-        String emoji = hour < 12 ? "🌅" : 
-                      hour < 18 ? "☀️" : 
-                      "🌙";
-        
-        String message = hour < 12 ? "Recuerda marcar tu entrada de hoy." : 
-                        hour < 18 ? "¿Ya marcaste tu entrada?" : 
-                        "Esperamos tu marcaje de salida.";
-        
-        return new GreetingInfo(greeting, emoji, message);
+        Optional<AttendancePunch> lastAttendancePunchOpt = repo.findFirstByUserIdOrderByTsDesc(userId);
+
+        if(lastAttendancePunchOpt.isEmpty()) {
+            String initialMessage =
+                hour < 12 ? "Recuerda marcar tu entrada de hoy." : "¿Ya marcaste tu entrada?";
+            return new
+                DashboardHeaderInfo(
+                    greeting,
+                    emoji,
+                    initialMessage, "Sin marcajes registrados.", "Registrar entrada");
+        }
+
+        AttendancePunch punch = lastAttendancePunchOpt.get();
+
+        ZoneResolutionResult zoneResult = zoneResolver.resolveZone(
+            userId, punch.getClientTimezone());
+        ZoneId zoneId = zoneResult.zoneId();
+
+        LocalDateTime punchLocalTime = punch.getTs().atZoneSameInstant(zoneId).toLocalDateTime();
+        LocalDateTime nowLocalTime = LocalDateTime.now(zoneId);
+
+        DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern("EEEE dd", new Locale("es", "ES"));
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        String actionText = punch.getAction().equals("IN") ? "Entrada" : "Salida";
+
+        String lastPunchText = String.format("Último marcaje: %s, %s hrs (%s)",
+                                    punchLocalTime.format(dayFormatter),
+                                    punchLocalTime.format(timeFormatter),
+                                    actionText);
+
+        boolean isSameDay = punchLocalTime.toLocalDate().isEqual(nowLocalTime.toLocalDate());
+        boolean isRecentThreshold = ChronoUnit.HOURS.between(punchLocalTime, nowLocalTime) < 14;
+        boolean isPunchValidForToday = isSameDay || ("IN".equals(punch.getAction()) && isRecentThreshold );
+
+        String nextAction;
+        String message;
+
+        if (!isPunchValidForToday) {
+            nextAction = "Registrar entrada";
+            message = hour < 12 ? "Recuerda marcar tu entrada de hoy." : "¿Ya marcaste tu entrada?";
+        } else {
+            nextAction = "Registar entrada";
+            message = hour < 12 ? "Recuerda marcar tu entrada de hoy." : "¿Ya marcaste tu entrada?";
+        }
+
+        return new DashboardHeaderInfo(greeting, emoji, message, lastPunchText, nextAction);
     }
 
 }

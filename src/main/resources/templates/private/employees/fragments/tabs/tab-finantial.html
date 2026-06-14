@@ -21,7 +21,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" th:if="${employee.secondaryPhone != null}>
                 <label>Teléfono Secundario:</label>
                 <span th:text="${employee.secondaryPhone}"></span>
             </div>
