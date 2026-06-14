@@ -204,7 +204,7 @@ p {
 }
 .view-employee .tab-panel-card .tab-content .panel-tab {
   display: flex;
-  gap: 2.5rem;
+  gap: 2rem;
   width: 100%;
 }
 .view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column {
@@ -297,7 +297,7 @@ p {
 }
 .view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .form-row {
   display: flex;
-  gap: 2rem;
+  gap: 1.5rem;
   width: 100%;
 }
 .view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .form-row .form-group {
