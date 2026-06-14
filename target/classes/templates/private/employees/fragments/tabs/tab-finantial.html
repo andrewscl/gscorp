@@ -2,10 +2,12 @@
     <div class="panel-tab">
 
         <div class="panel-tab-column">
+
             <div class="form-group">
                 <label>Método de Pago:</label>
                 <span th:text="${employee.paymentMethod.displayName}"></span>
             </div>
+
             <div class="form-row">
                 <div class="form-group">
                     <label>Banco:</label>
@@ -20,6 +22,7 @@
                     <span th:text="${employee.bankAccountNumber}"></span>
                 </div>
             </div>
+
         </div>
 
         <div class="panel-tab-column">
@@ -44,5 +47,6 @@
                 </div>
             </div>
         </div>
+
     </div>
 </th:block>
