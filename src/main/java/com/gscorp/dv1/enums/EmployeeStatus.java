@@ -1,9 +1,11 @@
 package com.gscorp.dv1.enums;
 
 public enum EmployeeStatus {
-    HIRED ("Activo"),
+    HIRED ("Por iniciar"),
+    ACTIVE ("Activo"),
     NOTICE_GIVEN ("Aviso de termino"),
-    INACTIVE ("Desvinculado");
+    INACTIVE ("Desvinculado"),
+    SETTLED ("Cerrado");
 
     private final String displayName;
 
