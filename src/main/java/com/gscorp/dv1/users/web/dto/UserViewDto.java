@@ -3,6 +3,7 @@ package com.gscorp.dv1.users.web.dto;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.gscorp.dv1.clients.infrastructure.Client;
@@ -15,6 +16,7 @@ import com.gscorp.dv1.users.infrastructure.User;
  */
 public record UserViewDto(
         Long id,
+        UUID externalId,
         String username,
         String mail,
         UserStatus status,
@@ -72,6 +74,7 @@ public record UserViewDto(
 
         return new UserViewDto(
                 u.getId(),
+                u.getExternalId(),
                 u.getUsername(),
                 u.getMail(),
                 u.getStatus(),
