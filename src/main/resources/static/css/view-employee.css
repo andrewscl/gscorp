@@ -137,6 +137,7 @@ p {
 }
 .view-employee .view-employee-header .generic-buttons {
   margin-left: auto;
+  margin-top: auto;
   display: flex;
   flex-direction: row;
   gap: 1rem;
