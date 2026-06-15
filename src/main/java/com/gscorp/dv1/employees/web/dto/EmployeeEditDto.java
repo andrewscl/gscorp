@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeEditProjection;
 import com.gscorp.dv1.enums.BankAccountType;
 import com.gscorp.dv1.enums.ContractType;
+import com.gscorp.dv1.enums.EmployeeStatus;
 import com.gscorp.dv1.enums.Gender;
 import com.gscorp.dv1.enums.HealthEntity;
 import com.gscorp.dv1.enums.HealthSystem;
@@ -48,8 +49,10 @@ public record EmployeeEditDto (
     WorkSchedule workSchedule,
     ShiftSystem shiftSystem,
     Long shiftPatternId,
-    Long positionId
-
+    Long positionId,
+    String position,
+    String company,
+    EmployeeStatus status
 ) {
     public static EmployeeEditDto fromProjection(EmployeeEditProjection p) {
         return new EmployeeEditDto(
@@ -83,7 +86,10 @@ public record EmployeeEditDto (
             p.getWorkSchedule(),
             p.getShiftSystem(),
             p.getShiftPatternId(),
-            p.getPositionId()
+            p.getPositionId(),
+            p.getPosition(),
+            p.getCompany(),
+            p.getStatus()
         );
     }
 }

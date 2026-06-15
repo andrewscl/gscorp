@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import com.gscorp.dv1.enums.BankAccountType;
 import com.gscorp.dv1.enums.ContractType;
+import com.gscorp.dv1.enums.EmployeeStatus;
 import com.gscorp.dv1.enums.Gender;
 import com.gscorp.dv1.enums.HealthEntity;
 import com.gscorp.dv1.enums.HealthSystem;
@@ -48,5 +49,7 @@ public interface EmployeeEditProjection {
     ShiftSystem getShiftSystem();
     Long getShiftPatternId();
     Long getPositionId();
-
+    String getPosition();
+    String getCompany();
+    EmployeeStatus getStatus();
 }
