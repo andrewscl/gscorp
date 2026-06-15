@@ -248,7 +248,7 @@ public class EmployeeController {
                     projectService.findProjectSelectDtosByEmployeeExternalId(externalId));
 
         model.addAttribute("employee", employee);
-        model.addAttribute("employeeTabs", employeeTabsService.getTabs());
+        model.addAttribute("employeeTabs", employeeTabsService.getEditTabs());
         model.addAttribute("genders", Gender.values());
         model.addAttribute("nationalities", nationalityService.findAll());
         model.addAttribute("maritalStatuses", MaritalStatus.values());
