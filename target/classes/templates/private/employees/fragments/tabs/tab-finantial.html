@@ -2,17 +2,18 @@
     <div class="panel-tab">
 
         <div class="panel-tab-column">
-
-            <div class="form-group">
-                <label>Método de Pago:</label>
-                <span th:text="${employee.paymentMethod.displayName}"></span>
-            </div>
-
             <div class="form-row">
+                <div class="form-group">
+                    <label>Método de Pago:</label>
+                    <span th:text="${employee.paymentMethod.displayName}"></span>
+                </div>
                 <div class="form-group">
                     <label>Banco:</label>
                     <span th:text="${employee.bank}"></span>
                 </div>
+            </div>
+
+            <div class="form-row">
                 <div class="form-group">
                     <label>Tipo de Cuenta:</label>
                     <span th:text="${employee.bankAccountType.displayName}"></span>
@@ -22,7 +23,6 @@
                     <span th:text="${employee.bankAccountNumber}"></span>
                 </div>
             </div>
-
         </div>
 
         <div class="panel-tab-column">
