@@ -8,8 +8,14 @@
                         <span th:text="${employee.company}"></span>
                     </div>
                     <div class="form-group">
-                        <label>Cargo:</label>
-                        <span th:text="${employee.position}"></span>
+                        <label>Cargo: </label>
+                        <select id="employeePosition" name="positionId" required>
+                        <option value="">Seleccione cargo</option>
+                        <option th:each="p : ${positiona}"
+                                th:selected="${employee.positionId == p.id}"
+                                th:value="${b.id}"
+                                th:text="${b.name}"></option>
+                        </select>
                     </div>
 
                 </div>
