@@ -133,19 +133,19 @@ p {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 1.5rem;
+  padding: 0.4rem 0.6rem;
   border-radius: 0.5rem;
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
   text-decoration: none;
-  background-color: #3b82f6;
+  background-color: #cbd5e1;
   color: #ffffff;
 }
 .edit-employee .edit-employee-header .edit-header-foto .btn-change-photo:hover {
-  background-color: rgb(29.8390243902, 111.4024390244, 244.6609756098);
+  background-color: rgb(175.8585365854, 191.0780487805, 209.3414634146);
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+  box-shadow: 0 8px 20px rgba(203, 213, 225, 0.4);
 }
 .edit-employee .edit-employee-header .edit-header-foto .btn-change-photo:active {
   transform: translateY(0);
