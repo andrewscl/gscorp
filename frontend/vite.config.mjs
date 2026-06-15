@@ -14,6 +14,7 @@ export default defineConfig({
         'shared/dom-utils': path.resolve(__dirname, './src/shared/dom-utils.js'),
         'shared/maps/googlemaps-loader': path.resolve(__dirname, './src/shared/maps/googlemaps-loader.js'),
         'shared/maps/init-map': path.resolve(__dirname, './src/shared/maps/init-map.js'),
+        'shared/maps/map-utils': path.resolve(__dirname, './src/shared/maps/map-utils.js'),
         'shared/maps/advanced-marker': path.resolve(__dirname, './src/shared/maps/advanced-marker.js'),
         'shared/maps/enable-marker-drag': path.resolve(__dirname, './src/shared/maps/enable-marker-drag.js'),
         'auth': path.resolve(__dirname, './src/auth.js'),
@@ -88,6 +89,7 @@ export default defineConfig({
         'private/patrols/edit-patrol': path.resolve(__dirname, './src/private/patrols/edit-patrol.js'),
         'private/patrols/view-patrol': path.resolve(__dirname, './src/private/patrols/view-patrol.js'),
         'private/patrols/patrol-map-picker': path.resolve(__dirname, './src/private/patrols/patrol-map-picker.js'),
+        'private/patrols/patrol-dashboard': path.resolve(__dirname, './src/private/patrols/patrol-dashboard.js'),
         'private/dashboards/shared/attendance-card': path.resolve(__dirname, './src/private/dashboards/shared/attendance-card.js'),
         'private/dashboards/shared/operational-card': path.resolve(__dirname, './src/private/dashboards/shared/operational-card.js')
 

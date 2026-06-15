@@ -193,4 +193,22 @@ public class PatrolController {
         return "private/patrols/views/view-patrol-view";
     }
 
+
+    @GetMapping("/patrol-dashboard")
+    public String getPatrolsTableView (
+                    Authentication authentication,
+                    Model model
+    ){
+
+            if(authentication == null || !authentication.isAuthenticated()) {
+                return "redirect:/login";
+            }
+            Object principal = authentication.getPrincipal();
+            if(!(principal instanceof SecurityUser)) {
+                return "redirect:/login";
+            }
+
+        return "private/patrols/views/patrol-dashboard-view";
+    }    
+
 }

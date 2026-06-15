@@ -1,0 +1,42 @@
+<div th:fragment="content" class="patrol-dashboard-card">
+    
+    <header class="patrol-dashboard-card__header">
+        <h3 class="patrol-dashboard-card__title">Panel de Patrullajes</h3>
+    </header>
+
+    <th:block class="patrol-dashboard-status">
+        <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
+    </th:block>
+
+    <div class="patrol-dashboard-map">
+        <h3 id="lblSiteName">Detectando Sitio...</h3>
+        <div class="content" id="map"></div>
+    </div>
+
+    <button class="btn-primary" id="addPatrolExecution">
+        Ejecutar ronda</button>
+
+    <div class="patrol-history-section mt-4">
+        <h3 class="mb-3">Rondas Ejecutadas Hoy</h3>
+        <div class="table-responsive">
+            <table class="table table-sm table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Hora</th>
+                        <th>Estado</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="patrolHistoryTableBody">
+                    <tr>
+                        <td colspan="3" class="text-center text-muted py-3">
+                            Cargando historial de patrullajes...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script type="module" src="/js/private/patrols/patrol-dashboard.js" defer></script>
+</div>
