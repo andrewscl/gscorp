@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PatrolExecutionController {
 
-    private SiteService siteService;
+    private final SiteService siteService;
 
     @GetMapping("/execution-view")
     public String getAttendanceView (
