@@ -166,6 +166,39 @@ const handlePhotoFileChange = function() {
 };
 
 
+function initDynamicHeader() {
+    const inputName = qs('#employeeName');
+    const inputFather = qs('#employeeFatherSurname');
+    const headerName = qs('#headerDynamicName');
+
+    // Si los elementos clave no están en el DOM, salimos silenciosamente
+    if (!inputName || !headerName) return;
+
+    // Declaramos la función que actualiza el texto
+    const updateHeaderName = () => {
+        const name = inputName.value.trim();
+        const father = inputFather ? inputFather.value.trim() : '';
+        
+        if (name || father) {
+            headerName.textContent = `${name} ${father}`.trim();
+            headerName.classList.remove('text-muted');
+        } else {
+            headerName.textContent = 'Ficha nueva: Sin registrar';
+            headerName.classList.add('text-muted');
+        }
+    };
+
+    // 🚀 ASIGNAMOS LOS LISTENERS para cambios futuros
+    inputName.addEventListener('input', updateHeaderName);
+    if (inputFather) {
+        inputFather.addEventListener('input', updateHeaderName);
+    }
+
+    // 🚀 EJECUCIÓN INMEDIATA (Una sola vez al cargar el script)
+    updateHeaderName();
+}
+
+
 function bindEditEmployee() {
     const submitBtn = qs('.btn-primary');
     if (submitBtn) {
@@ -190,4 +223,5 @@ function bindEditEmployee() {
 (function init() {
   initTabPanels();
   bindCreateEmployeeForm();
+  initDynamicHeader();
 })();

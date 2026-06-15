@@ -2,22 +2,22 @@
 
     <div class="create-employee-header">
         <div class="create-header-foto" id="employeePhoto">
-            <img th:src="${employee.photoUrl != null ? employee.photoUrl : '/img/default-avatar.png'}" 
-                alt="Foto del empleado" id="employeePhotoPreview">
+            <img src="/img/default-avatar.png" 
+                alt="Previsualización de foto" id="employeePhotoPreview">
+            
             <input type="file" id="employeePhotoInput" name="photoFile" accept="image/*" style="display: none;" />
-            <button type="button" class="btn-change-photo" id="changePhotoBtn">
-                Cambiar foto</button>
+            
+            <button type="button" class="btn-change-photo" id="changePhotoBtn">Subir foto</button>
         </div>
+
         <div class="create-header-text">
             <div class="create-header-text-title">
-                <h3>Crear empleado</h3>
+                <h3>Nueva Ficha de Contratación</h3>
             </div>
             <div class="create-header-text-info">
-                <span th:text="${employee.name + ' ' +
-                                    employee.fatherSurname + ' ' +
-                                    employee.motherSurname}"></span>
-                <span th:text="${employee.position}"></span>
-                <span th:text="${employee.mail + ' | ' + employee.phone}"></span>
+                <span id="headerDynamicName" class="text-muted">Ficha nueva: Sin registrar</span>
+                <span id="headerDynamicPosition">Asigne un cargo en la pestaña Laboral</span>
+                <span>Complete los campos requeridos en cada pestaña</span>
             </div>
         </div>
 
