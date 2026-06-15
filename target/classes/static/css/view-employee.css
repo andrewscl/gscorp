@@ -349,6 +349,9 @@ p {
   letter-spacing: 0.02em;
   color: #1f2937;
   transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
 }
 .view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .form-group input::placeholder,
 .view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .form-group select::placeholder,
@@ -361,6 +364,11 @@ p {
   border-color: #4e54c8;
   box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
   outline: none;
+}
+.view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .form-group select {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .view-employee .tab-panel-card .tab-content .panel-tab .panel-tab-column .form-group textarea {
   resize: vertical;

@@ -50,6 +50,9 @@
             @include roboto-font(0.875rem, 500);
             color: $cool-gray-800;
             transition: border-color 0.2s, box-shadow 0.2s;
+            box-sizing: border-box;
+            width: 100%;
+            max-width: 100%;
             &::placeholder {
                 color: #adb5bd;
             }
@@ -58,6 +61,11 @@
                 box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
                 outline: none;
             }
+        }
+        select {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
         }
         textarea {
             resize: vertical;
