@@ -50,7 +50,7 @@
                         <label for="employeeProjects">Proyectos asociados</label>
                         <select id="employeeProjects" name="projectIds" multiple aria-readonly="true">
                         <option th:each="p : ${projects}" 
-                                th:selected="${projectIds.contains(p.id)}" 
+                                th:selected="${employeeProjects != && employeeProjects.![id].contains(p.id)}" 
                                 th:value="${p.id}" 
                                 th:text="${p.name}"></option>
                         </select>
