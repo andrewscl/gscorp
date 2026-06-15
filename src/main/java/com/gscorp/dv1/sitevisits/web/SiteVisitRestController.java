@@ -8,6 +8,7 @@ import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -23,8 +24,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.gscorp.dv1.clients.application.ClientService;
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
+import com.gscorp.dv1.security.SecurityUser;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
 import com.gscorp.dv1.sitevisits.application.SiteVisitService;
@@ -46,6 +49,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SiteVisitRestController {
 
     private final SiteService siteService;
+    private final ClientService clientService;
     private final UserService userService;
     private final SiteVisitService siteVisitService;
     private final ZoneResolver zoneResolver;
@@ -70,9 +74,13 @@ public class SiteVisitRestController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "usuario no autenticado.");
         }
 
+        Object principal = authentication.getPrincipal();
+        SecurityUser securityUser = (SecurityUser) principal;
+        UUID externalId = securityUser.getUser().getExternalId();
+
         SiteVisitDto saved =
             siteVisitService.
-                        createSiteSupervisionVisitRequest(req, userId);
+                        createSiteSupervisionVisitRequest(req, externalId);
 
         var location = ucb.path("/api/site-supervision-visits/{id}")
                                     .buildAndExpand(saved.id()).toUri();
@@ -90,10 +98,9 @@ public class SiteVisitRestController {
                     @RequestParam(required=false) String tz,
                     Authentication authentication) {
 
-    String username = (authentication == null) ? "anonymous"
-                             : authentication.getName();
-    log.info("Incoming /series request user={} from={} to={} days={} tz={}",
-                                username, from, to, days, tz);
+        Object principal = authentication.getPrincipal();
+        SecurityUser securityUser = (SecurityUser) principal;
+        UUID externalId = securityUser.getUser().getExternalId();
 
     try{
 
@@ -137,7 +144,7 @@ public class SiteVisitRestController {
         }
 
         log.debug("Series request userId={} from={} to={} days={} tz={}", userId, fromDate, toDate, days, zone);
-        return siteVisitService.getVisitsSeriesForUserByDates(userId, fromDate, toDate, zone);
+        return siteVisitService.getVisitsSeriesForUserByDates(externalId, fromDate, toDate, zone);
 
     } catch (Exception ex) {
         log.error("Error en /series: " + ex.getMessage(), ex);
@@ -160,7 +167,11 @@ public class SiteVisitRestController {
           throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "usuario no autenticado.");
         }
 
-        List<Long> allowedClientIds = userService.getClientIdsForUser(userId);
+        Object principal = authentication.getPrincipal();
+        SecurityUser securityUser = (SecurityUser) principal;
+        UUID externalId = securityUser.getUser().getExternalId();
+
+        List<Long> allowedClientIds = clientService.getClientIdsByUserExternalId(externalId);
         if(allowedClientIds == null || allowedClientIds.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No autorizado ara ver KPIs");
         }
@@ -199,8 +210,12 @@ public class SiteVisitRestController {
         return ResponseEntity.status(403).build();
         }
 
+        Object principal = auth.getPrincipal();
+        SecurityUser securityUser = (SecurityUser) principal;
+        UUID externalId = securityUser.getUser().getExternalId();
+
         // Resolver zona con ZoneResolver (prioriza requested tz, luego user profile, luego sistema)
-        ZoneResolutionResult zr = zoneResolver.resolveZone(callerUserId, tz);
+        ZoneResolutionResult zr = zoneResolver.resolveZone(externalId, tz);
         ZoneId resolvedZone = zr.zoneId();
         String resolvedTzId = resolvedZone.getId();
         log.debug("Resolved zone for userId={} requestedTz='{}' => {} (source={})",
@@ -213,7 +228,7 @@ public class SiteVisitRestController {
         }
 
         List<SiteVisitHourlyDto> series = siteVisitService
-            .getVisitsSeriesForUserByDateByVisitHourlyAgregated(callerUserId, date, tz);
+            .getVisitsSeriesForUserByDateByVisitHourlyAgregated(externalId, date, tz);
 
         return ResponseEntity.ok(series == null ? Collections.emptyList() : series);
     }

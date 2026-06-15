@@ -18,6 +18,7 @@ import com.gscorp.dv1.patrol.application.checkpoints.PatrolCheckpointService;
 import com.gscorp.dv1.patrol.application.patrols.PatrolService;
 import com.gscorp.dv1.patrol.web.dto.checkpoints.PatrolCheckpointDto;
 import com.gscorp.dv1.patrol.web.dto.patrols.PatrolDto;
+import com.gscorp.dv1.security.SecurityUser;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.web.dto.SiteDtoProjection;
 import com.gscorp.dv1.users.application.UserService;
@@ -43,12 +44,20 @@ public class PatrolController {
                     Model model,
                     Authentication authentication) {
 
-        Long userId = userService.getUserIdFromAuthentication(authentication);
-        if(userId == null) {
-            return "redirect:/login";
-        }
+            if(authentication == null || !authentication.isAuthenticated()) {
+                return "redirect:/login";
+            }
 
-        List<PatrolDto> patrols = patrolService.getPatrolsByUserId(userId);
+            Object principal = authentication.getPrincipal();
+            if(!(principal instanceof SecurityUser)) {
+                return "redirect:/login";
+            }
+
+            SecurityUser securityUser = (SecurityUser) principal;
+
+            UUID externalId = securityUser.getUser().getExternalId();
+
+        List<PatrolDto> patrols = patrolService.getPatrolsByUserExtarnalUserId(externalId);
         if(patrols == null || patrols.isEmpty()) {
             model.addAttribute("infoMessage", 
             "No se encontraron rondas de supervisión asociadas a su usuario.");
@@ -65,14 +74,21 @@ public class PatrolController {
                     Model model,
                     Authentication authentication) {
 
-        Long userId = userService
-                            .getUserIdFromAuthentication(authentication);
-        if(userId == null) {
-            return "redirect:/login";
-        }
+            if(authentication == null || !authentication.isAuthenticated()) {
+                return "redirect:/login";
+            }
+
+            Object principal = authentication.getPrincipal();
+            if(!(principal instanceof SecurityUser)) {
+                return "redirect:/login";
+            }
+
+            SecurityUser securityUser = (SecurityUser) principal;
+
+            UUID externalId = securityUser.getUser().getExternalId();
 
         List<SiteDtoProjection> sites = siteService
-                            .findSiteProjectionsByUserId(userId);
+                            .findSiteProjectionsByUserExternalId(externalId);
 
         model.addAttribute("DayOfWeek", DayOfWeek.values());
         model.addAttribute("siteList", sites);

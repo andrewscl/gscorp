@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
 
 import com.gscorp.dv1.enums.PatrolExecutionStatus;
 import com.gscorp.dv1.patrol.infrastructure.patrols.Patrol;
@@ -86,6 +88,14 @@ public class PatrolExecution {
 
     @Column(name="longitude")
     private BigDecimal longitude;
+
+    @CreatedBy
+    @Column(nullable = true)
+    private String createdBy;
+
+    @LastModifiedBy
+    @Column(nullable = true)
+    private String updatedBy;
 
     // Guarda la zona IANA utilizada para interpretar/mostrar la hora (ej. "America/Santiago")
     @Column(name = "client_timezone", length = 64)

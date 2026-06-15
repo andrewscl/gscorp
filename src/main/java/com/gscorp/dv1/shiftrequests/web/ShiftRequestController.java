@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.enums.ShiftRequestType;
+import com.gscorp.dv1.security.SecurityUser;
 import com.gscorp.dv1.shiftrequests.application.ShiftRequestService;
 import com.gscorp.dv1.shiftrequests.web.dto.ShiftRequestDto;
 import com.gscorp.dv1.shiftrequests.web.dto.ShiftRequestDtoLight;
@@ -59,7 +61,17 @@ public class ShiftRequestController {
             return "redirect:/login";
         }
 
-        ZoneResolutionResult zr = zoneResolver.resolveZone(userId, clientTz);
+            if(authentication == null || !authentication.isAuthenticated()) {
+                return "redirect:/login";
+            }
+            Object principal = authentication.getPrincipal();
+            if(!(principal instanceof SecurityUser)) {
+                return "redirect:/login";
+            }
+            SecurityUser securityUser = (SecurityUser) principal;
+            UUID externalId = securityUser.getUser().getExternalId();
+
+        ZoneResolutionResult zr = zoneResolver.resolveZone(externalId, clientTz);
         ZoneId zone = zr.zoneId();
 
         LocalDate today = LocalDate.now(zone);
@@ -80,7 +92,7 @@ public class ShiftRequestController {
         String resolvedZoneId = zone.getId();
         List<ShiftRequestDtoLight> shiftRequests = shiftRequestService
                                         .findByUserIdAndDateBetween(
-                                                userId,
+                                                externalId,
                                                 from,
                                                 to,
                                                 resolvedZoneId,
@@ -88,7 +100,7 @@ public class ShiftRequestController {
                                                 type);
 
         model.addAttribute("shiftRequestsCount", shiftRequests.size());
-        model.addAttribute("sites", siteService.getAllSitesByUser(userId));
+        model.addAttribute("sites", siteService.getAllSitesByUser(externalId));
         model.addAttribute("shiftRequests", shiftRequests);
         model.addAttribute("shiftRequestTypes", ShiftRequestType.values());
         model.addAttribute("fromDate", from);
@@ -108,10 +120,23 @@ public class ShiftRequestController {
     }
 
     @GetMapping("/show/{id}")
-    public String showShiftRequest (@PathVariable Long id, Model model, Authentication authentication){
-        Long userId = userService.getUserIdFromAuthentication(authentication);
+    public String showShiftRequest (
+                        @PathVariable Long id,
+                        Model model,
+                        Authentication authentication){
+
+            if(authentication == null || !authentication.isAuthenticated()) {
+                return "redirect:/login";
+            }
+            Object principal = authentication.getPrincipal();
+            if(!(principal instanceof SecurityUser)) {
+                return "redirect:/login";
+            }
+            SecurityUser securityUser = (SecurityUser) principal;
+            UUID externalId = securityUser.getUser().getExternalId();
+
         try {
-            ShiftRequestDto shiftRequestDto = shiftRequestService.getDtoIfOwned(id, userId);
+            ShiftRequestDto shiftRequestDto = shiftRequestService.getDtoIfOwned(id, externalId);
             model.addAttribute("shiftRequest", shiftRequestDto);
             return "private/shift-requests/views/view-shift-request-view";
         } catch (Exception e) {
@@ -124,9 +149,20 @@ public class ShiftRequestController {
                         @PathVariable Long id,
                         Model model,
                         Authentication authentication){
-        Long userId = userService.getUserIdFromAuthentication(authentication);
+
+            if(authentication == null || !authentication.isAuthenticated()) {
+                return "redirect:/login";
+            }
+            Object principal = authentication.getPrincipal();
+            if(!(principal instanceof SecurityUser)) {
+                return "redirect:/login";
+            }
+            SecurityUser securityUser = (SecurityUser) principal;
+            UUID externalId = securityUser.getUser().getExternalId();
+                            
         try {
-            ShiftRequestDto shiftRequestDto = shiftRequestService.getDtoIfOwned(id, userId);
+            ShiftRequestDto shiftRequestDto =
+                                shiftRequestService.getDtoIfOwned(id, externalId);
             model.addAttribute("shiftRequest", shiftRequestDto);
             return "private/shift-requests/views/edit-shift-request-view";
         } catch (Exception e) {
@@ -155,6 +191,16 @@ public class ShiftRequestController {
             return "redirect:/login";
         }
 
+            if(authentication == null || !authentication.isAuthenticated()) {
+                return "redirect:/login";
+            }
+            Object principal = authentication.getPrincipal();
+            if(!(principal instanceof SecurityUser)) {
+                return "redirect:/login";
+            }
+            SecurityUser securityUser = (SecurityUser) principal;
+            UUID externalId = securityUser.getUser().getExternalId();
+
         // normalización
         if (from == null && to == null) {
             model.addAttribute("shiftRequests", Collections.emptyList());
@@ -172,7 +218,7 @@ public class ShiftRequestController {
 
         List <ShiftRequestDtoLight> shiftRequests = shiftRequestService
                                         .findByUserIdAndDateBetween(
-                                                userId,
+                                                externalId,
                                                 from,
                                                 to,
                                                 clientTz,

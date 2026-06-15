@@ -15,6 +15,7 @@ import com.gscorp.dv1.attendance.application.AttendanceService;
 import com.gscorp.dv1.attendance.web.dto.HourlyCountDto;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchPointDto;
 import com.gscorp.dv1.components.ZoneResolver;
+import com.gscorp.dv1.security.SecurityUser;
 import com.gscorp.dv1.users.application.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -52,8 +53,12 @@ public class AttendanceSeriesController {
               throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "usuario no autenticado.");
         }
 
+        Object principal = authentication.getPrincipal();
+        SecurityUser securityUser = (SecurityUser) principal;
+        UUID externalId = securityUser.getUser().getExternalId();
+
         // Resolver zona con ZoneResolver (requested tz -> user preference -> system default)
-        var zr = zoneResolver.resolveZone(userId, tz);
+        var zr = zoneResolver.resolveZone(externalId, tz);
         ZoneId zone = zr.zoneId();
 
         LocalDate fromDate;
@@ -87,7 +92,7 @@ public class AttendanceSeriesController {
         try{
           List<AttendancePunchPointDto> series =
                attendanceService.getAttendanceSeriesForUserByDates(
-                          userId, fromDate, toDate, zone, normalizedAction, siteId, projectId);         
+                          externalId, fromDate, toDate, zone, normalizedAction, siteId, projectId);         
           
 
         return ResponseEntity.ok()
@@ -121,17 +126,12 @@ public class AttendanceSeriesController {
       @RequestParam(required = false) Long projectId
   ) {
 
-   // Si se pasó userId como query param y el llamador es admin, lo usamos.
-    Long effectiveUserId;
-    if (userId != null && userService.isAdmin(auth)) {
-      effectiveUserId = userId;
-    } else {
-      // Reutilizamos el UserService para extraer el id del Authentication
-      effectiveUserId = userService.getUserIdFromAuthentication(auth);
-    }
+    Object principal = auth.getPrincipal();
+    SecurityUser securityUser = (SecurityUser) principal;
+    UUID externalId = securityUser.getUser().getExternalId();
 
     // Resolver zona con ZoneResolver (requested tz -> user preference -> system default)
-    var zr = zoneResolver.resolveZone(effectiveUserId, tz);
+    var zr = zoneResolver.resolveZone(externalId, tz);
     ZoneId zone = zr.zoneId();
 
     String normalizedAction = normalizeAction(action);
@@ -140,7 +140,7 @@ public class AttendanceSeriesController {
     }
 
     List<HourlyCountDto> out = attendanceService.getAttendanceSeriesForUserByHours(
-                                    effectiveUserId, date, zone, normalizedAction, siteId, projectId);
+                                    externalId, date, zone, normalizedAction, siteId, projectId);
     return ResponseEntity.ok(out);
   }
 

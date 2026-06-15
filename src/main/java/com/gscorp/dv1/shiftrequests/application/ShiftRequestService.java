@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.security.core.Authentication;
 
@@ -28,7 +29,7 @@ public interface ShiftRequestService {
      * Crea un ShiftRequest validando que el site (y opcionalmente clientAccountId)
      * pertenezcan a uno de los clients del usuario (userId).
      */
-    ShiftRequestDto createShiftRequest(CreateShiftRequest req, Long userId);
+    ShiftRequestDto createShiftRequest(CreateShiftRequest req, UUID userEmployeeId);
 
     /**
      * Conveniencia: resuelve userId desde Authentication y delega.
@@ -38,11 +39,11 @@ public interface ShiftRequestService {
     /**
      * Devuelve el DTO si existe y pertenece a alguno de los clients del usuario.
      */
-    ShiftRequestDto getDtoIfOwned(Long shiftRequestId, Long userId);
+    ShiftRequestDto getDtoIfOwned(Long shiftRequestId, UUID userExternalId);
 
 
     List<ShiftRequestDtoLight> findByUserIdAndDateBetween(
-            Long userId,
+            UUID userExternalId,
             LocalDate fromDate,
             LocalDate toDate,
             String clientTz,

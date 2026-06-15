@@ -4,5 +4,6 @@ public interface EmployeeSelectProjection {
     Long getId();
     String getName();
     String getFatherSurname();
-    String getMotherSurname(); 
+    String getMotherSurname();
+    Long getUserId();
 }

@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.gscorp.dv1.bank.application.BankService;
 import com.gscorp.dv1.bank.infrastructure.Bank;
+import com.gscorp.dv1.clients.application.ClientService;
 import com.gscorp.dv1.employees.infrastructure.Employee;
 import com.gscorp.dv1.employees.infrastructure.EmployeeRepository;
 import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeEditProjection;
@@ -40,7 +41,6 @@ import com.gscorp.dv1.projects.application.ProjectService;
 import com.gscorp.dv1.projects.infrastructure.Project;
 import com.gscorp.dv1.shiftpatterns.application.ShiftPatternService;
 import com.gscorp.dv1.shiftpatterns.infrastructure.ShiftPattern;
-import com.gscorp.dv1.users.application.UserService;
 import com.gscorp.dv1.users.infrastructure.User;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -57,7 +57,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final ProfessionService professionService;
     private final PositionService positionService;
     private final ShiftPatternService shiftPatternService;
-    private final UserService userService;
+    private final ClientService clientService;
 
     @Value("${file.upload-dir}")
     private String uploadDir;
@@ -262,7 +262,20 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeSelectDto findEmployeeByUserId(Long userId) {
         return employeeRepository.findByUser_Id(userId)
                 .map(EmployeeSelectDto::fromProjection)
-                .orElse(null);
+                .orElseThrow(() -> new EntityNotFoundException(
+            "No se encontró un empleado activo vinculado al usuario autenticado."
+                ));
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public EmployeeSelectDto findEmployeeByUserExternalId(UUID userExternalId) {
+        return employeeRepository.findByUserExternalId(userExternalId)
+                .map(EmployeeSelectDto::fromProjection)
+                .orElseThrow(() -> new EntityNotFoundException(
+            "No se encontró un empleado activo vinculado al usuario autenticado."
+                ));
     }
 
 
@@ -279,7 +292,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Transactional(readOnly = true)
     public Page<EmployeeTableDto> getEmployeeTable(
-                Long userId, String q, Boolean active, int page, int size) {
+                UUID userExternalId, String q, Boolean active, int page, int size) {
 
         // Normalizar page/size (Spring Data usa 0-based)
         int safePage = Math.max(0, page);
@@ -289,7 +302,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         String safeQ = (q == null || q.trim().isEmpty()) ? null : q.trim();
 
         // Resolver clientes asociados al usuario
-        List<Long> clientIds = userService.getClientIdsForUser(userId);
+        List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);
         if (clientIds == null || clientIds.isEmpty()) {
         return Page.empty();
         }

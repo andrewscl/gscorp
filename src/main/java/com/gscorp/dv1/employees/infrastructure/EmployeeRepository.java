@@ -279,10 +279,26 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
             e.id AS id, 
             e.name AS name, 
             e.father_surname AS fatherSurname, 
-            e.mother_surname AS motherSurname 
-        FROM employee e 
+            e.mother_surname AS motherSurname,
+            u.id AS userId
+        FROM employee e
+        JOIN e.user u
         WHERE e.id = :id
-        """, nativeQuery = true)
+        """)
     Optional<EmployeeSelectProjection> findEmployeeSelectDtoById(@Param("id") Long id);
+
+
+    @Query(value = """
+        SELECT 
+            e.id AS id, 
+            e.name AS name, 
+            e.father_surname AS fatherSurname, 
+            e.mother_surname AS motherSurname,
+            u.id AS userId
+        FROM employee e
+        JOIN e.user u
+        WHERE u.externalId = :externalId
+        """)
+    Optional<EmployeeSelectProjection> findByUserExternalId(@Param("externalId") UUID externalId);
 
 }

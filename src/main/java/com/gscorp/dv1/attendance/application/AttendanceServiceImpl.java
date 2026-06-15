@@ -10,10 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunch;
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunchProjection;
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
+import com.gscorp.dv1.attendance.infrastructure.projections.AttendancePunchShortProjection;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchDto;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchPointDto;
 import com.gscorp.dv1.attendance.web.dto.CreateAttendancePunchRequest;
 import com.gscorp.dv1.attendance.web.dto.HourlyCountDto;
+import com.gscorp.dv1.clients.application.ClientService;
 import com.gscorp.dv1.attendance.web.dto.DashboardHeaderInfo;
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
@@ -21,7 +23,6 @@ import com.gscorp.dv1.employees.application.EmployeeService;
 import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.web.dto.SiteSelectDto;
-import com.gscorp.dv1.users.application.UserService;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -33,6 +34,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -42,9 +44,9 @@ public class AttendanceServiceImpl implements AttendanceService {
 
   private final AttendancePunchRepo repo;
   private final SiteService siteService;
-  private final UserService userService;
   private final EmployeeService employeeService;
   private final ZoneResolver zoneResolver;
+  private final ClientService clientService;
 
   private static final double MAX_DIST_METERS = 250.0;
   private static final DateTimeFormatter TS_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -53,16 +55,16 @@ public class AttendanceServiceImpl implements AttendanceService {
   @Override
   @Transactional
   public AttendancePunchDto createPunch(
-      CreateAttendancePunchRequest req, Long userId
+      CreateAttendancePunchRequest req, UUID userExternalId
     ) {
 
       // anti doble-click: buscar última marcación del usuario
-      Optional<AttendancePunch> lastOpt = repo.findFirstByUserIdOrderByTsDesc(userId);
-      AttendancePunch last = lastOpt.orElse(null);
+      Optional<AttendancePunchShortProjection> lastOpt = repo.findFirstByUserExternalIdOrderByTsDesc(userExternalId);
+      AttendancePunchShortProjection last = lastOpt.orElse(null);
 
       //Resolver zona para ahora()
       ZoneResolutionResult zoneResult = zoneResolver.
-                                          resolveZone(userId, req.getClientTimezone());
+                                          resolveZone(userExternalId, req.getClientTimezone());
       ZoneId zone = zoneResult.zoneId();
       var now  = OffsetDateTime.now(zone);
 
@@ -76,7 +78,7 @@ public class AttendanceServiceImpl implements AttendanceService {
       }
 
       // Busca el site más cercano a la marcación
-      SiteSelectDto nearestSite = siteService.findNearestSite(userId, lat, lon);
+      SiteSelectDto nearestSite = siteService.findNearestSite(userExternalId, lat, lon);
       if (nearestSite == null)
                 throw new IllegalStateException("No hay sitios registrados");
 
@@ -84,7 +86,7 @@ public class AttendanceServiceImpl implements AttendanceService {
       double siteLon = nearestSite.lon();
 
       // Obtener empleado asociado al userId
-      EmployeeSelectDto employee = employeeService.findEmployeeByUserId(userId);
+      EmployeeSelectDto employee = employeeService.findEmployeeByUserExternalId(userExternalId);
       if (employee == null) {
         throw new IllegalStateException("El usuario no tiene un empleado asociado");
       }
@@ -101,7 +103,7 @@ public class AttendanceServiceImpl implements AttendanceService {
       AttendancePunch entity = AttendancePunch.builder()
           .siteId(nearestSite.id())
           .employeeId(employee.id())
-          .userId(userId)
+          .userId(employee.userId())
           .clientTs(req.getClientTs())
           .lat(lat)
           .lon(lon)
@@ -242,7 +244,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     @Transactional(readOnly = true)
     public List<AttendancePunchDto> findByUserAndDateBetween(
-              Long userId,
+              UUID userExternalId,
               LocalDate fromDate,
               LocalDate toDate,
               String clientTz,
@@ -253,12 +255,12 @@ public class AttendanceServiceImpl implements AttendanceService {
         // Normalizar action (IN/OUT)
         String normalizedAction = (action == null) ? null : action.trim().toUpperCase();
 
-        List<Long> clientIds = userService.getClientIdsForUser(userId);
+        List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);
         if (clientIds == null || clientIds.isEmpty()) {
-            log.debug("No clientIds for user {} -> returning zero series for {}..{}", userId, fromDate, toDate);
+            log.debug("No clientIds for user {} -> returning zero series for {}..{}", userExternalId, fromDate, toDate);
             return Collections.emptyList();
         }
-        ZoneResolutionResult zr = zoneResolver.resolveZone(userId, clientTz);
+        ZoneResolutionResult zr = zoneResolver.resolveZone(userExternalId, clientTz);
         ZoneId zone = zr.zoneId();
         // intervalo [start, end)
         OffsetDateTime start = fromDate.atStartOfDay(zone).toOffsetDateTime();
@@ -268,7 +270,7 @@ public class AttendanceServiceImpl implements AttendanceService {
                                                 .findByClientIdsAndDateBetween(
                                                     clientIds, start, endExclusive, siteId, projectId, normalizedAction);
         if (rows == null || rows.isEmpty()) {
-            log.debug("Attendance search returned 0 rows for userId={} from={} to={}", userId, fromDate, toDate);
+            log.debug("Attendance search returned 0 rows for userId={} from={} to={}", userExternalId, fromDate, toDate);
             return Collections.emptyList();
         }
         log.debug("Attendance search returned {} rows (sample ids): {}", rows.size(),
@@ -325,7 +327,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     @Transactional(readOnly = true)
     public List<AttendancePunchPointDto> getAttendanceSeriesForUserByDates(
-            Long userId,
+            UUID userExternalId,
             LocalDate fromDate,
             LocalDate toDate,
             ZoneId zone,
@@ -340,7 +342,7 @@ public class AttendanceServiceImpl implements AttendanceService {
             return List.of();
         }
 
-        List<Long> clientIds = userService.getClientIdsForUser(userId);
+        List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);
         if (clientIds == null || clientIds.isEmpty()) {
             // devolver zeros para el rango pedido
             List<AttendancePunchPointDto> empty = new ArrayList<>();
@@ -361,7 +363,7 @@ public class AttendanceServiceImpl implements AttendanceService {
                                         .atStartOfDay(zone).toOffsetDateTime();
 
         log.debug("Service: fetching attendances userId={} clientIds={} from={} to={} zone={} action={} siteId={} projectId={}"
-                                                    , userId, clientIds, fromOffset, toOffset, zone, normalizedAction, siteId, projectId);
+                                                    , userExternalId, clientIds, fromOffset, toOffset, zone, normalizedAction, siteId, projectId);
 
         List<AttendancePunchProjection> projections =
                                   repo.findByClientIdsAndDateBetween(
@@ -402,7 +404,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     @Transactional(readOnly = true)
     public List<HourlyCountDto> getAttendanceSeriesForUserByHours(
-            Long userId,
+            UUID userExternalId,
             LocalDate date,
             ZoneId zone,
             String action,
@@ -415,7 +417,7 @@ public class AttendanceServiceImpl implements AttendanceService {
             return List.of();
         }
 
-        List<Long> clientIds = userService.getClientIdsForUser(userId);
+        List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);
         if (clientIds == null || clientIds.isEmpty()) {
             // devolver 24 filas con ceros
             List<HourlyCountDto> empty = new ArrayList<>(24);
@@ -433,7 +435,7 @@ public class AttendanceServiceImpl implements AttendanceService {
         OffsetDateTime toOffset = date.plusDays(1).atStartOfDay(zone).toOffsetDateTime();
 
         log.debug("Service: fetching hourly attendances (punches) userId={} clientIds={} date={} from={} to={} zone={} action={} siteId={} projectId={}",
-                userId, clientIds, date, fromOffset, toOffset, zone, normalizedAction, siteId, projectId);
+                userExternalId, clientIds, date, fromOffset, toOffset, zone, normalizedAction, siteId, projectId);
 
         // Obtener proyecciones de marcaciones (tu repo actual)
         List<AttendancePunchProjection> projections =
@@ -472,13 +474,13 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Override
     @Transactional(readOnly = true)
-    public DashboardHeaderInfo getDashboardHeader (Long userId) {
+    public DashboardHeaderInfo getDashboardHeader (UUID userExternalId) {
 
         int hour = LocalDateTime.now().getHour();
         String greeting = hour < 12 ? "Buenos días" : hour < 18 ? "Buenas tardes" : "Buenas noches";
         String emoji = hour < 12 ? "🌅" : hour < 18 ? "☀️" : "🌙";
 
-        Optional<AttendancePunch> lastAttendancePunchOpt = repo.findFirstByUserIdOrderByTsDesc(userId);
+        Optional<AttendancePunchShortProjection> lastAttendancePunchOpt = repo.findFirstByUserExternalIdOrderByTsDesc(userExternalId);
 
         if(lastAttendancePunchOpt.isEmpty()) {
             String initialMessage =
@@ -490,10 +492,10 @@ public class AttendanceServiceImpl implements AttendanceService {
                     initialMessage, "Sin marcajes registrados.", "Registrar entrada");
         }
 
-        AttendancePunch punch = lastAttendancePunchOpt.get();
+        AttendancePunchShortProjection punch = lastAttendancePunchOpt.get();
 
         ZoneResolutionResult zoneResult = zoneResolver.resolveZone(
-            userId, punch.getClientTimezone());
+            userExternalId, punch.getClientTimezone());
         ZoneId zoneId = zoneResult.zoneId();
 
         LocalDateTime punchLocalTime = punch.getTs().atZoneSameInstant(zoneId).toLocalDateTime();

@@ -16,7 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.gscorp.dv1.patrolexecution.application.patrolsexecution.PatrolExecutionService;
 import com.gscorp.dv1.patrolexecution.web.dto.patrolsexecution.CreatePatrolExecutionRequest;
 import com.gscorp.dv1.patrolexecution.web.dto.patrolsexecution.PatrolExecutionDto;
-import com.gscorp.dv1.users.application.UserService;
+import com.gscorp.dv1.security.SecurityUser;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class PatrolExecutionRestController {
 
-    private final UserService userService;
     private final PatrolExecutionService patrolExecutionService;
 
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -38,15 +37,20 @@ public class PatrolExecutionRestController {
         UriComponentsBuilder ucb,
         Authentication authentication) {
 
-        //Buscar usuario autenticado
-        Long userId = userService.getUserIdFromAuthentication(authentication);
-        if (userId == null) {
-            log.warn("Usuario no autenticado: ", authentication);
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "usuario no autenticado.");
+        if (authentication == null || !authentication.isAuthenticated()) {
+            log.warn("Intento de acceso no autenticado");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado.");
         }
 
+        Object principal = authentication.getPrincipal();
+        if (!(principal instanceof SecurityUser securityUser)) { // 🔒 Defensivo: Evita un ClassCastException sorpresa
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Estructura de seguridad no reconocida.");
+        }
+        
+        UUID userExternalId = securityUser.getUser().getExternalId();
+
         PatrolExecutionDto created =
-                patrolExecutionService.createPatrolExecution(req, patrolExternalId, userId);
+                patrolExecutionService.createPatrolExecution(req, patrolExternalId, userExternalId);
 
         var location = ucb.path("/api/patrol-execution/{id}")
                             .buildAndExpand(created.id()).toUri();

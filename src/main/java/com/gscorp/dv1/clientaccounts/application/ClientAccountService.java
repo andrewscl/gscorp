@@ -1,6 +1,7 @@
 package com.gscorp.dv1.clientaccounts.application;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.security.core.Authentication;
 
@@ -12,7 +13,7 @@ public interface ClientAccountService {
     /**
      * Devuelve ClientAccountDto para el userId indicado.
      */
-    List<ClientAccountDto> findAccountDtosForUser(Long userId);
+    List<ClientAccountDto> findAccountDtosForUser(UUID userExternalId);
 
     /**
      * Conveniencia: resuelve el userId desde Authentication usando UserService internamente
@@ -21,7 +22,9 @@ public interface ClientAccountService {
     List<ClientAccountDto> findAccountDtosForPrincipal(Authentication authentication);
 
         // Crea una cuenta asociada a clientId. Valida que el client pertenezca al userId.
-    ClientAccountDto createClientAccount(CreateClientAccountRequest req, Long userId);
+    ClientAccountDto createClientAccount(
+                            CreateClientAccountRequest req, 
+                            UUID userExternalId);
 
     // Conveniencia: resuelve userId desde Authentication y delega
     ClientAccountDto createClientAccountForPrincipal(CreateClientAccountRequest req, Authentication authentication);
@@ -29,7 +32,7 @@ public interface ClientAccountService {
     // Opcional: método que devuelve la entidad o lanza si no existe / no pertenece (útil para edit/show)
     // ClientAccount getAccountIfOwned(Long accountId, Long userId);
 
-    ClientAccountDto getAccountDtoIfOwned(Long accountId, Long userId);
+    ClientAccountDto getAccountDtoIfOwned(Long accountId, UUID userExternalId);
 
     /**
      * Obtiene las cuentas (ClientAccountDto) asociadas al client del site dado,

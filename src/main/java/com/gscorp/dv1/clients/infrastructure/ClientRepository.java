@@ -20,8 +20,13 @@ public interface ClientRepository extends JpaRepository<Client, Long>{
     @EntityGraph(attributePaths = "users")
     Optional<Client> findById (Long id);
     
-    @Query("select c.id from Client c join c.users u where u.id = :userId")
-    List<Long> findClientIdsByUserId(Long userId);
+    @Query("""
+         SELECT c.id
+         FROM Client c
+         JOIN c.users u
+         WHERE u.externalId = :userExternalId          
+          """)
+    List<Long> findClientIdsByUserExternalId(UUID userExternalId);
 
     /* -------- Opción C: devolver DTOs directamente (mejor rendimiento si sólo necesitas campos) --------
        Requiere constructor público en ClientDto con la firma usada abajo.
@@ -34,6 +39,17 @@ public interface ClientRepository extends JpaRepository<Client, Long>{
     @Query("select c.id as id, c.name as name, c.active as active " +
        "from Client c join c.users u where u.id = :userId and c.active = true order by c.name")
     List<ClientSelectProjection> findClientsByUserId(Long userId);
+
+      @Query("""
+               SELECT
+                  c.id AS id,
+                  c.name AS name
+               FROM Client c
+               JOIN c.users u
+               WHERE u.externalId = :userExternalId          
+            """)
+      List<ClientSelectProjection> findClientsByUserExternalId(@Param("userExternalId") UUID userExternalId);
+
 
     @Query("SELECT c.id AS id, c.name AS name FROM Client c")
     List<ClientSelectProjection> findAllProjections();

@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.dao.DataIntegrityViolationException;
@@ -21,10 +22,12 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.gscorp.dv1.clientaccounts.application.ClientAccountService;
 import com.gscorp.dv1.clientaccounts.web.dto.ClientAccountDto;
+import com.gscorp.dv1.clients.application.ClientService;
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.enums.ShiftRequestType;
+import com.gscorp.dv1.security.SecurityUser;
 import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequestProjection;
 import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequestRepository;
@@ -35,7 +38,6 @@ import com.gscorp.dv1.shiftrequests.web.dto.ShiftRequestDtoLight;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.infrastructure.Site;
 import com.gscorp.dv1.sites.infrastructure.SiteRepository;
-import com.gscorp.dv1.users.application.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +49,7 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
 
     private final ShiftRequestRepository shiftRequestRepository;
     private final SiteRepository siteRepository;
-    private final UserService userService;
+    private final ClientService clientService;
     private final ClientAccountService clientAccountService;
     private final SiteService siteService;
     private final ZoneResolver zoneResolver;
@@ -141,12 +143,12 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
      */
     @Override
     @Transactional
-    public ShiftRequestDto createShiftRequest(CreateShiftRequest req, Long userId) {
-        if (userId == null) {
+    public ShiftRequestDto createShiftRequest(CreateShiftRequest req, UUID userExternalId) {
+        if (userExternalId == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
         }
 
-        List<Long> allowedClientIds = userService.getClientIdsForUser(userId);
+        List<Long> allowedClientIds = clientService.getClientIdsByUserExternalId(userExternalId);
         if (allowedClientIds == null || allowedClientIds.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No autorizado para crear solicitudes de turno");
         }
@@ -185,7 +187,7 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
         // validar accountId si se envía
         Long accountId = req.accountId();
         if (accountId != null) {
-            ClientAccountDto acctDto = clientAccountService.getAccountDtoIfOwned(accountId, userId);
+            ClientAccountDto acctDto = clientAccountService.getAccountDtoIfOwned(accountId, userExternalId);
             if (acctDto == null) {
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Cuenta no autorizada");
             }
@@ -207,19 +209,25 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
 
     @Override
     @Transactional
-    public ShiftRequestDto createShiftRequestForPrincipal(CreateShiftRequest req, Authentication authentication) {
-        Long userId = userService.getUserIdFromAuthentication(authentication);
-        return createShiftRequest(req, userId);
+    public ShiftRequestDto createShiftRequestForPrincipal(
+                                    CreateShiftRequest req,
+                                    Authentication authentication) {
+
+                        Object principal = authentication.getPrincipal();
+                        SecurityUser securityUser = (SecurityUser) principal;
+                        UUID externalId = securityUser.getUser().getExternalId();
+
+        return createShiftRequest(req, externalId);
     }
 
 
     @Override
     @Transactional(readOnly = true)
-    public ShiftRequestDto getDtoIfOwned(Long shiftRequestId, Long userId) {
+    public ShiftRequestDto getDtoIfOwned(Long shiftRequestId, UUID userExternalId) {
 
-    if (userId == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
+    if (userExternalId == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
 
-    List<Long> allowedClientIds = userService.getClientIdsForUser(userId);
+    List<Long> allowedClientIds = clientService.getClientIdsByUserExternalId(userExternalId);
     if (allowedClientIds == null || allowedClientIds.isEmpty()) {
         throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No autorizado para ver esta solicitud");
     }
@@ -331,20 +339,20 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
 @Override
 @Transactional(readOnly = true)
 public List<ShiftRequestDtoLight> findByUserIdAndDateBetween(
-        Long userId,
+        UUID userEmployeeId,
         LocalDate fromDate,
         LocalDate toDate,
         String clientTz,
         Long siteId,
         ShiftRequestType type
 ) {
-    List<Long> clientIds = userService.getClientIdsForUser(userId);
+    List<Long> clientIds = clientService.getClientIdsByUserExternalId(userEmployeeId);
     if (clientIds == null || clientIds.isEmpty()) {
-        log.debug("No clientIds for user {} -> returning zero series for {}..{}", userId, fromDate, toDate);
+        log.debug("No clientIds for user {} -> returning zero series for {}..{}", userEmployeeId, fromDate, toDate);
         return Collections.emptyList();
     }
 
-    ZoneResolutionResult zr = zoneResolver.resolveZone(userId, clientTz);
+    ZoneResolutionResult zr = zoneResolver.resolveZone(userEmployeeId, clientTz);
     ZoneId zone = zr.zoneId();
 
     // intervalo [fromDate, toDate)
@@ -369,7 +377,7 @@ public List<ShiftRequestDtoLight> findByUserIdAndDateBetween(
 
     if (projections == null || projections.isEmpty()) {
         log.debug("No shift requests found for user {} between {} and {} -> returning empty list",
-                  userId, fromDate, toDate);
+                  userEmployeeId, fromDate, toDate);
         return Collections.emptyList();
     }
 

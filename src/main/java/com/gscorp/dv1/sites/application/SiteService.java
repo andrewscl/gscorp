@@ -2,6 +2,7 @@ package com.gscorp.dv1.sites.application;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.gscorp.dv1.sites.infrastructure.Site;
 import com.gscorp.dv1.sites.web.dto.SetSiteCoordinatesDto;
@@ -23,7 +24,7 @@ public interface SiteService {
 
     List<SiteDto> getAllSites();
 
-    List<SiteDto> getAllSitesByUser(Long id);
+    List<SiteDto> getAllSitesByUser(UUID userExternalId);
 
     Site findByIdWithProjects(Long id);
 
@@ -39,15 +40,15 @@ public interface SiteService {
 
     List<SiteSelectDto> findSelectDtoByProjectId(Long projectId);
 
-    List<SiteSelectDto> findByUserId(Long userId);
+    List<SiteSelectDto> findByUserExternalId(UUID userExternalId);
 
-    SiteSelectDto findNearestSite(Long userId, double lat, double lon);
+    SiteSelectDto findNearestSite(UUID externalId, double lat, double lon);
 
     double haversineMeters(double lat1,double lon1,double lat2,double lon2);
 
     List<SiteDtoProjection> findSiteProjectionsByClientIds(List<Long> clientIds);
 
-    List<SiteDtoProjection> findSiteProjectionsByUserId(Long userId);
+    List<SiteDtoProjection> findSiteProjectionsByUserExternalId(UUID userExternalId);
 
     SiteSelectDto findSelectDtoById(Long siteId);
 }

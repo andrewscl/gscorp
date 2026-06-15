@@ -3,6 +3,7 @@ package com.gscorp.dv1.forecast.web;
 import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ import com.gscorp.dv1.enums.Units;
 import com.gscorp.dv1.forecast.application.ForecastService;
 import com.gscorp.dv1.forecast.web.dto.ForecastFormPayload;
 import com.gscorp.dv1.forecast.web.dto.ForecastTableRowDto;
+import com.gscorp.dv1.security.SecurityUser;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.web.dto.SiteSelectDto;
 import com.gscorp.dv1.users.application.UserService;
@@ -53,16 +55,29 @@ public class ForecastController {
             return "redirect:/login";
         }
 
+        if(authentication == null || !authentication.isAuthenticated()) {
+                return "redirect:/login";
+        }
+
+        Object principal = authentication.getPrincipal();
+        if(!(principal instanceof SecurityUser)) {
+            return "redirect:/login";
+        }
+
+        SecurityUser securityUser = (SecurityUser) principal;
+
+        UUID externalId = securityUser.getUser().getExternalId();
+
         // Resolver zona
-        ZoneResolutionResult zr = zoneResolver.resolveZone(userId, zone);
+        ZoneResolutionResult zr = zoneResolver.resolveZone(externalId, zone);
         ZoneId zoneId = zr.zoneId();
 
-        List<SiteSelectDto> siteNames = siteService.findByUserId(userId);
+        List<SiteSelectDto> siteNames = siteService.findByUserExternalId(externalId);
         List<ForecastMetric> metrics = List.of(ForecastMetric.values());
 
         // Llamada al service pasando ZoneId validado
         List<ForecastTableRowDto> rows = forecastService
-                                    .findRowsFilteredForUser(userId, null, null, zoneId);
+                                    .findRowsFilteredForUser(externalId, null, null, zoneId);
 
         // Poner datos en el model para la vista
         model.addAttribute("forecastRecords", rows);
@@ -86,10 +101,23 @@ public class ForecastController {
             return "redirect:/login";
         }
 
+        if(authentication == null || !authentication.isAuthenticated()) {
+                return "redirect:/login";
+        }
+
+        Object principal = authentication.getPrincipal();
+        if(!(principal instanceof SecurityUser)) {
+            return "redirect:/login";
+        }
+
+        SecurityUser securityUser = (SecurityUser) principal;
+
+        UUID externalId = securityUser.getUser().getExternalId();
+
         ForecastFormPayload formPayload;
         try {
             // Service recibe userId y parámetros opcionales (mejor para test)
-            formPayload = forecastService.prepareCreateForecastForm(userId);
+            formPayload = forecastService.prepareCreateForecastForm(externalId);
         } catch (Exception ex) {
             log.error("Error preparando formulario createForecast para user {}: {}", userId, ex.getMessage(), ex);
             model.addAttribute("error", "No se pudo preparar el formulario.");
@@ -102,7 +130,7 @@ public class ForecastController {
     var prefill = formPayload != null ? formPayload.prefill() : null;
 
         String requested = formPayload != null && formPayload.prefill() != null ? formPayload.prefill().tz() : null;
-        ZoneResolutionResult zr = zoneResolver.resolveZone(userId, requested);
+        ZoneResolutionResult zr = zoneResolver.resolveZone(externalId, requested);
 
         // Añadir datos al modelo para que la vista los muestre
         model.addAttribute("prefill", prefill);

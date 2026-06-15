@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import com.gscorp.dv1.clients.application.ClientService;
 import com.gscorp.dv1.patrol.infrastructure.checkpoints.PatrolCheckpoint;
 import com.gscorp.dv1.patrol.infrastructure.checkpoints.PatrolCheckpointProjection;
 import com.gscorp.dv1.patrol.infrastructure.checkpoints.PatrolCheckpointRepository;
@@ -25,7 +26,6 @@ import com.gscorp.dv1.patrol.web.dto.patrols.PatrolDto;
 import com.gscorp.dv1.patrol.web.dto.patrols.UpdatePatrolRequest;
 import com.gscorp.dv1.sites.infrastructure.Site;
 import com.gscorp.dv1.sites.infrastructure.SiteRepository;
-import com.gscorp.dv1.users.application.UserService;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -39,24 +39,24 @@ public class PatrolServiceImpl implements PatrolService {
     private final PatrolRepository patrolRepository;
     private final PatrolScheduleRepository patrolScheduleRepository;
     private final PatrolCheckpointRepository patrolCheckpointRepository;
+    private final ClientService clientService;
     private final SiteRepository siteRepository;
-    private final UserService userService;
 
     @Override
     @Transactional(readOnly = true)
-    public List<PatrolDto> getPatrolsByUserId(Long userId) {
+    public List<PatrolDto> getPatrolsByUserExtarnalUserId(UUID userExternalId) {
 
-        List<Long> clientIds = userService.getClientIdsForUser(userId);
+        List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);
         if (clientIds == null || clientIds.isEmpty()) {
             throw new IllegalArgumentException(
-                "User with ID " + userId + " is not associated with any clients."
+                "User with ID " + userExternalId + " is not associated with any clients."
             );
         }
 
         List<PatrolProjection> patrolProjections = patrolRepository
                                     .findByClientIdsPatrolProjections(clientIds);
         if(patrolProjections == null || patrolProjections.isEmpty()) {
-            log.info("No patrols found for user ID: {}", userId);
+            log.info("No patrols found for user ID: {}", userExternalId);
             return Collections.emptyList();
         }
 

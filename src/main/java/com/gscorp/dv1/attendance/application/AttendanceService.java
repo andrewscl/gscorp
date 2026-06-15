@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunch;
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
@@ -17,7 +18,7 @@ public interface AttendanceService {
 
 
     AttendancePunchDto createPunch (
-        CreateAttendancePunchRequest req, Long userId
+        CreateAttendancePunchRequest req, UUID userExternalId
     );
 
 
@@ -38,7 +39,7 @@ public interface AttendanceService {
 
 
     List<AttendancePunchDto> findByUserAndDateBetween(
-        Long userId,
+        UUID userExternalId,
         LocalDate fromDate,
         LocalDate toDate,
         String clientTz,
@@ -49,7 +50,7 @@ public interface AttendanceService {
 
 
     List<AttendancePunchPointDto> getAttendanceSeriesForUserByDates(
-        Long userId,
+        UUID userExternalId,
         LocalDate fromDate,
         LocalDate toDate,
         ZoneId zone,
@@ -60,7 +61,7 @@ public interface AttendanceService {
 
 
     List<HourlyCountDto> getAttendanceSeriesForUserByHours(
-        Long userId,
+        UUID userExternalId,
         LocalDate date,
         ZoneId zone,
         String action,
@@ -68,7 +69,7 @@ public interface AttendanceService {
         Long projectId
     );
 
-    DashboardHeaderInfo getDashboardHeader (Long userId);
+    DashboardHeaderInfo getDashboardHeader (UUID userExternalId);
 
 
 }

@@ -3,7 +3,6 @@ package com.gscorp.dv1.users.application;
 import java.time.DateTimeException;
 import java.time.Duration;
 import java.time.ZoneId;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -260,14 +259,6 @@ public class UserServiceImpl implements UserService{
         .orElse(false);
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<Long> getClientIdsForUser(Long userId) {
-        if (userId == null) return Collections.emptyList();
-        List<Long> ids = userRepo.findClientIdsByUserId(userId);
-        return ids == null ? Collections.emptyList() : ids;
-  }
-
     /**
      * Intenta resolver y validar la zona del usuario registrada en la entidad User.
      * - Retorna Optional.empty() si userId es null, si no existe user o si la zona no está definida o es inválida.
@@ -276,13 +267,13 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional(readOnly = true)
     @Cacheable(value = "userZones", key = "#userId")
-    public Optional<ZoneId> getUserZone(Long userId) {
-        if (userId == null) {
+    public Optional<ZoneId> getUserZone(UUID externalId) {
+        if (externalId == null) {
             return Optional.empty();
         }
 
         try {
-            return userRepo.findById(userId)
+            return userRepo.findByExternalId(externalId)
                     .map(User::getTimeZone)         // ajusta si tu entidad usa otro nombre
                     .map(String::trim)
                     .filter(s -> !s.isEmpty())
@@ -290,16 +281,17 @@ public class UserServiceImpl implements UserService{
                         try {
                             return Optional.of(ZoneId.of(s));
                         } catch (DateTimeException e) {
-                            log.warn("Zona inválida almacenada para user {}: '{}'", userId, s);
+                            log.warn("Zona inválida almacenada para user {}: '{}'", externalId, s);
                             return Optional.empty();
                         }
                     });
         } catch (Exception ex) {
             // no propagamos excepciones para que quien llama haga fallback; logueamos lo ocurrido
-            log.error("Error leyendo zona para user {}: {}", userId, ex.getMessage(), ex);
+            log.error("Error leyendo zona para user {}: {}", externalId, ex.getMessage(), ex);
             return Optional.empty();
         }
     }
+
 
 
     @Override

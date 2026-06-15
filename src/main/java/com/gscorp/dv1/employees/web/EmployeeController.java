@@ -87,7 +87,7 @@ public class EmployeeController {
                 .ofPattern("EEEE, dd 'de' MMMM",
                                                 new Locale("es", "ES")));
 
-            DashboardHeaderInfo dashboardHeaderInfo = attendanceService.getDashboardHeader(userViewDto.id());
+            DashboardHeaderInfo dashboardHeaderInfo = attendanceService.getDashboardHeader(externalId);
 
             model.addAttribute("employee", employee);
             model.addAttribute("currentDate", formattedDate);
@@ -115,6 +115,19 @@ public class EmployeeController {
             return "redirect:/login";
         }
 
+        if(authentication == null || !authentication.isAuthenticated()) {
+                return "redirect:/login";
+        }
+
+        Object principal = authentication.getPrincipal();
+        if(!(principal instanceof SecurityUser)) {
+                return "redirect:/login";
+        }
+
+        SecurityUser securityUser = (SecurityUser) principal;
+
+        UUID externalId = securityUser.getUser().getExternalId();
+
         // Normalizar page/size (Spring Data usa 0-based)
         int safePage = Math.max(0, page);
         int safeSize = Math.min(Math.max(5, size), 200); // límites: min 5, max 200
@@ -124,11 +137,11 @@ public class EmployeeController {
 
         Page<EmployeeTableDto> employeesPage =
                         employeeService.getEmployeeTable(
-                                userId, safeQ, active, safePage, safeSize);
+                                externalId, safeQ, active, safePage, safeSize);
 
         List<PositionDto> positions = positionService.findAllProjection();
 
-        List<ProjectDto> projects = projectService.findByUserId(userId);
+        List<ProjectDto> projects = projectService.findByUserExternalId(externalId);
 
         model.addAttribute("employeesPage", employeesPage);          // Page completo
         model.addAttribute("employees", employeesPage.getContent()); // Lista para iterar

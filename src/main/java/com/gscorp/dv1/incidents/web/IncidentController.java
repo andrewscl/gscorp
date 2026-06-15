@@ -1,6 +1,7 @@
 package com.gscorp.dv1.incidents.web;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import com.gscorp.dv1.enums.IncidentType;
 import com.gscorp.dv1.enums.Priority;
 import com.gscorp.dv1.incidents.application.IncidentService;
 import com.gscorp.dv1.incidents.web.dto.IncidentDto;
+import com.gscorp.dv1.security.SecurityUser;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.web.dto.SiteSelectDto;
 import com.gscorp.dv1.users.application.UserService;
@@ -31,9 +33,22 @@ public class IncidentController {
     private final ClientService clientService;
 
     @GetMapping("/table-view")
-    public String getIncidentsTableView(Model model, Authentication authentication) {
+    public String getIncidentsTableView(
+                            Model model, 
+                            Authentication authentication) {
+
         Long userId = userService.getUserIdFromAuthentication(authentication);
-        List<Long> clientIds = clientService.getClientIdsByUserId(userId);
+
+            Object principal = authentication.getPrincipal();
+            if(!(principal instanceof SecurityUser)) {
+                return "redirect:/login";
+            }
+
+            SecurityUser securityUser = (SecurityUser) principal;
+
+            UUID externalId = securityUser.getUser().getExternalId();
+
+        List<Long> clientIds = clientService.getClientIdsByUserExternalId(externalId);
 
         //Si no tiene clientes asociados, retornar vista vacia
         List<IncidentDto> incidents = clientIds == null || clientIds.isEmpty()
@@ -44,11 +59,25 @@ public class IncidentController {
         return "private/incidents/views/incidents-table-view";
     }
 
+
+
     @GetMapping("/create")
-    public String createIncident(Model model, Authentication authentication) {
-        Long userId = userService.getUserIdFromAuthentication(authentication);
-        List<Long> clientIds = clientService.getClientIdsByUserId(userId);
+    public String createIncident(
+                        Model model,
+                        Authentication authentication) {
+
+            Object principal = authentication.getPrincipal();
+            if(!(principal instanceof SecurityUser)) {
+                return "redirect:/login";
+            }
+
+            SecurityUser securityUser = (SecurityUser) principal;
+
+            UUID externalId = securityUser.getUser().getExternalId();
+
+        List<Long> clientIds = clientService.getClientIdsByUserExternalId(externalId);
         List<SiteSelectDto> sites = siteService.getAllSitesForClients(clientIds);
+
         model.addAttribute("sites", sites);
         model.addAttribute("incidentTypes", IncidentType.values());
         model.addAttribute("priorities", Priority.values());

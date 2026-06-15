@@ -11,8 +11,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,8 +34,8 @@ import com.gscorp.dv1.forecast.web.dto.ForecastPointDto;
 import com.gscorp.dv1.forecast.web.dto.ForecastRecordDto;
 import com.gscorp.dv1.forecast.web.dto.ForecastTableRowDto;
 import com.gscorp.dv1.projects.application.ProjectService;
+import com.gscorp.dv1.security.SecurityUser;
 import com.gscorp.dv1.sites.application.SiteService;
-import com.gscorp.dv1.users.application.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +46,6 @@ import lombok.extern.slf4j.Slf4j;
 public class ForecastServiceImpl implements ForecastService{
 
 
-    private final UserService userService;
     private final ForecastRepository forecastRepo;
     private final ClientService clientService;
     private final ProjectService projectService;
@@ -55,7 +56,7 @@ public class ForecastServiceImpl implements ForecastService{
 @Override
 @Transactional(readOnly = true)
 public List<ForecastPointDto> getForecastSeriesForUserByDates(
-                        Long userId,
+                        UUID externalId,
                         LocalDate fromDate,
                         LocalDate toDate,
                         ZoneId zone,
@@ -68,9 +69,9 @@ public List<ForecastPointDto> getForecastSeriesForUserByDates(
         return List.of();
     }
 
-    List<Long> clientIds = userService.getClientIdsForUser(userId);
+    List<Long> clientIds = clientService.getClientIdsByUserExternalId(externalId);
     if (clientIds == null || clientIds.isEmpty()) {
-        log.debug("No clientIds for user {} -> returning zero series for {}..{}", userId, fromDate, toDate);
+        log.debug("No clientIds for user {} -> returning zero series for {}..{}", externalId, fromDate, toDate);
         return buildZeroSeries(fromDate, toDate);
     }
 
@@ -79,7 +80,7 @@ public List<ForecastPointDto> getForecastSeriesForUserByDates(
     OffsetDateTime toOffsetInclusive = zoneResolver.toEndOfDayInclusive(toDate, zone);
 
     log.debug("ForecastService: userId={} clientIds={} fromOffset={} toOffsetInclusive={} zone={}",
-            userId, clientIds, fromOffset, toOffsetInclusive, zone, metric, siteId, projectId);
+            externalId, clientIds, fromOffset, toOffsetInclusive, zone, metric, siteId, projectId);
 
     List<ForecastSeriesProjection> rows =
             forecastRepo.findProjectionByClientIdsAndDateRangeIntersectAndMetric(
@@ -150,7 +151,7 @@ public List<ForecastPointDto> getForecastSeriesForUserByDates(
         }
     }
 
-    log.debug("Forecast accumulation result for user {} from {} to {}: {}", userId, fromDate, toDate, accum);
+    log.debug("Forecast accumulation result for user {} from {} to {}: {}", externalId, fromDate, toDate, accum);
 
     // Construir DTOs en el formato esperado por el frontend
     List<ForecastPointDto> out = accum.entrySet().stream()
@@ -178,9 +179,9 @@ public List<ForecastPointDto> getForecastSeriesForUserByDates(
     @Override
     @Transactional(readOnly = true)
     public List<ForecastTableRowDto> findRowsFilteredForUser(
-                            Long userId, String siteName, String metric, ZoneId zone) {
+                            UUID externalId, String siteName, String metric, ZoneId zone) {
 
-            List<Long> clientIds = userService.getClientIdsForUser(userId);
+            List<Long> clientIds = clientService.getClientIdsByUserExternalId(externalId);
             if (clientIds == null || clientIds.isEmpty()) {
                 return Collections.emptyList();
             }
@@ -210,9 +211,9 @@ public List<ForecastPointDto> getForecastSeriesForUserByDates(
 
     @Override
     @Transactional(readOnly = true)
-    public ForecastFormPayload prepareCreateForecastForm(Long userId) {
+    public ForecastFormPayload prepareCreateForecastForm(UUID externalId) {
 
-        if (userId == null) {
+        if (externalId == null) {
             // política: devolver payload vacío (el controller puede redireccionar a login)
             ForecastFormPrefill emptyPrefill = new ForecastFormPrefill(
                 null, null, null,
@@ -232,11 +233,11 @@ public List<ForecastPointDto> getForecastSeriesForUserByDates(
 
         List<ClientSelectDto> clients = Collections.emptyList();
         try {
-            clients = clientService.findClientsByUserId(userId);
+            clients = clientService.findClientsByUserExternalId(externalId);
             if(clients == null) clients = Collections.emptyList();
         } catch (Exception ex) {
             // loguear y continuar con lista vacía
-            log.error("Error al obtener clients para userId {}: {}", userId, ex.getMessage(), ex);
+            log.error("Error al obtener clients para userId {}: {}", externalId, ex.getMessage(), ex);
             clients = Collections.emptyList();
         }
 
@@ -270,7 +271,11 @@ public List<ForecastPointDto> getForecastSeriesForUserByDates(
 
 
     @Override
-    public ForecastRecordDto createForecast (ForecastCreateDto req, Long userId) {
+    @Transactional
+    public ForecastRecordDto createForecast (
+                                ForecastCreateDto req,
+                                UUID userExternalId,
+                                Authentication authentication) {
 
         // 1) Validaciones de negocio básicas (existen client/project/site, permisos, etc.)
         if (req.clientId() == null) {
@@ -287,7 +292,7 @@ public List<ForecastPointDto> getForecastSeriesForUserByDates(
         }
 
         // resolver zona usando ZoneResolver y el userId que recibe el método
-        ZoneResolutionResult zr = zoneResolver.resolveZone(userId, req.tz());
+        ZoneResolutionResult zr = zoneResolver.resolveZone(userExternalId, req.tz());
         ZoneId zone = zr.zoneId();
 
 
@@ -323,6 +328,9 @@ public List<ForecastPointDto> getForecastSeriesForUserByDates(
             }
         }
 
+        Object principal = authentication.getPrincipal();
+        SecurityUser securityUser = (SecurityUser) principal;
+        Long userId = securityUser.getUser().getId();
 
         // 3) Construir entidad Forecast
         Forecast f = new Forecast();

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -29,8 +30,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gscorp.dv1.clientaccounts.application.ClientAccountService;
 import com.gscorp.dv1.clientaccounts.web.dto.ClientAccountDto;
+import com.gscorp.dv1.clients.application.ClientService;
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
+import com.gscorp.dv1.security.SecurityUser;
 import com.gscorp.dv1.shiftrequests.application.ShiftRequestForecastHelper;
 import com.gscorp.dv1.shiftrequests.application.ShiftRequestForecastHelperHourly;
 import com.gscorp.dv1.shiftrequests.application.ShiftRequestService;
@@ -51,6 +54,7 @@ public class ShiftRequestRestController {
 
     private final ShiftRequestService shiftRequestService;
     private final ShiftRequestScheduleRepository scheduleRepo;
+    private final ClientService clientService;
     private final UserService userService;
     private final ClientAccountService clientAccountService;
     private final ZoneResolver zoneResolver;
@@ -139,24 +143,16 @@ public class ShiftRequestRestController {
             @RequestParam(required = false) Long siteId
     ){
 
-
-        String username = (authentication == null) ? "anonymous"
-                                : authentication.getName();
-        log.info("Incoming /series request user={} from={} to={} days={} tz={}",
-                                    username, from, to, days, clientTz);
-
         try{
 
             final int DEFAULT_DAYS = 7;
             final int MAX_DAYS = 90;
 
-            Long userId = userService.getUserIdFromAuthentication(authentication);
-            if (userId == null) {
-                log.warn("Usuario no autenticado (userId null) para auth={}", authentication);
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "usuario no autenticado.");
-            }
+            Object principal = authentication.getPrincipal();
+            SecurityUser securityUser = (SecurityUser) principal;
+            UUID externalId = securityUser.getUser().getExternalId();
 
-            ZoneResolutionResult zr = zoneResolver.resolveZone(userId, clientTz);
+            ZoneResolutionResult zr = zoneResolver.resolveZone(externalId, clientTz);
             ZoneId zone = zr.zoneId();
 
         // Calcular from/to (igual que visitController)
@@ -188,7 +184,7 @@ public class ShiftRequestRestController {
         }
 
         // Obtener clientIds asociados al usuario
-        List<Long> clientIds = userService.getClientIdsForUser(userId);
+        List<Long> clientIds = clientService.getClientIdsByUserExternalId(externalId);
         if (clientIds == null || clientIds.isEmpty()) {
             // No hay clientes -> devolver serie con ceros para el rango solicitado
             Map<LocalDate, Integer> emptyMap = new TreeMap<>();
@@ -251,6 +247,10 @@ public class ShiftRequestRestController {
             @RequestParam(required = false) Long siteId,
             @RequestParam(required = false) Long projectId
     ) {
+
+            Object principal = authentication.getPrincipal();
+            SecurityUser securityUser = (SecurityUser) principal;
+            UUID externalId = securityUser.getUser().getExternalId();
         try {
             if (date == null) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Missing required parameter: date");
@@ -262,11 +262,11 @@ public class ShiftRequestRestController {
             }
 
             // Resolver la zona (requested tz -> user -> system)
-            ZoneResolutionResult zr = zoneResolver.resolveZone(userId, tz);
+            ZoneResolutionResult zr = zoneResolver.resolveZone(externalId, tz);
             ZoneId zone = zr.zoneId();
 
             // Obtener clientIds asociados al usuario (igual que tu otro endpoint)
-            List<Long> clientIds = userService.getClientIdsForUser(userId);
+            List<Long> clientIds = clientService.getClientIdsByUserExternalId(externalId);
             if (clientIds == null || clientIds.isEmpty()) {
                 // devolver 24 puntos con cero
                 List<Map<String, Object>> empty = new ArrayList<>(24);

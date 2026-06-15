@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,6 @@ import com.gscorp.dv1.sites.web.dto.SiteDto;
 import com.gscorp.dv1.sites.web.dto.SiteDtoProjection;
 import com.gscorp.dv1.sites.web.dto.SiteSelectDto;
 import com.gscorp.dv1.sites.web.dto.UpdateLatLon;
-import com.gscorp.dv1.users.application.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,6 @@ public class SiteServiceImpl implements SiteService{
 
     private final SiteRepository siteRepository;
     private final ClientService clientService;
-    private final UserService userService;
 
     @Override
     @Transactional
@@ -76,9 +75,9 @@ public class SiteServiceImpl implements SiteService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<SiteDto> getAllSitesByUser(Long userId) {
+    public List<SiteDto> getAllSitesByUser(UUID userExternalId) {
 
-        List<Long> clientIds = clientService.getClientIdsByUserId(userId);
+        List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);
         if(clientIds == null || clientIds.isEmpty()) {
             return Collections.emptyList();
             }
@@ -192,6 +191,7 @@ public class SiteServiceImpl implements SiteService{
 
 
     @Override
+    @Transactional(readOnly = true)
     public List<SiteSelectDto> findSelectDtoByProjectId(Long projectId) {
         if (projectId == null) return List.of();
         return siteRepository.findSelectDtoByProjectId(projectId);
@@ -199,9 +199,10 @@ public class SiteServiceImpl implements SiteService{
 
 
     @Override
-    public List<SiteSelectDto> findByUserId(Long userId) {
+    @Transactional(readOnly = true)
+    public List<SiteSelectDto> findByUserExternalId(UUID userExternalId) {
 
-        List<Long> clientIds = clientService.getClientIdsByUserId(userId);
+        List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);
         if(clientIds == null || clientIds.isEmpty()) {
             return null;
         }
@@ -220,16 +221,17 @@ public class SiteServiceImpl implements SiteService{
 
 
     @Override
-    public SiteSelectDto findNearestSite(Long userId, double lat, double lon) {
+    @Transactional(readOnly = true)
+    public SiteSelectDto findNearestSite(UUID externalId, double lat, double lon) {
 
-        List<Long> clientIds = clientService.getClientIdsByUserId(userId);
-        log.debug("findNearestSite: userId={}, clientIds={}", userId, clientIds);
+        List<Long> clientIds = clientService.getClientIdsByUserExternalId(externalId);
+        log.debug("findNearestSite: userId={}, clientIds={}", externalId, clientIds);
         if(clientIds == null || clientIds.isEmpty()) {
             return null;
         }
 
         List<SiteSelectProjection> sites = siteRepository.findByClientIds(clientIds);
-        log.debug("findNearestSite: sites fetched={}, for userId={}", sites == null ? 0 : sites.size(), userId);
+        log.debug("findNearestSite: sites fetched={}, for userId={}", sites == null ? 0 : sites.size(), externalId);
         if(sites == null || sites.isEmpty()) {
             return null;
         }
@@ -288,12 +290,12 @@ public class SiteServiceImpl implements SiteService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<SiteDtoProjection> findSiteProjectionsByUserId(Long userId) {
+    public List<SiteDtoProjection> findSiteProjectionsByUserExternalId(UUID userExternalId) {
 
-        List<Long> clientIds = userService.getClientIdsForUser(userId);
+        List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);
         if (clientIds == null || clientIds.isEmpty()) {
             throw new IllegalArgumentException(
-                "User with ID " + userId + " is not associated with any clients."
+                "User with ID " + userExternalId + " is not associated with any clients."
             );
         }
 

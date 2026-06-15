@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.gscorp.dv1.clients.application.ClientService;
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.employees.application.EmployeeService;
@@ -41,7 +42,6 @@ import com.gscorp.dv1.sitevisits.web.dto.SiteVisitCountDto;
 import com.gscorp.dv1.sitevisits.web.dto.SiteVisitDto;
 import com.gscorp.dv1.sitevisits.web.dto.SiteVisitHourlyDto;
 import com.gscorp.dv1.sitevisits.web.dto.SiteVisitPointDto;
-import com.gscorp.dv1.users.application.UserService;
 import com.gscorp.dv1.users.infrastructure.User;
 
 import lombok.RequiredArgsConstructor;
@@ -55,8 +55,8 @@ public class SiteVisitServiceImpl implements SiteVisitService{
     private final SiteVisitRepository siteVisitRepo;
     private final EmployeeService employeeService;
     private final SiteService siteService;
-    private final UserService userService;
     private final ZoneResolver zoneResolver;
+    private final ClientService clientService;
 
     @PersistenceContext
     private EntityManager em;
@@ -68,7 +68,7 @@ public class SiteVisitServiceImpl implements SiteVisitService{
     @Transactional
     public SiteVisitDto createSiteSupervisionVisitRequest(
                                 CreateSiteSupervisionVisit req,
-                                Long userId) {
+                                UUID userExternalId) {
 
         String photoPath = null, videoPath = null;
         try {
@@ -115,7 +115,7 @@ public class SiteVisitServiceImpl implements SiteVisitService{
         }
 
         // Obtener empleado asociado al userId
-        EmployeeSelectDto employee = employeeService.findEmployeeByUserId(userId);
+        EmployeeSelectDto employee = employeeService.findEmployeeByUserExternalId(userExternalId);
         if (employee == null) {
             throw new IllegalStateException("El usuario no tiene un empleado asociado");
         }
@@ -124,7 +124,7 @@ public class SiteVisitServiceImpl implements SiteVisitService{
         Employee employeeRef = em.getReference(Employee.class, employee.id());
 
         // si quieres también establecer el User (opcional, user_id en site_visit)
-        User userRef = em.getReference(User.class, userId); // o us
+        User userRef = em.getReference(User.class, userExternalId); // o us
 
         //Buscar sitio
         var site = siteService.findById(req.getSiteId())
@@ -154,7 +154,7 @@ public class SiteVisitServiceImpl implements SiteVisitService{
             }
         } else {
             // No vino OffsetDateTime: resolver zona (requested -> user profile -> system)
-            ZoneResolutionResult zr = zoneResolver.resolveZone(userId, req.getClientTimeZone());
+            ZoneResolutionResult zr = zoneResolver.resolveZone(userExternalId, req.getClientTimeZone());
             ZoneId resolvedZone = zr.zoneId(); // espera getZone() y getSource() en ZoneResolutionResult
             visitDateTime = ZonedDateTime.now(resolvedZone).toOffsetDateTime();
             clientTimezoneToStore = resolvedZone.getId();
@@ -188,15 +188,18 @@ public class SiteVisitServiceImpl implements SiteVisitService{
 
     @Override
     public List<SiteVisitDto> findByUserAndDateBetween(
-                                Long userId, LocalDate fromDate, LocalDate toDate, String clientTz) {
+                                UUID userExternalId,
+                                LocalDate fromDate,
+                                LocalDate toDate,
+                                String clientTz) {
 
-        List<Long> clientIds = userService.getClientIdsForUser(userId);
+        List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);
         if (clientIds == null || clientIds.isEmpty()) {
-            log.debug("No clientIds for user {} -> returning zero series for {}..{}", userId, fromDate, toDate);
+            log.debug("No clientIds for user {} -> returning zero series for {}..{}", userExternalId, fromDate, toDate);
             return Collections.emptyList();
         }
 
-        ZoneResolutionResult zr = zoneResolver.resolveZone(userId, clientTz);
+        ZoneResolutionResult zr = zoneResolver.resolveZone(userExternalId, clientTz);
         ZoneId zone = zr.zoneId(); // o zone() según tu record
         // intervalo [start, end)
         OffsetDateTime start = fromDate.atStartOfDay(zone).toOffsetDateTime();
@@ -279,15 +282,15 @@ public class SiteVisitServiceImpl implements SiteVisitService{
     @Override
     @Transactional(readOnly = true)
     public List<SiteVisitHourlyDto> getVisitsSeriesForUserByDateByVisitHourlyAgregated
-                            (Long userId, LocalDate date, String tz) {
+                            (UUID userExternalId, LocalDate date, String tz) {
 
         // 1) resolver zona usando ZoneResolver (prioridad: requestedTz -> user profile -> system default)
-        ZoneResolutionResult zr = zoneResolver.resolveZone(userId, tz);
+        ZoneResolutionResult zr = zoneResolver.resolveZone(userExternalId, tz);
         ZoneId zone = zr.zoneId();
-        log.debug("Resolved zone {} (source={}) for userId={} requestedTz={}", zone, zr.source(), userId, tz);
+        log.debug("Resolved zone {} (source={}) for userId={} requestedTz={}", zone, zr.source(), userExternalId, tz);
 
         // 2) obtener clientIds asociados al usuario
-        List<Long> clientIds = userService.getClientIdsForUser(userId);
+        List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);
         if (clientIds == null || clientIds.isEmpty()) {
             // devolver 24 ceros (00..23)
             return IntStream.range(0, 24)
@@ -300,7 +303,7 @@ public class SiteVisitServiceImpl implements SiteVisitService{
         OffsetDateTime to = zoneResolver.toStartOfDay(date.plusDays(1), zone);
 
         log.debug("Fetching hourly visits aggregated for userId={} clients={} date={} zone={} from={} to={}",
-                userId, clientIds, date, zone, from, to);
+                userExternalId, clientIds, date, zone, from, to);
 
         // 4) obtener proyección (por site/hora) y sumar por hora (00..23)
         List<SiteVisitHourlyCountProjection> rows =
@@ -369,7 +372,7 @@ public class SiteVisitServiceImpl implements SiteVisitService{
     @Override
     @Transactional(readOnly = true)
     public List<SiteVisitPointDto> getVisitsSeriesForUserByDates
-                            (Long userId, LocalDate fromDate, LocalDate toDate, ZoneId zone) {
+                            (UUID userExternalId, LocalDate fromDate, LocalDate toDate, ZoneId zone) {
 
         if (fromDate == null || toDate == null || zone == null) {
             log.debug("Invalid args to getAttendanceSeriesForUserByDates: fromDate={} toDate={} zone={}"
@@ -377,7 +380,7 @@ public class SiteVisitServiceImpl implements SiteVisitService{
             return List.of();
         }
 
-        List<Long> clientIds = userService.getClientIdsForUser(userId);
+        List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);
         if (clientIds == null || clientIds.isEmpty()) {
             // devolver zeros para el rango pedido
             List<SiteVisitPointDto> empty = new ArrayList<>();
@@ -395,7 +398,7 @@ public class SiteVisitServiceImpl implements SiteVisitService{
 
         // traer DTOs (repo devuelve SiteSupervisionVisitDto)
         log.debug("Service: fetching visits userId={} clientIds={} from={} to={} zone={}"
-                                                    , userId, clientIds, fromOffset, toOffset, zone);
+                                                    , userExternalId, clientIds, fromOffset, toOffset, zone);
         List<SiteVisit> entities = siteVisitRepo
                                 .findByClientIdsAndDateBetween(clientIds, fromOffset, toOffset);
         log.debug("Service: visits fetched count={}",

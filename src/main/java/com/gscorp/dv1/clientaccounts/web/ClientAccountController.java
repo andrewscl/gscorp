@@ -2,6 +2,7 @@ package com.gscorp.dv1.clientaccounts.web;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -16,6 +17,7 @@ import com.gscorp.dv1.clientaccounts.application.ClientAccountService;
 import com.gscorp.dv1.clientaccounts.web.dto.ClientAccountDto;
 import com.gscorp.dv1.clients.application.ClientService;
 import com.gscorp.dv1.clients.web.dto.ClientDto;
+import com.gscorp.dv1.security.SecurityUser;
 import com.gscorp.dv1.users.application.UserService;
 
 import lombok.AllArgsConstructor;
@@ -72,7 +74,20 @@ public class ClientAccountController {
             return "redirect:/login";
         }
 
-        ClientAccountDto account = clientAccountService.getAccountDtoIfOwned(id, userId);
+            if(authentication == null || !authentication.isAuthenticated()) {
+                return "redirect:/login";
+            }
+
+            Object principal = authentication.getPrincipal();
+            if(!(principal instanceof SecurityUser)) {
+                return "redirect:/login";
+            }
+
+            SecurityUser securityUser = (SecurityUser) principal;
+
+            UUID externalId = securityUser.getUser().getExternalId();
+
+        ClientAccountDto account = clientAccountService.getAccountDtoIfOwned(id, externalId);
         if(account == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cuenta no encontrada o no autorizada");
         }
@@ -89,7 +104,20 @@ public class ClientAccountController {
             return "redirect:/login";
         }
 
-        ClientAccountDto clientAccount = clientAccountService.getAccountDtoIfOwned(id, userId);
+            if(authentication == null || !authentication.isAuthenticated()) {
+                return "redirect:/login";
+            }
+
+            Object principal = authentication.getPrincipal();
+            if(!(principal instanceof SecurityUser)) {
+                return "redirect:/login";
+            }
+
+            SecurityUser securityUser = (SecurityUser) principal;
+
+            UUID externalId = securityUser.getUser().getExternalId();
+
+        ClientAccountDto clientAccount = clientAccountService.getAccountDtoIfOwned(id, externalId);
         if(clientAccount == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cuenta no encontrada o no autorizada");
         }

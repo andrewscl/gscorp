@@ -10,6 +10,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.gscorp.dv1.attendance.application.AttendanceService;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchDto;
 import com.gscorp.dv1.attendance.web.dto.CreateAttendancePunchRequest;
+import com.gscorp.dv1.security.SecurityUser;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
 import com.gscorp.dv1.users.application.UserService;
@@ -17,6 +18,7 @@ import com.gscorp.dv1.users.application.UserService;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/attendance")
@@ -45,11 +47,15 @@ public class AttendanceRestController {
               return ResponseEntity.status(401).build();
       }
 
+      Object principal = authentication.getPrincipal();
+      SecurityUser securityUser = (SecurityUser) principal;
+      UUID externalId = securityUser.getUser().getExternalId();
+
       String ip = firstNonBlank(cfIp, xff, xri, "0.0.0.0");
       if (in.getIp() == null) in.setIp(ip);
       if (in.getDeviceInfo() == null) in.setDeviceInfo(ua);
 
-      AttendancePunchDto saved = attendanceService.createPunch(in, userId);
+      AttendancePunchDto saved = attendanceService.createPunch(in, externalId);
 
       URI location = ucb.path("/api/attendance/punch/{id}")
           .buildAndExpand(saved.id())

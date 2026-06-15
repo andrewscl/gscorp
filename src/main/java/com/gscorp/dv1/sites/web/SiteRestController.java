@@ -3,6 +3,7 @@ package com.gscorp.dv1.sites.web;
 import java.util.Collections;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,7 @@ import com.gscorp.dv1.clients.application.ClientService;
 import com.gscorp.dv1.clients.web.dto.ClientSelectDto;
 import com.gscorp.dv1.projects.application.ProjectService;
 import com.gscorp.dv1.projects.infrastructure.Project;
+import com.gscorp.dv1.security.SecurityUser;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.infrastructure.Site;
 import com.gscorp.dv1.sites.web.dto.CreateSiteRequest;
@@ -134,9 +136,11 @@ public class SiteRestController {
         public ResponseEntity<List<SiteDtoProjection>> getSiteProjectionsByUser(
                 Authentication authentication
         ) {
-                Long userId = userService.getUserIdFromAuthentication(authentication);
+                Object principal = authentication.getPrincipal();
+                SecurityUser securityUser = (SecurityUser) principal;
+                UUID externalId = securityUser.getUser().getExternalId();
 
-                List<ClientSelectDto> clientDtos = clientService.findClientsByUserId(userId);
+                List<ClientSelectDto> clientDtos = clientService.findClientsByUserExternalId(externalId);
 
                 List<SiteDtoProjection> siteProjections = siteService.findSiteProjectionsByClientIds(clientDtos.stream()
                         .map(ClientSelectDto::id)
@@ -158,12 +162,16 @@ public class SiteRestController {
         public List<SiteDto> getAllSitesByUser(
                                 Authentication authentication) {
 
-        Long userId = userService.getUserIdFromAuthentication(authentication);
-                if (userId == null) {
-                // no autenticado: redirigir al login o devolver error según tu política
-                return Collections.emptyList();
-        }
+                Object principal = authentication.getPrincipal();
+                SecurityUser securityUser = (SecurityUser) principal;
+                UUID externalId = securityUser.getUser().getExternalId();
 
-        return siteService.getAllSitesByUser(userId);
+                Long userId = userService.getUserIdFromAuthentication(authentication);
+                        if (userId == null) {
+                        // no autenticado: redirigir al login o devolver error según tu política
+                        return Collections.emptyList();
+                }
+
+                return siteService.getAllSitesByUser(externalId);
         }
 }

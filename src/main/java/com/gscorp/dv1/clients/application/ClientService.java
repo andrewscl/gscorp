@@ -22,7 +22,7 @@ public interface ClientService {
     Client findByIdWithUsers (Long id);
     void deleteById(Long id);
 
-    List<Long> getClientIdsByUserId(Long userId);
+    List<Long> getClientIdsByUserExternalId(UUID userExternalId);
     
     List<Long> getClientIdsForAuthentication(Authentication authentication);
         /**
@@ -40,7 +40,7 @@ public interface ClientService {
 
     List<ClientDto> findDtosByUserId(Long userId);
 
-    List<ClientSelectDto> findClientsByUserId(Long userId);
+    List<ClientSelectDto> findClientsByUserExternalId(UUID userExternalId);
 
     List<ClientSelectDto> getAllClientsSelectDto();
 
@@ -50,6 +50,6 @@ public interface ClientService {
 
     ClientWithCompanyDto getClientWithCompanyById(Long id);
 
-    ClientWithCompanyDto getClientWithCompanyByExternalId(UUID externalId);
+    ClientWithCompanyDto getClientWithCompanyByExternalId(UUID userExternalId);
 
 }

@@ -43,10 +43,14 @@ public interface EmployeeService {
 
     EmployeeSelectDto findEmployeeByUserId(Long userId);
 
+    EmployeeSelectDto findEmployeeByUserExternalId(UUID userExternalId);
+
     List<EmployeeSelectDto> getAllEmployeesSelectDto();
 
+
     Page<EmployeeTableDto> getEmployeeTable(
-                Long userId, String q, Boolean active, int page, int size);
+                UUID userExternalId, String q, Boolean active, int page, int size);
+
 
     EmployeeSelectDto findEmployeeSelectDtoById(Long id);
 

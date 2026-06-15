@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
+
 import com.gscorp.dv1.patrol.infrastructure.checkpoints.PatrolCheckpoint;
 import com.gscorp.dv1.patrolexecution.infrastructure.patrolsexecution.PatrolExecution;
 
@@ -54,7 +57,15 @@ public class CheckpointExecution {
     private BigDecimal realLongitude;
 
     @Column(length = 255)
-    private String notes; // Por si el guardia reporta algo en el punto
+    private String notes;
+
+    @CreatedBy
+    @Column(nullable = true)
+    private String createdBy;
+
+    @LastModifiedBy
+    @Column(nullable = true)
+    private String updatedBy;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patrol_execution_id", nullable = false)

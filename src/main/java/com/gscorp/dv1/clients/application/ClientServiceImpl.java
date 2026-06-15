@@ -25,8 +25,8 @@ import com.gscorp.dv1.clients.web.dto.CreateClientRequest;
 import com.gscorp.dv1.companies.infrastructure.Company;
 import com.gscorp.dv1.companies.infrastructure.CompanyRepository;
 import com.gscorp.dv1.enums.ClientStatus;
+import com.gscorp.dv1.security.SecurityUser;
 import com.gscorp.dv1.clients.web.dto.ClientDto;
-import com.gscorp.dv1.users.application.UserService;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +36,6 @@ import lombok.RequiredArgsConstructor;
 public class ClientServiceImpl implements ClientService{
 
     private final ClientRepository clientRepo;
-    private final UserService userService;
     private final CompanyRepository companyRepo;
 
     @Override
@@ -116,18 +115,24 @@ public class ClientServiceImpl implements ClientService{
     @Override
     @Transactional(readOnly = true)
     @Cacheable(value = "userClientIds", key = "#userId")
-    public List<Long> getClientIdsByUserId(Long userId) {
-        if(userId == null) return Collections.emptyList();
-        List<Long> ids = clientRepo.findClientIdsByUserId(userId);
+    public List<Long> getClientIdsByUserExternalId(UUID userExternalId) {
+        if(userExternalId == null) return Collections.emptyList();
+        List<Long> ids = clientRepo.findClientIdsByUserExternalId(userExternalId);
         return ids == null ? Collections.emptyList() : ids;
     }
 
 
     @Override
     @Transactional(readOnly = true)
-    public List<Long> getClientIdsForAuthentication(Authentication authentication) {
-        Long userId = userService.getUserIdFromAuthentication(authentication);
-        return getClientIdsByUserId(userId);
+    public List<Long> getClientIdsForAuthentication(
+            Authentication authentication
+    ) {
+
+            Object principal = authentication.getPrincipal();
+            SecurityUser securityUser = (SecurityUser) principal;
+            UUID externalId = securityUser.getUser().getExternalId();
+
+        return getClientIdsByUserExternalId(externalId);
     }
 
     @Override
@@ -148,14 +153,15 @@ public class ClientServiceImpl implements ClientService{
 
 
     @Override
+    @Transactional
     public void ensureUserHasAccess(Authentication authentication, Collection<Long> clientIds) {
         if (clientIds == null || clientIds.isEmpty()) return;
 
-        // Admins pueden ver todo
-        if (userService.isAdmin(authentication)) return;
+        Object principal = authentication.getPrincipal();
+        SecurityUser securityUser = (SecurityUser) principal;
+        UUID externalId = securityUser.getUser().getExternalId();        
 
-        Long userId = userService.getUserIdFromAuthentication(authentication);
-        List<Long> allowed = getClientIdsByUserId(userId);
+        List<Long> allowed = getClientIdsByUserExternalId(externalId);
         if (!allowed.containsAll(clientIds)) {
             throw new AccessDeniedException("Access denied to one or more clients");
         }
@@ -187,9 +193,9 @@ public class ClientServiceImpl implements ClientService{
 
 
     @Override
-    public List<ClientSelectDto> findClientsByUserId(Long userId) {
+    public List<ClientSelectDto> findClientsByUserExternalId(UUID userExternalId) {
 
-        List<ClientSelectProjection> rows = clientRepo.findClientsByUserId(userId);
+        List<ClientSelectProjection> rows = clientRepo.findClientsByUserExternalId(userExternalId);
 
         return rows
         .stream()

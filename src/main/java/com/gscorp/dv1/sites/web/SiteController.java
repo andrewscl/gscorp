@@ -1,5 +1,7 @@
 package com.gscorp.dv1.sites.web;
 
+import java.util.UUID;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gscorp.dv1.projects.application.ProjectService;
+import com.gscorp.dv1.security.SecurityUser;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.users.application.UserService;
 
@@ -36,8 +39,21 @@ public class SiteController {
                 return "redirect:/login";
         }
 
+        if(authentication == null || !authentication.isAuthenticated()) {
+                return "redirect:/login";
+        }
+
+        Object principal = authentication.getPrincipal();
+        if(!(principal instanceof SecurityUser)) {
+                return "redirect:/login";
+        }
+
+        SecurityUser securityUser = (SecurityUser) principal;
+
+        UUID externalId = securityUser.getUser().getExternalId();
+
         model.addAttribute("sites",
-                                            siteService.getAllSitesByUser(userId));
+                                            siteService.getAllSitesByUser(externalId));
         model.addAttribute("projects",
                         projectService.findAllWithClientsAndEmployees());
         return "private/sites/views/sites-list";

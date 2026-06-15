@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.UUID;
 
 import com.gscorp.dv1.sitevisits.web.dto.CreateSiteSupervisionVisit;
 import com.gscorp.dv1.sitevisits.web.dto.SiteVisitCountDto;
@@ -14,10 +15,11 @@ import com.gscorp.dv1.sitevisits.web.dto.SiteVisitPointDto;
 public interface SiteVisitService {
 
     SiteVisitDto createSiteSupervisionVisitRequest(
-                                CreateSiteSupervisionVisit req, Long userId);
+                                CreateSiteSupervisionVisit req,
+                                UUID userExternalId);
 
     List<SiteVisitDto> findByUserAndDateBetween(
-                                Long userId,
+                                UUID userExternalId,
                                 LocalDate fromDate,
                                 LocalDate toDate,
                                 String clientTz);
@@ -34,7 +36,7 @@ public interface SiteVisitService {
      * tz puede ser null para usar ZoneId.systemDefault().
      */
     List<SiteVisitHourlyDto> getVisitsSeriesForUserByDateByVisitHourlyAgregated
-            (Long userId, LocalDate date, String tz);
+            (UUID userExternalId, LocalDate date, String tz);
 
     /**
      * Cuenta visitas por clientes en la fecha indicada.
@@ -53,6 +55,6 @@ public interface SiteVisitService {
 
 
     List<SiteVisitPointDto> getVisitsSeriesForUserByDates
-                (Long userId, LocalDate fromDate, LocalDate toDate, ZoneId zone);
+                (UUID userExternalId, LocalDate fromDate, LocalDate toDate, ZoneId zone);
 
 }

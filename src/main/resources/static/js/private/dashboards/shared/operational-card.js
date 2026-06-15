@@ -1,0 +1,1 @@
+import{n as o}from"../../../navigation-handler.js";import"../../../auth.js";const n=t=>document.querySelector(t);async function e(){const t=n("#btn-control-rondas");t.disabled=!0,setTimeout(()=>o("/private/patrol-executions/execution-view",!0),1e3)}function i(){n("#btn-control-rondas")?.addEventListener("click",e)}(function(){i(),setInterval(updateClock,1e3)})();

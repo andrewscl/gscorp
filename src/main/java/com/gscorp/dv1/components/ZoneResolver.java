@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -32,28 +33,28 @@ public class ZoneResolver {
      *
      * Devuelve ZoneResolutionResult con el ZoneId ya listo para usar.
      */
-    public ZoneResolutionResult resolveZone(Long userId, String requestedZone) {
+    public ZoneResolutionResult resolveZone(UUID userExternalId, String requestedZone) {
         // 1) requested zone (si viene, intentar parsearla)
         if (requestedZone != null && !requestedZone.isBlank()) {
             try {
                 ZoneId z = ZoneId.of(requestedZone);
                 return new ZoneResolutionResult(z, ZoneResolutionResult.SOURCE_REQUESTED);
             } catch (DateTimeException ex) {
-                log.warn("Zona solicitada inválida '{}' para userId={}", requestedZone, userId);
+                log.warn("Zona solicitada inválida '{}' para userId={}", requestedZone, userExternalId);
                 // continuar al siguiente fallback
             }
         }
 
         // 2) zona del perfil de usuario (UserService devuelve Optional<ZoneId>)
-        if (userId != null) {
+        if (userExternalId != null) {
             try {
-                Optional<ZoneId> userZoneOpt = userService.getUserZone(userId);
+                Optional<ZoneId> userZoneOpt = userService.getUserZone(userExternalId);
                 if (userZoneOpt.isPresent()) {
                     return new ZoneResolutionResult(userZoneOpt.get(), ZoneResolutionResult.SOURCE_USER);
                 }
             } catch (Exception ex) {
                 // No queremos que una excepción en userService rompa la resolución; registramos y fallback
-                log.debug("No se pudo obtener zone del userService para userId={}: {}", userId, ex.getMessage());
+                log.debug("No se pudo obtener zone del userService para userId={}: {}", userExternalId, ex.getMessage());
             }
         }
 

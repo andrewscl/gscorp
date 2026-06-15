@@ -108,9 +108,9 @@ public class ProjectServiceImpl implements ProjectService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<ProjectDto> findByUserId (Long userId) {
+    public List<ProjectDto> findByUserExternalId (UUID userExternalId) {
 
-        List<Long> clientIds = clientRepository.findClientIdsByUserId(userId);
+        List<Long> clientIds = clientRepository.findClientIdsByUserExternalId(userExternalId);
         if(clientIds == null || clientIds.isEmpty()) {
             return null;
         }

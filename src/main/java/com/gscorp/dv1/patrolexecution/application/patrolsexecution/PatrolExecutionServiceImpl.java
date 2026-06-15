@@ -50,7 +50,7 @@ public class PatrolExecutionServiceImpl implements PatrolExecutionService{
     public PatrolExecutionDto createPatrolExecution(
                         CreatePatrolExecutionRequest request,
                         UUID patrolExternalId,
-                        Long userId){
+                        UUID userExternalId) {
         String filePhotoPath = "/files/patrol_files/photos/";
         String fileVideoPath = "/files/patrol_files/videos/";
 
@@ -69,8 +69,7 @@ public class PatrolExecutionServiceImpl implements PatrolExecutionService{
             throw new RuntimeException("Error al guardar el archivo", e);
         }
 
-        // Obtener empleado asociado al userId
-        EmployeeSelectDto employee = employeeService.findEmployeeByUserId(userId);
+        EmployeeSelectDto employee = employeeService.findEmployeeByUserExternalId(userExternalId);
         if (employee == null) {
             throw new IllegalStateException("El usuario no tiene un empleado asociado");
         }
@@ -102,7 +101,7 @@ public class PatrolExecutionServiceImpl implements PatrolExecutionService{
         } else {
             // No vino OffsetDateTime: resolver zona (requested -> user profile -> system)
             ZoneResolutionResult zr = zoneResolver
-                                        .resolveZone(userId, request.getClientTimeZone());
+                                        .resolveZone(userExternalId, request.getClientTimeZone());
 
             // espera getZone() y getSource() en ZoneResolutionResult
             ZoneId resolvedZone = zr.zoneId();
@@ -114,7 +113,7 @@ public class PatrolExecutionServiceImpl implements PatrolExecutionService{
         //Construir entidad
         var entity = PatrolExecution.builder()
             .patrol(patrol)
-            .userId(userId)
+            .userId(employee.userId())
             .employeeId(employeeRef.getId())
             .description(request.getDescription())
             .photoPath(photoPath)

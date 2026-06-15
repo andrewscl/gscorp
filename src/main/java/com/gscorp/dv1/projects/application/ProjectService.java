@@ -29,7 +29,7 @@ public interface ProjectService {
 
     List<ProjectSelectDto> findByClientId(Long clientId);
 
-    List<ProjectDto> findByUserId(Long userId);
+    List<ProjectDto> findByUserExternalId(UUID userExternalId);
 
     List<ProjectSelectDto>
             findProjectSelectDtosByEmployeeExternalId(UUID externalId);

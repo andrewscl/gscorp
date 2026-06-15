@@ -3,6 +3,7 @@ package com.gscorp.dv1.clientaccounts.application;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -19,8 +20,8 @@ import com.gscorp.dv1.clientaccounts.web.dto.CreateClientAccountRequest;
 import com.gscorp.dv1.clients.application.ClientService;
 import com.gscorp.dv1.clients.infrastructure.Client;
 import com.gscorp.dv1.clients.infrastructure.ClientMembershipRepository;
+import com.gscorp.dv1.security.SecurityUser;
 import com.gscorp.dv1.sites.application.SiteService;
-import com.gscorp.dv1.users.application.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,7 +29,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ClientAccountServiceImpl implements ClientAccountService {
 
-    private final UserService userService;
     private final ClientAccountRepository clientAccountRepository;
     private final ClientService clientService;
     private final SiteService siteService;
@@ -42,10 +42,10 @@ public class ClientAccountServiceImpl implements ClientAccountService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<ClientAccountDto> findAccountDtosForUser(Long userId) {
-        if (userId == null) return Collections.emptyList();
+    public List<ClientAccountDto> findAccountDtosForUser(UUID userExternalId) {
+        if (userExternalId == null) return Collections.emptyList();
 
-        List<Long> clientIds = userService.getClientIdsForUser(userId);
+        List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);
         if (clientIds == null || clientIds.isEmpty()) {
             return Collections.emptyList();
         }
@@ -56,19 +56,24 @@ public class ClientAccountServiceImpl implements ClientAccountService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ClientAccountDto> findAccountDtosForPrincipal(Authentication authentication) {
-        Long userId = userService.getUserIdFromAuthentication(authentication);
-        return findAccountDtosForUser(userId);
+    public List<ClientAccountDto> findAccountDtosForPrincipal(
+        Authentication authentication) {
+            Object principal = authentication.getPrincipal();
+            SecurityUser securityUser = (SecurityUser) principal;
+            UUID externalId = securityUser.getUser().getExternalId();
+        return findAccountDtosForUser(externalId);
     }
 
     @Override
     @Transactional
-    public ClientAccountDto createClientAccount(CreateClientAccountRequest req, Long userId) {
-        if (userId == null) {
+    public ClientAccountDto createClientAccount(
+                                CreateClientAccountRequest req,
+                                UUID userExternalId) {
+        if (userExternalId == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
         }
 
-        List<Long> allowedClientIds = userService.getClientIdsForUser(userId);
+        List<Long> allowedClientIds = clientService.getClientIdsByUserExternalId(userExternalId);
         if (allowedClientIds == null || !allowedClientIds.contains(req.clientId())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No autorizado para usar ese cliente");
         }
@@ -103,19 +108,23 @@ public class ClientAccountServiceImpl implements ClientAccountService {
     // implementación: resuelve userId y delega
     @Override
     @Transactional
-    public ClientAccountDto createClientAccountForPrincipal(CreateClientAccountRequest req, Authentication authentication) {
-        Long userId = userService.getUserIdFromAuthentication(authentication);
-        return createClientAccount(req, userId);
+    public ClientAccountDto createClientAccountForPrincipal(
+                                CreateClientAccountRequest req,
+                                Authentication authentication) {
+                        Object principal = authentication.getPrincipal();
+                        SecurityUser securityUser = (SecurityUser) principal;
+                        UUID externalId = securityUser.getUser().getExternalId();
+        return createClientAccount(req, externalId);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public ClientAccountDto getAccountDtoIfOwned(Long accountId, Long userId) {
-        if (userId == null) {
+    public ClientAccountDto getAccountDtoIfOwned(Long accountId, UUID userExternalId) {
+        if (userExternalId == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
         }
 
-        List<Long> allowedClientIds = userService.getClientIdsForUser(userId);
+        List<Long> allowedClientIds = clientService.getClientIdsByUserExternalId(userExternalId);
         if (allowedClientIds == null || allowedClientIds.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No autorizado para ver esta cuenta");
         }

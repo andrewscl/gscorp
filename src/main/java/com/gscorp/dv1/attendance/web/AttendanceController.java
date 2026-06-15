@@ -3,6 +3,7 @@ package com.gscorp.dv1.attendance.web;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -18,6 +19,7 @@ import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchDto;
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
+import com.gscorp.dv1.security.SecurityUser;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
 import com.gscorp.dv1.users.application.UserService;
@@ -49,12 +51,20 @@ public class AttendanceController {
             Model model,
             Authentication authentication){
 
-        Long userId = userService.getUserIdFromAuthentication(authentication);
-        if (userId == null) {
-            return "redirect:/login";
-        }
+            if(authentication == null || !authentication.isAuthenticated()) {
+                return "redirect:/login";
+            }
 
-        List<SiteDto> sites = siteService.getAllSitesByUser(userId);
+            Object principal = authentication.getPrincipal();
+            if(!(principal instanceof SecurityUser)) {
+                return "redirect:/login";
+            }
+
+            SecurityUser securityUser = (SecurityUser) principal;
+
+            UUID externalId = securityUser.getUser().getExternalId();
+
+        List<SiteDto> sites = siteService.getAllSitesByUser(externalId);
 
         model.addAttribute("sites", sites);
         return "private/attendance/views/attendance-view";
@@ -79,8 +89,21 @@ public class AttendanceController {
             return "redirect:/login";
         }
 
+        if(authentication == null || !authentication.isAuthenticated()) {
+            return "redirect:/login";
+        }
+
+        Object principal = authentication.getPrincipal();
+        if(!(principal instanceof SecurityUser)) {
+            return "redirect:/login";
+        }
+
+        SecurityUser securityUser = (SecurityUser) principal;
+
+        UUID externalId = securityUser.getUser().getExternalId();
+
         // Resolve zone
-        ZoneResolutionResult zr = zoneResolver.resolveZone(userId, clientTz);
+        ZoneResolutionResult zr = zoneResolver.resolveZone(externalId, clientTz);
         ZoneId zone = zr.zoneId();
 
         // Defaults: si no vienen parámetros, mostrar últimos 7 días (incluye hoy)
@@ -104,12 +127,12 @@ public class AttendanceController {
 
         List<AttendancePunchDto> punchs = attendanceService
                                         .findByUserAndDateBetween(
-                                            userId, from, to, resolvedZoneId, siteId, projectId, action);
+                                            externalId, from, to, resolvedZoneId, siteId, projectId, action);
 
         // cantidad de registros encontrados
         int punchsCount = punchs != null ? punchs.size() : 0;
         model.addAttribute("punchsCount", punchsCount);
-        model.addAttribute("sites", siteService.getAllSitesByUser(userId));
+        model.addAttribute("sites", siteService.getAllSitesByUser(externalId));
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
         model.addAttribute("punchs", punchs);
         model.addAttribute("fromDate", from);
@@ -135,8 +158,22 @@ public class AttendanceController {
         if (userId == null) {
             return "redirect:/login";
         }
+
+        if(authentication == null || !authentication.isAuthenticated()) {
+            return "redirect:/login";
+        }
+
+        Object principal = authentication.getPrincipal();
+        if(!(principal instanceof SecurityUser)) {
+            return "redirect:/login";
+        }
+
+        SecurityUser securityUser = (SecurityUser) principal;
+
+        UUID externalId = securityUser.getUser().getExternalId();
+
         // Resolve zone
-        ZoneResolutionResult zr = zoneResolver.resolveZone(userId, clientTz);
+        ZoneResolutionResult zr = zoneResolver.resolveZone(externalId, clientTz);
         ZoneId zone = zr.zoneId();
         // Defaults: si no vienen parámetros, mostrar últimos 7 días (incluye hoy)
         LocalDate today = LocalDate.now(zone);
@@ -156,7 +193,7 @@ public class AttendanceController {
         String resolvedZoneId = zone.getId();
         List<AttendancePunchDto> punchs =
             attendanceService.findByUserAndDateBetween(
-                userId, from, to, resolvedZoneId, siteId, projectId, action);
+                externalId, from, to, resolvedZoneId, siteId, projectId, action);
         model.addAttribute("punchs", punchs);
         model.addAttribute("attendanceCount", punchs != null ? punchs.size() : 0);
         model.addAttribute("fromDate", from);

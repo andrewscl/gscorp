@@ -10,7 +10,7 @@ public interface PatrolExecutionService {
     PatrolExecutionDto createPatrolExecution (
                 CreatePatrolExecutionRequest request,
                 UUID patrolExternalId,
-                Long userId
+                UUID userExternalId
     );
 
 }

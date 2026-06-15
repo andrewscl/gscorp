@@ -4,21 +4,71 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.gscorp.dv1.attendance.infrastructure.projections.AttendancePunchShortProjection;
+
 @Repository
 public interface AttendancePunchRepo extends JpaRepository <AttendancePunch, Long>{
 
     Optional<AttendancePunch> findFirstByUserIdOrderByTsDesc(Long userId);
 
-    
-    List<AttendancePunch> findByUserIdAndTsBetweenOrderByTsAsc(Long userId, OffsetDateTime from, OffsetDateTime to);
-    // Para colaborador (por usuario + fecha):
-    List<AttendancePunch> findByUserIdAndTsBetweenOrderByTsDesc(Long userId, OffsetDateTime from, OffsetDateTime to);
+    Optional<AttendancePunchShortProjection> findFirstByUserExternalIdOrderByTsDesc(UUID userExternalId);
+
+
+    List<AttendancePunch> findByUserIdAndTsBetweenOrderByTsAsc(
+                                    Long userId,
+                                    OffsetDateTime from,
+                                    OffsetDateTime to);
+
+        // Para colaborador (por usuario + fecha):
+    List<AttendancePunch> findByUserIdAndTsBetweenOrderByTsDesc(
+                                    Long userId,
+                                    OffsetDateTime from,
+                                    OffsetDateTime to);
+
+    @Query("""
+        SELECT 
+            p.id AS id,
+            p.userId AS userId,
+            p.siteId AS siteId,
+            s.name AS siteName,
+            p.ts AS ts,
+            p.lat AS lat,
+            p.lon AS lon,
+            p.accuracyM AS accuracyM,
+            p.action AS action,
+            p.locationOk AS locationOk,
+            p.distanceM AS distanceM,
+            p.deviceInfo AS deviceInfo,
+            p.ip AS ip,
+            p.employeeId AS employeeId,
+            e.name AS employeeName,
+            e.fatherSurname AS employeeFatherSurname,
+            p.clientTimezone AS clientTimezone,
+            p.timezoneSource AS timezoneSource,
+            p.createdAt AS createdAt,
+            p.updatedAt AS updatedAt
+        FROM AttendancePunch p
+        LEFT JOIN p.site s
+        LEFT JOIN p.employee e
+        JOIN p.user u
+        WHERE u.externalId = :userExternalId
+        AND p.ts BETWEEN :from AND :to
+        ORDER BY p.ts DESC
+        """)
+    List<AttendancePunchProjection> findByUserExternalIdAndDatesOrderByTsDesc(
+        @Param("userExternalId") UUID userExternalId, 
+        @Param("from") OffsetDateTime from, 
+        @Param("to") OffsetDateTime to
+    );
+
+
     // Alternativa admin (global por fecha):
     List<AttendancePunch> findByTsBetweenOrderByTsDesc(OffsetDateTime from, OffsetDateTime to);
     

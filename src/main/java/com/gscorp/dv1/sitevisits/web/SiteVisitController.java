@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
+import com.gscorp.dv1.security.SecurityUser;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sitevisits.application.SiteVisitService;
 import com.gscorp.dv1.sitevisits.web.dto.SiteVisitDto;
@@ -51,8 +53,21 @@ public class SiteVisitController {
             return "redirect:/login";
         }
 
+            if(authentication == null || !authentication.isAuthenticated()) {
+                return "redirect:/login";
+            }
+
+            Object principal = authentication.getPrincipal();
+            if(!(principal instanceof SecurityUser)) {
+                return "redirect:/login";
+            }
+
+            SecurityUser securityUser = (SecurityUser) principal;
+
+            UUID externalId = securityUser.getUser().getExternalId();
+
         // Resolve zone (requested clientTz takes precedence if valid; ZoneResolver handles fallbacks)
-        ZoneResolutionResult zr = zoneResolver.resolveZone(userId, clientTz);
+        ZoneResolutionResult zr = zoneResolver.resolveZone(externalId, clientTz);
         ZoneId zone = zr.zoneId();
 
         // Defaults: si no vienen parámetros, mostrar últimos 7 días (incluye hoy)
@@ -75,7 +90,7 @@ public class SiteVisitController {
         String resolvedZoneId = zone.getId();
         List<SiteVisitDto> visits = siteSupervisionVisitService
                                         .findByUserAndDateBetween(
-                                            userId,
+                                            externalId,
                                             from,
                                             to,
                                             resolvedZoneId);
@@ -131,7 +146,20 @@ public class SiteVisitController {
             return "redirect:/login";
         }
 
-        ZoneResolutionResult zr = zoneResolver.resolveZone(userId, clientTz);
+            if(authentication == null || !authentication.isAuthenticated()) {
+                return "redirect:/login";
+            }
+
+            Object principal = authentication.getPrincipal();
+            if(!(principal instanceof SecurityUser)) {
+                return "redirect:/login";
+            }
+
+            SecurityUser securityUser = (SecurityUser) principal;
+
+            UUID externalId = securityUser.getUser().getExternalId();
+
+        ZoneResolutionResult zr = zoneResolver.resolveZone(externalId, clientTz);
         ZoneId zone = zr.zoneId();
 
         // normalización
@@ -147,7 +175,7 @@ public class SiteVisitController {
         }
 
         List<SiteVisitDto> visits = siteSupervisionVisitService.
-                                            findByUserAndDateBetween(userId, from, to, zone.getId());
+                                            findByUserAndDateBetween(externalId, from, to, zone.getId());
         model.addAttribute("visits", visits);
         model.addAttribute("visitsCount", visits != null ? visits.size() : 0);
 
