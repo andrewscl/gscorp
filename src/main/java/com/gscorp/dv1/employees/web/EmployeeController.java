@@ -168,6 +168,7 @@ public class EmployeeController {
     @GetMapping("/create")
     public String getCreateEmployeeView (Model model) {
 
+        model.addAttribute("employeeTabs", employeeTabsService.getCreateTabs());
         model.addAttribute("genders", Gender.values());
         model.addAttribute("nationalities", nationalityService.findAll());
         model.addAttribute("maritalStatuses", MaritalStatus.values());

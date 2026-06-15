@@ -8,36 +8,36 @@
   <form id="createEmployeeForm" class="createEmployee-body" enctype="multipart/form-data">
     <!-- Datos básicos -->
     <div class="form-group">
-      <label for="employeeName">Nombre</label>
+      <label>Nombre</label>
       <input type="text" id="employeeName" name="name" placeholder="Nombre" required />
     </div>
     <div class="form-group">
-      <label for="employeeFatherSurname">Apellido paterno</label>
+      <label>Apellido paterno</label>
       <input type="text" id="employeeFatherSurname" name="fatherSurname" placeholder="Apellido paterno" />
     </div>
     <div class="form-group">
-      <label for="employeeMotherSurname">Apellido materno</label>
+      <label>Apellido materno</label>
       <input type="text" id="employeeMotherSurname" name="motherSurname" placeholder="Apellido materno" />
     </div>
     <div class="form-group">
-      <label for="employeeRut">RUT</label>
+      <label>RUT</label>
       <input type="text" id="employeeRut" name="rut" placeholder="RUT" />
     </div>
     <div class="form-group">
-      <label for="employeeMail">Email</label>
+      <label>Email</label>
       <input type="email" id="employeeMail" name="mail" placeholder="Email" />
     </div>
     <div class="form-group">
-      <label for="employeePhone">Teléfono</label>
+      <label>Teléfono</label>
       <input type="text" id="employeePhone" name="phone" placeholder="Teléfono" />
     </div>
     <div class="form-group">
-      <label for="employeeSecondaryPhone">Teléfono secundario</label>
+      <label>Teléfono secundario</label>
       <input type="text" id="employeeSecondaryPhone" name="secondaryPhone" placeholder="Teléfono secundario" />
     </div>
 
     <div class="form-group">
-      <label for="employeeGender">Género</label>
+      <label>Género</label>
       <select id="employeeGender" name="gender" required>
         <option value="">Seleccione género</option>
         <option th:each="g : ${genders}"
@@ -47,7 +47,7 @@
     </div>
 
     <div class="form-group">
-      <label for="employeeNationality">Nacionalidad</label>
+      <label>Nacionalidad</label>
       <select id="employeeNationality" name="nationalityId" required>
         <option value="">Seleccione nacionalidad</option>
         <option th:each="n : ${nationalities}" th:value="${n.id}" th:text="${n.name}"></option>
@@ -55,7 +55,7 @@
     </div>
 
     <div class="form-group">
-      <label for="employeeMaritalStatus">Estado civil</label>
+      <label>Estado civil</label>
       <select id="employeeMaritalStatus" name="maritalStatus" required>
         <option value="">Seleccione estado civil</option>
         <option th:each="ms : ${maritalStatuses}"
@@ -65,7 +65,7 @@
     </div>
 
     <div class="form-group">
-      <label for="employeeStudyLevel">Nivel de estudios</label>
+      <label>Nivel de estudios</label>
       <select id="employeeStudyLevel" name="studyLevel" required>
         <option value="">Seleccione nivel</option>
         <option th:each="sl : ${studyLevels}"
@@ -75,14 +75,14 @@
     </div>
 
     <div class="form-group">
-      <label for="employeeProfessions">Profesión(es)</label>
+      <label>Profesión(es)</label>
       <select id="employeeProfessions" name="professionIds" multiple required>
         <option th:each="prof : ${professions}" th:value="${prof.id}" th:text="${prof.name}"></option>
       </select>
     </div>
 
     <div class="form-group">
-      <label for="employeePrevitionalSystem">Sistema Previsional</label>
+      <label>Sistema Previsional</label>
       <select id="employeePrevitionalSystem" name="previtionalSystem" required>
         <option value="">Seleccione sistema</option>
         <option th:each="ps : ${previtionalSystems}"
@@ -92,7 +92,7 @@
     </div>
 
     <div class="form-group">
-      <label for="employeePensionEntity">Entidad previsional</label>
+      <label>Entidad previsional</label>
       <select id="employeePensionEntity" name="pensionEntity" required>
         <option value="">Seleccione entidad</option>
         <option th:each="pe : ${pensionEntities}"
@@ -102,7 +102,7 @@
     </div>
 
     <div class="form-group">
-      <label for="employeeHealthSystem">Sistema de Salud</label>
+      <label>Sistema de Salud</label>
       <select id="employeeHealthSystem" name="healthSystem" required>
         <option value="">Seleccione sistema</option>
         <option th:each="hs : ${healthSystems}"
@@ -112,7 +112,7 @@
     </div>
 
     <div class="form-group">
-      <label for="employeeHealthEntity">Entidad de salud</label>
+      <label>Entidad de salud</label>
       <select id="employeeHealthEntity" name="healthEntity" required>
         <option value="">Seleccione entidad</option>
         <option th:each="he : ${healthEntities}"
@@ -122,7 +122,7 @@
     </div>
 
     <div class="form-group">
-      <label for="employeePaymentMethod">Forma de pago</label>
+      <label>Forma de pago</label>
       <select id="employeePaymentMethod" name="paymentMethod" required>
         <option value="">Seleccione método</option>
         <option th:each="pm : ${paymentMethods}"
@@ -132,7 +132,7 @@
     </div>
 
     <div class="form-group">
-      <label for="employeeBank">Banco</label>
+      <label>Banco</label>
       <select id="employeeBank" name="bankId" required>
         <option value="">Seleccione banco</option>
         <option th:each="b : ${banks}" th:value="${b.id}" th:text="${b.name}"></option>
@@ -140,7 +140,7 @@
     </div>
 
     <div class="form-group">
-      <label for="employeeBankAccountType">Tipo cuenta</label>
+      <label>Tipo cuenta</label>
       <select id="employeeBankAccountType" name="bankAccountType" required>
         <option value="">Seleccione tipo</option>
         <option th:each="bat : ${bankAccountTypes}"
@@ -150,12 +150,12 @@
     </div>
 
     <div class="form-group">
-      <label for="employeeBankAccountNumber">N° cuenta</label>
+      <label>N° cuenta</label>
       <input type="text" id="employeeBankAccountNumber" name="bankAccountNumber" placeholder="N° cuenta" />
     </div>
 
     <div class="form-group">
-      <label for="employeeContractType">Tipo de contrato</label>
+      <label>Tipo de contrato</label>
       <select id="employeeContractType" name="contractType" required>
         <option value="">Seleccione tipo</option>
         <option th:each="ct : ${contractTypes}"
@@ -165,7 +165,7 @@
     </div>
 
     <div class="form-group">
-      <label for="employeeWorkSchedule">Horario</label>
+      <label>Horario</label>
       <select id="employeeWorkSchedule" name="workSchedule" required>
         <option value="">Seleccione horario</option>
         <option th:each="ws : ${workSchedules}"
@@ -175,7 +175,7 @@
     </div>
 
     <div class="form-group">
-      <label for="employeeShiftSystem">Sistema de turnos</label>
+      <label>Sistema de turnos</label>
       <select id="employeeShiftSystem" name="shiftSystem" required>
         <option value="">Seleccione sistema</option>
         <option th:each="ss : ${shiftSystems}"
@@ -185,7 +185,7 @@
     </div>
 
     <div class="form-group">
-      <label for="employeeShiftPattern">Patrón de turno</label>
+      <label>Patrón de turno</label>
       <select id="employeeShiftPattern" name="shiftPatternId" required>
         <option value="">Seleccione patrón</option>
         <option th:each="sp : ${shiftPatterns}" th:value="${sp.id}" th:text="${sp.name} + ' (' + sp.workDays + 'x' + sp.restDays + ')'" />
@@ -193,7 +193,7 @@
     </div>
 
     <div class="form-group">
-      <label for="employeePosition">Cargo</label>
+      <label>Cargo</label>
       <select id="employeePosition" name="positionId" required>
         <option value="">Seleccione cargo</option>
         <option th:each="p : ${positions}" th:value="${p.id}" th:text="${p.name}"></option>
@@ -202,29 +202,29 @@
 
     <!-- Dirección -->
     <div class="form-group">
-      <label for="employeeAddress">Dirección</label>
+      <label>Dirección</label>
       <input type="text" id="employeeAddress" name="address" placeholder="Dirección" />
     </div>
 
     <!-- Fechas -->
     <div class="form-group">
-      <label for="employeeHireDate">Fecha de contratación</label>
+      <label>Fecha de contratación</label>
       <input type="date" id="employeeHireDate" name="hireDate" />
     </div>
     <div class="form-group">
-      <label for="employeeBirthDate">Fecha de nacimiento</label>
+      <label>Fecha de nacimiento</label>
       <input type="date" id="employeeBirthDate" name="birthDate" />
     </div>
 
     <!-- Foto -->
     <div class="form-group">
-      <label for="employeePhoto">Fotografía</label>
+      <label>Fotografía</label>
       <input type="file" id="employeePhoto" name="photo" accept="image/*" />
     </div>
 
     <!-- Selección de proyectos asociados -->
     <div class="form-group">
-      <label for="employeeProjects">Proyectos asociados</label>
+      <label>Proyectos asociados</label>
       <select id="employeeProjects" name="projectIds" multiple>
         <option th:each="p : ${projects}" th:value="${p.id}" th:text="${p.name}">
       </select>
