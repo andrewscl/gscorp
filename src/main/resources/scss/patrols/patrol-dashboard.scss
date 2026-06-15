@@ -58,6 +58,7 @@
 
   .patrol-dashboard-actions{
     display: flex;
+    flex-direction: column;
     justify-content: center;
     gap: 1rem;
     padding: 15px;
@@ -65,15 +66,14 @@
     border-top: 1px solid $border-color;
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
-    @include montserrat-font($size: 1.5rem, $weight: 700);
     &__primary-btn {
         @include btn-primary-variant (
                     $bg-color: $btn-primary-bg,
                     $color: $white,
                     $padding: 1.25rem 1.5rem,
                     $border-radius: 0.5rem);
-        flex: 1;
-        min-width: 0;
+        @include montserrat-font($size: 1.2rem, $weight: 700);
+        width: 100%;
     }
     &__secondary-btn {
         @include btn-primary-variant (
@@ -81,8 +81,8 @@
                     $color: $white,
                     $padding: 1.25rem 1.5rem,
                     $border-radius: 0.5rem);
-        flex: 1;
-        min-width: 0;
+        @include montserrat-font($size: 1.2rem, $weight: 700);
+        width: 100%;
     }
   }
 

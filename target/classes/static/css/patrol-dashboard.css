@@ -52,6 +52,7 @@
 }
 .patrol-dashboard-card .patrol-dashboard-actions {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   gap: 1rem;
   padding: 15px;
@@ -59,10 +60,6 @@
   border-top: 1px solid #e2e8f0;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
-  font-family: "Montserrat", sans-serif;
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
 }
 .patrol-dashboard-card .patrol-dashboard-actions__primary-btn {
   display: inline-flex;
@@ -86,8 +83,11 @@
   transform: translateY(0);
 }
 .patrol-dashboard-card .patrol-dashboard-actions__primary-btn {
-  flex: 1;
-  min-width: 0;
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  width: 100%;
 }
 .patrol-dashboard-card .patrol-dashboard-actions__secondary-btn {
   display: inline-flex;
@@ -111,8 +111,11 @@
   transform: translateY(0);
 }
 .patrol-dashboard-card .patrol-dashboard-actions__secondary-btn {
-  flex: 1;
-  min-width: 0;
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  width: 100%;
 }
 .patrol-dashboard-card .alert-container {
   display: none;
