@@ -199,7 +199,7 @@ function initDynamicHeader() {
 }
 
 
-function bindEditEmployee() {
+function bindCreateEmployee() {
     const submitBtn = qs('.btn-primary');
     if (submitBtn) {
         submitBtn.addEventListener('click', onSubmitCreate);
@@ -220,8 +220,8 @@ function bindEditEmployee() {
 }
 
 /* --- init --- */
-(function init() {
+(async function init() {
   initTabPanels();
-  bindCreateEmployeeForm();
+  bindCreateEmployee();
   initDynamicHeader();
 })();
