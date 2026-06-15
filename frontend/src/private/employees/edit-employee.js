@@ -1,6 +1,7 @@
 import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
-import { initTabPanels} from '../../shared//tabs-handler.js'
+import { initTabPanels } from '../../shared/tabs-handler.js'
+import { displayAlert } from '../../shared/display-alert.js' 
 
 console.log('edit-employee.js cargado');
 
