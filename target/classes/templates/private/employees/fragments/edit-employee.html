@@ -1,5 +1,8 @@
 <div class="edit-employee">
 
+    <input type="hidden" id="employeeExternalId" th:value="${employee.externalId}">
+    <input type="hidden" id="employeeId" th:value="${employee.id}">
+
     <div class="edit-employee-header">
         <div class="edit-header-foto" id="employeePhoto">
             <img th:src="${employee.photoUrl != null ? employee.photoUrl : '/img/default-avatar.png'}" 

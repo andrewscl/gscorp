@@ -23,6 +23,10 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
     
     @EntityGraph(attributePaths = {"projects", "user"})
     Optional<Employee> findById(Long id);
+
+    @EntityGraph(attributePaths = {"projects", "user"})
+    Optional<Employee> findByExternalId(UUID externalId);
+
     Optional<Employee> findByUserUsername(String username);
 
     @Query("SELECT DISTINCT e FROM Employee e LEFT JOIN FETCH e.projects")

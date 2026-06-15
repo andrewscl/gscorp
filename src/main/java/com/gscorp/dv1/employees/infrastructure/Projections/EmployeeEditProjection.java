@@ -1,6 +1,7 @@
 package com.gscorp.dv1.employees.infrastructure.Projections;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import com.gscorp.dv1.enums.BankAccountType;
 import com.gscorp.dv1.enums.ContractType;
@@ -19,6 +20,7 @@ import com.gscorp.dv1.enums.WorkSchedule;
 public interface EmployeeEditProjection {
 
     Long getId();
+    UUID getExternalId();
     String getName();
     String getFatherSurname();
     String getMotherSurname();

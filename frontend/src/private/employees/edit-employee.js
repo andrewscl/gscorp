@@ -5,13 +5,17 @@ import { initTabPanels} from '../../shared//tabs-handler.js'
 console.log('edit-employee.js cargado');
 
 const qs  = (s) => document.querySelector(s);
+const alertSuccess = qs('.alert-success');
+const alertError = qs('.alert-error');
+const alertCancel = qs('.alert-warning');
+
 
 /* --- Editar empleado --- */
 async function onSubmitEdit(e) {
   e.preventDefault();
 
   const id                  = qs('#employeeId')?.value?.trim();
-  
+  const externalId          = qs('#employeeExternalId')?.value?.trim();
   const name                = qs('#employeeName')?.value?.trim();
   const fatherSurname       = qs('#employeeFatherSurname')?.value?.trim() || null;
   const motherSurname       = qs('#employeeMotherSurname')?.value?.trim() || null;
@@ -104,7 +108,7 @@ async function onSubmitEdit(e) {
     projectIds.forEach(id => formData.append('projectIds', id));
 
     // Ajusta el endpoint si en tu backend usas otro
-    const res = await fetchWithAuth(`/api/employees/update/${id}`, {
+    const res = await fetchWithAuth(`/api/employees/update/${externalId}`, {
       method: 'PATCH',
       body: formData
     });
@@ -114,6 +118,7 @@ async function onSubmitEdit(e) {
       throw new Error(msg || 'No se pudo actualizar el empleado');
     }
 
+    displayAlert(alertSuccess, 'Empleado actualizado correctamente', 2500);
     setTimeout(() => {
         navigateTo('/private/employees/table-view');
     }, 600);
@@ -123,7 +128,8 @@ async function onSubmitEdit(e) {
 }
 
 const onCancelEdit = () => {
-    setTimeout(() => navigateTo('/private/employees/table-view', true), 1000);
+    displayAlert(alertCancel, 'La edición del empleado ha sido cancelada.', 2000);
+    setTimeout(() => navigateTo('/private/employees/table-view', true), 2000);
 };
 
 

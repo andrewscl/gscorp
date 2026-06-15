@@ -1,6 +1,7 @@
 package com.gscorp.dv1.employees.web.dto;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeEditProjection;
 import com.gscorp.dv1.enums.BankAccountType;
@@ -20,6 +21,7 @@ import com.gscorp.dv1.enums.WorkSchedule;
 public record EmployeeEditDto (
 
     Long id,
+    UUID externalId,
     String name,
     String fatherSurname,
     String motherSurname,
@@ -57,6 +59,7 @@ public record EmployeeEditDto (
     public static EmployeeEditDto fromProjection(EmployeeEditProjection p) {
         return new EmployeeEditDto(
             p.getId(),
+            p.getExternalId(),
             p.getName(),
             p.getFatherSurname(),
             p.getMotherSurname(),

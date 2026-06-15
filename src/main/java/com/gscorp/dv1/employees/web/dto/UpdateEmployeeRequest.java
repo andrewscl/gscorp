@@ -21,7 +21,6 @@ import com.gscorp.dv1.enums.WorkSchedule;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Pattern;
@@ -33,9 +32,6 @@ import lombok.Setter;
 @RequiredArgsConstructor
 @Getter @Setter
 public class UpdateEmployeeRequest {
-
-        @NotNull(message = "El id es obligatorio")
-        private Long id;
 
         @NotBlank(message = "El nombre es obligatorio")
         private String name;

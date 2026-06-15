@@ -33,7 +33,7 @@ public interface EmployeeService {
 
     Employee createEmployeeFromRequest(CreateEmployeeRequest req);
 
-    Optional<EmployeeViewDto> updateEmployee(Long id, UpdateEmployeeRequest req);
+    Optional<EmployeeViewDto> updateEmployee(UUID externalId, UpdateEmployeeRequest req);
 
     List<Employee> findAllWithProjects();
 

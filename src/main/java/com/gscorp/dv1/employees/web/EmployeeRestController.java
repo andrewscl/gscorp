@@ -3,6 +3,7 @@ package com.gscorp.dv1.employees.web;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -53,13 +54,13 @@ public class EmployeeRestController {
 
 
 
-    @PatchMapping(path = "/update/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PatchMapping(path = "/update/{externalId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> patchEmployee(
-            @PathVariable("id") Long id,
+            @PathVariable("externalId") UUID externalId,
             @Valid @ModelAttribute UpdateEmployeeRequest updateEmployeeRequest) {
 
         // Validaciones iniciales
-        if (id == null) {
+        if (externalId == null) {
             return ResponseEntity.badRequest().body(error("employeeId requerido"));
         }
 
@@ -71,7 +72,7 @@ public class EmployeeRestController {
         try {
             // Actualizar empleado en la base de datos
             Optional<EmployeeViewDto> updated = employeeService
-                                        .updateEmployee(id, updateEmployeeRequest);
+                                        .updateEmployee(externalId, updateEmployeeRequest);
 
             if (updated.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error("Empleado no encontrado"));
@@ -80,10 +81,10 @@ public class EmployeeRestController {
             return ResponseEntity.ok(updated.get());
 
         } catch (IllegalArgumentException ex) {
-            log.debug("Bad request updating employee {}: {}", id, ex.getMessage());
+            log.debug("Bad request updating employee {}: {}", externalId, ex.getMessage());
             return ResponseEntity.badRequest().body(error(ex.getMessage()));
         } catch (Exception ex) {
-            log.error("Error actualizando empleado " + id, ex);
+            log.error("Error actualizando empleado " + externalId, ex);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(error("Error interno actualizando empleado"));
         }

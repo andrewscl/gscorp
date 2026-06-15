@@ -320,15 +320,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @Transactional
-    public Optional<EmployeeViewDto> updateEmployee(Long id, UpdateEmployeeRequest req) {
+    public Optional<EmployeeViewDto> updateEmployee(
+                                        UUID externalId, UpdateEmployeeRequest req) {
         
-        if (id == null) {
+        if (externalId == null) {
             throw new IllegalArgumentException("El ID del empleado es requerido para la actualización.");
         }
 
         // Cargar la entidad existente
-        Employee entity = employeeRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("No se encontró el empleado con ID: " + id));
+        Employee entity = employeeRepository.findByExternalId(externalId)
+            .orElseThrow(
+                () -> new
+                    EntityNotFoundException("No se encontró el empleado con ID: " + externalId));
 
         // Inicializar relaciones perezosas (lazy)
         Hibernate.initialize(entity.getNationality());
