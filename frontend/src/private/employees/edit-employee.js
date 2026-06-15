@@ -151,11 +151,5 @@ function bindEditEmployee() {
 
 (async function init() {
     initTabPanels();
-    bindViewEmployee();
-})();
-
-
-(function init() {
-  bindEditEmployee();
-  setHeaderHeight();
+    bindEditEmployee();
 })();
