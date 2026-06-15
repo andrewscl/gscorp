@@ -48,7 +48,7 @@ async function onSubmitEdit(e) {
   const workSchedule        = qs('#employeeWorkSchedule')?.value?.trim() || null;
   const shiftSystem         = qs('#employeeShiftSystem')?.value?.trim() || null;
   const shiftPatternId      = qs('#employeeShiftPattern')?.value?.trim() || null;
-  const positionId          = qs('#employeePosition')?.value?.trim() || null;
+  const positionId          = qs('#employeePositionId')?.value?.trim() || null;
   const address             = qs('#employeeAddress')?.value?.trim() || null;
   const hireDate            = qs('#employeeHireDate')?.value || null;
   const birthDate           = qs('#employeeBirthDate')?.value || null;
