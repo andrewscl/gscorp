@@ -230,6 +230,8 @@ public class EmployeeController {
         List<ProfessionSelectDto> professions = professionService.findProfessionSelectDtosByEmployeeId(externalId);
 
         var employee = employeeService.findByExternalIdEditEmployee(externalId);
+        
+
         List<Long> projectIds = projects
                                     .stream()
                                     .map(ProjectDto::id)
@@ -240,7 +242,10 @@ public class EmployeeController {
                                     .map(ProfessionSelectDto::id)
                                     .toList();
 
+                                    
+
         model.addAttribute("employee", employee);
+        model.addAttribute("employeeTabs", employeeTabsService.getTabs());
         model.addAttribute("genders", Gender.values());
         model.addAttribute("nationalities", nationalityService.findAll());
         model.addAttribute("maritalStatuses", MaritalStatus.values());
