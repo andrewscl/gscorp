@@ -242,7 +242,10 @@ public class EmployeeController {
                                     .map(ProfessionSelectDto::id)
                                     .toList();
 
-                                    
+        model.addAttribute("employeeProfessions",
+                    professionService.findProfessionSelectDtosByEmployeeId(externalId));
+        model.addAttribute("employeeProjects",
+                    projectService.findProjectSelectDtosByEmployeeExternalId(externalId));
 
         model.addAttribute("employee", employee);
         model.addAttribute("employeeTabs", employeeTabsService.getTabs());
