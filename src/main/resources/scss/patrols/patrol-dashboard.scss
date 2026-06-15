@@ -86,6 +86,83 @@
     }
   }
 
+
+  .patrol-dashboard-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; // Separación cómoda entre la Agenda y el Historial
+    margin-top: 0.5rem;
+    .patrol-section {
+        background-color: transparent;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        &__header {
+            border-bottom: 2px solid dashed $border-color;
+            padding-bottom: 0.25rem;
+        }
+        &__title {
+            color: $heading-color;
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: 0.02em;
+        }
+        .table-responsive {
+            .patrol-table {
+                margin-bottom: 0; // Remueve el margen por defecto de Bootstrap
+                font-size: 0.9rem; // Tamaño de fuente optimizado para datos en celular
+                thead {
+                tr {
+                    th {
+                    color: $label-text-color;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    font-size: 0.75rem;
+                    letter-spacing: 0.05em;
+                    padding: 0.6rem 0.5rem;
+                    background-color: rgba($border-color, 0.2); // Fondo sutil para las cabeceras
+                    border-bottom: 2px solid $border-color;
+                    }
+                }
+                }
+                tbody {
+                tr {
+                    border-bottom: 1px solid rgba($border-color, 0.5);
+                    
+                    &:last-child {
+                    border-bottom: none; // Limpia el borde de la última fila
+                    }
+
+                    td {
+                    padding: 0.75rem 0.5rem; // Padding vertical más generoso para evitar clics erróneos
+                    color: $heading-color;
+
+                    strong {
+                        font-weight: 700;
+                    }
+                    }
+                }
+                }
+                // Estilo adaptativo por si agregas botones pequeños de Bootstrap dentro de las celdas
+                .btn-sm {
+                padding: 0.25rem 0.6rem;
+                font-size: 0.8rem;
+                font-weight: 600;
+                border-radius: 0.25rem;
+                }
+                // Estilo para los badges de estado (Completado, Pendiente, Fuera de rango)
+                .badge {
+                font-size: 0.75rem;
+                padding: 0.35rem 0.5rem;
+                font-weight: 600;
+                }
+            }
+        }
+    }
+  }
+
+
   .alert-container {
       @include alert-container();
   }

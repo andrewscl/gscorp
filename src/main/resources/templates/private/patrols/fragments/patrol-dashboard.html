@@ -13,38 +13,45 @@
 
     <div class="patrol-dashboard-actions" id="patrolTabs">
             <button class="patrol-dashboard-actions__primary-btn" id="schedules-tab" type="button">
-                🚀 Ejecutar patrullaje
+                🚀 Iniciar patrulla
             </button>
             <button class="patrol-dashboard-actions__secondary-btn" id="history-tab" type="button">
                 ↩️ Volver
             </button>
     </div>
 
-    <div class="tab-content" id="patrolTabsContent">
-        <div class="tab-content-schaedule" id="schedules-pane" role="tabpanel" aria-labelledby="schedules-tab">
-            <div class="table-responsive">
-                <table class="table table-sm table-hover align-middle">
-                    <thead>
-                        <tr>
-                            <th>Horario Planificado</th>
-                            <th>Nombre de Ronda</th>
-                            <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody id="patrolSchedulesTableBody">
-                        <tr>
-                            <td colspan="3" class="text-center text-muted py-3">
-                                Cargando agenda de rondas...
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+<div class="patrol-dashboard-sections">
+    
+    <div class="patrol-section" id="schedules-section">
+        <div class="patrol-section__header">
+            <h4 class="patrol-section__title">📅 Agenda de Rondas del Turno</h4>
         </div>
+        <div class="table-responsive">
+            <table class="table table-sm table-hover align-middle patrol-table">
+                <thead>
+                    <tr>
+                        <th>Horario Planificado</th>
+                        <th>Nombre de Ronda</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="patrolSchedulesTableBody">
+                    <tr>
+                        <td colspan="3" class="text-center text-muted py-3">
+                            Cargando agenda de rondas...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-        <div class="tab-content-schaedule" id="history-pane" role="tabpanel" aria-labelledby="history-tab">
+    <div class="patrol-section" id="history-section">
+            <div class="patrol-section__header">
+                <h4 class="patrol-section__title">📋 Historial de Patrullajes de Hoy</h4>
+            </div>
             <div class="table-responsive">
-                <table class="table table-sm table-hover align-middle">
+                <table class="table table-sm table-hover align-middle patrol-table">
                     <thead>
                         <tr>
                             <th>Hora Real</th>

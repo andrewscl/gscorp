@@ -117,6 +117,67 @@
   letter-spacing: 0.02em;
   width: 100%;
 }
+.patrol-dashboard-card .patrol-dashboard-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+.patrol-dashboard-card .patrol-dashboard-sections .patrol-section {
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.patrol-dashboard-card .patrol-dashboard-sections .patrol-section__header {
+  border-bottom: 2px solid dashed #e2e8f0;
+  padding-bottom: 0.25rem;
+}
+.patrol-dashboard-card .patrol-dashboard-sections .patrol-section__title {
+  color: #475569;
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+.patrol-dashboard-card .patrol-dashboard-sections .patrol-section .table-responsive .patrol-table {
+  margin-bottom: 0;
+  font-size: 0.9rem;
+}
+.patrol-dashboard-card .patrol-dashboard-sections .patrol-section .table-responsive .patrol-table thead tr th {
+  color: #94a3b8;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  padding: 0.6rem 0.5rem;
+  background-color: rgba(226, 232, 240, 0.2);
+  border-bottom: 2px solid #e2e8f0;
+}
+.patrol-dashboard-card .patrol-dashboard-sections .patrol-section .table-responsive .patrol-table tbody tr {
+  border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+}
+.patrol-dashboard-card .patrol-dashboard-sections .patrol-section .table-responsive .patrol-table tbody tr:last-child {
+  border-bottom: none;
+}
+.patrol-dashboard-card .patrol-dashboard-sections .patrol-section .table-responsive .patrol-table tbody tr td {
+  padding: 0.75rem 0.5rem;
+  color: #475569;
+}
+.patrol-dashboard-card .patrol-dashboard-sections .patrol-section .table-responsive .patrol-table tbody tr td strong {
+  font-weight: 700;
+}
+.patrol-dashboard-card .patrol-dashboard-sections .patrol-section .table-responsive .patrol-table .btn-sm {
+  padding: 0.25rem 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 0.25rem;
+}
+.patrol-dashboard-card .patrol-dashboard-sections .patrol-section .table-responsive .patrol-table .badge {
+  font-size: 0.75rem;
+  padding: 0.35rem 0.5rem;
+  font-weight: 600;
+}
 .patrol-dashboard-card .alert-container {
   display: none;
   width: auto;
