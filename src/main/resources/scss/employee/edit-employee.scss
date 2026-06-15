@@ -6,6 +6,7 @@
 @use '../abstracts/tab-panel-card' as * ;
 @use '../abstracts/panel-cards' as * ;
 @use '../abstracts/fields' as * ;
+@use '../abstracts/alerts' as * ;
 
 .edit-employee {
     background: $white;
@@ -112,6 +113,10 @@
 
             } 
         }
+    }
+
+    .alert-container {
+        @include alert-container();
     }
 
 }

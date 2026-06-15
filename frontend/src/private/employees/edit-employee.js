@@ -57,20 +57,10 @@ async function onSubmitEdit(e) {
   }
 
   // Fotografía
-  const photoInput = qs('#employeePhoto');
+  const photoInput = qs('#employeePhotoInput');
   let photo = null;
   if (photoInput && photoInput.files && photoInput.files[0]) {
     photo = photoInput.files[0];
-  }
-
-  const err = qs('#editEmployeeError');
-  const ok  = qs('#editEmployeeOk');
-  if (err) err.textContent = '';
-  if (ok)  ok.style.display = 'none';
-
-  if (!name) {
-    if (err) err.textContent = 'El nombre es obligatorio.';
-    return;
   }
 
   try {
@@ -124,9 +114,8 @@ async function onSubmitEdit(e) {
       throw new Error(msg || 'No se pudo actualizar el empleado');
     }
 
-    if (ok) ok.style.display = 'block';
     setTimeout(() => {
-      navigateTo('/private/employees/table-view');
+        navigateTo('/private/employees/table-view');
     }, 600);
   } catch (e2) {
     if (err) err.textContent = e2.message;
@@ -137,6 +126,30 @@ const onCancelEdit = () => {
     setTimeout(() => navigateTo('/private/employees/table-view', true), 1000);
 };
 
+
+// 🚀 1. El botón solo abre la ventana del sistema operativo
+const onchangePhoto = () => {
+    const photoInput = qs('#employeePhotoInput');
+    if (photoInput) {
+        photoInput.click();
+    }
+};
+
+// 🚀 2. Esta nueva función procesa el archivo binario y actualiza la vista previa
+const handlePhotoFileChange = function() {
+    const photoPreview = qs('#employeePhotoPreview');
+    const file = this.files[0]; // 'this' hace referencia al #employeePhotoInput
+
+    if (file && photoPreview) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            photoPreview.src = e.target.result; // Cambia la foto en pantalla al instante
+        };
+        reader.readAsDataURL(file);
+    }
+};
+
+
 function bindEditEmployee() {
     const submitBtn = qs('.btn-primary');
     if (submitBtn) {
@@ -145,6 +158,10 @@ function bindEditEmployee() {
     const backBtn = qs('.btn-secondary');
     if (backBtn) {
         backBtn.addEventListener('click', onCancelEdit);
+    }
+    const changePhotoBtn = qs('#changePhotoBtn');
+    if (changePhotoBtn) {
+        changePhotoBtn.addEventListener('click', onchangePhoto);
     }
 }
 

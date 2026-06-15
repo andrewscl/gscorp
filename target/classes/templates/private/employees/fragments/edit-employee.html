@@ -1,9 +1,12 @@
 <div class="edit-employee">
 
     <div class="edit-employee-header">
-        <div class="edit-header-foto">
-            <img th:src="${employee.photoUrl != null ? 
-                    employee.photoUrl : 'img/default-avatar.png'}">
+        <div class="edit-header-foto" id="employeePhoto">
+            <img th:src="${employee.photoUrl != null ? employee.photoUrl : '/img/default-avatar.png'}" 
+                alt="Foto del empleado" id="employeePhotoPreview">
+            <input type="file" id="employeePhotoInput" name="photoFile" accept="image/*" style="display: none;" />
+            <button type="button" class="btn-change-photo" id="changePhotoBtn">
+                Cambiar foto</button>
         </div>
         <div class="edit-header-text">
             <div class="edit-header-text-title">
@@ -24,8 +27,9 @@
             false, ''
             )}">
         </div>
-
     </div>
+
+    <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
 
     <div th:replace="~{shared/fragments/panels/tab-panel-card :: tabPanelCard(
         title='Empleado',
