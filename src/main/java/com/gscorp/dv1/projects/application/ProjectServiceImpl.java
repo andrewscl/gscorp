@@ -112,10 +112,14 @@ public class ProjectServiceImpl implements ProjectService{
 
         List<Long> clientIds = clientRepository.findClientIdsByUserExternalId(userExternalId);
         if(clientIds == null || clientIds.isEmpty()) {
-            return null;
+            return List.of();
         }
 
         List<ProjectProjection> projects = projectRepository.findByClientIds(clientIds);
+
+        if (projects == null || projects.isEmpty()) {
+                return List.of();
+        }
 
         List<ProjectDto> projectDtos = projects.stream()
             .map(ProjectDto::fromProjection)
