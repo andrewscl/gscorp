@@ -1,5 +1,6 @@
 import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
+import { initTabPanels} from '../../shared//tabs-handler.js'
 
 console.log('edit-employee.js cargado');
 
@@ -132,37 +133,29 @@ async function onSubmitEdit(e) {
   }
 }
 
-function onCancelEdit(e) {
-  e.preventDefault();
-  navigateTo('/private/employees/table-view');
-}
+const onCancelEdit = () => {
+    setTimeout(() => navigateTo('/private/employees/table-view', true), 1000);
+};
 
-/* --- Bindings --- */
-function bindEditEmployeeForm() {
-  qs('#editEmployeeForm')?.addEventListener('submit', onSubmitEdit);
-  qs('#cancelEditEmployee')?.addEventListener('click', onCancelEdit);
-}
-
-
-function setHeaderHeight() {
-  const header = document.querySelector('.editEmployeeHeaderCard'); // Selecciona el encabezado
-
-  if (header) {
-    // Obtén la altura del encabezado dinámicamente
-    const headerHeight = header.offsetHeight;
-
-    // Setea la variable CSS en el :root
-    document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
-  }
+function bindEditEmployee() {
+    const submitBtn = qs('.btn-primary');
+    if (submitBtn) {
+        submitBtn.addEventListener('click', onSubmitEdit);
+    }
+    const backBtn = qs('.btn-secondary');
+    if (backBtn) {
+        backBtn.addEventListener('click', onCancelEdit);
+    }
 }
 
 
-// Llamar al ajuste después de que se renderice el DOM
-window.addEventListener('resize', setHeaderHeight); // Recalcular en caso de redimensionar la ventana
+(async function init() {
+    initTabPanels();
+    bindViewEmployee();
+})();
 
 
-/* --- init --- */
 (function init() {
-  bindEditEmployeeForm();
+  bindEditEmployee();
   setHeaderHeight();
 })();

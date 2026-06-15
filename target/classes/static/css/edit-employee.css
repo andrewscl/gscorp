@@ -105,7 +105,7 @@ p {
 .edit-employee .edit-employee-header {
   display: flex;
   gap: 2rem;
-  align-items: stretch;
+  align-items: flex-start;
 }
 .edit-employee .edit-employee-header .edit-header-foto img {
   width: 7.5rem;
@@ -134,6 +134,13 @@ p {
   flex-direction: column;
   gap: 0.25rem;
   color: #64748b;
+}
+.edit-employee .edit-employee-header .generic-buttons {
+  margin-left: auto;
+  margin-top: auto;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
 }
 .edit-employee .edit-employee-header .generic-buttons .btn {
   font-family: "Roboto", sans-serif;

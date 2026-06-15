@@ -21,7 +21,7 @@
     .edit-employee-header {
         display: flex;
         gap: 2rem;
-        align-items: stretch;
+        align-items: flex-start;
         .edit-header-foto {
             img {
                 width: 7.5rem;
@@ -49,6 +49,11 @@
             }
         }
         .generic-buttons {
+            margin-left: auto;
+            margin-top: auto;
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
             .btn {
                 @include roboto-font(0.875rem, 500);
                 &.btn-primary {
