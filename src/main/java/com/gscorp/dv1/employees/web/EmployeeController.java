@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -18,7 +19,9 @@ import com.gscorp.dv1.attendance.application.AttendanceService;
 import com.gscorp.dv1.attendance.web.dto.DashboardHeaderInfo;
 import com.gscorp.dv1.bank.application.BankService;
 import com.gscorp.dv1.employees.application.EmployeeService;
+import com.gscorp.dv1.employees.application.EmployeeTabsServiceImpl;
 import com.gscorp.dv1.employees.web.dto.EmployeeTableDto;
+import com.gscorp.dv1.employees.web.dto.EmployeeViewDto;
 import com.gscorp.dv1.enums.BankAccountType;
 import com.gscorp.dv1.enums.ContractType;
 import com.gscorp.dv1.enums.Gender;
@@ -35,6 +38,7 @@ import com.gscorp.dv1.nationalities.application.NationalityService;
 import com.gscorp.dv1.positions.application.PositionService;
 import com.gscorp.dv1.positions.web.dto.PositionDto;
 import com.gscorp.dv1.professions.application.ProfessionService;
+import com.gscorp.dv1.professions.web.dto.ProfessionSelectDto;
 import com.gscorp.dv1.projects.application.ProjectService;
 import com.gscorp.dv1.projects.web.dto.ProjectDto;
 import com.gscorp.dv1.security.SecurityUser;
@@ -58,6 +62,7 @@ public class EmployeeController {
     private ShiftPatternService shiftPatternService;
     private PositionService positionService;
     private AttendanceService attendanceService;
+    private EmployeeTabsServiceImpl employeeTabsService;
     
     @GetMapping("/dashboard")
     public String getPrivateDashboardView (
@@ -186,39 +191,55 @@ public class EmployeeController {
         return "private/employees/views/create-employee-view";
     }
 
-/*     
-    @GetMapping("/show/{externalId}")
-    public String showEmployee(
-                        @PathVariable UUID externalId,
-                        Model model){
-        var employee = employeeService.findByExternalIdViewEmployee(externalId);
-        List<String> projectNames = employeeService.findProjectNamesByEmployeeId(id);
-        List<String> professionNames = employeeService.findProfessionNamesByEmployeeId(id);
-        model.addAttribute("employee", employee);
-        model.addAttribute("projectNames", projectNames);
-        model.addAttribute("professionNames", professionNames);
-        return "private/employees/views/view-employee-view";
-    }
+    @GetMapping("/view/{externalId}")
+    public String viewEmployee(
+            @PathVariable UUID externalId,
+            Model model,
+            Authentication authentication
+        ){
 
-    @GetMapping("/show-client-view/{id}")
-    public String showClientViewEmployee(
-                        @PathVariable Long id,
-                        Model model){
+        Long userId = userService.getUserIdFromAuthentication(authentication);
+        if (userId == null) {
+            return "redirect:/login";
+        }
 
-        var employee = employeeService.findByIdViewEmployee(id);
-        List<String> projectNames = employeeService.findProjectNamesByEmployeeId(id);
+        EmployeeViewDto employee =
+                employeeService.findByExternalIdViewEmployee(externalId);
+        if (employee == null) {
+            return "redirect:/private/employees";
+        }
 
         model.addAttribute("employee", employee);
-        model.addAttribute("projectNames", projectNames);
-
-        return "private/employees/views/view-employee-client-view";
+        model.addAttribute("employeeTabs", employeeTabsService.getTabs());
+        model.addAttribute("employeeProfessions",
+                    professionService.findProfessionSelectDtosByEmployeeId(externalId));
+        model.addAttribute("employeeProjects",
+                    projectService.findProjectSelectDtosByEmployeeExternalId(externalId));
+        return "private/employees/fragments/view-employee";
     }
 
-    @GetMapping("/edit/{id}")
-    public String editEmployee(@PathVariable Long id, Model model){
-        var employee = employeeService.findByIdEditEmployee(id);
-        List<Long> projectIds = employeeService.findProjectIdsByEmployeeId(id);
-        List<Long> professionIds = employeeService.findProfessionIdsByEmployeeId(id);
+
+    @GetMapping("/edit/{externalId}")
+    public String editEmployee(
+                    @PathVariable UUID externalId,
+                    Model model,
+                    Authentication authentication
+                    ){
+
+        List<ProjectDto> projects = projectService.findByUserExternalId(externalId);
+        List<ProfessionSelectDto> professions = professionService.findProfessionSelectDtosByEmployeeId(externalId);
+
+        var employee = employeeService.findByExternalIdEditEmployee(externalId);
+        List<Long> projectIds = projects
+                                    .stream()
+                                    .map(ProjectDto::id)
+                                    .toList();
+
+        List<Long> professionIds = professions
+                                    .stream()
+                                    .map(ProfessionSelectDto::id)
+                                    .toList();
+
         model.addAttribute("employee", employee);
         model.addAttribute("genders", Gender.values());
         model.addAttribute("nationalities", nationalityService.findAll());
@@ -241,7 +262,7 @@ public class EmployeeController {
         model.addAttribute("projectIds", projectIds);
         model.addAttribute("professionIds", professionIds);
         return "private/employees/views/edit-employee-view";
-    }*/
+    }
 
 
 

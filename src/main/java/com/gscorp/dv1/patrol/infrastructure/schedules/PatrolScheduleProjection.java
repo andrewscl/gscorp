@@ -4,6 +4,7 @@ import java.time.LocalTime;
 import java.util.UUID;
 
 public interface PatrolScheduleProjection {
+    Long getId();
     UUID getExternalId();
     LocalTime getStartTime();
     Boolean getActive();

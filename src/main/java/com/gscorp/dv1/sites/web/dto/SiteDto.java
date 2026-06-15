@@ -1,9 +1,12 @@
 package com.gscorp.dv1.sites.web.dto;
 
+import java.util.UUID;
+
 import com.gscorp.dv1.sites.infrastructure.Site;
 
 public record SiteDto (
     Long id,
+    UUID externalId,
     Long projectId,
     String projectName,
     String name,
@@ -19,6 +22,7 @@ public record SiteDto (
 
         return new SiteDto(
             site.getId(),
+            site.getExternalId(),
             site.getProject() != null ? site.getProject().getId() : null,
             site.getProject() != null ? site.getProject().getName() : null,
             site.getName(),

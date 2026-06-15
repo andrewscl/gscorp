@@ -16,7 +16,13 @@
                 <span th:text="${employee.position}"></span>
                 <span th:text="${employee.mail + ' | ' + employee.phone}"></span>
             </div>
+        </div>
 
+        <div th:replace="~{shared/fragments/buttons :: genericButtons(
+            true, 'Nuevo empleado',
+            true, 'Volver',
+            false, ''
+            )}">
         </div>
 
     </div>

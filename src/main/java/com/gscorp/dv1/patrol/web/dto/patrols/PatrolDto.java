@@ -33,6 +33,7 @@ public record PatrolDto (
 
         List<PatrolScheduleDto> scheduleDtos = schedules.stream()
                 .map(s -> new PatrolScheduleDto(
+                        s.getId(),
                         s.getExternalId(),
                         s.getStartTime(),
                         s.getActive()

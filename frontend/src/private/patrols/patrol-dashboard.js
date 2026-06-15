@@ -136,10 +136,19 @@ async function loadSites() {
 }
 
 
+const backToEmployeeDashboard = () => {
+    setTimeout(() => navigateTo('/private/employees/dashboard', true), 1000);
+}
+
+
 function bindEvents() {
     const addPatrolExecutionBtn = qs('#addPatrolExecution');
     if (addPatrolExecutionBtn) {
         addPatrolExecutionBtn.addEventListener('click', addPatrolExecution);
+    }
+    const backToEmployeeDashboardBtn = qs('#backToEmployeeDashboard');
+    if (backToEmployeeDashboardBtn) {
+        backToEmployeeDashboardBtn.addEventListener('click', backToEmployeeDashboard);
     }
 }
 

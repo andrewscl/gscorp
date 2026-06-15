@@ -62,6 +62,7 @@ public class SiteServiceImpl implements SiteService{
                     .stream()
                     .map(r-> new SiteDto(
                                     r.getId(),
+                                    r.getExternalId(),
                                     r.getProject().getId(),
                                     r.getProject().getName(),
                                     r.getName(),
@@ -149,6 +150,7 @@ public class SiteServiceImpl implements SiteService{
 
         return new SiteDto(
             site.getId(),
+            site.getExternalId(),
             projectId,
             projectName,
             site.getName(),

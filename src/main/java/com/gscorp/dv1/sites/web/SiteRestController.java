@@ -83,6 +83,7 @@ public class SiteRestController {
 
         var dto = new SiteDto(
                 saved.getId(),
+                saved.getExternalId(),
                 saved.getProject().getId(),
                 saved.getProject().getName(),
                 saved.getName(),
