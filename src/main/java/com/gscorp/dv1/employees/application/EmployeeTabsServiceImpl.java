@@ -20,9 +20,21 @@ public class EmployeeTabsServiceImpl implements TabConfigProvider {
         new TabDto("Financiero", "private/employees/fragments/tabs/tab-finantial", "credit-card", 2)
     );
 
+    // 🚀 Nueva lista inmutable para los componentes de edición
+    private static final List<TabDto> EMPLOYEE_EDIT_TABS = List.of(
+        new TabDto("Personal", "private/employees/fragments/tabs/tab-personal-edit", "user", 0),
+        new TabDto("Laboral", "private/employees/fragments/tabs/tab-laboral-edit", "briefcase", 1),
+        new TabDto("Financiero", "private/employees/fragments/tabs/tab-finantial-edit", "credit-card", 2)
+    );
+
     @Override
     public List<TabDto> getTabs() {
         return EMPLOYEE_TABS;
+    }
+
+    @Override
+    public List<TabDto> getEditTabs() {
+        return EMPLOYEE_EDIT_TABS;
     }
 
     @Override
@@ -34,12 +46,28 @@ public class EmployeeTabsServiceImpl implements TabConfigProvider {
     }
 
     @Override
+    public TabDto getEditTabByIndex(int index) {
+        if (!isValidTabIndex (index)) {
+            return null;
+        }
+        return EMPLOYEE_EDIT_TABS.get(index);
+    }
+
+    @Override
     public TabDto getTabByLabel(String label) {
         return EMPLOYEE_TABS.stream()
             .filter(tab -> tab.label().equalsIgnoreCase(label))
             .findFirst()
             .orElse(null);
-        }
+    }
+
+    @Override
+    public TabDto getEditTabByLabel(String label) {
+        return EMPLOYEE_EDIT_TABS.stream()
+            .filter(tab -> tab.label().equalsIgnoreCase(label))
+            .findFirst()
+            .orElse(null);
+    }
 
     @Override
     public boolean isValidTabIndex(int index){
@@ -47,8 +75,18 @@ public class EmployeeTabsServiceImpl implements TabConfigProvider {
     }
 
     @Override
+    public boolean isValidEditTabIndex(int index){
+        return index >= 0 && index < EMPLOYEE_EDIT_TABS.size();
+    }
+
+    @Override
     public int getTabCount() {
         return EMPLOYEE_TABS.size();
+    }
+
+    @Override
+    public int getEditTabCount() {
+        return EMPLOYEE_EDIT_TABS.size();
     }
 
 }
