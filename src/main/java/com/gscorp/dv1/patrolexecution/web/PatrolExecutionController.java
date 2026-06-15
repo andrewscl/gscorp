@@ -16,7 +16,7 @@ import com.gscorp.dv1.sites.web.dto.SiteDto;
 import lombok.RequiredArgsConstructor;
 
 @Controller
-@RequestMapping("/private/patrols-executions")
+@RequestMapping("/private/patrol-executions")
 @RequiredArgsConstructor
 public class PatrolExecutionController {
 

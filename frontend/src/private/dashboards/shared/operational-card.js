@@ -6,7 +6,7 @@ const qs  = (s) => document.querySelector(s);
 async function onClickPatrolExecution() {
     const patrolExecutionBtn = qs('#btn-control-rondas');
     patrolExecutionBtn.disabled = true;
-    setTimeout(() => navigateTo('/private/patrol-executions/patrol-execution-view', true), 1000);
+    setTimeout(() => navigateTo('/private/patrol-executions/execution-view', true), 1000);
 }
 
 function bindEvents() {
