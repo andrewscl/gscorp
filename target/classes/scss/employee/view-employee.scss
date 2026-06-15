@@ -105,7 +105,7 @@
                         gap: 1rem;
                         width: 100%;
                         .form-group {
-                            flex: 1;
+                            @include form-group-fields();
                         }
                     }
                 }
