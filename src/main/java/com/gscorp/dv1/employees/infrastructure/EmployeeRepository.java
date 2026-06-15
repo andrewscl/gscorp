@@ -278,10 +278,10 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
         SELECT 
             e.id AS id, 
             e.name AS name, 
-            e.father_surname AS fatherSurname, 
-            e.mother_surname AS motherSurname,
+            e.fatherSurname AS fatherSurname, 
+            e.motherSurname AS motherSurname,
             u.id AS userId
-        FROM employee e
+        FROM Employee e
         JOIN e.user u
         WHERE e.id = :id
         """)
@@ -292,10 +292,10 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
         SELECT 
             e.id AS id, 
             e.name AS name, 
-            e.father_surname AS fatherSurname, 
-            e.mother_surname AS motherSurname,
+            e.fatherSurname AS fatherSurname, 
+            e.motherSurname AS motherSurname,
             u.id AS userId
-        FROM employee e
+        FROM Employee e
         JOIN e.user u
         WHERE u.externalId = :externalId
         """)
