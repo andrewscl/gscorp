@@ -4,37 +4,63 @@
         <h3 class="patrol-dashboard-card__title">Panel de Patrullajes</h3>
     </header>
 
-    <th:block class="patrol-dashboard-status">
-        <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
-    </th:block>
+    <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
 
     <div class="patrol-dashboard-map">
-        <h3 id="lblSiteName">Detectando Sitio...</h3>
+        <h3 id="lblSiteName" th:text="${SiteName}"></h3>
         <div class="content" id="map"></div>
     </div>
 
-    <button class="btn-primary" id="addPatrolExecution">
-        Ejecutar ronda</button>
+    <div class="patrol-dashboard-actions" id="patrolTabs">
+            <button class="patrol-dashboard-actions__primary-btn" id="schedules-tab" type="button">
+                🚀 Ejecutar patrullaje
+            </button>
+            <button class="patrol-dashboard-actions__secondary-btn" id="history-tab" type="button">
+                ↩️ Volver
+            </button>
+    </div>
 
-    <div class="patrol-history-section mt-4">
-        <h3 class="mb-3">Rondas Ejecutadas Hoy</h3>
-        <div class="table-responsive">
-            <table class="table table-sm table-hover align-middle">
-                <thead>
-                    <tr>
-                        <th>Hora</th>
-                        <th>Estado</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody id="patrolHistoryTableBody">
-                    <tr>
-                        <td colspan="3" class="text-center text-muted py-3">
-                            Cargando historial de patrullajes...
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="tab-content" id="patrolTabsContent">
+        <div class="tab-content-schaedule" id="schedules-pane" role="tabpanel" aria-labelledby="schedules-tab">
+            <div class="table-responsive">
+                <table class="table table-sm table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Horario Planificado</th>
+                            <th>Nombre de Ronda</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="patrolSchedulesTableBody">
+                        <tr>
+                            <td colspan="3" class="text-center text-muted py-3">
+                                Cargando agenda de rondas...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="tab-content-schaedule" id="history-pane" role="tabpanel" aria-labelledby="history-tab">
+            <div class="table-responsive">
+                <table class="table table-sm table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Hora Real</th>
+                            <th>Estado GPS</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="patrolHistoryTableBody">
+                        <tr>
+                            <td colspan="3" class="text-center text-muted py-3">
+                                Cargando historial de patrullajes...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
