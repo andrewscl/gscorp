@@ -11,7 +11,7 @@
                         <label>Cargo: </label>
                         <select id="employeePosition" name="positionId" required>
                         <option value="">Seleccione cargo</option>
-                        <option th:each="p : ${positiona}"
+                        <option th:each="p : ${positions}"
                                 th:selected="${employee.positionId == p.id}"
                                 th:value="${b.id}"
                                 th:text="${b.name}"></option>
