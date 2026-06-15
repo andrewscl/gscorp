@@ -105,7 +105,7 @@ p {
 .view-employee .view-employee-header {
   display: flex;
   gap: 2rem;
-  align-items: stretch;
+  align-items: flex-start;
 }
 .view-employee .view-employee-header .ve-header-foto img {
   width: 7.5rem;
@@ -134,6 +134,12 @@ p {
   flex-direction: column;
   gap: 0.25rem;
   color: #64748b;
+}
+.view-employee .view-employee-header .generic-buttons {
+  margin-left: auto;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
 }
 .view-employee .view-employee-header .generic-buttons .btn {
   font-family: "Roboto", sans-serif;

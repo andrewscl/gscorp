@@ -21,7 +21,7 @@
     .view-employee-header {
         display: flex;
         gap: 2rem;
-        align-items: stretch;
+        align-items: flex-start;
         .ve-header-foto {
             img {
                 width: 7.5rem;
@@ -49,6 +49,10 @@
             }
         }
         .generic-buttons {
+            margin-left: auto;
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
             .btn {
                 @include roboto-font(0.875rem, 500);
                 &.btn-primary {
