@@ -261,7 +261,7 @@ public class EmployeeController {
         model.addAttribute("projects", projectService.findAll());
         model.addAttribute("projectIds", projectIds);
         model.addAttribute("professionIds", professionIds);
-        return "private/employees/views/edit-employee";
+        return "private/employees/fragments/edit-employee";
     }
 
 
