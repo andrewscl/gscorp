@@ -13,8 +13,8 @@
                         <option value="">Seleccione cargo</option>
                         <option th:each="p : ${positions}"
                                 th:selected="${employee.positionId == p.id}"
-                                th:value="${b.id}"
-                                th:text="${b.name}"></option>
+                                th:value="${p.id}"
+                                th:text="${p.name}"></option>
                         </select>
                     </div>
 
