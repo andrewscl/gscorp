@@ -107,16 +107,42 @@ p {
   gap: 2rem;
   align-items: flex-start;
 }
-.edit-employee .edit-employee-header .edit-header-foto img {
-  width: 7.5rem;
-  height: 10rem;
-  object-fit: cover;
-  border: 0.1rem solid #e2e8f0;
-  border-radius: 0.8rem;
+.edit-employee .edit-employee-header .edit-header-foto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75;
+  width: 7.5rem img;
+  width-width: 100%;
+  width-height: 10rem;
+  width-object-fit: cover;
+  width-border: 0.1rem solid #e2e8f0;
+  width-border-radius: 0.8rem;
 }
-.edit-employee .edit-employee-header .edit-header-foto:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 1rem 2.2rem rgba(15, 23, 42, 0.12);
+.edit-employee .edit-employee-header .edit-header-foto .btn-change-photo {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+.edit-employee .edit-employee-header .edit-header-foto .btn-change-photo:hover {
+  background-color: rgb(29.8390243902, 111.4024390244, 244.6609756098);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+.edit-employee .edit-employee-header .edit-header-foto .btn-change-photo:active {
+  transform: translateY(0);
 }
 .edit-employee .edit-employee-header .edit-header-text .edit-header-text-title {
   font-family: "Montserrat", sans-serif;
