@@ -163,6 +163,11 @@ function bindEditEmployee() {
     if (changePhotoBtn) {
         changePhotoBtn.addEventListener('click', onchangePhoto);
     }
+    // 🚀 3. Amarra de forma independiente el cambio de archivo al input oculto
+    const photoInput = qs('#employeePhotoInput');
+    if (photoInput) {
+        photoInput.addEventListener('change', handlePhotoFileChange);
+    }
 }
 
 
