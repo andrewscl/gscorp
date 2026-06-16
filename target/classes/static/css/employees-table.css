@@ -91,17 +91,20 @@ p {
 }
 
 .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(1) {
-  width: 15%;
+  width: 10%;
 }
 .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(2) {
-  width: 30%;
+  width: 15%;
 }
 .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(3) {
   width: 20%;
 }
 .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(4) {
-  width: 15%;
+  width: 20%;
 }
 .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(5) {
+  width: 15%;
+}
+.hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(6) {
   width: 20%;
 }/*# sourceMappingURL=employees-table.css.map */

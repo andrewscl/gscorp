@@ -15,7 +15,8 @@ public record UserTableDto (
     String phone,
     Boolean active,
     UserStatus status,
-    Long employeeId
+    Long employeeId,
+    String roleName
 
 ){
 
@@ -29,7 +30,8 @@ public record UserTableDto (
             p.getPhone(),
             p.getActive(),
             p.getStatus(),
-            p.getEmployeeId()
+            p.getEmployeeId(),
+            p.getRoleName()
         );
     }
 
@@ -43,7 +45,8 @@ public record UserTableDto (
             user.getPhone(),
             user.getActive(),
             user.getStatus(),
-            user.getEmployee() != null ? user.getEmployee().getId() : null
+            user.getEmployee() != null ? user.getEmployee().getId() : null,
+            user.getRole() != null ? user.getRole().getRole() : null
         );
     }
 

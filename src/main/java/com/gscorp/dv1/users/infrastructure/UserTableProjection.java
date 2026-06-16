@@ -13,5 +13,6 @@ public interface UserTableProjection {
     Boolean getActive();
     UserStatus getStatus();
     Long getEmployeeId();
+    String getRoleName();
     
 }

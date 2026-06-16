@@ -1,0 +1,58 @@
+<div th:fragment="employee-kpi-line-card" id="employee-kpi-line-card" class="stats-grid">
+
+    <div class="stat-card">
+        <div class="stat-card__header">
+            <h3 class="stat-card__title">Por Iniciar</h3>
+            <div th:replace="~{shared/fragments/icons/analytics/users-icons :: users}"></div>
+        </div>
+        <div class="stat-card__body">
+            <p class="stat-card__value" th:text="${hiredCount}">0</p>
+            <span class="stat-card__trend trend-neutral">Próximos ingresos</span>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-card__header">
+            <h3 class="stat-card__title">Activos</h3>
+            <div th:replace="~{shared/fragments/icons/analytics/users-icons :: users}"></div>
+        </div>
+        <div class="stat-card__body">
+            <p class="stat-card__value" th:text="${activeCount}">0</p>
+            <span class="stat-card__trend trend-up">Dotación vigente</span>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-card__header">
+            <h3 class="stat-card__title">Aviso de Término</h3>
+            <div th:replace="~{shared/fragments/icons/status/alert-icons :: alert}"></div>
+        </div>
+        <div class="stat-card__body">
+            <p class="stat-card__value" th:text="${noticeGivenCount}">0</p>
+            <span class="stat-card__trend trend-warning">Procesos en curso</span>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-card__header">
+            <h3 class="stat-card__title">Desvinculados</h3>
+            <div th:replace="~{shared/fragments/icons/status/alert-icons :: alert}"></div>
+        </div>
+        <div class="stat-card__body">
+            <p class="stat-card__value" th:text="${inactiveCount}">0</p>
+            <span class="stat-card__trend trend-down">Bajas del periodo</span>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-card__header">
+            <h3 class="stat-card__title">Cerrados</h3>
+            <div th:replace="~{shared/fragments/icons/status/alert-icons :: alert}"></div>
+        </div>
+        <div class="stat-card__body">
+            <p class="stat-card__value" th:text="${settledCount}">0</p>
+            <span class="stat-card__trend trend-neutral">Finiquitos firmados</span>
+        </div>
+    </div>
+
+</div>
