@@ -89,12 +89,15 @@ async function fetchHtml(path, layout) {
 
 async function executeFragmentModules(container, path) {
   const scripts = container.querySelectorAll('script[type="module"]');
+  console.log(`[navigation-handler-Diagnostic] Scripts encontrados en ${path}:`, scripts.length);
 
   for (const s of scripts) {
+    console.log(`[navigation-handler-Diagnostic] Evaluando etiqueta script. src original: "${s.src}"`);
     if (s.src) {
       // Forzar re-ejecución del módulo usando cache-buster
       const u = new URL(s.src, location.origin);
       u.searchParams.set('v', Date.now());
+      console.log(`[navigation-handler-Diagnostic] Disparando import dinámico a: ${u.href}`);
       const mod = await import(u.href);
       if (typeof mod.init === 'function') mod.init({ container, path });
     } else {
