@@ -9,7 +9,7 @@ const qs  = (s) => document.querySelector(s);
 const alertSuccess = qs('.alert-success');
 const alertError = qs('.alert-error');
 const alertCancel = qs('.alert-warning');
-
+/*
 async function onSubmitCreate(e) {
   e.preventDefault();
 
@@ -137,7 +137,7 @@ async function onSubmitCreate(e) {
   } catch (e2) {
     if (err) err.textContent = e2.message;
   }
-}
+}*/
 
 function onCancelCreate(e) {
   e.preventDefault();
@@ -145,7 +145,7 @@ function onCancelCreate(e) {
 }
 
 
-// 🚀 1. El botón solo abre la ventana del sistema operativo
+// 1. El botón solo abre la ventana del sistema operativo
 const onchangePhoto = () => {
     const photoInput = qs('#employeePhotoInput');
     if (photoInput) {
@@ -153,7 +153,7 @@ const onchangePhoto = () => {
     }
 };
 
-// 🚀 2. Esta nueva función procesa el archivo binario y actualiza la vista previa
+// 2. Esta nueva función procesa el archivo binario y actualiza la vista previa
 const handlePhotoFileChange = function() {
     const photoPreview = qs('#employeePhotoPreview');
     const file = this.files[0]; // 'this' hace referencia al #employeePhotoInput
@@ -202,10 +202,10 @@ function initDynamicHeader() {
 
 
 function bindCreateEmployee() {
-    const submitBtn = qs('.btn-primary');
+/*    const submitBtn = qs('.btn-primary');
     if (submitBtn) {
         submitBtn.addEventListener('click', onSubmitCreate);
-    }
+    } */
     const backBtn = qs('.btn-secondary');
     if (backBtn) {
         backBtn.addEventListener('click', onCancelCreate);
@@ -214,7 +214,7 @@ function bindCreateEmployee() {
     if (changePhotoBtn) {
         changePhotoBtn.addEventListener('click', onchangePhoto);
     }
-    // 🚀 3. Amarra de forma independiente el cambio de archivo al input oculto
+    // 3. Amarra de forma independiente el cambio de archivo al input oculto
     const photoInput = qs('#employeePhotoInput');
     if (photoInput) {
         photoInput.addEventListener('change', handlePhotoFileChange);
