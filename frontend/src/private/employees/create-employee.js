@@ -1,7 +1,7 @@
 import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
-import { initTabPanels } from '../../shared/tabs-handler.js'
-import { displayAlert } from '../../shared/display-alert.js'
+import { initTabPanels } from '../../shared/tabs-handler.js';
+import { displayAlert } from '../../shared/display-alert.js';
 
 console.log('create-employee.js cargado');
 
@@ -61,7 +61,7 @@ async function onSubmitCreate(e) {
   }
 
   // Fotografía
-  const photoInput = qs('#employeePhoto');
+  const photoInput = qs('#employeePhotoInput');
   let photo = null;
   if (photoInput && photoInput.files && photoInput.files[0]) {
     photo = photoInput.files[0];
