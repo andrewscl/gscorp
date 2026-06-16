@@ -17,7 +17,7 @@ function bindEditEmployee() {
     }
 }
 
-(async function init() {
+(function init() {
     initTabPanels();
     bindEditEmployee();
 })();
