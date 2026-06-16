@@ -1,0 +1,129 @@
+<div th:fragment="content">
+
+  <div class="hs-form">
+
+    <div class="patrol-form-header">
+      <h4>Crear Ronda de Supervisión</h4>
+    </div>
+
+    <div class="patrol-alert-container">
+        <!-- Alerta de éxito -->
+        <div class="alert alert-success" role="alert" aria-live="polite">
+            <span class="alert-icon">✅</span>
+            <span class="alert-message"></span> <!-- Mensaje dinámico -->
+        </div>
+
+        <!-- Alerta de error -->
+        <div class="alert alert-error" role="alert" aria-live="assertive">
+            <span class="alert-icon">❌</span>
+            <span class="alert-message"></span> <!-- Mensaje dinámico -->
+        </div>
+
+        <!-- Alerta de cancelación -->
+        <div class="alert alert-cancel" role="alert" aria-live="polite">
+            <span class="alert-icon">⚠️</span>
+            <span class="alert-message"></span> <!-- Mensaje dinámico -->
+        </div>
+    </div>
+
+    <form class="patrol-form-body" id="patrol-form-body">
+
+      <div class="form-group">
+        <label for="site">Sitio</label>
+        <select id="siteId" name="siteId" required>
+          <option value="">Seleccione un sitio</option>
+          <option th:each="site : ${siteList}"
+                  th:value="${site.id}"
+                  th:text="${site.name}">Sitio</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="patrolName">Nombre</label>
+        <input type="text" id="patrolName" name="name"
+                placeholder="Nombre de la ronda de supervisión" required />
+      </div>
+
+      <div class="form-group">
+        <label for="patrolDescription">Descripción</label>
+        <textarea id="patrolDescription"
+                  name="description"
+                  placeholder="Descripción de la ronda de supervisión"></textarea>
+      </div>
+
+      <div class="day-range">
+        <div class="form-group">
+          <label>Dia desde</label>
+          <select id="dayFrom" name="dayFrom" required>
+            <option value="" disabled selected>Seleccione día</option>
+            <option th:each="day : ${DayOfWeek}"
+                    th:value="${day.dayNumber}"
+                    th:text="${day.getDisplayNameInSpanish}">Día</option> 
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Dia hasta</label>
+          <select id="dayTo" name="dayTo" required>
+            <option value="" disabled selected>Seleccione día</option>
+            <option th:each="day : ${DayOfWeek}"
+                    th:value="${day.dayNumber}"
+                    th:text="${day.getDisplayNameInSpanish}">Día</option> 
+          </select>
+        </div>
+      </div>
+
+      <div class="time-patrol-schedules">
+        <div class="panel schedules-panel">
+          <div class="panel-header">
+            <label>Horarios por día</label>
+            <button type="button" id="addTimeScheduleBtn" class="btn-mini">+ Añadir hora</button>
+          </div>
+          <div id="patrolSchedulesList" class="schedules-list">
+            <div class="schedule">
+              <input type="time" name="scheduleTime[]" class="schedule-input"
+                      placeholder="08:00" required />
+              <button type="button" class="btn-mini btn-remove">Eliminar</button>
+            </div>
+          </div>
+          <small class="time-schedules-help">
+            Ej: 08:00, 10:00, 14:00, etc.
+          </small>
+        </div>
+      </div>
+
+      <div class="checkpoints-container">
+        <div class="panel checkpoints-panel">
+          <div class="panel-header">
+            <label>Puntos de Control</label>
+            <button type="button" id="addCheckpointBtn" class="btn-mini">+ Añadir punto</button>
+          </div>
+          <div id="checkpointsList" class="checkpoints-list">
+            <div class="checkpoint-item">
+              <input type="text" name="checkpointName[]" 
+                     placeholder="Nombre del punto (ej: Bodega A)" />
+              <button type="button" class="btn-mini btn-remove">Eliminar</button>
+            </div>
+          </div>
+          <small class="help-text">
+            Indique los lugares específicos que el guardia debe visitar durante la ronda.
+          </small>
+        </div>
+      </div>
+
+    </form>
+
+    <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
+
+    <div class="patrol-form-footer">
+
+      <button class="btn btn-primary" id="createPatrolBtn">Crear</button>
+      <button class="btn btn-secondary" id="cancelCreatePatrolBtn">Cancelar</button>
+
+    </div>
+
+  </div>
+
+  <script type="module" src="/js/private/patrols/create-patrol.js"></script>
+
+</div>

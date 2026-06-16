@@ -1,0 +1,62 @@
+<div th:replace="~{shared/fragments/table-component :: smart-table(
+    title='Registros de asistencia',
+    count=${punchsCount},
+    filters=~{::#punchFilters},
+    actions=~{::#punchActions},
+    thead=~{::#punchHeader},
+    tbody=~{private/attendance/fragments/attendance-table-rows :: rows},
+    customClass='attendance-table'
+)}">
+
+    <th:block class="count" th:if="${punchsCount != null}"
+        th:text="${punchsCount + ' registro' + (punchsCount == 1 ? '' : 's')}"
+        aria-live="polite" aria-atomic="true">
+    </th:block>
+
+    <th:block id="punchFilters">
+
+        <label class="filter-item">
+            <span class="filter-label">Desde</span>
+            <input id="filter-from" class="filter-input" type="date" name="from"
+                th:value="${from != null ? #temporals.format(from, 'yyyy-MM-dd') : (fromDate != null ? #temporals.format(fromDate, 'yyyy-MM-dd') : '')}" />
+        </label>
+        <label class="filter-item">
+            <span class="filter-label">Hasta</span>
+            <input id="filter-to" class="filter-input" type="date" name="to"
+                th:value="${to != null ? #temporals.format(to, 'yyyy-MM-dd') : (toDate != null ? #temporals.format(toDate, 'yyyy-MM-dd') : '')}" />
+        </label>
+
+        <div class="filter-item">
+            <span class="filter-label">Sitios</span>
+            <select id="filter-dept" class="filter-input" name="siteId" required>
+                <option value="">Todos los sitios</option>
+                <option th:each="s : ${sites}"
+                        th:value="${s.id}"
+                        th:text="${s.name}"></option>
+            </select>
+        </div>
+    </th:block>
+
+    <th:block id="punchActions">
+        <button class="btn btn-primary" id="searchAttendanceBtn">
+        Buscar
+        </button>
+        
+        <button class="btn btn-primary" id="addAttendanceBtn"
+        th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
+        Crear registro
+        </button>
+    </th:block>
+
+    <tr id="punchHeader">
+        <th>Fecha</th>
+        <th>Instalación</th>
+        <th>Empleado</th>
+        <th>Evento</th>
+        <th>Distancia</th>
+        <th>Acción</th>
+    </tr>
+
+</div>
+
+<script type="module" src="/js/private/attendance/attendance-table.js"></script>

@@ -1,0 +1,39 @@
+<div class="create-employee" th:fragment="content">
+
+    <div class="create-employee-header">
+        <div class="create-header-foto" id="employeePhoto">
+            <img th:src="${'/img/default-avatar.png'}" 
+                alt="Previsualización de foto" id="employeePhotoPreview">
+            
+            <input type="file" id="employeePhotoInput" name="photoFile" accept="image/*" style="display: none;" />
+            
+            <button type="button" class="btn-change-photo" id="changePhotoBtn">Subir foto</button>
+        </div>
+
+        <div class="create-header-text">
+            <div class="create-header-text-title">
+                <h3>Nueva Ficha de Contratación</h3>
+            </div>
+        </div>
+
+        <div th:replace="~{shared/fragments/buttons :: genericButtons(
+            true, 'Guardar',
+            true, 'Cancelar',
+            false, ''
+            )}">
+        </div>
+    </div>
+
+    <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
+
+    <div th:replace="~{shared/fragments/panels/tab-panel-card :: tabPanelCard(
+        title='Empleado',
+        tabs=${employeeTabs},
+        customClass='employee-tabs'
+        )}">
+    </div>
+
+</div>
+
+<script type="module" src="/js/private/employees/create-employee.js"></script>
+

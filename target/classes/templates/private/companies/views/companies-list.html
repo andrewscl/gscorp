@@ -1,0 +1,48 @@
+<div th:replace="~{shared/fragments/table-component :: smart-table(
+    title='Gestión de Empresas',
+    count=${count},
+    filters=~{::#companyFilters},
+    actions=~{::#companyActions},
+    thead=~{::#companyHeader},
+    tbody=~{private/companies/fragments/companies-table-rows :: rows},
+    customClass='companies-table'
+)}">
+
+    <th:block id="companyFilters">
+        <div class="filter-item">
+            <span class="filter-label">Estado</span>
+            <select id="filter-company-status" class="filter-input" name="companyStatus" required>
+                <option value="">Todos los estados</option>
+                <option th:each="cs : ${companyStatus}"
+                        th:value="${cs.name()}"
+                        th:text="${cs.displayName}"></option>
+            </select>
+        </div>
+        <div class="filter-item">
+            <span class="filter-label">Busqueda</span>
+            <input id="filter-q" class="filter-input" type="text"
+                        placeholder="Buscar empresa..."/>
+        </div>
+        <button class="btn btn-primary" id="searchCompaniesBtn">
+        Buscar
+        </button>
+    </th:block>
+
+    <th:block id="companyActions">
+        <button class="btn btn-primary" id="addCompaniesBtn"
+            th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
+        Crear Empresa
+        </button>
+    </th:block>
+
+    <tr id="companyHeader">
+        <th>Empresa</th>
+        <th>Razón Social</th>
+        <th>Rut</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+
+</div>
+
+<script type="module" src="/js/private/companies/companies-table.js"></script>

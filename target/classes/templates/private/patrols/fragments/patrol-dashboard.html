@@ -1,0 +1,75 @@
+<div th:fragment="content" class="patrol-dashboard-card">
+    
+    <header class="patrol-dashboard-card__header">
+        <h3 class="patrol-dashboard-card__title">Panel de Patrullajes</h3>
+    </header>
+
+    <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
+
+    <div class="patrol-dashboard-map">
+        <h3 id="lblSiteName" th:text="${SiteName}"></h3>
+        <div class="content" id="map"></div>
+    </div>
+
+    <div class="patrol-dashboard-actions" id="patrolTabs">
+            <button class="patrol-dashboard-actions__primary-btn" id="addPatrolExecution" type="button">
+                🚀 Iniciar patrulla
+            </button>
+            <button class="patrol-dashboard-actions__secondary-btn" id="backToEmployeeDashboard" type="button">
+                ↩️ Volver
+            </button>
+    </div>
+
+<div class="patrol-dashboard-sections">
+    
+    <div class="patrol-section" id="schedules-section">
+        <div class="patrol-section__header">
+            <h4 class="patrol-section__title">📅 Agenda de Rondas</h4>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-sm table-hover align-middle patrol-table">
+                <thead>
+                    <tr>
+                        <th>Horario Planificado</th>
+                        <th>Nombre de Ronda</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="patrolSchedulesTableBody">
+                    <tr>
+                        <td colspan="3" class="text-center text-muted py-3">
+                            Cargando agenda de rondas...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="patrol-section" id="history-section">
+            <div class="patrol-section__header">
+                <h4 class="patrol-section__title">📋 Historial de Patrullajes</h4>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-sm table-hover align-middle patrol-table">
+                    <thead>
+                        <tr>
+                            <th>Hora Real</th>
+                            <th>Estado GPS</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="patrolHistoryTableBody">
+                        <tr>
+                            <td colspan="3" class="text-center text-muted py-3">
+                                Cargando historial de patrullajes...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/js/private/patrols/patrol-dashboard.js" defer></script>
+</div>
