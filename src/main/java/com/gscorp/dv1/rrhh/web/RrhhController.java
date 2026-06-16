@@ -16,7 +16,7 @@ public class RrhhController {
     public String getPrivateDashboardView(
             Model model) {
 
-        return "private/admin/views/admin-dashboard-view";
+        return "private/rrhh/views/rrhh-dashboard-view";
     }
 
 }
