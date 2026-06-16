@@ -29,15 +29,31 @@
             align-items: center;
             gap: 0.75rem;
             width: 7.5rem;
-            img {
+            .employeePhotoPreview{
                 width: 100%;
                 height: 10rem;
-                object-fit: cover;
                 border: 0.1rem solid $border-color;
                 border-radius: $radius-md;
+                background-color: $slate-400;
+                // centra el SVG
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
                 &:hover {
                     transform: translateY(-5px);
                     box-shadow: $shadow-lg;
+                }
+                svg{
+                    width: 45%;
+                    height: 45%;
+                    transition: opacity 0.3s ease;
+                }
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
                 }
             }
             .btn-change-photo {
