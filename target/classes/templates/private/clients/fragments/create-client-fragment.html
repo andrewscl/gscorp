@@ -1,0 +1,62 @@
+<div id="createClientContainer" class="create-client-container"
+                                            th:fragment="content">
+
+    <div class="hs-form-header">
+      <h3>Crear Cliente</h3>
+    </div>
+
+    <div class="body" id="createClientForm">
+
+      <div class="form-group">
+        <label>Empresa</label>
+        <select id="company" name="company" required>
+          <option value="">Selecciona una empresa</option>
+          <option th:each="company : ${companies}" 
+                  th:value="${company.id()}"
+                  th:text="${company.name()}">
+          </option>
+        </select>
+      </div>
+
+      <div class="form-row w-custom">
+        <div class="form-group col-40">
+          <label>Cliente</label>
+          <input type="text" id="name" name="name" placeholder="Nombre corto" required />
+        </div>
+
+        <div class="form-group col-60">
+          <label>Razón social</label>
+          <input type="text" id="legalName" name="legalName" placeholder="Razón social" required/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>RUT / NIT</label>
+        <input type="text" id="taxId" name="taxId" placeholder="00.000.000-0" required/>
+      </div>
+
+      <div class="form-row w-custom">
+        <div class="form-group col-50">
+          <label>Mail contacto</label>
+          <input type="email" id="email" name="contactEmail" placeholder="contacto@cliente.com" required/>
+        </div>
+
+        <div class="form-group col-50">
+          <label>Teléfono</label>
+          <input type="text" id="phone" name="contactPhone" placeholder="+56 9 1234 5678" />
+        </div>
+      </div>
+
+    </div>
+
+    <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
+
+    <div th:replace="~{shared/fragments/footer-buttons ::
+                          footer-buttons(
+                              true, 'Crear cliente',
+                              true, 'Cancelar',
+                              false, '')}"></div>
+
+    <script type="module" src="/js/private/clients/create-client.js"></script>
+
+</div>

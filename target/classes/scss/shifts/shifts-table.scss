@@ -1,0 +1,140 @@
+.shifts-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.6rem;
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+  }
+
+  .btn-primary {
+    padding: .6rem 1.3rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    border: 1px solid transparent;
+    background: #4177f6;
+    color: #fff;
+    cursor: pointer;
+    transition: background .15s, color .15s, border-color .15s;
+
+    &:hover {
+      background: #275bca;
+    }
+  }
+}
+
+.shifts-table-container {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(15,23,42,.06);
+  padding: 1.5rem 1rem;
+  max-width: 1080px;
+  margin: 0 auto;
+  overflow-x: auto;
+}
+
+.shifts-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+  color: #0f172a;
+
+  thead {
+    background: #f3f6fb;
+
+    th {
+      text-align: left;
+      padding: .7rem 1rem;
+      color: #334155;
+      font-weight: 700;
+      font-size: 1rem;
+      border-bottom: 2px solid #e5e7eb;
+      white-space: nowrap;
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid #e5e7eb;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      td {
+        padding: .62rem 1rem;
+        vertical-align: middle;
+        background: #fff;
+
+        &.actions {
+          display: flex;
+          gap: .6rem;
+        }
+      }
+    }
+  }
+
+  .tag {
+    display: inline-block;
+    padding: .23rem .75rem;
+    border-radius: 8px;
+    font-size: .97rem;
+    font-weight: 500;
+    background: #e0e7ff;
+    color: #3730a3;
+
+    &.tag-ok {
+      background: #d1fae5;
+      color: #065f46;
+    }
+    &.tag-off {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+  }
+
+  .btn-link {
+    background: none;
+    border: none;
+    color: #4177f6;
+    padding: .23rem .7rem;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 7px;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: background .12s, color .12s;
+
+    &:hover {
+      background: #f3f6fb;
+      color: #275bca;
+    }
+  }
+}
+
+@media (max-width: 850px) {
+  .shifts-header {
+    flex-direction: column;
+    gap: .9rem;
+    align-items: stretch;
+
+    .btn-primary {
+      width: 100%;
+    }
+  }
+  .shifts-table-container {
+    padding: .6rem .1rem;
+  }
+
+  .shifts-table th,
+  .shifts-table td {
+    padding: .45rem .4rem;
+    font-size: .96rem;
+  }
+}

@@ -1,0 +1,89 @@
+@use 'palette' as *;
+
+// Tamaños
+$base-font-size: 1rem;
+$header-text-height: 1.1rem;
+
+// Tipografías
+$primary-font: 'Roboto', sans-serif;
+$heading-font: 'Montserrat', sans-serif;
+
+// Colores
+$text-color: $slate-700;
+$text-secondary-color: $slate-500;
+$background-color: $slate-50;
+$background-dark-color: $slate-800;
+$primary-color: $slate-800;
+$primary-color-strong: $slate-900;
+$secondary-color: $slate-300;
+$border-color: $slate-200;
+$border-color-hover: $slate-300;
+$hover-color: $accent-blue;
+$muted-color: $cool-gray-500;
+
+$heading-color: $slate-600;
+$label-text-color: $slate-400;
+$input-text-color: $slate-700;
+
+$toggle-width: 84px;
+$toggle-padding: 0.45rem 0.75rem;
+
+$topbar-height: 3.5rem;
+$topbar-height-mobile: 4.8rem;
+$sidebar-width: 15rem;
+$content-horizontal-padding: 2.4rem;
+$radius: 0.7rem;
+$radius-lg: 1rem;
+$radius-md: 0.8rem;
+$radius-email: 11.2px;
+$ratio-left: 1;
+$ratio-right: 1;
+
+$width-coords: 13rem; 
+$width-time: 6rem;
+$width-number: 4.5rem;
+$width-text: 10rem;
+$width-btn: 6rem;
+
+//topbar
+$main-bg: linear-gradient(120deg, #f6f8fa 0%, #e7ebf3 100%);
+$sidebar-bg: #ffffff;
+$sidebar-color: #494f56;
+$topbar-bg: #fff;
+$content-bg: #f9fafb;
+
+
+// Sombras sutiles para elementos pequeños (inputs, botones)
+$shadow-xs: 0 0.1rem 0.4rem rgba(15, 23, 42, 0.04);
+// Sombra estándar para tarjetas y contenedores
+$shadow-sm: 0 0.5rem 1.1rem rgba(15, 23, 42, 0.04);
+$shadow-sm-email: 0 8px 17.6px rgba(15, 23, 42, 0.04);
+// Sombra para elementos flotantes (Dropdowns, Headers fijos)
+$shadow-md: 0 0.5rem 1.25rem rgba(15, 23, 42, 0.08);
+$shadow-md-email: 0 8px 20px rgba(15, 23, 42, 0.08);
+// Sombra para Modales o elementos con mucha profundidad
+$shadow-lg: 0 1rem 2.2rem rgba(15, 23, 42, 0.12);
+
+$transition-card: transform 0.2s ease, box-shadow 0.2s ease;
+
+
+$alert-success: #d1f7d6; /* Verde claro */
+$alert-error: #fde4e4; /* Rojo claro */
+$alert-cancel: #fff3cd; /* Amarillo claro */
+$alert-success-dark: #256029; /* Verde oscuro */
+$alert-error-dark: #a61d1d; /* Rojo oscuro */
+$alert-cancel-dark: #856404; /* Amarillo oscuro */
+$alert-success-border: #a4e5aa;
+$alert-error-border: #f5b3b3;
+$alert-cancel-border: #ffeeba;
+
+// En tu archivo de variables, abajo de tus colores generales:
+$btn-primary-bg: $accent-blue;
+$btn-secondary-bg: $slate-600;
+$btn-search-bg: $slate-300;              // Gris azulado muy suave, no compite con el $slate-800 primario
+$btn-search-border: $slate-200;          // Coincide con tu $border-color base
+$btn-search-text: $slate-700;            // Texto e icono legible pero no completamente negro
+$btn-search-hover-bg: $slate-200;        // Se oscurece sutilmente en hover
+$btn-search-hover-border: $slate-300;    // El borde se define mejor en hover
+$btn-search-hover-text: $slate-900;      // El texto gana fuerza al interactuar
+

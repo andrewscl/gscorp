@@ -1,0 +1,60 @@
+<div th:fragment="sidebar">
+    <div id="logo-container" class="logo-container">
+        <img id="logo" class="logo" th:src="@{/img/logo_sin_nombre.png}" alt="Logo" />
+    </div>
+
+    <nav class="menu">
+
+        <a class="menu-item" href="#"
+                data-path="/private/clients/dashboard">Inicio</a>
+
+        <details class="menu-group">
+            <summary class="menu-item">Servicios</summary>
+            <div class="submenu">
+                <a class="submenu-item" href="#"
+                    data-path="/private/shift-requests/table-view">Requerimientos</a>
+                <a class="submenu-item" href="#"
+                    data-path="/private/planning/table-view">Planificación</a>
+                <a class="submenu-item" href="#"
+                    data-path="/private/attendance/table-view">Asistencia</a>
+                <a class="submenu-item" href="#"
+                    data-path="/private/patrols/table-view">Rondas de vigilancia</a>
+                <a class="submenu-item" href="#"
+                    data-path="/private/site-supervision-visits/table-view">Supervisión de instalaciones</a>
+                <a class="submenu-item" href="#"
+                    data-path="/private/sites/table-view">Sitios</a>
+                <a class="submenu-item" href="#"
+                    data-path="">Tareas</a>
+                <a class="submenu-item" href="#"
+                    data-path="/private/incidents/table-view">Incidentes</a>
+            </div>
+        </details>
+        <details class="menu-group">
+            <summary class="menu-item">Información</summary>
+            <div class="submenu">
+                <a class="submenu-item" href="#"
+                    data-path="/private/employees/table-view">Colaboradores</a>
+                <a class="submenu-item">Documentación</a>
+                <a class="submenu-item">Proforma</a>
+                <a class="submenu-item">-</a>
+            </div>
+        </details>
+        <a class="menu-item" href="#"
+                    data-path="/public/home">SESAN</a>
+    </nav>
+    <button class="toggle-sidebar" id="toggleSidebar">☰</button>
+</div>
+
+<th:block th:fragment="topbar">
+        <div class="topbar-left">
+            <div id="logo-container" class="logo-container">
+                <img id="logo" class="logo" th:src="@{/img/logo_sin_nombre.png}" alt="Logo" />
+            </div>
+            <h1 class="title">Clientes</h1>
+        </div>
+        <div class="topbar-right">
+            <button class="topbar-burger" id="topbarToggleSidebar"
+                        aria-label="Abrir menú"
+                            aria-expanded="false">☰</button>
+        </div>
+</th:block>

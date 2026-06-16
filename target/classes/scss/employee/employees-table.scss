@@ -1,0 +1,22 @@
+@use "sass:color";
+@use '../abstracts/palette' as *;
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+@use '../abstracts/buttons/btn-mixins' as *;
+@use '../abstracts/typography' as *;
+
+.hs-table.employees-table {
+  .hs-table-container {
+    .table {
+      tbody {
+        tr {
+            td:nth-child(1) { width: 15%; } 
+            td:nth-child(2) { width: 30%; }
+            td:nth-child(3) { width: 20%; }  
+            td:nth-child(4) { width: 15%; }
+            td:nth-child(5) { width: 20%; }
+        }
+      }
+    }
+  }
+}

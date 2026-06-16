@@ -1,0 +1,5 @@
+<th:block th:fragment="partial">
+  <th:block
+        th:if="${punchsCount > 0}"
+        th:replace="private/attendance/fragments/attendance-table-rows :: rows"></th:block>
+</th:block>

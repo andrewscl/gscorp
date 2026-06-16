@@ -1,0 +1,6 @@
+@use '../abstracts/card-forms' as *;
+
+.edit-user-container{
+  @include hs-form($max_w: 40rem);
+}
+

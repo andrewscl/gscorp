@@ -1,0 +1,63 @@
+<div th:replace="~{shared/fragments/table-component :: smart-table(
+    title='Requerimientos de Servicio',
+    count=${shiftRequestsCount},
+    filters=~{::#shiftRequestsFilters},
+    actions=~{::#shiftRequestsActions},
+    thead=~{::#shiftRequestsHeader},
+    tbody=~{private/shift-requests/fragments/shift-request-table-rows :: rows},
+    customClass='shift-request-table'
+)}">
+
+    <th:block class="count" th:if="${shiftRequestsCount != null}"
+        th:text="${shiftRequestsCount + ' registro' + (shiftRequestsCount == 1 ? '' : 's')}"
+        aria-live="polite" aria-atomic="true">
+    </th:block>
+
+    <th:block id="shiftRequestsFilters">
+
+        <label class="filter-item">
+            <span class="filter-label">Desde</span>
+            <input id="filter-from" class="filter-input" type="date" name="from"
+                th:value="${from != null ? #temporals.format(from, 'yyyy-MM-dd') : (fromDate != null ? #temporals.format(fromDate, 'yyyy-MM-dd') : '')}" />
+        </label>
+        <label class="filter-item">
+            <span class="filter-label">Hasta</span>
+            <input id="filter-to" class="filter-input" type="date" name="to"
+                th:value="${to != null ? #temporals.format(to, 'yyyy-MM-dd') : (toDate != null ? #temporals.format(toDate, 'yyyy-MM-dd') : '')}" />
+        </label>
+
+        <div class="filter-item">
+            <span class="filter-label">Sitios</span>
+            <select id="filter-dept" class="filter-input" name="siteId" required>
+                <option value="">Todos los sitios</option>
+                <option th:each="s : ${sites}"
+                        th:value="${s.id}"
+                        th:text="${s.name}"></option>
+            </select>
+        </div>
+    </th:block>
+
+    <th:block id="shiftRequestsActions">
+        <button class="btn btn-primary" id="searchShiftRequestsBtn">
+        Buscar
+        </button>
+        
+        <button class="btn btn-primary" id="addShiftRequestsBtn"
+        th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
+        Crear registro
+        </button>
+    </th:block>
+
+    <tr id="shiftRequestsHeader">
+        <th>Id</th>
+        <th>Turno</th>
+        <th>Sitio</th>
+        <th>Tipo</th>
+        <th>Inicio</th>
+        <th>Termino</th>
+        <th>Descripción</th>
+    </tr>
+
+</div>
+
+<script type="module" src="/js/private/shift-requests/shift-request-table.js"></script>

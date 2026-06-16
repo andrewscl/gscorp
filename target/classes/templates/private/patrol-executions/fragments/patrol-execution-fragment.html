@@ -1,0 +1,42 @@
+<div th:fragment="content" class="patrol-execution-card">
+    <header class="patrol-execution-card__header">
+        <h3 class="patrol-execution-card__title">Ejecución de Patrullaje</h3>
+    </header>
+
+    <th:block class="patrol-execution-status">
+        <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
+    </th:block>
+
+    <div class="patrol-execution-map">
+        <h3>Tu Ubicación Actual</h3>
+        <div class="content" id="map"></div>
+    </div>
+
+    <div id="patrolForm" class="patrol-form">
+        
+        <div class="form-group mb-3">
+            <label for="description" class="form-label">Notas de la Ronda</label>
+            <textarea id="description" name="description" class="form-control" 
+                      rows="3" placeholder="Describe novedades, incidencias o novedades encontradas..."></textarea>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-6">
+                <label for="photo" class="form-label">📷 Evidencia Foto</label>
+                <input type="file" id="photo" name="photo" accept="image/*" capture="environment" class="form-control">
+            </div>
+            <div class="col-6">
+                <label for="video" class="form-label">🎥 Evidencia Video</label>
+                <input type="file" id="video" name="video" accept="video/*" capture="environment" class="form-control">
+            </div>
+        </div>
+
+        <div class="d-grid gap-2 mt-4">
+            <button type="button" id="btnSubmitPatrol" class="btn btn-primary btn-lg">
+                🚀 Registrar Punto de Patrulla
+            </button>
+        </div>
+    </div>
+
+    <script type="module" src="/js/private/patrol-executions/patrol-execution.js" defer></script>
+</div>

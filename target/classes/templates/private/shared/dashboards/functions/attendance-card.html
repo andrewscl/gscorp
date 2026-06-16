@@ -1,0 +1,23 @@
+<section th:fragment="content" class="attendance-card state--checkin">
+    <div class="attendance-card__status">
+        <span class="status-dot"></span>
+        <span class="status-text">Turno no iniciado</span>
+    </div>
+    
+    <div class="attendance-card__time">
+        <span class="current-time" id="card-hours-mins">00:00</span>
+        <span class="current-seconds" id="card-seconds">:00</span>
+    </div>
+
+    <button class="attendance-card__btn" id="attendance-card-btn" type="button">
+        <span class="btn-icon">⏱️</span>
+        <span class="btn-text" th:text="${nextAction != null ? nextAction : 'Nulo'}">Registrar Entrada</span>
+    </button>
+
+    <div class="attendance-card__footer">
+        <p th:text="${lastPunchText}">Último marcaje: Viernes 15, 18:05 hrs (Salida)</p>
+    </div>
+
+  <script type="module" src="/js/private/dashboards/shared/attendance-card.js"></script>
+
+</section>

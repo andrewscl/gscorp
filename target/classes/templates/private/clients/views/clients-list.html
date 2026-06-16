@@ -1,0 +1,50 @@
+<div th:replace="~{shared/fragments/table-component :: smart-table(
+    title='Gestión de Clientes',
+    count=${count},
+    filters=~{::#clientsFilters},
+    actions=~{::#clientsActions},
+    thead=~{::#clientsHeader},
+    tbody=~{private/clients/fragments/clients-table-rows :: rows},
+    customClass='clients-table'
+)}">
+
+    <th:block id="clientsFilters">
+        <div class="filter-item">
+            <span class="filter-label">Estado</span>
+            <select id="filter-client-status" class="filter-input" name="clientStatus" required>
+                <option value="">Todos los estados</option>
+                <option th:each="cs : ${clientStatus}"
+                        th:value="${cs.name()}"
+                        th:text="${cs.displayName}"></option>
+            </select>
+        </div>
+        <div class="filter-item">
+            <span class="filter-label">Busqueda</span>
+            <input id="filter-q" class="filter-input" type="text"
+                        placeholder="Buscar cliente..."/>
+        </div>
+        <button class="btn btn-primary" id="searchClientsBtn">
+        Buscar
+        </button>
+    </th:block>
+
+    <th:block id="clientsActions">
+        <button class="btn btn-primary" id="addClientsBtn"
+            th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
+        Crear Cliente
+        </button>
+    </th:block>
+
+    <tr id="clientsHeader">
+        <th>Cliente</th>
+        <th>Razón Social</th>
+        <th>Rut</th>
+        <th>Status</th>
+        <th>Empresa</th>
+        <th>Actions</th>
+    </tr>
+
+</div>
+
+<script type="module" src="/js/private/clients/clients-table.js"></script>
+

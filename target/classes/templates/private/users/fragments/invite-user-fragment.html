@@ -1,0 +1,77 @@
+<div id="inviteUserContainer" class="invite-user-container"
+                                            th:fragment="content">
+
+  <div class="hs-form-header">
+    <h3>Invitar nuevo usuario</h3>
+  </div>
+
+  <div class="body" id="inviteUserForm">
+
+    <div class="form-row w-custom">
+      <div class="form-group col-40">
+        <label for="inviteUsername">Nombre de usuario:</label>
+        <input type="text" id="inviteUsername" required />
+      </div>
+
+      <div class="form-group col-60">
+        <label for="inviteMail">Email:</label>
+        <input type="email" id="inviteMail" required />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inviteEmployeeId">Asignar a empleado:</label>
+      <select name="inviteEmployeeId" id="inviteEmployeeId">
+        <option value="" disabled selected>Seleccione un empleado...</option>
+        <th:block th:each="emp : ${employees}">
+          <option th:value="${emp.id}"
+                  th:text="${emp.name + ' ' + emp.fatherSurname + ' (' + emp.rut + ')'}"></option>
+        </th:block>
+      </select>
+    </div>
+
+    <div class="form-row w-custom">
+      <div class="form-group col-50">
+        <label for="userCompanies">Empresas</label>
+        <select id="userCompanies" name="companyIds" multiple size="6">
+          <option th:each="company : ${companies}"
+                  th:value="${company.id}"
+                  th:text="${company.name}">
+          </option>
+        </select>
+      </div>
+      <div class="form-group col-50">
+        <label for="userClients">Clientes</label>
+        <select id="userClients" name="clientIds" multiple size="6">
+          <option th:each="client : ${clients}"
+                  th:value="${client.id}"
+                  th:text="${client.name}">
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inviteRoleId">Asignar role:</label>
+      <select name="inviteRoleId" id="inviteRoleId">
+        <option value="" disabled selected>Seleccione un role...</option>
+        <th:block th:each="role : ${roles}">
+          <option th:value="${role.id}"
+                  th:text="${role.name}"></option>
+        </th:block>
+      </select>
+    </div>
+
+  </div>
+
+  <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
+
+  <div th:replace="~{shared/fragments/footer-buttons ::
+                        footer-buttons(
+                            true, 'Invitar Usuario',
+                            true, 'Cancelar',
+                            false, '')}"></div>
+
+  <script type="module" src="/js/private/admin/users/invite-user.js"></script>
+
+</div>

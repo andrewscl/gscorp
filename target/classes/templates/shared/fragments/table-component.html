@@ -1,0 +1,41 @@
+<!-- shared/components.html -->
+<div th:fragment="smart-table(title, count, filters, actions, thead, tbody, customClass)"
+        class="hs-table" th:classappend="${customClass}">
+
+    <div class="hs-table-header">
+      <div class="hs-title-row">
+        <div class="title-left">
+          <span class="title-text" th:text="${title}"></span>
+        </div>
+        <span class="count" th:if="${count != null}" 
+              th:text="${count + ' registro' + (count == 1 ? '' : 's')}"></span>
+      </div>
+
+      <div class="hs-filters-actions-row">
+        <div class="filter-group">
+          <th:block th:replace="${filters}"></th:block>
+        </div>
+        
+        <div class="actions-row">
+          <th:block th:replace="${actions}"></th:block>
+        </div>
+      </div>
+
+    </div>
+
+  <div class="hs-table-container">
+    <table class="table">
+      <thead>
+        <tr th:replace="${thead}"></tr>
+      </thead>
+      <tbody>
+        <tr th:if="${count == 0}">
+          <td colspan="100%" style="text-align:center; padding: 2rem;">
+                                          No hay datos disponibles</td>
+        </tr>
+        <th:block th:replace="${tbody}"></th:block>
+      </tbody>
+    </table>
+  </div>
+
+</div>

@@ -1,0 +1,20 @@
+@use '../../../abstracts/palette' as * ;
+@use '../../../abstracts/mixins' as * ;
+@use '../../../abstracts/variables' as * ;
+@use '../shared/dashboard-welcome' as *;
+@use '../shared/attendance-card' as *;
+@use '../shared/shortcut-grid' as *;
+
+.op-operator-dashboard-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    @include dashboard-welcome();
+
+    @include attendance-card();
+
+    @include shortcut-grid();
+
+}
+

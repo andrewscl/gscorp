@@ -1,0 +1,32 @@
+@use '../../../abstracts/palette' as * ;
+@use '../../../abstracts/variables' as * ;
+@use '../../../abstracts/mixins' as * ;
+
+@mixin dashboard-welcome () {
+    .dashboard-welcome {
+        display: flex;
+        flex-direction: column;
+        .welcome-text {
+            padding: 1rem;
+            &__title {
+                @include montserrat-font(1.4rem, 700);
+                margin: 0;
+                color: #1f2937; }
+            &__subtitle {
+                @include montserrat-font(0.9rem, 500);
+                margin: 0.2rem 0 0 0;
+                color: #6b7280; }
+        }
+        .welcome-date {
+            align-self: flex-end;
+            &__badge{
+                background: #e0e7ef;
+                padding: 0.4rem 0.8rem;
+                border-radius: 20px;
+                font-size: 0.8rem;
+                font-weight: 600;
+                color: #4b5563;
+            }
+        }
+    }
+}

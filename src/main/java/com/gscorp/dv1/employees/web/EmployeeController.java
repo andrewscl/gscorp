@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.gscorp.dv1.attendance.application.AttendanceService;
 import com.gscorp.dv1.attendance.web.dto.DashboardHeaderInfo;
 import com.gscorp.dv1.bank.application.BankService;
+import com.gscorp.dv1.companies.application.CompanyService;
 import com.gscorp.dv1.employees.application.EmployeeService;
 import com.gscorp.dv1.employees.application.EmployeeTabsServiceImpl;
 import com.gscorp.dv1.employees.web.dto.EmployeeTableDto;
@@ -63,6 +64,7 @@ public class EmployeeController {
     private PositionService positionService;
     private AttendanceService attendanceService;
     private EmployeeTabsServiceImpl employeeTabsService;
+    private CompanyService companyService;
     
     @GetMapping("/dashboard")
     public String getPrivateDashboardView (
@@ -188,6 +190,7 @@ public class EmployeeController {
         model.addAttribute("positions", positionService.findAll());
         model.addAttribute("projects", projectService.findAll());
         model.addAttribute("users", userService.findAll());
+        model.addAttribute("companies", companyService.getAllCompaniesForSelect());
 
         return "private/employees/views/create-employee-view";
     }
