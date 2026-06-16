@@ -9,12 +9,10 @@ const qs  = (s) => document.querySelector(s);
 const alertSuccess = qs('.alert-success');
 const alertError = qs('.alert-error');
 const alertCancel = qs('.alert-warning');
-/*
-async function onSubmitCreate(e) {
-  e.preventDefault();
 
-  const submitBtn = e.submitter || qs('#submitCreateEmployee button[type="submit"]');
-  submitBtn && (submitBtn.disabled = true);
+async function onSubmitCreate(e) {
+  if(submitBtn) submitBtn.disabled = true;
+  const submitBtn = qs('.btn-primary');
 
   // Campos básicos
   const name                 = qs('#employeeName')?.value?.trim();
@@ -65,17 +63,6 @@ async function onSubmitCreate(e) {
   let photo = null;
   if (photoInput && photoInput.files && photoInput.files[0]) {
     photo = photoInput.files[0];
-  }
-
-  const err = qs('#createEmployeeError');
-  const ok  = qs('#createEmployeeOk');
-  if (err) err.textContent = '';
-  if (ok)  ok.style.display = 'none';
-
-  if (!name) {
-    if (err) err.textContent = 'El nombre es obligatorio.';
-    submitBtn && (submitBtn.disabled = false);
-    return;
   }
 
   try {
@@ -129,23 +116,23 @@ async function onSubmitCreate(e) {
       throw new Error(msg || 'No se pudo crear el empleado');
     }
 
-    if (ok) ok.style.display = 'block';
+    displayAlert(alertSuccess, 'Empleado creado correctamente', 2500);
     setTimeout(() => {
-      // Vuelve al listado
-      navigateTo('/private/employees/table-view');
-    }, 600);
+                      navigateTo('/private/employees/table-view');
+                    }, 600);
   } catch (e2) {
-    if (err) err.textContent = e2.message;
+  displayAlert(alertSuccess, e2.message, 4000);
+  if(submitBtn) submitBtn.disabled = false;
   }
-}*/
+}
 
 function onCancelCreate(e) {
-  e.preventDefault();
-  navigateTo('/private/employees/table-view');
+    displayAlert(alertCancel, 'La creación del empleado ha sido cancelada.', 2000);
+    navigateTo('/private/employees/table-view');
 }
 
 
-// 1. El botón solo abre la ventana del sistema operativo
+// El botón solo abre la ventana del sistema operativo
 const onchangePhoto = () => {
     const photoInput = qs('#employeePhotoInput');
     if (photoInput) {
@@ -153,7 +140,7 @@ const onchangePhoto = () => {
     }
 };
 
-// 2. Esta nueva función procesa el archivo binario y actualiza la vista previa
+// Esta función procesa el archivo binario y actualiza la vista previa
 const handlePhotoFileChange = function() {
     const photoPreview = qs('#employeePhotoPreview');
     const file = this.files[0]; // 'this' hace referencia al #employeePhotoInput
@@ -168,44 +155,11 @@ const handlePhotoFileChange = function() {
 };
 
 
-function initDynamicHeader() {
-    const inputName = qs('#employeeName');
-    const inputFather = qs('#employeeFatherSurname');
-    const headerName = qs('#headerDynamicName');
-
-    // Si los elementos clave no están en el DOM, salimos silenciosamente
-    if (!inputName || !headerName) return;
-
-    // Declaramos la función que actualiza el texto
-    const updateHeaderName = () => {
-        const name = inputName.value.trim();
-        const father = inputFather ? inputFather.value.trim() : '';
-        
-        if (name || father) {
-            headerName.textContent = `${name} ${father}`.trim();
-            headerName.classList.remove('text-muted');
-        } else {
-            headerName.textContent = 'Ficha nueva: Sin registrar';
-            headerName.classList.add('text-muted');
-        }
-    };
-
-    // ASIGNAMOS LOS LISTENERS para cambios futuros
-    inputName.addEventListener('input', updateHeaderName);
-    if (inputFather) {
-        inputFather.addEventListener('input', updateHeaderName);
-    }
-
-    // EJECUCIÓN INMEDIATA (Una sola vez al cargar el script)
-    updateHeaderName();
-}
-
-
 function bindCreateEmployee() {
-/*    const submitBtn = qs('.btn-primary');
+    const submitBtn = qs('.btn-primary');
     if (submitBtn) {
         submitBtn.addEventListener('click', onSubmitCreate);
-    } */
+    }
     const backBtn = qs('.btn-secondary');
     if (backBtn) {
         backBtn.addEventListener('click', onCancelCreate);
@@ -225,5 +179,4 @@ function bindCreateEmployee() {
 (async function init() {
   initTabPanels();
   bindCreateEmployee();
-  initDynamicHeader();
 })();
