@@ -1,5 +1,7 @@
 <div th:fragment="content" id="client-dashboard-root" class="dashboard" role="region" aria-label="Client dashboard">
 
+    <div th:replace="~{private/clients/dashboards/kpi/security-kpi-line-card :: security-kpi-line-card}"></div>
+
   <!-- Hourly charts (actualizado: donut integrado en la mitad superior izquierda) -->
   <div class="charts hourly" role="group" aria-label="Indicadores diarios">
     <!-- Attendance -->

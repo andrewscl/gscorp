@@ -1,10 +1,4 @@
-/* client-dashboard.scss - versión refinada
-   Recomendaciones aplicadas:
-   - asegurar tamaño/position para contenedores de charts
-   - placeholder para "no data"
-   - reducir uso de !important
-   - conservar variables para ajustes rápidos
-*/
+@use '../abstracts/dashboards/kpi-cards' as * ;
 
 #client-dashboard-root {
   --bg: #f8fafc;
@@ -34,6 +28,8 @@
   color: var(--text);
   font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   background: transparent;
+
+  @include kpi-cards ();
 
   .container-inner {
     max-width: var(--max-width);

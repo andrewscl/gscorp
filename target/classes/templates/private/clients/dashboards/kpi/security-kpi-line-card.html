@@ -1,0 +1,62 @@
+<div th:fragment="security-kpi-line-card" id="security-kpi-line-card" class="stats-grid">
+    
+    <div class="stat-card">
+        <div class="stat-card__header">
+            <h3 class="stat-card__title">Asistencia en Turno</h3>
+            <div th:replace="~{shared/fragments/icons/analytics/users-icons :: users}"></div>
+        </div>
+        <div class="stat-card__body">
+            <p class="stat-card__value" th:text="${attendanceValue}">96%</p>
+            <span class="stat-card__trend trend-up">Dotación óptima</span>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-card__header">
+            <h3 class="stat-card__title">Cumplimiento de Rondas</h3>
+            <div th:replace="~{shared/fragments/icons/analytics/users-icons :: users}"></div>
+        </div>
+        <div class="stat-card__body">
+            <p class="stat-card__value" th:text="${patrolsCount}">142</p>
+            <span class="stat-card__trend trend-neutral">Puntos de control validados</span>
+        </div>
+    </div>
+
+    <div class="stat-card" th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'') or hasRole(''SUPERVISOR'')')}">
+        <div class="stat-card__header">
+            <h3 class="stat-card__title">Incidencias Críticas</h3>
+            <div th:replace="~{shared/fragments/icons/status/alert-icons :: alert}"></div>
+        </div>
+        <div class="stat-card__body">
+            <p class="stat-card__value" th:text="${incidentsCount}">3</p>
+            <span class="stat-card__trend trend-warning" th:classappend="${incidentsCount > 0} ? 'trend-down' : 'trend-up'">
+                [[${incidentsCount > 0 ? 'Requiere revisión' : 'Sin novedades'}]]
+            </span>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-card__header">
+            <h3 class="stat-card__title">Accesos Registrados</h3>
+            <div th:replace="~{shared/fragments/icons/analytics/users-icons :: users}"></div>
+        </div>
+        <div class="stat-card__body">
+            <p class="stat-card__value" th:text="${accessCount}">1,240</p>
+            <span class="stat-card__trend trend-up">Flujo normal controlado</span>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-card__header">
+            <h3 class="stat-card__title">Alertas SOS</h3>
+            <div th:replace="~{shared/fragments/icons/status/alert-icons :: alert}"></div>
+        </div>
+        <div class="stat-card__body">
+            <p class="stat-card__value" th:text="${panicAlertsCount}">0</p>
+            <span class="stat-card__trend" th:class="${panicAlertsCount == 0 ? 'stat-card__trend trend-up' : 'stat-card__trend trend-down'}">
+                [[${panicAlertsCount == 0 ? 'Perímetro Seguro' : 'EMERGENCIA ACTIVA'}]]
+            </span>
+        </div>
+    </div>
+
+</div>
