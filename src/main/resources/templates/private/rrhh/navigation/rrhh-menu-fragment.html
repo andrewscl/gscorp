@@ -1,6 +1,6 @@
 <div th:fragment="sidebar">
     <div id="logo-container" class="logo-container">
-        <img id="logo" class="logo" th:src="@{/img/logo-sin-nombre.png}" alt="Logo" />
+        <img id="logo" class="logo" th:src="@{/img/logo_sin_nombre.png}" alt="Logo" />
     </div>
 
     <nav class="menu">
@@ -27,15 +27,21 @@
 
         </details>
         <a class="menu-item" href="#"
-                    data-path="/public/home">GSCorp</a>
+                    data-path="/public/home">SESAN</a>
     </nav>
     <button class="toggle-sidebar" id="toggleSidebar">☰</button>
 </div>
 
-<div th:fragment="topbar">
-    <h1 class="title">Recursos humanos</h1>
-    <div class="user-actions">
-        <span class="user-name">rrhh</span>
-        <a class="logout-btn">Cerrar sesión</a>
-    </div>
-</div>
+<th:block th:fragment="topbar">
+        <div class="topbar-left">
+            <div id="logo-container" class="logo-container">
+                <img id="logo" class="logo" th:src="@{/img/logo_sin_nombre.png}" alt="Logo" />
+            </div>
+            <h1 class="title">Recursos Humanos</h1>
+        </div>
+        <div class="topbar-right">
+            <button class="topbar-burger" id="topbarToggleSidebar"
+                        aria-label="Abrir menú"
+                            aria-expanded="false">☰</button>
+        </div>
+</th:block>
