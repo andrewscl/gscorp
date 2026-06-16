@@ -82,7 +82,7 @@ public interface UserRepository extends JpaRepository<User, Long>{
                 u.active AS active,
                 u.status AS status,
                 e.id AS employeeId,
-                r.name AS roleName
+                r.role AS roleName
             FROM User u
             LEFT JOIN u.employee e
             LEFT JOIN u.role r
