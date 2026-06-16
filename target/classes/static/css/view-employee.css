@@ -107,16 +107,38 @@ p {
   gap: 2rem;
   align-items: flex-start;
 }
-.view-employee .view-employee-header .ve-header-foto img {
+.view-employee .view-employee-header .ve-header-foto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
   width: 7.5rem;
+}
+.view-employee .view-employee-header .ve-header-foto .employeePhotoPreview {
+  width: 100%;
   height: 10rem;
-  object-fit: cover;
   border: 0.1rem solid #e2e8f0;
   border-radius: 0.8rem;
+  background-color: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.view-employee .view-employee-header .ve-header-foto:hover {
+.view-employee .view-employee-header .ve-header-foto .employeePhotoPreview:hover {
   transform: translateY(-5px);
   box-shadow: 0 1rem 2.2rem rgba(15, 23, 42, 0.12);
+}
+.view-employee .view-employee-header .ve-header-foto .employeePhotoPreview svg {
+  width: 45%;
+  height: 45%;
+  transition: opacity 0.3s ease;
+}
+.view-employee .view-employee-header .ve-header-foto .employeePhotoPreview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .view-employee .view-employee-header .ve-header-text .ve-header-text-title {
   font-family: "Montserrat", sans-serif;
