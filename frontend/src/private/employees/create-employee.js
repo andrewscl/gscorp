@@ -190,13 +190,13 @@ function initDynamicHeader() {
         }
     };
 
-    // 🚀 ASIGNAMOS LOS LISTENERS para cambios futuros
+    // ASIGNAMOS LOS LISTENERS para cambios futuros
     inputName.addEventListener('input', updateHeaderName);
     if (inputFather) {
         inputFather.addEventListener('input', updateHeaderName);
     }
 
-    // 🚀 EJECUCIÓN INMEDIATA (Una sola vez al cargar el script)
+    // EJECUCIÓN INMEDIATA (Una sola vez al cargar el script)
     updateHeaderName();
 }
 
