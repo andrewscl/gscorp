@@ -30,7 +30,7 @@
 
     <th:block id="employeesActions">
         <button class="btn btn-primary" id="addEmployeesBtn"
-            th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
+            th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'') or hasRole(''RRHH'')')}">
         Crear Empleado
         </button>
     </th:block>
