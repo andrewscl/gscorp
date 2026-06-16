@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    <div class="stat-card" th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'') or hasRole(''SUPERVISOR'')')}">
+    <div class="stat-card">
         <div class="stat-card__header">
             <h3 class="stat-card__title">Incidencias Críticas</h3>
             <div th:replace="~{shared/fragments/icons/status/alert-icons :: alert}"></div>
@@ -53,7 +53,9 @@
         </div>
         <div class="stat-card__body">
             <p class="stat-card__value" th:text="${panicAlertsCount}">0</p>
-            <span class="stat-card__trend" th:class="${panicAlertsCount == 0 ? 'stat-card__trend trend-up' : 'stat-card__trend trend-down'}">
+            
+            <span class="stat-card__trend" 
+                th:classappend="${panicAlertsCount == 0} ? 'trend-up' : 'trend-down'">
                 [[${panicAlertsCount == 0 ? 'Perímetro Seguro' : 'EMERGENCIA ACTIVA'}]]
             </span>
         </div>
