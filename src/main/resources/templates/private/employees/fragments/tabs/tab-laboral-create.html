@@ -5,7 +5,7 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label>Empresa: </label>
-                        <select id="company" name="companyId">
+                        <select id="companyId" name="companyId">
                         <option value="">Seleccione empresa</option>
                         <option th:each="c : ${companies}" 
                                 th:value="${c.id}" 

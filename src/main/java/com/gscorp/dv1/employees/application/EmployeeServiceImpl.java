@@ -19,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.gscorp.dv1.bank.application.BankService;
 import com.gscorp.dv1.bank.infrastructure.Bank;
 import com.gscorp.dv1.clients.application.ClientService;
+import com.gscorp.dv1.companies.infrastructure.Company;
+import com.gscorp.dv1.companies.infrastructure.CompanyRepository;
 import com.gscorp.dv1.employees.infrastructure.Employee;
 import com.gscorp.dv1.employees.infrastructure.EmployeeRepository;
 import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeEditProjection;
@@ -58,6 +60,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final PositionService positionService;
     private final ShiftPatternService shiftPatternService;
     private final ClientService clientService;
+    private final CompanyRepository companyRepo;
 
     @Value("${file.upload-dir}")
     private String uploadDir;
@@ -120,12 +123,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     public Employee createEmployeeFromRequest(CreateEmployeeRequest req) {
         
-        //Establecer proyecto
+        Company companyReference = null;
+        if (req.getCompanyId() != null) {
+            // 🟢 No hace un SELECT a la base de datos. Crea un proxy ligero con el ID.
+            companyReference = companyRepo.getReferenceById(req.getCompanyId());
+        }
 
         Set<Project> projects =
             (req.getProjectIds() != null && !req.getProjectIds().isEmpty())
             ? new HashSet<>(projectService.findEntitiesById(req.getProjectIds()))
             : Set.of();
+            
         
         Bank bank =
             (req.getBankId() != null)
@@ -210,6 +218,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .birthDate(req.getBirthDate())
                 .address(req.getAddress())
                 .projects(projects)
+                .company(companyReference)
                 .active(true)
                 .build();
 

@@ -101,4 +101,6 @@ public class CreateEmployeeRequest {
 
         private Set<Long> projectIds = new HashSet<>();
 
+        private Long companyId;
+
 }

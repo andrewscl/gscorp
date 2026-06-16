@@ -52,6 +52,7 @@ async function onCreateEmployee(e) {
   const address              = qs('#employeeAddress')?.value?.trim() || null;
   const hireDate             = qs('#employeeHireDate')?.value || null;
   const birthDate            = qs('#employeeBirthDate')?.value || null;
+  const companyId            = qs('#companyId')?.value?.trim() || null;
 
   // Proyectos asociados (select múltiple)
   let projectIds = [];
@@ -101,6 +102,7 @@ async function onCreateEmployee(e) {
     if (address) formData.append('address', address);
     if (hireDate) formData.append('hireDate', hireDate);
     if (birthDate) formData.append('birthDate', birthDate);
+    if (companyId) formData.append('companyId', companyId);
 
     // Proyectos asociados (MULTI)
     projectIds.forEach(id => formData.append('projectIds', id));
