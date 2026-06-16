@@ -144,13 +144,13 @@ const onchangePhoto = () => {
 
 // Esta función procesa el archivo binario y actualiza la vista previa
 const handlePhotoFileChange = function() {
-    const photoPreview = qs('#employeePhotoPreview');
+    const photoPreview = qs('.employeePhotoPreview');
     const file = this.files[0]; // 'this' hace referencia al #employeePhotoInput
 
     if (file && photoPreview) {
         const reader = new FileReader();
         reader.onload = function(e) {
-            photoPreview.src = e.target.result; // Cambia la foto en pantalla al instante
+            photoPreview.innerHTML = `<img src="${e.target.result}" alt="Foto del empleado" />`;
         };
         reader.readAsDataURL(file);
     }
