@@ -189,7 +189,7 @@ public class EmployeeController {
         model.addAttribute("projects", projectService.findAll());
         model.addAttribute("users", userService.findAll());
 
-        return "private/employees/views/create-employee-view";
+        return "private/employees/fragments/create-employee";
     }
 
     @GetMapping("/view/{externalId}")
