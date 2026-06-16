@@ -52,7 +52,7 @@ export default defineConfig({
         'private/projects/create-project': path.resolve(__dirname, './src/private/projects/create-project.js'),
         'private/projects/edit-project': path.resolve(__dirname, './src/private/projects/edit-project.js'),
         'private/projects/view-project': path.resolve(__dirname, './src/private/projects/view-project.js'),
-        'private/employees/create-employee-new': path.resolve(__dirname, './src/private/employees/create-employee-new.js'),
+        'private/employees/create-employee': path.resolve(__dirname, './src/private/employees/create-employee.js'),
         'private/employees/view-employee': path.resolve(__dirname, './src/private/employees/view-employee.js'),
         'private/employees/edit-employee': path.resolve(__dirname, './src/private/employees/edit-employee.js'),
         'private/employees/employees-table': path.resolve(__dirname, './src/private/employees/employees-table.js'),

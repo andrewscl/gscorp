@@ -2,6 +2,8 @@ import { initHeaderSync } from "../../shared/sync-header-height";
 import { navigateTo } from "../../navigation-handler";
 import { fetchWithAuth } from "../../auth";
 
+console.log('employee-table.js cargado');
+
 const qs  = (s) => document.querySelector(s);
 
 const createEmployee = (e) => {

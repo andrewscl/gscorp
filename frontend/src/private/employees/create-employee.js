@@ -15,7 +15,7 @@ function onCancelCreate(e) {
     navigateTo('/private/employees/table-view');
 }
 
-function bindEditEmployee() {
+function bindCreateEmployee() {
     const backBtn = qs('.btn-secondary');
     if (backBtn) {
         backBtn.addEventListener('click', onCancelCreate);
@@ -24,5 +24,5 @@ function bindEditEmployee() {
 
 (function init() {
     initTabPanels();
-    bindEditEmployee();
+    bindCreateEmployee();
 })();
