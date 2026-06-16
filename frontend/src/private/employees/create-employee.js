@@ -10,9 +10,10 @@ const alertSuccess = qs('.alert-success');
 const alertError = qs('.alert-error');
 const alertCancel = qs('.alert-warning');
 
-async function onSubmitCreate(e) {
-  if(submitBtn) submitBtn.disabled = true;
+async function onCreateEmployee(e) {
+
   const submitBtn = qs('.btn-primary');
+  if(submitBtn) submitBtn.disabled = true;
 
   // Campos básicos
   const name                 = qs('#employeeName')?.value?.trim();
@@ -121,8 +122,8 @@ async function onSubmitCreate(e) {
                       navigateTo('/private/employees/table-view');
                     }, 600);
   } catch (e2) {
-  displayAlert(alertSuccess, e2.message, 4000);
-  if(submitBtn) submitBtn.disabled = false;
+    displayAlert(alertError, e2.message, 4000);
+    if(submitBtn) submitBtn.disabled = false;
   }
 }
 
@@ -158,7 +159,7 @@ const handlePhotoFileChange = function() {
 function bindCreateEmployee() {
     const submitBtn = qs('.btn-primary');
     if (submitBtn) {
-        submitBtn.addEventListener('click', onSubmitCreate);
+        submitBtn.addEventListener('click', onCreateEmployee);
     }
     const backBtn = qs('.btn-secondary');
     if (backBtn) {
