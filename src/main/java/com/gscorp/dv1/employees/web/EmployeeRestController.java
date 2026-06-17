@@ -43,8 +43,8 @@ public class EmployeeRestController {
 
         Employee saved = employeeService.
                                 createEmployeeFromRequest(req);
-        var location = ucb.path("/api/employees/{id}")
-                            .buildAndExpand(saved.getId()).toUri();
+        var location = ucb.path("/api/employees/{externalId}")
+                            .buildAndExpand(saved.getExternalId()).toUri();
 
         EmployeeDto dto = EmployeeDto.fromEntity(saved);
 

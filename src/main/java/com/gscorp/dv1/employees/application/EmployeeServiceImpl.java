@@ -33,6 +33,7 @@ import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
 import com.gscorp.dv1.employees.web.dto.EmployeeTableDto;
 import com.gscorp.dv1.employees.web.dto.EmployeeViewDto;
 import com.gscorp.dv1.employees.web.dto.UpdateEmployeeRequest;
+import com.gscorp.dv1.enums.EmployeeStatus;
 import com.gscorp.dv1.nationalities.application.NationalityService;
 import com.gscorp.dv1.nationalities.infrastructure.Nationality;
 import com.gscorp.dv1.positions.application.PositionService;
@@ -220,6 +221,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .projects(projects)
                 .company(companyReference)
                 .active(true)
+                .status(EmployeeStatus.ACTIVE)
                 .build();
 
         Employee savedEmployee = employeeRepository.save(entity);
