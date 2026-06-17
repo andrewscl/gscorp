@@ -64,6 +64,7 @@ async function defineCurrentPosition() {
 
       if(nearestSite){
         await startViewMap(nearestSite);
+        await loadPatrolSchedules(nearestSite.externalId);
       }
 
       //await syncAttendanceButtons();
@@ -136,11 +137,10 @@ async function loadSites() {
 
 
 let patrolSchedulesList = [];
-const loadPatrolSchedules = async () => {
+const loadPatrolSchedules = async (siteExternalId) => {
   const TableBody = qs('#patrolSchedulesTableBody')
   try {
-
-    const response = await fetchWithAuth(`/api/patrol-schedules/${externalId}`, {
+    const response = await fetchWithAuth(`/api/patrol-schedules/${siteExternalId}`, {
        credentials: 'same-origin'
     });
 
@@ -239,6 +239,5 @@ function bindEvents() {
 (async function init() {
   bindEvents();
   await initComponent();
-  await loadPatrolSchedules();
   console.log('View patrol-dashboard page initialized.');
 })();
