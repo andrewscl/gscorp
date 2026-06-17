@@ -140,7 +140,7 @@ let patrolSchedulesList = [];
 const loadPatrolSchedules = async (siteExternalId) => {
   const TableBody = qs('#patrolSchedulesTableBody')
   try {
-    const response = await fetchWithAuth(`/api/patrol-schedules/${siteExternalId}`, {
+    const response = await fetchWithAuth(`/api/patrols/today-site-patrol-schedules/${siteExternalId}`, {
        credentials: 'same-origin'
     });
 
