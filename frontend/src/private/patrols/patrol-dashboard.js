@@ -17,17 +17,17 @@ const alertWarning = qs('.alert-warning');
 const alertInfo = qs('.alert-info');
 
 
-const addPatrolExecution = async (e) => {
+const addSchedulePatrolExecution = async (currentExecutionId) => {
     const nextSchedule = getNextPendingSchedule(patrolSchedulesList);
-
     if(!nextSchedule) {
       displayAlert(alertError, 'No hay rondas pendientes programadas para este momento.', 3000);    
       return;
     }
 
     try {
+        displayAlert(alertSuccess, 'Abriendo bitácora de ronda...', 1500);
         setTimeout(() => {
-            navigateTo('/private/patrol-executions/execute'); // Redirigir a la tabla
+            navigateTo(`/private/patrols-executions/schedule-execute/${nextSchedule.externalId}`);
         }, 1500);
 
     } catch (error) {
@@ -35,9 +35,26 @@ const addPatrolExecution = async (e) => {
         console.error("Error al intentar iniciar la patrulla:", error);
         displayAlert(alertError,
             'Ocurrió un error en el servidor al abrir la ronda. Reintente.', 5000);
+    }
+};
 
+
+const addFreePatrolExecution = async () => {
+    try {
+        displayAlert(alertSuccess, 'Abriendo bitácora libre...', 1500);
+        setTimeout(() => {
+            navigateTo('/private/patrols-executions/free-execute');
+        }, 1500);
+
+    } catch (error) {
+
+        console.error("Error al intentar iniciar la patrulla:", error);
+        displayAlert(alertError,
+            'Ocurrió un error en el servidor al abrir la ronda. Reintente.', 5000);
     }
 }
+
+
 
 async function initComponent() {
     
@@ -265,10 +282,16 @@ const backToEmployeeDashboard = () => {
 
 
 function bindEvents() {
-    const addPatrolExecutionBtn = qs('#addPatrolExecution');
-    if (addPatrolExecutionBtn) {
-        addPatrolExecutionBtn.addEventListener('click', addPatrolExecution);
+    const addSchedulePatrolExecutionBtn = qs('#addSchedulePatrolExecution');
+    if (addSchedulePatrolExecutionBtn) {
+        addSchedulePatrolExecutionBtn.addEventListener('click', addSchedulePatrolExecution);
     }
+
+    const addFreePatrolExecutionBtn = qs('#addFreePatrolExecutionBtn');
+    if (addFreePatrolExecutionBtn) {
+        addFreePatrolExecutionBtn.addEventListener('click', addFreePatrolExecution);
+    }
+
     const backToEmployeeDashboardBtn = qs('#backToEmployeeDashboard');
     if (backToEmployeeDashboardBtn) {
         backToEmployeeDashboardBtn.addEventListener('click', backToEmployeeDashboard);

@@ -1,0 +1,18 @@
+<div th:fragment="content" th:data-patrol-id="${patrolExternalId}" class="patrol-execution schedule-patrol-execution">
+
+        <th:block
+                th:replace="~{private/patrol-executions/fragments/header-patrol-execution-fragment :: content}">
+        </th:block>
+        <th:block
+                th:replace="~{private/patrol-executions/fragments/progress-patrol-execution-fragment :: content}">
+        </th:block>
+        <th:block
+                th:replace="~{private/patrol-executions/fragments/timeline-patrol-execution-fragment :: content}">
+        </th:block>
+        <th:block
+                th:replace="~{private/patrol-executions/fragments/actions-patrol-execution-fragment :: content}">
+        </th:block>
+
+        <script type="module" src="/js/private/patrol-executions/patrol-execution.js"></script>
+
+</div>

@@ -19,8 +19,25 @@ import lombok.RequiredArgsConstructor;
 public class PatrolExecutionController {
 
 
-    @GetMapping("/execute/{patrolExternalId}")
-    public String getAttendanceView (
+    @GetMapping("/free-execute")
+    public String getFreePatrolExecution (
+            Model model,
+            Authentication authentication){
+
+        if(authentication == null || !authentication.isAuthenticated()) {
+            return "redirect:/login";
+        }
+
+        Object principal = authentication.getPrincipal();
+        if(!(principal instanceof SecurityUser)) {
+            return "redirect:/login";
+        }
+
+        return "private/patrol-executions/views/free-patrol-execution-view";
+    }
+
+    @GetMapping("/schedule-execute/{patrolExternalId}")
+    public String getSchedulePatrolExecution (
             @PathVariable UUID patrolExternalId,
             Model model,
             Authentication authentication){
@@ -34,9 +51,11 @@ public class PatrolExecutionController {
             return "redirect:/login";
         }
 
-        model.addAttribute(patrolExternalId);
-        return "private/patrol-executions/views/patrol-execution-view";
+        model.addAttribute("patrolExternalId", patrolExternalId);
+        return "private/patrol-executions/views/schedule-patrol-execution-view";
     }
+
+
 
 
 }

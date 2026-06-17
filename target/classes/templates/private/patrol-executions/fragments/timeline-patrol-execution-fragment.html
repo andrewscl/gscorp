@@ -1,0 +1,46 @@
+<div th:fragment="content" class="patrol-timeline">
+        
+        <div class="timeline-item is-completed">
+            <div class="timeline-badge">
+                <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <div class="timeline-card">
+                <div class="timeline-card__body">
+                    <div class="timeline-card__header">
+                        <h6>Acceso Principal - Portón 1</h6>
+                        <small>23:02</small>
+                    </div>
+                    <p>Verificación de candados e iluminación.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-item is-active">
+            <div class="timeline-badge">
+                <i class="bi bi-qr-code-scan"></i>
+            </div>
+            <div class="timeline-card">
+                <div class="timeline-card__body">
+                    <h6>Bodega Central - Sector A</h6>
+                    <p>Escanea el tag NFC o código QR ubicado junto al extintor.</p>
+                    
+                    <button class="btn-scan">
+                        <i class="bi bi-camera-fill"></i> Escanear Punto
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-item is-pending">
+            <div class="timeline-badge">
+                <i class="bi bi-circle"></i>
+            </div>
+            <div class="timeline-card">
+                <div class="timeline-card__body">
+                    <h6>Perímetro Trasero - Patio de Carga</h6>
+                    <p>Revisión de cerca perimetral.</p>
+                </div>
+            </div>
+        </div>
+
+</div>
