@@ -127,35 +127,39 @@
                 }
                 }
                 tbody {
-                tr {
-                    border-bottom: 1px solid rgba($border-color, 0.5);
-                    
-                    &:last-child {
-                    border-bottom: none; // Limpia el borde de la última fila
-                    }
+                  tr {
+                      border-bottom: 1px solid rgba($border-color, 0.5);
+                      
+                      &:last-child {
+                      border-bottom: none; // Limpia el borde de la última fila
+                      }
 
-                    td {
-                    padding: 0.75rem 0.5rem; // Padding vertical más generoso para evitar clics erróneos
-                    color: $heading-color;
+                      td {
+                        padding: 0.75rem 0.5rem; // Padding vertical más generoso para evitar clics erróneos
+                        color: $heading-color;
 
-                    strong {
-                        font-weight: 700;
-                    }
-                    }
-                }
-                }
-                // Estilo adaptativo por si agregas botones pequeños de Bootstrap dentro de las celdas
-                .btn-sm {
-                padding: 0.25rem 0.6rem;
-                font-size: 0.8rem;
-                font-weight: 600;
-                border-radius: 0.25rem;
-                }
-                // Estilo para los badges de estado (Completado, Pendiente, Fuera de rango)
-                .badge {
-                font-size: 0.75rem;
-                padding: 0.35rem 0.5rem;
-                font-weight: 600;
+                        strong {
+                            font-weight: 700;
+                        }
+                      }
+
+                      .btn-sm {
+                        @include montserrat-font(0.75rem, 600);
+                        @include btn-primary-variant (
+                                $bg-color: $accent-blue,
+                                $color: $white,
+                                $padding: 0.3rem 0.6rem,
+                                $border-radius: 0.5rem
+                        );
+                      }
+                      // Estilo para los badges de estado (Completado, Pendiente, Fuera de rango)
+                      .badge {
+                      font-size: 0.75rem;
+                      padding: 0.35rem 0.5rem;
+                      font-weight: 600;
+                      }
+
+                  }
                 }
             }
         }

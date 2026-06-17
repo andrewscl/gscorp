@@ -3,10 +3,13 @@ package com.gscorp.dv1.patrol.infrastructure.schedules;
 import java.time.LocalTime;
 import java.util.UUID;
 
+import com.gscorp.dv1.enums.PatrolScheduleStatus;
 import com.gscorp.dv1.patrol.infrastructure.patrols.Patrol;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -45,6 +48,15 @@ public class PatrolSchedule {
 
     @Column(nullable=false)
     private LocalTime startTime;
+
+    @Column(nullable = false)
+    private String createdBy;
+
+    @Column(nullable = true)
+    private String updatedBy;
+
+    @Enumerated(EnumType.STRING)
+    private PatrolScheduleStatus status;
 
     @Builder.Default
     @Column(nullable=false)

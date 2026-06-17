@@ -1,17 +1,15 @@
 package com.gscorp.dv1.patrolexecution.web;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gscorp.dv1.security.SecurityUser;
-import com.gscorp.dv1.sites.application.SiteService;
-import com.gscorp.dv1.sites.web.dto.SiteDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,10 +18,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PatrolExecutionController {
 
-    private final SiteService siteService;
 
-    @GetMapping("/execution-view")
+    @GetMapping("/execute/{patrolExternalId}")
     public String getAttendanceView (
+            @PathVariable UUID patrolExternalId,
             Model model,
             Authentication authentication){
 
@@ -36,11 +34,7 @@ public class PatrolExecutionController {
             return "redirect:/login";
         }
 
-        SecurityUser securityUser = (SecurityUser) principal;
-        UUID externalId = securityUser.getUser().getExternalId();
-        List<SiteDto> sites = siteService.getAllSitesByUser(externalId);
-
-        model.addAttribute("sites", sites);
+        model.addAttribute(patrolExternalId);
         return "private/patrol-executions/views/patrol-execution-view";
     }
 

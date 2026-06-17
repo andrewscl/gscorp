@@ -18,7 +18,25 @@ const alertInfo = qs('.alert-info');
 
 
 const addPatrolExecution = async (e) => {
-    if (e) e.preventDefault();
+    const nextSchedule = getNextPendingSchedule(patrolSchedulesList);
+
+    if(!nextSchedule) {
+      displayAlert(alertError, 'No hay rondas pendientes programadas para este momento.', 3000);    
+      return;
+    }
+
+    try {
+        setTimeout(() => {
+            navigateTo('/private/patrol-executions/execute'); // Redirigir a la tabla
+        }, 1500);
+
+    } catch (error) {
+
+        console.error("Error al intentar iniciar la patrulla:", error);
+        displayAlert(alertError,
+            'Ocurrió un error en el servidor al abrir la ronda. Reintente.', 5000);
+
+    }
 }
 
 async function initComponent() {
@@ -170,6 +188,29 @@ const loadPatrolSchedules = async (siteExternalId) => {
 
 
 /**
+ * Determina el schedule PENDING más próximo en base a la hora actual.
+ * @param {Array} schedules - Lista global de programaciones del día
+ * @returns {Object|null} El schedule más idóneo o null si no hay ninguno disponible
+ */
+const getNextPendingSchedule = (schedules) => {
+    if (!schedules || schedules.length === 0) return null;
+
+    // 1. Filtramos solo los que están en estado programado/pendiente
+    const pendingSchedules = schedules.filter(s => s.status === 'SCHEDULED');
+    if (pendingSchedules.length === 0) return null;
+
+    // 2. Si vienen ordenados por hora desde el backend, el primero siempre será el más próximo
+    return pendingSchedules[0];
+
+    /* 💡 NOTA PRO: Si el backend NO los envía ordenados por hora, 
+    puedes ordenarlos en el frontend antes de retornar con esta línea:
+    
+    return pendingSchedules.sort((a, b) => a.plannedTime.localeCompare(b.plannedTime))[0];
+    */
+};
+
+
+/**
  * Renderiza la lista de rondas planificadas en el tbody de la tabla
  * @param {Array} schedules - Arreglo de programaciones de rondas devuelto por el API
  */
@@ -205,7 +246,7 @@ const renderPatrolSchedulesTable = (schedules) => {
             <td>
                 <button class="btn btn-sm btn-outline-primary py-1 px-3" 
                         onclick="initiateManualPatrol('${schedule.externalId}')">
-                    🟢 Iniciar
+                    🟢 Ver
                 </button>
             </td>
         `;
@@ -221,8 +262,6 @@ const renderPatrolSchedulesTable = (schedules) => {
 const backToEmployeeDashboard = () => {
     setTimeout(() => navigateTo('/private/employees/dashboard', true), 1000);
 }
-
-
 
 
 function bindEvents() {

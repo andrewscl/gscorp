@@ -167,13 +167,32 @@
 .patrol-dashboard-card .patrol-dashboard-sections .patrol-section .table-responsive .patrol-table tbody tr td strong {
   font-weight: 700;
 }
-.patrol-dashboard-card .patrol-dashboard-sections .patrol-section .table-responsive .patrol-table .btn-sm {
-  padding: 0.25rem 0.6rem;
-  font-size: 0.8rem;
+.patrol-dashboard-card .patrol-dashboard-sections .patrol-section .table-responsive .patrol-table tbody tr .btn-sm {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.75rem;
   font-weight: 600;
-  border-radius: 0.25rem;
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem 0.6rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  background-color: #3b82f6;
+  color: #ffffff;
 }
-.patrol-dashboard-card .patrol-dashboard-sections .patrol-section .table-responsive .patrol-table .badge {
+.patrol-dashboard-card .patrol-dashboard-sections .patrol-section .table-responsive .patrol-table tbody tr .btn-sm:hover {
+  background-color: rgb(29.8390243902, 111.4024390244, 244.6609756098);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+.patrol-dashboard-card .patrol-dashboard-sections .patrol-section .table-responsive .patrol-table tbody tr .btn-sm:active {
+  transform: translateY(0);
+}
+.patrol-dashboard-card .patrol-dashboard-sections .patrol-section .table-responsive .patrol-table tbody tr .badge {
   font-size: 0.75rem;
   padding: 0.35rem 0.5rem;
   font-weight: 600;
