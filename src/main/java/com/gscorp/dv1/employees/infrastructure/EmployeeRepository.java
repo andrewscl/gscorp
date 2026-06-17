@@ -342,7 +342,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
 
 
     @Query("""
-        SELECT new com.tuempresa.dto.CompanyUserStatDTO(
+        SELECT new CompanyUserStatDTO(
             e.company.name,
             COUNT(e.id),
             SUM(CASE WHEN u.enabled = true THEN 1 ELSE 0 END),
