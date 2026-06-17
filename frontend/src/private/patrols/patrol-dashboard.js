@@ -194,7 +194,7 @@ const renderPatrolSchedulesTable = (schedules) => {
     const row = document.createElement('tr');
 
     const timeFormatted =
-        schedule.plannedTime ? schedule.plannedTime.substring(0,5) : '--:--';
+        schedule.startTime ? schedule.startTime.substring(0,5) : '--:--';
 
     const patrolName = schedule.name || 'Ronda';
 
