@@ -314,7 +314,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
 
 
     @Query(value = """
-        SELECT new CompanyStatDto (
+        SELECT new com.gscorp.dv1.hr.web.dto.CompanyStatDto (
             e.company.name,
             SUM(CASE WHEN e.status = 'HIRED' THEN 1 ELSE 0 END),
             SUM(CASE WHEN e.status = 'ACTIVE' THEN 1 ELSE 0 END),
@@ -329,7 +329,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
 
 
     @Query("""
-        SELECT new ClientStatDTO(
+        SELECT new com.gscorp.dv1.hr.web.dto.ClientStatDTO(
             e.client.name,
             SUM(CASE WHEN e.status = 'ACTIVE' THEN 1 ELSE 0 END),
             SUM(CASE WHEN e.status = 'PENDING' THEN 1 ELSE 0 END)
@@ -342,7 +342,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
 
 
     @Query("""
-        SELECT new CompanyUserStatDTO(
+        SELECT new com.gscorp.dv1.hr.web.dto.CompanyUserStatDTO(
             e.company.name,
             COUNT(e.id),
             SUM(CASE WHEN u.enabled = true THEN 1 ELSE 0 END),
