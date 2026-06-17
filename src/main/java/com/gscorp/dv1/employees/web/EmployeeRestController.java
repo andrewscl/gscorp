@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,11 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gscorp.dv1.employees.application.EmployeeService;
+import com.gscorp.dv1.employees.application.EmployeeStatService;
 import com.gscorp.dv1.employees.infrastructure.Employee;
 import com.gscorp.dv1.employees.web.dto.CreateEmployeeRequest;
 import com.gscorp.dv1.employees.web.dto.EmployeeDto;
 import com.gscorp.dv1.employees.web.dto.EmployeeViewDto;
 import com.gscorp.dv1.employees.web.dto.UpdateEmployeeRequest;
+import com.gscorp.dv1.hr.web.dto.HrDashboardMetricResponse;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 public class EmployeeRestController {
 
     private final EmployeeService employeeService;
+    private final EmployeeStatService employeeStatService;
 
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<EmployeeDto> createEmployee(
@@ -95,5 +99,13 @@ public class EmployeeRestController {
     }
 
 
+    @GetMapping("/hr-dashboard-metrics")
+    public HrDashboardMetricResponse getHrDashboardMetrics() {
+
+        HrDashboardMetricResponse metrics =
+                            employeeStatService.getRhDashboardStats();
+
+        return metrics;
+    }
 
 }

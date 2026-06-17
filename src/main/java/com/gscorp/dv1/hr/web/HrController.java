@@ -1,4 +1,4 @@
-package com.gscorp.dv1.rrhh.web;
+package com.gscorp.dv1.hr.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,13 +10,13 @@ import lombok.AllArgsConstructor;
 @Controller
 @RequestMapping("/private/rrhh")
 @AllArgsConstructor
-public class RrhhController {
+public class HrController {
 
     @GetMapping("/dashboard")
     public String getPrivateDashboardView(
             Model model) {
 
-        return "private/rrhh/views/rrhh-dashboard-view";
+        return "private/hr/views/hr-dashboard-view";
     }
 
 }

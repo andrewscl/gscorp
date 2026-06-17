@@ -16,7 +16,9 @@ import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeEditProjectio
 import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeSelectProjection;
 import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeTableProjection;
 import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeViewProjection;
-import com.gscorp.dv1.rrhh.web.dto.CompanyStatDto;
+import com.gscorp.dv1.hr.web.dto.ClientStatDto;
+import com.gscorp.dv1.hr.web.dto.CompanyStatDto;
+import com.gscorp.dv1.hr.web.dto.CompanyUserStatDto;
 
 
 @Repository
@@ -312,7 +314,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
 
 
     @Query(value = """
-        SELECT new companyStatDto (
+        SELECT new CompanyStatDto (
             e.company.name,
             SUM(CASE WHEN e.status = 'HIRED' THEN 1 ELSE 0 END),
             SUM(CASE WHEN e.status = 'ACTIVE' THEN 1 ELSE 0 END),
@@ -323,7 +325,36 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
         FROM Employee e
         GROUP BY e.company.name
         """)
-    Optional<CompanyStatDto> getEmployeeStatsByCompany();
+    List<CompanyStatDto> getEmployeeStatsByCompany();
+
+
+    @Query("""
+        SELECT new ClientStatDTO(
+            e.client.name,
+            SUM(CASE WHEN e.status = 'ACTIVE' THEN 1 ELSE 0 END),
+            SUM(CASE WHEN e.status = 'PENDING' THEN 1 ELSE 0 END)
+        )
+        FROM Employee e
+        WHERE e.client IS NOT NULL
+        GROUP BY e.client.name
+    """)
+    List<ClientStatDto> getEmployeeStatsByClient();
+
+
+    @Query("""
+        SELECT new com.tuempresa.dto.CompanyUserStatDTO(
+            e.company.name,
+            COUNT(e.id),
+            SUM(CASE WHEN u.enabled = true THEN 1 ELSE 0 END),
+            SUM(CASE WHEN u.enabled = false THEN 1 ELSE 0 END),
+            SUM(CASE WHEN u.id IS NULL THEN 1 ELSE 0 END)
+        )
+        FROM Employee e
+        LEFT JOIN e.user u
+        GROUP BY e.company.name
+    """)
+    List<CompanyUserStatDto> getCompanyUserStats();
+
 
 
 }
