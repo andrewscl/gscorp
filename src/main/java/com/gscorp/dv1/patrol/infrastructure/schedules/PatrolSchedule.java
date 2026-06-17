@@ -49,7 +49,7 @@ public class PatrolSchedule {
     @Column(nullable=false)
     private LocalTime startTime;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String createdBy;
 
     @Column(nullable = true)
