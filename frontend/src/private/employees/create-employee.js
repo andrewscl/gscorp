@@ -68,6 +68,49 @@ async function onCreateEmployee(e) {
     photo = photoInput.files[0];
   }
 
+  // --- 2. Matriz de validaciones (Campos obligatorios) ---
+  const requiredFields = [
+    { value: name, label: 'Nombre' },
+    { value: fatherSurname, label: 'Apellido Paterno' },
+    { value: motherSurname, label: 'Apellido Materno' },
+    { value: rut, label: 'RUT' },
+    { value: mail, label: 'Correo Electrónico' },
+    { value: phone, label: 'Teléfono Principal' },
+    { value: gender, label: 'Género' },
+    { value: nationalityId, label: 'Nacionalidad' },
+    { value: maritalStatus, label: 'Estado civil' },
+    { value: studyLevel, label: 'Nivel de estudio' },
+    { value: previtionalSystem, label: 'Sistema previsional' },
+    { value: pensionEntity, label: 'Administradora de fondos de pensión' },
+    { value: healthSystem, label: 'Sistema de salud' },
+    { value: healthEntity, label: 'Administradora planes de Salud' },
+    { value: paymentMethod, label: 'Metodo de pago' },
+    { value: contractType, label: 'Metodo de pago' },
+    { value: workSchedule, label: 'Metodo de pago' },
+    { value: shiftSystem, label: 'Metodo de pago' },
+    { value: shiftPatternId, label: 'Metodo de pago' },
+    { value: positionId, label: 'Metodo de pago' },
+    { value: hireDate, label: 'Fecha de Contratación' },
+    { value: birthDate, label: 'Fecha de Nacimiento' },
+    { value: companyId, label: 'Empresa' }
+  ];
+
+  // Evaluar si falta algún campo obligatorio común
+  const missingField = requiredFields.find(field => !field.value);
+
+  if(missingField) {
+    displayAlert(alertError, `Por favor complete el campo obligatorio: ${missingField.label}`, 4000);
+    if (submitBtn) submitBtn.disabled = false;
+    return
+  }
+
+  // Validaciones lógicas específicas de negocio (Ejemplo: Proyectos asignados)
+  if (projectIds.length === 0) {
+    displayAlert(alertWarning, 'Debe asignar al menos un Proyecto al empleado.', 4000);
+    if (submitBtn) submitBtn.disabled = false;
+    return;
+  }
+
   try {
     // FormData para soportar archivo y campos complejos
     const formData = new FormData();
