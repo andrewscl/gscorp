@@ -8,7 +8,6 @@ import { getNearestSite } from '../../shared/maps/map-utils.js';
 
 let googleMapInstance = null;
 let userMarkerInstance = null;
-let sitesList = [];
 const MAX_DISTANCE_GEOFENCE = 35;
 
 const qs  = (s) => document.querySelector(s);
@@ -123,7 +122,7 @@ const startViewMap = async (nearestSite) => {
   }
 }
 
-
+let sitesList = [];
 async function loadSites() {
   try {
     const res = await fetchWithAuth('/api/sites/user-sites', { credentials: 'same-origin' });
@@ -136,9 +135,94 @@ async function loadSites() {
 }
 
 
+let patrolSchedulesList = [];
+const loadPatrolSchedules = async () => {
+  const TableBody = qs('#patrolSchedulesTableBody')
+  try {
+
+    const response = await fetchWithAuth(`/api/patrol-schedules/${externalId}`, {
+       credentials: 'same-origin'
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error cargando schedules: ${response.status}`);
+    }
+
+    patrolSchedulesList = await response.json();
+    renderPatrolSchedulesTable(patrolSchedulesList);
+
+  } catch (e) {
+
+      console.error("No se pudo cargar la lista de sitios:", e);
+      patrolSchedulesList = [];
+
+      if (TableBody) {
+              TableBody.innerHTML = `
+                  <tr>
+                      <td colspan="3" class="text-center text-danger py-3">
+                          ❌ Error al cargar la agenda de rondas.
+                      </td>
+                  </tr>`;
+      }
+
+  }
+}
+
+
+/**
+ * Renderiza la lista de rondas planificadas en el tbody de la tabla
+ * @param {Array} schedules - Arreglo de programaciones de rondas devuelto por el API
+ */
+const renderPatrolSchedulesTable = (schedules) => {
+  const tableBody = qs('#patrolSchedulesTableBody');
+
+  if(!tableBody) return;
+
+  tableBody.innerHTML = '';
+
+  if(!schedules || schedules.length === 0) {
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="3" class="text-center text-muted py-3">
+                    📅 No hay rondas programadas para hoy en este sitio.
+                </td>
+            </tr>`;
+        return;
+  }
+
+  schedules.forEach(schedule => {
+    const row = document.createElement('tr');
+
+    const timeFormatted =
+        schedule.plannedTime ? schedule.plannedTime.substring(0,5) : '--:--';
+
+    const patrolName = schedule.name || 'Ronda';
+
+    row.innerHTML =
+        `
+            <td class="fw-bold text-dark">${timeFormatted}</td>
+            <td>${patrolName}</td>
+            <td>
+                <button class="btn btn-sm btn-outline-primary py-1 px-3" 
+                        onclick="initiateManualPatrol('${schedule.externalId}')">
+                    🟢 Iniciar
+                </button>
+            </td>
+        `;
+
+    tableBody.appendChild(row);
+
+  });
+
+} 
+
+
+
 const backToEmployeeDashboard = () => {
     setTimeout(() => navigateTo('/private/employees/dashboard', true), 1000);
 }
+
+
 
 
 function bindEvents() {
@@ -155,5 +239,6 @@ function bindEvents() {
 (async function init() {
   bindEvents();
   await initComponent();
+  await loadPatrolSchedules();
   console.log('View patrol-dashboard page initialized.');
 })();

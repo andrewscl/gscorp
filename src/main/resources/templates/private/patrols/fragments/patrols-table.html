@@ -35,7 +35,7 @@
 
       <div class="actions-row">
         <button id="createPatrolBtn" class="btn btn-primary"
-                th:if="${#authorization.expression('hasRole(''ANALYST'')')}"
+                th:if="${#authorization.expression('hasRole(''ANALYST'') or hasRole(''ADMINISTRATOR'')')}"
                 th:attr="data-path=@{/private/patrols/create}" aria-label="Crear Ronda de Supervisión">
           <!-- icono + -->
           <svg class="icon icon-plus" width="16" height="16" viewBox="0 0 16 16" focusable="false">

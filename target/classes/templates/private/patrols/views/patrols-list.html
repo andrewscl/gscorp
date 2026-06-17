@@ -1,0 +1,48 @@
+<div th:replace="~{shared/fragments/table-component :: smart-table(
+    title='Gestión de patrullajes',
+    count=${count},
+    filters=~{::#patrolsFilters},
+    actions=~{::#patrolsActions},
+    thead=~{::#patrolsHeader},
+    tbody=~{private/patrols/fragments/patrols-table-rows :: rows},
+    customClass='patrols-table'
+)}">
+
+    <th:block id="patrolsFilters">
+        <div class="filter-item">
+            <span class="filter-label">Sitio</span>
+            <select id="filter-patrol-sites" class="filter-input" name="patrolsSites" required>
+                <option value="">Todos los sitios</option>
+                <option th:each="ps : ${patrolsSites}"
+                        th:value="${ps.name()}"
+                        th:text="${ps.displayName}"></option>
+            </select>
+        </div>
+        <div class="filter-item">
+            <span class="filter-label">Busqueda</span>
+            <input id="filter-q" class="filter-input" type="text"
+                        placeholder="Buscar patrullaje..."/>
+        </div>
+        <button class="btn btn-primary" id="searchPatrolsBtn">
+        Buscar
+        </button>
+    </th:block>
+
+    <th:block id="userActions">
+        <button class="btn btn-primary" id="addUserBtn"
+            th:if="${#authorization.expression('hasRole(''ANALYST'')')}">
+        Crear Patrullaje
+        </button>
+    </th:block>
+
+    <tr id="userHeader">
+        <th>Nombre</th>
+        <th>Instalación</th>
+        <th>Cobertura semanal</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+
+</div>
+
+<script type="module" src="/js/private/patrols/patrols-table.js"></script>

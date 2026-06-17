@@ -76,6 +76,7 @@ public class PatrolRestController {
         return ResponseEntity.ok(updated);
     }
 
+
     @GetMapping("/patrol-schedules/{siteExternalId}")
     public ResponseEntity<?> getPatrolSchedulesBySiteExternalId (
                         @PathVariable UUID siteExternalId) {
