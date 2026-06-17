@@ -330,13 +330,14 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
 
     @Query("""
         SELECT new com.gscorp.dv1.hr.web.dto.ClientStatDto(
-            e.client.name,
+            cl.name,
             SUM(CASE WHEN e.status = 'ACTIVE' THEN 1 ELSE 0 END),
             SUM(CASE WHEN e.status = 'PENDING' THEN 1 ELSE 0 END)
         )
         FROM Employee e
-        WHERE e.client IS NOT NULL
-        GROUP BY e.client.name
+        INNER JOIN e.projects p
+        INNER JOIN p.client cl
+        GROUP BY cl.name
     """)
     List<ClientStatDto> getEmployeeStatsByClient();
 
