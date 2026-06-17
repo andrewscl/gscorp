@@ -343,15 +343,16 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
 
     @Query("""
         SELECT new com.gscorp.dv1.hr.web.dto.CompanyUserStatDto(
-            e.company.name,
+            c.name,
             COUNT(e.id),
-            SUM(CASE WHEN u.enabled = true THEN 1 ELSE 0 END),
-            SUM(CASE WHEN u.enabled = false THEN 1 ELSE 0 END),
+            SUM(CASE WHEN u.isActive = true THEN 1 ELSE 0 END),
+            SUM(CASE WHEN u.isActive = false THEN 1 ELSE 0 END),
             SUM(CASE WHEN u.id IS NULL THEN 1 ELSE 0 END)
         )
         FROM Employee e
+        INNER JOIN e.company c
         LEFT JOIN e.user u
-        GROUP BY e.company.name
+        GROUP BY c.name
     """)
     List<CompanyUserStatDto> getCompanyUserStats();
 
