@@ -320,7 +320,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
             SUM(CASE WHEN e.status = 'ACTIVE' THEN 1 ELSE 0 END),
             SUM(CASE WHEN e.status = 'NOTICE_GIVEN' THEN 1 ELSE 0 END),
             SUM(CASE WHEN e.status = 'INACTIVE' THEN 1 ELSE 0 END),
-            SUM(CASE WHEN e.status = 'SETTLED' THEN 1 ELSE 0 END),
+            SUM(CASE WHEN e.status = 'SETTLED' THEN 1 ELSE 0 END)
         )
         FROM Employee e
         GROUP BY e.company.name
