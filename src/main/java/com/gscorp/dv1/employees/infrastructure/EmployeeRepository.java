@@ -16,6 +16,7 @@ import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeEditProjectio
 import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeSelectProjection;
 import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeTableProjection;
 import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeViewProjection;
+import com.gscorp.dv1.rrhh.web.dto.CompanyStatDto;
 
 
 @Repository
@@ -308,5 +309,21 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
         WHERE u.externalId = :externalId
         """)
     Optional<EmployeeSelectProjection> findByUserExternalId(@Param("externalId") UUID externalId);
+
+
+    @Query(value = """
+        SELECT new companyStatDto (
+            e.company.name,
+            SUM(CASE WHEN e.status = 'HIRED' THEN 1 ELSE 0 END),
+            SUM(CASE WHEN e.status = 'ACTIVE' THEN 1 ELSE 0 END),
+            SUM(CASE WHEN e.status = 'NOTICE_GIVEN' THEN 1 ELSE 0 END),
+            SUM(CASE WHEN e.status = 'INACTIVE' THEN 1 ELSE 0 END),
+            SUM(CASE WHEN e.status = 'SETTLED' THEN 1 ELSE 0 END),
+        )
+        FROM Employee e
+        GROUP BY e.company.name
+        """)
+    Optional<CompanyStatDto> getEmployeeStatsByCompany();
+
 
 }
