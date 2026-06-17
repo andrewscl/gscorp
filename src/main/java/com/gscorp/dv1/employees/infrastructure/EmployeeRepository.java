@@ -345,8 +345,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
         SELECT new com.gscorp.dv1.hr.web.dto.CompanyUserStatDto(
             c.name,
             COUNT(e.id),
-            SUM(CASE WHEN u.isActive = true THEN 1 ELSE 0 END),
-            SUM(CASE WHEN u.isActive = false THEN 1 ELSE 0 END),
+            SUM(CASE WHEN u.active = true THEN 1 ELSE 0 END),
+            SUM(CASE WHEN u.active = false THEN 1 ELSE 0 END),
             SUM(CASE WHEN u.id IS NULL THEN 1 ELSE 0 END)
         )
         FROM Employee e
