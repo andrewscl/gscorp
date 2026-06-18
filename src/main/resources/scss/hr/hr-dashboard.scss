@@ -1,5 +1,7 @@
 @use '../abstracts/dashboards/kpi-cards' as * ;
 
-.op-rrhh-dashboard {
+.hr-dashboard {
   @include kpi-cards ();
+
+  
 }
