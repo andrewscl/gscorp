@@ -9,7 +9,7 @@ const loadHrDashboardMetric = async () => {
 
     try {
         const response =
-                await fetchWithAuth('/api/employees/user-sites/hr-dashboard-metrics', {
+                await fetchWithAuth('/api/employees/hr-dashboard-metrics', {
                     credentials: 'same-origin'
                 });
 
