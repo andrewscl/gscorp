@@ -92,8 +92,8 @@ export default defineConfig({
         'private/patrols/patrol-map-picker': path.resolve(__dirname, './src/private/patrols/patrol-map-picker.js'),
         'private/patrols/patrol-dashboard': path.resolve(__dirname, './src/private/patrols/patrol-dashboard.js'),
         'private/dashboards/shared/attendance-card': path.resolve(__dirname, './src/private/dashboards/shared/attendance-card.js'),
-        'private/dashboards/shared/operational-card': path.resolve(__dirname, './src/private/dashboards/shared/operational-card.js')
-
+        'private/dashboards/shared/operational-card': path.resolve(__dirname, './src/private/dashboards/shared/operational-card.js'),
+        'private/hr/hr-dashboard': path.resolve(__dirname, './src/private/hr/hr-dashboard.js')
 
       },
       output: {

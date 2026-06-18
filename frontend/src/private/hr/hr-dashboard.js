@@ -1,5 +1,5 @@
-import { fetchWithAuth } from '../../../auth.js';
-import { navigateTo } from '../../../navigation-handler.js';
+import { fetchWithAuth } from '../../auth.js';
+import { navigateTo } from '../../navigation-handler.js';
 
 const qs  = (s) => document.querySelector(s);
 

@@ -1,13 +1,13 @@
-<div th:fragment="content" class="patrol-execution free-patrol-execution">
+<div th:fragment="content" class="hr-dashboard">
 
         <th:block
-                th:replace="~{private/hr/dashboards/kpi/staff-kpi-line-card :: content}">
+                th:replace="~{private/hr/dashboards/kpi/staff-counters-summary :: content}">
         </th:block>
 
         <th:block
-                th:replace="~{private/hr/dashboards/kpi/staff-kpi-detail-card :: content}">
+                th:replace="~{private/hr/dashboards/kpi/staff-distribution-cards :: content}">
         </th:block>
 
-
+        <script type="module" src="/js/private/hr/hr-dashboard.js"></script>
 
 </div>
