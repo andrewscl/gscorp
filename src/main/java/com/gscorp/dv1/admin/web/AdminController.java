@@ -35,7 +35,7 @@ public class AdminController {
             Model model) {
         Map<String, Long> usersStats = userService.getUsersStatistics();
         model.addAllAttributes(usersStats);
-        return "private/admin/views/admin-dashboard-view";
+        return "private/admin/dashboards/templates/admin-dashboard-view";
     }
 
     @GetMapping("/roles")

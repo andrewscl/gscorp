@@ -1,5 +1,9 @@
 @use '../abstracts/dashboards/kpi-cards' as * ;
+@use '../abstracts/dashboards/distribution-cards' as * ;
 
 .ad-administrator-dashboard {
   @include kpi-cards ();
+
+  @include distribution-cards ();
+
 }

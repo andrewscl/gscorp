@@ -4,8 +4,8 @@
 @use '../mixins' as *;
 @use '../typography' as *;
 
-@mixin staff-distribution-cards() {
-    .staff-distribution-cards {
+@mixin distribution-cards() {
+    .distribution-card {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
         gap: 1.5rem;

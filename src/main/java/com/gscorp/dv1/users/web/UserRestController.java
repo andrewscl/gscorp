@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.gscorp.dv1.admin.web.dto.AdminDistributionMetricResponse;
 import com.gscorp.dv1.users.application.UserService;
+import com.gscorp.dv1.users.application.UserStatService;
 import com.gscorp.dv1.users.infrastructure.User;
 import com.gscorp.dv1.users.web.dto.CreateUserRequest;
 import com.gscorp.dv1.users.web.dto.UserDto;
@@ -38,31 +40,32 @@ import lombok.extern.slf4j.Slf4j;
 @PreAuthorize("hasRole('ADMINISTRATOR')")
 public class UserRestController {
 
-        private final UserService userService;
+    private final UserService userService;
+    private final UserStatService userStatService;
 
-        @PostMapping("/create")
-        public ResponseEntity<?> createUser(@RequestBody CreateUserRequest req) {
+    @PostMapping("/create")
+    public ResponseEntity<?> createUser(@RequestBody CreateUserRequest req) {
             Long id = userService.createUser(req);
             return ResponseEntity
                     .created(URI.create("/api/users/" + id)).build();
-        }
+    }
 
-        @DeleteMapping("/{id}")
-        public ResponseEntity<Void> delete(@PathVariable Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
                 userService.deleteById(id);
                 return ResponseEntity.noContent().build();
-        }
+    }
 
-        @GetMapping("/{id}")
-        public ResponseEntity<UserDto> getById(@PathVariable Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDto> getById(@PathVariable Long id) {
                 User user = userService.findById(id);
                 return ResponseEntity.ok(UserDto.fromEntity(user));
-        }
+    }
 
 
 
-        @PatchMapping("/{id}")
-        public ResponseEntity<?> patchUser(
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> patchUser(
                                     @PathVariable("id") Long id,
                                     @RequestBody JsonNode body) {
             if (id == null) {
@@ -185,5 +188,14 @@ public class UserRestController {
         return Collections.singletonMap("message", msg);
     }
 
+
+    @GetMapping("/admin-dashboard-metrics")
+    public AdminDistributionMetricResponse getAdminDashboardMetrics(){
+        AdminDistributionMetricResponse metrics =
+            new AdminDistributionMetricResponse(
+                userStatService.getUsersStatusSummary()
+            );
+        return metrics;
+    }
 
 }

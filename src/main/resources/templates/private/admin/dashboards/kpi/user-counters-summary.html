@@ -1,4 +1,4 @@
-<div th:fragment="admin-kpi-line-card" id="admin-kpi-line-card" class="stats-grid">
+<div th:fragment="content" id="admin-kpi-line-card" class="stats-grid">
         <!-- Usuarios Invitados -->
         <div class="stat-card">
             <div class="stat-card__header">
@@ -6,7 +6,7 @@
                 <div th:replace="~{shared/fragments/icons/analytics/users-icons :: users}"></div>
             </div>
             <div class="stat-card__body">
-                <p class="stat-card__value" th:text="${invitedUsers}">24</p>
+                <p id="kpi-invited" class="stat-card__value">24</p>
                 <span class="stat-card__trend trend-neutral">Sin cambios</span>
             </div>
         </div>
@@ -18,7 +18,7 @@
                 <div th:replace="~{shared/fragments/icons/analytics/users-icons :: users}"></div>
             </div>
             <div class="stat-card__body">
-                <p class="stat-card__value" th:text="${activeUsers}">856</p>
+                <p id="kpi-active" class="stat-card__value">856</p>
                 <span class="stat-card__trend trend-up">+12% vs mes anterior</span>
             </div>
         </div>
@@ -30,7 +30,7 @@
                 <div th:replace="~{shared/fragments/icons/analytics/users-icons :: users}"></div>
             </div>
             <div class="stat-card__body">
-                <p class="stat-card__value" th:text="${inactiveUsers}">384</p>
+                <p id="kpi-inactive" class="stat-card__value">384</p>
                 <span class="stat-card__trend trend-down">-5% vs mes anterior</span>
             </div>
         </div>
@@ -42,7 +42,7 @@
                 <div th:replace="~{shared/fragments/icons/status/alert-icons :: alert}"></div>
             </div>
             <div class="stat-card__body">
-                <p class="stat-card__value" th:text="${expiredUsers}">45</p>
+                <p id="kpi-expired" class="stat-card__value">45</p>
                 <span class="stat-card__trend trend-warning">Acción requerida</span>
             </div>
         </div>
@@ -54,7 +54,7 @@
                 <div th:replace="~{shared/fragments/icons/status/alert-icons :: alert}"></div>
             </div>
             <div class="stat-card__body">
-                <p class="stat-card__value" th:text="${suspendedUsers}">12</p>
+                <p id="kpi-suspended" class="stat-card__value">12</p>
                 <span class="stat-card__trend trend-down">Acceso bloqueado</span>
             </div>
         </div>
