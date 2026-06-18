@@ -41,10 +41,10 @@ const renderHrDashboardMetrics = (metrics) => {
                 <div class="stat-item">
                     <div class="stat-main-info">
                         <span class="stat-name"><strong>${item.companyName}</strong></span>
-                        <span class="stat-badge">${item.stats.activeCount} Activos</span>
+                        <span class="stat-badge">${item.activeCount} Activos</span>
                     </div>
                     <div class="stat-details">
-                        <small>⏱️ ${item.stats.hiredCount} Por Ingresar</small> | <small>⚠️ ${item.stats.noticeGivenCount} En Aviso</small>
+                        <small>⏱️ ${item.hiredCount} Por Ingresar</small> | <small>⚠️ ${item.noticegivenCount} En Aviso</small>
                     </div>
                 </div>
                 ${index < metrics.companyEmployeesStats.length - 1 ? '<hr>' : ''}
@@ -60,7 +60,7 @@ const renderHrDashboardMetrics = (metrics) => {
         } else {
             clientContainer.innerHTML = metrics.clientEmployeesStats.map((item, index) => {
                 // Sumamos usando la nueva ruta estructurada .stats
-                const totalAsignados = item.stats.activeCount + item.stats.hiredCount;
+                const totalAsignados = item.activeCount + item.hiredCount + item.noticegivenCount;
                 return `
                     <div class="stat-item">
                         <div class="stat-main-info">
@@ -68,7 +68,7 @@ const renderHrDashboardMetrics = (metrics) => {
                             <span class="stat-badge">${totalAsignados} Asignados</span>
                         </div>
                         <div class="stat-details">
-                            <small>🟢 ${item.stats.activeCount} Activos</small> | <small>⏱️ ${item.stats.hiredCount} Próximos</small>
+                            <small>🟢 ${item.activeCount} Activos</small> | <small>⏱️ ${item.hiredCount} Próximos</small>
                         </div>
                     </div>
                     ${index < metrics.clientEmployeesStats.length - 1 ? '<hr>' : ''}
