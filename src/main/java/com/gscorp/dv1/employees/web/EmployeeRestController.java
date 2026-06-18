@@ -104,8 +104,9 @@ public class EmployeeRestController {
 
         HrDistributionMetricResponse metrics =
             new HrDistributionMetricResponse(
-                employeeStatService.getCompanyEmployeesStat(),
-                employeeStatService.getClientEmployeesStat()
+                employeeStatService.getCompanyEmployeesStatusSummary(),
+                employeeStatService.getClientEmployeesStatusSummary(),
+                employeeStatService.getEmployeesStatusSummary()
             );
         return metrics;
     }
