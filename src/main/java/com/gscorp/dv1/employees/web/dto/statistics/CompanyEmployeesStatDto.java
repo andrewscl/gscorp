@@ -8,12 +8,7 @@ public record CompanyEmployeesStatDto (
     long activeCount,
     long noticeGivenCount,
     long inactiveCount,
-    long settledCount,
-    long invitedUsersCount,
-    long activeUsersCount,
-    long inactiveUsersCount,
-    long expiredUsersCount,
-    long suspendedUsersCount
+    long settledCount
 ){
     public static CompanyEmployeesStatDto fromProjection (CompanyEmployeesStatProjection p) {
         if (p == null) return null;
@@ -23,12 +18,7 @@ public record CompanyEmployeesStatDto (
             p.getActiveCount(),
             p.getNoticeGivenCount(),
             p.getInactiveCount(),
-            p.getSettledCount(),
-            p.getInvitedUsersCount(),
-            p.getActiveUsersCount(),
-            p.getInactiveUsersCount(),
-            p.getExpiredUsersCount(),
-            p.getSuspendedUsersCount()
+            p.getSettledCount()
         );
     } 
 }

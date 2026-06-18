@@ -7,12 +7,4 @@ public interface ClientEmployeesStatProjection {
     long getNoticeGivenCount();
     long getInactiveCount();
     long getSettledCount();
-    //userStatus
-    long getInvitedUsersCount();
-    long getPendingUsersCount();
-    long getActiveUsersCount();
-    long getInactiveUsersCount();
-    long getExpiredUsersCount();
-    long getSuspendedUsersCount();
-
 }
