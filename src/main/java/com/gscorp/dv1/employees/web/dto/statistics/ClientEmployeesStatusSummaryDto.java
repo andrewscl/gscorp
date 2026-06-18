@@ -1,24 +1,24 @@
 package com.gscorp.dv1.employees.web.dto.statistics;
 
-import com.gscorp.dv1.employees.infrastructure.Projections.statistics.CompanyEmployeesStatProjection;
+import com.gscorp.dv1.employees.infrastructure.Projections.statistics.ClientEmployeesStatusSummaryProjection;
 
-public record CompanyEmployeesStatDto (
-    String companyName,
+public record ClientEmployeesStatusSummaryDto (
+    String clientName,
     long hiredCount,
     long activeCount,
     long noticeGivenCount,
     long inactiveCount,
     long settledCount
 ){
-    public static CompanyEmployeesStatDto fromProjection (CompanyEmployeesStatProjection p) {
+    public static ClientEmployeesStatusSummaryDto fromProjection(ClientEmployeesStatusSummaryProjection p) {
         if (p == null) return null;
-        return new CompanyEmployeesStatDto(
-            p.getCompanyName(),
+        return new ClientEmployeesStatusSummaryDto (
+            p.getClientName(),
             p.getHiredCount(),
             p.getActiveCount(),
             p.getNoticeGivenCount(),
             p.getInactiveCount(),
             p.getSettledCount()
         );
-    } 
+    }
 }

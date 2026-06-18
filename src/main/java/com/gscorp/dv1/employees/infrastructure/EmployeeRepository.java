@@ -16,8 +16,9 @@ import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeEditProjectio
 import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeSelectProjection;
 import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeTableProjection;
 import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeViewProjection;
-import com.gscorp.dv1.employees.infrastructure.Projections.statistics.ClientEmployeesStatProjection;
-import com.gscorp.dv1.employees.infrastructure.Projections.statistics.CompanyEmployeesStatProjection;
+import com.gscorp.dv1.employees.infrastructure.Projections.statistics.ClientEmployeesStatusSummaryProjection;
+import com.gscorp.dv1.employees.infrastructure.Projections.statistics.CompanyEmployeesStatusSummaryProjection;
+import com.gscorp.dv1.employees.infrastructure.Projections.statistics.EmployeesStatusSummaryProjection;
 
 
 @Repository
@@ -324,7 +325,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
         LEFT JOIN e.company c
         GROUP BY c.name
     """)
-    List<CompanyEmployeesStatProjection> getCompanyEmployeesStat();
+    List<CompanyEmployeesStatusSummaryProjection> getCompanyEmployeesStat();
 
 
     @Query("""
@@ -341,7 +342,18 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
         LEFT JOIN e.user u
         GROUP BY cl.name
     """)
-    List<ClientEmployeesStatProjection> getClientEmployeesStat();
+    List<ClientEmployeesStatusSummaryProjection> getClientEmployeesStat();
 
+
+    @Query("""
+        SELECT
+            COALESCE(SUM(CASE WHEN e.status = 'HIRED' THEN 1 ELSE 0 END), 0L) AS hiredCount,
+            COALESCE(SUM(CASE WHEN e.status = 'ACTIVE' THEN 1 ELSE 0 END), 0L) AS activeCount,
+            COALESCE(SUM(CASE WHEN e.status = 'NOTICE_GIVEN' THEN 1 ELSE 0 END), 0L) AS noticeGivenCount,
+            COALESCE(SUM(CASE WHEN e.status = 'INACTIVE' THEN 1 ELSE 0 END), 0L) AS inactiveCount,
+            COALESCE(SUM(CASE WHEN e.status = 'SETTLED' THEN 1 ELSE 0 END), 0L) AS settledCount
+        FROM Employee e
+    """)
+    List<EmployeesStatusSummaryProjection> getEmployeesStatusSummary();
 
 }

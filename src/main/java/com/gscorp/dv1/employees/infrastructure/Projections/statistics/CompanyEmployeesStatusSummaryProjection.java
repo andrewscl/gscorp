@@ -1,7 +1,7 @@
 package com.gscorp.dv1.employees.infrastructure.Projections.statistics;
 
-public interface ClientEmployeesStatProjection {
-    String getClientName();
+public interface CompanyEmployeesStatusSummaryProjection {
+    String getCompanyName();
     long getHiredCount();
     long getActiveCount();
     long getNoticeGivenCount();

@@ -6,10 +6,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gscorp.dv1.employees.infrastructure.EmployeeRepository;
-import com.gscorp.dv1.employees.infrastructure.Projections.statistics.ClientEmployeesStatProjection;
-import com.gscorp.dv1.employees.infrastructure.Projections.statistics.CompanyEmployeesStatProjection;
-import com.gscorp.dv1.employees.web.dto.statistics.ClientEmployeesStatDto;
-import com.gscorp.dv1.employees.web.dto.statistics.CompanyEmployeesStatDto;
+import com.gscorp.dv1.employees.infrastructure.Projections.statistics.ClientEmployeesStatusSummaryProjection;
+import com.gscorp.dv1.employees.infrastructure.Projections.statistics.CompanyEmployeesStatusSummaryProjection;
+import com.gscorp.dv1.employees.infrastructure.Projections.statistics.EmployeesStatusSummaryProjection;
+import com.gscorp.dv1.employees.web.dto.statistics.ClientEmployeesStatusSummaryDto;
+import com.gscorp.dv1.employees.web.dto.statistics.CompanyEmployeesStatusSummaryDto;
+import com.gscorp.dv1.employees.web.dto.statistics.EmployeesStatusSummaryDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,27 +22,40 @@ public class EmployeeStatServiceImpl implements EmployeeStatService{
     private final EmployeeRepository employeeRepository;
 
     @Transactional(readOnly = true)
-    public List<CompanyEmployeesStatDto> getCompanyEmployeesStat() {
+    public List<CompanyEmployeesStatusSummaryDto> getCompanyEmployeesStatusSummary() {
 
-        List<CompanyEmployeesStatProjection> projections =
+        List<CompanyEmployeesStatusSummaryProjection> projections =
                     employeeRepository.getCompanyEmployeesStat();
 
         return projections
                     .stream()
-                    .map(CompanyEmployeesStatDto::fromProjection)
+                    .map(CompanyEmployeesStatusSummaryDto::fromProjection)
                     .toList();
     }
 
 
     @Transactional(readOnly = true)
-    public List<ClientEmployeesStatDto> getClientEmployeesStat() {
+    public List<ClientEmployeesStatusSummaryDto> getClientEmployeesStatusSummary() {
 
-        List<ClientEmployeesStatProjection> projections =
+        List<ClientEmployeesStatusSummaryProjection> projections =
                     employeeRepository.getClientEmployeesStat();
 
         return projections
                     .stream()
-                    .map(ClientEmployeesStatDto::fromProjection)
+                    .map(ClientEmployeesStatusSummaryDto::fromProjection)
+                    .toList();
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<EmployeesStatusSummaryDto> getEmployeesStatusSummary() {
+
+        List<EmployeesStatusSummaryProjection> projections =
+                    employeeRepository.getEmployeesStatusSummary();
+
+        return projections
+                    .stream()
+                    .map(EmployeesStatusSummaryDto::fromProjection)
                     .toList();
     }
 

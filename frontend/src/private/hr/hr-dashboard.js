@@ -28,16 +28,28 @@ const loadHrDashboardMetric = async () => {
     }
 }
 
+function updateHeaderCards(metrics) {
+    const holding = metrics.employeeStatusSummary[0];
+
+    if (!holding) return;
+
+    qs('#kpi-hired').innerText = holding.hiredCount;
+    qs('#kpi-active').innerText = holding.activeCount;
+    qs('#kpi-notice').innerText = holding.noticeGivenCount;
+    qs('#kpi-inactive').innerText = holding.inactiveCount;
+    qs('#kpi-settled').innerText = holding.settledCount;
+}
+
 
 const renderHrDashboardMetrics = (metrics) => {
     
     // 1. RENDERIZAR DOTACIÓN POR COMPAÑÍA (Contratos)
     const companyContainer = document.getElementById('companyStatsContainer');
-    if (companyContainer && metrics.companyEmployeesStats) { // Ajustado al nombre del DTO unificado
-        if (metrics.companyEmployeesStats.length === 0) {
+    if (companyContainer && metrics.companyEmployeesStatusSummary) { // Ajustado al nombre del DTO unificado
+        if (metrics.companyEmployeesStatusSummary.length === 0) {
             companyContainer.innerHTML = '<p class="text-muted text-center py-2">No hay datos de empresas</p>';
         } else {
-            companyContainer.innerHTML = metrics.companyEmployeesStats.map((item, index) => `
+            companyContainer.innerHTML = metrics.companyEmployeesStatusSummary.map((item, index) => `
                 <div class="stat-item">
                     <div class="stat-main-info">
                         <span class="stat-name"><strong>${item.companyName}</strong></span>
@@ -47,18 +59,18 @@ const renderHrDashboardMetrics = (metrics) => {
                         <small>⏱️ ${item.hiredCount} Por Ingresar</small> | <small>⚠️ ${item.noticegivenCount} En Aviso</small>
                     </div>
                 </div>
-                ${index < metrics.companyEmployeesStats.length - 1 ? '<hr>' : ''}
+                ${index < metrics.companyEmployeesStatusSummary.length - 1 ? '<hr>' : ''}
             `).join('');
         }
     }
 
     // 2. RENDERIZAR DISTRIBUCIÓN POR CLIENTE
     const clientContainer = document.getElementById('clientStatsContainer');
-    if (clientContainer && metrics.clientEmployeesStats) { // Ajustado al nombre del DTO unificado
-        if (metrics.clientEmployeesStats.length === 0) {
+    if (clientContainer && metrics.companyEmployeesStatusSummary) { // Ajustado al nombre del DTO unificado
+        if (metrics.companyEmployeesStatusSummary.length === 0) {
             clientContainer.innerHTML = '<p class="text-muted text-center py-2">No hay datos de clientes</p>';
         } else {
-            clientContainer.innerHTML = metrics.clientEmployeesStats.map((item, index) => {
+            clientContainer.innerHTML = metrics.companyEmployeesStatusSummary.map((item, index) => {
                 // Sumamos usando la nueva ruta estructurada .stats
                 const totalAsignados = item.activeCount + item.hiredCount + item.noticegivenCount;
                 return `
@@ -71,7 +83,7 @@ const renderHrDashboardMetrics = (metrics) => {
                             <small>🟢 ${item.activeCount} Activos</small> | <small>⏱️ ${item.hiredCount} Próximos</small>
                         </div>
                     </div>
-                    ${index < metrics.clientEmployeesStats.length - 1 ? '<hr>' : ''}
+                    ${index < metrics.companyEmployeesStatusSummary.length - 1 ? '<hr>' : ''}
                 `;
             }).join('');
         }
@@ -102,5 +114,5 @@ const renderHrDashboardMetrics = (metrics) => {
 (async function init() {
     console.log("🚀 Inicializando Dashboard de Recursos Humanos...");
     await loadHrDashboardMetric();
-
+    await updateHeaderCards();
 })();

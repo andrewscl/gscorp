@@ -6,7 +6,7 @@
             <div th:replace="~{shared/fragments/icons/analytics/users-icons :: users}"></div>
         </div>
         <div class="stat-card__body">
-            <p class="stat-card__value" th:text="${hiredCount}">0</p>
+            <p id="kpi-hired" class="stat-card__value">0</p>
             <span class="stat-card__trend trend-upcomming">Próximos ingresos</span>
         </div>
     </div>
@@ -17,7 +17,7 @@
             <div th:replace="~{shared/fragments/icons/analytics/users-icons :: users}"></div>
         </div>
         <div class="stat-card__body">
-            <p class="stat-card__value" th:text="${activeCount}">0</p>
+            <p id="kpi-active" class="stat-card__value">0</p>
             <span class="stat-card__trend trend-up">Dotación vigente</span>
         </div>
     </div>
@@ -28,7 +28,7 @@
             <div th:replace="~{shared/fragments/icons/status/alert-icons :: alert}"></div>
         </div>
         <div class="stat-card__body">
-            <p class="stat-card__value" th:text="${noticeGivenCount}">0</p>
+            <p id="kpi-notice" class="stat-card__value">0</p>
             <span class="stat-card__trend trend-warning">Procesos en curso</span>
         </div>
     </div>
@@ -39,7 +39,7 @@
             <div th:replace="~{shared/fragments/icons/status/alert-icons :: alert}"></div>
         </div>
         <div class="stat-card__body">
-            <p class="stat-card__value" th:text="${inactiveCount}">0</p>
+            <p id="kpi-inactive" class="stat-card__value">0</p>
             <span class="stat-card__trend trend-down">Bajas del periodo</span>
         </div>
     </div>
@@ -50,7 +50,7 @@
             <div th:replace="~{shared/fragments/icons/status/alert-icons :: alert}"></div>
         </div>
         <div class="stat-card__body">
-            <p class="stat-card__value" th:text="${settledCount}">0</p>
+            <p id="kpi-settled" class="stat-card__value">0</p>
             <span class="stat-card__trend trend-closed">Finiquitos firmados</span>
         </div>
     </div>
