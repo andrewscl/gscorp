@@ -15,7 +15,7 @@ public class HrController {
     @GetMapping("/dashboard")
     public String getPrivateDashboardView(
             Model model) {
-
+        
         return "private/hr/dashboards/templates/hr-dashboard-view";
     }
 

@@ -7,12 +7,12 @@ import java.util.UUID;
 import org.springframework.data.domain.Page;
 
 import com.gscorp.dv1.employees.infrastructure.Employee;
-import com.gscorp.dv1.employees.web.dto.CreateEmployeeRequest;
 import com.gscorp.dv1.employees.web.dto.EmployeeEditDto;
 import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
 import com.gscorp.dv1.employees.web.dto.EmployeeTableDto;
 import com.gscorp.dv1.employees.web.dto.EmployeeViewDto;
-import com.gscorp.dv1.employees.web.dto.UpdateEmployeeRequest;
+import com.gscorp.dv1.employees.web.dto.request.CreateEmployeeRequest;
+import com.gscorp.dv1.employees.web.dto.request.UpdateEmployeeRequest;
 import com.gscorp.dv1.users.infrastructure.User;
 
 public interface EmployeeService {

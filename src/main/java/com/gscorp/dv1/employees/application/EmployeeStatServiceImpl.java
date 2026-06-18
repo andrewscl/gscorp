@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gscorp.dv1.employees.infrastructure.EmployeeRepository;
-import com.gscorp.dv1.hr.web.dto.ClientStatDto;
-import com.gscorp.dv1.hr.web.dto.CompanyStatDto;
-import com.gscorp.dv1.hr.web.dto.CompanyUserStatDto;
-import com.gscorp.dv1.hr.web.dto.HrDashboardMetricResponse;
+import com.gscorp.dv1.employees.infrastructure.Projections.statistics.ClientEmployeesStatProjection;
+import com.gscorp.dv1.employees.infrastructure.Projections.statistics.CompanyEmployeesStatProjection;
+import com.gscorp.dv1.employees.web.dto.statistics.ClientEmployeesStatDto;
+import com.gscorp.dv1.employees.web.dto.statistics.CompanyEmployeesStatDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,17 +20,28 @@ public class EmployeeStatServiceImpl implements EmployeeStatService{
     private final EmployeeRepository employeeRepository;
 
     @Transactional(readOnly = true)
-    public HrDashboardMetricResponse getRhDashboardStats() {
+    public List<CompanyEmployeesStatDto> getCompanyEmployeesStat() {
 
-        List<CompanyStatDto> companyStats = 
-                        employeeRepository.getEmployeeStatsByCompany();
-        List<ClientStatDto> clientStats = 
-                        employeeRepository.getEmployeeStatsByClient();
-        List<CompanyUserStatDto> companyUserStats =
-                        employeeRepository.getCompanyUserStats();
+        List<CompanyEmployeesStatProjection> projections =
+                    employeeRepository.getCompanyEmployeesStat();
 
-        return new HrDashboardMetricResponse(
-                        companyStats, clientStats, companyUserStats);
+        return projections
+                    .stream()
+                    .map(CompanyEmployeesStatDto::fromProjection)
+                    .toList();
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<ClientEmployeesStatDto> getClientEmployeesStat() {
+
+        List<ClientEmployeesStatProjection> projections =
+                    employeeRepository.getClientEmployeesStat();
+
+        return projections
+                    .stream()
+                    .map(ClientEmployeesStatDto::fromProjection)
+                    .toList();
     }
 
 }

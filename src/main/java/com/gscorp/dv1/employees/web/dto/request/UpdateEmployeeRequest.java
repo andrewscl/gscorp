@@ -1,4 +1,4 @@
-package com.gscorp.dv1.employees.web.dto;
+package com.gscorp.dv1.employees.web.dto.request;
 
 import java.time.LocalDate;
 import java.util.HashSet;

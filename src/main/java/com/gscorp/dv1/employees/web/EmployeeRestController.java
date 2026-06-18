@@ -20,11 +20,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.gscorp.dv1.employees.application.EmployeeService;
 import com.gscorp.dv1.employees.application.EmployeeStatService;
 import com.gscorp.dv1.employees.infrastructure.Employee;
-import com.gscorp.dv1.employees.web.dto.CreateEmployeeRequest;
 import com.gscorp.dv1.employees.web.dto.EmployeeDto;
 import com.gscorp.dv1.employees.web.dto.EmployeeViewDto;
-import com.gscorp.dv1.employees.web.dto.UpdateEmployeeRequest;
-import com.gscorp.dv1.hr.web.dto.HrDashboardMetricResponse;
+import com.gscorp.dv1.employees.web.dto.request.CreateEmployeeRequest;
+import com.gscorp.dv1.employees.web.dto.request.UpdateEmployeeRequest;
+import com.gscorp.dv1.hr.web.dto.HrDistributionMetricResponse;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -100,11 +100,13 @@ public class EmployeeRestController {
 
 
     @GetMapping("/hr-dashboard-metrics")
-    public HrDashboardMetricResponse getHrDashboardMetrics() {
+    public HrDistributionMetricResponse getHrDashboardMetrics() {
 
-        HrDashboardMetricResponse metrics =
-                            employeeStatService.getRhDashboardStats();
-
+        HrDistributionMetricResponse metrics =
+            new HrDistributionMetricResponse(
+                employeeStatService.getCompanyEmployeesStat(),
+                employeeStatService.getClientEmployeesStat()
+            );
         return metrics;
     }
 

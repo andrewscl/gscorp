@@ -31,87 +31,73 @@ const loadHrDashboardMetric = async () => {
 
 const renderHrDashboardMetrics = (metrics) => {
     
-    // 1. Renderizar Bloque de Compañías
+    // 1. RENDERIZAR DOTACIÓN POR COMPAÑÍA (Contratos)
     const companyContainer = document.getElementById('companyStatsContainer');
-    if (companyContainer && metrics.companyStats) {
-        if (metrics.companyStats.length === 0) {
+    if (companyContainer && metrics.companyEmployeesStats) { // Ajustado al nombre del DTO unificado
+        if (metrics.companyEmployeesStats.length === 0) {
             companyContainer.innerHTML = '<p class="text-muted text-center py-2">No hay datos de empresas</p>';
         } else {
-            companyContainer.innerHTML = metrics.companyStats.map((item, index) => `
+            companyContainer.innerHTML = metrics.companyEmployeesStats.map((item, index) => `
                 <div class="stat-item">
                     <div class="stat-main-info">
                         <span class="stat-name"><strong>${item.companyName}</strong></span>
-                        <span class="stat-badge">${item.activeCount} Activos</span>
+                        <span class="stat-badge">${item.stats.activeCount} Activos</span>
                     </div>
                     <div class="stat-details">
-                        <small>⏱️ ${item.pendingCount} Por Ingresar</small> | <small>⚠️ ${item.noticeCount} En Aviso</small>
+                        <small>⏱️ ${item.stats.hiredCount} Por Ingresar</small> | <small>⚠️ ${item.stats.noticeGivenCount} En Aviso</small>
                     </div>
                 </div>
-                ${index < metrics.companyStats.length - 1 ? '<hr>' : ''}
+                ${index < metrics.companyEmployeesStats.length - 1 ? '<hr>' : ''}
             `).join('');
         }
     }
 
-    // 2. Renderizar Bloque de Clientes
+    // 2. RENDERIZAR DISTRIBUCIÓN POR CLIENTE
     const clientContainer = document.getElementById('clientStatsContainer');
-    if (clientContainer && metrics.clientStats) {
-        if (metrics.clientStats.length === 0) {
+    if (clientContainer && metrics.clientEmployeesStats) { // Ajustado al nombre del DTO unificado
+        if (metrics.clientEmployeesStats.length === 0) {
             clientContainer.innerHTML = '<p class="text-muted text-center py-2">No hay datos de clientes</p>';
         } else {
-            clientContainer.innerHTML = metrics.clientStats.map((item, index) => `
-                <div class="stat-item">
-                    <div class="stat-main-info">
-                        <span class="stat-name"><strong>${item.clientName}</strong></span>
-                        <span class="stat-badge">${item.activeCount + item.pendingCount} Asignados</span>
+            clientContainer.innerHTML = metrics.clientEmployeesStats.map((item, index) => {
+                // Sumamos usando la nueva ruta estructurada .stats
+                const totalAsignados = item.stats.activeCount + item.stats.hiredCount;
+                return `
+                    <div class="stat-item">
+                        <div class="stat-main-info">
+                            <span class="stat-name"><strong>${item.clientName}</strong></span>
+                            <span class="stat-badge">${totalAsignados} Asignados</span>
+                        </div>
+                        <div class="stat-details">
+                            <small>🟢 ${item.stats.activeCount} Activos</small> | <small>⏱️ ${item.stats.hiredCount} Próximos</small>
+                        </div>
                     </div>
-                    <div class="stat-details">
-                        <small>🟢 ${item.activeCount} Activos</small> | <small>⏱️ ${item.pendingCount} Próximos</small>
-                    </div>
-                </div>
-                ${index < metrics.clientStats.length - 1 ? '<hr>' : ''}
-            `).join('');
+                    ${index < metrics.clientEmployeesStats.length - 1 ? '<hr>' : ''}
+                `;
+            }).join('');
         }
     }
 
-    // 3. Renderizar Bloque de Sincronización de Usuarios
-    const userContainer = document.getElementById('companyUserStatsContainer');
-    if (userContainer && metrics.companyUserStats) {
-        if (metrics.companyUserStats.length === 0) {
-            userContainer.innerHTML = '<p class="text-muted text-center py-2">No hay datos de cuentas</p>';
+    // 3. RENDERIZAR ADOPCIÓN DIGITAL / ESTADO DE USUARIOS (¡La Card Nueva!)
+    const userContainer = document.getElementById('userStatsContainer');
+    if (userContainer && metrics.companyEmployeesStats) {
+        if (metrics.companyEmployeesStats.length === 0) {
+            userContainer.innerHTML = '<p class="text-muted text-center py-2">No hay datos de usuarios</p>';
         } else {
-            userContainer.innerHTML = metrics.companyUserStats.map((item, index) => `
+            userContainer.innerHTML = metrics.companyEmployeesStats.map((item, index) => `
                 <div class="stat-item">
                     <div class="stat-main-info">
                         <span class="stat-name"><strong>${item.companyName}</strong></span>
-                        <span class="stat-badge">${item.totalEmployees} Totales</span>
+                        <span class="stat-badge user-active" style="background-color: var(--bs-success-soft); color: var(--bs-success);">${item.stats.activeUsersCount} En Línea</span>
                     </div>
-                    <div class="stat-details mt-1">
-                        <span class="text-success">🟢 ${item.activeUsers} Activos</span> | 
-                        <span class="text-warning">🟡 ${item.blockedUsers} Bloqueados</span> | 
-                        <span class="text-danger">🔴 ${item.withoutUser} Sin Cuenta</span>
+                    <div class="stat-details">
+                        <small>✉️ ${item.stats.invitedUsersCount} Invitados</small> | <small>🔴 ${item.stats.inactiveUsersCount} Inactivos</small> | <small>⏳ ${item.stats.expiredUsersCount} Expirados</small>
                     </div>
                 </div>
-                ${index < metrics.companyUserStats.length - 1 ? '<hr>' : ''}
+                ${index < metrics.companyEmployeesStats.length - 1 ? '<hr>' : ''}
             `).join('');
         }
     }
-};
-
-// --- Ejemplo de integración en el init() de tu fragmento de RRHH ---
-/*
-async function init() {
-    try {
-        const response = await fetchWithAuth('/api/hr/dashboard/metrics');
-        if (response.ok) {
-            const data = await response.json();
-            renderHrDashboardMetrics(data);
-        }
-    } catch (error) {
-        console.error("Error cargando métricas de RRHH:", error);
-    }
 }
-*/
-
 
 (async function init() {
     console.log("🚀 Inicializando Dashboard de Recursos Humanos...");

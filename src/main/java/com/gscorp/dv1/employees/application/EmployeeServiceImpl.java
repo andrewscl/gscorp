@@ -27,12 +27,12 @@ import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeEditProjectio
 import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeSelectProjection;
 import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeTableProjection;
 import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeViewProjection;
-import com.gscorp.dv1.employees.web.dto.CreateEmployeeRequest;
 import com.gscorp.dv1.employees.web.dto.EmployeeEditDto;
 import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
 import com.gscorp.dv1.employees.web.dto.EmployeeTableDto;
 import com.gscorp.dv1.employees.web.dto.EmployeeViewDto;
-import com.gscorp.dv1.employees.web.dto.UpdateEmployeeRequest;
+import com.gscorp.dv1.employees.web.dto.request.CreateEmployeeRequest;
+import com.gscorp.dv1.employees.web.dto.request.UpdateEmployeeRequest;
 import com.gscorp.dv1.enums.EmployeeStatus;
 import com.gscorp.dv1.nationalities.application.NationalityService;
 import com.gscorp.dv1.nationalities.infrastructure.Nationality;

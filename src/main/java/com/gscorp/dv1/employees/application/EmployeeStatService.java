@@ -1,9 +1,14 @@
 package com.gscorp.dv1.employees.application;
 
-import com.gscorp.dv1.hr.web.dto.HrDashboardMetricResponse;
+import java.util.List;
+
+import com.gscorp.dv1.employees.web.dto.statistics.ClientEmployeesStatDto;
+import com.gscorp.dv1.employees.web.dto.statistics.CompanyEmployeesStatDto;
 
 public interface EmployeeStatService {
 
-    HrDashboardMetricResponse getRhDashboardStats();
+    List<CompanyEmployeesStatDto> getCompanyEmployeesStat();
+
+    List<ClientEmployeesStatDto> getClientEmployeesStat();
 
 }

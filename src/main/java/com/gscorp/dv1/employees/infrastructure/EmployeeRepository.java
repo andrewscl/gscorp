@@ -16,9 +16,8 @@ import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeEditProjectio
 import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeSelectProjection;
 import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeTableProjection;
 import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeViewProjection;
-import com.gscorp.dv1.hr.web.dto.ClientStatDto;
-import com.gscorp.dv1.hr.web.dto.CompanyStatDto;
-import com.gscorp.dv1.hr.web.dto.CompanyUserStatDto;
+import com.gscorp.dv1.employees.infrastructure.Projections.statistics.ClientEmployeesStatProjection;
+import com.gscorp.dv1.employees.infrastructure.Projections.statistics.CompanyEmployeesStatProjection;
 
 
 @Repository
@@ -313,53 +312,45 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
     Optional<EmployeeSelectProjection> findByUserExternalId(@Param("externalId") UUID externalId);
 
 
-    @Query(value = """
-        SELECT new com.gscorp.dv1.hr.web.dto.CompanyStatDto (
-            e.company.name,
-            SUM(CASE WHEN e.status = 'HIRED' THEN 1 ELSE 0 END),
-            SUM(CASE WHEN e.status = 'ACTIVE' THEN 1 ELSE 0 END),
-            SUM(CASE WHEN e.status = 'NOTICE_GIVEN' THEN 1 ELSE 0 END),
-            SUM(CASE WHEN e.status = 'INACTIVE' THEN 1 ELSE 0 END),
-            SUM(CASE WHEN e.status = 'SETTLED' THEN 1 ELSE 0 END)
-        )
+    @Query("""
+        SELECT 
+            c.name AS companyName,
+            COALESCE(SUM(CASE WHEN e.status = 'HIRED' THEN 1 ELSE 0 END), 0L) AS hiredCount,
+            COALESCE(SUM(CASE WHEN e.status = 'ACTIVE' THEN 1 ELSE 0 END), 0L) AS activeCount,
+            COALESCE(SUM(CASE WHEN e.status = 'NOTICE_GIVEN' THEN 1 ELSE 0 END), 0L) AS noticeGivenCount,
+            COALESCE(SUM(CASE WHEN e.status = 'INACTIVE' THEN 1 ELSE 0 END), 0L) AS inactiveCount,
+            COALESCE(SUM(CASE WHEN e.status = 'SETTLED' THEN 1 ELSE 0 END), 0L) AS settledCount
+            COALESCE(SUM(CASE WHEN u.status = 'INVITED' THEN 1 ELSE 0 END), 0L) AS invitedUsersCount,
+            COALESCE(SUM(CASE WHEN u.status = 'ACTIVE' THEN 1 ELSE 0 END), 0L) AS activeUsersCount,
+            COALESCE(SUM(CASE WHEN u.status = 'INACTIVE' THEN 1 ELSE 0 END), 0L) AS inactiveUsersCount,
+            COALESCE(SUM(CASE WHEN u.status = 'EXPIRED' THEN 1 ELSE 0 END), 0L) AS expiredUsersCount,
+            COALESCE(SUM(CASE WHEN u.status = 'SUSPENDED' THEN 1 ELSE 0 END), 0L) AS suspendedUsersCount
         FROM Employee e
-        GROUP BY e.company.name
-        """)
-    List<CompanyStatDto> getEmployeeStatsByCompany();
+        INNER JOIN e.company c
+        GROUP BY c.name
+    """)
+    List<CompanyEmployeesStatProjection> getCompanyEmployeesStat();
 
 
     @Query("""
-        SELECT new com.gscorp.dv1.hr.web.dto.ClientStatDto(
-            cl.name,
-            SUM(CASE WHEN e.status = 'HIRED' THEN 1 ELSE 0 END),
-            SUM(CASE WHEN e.status = 'ACTIVE' THEN 1 ELSE 0 END),
-            SUM(CASE WHEN e.status = 'NOTICE_GIVEN' THEN 1 ELSE 0 END),
-            SUM(CASE WHEN e.status = 'INACTIVE' THEN 1 ELSE 0 END),
-            SUM(CASE WHEN e.status = 'SETTLED' THEN 1 ELSE 0 END)
-        )
+        SELECT
+            cl.name AS clientName,
+            COALESCE(SUM(CASE WHEN e.status = 'HIRED' THEN 1 ELSE 0 END), 0L) AS hiredCount,
+            COALESCE(SUM(CASE WHEN e.status = 'ACTIVE' THEN 1 ELSE 0 END), 0L) AS activeCount,
+            COALESCE(SUM(CASE WHEN e.status = 'NOTICE_GIVEN' THEN 1 ELSE 0 END), 0L) AS noticeGivenCount,
+            COALESCE(SUM(CASE WHEN e.status = 'INACTIVE' THEN 1 ELSE 0 END), 0L) AS inactiveCount,
+            COALESCE(SUM(CASE WHEN e.status = 'SETTLED' THEN 1 ELSE 0 END), 0L) AS settledCount
+            COALESCE(SUM(CASE WHEN u.status = 'INVITED' THEN 1 ELSE 0 END), 0L) AS invitedUsersCount,
+            COALESCE(SUM(CASE WHEN u.status = 'ACTIVE' THEN 1 ELSE 0 END), 0L) AS activeUsersCount,
+            COALESCE(SUM(CASE WHEN u.status = 'INACTIVE' THEN 1 ELSE 0 END), 0L) AS inactiveUsersCount,
+            COALESCE(SUM(CASE WHEN u.status = 'EXPIRED' THEN 1 ELSE 0 END), 0L) AS expiredUsersCount,
+            COALESCE(SUM(CASE WHEN u.status = 'SUSPENDED' THEN 1 ELSE 0 END), 0L) AS suspendedUsersCount
         FROM Employee e
         INNER JOIN e.projects p
         INNER JOIN p.client cl
         GROUP BY cl.name
     """)
-    List<ClientStatDto> getEmployeeStatsByClient();
-
-
-    @Query("""
-        SELECT new com.gscorp.dv1.hr.web.dto.CompanyUserStatDto(
-            c.name,
-            COUNT(e.id),
-            SUM(CASE WHEN u.active = true THEN 1 ELSE 0 END),
-            SUM(CASE WHEN u.active = false THEN 1 ELSE 0 END),
-            SUM(CASE WHEN u.id IS NULL THEN 1 ELSE 0 END)
-        )
-        FROM Employee e
-        INNER JOIN e.company c
-        LEFT JOIN e.user u
-        GROUP BY c.name
-    """)
-    List<CompanyUserStatDto> getCompanyUserStats();
-
+    List<ClientEmployeesStatProjection> getClientEmployeesStat();
 
 
 }
