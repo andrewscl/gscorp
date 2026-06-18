@@ -97,4 +97,24 @@ public interface UserRepository extends JpaRepository<User, Long>{
 
     Optional<User> findByExternalId (UUID externalId);
 
+
+/*     @Query("""
+        SELECT 
+            c.name AS companyName,
+            COALESCE(SUM(CASE WHEN u.status = 'INVITED' THEN 1 ELSE 0 END), 0L) AS invitedUsersCount,
+            COALESCE(SUM(CASE WHEN u.status = 'PENDING' THEN 1 ELSE 0 END), 0L) AS pendingUsersCount,
+            COALESCE(SUM(CASE WHEN u.status = 'ACTIVE' THEN 1 ELSE 0 END), 0L) AS activeUsersCount,
+            COALESCE(SUM(CASE WHEN u.status = 'INACTIVE' THEN 1 ELSE 0 END), 0L) AS inactiveUsersCount,
+            COALESCE(SUM(CASE WHEN u.status = 'EXPIRED' THEN 1 ELSE 0 END), 0L) AS expiredUsersCount,
+            COALESCE(SUM(CASE WHEN u.status = 'SUSPENDED' THEN 1 ELSE 0 END), 0L) AS suspendedUsersCount
+        FROM User u
+        LEFT JOIN u.employee e
+        LEFT JOIN e.projects p
+        LEFT JOIN p.client cl
+        LEFT JOIN cl.company c
+        GROUP BY c.name
+    """)
+    List<UserStatusSummaryProjection> getUserStatusSummary();*/
+
+
 }
