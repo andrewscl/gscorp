@@ -4,7 +4,6 @@ import com.gscorp.dv1.users.infrastructure.projections.UserStatusSummaryProjecti
 
 public record UserStatusSummaryDto (
     long invitedCount,
-    long pendingCount,
     long activeCount,
     long inactiveCount,
     long expiredCount,
@@ -15,7 +14,6 @@ public record UserStatusSummaryDto (
 
         return new UserStatusSummaryDto(
             p.getInvitedUsersCount(),
-            p.getPendingUsersCount(),
             p.getActiveUsersCount(),
             p.getInactiveUsersCount(),
             p.getExpiredUsersCount(),
