@@ -9,6 +9,7 @@ public interface ClientEmployeesStatProjection {
     long getSettledCount();
     //userStatus
     long getInvitedUsersCount();
+    long getPendingUsersCount();
     long getActiveUsersCount();
     long getInactiveUsersCount();
     long getExpiredUsersCount();

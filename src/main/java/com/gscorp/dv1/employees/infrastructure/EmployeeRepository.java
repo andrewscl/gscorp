@@ -321,6 +321,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
             COALESCE(SUM(CASE WHEN e.status = 'INACTIVE' THEN 1 ELSE 0 END), 0L) AS inactiveCount,
             COALESCE(SUM(CASE WHEN e.status = 'SETTLED' THEN 1 ELSE 0 END), 0L) AS settledCount,
             COALESCE(SUM(CASE WHEN u.status = 'INVITED' THEN 1 ELSE 0 END), 0L) AS invitedUsersCount,
+            COALESCE(SUM(CASE WHEN u.status = 'PENDING' THEN 1 ELSE 0 END), 0L) AS pendingUsersCount,
             COALESCE(SUM(CASE WHEN u.status = 'ACTIVE' THEN 1 ELSE 0 END), 0L) AS activeUsersCount,
             COALESCE(SUM(CASE WHEN u.status = 'INACTIVE' THEN 1 ELSE 0 END), 0L) AS inactiveUsersCount,
             COALESCE(SUM(CASE WHEN u.status = 'EXPIRED' THEN 1 ELSE 0 END), 0L) AS expiredUsersCount,
@@ -341,6 +342,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
             COALESCE(SUM(CASE WHEN e.status = 'INACTIVE' THEN 1 ELSE 0 END), 0L) AS inactiveCount,
             COALESCE(SUM(CASE WHEN e.status = 'SETTLED' THEN 1 ELSE 0 END), 0L) AS settledCount,
             COALESCE(SUM(CASE WHEN u.status = 'INVITED' THEN 1 ELSE 0 END), 0L) AS invitedUsersCount,
+            COALESCE(SUM(CASE WHEN u.status = 'PENDING' THEN 1 ELSE 0 END), 0L) AS pendingUsersCount,
             COALESCE(SUM(CASE WHEN u.status = 'ACTIVE' THEN 1 ELSE 0 END), 0L) AS activeUsersCount,
             COALESCE(SUM(CASE WHEN u.status = 'INACTIVE' THEN 1 ELSE 0 END), 0L) AS inactiveUsersCount,
             COALESCE(SUM(CASE WHEN u.status = 'EXPIRED' THEN 1 ELSE 0 END), 0L) AS expiredUsersCount,
@@ -348,6 +350,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
         FROM Employee e
         INNER JOIN e.projects p
         INNER JOIN p.client cl
+        LEFT JOIN e.user u
         GROUP BY cl.name
     """)
     List<ClientEmployeesStatProjection> getClientEmployeesStat();
