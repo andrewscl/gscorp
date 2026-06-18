@@ -36,12 +36,11 @@ function updateHeaderCards(metrics) {
 
     if (!holding) return;
 
-    qs('#kpi-invited').innerText = holding.hiredCount;
-    qs('#kpi-pending').innerText = holding.activeCount;
-    qs('#kpi-active').innerText = holding.noticeGivenCount;
+    qs('#kpi-invited').innerText = holding.invitedCount;
+    qs('#kpi-active').innerText = holding.activeCount;
     qs('#kpi-inactive').innerText = holding.inactiveCount;
-    qs('#kpi-expired').innerText = holding.settledCount;
-    qs('#kpi-suspended').innerText = holding.settledCount;
+    qs('#kpi-expired').innerText = holding.expiredCount;
+    qs('#kpi-suspended').innerText = holding.suspendedCount;
 }
 
 
