@@ -16,7 +16,7 @@ public class HrController {
     public String getPrivateDashboardView(
             Model model) {
 
-        return "private/hr/views/hr-dashboard-view";
+        return "private/hr/dashboards/templates/hr-dashboard-view";
     }
 
 }
