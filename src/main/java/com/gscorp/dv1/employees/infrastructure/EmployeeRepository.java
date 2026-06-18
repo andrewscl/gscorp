@@ -327,7 +327,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
             COALESCE(SUM(CASE WHEN u.status = 'EXPIRED' THEN 1 ELSE 0 END), 0L) AS expiredUsersCount,
             COALESCE(SUM(CASE WHEN u.status = 'SUSPENDED' THEN 1 ELSE 0 END), 0L) AS suspendedUsersCount
         FROM Employee e
-        INNER JOIN e.company c
+        LEFT JOIN e.company c
         GROUP BY c.name
     """)
     List<CompanyEmployeesStatProjection> getCompanyEmployeesStat();
@@ -348,8 +348,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
             COALESCE(SUM(CASE WHEN u.status = 'EXPIRED' THEN 1 ELSE 0 END), 0L) AS expiredUsersCount,
             COALESCE(SUM(CASE WHEN u.status = 'SUSPENDED' THEN 1 ELSE 0 END), 0L) AS suspendedUsersCount
         FROM Employee e
-        JOIN JOIN e.projects p
-        JOIN JOIN p.client cl
+        JOIN e.projects p
+        JOIN p.client cl
         LEFT JOIN e.user u
         GROUP BY cl.name
     """)
