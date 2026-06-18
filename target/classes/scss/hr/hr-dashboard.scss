@@ -1,7 +1,9 @@
 @use '../abstracts/dashboards/kpi-cards' as * ;
+@use '../abstracts/dashboards/staff-distribution-cards' as * ;
 
 .hr-dashboard {
   @include kpi-cards ();
 
-  
+  @include staff-distribution-cards ();
+
 }

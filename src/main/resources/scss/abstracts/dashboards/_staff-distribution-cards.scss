@@ -1,0 +1,139 @@
+@use "sass:color";
+@use '../palette' as *;
+@use '../variables' as *;
+@use '../mixins' as *;
+@use '../typography' as *;
+
+@mixin staff-distribution-cards() {
+    .staff-distribution-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+
+        @media (max-width: 1024px) {
+            grid-template-columns: 1fr; /* Cae a una columna en tablets y móviles */
+            gap: 1.25rem;
+        }
+
+        .dashboard-card {
+            background: #ffffff;
+            border: 1px solid $border-color;
+            border-radius: 0.875rem; // Mismo radio 14px de tus .stat-card
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); // Misma sombra base
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+
+            &:hover {
+                box-shadow: 0 10px 25px rgba(59, 130, 246, 0.05);
+                border-color: $border-color-hover;
+            }
+
+            .card-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                margin-bottom: 1.5rem;
+                background: transparent;
+                padding: 0;
+                border: none;
+
+                .title-group {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.25rem;
+
+                    .card-subtitle {
+                        @include montserrat-font(0.75rem, 600);
+                        color: $label-text-color;
+                        text-transform: uppercase;
+                        letter-spacing: 0.5px;
+                    }
+
+                    .card-title {
+                        @include montserrat-font(1.1rem, 700);
+                        color: $heading-color;
+                        margin: 0;
+                    }
+                }
+
+                .icon-wrapper {
+                    width: 2.5rem;
+                    height: 2.5rem;
+                    background: rgba($primary-color, 0.08);
+                    color: $primary-color;
+                    border-radius: 0.5rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 1.2rem;
+                }
+            }
+
+            .card-body {
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+
+                .stat-item {
+                    padding: 1rem 0;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.5rem;
+
+                    &:first-child {
+                        padding-top: 0;
+                    }
+                    &:last-child {
+                        padding-bottom: 0;
+                    }
+
+                    .stat-main-info {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+
+                        .stat-name {
+                            @include montserrat-font(0.95rem, 600);
+                            color: $input-text-color;
+                        }
+
+                        .stat-badge {
+                            @include montserrat-font(0.8rem, 600);
+                            padding: 0.35rem 0.85rem;
+                            border-radius: 2rem;
+                            
+                            // Variante por defecto (Verde Esmeralda Sutil)
+                            background: rgba($accent-green, 0.12);
+                            color: $accent-green;
+                        }
+                    }
+
+                    .stat-details {
+                        @include montserrat-font(0.825rem, 500);
+                        color: $label-text-color;
+                        display: flex;
+                        gap: 0.5rem;
+                        align-items: center;
+                    }
+                }
+
+                // Cambia el color del badge del segundo bloque (Clientes) a azul sutil
+                & #clientStatsContainer .stat-badge {
+                    background: rgba($primary-color, 0.1);
+                    color: $primary-color;
+                }
+
+                hr {
+                    border: 0;
+                    border-top: 1px solid $border-color;
+                    margin: 0;
+                    opacity: 0.6;
+                }
+            }
+        }
+    }
+}

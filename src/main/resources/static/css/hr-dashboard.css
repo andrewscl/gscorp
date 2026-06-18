@@ -276,4 +276,132 @@ p {
   .hr-dashboard .stats-grid {
     gap: 0.75rem;
   }
+}
+.hr-dashboard .staff-distribution-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+@media (max-width: 1024px) {
+  .hr-dashboard .staff-distribution-cards {
+    grid-template-columns: 1fr; /* Cae a una columna en tablets y móviles */
+    gap: 1.25rem;
+  }
+}
+.hr-dashboard .staff-distribution-cards .dashboard-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.875rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+.hr-dashboard .staff-distribution-cards .dashboard-card:hover {
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.05);
+  border-color: #cbd5e1;
+}
+.hr-dashboard .staff-distribution-cards .dashboard-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  background: transparent;
+  padding: 0;
+  border: none;
+}
+.hr-dashboard .staff-distribution-cards .dashboard-card .card-header .title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.hr-dashboard .staff-distribution-cards .dashboard-card .card-header .title-group .card-subtitle {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.hr-dashboard .staff-distribution-cards .dashboard-card .card-header .title-group .card-title {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #475569;
+  margin: 0;
+}
+.hr-dashboard .staff-distribution-cards .dashboard-card .card-header .icon-wrapper {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: rgba(30, 41, 59, 0.08);
+  color: #1e293b;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+.hr-dashboard .staff-distribution-cards .dashboard-card .card-body {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.hr-dashboard .staff-distribution-cards .dashboard-card .card-body .stat-item {
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.hr-dashboard .staff-distribution-cards .dashboard-card .card-body .stat-item:first-child {
+  padding-top: 0;
+}
+.hr-dashboard .staff-distribution-cards .dashboard-card .card-body .stat-item:last-child {
+  padding-bottom: 0;
+}
+.hr-dashboard .staff-distribution-cards .dashboard-card .card-body .stat-item .stat-main-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.hr-dashboard .staff-distribution-cards .dashboard-card .card-body .stat-item .stat-main-info .stat-name {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #334155;
+}
+.hr-dashboard .staff-distribution-cards .dashboard-card .card-body .stat-item .stat-main-info .stat-badge {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 0.35rem 0.85rem;
+  border-radius: 2rem;
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+}
+.hr-dashboard .staff-distribution-cards .dashboard-card .card-body .stat-item .stat-details {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.825rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #94a3b8;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.hr-dashboard .staff-distribution-cards .dashboard-card .card-body #clientStatsContainer .stat-badge {
+  background: rgba(30, 41, 59, 0.1);
+  color: #1e293b;
+}
+.hr-dashboard .staff-distribution-cards .dashboard-card .card-body hr {
+  border: 0;
+  border-top: 1px solid #e2e8f0;
+  margin: 0;
+  opacity: 0.6;
 }/*# sourceMappingURL=hr-dashboard.css.map */
