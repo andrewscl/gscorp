@@ -20,6 +20,7 @@ const loadHrDashboardMetric = async () => {
         hrMetricList = await response.json();
 
         renderHrDashboardMetrics(hrMetricList);
+        updateHeaderCards(hrMetricList);
 
     } catch (e) {
 
@@ -44,7 +45,7 @@ function updateHeaderCards(metrics) {
 const renderHrDashboardMetrics = (metrics) => {
     
     // 1. RENDERIZAR DOTACIÓN POR COMPAÑÍA (Contratos)
-    const companyContainer = document.getElementById('companyStatsContainer');
+    const companyContainer = qs('#companyStatsContainer');
     if (companyContainer && metrics.companyEmployeesStatusSummary) { // Ajustado al nombre del DTO unificado
         if (metrics.companyEmployeesStatusSummary.length === 0) {
             companyContainer.innerHTML = '<p class="text-muted text-center py-2">No hay datos de empresas</p>';
@@ -65,7 +66,7 @@ const renderHrDashboardMetrics = (metrics) => {
     }
 
     // 2. RENDERIZAR DISTRIBUCIÓN POR CLIENTE
-    const clientContainer = document.getElementById('clientStatsContainer');
+    const clientContainer = qs('#clientStatsContainer');
     if (clientContainer && metrics.companyEmployeesStatusSummary) { // Ajustado al nombre del DTO unificado
         if (metrics.companyEmployeesStatusSummary.length === 0) {
             clientContainer.innerHTML = '<p class="text-muted text-center py-2">No hay datos de clientes</p>';
@@ -90,7 +91,7 @@ const renderHrDashboardMetrics = (metrics) => {
     }
 
     // 3. RENDERIZAR ADOPCIÓN DIGITAL / ESTADO DE USUARIOS (¡La Card Nueva!)
-    const userContainer = document.getElementById('userStatsContainer');
+    const userContainer = qs('#userStatsContainer');
     if (userContainer && metrics.companyEmployeesStats) {
         if (metrics.companyEmployeesStats.length === 0) {
             userContainer.innerHTML = '<p class="text-muted text-center py-2">No hay datos de usuarios</p>';
@@ -114,5 +115,4 @@ const renderHrDashboardMetrics = (metrics) => {
 (async function init() {
     console.log("🚀 Inicializando Dashboard de Recursos Humanos...");
     await loadHrDashboardMetric();
-    await updateHeaderCards();
 })();
