@@ -27,7 +27,7 @@ const addSchedulePatrolExecution = async (currentExecutionId) => {
     try {
         displayAlert(alertSuccess, 'Abriendo bitácora de ronda...', 1500);
         setTimeout(() => {
-            navigateTo(`/private/patrols-executions/schedule-execute/${nextSchedule.externalId}`);
+            navigateTo(`/private/patrol-executions/schedule-execute/${nextSchedule.externalId}`);
         }, 1500);
 
     } catch (error) {
