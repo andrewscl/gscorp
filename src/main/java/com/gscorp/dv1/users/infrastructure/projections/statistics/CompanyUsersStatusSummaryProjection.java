@@ -1,6 +1,7 @@
-package com.gscorp.dv1.users.infrastructure.projections;
+package com.gscorp.dv1.users.infrastructure.projections.statistics;
 
-public interface UserStatusSummaryProjection {
+public interface CompanyUsersStatusSummaryProjection {
+    String getCompanyName();
     Long getInvitedUsersCount();
     Long getActiveUsersCount();
     Long getInactiveUsersCount();

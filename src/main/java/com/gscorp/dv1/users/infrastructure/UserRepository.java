@@ -13,7 +13,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.gscorp.dv1.enums.UserStatus;
-import com.gscorp.dv1.users.infrastructure.projections.UserStatusSummaryProjection;
+import com.gscorp.dv1.users.infrastructure.projections.UserTableProjection;
+import com.gscorp.dv1.users.infrastructure.projections.statistics.CompanyUsersStatusSummaryProjection;
+import com.gscorp.dv1.users.infrastructure.projections.statistics.RoleUsersSummaryProjection;
+import com.gscorp.dv1.users.infrastructure.projections.statistics.UserStatusSummaryProjection;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{
@@ -110,5 +113,28 @@ public interface UserRepository extends JpaRepository<User, Long>{
     """)
     List<UserStatusSummaryProjection> getUserStatusSummary();
 
+    @Query("""
+        SELECT
+            c.name AS companyName,
+            COALESCE(SUM(CASE WHEN u.status = 'INVITED' THEN 1 ELSE 0 END), 0L) AS invitedUsersCount,
+            COALESCE(SUM(CASE WHEN u.status = 'ACTIVE' THEN 1 ELSE 0 END), 0L) AS activeUsersCount,
+            COALESCE(SUM(CASE WHEN u.status = 'INACTIVE' THEN 1 ELSE 0 END), 0L) AS inactiveUsersCount,
+            COALESCE(SUM(CASE WHEN u.status = 'EXPIRED' THEN 1 ELSE 0 END), 0L) AS expiredUsersCount,
+            COALESCE(SUM(CASE WHEN u.status = 'SUSPENDED' THEN 1 ELSE 0 END), 0L) AS suspendedUsersCount
+        FROM User u
+        LEFT JOIN u.company c
+        GROUP BY c.name
+    """)
+    List<CompanyUsersStatusSummaryProjection> getCompanyUsersStatusSummary();
+
+    @Query("""
+        SELECT
+            c.role AS role,
+            COUNT(u.id) AS totalUsers
+        FROM User u
+        LEFT JOIN u.role r
+        GROUP BY r.role
+    """)
+    List<RoleUsersSummaryProjection> getRoleUsersSummary();
 
 }

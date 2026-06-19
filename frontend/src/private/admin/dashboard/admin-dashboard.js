@@ -33,7 +33,6 @@ const loadAdminDashboardMetric = async () => {
 
 function updateHeaderCards(metrics) {
     const holding = metrics.usersStatusSummary[0];
-
     if (!holding) return;
 
     qs('#kpi-invited').innerText = holding.invitedCount;
@@ -45,23 +44,46 @@ function updateHeaderCards(metrics) {
 
 
 const renderAdminDashboardMetrics = (metrics) => {
+    const companyContainer = qs('#companyStatsContainer');
+    const roleContainer = qs('#roleStatsContainer');
 
-    const userContainer = qs('#userStatsContainer');
-    if (userContainer && metrics.usersStatusSummary) {
-        if (metrics.usersStatusSummary.length === 0) {
-            userContainer.innerHTML = '<p class="text-muted text-center py-2">No hay datos de usuarios</p>';
+    // 1. Renderizado Dinámico de Empresas (Mapeo de Array)
+    if (companyContainer) {
+        const companiesList = metrics?.companyUsersSummary || [];
+        
+        if (companiesList.length === 0) {
+            companyContainer.innerHTML = '<p class="text-muted text-center py-2">No hay datos de empresas</p>';
         } else {
-            userContainer.innerHTML = metrics.usersStatusSummary.map((item, index) => `
+            companyContainer.innerHTML = companiesList.map((item, index) => `
                 <div class="stat-item">
                     <div class="stat-main-info">
-                        <span class="stat-name"><strong>${item.userStatus}</strong></span>
-                        <span class="stat-badge user-active" style="background-color: var(--bs-success-soft); color: var(--bs-success);">${item.stats.activeCount} En Línea</span>
+                        <span class="stat-name"><strong>${item.companyName || 'Empresa sin Nombre'}</strong></span>
+                        <span class="stat-badge user-active" style="background-color: var(--bs-success-soft); color: var(--bs-success);">${item.activeCount ?? 0} Activos</span>
                     </div>
                     <div class="stat-details">
-                        <small>✉️ ${item.usersStatusSummary.invitedCount} Invitados</small> | <small>🔴 ${item.stats.inactiveCount} Inactivos</small> | <small>⏳ ${item.stats.expiredCount} Expirados</small>
+                        <small>✉️ ${item.invitedCount ?? 0} Invitados</small> | <small>🔴 ${item.inactiveCount ?? 0} Inactivos</small>
                     </div>
                 </div>
-                ${index < metrics.usersStatusSummary.length - 1 ? '<hr>' : ''}
+                ${index < companiesList.length - 1 ? '<hr>' : ''}
+            `).join('');
+        }
+    }
+
+    // 2. Renderizado Dinámico de Roles (Mapeo de Array)
+    if (roleContainer) {
+        const rolesList = metrics?.roleUsersSummary || [];
+        
+        if (rolesList.length === 0) {
+            roleContainer.innerHTML = '<p class="text-muted text-center py-2">No hay datos de roles</p>';
+        } else {
+            roleContainer.innerHTML = rolesList.map((item, index) => `
+                <div class="stat-item">
+                    <div class="stat-main-info">
+                        <span class="stat-name">💼 <strong>${item.roleName || 'Rol del Sistema'}</strong></span>
+                        <span class="badge bg-primary px-3 py-1">${item.totalUsers ?? 0} Usuarios</span>
+                    </div>
+                </div>
+                ${index < rolesList.length - 1 ? '<hr>' : ''}
             `).join('');
         }
     }

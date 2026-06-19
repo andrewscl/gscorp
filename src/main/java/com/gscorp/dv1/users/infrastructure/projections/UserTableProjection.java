@@ -1,4 +1,4 @@
-package com.gscorp.dv1.users.infrastructure;
+package com.gscorp.dv1.users.infrastructure.projections;
 
 import java.util.UUID;
 

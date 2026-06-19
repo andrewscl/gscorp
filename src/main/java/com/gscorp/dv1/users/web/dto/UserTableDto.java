@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import com.gscorp.dv1.enums.UserStatus;
 import com.gscorp.dv1.users.infrastructure.User;
-import com.gscorp.dv1.users.infrastructure.UserTableProjection;
+import com.gscorp.dv1.users.infrastructure.projections.UserTableProjection;
 
 public record UserTableDto (
 

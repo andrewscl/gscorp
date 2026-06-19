@@ -37,7 +37,7 @@ import com.gscorp.dv1.roles.infrastructure.Role;
 import com.gscorp.dv1.users.infrastructure.User;
 import com.gscorp.dv1.users.infrastructure.UserRepository;
 import com.gscorp.dv1.users.infrastructure.UserSpecRepository;
-import com.gscorp.dv1.users.infrastructure.UserTableProjection;
+import com.gscorp.dv1.users.infrastructure.projections.UserTableProjection;
 import com.gscorp.dv1.users.infrastructure.specification.UserSpecifications;
 import com.gscorp.dv1.users.web.dto.CreateUserRequest;
 import com.gscorp.dv1.users.web.dto.InviteUserRequest;
