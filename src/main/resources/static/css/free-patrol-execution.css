@@ -1,0 +1,57 @@
+/* Verde claro */
+/* Rojo claro */
+/* Amarillo claro */
+/* Verde oscuro */
+/* Rojo oscuro */
+/* Amarillo oscuro */
+.free-patrol-execution .context-header {
+  background: white;
+  border-radius: 0.7rem;
+  padding: 1.25rem;
+  border: 1px solid #e5e7eb;
+}
+.free-patrol-execution .context-header__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+.free-patrol-execution .context-header__meta .status-badge {
+  background: #eff6ff;
+  color: #2563eb;
+  padding: 0.25rem 0.75rem;
+  border-radius: 50px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.free-patrol-execution .context-header__meta #patrol-timer {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #1f2937;
+  background: #f3f4f6;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+}
+.free-patrol-execution .context-header__title {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin: 0 0 0.4rem 0;
+  color: #1f2937;
+}
+.free-patrol-execution .context-header__location {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.free-patrol-execution .context-header__location i {
+  color: #ef4444;
+}/*# sourceMappingURL=free-patrol-execution.css.map */

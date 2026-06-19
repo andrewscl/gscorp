@@ -1,0 +1,46 @@
+@use '../../../abstracts/palette' as * ;
+@use '../../../abstracts/variables' as * ;
+@use '../../../abstracts/mixins' as * ;
+
+@mixin patrol-header() {
+    .context-header {
+        background: white;
+        border-radius: $radius;
+        padding: 1.25rem;
+        border: 1px solid #e5e7eb;
+        &__meta { 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            .status-badge {
+                background: #eff6ff; // Fondo pastel azul de tu paleta
+                color: #2563eb;
+                padding: 0.25rem 0.75rem;
+                border-radius: 50px;
+                @include montserrat-font(0.8rem, 600);
+            }
+            #patrol-timer {
+                @include montserrat-font(0.9rem, 700);
+                color: #1f2937;
+                background: #f3f4f6;
+                padding: 0.25rem 0.6rem;
+                border-radius: 6px;
+            }
+        }
+        &__title {
+            @include montserrat-font(1.2rem, 700);
+            margin: 0 0 0.4rem 0;
+            color: #1f2937;
+        }
+        &__location {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            i { color: #ef4444; } // Icono rojo de geolocalización
+        }
+    }
+}
