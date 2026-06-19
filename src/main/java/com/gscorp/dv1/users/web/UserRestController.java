@@ -194,7 +194,6 @@ public class UserRestController {
         AdminDistributionMetricResponse metrics =
             new AdminDistributionMetricResponse(
                 userStatService.getUsersStatusSummary(),
-                userStatService.getCompanyUserStatusSummary(),
                 userStatService.getRoleUsersSummary()
             );
         return metrics;

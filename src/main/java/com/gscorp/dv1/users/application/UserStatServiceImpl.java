@@ -6,10 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gscorp.dv1.users.infrastructure.UserRepository;
-import com.gscorp.dv1.users.infrastructure.projections.statistics.CompanyUsersStatusSummaryProjection;
 import com.gscorp.dv1.users.infrastructure.projections.statistics.RoleUsersSummaryProjection;
 import com.gscorp.dv1.users.infrastructure.projections.statistics.UserStatusSummaryProjection;
-import com.gscorp.dv1.users.web.dto.statistics.CompanyUsersStatusSummaryDto;
 import com.gscorp.dv1.users.web.dto.statistics.RoleUsersSummaryDto;
 import com.gscorp.dv1.users.web.dto.statistics.UserStatusSummaryDto;
 
@@ -31,15 +29,6 @@ public class UserStatServiceImpl implements UserStatService{
                     .toList();
     }
 
-    @Transactional(readOnly = true)
-    public List<CompanyUsersStatusSummaryDto> getCompanyUserStatusSummary() {
-        List<CompanyUsersStatusSummaryProjection> projections =
-                    userRepository.getCompanyUsersStatusSummary();
-        return projections
-                    .stream()
-                    .map(CompanyUsersStatusSummaryDto::fromProjection)
-                    .toList();
-    }
 
     @Transactional(readOnly = true)
     public List<RoleUsersSummaryDto> getRoleUsersSummary() {
