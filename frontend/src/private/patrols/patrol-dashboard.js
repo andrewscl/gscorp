@@ -287,7 +287,7 @@ function bindEvents() {
         addSchedulePatrolExecutionBtn.addEventListener('click', addSchedulePatrolExecution);
     }
 
-    const addFreePatrolExecutionBtn = qs('#addFreePatrolExecutionBtn');
+    const addFreePatrolExecutionBtn = qs('#addFreePatrolExecution');
     if (addFreePatrolExecutionBtn) {
         addFreePatrolExecutionBtn.addEventListener('click', addFreePatrolExecution);
     }

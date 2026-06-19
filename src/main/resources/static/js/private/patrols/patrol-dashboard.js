@@ -19,4 +19,4 @@ import{f}from"../../auth.js";import{n as u}from"../../navigation-handler.js";imp
                     🟢 Ver
                 </button>
             </td>
-        `,t.appendChild(s)})}},C=()=>{setTimeout(()=>u("/private/employees/dashboard",!0),1e3)};function L(){const e=o("#addSchedulePatrolExecution");e&&e.addEventListener("click",M);const t=o("#addFreePatrolExecutionBtn");t&&t.addEventListener("click",P);const a=o("#backToEmployeeDashboard");a&&a.addEventListener("click",C)}(async function(){L(),await v(),console.log("View patrol-dashboard page initialized.")})();
+        `,t.appendChild(s)})}},C=()=>{setTimeout(()=>u("/private/employees/dashboard",!0),1e3)};function L(){const e=o("#addSchedulePatrolExecution");e&&e.addEventListener("click",M);const t=o("#addFreePatrolExecution");t&&t.addEventListener("click",P);const a=o("#backToEmployeeDashboard");a&&a.addEventListener("click",C)}(async function(){L(),await v(),console.log("View patrol-dashboard page initialized.")})();
