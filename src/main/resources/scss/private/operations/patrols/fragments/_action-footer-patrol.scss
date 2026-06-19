@@ -1,0 +1,56 @@
+@use '../../../../abstracts/palette' as * ;
+@use '../../../../abstracts/variables' as * ;
+@use '../../../../abstracts/mixins' as * ;
+
+@mixin action-footer-patrol {
+
+    .action-footer-patrol {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 1rem;
+        box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.05);
+        display: flex;
+        gap: 0.75rem;
+        z-index: 999;
+        max-width: 500px;
+        margin: 0 auto;
+        border-radius: 16px 16px 0 0;
+        border: 1px solid #e5e7eb;
+        border-bottom: none;
+
+        button {
+            flex: 1;
+            border: none;
+            padding: 0.85rem;
+            border-radius: $radius;
+            @include montserrat-font(0.95rem, 700);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-incident {
+            background-color: #fef2f2;
+            color: #ef4444;
+            border: 1px solid #fca5a5;
+
+            &:active { background-color: #fee2e2; }
+        }
+
+        .btn-end {
+            background-color: #10b981;
+            color: white;
+
+            &:active:not(:disabled) { background-color: #047857; }
+
+            &:disabled {
+                background-color: #f3f4f6;
+                color: #9ca3af;
+                cursor: not-allowed;
+            }
+        }
+    }
+
+}

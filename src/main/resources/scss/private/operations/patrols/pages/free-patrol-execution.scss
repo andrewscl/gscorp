@@ -1,9 +1,11 @@
 @use '../fragments/patrol-header' as * ;
 @use '../fragments/patrol-progress-panel' as * ;
 @use '../fragments/timeline-patrol-execution' as * ;
+@use '../fragments/action-footer-patrol' as * ;
 
 .free-patrol-execution {
     @include patrol-header();
     @include patrol-progress-panel();
     @include patrol-timeline();
+    @include action-footer-patrol();
 }

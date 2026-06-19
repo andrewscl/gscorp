@@ -221,4 +221,53 @@
 .free-patrol-execution .patrol-timeline .timeline-item.is-pending .timeline-card {
   background-color: #f9fafb;
   border-style: dashed;
+}
+.free-patrol-execution .action-footer-patrol {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  padding: 1rem;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.05);
+  display: flex;
+  gap: 0.75rem;
+  z-index: 999;
+  max-width: 500px;
+  margin: 0 auto;
+  border-radius: 16px 16px 0 0;
+  border: 1px solid #e5e7eb;
+  border-bottom: none;
+}
+.free-patrol-execution .action-footer-patrol button {
+  flex: 1;
+  border: none;
+  padding: 0.85rem;
+  border-radius: 0.7rem;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.free-patrol-execution .action-footer-patrol .btn-incident {
+  background-color: #fef2f2;
+  color: #ef4444;
+  border: 1px solid #fca5a5;
+}
+.free-patrol-execution .action-footer-patrol .btn-incident:active {
+  background-color: #fee2e2;
+}
+.free-patrol-execution .action-footer-patrol .btn-end {
+  background-color: #10b981;
+  color: white;
+}
+.free-patrol-execution .action-footer-patrol .btn-end:active:not(:disabled) {
+  background-color: #047857;
+}
+.free-patrol-execution .action-footer-patrol .btn-end:disabled {
+  background-color: #f3f4f6;
+  color: #9ca3af;
+  cursor: not-allowed;
 }/*# sourceMappingURL=free-patrol-execution.css.map */
