@@ -9,8 +9,8 @@
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
         gap: 1.5rem;
-        margin-top: 2rem;
-        margin-bottom: 2rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
 
         @media (max-width: 1024px) {
             grid-template-columns: 1fr; /* Cae a una columna en tablets y móviles */
