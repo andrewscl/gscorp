@@ -1,6 +1,6 @@
-@use '../../../abstracts/palette' as * ;
-@use '../../../abstracts/variables' as * ;
-@use '../../../abstracts/mixins' as * ;
+@use '../../../../abstracts/palette' as * ;
+@use '../../../../abstracts/variables' as * ;
+@use '../../../../abstracts/mixins' as * ;
 
 @mixin dashboard-welcome () {
     .dashboard-welcome {

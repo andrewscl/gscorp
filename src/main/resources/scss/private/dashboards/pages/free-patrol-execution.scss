@@ -1,7 +1,0 @@
-@use '../shared/patrol-header' as * ;
-
-
-
-.free-patrol-execution {
-    @include patrol-header();
-}
