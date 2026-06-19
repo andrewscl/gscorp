@@ -114,7 +114,7 @@ public interface UserRepository extends JpaRepository<User, Long>{
 
     @Query("""
         SELECT
-            c.role AS role,
+            r.role AS role,
             COUNT(u.id) AS totalUsers
         FROM User u
         LEFT JOIN u.role r
