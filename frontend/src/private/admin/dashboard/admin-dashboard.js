@@ -32,7 +32,7 @@ const loadAdminDashboardMetric = async () => {
 
 
 function updateHeaderCards(metrics) {
-    const holding = metrics.userStatusSummary[0];
+    const holding = metrics.usersStatusSummary[0];
 
     if (!holding) return;
 
@@ -47,21 +47,21 @@ function updateHeaderCards(metrics) {
 const renderAdminDashboardMetrics = (metrics) => {
 
     const userContainer = qs('#userStatsContainer');
-    if (userContainer && metrics.userStatusSummary) {
-        if (metrics.userStatusSummary.length === 0) {
+    if (userContainer && metrics.usersStatusSummary) {
+        if (metrics.usersStatusSummary.length === 0) {
             userContainer.innerHTML = '<p class="text-muted text-center py-2">No hay datos de usuarios</p>';
         } else {
-            userContainer.innerHTML = metrics.userStatusSummary.map((item, index) => `
+            userContainer.innerHTML = metrics.usersStatusSummary.map((item, index) => `
                 <div class="stat-item">
                     <div class="stat-main-info">
                         <span class="stat-name"><strong>${item.userStatus}</strong></span>
                         <span class="stat-badge user-active" style="background-color: var(--bs-success-soft); color: var(--bs-success);">${item.stats.activeUsersCount} En Línea</span>
                     </div>
                     <div class="stat-details">
-                        <small>✉️ ${item.userStatusSummary.invitedUsersCount} Invitados</small> | <small>🔴 ${item.stats.inactiveUsersCount} Inactivos</small> | <small>⏳ ${item.stats.expiredUsersCount} Expirados</small>
+                        <small>✉️ ${item.usersStatusSummary.invitedCount} Invitados</small> | <small>🔴 ${item.stats.inactiveUsersCount} Inactivos</small> | <small>⏳ ${item.stats.expiredUsersCount} Expirados</small>
                     </div>
                 </div>
-                ${index < metrics.userStatusSummary.length - 1 ? '<hr>' : ''}
+                ${index < metrics.usersStatusSummary.length - 1 ? '<hr>' : ''}
             `).join('');
         }
     }
