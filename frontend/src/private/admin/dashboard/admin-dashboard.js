@@ -55,10 +55,10 @@ const renderAdminDashboardMetrics = (metrics) => {
                 <div class="stat-item">
                     <div class="stat-main-info">
                         <span class="stat-name"><strong>${item.userStatus}</strong></span>
-                        <span class="stat-badge user-active" style="background-color: var(--bs-success-soft); color: var(--bs-success);">${item.stats.activeUsersCount} En Línea</span>
+                        <span class="stat-badge user-active" style="background-color: var(--bs-success-soft); color: var(--bs-success);">${item.stats.activeCount} En Línea</span>
                     </div>
                     <div class="stat-details">
-                        <small>✉️ ${item.usersStatusSummary.invitedCount} Invitados</small> | <small>🔴 ${item.stats.inactiveUsersCount} Inactivos</small> | <small>⏳ ${item.stats.expiredUsersCount} Expirados</small>
+                        <small>✉️ ${item.usersStatusSummary.invitedCount} Invitados</small> | <small>🔴 ${item.stats.inactiveCount} Inactivos</small> | <small>⏳ ${item.stats.expiredCount} Expirados</small>
                     </div>
                 </div>
                 ${index < metrics.usersStatusSummary.length - 1 ? '<hr>' : ''}
