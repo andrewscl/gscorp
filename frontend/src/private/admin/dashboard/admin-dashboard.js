@@ -55,7 +55,7 @@ const renderAdminDashboardMetrics = (metrics) => {
             roleContainer.innerHTML = rolesList.map((item, index) => `
                 <div class="stat-item">
                     <div class="stat-main-info">
-                        <span class="stat-name">💼 <strong>${item.roleName || 'Rol del Sistema'}</strong></span>
+                        <span class="stat-name">💼 <strong>${item.role || 'Rol del Sistema'}</strong></span>
                         <span class="badge bg-primary px-3 py-1">${item.totalUsers ?? 0} Usuarios</span>
                     </div>
                 </div>

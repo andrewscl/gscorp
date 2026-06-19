@@ -4,7 +4,7 @@ import com.gscorp.dv1.users.infrastructure.projections.statistics.RoleUsersSumma
 
 public record RoleUsersSummaryDto (
     String role,
-    Long TotalUsers
+    Long totalUsers
 ){
     public static RoleUsersSummaryDto fromProjection(RoleUsersSummaryProjection p){
         if(p == null) return null;
