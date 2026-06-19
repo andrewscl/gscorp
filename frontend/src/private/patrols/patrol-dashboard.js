@@ -43,7 +43,7 @@ const addFreePatrolExecution = async () => {
     try {
         displayAlert(alertSuccess, 'Abriendo bitácora libre...', 1500);
         setTimeout(() => {
-            navigateTo('/private/patrols-executions/free-execute');
+            navigateTo('/private/patrol-executions/free-execute');
         }, 1500);
 
     } catch (error) {
