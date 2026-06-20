@@ -42,10 +42,8 @@ async function defineCurrentPosition() {
 
       if(nearestSite){
         await startViewMap(nearestSite);
-        await loadPatrolSchedules(nearestSite.externalId);
+        await loadScheduledPatrols(nearestSite.externalId);
       }
-
-      //await syncAttendanceButtons();
 
       } else if (nearestSite) {
         displayAlert(alertInfo, `El sitio más cercano es "${nearestSite.name}" a
