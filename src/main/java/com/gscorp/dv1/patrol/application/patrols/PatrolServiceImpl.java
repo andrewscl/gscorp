@@ -21,9 +21,9 @@ import com.gscorp.dv1.patrol.infrastructure.patrols.PatrolRepository;
 import com.gscorp.dv1.patrol.infrastructure.schedules.PatrolSchedule;
 import com.gscorp.dv1.patrol.infrastructure.schedules.PatrolScheduleProjection;
 import com.gscorp.dv1.patrol.infrastructure.schedules.PatrolScheduleRepository;
-import com.gscorp.dv1.patrol.web.dto.patrols.CreatePatrolRequest;
-import com.gscorp.dv1.patrol.web.dto.patrols.PatrolDto;
-import com.gscorp.dv1.patrol.web.dto.patrols.UpdatePatrolRequest;
+import com.gscorp.dv1.patrol.web.patrols.dto.CreatePatrolRequest;
+import com.gscorp.dv1.patrol.web.patrols.dto.PatrolDto;
+import com.gscorp.dv1.patrol.web.patrols.dto.UpdatePatrolRequest;
 import com.gscorp.dv1.sites.infrastructure.Site;
 import com.gscorp.dv1.sites.infrastructure.SiteRepository;
 

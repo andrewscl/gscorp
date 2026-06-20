@@ -1,4 +1,4 @@
-package com.gscorp.dv1.patrol.web.dto.schedules;
+package com.gscorp.dv1.patrol.web.schedules.dto;
 
 import java.time.LocalTime;
 

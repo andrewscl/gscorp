@@ -53,7 +53,6 @@ const endBtnExecute = async () => {
 
 }
 
-// --- Ciclo de Vida e Inicialización ---
 function startTimer(startedAt, timerElement) {
     if (!timerElement) return;
     if (timerInterval) clearInterval(timerInterval);
@@ -85,6 +84,24 @@ function bindEvents() {
     const endBtn = qs('.btn-end');
     if (endBtn) {
         endBtn.addEventListener('click', endBtnExecute);
+    }
+}
+
+
+let patrolCheckpointsList = [];
+const addPatrolCheckpoints = async () => {
+    try {
+        const res = await fetchWithAuth(`/api/patrol-chekpoints/${patrolExternalId}`, {
+                credentials: 'same-origin'
+        });
+
+        if (!res.ok) throw new Error(`Error cargando checkpoints: ${res.status}`);
+
+        patrolCheckpointsList = await res.json();
+
+    } catch (e) {
+        console.error("No se pudo cargar la lista de checkpoints:", e);
+        patrolCheckpointsList = [];
     }
 }
 

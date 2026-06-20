@@ -1,4 +1,4 @@
-package com.gscorp.dv1.patrol.web.dto.checkpoints;
+package com.gscorp.dv1.patrol.web.checkpoints.dto;
 
 import java.math.BigDecimal;
 

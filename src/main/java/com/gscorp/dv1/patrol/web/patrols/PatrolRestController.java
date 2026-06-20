@@ -1,13 +1,8 @@
-package com.gscorp.dv1.patrol.web;
+package com.gscorp.dv1.patrol.web.patrols;
 
-import java.util.Map;
-import java.util.UUID;
-
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -17,10 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gscorp.dv1.patrol.application.patrols.PatrolService;
-import com.gscorp.dv1.patrol.application.schedules.PatrolScheduleService;
-import com.gscorp.dv1.patrol.web.dto.patrols.CreatePatrolRequest;
-import com.gscorp.dv1.patrol.web.dto.patrols.PatrolDto;
-import com.gscorp.dv1.patrol.web.dto.patrols.UpdatePatrolRequest;
+import com.gscorp.dv1.patrol.web.patrols.dto.CreatePatrolRequest;
+import com.gscorp.dv1.patrol.web.patrols.dto.PatrolDto;
+import com.gscorp.dv1.patrol.web.patrols.dto.UpdatePatrolRequest;
 import com.gscorp.dv1.users.application.UserService;
 
 import jakarta.validation.Valid;
@@ -34,7 +28,6 @@ import lombok.extern.slf4j.Slf4j;
 public class PatrolRestController {
 
     private final PatrolService patrolService;
-    private final PatrolScheduleService patrolScheduleService;
     private final UserService userService;
 
     @PostMapping("/create")
@@ -74,22 +67,6 @@ public class PatrolRestController {
         PatrolDto updated = patrolService.updatePatrol(externalId, req, userId);
 
         return ResponseEntity.ok(updated);
-    }
-
-
-    @GetMapping("/today-site-patrol-schedules/{siteExternalId}")
-    public ResponseEntity<?> getPatrolSchedulesBySiteExternalId (
-                        @PathVariable UUID siteExternalId) {
-
-        try {
-            return ResponseEntity
-                        .ok(patrolScheduleService
-                                .getTodaySchedulesBySiteExternalId(siteExternalId));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body(Map.of("error", "Error al buscar PatrolSchedules"));
-        }
-
     }
 
 }

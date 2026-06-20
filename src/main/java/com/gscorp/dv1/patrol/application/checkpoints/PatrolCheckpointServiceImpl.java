@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gscorp.dv1.patrol.infrastructure.checkpoints.PatrolCheckpointRepository;
 import com.gscorp.dv1.patrol.infrastructure.patrols.Patrol;
 import com.gscorp.dv1.patrol.infrastructure.patrols.PatrolRepository;
-import com.gscorp.dv1.patrol.web.dto.checkpoints.PatrolCheckpointDto;
+import com.gscorp.dv1.patrol.web.checkpoints.dto.PatrolCheckpointDto;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;

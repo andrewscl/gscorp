@@ -41,10 +41,12 @@ export default defineConfig({
         'private/attendance/attendance': path.resolve(__dirname, './src/private/attendance/attendance.js'),
         'private/attendance/attendance-table': path.resolve(__dirname, './src/private/attendance/attendance-table.js'),
         'private/menu/private-menu': path.resolve(__dirname, './src/private/menu/private-menu.js'),
+
         'private/clients/create-client': path.resolve(__dirname, './src/private/clients/create-client.js'),
         'private/clients/edit-client': path.resolve(__dirname, './src/private/clients/edit-client.js'),
         'private/clients/view-client': path.resolve(__dirname, './src/private/clients/view-client.js'),
         'private/clients/clients-table': path.resolve(__dirname, './src/private/clients/clients-table.js'),
+
         'private/sites/create-site': path.resolve(__dirname, './src/private/sites/create-site.js'),
         'private/sites/view-site': path.resolve(__dirname, './src/private/sites/view-site.js'),
         'private/sites/edit-site': path.resolve(__dirname, './src/private/sites/edit-site.js'),
@@ -84,13 +86,15 @@ export default defineConfig({
         'private/client-accounts/edit-client-account': path.resolve(__dirname, './src/private/client-accounts/edit-client-account.js'),
         'private/forecast/forecast-table': path.resolve(__dirname, './src/private/forecast/forecast-table.js'),
         'private/forecast/create-forecast': path.resolve(__dirname, './src/private/forecast/create-forecast.js'),
+
         'private/patrols/patrols-table': path.resolve(__dirname, './src/private/patrols/patrols-table.js'),
         'private/patrols/create-patrol': path.resolve(__dirname, './src/private/patrols/create-patrol.js'),
         'private/patrols/edit-patrol': path.resolve(__dirname, './src/private/patrols/edit-patrol.js'),
         'private/patrols/view-patrol': path.resolve(__dirname, './src/private/patrols/view-patrol.js'),
-        'private/patrol-executions/patrol-execution': path.resolve(__dirname, './src/private/patrol-executions/patrol-execution.js'),
+        'private/patrol-executions/free-patrol-execution': path.resolve(__dirname, './src/private/patrol-executions/free-patrol-execution.js'),
         'private/patrols/patrol-map-picker': path.resolve(__dirname, './src/private/patrols/patrol-map-picker.js'),
         'private/patrols/patrol-dashboard': path.resolve(__dirname, './src/private/patrols/patrol-dashboard.js'),
+
         'private/dashboards/shared/attendance-card': path.resolve(__dirname, './src/private/dashboards/shared/attendance-card.js'),
         'private/dashboards/shared/operational-card': path.resolve(__dirname, './src/private/dashboards/shared/operational-card.js'),
         'private/hr/hr-dashboard': path.resolve(__dirname, './src/private/hr/hr-dashboard.js'),

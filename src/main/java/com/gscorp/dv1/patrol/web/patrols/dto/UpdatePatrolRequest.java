@@ -1,9 +1,9 @@
-package com.gscorp.dv1.patrol.web.dto.patrols;
+package com.gscorp.dv1.patrol.web.patrols.dto;
 
 import java.util.List;
 
-import com.gscorp.dv1.patrol.web.dto.checkpoints.UpdatePatrolCheckpointRequest;
-import com.gscorp.dv1.patrol.web.dto.schedules.UpdatePatrolScheduleRequest;
+import com.gscorp.dv1.patrol.web.checkpoints.dto.UpdatePatrolCheckpointRequest;
+import com.gscorp.dv1.patrol.web.schedules.dto.UpdatePatrolScheduleRequest;
 
 public record UpdatePatrolRequest (
     Long siteId,

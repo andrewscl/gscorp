@@ -10,69 +10,12 @@ let googleMapInstance = null;
 let userMarkerInstance = null;
 const MAX_DISTANCE_GEOFENCE = 35;
 
-const qs  = (s) => document.querySelector(s);
+const qs = (s) => document.querySelector(s);
+const qa = (s) => document.querySelectorAll(s);
 const alertSuccess = qs('.alert-success');
 const alertError = qs('.alert-error');
 const alertWarning = qs('.alert-warning');
 const alertInfo = qs('.alert-info');
-
-
-const addSchedulePatrolExecution = async (currentExecutionId) => {
-    const nextSchedule = getNextPendingSchedule(patrolSchedulesList);
-    if(!nextSchedule) {
-      displayAlert(alertError, 'No hay rondas pendientes programadas para este momento.', 3000);    
-      return;
-    }
-
-    try {
-        displayAlert(alertSuccess, 'Abriendo bitácora de ronda...', 1500);
-        setTimeout(() => {
-            navigateTo(`/private/patrol-executions/schedule-execute/${nextSchedule.externalId}`);
-        }, 1500);
-
-    } catch (error) {
-
-        console.error("Error al intentar iniciar la patrulla:", error);
-        displayAlert(alertError,
-            'Ocurrió un error en el servidor al abrir la ronda. Reintente.', 5000);
-    }
-};
-
-
-const addFreePatrolExecution = async () => {
-    try {
-        displayAlert(alertSuccess, 'Abriendo bitácora libre...', 1500);
-        setTimeout(() => {
-            navigateTo('/private/patrol-executions/free-execute');
-        }, 1500);
-
-    } catch (error) {
-
-        console.error("Error al intentar iniciar la patrulla:", error);
-        displayAlert(alertError,
-            'Ocurrió un error en el servidor al abrir la ronda. Reintente.', 5000);
-    }
-}
-
-
-
-async function initComponent() {
-    
-    displayAlert(alertInfo,
-        'Conectando con el servicio de Georreferenciación...', 1500);
-
-    try {
-        await loadSites();
-
-        await startViewMap(null);
-
-        await defineCurrentPosition();
-
-    } catch (e) {
-        console.error('[patrol-dashboard] initComponent failed', e); 
-    }
-
-}
 
 
 async function defineCurrentPosition() {
@@ -156,7 +99,7 @@ const startViewMap = async (nearestSite) => {
     console.error('[patrol-dashboard.js] Error al cargar la API de Google Maps:'
                                                                     , error);
   }
-}
+};
 
 let sitesList = [];
 async function loadSites() {
@@ -172,10 +115,10 @@ async function loadSites() {
 
 
 let patrolSchedulesList = [];
-const loadPatrolSchedules = async (siteExternalId) => {
-  const TableBody = qs('#patrolSchedulesTableBody')
+const loadScheduledPatrols = async (siteExternalId) => {
+  const container = qs('#patrolSchedulesContainer')
   try {
-    const response = await fetchWithAuth(`/api/patrols/today-site-patrol-schedules/${siteExternalId}`, {
+    const response = await fetchWithAuth(`/api/patrol-schedules/next-24h-site-patrol-schedules/${siteExternalId}`, {
        credentials: 'same-origin'
     });
 
@@ -184,7 +127,8 @@ const loadPatrolSchedules = async (siteExternalId) => {
     }
 
     patrolSchedulesList = await response.json();
-    renderPatrolSchedulesTable(patrolSchedulesList);
+
+    renderScheduledCards(patrolSchedulesList, container);
 
   } catch (e) {
 
@@ -193,109 +137,90 @@ const loadPatrolSchedules = async (siteExternalId) => {
 
       if (TableBody) {
               TableBody.innerHTML = `
-                  <tr>
-                      <td colspan="3" class="text-center text-danger py-3">
-                          ❌ Error al cargar la agenda de rondas.
-                      </td>
-                  </tr>`;
+                <div class="text-center text-danger small p-3">
+                     ❌ Error al cargar la agenda de rondas para las próximas 24 horas.
+                </div>`;
       }
-
   }
-}
-
-
-/**
- * Determina el schedule PENDING más próximo en base a la hora actual.
- * @param {Array} schedules - Lista global de programaciones del día
- * @returns {Object|null} El schedule más idóneo o null si no hay ninguno disponible
- */
-const getNextPendingSchedule = (schedules) => {
-    if (!schedules || schedules.length === 0) return null;
-
-    // 1. Filtramos solo los que están en estado programado/pendiente
-    const pendingSchedules = schedules.filter(s => s.status === 'SCHEDULED');
-    if (pendingSchedules.length === 0) return null;
-
-    // 2. Si vienen ordenados por hora desde el backend, el primero siempre será el más próximo
-    return pendingSchedules[0];
-
-    /* 💡 NOTA PRO: Si el backend NO los envía ordenados por hora, 
-    puedes ordenarlos en el frontend antes de retornar con esta línea:
-    
-    return pendingSchedules.sort((a, b) => a.plannedTime.localeCompare(b.plannedTime))[0];
-    */
 };
 
 
-/**
- * Renderiza la lista de rondas planificadas en el tbody de la tabla
- * @param {Array} schedules - Arreglo de programaciones de rondas devuelto por el API
- */
-const renderPatrolSchedulesTable = (schedules) => {
-  const tableBody = qs('#patrolSchedulesTableBody');
+const renderScheduledCards = (schedules, container) => {
+    if (!container) return;
 
-  if(!tableBody) return;
-
-  tableBody.innerHTML = '';
-
-  if(!schedules || schedules.length === 0) {
-        tableBody.innerHTML = `
-            <tr>
-                <td colspan="3" class="text-center text-muted py-3">
-                    📅 No hay rondas programadas para hoy en este sitio.
-                </td>
-            </tr>`;
+    if (!schedules || schedules.length === 0) {
+        container.innerHTML = `
+            <div class="patrol-loader-placeholder text-muted small">
+                📅 No tienes rondas programadas para hoy en este turno.
+            </div>`;
         return;
-  }
+    }
 
-  schedules.forEach(schedule => {
-    const row = document.createElement('tr');
+    container.innerHTML = schedules.map((sch, index) => {
+        const timeFormatted = sch.startTime ? sch.startTime.substring(0, 5) : '--:--';
+        const badgeClasses = ['is-scheduled', 'is-free', 'is-supervision'];
+        const currentBadgeClass = badgeClasses[index % badgeClasses.length];
 
-    const timeFormatted =
-        schedule.startTime ? schedule.startTime.substring(0,5) : '--:--';
+    return `
+        <div class="patrol-card-item patrol-action-card" data-url="/private/patrol-executions/schedule-execute/${sch.externalId}/">
+            <div class="patrol-card-item__icon-box ${currentBadgeClass}">
+                <i class="bi bi-journal-check"></i>
+            </div>
+            <div class="patrol-card-item__body">
+                <div class="card-main-info">
+                    <h5>${sch.name}</h5> 
+                    <span class="time-tag">${timeFormatted}</span>
+                </div>
+                <p class="text-muted small">Ronda Planificada • Estado: ${sch.status === 'SCHEDULED' ? 'Pendiente' : sch.status}</p>
+            </div>
+            <div class="patrol-card-item__arrow">
+                <i class="bi bi-chevron-right"></i>
+            </div>
+        </div>
+    `;
+    }).join('');
 
-    const patrolName = schedule.name || 'Ronda';
-
-    row.innerHTML =
-        `
-            <td class="fw-bold text-dark">${timeFormatted}</td>
-            <td>${patrolName}</td>
-            <td>
-                <button class="btn btn-sm btn-outline-primary py-1 px-3" 
-                        onclick="initiateManualPatrol('${schedule.externalId}')">
-                    🟢 Ver
-                </button>
-            </td>
-        `;
-
-    tableBody.appendChild(row);
-
-  });
-
-} 
+    // Asociación de navegación
+    container.qa('.patrol-action-card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        const targetUrl = e.currentTarget.getAttribute('data-url');
+        displayAlert(alertSuccess, 'Abriendo bitácora de ronda...', 1500);
+        setTimeout(() => navigateTo(targetUrl, 1500));
+      });
+    });
+}; 
 
 
 
 const backToEmployeeDashboard = () => {
     setTimeout(() => navigateTo('/private/employees/dashboard', true), 1000);
-}
+};
 
 
 function bindEvents() {
-    const addSchedulePatrolExecutionBtn = qs('#addSchedulePatrolExecution');
-    if (addSchedulePatrolExecutionBtn) {
-        addSchedulePatrolExecutionBtn.addEventListener('click', addSchedulePatrolExecution);
-    }
-
-    const addFreePatrolExecutionBtn = qs('#addFreePatrolExecution');
-    if (addFreePatrolExecutionBtn) {
-        addFreePatrolExecutionBtn.addEventListener('click', addFreePatrolExecution);
-    }
 
     const backToEmployeeDashboardBtn = qs('#backToEmployeeDashboard');
     if (backToEmployeeDashboardBtn) {
         backToEmployeeDashboardBtn.addEventListener('click', backToEmployeeDashboard);
     }
+}
+
+async function initComponent() {
+    
+    displayAlert(alertInfo,
+        'Conectando con el servicio de Georreferenciación...', 1500);
+
+    try {
+        await loadSites();
+
+        await startViewMap(null);
+
+        await defineCurrentPosition();
+
+    } catch (e) {
+        console.error('[patrol-dashboard] initComponent failed', e); 
+    }
+
 }
 
 (async function init() {

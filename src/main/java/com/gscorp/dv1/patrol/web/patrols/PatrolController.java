@@ -1,4 +1,4 @@
-package com.gscorp.dv1.patrol.web;
+package com.gscorp.dv1.patrol.web.patrols;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,8 +16,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gscorp.dv1.enums.DayOfWeek;
 import com.gscorp.dv1.patrol.application.checkpoints.PatrolCheckpointService;
 import com.gscorp.dv1.patrol.application.patrols.PatrolService;
-import com.gscorp.dv1.patrol.web.dto.checkpoints.PatrolCheckpointDto;
-import com.gscorp.dv1.patrol.web.dto.patrols.PatrolDto;
+import com.gscorp.dv1.patrol.web.checkpoints.dto.PatrolCheckpointDto;
+import com.gscorp.dv1.patrol.web.patrols.dto.PatrolDto;
 import com.gscorp.dv1.security.SecurityUser;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.web.dto.SiteDtoProjection;

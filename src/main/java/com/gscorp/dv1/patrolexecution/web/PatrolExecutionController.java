@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class PatrolExecutionController {
 
 
-    @GetMapping("/free-execute")
+    @GetMapping("/free-execute/{patrolExternalId}")
     public String getFreePatrolExecution (
             Model model,
             Authentication authentication){
@@ -36,7 +36,7 @@ public class PatrolExecutionController {
         return "private/patrol-executions/views/free-patrol-execution-view";
     }
 
-    @GetMapping("/schedule-execute/{patrolExternalId}")
+    @GetMapping("/schedule-execute/{patrolScheduleExternalId}")
     public String getSchedulePatrolExecution (
             @PathVariable UUID patrolExternalId,
             Model model,

@@ -31,7 +31,7 @@ public class PatrolExecutionRestController {
     private final PatrolExecutionService patrolExecutionService;
 
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<PatrolExecutionDto> createSiteSupervisionVisit(
+    public ResponseEntity<PatrolExecutionDto> createPatrolExecution(
         @Valid @ModelAttribute CreatePatrolExecutionRequest req,
         UUID patrolExternalId,
         UriComponentsBuilder ucb,

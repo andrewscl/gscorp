@@ -7,72 +7,56 @@
     <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
 
     <div class="patrol-dashboard-map">
-        <h3 id="lblSiteName" th:text="${SiteName}"></h3>
+        <h3 id="lblSiteName" th:text="${SiteName}">🏢 Detectando Instalación...</h3>
         <div class="content" id="map"></div>
     </div>
 
-    <div class="patrol-dashboard-actions" id="patrolTabs">
-            <button class="patrol-dashboard-actions__primary-btn" id="addSchedulePatrolExecution" type="button">
-                🚀 Iniciar Ronda Programada
-            </button>
-            <button class="patrol-dashboard-actions__primary-btn" id="addFreePatrolExecution" type="button">
-                🚀 Iniciar Ronda Libre
-            </button>
-            <button class="patrol-dashboard-actions__secondary-btn" id="backToEmployeeDashboard" type="button">
-                ↩️ Volver
-            </button>
-    </div>
+    <div class="patrol-dashboard-sections">
 
-<div class="patrol-dashboard-sections">
-    
-    <div class="patrol-section" id="schedules-section">
-        <div class="patrol-section__header">
-            <h4 class="patrol-section__title">📅 Agenda de Rondas</h4>
-        </div>
-        <div class="table-responsive">
-            <table class="table table-sm table-hover align-middle patrol-table">
-                <thead>
-                    <tr>
-                        <th>Horario Planificado</th>
-                        <th>Nombre de Ronda</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody id="patrolSchedulesTableBody">
-                    <tr>
-                        <td colspan="3" class="text-center text-muted py-3">
-                            Cargando agenda de rondas...
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="patrol-section" id="history-section">
+        <div class="patrol-section" id="schedules-section">
             <div class="patrol-section__header">
-                <h4 class="patrol-section__title">📋 Historial de Patrullajes</h4>
+                <span class="patrol-section__subtitle">Obligatorio</span>
+                <h4 class="patrol-section__title">📅 Agenda de Rondas del Día</h4>
             </div>
-            <div class="table-responsive">
-                <table class="table table-sm table-hover align-middle patrol-table">
-                    <thead>
-                        <tr>
-                            <th>Hora Real</th>
-                            <th>Estado GPS</th>
-                            <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody id="patrolHistoryTableBody">
-                        <tr>
-                            <td colspan="3" class="text-center text-muted py-3">
-                                Cargando historial de patrullajes...
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            
+            <div id="patrolSchedulesContainer" class="patrol-grid">
+                <div class="patrol-loader-placeholder">
+                    <small class="text-muted">Buscando tu agenda de hoy...</small>
+                </div>
             </div>
         </div>
+
+        <div class="patrol-section" id="free-routes-section">
+            <div class="patrol-section__header">
+                <span class="patrol-section__subtitle">Acción Inmediata</span>
+                <h4 class="patrol-section__title">⚡ Iniciar Patrullaje de Contingencia</h4>
+            </div>
+
+            <div id="patrolFreeTemplatesContainer" class="patrol-grid">
+                <div class="patrol-loader-placeholder">
+                    <small class="text-muted">Cargando rutas de contingencia...</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="patrol-section" id="history-section">
+            <div class="patrol-section__header">
+                <h4 class="patrol-section__title">📋 Últimos Patrullajes Realizados</h4>
+            </div>
+            
+            <div id="patrolHistoryContainer" class="patrol-list-compact">
+                </div>
+        </div>
+
     </div>
+
+
+    <div class="patrol-dashboard-footer-actions">
+        <button class="btn-back" id="backToEmployeeDashboard" type="button">
+            ↩️ Volver al Menú Principal
+        </button>
+    </div>
+
 
     <script type="module" src="/js/private/patrols/patrol-dashboard.js" defer></script>
 </div>

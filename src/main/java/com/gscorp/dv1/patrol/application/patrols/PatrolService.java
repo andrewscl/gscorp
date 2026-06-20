@@ -3,9 +3,9 @@ package com.gscorp.dv1.patrol.application.patrols;
 import java.util.List;
 import java.util.UUID;
 
-import com.gscorp.dv1.patrol.web.dto.patrols.CreatePatrolRequest;
-import com.gscorp.dv1.patrol.web.dto.patrols.PatrolDto;
-import com.gscorp.dv1.patrol.web.dto.patrols.UpdatePatrolRequest;
+import com.gscorp.dv1.patrol.web.patrols.dto.CreatePatrolRequest;
+import com.gscorp.dv1.patrol.web.patrols.dto.PatrolDto;
+import com.gscorp.dv1.patrol.web.patrols.dto.UpdatePatrolRequest;
 
 public interface PatrolService {
 
