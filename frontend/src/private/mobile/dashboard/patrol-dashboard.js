@@ -179,13 +179,16 @@ const renderScheduledCards = (schedules, container) => {
     }).join('');
 
     // Asociación de navegación
-    container.qa('.patrol-action-card').forEach(card => {
-      card.addEventListener('click', (e) => {
-        const targetUrl = e.currentTarget.getAttribute('data-url');
-        displayAlert(alertSuccess, 'Abriendo bitácora de ronda...', 1500);
-        setTimeout(() => navigateTo(targetUrl, 1500));
+    if(container) {
+      container.qa('.patrol-action-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+          const targetUrl = e.currentTarget.getAttribute('data-url');
+          displayAlert(alertSuccess, 'Abriendo bitácora de ronda...', 1500);
+          setTimeout(() => navigateTo(targetUrl, 1500));
+        });
       });
-    });
+    }
+
 }; 
 
 
