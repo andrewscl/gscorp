@@ -38,7 +38,7 @@ public record PatrolDto (
                         s.getStartTime(),
                         s.getActive(),
                         p.getName(),
-                        s.getStatus()
+                        s.getStatus().getDisplayName()
                 ))
                 .toList();
 
