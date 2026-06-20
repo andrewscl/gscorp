@@ -51,14 +51,17 @@ export default defineConfig({
         'private/sites/view-site': path.resolve(__dirname, './src/private/sites/view-site.js'),
         'private/sites/edit-site': path.resolve(__dirname, './src/private/sites/edit-site.js'),
         'private/sites/sites-map': path.resolve(__dirname, './src/private/sites/sites-map.js'),
+
         'private/projects/create-project': path.resolve(__dirname, './src/private/projects/create-project.js'),
         'private/projects/edit-project': path.resolve(__dirname, './src/private/projects/edit-project.js'),
         'private/projects/view-project': path.resolve(__dirname, './src/private/projects/view-project.js'),
+
         'private/employees/create-employee': path.resolve(__dirname, './src/private/employees/create-employee.js'),
         'private/employees/view-employee': path.resolve(__dirname, './src/private/employees/view-employee.js'),
         'private/employees/edit-employee': path.resolve(__dirname, './src/private/employees/edit-employee.js'),
         'private/employees/employees-table': path.resolve(__dirname, './src/private/employees/employees-table.js'),
         'private/employees/employee-table-update': path.resolve(__dirname, './src/private/employees/employee-table-update.js'),
+
         'private/banks/create-bank': path.resolve(__dirname, './src/private/banks/create-bank.js'),
         'private/positions/create-position': path.resolve(__dirname, './src/private/positions/create-position.js'),
         'private/positions/edit-position': path.resolve(__dirname, './src/private/positions/edit-position.js'),
@@ -67,10 +70,12 @@ export default defineConfig({
         'private/professions/create-profession': path.resolve(__dirname, './src/private/professions/create-profession.js'),
         'private/nationalities/edit-nationality': path.resolve(__dirname, './src/private/nationalities/edit-nationality.js'),
         'private/nationalities/create-nationality': path.resolve(__dirname, './src/private/nationalities/create-nationality.js'),
+
         'private/shift-requests/edit-shift-request': path.resolve(__dirname, './src/private/shift-requests/edit-shift-request.js'),
         'private/shift-requests/create-shift-request': path.resolve(__dirname, './src/private/shift-requests/create-shift-request.js'),
         'private/shift-requests/shift-request-table': path.resolve(__dirname, './src/private/shift-requests/shift-request-table.js'),
         'private/shift-requests/shift-request-table-update': path.resolve(__dirname, './src/private/shift-requests/shift-request-table-update.js'),
+
         'private/shifts/create-shift': path.resolve(__dirname, './src/private/shifts/create-shift.js'),
         'private/sites/set-coordinates': path.resolve(__dirname, './src/private/sites/set-coordinates.js'),
         'private/sites/sites-table': path.resolve(__dirname, './src/private/sites/sites-table.js'),
@@ -91,14 +96,18 @@ export default defineConfig({
         'private/patrols/create-patrol': path.resolve(__dirname, './src/private/patrols/create-patrol.js'),
         'private/patrols/edit-patrol': path.resolve(__dirname, './src/private/patrols/edit-patrol.js'),
         'private/patrols/view-patrol': path.resolve(__dirname, './src/private/patrols/view-patrol.js'),
-        'private/patrol-executions/free-patrol-execution': path.resolve(__dirname, './src/private/patrol-executions/free-patrol-execution.js'),
         'private/patrols/patrol-map-picker': path.resolve(__dirname, './src/private/patrols/patrol-map-picker.js'),
-        'private/patrols/patrol-dashboard': path.resolve(__dirname, './src/private/patrols/patrol-dashboard.js'),
 
-        'private/dashboards/shared/attendance-card': path.resolve(__dirname, './src/private/dashboards/shared/attendance-card.js'),
-        'private/dashboards/shared/operational-card': path.resolve(__dirname, './src/private/dashboards/shared/operational-card.js'),
+        'private/mobile/dashboard/patrol-dashboard': path.resolve(__dirname, './src/private/mobile/dashboard/patrol-dashboard.js'),
+        'private/mobile/dashboard/attendance-card': path.resolve(__dirname, './src/private/mobile/dashboard/attendance-card.js'),
+        'private/mobile/dashboard/operational-card': path.resolve(__dirname, './src/private/mobile/dashboard/operational-card.js'),
+        'private/mobile/ops/patrol-exe/free-execution': path.resolve(__dirname, './src/private/mobile/ops/patrol-exe/free-execution.js'),
+
+
         'private/hr/hr-dashboard': path.resolve(__dirname, './src/private/hr/hr-dashboard.js'),
         'private/admin/dashboard/admin-dashboard': path.resolve(__dirname, './src/private/admin/dashboard/admin-dashboard.js')
+
+
 
 
       },
