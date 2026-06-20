@@ -64,7 +64,6 @@
             }
         }
 
-        // 🧠 LA NUEVA GRILLA DE TARJETAS TÁCTILES
         .patrol-grid {
             display: grid;
             grid-template-columns: 1fr; // Una por fila en móvil da espacio para info detallada
@@ -98,8 +97,10 @@
                     flex-shrink: 0;
 
                     // Colores temáticos por tipo de tarjeta
-                    &.is-scheduled { background: #eff6ff; color: #2563eb; } // Azul Agenda
-                    &.is-free { background: #f5f3ff; color: #7c3aed; }      // Púrpura Libre
+                    &.is-scheduled { background: #eff6ff; color: #2563eb; }
+                    &.is-free { background: #f5f3ff; color: #7c3aed; }
+                    &.is-success { background: #f0fdf4; color: #16a34a;}
+                    &.is-danger { background: #fef2f2; color: #dc2626;}
                 }
 
                 &__body {

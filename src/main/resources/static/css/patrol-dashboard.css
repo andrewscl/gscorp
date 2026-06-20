@@ -160,6 +160,14 @@
   background: #f5f3ff;
   color: #7c3aed;
 }
+.patrol-dashboard-card .patrol-grid .patrol-card-item__icon-box.is-success {
+  background: #f0fdf4;
+  color: #16a34a;
+}
+.patrol-dashboard-card .patrol-grid .patrol-card-item__icon-box.is-danger {
+  background: #fef2f2;
+  color: #dc2626;
+}
 .patrol-dashboard-card .patrol-grid .patrol-card-item__body {
   flex: 1;
 }

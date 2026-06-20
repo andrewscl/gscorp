@@ -177,8 +177,8 @@ const renderScheduledCards = (schedules, container) => {
 
     return `
         <div class="patrol-card-item patrol-action-card" data-url="/private/patrol-executions/schedule-execute/${sch.externalId}/">
-            <div class="patrol-card-item__icon-box ${currentBadgeClass}">
-                <i class="bi bi-journal-check"></i>
+            <div class="patrol-card-item__icon-box ${badgeClass}">
+                ${statusEmoji}
             </div>
             <div class="patrol-card-item__body">
                 <div class="card-main-info">
