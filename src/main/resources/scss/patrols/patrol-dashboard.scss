@@ -15,6 +15,7 @@
 
         .alert-container {
             @include alert-container();
+            z-index: 99999;
         }
 
         // Estilos del Mapa
