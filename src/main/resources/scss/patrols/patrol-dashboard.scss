@@ -4,7 +4,7 @@
 @use '../abstracts/alerts' as * ;
 
 @mixin patrol-dashboard-ui () {
-    
+
     .patrol-dashboard-card {
         display: flex;
         flex-direction: column;
@@ -12,6 +12,10 @@
         background-color: #f9fafb;
         min-height: 100vh;
         padding-bottom: 2rem;
+
+        .alert-container {
+            @include alert-container();
+        }
 
         // Estilos del Mapa
         .patrol-dashboard-map {
@@ -31,10 +35,6 @@
                 border-radius: 8px;
                 overflow: hidden;
             }
-        }
-
-        .alert-container {
-            @include alert-container();
         }
 
         // Estructura de Secciones
