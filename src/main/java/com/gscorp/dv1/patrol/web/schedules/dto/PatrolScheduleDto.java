@@ -9,14 +9,20 @@ public record PatrolScheduleDto (
     Long id,
     UUID externalId,
     LocalTime startTime,
-    Boolean active
+    Boolean active,
+    String patrolName
 ){
     public static PatrolScheduleDto fromEntity (PatrolSchedule ps) {
+
+        String name = (ps.getPatrol() != null) ?
+                ps.getPatrol().getName() : "Ronda sin nombre";
+
         return new PatrolScheduleDto(
                     ps.getId(),
                     ps.getExternalId(),
                     ps.getStartTime(),
-                    ps.getActive()
+                    ps.getActive(),
+                    name
                     );
     }
 }
