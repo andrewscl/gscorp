@@ -104,6 +104,9 @@
 .patrol-dashboard-card .patrol-section__header {
   margin-bottom: 0.8rem;
   padding: 0 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 .patrol-dashboard-card .patrol-section__subtitle {
   font-size: 0.7rem;

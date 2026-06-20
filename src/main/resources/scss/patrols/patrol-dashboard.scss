@@ -48,6 +48,9 @@
             &__header {
                 margin-bottom: 0.8rem;
                 padding: 0 0.25rem;
+                display: flex;
+                flex-direction: column;
+                gap: 0.25rem;
             }
             &__subtitle {
                 font-size: 0.7rem;
