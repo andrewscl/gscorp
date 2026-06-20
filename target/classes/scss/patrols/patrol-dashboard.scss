@@ -1,6 +1,7 @@
-@use '../../../abstracts/palette' as * ;
-@use '../../../abstracts/variables' as * ;
-@use '../../../abstracts/mixins' as * ;
+@use '../abstracts/palette' as * ;
+@use '../abstracts/variables' as * ;
+@use '../abstracts/mixins' as * ;
+@use '../abstracts/alerts' as * ;
 
 @mixin patrol-dashboard-ui () {
     
@@ -30,6 +31,10 @@
                 border-radius: 8px;
                 overflow: hidden;
             }
+        }
+
+        .alert-container {
+            @include alert-container();
         }
 
         // Estructura de Secciones
