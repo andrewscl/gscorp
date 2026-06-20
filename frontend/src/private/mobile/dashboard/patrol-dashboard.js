@@ -154,6 +154,8 @@ const renderScheduledCards = (schedules, container) => {
         return;
     }
 
+    let nextAsigned = false;
+
     container.innerHTML = schedules.map((sch, index) => {
         const timeFormatted = sch.startTime ? sch.startTime.substring(0, 5) : '--:--';
         const badgeClasses = ['is-scheduled', 'is-free', 'is-supervision'];
@@ -175,9 +177,10 @@ const renderScheduledCards = (schedules, container) => {
         badgeClass = 'is-danger';       // Rojo
         statusEmoji = '❌';             // Cruz de error
     } else if (sch.status === 'Programada') {
-      if(!nextAsigned)
+      if(!nextAsigned) {
         isExecutable = true;
         nextAsigned = true;
+      }
     }
 
     const isBlocked = sch.status === 'Programada' && !isExecutable;
