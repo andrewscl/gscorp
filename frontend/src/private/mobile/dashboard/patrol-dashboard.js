@@ -187,7 +187,7 @@ const renderScheduledCards = (schedules, container) => {
     const cardClass = isBlocked ? 'patrol-card-item is-locked' : 'patrol-card-item patrol-action-card';
     
     // Si está bloqueada, removemos la URL de destino para que no pueda hacer trampas al hacer click
-    const urlAtributo = isBlocked ? '' : `data-url="/private/patrol-executions/schedule-execute/${sch.externalId}/"`;
+    const urlAtributo = isBlocked ? '' : `data-url="/private/patrol-executions/schedule-execute/${sch.externalId}"`;
 
     return `
         <div class="${cardClass}" ${urlAtributo}>

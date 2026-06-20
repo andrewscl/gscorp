@@ -6,7 +6,7 @@ import{f as v}from"../../../auth.js";import{n as b}from"../../../navigation-hand
                 </div>`)}},L=(a,e)=>{if(!e)return;if(!a||a.length===0){e.innerHTML=`
             <div class="patrol-loader-placeholder text-muted small">
                 📅 No tienes rondas programadas para hoy en este turno.
-            </div>`;return}let o=!1;e.innerHTML=a.map((t,h)=>{const n=t.startTime?t.startTime.substring(0,5):"--:--";let l="is-scheduled",c="📅",E=!1;t.status==="En progreso"?(l="is-free",c="🔄"):t.status==="Completada"?(l="is-success",c="✅"):t.status==="No realizada"?(l="is-danger",c="❌"):t.status==="Programada"&&(o||(E=!0,o=!0));const m=t.status==="Programada"&&!E,T=m?"patrol-card-item is-locked":"patrol-card-item patrol-action-card",x=m?"":`data-url="/private/patrol-executions/schedule-execute/${t.externalId}/"`;return`
+            </div>`;return}let o=!1;e.innerHTML=a.map((t,h)=>{const n=t.startTime?t.startTime.substring(0,5):"--:--";let l="is-scheduled",c="📅",E=!1;t.status==="En progreso"?(l="is-free",c="🔄"):t.status==="Completada"?(l="is-success",c="✅"):t.status==="No realizada"?(l="is-danger",c="❌"):t.status==="Programada"&&(o||(E=!0,o=!0));const m=t.status==="Programada"&&!E,T=m?"patrol-card-item is-locked":"patrol-card-item patrol-action-card",x=m?"":`data-url="/private/patrol-executions/schedule-execute/${t.externalId}"`;return`
         <div class="${T}" ${x}>
             <div class="patrol-card-item__icon-box ${l}">
                 ${c}

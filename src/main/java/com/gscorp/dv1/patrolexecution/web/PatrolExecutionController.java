@@ -35,7 +35,7 @@ public class PatrolExecutionController {
         }
 
         model.addAttribute("patrolExternalId", patrolScheduleExternalId);
-        return "private/patrol-executions/views/schedule-patrol-execution-view";
+        return "private/patrol-executions/views/patrol-execution-view";
     }
 
 
