@@ -55,7 +55,7 @@ async function defineCurrentPosition() {
         await startViewMap(nearestSite);
         }
 
-        setTimeout(() => navigateTo('/private/employees/dashboard'), 1500);
+        setTimeout(() => navigateTo('/private/employees/dashboard'), 3000);
       } else {
         displayAlert(alertError, 'No se encontró ningún sitio cercano.', 5000);
       }
