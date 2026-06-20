@@ -159,6 +159,21 @@ const renderScheduledCards = (schedules, container) => {
         const badgeClasses = ['is-scheduled', 'is-free', 'is-supervision'];
         const currentBadgeClass = badgeClasses[index % badgeClasses.length];
 
+    // 🎨 1. Configuración visual por cada estado del Enum
+    let badgeClass = 'is-scheduled'; // Azul (Por defecto)
+    let iconClass = 'bi-calendar-event'; // Calendario básico
+
+    if (sch.status === 'IN_PROGRESS') {
+        badgeClass = 'is-free';         // Púrpura
+        iconClass = 'bi-arrow-repeat';   // Flechas de recarga / En progreso
+    } else if (sch.status === 'COMPLETED') {
+        badgeClass = 'is-success';      // Verde (Asegúrate de tener .is-success en tu SCSS)
+        iconClass = 'bi-check-circle-fill'; // Check relleno
+    } else if (sch.status === 'MISSED') {
+        badgeClass = 'is-danger';       // Rojo (Para rondas perdidas)
+        iconClass = 'bi-x-circle-fill';     // Cruz de error
+    }
+
     return `
         <div class="patrol-card-item patrol-action-card" data-url="/private/patrol-executions/schedule-execute/${sch.externalId}/">
             <div class="patrol-card-item__icon-box ${currentBadgeClass}">
