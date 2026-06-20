@@ -13,7 +13,7 @@ import{f as h}from"../../../auth.js";import{n as g}from"../../../navigation-hand
             </div>
             <div class="patrol-card-item__body">
                 <div class="card-main-info">
-                    <h5>${t.name}</h5> 
+                    <h5>${t.patrolName}</h5> 
                     <span class="time-tag">${d}</span>
                 </div>
                 <p class="text-muted small">Ronda Planificada • Estado: ${t.status==="SCHEDULED"?"Pendiente":t.status}</p>
@@ -22,4 +22,4 @@ import{f as h}from"../../../auth.js";import{n as g}from"../../../navigation-hand
                 <i class="bi bi-chevron-right"></i>
             </div>
         </div>
-    `}).join(""),e&&e.querySelectorAll(".patrol-action-card").forEach(t=>{t.addEventListener("click",i=>{const d=i.currentTarget.getAttribute("data-url");o(b,"Abriendo bitácora de ronda...",1500),setTimeout(()=>g(d,1500))})})}},$=()=>{setTimeout(()=>g("/private/employees/dashboard",!0),1e3)};function I(){const a=s("#backToEmployeeDashboard");a&&a.addEventListener("click",$)}async function P(){o(u,"Conectando con el servicio de Georreferenciación...",1500);try{await A(),await m(null),await C()}catch(a){console.error("[patrol-dashboard] initComponent failed",a)}}(async function(){I(),await P(),console.log("View patrol-dashboard page initialized.")})();
+    `}).join(""),e&&e.querySelectorAll(".patrol-action-card").forEach(t=>{t.addEventListener("click",i=>{const d=i.currentTarget.getAttribute("data-url");o(b,"Abriendo bitácora de ronda...",1500),setTimeout(()=>g(d,1500))})})}},$=()=>{setTimeout(()=>g("/private/employees/dashboard",!0),1e3)};function I(){const a=s("#backToEmployeeDashboard");a&&a.addEventListener("click",$)}async function N(){o(u,"Conectando con el servicio de Georreferenciación...",1500);try{await A(),await m(null),await C()}catch(a){console.error("[patrol-dashboard] initComponent failed",a)}}(async function(){I(),await N(),console.log("View patrol-dashboard page initialized.")})();

@@ -166,7 +166,7 @@ const renderScheduledCards = (schedules, container) => {
             </div>
             <div class="patrol-card-item__body">
                 <div class="card-main-info">
-                    <h5>${sch.name}</h5> 
+                    <h5>${sch.patrolName}</h5> 
                     <span class="time-tag">${timeFormatted}</span>
                 </div>
                 <p class="text-muted small">Ronda Planificada • Estado: ${sch.status === 'SCHEDULED' ? 'Pendiente' : sch.status}</p>
