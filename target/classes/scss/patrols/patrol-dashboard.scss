@@ -3,8 +3,6 @@
 @use '../abstracts/mixins' as * ;
 @use '../abstracts/alerts' as * ;
 
-@mixin patrol-dashboard-ui () {
-
     .patrol-dashboard-card {
         display: flex;
         flex-direction: column;
@@ -163,4 +161,3 @@
             }
         }
     }
-}
