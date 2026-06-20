@@ -38,7 +38,7 @@ public class PatrolExecutionController {
 
     @GetMapping("/schedule-execute/{patrolScheduleExternalId}")
     public String getSchedulePatrolExecution (
-            @PathVariable UUID patrolExternalId,
+            @PathVariable UUID patrolScheduleExternalId,
             Model model,
             Authentication authentication){
 
@@ -51,7 +51,7 @@ public class PatrolExecutionController {
             return "redirect:/login";
         }
 
-        model.addAttribute("patrolExternalId", patrolExternalId);
+        model.addAttribute("patrolExternalId", patrolScheduleExternalId);
         return "private/patrol-executions/views/schedule-patrol-execution-view";
     }
 

@@ -223,12 +223,6 @@ const renderScheduledCards = (schedules, container) => {
     }
 };
 
-const scheduleExecute = async () => {
-  setTimeout(() =>
-    navigateTo(`/private/patrol-executions/schedule-execute/${patrolScheduleExternalId}`, true), 1000);
-}
-
-
 
 const backToEmployeeDashboard = () => {
     setTimeout(() => navigateTo('/private/employees/dashboard', true), 1000);
