@@ -159,19 +159,20 @@ const renderScheduledCards = (schedules, container) => {
         const badgeClasses = ['is-scheduled', 'is-free', 'is-supervision'];
         const currentBadgeClass = badgeClasses[index % badgeClasses.length];
 
-    // 🎨 1. Configuración visual por cada estado del Enum
+// 🎨 1. Configuración de colores y Emojis por cada estado del Enum de Java
     let badgeClass = 'is-scheduled'; // Azul (Por defecto)
-    let iconClass = 'bi-calendar-event'; // Calendario básico
+    let statusEmoji = '📅';          // Emoji de calendario para Programada
 
-    if (sch.status === 'IN_PROGRESS') {
+    // Comparamos con el displayName que configuraste en tu Enum
+    if (sch.status === 'En progreso') {
         badgeClass = 'is-free';         // Púrpura
-        iconClass = 'bi-arrow-repeat';   // Flechas de recarga / En progreso
-    } else if (sch.status === 'COMPLETED') {
-        badgeClass = 'is-success';      // Verde (Asegúrate de tener .is-success en tu SCSS)
-        iconClass = 'bi-check-circle-fill'; // Check relleno
-    } else if (sch.status === 'MISSED') {
-        badgeClass = 'is-danger';       // Rojo (Para rondas perdidas)
-        iconClass = 'bi-x-circle-fill';     // Cruz de error
+        statusEmoji = '🔄';             // Flechas de recarga / En progreso
+    } else if (sch.status === 'Completada') {
+        badgeClass = 'is-success';      // Verde
+        statusEmoji = '✅';             // Check de éxito
+    } else if (sch.status === 'No realizada') {
+        badgeClass = 'is-danger';       // Rojo
+        statusEmoji = '❌';             // Cruz de error
     }
 
     return `
