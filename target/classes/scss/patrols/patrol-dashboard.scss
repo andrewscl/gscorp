@@ -3,6 +3,10 @@
 @use '../abstracts/mixins' as * ;
 @use '../abstracts/alerts' as * ;
 
+    .alert-container {
+            @include alert-container();
+    }
+
     .patrol-dashboard-card {
         display: flex;
         flex-direction: column;
@@ -11,9 +15,7 @@
         min-height: 100vh;
         padding-bottom: 2rem;
 
-        .alert-container {
-            @include alert-container();
-        }
+
 
         // Estilos del Mapa
         .patrol-dashboard-map {
