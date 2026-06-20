@@ -4,7 +4,15 @@
 /* Verde oscuro */
 /* Rojo oscuro */
 /* Amarillo oscuro */
-.alert-container {
+.patrol-dashboard-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  background-color: #f9fafb;
+  min-height: 100vh;
+  padding-bottom: 2rem;
+}
+.patrol-dashboard-card .alert-container {
   display: none;
   width: auto;
   position: fixed;
@@ -12,7 +20,7 @@
   left: 50%;
   transform: translateX(-50%);
 }
-.alert-container .alert {
+.patrol-dashboard-card .alert-container .alert {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -32,48 +40,39 @@
   transform: translateY(1.2rem);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-.alert-container .alert .alert-icon {
+.patrol-dashboard-card .alert-container .alert .alert-icon {
   font-size: 1.5rem;
 }
-.alert-container .alert.alert-success {
+.patrol-dashboard-card .alert-container .alert.alert-success {
   background-color: #d1f7d6;
   color: #256029;
   border: 1px solid #a4e5aa;
 }
-.alert-container .alert.alert-success .alert-message {
+.patrol-dashboard-card .alert-container .alert.alert-success .alert-message {
   vertical-align: middle;
 }
-.alert-container .alert.alert-error {
+.patrol-dashboard-card .alert-container .alert.alert-error {
   background-color: #fde4e4;
   color: #a61d1d;
   border: 1px solid #f5b3b3;
 }
-.alert-container .alert.alert-error .alert-message {
+.patrol-dashboard-card .alert-container .alert.alert-error .alert-message {
   vertical-align: middle;
 }
-.alert-container .alert.alert-warning {
+.patrol-dashboard-card .alert-container .alert.alert-warning {
   background-color: #fff3cd;
   color: #856404;
   border: 1px solid #ffeeba;
 }
-.alert-container .alert.alert-warning .alert-message {
+.patrol-dashboard-card .alert-container .alert.alert-warning .alert-message {
   vertical-align: middle;
 }
-.alert-container .alert {
+.patrol-dashboard-card .alert-container .alert {
   /* Mostrar alerta */
 }
-.alert-container .alert.alert-show {
+.patrol-dashboard-card .alert-container .alert.alert-show {
   opacity: 1;
   transform: translateY(0);
-}
-
-.patrol-dashboard-card {
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-  background-color: #f9fafb;
-  min-height: 100vh;
-  padding-bottom: 2rem;
 }
 .patrol-dashboard-card .patrol-dashboard-map {
   background: white;
