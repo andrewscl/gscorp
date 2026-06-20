@@ -3,7 +3,6 @@ package com.gscorp.dv1.patrol.web.schedules.dto;
 import java.time.LocalTime;
 import java.util.UUID;
 
-import com.gscorp.dv1.enums.PatrolScheduleStatus;
 import com.gscorp.dv1.patrol.infrastructure.schedules.PatrolSchedule;
 
 public record PatrolScheduleDto (
@@ -12,12 +11,14 @@ public record PatrolScheduleDto (
     LocalTime startTime,
     Boolean active,
     String patrolName,
-    PatrolScheduleStatus status
+    String status
 ){
     public static PatrolScheduleDto fromEntity (PatrolSchedule ps) {
 
         String name = (ps.getPatrol() != null) ?
                 ps.getPatrol().getName() : "Ronda sin nombre";
+        String statusLabel = (ps.getStatus() != null) ?
+                ps.getStatus().getDisplayName() : "Sin estado";
 
         return new PatrolScheduleDto(
                     ps.getId(),
@@ -25,7 +26,7 @@ public record PatrolScheduleDto (
                     ps.getStartTime(),
                     ps.getActive(),
                     name,
-                    ps.getStatus()
+                    statusLabel
                     );
     }
 }
