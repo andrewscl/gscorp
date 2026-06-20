@@ -3,6 +3,7 @@ package com.gscorp.dv1.patrol.web.schedules.dto;
 import java.time.LocalTime;
 import java.util.UUID;
 
+import com.gscorp.dv1.enums.PatrolScheduleStatus;
 import com.gscorp.dv1.patrol.infrastructure.schedules.PatrolSchedule;
 
 public record PatrolScheduleDto (
@@ -10,7 +11,8 @@ public record PatrolScheduleDto (
     UUID externalId,
     LocalTime startTime,
     Boolean active,
-    String patrolName
+    String patrolName,
+    PatrolScheduleStatus status
 ){
     public static PatrolScheduleDto fromEntity (PatrolSchedule ps) {
 
@@ -22,7 +24,8 @@ public record PatrolScheduleDto (
                     ps.getExternalId(),
                     ps.getStartTime(),
                     ps.getActive(),
-                    name
+                    name,
+                    ps.getStatus()
                     );
     }
 }
