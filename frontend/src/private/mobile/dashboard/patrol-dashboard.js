@@ -159,9 +159,10 @@ const renderScheduledCards = (schedules, container) => {
         const badgeClasses = ['is-scheduled', 'is-free', 'is-supervision'];
         const currentBadgeClass = badgeClasses[index % badgeClasses.length];
 
-// 🎨 1. Configuración de colores y Emojis por cada estado del Enum de Java
+    
     let badgeClass = 'is-scheduled'; // Azul (Por defecto)
     let statusEmoji = '📅';          // Emoji de calendario para Programada
+    let isExecutable = false;
 
     // Comparamos con el displayName que configuraste en tu Enum
     if (sch.status === 'En progreso') {
@@ -173,10 +174,20 @@ const renderScheduledCards = (schedules, container) => {
     } else if (sch.status === 'No realizada') {
         badgeClass = 'is-danger';       // Rojo
         statusEmoji = '❌';             // Cruz de error
+    } else if (sch.status === 'Programada') {
+      if(!nextAsigned)
+        isExecutable = true;
+        nextAsigned = true;
     }
 
+    const isBlocked = sch.status === 'Programada' && !isExecutable;
+    const cardClass = isBlocked ? 'patrol-card-item is-locked' : 'patrol-card-item patrol-action-card';
+    
+    // Si está bloqueada, removemos la URL de destino para que no pueda hacer trampas al hacer click
+    const urlAtributo = isBlocked ? '' : `data-url="/private/patrol-executions/schedule-execute/${sch.externalId}/"`;
+
     return `
-        <div class="patrol-card-item patrol-action-card" data-url="/private/patrol-executions/schedule-execute/${sch.externalId}/">
+        <div class=${cardClass} ${urlAtributo}>
             <div class="patrol-card-item__icon-box ${badgeClass}">
                 ${statusEmoji}
             </div>
@@ -204,8 +215,12 @@ const renderScheduledCards = (schedules, container) => {
         });
       });
     }
+};
 
-}; 
+const scheduleExecute = async () => {
+  setTimeout(() =>
+    navigateTo(`/private/patrol-executions/schedule-execute/${patrolScheduleExternalId}`, true), 1000);
+}
 
 
 

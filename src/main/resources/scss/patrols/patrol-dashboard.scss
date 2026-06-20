@@ -83,10 +83,27 @@
                 text-decoration: none;
                 box-shadow: 0 2px 4px rgba(0,0,0,0.01);
                 transition: transform 0.15s;
-
+                cursor: pointer;
                 &:active {
                     transform: scale(0.97);
                     background-color: #f3f4f6;
+                }
+
+                &.is-locked {
+                    opacity: 0.5;                // Las hace ver "grisáceas" o inactivas
+                    pointer-events: none;        // Deshabilita por completo cualquier click del touch del móvil
+                    background-color: #f9fafb;   // Un fondo un poco más oscuro
+                    border-style: dashed;        // Borde discontinuo para denotar que no está disponible
+                    box-shadow: none;
+                    cursor: not-allowed;
+                    pointer-events: none;
+                    &:active {
+                        transform: none;         // Evita que haga el efecto de hundirse al tocarla
+                    }
+                    .time-tag {
+                        background: #e5e7eb;     // Cambia el tag del tiempo azul a gris
+                        color: #6b7280;
+                    }
                 }
 
                 &__icon-box {

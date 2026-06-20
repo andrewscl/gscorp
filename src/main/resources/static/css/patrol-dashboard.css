@@ -140,10 +140,27 @@
   text-decoration: none;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.01);
   transition: transform 0.15s;
+  cursor: pointer;
 }
 .patrol-dashboard-card .patrol-grid .patrol-card-item:active {
   transform: scale(0.97);
   background-color: #f3f4f6;
+}
+.patrol-dashboard-card .patrol-grid .patrol-card-item.is-locked {
+  opacity: 0.5;
+  pointer-events: none;
+  background-color: #f9fafb;
+  border-style: dashed;
+  box-shadow: none;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.patrol-dashboard-card .patrol-grid .patrol-card-item.is-locked:active {
+  transform: none;
+}
+.patrol-dashboard-card .patrol-grid .patrol-card-item.is-locked .time-tag {
+  background: #e5e7eb;
+  color: #6b7280;
 }
 .patrol-dashboard-card .patrol-grid .patrol-card-item__icon-box {
   width: 44px;
