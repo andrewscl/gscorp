@@ -190,7 +190,7 @@ const renderScheduledCards = (schedules, container) => {
     const urlAtributo = isBlocked ? '' : `data-url="/private/patrol-executions/schedule-execute/${sch.externalId}/"`;
 
     return `
-        <div class=${cardClass} ${urlAtributo}>
+        <div class="${cardClass}" ${urlAtributo}>
             <div class="patrol-card-item__icon-box ${badgeClass}">
                 ${statusEmoji}
             </div>
@@ -202,7 +202,7 @@ const renderScheduledCards = (schedules, container) => {
                 <p class="text-muted small">Ronda Planificada • Estado: ${sch.status === 'SCHEDULED' ? 'Pendiente' : sch.status}</p>
             </div>
             <div class="patrol-card-item__arrow">
-                <i class="bi bi-chevron-right"></i>
+                ${isBlocked ? '🔒' : '▶'}
             </div>
         </div>
     `;
@@ -213,8 +213,11 @@ const renderScheduledCards = (schedules, container) => {
       container.querySelectorAll('.patrol-action-card').forEach(card => {
         card.addEventListener('click', (e) => {
           const targetUrl = e.currentTarget.getAttribute('data-url');
+
+          if (!targetUrl) return;
+
           displayAlert(alertSuccess, 'Abriendo bitácora de ronda...', 1500);
-          setTimeout(() => navigateTo(targetUrl, 1500));
+          setTimeout(() => navigateTo(targetUrl), 1500);
         });
       });
     }
