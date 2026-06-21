@@ -109,6 +109,23 @@ const addPatrolCheckpoints = async () => {
 }
 
 
+const renderHeader = (container, data) => {
+    const titleElement = qs('#patrol-title', container);
+    const locationElement = qs('#patrol-location', container);
+    const timerElement = qs('#patrol-timer', container);
+
+    if(titleElement && data.patrolName) {
+        titleElement.titleContent = data.patrolName;
+    }
+    if(locationElement && data.siteName) {
+        locationElement.textContent = `📍 ${data.siteName}`; 
+    }
+    if(timerElement && data.startTime) {
+        startTimer(data.startTime, timerElement);
+    }
+}
+
+
 (async function init() {
 
     const container = qs('.patrol-execution');
@@ -165,11 +182,7 @@ const addPatrolCheckpoints = async () => {
 
         currentExecutionData = await response.json();
 
-        const timerElement = qs('#patrol-timer', container);
-
-        if (timerElement && currentExecutionData.startTime) {
-            startTimer(currentExecutionData.startTime, timerElement);
-        }
+        renderHeader(container, currentExecutionData);
 
     } catch (error) {
         console.error('Error al inicializar datos de patrulla activa:', error);
