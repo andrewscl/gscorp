@@ -1,5 +1,6 @@
-<div th:fragment="content" class="patrol-execution free-patrol-execution"
-                th:data-patrol-schedule-id="${patrolScheduleExternalId}">
+<div th:fragment="content"
+                class="patrol-execution schedule-patrol-execution"
+                th:data-patrol-schedule-external-id="${patrolScheduleExternalId}">
 
         <th:block
                 th:replace="~{private/patrol-executions/fragments/header-patrol-execution-fragment :: content}">

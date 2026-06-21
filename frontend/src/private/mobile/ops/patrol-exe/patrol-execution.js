@@ -111,6 +111,8 @@ const addPatrolCheckpoints = async () => {
 
 (async function init() {
 
+    const container = qs('.patrol-execution');
+
     const patrolScheduleExternalId = container.dataset.patrolScheduleExternalId;
     if (!patrolScheduleExternalId) {
         console.error('Atributo "data-patrol-schedule-external-id" ausente.');
