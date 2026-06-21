@@ -113,6 +113,7 @@ const renderHeader = (container, data) => {
     const titleElement = qs('#patrol-title', container);
     const locationElement = qs('#patrol-location', container);
     const timerElement = qs('#patrol-timer', container);
+    const patrolStatus = qs('#patrol-status', container);
 
     if(titleElement && data.patrolName) {
         titleElement.titleContent = data.patrolName;

@@ -12,7 +12,7 @@ public record PatrolExecutionDto (
     UUID externaId,
     Instant startTime,
     Instant endTime,
-    PatrolExecutionStatus patrolExecutionStatus,
+    PatrolExecutionStatus status,
     Long userId,
     Long employeeId,
     String description,
