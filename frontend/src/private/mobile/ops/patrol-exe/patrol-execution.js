@@ -163,7 +163,6 @@ const renderProgress = (container, data) => {
             // Determinamos la clase de estado y el contenido del badge según tu SCSS
             let itemStatusClass = 'is-pending';
             let badgeContent = '○'; // Círculo neutro de texto para pendientes
-
             if (isCompleted) {
                 itemStatusClass = 'is-completed';
                 badgeContent = '✓';  // Checkmark de texto que pintará tu color #10b981
@@ -176,7 +175,6 @@ const renderProgress = (container, data) => {
             const badgeTime = isCompleted && point.scannedAt 
                 ? `<small>${point.scannedAt}</small>` 
                 : '';
-
             // El botón de acción (solo si es el punto activo)
             const actionButton = isActive 
                 ? `
