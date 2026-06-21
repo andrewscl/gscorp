@@ -116,7 +116,7 @@ const renderHeader = (container, data) => {
     const statusElement = qs('#patrol-status', container);
 
     if(titleElement && data.patrolName) {
-        titleElement.titleContent = data.patrolName;
+        titleElement.textContent = data.patrolName;
     }
     if(locationElement && data.siteName) {
         locationElement.textContent = `📍 ${data.siteName}`; 
