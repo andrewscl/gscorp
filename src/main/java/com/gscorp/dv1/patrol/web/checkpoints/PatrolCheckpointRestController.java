@@ -30,7 +30,7 @@ public class PatrolCheckpointRestController {
         
         try {
             return ResponseEntity
-                .ok(checkpoints.getCheckpointsByExternalId(patrolExternalId));
+                .ok(checkpoints.getCheckpointsByPatrolExternalId(patrolExternalId));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body(Map.of("error", "Error al buscar patrol checkpoints"));

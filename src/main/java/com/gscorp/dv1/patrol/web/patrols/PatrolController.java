@@ -110,7 +110,7 @@ public class PatrolController {
         UUID externalId = UUID.fromString(externalIdStr);
 
         List<PatrolCheckpointDto> checkpoints =
-            PatrolCheckpointService.getCheckpointsByExternalId(externalId);
+            PatrolCheckpointService.getCheckpointsByPatrolExternalId(externalId);
         try {
             String checkpointsJson = objectMapper.writeValueAsString(checkpoints);
             model.addAttribute("checkpoints", checkpointsJson);
@@ -142,7 +142,7 @@ public class PatrolController {
         }
 
         List<PatrolCheckpointDto> checkpoints =
-            PatrolCheckpointService.getCheckpointsByExternalId(externalId);
+            PatrolCheckpointService.getCheckpointsByPatrolExternalId(externalId);
         try {
             String checkpointsJson = objectMapper.writeValueAsString(checkpoints);
             model.addAttribute("checkpoints", checkpointsJson);
@@ -175,7 +175,7 @@ public class PatrolController {
         UUID externalId = UUID.fromString(externalIdStr);
 
         List<PatrolCheckpointDto> checkpoints =
-            PatrolCheckpointService.getCheckpointsByExternalId(externalId);
+            PatrolCheckpointService.getCheckpointsByPatrolExternalId(externalId);
         try {
             String checkpointsJson = objectMapper.writeValueAsString(checkpoints);
             model.addAttribute("checkpoints", checkpointsJson);

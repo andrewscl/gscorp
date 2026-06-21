@@ -24,6 +24,4 @@ public interface PatrolService {
                     Long userId
     );
 
-    
-
 }

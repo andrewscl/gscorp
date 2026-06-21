@@ -283,4 +283,5 @@ public class PatrolServiceImpl implements PatrolService {
         return PatrolDto.fromProjection(
                             patrolProjection, schedules, checkpoints);
     }
+
 }

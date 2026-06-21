@@ -3,6 +3,7 @@ package com.gscorp.dv1.patrolexecution.application.patrolsexecution;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -15,10 +16,13 @@ import com.gscorp.dv1.employees.application.EmployeeService;
 import com.gscorp.dv1.employees.infrastructure.Employee;
 import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
 import com.gscorp.dv1.enums.PatrolExecutionStatus;
+import com.gscorp.dv1.patrol.application.checkpoints.PatrolCheckpointService;
 import com.gscorp.dv1.patrol.application.schedules.PatrolScheduleService;
 import com.gscorp.dv1.patrol.infrastructure.patrols.Patrol;
+import com.gscorp.dv1.patrol.infrastructure.patrols.PatrolProjection;
 import com.gscorp.dv1.patrol.infrastructure.patrols.PatrolRepository;
 import com.gscorp.dv1.patrol.infrastructure.schedules.PatrolSchedule;
+import com.gscorp.dv1.patrol.web.checkpoints.dto.PatrolCheckpointDto;
 import com.gscorp.dv1.patrol.web.schedules.dto.PatrolScheduleDto;
 import com.gscorp.dv1.patrolexecution.infrastructure.patrolsexecution.PatrolExecution;
 import com.gscorp.dv1.patrolexecution.infrastructure.patrolsexecution.PatrolExecutionRepository;
@@ -44,6 +48,7 @@ public class PatrolExecutionServiceImpl implements PatrolExecutionService{
     private final ZoneResolver zoneResolver;
     private final PatrolExecutionRepository patrolExecutionRepository;
     private final PatrolScheduleService patrolScheduleService;
+    private final PatrolCheckpointService patrolCheckpointService;
 
     @PersistenceContext
     private EntityManager em;
@@ -56,7 +61,7 @@ public class PatrolExecutionServiceImpl implements PatrolExecutionService{
     public PatrolExecutionDto startPatrolExecution (
                     StartPatrolExecutionRequest request,
                     UUID patrolScheduleExternalId,
-                    UUID userExternalId ) {
+                    UUID userExternalId) {
 
         PatrolScheduleDto schedule = 
             patrolScheduleService
@@ -66,6 +71,11 @@ public class PatrolExecutionServiceImpl implements PatrolExecutionService{
         if (employee == null) {
             throw new IllegalStateException("El usuario no tiene un empleado asociado");
         }
+
+        PatrolProjection patrolData =
+                            patrolRepository
+                                .findProjectionByExternalId(schedule.patrolExternalId())
+                                .orElseThrow(() -> new EntityNotFoundException("Ronda no encontrada"));
 
         Employee employeeRef = em.getReference(Employee.class, employee.id());
         Patrol patrolRef = em.getReference(Patrol.class, schedule.patrolId());
@@ -88,7 +98,14 @@ public class PatrolExecutionServiceImpl implements PatrolExecutionService{
 
         patrolExecutionRepository.save(entity);
 
-        return PatrolExecutionDto.fromEntity(entity);
+        List<PatrolCheckpointDto> checkpoints =
+                    patrolCheckpointService
+                        .getCheckpointsByPatrolExternalId(schedule.patrolExternalId());
+
+        String patrolName = patrolData.getName() != null ? patrolData.getName() : "Ronda sin nombre";
+        String siteName = patrolData.getSiteName() != null ? patrolData.getSiteName() : "Sitio sin nombre";
+
+        return PatrolExecutionDto.fromEntity(entity, patrolName, siteName, checkpoints);
     }
 
 
@@ -119,6 +136,11 @@ public class PatrolExecutionServiceImpl implements PatrolExecutionService{
         if (employee == null) {
             throw new IllegalStateException("El usuario no tiene un empleado asociado");
         }
+
+        PatrolProjection patrolData =
+                            patrolRepository
+                                .findProjectionByExternalId(patrolExternalId)
+                                .orElseThrow(() -> new EntityNotFoundException("Ronda no encontrada"));
 
         // obtener referencia (proxy) a Employee sin SELECT inmediato
         Employee employeeRef = em.getReference(Employee.class, employee.id());
@@ -173,7 +195,14 @@ public class PatrolExecutionServiceImpl implements PatrolExecutionService{
         PatrolExecution savedPatrolExecution =
                                         patrolExecutionRepository.save(entity);
 
-        return PatrolExecutionDto.fromEntity(savedPatrolExecution);
+        List<PatrolCheckpointDto> checkpoints =
+                    patrolCheckpointService
+                        .getCheckpointsByPatrolExternalId(patrol.getExternalId());
+
+        String patrolName = patrolData.getName() != null ? patrolData.getName() : "Ronda sin nombre";
+        String siteName = patrolData.getSiteName() != null ? patrolData.getSiteName() : "Sitio sin nombre";
+
+        return PatrolExecutionDto.fromEntity(savedPatrolExecution, patrolName, siteName, checkpoints);
 
     }
 

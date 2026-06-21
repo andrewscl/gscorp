@@ -7,6 +7,6 @@ import com.gscorp.dv1.patrol.web.checkpoints.dto.PatrolCheckpointDto;
 
 public interface PatrolCheckpointService {
 
-    List<PatrolCheckpointDto> getCheckpointsByExternalId (UUID externalIdStr);
+    List<PatrolCheckpointDto> getCheckpointsByPatrolExternalId (UUID patrolExternalId);
     
 }

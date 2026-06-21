@@ -2,8 +2,10 @@ package com.gscorp.dv1.patrolexecution.web.dto.patrolsexecution;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
+import com.gscorp.dv1.patrol.web.checkpoints.dto.PatrolCheckpointDto;
 import com.gscorp.dv1.patrolexecution.infrastructure.patrolsexecution.PatrolExecution;
 
 public record PatrolExecutionDto (
@@ -22,16 +24,16 @@ public record PatrolExecutionDto (
     String clientTimezone,
     String timezoneSource,
     String patrolName,
-    String siteName
+    String siteName,
+    List<PatrolCheckpointDto> checkpoints
 ){
     public static PatrolExecutionDto fromEntity (
-                                        PatrolExecution pe){
-        if( pe == null ) {return null; }
+                                    PatrolExecution pe,
+                                    String patrolName,
+                                    String siteName,
+                                    List<PatrolCheckpointDto> checkpoints){
 
-        String patrolName = (pe.getPatrol() != null) ? pe.getPatrol().getName() : "Ronda sin nombre";
-        String siteName = (pe.getPatrol() != null && pe.getPatrol().getSite() != null)
-                            ? pe.getPatrol().getSite().getName()
-                            : "Sitio sin nombre";
+        if( pe == null ) {return null; }
 
         return new PatrolExecutionDto (
             pe.getId(),
@@ -49,7 +51,8 @@ public record PatrolExecutionDto (
             pe.getClientTimezone(),
             pe.getTimezoneSource(),
             patrolName,
-            siteName
+            siteName,
+            checkpoints
         );
     }
 }

@@ -25,10 +25,10 @@ public class PatrolCheckpointServiceImpl implements PatrolCheckpointService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<PatrolCheckpointDto> getCheckpointsByExternalId (UUID externalId) {
+    public List<PatrolCheckpointDto> getCheckpointsByPatrolExternalId (UUID patrolExternalId) {
 
         //Buscar los puntos ordenados
-        Patrol patrol = patrolRepo.findByExternalId(externalId)
+        Patrol patrol = patrolRepo.findByExternalId(patrolExternalId)
             .orElseThrow(() ->
                 new EntityNotFoundException("Ronda no encontrada"));
 

@@ -11,8 +11,7 @@ public interface PatrolExecutionService {
     PatrolExecutionDto startPatrolExecution (
                         StartPatrolExecutionRequest request,
                         UUID patrolScheduleExternalId,
-                        UUID userExternalId
-    );
+                        UUID userExternalId);
 
     PatrolExecutionDto endPatrolExecution(
                         CreatePatrolExecutionRequest request,
