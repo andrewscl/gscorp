@@ -59,7 +59,7 @@ public interface PatrolScheduleRepository
                 ps.status               AS status,
                 ps.patrol.externalId    AS patrolExternalId,
                 ps.patrol.name          AS patrolName,
-                PS.patrol.id            AS patrolId
+                ps.patrol.id            AS patrolId
             FROM PatrolSchedule ps
             WHERE ps.externalId = :scheduleExternalId
     """)
