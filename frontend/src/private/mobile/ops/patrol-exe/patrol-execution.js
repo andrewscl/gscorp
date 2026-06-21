@@ -23,9 +23,11 @@ const scanBtnExecute = async () => {
     }
 };
 
+
 const incidentBtnExecute = async () => {
         setTimeout(() => navigateTo('/private/incidents/dashboard'), 1500);
 }
+
 
 let patrolInfo = null;
 const endBtnExecute = async () => {
@@ -52,6 +54,7 @@ const endBtnExecute = async () => {
     }
 
 }
+
 
 function startTimer(startedAt, timerElement) {
     if (!timerElement) return;
@@ -106,13 +109,11 @@ const addPatrolCheckpoints = async () => {
 }
 
 
-
 (async function init() {
-  
-    // extrae el ID del fragment
-    currentExecutionId = container.dataset.patrolId;
-    if (!currentExecutionId) {
-        console.error('Atributo "data-patrol-id" ausente.');
+
+    const patrolScheduleExternalId = container.dataset.patrolScheduleExternalId;
+    if (!patrolScheduleExternalId) {
+        console.error('Atributo "data-patrol-schedule-external-id" ausente.');
         navigateTo('/private/employees/dashboard');
         return;
     }
@@ -120,17 +121,54 @@ const addPatrolCheckpoints = async () => {
     bindEvents();
 
     try {
-        const response = await fetchWithAuth(`/api/patrols/executions/${currentExecutionId}`, {
+        let latitude = null;
+        let longitude = null;
+
+        if (navigator.geolocation) {
+            try {
+                const position = await new Promise((resolve, reject) => {
+                    navigator.geolocation.getCurrentPosition(resolve, reject, { 
+                        timeout: 5000, 
+                        enableHighAccuracy: true 
+                    });
+                });
+                latitude = position.coords.latitude;
+                longitude = position.coords.longitude;
+            } catch (gpsError) {
+                console.warn('No se pudo obtener la ubicación, iniciando sin coordenadas:', gpsError);
+            }
+        }
+
+        // 2. Construimos el payload exacto que espera tu DTO de Java
+        const payload = {
+            latitude: latitude,
+            longitude: longitude,
+            clientTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone, // 🟢 Obtiene "America/Santiago" nativamente
+            timezoneSource: "CLIENT_BROWSER"
+        };
+
+        const response =
+                await fetchWithAuth(`/api/patrol-executions/start/${patrolScheduleExternalId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload),
             credentials: 'same-origin'
         });
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         currentExecutionData = await response.json();
 
         const timerElement = qs('#patrol-timer', container);
-        if (timerElement && currentExecutionData.startedAt) {
-            startTimer(currentExecutionData.startedAt, timerElement);
+
+        if (timerElement && currentExecutionData.startTime) {
+            startTimer(currentExecutionData.startTime, timerElement);
         }
+
     } catch (error) {
         console.error('Error al inicializar datos de patrulla activa:', error);
         displayAlert('error', 'Error al sincronizar el estado de la ronda.', 4000);

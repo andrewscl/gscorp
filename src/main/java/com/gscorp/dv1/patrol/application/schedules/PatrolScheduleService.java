@@ -10,4 +10,6 @@ public interface PatrolScheduleService {
     List<PatrolScheduleDto> getNext24hPatrolSchedulesBySiteExternalId (
                 UUID siteExternalId);
 
+    PatrolScheduleDto getPatrolExternalIdByScheduleExternalId(UUID scheduleExternalId);
+
 }

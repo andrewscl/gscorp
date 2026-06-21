@@ -11,4 +11,7 @@ public interface PatrolScheduleProjection {
     LocalTime getStartTime();
     Boolean getActive();
     PatrolScheduleStatus getStatus();
+    UUID getPatrolExternalId();
+    String getPatrolName();
+    Long getPatrolId();
 }

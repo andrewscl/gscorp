@@ -12,6 +12,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 
 import com.gscorp.dv1.enums.PatrolExecutionStatus;
 import com.gscorp.dv1.patrol.infrastructure.patrols.Patrol;
+import com.gscorp.dv1.patrol.infrastructure.schedules.PatrolSchedule;
 import com.gscorp.dv1.patrolexecution.infrastructure.checkpointsexecution.CheckpointExecution;
 
 import jakarta.persistence.CascadeType;
@@ -38,7 +39,8 @@ import lombok.Setter;
 @Entity
 @Table(name = "patrol_executions", indexes = {
     @Index(name = "ix_patrol_exec_external_id", columnList = "external_id"),
-    @Index(name = "ix_patrol_exec_patrol_id", columnList = "patrol_id")
+    @Index(name = "ix_patrol_exec_patrol_id", columnList = "patrol_id"),
+    @Index(name = "ix_patrol_exec_schedule_id", columnList = "patrol_schedule_id")
 })
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
@@ -60,11 +62,16 @@ public class PatrolExecution {
     private Instant endTime;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private PatrolExecutionStatus patrolExecutionStatus ;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patrol_id", nullable = false)
     private Patrol patrol;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "patrol_schedule_id", nullable = true) // nullable = true por si en el futuro permites rondas "libres" fuera de agenda
+    private PatrolSchedule patrolSchedule;
 
     // Vinculación al guardia (asumiendo que manejas Username o ID de usuario)
     @Column(nullable = false)

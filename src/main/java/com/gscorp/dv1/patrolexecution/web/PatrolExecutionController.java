@@ -34,7 +34,7 @@ public class PatrolExecutionController {
             return "redirect:/login";
         }
 
-        model.addAttribute("patrolExternalId", patrolScheduleExternalId);
+        model.addAttribute("patrolScheduleExternalId", patrolScheduleExternalId);
         return "private/patrol-executions/views/patrol-execution-view";
     }
 

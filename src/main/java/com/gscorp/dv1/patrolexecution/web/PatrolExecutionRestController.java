@@ -3,39 +3,36 @@ package com.gscorp.dv1.patrolexecution.web;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gscorp.dv1.patrolexecution.application.patrolsexecution.PatrolExecutionService;
-import com.gscorp.dv1.patrolexecution.web.dto.patrolsexecution.CreatePatrolExecutionRequest;
 import com.gscorp.dv1.patrolexecution.web.dto.patrolsexecution.PatrolExecutionDto;
+import com.gscorp.dv1.patrolexecution.web.dto.patrolsexecution.StartPatrolExecutionRequest;
 import com.gscorp.dv1.security.SecurityUser;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/patrol-execution")
+@RequestMapping("/api/patrol-executions")
 @RequiredArgsConstructor
 public class PatrolExecutionRestController {
 
     private final PatrolExecutionService patrolExecutionService;
 
-    @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<PatrolExecutionDto> createPatrolExecution(
-        @Valid @ModelAttribute CreatePatrolExecutionRequest req,
-        UUID patrolExternalId,
-        UriComponentsBuilder ucb,
-        Authentication authentication) {
+    @PostMapping("/start/{patrolScheduleExternalId}")
+    public ResponseEntity<PatrolExecutionDto> startExecution(
+                    @PathVariable UUID patrolScheduleExternalId,
+                    @RequestBody StartPatrolExecutionRequest request,
+                    Authentication authentication) {
 
         if (authentication == null || !authentication.isAuthenticated()) {
             log.warn("Intento de acceso no autenticado");
@@ -50,12 +47,9 @@ public class PatrolExecutionRestController {
         UUID userExternalId = securityUser.getUser().getExternalId();
 
         PatrolExecutionDto created =
-                patrolExecutionService.createPatrolExecution(req, patrolExternalId, userExternalId);
+                patrolExecutionService.startPatrolExecution(request, patrolScheduleExternalId, userExternalId);
 
-        var location = ucb.path("/api/patrol-execution/{id}")
-                            .buildAndExpand(created.id()).toUri();
-
-        return ResponseEntity.created(location).body(created);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
 
     }
 

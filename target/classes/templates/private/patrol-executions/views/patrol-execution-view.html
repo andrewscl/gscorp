@@ -1,4 +1,5 @@
-<div th:fragment="content" class="patrol-execution free-patrol-execution">
+<div th:fragment="content" class="patrol-execution free-patrol-execution"
+                th:data-patrol-schedule-id="${patrolScheduleExternalId}">
 
         <th:block
                 th:replace="~{private/patrol-executions/fragments/header-patrol-execution-fragment :: content}">
@@ -13,6 +14,6 @@
                 th:replace="~{private/patrol-executions/fragments/actions-patrol-execution-fragment :: content}">
         </th:block>
 
-        <script type="module" src="/js/private/mobile/ops/patrol-exe/free-execution.js"></script>
+        <script type="module" src="/js/private/mobile/ops/patrol-exe/patrol-execution.js"></script>
 
 </div>  

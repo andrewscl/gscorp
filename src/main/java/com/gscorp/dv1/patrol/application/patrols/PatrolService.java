@@ -9,7 +9,7 @@ import com.gscorp.dv1.patrol.web.patrols.dto.UpdatePatrolRequest;
 
 public interface PatrolService {
 
-    List<PatrolDto> getPatrolsByUserExtarnalUserId(UUID userExternalId);
+    List<PatrolDto> getPatrolsByUserExternalUserId(UUID userExternalId);
 
     PatrolDto savePatrol (
                     CreatePatrolRequest request,
@@ -23,5 +23,7 @@ public interface PatrolService {
                     UpdatePatrolRequest request,
                     Long userId
     );
+
+    
 
 }

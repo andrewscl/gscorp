@@ -57,7 +57,7 @@ public class PatrolController {
 
             UUID externalId = securityUser.getUser().getExternalId();
 
-        List<PatrolDto> patrols = patrolService.getPatrolsByUserExtarnalUserId(externalId);
+        List<PatrolDto> patrols = patrolService.getPatrolsByUserExternalUserId(externalId);
         if(patrols == null || patrols.isEmpty()) {
             model.addAttribute("infoMessage", 
             "No se encontraron rondas de supervisión asociadas a su usuario.");

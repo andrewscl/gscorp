@@ -49,4 +49,22 @@ public interface PatrolScheduleRepository
             @Param("nextDay") Integer nextDay,
             @Param("isOvernight") boolean isOvernight);
 
+
+    @Query("""
+            SELECT
+                ps.id                   AS id,
+                ps.externalId           AS externalId,
+                ps.startTime            AS startTime,
+                ps.active               AS active,
+                ps.status               AS status,
+                ps.patrol.externalId    AS patrolExternalId,
+                ps.patrol.name          AS patrolName,
+                PS.patrol.id            AS patrolId
+            FROM PatrolSchedule ps
+            WHERE ps.externalId = :scheduleExternalId
+    """)
+    Optional<PatrolScheduleProjection> getPatrolExternalIdByScheduleExternalId (
+        @Param("scheduleExternalId") UUID scheduleExternalId
+    );
+
 }

@@ -12,6 +12,7 @@ import com.gscorp.dv1.patrol.infrastructure.schedules.PatrolSchedule;
 import com.gscorp.dv1.patrol.infrastructure.schedules.PatrolScheduleRepository;
 import com.gscorp.dv1.patrol.web.schedules.dto.PatrolScheduleDto;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -20,7 +21,6 @@ public class PatrolScheduleServiceImpl implements PatrolScheduleService {
 
     private final PatrolScheduleRepository patrolScheduleRepo;
 
-    @Override
     @Transactional(readOnly = true)
     public List<PatrolScheduleDto> getNext24hPatrolSchedulesBySiteExternalId (
                                         UUID siteExternalId) {
@@ -68,6 +68,17 @@ public class PatrolScheduleServiceImpl implements PatrolScheduleService {
         return schedules.stream()
                         .map(PatrolScheduleDto::fromEntity)
                         .toList();
+    }
+
+
+    @Transactional(readOnly = true)
+    public PatrolScheduleDto getPatrolExternalIdByScheduleExternalId(UUID scheduleExternalId){
+
+        return patrolScheduleRepo.getPatrolExternalIdByScheduleExternalId(scheduleExternalId)
+                .map(PatrolScheduleDto::fromProjection)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("No se encontró el patrolId con scheduleId: " + scheduleExternalId));
+
     }
 
 }

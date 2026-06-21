@@ -44,7 +44,7 @@ public class PatrolServiceImpl implements PatrolService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<PatrolDto> getPatrolsByUserExtarnalUserId(UUID userExternalId) {
+    public List<PatrolDto> getPatrolsByUserExternalUserId(UUID userExternalId) {
 
         List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);
         if (clientIds == null || clientIds.isEmpty()) {

@@ -14,12 +14,17 @@ import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.employees.application.EmployeeService;
 import com.gscorp.dv1.employees.infrastructure.Employee;
 import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
+import com.gscorp.dv1.enums.PatrolExecutionStatus;
+import com.gscorp.dv1.patrol.application.schedules.PatrolScheduleService;
 import com.gscorp.dv1.patrol.infrastructure.patrols.Patrol;
 import com.gscorp.dv1.patrol.infrastructure.patrols.PatrolRepository;
+import com.gscorp.dv1.patrol.infrastructure.schedules.PatrolSchedule;
+import com.gscorp.dv1.patrol.web.schedules.dto.PatrolScheduleDto;
 import com.gscorp.dv1.patrolexecution.infrastructure.patrolsexecution.PatrolExecution;
 import com.gscorp.dv1.patrolexecution.infrastructure.patrolsexecution.PatrolExecutionRepository;
 import com.gscorp.dv1.patrolexecution.web.dto.patrolsexecution.CreatePatrolExecutionRequest;
 import com.gscorp.dv1.patrolexecution.web.dto.patrolsexecution.PatrolExecutionDto;
+import com.gscorp.dv1.patrolexecution.web.dto.patrolsexecution.StartPatrolExecutionRequest;
 import com.gscorp.dv1.shared.FileStorageService;
 
 import jakarta.persistence.EntityManager;
@@ -38,6 +43,7 @@ public class PatrolExecutionServiceImpl implements PatrolExecutionService{
     private final PatrolRepository patrolRepository;
     private final ZoneResolver zoneResolver;
     private final PatrolExecutionRepository patrolExecutionRepository;
+    private final PatrolScheduleService patrolScheduleService;
 
     @PersistenceContext
     private EntityManager em;
@@ -45,9 +51,49 @@ public class PatrolExecutionServiceImpl implements PatrolExecutionService{
     @Value("${file.patrol_files-dir}")
     private String uploadFilesDir;
 
-    @Override
+
     @Transactional
-    public PatrolExecutionDto createPatrolExecution(
+    public PatrolExecutionDto startPatrolExecution (
+                    StartPatrolExecutionRequest request,
+                    UUID patrolScheduleExternalId,
+                    UUID userExternalId ) {
+
+        PatrolScheduleDto schedule = 
+            patrolScheduleService
+                .getPatrolExternalIdByScheduleExternalId(patrolScheduleExternalId);
+
+        EmployeeSelectDto employee = employeeService.findEmployeeByUserExternalId(userExternalId);
+        if (employee == null) {
+            throw new IllegalStateException("El usuario no tiene un empleado asociado");
+        }
+
+        Employee employeeRef = em.getReference(Employee.class, employee.id());
+        Patrol patrolRef = em.getReference(Patrol.class, schedule.patrolId());
+        PatrolSchedule patrolScheduleRef = em.getReference(PatrolSchedule.class, schedule.id());
+
+        var entity = PatrolExecution.builder()
+            .patrol(patrolRef)
+            .patrolSchedule(patrolScheduleRef)
+            .userId(employee.userId())
+            .employeeId(employeeRef.getId())
+            .description(null)
+            .photoPath(null)
+            .videoPath(null)
+            .latitude(request.latitude())
+            .longitude(request.longitude())
+            .clientTimezone(request.clientTimezone())
+            .timezoneSource(request.timezoneSource())
+            .patrolExecutionStatus(PatrolExecutionStatus.IN_PROGRESS)
+            .build();
+
+        patrolExecutionRepository.save(entity);
+
+        return PatrolExecutionDto.fromEntity(entity);
+    }
+
+
+    @Transactional
+    public PatrolExecutionDto endPatrolExecution(
                         CreatePatrolExecutionRequest request,
                         UUID patrolExternalId,
                         UUID userExternalId) {
