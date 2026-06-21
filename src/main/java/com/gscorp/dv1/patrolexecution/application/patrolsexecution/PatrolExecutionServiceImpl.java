@@ -83,7 +83,7 @@ public class PatrolExecutionServiceImpl implements PatrolExecutionService{
             .longitude(request.longitude())
             .clientTimezone(request.clientTimezone())
             .timezoneSource(request.timezoneSource())
-            .patrolExecutionStatus(PatrolExecutionStatus.IN_PROGRESS)
+            .status(PatrolExecutionStatus.IN_PROGRESS)
             .build();
 
         patrolExecutionRepository.save(entity);
