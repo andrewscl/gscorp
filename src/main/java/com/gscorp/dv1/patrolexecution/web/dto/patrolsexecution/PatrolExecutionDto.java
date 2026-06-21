@@ -9,7 +9,7 @@ import com.gscorp.dv1.patrolexecution.infrastructure.patrolsexecution.PatrolExec
 
 public record PatrolExecutionDto (
     Long id,
-    UUID externaId,
+    UUID externalId,
     Instant startTime,
     Instant endTime,
     PatrolExecutionStatus status,
@@ -21,18 +21,25 @@ public record PatrolExecutionDto (
     BigDecimal latitude,
     BigDecimal longitude,
     String clientTimezone,
-    String timezoneSource
+    String timezoneSource,
+    String patrolName,
+    String siteName
 ){
     public static PatrolExecutionDto fromEntity (
                                         PatrolExecution pe){
         if( pe == null ) {return null; }
+
+        String patrolName = (pe.getPatrol() != null) ? pe.getPatrol().getName() : "Ronda sin nombre";
+        String siteName = (pe.getPatrol() != null && pe.getPatrol().getSite() != null)
+                            ? pe.getPatrol().getSite().getName()
+                            : "Sitio sin nombre";
 
         return new PatrolExecutionDto (
             pe.getId(),
             pe.getExternalId(),
             pe.getStartTime(),
             pe.getEndTime(),
-            pe.getPatrolExecutionStatus(),
+            pe.getStatus(),
             pe.getUserId(),
             pe.getEmployeeId(),
             pe.getDescription(),
@@ -41,7 +48,9 @@ public record PatrolExecutionDto (
             pe.getLatitude(),
             pe.getLongitude(),
             pe.getClientTimezone(),
-            pe.getTimezoneSource()
+            pe.getTimezoneSource(),
+            patrolName,
+            siteName
         );
     }
 }

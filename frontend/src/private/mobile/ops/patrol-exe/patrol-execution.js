@@ -121,6 +121,9 @@ const renderHeader = (container, data) => {
     if(locationElement && data.siteName) {
         locationElement.textContent = `📍 ${data.siteName}`; 
     }
+    if (statusElement && data.status) {
+        statusElement.textContent = data.status;
+    }
     if(timerElement && data.startTime) {
         startTimer(data.startTime, timerElement);
     }

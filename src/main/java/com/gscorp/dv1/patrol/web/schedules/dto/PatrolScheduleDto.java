@@ -18,14 +18,10 @@ public record PatrolScheduleDto (
 ){
 
     public static PatrolScheduleDto fromEntity (PatrolSchedule ps) {
-        String name = (ps.getPatrol() != null) ?
-                ps.getPatrol().getName() : "Ronda sin nombre";
-        String statusLabel = (ps.getStatus() != null) ?
-                ps.getStatus().getDisplayName() : "Sin estado";
-        UUID pExtId = (ps.getPatrol() != null) ?
-                ps.getPatrol().getExternalId() : null;
-        Long patrolId = (ps.getPatrol() != null) ?
-                ps.getPatrol().getId() : null;
+        String name = (ps.getPatrol() != null) ? ps.getPatrol().getName() : "Ronda sin nombre";
+        String statusLabel = (ps.getStatus() != null) ? ps.getStatus().getDisplayName() : "Sin estado";
+        UUID pExtId = (ps.getPatrol() != null) ? ps.getPatrol().getExternalId() : null;
+        Long patrolId = (ps.getPatrol() != null) ? ps.getPatrol().getId() : null;
 
         return new PatrolScheduleDto(
                     ps.getId(),

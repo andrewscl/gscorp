@@ -63,7 +63,7 @@ public class PatrolExecution {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private PatrolExecutionStatus patrolExecutionStatus ;
+    private PatrolExecutionStatus status ;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patrol_id", nullable = false)
