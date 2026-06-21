@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
 
-import com.gscorp.dv1.enums.PatrolExecutionStatus;
 import com.gscorp.dv1.patrolexecution.infrastructure.patrolsexecution.PatrolExecution;
 
 public record PatrolExecutionDto (
@@ -12,7 +11,7 @@ public record PatrolExecutionDto (
     UUID externalId,
     Instant startTime,
     Instant endTime,
-    PatrolExecutionStatus status,
+    String status,
     Long userId,
     Long employeeId,
     String description,
@@ -39,7 +38,7 @@ public record PatrolExecutionDto (
             pe.getExternalId(),
             pe.getStartTime(),
             pe.getEndTime(),
-            pe.getStatus(),
+            pe.getStatus().getDisplayName(),
             pe.getUserId(),
             pe.getEmployeeId(),
             pe.getDescription(),
