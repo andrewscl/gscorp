@@ -141,7 +141,29 @@ function updatePathLine() {
     }
 }
 
-
+function redrawMarkers() {
+    // Recorremos los marcadores que quedaron para actualizar su número visual
+    checkpointMarkers.forEach((marker, i) => {
+        const order = i + 1;
+        
+        // Creamos el nuevo pin con el número actualizado
+        const pin = new google.maps.marker.PinElement({
+            glyphText: order.toString(),
+            background: "#FBBC04"
+        });
+        
+        // Actualizamos el contenido del marcador sin borrarlo del mapa
+        marker.content = pin.element;
+        marker.title = `Punto ${order}`;
+        
+        // MUY IMPORTANTE: Actualizamos el evento click del marcador 
+        // para que apunte al nuevo índice, de lo contrario borraría el punto equivocado
+        google.maps.event.clearInstanceListeners(marker);
+        marker.addListener("click", () => {
+            showInfoWindow(marker, i); // Función auxiliar para mostrar el botón eliminar
+        });
+    });
+}
 
 async function handleUpdate(e) {
     e.preventDefault();
