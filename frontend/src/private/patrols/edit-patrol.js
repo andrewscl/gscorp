@@ -2,13 +2,9 @@ import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
 import { onClickAddTimeSchedule,
         onClickRemoveItem,
+        onClickCancel,
         displayAlert
         } from './create-patrol.js';
-
-const alertSuccess = qs('.alert-success');
-const alertError = qs('.alert-error');
-const alertWarning = qs('.alert-warning');
-const alertInfo = qs('.alert-info');
 
 const qs  = (s) => document.querySelector(s);
 const qsa = (s) => document.querySelectorAll(s);
@@ -156,7 +152,6 @@ function syncCheckpoints () {
         Los pendientes mandan spbre los modificados
     */
     currentCheckpoints.forEach(cp => {
-        
         // Usa externalId si existe, si no, una llave temporal para el map
         const key = cp.externalId || `new_${Math.random()}`;
 
@@ -282,11 +277,6 @@ function initCheckpoints() {
     }
 }
 
-function onClickCancel () {
-    displayAlert(alertWarning, 'La edición del patrol a sido cancelada.', 2000);
-    setTimeout(() => navigateTo('/private/patrols/table-view', true), 2000);
-}
-
 function bindEvents() {
     const updateBtn = qs('#updatePatrolBtn');
     if (updateBtn) {
@@ -297,12 +287,13 @@ function bindEvents() {
     qs('#patrolSchedulesList')?.addEventListener('click', onClickRemoveItem);
     qs('#toggleSchedule')?.addEventListener('click', toggleSchedule);
     qs('#toggleCheckpoint')?.addEventListener('click', toggleCheckpoint);
-
+    // Botón Cancelar con mensaje personalizado
     const cancelBtn = qs('#cancelEditPatrolBtn');
     if (cancelBtn) {
-        cancelBtn.addEventListener('click', onClickCancel);
+        cancelBtn.addEventListener('click', (e) => 
+            onClickCancel(e, 'La edición de la ronda ha sido cancelada.')
+        );
     }
-
     qs('#addMapCheckpointBtn')?.addEventListener('click', openMapPicker);
 
     // ESCUCHADOR: Espera a que el navigation-handler confirme la carga
