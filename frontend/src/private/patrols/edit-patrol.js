@@ -7,6 +7,10 @@ import loadGoogleMapsAPI from '../../shared/maps/googlemaps-loader.js';
 import { initMap } from '../../shared/maps/init-map.js';
 import { addAdvancedMarker } from '../../shared/maps/advanced-marker.js';
 
+let checkpoints = [] //Lista de objetos {lat, lng, order}
+let checkpointMarkers = [] //referencia a los marcadores
+let patrolPathLine = null;
+let currentInfoWindow = null;
 
 const qs  = (s) => document.querySelector(s);
 const qsa = (s) => document.querySelectorAll(s);
