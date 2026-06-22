@@ -532,22 +532,47 @@ if (checkpoints.length === 0) {
 }
 
 const loadExistingCheckpoints = async () => {
-    // 1. Buscamos el input oculto
-    const dataInput = document.getElementById('checkpoints-data');
-    if (!dataInput || !dataInput.value) {
-        console.warn("No se encontraron puntos pre-cargados en el DOM.");
-        return;
+    let preloaded = null;
+
+    // 🟢 1. PRIORIDAD: Intentamos recuperar los cambios temporales de LocalStorage
+    const savedCheckpoints = localStorage.getItem('pending_checkpoints');
+    if (savedCheckpoints) {
+        try {
+            preloaded = JSON.parse(savedCheckpoints);
+            console.log("[MapPicker] Cargando puntos editados desde LocalStorage:", preloaded);
+        } catch (e) {
+            console.error("Error al parsear pending_checkpoints de LocalStorage:", e);
+        }
     }
 
+    // 🔄 2. FALLBACK: Si no había nada en LocalStorage, leemos el input del servidor
+    if (!preloaded) {
+        const dataInput = document.getElementById('checkpoints-data');
+        if (!dataInput || !dataInput.value) {
+            console.warn("No se encontraron puntos pre-cargados en el DOM ni en LocalStorage.");
+            return;
+        }
+        try {
+            preloaded = JSON.parse(dataInput.value);
+            console.log("[MapPicker] LocalStorage vacío. Cargando puntos por defecto del servidor.");
+        } catch (e) {
+            console.error("Error al parsear los puntos del input oculto:", e);
+            return;
+        }
+    }
+
+    // Si al final de ambos intentos el array está vacío, no hacemos nada
+    if (!preloaded || preloaded.length === 0) return;
+
     try {
-        // 2. Parseamos el JSON
-        const preloaded = JSON.parse(dataInput.value);
-        if (preloaded.length === 0) return;
 
         const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
 
         // Crear el objeto bounds
         const bounds = new google.maps.LatLngBounds();
+
+        checkpoints = [];
+        checkpointMarkers = [];
 
         for (const cp of preloaded) {
             const position = {
@@ -588,6 +613,12 @@ const loadExistingCheckpoints = async () => {
                 transitTime: cp.minutesToReach
             });
             checkpointMarkers.push(marker);
+
+            // 🟢 Re-vinculamos el click al marcador para que el InfoWindow vuelva a abrirse
+            marker.addListener('click', () => {
+                showInfoWindow(marker, cp.checkpointOrder - 1);
+            });
+
         }
 
         // 3. Actualizar visuales
