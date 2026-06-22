@@ -2,7 +2,6 @@ import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
 import { onClickAddTimeSchedule,
         onClickRemoveItem,
-        onClickCancel,
         displayAlert
         } from './create-patrol.js';
 
@@ -288,13 +287,12 @@ function bindEvents() {
     qs('#patrolSchedulesList')?.addEventListener('click', onClickRemoveItem);
     qs('#toggleSchedule')?.addEventListener('click', toggleSchedule);
     qs('#toggleCheckpoint')?.addEventListener('click', toggleCheckpoint);
-    // Botón Cancelar con mensaje personalizado
+
     const cancelBtn = qs('#cancelEditPatrolBtn');
     if (cancelBtn) {
-        cancelBtn.addEventListener('click', (e) => 
-            onClickCancel(e, 'La edición de la ronda ha sido cancelada.')
-        );
+        cancelBtn.addEventListener('click', onClickCancel);
     }
+
     qs('#addMapCheckpointBtn')?.addEventListener('click', openMapPicker);
 
     // ESCUCHADOR: Espera a que el navigation-handler confirme la carga
@@ -303,6 +301,12 @@ function bindEvents() {
     }, { once: true });
 
 }
+
+const onClickCancel = () => {
+    displayAlert(alertCancel, 'La creación del sitio a sido cancelada.', 2000);
+    setTimeout(() => navigateTo('/private/patrols/table-view', true), 2000);
+}
+
 
 (function init() {
     bindEvents();
