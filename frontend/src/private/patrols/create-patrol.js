@@ -31,6 +31,8 @@ async function onClickCreate(e) {
                              .filter(val => val !== "")
     };
 
+    console.log(scheduleTimes);
+
     // Validaciones
     if (!payload.siteId || !payload.name ||
         !payload.dayFrom || !payload.dayTo) {
