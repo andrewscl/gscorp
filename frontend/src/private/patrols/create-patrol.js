@@ -14,19 +14,14 @@ async function onClickCreate(e) {
     const alertSuccess = qs('.alert-success');
     const alertError = qs('.alert-error');
 
-// 🟢 EL RESCATE DEFINITIVO:
-    // Forzamos la búsqueda de los inputs de tiempo usando el DOM global del documento activo.
-    // Buscamos específicamente los inputs con la clase '.schedule-input' o el atributo name.
-    const inputsEnPantalla = document.querySelectorAll('#patrolSchedulesList .schedule-input') 
-                            || document.querySelectorAll('.schedule-input')
-                            || document.querySelectorAll('input[name="scheduleTime[]"]');
-
-    const scheduleTimesArray = [];
-    inputsEnPantalla.forEach(input => {
-        if (input.value && input.value.trim() !== "") {
-            scheduleTimesArray.push(input.value);
-        }
-    });
+    // 2. 🟢 RECOLECCIÓN ULTRA SEGURA CON MÉTODOS NATIVOS
+    // Buscamos directamente en todo el documento activo todos los inputs de horarios
+    const inputsHorarios = document.querySelectorAll('#patrolSchedulesList .schedule-input');
+    
+    // Mapeamos los valores escribiendo explícitamente la lógica sin funciones auxiliares intermedias
+    const scheduleTimesArray = Array.from(inputsHorarios)
+                                    .map(input => input.value)
+                                    .filter(val => val && val.trim() !== "");
 
     //Generar payload dinámico con los datos del formulario
     const payload = {
