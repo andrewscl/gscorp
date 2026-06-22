@@ -10,35 +10,10 @@ async function onClickCreate(e) {
     const btn = e.target;
     btn.disabled = true; // Deshabilitar el botón para evitar múltiples clics
 
-    // --- DENTRO DE ONCLICKCREATE ---
-    console.log("🔍 === AUTOPSIA DEL DOM AL HACER CLIC ===");
-
-    // 1. ¿Existe el contenedor?
-    const contenedor = document.getElementById('patrolSchedulesList');
-    console.log("1. ¿Existe #patrolSchedulesList?:", !!contenedor);
-    if (contenedor) {
-        console.log("2. HTML interno del contenedor:", contenedor.innerHTML);
-    }
-
-    // 2. Rastrear CUALQUIER input de tipo time en la página completa
-    const todosLosTimeInputs = document.querySelectorAll('input[type="time"]');
-    console.log("3. Total de inputs type='time' en TODA la página:", todosLosTimeInputs.length);
-
-    todosLosTimeInputs.forEach((inp, idx) => {
-        console.log(`   -> Input #${idx}: name="${inp.name}", class="${inp.className}", valor actual="${inp.value}"`);
-    });
-
-    // 3. Rastrear por el name exacto que inyectas
-    const porNameExacto = document.querySelectorAll('input[name="scheduleTime[]"]');
-    console.log("4. Total de inputs encontrados por name exacto:", porNameExacto.length);
-
-    console.log("=========================================");
-
     // Contenedor de alertas
     const alertSuccess = qs('.alert-success');
     const alertError = qs('.alert-error');
 
-    // 2. 🟢 RECOLECCIÓN ULTRA SEGURA CON MÉTODOS NATIVOS
     // Buscamos directamente en todo el documento activo todos los inputs de horarios
     const inputsHorarios = document.querySelectorAll('#patrolSchedulesList .schedule-input');
     
@@ -57,11 +32,6 @@ async function onClickCreate(e) {
     // Recolectar Array de Horarios
     scheduleTimes : scheduleTimesArray,
     };
-
-    // 🟢 Diagnóstico rápido en la consola del navegador antes de enviar:
-    console.log("=== DATOS CAPTURADOS EN JS ===");
-    console.log("Horarios encontrados:", payload.scheduleTimes);
-    console.log("==============================");
 
     // Validaciones
     if (!payload.siteId || !payload.name ||

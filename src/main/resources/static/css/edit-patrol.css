@@ -207,7 +207,7 @@ p {
 .edit-patrol-card .panel-main .panel-body {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.1rem;
 }
 .edit-patrol-card .panel-main .panel-body .form-group {
   display: flex;
@@ -263,16 +263,6 @@ p {
 .edit-patrol-card .panel-main .panel-body .form-group .form-value:empty::before {
   content: "—";
   color: #cbd5e1;
-}
-.edit-patrol-card .panel-main .panel-body .day-range {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-.edit-patrol-card .panel-main .panel-body .day-range .form-group {
-  flex: none;
-  max-width: 180px;
-  width: 100%;
 }
 .edit-patrol-card .panel-main .panel-body .time-patrol-schedules,
 .edit-patrol-card .panel-main .panel-body .checkpoints-container {
@@ -591,6 +581,16 @@ p {
 .edit-patrol-card .panel-main .panel-body .form-row .form-group .form-value:empty::before {
   content: "—";
   color: #cbd5e1;
+}
+.edit-patrol-card .panel-main .panel-body .form-row .day-range {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.edit-patrol-card .panel-main .panel-body .form-row .day-range .form-group {
+  flex: none;
+  max-width: 180px;
+  width: 100%;
 }
 .edit-patrol-card .panel-aside {
   background: #f8fafc;

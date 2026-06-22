@@ -72,14 +72,6 @@ public class PatrolServiceImpl implements PatrolService {
     @Transactional
     public PatrolDto savePatrol (CreatePatrolRequest request, Long userId){
 
-        System.out.println("====== DIAGNÓSTICO ======");
-        System.out.println("Objeto Request completo: " + request);
-        System.out.println("¿scheduleTimes es null?: " + (request.scheduleTimes() == null));
-        if (request.scheduleTimes() != null) {
-            System.out.println("Tamaño de scheduleTimes: " + request.scheduleTimes().size());
-        }
-        System.out.println("=========================");
-
         Site site = siteRepository.getReferenceById(request.siteId());
 
         Patrol patrol = Patrol.builder()
