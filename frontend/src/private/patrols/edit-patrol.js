@@ -282,6 +282,11 @@ function initCheckpoints() {
     }
 }
 
+const onClickCancel = () => {
+    displayAlert(alertCancel, 'La edición del patrol a sido cancelada.', 2000);
+    setTimeout(() => navigateTo('/private/patrols/table-view', true), 2000);
+}
+
 function bindEvents() {
     const updateBtn = qs('#updatePatrolBtn');
     if (updateBtn) {
@@ -306,12 +311,6 @@ function bindEvents() {
     }, { once: true });
 
 }
-
-const onClickCancel = () => {
-    displayAlert(alertCancel, 'La edición del patrol a sido cancelada.', 2000);
-    setTimeout(() => navigateTo('/private/patrols/table-view', true), 2000);
-}
-
 
 (function init() {
     bindEvents();
