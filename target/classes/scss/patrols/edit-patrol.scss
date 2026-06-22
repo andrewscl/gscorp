@@ -263,8 +263,8 @@
         }
     }
 
-    .form-footer {
-        @include footer();
-    }
+}
 
+.form-footer {
+    @include footer();
 }

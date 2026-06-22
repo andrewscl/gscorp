@@ -527,7 +527,8 @@ p {
   padding: 0;
   overflow: hidden;
 }
-.edit-patrol-card .form-footer {
+
+.form-footer {
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
@@ -537,13 +538,13 @@ p {
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
 }
-.edit-patrol-card .form-footer .btn {
+.form-footer .btn {
   font-family: "Roboto", sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
   letter-spacing: 0.02em;
 }
-.edit-patrol-card .form-footer .btn.btn-primary {
+.form-footer .btn.btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -556,15 +557,15 @@ p {
   background-color: #3b82f6;
   color: #ffffff;
 }
-.edit-patrol-card .form-footer .btn.btn-primary:hover {
+.form-footer .btn.btn-primary:hover {
   background-color: rgb(29.8390243902, 111.4024390244, 244.6609756098);
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
 }
-.edit-patrol-card .form-footer .btn.btn-primary:active {
+.form-footer .btn.btn-primary:active {
   transform: translateY(0);
 }
-.edit-patrol-card .form-footer .btn.btn-secondary {
+.form-footer .btn.btn-secondary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -577,15 +578,15 @@ p {
   background-color: #cbd5e1;
   color: #ffffff;
 }
-.edit-patrol-card .form-footer .btn.btn-secondary:hover {
+.form-footer .btn.btn-secondary:hover {
   background-color: rgb(175.8585365854, 191.0780487805, 209.3414634146);
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(203, 213, 225, 0.4);
 }
-.edit-patrol-card .form-footer .btn.btn-secondary:active {
+.form-footer .btn.btn-secondary:active {
   transform: translateY(0);
 }
-.edit-patrol-card .form-footer .btn.btn-danger {
+.form-footer .btn.btn-danger {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -598,11 +599,11 @@ p {
   background-color: #ef4444;
   color: #ffffff;
 }
-.edit-patrol-card .form-footer .btn.btn-danger:hover {
+.form-footer .btn.btn-danger:hover {
   background-color: rgb(236.5802955665, 39.7197044335, 39.7197044335);
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
 }
-.edit-patrol-card .form-footer .btn.btn-danger:active {
+.form-footer .btn.btn-danger:active {
   transform: translateY(0);
 }/*# sourceMappingURL=edit-patrol.css.map */
