@@ -5,6 +5,11 @@ import { onClickAddTimeSchedule,
         displayAlert
         } from './create-patrol.js';
 
+const alertSuccess = qs('.alert-success');
+const alertError = qs('.alert-error');
+const alertWarning = qs('.alert-warning');
+const alertInfo = qs('.alert-info');
+
 const qs  = (s) => document.querySelector(s);
 const qsa = (s) => document.querySelectorAll(s);
 
