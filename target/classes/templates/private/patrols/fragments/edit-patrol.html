@@ -1,4 +1,4 @@
-<sction th:fragment="content">
+<section th:fragment="content">
 
     <input type="hidden" id="checkpoints-initial-data" th:value="${checkpoints}">
 
@@ -142,12 +142,14 @@
         </div>
       </div>
 
+      <div class="form-footer">
+        <button class="btn btn-primary" id="updatePatrolBtn">Guardar Cambios</button>
+        <button class="btn btn-secondary" id="cancelEditPatrolBtn">Volver</button>
+      </div>
+
     </div>
 
-    <div class="patrol-form-footer">
-      <button class="btn btn-primary" id="updatePatrolBtn">Guardar Cambios</button>
-      <button class="btn btn-secondary" id="cancelEditPatrolBtn">Volver</button>
-    </div>
+
 
   <script type="module" src="/js/private/patrols/edit-patrol.js"></script>
-</sction>
+</section>

@@ -6,6 +6,7 @@
 @use '../abstracts/buttons/btn-mixins' as *;
 @use '../abstracts/panel-cards' as *;
 @use '../abstracts/alerts' as *;
+@use '../abstracts/buttons/footer-buttons' as *;
 
 .edit-patrol-card {
     @include dual-panel-card();
@@ -260,6 +261,10 @@
                 overflow: hidden;
             }
         }
+    }
+
+    .form-footer {
+        @include footer();
     }
 
 }
