@@ -502,6 +502,7 @@ const loadExistingCheckpoints = async () => {
                 position: position,
                 content: pin.element,
                 title: cp.name,
+                description: cp.description,
                 gmpDraggable: false,
             });
 
@@ -512,6 +513,7 @@ const loadExistingCheckpoints = async () => {
                 longitude: position.lng,
                 checkpointOrder: cp.checkpointOrder,
                 name: cp.name,
+                description: cp.description,
                 stayTime: cp.stayTime,
                 transitTime: cp.minutesToReach
             });
