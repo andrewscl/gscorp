@@ -182,7 +182,7 @@
 
 
 .custom-infowindow {
-    padding: 0 0.25rem 0.25rem 0.25rem; // 🟢 Reduce el aire superior e izquierdo nativo de Google Maps
+    padding: 0.4rem 0.25rem 0.25rem 0.25rem; // 🟢 Reduce el aire superior e izquierdo nativo de Google Maps
     max-width: 18rem; // Un poco más angosto para que luzca mejor en móviles
     min-width: 15rem;
 
@@ -192,9 +192,10 @@
         color: #3c4043;
         @include montserrat-font(0.85rem, 600);
         border-bottom: 1px solid #e8eaed;
-        padding-bottom: 6px;
-        margin-top: -6px; // 🟢 Absorbe el espacio en blanco de la burbuja de Google
-        margin-bottom: 10px;
+        padding-bottom: 8px;
+        margin-top: 0; // 🟢 Absorbe el espacio en blanco de la burbuja de Google
+        margin-bottom: 12px;
+        line-height: 1.2;
     }
 
     .iw-body {

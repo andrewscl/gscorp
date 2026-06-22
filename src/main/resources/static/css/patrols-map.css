@@ -256,7 +256,7 @@ p {
 }
 
 .custom-infowindow {
-  padding: 0 0.25rem 0.25rem 0.25rem;
+  padding: 0.4rem 0.25rem 0.25rem 0.25rem;
   max-width: 18rem;
   min-width: 15rem;
 }
@@ -269,9 +269,10 @@ p {
   font-weight: 600;
   letter-spacing: 0.02em;
   border-bottom: 1px solid #e8eaed;
-  padding-bottom: 6px;
-  margin-top: -6px;
-  margin-bottom: 10px;
+  padding-bottom: 8px;
+  margin-top: 0;
+  margin-bottom: 12px;
+  line-height: 1.2;
 }
 .custom-infowindow .iw-body {
   display: flex;
