@@ -55,9 +55,7 @@ async function onClickCreate(e) {
     dayFrom : Number(qs('#dayFrom')?.value),
     dayTo : Number(qs('#dayTo')?.value),
     // Recolectar Array de Horarios
-    scheduleTimes : Array.from(scheduleTimesArray)
-                               .map(input => input.value)
-                               .filter(val => val && val.trim() !== ""),
+    scheduleTimes : scheduleTimesArray,
     };
 
     // 🟢 Diagnóstico rápido en la consola del navegador antes de enviar:
