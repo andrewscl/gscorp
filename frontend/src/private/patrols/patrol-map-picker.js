@@ -262,13 +262,35 @@ async function showInfoWindow(marker, index) {
         </div>`
     });
 
-    if (currentInfoWindow) {
-        saveCheckpointsState(); // 🟢 Guarda el punto anterior antes de abrir el nuevo
-        currentInfoWindow.close();
-    }
+// 🟢 2. LA CLAVE: Escuchar y guardar los datos reactivamente carácter por carácter
+    window.currentInfoWindow.addListener('domready', () => {
+        const container = document.querySelector(`.custom-infowindow[data-current-index="${index}"]`);
+        if (!container) return;
 
-    currentInfoWindow.addListener('closeclick', () => {
-        saveCheckpointsState(); // 🟢 Guarda si el usuario cierra manualmente con la 'X'
+        // Escuchamos cualquier tipeo o cambio dentro de ESTA burbuja específica
+        container.addEventListener('input', (e) => {
+            const nameInput = document.getElementById(`infowindow-name-${index}`);
+            const descInput = document.getElementById(`infowindow-description-${index}`);
+            const stayInput = document.getElementById(`infowindow-stay-${index}`);
+            const transitInput = document.getElementById(`infowindow-transit-${index}`);
+
+            // Actualizamos la memoria RAM inmediatamente
+            if (nameInput) checkpoints[index].name = nameInput.value;
+            if (descInput) checkpoints[index].description = descInput.value;
+            if (stayInput) checkpoints[index].stayTime = parseInt(stayInput.value) || 0;
+            if (transitInput) checkpoints[index].transitTime = parseInt(transitInput.value) || 0;
+
+            // Sincronizamos las propiedades personalizadas en los marcadores de Google
+            if (window.checkpointMarkers && window.checkpointMarkers[index]) {
+                if (nameInput) window.checkpointMarkers[index].title = nameInput.value;
+                if (descInput) window.checkpointMarkers[index].description = descInput.value;
+            }
+        });
+    });
+
+    // 3. Si cierran manualmente con la 'X', persistimos al localStorage
+    window.currentInfoWindow.addListener('closeclick', () => {
+        if (typeof saveCheckpointsState === 'function') saveCheckpointsState();
     });
 
     currentInfoWindow.open(window.mapInstance, marker);
@@ -494,8 +516,13 @@ if (checkpoints.length === 0) {
         return;
     }
 
-    // 1. Persistimos los datos para la siguiente "pantalla"
-    localStorage.setItem('pending_checkpoints', JSON.stringify(checkpoints));
+    // 1. 🟢 CAMBIADO: Invocamos al guardián para que limpie y persista el array actual
+    if (typeof saveCheckpointsState === 'function') {
+        saveCheckpointsState();
+    } else {
+        // Fallback por si acaso:
+        localStorage.setItem('pending_checkpoints', JSON.stringify(checkpoints));
+    }
 
     // 2. Obtenemos el ID para la ruta
     const patrolExternalId = document.getElementById('target-patrol-externalId').value;
