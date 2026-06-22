@@ -6,7 +6,7 @@
 @use '../abstracts/buttons/btn-mixins' as *;
 @use '../abstracts/panel-cards' as *;
 
-.view-patrol-card {
+.edit-patrol-card {
     @include dual-panel-card();
 
     .panel-main{

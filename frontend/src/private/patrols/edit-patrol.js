@@ -128,25 +128,31 @@ function syncCheckpoints () {
     const initialDataRaw = document.getElementById('checkpoints-initial-data').value;
     const initialCheckpoints = JSON.parse(initialDataRaw || "[]");
 
+    // Obtener datos pendientes de localStorage
+    const pendingDataRaw = localStorage.getItem('pending_checkpoints');
+    const hasLocalStorage = pendingDataRaw != null;
+
     // 2. Obtener datos actuales (Priorizamos la memoria RAM global 'checkpoints' si existe, o el LocalStorage)
     let currentCheckpoints = [];
     if (typeof checkpoints !== 'undefined' && checkpoints.length > 0) {
         currentCheckpoints = checkpoints;
-    } else {
-        const pendingDataRaw = localStorage.getItem('pending_checkpoints');
-        currentCheckpoints = JSON.parse(pendingDataRaw || "[]");
+    } else if (hasLocalStorage){
+        try{
+            currentCheckpoints = JSON.parse(pendingDataRaw || "[]");
+        } catch (e) {
+            console.error("Error al parsear pending_checkpoints en sincronización:", e);
+            currentCheckpoints = [];
+        }
     }
 
-    // Obtener datos pendientes de localStorage
-    const pendingDataRaw = localStorage.getItem('pending_checkpoints');
-    const pendingCheckpoints = pendingDataRaw != null;
     // Map para facilitar la busqueda por ID
     const finalList = new Map();
     /*
         Procesar los pendientes (nuevos y modificados)
         Los pendientes mandan spbre los modificados
     */
-    pendingCheckpoints.forEach(cp => {
+    currentCheckpoints.forEach(cp => {
+        
         // Usa externalId si existe, si no, una llave temporal para el map
         const key = cp.externalId || `new_${Math.random()}`;
 
@@ -173,17 +179,25 @@ function syncCheckpoints () {
     const sendData = [];
     // Agregar lo que esta en finalList
     finalList.forEach(cp => sendData.push(cp));
-    // Identificar los que estaban en initialDataRaw
-    initialCheckpoints.forEach(ini => {
-        const existYet = pendingCheckpoints.some
-            (p => p.externalId === ini.externalId);
-        if(!existYet){
-            //Enviar una bandera de eliminación
-            sendData.push({
-                ...ini, deleted: true
-            });
-        }
-    });
+
+    /*
+        Tratar eliminaciones de forma segura:
+        🟢 CORREGIDO: Solo procesamos bajas si el usuario efectivamente interactuó (RAM o LocalStorage activos)
+        y usamos 'currentCheckpoints' en lugar de la variable fantasma.
+    */
+    if (hasLocalStorage || currentCheckpoints.length > 0) {
+        initialCheckpoints.forEach(ini => {
+            const existYet = currentCheckpoints.some(p => p.externalId === ini.externalId);
+            if(!existYet){
+                // Enviar una bandera de eliminación
+                sendData.push({
+                    ...ini, 
+                    deleted: true
+                });
+            }
+        });
+    }
+
     return sendData;
 };
 
