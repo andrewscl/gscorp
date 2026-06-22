@@ -48,6 +48,7 @@ public record PatrolDto (
                 .map(c -> new PatrolCheckpointDto(
                         c.getExternalId(),
                         c.getName(),
+                        c.getDescription(),
                         c.getLatitude(),
                         c.getLongitude(),
                         c.getCheckpointOrder(),

@@ -42,7 +42,11 @@ public class PatrolCheckpoint {
     @Column(name = "external_id", unique = true, nullable = false, updatable = false)
     private UUID externalId;
 
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "description", nullable = false)
+    private String description;
 
     @Column(name = "latitude", precision = 10, scale = 8)
     private BigDecimal latitude;

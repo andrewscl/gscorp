@@ -8,6 +8,7 @@ import com.gscorp.dv1.patrol.infrastructure.checkpoints.PatrolCheckpointProjecti
 public record PatrolCheckpointDto (
     UUID externalId,
     String name,
+    String description,
     BigDecimal latitude,
     BigDecimal longitude,
     Integer checkpointOrder,
@@ -25,6 +26,7 @@ public record PatrolCheckpointDto (
         return new PatrolCheckpointDto(
             projection.getExternalId(),
             projection.getName(),
+            projection.getDescription(),
             projection.getLatitude(),
             projection.getLongitude(),
             projection.getCheckpointOrder(),

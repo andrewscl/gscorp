@@ -211,50 +211,55 @@ async function showInfoWindow(marker, index) {
 
     currentInfoWindow = new InfoWindow({
         content: `
-            <div class="custom-infowindow">
+        <div class="custom-infowindow">
 
-                <div class="iw-header">
-                    <strong >
-                        Configuración Punto ${index + 1}
-                    </strong>
+            <div class="iw-header">
+                <strong>Configuración Punto ${index + 1}</strong>
+            </div>
+
+            <div class="iw-body">
+                <div class="iw-field">
+                    <label>Nombre del punto</label>
+                    <input type="text" id="infowindow-name-${index}" 
+                        value="${point.name || ''}" 
+                        placeholder="Ej. Acceso Principal"
+                        oninput="updateCheckpointData(${index}, 'name', this.value)">
                 </div>
 
-                <div class="iw-body">
+                <div class="iw-field">
+                    <label>Descripción</label>
+                    <input type="text" id="infowindow-description-${index}" 
+                        value="${point.description || ''}" 
+                        placeholder="Ej. Revisar candados"
+                        oninput="updateCheckpointData(${index}, 'description', this.value)">
+                </div>
+
+                <div class="iw-row">
                     <div class="iw-field">
-                        <label>Nombre del punto:</label>
-                        <input type="text" id="infowindow-name-${index}" 
-                            value="${point.name || ''}" 
-                            oninput="updateCheckpointData(${index}, 'name', this.value)">
+                        <label>Permanencia (min)</label>
+                        <input type="number" min="0"
+                            value="${point.stayTime || 5}" 
+                            oninput="updateCheckpointData(${index}, 'stayTime', parseInt(this.value) || 0)">
+                    </div>
+                    <div class="iw-field" style="${transitDisplay}">
+                        <label>Tránsito (min)</label>
+                        <input type="number" min="0"
+                            value="${point.transitTime || 3}" 
+                            oninput="updateCheckpointData(${index}, 'transitTime', parseInt(this.value) || 0)">
                     </div>
                 </div>
+            </div>
 
-                <div class="iw-body iw-flex">
-                    <div class="iw-field">
-                        <label>Permanencia (min):</label>
-                        <input type="number" 
-                               value="${point.stayTime || 5}" 
-                               oninput="updateCheckpointData(${index}, 'stayTime', this.value)">
-                    </div>
-                    <div class="iw-field" ${transitDisplay}">
-                        <label>Tránsito (min):</label>
-                        <input type="number" 
-                               value="${point.transitTime || 3}" 
-                               oninput="updateCheckpointData(${index}, 'transitTime', this.value)">
-                    </div>
-                </div>
+            <div class="iw-actions">
+                <button class="btn-drag" onclick="toggleDraggable(${index})">
+                    Mover
+                </button>
+                <button class="btn-remove" onclick="removeCheckpoint(${index})">
+                    Eliminar
+                </button>
+            </div>
 
-                <div class="iw-actions">
-                    <button class="btn-drag" 
-                                onclick="toggleDraggable(${index})">
-                        Mover Punto
-                    </button>
-                    <button class="btn-remove" 
-                                onclick="removeCheckpoint(${index})">
-                        Eliminar Punto
-                    </button>
-                </div>
-
-            </div>`
+        </div>`
     });
 
     currentInfoWindow.open(window.mapInstance, marker);

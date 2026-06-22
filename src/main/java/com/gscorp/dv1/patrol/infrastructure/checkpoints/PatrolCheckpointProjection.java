@@ -6,6 +6,7 @@ import java.util.UUID;
 public interface PatrolCheckpointProjection {
     UUID getExternalId();
     String getName();
+    String getDescription();
     BigDecimal getLatitude();
     BigDecimal getLongitude();
     Integer getCheckpointOrder();

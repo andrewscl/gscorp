@@ -256,69 +256,84 @@ p {
 }
 
 .custom-infowindow {
-  padding: 0.9rem;
-  max-width: 20rem;
+  padding: 0 0.25rem 0.25rem 0.25rem;
+  max-width: 18rem;
   min-width: 15rem;
 }
 .custom-infowindow .iw-header {
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: #5f6368;
+  color: #3c4043;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.85rem;
   font-weight: 600;
+  letter-spacing: 0.02em;
   border-bottom: 1px solid #e8eaed;
-  padding-bottom: 8px;
-  margin-bottom: 12px;
-}
-.custom-infowindow .iw-header i {
-  color: #1a73e8;
-}
-.custom-infowindow .iw-body .iw-field {
+  padding-bottom: 6px;
+  margin-top: -6px;
   margin-bottom: 10px;
 }
+.custom-infowindow .iw-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.custom-infowindow .iw-body .iw-field {
+  display: flex;
+  flex-direction: column;
+}
 .custom-infowindow .iw-body .iw-field label {
-  display: block;
-  color: #70757a;
-  margin-bottom: 0.4rem;
+  color: #5f6368;
+  margin-bottom: 0.25rem;
   font-family: "Roboto", sans-serif;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.02em;
 }
 .custom-infowindow .iw-body .iw-field input {
   width: 100%;
-  padding: 0.4rem 0.6rem;
+  padding: 0.4rem 0.5rem;
   border: 1px solid #dadce0;
-  border-radius: 0.4rem;
+  border-radius: 6px;
   box-sizing: border-box;
+  background-color: #f8f9fa;
   font-family: "Roboto", sans-serif;
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   font-weight: 500;
   letter-spacing: 0.02em;
+  transition: border-color 0.2s, background-color 0.2s;
 }
 .custom-infowindow .iw-body .iw-field input:focus {
   border-color: #1a73e8;
+  background-color: #ffffff;
   outline: none;
 }
-.custom-infowindow .iw-body.iw-flex {
+.custom-infowindow .iw-body .iw-row {
   display: flex;
-  gap: 0.5rem;
+  gap: 8px;
 }
-.custom-infowindow .iw-body.iw-flex .iw-field {
+.custom-infowindow .iw-body .iw-row .iw-field {
   flex: 1;
 }
 .custom-infowindow .iw-actions {
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 0.8rem;
-  border-top: 0.1rem solid #e2e8f0;
+  flex-direction: row;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid #e8eaed;
+}
+.custom-infowindow .iw-actions button {
+  flex: 1;
+  font-size: 11px;
+  text-align: center;
+  white-space: nowrap;
 }
 .custom-infowindow .iw-actions .btn-drag {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.4rem 0.8rem;
+  padding: 0.5rem;
   border-radius: 6px;
   border: none;
   cursor: pointer;
@@ -335,14 +350,11 @@ p {
 .custom-infowindow .iw-actions .btn-drag:active {
   transform: translateY(0);
 }
-.custom-infowindow .iw-actions .btn-drag {
-  font-size: 11px;
-}
 .custom-infowindow .iw-actions .btn-remove {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.4rem 0.8rem;
+  padding: 0.5rem;
   border-radius: 6px;
   border: none;
   cursor: pointer;
@@ -358,7 +370,4 @@ p {
 }
 .custom-infowindow .iw-actions .btn-remove:active {
   transform: translateY(0);
-}
-.custom-infowindow .iw-actions .btn-remove {
-  font-size: 11px;
 }/*# sourceMappingURL=patrols-map.css.map */
