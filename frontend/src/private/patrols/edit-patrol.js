@@ -34,6 +34,11 @@ const startViewMap = async () => {
     window.mapInstance = map;
     mapInstance = map;
 
+    // 🟢 TRUCO DE UX: Si el usuario pincha el mapa vacío, se cierra el InfoWindow abierto
+    map.addListener('click', () => {
+        if (currentInfoWindow) currentInfoWindow.close();
+    });
+
     const response = await fetchWithAuth(`/api/sites/${id}`, {
       method: 'GET',
       headers: { 'Accept': 'application/json' },
@@ -101,6 +106,44 @@ const loadExistingCheckpoints = async () => {
                 content: pin.element,
                 title: cp.name,
                 gmpDraggable: false,
+            });
+
+            // 🟢 ESCUCHADOR DE CLIC PARA CADA MARCADOR AMARILLO
+            marker.addListener('click', () => {
+                currentInfoWindow.close(); // Cerrar el anterior
+
+                // Contenido HTML elegante en modo Solo Lectura
+                const infoContent = `
+                    <div style="font-family: 'Segoe UI', Roboto, sans-serif; padding: 6px; min-width: 170px; color: #1e293b;">
+                        <div style="border-bottom: 2px solid #3b82f6; padding-bottom: 4px; margin-bottom: 6px;">
+                            <strong style="font-size: 13px; display: block; color: #1e3a8a;">${cp.name}</strong>
+                        </div>
+                        <div style="font-size: 11px; line-height: 1.5;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                                <span style="color: #64748b;">Descripción:</span>
+                                <span style="font-weight: 600; color: #0f172a;">${cp.description}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                                <span style="color: #64748b;">Orden:</span>
+                                <span style="font-weight: 600; color: #0f172a;">N° ${cp.checkpointOrder}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                                <span style="color: #64748b;">Estadía:</span>
+                                <span style="font-weight: 600; color: #0f172a;">${cp.stayTime} min</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: #64748b;">Tránsito:</span>
+                                <span style="font-weight: 600; color: #0f172a;">${cp.minutesToReach || 0} min</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                currentInfoWindow.setContent(infoContent);
+                currentInfoWindow.open({
+                    map: window.mapInstance,
+                    anchor: marker
+                });
             });
 
             // Sincronizar arrays globales del JS

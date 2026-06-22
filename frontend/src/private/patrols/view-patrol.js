@@ -123,7 +123,7 @@ const loadExistingCheckpoints = async () => {
                         <div style="font-size: 11px; line-height: 1.5;">
                             <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
                                 <span style="color: #64748b;">Descripción:</span>
-                                <span style="font-weight: 600; color: #0f172a;">N° ${cp.description}</span>
+                                <span style="font-weight: 600; color: #0f172a;">${cp.description}</span>
                             </div>
                             <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
                                 <span style="color: #64748b;">Orden:</span>

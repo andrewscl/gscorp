@@ -6,7 +6,7 @@ import{f}from"../../auth.js";import{n as y}from"../../navigation-handler.js";imp
                         <div style="font-size: 11px; line-height: 1.5;">
                             <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
                                 <span style="color: #64748b;">Descripción:</span>
-                                <span style="font-weight: 600; color: #0f172a;">N° ${t.description}</span>
+                                <span style="font-weight: 600; color: #0f172a;">${t.description}</span>
                             </div>
                             <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
                                 <span style="color: #64748b;">Orden:</span>
