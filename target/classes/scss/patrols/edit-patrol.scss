@@ -5,9 +5,14 @@
 @use '../abstracts/fragment-mixins' as *;
 @use '../abstracts/buttons/btn-mixins' as *;
 @use '../abstracts/panel-cards' as *;
+@use '../abstracts/alerts' as *;
 
 .edit-patrol-card {
     @include dual-panel-card();
+
+    .alert-container{
+        @include alert-container();
+    }
 
     .panel-main{
         .panel-header {
