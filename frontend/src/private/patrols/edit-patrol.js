@@ -1,8 +1,9 @@
 import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
 import { onClickAddTimeSchedule,
-        onClickRemoveItem
-        } from './create-patrol.js';
+        onClickRemoveItem} from './create-patrol.js';
+import { displayAlert } from '../../shared/display-alert.js';
+
 
 const qs  = (s) => document.querySelector(s);
 const qsa = (s) => document.querySelectorAll(s);
@@ -33,7 +34,6 @@ async function handleUpdate(e) {
     console.log("Checkpoints a enviar:", JSON.stringify(consolidatedCheckpoints, null, 2));
 
     const externalId = qs('#patrolExternalId')?.value; // ID de la ronda a actualizar
-    // Alertas
     const alertSuccess = qs('.alert-success');
     const alertError = qs('.alert-error');
 
