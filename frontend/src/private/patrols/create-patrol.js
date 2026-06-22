@@ -14,7 +14,19 @@ async function onClickCreate(e) {
     const alertSuccess = qs('.alert-success');
     const alertError = qs('.alert-error');
 
-    const schedulesInputs = document.querySelectorAll('#patrolSchedulesList .schedule-input');
+    // 🟢 ESTRATEGIA DE CAPTURA SEGURA:
+    // Buscamos el contenedor por ID usando el document estándar, o de forma relativa
+    const schedulesContainer = document.getElementById('patrolSchedulesList') 
+                            || document.querySelector('.schedules-list');
+    
+    let schedulesInputs = [];
+    if (schedulesContainer) {
+        // Buscamos todos los inputs de tipo time que estén DENTRO de ese contenedor
+        schedulesInputs = schedulesContainer.querySelectorAll('input[type="time"]');
+    } else {
+        // Plan de respaldo si el contenedor no se encuentra por id/clase
+        schedulesInputs = document.querySelectorAll('.schedule-input');
+    }
 
     //Generar payload dinámico con los datos del formulario
     const payload = {
