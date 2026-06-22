@@ -206,12 +206,15 @@ async function showInfoWindow(marker, index) {
 
     const transitDisplay = index === 0 ? 'display:none;' : 'display:block;';
 
-    // Cerrar el anterior si existe
-    if (currentInfoWindow) currentInfoWindow.close();
+    // 1. Cerrar el anterior si existe usando la variable correcta
+    if (window.currentInfoWindow) {
+        if (typeof saveCheckpointsState === 'function') saveCheckpointsState();
+        window.currentInfoWindow.close();
+    }
 
-    currentInfoWindow = new InfoWindow({
+    window.currentInfoWindow = new InfoWindow({
         content: `
-        <div class="custom-infowindow">
+        <div class="custom-infowindow" data-current-index="${index}">
 
             <div class="iw-header">
                 <strong>Configuración Punto ${index + 1}</strong>
@@ -222,30 +225,26 @@ async function showInfoWindow(marker, index) {
                     <label>Nombre del punto</label>
                     <input type="text" id="infowindow-name-${index}" 
                         value="${point.name || ''}" 
-                        placeholder="Ej. Acceso Principal"
-                        oninput="updateCheckpointData(${index}, 'name', this.value)">
+                        placeholder="Ej. Acceso Principal">
                 </div>
 
                 <div class="iw-field">
                     <label>Descripción</label>
                     <input type="text" id="infowindow-description-${index}" 
                         value="${point.description || ''}" 
-                        placeholder="Ej. Revisar candados"
-                        oninput="updateCheckpointData(${index}, 'description', this.value)">
+                        placeholder="Ej. Revisar candados">
                 </div>
 
                 <div class="iw-row">
                     <div class="iw-field">
                         <label>Permanencia (min)</label>
-                        <input type="number" min="0"
-                            value="${point.stayTime || 5}" 
-                            oninput="updateCheckpointData(${index}, 'stayTime', parseInt(this.value) || 0)">
+                        <input type="number" id="infowindow-stay-${index}" min="0"
+                            value="${point.stayTime || 5}">
                     </div>
                     <div class="iw-field" style="${transitDisplay}">
                         <label>Tránsito (min)</label>
-                        <input type="number" min="0"
-                            value="${point.transitTime || 3}" 
-                            oninput="updateCheckpointData(${index}, 'transitTime', parseInt(this.value) || 0)">
+                        <input type="number" id="infowindow-transit-${index}" min="0"
+                            value="${point.transitTime || 3}">
                     </div>
                 </div>
             </div>
@@ -281,9 +280,9 @@ async function showInfoWindow(marker, index) {
             if (transitInput) checkpoints[index].transitTime = parseInt(transitInput.value) || 0;
 
             // Sincronizamos las propiedades personalizadas en los marcadores de Google
-            if (window.checkpointMarkers && window.checkpointMarkers[index]) {
-                if (nameInput) window.checkpointMarkers[index].title = nameInput.value;
-                if (descInput) window.checkpointMarkers[index].description = descInput.value;
+            if (checkpointMarkers && checkpointMarkers[index]) {
+                if (nameInput) checkpointMarkers[index].title = nameInput.value;
+                if (descInput) checkpointMarkers[index].description = descInput.value;
             }
         });
     });
@@ -293,7 +292,7 @@ async function showInfoWindow(marker, index) {
         if (typeof saveCheckpointsState === 'function') saveCheckpointsState();
     });
 
-    currentInfoWindow.open(window.mapInstance, marker);
+    window.currentInfoWindow.open(window.mapInstance, marker);
 }
 
 async function addCheckpoint (latLng) {
