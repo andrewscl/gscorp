@@ -216,26 +216,6 @@ async function handleUpdate(e) {
     }
 }
 
-function toggleSchedule(button) {
-    const container = button.closest('.schedule-item');
-    const statusText = button.querySelector('.status-text');
-    const isCurrentlyActive = container.getAttribute('data-active') === 'true';
-
-    if (isCurrentlyActive) {
-        // Pasar a INACTIVO
-        container.setAttribute('data-active', 'false');
-        container.style.opacity = "0.5"; // Feedback visual
-        button.classList.replace('btn-outline-success', 'btn-outline-secondary');
-        statusText.innerText = 'Inactivo';
-    } else {
-        // Pasar a ACTIVO
-        container.setAttribute('data-active', 'true');
-        container.style.opacity = "1";
-        button.classList.replace('btn-outline-secondary', 'btn-outline-success');
-        statusText.innerText = 'Activo';
-    }
-}
-
 function toggleCheckpoint(button) {
     const container = button.closest('.checkpoint-item');
     const statusText = button.querySelector('.status-text');
@@ -429,7 +409,6 @@ function bindEvents() {
     qs('#addTimeScheduleBtn').addEventListener('click', onClickAddTimeSchedule);
     qs('#checkpointsList')?.addEventListener('click', onClickRemoveItem);
     qs('#patrolSchedulesList')?.addEventListener('click', onClickRemoveItem);
-    qs('#toggleSchedule')?.addEventListener('click', toggleSchedule);
     qs('#toggleCheckpoint')?.addEventListener('click', toggleCheckpoint);
     qs('#addMapCheckpointBtn')?.addEventListener('click', openMapPicker);
 
