@@ -45,7 +45,7 @@ public class PatrolCheckpoint {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
 
     @Column(name = "latitude", precision = 10, scale = 8)
