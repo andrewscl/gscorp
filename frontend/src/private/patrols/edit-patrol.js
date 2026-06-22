@@ -282,7 +282,7 @@ function initCheckpoints() {
     }
 }
 
-const onClickCancel = () => {
+function onClickCancel () {
     displayAlert(alertWarning, 'La edición del patrol a sido cancelada.', 2000);
     setTimeout(() => navigateTo('/private/patrols/table-view', true), 2000);
 }
