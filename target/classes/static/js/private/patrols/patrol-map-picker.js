@@ -17,14 +17,14 @@ import{f as v}from"../../auth.js";import{n as h}from"../../navigation-handler.js
                     <label>Descripción</label>
                     <textarea id="infowindow-description-${e}" 
                         value="${a.description||""}" 
-                        placeholder="Ej. Revisar candados">
+                        placeholder="Ej. Revisar candados"></textarea>
                 </div>
 
                 <div class="iw-row">
                     <div class="iw-field">
                         <label>Permanencia (min)</label>
                         <input type="number" id="infowindow-stay-${e}" min="0"
-                            value="${a.stayTime||5}"></textarea>
+                            value="${a.stayTime||5}">
                     </div>
                     <div class="iw-field" style="${i}">
                         <label>Tránsito (min)</label>

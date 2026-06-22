@@ -232,14 +232,14 @@ async function showInfoWindow(marker, index) {
                     <label>Descripción</label>
                     <textarea id="infowindow-description-${index}" 
                         value="${point.description || ''}" 
-                        placeholder="Ej. Revisar candados">
+                        placeholder="Ej. Revisar candados"></textarea>
                 </div>
 
                 <div class="iw-row">
                     <div class="iw-field">
                         <label>Permanencia (min)</label>
                         <input type="number" id="infowindow-stay-${index}" min="0"
-                            value="${point.stayTime || 5}"></textarea>
+                            value="${point.stayTime || 5}">
                     </div>
                     <div class="iw-field" style="${transitDisplay}">
                         <label>Tránsito (min)</label>
