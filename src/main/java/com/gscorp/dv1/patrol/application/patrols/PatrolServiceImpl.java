@@ -1,6 +1,5 @@
 package com.gscorp.dv1.patrol.application.patrols;
 
-import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
@@ -95,18 +94,6 @@ public class PatrolServiceImpl implements PatrolService {
                         .build());
                 }
             });
-        }
-
-        if (request.checkpoints() != null) {
-            request.checkpoints().forEach(name -> 
-                patrol.addCheckpoint(PatrolCheckpoint.builder()
-                    .name(name)
-                    .latitude(BigDecimal.ZERO)
-                    .longitude(BigDecimal.ZERO)
-                    .minutesToReach(0)
-                    .active(true)
-                    .build())
-            );
         }
 
         Patrol saved = patrolRepository.save(patrol);

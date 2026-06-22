@@ -8,6 +8,5 @@ public record CreatePatrolRequest (
     String description,
     Integer dayFrom,
     Integer dayTo,
-    List<String> scheduleTimes,
-    List<String> checkpoints
+    List<String> scheduleTimes
 ){}

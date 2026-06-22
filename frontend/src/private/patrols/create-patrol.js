@@ -25,10 +25,6 @@ async function onClickCreate(e) {
     scheduleTimes : Array.from(qsa('input[name="scheduleTime[]"]'))
                                .map(input => input.value)
                                .filter(val => val !== ""),
-    // Recolectar Array de Puntos de Control
-    checkpoints : Array.from(qsa('input[name="checkpointName[]"]'))
-                             .map(input => input.value.trim())
-                             .filter(val => val !== "")
     };
 
     // Validaciones
@@ -36,6 +32,7 @@ async function onClickCreate(e) {
         !payload.dayFrom || !payload.dayTo) {
         displayAlert(alertError,
             'Por favor, complete todos los campos obligatorios.');
+        btn.disabled = false;
         return;
     }
 
