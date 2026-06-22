@@ -262,8 +262,13 @@ async function showInfoWindow(marker, index) {
         </div>`
     });
 
+    if (currentInfoWindow) {
+        saveCheckpointsState(); // 🟢 Guarda el punto anterior antes de abrir el nuevo
+        currentInfoWindow.close();
+    }
+
     currentInfoWindow.addListener('closeclick', () => {
-        saveCurrentInfoWindowData();
+        saveCheckpointsState(); // 🟢 Guarda si el usuario cierra manualmente con la 'X'
     });
 
     currentInfoWindow.open(window.mapInstance, marker);
@@ -448,40 +453,39 @@ function clearAllCheckpoints() {
     console.log("Ruta reseteada correctamente.");
 }
 
-function saveCurrentInfoWindowData () {
-    // Buscamos el contenedor principal de nuestra burbuja en el DOM
+function saveCheckpointsState() {
+    // 1. Si hay un InfoWindow abierto en este instante, rescatamos sus inputs primero
     const container = document.querySelector('.custom-infowindow');
-    if (!container) return; // Si no hay ninguno abierto, no hacemos nada
+    if (container) {
+        const index = parseInt(container.getAttribute('data-current-index'));
+        if (!isNaN(index) && checkpoints[index]) {
+            const nameInput = document.getElementById(`infowindow-name-${index}`);
+            const descInput = document.getElementById(`infowindow-description-${index}`);
+            const inputsNum = container.querySelectorAll('input[type="number"]');
 
-    // Rescatamos el índice guardado en el atributo data-current-index
-    const index = parseInt(container.getAttribute('data-current-index'));
-    if (isNaN(index) || !checkpoints[index]) return;
-
-// Capturamos los elementos del DOM actuales
-    const nameInput = document.getElementById(`infowindow-name-${index}`);
-    const descInput = document.getElementById(`infowindow-description-${index}`);
-    
-    // Buscamos los inputs numéricos directamente por su tipo dentro del contenedor
-    const inputsNum = container.querySelectorAll('input[type="number"]');
-
-    // 🟢 Sincronización forzada de emergencia al array global
-    if (nameInput) {
-        checkpoints[index].name = nameInput.value;
-        if (checkpointMarkers[index]) checkpointMarkers[index].title = nameInput.value;
-    }
-    
-    if (descInput) {
-        checkpoints[index].description = descInput.value;
-        if (checkpointMarkers[index]) checkpointMarkers[index].description = descInput.value;
+            if (nameInput) checkpoints[index].name = nameInput.value;
+            if (descInput) checkpoints[index].description = descInput.value;
+            if (inputsNum.length >= 2) {
+                checkpoints[index].stayTime = parseInt(inputsNum[0].value) || 5;
+                checkpoints[index].transitTime = parseInt(inputsNum[1].value) || 3;
+            }
+        }
     }
 
-    // Si existen los campos de tiempo, también los aseguramos
-    if (inputsNum.length >= 2) {
-        checkpoints[index].stayTime = parseInt(inputsNum[0].value) || 5;
-        checkpoints[index].transitTime = parseInt(inputsNum[1].value) || 3;
-    }
+    // 2. 🟢 Tu idea brillante: Sanitizamos y guardamos DIRECTO en el localStorage
+    const cleanCheckpoints = checkpoints.map(cp => ({
+        externalId: cp.externalId || null,
+        name: cp.name,
+        description: cp.description || '',
+        latitude: cp.latitude,
+        longitude: cp.longitude,
+        checkpointOrder: cp.checkpointOrder,
+        stayTime: parseInt(cp.stayTime) || 5,
+        transitTime: parseInt(cp.transitTime) || 3
+    }));
 
-    console.log(`[InfoWindow] Datos del Punto ${index + 1} guardados con éxito al cerrar.`);
+    localStorage.setItem('pending_checkpoints', JSON.stringify(cleanCheckpoints));
+    console.log("[Storage] Estado de los checkpoints sincronizado y guardado.");
 }
 
 async function handleConfirmAndExit() {
@@ -597,6 +601,10 @@ function setupButtons() {
 }
 
 window.toggleDraggable = (index) => {
+    if (typeof saveCheckpointsState === 'function') {
+        saveCheckpointsState();
+    }
+
     const marker = checkpointMarkers[index];
         if (marker) {
         // 1. Forzamos la propiedad draggable
@@ -623,6 +631,11 @@ window.toggleDraggable = (index) => {
             // Actualizamos datos globales
             checkpoints[index].latitude = newLat;
             checkpoints[index].longitude = newLng;
+
+            if (typeof saveCheckpointsState === 'function') {
+                saveCheckpointsState();
+            }
+
             // Feedback visual: quitar opacidad
             if (marker.content) marker.content.style.opacity = "1";
             // Actualizamos mapa y tabla
