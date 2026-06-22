@@ -346,8 +346,6 @@ function addCheckpoints(point) {
 
     div.innerHTML = `
         <div class="checkpoint-coords">
-            <i class="fa-solid fa-location-dot"></i>
-            <code>${latFixed}, ${lngFixed}</code>
             <input type="hidden" name="checkpointLat[]" value="${point.latitude}" />
             <input type="hidden" name="checkpointLng[]" value="${point.longitude}" />
         </div>

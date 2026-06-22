@@ -305,7 +305,7 @@ p {
 }
 .view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .checkpoint-header .col-number,
 .view-patrol-card .panel-main .panel-body .checkpoints-container .panel .checkpoint-header .col-number {
-  width: 4.5rem;
+  width: 3.5rem;
 }
 .view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .schedules-list,
 .view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel .checkpoints-list,
@@ -410,7 +410,7 @@ p {
 .view-patrol-card .panel-main .panel-body .checkpoints-container .panel .checkpoints-list .checkpoint-item .field.number {
   background-color: transparent;
   border: none;
-  width: 4.5rem;
+  width: 3.5rem;
   user-select: none;
   -webkit-user-select: none;
   cursor: default;
