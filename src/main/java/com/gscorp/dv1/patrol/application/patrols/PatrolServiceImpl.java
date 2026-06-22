@@ -84,19 +84,25 @@ public class PatrolServiceImpl implements PatrolService {
                                 .updatedBy(userId.toString())
                                 .build();
 
-        //Agregar schedules y checkpoints
+        Patrol saved = patrolRepository.save(patrol);
+
+        // 3. 🟢 SOLUCIÓN: Guardar físicamente los horarios usando su propio repositorio
         if (request.scheduleTimes() != null) {
             request.scheduleTimes().forEach(timeStr -> {
                 if (timeStr != null && !timeStr.isBlank()) {
-                    patrol.addSchedule(PatrolSchedule.builder()
+                    
+                    PatrolSchedule schedule = PatrolSchedule.builder()
+                        .externalId(UUID.randomUUID()) // Asegúrate de darle un ID único si lo maneja tu entidad
                         .startTime(LocalTime.parse(timeStr))
                         .active(true)
-                        .build());
+                        .patrol(saved) // 🔴 CRUCIAL: Vinculamos el objeto 'saved' que ya tiene ID de la BD
+                        .build();
+                    
+                    // Forzamos el INSERT físico en la tabla patrol_schedules
+                    patrolScheduleRepository.save(schedule);
                 }
             });
         }
-
-        Patrol saved = patrolRepository.save(patrol);
 
         PatrolProjection savedProjection = patrolRepository
                                 .findProjectionById(saved.getId())
