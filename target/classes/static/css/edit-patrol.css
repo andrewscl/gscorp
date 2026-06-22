@@ -92,6 +92,8 @@ p {
 }
 
 .edit-patrol-card {
+  display: flex;
+  width: 100%;
   background: #ffffff;
   border-radius: 0.8rem;
   border: 1px solid #e2e8f0;
@@ -193,6 +195,9 @@ p {
 .edit-patrol-card .alert-container .alert.alert-show {
   opacity: 1;
   transform: translateY(0);
+}
+.edit-patrol-card .panel-main {
+  flex: 2;
 }
 .edit-patrol-card .panel-main .panel-header {
   font-family: "Montserrat", sans-serif;
@@ -501,6 +506,7 @@ p {
   width: 100%;
 }
 .edit-patrol-card .panel-aside {
+  flex: 3;
   background: #f8fafc;
 }
 .edit-patrol-card .panel-aside .panel-aside-content {

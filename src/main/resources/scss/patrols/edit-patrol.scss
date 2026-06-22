@@ -9,6 +9,8 @@
 @use '../abstracts/buttons/footer-buttons' as *;
 
 .edit-patrol-card {
+    display: flex;
+    width: 100%;
     @include dual-panel-card();
 
     .alert-container{
@@ -16,6 +18,7 @@
     }
 
     .panel-main{
+        flex: 2;
         .panel-header {
             @include montserrat-font($header-text-height, 700);
             letter-spacing: -0.02em;
@@ -239,6 +242,7 @@
     }
 
     .panel-aside {
+        flex: 3;
         background: $background-color;
         .panel-aside-content {
             flex: 1;
