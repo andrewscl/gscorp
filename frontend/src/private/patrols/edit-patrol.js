@@ -127,9 +127,19 @@ function syncCheckpoints () {
     // Recolectar checkpoints iniciales
     const initialDataRaw = document.getElementById('checkpoints-initial-data').value;
     const initialCheckpoints = JSON.parse(initialDataRaw || "[]");
+
+    // 2. Obtener datos actuales (Priorizamos la memoria RAM global 'checkpoints' si existe, o el LocalStorage)
+    let currentCheckpoints = [];
+    if (typeof checkpoints !== 'undefined' && checkpoints.length > 0) {
+        currentCheckpoints = checkpoints;
+    } else {
+        const pendingDataRaw = localStorage.getItem('pending_checkpoints');
+        currentCheckpoints = JSON.parse(pendingDataRaw || "[]");
+    }
+
     // Obtener datos pendientes de localStorage
     const pendingDataRaw = localStorage.getItem('pending_checkpoints');
-    const pendingCheckpoints = JSON.parse(pendingDataRaw || "[]");
+    const pendingCheckpoints = pendingDataRaw != null;
     // Map para facilitar la busqueda por ID
     const finalList = new Map();
     /*
@@ -139,10 +149,13 @@ function syncCheckpoints () {
     pendingCheckpoints.forEach(cp => {
         // Usa externalId si existe, si no, una llave temporal para el map
         const key = cp.externalId || `new_${Math.random()}`;
+
+        const safeDescription = cp.description ? String(cp.description).trim() : "";
+
         finalList.set(key, {
             externalId: cp.externalId || null,
             name: cp.name.trim(),
-            description: cp.description.trim(),
+            description: safeDescription,
             latitude: cp.latitude || 0.0,
             longitude: cp.longitude || 0.0,
             checkpointOrder: cp.checkpointOrder || 0.0,
