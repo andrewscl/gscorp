@@ -2,9 +2,12 @@ import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
 import { onClickAddTimeSchedule,
         onClickRemoveItem,
-        onClickCancel,
         displayAlert
         } from './create-patrol.js';
+
+const alertSuccess = qs('.alert-success');
+const alertError = qs('.alert-error');
+const alertWarning = qs('.alert-warning');
 
 const qs  = (s) => document.querySelector(s);
 const qsa = (s) => document.querySelectorAll(s);
@@ -121,6 +124,17 @@ function toggleCheckpoint(button) {
         button.classList.replace('btn-outline-secondary', 'btn-outline-success');
         statusText.innerText = 'Activo';
     }
+}
+
+async function onClickCancel(e, message = 'La operación ha sido cancelada.') {
+    if (e && e.preventDefault) e.preventDefault();
+
+    const alertWarning = qs('.alert-warning');
+    displayAlert(alertWarning, message);
+
+    setTimeout(() => {
+        navigateTo('/private/patrols/table-view');
+    }, 2000); // Bajé a 2s para que no sea tan lenta la espera
 }
 
 function syncCheckpoints () {
