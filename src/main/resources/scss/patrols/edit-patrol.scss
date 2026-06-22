@@ -236,12 +236,12 @@
                                     display: flex;
                                     flex-direction: row;
                                     align-items: center;
-                                    gap: 0.8rem;
+                                    gap: 0.5rem;
                                     input {
                                         padding: 0.4rem;
                                         border: 1px solid #ced4da;
                                         border-radius: 4px;
-                                        margin-bottom: 0.5rem;
+                                        margin-bottom: 0.2rem;
                                         @include roboto-font(0.875rem, 500);
                                         &[type="time"] {
                                             width: $width-time;
