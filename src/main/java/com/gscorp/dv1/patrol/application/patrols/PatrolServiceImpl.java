@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.gscorp.dv1.clients.application.ClientService;
+import com.gscorp.dv1.enums.PatrolScheduleStatus;
 import com.gscorp.dv1.patrol.infrastructure.checkpoints.PatrolCheckpoint;
 import com.gscorp.dv1.patrol.infrastructure.checkpoints.PatrolCheckpointProjection;
 import com.gscorp.dv1.patrol.infrastructure.checkpoints.PatrolCheckpointRepository;
@@ -103,6 +104,7 @@ public class PatrolServiceImpl implements PatrolService {
                         .externalId(UUID.randomUUID()) // Asegúrate de darle un ID único si lo maneja tu entidad
                         .startTime(LocalTime.parse(timeStr))
                         .active(true)
+                        .status(PatrolScheduleStatus.SCHEDULED)
                         .patrol(saved) // 🔴 CRUCIAL: Vinculamos el objeto 'saved' que ya tiene ID de la BD
                         .build();
                     
