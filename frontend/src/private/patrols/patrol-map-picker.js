@@ -502,9 +502,10 @@ const loadExistingCheckpoints = async () => {
                 position: position,
                 content: pin.element,
                 title: cp.name,
-                description: cp.description,
                 gmpDraggable: false,
             });
+
+            marker.description = cp.description || '';
 
             // Sincronizar arrays globales del JS
             checkpoints.push({
