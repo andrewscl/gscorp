@@ -118,23 +118,6 @@ export function onClickAddTimeSchedule(e) {
 }
 
 
-// --- Lógica de checkpoints ---
-export function onClickAddCheckpoint(e) {
-    e.preventDefault();
-    const container = qs('#checkpointsList');
-    if(!container) return; // Validación de seguridad
-
-    const div = document.createElement('div');
-    div.className = 'checkpoint-item';
-    div.innerHTML = `
-        <input type="text" name="checkpointName[]"
-                placeholder="Nombre del punto (ej: Bodega A)" required />
-        <button type="button" class="btn-mini btn-remove">Eliminar</button>
-    `;
-    container.appendChild(div);
-}
-
-
 // Manejador genérico para eliminar elementos
 export function onClickRemoveItem(e) {
     // Verificamos si el clic fue en un botón de eliminar
@@ -158,7 +141,6 @@ function bindEvents() {
     qs('#cancelCreatePatrolBtn')?.addEventListener('click', onClickCancel);
     // Delegación de eventos para añadir puntos de control y horarios
     qs('#addTimeScheduleBtn')?.addEventListener('click', onClickAddTimeSchedule);
-    qs('#addCheckpointBtn')?.addEventListener('click', onClickAddCheckpoint);
     /* Delegación de eventos para eliminar puntos de control y horarios
         se asigna al contenedor que ya existe en el HTML*/
     qs('#checkpointsList')?.addEventListener('click', onClickRemoveItem);
