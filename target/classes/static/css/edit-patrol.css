@@ -505,6 +505,96 @@ p {
   margin: 0.2rem 0;
   width: 100%;
 }
+.edit-patrol-card .panel-main .panel-body .form-row {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+.edit-patrol-card .panel-main .panel-body .form-row .form-group {
+  flex: 1;
+}
+.edit-patrol-card .panel-main .panel-body .form-row.w-custom .col-10 {
+  flex: 0 0 calc(10% - 0.9rem);
+}
+.edit-patrol-card .panel-main .panel-body .form-row.w-custom .col-20 {
+  flex: 0 0 calc(20% - 0.8rem);
+}
+.edit-patrol-card .panel-main .panel-body .form-row.w-custom .col-30 {
+  flex: 0 0 calc(30% - 0.7rem);
+}
+.edit-patrol-card .panel-main .panel-body .form-row.w-custom .col-40 {
+  flex: 0 0 calc(40% - 0.6rem);
+}
+.edit-patrol-card .panel-main .panel-body .form-row.w-custom .col-50 {
+  flex: 0 0 calc(50% - 0.5rem);
+}
+.edit-patrol-card .panel-main .panel-body .form-row.w-custom .col-60 {
+  flex: 0 0 calc(60% - 0.4rem);
+}
+.edit-patrol-card .panel-main .panel-body .form-row.w-custom .col-70 {
+  flex: 0 0 calc(70% - 0.3rem);
+}
+.edit-patrol-card .panel-main .panel-body .form-row.w-custom .col-80 {
+  flex: 0 0 calc(80% - 0.2rem);
+}
+.edit-patrol-card .panel-main .panel-body .form-row.w-custom .col-90 {
+  flex: 0 0 calc(90% - 0.1rem);
+}
+.edit-patrol-card .panel-main .panel-body .form-row .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.edit-patrol-card .panel-main .panel-body .form-row .form-group label {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+.edit-patrol-card .panel-main .panel-body .form-row .form-group input,
+.edit-patrol-card .panel-main .panel-body .form-row .form-group select,
+.edit-patrol-card .panel-main .panel-body .form-row .form-group textarea {
+  padding: 0.4rem;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #1f2937;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.edit-patrol-card .panel-main .panel-body .form-row .form-group input::placeholder,
+.edit-patrol-card .panel-main .panel-body .form-row .form-group select::placeholder,
+.edit-patrol-card .panel-main .panel-body .form-row .form-group textarea::placeholder {
+  color: #adb5bd;
+}
+.edit-patrol-card .panel-main .panel-body .form-row .form-group input:focus,
+.edit-patrol-card .panel-main .panel-body .form-row .form-group select:focus,
+.edit-patrol-card .panel-main .panel-body .form-row .form-group textarea:focus {
+  border-color: #4e54c8;
+  box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
+  outline: none;
+}
+.edit-patrol-card .panel-main .panel-body .form-row .form-group .form-value {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #475569;
+  line-height: 1.4;
+  border: 0.1rem solid #e2e8f0;
+  padding: 0.4rem 0.75rem;
+  border-radius: 0.5rem;
+}
+.edit-patrol-card .panel-main .panel-body .form-row .form-group .form-value:empty::before {
+  content: "—";
+  color: #cbd5e1;
+}
 .edit-patrol-card .panel-aside {
   flex: 3;
   background: #f8fafc;

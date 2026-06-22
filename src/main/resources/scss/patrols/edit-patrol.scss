@@ -39,7 +39,6 @@
                     letter-spacing: 0.05em;
                     margin: 0;
                 }
-
                 input,
                 select,
                 textarea {
@@ -60,7 +59,6 @@
                         outline: none;
                     }
                 }
-
                 .form-value {
                     @include roboto-font(0.95rem, 400); // Fuente principal
                     color: $heading-color; // Casi negro o azul muy oscuro
@@ -75,7 +73,6 @@
                     }
                 }
             }
-
             .day-range {
                     display: grid;
                     grid-template-columns: 1fr 1fr;
@@ -231,12 +228,75 @@
                         }
                     }
             }
-
             .form-separator {
                 border: 0;
                 border-top: 1px solid rgba($border-color, 0.5);
                 margin: 0.2rem 0;
                 width: 100%;
+            }
+            .form-row {
+                display: flex;
+                gap: 1rem;
+                width: 100%;
+                .form-group {
+                    flex: 1;
+                }
+                &.w-custom {
+                .col-10 { flex : 0 0 calc(10% - (1rem * 0.9)); };
+                .col-20 { flex : 0 0 calc(20% - (1rem * 0.8)); };
+                .col-30 { flex : 0 0 calc(30% - (1rem * 0.7)); };
+                .col-40 { flex : 0 0 calc(40% - (1rem * 0.6)); };
+                .col-50 { flex : 0 0 calc(50% - (1rem * 0.5)); };
+                .col-60 { flex : 0 0 calc(60% - (1rem * 0.4)); };
+                .col-70 { flex : 0 0 calc(70% - (1rem * 0.3)); };
+                .col-80 { flex : 0 0 calc(80% - (1rem * 0.2)); };
+                .col-90 { flex : 0 0 calc(90% - (1rem * 0.1)); };
+                }
+                .form-group {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.3rem;
+                    label {
+                        @include roboto-font(0.7rem, 600); // Más pequeña y bold
+                        color: $muted-color; // Gris suave
+                        text-transform: uppercase; // Estilo "etiqueta"
+                        letter-spacing: 0.05em;
+                        margin: 0;
+                    }
+                    input,
+                    select,
+                    textarea {
+                        padding: 0.4rem;
+                        border: 1px solid #ced4da;
+                        border-radius: 8px;
+                        @include roboto-font(0.875rem, 500);
+                        color: $cool-gray-800;
+                        transition: border-color 0.2s, box-shadow 0.2s;
+
+                        &::placeholder {
+                            color: #adb5bd;
+                        }
+
+                        &:focus {
+                            border-color: #4e54c8;
+                            box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
+                            outline: none;
+                        }
+                    }
+                    .form-value {
+                        @include roboto-font(0.95rem, 400); // Fuente principal
+                        color: $heading-color; // Casi negro o azul muy oscuro
+                        line-height: 1.4;
+                        border: 0.1rem solid $slate-200;
+                        padding: 0.4rem 0.75rem;
+                        border-radius: 0.5rem;
+                        // Para que los datos vacíos no rompan la estética
+                        &:empty::before {
+                            content: '—';
+                            color: #cbd5e1;
+                        }
+                    }
+                }
             }
         }
     }
