@@ -235,6 +235,7 @@ public class PatrolServiceImpl implements PatrolService {
                         existing -> {
                             // Actualizar datos existentes
                             existing.setName(dto.name());
+                            existing.setDescription(dto.description());
                             existing.setLatitude(dto.latitude());
                             existing.setLongitude(dto.longitude());
                             existing.setCheckpointOrder(dto.checkpointOrder());
@@ -248,6 +249,7 @@ public class PatrolServiceImpl implements PatrolService {
                                 patrolCheckpointRepository.save(PatrolCheckpoint.builder()
                                     .externalId(UUID.randomUUID())
                                     .name(dto.name())
+                                    .description(dto.description())
                                     .latitude(dto.latitude())
                                     .longitude(dto.longitude())
                                     .checkpointOrder(dto.checkpointOrder())
