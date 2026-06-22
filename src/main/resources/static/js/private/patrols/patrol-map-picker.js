@@ -15,7 +15,7 @@ import{f as v}from"../../auth.js";import{n as h}from"../../navigation-handler.js
 
                 <div class="iw-field">
                     <label>Descripción</label>
-                    <input type="text" id="infowindow-description-${e}" 
+                    <textarea id="infowindow-description-${e}" 
                         value="${a.description||""}" 
                         placeholder="Ej. Revisar candados">
                 </div>
@@ -24,7 +24,7 @@ import{f as v}from"../../auth.js";import{n as h}from"../../navigation-handler.js
                     <div class="iw-field">
                         <label>Permanencia (min)</label>
                         <input type="number" id="infowindow-stay-${e}" min="0"
-                            value="${a.stayTime||5}">
+                            value="${a.stayTime||5}"></textarea>
                     </div>
                     <div class="iw-field" style="${i}">
                         <label>Tránsito (min)</label>

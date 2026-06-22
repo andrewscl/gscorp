@@ -229,6 +229,18 @@
                     outline: none;
                 }
             }
+
+            textarea{
+                resize: none;
+                width: 100%;
+                box-sizing: border-box;
+                padding: 4rem;
+                border: 1px solid #dadce0;
+                border-radius: 6px;
+                background-color: #f8f9fa; // Un fondo sutil para los inputs
+                @include roboto-font(0.85rem, 500);
+                transition: border-color 0.2s, background-color 0.2s;
+            }
         }
 
         // 🟢 Sub-elemento para agrupar campos gemelos en una sola fila
