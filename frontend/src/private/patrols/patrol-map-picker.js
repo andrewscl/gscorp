@@ -262,6 +262,10 @@ async function showInfoWindow(marker, index) {
         </div>`
     });
 
+    currentInfoWindow.addListener('closeclick', () => {
+        saveCurrentInfoWindowData();
+    });
+
     currentInfoWindow.open(window.mapInstance, marker);
 }
 
@@ -442,6 +446,42 @@ function clearAllCheckpoints() {
     
     if (currentInfoWindow) currentInfoWindow.close();
     console.log("Ruta reseteada correctamente.");
+}
+
+function saveCurrentInfoWindowData () {
+    // Buscamos el contenedor principal de nuestra burbuja en el DOM
+    const container = document.querySelector('.custom-infowindow');
+    if (!container) return; // Si no hay ninguno abierto, no hacemos nada
+
+    // Rescatamos el índice guardado en el atributo data-current-index
+    const index = parseInt(container.getAttribute('data-current-index'));
+    if (isNaN(index) || !checkpoints[index]) return;
+
+// Capturamos los elementos del DOM actuales
+    const nameInput = document.getElementById(`infowindow-name-${index}`);
+    const descInput = document.getElementById(`infowindow-description-${index}`);
+    
+    // Buscamos los inputs numéricos directamente por su tipo dentro del contenedor
+    const inputsNum = container.querySelectorAll('input[type="number"]');
+
+    // 🟢 Sincronización forzada de emergencia al array global
+    if (nameInput) {
+        checkpoints[index].name = nameInput.value;
+        if (checkpointMarkers[index]) checkpointMarkers[index].title = nameInput.value;
+    }
+    
+    if (descInput) {
+        checkpoints[index].description = descInput.value;
+        if (checkpointMarkers[index]) checkpointMarkers[index].description = descInput.value;
+    }
+
+    // Si existen los campos de tiempo, también los aseguramos
+    if (inputsNum.length >= 2) {
+        checkpoints[index].stayTime = parseInt(inputsNum[0].value) || 5;
+        checkpoints[index].transitTime = parseInt(inputsNum[1].value) || 3;
+    }
+
+    console.log(`[InfoWindow] Datos del Punto ${index + 1} guardados con éxito al cerrar.`);
 }
 
 async function handleConfirmAndExit() {
