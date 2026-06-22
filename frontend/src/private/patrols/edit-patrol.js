@@ -4,10 +4,6 @@ import { onClickAddTimeSchedule,
         onClickRemoveItem
         } from './create-patrol.js';
 
-const alertSuccess = qs('.alert-success');
-const alertError = qs('.alert-error');
-const alertWarning = qs('.alert-warning');
-
 const qs  = (s) => document.querySelector(s);
 const qsa = (s) => document.querySelectorAll(s);
 
@@ -85,26 +81,6 @@ async function handleUpdate(e) {
     }
 }
 
-function displayAlert(alertElement, message, timeout = 5000) {
-    const alertContainer = qs('.alert-container'); // Selecciona el contenedor de alertas
-
-    // Asegurar que el contenedor es visible
-    alertContainer.style.display = 'block';
-
-    // Actualizar el mensaje dentro de la alerta
-    const alertMessage = alertElement.querySelector('.alert-message'); // Solo el texto dinámico
-    alertMessage.textContent = message; // Establece el texto dinámico
-
-    // Mostrar la alerta específica dinámica
-    alertElement.classList.add('alert-show');
-
-    // Ocultar automáticamente después del timeout
-    setTimeout(() => {
-        alertElement.classList.remove('alert-show'); // Remueve la clase de mostrar
-        alertContainer.style.display = 'none'; // Esconde todo el contenedor
-    }, timeout);
-}
-
 function toggleSchedule(button) {
     const container = button.closest('.schedule-item');
     const statusText = button.querySelector('.status-text');
@@ -143,17 +119,6 @@ function toggleCheckpoint(button) {
         button.classList.replace('btn-outline-secondary', 'btn-outline-success');
         statusText.innerText = 'Activo';
     }
-}
-
-async function onClickCancel(e, message = 'La operación ha sido cancelada.') {
-    if (e && typeof e.preventDefault === 'function') e.preventDefault();
-
-    const alertWarning = qs('.alert-warning');
-    displayAlert(alertWarning, message);
-
-    setTimeout(() => {
-        navigateTo('/private/patrols/table-view');
-    }, 2000); // Bajé a 2s para que no sea tan lenta la espera
 }
 
 function syncCheckpoints () {
@@ -320,13 +285,6 @@ function bindEvents() {
     qs('#patrolSchedulesList')?.addEventListener('click', onClickRemoveItem);
     qs('#toggleSchedule')?.addEventListener('click', toggleSchedule);
     qs('#toggleCheckpoint')?.addEventListener('click', toggleCheckpoint);
-    // Botón Cancelar con mensaje personalizado
-    const cancelBtn = qs('#cancelEditPatrolBtn');
-    if (cancelBtn) {
-        cancelBtn.addEventListener('click', (e) => 
-            onClickCancel(e, 'La edición de la ronda ha sido cancelada.')
-        );
-    }
     qs('#addMapCheckpointBtn')?.addEventListener('click', openMapPicker);
 
     // ESCUCHADOR: Espera a que el navigation-handler confirme la carga

@@ -10,26 +10,6 @@
           <h4>Editar Ronda de Supervisión</h4>
         </div>
 
-        <div class="alert-container">
-            <!-- Alerta de éxito -->
-            <div class="alert alert-success" role="alert" aria-live="polite">
-                <span class="alert-icon">✅</span>
-                <span class="alert-message"></span> <!-- Mensaje dinámico -->
-            </div>
-
-            <!-- Alerta de error -->
-            <div class="alert alert-error" role="alert" aria-live="assertive">
-                <span class="alert-icon">❌</span>
-                <span class="alert-message"></span> <!-- Mensaje dinámico -->
-            </div>
-
-            <!-- Alerta de cancelación -->
-            <div class="alert alert-warning" role="alert" aria-live="polite">
-                <span class="alert-icon">⚠️</span>
-                <span class="alert-message"></span> <!-- Mensaje dinámico -->
-            </div>
-        </div>
-
         <div class="panel-body" id="edit-patrol-form">
           <input type="hidden" id="patrolExternalId"
                             th:value="${patrol.externalId}" />
