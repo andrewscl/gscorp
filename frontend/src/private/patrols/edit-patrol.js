@@ -303,7 +303,7 @@ function bindEvents() {
 }
 
 const onClickCancel = () => {
-    displayAlert(alertCancel, 'La creación del sitio a sido cancelada.', 2000);
+    displayAlert(alertCancel, 'La edición del patrol a sido cancelada.', 2000);
     setTimeout(() => navigateTo('/private/patrols/table-view', true), 2000);
 }
 
