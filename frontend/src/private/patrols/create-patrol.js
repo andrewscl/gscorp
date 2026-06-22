@@ -14,6 +14,8 @@ async function onClickCreate(e) {
     const alertSuccess = qs('.alert-success');
     const alertError = qs('.alert-error');
 
+    const schedulesInputs = document.querySelectorAll('#patrolSchedulesList .schedule-input');
+
     //Generar payload dinámico con los datos del formulario
     const payload = {
     siteId : Number(qs('#siteId')?.value),
@@ -22,10 +24,15 @@ async function onClickCreate(e) {
     dayFrom : Number(qs('#dayFrom')?.value),
     dayTo : Number(qs('#dayTo')?.value),
     // Recolectar Array de Horarios
-    scheduleTimes : Array.from(qsa('input[name="scheduleTime[]"]'))
+    scheduleTimes : Array.from(schedulesInputs)
                                .map(input => input.value)
-                               .filter(val => val !== ""),
+                               .filter(val => val && val.trim() !== ""),
     };
+
+    // 🟢 Diagnóstico rápido en la consola del navegador antes de enviar:
+    console.log("=== DATOS CAPTURADOS EN JS ===");
+    console.log("Horarios encontrados:", payload.scheduleTimes);
+    console.log("==============================");
 
     // Validaciones
     if (!payload.siteId || !payload.name ||
