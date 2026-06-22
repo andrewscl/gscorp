@@ -142,6 +142,7 @@ function syncCheckpoints () {
         finalList.set(key, {
             externalId: cp.externalId || null,
             name: cp.name.trim(),
+            description: cp.description.trim(),
             latitude: cp.latitude || 0.0,
             longitude: cp.longitude || 0.0,
             checkpointOrder: cp.checkpointOrder || 0.0,
