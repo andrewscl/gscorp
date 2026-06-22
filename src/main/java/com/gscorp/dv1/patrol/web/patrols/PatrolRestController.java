@@ -64,6 +64,11 @@ public class PatrolRestController {
             AuthenticationCredentialsNotFoundException("Usuario no autenticado");
         }
 
+        // 🟢 Agrega esto temporalmente para mirar tu consola de Java:
+        req.checkpoints().forEach(cp -> {
+            System.out.println("Checkpoint recibido en Java: " + cp.name() + " -> Desc: " + cp.description());
+        });
+
         PatrolDto updated = patrolService.updatePatrol(externalId, req, userId);
 
         return ResponseEntity.ok(updated);
