@@ -417,6 +417,7 @@ function bindEvents() {
 }
 
 (async function init() {
+    const apiKey = googleMapsConfig.apiKey;
     bindEvents();
     await startViewMap();
 })();
