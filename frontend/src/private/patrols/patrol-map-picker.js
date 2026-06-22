@@ -231,8 +231,7 @@ async function showInfoWindow(marker, index) {
                 <div class="iw-field">
                     <label>Descripción</label>
                     <textarea id="infowindow-description-${index}" 
-                        value="${point.description || ''}" 
-                        placeholder="Ej. Revisar candados"></textarea>
+                            placeholder="Ej. Revisar candados">${point.description || ''}</textarea>
                 </div>
 
                 <div class="iw-row">
