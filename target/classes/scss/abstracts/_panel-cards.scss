@@ -4,7 +4,10 @@
 @use 'palette' as *;
 @use 'variables' as *;
 
-@mixin dual-panel-card() {
+@mixin dual-panel-card(
+    $ratio-left: 1,
+    $ratio-right: 1
+) {
     background: $white;
     border-radius: 0.8rem;
     border: 1px solid $border-color;

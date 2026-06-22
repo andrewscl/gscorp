@@ -103,14 +103,14 @@ p {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .edit-patrol-card .panel-main {
-  flex: 1;
+  flex: 4;
   padding: 0 2rem 1rem 2rem;
   display: flex;
   flex-direction: column;
   border-right: 1px solid rgba(226, 232, 240, 0.5);
 }
 .edit-patrol-card .panel-aside {
-  flex: 1;
+  flex: 6;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -195,9 +195,6 @@ p {
 .edit-patrol-card .alert-container .alert.alert-show {
   opacity: 1;
   transform: translateY(0);
-}
-.edit-patrol-card .panel-main {
-  flex: 4;
 }
 .edit-patrol-card .panel-main .panel-header {
   font-family: "Montserrat", sans-serif;
@@ -596,7 +593,6 @@ p {
   color: #cbd5e1;
 }
 .edit-patrol-card .panel-aside {
-  flex: 6;
   background: #f8fafc;
 }
 .edit-patrol-card .panel-aside .panel-aside-content {

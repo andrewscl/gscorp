@@ -11,14 +11,15 @@
 .edit-patrol-card {
     display: flex;
     width: 100%;
-    @include dual-panel-card();
+    @include dual-panel-card(
+        $ratio-left: 4,
+        $ratio-right: 6);
 
     .alert-container{
         @include alert-container();
     }
 
     .panel-main{
-        flex: 4;
         .panel-header {
             @include montserrat-font($header-text-height, 700);
             letter-spacing: -0.02em;
@@ -302,7 +303,6 @@
     }
 
     .panel-aside {
-        flex: 6;
         background: $background-color;
         .panel-aside-content {
             flex: 1;
