@@ -83,7 +83,6 @@
                         background: $cool-gray-100;
                         border: 1px solid ececec;
                         border-radius: 8px;
-
                         &-header {
                             display: flex;
                             justify-content: space-between;
@@ -142,7 +141,6 @@
                             }
 
                         }
-
                         .checkpoint-header{
                             display: flex;
                             flex-direction: row;
@@ -154,7 +152,6 @@
                             .col-name{ width: $width-text; }
                             .col-number{ width: $width-number; }
                         }
-
                         .schedules-list,
                         .checkpoints-list {
                             padding: 0.5rem 1rem;
@@ -206,6 +203,21 @@
                                         width: $width-text;
                                     }
                                 }
+
+                            }
+                            .btn-primary{
+                                @include btn-primary-variant (
+                                    $bg-color: $accent-blue,
+                                    $color: $white,
+                                    $padding: 1.1rem 1.25rem,
+                                    $border-radius: 0.5rem);
+                            }
+                            .btn-secondary{
+                                @include btn-primary-variant (
+                                    $bg-color: $secondary-color,
+                                    $color: $white,
+                                    $padding: 1.1rem 1.25rem,
+                                    $border-radius: 0.5rem);
                             }
                         }
 

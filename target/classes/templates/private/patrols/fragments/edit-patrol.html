@@ -75,11 +75,11 @@
                 <div th:each="sch : ${patrol.schedules}" class="schedule">
                   <input type="time" name="scheduleTime[]" class="schedule-input"
                           th:value="${#temporals.format(sch.startTime, 'HH:mm')}" required />
-                  <button type="button" class="btn btn-outline-secondary btn-toggle-status"
+                  <button type="button" class="btn btn-primary btn-toggle-status"
                                     id="toggleSchedule" onclick="toggleSchedule(this)">
                     <span class="status-text">Activo</span>
                   </button>
-                  <button type="button" class="btn-mini btn-remove"
+                  <button type="button" class="btn btn-secondary btn-remove"
                   th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
                               Eliminar</button>              
                 </div>
