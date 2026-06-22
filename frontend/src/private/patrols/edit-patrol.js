@@ -7,6 +7,9 @@ import { displayAlert } from '../../shared/display-alert.js';
 
 const qs  = (s) => document.querySelector(s);
 const qsa = (s) => document.querySelectorAll(s);
+const alertSuccess = qs('.alert-success');
+const alertError = qs('.alert-error');
+const alertWarning = qs('.alert-warning');
 
 async function handleUpdate(e) {
     e.preventDefault();
@@ -65,7 +68,7 @@ async function handleUpdate(e) {
         });
 
         if (response.ok) {
-            displayAlert(alertSuccess, "Ronda actualizada correctamente.");
+            displayAlert(alertSuccess, "Ronda actualizada correctamente.", 2000);
             setTimeout(() => {
                 navigateTo('/private/patrols/table-view'); // Redirigir a la tabla
             }, 1500);
@@ -275,11 +278,22 @@ function initCheckpoints() {
     }
 }
 
+function onClickCancel() {
+    displayAlert(alertSuccess, "La edición de ronda ha sido concelada.", 2000);
+    setTimeout(() => navigateTo('/private/patrols/table-view', true), 1500);
+}
+
 function bindEvents() {
     const updateBtn = qs('#updatePatrolBtn');
     if (updateBtn) {
         updateBtn.addEventListener('click', handleUpdate);
     }
+
+    const cancelBtn = qs('#cancelEditPatrolBtn');
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', onClickCancel);
+    }
+
     qs('#addTimeScheduleBtn').addEventListener('click', onClickAddTimeSchedule);
     qs('#checkpointsList')?.addEventListener('click', onClickRemoveItem);
     qs('#patrolSchedulesList')?.addEventListener('click', onClickRemoveItem);
