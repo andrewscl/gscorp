@@ -18,7 +18,7 @@
     }
 
     .panel-main{
-        flex: 2;
+        flex: 4;
         .panel-header {
             @include montserrat-font($header-text-height, 700);
             letter-spacing: -0.02em;
@@ -302,7 +302,7 @@
     }
 
     .panel-aside {
-        flex: 3;
+        flex: 6;
         background: $background-color;
         .panel-aside-content {
             flex: 1;
