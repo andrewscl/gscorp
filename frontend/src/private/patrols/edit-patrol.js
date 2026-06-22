@@ -1,8 +1,7 @@
 import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
 import { onClickAddTimeSchedule,
-        onClickRemoveItem,
-        displayAlert
+        onClickRemoveItem
         } from './create-patrol.js';
 
 const alertSuccess = qs('.alert-success');
@@ -86,6 +85,26 @@ async function handleUpdate(e) {
     }
 }
 
+function displayAlert(alertElement, message, timeout = 5000) {
+    const alertContainer = qs('.alert-container'); // Selecciona el contenedor de alertas
+
+    // Asegurar que el contenedor es visible
+    alertContainer.style.display = 'block';
+
+    // Actualizar el mensaje dentro de la alerta
+    const alertMessage = alertElement.querySelector('.alert-message'); // Solo el texto dinámico
+    alertMessage.textContent = message; // Establece el texto dinámico
+
+    // Mostrar la alerta específica dinámica
+    alertElement.classList.add('alert-show');
+
+    // Ocultar automáticamente después del timeout
+    setTimeout(() => {
+        alertElement.classList.remove('alert-show'); // Remueve la clase de mostrar
+        alertContainer.style.display = 'none'; // Esconde todo el contenedor
+    }, timeout);
+}
+
 function toggleSchedule(button) {
     const container = button.closest('.schedule-item');
     const statusText = button.querySelector('.status-text');
@@ -127,7 +146,7 @@ function toggleCheckpoint(button) {
 }
 
 async function onClickCancel(e, message = 'La operación ha sido cancelada.') {
-    if (e && e.preventDefault) e.preventDefault();
+    if (e && typeof e.preventDefault === 'function') e.preventDefault();
 
     const alertWarning = qs('.alert-warning');
     displayAlert(alertWarning, message);
