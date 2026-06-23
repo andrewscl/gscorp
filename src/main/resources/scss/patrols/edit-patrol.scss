@@ -12,6 +12,8 @@
     display: flex;
     width: 100%;
     align-items: stretch;
+    height: 82vh;
+    max-height: 82vh;
     @include dual-panel-card(
         $ratio-left: 4,
         $ratio-right: 6);

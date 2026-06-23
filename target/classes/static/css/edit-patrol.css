@@ -95,6 +95,8 @@ p {
   display: flex;
   width: 100%;
   align-items: stretch;
+  height: 82vh;
+  max-height: 82vh;
   background: #ffffff;
   border-radius: 0.8rem;
   border: 1px solid #e2e8f0;
