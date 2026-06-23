@@ -1,4 +1,4 @@
-package com.gscorp.dv1.analyst.web;
+package com.gscorp.dv1.operations.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import lombok.AllArgsConstructor;
 
 @Controller
-@RequestMapping("/private/analyst")
+@RequestMapping("/private/operations")
 @AllArgsConstructor
-public class AnalystController {
+public class OperationsController {
 
-    @GetMapping("/dashboard")
+    @GetMapping("/dashboard/analyst")
     public String getAnalystDashboardView(Model model) {
-        return "private/analyst/dashboards/kpi/analyst-dashboard-view";
+        return "private/ops/dashboards/templates/analyst-dashboard-view";
     }
 
 }
