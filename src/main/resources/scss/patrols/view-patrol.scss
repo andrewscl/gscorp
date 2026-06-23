@@ -10,8 +10,11 @@
     display: flex;
     width: 100%;
     align-items: stretch;
-    @include dual-panel-card();
-
+    height: 76vh;
+    max-height: 76vh;
+    @include dual-panel-card(
+                $ratio-left: 4,
+                $ratio-right: 6);
     .panel-main{
         .panel-header {
             @include montserrat-font($header-text-height, 700);
@@ -242,6 +245,7 @@
             display: flex;
             flex-direction: column;
             width: 100%;
+            height: 100%;
             h3{
                 text-align: center;
                 margin: 0;
