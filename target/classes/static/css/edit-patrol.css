@@ -95,8 +95,8 @@ p {
   display: flex;
   width: 100%;
   align-items: stretch;
-  height: 82vh;
-  max-height: 82vh;
+  height: 80vh;
+  max-height: 80vh;
   background: #ffffff;
   border-radius: 0.8rem;
   border: 1px solid #e2e8f0;
@@ -379,6 +379,7 @@ p {
   display: flex;
   flex-direction: column;
   margin-top: 0.2rem;
+  margin-bottom: 1rem;
 }
 .edit-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel,
 .edit-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel {
