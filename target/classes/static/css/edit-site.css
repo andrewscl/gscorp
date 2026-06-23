@@ -98,6 +98,7 @@ p {
   display: flex;
   box-shadow: 0 0.5rem 1.1rem rgba(15, 23, 42, 0.04);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  align-items: stretch;
 }
 .dual-panel-card .panel-main {
   flex: 1;
