@@ -427,7 +427,7 @@ p {
 .edit-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel-header .btn-primary {
   font-family: "Montserrat", sans-serif;
   font-size: 0.7rem;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.02em;
   cursor: pointer;
 }
@@ -438,7 +438,7 @@ p {
   align-items: center;
   gap: 0.8rem;
   padding: 0.5rem 1rem 0 1rem;
-  font-family: "Roboto", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 0.875rem;
   font-weight: 600;
   letter-spacing: 0.02em;
@@ -455,7 +455,7 @@ p {
 .edit-patrol-card .panel-main .panel-body .form-row .time-patrol-schedules .panel .checkpoints-list,
 .edit-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .schedules-list,
 .edit-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .checkpoints-list {
-  padding: 0.5rem 1rem;
+  padding: 0.4rem 1rem;
   display: flex;
   flex-direction: column;
 }
@@ -517,10 +517,9 @@ p {
 .edit-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .schedules-list .checkpoint-item .field,
 .edit-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .checkpoints-list .schedule .field,
 .edit-patrol-card .panel-main .panel-body .form-row .checkpoints-container .panel .checkpoints-list .checkpoint-item .field {
-  padding: 0.5rem;
+  padding: 0.4rem;
   border: 1px solid #ced4da;
   border-radius: 4px;
-  margin-bottom: 0.2rem;
   font-family: "Roboto", sans-serif;
   font-size: 0.875rem;
   font-weight: 500;

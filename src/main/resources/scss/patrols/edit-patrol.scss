@@ -179,7 +179,7 @@
                                         $color: $white,
                                         $padding: 0.3rem 0.8rem,
                                         $border-radius: 0.5rem);
-                                    @include montserrat-font(0.7rem, 600);
+                                    @include montserrat-font(0.7rem, 500);
                                     cursor: pointer;
                                 }
                             }
@@ -189,13 +189,13 @@
                                 align-items: center;
                                 gap: 0.8rem;
                                 padding: 0.5rem 1rem 0 1rem;
-                                @include roboto-font(0.875rem, 600);
+                                @include montserrat-font(0.875rem, 600);
                                 .col-name{ width: $width-text; }
                                 .col-number{ width: $width-number; }
                             }
                             .schedules-list,
                             .checkpoints-list {
-                                padding: 0.5rem 1rem;
+                                padding: 0.4rem 1rem;
                                 display: flex;
                                 flex-direction: column;
                                 .schedule,
@@ -218,10 +218,9 @@
                                         }
                                     }
                                     .field {
-                                        padding: 0.5rem;
+                                        padding: 0.4rem;
                                         border: 1px solid #ced4da;
                                         border-radius: 4px;
-                                        margin-bottom: 0.2rem;
                                         @include roboto-font(0.875rem, 500);
                                         &.number{
                                             background-color: transparent;
