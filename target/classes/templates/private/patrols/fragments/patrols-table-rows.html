@@ -14,7 +14,7 @@
 
             <button type="button" class="btn-edit"
                 th:attr="data-path=@{/private/patrols/edit/{id}(id=${p.externalId})}"
-                th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
+                th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'') or hasRole(''ANALYST'')')}">
             Editar
             </button>
 
