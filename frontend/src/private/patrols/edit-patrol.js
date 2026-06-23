@@ -8,6 +8,7 @@ import { initMap } from '../../shared/maps/init-map.js';
 import { addAdvancedMarker } from '../../shared/maps/advanced-marker.js';
 
 let patrolEditPathLine = null;
+let checkpointsToDraw = [];
 
 const qs  = (s) => document.querySelector(s);
 const qsa = (s) => document.querySelectorAll(s);
