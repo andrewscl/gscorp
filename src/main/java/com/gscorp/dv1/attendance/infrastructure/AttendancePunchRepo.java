@@ -211,8 +211,8 @@ public interface AttendancePunchRepo extends JpaRepository <AttendancePunch, Lon
             s.id AS siteId,
             s.name AS siteName,
             COUNT(ap.id) AS attendances
-        FROM Project p
-        JOIN p.sites s
+        FROM Site s
+        JOIN s.project p
         LEFT JOIN AttendancePunch ap ON ap.site.id = s.id AND CAST(ap.createdAt AS date) = CURRENT_DATE
         WHERE p.client.id IN :clientIds
         GROUP BY p.id, p.name, s.id, s.name
