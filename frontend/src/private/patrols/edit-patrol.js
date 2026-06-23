@@ -119,7 +119,7 @@ const loadExistingCheckpoints = async () => {
         }
 
         // 3. Actualizar visuales
-        updatePathLine();
+        updatePathLine(checkpointsToDraw);
 
         // Centrar mapa en el primer punto si existe
         window.mapInstance.fitBounds(bounds);
@@ -129,7 +129,7 @@ const loadExistingCheckpoints = async () => {
     }
 };
 
-function updatePathLine() {
+function updatePathLine(checkpointsToDraw) {
     const pathCoordinates = checkpointsToDraw.map(p => ({
                                 lat: p.latitude, lng: p.longitude }));
 
