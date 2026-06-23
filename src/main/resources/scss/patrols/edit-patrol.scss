@@ -173,47 +173,14 @@
                                     @include roboto-font(0.875rem, 500);
                                     color: $cool-gray-700;
                                 }
-                                .btn-mini {
-                                    background-color: #4e54c8;
-                                    color: white;
-                                    padding: 4px 8px;
-                                    border-radius: 4px;
-                                    font-size: 0.75rem;
-                                    border: none;
+                                .btn-primary {
+                                    @include btn-primary-variant (
+                                        $bg-color: $accent-blue,
+                                        $color: $white,
+                                        $padding: 0.3rem 0.8rem,
+                                        $border-radius: 0.5rem);
+                                    @include montserrat-font(0.7rem, 600);
                                     cursor: pointer;
-                                    transition: background-color 0.2s;
-
-                                    &:hover {
-                                        background-color: #3d3fb3;
-                                    }
-
-                                    &:active {
-                                        background-color: #312fa4;
-                                    }
-                                }
-                                .btn-map-picker {
-                                    display: flex;
-                                    align-items: center;
-                                    gap: 6px;
-                                    background-color: #f0f9ff; // Fondo celeste muy claro
-                                    color: #0369a1;            // Texto azul océano
-                                    border: 1px solid #bae6fd;
-                                    padding: 6px 12px;
-                                    border-radius: 6px;
-                                    font-size: 0.75rem;
-                                    font-weight: 600;
-                                    cursor: pointer;
-                                    transition: all 0.2s ease;
-
-                                    i {
-                                        color: #0ea5e9; // Icono azul brillante
-                                    }
-
-                                    &:hover {
-                                        background-color: #e0f2fe;
-                                        border-color: #7dd3fc;
-                                        transform: translateY(-1px);
-                                    }
                                 }
                             }
                             .checkpoint-header{
@@ -275,8 +242,9 @@
                                     @include btn-primary-variant (
                                         $bg-color: $accent-red,
                                         $color: $white,
-                                        $padding: 0.5rem 1rem,
+                                        $padding: 0.3rem 0.8rem,
                                         $border-radius: 0.5rem);
+                                    @include montserrat-font(0.7rem, 600);
                                 }
                             }
                             .time-schedules-help {
