@@ -149,7 +149,7 @@ p {
 .view-patrol-card .panel-main .panel-body {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 .view-patrol-card .panel-main .panel-body .form-group {
   display: flex;
@@ -221,12 +221,18 @@ p {
   display: flex;
   flex-direction: column;
   margin-top: 0.2rem;
+  margin-bottom: 1rem;
 }
 .view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel,
 .view-patrol-card .panel-main .panel-body .checkpoints-container .panel {
   background: #f3f4f6;
   border: 1px solid ececec;
   border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  height: 13rem;
+  max-height: 13rem;
+  min-height: 0;
 }
 .view-patrol-card .panel-main .panel-body .time-patrol-schedules .panel-header,
 .view-patrol-card .panel-main .panel-body .checkpoints-container .panel-header {
