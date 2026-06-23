@@ -1,15 +1,20 @@
 package com.gscorp.dv1.attendance.web;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gscorp.dv1.attendance.application.AttendanceService;
+import com.gscorp.dv1.attendance.application.AttendanceStatService;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchDto;
 import com.gscorp.dv1.attendance.web.dto.CreateAttendancePunchRequest;
+import com.gscorp.dv1.attendance.web.dto.statistics.AttendanceDistributionMetricResponse;
 import com.gscorp.dv1.security.SecurityUser;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
@@ -20,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/attendance")
 @RequiredArgsConstructor
@@ -28,6 +34,7 @@ public class AttendanceRestController {
   private final SiteService siteService;
   private final UserService userService;
   private final AttendanceService attendanceService;
+  private final AttendanceStatService attendanceStatService;
 
 
   //Registrar asistencia
@@ -99,6 +106,30 @@ public class AttendanceRestController {
   @ResponseBody
   public List<SiteDto> getSitesApi() {
     return siteService.getAllSites();
+  }
+
+
+  @GetMapping("/attendance-dashboard-metrics")
+  public AttendanceDistributionMetricResponse getAttendanceDistributionMetric(
+              Authentication authentication){
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            log.warn("Intento de acceso no autenticado");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado.");
+        }
+
+        Object principal = authentication.getPrincipal();
+        if (!(principal instanceof SecurityUser securityUser)) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Estructura de seguridad no reconocida.");
+        }
+        
+        UUID userExternalId = securityUser.getUser().getExternalId();
+
+        AttendanceDistributionMetricResponse metrics =
+              new AttendanceDistributionMetricResponse(
+                attendanceStatService.getProjectSiteAttendancesTodaySummaryByUserExternalId(userExternalId));
+
+        return metrics;
   }
 
 }

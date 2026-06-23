@@ -105,6 +105,7 @@ export default defineConfig({
 
 
         'private/hr/hr-dashboard': path.resolve(__dirname, './src/private/hr/hr-dashboard.js'),
+        'private/analyst/dashboard/analyst-dashboard': path.resolve(__dirname, './src/private/analyst/dashboard/analyst-dashboard.js'),
         'private/admin/dashboard/admin-dashboard': path.resolve(__dirname, './src/private/admin/dashboard/admin-dashboard.js')
 
 

@@ -14,7 +14,7 @@ public class AnalystController {
 
     @GetMapping("/dashboard")
     public String getAnalystDashboardView(Model model) {
-        return "private/analyst/views/analyst-dashboard-view";
+        return "private/analyst/dashboards/kpi/analyst-dashboard-view";
     }
 
 }

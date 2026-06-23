@@ -12,6 +12,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.gscorp.dv1.attendance.infrastructure.projections.AttendancePunchShortProjection;
+import com.gscorp.dv1.attendance.infrastructure.projections.statistics.ProjectSiteAttendancesSummaryProjection;
 
 @Repository
 public interface AttendancePunchRepo extends JpaRepository <AttendancePunch, Long>{
@@ -203,5 +204,22 @@ public interface AttendancePunchRepo extends JpaRepository <AttendancePunch, Lon
         @Param("action") String action
     );
 
+    @Query("""
+        SELECT 
+            p.id AS projectId,
+            p.name AS projectName,
+            s.id AS siteId,
+            s.name AS siteName,
+            COUNT(ap.id) AS attendances
+        FROM Project p
+        JOIN p.sites s
+        LEFT JOIN AttendancePunch ap ON ap.site.id = s.id AND CAST(ap.createdAt AS date) = CURRENT_DATE
+        WHERE p.client.id IN :clientIds
+        GROUP BY p.id, p.name, s.id, s.name
+        ORDER BY p.name ASC, s.name ASC
+    """)
+    List<ProjectSiteAttendancesSummaryProjection> getDailyProjectSiteAttendancesSummaryByClients(
+        @Param("clientIds") List<Long> clientIds
+    );
 
 }

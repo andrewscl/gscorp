@@ -1,0 +1,9 @@
+<div th:fragment="content" id="dashboard-root" class="op-analyst-dashboard">
+
+        <div th:replace="~{private/attendance/dashboards/kpi/attendance-distribution-card :: content}"></div>        
+
+        <div th:replace="~{private/analyst/dashboards/kpi/analyst-dashboard-fragment :: content}"></div>
+
+        <script type="module" src="/js/private/analyst/dashboard/analyst-dashboard.js"></script>
+
+</div>
