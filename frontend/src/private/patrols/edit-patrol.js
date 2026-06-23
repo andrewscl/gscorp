@@ -7,6 +7,8 @@ import loadGoogleMapsAPI from '../../shared/maps/googlemaps-loader.js';
 import { initMap } from '../../shared/maps/init-map.js';
 import { addAdvancedMarker } from '../../shared/maps/advanced-marker.js';
 
+let patrolEditPathLine = null;
+
 const qs  = (s) => document.querySelector(s);
 const qsa = (s) => document.querySelectorAll(s);
 const alertSuccess = qs('.alert-success');
@@ -56,24 +58,40 @@ const startViewMap = async () => {
 }
 
 const loadExistingCheckpoints = async () => {
-    // 1. Buscamos el input oculto
-    const dataInput = document.getElementById('checkpoints-initial-data');
-    if (!dataInput || !dataInput.value) {
-        console.warn("No se encontraron puntos pre-cargados en el DOM.");
+
+    let checkpointsToDraw = [];
+
+    // Verificación A: ¿El picker dinámico ya dejó datos modificados en memoria?
+    if (window.currentCheckpoints && window.currentCheckpoints.length > 0) {
+        console.log("🔄 [Edit] Cargando puntos modificados en caliente desde el picker:", window.currentCheckpoints.length);
+        checkpointsToDraw = window.currentCheckpoints;
+    } 
+    // Verificación B: Carga inicial. Buscamos el input del DOM que inyecta Thymeleaf
+    else {
+        const dataInput = document.getElementById('checkpoints-initial-data') || document.getElementById('checkpoints-data');
+        if (dataInput && dataInput.value) {
+            try {
+                console.log("📁 [Edit] Cargando puntos iniciales desde el Backend.");
+                checkpointsToDraw = JSON.parse(dataInput.value);
+            } catch (e) {
+                console.error("Error al parsear el JSON del input oculto:", e);
+            }
+        }
+    }
+
+    // Si ambos lados están vacíos, no hay nada que dibujar
+    if (!checkpointsToDraw || checkpointsToDraw.length === 0) {
+        console.warn("⚠️ No se encontraron puntos en el DOM ni en memoria.");
         return;
     }
 
     try {
-        // 2. Parseamos el JSON
-        const preloaded = JSON.parse(dataInput.value);
-        if (preloaded.length === 0) return;
-
         const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
 
         // Crear el objeto bounds
         const bounds = new google.maps.LatLngBounds();
 
-        for (const cp of preloaded) {
+        for (const cp of checkpointsToDraw) {
             const position = {
                 lat: parseFloat(cp.latitude),
                 lng: parseFloat(cp.longitude) 
@@ -97,18 +115,6 @@ const loadExistingCheckpoints = async () => {
                 title: cp.name,
                 gmpDraggable: false,
             });
-
-            // Sincronizar arrays globales del JS
-            checkpoints.push({
-                externalId: cp.externalId,
-                latitude: position.lat,
-                longitude: position.lng,
-                checkpointOrder: cp.checkpointOrder,
-                name: cp.name,
-                stayTime: cp.stayTime,
-                transitTime: cp.minutesToReach
-            });
-            checkpointMarkers.push(marker);
         }
 
         // 3. Actualizar visuales
@@ -123,13 +129,13 @@ const loadExistingCheckpoints = async () => {
 };
 
 function updatePathLine() {
-    const pathCoordinates = checkpoints.map(p => ({
+    const pathCoordinates = checkpointsToDraw.map(p => ({
                                 lat: p.latitude, lng: p.longitude }));
 
-    if (patrolPathLine) {
-        patrolPathLine.setPath(pathCoordinates);
+    if (patrolEditPathLine) {
+        patrolEditPathLine.setPath(pathCoordinates);
     } else {
-        patrolPathLine = new google.maps.Polyline({
+        patrolEditPathLine = new google.maps.Polyline({
             path: pathCoordinates,
             geodesic: true,
             strokeColor: "#FF0000",
