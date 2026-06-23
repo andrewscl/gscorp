@@ -60,8 +60,16 @@
     <button class="toggle-sidebar" id="toggleSidebar">☰</button>
 </div>
 
-<div th:fragment="topbar">
-
-    <h1 class="title">Analista</h1>
-
-</div>
+<th:block th:fragment="topbar">
+        <div class="topbar-left">
+            <div id="logo-container" class="logo-container">
+                <img id="logo" class="logo" th:src="@{/img/logo_sin_nombre.png}" alt="Logo" />
+            </div>
+            <h1 class="title">Administración</h1>
+        </div>
+        <div class="topbar-right">
+            <button class="topbar-burger" id="topbarToggleSidebar"
+                        aria-label="Abrir menú"
+                            aria-expanded="false">☰</button>
+        </div>
+</th:block>
