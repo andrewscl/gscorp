@@ -30,7 +30,7 @@
             flex: 1;
             overflow-y: auto;
             overflow-x: hidden;
-            padding: 0 2rem 2.5rem 2 rem;
+            padding: 0 2rem 1.5rem 2 rem;
             .panel-body {
                 display: flex;
                 flex-direction: column;
@@ -163,12 +163,18 @@
                     .checkpoints-container {
                             display: flex;
                             flex-direction: column;
+                            flex: 1;
+                            min-width: 0; // Evita desbordamientos extraños si el contenido empuja
                             margin-top: 0.2rem;
                             margin-bottom: 1rem;
                             .panel {
                                 background: $slate-100;
                                 border: 1px solid ececec;
                                 border-radius: 8px;
+                                display: flex;
+                                flex-direction: column;
+                                height: 20rem;
+                                max-height: 20rem;
                                 &-header {
                                     display: flex;
                                     justify-content: space-between;
