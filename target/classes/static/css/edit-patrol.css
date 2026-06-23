@@ -395,8 +395,8 @@ p {
   border-radius: 8px;
   display: flex;
   flex-direction: column;
-  height: 18rem;
-  max-height: 18rem;
+  height: 15rem;
+  max-height: 15rem;
   min-height: 0;
 }
 .edit-patrol-card .panel-main .panel-body-scrollable .panel-body .form-row .time-patrol-schedules .panel-header,
