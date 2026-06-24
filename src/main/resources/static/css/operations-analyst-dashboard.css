@@ -305,7 +305,6 @@ p {
   box-sizing: border-box;
   width: 100%;
   margin: 0 auto;
-  padding: 0.625rem;
   color: var(--text-main);
   font-family: Inter, "Segoe UI", Roboto, sans-serif;
   background: transparent;
@@ -633,4 +632,4 @@ p {
   border-top: 1px solid #e2e8f0;
   margin: 0.75rem 0;
   opacity: 0.4;
-}/*# sourceMappingURL=operations-analyst-dashboard.css.map */
+}/*# sourceMappingURL=operations-analyst-dashboard.css.map */-dashboard.css.map */
