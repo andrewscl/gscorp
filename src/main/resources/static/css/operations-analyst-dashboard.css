@@ -311,6 +311,40 @@ p {
   display: flex;
   flex-direction: column;
 }
+.operations-analyst-dashboard .distribution-card .dashboard-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  background: transparent;
+  padding: 0;
+  border: none;
+}
+.operations-analyst-dashboard .distribution-card .dashboard-card .card-header .title-group {
+  display: flex;
+  flex-direction: column;
+}
+.operations-analyst-dashboard .distribution-card .dashboard-card .card-header .title-group .card-title {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #475569;
+  margin: 0;
+  line-height: 1.2;
+}
+.operations-analyst-dashboard .distribution-card .dashboard-card .card-header .icon-wrapper {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: rgba(30, 41, 59, 0.08);
+  color: #1e293b;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
 .operations-analyst-dashboard .distribution-card .dashboard-card .table-header-row {
   display: grid;
   grid-template-columns: 1fr 5rem 5rem;
