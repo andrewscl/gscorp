@@ -7,7 +7,7 @@ const qs  = (s) => document.querySelector(s);
 let metricList = [];
 
 
-const loadAttendanceMetricList = async () => {
+const loadOperationsMetricList = async () => {
 
     try {
         const response =
@@ -73,7 +73,7 @@ const renderAttendanceDashboardMetrics = (metrics) => {
     });
 
     // 5. Renderizar el HTML Dinámico con diseño de dos columnas (badges alineados)
-    attendanceContainer.innerHTML = Object.values(groupedByProject).map((project, pIndex, pArray) => `
+    opsDashboardContainer.innerHTML = Object.values(groupedByProject).map((project, pIndex, pArray) => `
         <div class="project-group mb-3">
             <div class="project-header d-flex align-items-center gap-2 mb-2">
                 <span class="fs-6 fw-bold text-secondary">📂 ${project.projectName}</span>
@@ -106,5 +106,5 @@ const renderAttendanceDashboardMetrics = (metrics) => {
 
 (async function init() {
     console.log("🚀 Inicializando Dashboard de Operaciones...");
-    await loadAttendanceMetricList();
+    await loadOperationsMetricList();
 })();
