@@ -4,7 +4,7 @@ import { navigateTo } from '../../../signup.js';
 
 const qs  = (s) => document.querySelector(s);
 
-let attendanceMetricList = [];
+let metricList = [];
 
 
 const loadAttendanceMetricList = async () => {
