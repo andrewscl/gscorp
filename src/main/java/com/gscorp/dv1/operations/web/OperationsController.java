@@ -71,7 +71,7 @@ public class OperationsController {
             model.addAttribute("greeting", dashboardHeaderInfo.greeting());
             model.addAttribute("emoji", dashboardHeaderInfo.emoji());
             model.addAttribute("message", dashboardHeaderInfo.message());
-        return "private/ops/views/ops-operator-dashboard-view";
+        return "private/ops/dashboards/templates/ops-operator-dashboard";
     }
 
 }
