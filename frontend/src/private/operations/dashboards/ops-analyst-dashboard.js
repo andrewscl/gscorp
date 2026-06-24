@@ -6,6 +6,7 @@ const qs  = (s) => document.querySelector(s);
 
 let attendanceMetricList = [];
 
+
 const loadAttendanceMetricList = async () => {
 
     try {
@@ -26,6 +27,7 @@ const loadAttendanceMetricList = async () => {
         metricList = [];
     }
 }
+
 
 const renderAttendanceDashboardMetrics = (metrics) => {
     const opsDashboardContainer = qs('#operationStatsContainer');
@@ -100,3 +102,9 @@ const renderAttendanceDashboardMetrics = (metrics) => {
     `).join('');
 
 }
+
+
+(async function init() {
+    console.log("🚀 Inicializando Dashboard de Operaciones...");
+    await loadAttendanceMetricList();
+})();
