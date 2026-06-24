@@ -1,0 +1,159 @@
+@use "sass:color";
+@use '../palette' as *;
+@use '../variables' as *;
+@use '../mixins' as *;
+@use '../typography' as *;
+
+@mixin distribution-card-levels() {
+    .distribution-card {
+        display: grid;
+        // 🟢 Limitamos el crecimiento máximo para que no se coma toda la pantalla si hay pocos elementos
+        grid-template-columns: repeat(auto-fill, minmax(26rem, 1fr));
+        gap: 1.5rem;
+        margin-top: 0.5rem;
+        margin-bottom: 1rem;
+        width: 100%;
+
+        @media (max-width: 1024px) {
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+        }
+
+        .dashboard-card {
+            background: #ffffff;
+            border: 1px solid $border-color;
+            border-radius: 0.875rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+
+            &:hover {
+                box-shadow: 0 10px 25px rgba(59, 130, 246, 0.05);
+                border-color: $border-color-hover;
+            }
+
+            .card-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                margin-bottom: 1.25rem;
+                background: transparent;
+                padding: 0;
+                border: none;
+
+                .title-group {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.35rem;
+
+                    .card-subtitle {
+                        @include montserrat-font(0.75rem, 600);
+                        color: $label-text-color;
+                        text-transform: uppercase;
+                        letter-spacing: 0.5px;
+                    }
+
+                    .card-title {
+                        @include montserrat-font(1rem, 700);
+                        color: $heading-color;
+                        margin: 0;
+                    }
+                }
+
+                .icon-wrapper {
+                    width: 2.5rem;
+                    height: 2.5rem;
+                    background: rgba($primary-color, 0.08);
+                    color: $primary-color;
+                    border-radius: 0.5rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 1.2rem;
+                }
+            }
+
+            .card-body {
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+
+                // 🟢 Estilos de jerarquía para separar Proyectos de Sitios
+                .project-group {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.5rem;
+
+                    .project-header {
+                        @include montserrat-font(0.85rem, 700);
+                        color: $heading-color;
+                        padding-bottom: 0.25rem;
+                    }
+
+                    .project-sites-list {
+                        display: flex;
+                        flex-direction: column;
+                        padding-left: 0.75rem;
+                        border-left: 2px solid rgba($primary-color, 0.15); // Línea guía elegante
+                    }
+                }
+
+                .stat-item {
+                    padding: 0.6rem 0;
+
+                    .stat-main-info {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        gap: 1rem;
+
+                        .stat-name {
+                            @include montserrat-font(0.875rem, 500);
+                            color: $input-text-color;
+                        }
+
+                        // Contenedor interno de las columnas de métricas
+                        .badge-group {
+                            display: flex;
+                            gap: 0.5rem;
+                            align-items: center;
+
+                            .metric-badge {
+                                @include montserrat-font(0.75rem, 600);
+                                padding: 0.3rem 0.65rem;
+                                border-radius: 0.5rem;
+                                display: inline-flex;
+                                align-items: center;
+                                gap: 0.35rem;
+
+                                &.badge-attendance {
+                                    background: rgba($primary-color, 0.08);
+                                    color: $primary-color;
+                                }
+
+                                &.badge-shifts-pending {
+                                    background: rgba($accent-red, 0.1);
+                                    color: $accent-red;
+                                }
+
+                                &.badge-shifts-ok {
+                                    background: rgba($accent-green, 0.1);
+                                    color: $accent-green;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                hr {
+                    border: 0;
+                    border-top: 1px solid $border-color;
+                    margin: 0.75rem 0;
+                    opacity: 0.4;
+                }
+            }
+        }
+    }
+}
