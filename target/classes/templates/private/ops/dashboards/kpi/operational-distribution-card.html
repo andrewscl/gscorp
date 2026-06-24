@@ -1,10 +1,10 @@
-<div th:fragment="content" class="distribution-card" id="attendanceCards">
+<div th:fragment="content" class="distribution-card" id="distributionCards">
 
-    <div class="dashboard-card attendance-control-card">
+    <div class="dashboard-card distribution-control-card">
         <header class="card-header">
             <div class="title-group">
                 <span class="card-subtitle">Control de Operaciones</span>
-                <h4 class="card-title">🏢 Asistencia por Sitio</h4>
+                <h4 class="card-title">🏢 Estado Operativo por Sitio</h4>
             </div>
             <div class="icon-wrapper">
                 <i class="bi bi-building-check"></i>
@@ -12,8 +12,14 @@
         </header>
 
         <div class="card-body">
+            <div class="table-header-row">
+                <span class="header-label col-site">Ubicación / Sitio</span>
+                <span class="header-label col-metrics text-center">Cubierto</span>
+                <span class="header-label col-metrics text-center">Por Cubrir</span>
+            </div>
+
             <div id="operationStatsContainer" class="attendance-list-container">
-                <div class="text-muted text-center py-3">Cargando datos de asistencia...</div>
+                <div class="text-muted text-center py-3">Cargando datos operativos...</div>
             </div>
         </div>
     </div>
