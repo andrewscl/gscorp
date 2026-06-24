@@ -16,7 +16,7 @@ public class UIChromeController {
             return "private/admin/navigation/admin-menu-fragment :: sidebar";
 
         if (has(auth,"ROLE_ANALYST"))
-            return "private/ops/navigation/analyst-menu-fragment :: sidebar";
+            return "private/ops/navigation/ops-analyst-menu-fragment :: sidebar";
 
         if (has(auth,"ROLE_OPS"))
             return "private/ops/fragments/ops-menu-fragment :: sidebar";
@@ -28,7 +28,7 @@ public class UIChromeController {
             return "private/rrhh/navigation/rrhh-menu-fragment :: sidebar";
 
         if (has(auth,"ROLE_EMPLOYEE"))        
-            return "private/ops/navigation/ops-menu-fragment :: sidebar";
+            return "private/ops/navigation/ops-operator-menu-fragment :: sidebar";
 
         if (has(auth,"ROLE_SUPERVISOR"))        
             return "private/supervisors/fragments/supervisor-menu-fragment :: sidebar";
@@ -43,7 +43,7 @@ public class UIChromeController {
             return "private/admin/navigation/admin-menu-fragment :: topbar";
 
         if (has(auth,"ROLE_ANALYST"))
-            return "private/ops/navigation/analyst-menu-fragment :: topbar";
+            return "private/ops/navigation/ops-analyst-menu-fragment :: topbar";
 
         if (has(auth,"ROLE_OPS"))
             return "private/ops/fragments/ops-menu-fragment :: topbar";
@@ -55,7 +55,7 @@ public class UIChromeController {
             return "private/rrhh/navigation/rrhh-menu-fragment :: topbar";
 
         if (has(auth,"ROLE_EMPLOYEE"))
-            return "private/ops/navigation/employee-menu-fragment :: topbar";
+            return "private/ops/navigation/ops-operator-menu-fragment :: topbar";
 
         if (has(auth,"ROLE_SUPERVISOR"))
             return "private/supervisors/fragments/supervisor-menu-fragment :: topbar";
