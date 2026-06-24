@@ -74,31 +74,33 @@ const renderAttendanceDashboardMetrics = (metrics) => {
 
     // 5. Renderizar el HTML Dinámico con diseño de dos columnas (badges alineados)
     opsDashboardContainer.innerHTML = Object.values(groupedByProject).map((project, pIndex, pArray) => `
-        <div class="project-group mb-3">
-            <div class="project-header d-flex align-items-center gap-2 mb-2">
-                <span class="fs-6 fw-bold text-secondary">📂 ${project.projectName}</span>
+    <div class="project-group">
+            <div class="project-header">
+                📂 ${project.projectName}
             </div>
             
-            <div class="project-sites-list ps-3 border-start">
-                ${Object.values(project.sites).map((site) => `
-                    <div class="stat-item py-2 border-bottom border-light">
-                        <div class="stat-main-info d-flex justify-content-between align-items-center flex-wrap gap-2">
-                            <span class="stat-name text-dark fw-medium">🏢 ${site.siteName}</span>
+            <div class="project-sites-list">
+                ${Object.values(project.sites).map((site) => {
+                    const hasPending = site.totalShiftsToday > 0;
+                    return `
+                        <div class="stat-item-row">
+                            <span class="site-cell-name">🏢 ${site.siteName}</span>
                             
-                            <div class="d-flex gap-2">
-                                <span class="badge bg-light text-primary border border-primary-subtle px-2 py-1">
-                                    👤 ${site.attendanceCount} Asistencias
+                            <span class="metric-cell-val text-primary fw-semibold">
+                                ${site.attendanceCount}
+                            </span>
+                            
+                            <span class="metric-cell-val text-center">
+                                <span class="pill-value ${hasPending ? 'pill-pending' : 'pill-ok'}">
+                                    ${site.totalShiftsToday}
                                 </span>
-                                <span class="badge ${site.pendingShiftsCount > 0 ? 'bg-danger-subtle text-danger' : 'bg-light text-muted'} px-2 py-1">
-                                    🚨 ${site.pendingShiftsCount} Por Cubrir
-                                </span>
-                            </div>
+                            </span>
                         </div>
-                    </div>
-                `).join('')}
+                    `;
+                }).join('')}
             </div>
         </div>
-        ${pIndex < pArray.length - 1 ? '<hr class="my-3 opacity-25">' : ''}
+        ${pIndex < pArray.length - 1 ? '<hr>' : ''}
     `).join('');
 
 }

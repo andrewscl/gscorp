@@ -296,17 +296,11 @@ p {
 }
 .operations-analyst-dashboard .distribution-card {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(26rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(28rem, 1fr));
   gap: 1.5rem;
   margin-top: 0.5rem;
   margin-bottom: 1rem;
   width: 100%;
-}
-@media (max-width: 1024px) {
-  .operations-analyst-dashboard .distribution-card {
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
-  }
 }
 .operations-analyst-dashboard .distribution-card .dashboard-card {
   background: #ffffff;
@@ -316,63 +310,26 @@ p {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
-  transition: all 0.3s ease;
 }
-.operations-analyst-dashboard .distribution-card .dashboard-card:hover {
-  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.05);
-  border-color: #cbd5e1;
+.operations-analyst-dashboard .distribution-card .dashboard-card .table-header-row {
+  display: grid;
+  grid-template-columns: 1fr 5rem 5rem;
+  gap: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 0.75rem;
 }
-.operations-analyst-dashboard .distribution-card .dashboard-card .card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 1.25rem;
-  background: transparent;
-  padding: 0;
-  border: none;
-}
-.operations-analyst-dashboard .distribution-card .dashboard-card .card-header .title-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-.operations-analyst-dashboard .distribution-card .dashboard-card .card-header .title-group .card-subtitle {
+.operations-analyst-dashboard .distribution-card .dashboard-card .table-header-row .header-label {
   font-family: "Montserrat", sans-serif;
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.02em;
   color: #94a3b8;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
-.operations-analyst-dashboard .distribution-card .dashboard-card .card-header .title-group .card-title {
-  font-family: "Montserrat", sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  color: #475569;
-  margin: 0;
-}
-.operations-analyst-dashboard .distribution-card .dashboard-card .card-header .icon-wrapper {
-  width: 2.5rem;
-  height: 2.5rem;
-  background: rgba(30, 41, 59, 0.08);
-  color: #1e293b;
-  border-radius: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-}
 .operations-analyst-dashboard .distribution-card .dashboard-card .card-body {
   padding: 0;
-  display: flex;
-  flex-direction: column;
-}
-.operations-analyst-dashboard .distribution-card .dashboard-card .card-body .project-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
 }
 .operations-analyst-dashboard .distribution-card .dashboard-card .card-body .project-group .project-header {
   font-family: "Montserrat", sans-serif;
@@ -380,57 +337,50 @@ p {
   font-weight: 700;
   letter-spacing: 0.02em;
   color: #475569;
-  padding-bottom: 0.25rem;
+  padding: 0.5rem 0 0.25rem 0;
 }
 .operations-analyst-dashboard .distribution-card .dashboard-card .card-body .project-group .project-sites-list {
-  display: flex;
-  flex-direction: column;
-  padding-left: 0.75rem;
-  border-left: 2px solid rgba(30, 41, 59, 0.15);
+  padding-left: 0.5rem;
+  border-left: 2px solid rgba(30, 41, 59, 0.1);
 }
-.operations-analyst-dashboard .distribution-card .dashboard-card .card-body .stat-item {
-  padding: 0.6rem 0;
-}
-.operations-analyst-dashboard .distribution-card .dashboard-card .card-body .stat-item .stat-main-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.operations-analyst-dashboard .distribution-card .dashboard-card .card-body .stat-item-row {
+  display: grid;
+  grid-template-columns: 1fr 5rem 5rem;
   gap: 1rem;
+  align-items: center;
+  padding: 0.5rem 0;
 }
-.operations-analyst-dashboard .distribution-card .dashboard-card .card-body .stat-item .stat-main-info .stat-name {
+.operations-analyst-dashboard .distribution-card .dashboard-card .card-body .stat-item-row .site-cell-name {
   font-family: "Montserrat", sans-serif;
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   font-weight: 500;
   letter-spacing: 0.02em;
   color: #334155;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.operations-analyst-dashboard .distribution-card .dashboard-card .card-body .stat-item .stat-main-info .badge-group {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-.operations-analyst-dashboard .distribution-card .dashboard-card .card-body .stat-item .stat-main-info .badge-group .metric-badge {
+.operations-analyst-dashboard .distribution-card .dashboard-card .card-body .stat-item-row .metric-cell-val {
   font-family: "Montserrat", sans-serif;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   font-weight: 600;
   letter-spacing: 0.02em;
-  padding: 0.3rem 0.65rem;
-  border-radius: 0.5rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
+  text-align: center;
 }
-.operations-analyst-dashboard .distribution-card .dashboard-card .card-body .stat-item .stat-main-info .badge-group .metric-badge.badge-attendance {
-  background: rgba(30, 41, 59, 0.08);
-  color: #1e293b;
+.operations-analyst-dashboard .distribution-card .dashboard-card .card-body .stat-item-row .metric-cell-val .pill-value {
+  padding: 0.15rem 0.5rem;
+  border-radius: 0.35rem;
+  font-size: 0.8rem;
+  display: inline-block;
+  min-width: 1.75rem;
 }
-.operations-analyst-dashboard .distribution-card .dashboard-card .card-body .stat-item .stat-main-info .badge-group .metric-badge.badge-shifts-pending {
+.operations-analyst-dashboard .distribution-card .dashboard-card .card-body .stat-item-row .metric-cell-val .pill-value.pill-pending {
   background: rgba(239, 68, 68, 0.1);
   color: #ef4444;
 }
-.operations-analyst-dashboard .distribution-card .dashboard-card .card-body .stat-item .stat-main-info .badge-group .metric-badge.badge-shifts-ok {
-  background: rgba(16, 185, 129, 0.1);
-  color: #10b981;
+.operations-analyst-dashboard .distribution-card .dashboard-card .card-body .stat-item-row .metric-cell-val .pill-value.pill-ok {
+  background: #f8f9fa;
+  color: #94a3b8;
 }
 .operations-analyst-dashboard .distribution-card .dashboard-card .card-body hr {
   border: 0;
