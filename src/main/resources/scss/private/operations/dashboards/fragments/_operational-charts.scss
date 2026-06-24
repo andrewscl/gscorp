@@ -1,7 +1,7 @@
-@use '../mixins' as *;
-@use '../variables' as *;
-@use '../palette' as *;
-@use '../typography' as *;
+@use '../../../../abstracts/mixins' as *;
+@use '../../../../abstracts/variables' as *;
+@use '../../../../abstracts/palette' as *;
+@use '../../../../abstracts/typography' as *;
 
 @mixin operational-charts() {
 
@@ -24,8 +24,6 @@
         color: var(--text-main);
         font-family: Inter, "Segoe UI", Roboto, sans-serif;
         background: transparent;
-
-        @include kpi-cards();
 
         // Clases utilitarias directas
         .muted { color: var(--text-muted); }
@@ -94,7 +92,7 @@
             }
 
             &:focus-within {
-                outline: 0.1875rem solid rgba(#{$accent-sky}, 0.15); // 3px
+                outline: 0.1875rem solid rgba($accent-sky, 0.15); // 3px
                 outline-offset: 0.125rem; // 2px
             }
 
@@ -225,7 +223,7 @@
 
         // Tooltips flotantes de los charts adaptados a tus grises oscuros
         .inline-tooltip {
-            background: rgba(#{$slate-900}, 0.95);
+            background: rgba($slate-900, 0.95);
             color: #{$white};
             padding: 0.375rem 0.625rem; // 6px 10px
             border-radius: 0.5rem; // 8px

@@ -294,6 +294,218 @@ p {
     gap: 0.75rem;
   }
 }
+.operations-analyst-dashboard .operational-charts {
+  --bg-surface: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --border-soft: #f1f5f9;
+  --shadow-surface: 0 0.5rem 1.5rem rgba(2, 6, 23, 0.04);
+  --chart-height-default: 10.625rem;
+  --chart-height-full: 15rem;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0.625rem;
+  color: var(--text-main);
+  font-family: Inter, "Segoe UI", Roboto, sans-serif;
+  background: transparent;
+}
+.operations-analyst-dashboard .operational-charts .muted {
+  color: var(--text-muted);
+}
+.operations-analyst-dashboard .operational-charts .text {
+  color: var(--text-main);
+}
+.operations-analyst-dashboard .operational-charts .visually-hidden {
+  position: absolute !important;
+  height: 0.0625rem;
+  width: 0.0625rem;
+  overflow: hidden;
+  clip: rect(0.0625rem, 0.0625rem, 0.0625rem, 0.0625rem);
+  white-space: nowrap;
+  border: 0;
+  padding: 0;
+  margin: -0.0625rem;
+}
+.operations-analyst-dashboard .operational-charts .container-inner {
+  max-width: 75rem;
+  margin: 0 auto;
+}
+.operations-analyst-dashboard .operational-charts .charts {
+  display: grid;
+  gap: 1.25rem;
+  width: 100%;
+  box-sizing: border-box;
+  grid-template-columns: repeat(3, 1fr);
+}
+.operations-analyst-dashboard .operational-charts .charts.hourly, .operations-analyst-dashboard .operational-charts .charts.daily {
+  margin-bottom: 1.5rem;
+}
+.operations-analyst-dashboard .operational-charts .charts.hourly .card > .chart-body, .operations-analyst-dashboard .operational-charts .charts.daily .card > .chart-body {
+  height: var(--chart-height-default);
+}
+.operations-analyst-dashboard .operational-charts .charts.full-width {
+  display: block;
+  margin-top: 1rem;
+}
+.operations-analyst-dashboard .operational-charts .charts.full-width .card {
+  width: 100%;
+}
+.operations-analyst-dashboard .operational-charts .charts.full-width .card > .chart-body {
+  height: var(--chart-height-full);
+  min-height: 12.5rem;
+}
+@media (max-width: 68.75rem) {
+  .operations-analyst-dashboard .operational-charts .charts {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 40rem) {
+  .operations-analyst-dashboard .operational-charts .charts {
+    grid-template-columns: 1fr;
+  }
+}
+.operations-analyst-dashboard .operational-charts .card {
+  box-sizing: border-box;
+  background: var(--bg-surface);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  box-shadow: var(--shadow-surface);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
+  border: 0.0625rem solid #f1f5f9;
+}
+.operations-analyst-dashboard .operational-charts .card:hover {
+  transform: translateY(-0.25rem);
+  box-shadow: 0 0.75rem 1.875rem rgba(33, 41, 55, 0.08);
+}
+.operations-analyst-dashboard .operational-charts .card:focus-within {
+  outline: 0.1875rem solid rgba(14, 165, 233, 0.15);
+  outline-offset: 0.125rem;
+}
+.operations-analyst-dashboard .operational-charts .card h5 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.0125rem;
+}
+.operations-analyst-dashboard .operational-charts .card .card-top.split {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0 0.5rem 0;
+  border-bottom: 0.0625rem solid var(--border-soft);
+}
+.operations-analyst-dashboard .operational-charts .card .card-top.split .split-left {
+  flex: 0 0 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.operations-analyst-dashboard .operational-charts .card .card-top.split .split-left .hourly-donut, .operations-analyst-dashboard .operational-charts .card .card-top.split .split-left .daily-donut, .operations-analyst-dashboard .operational-charts .card .card-top.split .split-left .weekly-donut {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  background: transparent;
+}
+.operations-analyst-dashboard .operational-charts .card .card-top.split .split-left .hourly-donut.integrated, .operations-analyst-dashboard .operational-charts .card .card-top.split .split-left .daily-donut.integrated, .operations-analyst-dashboard .operational-charts .card .card-top.split .split-left .weekly-donut.integrated {
+  width: 100%;
+  max-width: 6.25rem;
+  height: 5.625rem;
+  background: transparent;
+}
+.operations-analyst-dashboard .operational-charts .card .card-top.split .split-right {
+  flex: 1 1 60%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  justify-content: center;
+  min-height: 4.5rem;
+}
+.operations-analyst-dashboard .operational-charts .card .card-top.split .split-right .card-totals {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+.operations-analyst-dashboard .operational-charts .card .card-top.split .split-right .card-totals .total-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.0313rem;
+}
+.operations-analyst-dashboard .operational-charts .card .card-top.split .split-right .card-totals .total-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+.operations-analyst-dashboard .operational-charts .card .card-top.split .split-right .card-totals .meta.small.muted {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.operations-analyst-dashboard .operational-charts .card .chart-body, .operations-analyst-dashboard .operational-charts .card div[id^=chart-] {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 8.75rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+.operations-analyst-dashboard .operational-charts .card .chart-body > div, .operations-analyst-dashboard .operational-charts .card .chart-body canvas, .operations-analyst-dashboard .operational-charts .card .chart-body svg, .operations-analyst-dashboard .operational-charts .card div[id^=chart-] > div, .operations-analyst-dashboard .operational-charts .card div[id^=chart-] canvas, .operations-analyst-dashboard .operational-charts .card div[id^=chart-] svg {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+.operations-analyst-dashboard .operational-charts .card .chart-placeholder {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  font-size: 0.8125rem;
+  pointer-events: none;
+  z-index: 2;
+  background: transparent;
+}
+.operations-analyst-dashboard .operational-charts .card[data-card*=attendance] h5 {
+  color: #3b82f6;
+}
+.operations-analyst-dashboard .operational-charts .card[data-card*=attendance] .total-value {
+  color: #3b82f6;
+}
+.operations-analyst-dashboard .operational-charts .card[data-card*=patrols] h5 {
+  color: #8b5cf6;
+}
+.operations-analyst-dashboard .operational-charts .card[data-card*=patrols] .total-value {
+  color: #8b5cf6;
+}
+.operations-analyst-dashboard .operational-charts .card[data-card*=visits] h5 {
+  color: #f97316;
+}
+.operations-analyst-dashboard .operational-charts .card[data-card*=visits] .total-value {
+  color: #f97316;
+}
+.operations-analyst-dashboard .operational-charts .inline-tooltip {
+  background: rgba(15, 23, 42, 0.95);
+  color: #ffffff;
+  padding: 0.375rem 0.625rem;
+  border-radius: 0.5rem;
+  font-size: 0.8125rem;
+  box-shadow: 0 0.375rem 1.125rem rgba(2, 6, 23, 0.15);
+}
 .operations-analyst-dashboard .distribution-card {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(28rem, 1fr));
