@@ -1,5 +1,3 @@
-@use '../abstracts/dashboards/kpi-cards' as * ;
-
 #client-dashboard-root {
   --bg: #f8fafc;
   --card-bg: #ffffff;
@@ -28,8 +26,6 @@
   color: var(--text);
   font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   background: transparent;
-
-  @include kpi-cards ();
 
   .container-inner {
     max-width: var(--max-width);

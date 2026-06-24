@@ -1,4 +1,4 @@
-<div th:fragment="content" id="client-dashboard-root" class="dashboard" role="region" aria-label="Client dashboard">
+<div th:fragment="content" id="client-dashboard-root" class="operational-charts" role="region" aria-label="Client dashboard">
 
   <!-- Hourly charts (actualizado: donut integrado en la mitad superior izquierda) -->
   <div class="charts hourly" role="group" aria-label="Indicadores diarios">
@@ -99,7 +99,7 @@
     </div>
 
     <!-- Daily Visits -->
-    <div class="card" data-card="daily-visits">
+    <div class="card" data-card="daily-svisits">
       <div class="card-top split">
         <div class="split-left">
           <div id="donut-daily-visit" class="daily-donut integrated" data-testid="donut-daily-visit" aria-hidden="false"></div>

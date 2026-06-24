@@ -82,3 +82,13 @@ $green-800: #1b5e20;
 $red-100: #fce8e6;
 $red-300: #f4c7c3;
 $red-800: #b3261e;
+
+// 🟢 AGREGAR ESTOS PARA IDENTIDAD DE MÉTRICAS (En tus archivos de variables globales)
+$metric-attendance:  $accent-sky;    // Cian/Sky para todo lo relacionado a Asistencias
+$metric-patrols:     $accent-purple; // Púrpura para Rondas (moderno, no choca con verde/rojo de alertas)
+$metric-visits:      $accent-orange; // Naranja energético para las Visitas
+
+// 🟢 CORRECCIÓN DE FONDOS SUTILES FALTANTES (Para los Donuts o Badges)
+$background-accent-purple-soft: #f5f3ff; // violet-50
+$background-accent-orange-soft: #fff7ed; // orange-50
+$background-accent-green-soft:  #f0fdf4; // emerald-50 (Corregido el #030303)
