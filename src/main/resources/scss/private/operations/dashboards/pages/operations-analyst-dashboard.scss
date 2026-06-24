@@ -1,0 +1,11 @@
+@use '../../../../abstracts/dashboards/kpi-cards' as * ;
+@use '../../../../abstracts/dashboards/distribution-cards' as * ;
+
+.operations-analyst-dashboard {
+
+    @include kpi-cards ();
+
+    @include distribution-cards ();
+
+
+}
