@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.gscorp.dv1.enums.ShiftRequestType;
+import com.gscorp.dv1.shiftrequests.infrastructure.projections.ShiftRequestProjection;
 
 @Repository
 public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long>{

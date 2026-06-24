@@ -9,7 +9,8 @@ public record ProjectSiteAttendancesSummaryDto (
     String siteName,
     Long AttendanceCount
 ){
-    public static ProjectSiteAttendancesSummaryDto fromProjection(ProjectSiteAttendancesSummaryProjection p){
+    public static ProjectSiteAttendancesSummaryDto fromProjection(
+                            ProjectSiteAttendancesSummaryProjection p){
         if (p == null) return null;
 
         return new ProjectSiteAttendancesSummaryDto(

@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequestScheduleProjection;
+import com.gscorp.dv1.shiftrequests.infrastructure.projections.ShiftRequestScheduleProjection;
 
 public final class ShiftRequestForecastHelper {
 

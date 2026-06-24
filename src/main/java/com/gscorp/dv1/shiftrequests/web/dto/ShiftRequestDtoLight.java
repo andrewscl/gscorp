@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.gscorp.dv1.enums.ShiftRequestType;
-import com.gscorp.dv1.shiftrequests.infrastructure.ShiftRequestProjection;
+import com.gscorp.dv1.shiftrequests.infrastructure.projections.ShiftRequestProjection;
 
 public record ShiftRequestDtoLight(
         Long id,
