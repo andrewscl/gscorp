@@ -29,12 +29,12 @@ public class OperationsController {
     private EmployeeService employeeService;
     private AttendanceService attendanceService;
 
-    @GetMapping("/dashboard/analyst")
+    @GetMapping("/dashboards/analyst")
     public String getAnalystDashboardView(Model model) {
         return "private/ops/dashboards/templates/ops-analyst-dashboard";
     }
 
-    @GetMapping("/dashboard/security-operator")
+    @GetMapping("/dashboards/security-operator")
     public String getPrivateDashboardView (
             Model model,
             Authentication authentication) {

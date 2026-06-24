@@ -1,9 +1,6 @@
 package com.gscorp.dv1.employees.web;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Locale;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -15,8 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.gscorp.dv1.attendance.application.AttendanceService;
-import com.gscorp.dv1.attendance.web.dto.DashboardHeaderInfo;
 import com.gscorp.dv1.bank.application.BankService;
 import com.gscorp.dv1.companies.application.CompanyService;
 import com.gscorp.dv1.employees.application.EmployeeService;
@@ -45,7 +40,7 @@ import com.gscorp.dv1.projects.web.dto.ProjectDto;
 import com.gscorp.dv1.security.SecurityUser;
 import com.gscorp.dv1.shiftpatterns.application.ShiftPatternService;
 import com.gscorp.dv1.users.application.UserService;
-import com.gscorp.dv1.users.web.dto.UserViewDto;
+
 
 import lombok.AllArgsConstructor;
 
@@ -62,49 +57,9 @@ public class EmployeeController {
     private BankService bankService;
     private ShiftPatternService shiftPatternService;
     private PositionService positionService;
-    private AttendanceService attendanceService;
     private EmployeeTabsServiceImpl employeeTabsService;
     private CompanyService companyService;
-    
-    @GetMapping("/dashboard")
-    public String getPrivateDashboardView (
-            Model model,
-            Authentication authentication) {
 
-            if(authentication == null || !authentication.isAuthenticated()) {
-                return "redirect:/login";
-            }
-
-            Object principal = authentication.getPrincipal();
-            if(!(principal instanceof SecurityUser)) {
-                return "redirect:/login";
-            }
-
-            SecurityUser securityUser = (SecurityUser) principal;
-
-            UUID externalId = securityUser.getUser().getExternalId();
-
-            UserViewDto userViewDto = userService.findWithCompaniesAndClientsByExternalId(externalId);
-
-            var employee = employeeService.findByIdViewEmployee(userViewDto.employeeId());
-
-            LocalDateTime now = LocalDateTime.now();
-            String formattedDate = now
-                .format(DateTimeFormatter
-                .ofPattern("EEEE, dd 'de' MMMM",
-                                                new Locale("es", "ES")));
-
-            DashboardHeaderInfo dashboardHeaderInfo = attendanceService.getDashboardHeader(externalId);
-
-            model.addAttribute("employee", employee);
-            model.addAttribute("currentDate", formattedDate);
-            model.addAttribute("lastPunchText", dashboardHeaderInfo.lastPunchText());
-            model.addAttribute("nextAction", dashboardHeaderInfo.nextAction());
-            model.addAttribute("greeting", dashboardHeaderInfo.greeting());
-            model.addAttribute("emoji", dashboardHeaderInfo.emoji());
-            model.addAttribute("message", dashboardHeaderInfo.message());
-        return "private/ops/views/ops-operator-dashboard-view";
-    }
 
     @GetMapping("/table-view")
     public String getEmployeesTableView (

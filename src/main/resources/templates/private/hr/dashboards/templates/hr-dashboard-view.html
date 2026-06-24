@@ -1,12 +1,8 @@
-<div th:fragment="content" class="hr-dashboard">
+<div class="hr-dashboard">
 
-        <th:block
-                th:replace="~{private/hr/dashboards/kpi/staff-counters-summary :: content}">
-        </th:block>
+        <div th:replace="~{private/hr/dashboards/kpi/staff-counters-summary :: content}"></div>
 
-        <th:block
-                th:replace="~{private/hr/dashboards/kpi/staff-distribution-cards :: content}">
-        </th:block>
+        <div th:replace="~{private/hr/dashboards/kpi/staff-distribution-cards :: content}"></div>
 
         <script type="module" src="/js/private/hr/hr-dashboard.js"></script>
 
