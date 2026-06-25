@@ -81,7 +81,8 @@ const renderAttendanceDashboardMetrics = (metrics) => {
             
             <div class="project-sites-list">
                 ${Object.values(project.sites).map((site) => {
-                    const hasPending = site.totalShiftsToday > 0;
+                    const shiftsCount = site.pendingShiftsCount ?? 0;
+                    const hasPending = shiftsCount > 0;
                     return `
                         <div class="stat-item-row">
                             <span class="site-cell-name">🏢 ${site.siteName}</span>
