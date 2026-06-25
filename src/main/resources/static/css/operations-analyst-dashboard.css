@@ -368,7 +368,7 @@ p {
   box-sizing: border-box;
   background: var(--bg-surface);
   border-radius: 0.75rem;
-  padding: 0.5rem;
+  padding: 1.25rem;
   box-shadow: var(--shadow-surface);
   overflow: hidden;
   display: flex;

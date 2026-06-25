@@ -1,0 +1,14 @@
+@use '../abstracts/dashboards/kpi-cards' as * ;
+@use '../abstracts/dashboards/distribution-cards' as * ;
+@use '../abstracts/dashboards/distribution-card-levels' as * ;
+@use '../private/operations/dashboards/fragments/operational-charts' as * ;
+
+.clients-dashboard {
+
+    @include kpi-cards();
+
+    @include operational-charts();
+
+    @include distribution-card-levels();
+
+}
