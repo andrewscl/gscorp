@@ -368,7 +368,7 @@ p {
   box-sizing: border-box;
   background: var(--bg-surface);
   border-radius: 0.75rem;
-  padding: 1.25rem;
+  padding: 0.5rem;
   box-shadow: var(--shadow-surface);
   overflow: hidden;
   display: flex;
@@ -632,4 +632,4 @@ p {
   border-top: 1px solid #e2e8f0;
   margin: 0.75rem 0;
   opacity: 0.4;
-}/*# sourceMappingURL=operations-analyst-dashboard.css.map */-dashboard.css.map */
+}/*# sourceMappingURL=operations-analyst-dashboard.css.map */
