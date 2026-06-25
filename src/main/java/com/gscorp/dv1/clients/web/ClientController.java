@@ -45,7 +45,7 @@ public class ClientController {
     @GetMapping("/dashboard")
     public String getClientsDashboard(Model model) {
         model.addAttribute("clients", clientService.getAllClients());
-        return "private/clients/views/clients-dashboard-view";
+        return "private/clients/dashboards/templates/clients-dashboard";
     }
 
     @GetMapping("/table-view")
