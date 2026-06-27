@@ -86,6 +86,7 @@ public class EmployeeController {
         model.addAttribute("q", null);
         model.addAttribute("currentStatus", null);
         model.addAttribute("statuses", EmployeeStatus.values());
+        model.addAttribute("count", employeesPage.getTotalElements());
         return "private/employees/views/employees-list";
     }
 
