@@ -60,7 +60,8 @@ function bindEmployeesTable() {
     }
     const searchEmployeesBtn = qs('#searchEmployeesBtn');
     if (searchEmployeesBtn) {
-        searchEmployeesBtn.addEventListener('click', searchEmployees);
+        searchEmployeesBtn.addEventListener('click',
+            () => searchEmployees(0));
     }
 }
 
