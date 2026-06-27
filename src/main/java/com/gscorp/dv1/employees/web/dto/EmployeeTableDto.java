@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeTableProjection;
 import com.gscorp.dv1.enums.EmployeeStatus;
+import com.gscorp.dv1.enums.UserStatus;
 
 public record EmployeeTableDto (
 
@@ -25,6 +26,7 @@ public record EmployeeTableDto (
     String username,
     String userMail,
     String userPhone,
+    UserStatus userStatus,
     String fullName
 
 ){
@@ -51,6 +53,7 @@ public record EmployeeTableDto (
             p.getUsername(),
             p.getUserMail(),
             p.getUserPhone(),
+            p.getUserStatus(),
             fullName
         );
 
