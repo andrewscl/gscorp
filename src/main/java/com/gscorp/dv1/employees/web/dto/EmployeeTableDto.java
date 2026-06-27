@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeTableProjection;
+import com.gscorp.dv1.enums.EmployeeStatus;
 
 public record EmployeeTableDto (
 
@@ -18,7 +19,7 @@ public record EmployeeTableDto (
     String mail,
     String phone,
     String positionName,
-    Boolean active,
+    EmployeeStatus status,
     LocalDate hireDate,
     LocalDateTime createdAt,
     String username,
@@ -44,7 +45,7 @@ public record EmployeeTableDto (
             p.getMail(),
             p.getPhone(),
             p.getPositionName(),
-            p.getActive(),
+            p.getStatus(),
             p.getHireDate(),
             p.getCreatedAt(),
             p.getUsername(),

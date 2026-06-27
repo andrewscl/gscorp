@@ -1,48 +1,53 @@
-<div th:replace="~{shared/fragments/table-component :: smart-table(
-    title='Gestión de Empleados',
-    count=${count},
-    filters=~{::#employeesFilters},
-    actions=~{::#employeesActions},
-    thead=~{::#employeesHeader},
-    tbody=~{private/employees/fragments/employees-table-rows :: rows},
-    customClass='employees-table'
-)}">
+    <div th:replace="~{shared/fragments/table-component :: smart-table(
+        title='Gestión de Empleados',
+        count=${count},
+        filters=~{::#employeesFilters},
+        actions=~{::#employeesActions},
+        thead=~{::#employeesHeader},
+        tbody=~{private/employees/fragments/employees-table-rows :: rows},
+        customClass='employees-table'
+    )}">
 
-    <th:block id="employeesFilters">
-        <div class="filter-item">
-            <span class="filter-label">Estado</span>
-            <select id="filter-employee-status" class="filter-input" name="clientStatus" required>
-                <option value="">Todos los estados</option>
-                <option th:each="es : ${employeeStatus}"
-                        th:value="${es.name()}"
-                        th:text="${es.displayName}"></option>
-            </select>
-        </div>
-        <div class="filter-item">
-            <span class="filter-label">Busqueda</span>
-            <input id="filter-q" class="filter-input" type="text"
-                        placeholder="Buscar empleado..."/>
-        </div>
-        <button class="btn btn-primary" id="searchEmployeesBtn">
-        Buscar
-        </button>
-    </th:block>
+        <th:block id="employeesFilters">
+            <div class="filter-item">
+                <span class="filter-label">Estado</span>
+                <select id="filter-employee-status" class="filter-input" name="status">
+                    <option value="">Todos los estados</option>
+                    <option th:each="es : ${statuses}"
+                            th:value="${es}"
+                            th:text="${es.displayName}"
+                            th:selected="${es == currentStatus}"></option>
+                </select>
+            </div>
 
-    <th:block id="employeesActions">
-        <button class="btn btn-primary" id="addEmployeesBtn"
-            th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'') or hasRole(''RRHH'')')}">
-        Crear Empleado
-        </button>
-    </th:block>
+            <div class="filter-item">
+                <span class="filter-label">Busqueda</span>
+                <input id="filter-q" class="filter-input" type="text" name="q"
+                            th:value="${q}" placeholder="Buscar empleado..."/>
+            </div>
 
-    <tr id="employeesHeader">
-        <th>Foto</th>
-        <th>Nombre</th>
-        <th>Cargo</th>
-        <th>Telefono</th>
-        <th>Actions</th>
-    </tr>
+            <button class="btn btn-primary" id="searchEmployeesBtn">
+            Buscar
+            </button>
 
-</div>
+        </th:block>
 
-<script type="module" src="/js/private/employees/employees-table.js"></script>
+        <th:block id="employeesActions">
+            <button class="btn btn-primary" id="addEmployeesBtn"
+                th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'') or hasRole(''RRHH'')')}">
+            Crear Empleado
+            </button>
+        </th:block>
+
+        <tr id="employeesHeader">
+            <th>Foto</th>
+            <th>Nombre</th>
+            <th>Cargo</th>
+            <th>Telefono</th>
+            <th>Estado</th>
+            <th>Actions</th>
+        </tr>
+
+    </div>
+
+    <script type="module" src="/js/private/employees/employees-table.js"></script>

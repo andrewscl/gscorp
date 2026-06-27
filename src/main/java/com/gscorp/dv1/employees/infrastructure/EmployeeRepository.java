@@ -19,6 +19,7 @@ import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeViewProjectio
 import com.gscorp.dv1.employees.infrastructure.Projections.statistics.ClientEmployeesStatusSummaryProjection;
 import com.gscorp.dv1.employees.infrastructure.Projections.statistics.CompanyEmployeesStatusSummaryProjection;
 import com.gscorp.dv1.employees.infrastructure.Projections.statistics.EmployeesStatusSummaryProjection;
+import com.gscorp.dv1.enums.EmployeeStatus;
 
 
 @Repository
@@ -93,7 +94,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
           e.mail          AS mail,
           e.phone         AS phone,
           pos.name        AS positionName,
-          e.active        AS active,
+          e.status        AS status,
           e.hireDate      AS hireDate,
           e.createdAt     AS createdAt,
           usr.username    AS username,
@@ -114,7 +115,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
             LOWER(COALESCE(e.mail, ''))       LIKE :q OR
             LOWER(COALESCE(e.phone, ''))      LIKE :q
           )
-          AND (:active IS NULL OR e.active = :active)
+          AND (:status IS NULL OR e.status = :status)
         ORDER BY e.name ASC
         """,
       countQuery = """
@@ -132,13 +133,13 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
             LOWER(COALESCE(e.mail, ''))       LIKE :q OR
             LOWER(COALESCE(e.phone, ''))      LIKE :q
           )
-          AND (:active IS NULL OR e.active = :active)
+          AND (:status IS NULL OR e.status = :status)
         """
     )
     Page<EmployeeTableProjection> findTableRowsForClientIds(
         @Param("clientIds") List<Long> clientIds,
-        @Param("q") String q,               // espera patrón ya preparado (ej. "%term%"), o null
-        @Param("active") Boolean active,
+        @Param("q") String q,
+        @Param("status") EmployeeStatus status,
         Pageable pageable
     );
 

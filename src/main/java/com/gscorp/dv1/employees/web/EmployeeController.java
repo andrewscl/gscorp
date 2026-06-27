@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import com.gscorp.dv1.employees.web.dto.EmployeeTableDto;
 import com.gscorp.dv1.employees.web.dto.EmployeeViewDto;
 import com.gscorp.dv1.enums.BankAccountType;
 import com.gscorp.dv1.enums.ContractType;
+import com.gscorp.dv1.enums.EmployeeStatus;
 import com.gscorp.dv1.enums.Gender;
 import com.gscorp.dv1.enums.HealthEntity;
 import com.gscorp.dv1.enums.HealthSystem;
@@ -32,7 +34,6 @@ import com.gscorp.dv1.enums.StudyLevel;
 import com.gscorp.dv1.enums.WorkSchedule;
 import com.gscorp.dv1.nationalities.application.NationalityService;
 import com.gscorp.dv1.positions.application.PositionService;
-import com.gscorp.dv1.positions.web.dto.PositionDto;
 import com.gscorp.dv1.professions.application.ProfessionService;
 import com.gscorp.dv1.professions.web.dto.ProfessionSelectDto;
 import com.gscorp.dv1.projects.application.ProjectService;
@@ -64,63 +65,31 @@ public class EmployeeController {
     @GetMapping("/table-view")
     public String getEmployeesTableView (
             Model model,
-            Authentication authentication,
-            @RequestParam(required = false) String q,
-            @RequestParam(required = false) Boolean active,
+            @AuthenticationPrincipal SecurityUser securityUser,
             @RequestParam(required = false, defaultValue = "0") int page,
             @RequestParam(required = false, defaultValue = "100") int size
         ) {
 
-        Long userId = userService.getUserIdFromAuthentication(authentication);
-        if (userId == null) {
-            // no autenticado: redirigir al login o devolver error según tu política
-            return "redirect:/login";
-        }
-
-        if(authentication == null || !authentication.isAuthenticated()) {
+        if(securityUser == null) {
                 return "redirect:/login";
         }
-
-        Object principal = authentication.getPrincipal();
-        if(!(principal instanceof SecurityUser)) {
-                return "redirect:/login";
-        }
-
-        SecurityUser securityUser = (SecurityUser) principal;
 
         UUID externalId = securityUser.getUser().getExternalId();
-
-        // Normalizar page/size (Spring Data usa 0-based)
         int safePage = Math.max(0, page);
         int safeSize = Math.min(Math.max(5, size), 200); // límites: min 5, max 200
 
-        // Normalizar q
-        String safeQ = (q == null || q.trim().isEmpty()) ? null : q.trim();
-
         Page<EmployeeTableDto> employeesPage =
                         employeeService.getEmployeeTable(
-                                externalId, safeQ, active, safePage, safeSize);
-
-        List<PositionDto> positions = positionService.findAllProjection();
-
-        List<ProjectDto> projects = projectService.findByUserExternalId(externalId);
+                                externalId, null, null, safePage, safeSize);
 
         model.addAttribute("employeesPage", employeesPage);          // Page completo
         model.addAttribute("employees", employeesPage.getContent()); // Lista para iterar
-        model.addAttribute("pageNumber", employeesPage.getNumber()); // 0-based
-        model.addAttribute("pageSize", employeesPage.getSize());
-        model.addAttribute("totalPages", employeesPage.getTotalPages());
-        model.addAttribute("totalElements", employeesPage.getTotalElements());
-        model.addAttribute("positions", positions);
-        model.addAttribute("projects", projects);
-
-        // conservar filtros en la vista para los links
-        model.addAttribute("q", safeQ);
-        model.addAttribute("active", active);
-
+        model.addAttribute("q", null);
+        model.addAttribute("currentStatus", null);
+        model.addAttribute("statuses", EmployeeStatus.values());
         return "private/employees/views/employees-list";
-
     }
+
 
     @GetMapping("/create")
     public String getCreateEmployeeView (Model model) {
@@ -177,7 +146,6 @@ public class EmployeeController {
         return "private/employees/fragments/view-employee";
     }
 
-
     @GetMapping("/edit/{externalId}")
     public String editEmployee(
                     @PathVariable UUID externalId,
@@ -193,12 +161,12 @@ public class EmployeeController {
 
         List<Long> projectIds = projects
                                     .stream()
-                                    .map(ProjectDto::id)
+                                    .map(p -> p.id())
                                     .toList();
 
         List<Long> professionIds = professions
                                     .stream()
-                                    .map(ProfessionSelectDto::id)
+                                    .map(p -> p.id())
                                     .toList();
 
         model.addAttribute("employeeProfessions",
@@ -230,5 +198,35 @@ public class EmployeeController {
         model.addAttribute("professionIds", professionIds);
         return "private/employees/fragments/edit-employee";
     }
+
+
+    @GetMapping("/table-search")
+    public String getEmployeesTableSearch (
+            Model model,
+            @AuthenticationPrincipal SecurityUser securityUser,
+            String q,
+            EmployeeStatus status,
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "100") int size
+        ) {
+
+        if(securityUser == null) {
+                return "redirect:/login";
+        }
+
+        UUID externalId = securityUser.getUser().getExternalId();
+
+        Page<EmployeeTableDto> employeesPage =
+                        employeeService.getEmployeeTable(
+                                externalId, q, status, page, size);
+
+        model.addAttribute("employeesPage", employeesPage);          // Page completo
+        model.addAttribute("employees", employeesPage.getContent()); // Lista para iterar
+        model.addAttribute("q", null);
+        model.addAttribute("currentStatus", null);
+        model.addAttribute("statuses", EmployeeStatus.values());
+        return "private/employees/views/employees-list";
+    }
+
 
 }

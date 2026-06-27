@@ -66,14 +66,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
-    @Override
-    @Transactional
+
+    @Transactional(readOnly = true)
     public List<Employee> findAll (){
         return employeeRepository.findAll();
     }
 
 
-    @Override
     @Transactional(readOnly = true)
     public EmployeeEditDto findByExternalIdEditEmployee(UUID externalId) {
         EmployeeEditProjection projection = employeeRepository.findEmployeeEditProjectionByExternalId(externalId)
@@ -83,7 +82,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
 
-    @Override
     @Transactional(readOnly = true)
     public EmployeeViewDto findByExternalIdViewEmployee(UUID externalId) {
         EmployeeViewProjection projection = employeeRepository.findEmployeeViewProjectionByExternalId(externalId)
@@ -92,7 +90,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return EmployeeViewDto.fromProjection(projection);
     }
 
-    @Override
+
     @Transactional(readOnly = true)
     public EmployeeViewDto findByIdViewEmployee(Long id) {
         EmployeeViewProjection projection = employeeRepository.findEmployeeViewProjectionById(id)
@@ -102,25 +100,24 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
 
-    @Override
     @Transactional
     public Employee saveEmployee (Employee employee){
         return employeeRepository.save(employee);
     }
 
-    @Override
-    @Transactional
+
+    @Transactional(readOnly = true)
     public Optional<Employee> findById(Long id) {
         return employeeRepository.findById(id);
     }
 
-    @Override
-    @Transactional
+
+    @Transactional(readOnly = true)
     public Optional<Employee> findByUsername(String username) {
         return employeeRepository.findByUserUsername(username);
     }
 
-    @Override
+
     @Transactional
     public Employee createEmployeeFromRequest(CreateEmployeeRequest req) {
         
@@ -236,6 +233,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     }
 
+
     private String getExtension(String filename) {
         if (filename == null) return null;
 
@@ -247,28 +245,24 @@ public class EmployeeServiceImpl implements EmployeeService {
         return null;
     }
 
-    @Override
-    @Transactional
+
+    @Transactional(readOnly = true)
     public List<Employee> findAllWithProjects() {
         return employeeRepository.findAllWithProjects();
     }
 
-    @Override
     @Transactional(readOnly = true)
     public List<Employee> findAllUnassignedEmployees() {
         return employeeRepository.findAllUnassignedEmployees();
     }
 
 
-
-    @Override
     @Transactional(readOnly = true)
     public List<Employee> findAllWithUserAndProjectsAndPosition() {
         return employeeRepository.findAllWithUserAndProjectsAndPosition();
     }
 
 
-    @Override
     @Transactional(readOnly = true)
     public EmployeeSelectDto findEmployeeByUserId(Long userId) {
         return employeeRepository.findByUser_Id(userId)
@@ -279,7 +273,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
 
-    @Override
     @Transactional(readOnly = true)
     public EmployeeSelectDto findEmployeeByUserExternalId(UUID userExternalId) {
         return employeeRepository.findByUserExternalId(userExternalId)
@@ -290,7 +283,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
 
-    @Override
     @Transactional(readOnly = true)
     public List<EmployeeSelectDto> getAllEmployeesSelectDto() {
         List<EmployeeSelectProjection> projections = employeeRepository.findAllProjections();
@@ -300,17 +292,20 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
 
-    @Override
     @Transactional(readOnly = true)
     public Page<EmployeeTableDto> getEmployeeTable(
-                UUID userExternalId, String q, Boolean active, int page, int size) {
+                UUID userExternalId,
+                String q,
+                EmployeeStatus status,
+                int page,
+                int size) {
 
         // Normalizar page/size (Spring Data usa 0-based)
         int safePage = Math.max(0, page);
         int safeSize = Math.min(Math.max(5, size), 200); // límites: min 5, max 200
 
-        // Normalizar query
-        String safeQ = (q == null || q.trim().isEmpty()) ? null : q.trim();
+        String cleanQ = (q == null || q.trim().isEmpty()) ? null : q.trim();
+        String repoQ = (cleanQ != null) ? "%" + cleanQ.toLowerCase() + "%" : null;
 
         // Resolver clientes asociados al usuario
         List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);
@@ -322,14 +317,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         Page<EmployeeTableProjection> projectionPage =
                     employeeRepository
-                        .findTableRowsForClientIds(clientIds, safeQ, active, pg);
+                        .findTableRowsForClientIds(clientIds, repoQ, status, pg);
 
         return projectionPage.map(EmployeeTableDto::fromProjection);
-
     }
 
 
-    @Override
     @Transactional
     public Optional<EmployeeViewDto> updateEmployee(
                                         UUID externalId, UpdateEmployeeRequest req) {
@@ -460,7 +453,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         return Optional.of(EmployeeViewDto.fromProjection(projectionOpt.get()));
     }
 
-    @Override
     @Transactional
     public EmployeeSelectDto findEmployeeSelectDtoById(Long id){
         return employeeRepository.findEmployeeSelectDtoById(id)
@@ -470,7 +462,6 @@ public class EmployeeServiceImpl implements EmployeeService {
                         EntityNotFoundException("Empleado no encontrado con id: " + id));
     }
 
-    @Override
     @Transactional
     public Employee validateAndAssignUser (Long employeeId, User user) {
         Employee employee = employeeRepository.findById(employeeId)
@@ -481,5 +472,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setUser(user);
         return employeeRepository.save(employee);
     }
+
+
 
 }

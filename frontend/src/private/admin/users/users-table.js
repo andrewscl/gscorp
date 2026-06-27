@@ -71,7 +71,5 @@ function bindUserTable() {
 
 (function init () {
   bindUserTable();
-
   initHeaderSync('.hs-table-header','--header-height');
-
 })();

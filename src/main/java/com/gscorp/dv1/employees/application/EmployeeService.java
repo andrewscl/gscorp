@@ -13,6 +13,7 @@ import com.gscorp.dv1.employees.web.dto.EmployeeTableDto;
 import com.gscorp.dv1.employees.web.dto.EmployeeViewDto;
 import com.gscorp.dv1.employees.web.dto.request.CreateEmployeeRequest;
 import com.gscorp.dv1.employees.web.dto.request.UpdateEmployeeRequest;
+import com.gscorp.dv1.enums.EmployeeStatus;
 import com.gscorp.dv1.users.infrastructure.User;
 
 public interface EmployeeService {
@@ -33,8 +34,6 @@ public interface EmployeeService {
 
     Employee createEmployeeFromRequest(CreateEmployeeRequest req);
 
-    Optional<EmployeeViewDto> updateEmployee(UUID externalId, UpdateEmployeeRequest req);
-
     List<Employee> findAllWithProjects();
 
     List<Employee> findAllUnassignedEmployees();
@@ -47,10 +46,15 @@ public interface EmployeeService {
 
     List<EmployeeSelectDto> getAllEmployeesSelectDto();
 
-
     Page<EmployeeTableDto> getEmployeeTable(
-                UUID userExternalId, String q, Boolean active, int page, int size);
+                UUID userExternalId,
+                String q,
+                EmployeeStatus status,
+                int page,
+                int size);
 
+    Optional<EmployeeViewDto> updateEmployee(
+                        UUID externalId, UpdateEmployeeRequest req);
 
     EmployeeSelectDto findEmployeeSelectDtoById(Long id);
 

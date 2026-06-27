@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.gscorp.dv1.enums.EmployeeStatus;
+
 public interface EmployeeTableProjection {
     Long getId();
     UUID getExternalId();
@@ -15,7 +17,7 @@ public interface EmployeeTableProjection {
     String getMail();
     String getPhone();
     String getPositionName();
-    Boolean getActive();
+    EmployeeStatus getStatus();
     LocalDate getHireDate();
     LocalDateTime getCreatedAt();
     String getUsername();

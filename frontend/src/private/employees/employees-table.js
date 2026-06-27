@@ -16,6 +16,48 @@ async function searchEmployees () {
     setTimeout(() => navigateTo('/private/employees/create', true), 1000);
 }
 
+
+async function searchEmployee(){
+    const queryText = qs('#filter-q')?.value.trim() || '';
+    const status = qs('#filter-employee-status')?.value.trim() || '';
+    const count = qs('#count')?.value.trim() || '';
+
+    const params = new URLSearchParams();
+    if (queryText) params.append('q', queryText);
+    if (status) params.append('status', status);
+    //Agregar paginación por si se requiere controlar en el futuro
+    params.append('page', '0');
+    params.append('size', '100');
+    //ensamblar url
+    const baseUrl = '/private/employees/table-search';
+    const url = params.toString() ? `${baseUrl}?${params.toString()}` : baseUrl;
+
+    try {
+        const res = await fetchWithAuth(url, { credentials: 'same-origin'});
+        if(!res.ok) throw new Error(`Error HTTP: ${res.status}`);
+
+        const htmlResult = await res.text();
+
+        const tBody = qs('.hs-table-container .table tbody')
+        if(tBody){
+            tBody.innerHTML = '';
+            tBody.innerHTML = htmlResult;
+        }
+
+        const hiddenCountInput = qs('#sync-users-count');
+        const headerCountSpan = qs('.count');
+
+        if(hiddenCountInput && headerCountSpan){
+            const newCount = parseInt(hiddenCountInput.value, 10) || 0;
+            headerCountSpan.textContent = `${newCount} registro${newCount === 1 ? '' : 's'}`;
+        }
+
+    } catch (err) {
+        console.error("No se pudo procesar la búsqueda de usuarios:", err);
+    }
+}
+
+
 function bindEmployeesTable() {
     const addEmployeesBtn = qs('#addEmployeesBtn');
     const searchEmployeesBtn = qs('#searchEmployeesBtn');
