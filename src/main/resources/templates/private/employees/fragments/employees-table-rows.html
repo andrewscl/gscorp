@@ -1,15 +1,15 @@
 <th:block th:fragment="rows">
-  <tr th:each="e : ${employees}">
-    <td class="cell-photo">
-      <img
-        th:src="${e.photoUrl}"
-        width="40" height="40"
-        class="avatar avatar-sm" />
-    </td>
-    <td th:text="${e.fullName != null ? e.fullName : '—'}">Nombre Apellido</td>
-    <td th:text="${e.positionName}">Cargo</td>
-    <td th:text="${e.phone}">+56 9 1234 5678</td>
-    <td th:text="${e.status.displayName}">Activo</td>
+      <tr th:each="e : ${employees}">
+          <td class="cell-photo">
+            <img
+              th:src="${e.photoUrl}"
+              width="40" height="40"
+              class="avatar avatar-sm" />
+          </td>
+          <td th:text="${e.fullName != null ? e.fullName : '—'}">Nombre Apellido</td>
+          <td th:text="${e.positionName}">Cargo</td>
+          <td th:text="${e.phone}">+56 9 1234 5678</td>
+          <td th:text="${e.status.displayName}">Activo</td>
 
           <td class="actions">
             <button type="button"
@@ -24,5 +24,12 @@
               Editar
             </button>
           </td>
-  </tr>
+      </tr>
+
+      <tr>
+          <td colspan="100" style="display: none !important; padding: 0; border: none;">
+              <input type="hidden" id="sync-employees-count" th:value="${count != null ? count : (employeesPage != null ? employeesPage.totalElements : 0)}" />
+          </td>
+      </tr>
+
 </th:block>

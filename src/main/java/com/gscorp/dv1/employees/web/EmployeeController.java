@@ -61,7 +61,6 @@ public class EmployeeController {
     private EmployeeTabsServiceImpl employeeTabsService;
     private CompanyService companyService;
 
-
     @GetMapping("/table-view")
     public String getEmployeesTableView (
             Model model,
@@ -89,7 +88,6 @@ public class EmployeeController {
         model.addAttribute("statuses", EmployeeStatus.values());
         return "private/employees/views/employees-list";
     }
-
 
     @GetMapping("/create")
     public String getCreateEmployeeView (Model model) {
@@ -226,8 +224,7 @@ public class EmployeeController {
         model.addAttribute("q", null);
         model.addAttribute("currentStatus", null);
         model.addAttribute("statuses", EmployeeStatus.values());
-        return "private/employees/fragments/employees-table-partial :: partial";
+        return "private/employees/fragments/employees-table-rows :: rows";
     }
-
 
 }
