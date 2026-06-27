@@ -1,4 +1,4 @@
-<tbody th:fragment="rows">
+<th:block th:fragment="rows">
   <tr th:each="e : ${employees}">
     <td class="cell-photo">
       <img
@@ -9,7 +9,7 @@
     <td th:text="${e.fullName != null ? e.fullName : '—'}">Nombre Apellido</td>
     <td th:text="${e.positionName}">Cargo</td>
     <td th:text="${e.phone}">+56 9 1234 5678</td>
-    <td th:text="${e.status}">Activo</td>
+    <td th:text="${e.status.displayName}">Activo</td>
 
           <td class="actions">
             <button type="button"
@@ -24,7 +24,5 @@
               Editar
             </button>
           </td>
-
   </tr>
-
-</tbody>
+</th:block>
