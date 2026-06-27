@@ -11,13 +11,7 @@ const createEmployee = (e) => {
     setTimeout(() => navigateTo('/private/employees/create', true), 1000);
 }
 
-async function searchEmployees () {
-    e.target.disabled = true;
-    setTimeout(() => navigateTo('/private/employees/create', true), 1000);
-}
-
-
-async function searchEmployee(pageNumber = 0){
+async function searchEmployees(pageNumber = 0){
     const queryText = qs('#filter-q')?.value.trim() || '';
     const status = qs('#filter-employee-status')?.value.trim() || '';
 
