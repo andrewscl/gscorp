@@ -22,7 +22,6 @@ async function searchEmployees(pageNumber = 0){
     if (status) params.append('status', status);
 
     params.append('page', pageNumber.toString());
-    params.append('size', pageSize);
 
     const baseUrl = '/private/employees/table-search';
     const url = params.toString() ? `${baseUrl}?${params.toString()}` : baseUrl;
