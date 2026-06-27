@@ -34,7 +34,6 @@ async function searchEmployees(pageNumber = 0){
 
         const tBody = qs('.hs-table-container .table tbody')
         if(tBody){
-            tBody.innerHTML = '';
             tBody.innerHTML = htmlResult;
         }
 
