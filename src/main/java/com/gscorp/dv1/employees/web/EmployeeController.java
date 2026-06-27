@@ -220,8 +220,9 @@ public class EmployeeController {
                         employeeService.getEmployeeTable(
                                 externalId, q, status, page, size);
 
-        model.addAttribute("employeesPage", employeesPage);          // Page completo
-        model.addAttribute("employees", employeesPage.getContent()); // Lista para iterar
+        model.addAttribute("employeesPage", employeesPage);
+        model.addAttribute("employees", employeesPage.getContent());
+        model.addAttribute("count", employeesPage.getTotalElements());
         model.addAttribute("q", null);
         model.addAttribute("currentStatus", null);
         model.addAttribute("statuses", EmployeeStatus.values());

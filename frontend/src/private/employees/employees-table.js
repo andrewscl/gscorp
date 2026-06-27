@@ -17,18 +17,19 @@ async function searchEmployees () {
 }
 
 
-async function searchEmployee(){
+async function searchEmployee(pageNumber = 0){
     const queryText = qs('#filter-q')?.value.trim() || '';
     const status = qs('#filter-employee-status')?.value.trim() || '';
-    const count = qs('#count')?.value.trim() || '';
+
+    const pageSize = qs('#filter-employee-status')?.value.trim() || '100';
 
     const params = new URLSearchParams();
     if (queryText) params.append('q', queryText);
     if (status) params.append('status', status);
-    //Agregar paginación por si se requiere controlar en el futuro
-    params.append('page', '0');
-    params.append('size', '100');
-    //ensamblar url
+
+    params.append('page', pageNumber.toString());
+    params.append('size', pageSize);
+
     const baseUrl = '/private/employees/table-search';
     const url = params.toString() ? `${baseUrl}?${params.toString()}` : baseUrl;
 
@@ -44,7 +45,7 @@ async function searchEmployee(){
             tBody.innerHTML = htmlResult;
         }
 
-        const hiddenCountInput = qs('#sync-users-count');
+        const hiddenCountInput = qs('#sync-employees-count');
         const headerCountSpan = qs('.count');
 
         if(hiddenCountInput && headerCountSpan){
@@ -60,10 +61,10 @@ async function searchEmployee(){
 
 function bindEmployeesTable() {
     const addEmployeesBtn = qs('#addEmployeesBtn');
-    const searchEmployeesBtn = qs('#searchEmployeesBtn');
     if (addEmployeesBtn) {
         addEmployeesBtn.addEventListener('click', createEmployee);
     }
+    const searchEmployeesBtn = qs('#searchEmployeesBtn');
     if (searchEmployeesBtn) {
         searchEmployeesBtn.addEventListener('click', searchEmployees);
     }
