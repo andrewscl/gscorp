@@ -226,7 +226,7 @@ public class EmployeeController {
         model.addAttribute("q", null);
         model.addAttribute("currentStatus", null);
         model.addAttribute("statuses", EmployeeStatus.values());
-        return "private/employees/views/employees-list";
+        return "private/employees/fragments/employees-table-partial :: partial";
     }
 
 
