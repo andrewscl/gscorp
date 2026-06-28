@@ -14,12 +14,13 @@ const createEmployee = (e) => {
 async function searchEmployees(pageNumber = 0){
     const queryText = qs('#filter-q')?.value.trim() || '';
     const status = qs('#filter-employee-status')?.value.trim() || '';
-
+    const userStatus = qs('#filter-employee-user-status')?.value.trim() || '';
     const pageSize = qs('#filter-employee-status')?.value.trim() || '100';
 
     const params = new URLSearchParams();
     if (queryText) params.append('q', queryText);
     if (status) params.append('status', status);
+    if (userStatus) params.append('userStatus', userStatus);
 
     params.append('page', pageNumber.toString());
 
