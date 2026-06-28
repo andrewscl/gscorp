@@ -20,30 +20,50 @@ $border-color: $slate-200;
 $border-color-hover: $slate-300;
 $hover-color: $accent-blue;
 $muted-color: $cool-gray-500;
-
 $heading-color: $slate-600;
 $label-text-color: $slate-400;
 $input-text-color: $slate-700;
-
 $toggle-width: 84px;
 $toggle-padding: 0.45rem 0.75rem;
-
 $topbar-height: 3.5rem;
 $topbar-height-mobile: 4.8rem;
 $sidebar-width: 15rem;
 $content-horizontal-padding: 2.4rem;
+$content-vertical-padding: 1.2rem;
 $radius: 0.7rem;
 $radius-lg: 1rem;
 $radius-md: 0.8rem;
 $radius-email: 11.2px;
 $ratio-left: 1;
 $ratio-right: 1;
-
 $width-coords: 13rem; 
 $width-time: 6rem;
 $width-number: 3.5rem;
 $width-text: 10rem;
 $width-btn: 6rem;
+
+// === Fondos Neutros ===
+$background-default: $slate-50;
+$background-muted: $slate-100; 
+$background-soft: $slate-200;
+$background-strong: $slate-900;
+$background-white: $white;
+
+// === Fondos Alternativos ===
+$background-alt: #fafaf9;          // stone-50
+$background-alt-muted: #f5f5f4;    // stone-100
+
+// === Fondos Oscuros Alternativos ===
+$background-dark: #0f172a;         // slate-950
+$background-alt-dark: #1c1917;     // stone-950
+
+// === Fondos con Acento Sutil ===
+$background-accent-blue: #f0f9ff;   // sky-50
+$background-accent-green: #030303;  // emerald-50
+$background-accent-rose: #fff1f2;   // rose-50
+$background-accent-yellow: #fefce8; // yellow-50
+$background-accent-purple: #f5f3ff; // violet-50
+
 
 //topbar
 $main-bg: linear-gradient(120deg, #f6f8fa 0%, #e7ebf3 100%);
@@ -51,6 +71,8 @@ $sidebar-bg: #ffffff;
 $sidebar-color: #494f56;
 $topbar-bg: #fff;
 $content-bg: #f9fafb;
+
+
 
 
 // Sombras sutiles para elementos pequeños (inputs, botones)
