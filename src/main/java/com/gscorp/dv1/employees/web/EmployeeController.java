@@ -226,7 +226,8 @@ public class EmployeeController {
         model.addAttribute("count", employeesPage.getTotalElements());
         model.addAttribute("q", null);
         model.addAttribute("currentStatus", null);
-        model.addAttribute("statuses", EmployeeStatus.values());    
+        model.addAttribute("statuses", EmployeeStatus.values());
+        model.addAttribute("userStatuses", UserStatus.values());    
         return "private/employees/fragments/employees-table-rows :: rows";
     }
 
