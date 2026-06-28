@@ -11,20 +11,11 @@
           <td th:text="${e.phone}">+56 9 1234 5678</td>
           <td th:text="${e.status.displayName}">Activo</td>
 
-          <!-- Columna Estado de Acceso / Invitación (Blindada contra nulos) -->
           <td>
-              <!-- Caso 1: Si no tiene usuario asociado en la BD (da null) -->
-              <span th:if="${e.userStatus() == null}" class="badge bg-light text-muted">⚪ Sin Invitar</span>
-              
-              <!-- Caso 2: Si el empleado sí tiene un usuario asociado -->
-              <th:block th:if="${e.userStatus() != null}">
-                  <span th:class="${e.userStatus().name() == 'ACTIVE' ? 'badge bg-success-light text-success' : 
-                                  e.userStatus().name() == 'INVITED' ? 'badge bg-warning-light text-warning' : 
-                                  e.userStatus().name() == 'EXPIRED' ? 'badge bg-danger-light text-danger' : 'badge bg-secondary-light text-dark'}"
-                        th:text="${e.userStatus().displayName}">
-                        Estado Acceso
-                  </span>
-              </th:block>
+              <span th:if="${e.userStatus() == null}">Sin Invitar</span>
+              <span th:if="${e.userStatus() != null}" th:text="${e.userStatus().displayName}">
+                  Estado Acceso
+              </span>
           </td>
 
           <td class="actions">
