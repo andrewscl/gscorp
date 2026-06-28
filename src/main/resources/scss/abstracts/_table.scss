@@ -5,95 +5,102 @@
 @use 'buttons/btn-mixins' as *;
 @use 'typography' as *;
 
-:root {
-  --topbar-height: 54px;                /* same as layout topbar height */
-  --sidebar-width: 240px;               /* same as layout sidebar width */
-  --content-horizontal-padding: 2.4rem; /* match .content horizontal padding in layout */
-  --header-height: 0;
-}
-
 @mixin hs-table() {
 
+    // ---- CONTENEDOR PRINCIPAL DE LA VISTA ----
+    // Actúa como un eje vertical para apilar el encabezado/filtros y luego la tabla
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    height: 100%; // Ocupa todo el alto interno disponible de .content
+    box-sizing: border-box;
+
     .hs-table-header {
-      position: fixed;
-      display: flex;
-      gap: 0.8rem;
-      background-color: $white !important;
-      box-shadow: $shadow-md !important;
-      top: calc(var(--topbar-height) + 1rem);
-      left: calc(var(--sidebar-width) + var(--content-horizontal-padding));
-      right: var(--content-horizontal-padding);
-      z-index: 1150;
-      border-radius: 0.8rem;
+      background-color: $background-white;
+      border-radius: $radius-lg;
       border: 1px solid $border-color;
-      padding: 0.6rem 10rem;
-      box-sizing: border-box;
-      overflow: visible;
-      max-width: calc(100vw - var(--sidebar-width) -
-                                    (var(--content-horizontal-padding) * 2));
+      box-shadow: $shadow-sm;
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      flex-shrink: 0; // Evita que los filtros se aplasten si hay muchas filas
+
       .hs-title-row {
         display: flex;
         align-items: center;
+        justify-content: space-between;
         border-bottom: 1px solid $border-color;
-        padding-bottom: 0.6rem;
+        padding-bottom: 0.75rem;
+
         .title-left {
           display: flex;
+          align-items: center;
+
           .title-text {
             @include montserrat-font(1.25rem, 600);
             color: $heading-color;
+            margin: 0;
           }
+
         }
         .count {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          min-width: 48px;
+          min-width: 2.5rem;
           padding: 0.25rem 0.6rem;
-          background: #eef2ff;
-          color: $accent-blue;
+          background: rgba($hover-color, 0.08);
+          color: $hover-color;
           border-radius: 999px;
-          @include montserrat-font(1rem, 600);
-          box-shadow: 0 1px 0 rgba(15,23,42,0.03);
-          margin-left: auto;
+          @include montserrat-font(0.85rem, 600);
+          box-shadow: 0 1px 0 rgba($slate-900 ,0.03);
         }
       }
       .hs-filters-actions-row {
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-end;
         flex-wrap: wrap;
-        gap: 0.6rem;
+        gap: 1rem;
         width: 100%;
+
         .filter-group {
           display: flex;
-          flex-direction: row;
           flex-wrap: wrap;
           flex-grow: 1;
           gap: 1rem;
-          align-items: center;
+          align-items: flex-end;
+
           .filter-item {
             display: flex;
             flex-direction: column;
-            gap: 0.2rem;
+            gap: 0.35rem;
+
             .filter-label {
               @include roboto-font(0.75rem, 500);
-              color: $muted-color;
+              color: $text-secondary-color;
             }
+
             .filter-input {
               width: 100%;
-              appearance: none;
-              border: 1px solid color.scale($border-color, $lightness: 2%);
+              min-height: 2.35rem;
+              border: 1px solid $border-color;
               padding: 0.5rem 0.6rem;
-              border-radius: 8px;
-              color: $primary-color;
+              border-radius: $radius-md;
+              color: $text-color;
+              background-color: $white;
               transition: border-color .12s ease, box-shadow .12s ease;
+              box-sizing: border-box;
+
               &:focus {
                 outline: none;
-                border-color: $accent-blue;
-                box-shadow: 0 0 0 6px rgba($accent-blue, 0.06);
+                border-color: $hover-color;
+                box-shadow: 0 0 0 6px rgba($hover-color, 0.06);
               }
               &[type="text"] {
-                width: 18rem;
+                width: 100%;
+                max-width: 18rem;
               }
             }
           }
@@ -112,10 +119,9 @@
       }
       .actions-row{
           display: flex;
-          justify-content: flex-end;
-          gap: 1rem;
-          background: transparent;
+          gap: 0.75rem;
           align-items: center;
+          margin-left: auto;
           .btn {
             @include roboto-font(0.85rem, 600);
             &.btn-primary {
@@ -139,61 +145,67 @@
     }
 
     .hs-table-container {
-      position: fixed;
-      border-radius: $radius;
-      overflow-x: auto;
-      overflow-y: auto;
+      flex-grow: 1;
+      background: $white;
+      border-radius: $radius-lg;
+      border: 0.0625rem solid $border-color;
+      box-shadow: $shadow-sm;
+      overflow: auto;
       -webkit-overflow-scrolling: touch;
-      background: $white !important;
-      border: 1px solid $border-color;
-      box-shadow: $shadow-md !important;
-      padding: 0 0.6rem 0.6rem 0.6rem;
-      box-sizing: border-box;
-      top: calc(var(--header-height) + var(--topbar-height) + 1.75rem);
-      bottom: 1rem;
-      left: calc(var(--sidebar-width) + var(--content-horizontal-padding));
-      right: var(--content-horizontal-padding);
+      position: relative;
+
       .table {
         width: 100%;
         border-collapse: collapse;
         @include roboto-font(0.875rem, 500);
-        color: $primary-color;
+        color: $text-color;
         table-layout: auto;
-        min-width: 0;
+
         thead {
           tr {
             th {
               position: sticky;
               top: 0;
-              z-index: 1140;
+              z-index: 10; // Suficiente para flotar sobre los td
+              background: $slate-50; // Color sólido para que los datos no se traslapen al hacer scroll
               text-align: left;
-              @include roboto-font(1rem, 600);
-              padding: 0.9rem 0.85rem;
-              border-bottom: 1px solid $border-color;
-              color: $primary-color;
+              @include roboto-font(0.85rem, 600);
+              text-transform: uppercase; // Le da un toque corporativo moderno
+              letter-spacing: 0.03em;
+              padding: 1rem 1.2rem;
+              border-bottom: 2px solid $border-color;
+              color: $text-secondary-color;
               white-space: nowrap;
-              background: $background-color;
             }
           }
         }
         tbody {
           tr {
+            border-bottom: 0.0625rem solid $border-color;
             transition: background .12s ease;
-            &:hover { background: rgba($accent-blue, 0.03); }
+            &:last-child { border-bottom: none; }
+            &:hover { background-color: rgba($hover-color, 0.02); }
             td {
               padding: 0.65rem 0.85rem;
-              border-bottom: 1px solid $border-color;
               vertical-align: middle;
-              white-space: normal;
-              word-break: break-word;
-              overflow-wrap: anywhere;
+              white-space: nowrap;
+              &.cell-wrap{
+                white-space: normal;
+                word-break: break-word;
+                overflow-wrap: anywhere;
+              }
             }
-          }
-          tr.empty td.empty {
-            text-align: center;
-            padding: 2rem;
-            color: $muted-color;
-            white-space: normal;
+
+            &.empty {
+              &:hover { background-color: transparent; }
+              
+              td.empty {
+                text-align: center;
+                padding: 4rem 2rem;
+                color: $text-secondary-color;
+                @include roboto-font(0.95rem, 400);
+              }
+            }
           }
         }
       }
