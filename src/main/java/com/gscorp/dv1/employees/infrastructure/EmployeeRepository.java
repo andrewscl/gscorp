@@ -20,6 +20,7 @@ import com.gscorp.dv1.employees.infrastructure.Projections.statistics.ClientEmpl
 import com.gscorp.dv1.employees.infrastructure.Projections.statistics.CompanyEmployeesStatusSummaryProjection;
 import com.gscorp.dv1.employees.infrastructure.Projections.statistics.EmployeesStatusSummaryProjection;
 import com.gscorp.dv1.enums.EmployeeStatus;
+import com.gscorp.dv1.enums.UserStatus;
 
 
 @Repository
@@ -151,6 +152,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
         @Param("clientIds") List<Long> clientIds,
         @Param("q") String q,
         @Param("status") EmployeeStatus status,
+        @Param("userStatus") UserStatus userStatus,
         Pageable pageable
     );
 
