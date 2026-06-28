@@ -298,9 +298,20 @@ public class EmployeeServiceImpl implements EmployeeService {
                 UUID userExternalId,
                 String q,
                 EmployeeStatus status,
-                UserStatus userStatus,
+                String userStatusStr,
                 int page,
                 int size) {
+
+        UserStatus userStatusEnum = null;
+        boolean showNotInvited = false;
+
+        if (userStatusStr != null && !userStatusStr.isBlank()) {
+            if ("NOT_INVITED".equals(userStatusStr)) {
+                showNotInvited = true;
+            } else {
+                userStatusEnum = UserStatus.valueOf(userStatusStr);
+            }
+        }
 
         // Normalizar page/size (Spring Data usa 0-based)
         int safePage = Math.max(0, page);
@@ -319,7 +330,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         Page<EmployeeTableProjection> projectionPage =
                     employeeRepository
-                        .findTableRowsForClientIds(clientIds, repoQ, status, userStatus, pg);
+                        .findTableRowsForClientIds(clientIds, repoQ, status, userStatusEnum, showNotInvited, pg);
 
         return projectionPage.map(EmployeeTableDto::fromProjection);
     }

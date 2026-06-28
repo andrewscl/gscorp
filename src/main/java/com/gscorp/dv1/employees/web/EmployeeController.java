@@ -206,7 +206,7 @@ public class EmployeeController {
             @AuthenticationPrincipal SecurityUser securityUser,
             String q,
             EmployeeStatus status,
-            UserStatus userStatus,
+            String userStatus,
             @RequestParam(required = false, defaultValue = "0") int page,
             @RequestParam(required = false, defaultValue = "100") int size
         ) {

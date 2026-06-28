@@ -119,9 +119,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
           )
           AND (:status IS NULL OR e.status = :status)
           AND (
-            :userStatus IS NULL OR
-            (:userStatus = 'NOT_INVITED' AND usr IS NULL) OR
-            (usr IS NOT NULL AND STR(usr.status) = :userStatus)
+            (:showNotInvited = true AND usr IS NULL) OR
+            (:showNotInvited = false AND (:userStatus IS NULL OR usr.status = :userStatus))
           )
         ORDER BY e.name ASC
         """,
@@ -143,9 +142,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
           )
           AND (:status IS NULL OR e.status = :status)
           AND (
-            :userStatus IS NULL OR
-            (:userStatus = 'NOT_INVITED' AND usr IS NULL) OR
-            (usr IS NOT NULL AND STR(usr.status) = :userStatus)
+            (:showNotInvited = true AND usr IS NULL) OR
+            (:showNotInvited = false AND (:userStatus IS NULL OR usr.status = :userStatus))
           )
         """
     )
@@ -154,6 +152,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
         @Param("q") String q,
         @Param("status") EmployeeStatus status,
         @Param("userStatus") UserStatus userStatus,
+        @Param("showNotInvited") boolean showNotInvited,
         Pageable pageable
     );
 
