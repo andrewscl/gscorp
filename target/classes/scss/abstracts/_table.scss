@@ -13,6 +13,9 @@
     gap: 1.25rem;
     height: 100%; // Ocupa todo el alto interno disponible de .content
     box-sizing: border-box;
+    flex-grow: 1;
+    min-height: 0;
+    
 
     .hs-table-header {
       background-color: $background-white;

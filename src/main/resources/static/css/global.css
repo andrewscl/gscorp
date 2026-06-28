@@ -103,6 +103,8 @@ p {
   gap: 1.25rem;
   height: 100%;
   box-sizing: border-box;
+  flex-grow: 1;
+  min-height: 0;
 }
 .hs-table .hs-table-header {
   background-color: #ffffff;
