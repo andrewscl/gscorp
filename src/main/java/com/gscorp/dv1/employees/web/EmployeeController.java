@@ -79,7 +79,7 @@ public class EmployeeController {
 
         Page<EmployeeTableDto> employeesPage =
                         employeeService.getEmployeeTable(
-                                externalId, null, null, safePage, safeSize);
+                                externalId, null, null, null, safePage, safeSize);
 
         model.addAttribute("employeesPage", employeesPage);          // Page completo
         model.addAttribute("employees", employeesPage.getContent()); // Lista para iterar
@@ -206,6 +206,7 @@ public class EmployeeController {
             @AuthenticationPrincipal SecurityUser securityUser,
             String q,
             EmployeeStatus status,
+            UserStatus userStatus,
             @RequestParam(required = false, defaultValue = "0") int page,
             @RequestParam(required = false, defaultValue = "100") int size
         ) {
@@ -218,7 +219,7 @@ public class EmployeeController {
 
         Page<EmployeeTableDto> employeesPage =
                         employeeService.getEmployeeTable(
-                                externalId, q, status, page, size);
+                                externalId, q, status, userStatus, page, size);
 
         model.addAttribute("employeesPage", employeesPage);
         model.addAttribute("employees", employeesPage.getContent());

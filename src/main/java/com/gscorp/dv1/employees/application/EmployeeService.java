@@ -14,6 +14,7 @@ import com.gscorp.dv1.employees.web.dto.EmployeeViewDto;
 import com.gscorp.dv1.employees.web.dto.request.CreateEmployeeRequest;
 import com.gscorp.dv1.employees.web.dto.request.UpdateEmployeeRequest;
 import com.gscorp.dv1.enums.EmployeeStatus;
+import com.gscorp.dv1.enums.UserStatus;
 import com.gscorp.dv1.users.infrastructure.User;
 
 public interface EmployeeService {
@@ -50,6 +51,7 @@ public interface EmployeeService {
                 UUID userExternalId,
                 String q,
                 EmployeeStatus status,
+                UserStatus userStatus,
                 int page,
                 int size);
 
