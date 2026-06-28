@@ -1,4 +1,3 @@
-import { initHeaderSync } from "../../shared/sync-header-height";
 import { navigateTo } from "../../navigation-handler";
 import { fetchWithAuth } from "../../auth";
 
@@ -66,5 +65,4 @@ function bindEmployeesTable() {
 
 (function init () {
   bindEmployeesTable();
-  initHeaderSync('.hs-table-header','--header-height');
 })();
