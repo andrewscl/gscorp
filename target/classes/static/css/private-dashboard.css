@@ -255,7 +255,7 @@ body[data-layout=private] .main-content {
   display: flex;
   flex-direction: column;
   background: #f8fafc;
-  overflow: hidden;
+  overflow-y: auto;
 }
 body[data-layout=private] .main-content .topbar {
   height: 3.5rem;

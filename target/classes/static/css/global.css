@@ -350,6 +350,7 @@ p {
 }
 @media (max-width: 768px) {
   .hs-table {
+    margin-left: 0;
     display: block;
     height: auto;
     overflow: visible;

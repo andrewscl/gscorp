@@ -172,7 +172,7 @@ body[data-layout="private"] {
     display: flex;
     flex-direction: column;
     background: $background-default;
-    overflow: hidden;
+    overflow-y: auto;
 
     .topbar {
       height: $topbar-height;
