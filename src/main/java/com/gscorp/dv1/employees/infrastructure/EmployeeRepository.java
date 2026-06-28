@@ -117,6 +117,11 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
             LOWER(COALESCE(e.phone, ''))      LIKE :q
           )
           AND (:status IS NULL OR e.status = :status)
+          AND (
+            :userStatus IS NULL OR
+            (:userStatus = "NOT_INVITED" AND usr.id IS NULL) OR
+            (usr.status = :userStatus)
+          )
         ORDER BY e.name ASC
         """,
       countQuery = """
@@ -135,6 +140,11 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
             LOWER(COALESCE(e.phone, ''))      LIKE :q
           )
           AND (:status IS NULL OR e.status = :status)
+          AND (
+            :userStatus IS NULL OR
+            (:userStatus = "NOT_INVITED" AND usr.id IS NULL) OR
+            (usr.status = :userStatus)
+          )
         """
     )
     Page<EmployeeTableProjection> findTableRowsForClientIds(

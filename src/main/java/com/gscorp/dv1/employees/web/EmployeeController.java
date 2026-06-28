@@ -31,6 +31,7 @@ import com.gscorp.dv1.enums.PensionEntity;
 import com.gscorp.dv1.enums.PrevitionalSystem;
 import com.gscorp.dv1.enums.ShiftSystem;
 import com.gscorp.dv1.enums.StudyLevel;
+import com.gscorp.dv1.enums.UserStatus;
 import com.gscorp.dv1.enums.WorkSchedule;
 import com.gscorp.dv1.nationalities.application.NationalityService;
 import com.gscorp.dv1.positions.application.PositionService;
@@ -41,7 +42,6 @@ import com.gscorp.dv1.projects.web.dto.ProjectDto;
 import com.gscorp.dv1.security.SecurityUser;
 import com.gscorp.dv1.shiftpatterns.application.ShiftPatternService;
 import com.gscorp.dv1.users.application.UserService;
-
 
 import lombok.AllArgsConstructor;
 
@@ -86,6 +86,7 @@ public class EmployeeController {
         model.addAttribute("q", null);
         model.addAttribute("currentStatus", null);
         model.addAttribute("statuses", EmployeeStatus.values());
+        model.addAttribute("userStatuses", UserStatus.values());
         model.addAttribute("count", employeesPage.getTotalElements());
         return "private/employees/views/employees-list";
     }
