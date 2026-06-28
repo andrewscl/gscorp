@@ -348,6 +348,13 @@ p {
   font-weight: 400;
   letter-spacing: 0.02em;
 }
+@media (max-width: 768px) {
+  .hs-table {
+    display: block;
+    height: auto;
+    overflow: visible;
+  }
+}
 
 .hs-form {
   width: 90%;

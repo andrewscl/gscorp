@@ -15,7 +15,6 @@
     box-sizing: border-box;
     flex-grow: 1;
     min-height: 0;
-    
 
     .hs-table-header {
       background-color: $background-white;
@@ -211,5 +210,14 @@
         }
       }
     }
+
+
+  @media (max-width: 768px) {
+    display: block;
+    height: auto;
+    overflow: visible;
+    
+  }
+
 }
 
