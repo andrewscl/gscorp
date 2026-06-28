@@ -128,6 +128,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
       countQuery = """
         SELECT COUNT(DISTINCT e.id)
         FROM Employee e
+        LEFT JOIN e.user usr
         JOIN e.projects proj
         JOIN proj.client p
         WHERE p.id IN :clientIds
