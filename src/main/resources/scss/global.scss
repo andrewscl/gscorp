@@ -6,6 +6,7 @@
 @use 'abstracts/table' as * ;
 @use 'abstracts/card-forms' as * ;
 @use 'abstracts/tab-panel-card' as * ;
+@use 'abstracts/table-responsive' as * ;
 
 .hs-table {
   @include hs-table();
@@ -19,3 +20,4 @@
   @include tab-panel-card($max_w: 50rem);
 }
 
+@include table-responsive();
