@@ -6,7 +6,6 @@
 @use 'typography' as *;
 
 @mixin hs-table() {
-
     // ---- CONTENEDOR PRINCIPAL DE LA VISTA ----
     // Actúa como un eje vertical para apilar el encabezado/filtros y luego la tabla
     display: flex;
@@ -25,7 +24,6 @@
       flex-direction: column;
       gap: 1rem;
       flex-shrink: 0; // Evita que los filtros se aplasten si hay muchas filas
-
       .hs-title-row {
         display: flex;
         align-items: center;

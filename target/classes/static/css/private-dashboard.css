@@ -335,7 +335,10 @@ body[data-layout=private] .main-content .content {
   background: #f8fafc;
   border-radius: 1rem 1rem 0 0;
   box-shadow: 0 0.5rem 1.5rem rgba(44, 62, 80, 0.05);
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
 }
 body[data-layout=private] .sidebar-scrim {
   position: fixed;

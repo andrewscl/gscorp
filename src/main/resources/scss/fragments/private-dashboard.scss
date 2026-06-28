@@ -256,7 +256,11 @@ body[data-layout="private"] {
       background: $background-default;
       border-radius: $radius-lg $radius-lg 0 0;
       box-shadow: 0 0.5rem 1.5rem rgba(44, 62, 80, 0.05);
-      overflow-y: auto;
+
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-height: 0;
     }
   }
 
