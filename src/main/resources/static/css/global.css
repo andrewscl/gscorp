@@ -352,6 +352,7 @@ p {
   .hs-table {
     margin-left: 0;
     display: block;
+    width: 100%;
     height: auto;
     overflow: visible;
   }
