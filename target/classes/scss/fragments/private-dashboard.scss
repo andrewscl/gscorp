@@ -259,7 +259,7 @@ body[data-layout="private"] {
 
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+      overflow-y: auto;
       min-height: 0;
     }
   }
