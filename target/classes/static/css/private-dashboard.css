@@ -435,7 +435,7 @@ body[data-layout=private] .sidebar-scrim {
     box-sizing: border-box;
     height: auto;
     display: block;
-    overflow: visible;
+    overflow-y: auto;
   }
   body[data-layout=private] .sidebar-scrim {
     position: fixed;

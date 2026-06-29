@@ -365,7 +365,7 @@ body[data-layout="private"] {
         box-sizing: border-box;
         height: auto;
         display: block;
-        overflow: visible;
+        overflow-y: auto;
       }
     }
 
