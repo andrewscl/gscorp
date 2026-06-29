@@ -277,9 +277,6 @@ body[data-layout="private"] {
 // ----------- RESPONSIVE / MOBILE -------------
 @media (max-width: 1024px) {
   body[data-layout="private"] {
-    overflow: auto;
-    display: block;
-    height: auto;
 
     .sidebar {
       position: fixed;

@@ -349,11 +349,6 @@ body[data-layout=private] .sidebar-scrim {
 }
 
 @media (max-width: 1024px) {
-  body[data-layout=private] {
-    overflow: auto;
-    display: block;
-    height: auto;
-  }
   body[data-layout=private] .sidebar {
     position: fixed;
     top: 0;
