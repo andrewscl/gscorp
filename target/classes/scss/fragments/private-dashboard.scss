@@ -359,6 +359,7 @@ body[data-layout="private"] {
 
       .content {
         margin-top: $topbar-height-mobile; // 🌟 Compensamos la topbar fija en móvil
+        margin-left: 0;
         padding: 1rem 0.75rem;             // Margen sutil para que las tablas respiren en celulares
         border-radius: 0;                  // En móviles se ve más limpio si va de borde a borde sin curvas gigantes
         width: 100%;
