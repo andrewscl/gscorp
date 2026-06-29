@@ -17,7 +17,9 @@
       gap: 1rem;
       flex-shrink: 0; // Evita que los filtros se aplasten si hay muchas filas
       position: sticky;
+      top: 0;
       
+
       .hs-title-row {
         display: flex;
         align-items: center;
