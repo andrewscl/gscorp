@@ -6,22 +6,30 @@
 @use '../abstracts/typography' as *;
 @use '../abstracts/table' as *;
 
-.hs-table.employees-table {
+.private-layout {
+  .main-content {
+    .content {
+      .hs-table.employees-table {
 
-  @include hs-table();
+        @include hs-table();
 
-  .hs-table-container {
-    .table {
-      tbody {
-        tr {
-            td:nth-child(1) { width: 10%; } 
-            td:nth-child(2) { width: 15%; }
-            td:nth-child(3) { width: 20%; }  
-            td:nth-child(4) { width: 20%; }
-            td:nth-child(5) { width: 15%; }
-            td:nth-child(6) { width: 20%; }
+        .hs-table-container {
+          .table {
+            tbody {
+              tr {
+                  td:nth-child(1) { width: 10%; } 
+                  td:nth-child(2) { width: 15%; }
+                  td:nth-child(3) { width: 20%; }  
+                  td:nth-child(4) { width: 20%; }
+                  td:nth-child(5) { width: 15%; }
+                  td:nth-child(6) { width: 20%; }
+              }
+            }
+          }
         }
       }
+
     }
   }
 }
+
