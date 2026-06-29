@@ -4,8 +4,12 @@
 @use '../abstracts/mixins' as *;
 @use '../abstracts/buttons/btn-mixins' as *;
 @use '../abstracts/typography' as *;
+@use '../abstracts/table' as *;
 
 .hs-table.employees-table {
+
+  @include hs-table();
+
   .hs-table-container {
     .table {
       tbody {
