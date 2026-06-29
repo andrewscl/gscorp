@@ -6,8 +6,6 @@
 @use 'typography' as *;
 
 @mixin hs-table() {
-    
-
     .hs-table-header {
       background-color: $background-white;
       border-radius: $radius-lg;
@@ -135,7 +133,6 @@
       }
 
     }
-
     .hs-table-container {
       flex-grow: 1;
       background: $white;
@@ -202,34 +199,20 @@
         }
       }
     }
-
-
   @media (max-width: 768px) {
 
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    width: 100%;
-    position: relative;
-    box-sizing: border-box;
-
     .hs-table-header {
-    position: relative;
-    top: auto;
-    left: auto;
-    right: auto;
-    max-width: 100%;
-    z-index: 10;
-    padding: 1.25rem; // Padding limpio reemplazando los 10rem
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    background-color: $white;
-    box-shadow: $shadow-md;
-    border-radius: 0.8rem;
-    border: 1px solid $border-color;
-    box-sizing: border-box;
-
+      max-width: 100%;
+      z-index: 10;
+      padding: 1.25rem; // Padding limpio reemplazando los 10rem
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      background-color: $white;
+      box-shadow: $shadow-md;
+      border-radius: 0.8rem;
+      border: 1px solid $border-color;
+      box-sizing: border-box;
       .hs-title-row{
         display: flex;
         flex-direction: column;

@@ -47,7 +47,7 @@
 .op-operator-dashboard-mobile .attendance-card {
   background: #ffffff;
   border-radius: 0.7rem;
-  padding: 1rem;
+  padding: 1.5rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
@@ -171,4 +171,4 @@
   margin: 0.2rem 0 0 0;
   color: #6b7280;
   line-height: 1.2;
-}/*# sourceMappingURL=op-operator-dashboard-fragment.css.map */*/
+}/*# sourceMappingURL=op-operator-dashboard-fragment.css.map */

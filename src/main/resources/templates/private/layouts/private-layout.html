@@ -109,7 +109,6 @@
     <div id="sidebar-scrim" class="sidebar-scrim"></div>
 
     <div class="main-content">
-
         <header class="topbar">
             <div th:if="${topbar != null}" th:replace="${topbar}"></div>
             <div th:unless="${topbar != null}"
@@ -121,7 +120,6 @@
             <div th:unless="${private != null}"
                 th:replace="~{private/layouts/private-layout :: empty}"></div>
         </section>
-
     </div>
 
     <script type="text/javascript">
@@ -133,6 +131,5 @@
 
     <script type="module" src="/js/init-router.js"></script>
     <script type="module" src="/js/private/menu/private-menu.js"></script>
-
 </body>
 </html>
