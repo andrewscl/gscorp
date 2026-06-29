@@ -276,7 +276,7 @@ p {
 }
 .private-layout .main-content .content .hs-table.employees-table::after {
   content: "";
-  position: fixed;
+  position: absolute;
   top: var(--header-height);
   left: 0;
   right: 0;
@@ -414,7 +414,5 @@ p {
   width: 15%;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(6) {
-  width: 20%;
-}/*# sourceMappingURL=employees-table.css.map */r .table tbody tr td:nth-child(6) {
   width: 20%;
 }/*# sourceMappingURL=employees-table.css.map */

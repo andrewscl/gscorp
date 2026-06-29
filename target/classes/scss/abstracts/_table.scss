@@ -146,7 +146,7 @@
 
     &::after {
       content: '';
-      position: fixed; // O 'absolute' si prefieres que se mueva con el contenedor principal
+      position: absolute;
       // Calculamos dinámicamente dónde termina el header para posicionar la máscara
       top: var(--header-height); 
       // Tomamos la referencia de tu primer archivo: .content tiene un padding horizontal.
