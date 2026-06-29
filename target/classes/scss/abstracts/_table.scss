@@ -6,6 +6,13 @@
 @use 'typography' as *;
 
 @mixin hs-table() {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    max-height: calc(100vh - $topbar-height);
+    overflow-y: auto;
+
     .hs-table-header {
       background-color: $background-white;
       border-radius: $radius-lg;
@@ -141,9 +148,9 @@
       border-radius: $radius-lg;
       border: 0.0625rem solid $border-color;
       box-shadow: $shadow-sm;
-      overflow: auto;
       -webkit-overflow-scrolling: touch;
       position: relative;
+      overflow: visible;
 
       .table {
         width: 100%;
