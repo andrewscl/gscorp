@@ -278,7 +278,8 @@ body[data-layout="private"] {
 @media (max-width: 1024px) {
   body[data-layout="private"] {
     overflow: auto;
-    padding: 0;
+    display: block;
+    height: auto;
 
     .sidebar {
       position: fixed;
@@ -301,7 +302,6 @@ body[data-layout="private"] {
       width: 100%;
       max-width: 100%;
       overflow-y: auto;
-
       .topbar {
         position: fixed;
         top: 0;
@@ -358,7 +358,6 @@ body[data-layout="private"] {
           }
         }
       }
-
       .content {
         margin-top: $topbar-height-mobile; // 🌟 Compensamos la topbar fija en móvil
         margin-left: 0;
@@ -372,7 +371,6 @@ body[data-layout="private"] {
       }
     }
 
-    // Scrim (overlay) hidden by default, shown when sidebar-open
     .sidebar-scrim {
       position: fixed;
       inset: 0;
@@ -380,10 +378,6 @@ body[data-layout="private"] {
       z-index: 1190; /* debajo de la sidebar */
       display: none;
     }
-
-    // Estado abierto: controlado añadiendo/removiendo la clase .sidebar-open en el <body>
-    // (JS debe hacer: document.body.classList.toggle('sidebar-open'))
-    // Usamos selector con la misma especificidad para garantizar que se aplique en mobile.
     &.sidebar-open {
       .sidebar {
         transform: translateX(0); /* traer la sidebar a la vista */
