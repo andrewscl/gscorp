@@ -296,6 +296,9 @@ body[data-layout="private"] {
 
     .main-content {
       height: 100vh;
+      margin-left: 0;
+      width: 100%;
+      max-width: 100%;
 
       .topbar {
         position: fixed;
@@ -360,7 +363,10 @@ body[data-layout="private"] {
         border-radius: 0;                  // En móviles se ve más limpio si va de borde a borde sin curvas gigantes
         height: calc(100vh - #{$topbar-height-mobile});
         width: 100%;
-        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        overflow: hidden;
       }
     }
 

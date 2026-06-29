@@ -368,6 +368,9 @@ body[data-layout=private] .sidebar-scrim {
   }
   body[data-layout=private] .main-content {
     height: 100vh;
+    margin-left: 0;
+    width: 100%;
+    max-width: 100%;
   }
   body[data-layout=private] .main-content .topbar {
     position: fixed;
@@ -430,7 +433,10 @@ body[data-layout=private] .sidebar-scrim {
     border-radius: 0;
     height: calc(100vh - 4.8rem);
     width: 100%;
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    overflow: hidden;
   }
   body[data-layout=private] .sidebar-scrim {
     position: fixed;
