@@ -283,6 +283,7 @@ p {
   -webkit-overflow-scrolling: touch;
   position: relative;
   overflow: visible;
+  margin-top: 1rem;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table {
   width: 100%;
@@ -296,7 +297,7 @@ p {
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table thead tr th {
   position: sticky;
-  top: var(--header-height);
+  top: var(--header-height1rem);
   z-index: 10;
   background: #f8fafc;
   text-align: left;
