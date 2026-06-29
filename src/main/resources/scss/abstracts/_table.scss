@@ -144,6 +144,23 @@
       }
     }
 
+    &::after {
+      content: '';
+      position: fixed; // O 'absolute' si prefieres que se mueva con el contenedor principal
+      // Calculamos dinámicamente dónde termina el header para posicionar la máscara
+      top: var(--header-height); 
+      // Tomamos la referencia de tu primer archivo: .content tiene un padding horizontal.
+      // Usamos el left/right para que cubra exactamente el ancho interno del scroll.
+      left: 0;
+      right: 0;
+      height: 1rem; // El tamaño exacto de la separación gris entre las dos cajas
+      background-color: $background-default; // Tu color gris de fondo
+      // Un z-index estratégico: mayor que el contenedor de la tabla (10) 
+      // y que la barra de scroll, pero menor que el .hs-table-header (30)
+      z-index: 25; 
+      pointer-events: none; // Evita que interfiera con los clics del usuario
+    }
+
     .hs-table-container {
       flex-grow: 1;
       background: $white;
@@ -169,23 +186,13 @@
               z-index: 10; // Suficiente para flotar sobre los td
               background: $slate-50; // Color sólido para que los datos no se traslapen al hacer scroll
               text-align: left;
-              @include roboto-font(0.85rem, 600);
+              @include roboto-font(0.8rem, 600);
               text-transform: uppercase; // Le da un toque corporativo moderno
               letter-spacing: 0.03em;
               padding: 1rem 1.2rem;
               border-bottom: 0.125rem solid $border-color;
               color: $text-secondary-color;
               white-space: nowrap;
-              &::before {
-                content: '';
-                position: absolute;
-                left: 0;
-                right: 0;
-                top: -1rem; /* El alto del espacio que deseas (16px) */
-                height: 1rem;
-                background-color: $background-default; /* El color gris del fondo de la app */
-                pointer-events: none;
-              }
             }
           }
         }
