@@ -347,7 +347,6 @@ body[data-layout=private] .sidebar-scrim {
   display: none;
   cursor: pointer;
 }
-
 @media (max-width: 1024px) {
   body[data-layout=private] .sidebar {
     position: fixed;

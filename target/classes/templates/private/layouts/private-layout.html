@@ -98,7 +98,6 @@
 
 <body data-layout="private">
 
-    <!-- Fragmento vacio reutilizable-->
     <th:block th:fragment="empty"></th:block>
 
     <aside class="sidebar" id="sidebar">
@@ -107,7 +106,6 @@
              th:replace="~{private/layouts/private-layout :: empty}"></div>
     </aside>
 
-    <!-- justo DESPUÉS del <aside class="sidebar" ...> -->
     <div id="sidebar-scrim" class="sidebar-scrim"></div>
 
     <div class="main-content">

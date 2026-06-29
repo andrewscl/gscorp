@@ -272,115 +272,111 @@ body[data-layout="private"] {
     display: none;
     cursor: pointer;
   }
-}
 
-// ----------- RESPONSIVE / MOBILE -------------
-@media (max-width: 1024px) {
-  body[data-layout="private"] {
+  // ----------- RESPONSIVE / MOBILE -------------
+  @media (max-width: 1024px) {
 
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: min(83vw, 20rem);
-      height: 100dvh;
-      overflow-y: auto;
-      box-shadow: 0 0.625rem 1.5rem rgba($slate-900, 0.17);
-      z-index: 1200; /* superior al topbar y al scrim */
-      transition: transform .25s cubic-bezier(.42,.04,.58,1);
-      transform: translateX(-100%); /* hidden by default */
-      will-change: transform;
-    }
-
-    .main-content {
-      margin-left: 0;
-      width: 100vw;
-
-      .topbar {
+      .sidebar {
         position: fixed;
         top: 0;
         left: 0;
-        width: 100vw;
-        height: $topbar-height-mobile;
-        z-index: 1100;
-        border-bottom: 0.1rem solid $border-color;
-        padding: 0 1rem;
-        justify-content: space-between;
-
-        .topbar-left {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-
-          .logo-container {
-            display: flex;
-            align-items: center;
-            height: 2.5rem;
-            margin: 0;
-            .logo {
-              width: 100%;
-              width: auto;
-              object-fit: contain;
-            }
-          }
-          .title {
-            @include montserrat-font(1.2rem, 700);
-            color: $text-color;
-          }
-        }
-        .topbar-right {
-
-          .user-actions{ display: none; }
-
-          .topbar-burger {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 3rem;
-            height: 3rem;
-            border-radius: $radius-md;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            font-size: 1.8rem;
-            color: $text-color;
-            transition: background .18s, color .18s, transform .12s;
-            &:focus-visible {
-              outline: 0.125rem solid rgba($hover-color, 0.18);
-              outline-offset: 0.125rem;
-            }
-          }
-        }
-      }
-      .content {
-        margin-top: $topbar-height-mobile; // 🌟 Compensamos la topbar fija en móvil
-        margin-left: 0;
-        padding: 1rem 0.75rem;             // Margen sutil para que las tablas respiren en celulares
-        border-radius: 0;                  // En móviles se ve más limpio si va de borde a borde sin curvas gigantes
-        width: 100%;
-        box-sizing: border-box;
-        height: auto;
-        display: block;
+        width: min(83vw, 20rem);
+        height: 100dvh;
         overflow-y: auto;
+        box-shadow: 0 0.625rem 1.5rem rgba($slate-900, 0.17);
+        z-index: 1200; /* superior al topbar y al scrim */
+        transition: transform .25s cubic-bezier(.42,.04,.58,1);
+        transform: translateX(-100%); /* hidden by default */
+        will-change: transform;
       }
-    }
+      .main-content {
+        margin-left: 0;
+        width: 100vw;
+        .topbar {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: $topbar-height-mobile;
+          z-index: 1100;
+          border-bottom: 0.1rem solid $border-color;
+          padding: 0 1rem;
+          justify-content: space-between;
 
-    .sidebar-scrim {
-      position: fixed;
-      inset: 0;
-      background: rgba($black, .32);
-      z-index: 1190; /* debajo de la sidebar */
-      display: none;
-    }
-    &.sidebar-open {
-      .sidebar {
-        transform: translateX(0); /* traer la sidebar a la vista */
+          .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+
+            .logo-container {
+              display: flex;
+              align-items: center;
+              height: 2.5rem;
+              margin: 0;
+              .logo {
+                width: 100%;
+                width: auto;
+                object-fit: contain;
+              }
+            }
+            .title {
+              @include montserrat-font(1.2rem, 700);
+              color: $text-color;
+            }
+          }
+          .topbar-right {
+
+            .user-actions{ display: none; }
+
+            .topbar-burger {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width: 3rem;
+              height: 3rem;
+              border-radius: $radius-md;
+              border: none;
+              background: transparent;
+              cursor: pointer;
+              font-size: 1.8rem;
+              color: $text-color;
+              transition: background .18s, color .18s, transform .12s;
+              &:focus-visible {
+                outline: 0.125rem solid rgba($hover-color, 0.18);
+                outline-offset: 0.125rem;
+              }
+            }
+          }
+        }
+        .content {
+          margin-top: $topbar-height-mobile; // 🌟 Compensamos la topbar fija en móvil
+          margin-left: 0;
+          padding: 1rem 0.75rem;             // Margen sutil para que las tablas respiren en celulares
+          border-radius: 0;                  // En móviles se ve más limpio si va de borde a borde sin curvas gigantes
+          width: 100%;
+          box-sizing: border-box;
+          height: auto;
+          display: block;
+          overflow-y: auto;
+        }
       }
       .sidebar-scrim {
-        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba($black, .32);
+        z-index: 1190; /* debajo de la sidebar */
+        display: none;
       }
-      overflow: hidden;
-    }
+      &.sidebar-open {
+        .sidebar {
+          transform: translateX(0); /* traer la sidebar a la vista */
+        }
+        .sidebar-scrim {
+          display: block;
+        }
+        overflow: hidden;
+      }
   }
 
 }
+
