@@ -6,6 +6,7 @@
 @use 'typography' as *;
 
 @mixin hs-table() {
+    
 
     .hs-table-header {
       background-color: $background-white;
@@ -205,7 +206,12 @@
 
   @media (max-width: 768px) {
 
-    
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
+    position: relative;
+    box-sizing: border-box;
 
     .hs-table-header {
       padding: 1rem;

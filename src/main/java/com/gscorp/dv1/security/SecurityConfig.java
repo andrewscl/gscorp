@@ -37,10 +37,10 @@ public class SecurityConfig {
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/", "/auth/**", "/public/**", "/chat/**",
                     "/css/**", "/js/**", "/assets/**", "/img/**", "/videos/**", "/favicon.ico",
-                    "/webjars/**", "/error", "/icons/**", "/shell/**").permitAll() //publicas
-                .requestMatchers("/private/**", "/passkeys/**","/api/**").authenticated() //requiere JWT valido
+                    "/webjars/**", "/error", "/icons/**", "/shell/**").permitAll()
+                .requestMatchers("/private/**", "/passkeys/**","/api/**").authenticated()
                 .requestMatchers("/admin/**").
-                    hasAuthority("ROLE_ADMINISTRATOR") //requiere rol ADMIN en el JWT
+                    hasAuthority("ROLE_ADMINISTRATOR")
                 .anyRequest().authenticated())
             .authenticationProvider(authenticationProvider())
             .addFilterBefore(jwtAuthenticationFilter,
@@ -48,7 +48,7 @@ public class SecurityConfig {
 
         http.exceptionHandling(exception -> exception
             .authenticationEntryPoint((request, response, authException) -> {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401 puro
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.setContentType("application/json");
                 response.getWriter().write("{\"error\": \"Expired session\"}");
             })
