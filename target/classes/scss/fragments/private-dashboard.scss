@@ -278,7 +278,7 @@ body[data-layout="private"] {
 // ----------- RESPONSIVE / MOBILE -------------
 @media (max-width: 1024px) {
   body[data-layout="private"] {
-    overflow: hidden;
+    overflow: auto;
 
     .sidebar {
       position: fixed;
@@ -295,7 +295,7 @@ body[data-layout="private"] {
     }
 
     .main-content {
-      height: 100vh;
+      height: auto;
       margin-left: 0;
       width: 100%;
       max-width: 100%;
@@ -361,12 +361,11 @@ body[data-layout="private"] {
         margin-top: $topbar-height-mobile; // 🌟 Compensamos la topbar fija en móvil
         padding: 1rem 0.75rem;             // Margen sutil para que las tablas respiren en celulares
         border-radius: 0;                  // En móviles se ve más limpio si va de borde a borde sin curvas gigantes
-        height: calc(100vh - #{$topbar-height-mobile});
         width: 100%;
-        display: flex;
-        flex-direction: column;
         box-sizing: border-box;
-        overflow: hidden;
+        height: auto;
+        display: block;
+        overflow: visible;
       }
     }
 
