@@ -287,7 +287,7 @@ p {
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table thead tr th {
   position: sticky;
-  top: 0;
+  top: var(--header-height);
   z-index: 10;
   background: #f8fafc;
   text-align: left;

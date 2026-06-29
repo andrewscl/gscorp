@@ -101,6 +101,7 @@ p {
   gap: 1rem;
   flex-shrink: 0;
   position: sticky;
+  top: 0;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-title-row {
   display: flex;
@@ -286,7 +287,7 @@ p {
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table thead tr th {
   position: sticky;
-  top: 0;
+  top: var(--header-height);
   z-index: 10;
   background: #f8fafc;
   text-align: left;
