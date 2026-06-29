@@ -93,7 +93,6 @@ p {
 
 body[data-layout=private] {
   height: 100vh;
-  height: 100dvh;
   margin: 0;
   background: linear-gradient(120deg, #f6f8fa 0%, #e7ebf3 100%);
   display: flex;
