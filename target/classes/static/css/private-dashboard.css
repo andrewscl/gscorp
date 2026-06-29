@@ -371,6 +371,7 @@ body[data-layout=private] .sidebar-scrim {
     margin-left: 0;
     width: 100%;
     max-width: 100%;
+    overflow-y: auto;
   }
   body[data-layout=private] .main-content .topbar {
     position: fixed;
