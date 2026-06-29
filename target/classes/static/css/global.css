@@ -353,8 +353,8 @@ p {
     margin-left: 0;
     display: block;
     width: 100%;
+    max-width: 100%;
     height: auto;
-    overflow: visible;
   }
   .hs-table .hs-table-header {
     padding: 1rem;
@@ -759,4 +759,4 @@ p {
   to {
     opacity: 1;
   }
-}/*# sourceMappingURL=global.css.map */
+}/*# sourceMappingURL=global.css.map */*/
