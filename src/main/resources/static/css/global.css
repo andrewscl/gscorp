@@ -358,6 +358,8 @@ p {
   }
   .hs-table .hs-table-header {
     padding: 1rem;
+    width: 100%;
+    box-sizing: border-box;
   }
   .hs-table .hs-table-header .hs-title-row {
     flex-direction: column;
@@ -380,7 +382,6 @@ p {
   .hs-table .hs-table-header .hs-filters-actions-row .actions-row {
     width: 100%;
     margin-left: 0;
-    flex-direction: column-reverse;
     align-items: stretch;
     gap: 0.5rem;
   }
@@ -759,4 +760,4 @@ p {
   to {
     opacity: 1;
   }
-}/*# sourceMappingURL=global.css.map */*/
+}/*# sourceMappingURL=global.css.map */# sourceMappingURL=global.css.map */

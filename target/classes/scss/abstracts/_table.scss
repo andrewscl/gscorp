@@ -221,6 +221,8 @@
 
     .hs-table-header {
       padding: 1rem;
+      width: 100%;
+      box-sizing: border-box;
 
       .hs-title-row{
         flex-direction: column;
@@ -243,7 +245,6 @@
         .actions-row{
           width: 100%;
           margin-left: 0;
-          flex-direction: column-reverse;
           align-items: stretch;
           gap: 0.5rem;
         }
