@@ -6,15 +6,8 @@
 @use 'typography' as *;
 
 @mixin hs-table() {
-    // ---- CONTENEDOR PRINCIPAL DE LA VISTA ----
-    // Actúa como un eje vertical para apilar el encabezado/filtros y luego la tabla
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    height: 100%; // Ocupa todo el alto interno disponible de .content
-    box-sizing: border-box;
-    flex-grow: 1;
-    min-height: 0;
+
+
 
     .hs-table-header {
       background-color: $background-white;
@@ -213,17 +206,12 @@
 
 
   @media (max-width: 768px) {
-    margin-left: 0;
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    height: auto;
+
 
     .hs-table-header {
       padding: 1rem;
       width: 100%;
       box-sizing: border-box;
-      display: flex;
 
       .hs-title-row{
         display: flex;
