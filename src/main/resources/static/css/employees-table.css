@@ -294,6 +294,7 @@ p {
   -webkit-overflow-scrolling: touch;
   position: relative;
   overflow: visible;
+  margin-top: 1rem;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table {
   width: 100%;
