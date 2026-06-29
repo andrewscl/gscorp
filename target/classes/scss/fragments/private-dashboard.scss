@@ -278,6 +278,7 @@ body[data-layout="private"] {
 @media (max-width: 1024px) {
   body[data-layout="private"] {
     overflow: auto;
+    padding: 0;
 
     .sidebar {
       position: fixed;

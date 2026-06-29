@@ -351,6 +351,7 @@ body[data-layout=private] .sidebar-scrim {
 @media (max-width: 1024px) {
   body[data-layout=private] {
     overflow: auto;
+    padding: 0;
   }
   body[data-layout=private] .sidebar {
     position: fixed;
