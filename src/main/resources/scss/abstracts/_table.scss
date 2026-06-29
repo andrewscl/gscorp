@@ -25,6 +25,8 @@
       flex-shrink: 0; // Evita que los filtros se aplasten si hay muchas filas
       position: sticky;
       top: 0;
+      z-index: 30;
+
       .hs-title-row {
         display: flex;
         align-items: center;

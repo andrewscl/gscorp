@@ -110,6 +110,7 @@ p {
   flex-shrink: 0;
   position: sticky;
   top: 0;
+  z-index: 30;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-title-row {
   display: flex;
