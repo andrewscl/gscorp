@@ -1,0 +1,252 @@
+@use "sass:color";
+@use 'palette' as *;
+@use 'variables' as *;
+@use 'mixins' as *;
+@use 'buttons/btn-mixins' as *;
+@use 'typography' as *;
+
+@mixin hs-table() {
+    .hs-table-header {
+      background-color: $background-white;
+      border-radius: $radius-lg;
+      border: 1px solid $border-color;
+      box-shadow: $shadow-sm;
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      flex-shrink: 0; // Evita que los filtros se aplasten si hay muchas filas
+      .hs-title-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid $border-color;
+        padding-bottom: 0.75rem;
+
+        .title-left {
+          display: flex;
+          align-items: center;
+
+          .title-text {
+            @include montserrat-font(1.25rem, 600);
+            color: $heading-color;
+            margin: 0;
+          }
+
+        }
+        .count {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-width: 2.5rem;
+          padding: 0.25rem 0.6rem;
+          background: rgba($hover-color, 0.08);
+          color: $hover-color;
+          border-radius: 999px;
+          @include montserrat-font(0.85rem, 600);
+          box-shadow: 0 1px 0 rgba($slate-900 ,0.03);
+        }
+      }
+      .hs-filters-actions-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        gap: 1rem;
+        width: 100%;
+        .filter-group {
+          display: flex;
+          flex-wrap: wrap;
+          flex-grow: 1;
+          gap: 1rem;
+          align-items: flex-end;
+
+          .filter-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+
+            .filter-label {
+              @include roboto-font(0.75rem, 500);
+              color: $text-secondary-color;
+            }
+
+            .filter-input {
+              width: 100%;
+              min-height: 2.35rem;
+              border: 1px solid $border-color;
+              padding: 0.5rem 0.6rem;
+              border-radius: $radius-md;
+              color: $text-color;
+              background-color: $white;
+              transition: border-color .12s ease, box-shadow .12s ease;
+              box-sizing: border-box;
+
+              &:focus {
+                outline: none;
+                border-color: $hover-color;
+                box-shadow: 0 0 0 6px rgba($hover-color, 0.06);
+              }
+              &[type="text"] {
+                width: 100%;
+                max-width: 18rem;
+              }
+            }
+          }
+          .btn {
+            @include roboto-font(0.85rem, 600);
+            &.btn-primary {
+              @include btn-primary-variant (
+              $bg-color: $btn-search-bg,
+              $color: $white,
+              $padding: 0.4rem 1rem,
+              $border-radius: 0.4rem
+              );
+            }
+          }
+        }
+        .actions-row{
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            margin-left: auto;
+            .btn {
+              @include roboto-font(0.85rem, 600);
+              &.btn-primary {
+                @include btn-primary-variant (
+                $bg-color: $accent-blue,
+                $color: $white,
+                $padding: 0.4rem 1rem,
+                $border-radius: 0.4rem
+                );
+              }
+              &.btn-secondary {
+                @include btn-primary-variant (
+                $bg-color: $secondary-color,
+                $color: $white,
+                $padding: 0.4rem 1rem,
+                $border-radius: 0.4rem
+                );
+              }
+            }
+        }
+      }
+
+    }
+    .hs-table-container {
+      flex-grow: 1;
+      background: $white;
+      border-radius: $radius-lg;
+      border: 0.0625rem solid $border-color;
+      box-shadow: $shadow-sm;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      position: relative;
+
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+        @include roboto-font(0.875rem, 500);
+        color: $text-color;
+        table-layout: auto;
+
+        thead {
+          tr {
+            th {
+              position: sticky;
+              top: 0;
+              z-index: 10; // Suficiente para flotar sobre los td
+              background: $slate-50; // Color sólido para que los datos no se traslapen al hacer scroll
+              text-align: left;
+              @include roboto-font(0.85rem, 600);
+              text-transform: uppercase; // Le da un toque corporativo moderno
+              letter-spacing: 0.03em;
+              padding: 1rem 1.2rem;
+              border-bottom: 2px solid $border-color;
+              color: $text-secondary-color;
+              white-space: nowrap;
+            }
+          }
+        }
+        tbody {
+          tr {
+            border-bottom: 0.0625rem solid $border-color;
+            transition: background .12s ease;
+            &:last-child { border-bottom: none; }
+            &:hover { background-color: rgba($hover-color, 0.02); }
+            td {
+              padding: 0.65rem 0.85rem;
+              vertical-align: middle;
+              white-space: nowrap;
+              &.cell-wrap{
+                white-space: normal;
+                word-break: break-word;
+                overflow-wrap: anywhere;
+              }
+            }
+
+            &.empty {
+              &:hover { background-color: transparent; }
+              
+              td.empty {
+                text-align: center;
+                padding: 4rem 2rem;
+                color: $text-secondary-color;
+                @include roboto-font(0.95rem, 400);
+              }
+            }
+          }
+        }
+      }
+    }
+  @media (max-width: 768px) {
+
+    .hs-table-header {
+      max-width: 100%;
+      z-index: 10;
+      padding: 1.25rem; // Padding limpio reemplazando los 10rem
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      background-color: $white;
+      box-shadow: $shadow-md;
+      border-radius: 0.8rem;
+      border: 1px solid $border-color;
+      box-sizing: border-box;
+      .hs-title-row{
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        box-sizing: border-box;
+        gap: 0.5rem;
+        .count{
+          margin-left: 0;
+        }
+      }
+
+      .hs-filters-actions-row{
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        box-sizing: border-box;
+        gap: 1.25rem;
+        .filter-group{
+          display: flex;
+          gap: 0.85rem;
+        }
+        .actions-row{
+          display: flex;
+          margin-left: 0;
+          align-items: stretch;
+          gap: 0.5rem;
+        }
+      }
+
+    }
+
+  }
+
+}
+
