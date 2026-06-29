@@ -332,8 +332,8 @@ body[data-layout="private"] {
               display: flex;
               align-items: center;
               justify-content: center;
-              width: 3rem;
-              height: 3rem;
+              width: 3.5rem;
+              height: 3.5rem;
               border-radius: $radius-md;
               border: none;
               background: transparent;
@@ -351,7 +351,7 @@ body[data-layout="private"] {
         .content {
           margin-top: $topbar-height-mobile; // 🌟 Compensamos la topbar fija en móvil
           margin-left: 0;
-          padding: 1rem 0.75rem;             // Margen sutil para que las tablas respiren en celulares
+          padding: 1rem 1rem;             // Margen sutil para que las tablas respiren en celulares
           border-radius: 0;                  // En móviles se ve más limpio si va de borde a borde sin curvas gigantes
           width: 100%;
           box-sizing: border-box;
