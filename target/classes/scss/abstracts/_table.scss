@@ -12,6 +12,7 @@
     width: 100%;
     max-height: calc(100vh - $topbar-height);
     overflow-y: auto;
+    background-color: $background-default;
 
     .hs-table-header {
       background-color: $background-white;
@@ -170,6 +171,7 @@
       -webkit-overflow-scrolling: touch;
       position: relative;
       overflow: visible;
+      margin-top: 1rem;
 
       .table {
         width: 100%;
@@ -182,8 +184,8 @@
           tr {
             th {
               position: sticky;
-              top: var(--header-height);
-              z-index: 10; // Suficiente para flotar sobre los td
+              top: calc(var(--header-height) + 1rem);
+              z-index: 20; // Suficiente para flotar sobre los td
               background: $slate-50; // Color sólido para que los datos no se traslapen al hacer scroll
               text-align: left;
               @include roboto-font(0.8rem, 600);
