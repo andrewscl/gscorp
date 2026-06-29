@@ -297,7 +297,7 @@ p {
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table thead tr th {
   position: sticky;
-  top: calc(var(--header-height) + 1rem);
+  top: var(--header-height);
   z-index: 10;
   background: #f8fafc;
   text-align: left;
@@ -308,7 +308,8 @@ p {
   text-transform: uppercase;
   letter-spacing: 0.03em;
   padding: 1rem 1.2rem;
-  border-bottom: 2px solid #e2e8f0;
+  border-top: 1rem solid #f8fafc;
+  border-bottom: 0.125rem solid #e2e8f0;
   color: #64748b;
   white-space: nowrap;
 }

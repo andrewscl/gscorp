@@ -166,7 +166,7 @@
           tr {
             th {
               position: sticky;
-              top: calc(var(--header-height) + 1rem);
+              top: var(--header-height);
               z-index: 10; // Suficiente para flotar sobre los td
               background: $slate-50; // Color sólido para que los datos no se traslapen al hacer scroll
               text-align: left;
@@ -174,7 +174,8 @@
               text-transform: uppercase; // Le da un toque corporativo moderno
               letter-spacing: 0.03em;
               padding: 1rem 1.2rem;
-              border-bottom: 2px solid $border-color;
+              border-top: 1rem solid $background-default;
+              border-bottom: 0.125rem solid $border-color;
               color: $text-secondary-color;
               white-space: nowrap;
             }
