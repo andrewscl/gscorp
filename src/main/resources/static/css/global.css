@@ -360,6 +360,7 @@ p {
     padding: 1rem;
     width: 100%;
     box-sizing: border-box;
+    display: flex;
   }
   .hs-table .hs-table-header .hs-title-row {
     display: flex;
