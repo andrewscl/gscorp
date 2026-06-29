@@ -173,10 +173,19 @@
               text-transform: uppercase; // Le da un toque corporativo moderno
               letter-spacing: 0.03em;
               padding: 1rem 1.2rem;
-              border-top: 1rem solid $background-default;
               border-bottom: 0.125rem solid $border-color;
               color: $text-secondary-color;
               white-space: nowrap;
+              &::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: -1rem; /* El alto del espacio que deseas (16px) */
+                height: 1rem;
+                background-color: $background-default; /* El color gris del fondo de la app */
+                pointer-events: none;
+              }
             }
           }
         }

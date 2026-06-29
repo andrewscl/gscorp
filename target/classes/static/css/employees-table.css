@@ -307,10 +307,19 @@ p {
   text-transform: uppercase;
   letter-spacing: 0.03em;
   padding: 1rem 1.2rem;
-  border-top: 1rem solid #f8fafc;
   border-bottom: 0.125rem solid #e2e8f0;
   color: #64748b;
   white-space: nowrap;
+}
+.private-layout .main-content .content .hs-table.employees-table .hs-table-container .table thead tr th::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1rem; /* El alto del espacio que deseas (16px) */
+  height: 1rem;
+  background-color: #f8fafc; /* El color gris del fondo de la app */
+  pointer-events: none;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr {
   border-bottom: 0.0625rem solid #e2e8f0;
@@ -405,4 +414,4 @@ p {
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(6) {
   width: 20%;
-}/*# sourceMappingURL=employees-table.css.map */ees-table.css.map */
+}/*# sourceMappingURL=employees-table.css.map */
