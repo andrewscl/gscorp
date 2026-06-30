@@ -1,0 +1,252 @@
+/* Verde claro */
+/* Rojo claro */
+/* Amarillo claro */
+/* Verde oscuro */
+/* Rojo oscuro */
+/* Amarillo oscuro */
+body {
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.5;
+}
+
+h1 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #475569;
+  line-height: 1.2;
+}
+
+h2 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #475569;
+  line-height: 1.2;
+  margin: 0 0 1rem 0;
+}
+
+h3 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #475569;
+  line-height: 1.2;
+}
+
+h4 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #475569;
+  line-height: 1.2;
+}
+
+p {
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.5;
+  margin-bottom: 0.25rem;
+}
+
+.p1 {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.55;
+  margin-bottom: 0.5rem;
+}
+
+.p2 {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+}
+
+.p3 {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.65;
+  margin-bottom: 1.5rem;
+}
+
+.signin-page {
+  background: #f8fafc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  margin: 0;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+.signin-page .auth-form-container {
+  width: 90%;
+  max-width: 28rem;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border: 0.1rem solid #e2e8f0;
+  border-radius: 0.7rem;
+  box-shadow: 0 0.5rem 1.1rem rgba(15, 23, 42, 0.04);
+  padding: 2.4rem;
+  text-align: center;
+  box-sizing: border-box;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+.signin-page .auth-form-container:hover {
+  transform: translateY(-0.25rem);
+  box-shadow: 0 0.5rem 1.25rem rgba(15, 23, 42, 0.08);
+  border-color: #cbd5e1;
+}
+.signin-page .auth-form-container .logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.signin-page .auth-form-container .logo-container .logo {
+  height: 6rem;
+  max-width: 22rem;
+  width: auto;
+  display: block;
+}
+.signin-page .auth-form-container .auth-form-title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.signin-page .auth-form-container .auth-form-title .auth-form-title-text {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #1e293b;
+}
+.signin-page .auth-form-container .auth-form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-top: 1rem;
+}
+.signin-page .auth-form-container .auth-form .form-group {
+  margin-bottom: 1.25rem;
+  position: relative;
+}
+.signin-page .auth-form-container .auth-form .form-group label {
+  display: block;
+  margin-bottom: 0.4rem;
+  color: #475569;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-align: left;
+}
+.signin-page .auth-form-container .auth-form .form-group .form-control {
+  padding: 0.75rem;
+  border: 0.1rem solid #e2e8f0;
+  border-radius: 0.7rem;
+  background-color: #ffffff;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #1e293b;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.2s ease-in-out;
+}
+.signin-page .auth-form-container .auth-form .form-group .form-control::placeholder {
+  color: #94a3b8;
+  font-weight: 400;
+}
+.signin-page .auth-form-container .auth-form .form-group .form-control:focus {
+  outline: none;
+  border-color: #cbd5e1;
+  box-shadow: 0 0 0 0.15rem rgba(203, 213, 225, 0.15);
+}
+.signin-page .auth-form-container .auth-form .form-group .form-control:focus::placeholder {
+  color: #cbd5e1;
+  transition: color 0.2s ease;
+}
+.signin-page .auth-form-container .auth-form .form-group .password-wrapper {
+  position: relative;
+  width: 100%;
+}
+.signin-page .auth-form-container .auth-form .form-group .password-wrapper input[type=password].form-control {
+  padding-right: calc(84px + 1rem);
+}
+.signin-page .auth-form-container .auth-form .form-group .password-wrapper .togglePassword {
+  position: absolute;
+  top: 50%;
+  right: 0.4rem;
+  transform: translateY(-50%);
+  width: 84px;
+  padding: 0.45rem 0.75rem;
+  border-radius: 0.4rem;
+  border: 1px solid #e2e8f0;
+  background-color: #f1f5f9;
+  color: #334155;
+  font-weight: 600;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  line-height: 1;
+}
+.signin-page .auth-form-container .auth-form .form-group .password-wrapper .togglePassword:hover {
+  background-color: #e2e8f0;
+  color: #0f172a;
+}
+.signin-page .auth-form-container .auth-form .form-group .password-wrapper .togglePassword:active {
+  transform: translateY(-10%) scale(0.96);
+}
+.signin-page .auth-form-container .auth-form .form-group .password-wrapper .togglePassword:focus {
+  outline: none;
+}
+.signin-page .auth-form-container .auth-form .btn-primary {
+  margin-top: 0.5rem;
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.7rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+.signin-page .auth-form-container .auth-form .btn-primary:hover {
+  background-color: rgb(29.8390243902, 111.4024390244, 244.6609756098);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+.signin-page .auth-form-container .auth-form .btn-primary:active {
+  transform: translateY(0);
+}/*# sourceMappingURL=signin.css.map */
