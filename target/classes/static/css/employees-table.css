@@ -165,6 +165,7 @@ p {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
+  align-items: center;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-filters-actions-row .filter-group .filter-item .filter-label {
   font-family: "Roboto", sans-serif;
@@ -192,10 +193,6 @@ p {
 .private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-filters-actions-row .filter-group .filter-item .filter-input[type=text] {
   width: 100%;
   max-width: 22rem;
-}
-.private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-filters-actions-row .filter-group .filter-item.item-action {
-  align-self: stretch;
-  display: inline-flex;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-filters-actions-row .filter-group .filter-item.item-action .btn {
   font-family: "Roboto", sans-serif;
@@ -464,5 +461,7 @@ p {
   width: 15%;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(6) {
+  width: 20%;
+}/*# sourceMappingURL=employees-table.css.map */-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(6) {
   width: 20%;
 }/*# sourceMappingURL=employees-table.css.map */
