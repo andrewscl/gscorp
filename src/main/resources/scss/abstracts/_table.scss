@@ -155,11 +155,11 @@
       position: relative;
       overflow: visible;
       margin-top: 1rem;
-      clip-path: inset(0 0 0 0 round $radius-lg);
 
       .table {
         width: 100%;
-        border-collapse: collapse;
+        border-collapse: separate;
+        border-spacing: 0;
         @include roboto-font(0.875rem, 500);
         color: $text-color;
         table-layout: auto;
@@ -177,6 +177,7 @@
               letter-spacing: 0.03em;
               padding: 1rem 1.2rem;
               border-bottom: 0.125rem solid $border-color;
+              border-top: 1rem solid $background-default;
               color: $text-secondary-color;
               white-space: nowrap;
             }

@@ -285,11 +285,11 @@ p {
   position: relative;
   overflow: visible;
   margin-top: 1rem;
-  clip-path: inset(0 0 0 0 round 1rem);
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   font-family: "Roboto", sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
@@ -311,6 +311,7 @@ p {
   letter-spacing: 0.03em;
   padding: 1rem 1.2rem;
   border-bottom: 0.125rem solid #e2e8f0;
+  border-top: 1rem solid #f8fafc;
   color: #64748b;
   white-space: nowrap;
 }
@@ -407,4 +408,4 @@ p {
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(6) {
   width: 20%;
-}/*# sourceMappingURL=employees-table.css.map */s.map */
+}/*# sourceMappingURL=employees-table.css.map */
