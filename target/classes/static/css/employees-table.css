@@ -193,13 +193,16 @@ p {
   width: 100%;
   max-width: 18rem;
 }
-.private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-filters-actions-row .filter-group .btn {
+.private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-filters-actions-row .filter-group .filter-item.item-action {
+  align-items: center;
+}
+.private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-filters-actions-row .filter-group .filter-item.item-action .btn {
   font-family: "Roboto", sans-serif;
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.02em;
 }
-.private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-filters-actions-row .filter-group .btn.btn-primary {
+.private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-filters-actions-row .filter-group .filter-item.item-action .btn.btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -212,12 +215,12 @@ p {
   background-color: #64748b;
   color: #ffffff;
 }
-.private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-filters-actions-row .filter-group .btn.btn-primary:hover {
+.private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-filters-actions-row .filter-group .filter-item.item-action .btn.btn-primary:hover {
   background-color: rgb(90, 104.4, 125.1);
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(100, 116, 139, 0.4);
 }
-.private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-filters-actions-row .filter-group .btn.btn-primary:active {
+.private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-filters-actions-row .filter-group .filter-item.item-action .btn.btn-primary:active {
   transform: translateY(0);
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-filters-actions-row .actions-row {
@@ -461,4 +464,4 @@ p {
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(6) {
   width: 20%;
-}/*# sourceMappingURL=employees-table.css.map */*/
+}/*# sourceMappingURL=employees-table.css.map */
