@@ -98,16 +98,19 @@
                 max-width: 18rem;
               }
             }
-          }
-          .btn {
-            @include roboto-font(0.85rem, 600);
-            &.btn-primary {
-              @include btn-primary-variant (
-              $bg-color: $btn-secondary-bg,
-              $color: $white,
-              $padding: 0.4rem 1rem,
-              $border-radius: 0.4rem
-              );
+            &.item-action{
+              align-items: center;
+              .btn {
+                @include roboto-font(0.85rem, 600);
+                &.btn-primary {
+                  @include btn-primary-variant (
+                  $bg-color: $btn-secondary-bg,
+                  $color: $white,
+                  $padding: 0.4rem 1rem,
+                  $border-radius: 0.4rem
+                  );
+                }
+              }
             }
           }
         }
@@ -138,6 +141,7 @@
         }
       }
     }
+
     .hs-table-container {
       flex-grow: 1;
       background: $white;
