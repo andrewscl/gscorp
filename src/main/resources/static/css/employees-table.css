@@ -172,6 +172,7 @@ p {
   font-weight: 500;
   letter-spacing: 0.02em;
   color: #64748b;
+  padding-left: 0.5rem;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-filters-actions-row .filter-group .filter-item .filter-input {
   width: 100%;
@@ -191,7 +192,7 @@ p {
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-filters-actions-row .filter-group .filter-item .filter-input[type=text] {
   width: 100%;
-  max-width: 22rem;
+  max-width: 24rem;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-filters-actions-row .filter-group .filter-item.item-action {
   justify-content: center;
