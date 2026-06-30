@@ -277,7 +277,7 @@ p {
 }
 .private-layout .main-content .content .hs-table.employees-table::after {
   content: "";
-  position: absolute;
+  position: sticky;
   top: var(--header-height);
   left: 0;
   right: 0;
@@ -417,4 +417,4 @@ p {
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(6) {
   width: 20%;
-}/*# sourceMappingURL=employees-table.css.map */
+}/*# sourceMappingURL=employees-table.css.map */*/

@@ -147,19 +147,14 @@
 
     &::after {
       content: '';
-      position: absolute;
-      // Calculamos dinámicamente dónde termina el header para posicionar la máscara
+      position: sticky;
       top: var(--header-height); 
-      // Tomamos la referencia de tu primer archivo: .content tiene un padding horizontal.
-      // Usamos el left/right para que cubra exactamente el ancho interno del scroll.
       left: 0;
       right: 0;
-      height: 1rem; // El tamaño exacto de la separación gris entre las dos cajas
-      background-color: $background-default; // Tu color gris de fondo
-      // Un z-index estratégico: mayor que el contenedor de la tabla (10) 
-      // y que la barra de scroll, pero menor que el .hs-table-header (30)
+      height: 1rem;
+      background-color: $background-default;
       z-index: 25; 
-      pointer-events: none; // Evita que interfiera con los clics del usuario
+      pointer-events: none;
     }
 
     .hs-table-container {
