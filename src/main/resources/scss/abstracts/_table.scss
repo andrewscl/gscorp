@@ -194,6 +194,32 @@
                 word-break: break-word;
                 overflow-wrap: anywhere;
               }
+              .actions{
+                  display: flex;
+                  gap: 0.75rem;
+                  align-items: center;
+                  margin-left: auto;
+                  .btn {
+                    @include roboto-font(0.85rem, 600);
+                    &.btn-view {
+                      @include btn-primary-variant (
+                      $bg-color: $accent-blue,
+                      $color: $white,
+                      $padding: 0.4rem 1rem,
+                      $border-radius: 0.4rem
+                      );
+                    }
+                    &.btn-edit {
+                      @include btn-primary-variant (
+                      $bg-color: $secondary-color,
+                      $color: $white,
+                      $padding: 0.4rem 1rem,
+                      $border-radius: 0.4rem
+                      );
+                    }
+                  }
+              }
+
             }
 
             &.empty {

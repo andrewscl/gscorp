@@ -20,13 +20,14 @@
 
           <td class="actions">
             <button type="button"
-                    class="btn-view"
+                    class="btn btn-view"
                     th:attr="data-path=@{/private/employees/view/{externalId}(externalId=${e.externalId()})}">
               Ver
             </button>
 
             <button type="button"
-                    class="btn-edit"
+                    class="btn btn-edit"
+                    th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'') or hasRole(''RRHH'')')}"
                     th:attr="data-path=@{/private/employees/edit/{externalId}(externalId=${e.externalId()})}">
               Editar
             </button>
