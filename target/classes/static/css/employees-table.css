@@ -96,7 +96,7 @@ p {
   position: relative;
   width: 100%;
   max-height: calc(100vh - 3.5rem);
-  overflow-y: auto;
+  overflow: hidden;
   background-color: #f8fafc;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-header {
@@ -109,8 +109,6 @@ p {
   flex-direction: column;
   gap: 1rem;
   flex-shrink: 0;
-  position: sticky;
-  top: 0;
   z-index: 30;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-title-row {
@@ -283,8 +281,8 @@ p {
   box-shadow: 0 0.5rem 1.1rem rgba(15, 23, 42, 0.04);
   -webkit-overflow-scrolling: touch;
   position: relative;
-  overflow: visible;
-  margin-top: 1rem;
+  overflow-y: auto;
+  margin-top: 0;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table {
   width: 100%;
@@ -299,7 +297,7 @@ p {
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table thead tr th {
   position: sticky;
-  top: calc(var(--header-height) + 1rem);
+  top: 0;
   z-index: 20;
   background: #f8fafc;
   text-align: left;
@@ -311,7 +309,6 @@ p {
   letter-spacing: 0.03em;
   padding: 1rem 1.2rem;
   border-bottom: 0.125rem solid #e2e8f0;
-  border-top: 1rem solid #f8fafc;
   color: #64748b;
   white-space: nowrap;
 }
@@ -407,5 +404,7 @@ p {
   width: 15%;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(6) {
+  width: 20%;
+}/*# sourceMappingURL=employees-table.css.map */ner .table tbody tr td:nth-child(6) {
   width: 20%;
 }/*# sourceMappingURL=employees-table.css.map */
