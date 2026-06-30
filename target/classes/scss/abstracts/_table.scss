@@ -60,7 +60,7 @@
       .hs-filters-actions-row {
         display: flex;
         justify-content: space-between;
-        align-items: flex-end;
+        align-items: center;
         flex-wrap: wrap;
         gap: 1rem;
         width: 100%;
@@ -70,17 +70,14 @@
           flex-grow: 1;
           gap: 1rem;
           align-items: flex-end;
-
           .filter-item {
             display: flex;
             flex-direction: column;
             gap: 0.35rem;
-
             .filter-label {
               @include roboto-font(0.75rem, 500);
               color: $text-secondary-color;
             }
-
             .filter-input {
               width: 100%;
               min-height: 2.35rem;
@@ -91,7 +88,6 @@
               background-color: $white;
               transition: border-color .12s ease, box-shadow .12s ease;
               box-sizing: border-box;
-
               &:focus {
                 outline: none;
                 border-color: $hover-color;
