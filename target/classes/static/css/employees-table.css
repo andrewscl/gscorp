@@ -285,6 +285,7 @@ p {
   position: relative;
   overflow: visible;
   margin-top: 1rem;
+  clip-path: inset(0 0 0 0 round 1rem);
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table {
   width: 100%;
@@ -298,7 +299,7 @@ p {
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table thead tr th {
   position: sticky;
-  top: calc(var(--header-height) + 1rem);
+  top: var(--header-height);
   z-index: 20;
   background: #f8fafc;
   text-align: left;
@@ -312,7 +313,6 @@ p {
   border-bottom: 0.125rem solid #e2e8f0;
   color: #64748b;
   white-space: nowrap;
-  box-shadow: 0 -1rem 0 0 #f8fafc;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr {
   border-bottom: 0.0625rem solid #e2e8f0;
@@ -407,4 +407,4 @@ p {
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(6) {
   width: 20%;
-}/*# sourceMappingURL=employees-table.css.map */
+}/*# sourceMappingURL=employees-table.css.map */s.map */

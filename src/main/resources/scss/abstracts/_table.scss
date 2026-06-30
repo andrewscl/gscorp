@@ -155,6 +155,7 @@
       position: relative;
       overflow: visible;
       margin-top: 1rem;
+      clip-path: inset(0 0 0 0 round $radius-lg);
 
       .table {
         width: 100%;
@@ -167,7 +168,7 @@
           tr {
             th {
               position: sticky;
-              top: calc(var(--header-height) + 1rem);
+              top: var(--header-height);
               z-index: 20; // Suficiente para flotar sobre los td
               background: $slate-50; // Color sólido para que los datos no se traslapen al hacer scroll
               text-align: left;
@@ -178,7 +179,6 @@
               border-bottom: 0.125rem solid $border-color;
               color: $text-secondary-color;
               white-space: nowrap;
-              box-shadow: 0 -1rem 0 0 $background-default;
             }
           }
         }
