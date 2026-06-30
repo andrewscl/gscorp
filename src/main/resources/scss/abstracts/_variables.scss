@@ -13,9 +13,11 @@ $text-color: $slate-700;
 $text-secondary-color: $slate-500;
 $background-color: $slate-50;
 $background-dark-color: $slate-800;
+
 $primary-color: $slate-800;
 $primary-color-strong: $slate-900;
 $secondary-color: $slate-300;
+
 $border-color: $slate-200;
 $border-color-hover: $slate-300;
 $hover-color: $accent-blue;
@@ -101,7 +103,7 @@ $alert-cancel-border: #ffeeba;
 
 // En tu archivo de variables, abajo de tus colores generales:
 $btn-primary-bg: $accent-blue;
-$btn-secondary-bg: $slate-600;
+$btn-secondary-bg: $slate-500;
 $btn-search-bg: $slate-300;              // Gris azulado muy suave, no compite con el $slate-800 primario
 $btn-search-border: $slate-200;          // Coincide con tu $border-color base
 $btn-search-text: $slate-700;            // Texto e icono legible pero no completamente negro

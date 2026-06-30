@@ -209,13 +209,13 @@ p {
   cursor: pointer;
   transition: all 0.3s ease;
   text-decoration: none;
-  background-color: #cbd5e1;
+  background-color: #64748b;
   color: #ffffff;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-filters-actions-row .filter-group .btn.btn-primary:hover {
-  background-color: rgb(175.8585365854, 191.0780487805, 209.3414634146);
+  background-color: rgb(90, 104.4, 125.1);
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(203, 213, 225, 0.4);
+  box-shadow: 0 8px 20px rgba(100, 116, 139, 0.4);
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-filters-actions-row .filter-group .btn.btn-primary:active {
   transform: translateY(0);
@@ -263,13 +263,13 @@ p {
   cursor: pointer;
   transition: all 0.3s ease;
   text-decoration: none;
-  background-color: #cbd5e1;
+  background-color: #64748b;
   color: #ffffff;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-filters-actions-row .actions-row .btn.btn-secondary:hover {
-  background-color: rgb(175.8585365854, 191.0780487805, 209.3414634146);
+  background-color: rgb(90, 104.4, 125.1);
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(203, 213, 225, 0.4);
+  box-shadow: 0 8px 20px rgba(100, 116, 139, 0.4);
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-filters-actions-row .actions-row .btn.btn-secondary:active {
   transform: translateY(0);
@@ -283,6 +283,7 @@ p {
   -webkit-overflow-scrolling: touch;
   position: relative;
   overflow-y: auto;
+  overflow-x: hidden;
   margin-top: 0;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table {
@@ -376,13 +377,13 @@ p {
   cursor: pointer;
   transition: all 0.3s ease;
   text-decoration: none;
-  background-color: #cbd5e1;
+  background-color: #64748b;
   color: #ffffff;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr td.actions .btn.btn-edit:hover {
-  background-color: rgb(175.8585365854, 191.0780487805, 209.3414634146);
+  background-color: rgb(90, 104.4, 125.1);
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(203, 213, 225, 0.4);
+  box-shadow: 0 8px 20px rgba(100, 116, 139, 0.4);
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr td.actions .btn.btn-edit:active {
   transform: translateY(0);
@@ -459,5 +460,7 @@ p {
   width: 15%;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(6) {
+  width: 20%;
+}/*# sourceMappingURL=employees-table.css.map */ tbody tr td:nth-child(6) {
   width: 20%;
 }/*# sourceMappingURL=employees-table.css.map */
