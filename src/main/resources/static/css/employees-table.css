@@ -343,7 +343,6 @@ p {
   display: flex;
   gap: 0.75rem;
   align-items: center;
-  margin-left: auto;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr td.actions .btn {
   font-family: "Roboto", sans-serif;
@@ -449,6 +448,24 @@ p {
     width: 100%;
     text-align: center;
   }
+}
+.private-layout .main-content .content .hs-table.employees-table .hs-table-container .table thead tr th:nth-child(1) {
+  width: 10%;
+}
+.private-layout .main-content .content .hs-table.employees-table .hs-table-container .table thead tr th:nth-child(3) {
+  width: 25%;
+}
+.private-layout .main-content .content .hs-table.employees-table .hs-table-container .table thead tr th:nth-child(2) {
+  width: 15%;
+}
+.private-layout .main-content .content .hs-table.employees-table .hs-table-container .table thead tr th:nth-child(4) {
+  width: 15%;
+}
+.private-layout .main-content .content .hs-table.employees-table .hs-table-container .table thead tr th:nth-child(5) {
+  width: 15%;
+}
+.private-layout .main-content .content .hs-table.employees-table .hs-table-container .table thead tr th:nth-child(6) {
+  width: 20%;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(1) {
   width: 10%;
