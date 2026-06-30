@@ -275,19 +275,6 @@ p {
 .private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-filters-actions-row .actions-row .btn.btn-secondary:active {
   transform: translateY(0);
 }
-.private-layout .main-content .content .hs-table.employees-table::after {
-  content: "";
-  position: absolute;
-  top: var(--header-height);
-  left: 0;
-  right: 0;
-  height: 1rem;
-  background-color: #f8fafc;
-  z-index: 25;
-  pointer-events: none;
-  transform: translateY(0);
-  will-change: transform;
-}
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container {
   flex-grow: 1;
   background: #ffffff;
@@ -296,7 +283,7 @@ p {
   box-shadow: 0 0.5rem 1.1rem rgba(15, 23, 42, 0.04);
   -webkit-overflow-scrolling: touch;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   margin-top: 1rem;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table {
@@ -325,6 +312,7 @@ p {
   border-bottom: 0.125rem solid #e2e8f0;
   color: #64748b;
   white-space: nowrap;
+  box-shadow: 0 -1rem 0 0 #f8fafc;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr {
   border-bottom: 0.0625rem solid #e2e8f0;
@@ -415,6 +403,11 @@ p {
   width: 20%;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(5) {
+  width: 15%;
+}
+.private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(6) {
+  width: 20%;
+}/*# sourceMappingURL=employees-table.css.map */-child(5) {
   width: 15%;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(6) {

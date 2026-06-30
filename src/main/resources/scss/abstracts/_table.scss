@@ -145,18 +145,6 @@
       }
     }
 
-    &::after {
-      content: '';
-      position: sticky;
-      top: var(--header-height); 
-      left: 0;
-      right: 0;
-      height: 1rem;
-      background-color: $background-default;
-      z-index: 25; 
-      pointer-events: none;
-    }
-
     .hs-table-container {
       flex-grow: 1;
       background: $white;
@@ -166,7 +154,7 @@
       -webkit-overflow-scrolling: touch;
       position: relative;
       overflow: visible;
-      margin-top: 0;
+      margin-top: 1rem;
 
       .table {
         width: 100%;
@@ -190,6 +178,7 @@
               border-bottom: 0.125rem solid $border-color;
               color: $text-secondary-color;
               white-space: nowrap;
+              box-shadow: 0 -1rem 0 0 $background-default;
             }
           }
         }
