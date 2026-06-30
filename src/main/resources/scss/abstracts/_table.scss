@@ -147,7 +147,7 @@
 
     &::after {
       content: '';
-      position: absolute;
+      position: sticky;
       top: var(--header-height); 
       left: 0;
       right: 0;
@@ -155,8 +155,6 @@
       background-color: $background-default;
       z-index: 25; 
       pointer-events: none;
-      transform: translateY(0);
-      will-change: transform;
     }
 
     .hs-table-container {
@@ -167,8 +165,8 @@
       box-shadow: $shadow-sm;
       -webkit-overflow-scrolling: touch;
       position: relative;
-      overflow: hidden;
-      margin-top: 1rem;
+      overflow: visible;
+      margin-top: 0;
 
       .table {
         width: 100%;
