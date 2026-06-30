@@ -69,7 +69,7 @@
           flex-wrap: wrap;
           flex-grow: 1;
           gap: 1rem;
-          align-items: flex-end;
+          align-items: center;
           .filter-item {
             display: flex;
             flex-direction: column;
@@ -95,11 +95,12 @@
               }
               &[type="text"] {
                 width: 100%;
-                max-width: 18rem;
+                max-width: 22rem;
               }
             }
             &.item-action{
-              align-items: center;
+              align-self: stretch;
+              display: inline-flex;
               .btn {
                 @include roboto-font(0.85rem, 600);
                 &.btn-primary {

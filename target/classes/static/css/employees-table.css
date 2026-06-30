@@ -159,7 +159,7 @@ p {
   flex-wrap: wrap;
   flex-grow: 1;
   gap: 1rem;
-  align-items: flex-end;
+  align-items: center;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-filters-actions-row .filter-group .filter-item {
   display: flex;
@@ -191,10 +191,11 @@ p {
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-filters-actions-row .filter-group .filter-item .filter-input[type=text] {
   width: 100%;
-  max-width: 18rem;
+  max-width: 22rem;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-filters-actions-row .filter-group .filter-item.item-action {
-  align-items: center;
+  align-self: stretch;
+  display: inline-flex;
 }
 .private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-filters-actions-row .filter-group .filter-item.item-action .btn {
   font-family: "Roboto", sans-serif;
