@@ -13,6 +13,8 @@
     max-height: calc(100vh - $topbar-height);
     overflow: hidden;
     background-color: $background-default;
+    gap: 1rem;
+
     .hs-table-header {
       background-color: $background-white;
       border-radius: $radius-lg;
