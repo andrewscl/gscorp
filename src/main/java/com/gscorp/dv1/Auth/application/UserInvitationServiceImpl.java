@@ -34,7 +34,7 @@ public class UserInvitationServiceImpl implements UserInvitationService {
     private final EmployeeService employeeService;
     private final UserRepository userRepo;
     private final GmailService gmailService;
-    private TemplateEngine templateEngine; 
+    private final TemplateEngine templateEngine; 
     
     private static final Duration INVITE_TTL = Duration.ofHours(24);
 
