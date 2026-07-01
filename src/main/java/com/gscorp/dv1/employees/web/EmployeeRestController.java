@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gscorp.dv1.employees.application.EmployeeService;
@@ -25,6 +27,7 @@ import com.gscorp.dv1.employees.web.dto.EmployeeViewDto;
 import com.gscorp.dv1.employees.web.dto.request.CreateEmployeeRequest;
 import com.gscorp.dv1.employees.web.dto.request.UpdateEmployeeRequest;
 import com.gscorp.dv1.hr.web.dto.HrDistributionMetricResponse;
+import com.gscorp.dv1.security.SecurityUser;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -100,13 +103,23 @@ public class EmployeeRestController {
 
 
     @GetMapping("/hr-dashboard-metrics")
-    public HrDistributionMetricResponse getHrDashboardMetrics() {
+    public HrDistributionMetricResponse getHrDashboardMetrics(
+            @AuthenticationPrincipal SecurityUser securityUser
+    ) {
+
+        if (securityUser == null) {
+            log.warn("Intento de acceso no autenticado");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado.");
+        }
+
+        UUID userExternalId = securityUser.getUser().getExternalId();
 
         HrDistributionMetricResponse metrics =
             new HrDistributionMetricResponse(
-                employeeStatService.getCompanyEmployeesStatusSummary(),
-                employeeStatService.getClientEmployeesStatusSummary(),
-                employeeStatService.getEmployeesStatusSummary()
+                employeeStatService.getCompanyEmployeesStatusSummary(userExternalId),
+                employeeStatService.getClientEmployeesStatusSummary(userExternalId),
+                employeeStatService.getEmployeesStatusSummary(userExternalId),
+                employeeStatService.getEmployeesUserStatusSummary(userExternalId)
             );
         return metrics;
     }

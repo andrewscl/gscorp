@@ -1,17 +1,17 @@
 package com.gscorp.dv1.employees.application;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gscorp.dv1.clients.application.ClientService;
 import com.gscorp.dv1.employees.infrastructure.EmployeeRepository;
-import com.gscorp.dv1.employees.infrastructure.Projections.statistics.ClientEmployeesStatusSummaryProjection;
-import com.gscorp.dv1.employees.infrastructure.Projections.statistics.CompanyEmployeesStatusSummaryProjection;
-import com.gscorp.dv1.employees.infrastructure.Projections.statistics.EmployeesStatusSummaryProjection;
 import com.gscorp.dv1.employees.web.dto.statistics.ClientEmployeesStatusSummaryDto;
 import com.gscorp.dv1.employees.web.dto.statistics.CompanyEmployeesStatusSummaryDto;
 import com.gscorp.dv1.employees.web.dto.statistics.EmployeesStatusSummaryDto;
+import com.gscorp.dv1.employees.web.dto.statistics.CompanyEmployeesUserStatusSummaryDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,14 +20,18 @@ import lombok.RequiredArgsConstructor;
 public class EmployeeStatServiceImpl implements EmployeeStatService{
 
     private final EmployeeRepository employeeRepository;
+    private final ClientService clientService;
 
     @Transactional(readOnly = true)
-    public List<CompanyEmployeesStatusSummaryDto> getCompanyEmployeesStatusSummary() {
+    public List<CompanyEmployeesStatusSummaryDto> getCompanyEmployeesStatusSummary(
+                UUID userExternalId) {
 
-        List<CompanyEmployeesStatusSummaryProjection> projections =
-                    employeeRepository.getCompanyEmployeesStat();
+        List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);
+        if (clientIds == null || clientIds.isEmpty()) {
+        return List.of();
+        }
 
-        return projections
+        return employeeRepository.getCompanyEmployeesStat(clientIds)
                     .stream()
                     .map(CompanyEmployeesStatusSummaryDto::fromProjection)
                     .toList();
@@ -35,12 +39,15 @@ public class EmployeeStatServiceImpl implements EmployeeStatService{
 
 
     @Transactional(readOnly = true)
-    public List<ClientEmployeesStatusSummaryDto> getClientEmployeesStatusSummary() {
+    public List<ClientEmployeesStatusSummaryDto> getClientEmployeesStatusSummary(
+                UUID userExternalId) {
 
-        List<ClientEmployeesStatusSummaryProjection> projections =
-                    employeeRepository.getClientEmployeesStat();
+        List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);
+        if (clientIds == null || clientIds.isEmpty()) {
+        return List.of();
+        }
 
-        return projections
+        return employeeRepository.getClientEmployeesStat(clientIds)
                     .stream()
                     .map(ClientEmployeesStatusSummaryDto::fromProjection)
                     .toList();
@@ -48,15 +55,35 @@ public class EmployeeStatServiceImpl implements EmployeeStatService{
 
 
     @Transactional(readOnly = true)
-    public List<EmployeesStatusSummaryDto> getEmployeesStatusSummary() {
+    public List<EmployeesStatusSummaryDto> getEmployeesStatusSummary(
+                UUID userExternalId) {
 
-        List<EmployeesStatusSummaryProjection> projections =
-                    employeeRepository.getEmployeesStatusSummary();
+        List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);
+        if (clientIds == null || clientIds.isEmpty()) {
+        return List.of();
+        }
 
-        return projections
+        return employeeRepository.getEmployeesStatusSummary(clientIds)
                     .stream()
                     .map(EmployeesStatusSummaryDto::fromProjection)
                     .toList();
     }
+
+
+    @Transactional(readOnly = true)
+    public List<CompanyEmployeesUserStatusSummaryDto> getEmployeesUserStatusSummary(
+                UUID userExternalId){
+
+        List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);
+        if (clientIds == null || clientIds.isEmpty()) {
+        return List.of();
+        }
+
+        return employeeRepository.findEmployeesUserStatusSummary(clientIds)
+                    .stream()
+                    .map(CompanyEmployeesUserStatusSummaryDto::fromProjection)
+                    .toList();
+    }
+
 
 }

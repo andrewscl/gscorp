@@ -1,7 +1,9 @@
 package com.gscorp.dv1.users.infrastructure;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -11,12 +13,14 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.gscorp.dv1.auth.infrastructure.PasswordResetToken;
 import com.gscorp.dv1.clients.infrastructure.Client;
 import com.gscorp.dv1.companies.infrastructure.Company;
 import com.gscorp.dv1.employees.infrastructure.Employee;
 import com.gscorp.dv1.enums.UserStatus;
 import com.gscorp.dv1.roles.infrastructure.Role;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -29,6 +33,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
@@ -93,6 +98,10 @@ public class User {
     @JoinColumn(name = "employee_id", unique = true)
     @JsonIgnore
     private Employee employee;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore // Evita bucles infinitos si serializas a JSON
+    private List<PasswordResetToken> passwordResetTokens = new ArrayList<>();
 
     @Column(name = "time_zone", length = 64)
     private String timeZone;

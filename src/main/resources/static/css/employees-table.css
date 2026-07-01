@@ -495,10 +495,10 @@ p {
     width: 50%;
   }
   .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table thead tr th:nth-child(5) {
-    width: 20%;
+    width: 15%;
   }
   .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table thead tr th:nth-child(6) {
-    width: 30%;
+    width: 35%;
   }
   .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(1),
   .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(3),
@@ -509,9 +509,9 @@ p {
     width: 50%;
   }
   .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(5) {
-    width: 20%;
+    width: 15%;
   }
   .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(6) {
-    width: 30%;
+    width: 35%;
   }
 }/*# sourceMappingURL=employees-table.css.map */

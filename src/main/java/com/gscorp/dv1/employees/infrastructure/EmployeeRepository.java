@@ -18,6 +18,7 @@ import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeTableProjecti
 import com.gscorp.dv1.employees.infrastructure.Projections.EmployeeViewProjection;
 import com.gscorp.dv1.employees.infrastructure.Projections.statistics.ClientEmployeesStatusSummaryProjection;
 import com.gscorp.dv1.employees.infrastructure.Projections.statistics.CompanyEmployeesStatusSummaryProjection;
+import com.gscorp.dv1.employees.infrastructure.Projections.statistics.CompanyEmployeesUserStatusSummaryProjection;
 import com.gscorp.dv1.employees.infrastructure.Projections.statistics.EmployeesStatusSummaryProjection;
 import com.gscorp.dv1.enums.EmployeeStatus;
 import com.gscorp.dv1.enums.UserStatus;
@@ -336,10 +337,15 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
             COALESCE(SUM(CASE WHEN e.status = 'INACTIVE' THEN 1 ELSE 0 END), 0L) AS inactiveCount,
             COALESCE(SUM(CASE WHEN e.status = 'SETTLED' THEN 1 ELSE 0 END), 0L) AS settledCount
         FROM Employee e
+        JOIN e.projects p
+        JOIN p.client cl
+        WHERE p.id IN :clientIds
         LEFT JOIN e.company c
         GROUP BY c.name
     """)
-    List<CompanyEmployeesStatusSummaryProjection> getCompanyEmployeesStat();
+    List<CompanyEmployeesStatusSummaryProjection> getCompanyEmployeesStat(
+        @Param("clientIds") List<Long> clientIds        
+    );
 
 
     @Query("""
@@ -353,10 +359,12 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
         FROM Employee e
         JOIN e.projects p
         JOIN p.client cl
-        LEFT JOIN e.user u
+        WHERE p.id IN :clientIds
         GROUP BY cl.name
     """)
-    List<ClientEmployeesStatusSummaryProjection> getClientEmployeesStat();
+    List<ClientEmployeesStatusSummaryProjection> getClientEmployeesStat(
+        @Param("clientIds") List<Long> clientIds
+    );
 
 
     @Query("""
@@ -367,7 +375,35 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
             COALESCE(SUM(CASE WHEN e.status = 'INACTIVE' THEN 1 ELSE 0 END), 0L) AS inactiveCount,
             COALESCE(SUM(CASE WHEN e.status = 'SETTLED' THEN 1 ELSE 0 END), 0L) AS settledCount
         FROM Employee e
+        JOIN e.projects proj
+        JOIN proj.client p
+        WHERE p.id IN :clientIds
     """)
-    List<EmployeesStatusSummaryProjection> getEmployeesStatusSummary();
+    List<EmployeesStatusSummaryProjection> getEmployeesStatusSummary(
+        @Param("clientIds") List<Long> clientIds
+    );
+
+
+    @Query("""
+        SELECT
+            c.name AS companyName,
+            COALESCE(SUM(CASE WHEN usr IS NULL THEN 1 ELSE 0 END), 0L) AS notInvitedCount,
+            COALESCE(SUM(CASE WHEN usr IS NOT NULL AND usr.status = 'INVITED' THEN 1 ELSE 0 END), 0L) AS invitedCount,
+            COALESCE(SUM(CASE WHEN usr IS NOT NULL AND usr.status = 'ACTIVE' THEN 1 ELSE 0 END), 0L) AS activeCount,
+            COALESCE(SUM(CASE WHEN usr IS NOT NULL AND usr.status = 'INACTIVE' THEN 1 ELSE 0 END), 0L) AS inactiveCount,
+            COALESCE(SUM(CASE WHEN usr IS NOT NULL AND usr.status = 'EXPIRED' THEN 1 ELSE 0 END), 0L) AS expiredCount,
+            COALESCE(SUM(CASE WHEN usr IS NOT NULL AND usr.status = 'SUSPENDED' THEN 1 ELSE 0 END), 0L) AS suspendedCount
+        FROM Employee e
+        LEFT JOIN e.user usr
+        LEFT JOIN e.company c
+        JOIN e.projects proj
+        JOIN proj.client p
+        WHERE p.id IN :clientIds
+        GROUP BY c.name
+    """)
+    List<CompanyEmployeesUserStatusSummaryProjection> findEmployeesUserStatusSummary(
+        @Param("clientIds") List<Long> clientIds
+    );
+
 
 }
