@@ -34,6 +34,7 @@ public class UserInvitationServiceImpl implements UserInvitationService {
         User user = userService.createInvitedUser(request);
 
         user.setStatus(UserStatus.INVITED);
+        userService.save(user);
 
         PasswordResetToken token = passwordResetTokenService.
                                             createToken(user, INVITE_TTL);
