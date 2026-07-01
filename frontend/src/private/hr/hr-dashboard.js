@@ -13,8 +13,7 @@ const loadHrDashboardMetric = async () => {
                 });
 
         if (!response.ok) {
-            throw
-                new Error(`Error cargando dashboard metrics: ${response.status}`);
+            throw new Error(`Error cargando dashboard metrics: ${response.status}`);
         }
 
         hrMetricList = await response.json();
@@ -90,9 +89,6 @@ const renderHrDashboardMetrics = (metrics) => {
             }).join('');
         }
     }
-
-
-    const company
 
 
 }

@@ -122,4 +122,6 @@ public interface UserRepository extends JpaRepository<User, Long>{
     """)
     List<RoleUsersSummaryProjection> getRoleUsersSummary();
 
+    List<User> findByStatus(UserStatus status);
+
 }

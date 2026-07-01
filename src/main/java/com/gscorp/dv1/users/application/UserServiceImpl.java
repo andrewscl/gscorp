@@ -11,7 +11,6 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.hibernate.Hibernate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -56,21 +55,14 @@ public class UserServiceImpl implements UserService{
 
     private final CompanyRepository companyRepository;
     private final ClientRepository clientRepository;
-
-    @Autowired
     private final UserRepository userRepo;
-
-    @Autowired
     private final UserSpecRepository userSpecRepo;
-
-    @Autowired
     private final EmployeeRepository employeeRepository;
-
     private final RoleService roleService;
     private final PasswordEncoder encoder;
-
-    @Autowired
     private final PasswordResetTokenService passwordResetTokenService;
+
+    private static final Duration INVITE_TTL = Duration.ofDays(7);
 
     @Transactional
     public Long createUser (CreateUserRequest req){
@@ -178,7 +170,7 @@ public class UserServiceImpl implements UserService{
 
         User savedUser = userRepo.save(user);
 
-        passwordResetTokenService.createToken(savedUser, Duration.ofDays(7));
+        passwordResetTokenService.createToken(savedUser, INVITE_TTL);
 
         return savedUser;
     }
@@ -497,6 +489,5 @@ public class UserServiceImpl implements UserService{
     public Optional<User> findByExternalId(UUID externalId) {
         return userRepo.findByExternalId(externalId);
     }
-
 
 }

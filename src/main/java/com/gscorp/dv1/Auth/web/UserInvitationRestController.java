@@ -46,7 +46,7 @@ public class UserInvitationRestController {
     @Autowired
     private TemplateEngine templateEngine;
 
-    private static final Duration INVITE_TTL = Duration.ofHours(24);
+    private static final Duration INVITE_TTL = Duration.ofDays(7);
 
     @PostMapping("/invite")
     public ResponseEntity<?> inviteUser(@RequestBody InviteUserRequest request) {
@@ -123,7 +123,14 @@ public class UserInvitationRestController {
             return ResponseEntity.internalServerError()
                     .body("No se pudo enviar la invitación: " + e.getMessage());
         }
-
     }
+
+
+    @PostMapping("/resend-expired-invites")
+    public ResponseEntity<?> resendMassiveExpiredInvitations() {
+        String message = userInvitationService.resendMassiveExpiredInvitations();
+        return ResponseEntity.ok(message);
+    }
+
 
 }

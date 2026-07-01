@@ -31,6 +31,10 @@
         </th:block>
 
     <th:block id="userActions">
+        <button class="btn btn-primary" id="resendExpiredInvitesBtn"
+            th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
+        Invitacion masiva expirados
+        </button>
         <button class="btn btn-primary" id="inviteUserBtn"
             th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
         Invitar Usuario
@@ -40,6 +44,8 @@
         Crear Usuario
         </button>
     </th:block>
+
+    <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
 
     <tr id="userHeader">
         <th>ID</th>

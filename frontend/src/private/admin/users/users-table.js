@@ -1,8 +1,11 @@
-import { initHeaderSync } from "../../../shared/sync-header-height";
 import { navigateTo } from "../../../navigation-handler";
 import { fetchWithAuth } from "../../../auth";
+import { displayAlert } from "../../../shared/display-alert";
 
 const qs  = (s) => document.querySelector(s);
+const alertSuccess = qs('.alert-success');
+const alertError = qs('.alert-error');
+const alertCancel = qs('.alert-warning');
 
 const inviteUser = (e) => {
     e.target.disabled = true;
@@ -54,10 +57,47 @@ async function searchUser(){
     }
 }
 
+async function resendExpiredInvites() {
+    const resendExpiredInvitesBtn = qs('#resendExpiredInvitesBtn');
+    if (resendExpiredInvitesBtn) {
+        resendExpiredInvitesBtn.disabled = true;
+    }
+
+    try {
+        const res = await fetchWithAuth('/api/users/resend-expired-invites', {
+            method: 'POST',
+            headers: { 'accept': 'application/json' }
+        });
+
+        if (!res.ok) {
+            displayAlert(alertError, 'No se pudo procesar el reenvío masivo de invitaciones.', 1500);
+            if (resendExpiredInvitesBtn) resendExpiredInvitesBtn.disabled = false;
+            return;
+        }
+
+        // Recuperamos el mensaje con el conteo dinámico enviado por el String.format de tu backend
+        const message = await res.text(); 
+        displayAlert(alertSuccess, message, 2500);
+        
+        // Refrescamos la tabla o redirigimos después de mostrar el éxito
+        setTimeout(() => {
+            navigateTo('/private/users/table-view');
+        }, 2500);
+
+    } catch (e) {
+        console.error("Error en la ejecución del lote masivo: ", e);
+        displayAlert(alertError, 'Ocurrió un error al intentar procesar las invitaciones expiradas.', 1500);
+        if (resendExpiredInvitesBtn) resendExpiredInvitesBtn.disabled = false;
+    }
+
+}
+
+
 function bindUserTable() {
     const addUserBtn = qs('#addUserBtn');
     const inviteUserBtn = qs('#inviteUserBtn');
     const searchUserBtn = qs('#searchUserBtn');
+    const resendExpiredInvitesBtn = qs('#resendExpiredInvitesBtn');
     if (addUserBtn) {
         addUserBtn.addEventListener('click', createUser);
     }
@@ -67,9 +107,11 @@ function bindUserTable() {
     if (searchUserBtn) {
         searchUserBtn.addEventListener('click', searchUser);
     }
+    if (resendExpiredInvitesBtn) {
+        resendExpiredInvitesBtn.addEventListener('click', resendExpiredInvites);
+    }
 }
 
 (function init () {
   bindUserTable();
-  initHeaderSync('.hs-table-header','--header-height');
 })();

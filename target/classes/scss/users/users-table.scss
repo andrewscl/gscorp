@@ -1,0 +1,68 @@
+@use "sass:color";
+@use '../abstracts/palette' as *;
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+@use '../abstracts/buttons/btn-mixins' as *;
+@use '../abstracts/typography' as *;
+@use '../abstracts/table' as *;
+
+.private-layout {
+  .main-content {
+    .content {
+      .hs-table.users-table {
+
+        @include hs-table();
+
+        .hs-table-container {
+          .table {
+            thead {
+              tr {
+                th:nth-child(1) {width: 10%;}
+                th:nth-child(3) {width: 20%;}
+                th:nth-child(2) {width: 20%;} 
+                th:nth-child(4) {width: 15%;}
+                th:nth-child(5) {width: 15%;}
+                th:nth-child(6) {width: 20%;}
+              }
+            }
+            tbody {
+              tr {
+                td:nth-child(1) { width: 10%; } 
+                td:nth-child(2) { width: 20%; }
+                td:nth-child(3) { width: 20%; }  
+                td:nth-child(4) { width: 15%; }
+                td:nth-child(5) { width: 15%; }
+                td:nth-child(6) { width: 20%; }
+              }
+            }
+            @media (max-width: 768px) {
+              thead {
+                tr {
+                  th:nth-child(1), 
+                  th:nth-child(3),
+                  th:nth-child(4) {display: none;}
+                  th:nth-child(2) {width: 50%;} 
+                  th:nth-child(5) {width: 15%;}
+                  th:nth-child(6) {width: 35%;}
+                }
+              }
+              tbody {
+                tr {
+                  td:nth-child(1), 
+                  td:nth-child(3),
+                  td:nth-child(4) {display: none;}
+                  td:nth-child(2) {width: 50%;}
+                  td:nth-child(5) {width: 15%;}
+                  td:nth-child(6) {width: 35%;}
+                }
+              }
+            }
+
+          }
+        }
+      }
+
+    }
+  }
+}
+

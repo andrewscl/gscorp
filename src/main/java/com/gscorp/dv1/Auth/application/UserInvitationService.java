@@ -7,4 +7,6 @@ public interface UserInvitationService {
 
     UserInvitationEmailDto prepareInvitation (InviteUserRequest request);
 
+    String resendMassiveExpiredInvitations();
+
 }
