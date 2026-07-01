@@ -45,8 +45,6 @@
         </button>
     </th:block>
 
-    <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
-
     <tr id="userHeader">
         <th>ID</th>
         <th>Username</th>
@@ -57,5 +55,7 @@
     </tr>
 
 </div>
+
+    <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
 
 <script type="module" src="/js/private/admin/users/users-table.js"></script>

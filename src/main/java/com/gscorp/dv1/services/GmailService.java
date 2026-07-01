@@ -71,7 +71,7 @@ public class GmailService {
         }
     }
 
-    @Async
+    @Async("mailTaskExecutor")
     public void sendMail(String to, String subject, String htmlBody) throws Exception {
         
         //Crea un correo
