@@ -10,7 +10,6 @@ import com.gscorp.dv1.auth.web.dto.UserInvitationEmailDto;
 import com.gscorp.dv1.employees.application.EmployeeService;
 import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
 import com.gscorp.dv1.enums.AccountType;
-import com.gscorp.dv1.enums.UserStatus;
 import com.gscorp.dv1.users.application.UserService;
 import com.gscorp.dv1.users.infrastructure.User;
 import com.gscorp.dv1.users.web.dto.InviteUserRequest;
@@ -32,9 +31,6 @@ public class UserInvitationServiceImpl implements UserInvitationService {
     public UserInvitationEmailDto prepareInvitation (InviteUserRequest request) {
 
         User user = userService.createInvitedUser(request);
-
-        user.setStatus(UserStatus.INVITED);
-        userService.save(user);
 
         PasswordResetToken token = passwordResetTokenService.
                                             createToken(user, INVITE_TTL);

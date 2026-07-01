@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,7 @@ import com.gscorp.dv1.auth.infrastructure.PasswordResetToken;
 import com.gscorp.dv1.auth.web.dto.UserInvitationEmailDto;
 import com.gscorp.dv1.employees.application.EmployeeService;
 import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
+import com.gscorp.dv1.enums.UserStatus;
 import com.gscorp.dv1.exceptions.ResourceNotFoundException;
 import com.gscorp.dv1.services.EmailTemplateUtils;
 import com.gscorp.dv1.services.GmailService;
@@ -80,11 +82,15 @@ public class UserInvitationRestController {
 
 
     @PostMapping("/{externalId}/resend-invite")
+    @Transactional
     public ResponseEntity<?> resendInvitationUser
                     (@PathVariable UUID externalId) {
 
         User user = userService.findByExternalId(externalId)
             .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+
+        user.setStatus(UserStatus.INVITED);
+        userService.save(user);
 
         EmployeeSelectDto employee =
                     employeeService.findEmployeeByUserId(user.getId());
