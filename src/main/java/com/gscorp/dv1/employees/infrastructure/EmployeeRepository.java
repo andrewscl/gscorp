@@ -339,8 +339,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
         FROM Employee e
         JOIN e.projects p
         JOIN p.client cl
-        WHERE p.id IN :clientIds
         LEFT JOIN e.company c
+        WHERE p.id IN :clientIds
         GROUP BY c.name
     """)
     List<CompanyEmployeesStatusSummaryProjection> getCompanyEmployeesStat(
