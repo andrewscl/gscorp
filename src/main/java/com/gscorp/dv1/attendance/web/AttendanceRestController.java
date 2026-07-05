@@ -72,7 +72,6 @@ public class AttendanceRestController {
   }
 
 
-
   // CONSULTAR ÚLTIMA MARCACIÓN DEL USUARIO
   @GetMapping("/last-punch")
   public ResponseEntity<?> lastPunch(Authentication authentication) {
@@ -97,8 +96,8 @@ public class AttendanceRestController {
       "action", last.getAction(),
       "ts", last.getTs().toString()
     ));
-
   }
+
 
   private static String firstNonBlank(String ...arr){ for (var s:arr) if (s!=null && !s.isBlank()) return s; return null; }
 

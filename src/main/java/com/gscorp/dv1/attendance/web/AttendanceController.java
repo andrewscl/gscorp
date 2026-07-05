@@ -5,9 +5,10 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gscorp.dv1.attendance.application.AttendanceService;
-import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchDto;
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
@@ -38,13 +38,7 @@ public class AttendanceController {
     private final AttendanceService attendanceService;
     private final String googleCloudApiKey = System.getenv("GOOGLE_CLOUD_API_KEY");
 
-    @Autowired
-    private final AttendancePunchRepo attendanceRepo;
-
-
-    @Autowired
     private final SiteService siteService;
-
 
     @GetMapping("/attdc-view")
     public String getAttendanceView (
@@ -74,71 +68,39 @@ public class AttendanceController {
     @GetMapping("/table-view")
     public String getAttendanceTableFragment(
         Model model,
-        Authentication authentication,
+        @AuthenticationPrincipal SecurityUser securityUser,
         @RequestParam(required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
         @RequestParam(required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
         @RequestParam(required=false) String clientTz,
         @RequestParam(required=false) Long siteId,
         @RequestParam(required=false) Long projectId,
-        @RequestParam(required=false) String action // "IN" | "OUT" |
+        @RequestParam(required=false) String action,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "20") int size
     ) {
-
-        Long userId = userService.getUserIdFromAuthentication(authentication);
-        if (userId == null) {
-            // no autenticado: redirigir al login o devolver error según tu política
-            return "redirect:/login";
+        if(securityUser == null) {
+                return "redirect:/login";
         }
-
-        if(authentication == null || !authentication.isAuthenticated()) {
-            return "redirect:/login";
-        }
-
-        Object principal = authentication.getPrincipal();
-        if(!(principal instanceof SecurityUser)) {
-            return "redirect:/login";
-        }
-
-        SecurityUser securityUser = (SecurityUser) principal;
-
         UUID externalId = securityUser.getUser().getExternalId();
 
-        // Resolve zone
-        ZoneResolutionResult zr = zoneResolver.resolveZone(externalId, clientTz);
-        ZoneId zone = zr.zoneId();
-
-        // Defaults: si no vienen parámetros, mostrar últimos 7 días (incluye hoy)
-        LocalDate today = LocalDate.now(zone);
-        if (to == null) {
-            to = today;
-        }
-        if (from == null) {
-            from = to.minusDays(7);
-        }
-
-        // Defensive: si from > to, intercambiar o devolver vacío; aquí intercambiamos por simplicidad
-        if (from.isAfter(to)) {
+        if (from != null && to != null && from.isAfter(to)) {
             log.debug("from > to en request; intercambiando valores: from={}, to={}", from, to);
             LocalDate tmp = from;
             from = to;
             to = tmp;
         }
+        Page<AttendancePunchDto> punchsPage =
+            attendanceService.getAttendanceTable(
+                externalId, clientTz, from, to, siteId, projectId, action, page, size);
 
-        String resolvedZoneId = zone.getId();
-
-        List<AttendancePunchDto> punchs = attendanceService
-                                        .findByUserAndDateBetween(
-                                            externalId, from, to, resolvedZoneId, siteId, projectId, action);
-
-        // cantidad de registros encontrados
-        int punchsCount = punchs != null ? punchs.size() : 0;
-        model.addAttribute("punchsCount", punchsCount);
+        model.addAttribute("punchsPage", punchsPage);
+        model.addAttribute("punchs", punchsPage.getContent());
+        model.addAttribute("punchsCount", punchsPage.getTotalElements());
         model.addAttribute("sites", siteService.getAllSitesByUser(externalId));
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
-        model.addAttribute("punchs", punchs);
         model.addAttribute("fromDate", from);
         model.addAttribute("toDate", to);
-        model.addAttribute("clientTimeZone", clientTz != null ? clientTz : zr.zoneId().getId());
-        model.addAttribute("attendance", attendanceRepo.findAll());
+        model.addAttribute("clientTimeZone", clientTz);
         return "private/attendance/views/attendance-list";
     }
 

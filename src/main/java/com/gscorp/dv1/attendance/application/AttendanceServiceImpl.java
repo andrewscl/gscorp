@@ -4,6 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,8 +55,7 @@ public class AttendanceServiceImpl implements AttendanceService {
   private static final double MAX_DIST_METERS = 250.0;
   private static final DateTimeFormatter TS_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-  /** COMANDO: registrar marcación IN/OUT alternada usando el site más cercano */
-  @Override
+
   @Transactional
   public AttendancePunchDto createPunch(
       CreateAttendancePunchRequest req, UUID userExternalId
@@ -158,7 +161,6 @@ public class AttendanceServiceImpl implements AttendanceService {
 
 
 
-  /** ÚLTIMA marcación del usuario */
   @Transactional(readOnly = true)
   public Optional<AttendancePunch> lastPunch(Long userId) {
     return repo.findFirstByUserIdOrderByTsDesc(userId);
@@ -172,7 +174,6 @@ public class AttendanceServiceImpl implements AttendanceService {
   }
 
 
-  @Override
   @Transactional(readOnly = true)
   public long countByClientIdAndDate(Long clientId, LocalDate date) {
     var fromTs = date.atStartOfDay(ZoneId.systemDefault()).toOffsetDateTime();
@@ -181,7 +182,6 @@ public class AttendanceServiceImpl implements AttendanceService {
   }
 
 
-  @Override
   @Transactional(readOnly = true)
   public List<HourlyCountDto> getHourlyCounts(LocalDate date, String tz, String action, Long userId) {
     // Normalizar action
@@ -218,7 +218,6 @@ public class AttendanceServiceImpl implements AttendanceService {
   }
 
 
-    @Override
     @Transactional(readOnly = true)
     public long countByClientIdsAndDate(List<Long> clientIds, LocalDate date, String action, String tz) {
         if (clientIds == null || clientIds.isEmpty()) return 0L;
@@ -241,7 +240,6 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
 
-    @Override
     @Transactional(readOnly = true)
     public List<AttendancePunchDto> findByUserAndDateBetween(
               UUID userExternalId,
@@ -324,7 +322,6 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
 
-    @Override
     @Transactional(readOnly = true)
     public List<AttendancePunchPointDto> getAttendanceSeriesForUserByDates(
             UUID userExternalId,
@@ -400,8 +397,6 @@ public class AttendanceServiceImpl implements AttendanceService {
       }
 
 
-
-    @Override
     @Transactional(readOnly = true)
     public List<HourlyCountDto> getAttendanceSeriesForUserByHours(
             UUID userExternalId,
@@ -472,7 +467,6 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
 
-    @Override
     @Transactional(readOnly = true)
     public DashboardHeaderInfo getDashboardHeader (UUID userExternalId) {
 
@@ -526,6 +520,86 @@ public class AttendanceServiceImpl implements AttendanceService {
         }
 
         return new DashboardHeaderInfo(greeting, emoji, message, lastPunchText, nextAction);
+    }
+
+
+    @Transactional(readOnly = true)
+    public Page<AttendancePunchDto> getAttendanceTable(
+            UUID userExternalId,
+            String clientTz,
+            LocalDate fromDate,
+            LocalDate toDate,
+            Long siteId,
+            Long projectId,
+            String action,
+            int page,
+            int size) {
+
+        String normalizedAction =
+                (action == null || action.isBlank()) ? null : action.trim().toUpperCase();
+
+        List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);
+        if (clientIds == null || clientIds.isEmpty()) {
+            log.debug("No clientIds for user {} -> returning zero series for {}..{}", userExternalId, fromDate, toDate);
+            return Page.empty();
+        }
+
+        ZoneResolutionResult zoneResult = zoneResolver.resolveZone(userExternalId, clientTz);
+        ZoneId zoneId = zoneResult.zoneId();
+
+        LocalDate today = LocalDate.now(zoneId);
+        if (toDate == null) {
+            toDate = today;
+        }
+        if (fromDate == null) {
+            fromDate = toDate.minusDays(1);
+        }
+
+        OffsetDateTime start = fromDate.atStartOfDay(zoneId).toOffsetDateTime();
+        OffsetDateTime endExclusive = toDate.plusDays(1).atStartOfDay(zoneId).toOffsetDateTime();
+
+        int safePage = Math.max(0, page);
+        int safeSize = Math.min(Math.max(5, size), 200);
+        Pageable pageable = PageRequest.of(safePage, safeSize, Sort.by(Sort.Direction.DESC, "ts"));
+
+        Page<AttendancePunchProjection> projections =
+                repo.findPageByClientIdsAndDateBetween(
+                    clientIds,
+                    start,
+                    endExclusive,
+                    siteId,
+                    projectId,
+                    normalizedAction,
+                    pageable
+            );
+
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        return projections.map(p -> {
+            ZoneId displayZone = zoneId;
+            String tzFromRow = p.getClientTimezone();
+            if(tzFromRow != null && !tzFromRow.isBlank()) {
+                try{
+                    displayZone = ZoneId.of(tzFromRow.trim());
+                } catch (DateTimeException ex) {
+                    log.debug("Invalid clientTimezone '{}' in row id={} - using resolved zone {}", 
+                            tzFromRow, p.getId(), zoneId);
+                }
+            }
+
+            String formatted = null;
+            OffsetDateTime dbOffsetTime = p.getTs();
+
+            if (dbOffsetTime != null) {
+                ZonedDateTime localTime = dbOffsetTime
+                        .toLocalDateTime()
+                        .atZone(ZoneOffset.UTC)
+                        .withZoneSameInstant(displayZone);
+                formatted = localTime.format(fmt);
+            }
+
+            return AttendancePunchDto.fromProjection(p, formatted);
+        });
     }
 
 }

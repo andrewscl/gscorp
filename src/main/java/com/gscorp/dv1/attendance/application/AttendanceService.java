@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunch;
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchDto;
@@ -70,6 +72,18 @@ public interface AttendanceService {
     );
 
     DashboardHeaderInfo getDashboardHeader (UUID userExternalId);
+
+    Page<AttendancePunchDto> getAttendanceTable(
+        UUID userExternalId,
+        String clientTz,
+        LocalDate fromDate,
+        LocalDate toDate,
+        Long siteId,
+        Long projectId,
+        String action,
+        int page,
+        int size
+    );
 
 
 }

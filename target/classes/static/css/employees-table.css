@@ -146,6 +146,14 @@ p {
   letter-spacing: 0.02em;
   box-shadow: 0 1px 0 rgba(15, 23, 42, 0.03);
 }
+@media (max-width: 768px) {
+  .private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-title-row .title-left {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+}
 .private-layout .main-content .content .hs-table.employees-table .hs-table-header .hs-filters-actions-row {
   display: flex;
   justify-content: space-between;
@@ -488,28 +496,24 @@ p {
 @media (max-width: 768px) {
   .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table thead tr th:nth-child(1),
   .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table thead tr th:nth-child(3),
-  .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table thead tr th:nth-child(4) {
+  .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table thead tr th:nth-child(4),
+  .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table thead tr th:nth-child(5) {
     display: none;
   }
   .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table thead tr th:nth-child(2) {
-    width: 50%;
-  }
-  .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table thead tr th:nth-child(5) {
-    width: 15%;
+    width: 65%;
   }
   .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table thead tr th:nth-child(6) {
     width: 35%;
   }
   .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(1),
   .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(3),
-  .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(4) {
+  .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(4),
+  .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(5) {
     display: none;
   }
   .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(2) {
-    width: 50%;
-  }
-  .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(5) {
-    width: 15%;
+    width: 65%;
   }
   .private-layout .main-content .content .hs-table.employees-table .hs-table-container .table tbody tr td:nth-child(6) {
     width: 35%;

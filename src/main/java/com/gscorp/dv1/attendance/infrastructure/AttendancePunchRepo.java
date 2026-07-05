@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -221,5 +223,65 @@ public interface AttendancePunchRepo extends JpaRepository <AttendancePunch, Lon
     List<ProjectSiteAttendancesSummaryProjection> getDailyProjectSiteAttendancesSummaryByClients(
         @Param("clientIds") List<Long> clientIds
     );
+
+
+    @Query(
+        value = """
+        SELECT
+          ap.id            AS id,
+          ap.userId        AS userId,
+          s.id             AS siteId,
+          s.name           AS siteName,
+          ap.ts            AS ts,
+          ap.lat           AS lat,
+          ap.lon           AS lon,
+          ap.accuracyM     AS accuracyM,
+          ap.action        AS action,
+          ap.locationOk    AS locationOk,
+          ap.distanceM     AS distanceM,
+          ap.deviceInfo    AS deviceInfo,
+          ap.ip            AS ip,
+          e.id             AS employeeId,
+          e.name           AS employeeName,
+          e.fatherSurname  AS employeeFatherSurname,
+          ap.clientTimezone AS clientTimezone,
+          ap.timezoneSource AS timezoneSource,
+          ap.createdAt     AS createdAt,
+          ap.updatedAt     AS updatedAt
+        FROM AttendancePunch ap
+        LEFT JOIN ap.site s
+        LEFT JOIN s.project p
+        LEFT JOIN ap.user u
+        LEFT JOIN u.employee e
+        WHERE p.client.id IN :clientIds
+            AND ap.ts >= :start
+            AND ap.ts <  :endExclusive
+            AND (:siteId IS NULL OR s.id = :siteId)
+            AND (:projectId IS NULL OR p.id = :projectId)
+            AND (:action IS NULL OR ap.action = :action)
+        """,
+        countQuery = """
+        SELECT COUNT(ap.id)
+        FROM AttendancePunch ap
+        LEFT JOIN ap.site s
+        LEFT JOIN s.project p
+        WHERE p.client.id IN :clientIds
+            AND ap.ts >= :start
+            AND ap.ts <  :endExclusive
+            AND (:siteId IS NULL OR s.id = :siteId)
+            AND (:projectId IS NULL OR p.id = :projectId)
+            AND (:action IS NULL OR ap.action = :action)
+        """
+    )
+    Page<AttendancePunchProjection> findPageByClientIdsAndDateBetween(
+        @Param("clientIds") List<Long> clientIds,
+        @Param("start") OffsetDateTime start,
+        @Param("endExclusive") OffsetDateTime endExclusive,
+        @Param("siteId") Long siteId,
+        @Param("projectId") Long projectId,
+        @Param("action") String action,
+        Pageable pageable
+    );
+
 
 }
