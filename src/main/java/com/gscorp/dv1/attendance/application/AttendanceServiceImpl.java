@@ -591,8 +591,9 @@ public class AttendanceServiceImpl implements AttendanceService {
             OffsetDateTime dbOffsetTime = p.getTs();
 
             if (dbOffsetTime != null) {
-                ZonedDateTime localTime = dbOffsetTime
-                        .atZoneSameInstant(displayZone);
+                LocalDateTime localDateTime =
+                    dbOffsetTime.toLocalDateTime();
+                ZonedDateTime localTime = localDateTime.atZone(displayZone);
                 formatted = localTime.format(fmt);
             }
 
