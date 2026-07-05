@@ -32,17 +32,14 @@
         justify-content: space-between;
         border-bottom: 1px solid $border-color;
         padding-bottom: 0.75rem;
-
         .title-left {
           display: flex;
           align-items: center;
-
           .title-text {
             @include montserrat-font(1.25rem, 600);
             color: $heading-color;
             margin: 0;
           }
-
         }
         .count {
           display: inline-flex;
@@ -56,6 +53,12 @@
           @include montserrat-font(0.85rem, 600);
           box-shadow: 0 1px 0 rgba($slate-900 ,0.03);
         }
+        @media (max-width: 768px) {
+          .title-left {
+            @include montserrat-font(1rem, 600);
+          }
+        }
+
       }
       .hs-filters-actions-row {
         display: flex;
