@@ -16,14 +16,12 @@
                   Estado Acceso
               </span>
           </td>
-
           <td class="actions">
             <button type="button"
                     class="btn btn-view"
                     th:attr="data-path=@{/private/employees/view/{externalId}(externalId=${e.externalId()})}">
               Ver
             </button>
-
             <button type="button"
                     class="btn btn-edit"
                     th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'') or hasRole(''RRHH'')')}"
@@ -32,13 +30,9 @@
             </button>
           </td>
       </tr>
-
-    <!-- ESCENARIO B: NO HAY RESULTADOS (Replicamos exactamente el diseño de tu smart-table) -->
     <tr th:unless="${employees != null and !employees.isEmpty()}">
         <td colspan="100" style="text-align:center; padding: 2rem;">No hay datos disponibles</td>
     </tr>
-
-    <!-- FILA DE CONTROL GLOBAL: Siempre presente para el JS -->
       <tr>
           <td colspan="100" style="display: none !important; padding: 0; border: none;">
               <input type="hidden" id="sync-employees-count" th:value="${count != null ? count : (employeesPage != null ? employeesPage.totalElements : 0)}" />
