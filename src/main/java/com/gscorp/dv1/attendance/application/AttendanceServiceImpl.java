@@ -592,9 +592,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 
             if (dbOffsetTime != null) {
                 ZonedDateTime localTime = dbOffsetTime
-                        .toLocalDateTime()
-                        .atZone(ZoneOffset.UTC)
-                        .withZoneSameInstant(displayZone);
+                        .atZoneSameInstant(displayZone);
                 formatted = localTime.format(fmt);
             }
 

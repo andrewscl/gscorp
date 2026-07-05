@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,26 +30,17 @@ public class AttendanceController {
 
     private final AttendanceService attendanceService;
     private final String googleCloudApiKey = System.getenv("GOOGLE_CLOUD_API_KEY");
-
     private final SiteService siteService;
 
     @GetMapping("/attdc-view")
     public String getAttendanceView (
             Model model,
-            Authentication authentication){
+        @AuthenticationPrincipal SecurityUser securityUser){
 
-            if(authentication == null || !authentication.isAuthenticated()) {
+        if(securityUser == null) {
                 return "redirect:/login";
-            }
-
-            Object principal = authentication.getPrincipal();
-            if(!(principal instanceof SecurityUser)) {
-                return "redirect:/login";
-            }
-
-            SecurityUser securityUser = (SecurityUser) principal;
-
-            UUID externalId = securityUser.getUser().getExternalId();
+        }
+        UUID externalId = securityUser.getUser().getExternalId();
 
         List<SiteDto> sites = siteService.getAllSitesByUser(externalId);
 
