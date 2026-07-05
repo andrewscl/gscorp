@@ -8,12 +8,12 @@
     <td th:text="${p.distanceM != null ? #numbers.formatDecimal(p.distanceM, 1, 2) : '—'} + ' mts'"></td>
     <td class="actions">
       <button type="button"
-              class="btn-view"
+              class="btn btn-view"
               th:attr="data-path=@{/private/attendance/show/{id}(id=${p.id})}">
               Ver
       </button>
       <button type="button"
-              class="btn-edit"
+              class="btn btn-edit"
               th:attr="data-path=@{/private/attendance/edit/{id}(id=${p.id})}"
               th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
               Editar
