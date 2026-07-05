@@ -1,7 +1,6 @@
 package com.gscorp.dv1.attendance.web;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,12 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gscorp.dv1.attendance.application.AttendanceService;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchDto;
-import com.gscorp.dv1.components.ZoneResolver;
-import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.security.SecurityUser;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
-import com.gscorp.dv1.users.application.UserService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,8 +29,6 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 public class AttendanceController {
 
-    private final UserService userService;
-    private final ZoneResolver zoneResolver;
     private final AttendanceService attendanceService;
     private final String googleCloudApiKey = System.getenv("GOOGLE_CLOUD_API_KEY");
 
@@ -108,59 +102,38 @@ public class AttendanceController {
     @GetMapping("/table-search")
     public String getAttendanceTableSearch(
         Model model,
-        Authentication authentication,
+        @AuthenticationPrincipal SecurityUser securityUser,
         @RequestParam(required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
         @RequestParam(required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
         @RequestParam(required=false) String clientTz,
         @RequestParam(required=false) String action,
         @RequestParam(required=false) Long siteId,
-        @RequestParam(required=false) Long projectId
+        @RequestParam(required=false) Long projectId,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "20") int size
         ) {
-        Long userId = userService.getUserIdFromAuthentication(authentication);
-        if (userId == null) {
-            return "redirect:/login";
+
+        if(securityUser == null) {
+                return "redirect:/login";
         }
-
-        if(authentication == null || !authentication.isAuthenticated()) {
-            return "redirect:/login";
-        }
-
-        Object principal = authentication.getPrincipal();
-        if(!(principal instanceof SecurityUser)) {
-            return "redirect:/login";
-        }
-
-        SecurityUser securityUser = (SecurityUser) principal;
-
         UUID externalId = securityUser.getUser().getExternalId();
 
-        // Resolve zone
-        ZoneResolutionResult zr = zoneResolver.resolveZone(externalId, clientTz);
-        ZoneId zone = zr.zoneId();
-        // Defaults: si no vienen parámetros, mostrar últimos 7 días (incluye hoy)
-        LocalDate today = LocalDate.now(zone);
-        if (to == null) {
-            to = today;
-        }
-        if (from == null) {
-            from = to.minusDays(7);
-        }
-        // Defensive: si from > to, intercambiar o devolver vacío; aquí intercambiamos por simplicidad
-        if (from.isAfter(to)) {
+        if (from != null && to != null && from.isAfter(to)) {
             log.debug("from > to en request; intercambiando valores: from={}, to={}", from, to);
             LocalDate tmp = from;
             from = to;
             to = tmp;
         }
-        String resolvedZoneId = zone.getId();
-        List<AttendancePunchDto> punchs =
-            attendanceService.findByUserAndDateBetween(
-                externalId, from, to, resolvedZoneId, siteId, projectId, action);
-        model.addAttribute("punchs", punchs);
-        model.addAttribute("attendanceCount", punchs != null ? punchs.size() : 0);
+        Page<AttendancePunchDto> punchsPage =
+            attendanceService.getAttendanceTable(
+                externalId, clientTz, from, to, siteId, projectId, action, page, size);
+
+        model.addAttribute("punchsPage", punchsPage);
+        model.addAttribute("punchs", punchsPage.getContent());
+        model.addAttribute("punchsCount", punchsPage.getTotalElements());
         model.addAttribute("fromDate", from);
         model.addAttribute("toDate",   to);
-        return "private/attendance/fragments/attendance-table-partial :: partial";
+        return "private/attendance/fragments/attendance-table-rows :: rows";
     }
 
 
