@@ -21,9 +21,8 @@
     </td>
   </tr>
 
-  <tr th:if="${#lists.isEmpty(punchs)}">
-    <td colspan="9" class="empty" style="text-align:center;color:#6b7280">
-      No se encontraron registros para el rango seleccionado.
-    </td>
+  <tr th:unless="${punchs != null and !punchs.isEmpty()}">
+    <td colspan="100" style="text-align:center; padding: 2rem;">No hay datos disponibles</td>
   </tr>
+
 </th:block>
