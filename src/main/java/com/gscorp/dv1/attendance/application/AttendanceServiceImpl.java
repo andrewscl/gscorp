@@ -544,7 +544,9 @@ public class AttendanceServiceImpl implements AttendanceService {
             return Page.empty();
         }
 
-        ZoneResolutionResult zoneResult = zoneResolver.resolveZone(userExternalId, clientTz);
+        String cleanClientTz = (clientTz == null || clientTz.isBlank()) ? null : clientTz.trim();
+
+        ZoneResolutionResult zoneResult = zoneResolver.resolveZone(userExternalId, cleanClientTz);
         ZoneId zoneId = zoneResult.zoneId();
 
         LocalDate today = LocalDate.now(zoneId);
@@ -591,9 +593,7 @@ public class AttendanceServiceImpl implements AttendanceService {
             OffsetDateTime dbOffsetTime = p.getTs();
 
             if (dbOffsetTime != null) {
-                LocalDateTime localDateTime =
-                    dbOffsetTime.toLocalDateTime();
-                ZonedDateTime localTime = localDateTime.atZone(displayZone);
+                ZonedDateTime localTime = dbOffsetTime.atZoneSameInstant(displayZone);
                 formatted = localTime.format(fmt);
             }
 

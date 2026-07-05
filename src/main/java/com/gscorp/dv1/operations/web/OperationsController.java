@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.UUID;
 
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,20 +37,13 @@ public class OperationsController {
     @GetMapping("/dashboards/security-operator")
     public String getPrivateDashboardView (
             Model model,
-            Authentication authentication) {
+            @AuthenticationPrincipal SecurityUser securityUser) {
 
-            if(authentication == null || !authentication.isAuthenticated()) {
+        if(securityUser == null) {
                 return "redirect:/login";
-            }
+        }
 
-            Object principal = authentication.getPrincipal();
-            if(!(principal instanceof SecurityUser)) {
-                return "redirect:/login";
-            }
-
-            SecurityUser securityUser = (SecurityUser) principal;
-
-            UUID externalId = securityUser.getUser().getExternalId();
+        UUID externalId = securityUser.getUser().getExternalId();
 
             UserViewDto userViewDto = userService.findWithCompaniesAndClientsByExternalId(externalId);
 
