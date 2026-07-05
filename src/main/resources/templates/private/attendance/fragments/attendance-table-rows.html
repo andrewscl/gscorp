@@ -1,7 +1,7 @@
 <th:block th:fragment="rows">
   <tr th:each="p : ${punchs}" th:attr="data-id=${p.id}">
 
-    <td th:text="${#temporals.format(p.ts, 'yyyy-MM-dd HH:mm')}"></td>
+    <td th:text="${p.tsFormatted}"></td>
     <td th:text="${p.siteName != null ? p.siteName : '—'}"></td>
     <td th:text="${p.employeeName != null ? p.employeeName + ' ' + p.employeeFatherSurname: '—'}"></td>
     <td th:text="${p.action != null ? (p.action == 'IN' ? 'Entrada' : 'Salida') : '—'}"></td>
