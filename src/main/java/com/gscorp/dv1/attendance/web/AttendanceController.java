@@ -82,7 +82,7 @@ public class AttendanceController {
 
         model.addAttribute("punchsPage", punchsPage);
         model.addAttribute("punchs", punchsPage.getContent());
-        model.addAttribute("punchsCount", punchsPage.getTotalElements());
+        model.addAttribute("count", punchsPage.getTotalElements());
         model.addAttribute("sites", siteService.getAllSitesByUser(externalId));
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
         model.addAttribute("fromDate", from);
@@ -128,7 +128,7 @@ public class AttendanceController {
 
         model.addAttribute("punchsPage", punchsPage);
         model.addAttribute("punchs", punchsPage.getContent());
-        model.addAttribute("punchsCount", punchsPage.getTotalElements());
+        model.addAttribute("count", punchsPage.getTotalElements());
         model.addAttribute("fromDate", from);
         model.addAttribute("toDate",   to);
         return "private/attendance/fragments/attendance-table-rows :: rows";

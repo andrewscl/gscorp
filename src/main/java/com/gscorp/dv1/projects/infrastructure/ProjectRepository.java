@@ -57,4 +57,14 @@ public interface ProjectRepository extends JpaRepository<Project, Long>{
         findProjectSelectProjectionsByEmployeeExternalId(
                 @Param("employeeExternalId") UUID employeeExternalId);
 
+    @Query("""
+        SELECT DISTINCT p
+        FROM Project p
+        JOIN p.employees e
+        JOIN e.user u
+        WHERE u.externalId = :userExternalId
+        ORDER BY p.name
+    """)
+    List<ProjectProjection> findByUserExternalId(@Param("userExternalId") UUID userExternalId);
+
 }

@@ -67,6 +67,20 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
     List<SiteSelectProjection> findByClientIds(@Param("clientIds") List<Long> clientIds);
 
 
+    @Query("""
+        SELECT DISTINCT
+          s.id   AS id,
+          s.name AS name,
+          s.lat  AS lat,
+          s.lon  AS lon
+        FROM Site s
+        JOIN s.project p
+        WHERE p.id IN :projectIds
+        ORDER BY s.name
+        """)
+    List<SiteSelectProjection> findByProjectIds(@Param("projectIds") List<Long> projectIds);
+
+
 
     @Query("""
         SELECT DISTINCT

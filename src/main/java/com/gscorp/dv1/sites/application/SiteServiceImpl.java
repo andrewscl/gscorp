@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gscorp.dv1.clients.application.ClientService;
 import com.gscorp.dv1.exceptions.ResourceNotFoundException;
+import com.gscorp.dv1.projects.application.ProjectService;
+import com.gscorp.dv1.projects.web.dto.ProjectDto;
 import com.gscorp.dv1.sites.infrastructure.Site;
 import com.gscorp.dv1.sites.infrastructure.SiteProjection;
 import com.gscorp.dv1.sites.infrastructure.SiteSelectProjection;
@@ -33,6 +35,7 @@ public class SiteServiceImpl implements SiteService{
 
     private final SiteRepository siteRepository;
     private final ClientService clientService;
+    private final ProjectService projectService;
 
     @Override
     @Transactional
@@ -204,14 +207,21 @@ public class SiteServiceImpl implements SiteService{
     @Transactional(readOnly = true)
     public List<SiteSelectDto> findByUserExternalId(UUID userExternalId) {
 
-        List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);
-        if(clientIds == null || clientIds.isEmpty()) {
-            return null;
+        if(userExternalId == null) {
+            return Collections.emptyList();
         }
 
-        List<SiteSelectProjection> sites = siteRepository.findByClientIds(clientIds);
+        List<Long> projectIds = projectService.findByUserExternalId(userExternalId)
+                                .stream()
+                                .map(project -> project.id())
+                                .toList();
+        if(projectIds == null || projectIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        List<SiteSelectProjection> sites = siteRepository.findByProjectIds(projectIds);
         if(sites == null || sites.isEmpty()) {
-            return null;
+            return Collections.emptyList();
         }
 
         List<SiteSelectDto> response = sites.stream()
@@ -226,13 +236,16 @@ public class SiteServiceImpl implements SiteService{
     @Transactional(readOnly = true)
     public SiteSelectDto findNearestSite(UUID externalId, double lat, double lon) {
 
-        List<Long> clientIds = clientService.getClientIdsByUserExternalId(externalId);
-        log.debug("findNearestSite: userId={}, clientIds={}", externalId, clientIds);
-        if(clientIds == null || clientIds.isEmpty()) {
+        List<ProjectDto> projects = projectService.findByUserExternalId(externalId);
+        if (projects == null || projects.isEmpty()) {
             return null;
         }
 
-        List<SiteSelectProjection> sites = siteRepository.findByClientIds(clientIds);
+        List<Long> projectIds = projects.stream()
+                                .map(project -> project.id())
+                                .toList();
+
+        List<SiteSelectProjection> sites = siteRepository.findByProjectIds(projectIds);
         log.debug("findNearestSite: sites fetched={}, for userId={}", sites == null ? 0 : sites.size(), externalId);
         if(sites == null || sites.isEmpty()) {
             return null;
@@ -245,16 +258,13 @@ public class SiteServiceImpl implements SiteService{
                         s -> haversineMeters(lat, lon, s.getLat(), s.getLon())));
 
         if (nearest.isEmpty()) {
-                log.debug("findNearestSite: after filtering, no sites with lat/lon for clientIds {}", clientIds);
+                log.debug("findNearestSite: after filtering, no sites with lat/lon for projectIds {}", projectIds);
             return null;
         }
 
         SiteSelectProjection p = nearest.get();
 
-        // Mapear la proyección a tu DTO de salida. Ajusta constructor/nombres
-        // según tu DTO real.
         return new SiteSelectDto(p.getId(), p.getName(), p.getLat(), p.getLon());
-
     }
 
 

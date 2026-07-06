@@ -6,8 +6,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import com.gscorp.dv1.clients.infrastructure.Client;
-import com.gscorp.dv1.companies.infrastructure.Company;
 import com.gscorp.dv1.enums.UserStatus;
 import com.gscorp.dv1.users.infrastructure.User;
 
@@ -38,28 +36,28 @@ public record UserViewDto(
         Set<Long> companyIds = u.getCompanies() == null ? Collections.emptySet()
                 : u.getCompanies().stream()
                     .filter(Objects::nonNull)
-                    .map(Company::getId)
+                    .map(company -> company.getId())
                     .filter(Objects::nonNull)
                     .collect(Collectors.toSet());
 
         Set<String> companyNames = u.getCompanies() == null ? Collections.emptySet()
                 : u.getCompanies().stream()
                     .filter(Objects::nonNull)
-                    .map(Company::getName)
+                    .map(company -> company.getName())
                     .filter(Objects::nonNull)
                     .collect(Collectors.toSet());
         
         Set<String> clientNames = u.getClients() == null ? Collections.emptySet()
                 : u.getClients().stream()
                     .filter(Objects::nonNull)
-                    .map(Client::getName)
+                    .map(client -> client.getName())
                     .filter(Objects::nonNull)
                     .collect(Collectors.toSet());
 
         Set<Long> clientIds = u.getClients() == null ? Collections.emptySet()
                 : u.getClients().stream()
                     .filter(Objects::nonNull)
-                    .map(Client::getId)
+                    .map(client -> client.getId())
                     .filter(Objects::nonNull)
                     .collect(Collectors.toSet());
 

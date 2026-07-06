@@ -256,7 +256,7 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
         // extrae last code de forma segura (limit 1)
         String lastCode = shiftRequestRepository
                 .findFirstBySiteIdAndCodeStartingWithOrderByCodeDesc(site.getId(), prefix)
-                .map(ShiftRequest::getCode)
+                .map(shiftRequest -> shiftRequest.getCode())
                 .orElse(null);
 
         int nextCorrelative = 1;

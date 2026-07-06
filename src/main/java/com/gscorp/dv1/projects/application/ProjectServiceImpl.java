@@ -110,12 +110,7 @@ public class ProjectServiceImpl implements ProjectService{
     @Transactional(readOnly = true)
     public List<ProjectDto> findByUserExternalId (UUID userExternalId) {
 
-        List<Long> clientIds = clientRepository.findClientIdsByUserExternalId(userExternalId);
-        if(clientIds == null || clientIds.isEmpty()) {
-            return List.of();
-        }
-
-        List<ProjectProjection> projects = projectRepository.findByClientIds(clientIds);
+        List<ProjectProjection> projects = projectRepository.findByUserExternalId(userExternalId);
 
         if (projects == null || projects.isEmpty()) {
                 return List.of();

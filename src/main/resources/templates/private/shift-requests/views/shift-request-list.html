@@ -35,13 +35,15 @@
                         th:text="${s.name}"></option>
             </select>
         </div>
+
+        <div class="filter-item item-action">
+            <button class="btn btn-primary" id="searchShiftRequestsBtn">
+            Buscar
+            </button>
+        </div>
     </th:block>
 
     <th:block id="shiftRequestsActions">
-        <button class="btn btn-primary" id="searchShiftRequestsBtn">
-        Buscar
-        </button>
-        
         <button class="btn btn-primary" id="addShiftRequestsBtn"
         th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
         Crear registro
@@ -49,13 +51,12 @@
     </th:block>
 
     <tr id="shiftRequestsHeader">
-        <th>Id</th>
         <th>Turno</th>
         <th>Sitio</th>
         <th>Tipo</th>
         <th>Inicio</th>
         <th>Termino</th>
-        <th>Descripción</th>
+        <th>Actions</th>
     </tr>
 
 </div>
