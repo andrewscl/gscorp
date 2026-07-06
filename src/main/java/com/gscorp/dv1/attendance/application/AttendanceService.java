@@ -75,7 +75,7 @@ public interface AttendanceService {
 
     Page<AttendancePunchDto> getAttendanceTable(
         UUID userExternalId,
-        String clientTz,
+        ZoneId zoneId,
         LocalDate fromDate,
         LocalDate toDate,
         Long siteId,

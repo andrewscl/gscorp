@@ -526,7 +526,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Transactional(readOnly = true)
     public Page<AttendancePunchDto> getAttendanceTable(
             UUID userExternalId,
-            String clientTz,
+            ZoneId zoneId,
             LocalDate fromDate,
             LocalDate toDate,
             Long siteId,
@@ -543,11 +543,6 @@ public class AttendanceServiceImpl implements AttendanceService {
             log.debug("No clientIds for user {} -> returning zero series for {}..{}", userExternalId, fromDate, toDate);
             return Page.empty();
         }
-
-        String cleanClientTz = (clientTz == null || clientTz.isBlank()) ? null : clientTz.trim();
-
-        ZoneResolutionResult zoneResult = zoneResolver.resolveZone(userExternalId, cleanClientTz);
-        ZoneId zoneId = zoneResult.zoneId();
 
         LocalDate today = LocalDate.now(zoneId);
         if (toDate == null) {

@@ -1,6 +1,7 @@
 package com.gscorp.dv1.attendance.web;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gscorp.dv1.attendance.application.AttendanceService;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchDto;
+import com.gscorp.dv1.components.ZoneResolver;
+import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.security.SecurityUser;
 import com.gscorp.dv1.sites.application.SiteService;
 import com.gscorp.dv1.sites.web.dto.SiteDto;
@@ -31,6 +34,7 @@ public class AttendanceController {
     private final AttendanceService attendanceService;
     private final String googleCloudApiKey = System.getenv("GOOGLE_CLOUD_API_KEY");
     private final SiteService siteService;
+    private final ZoneResolver zoneResolver;
 
     @GetMapping("/attdc-view")
     public String getAttendanceView (
@@ -53,12 +57,7 @@ public class AttendanceController {
     public String getAttendanceTableFragment(
         Model model,
         @AuthenticationPrincipal SecurityUser securityUser,
-        @RequestParam(required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
-        @RequestParam(required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
         @RequestParam(required=false) String clientTz,
-        @RequestParam(required=false) Long siteId,
-        @RequestParam(required=false) Long projectId,
-        @RequestParam(required=false) String action,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "20") int size
     ) {
@@ -67,15 +66,19 @@ public class AttendanceController {
         }
         UUID externalId = securityUser.getUser().getExternalId();
 
-        if (from != null && to != null && from.isAfter(to)) {
-            log.debug("from > to en request; intercambiando valores: from={}, to={}", from, to);
-            LocalDate tmp = from;
-            from = to;
-            to = tmp;
-        }
+        String cleanClientTz =
+            (clientTz == null || clientTz.isBlank()) ? null : clientTz.trim();
+        ZoneResolutionResult zoneResult =
+                        zoneResolver.resolveZone(externalId, cleanClientTz);
+        ZoneId zoneId = zoneResult.zoneId();
+
+        LocalDate to = LocalDate.now(zoneId);
+        LocalDate from = to.minusDays(1);
+
         Page<AttendancePunchDto> punchsPage =
             attendanceService.getAttendanceTable(
-                externalId, clientTz, from, to, siteId, projectId, action, page, size);
+                externalId, zoneId, from, to,
+                        null, null, null, page, size);
 
         model.addAttribute("punchsPage", punchsPage);
         model.addAttribute("punchs", punchsPage.getContent());
@@ -84,7 +87,6 @@ public class AttendanceController {
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
         model.addAttribute("fromDate", from);
         model.addAttribute("toDate", to);
-        model.addAttribute("clientTimeZone", clientTz);
         return "private/attendance/views/attendance-list";
     }
 
@@ -108,6 +110,12 @@ public class AttendanceController {
         }
         UUID externalId = securityUser.getUser().getExternalId();
 
+        String cleanClientTz =
+            (clientTz == null || clientTz.isBlank()) ? null : clientTz.trim();
+        ZoneResolutionResult zoneResult =
+                        zoneResolver.resolveZone(externalId, cleanClientTz);
+        ZoneId zoneId = zoneResult.zoneId();
+
         if (from != null && to != null && from.isAfter(to)) {
             log.debug("from > to en request; intercambiando valores: from={}, to={}", from, to);
             LocalDate tmp = from;
@@ -116,7 +124,7 @@ public class AttendanceController {
         }
         Page<AttendancePunchDto> punchsPage =
             attendanceService.getAttendanceTable(
-                externalId, clientTz, from, to, siteId, projectId, action, page, size);
+                externalId, zoneId, from, to, siteId, projectId, action, page, size);
 
         model.addAttribute("punchsPage", punchsPage);
         model.addAttribute("punchs", punchsPage.getContent());
