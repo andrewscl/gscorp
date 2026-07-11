@@ -32,13 +32,21 @@ async function searchAttendance() {
   }
   const url = `/private/attendance/table-search?from=${from}&to=${to}&siteId=${siteId}&clientTz=${clientTz}`;
   try {
-    const res = await fetchWithAuth(url, { credentials: 'same-origin'});
-    if(!res.ok) throw new Error(`Error HTTP: ${res.status}`);
-    const htmlResult = await res.text();
-    const   tBody = qs('.hs-table-container .table tbody');
-    if(tBody){
-      tBody.innerHTML = htmlResult;
-    }
+        const res = await fetchWithAuth(url, { credentials: 'same-origin'});
+        if(!res.ok) throw new Error(`Error HTTP: ${res.status}`);
+        const htmlResult = await res.text();
+        const   tBody = qs('.hs-table-container .table tbody');
+        if(tBody){
+          tBody.innerHTML = htmlResult;
+        }
+
+        const hiddenCountInput = qs('#sync-punches-count');
+        const headerCountSpan = qs('.count');
+        if(hiddenCountInput && headerCountSpan){
+            const newCount = parseInt(hiddenCountInput.value, 10) || 0;
+            headerCountSpan.textContent = `${newCount} registro${newCount === 1 ? '' : 's'}`;
+        }
+
   } catch (err) {
     console.error("No se pudo procesar la búsqueda de asistencias:", err);
   }

@@ -23,5 +23,11 @@
         <tr th:unless="${shiftRequests != null and !shiftRequests.isEmpty()}">
           <td colspan="100" style="text-align:center; padding: 2rem;">No hay datos disponibles</td>
         </tr>
+        <tr>
+            <td colspan="100" style="display: none !important; padding: 0; border: none;">
+                <input type="hidden" id="sync-shift-request-count"
+                  th:value="${count != null ? count : (shiftRequestsPage != null ? shiftRequestsPage.totalElements : 0)}" />
+            </td>
+        </tr>
 
       </th:block>

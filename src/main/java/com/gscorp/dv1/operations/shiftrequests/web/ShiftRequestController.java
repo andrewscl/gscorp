@@ -45,7 +45,7 @@ public class ShiftRequestController {
             @AuthenticationPrincipal SecurityUser securityUser,
             @RequestParam(required = false) String clientTz,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size
+            @RequestParam(defaultValue = "100") int size
         ){ 
 
         if(securityUser == null) return "redirect:/login";
@@ -145,7 +145,7 @@ public class ShiftRequestController {
             @RequestParam(required = false) Long projectId,
             @RequestParam(required = false) ShiftRequestType type,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size
+            @RequestParam(defaultValue = "100") int size
     ) {
 
         if(securityUser == null) return "redirect:/login";
