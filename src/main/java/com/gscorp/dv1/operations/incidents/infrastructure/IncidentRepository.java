@@ -35,7 +35,7 @@ public interface IncidentRepository extends JpaRepository<Incident, Long>{
      * Ajusta 'c.owner' según el nombre real del campo en Client que referencia al User.
      */
     @Query("""
-    SELECT DISTINCT new com.gscorp.dv1.incidents.web.dto.IncidentDto(
+    SELECT DISTINCT new com.gscorp.dv1.operations.incidents.web.dto.IncidentDto(
         i.id,
         s.name,
         CONCAT(i.incidentType, ''),

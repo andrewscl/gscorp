@@ -69,7 +69,7 @@ public interface ForecastRepository extends JpaRepository<Forecast, Long>{
 
 
     @Query("""
-        select new com.gscorp.dv1.forecast.web.dto.ForecastTableRowDto(
+        select new com.gscorp.dv1.operations.forecast.web.dto.ForecastTableRowDto(
                 f.id,
                 f.projectId,
                 p.name,
