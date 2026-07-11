@@ -545,12 +545,8 @@ public class AttendanceServiceImpl implements AttendanceService {
         }
 
         LocalDate today = LocalDate.now(zoneId);
-        if (toDate == null) {
-            toDate = today;
-        }
-        if (fromDate == null) {
-            fromDate = toDate.minusDays(1);
-        }
+        if (toDate == null) toDate = today;
+        if (fromDate == null) fromDate = toDate.minusDays(1);
 
         OffsetDateTime start = fromDate.atStartOfDay(zoneId).toOffsetDateTime();
         OffsetDateTime endExclusive = toDate.plusDays(1).atStartOfDay(zoneId).toOffsetDateTime();

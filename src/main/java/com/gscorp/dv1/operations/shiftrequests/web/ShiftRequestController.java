@@ -157,6 +157,13 @@ public class ShiftRequestController {
                         zoneResolver.resolveZone(externalId, cleanClientTz);
         ZoneId zoneId = zoneResult.zoneId();
 
+        if (from != null && to != null && from.isAfter(to)) {
+            log.debug("from > to en request; intercambiando valores: from={}, to={}", from, to);
+            LocalDate tmp = from;
+            from = to;
+            to = tmp;
+        }
+
         Page<ShiftRequestDto> shiftRequests =
                 shiftRequestService.getShiftRequestsTable(
                             externalId, zoneId,
