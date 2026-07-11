@@ -1,4 +1,4 @@
-      <tbody th:fragment="rows">
+      <th:block th:fragment="rows">
         <tr th:each="r : ${shiftRequests}" th:data-id="${r.id}">
           <td th:text="${r.code}">TR001</td>
           <td th:text="${r.siteName != null ? r.siteName : '—'}">Nombre sitio</td>
@@ -24,4 +24,4 @@
           <td colspan="100" style="text-align:center; padding: 2rem;">No hay datos disponibles</td>
         </tr>
 
-      </tbody>
+      </th:block>

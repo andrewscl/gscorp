@@ -403,11 +403,14 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
             return Page.empty();
         }
 
-        OffsetDateTime start = null; OffsetDateTime endExclusive = null;
-        if (fromDate != null) { start = fromDate.atStartOfDay(zoneId).toOffsetDateTime(); }
-        if (toDate != null) {
-            endExclusive = toDate.plusDays(1).atStartOfDay(zoneId).toOffsetDateTime();
-        }
+        OffsetDateTime start =
+            (fromDate == null) ? null :
+                            fromDate.atStartOfDay(zoneId).toOffsetDateTime();
+        
+        OffsetDateTime endExclusive =
+            (toDate == null) ? null :
+                            toDate.plusDays(1)
+                                                .atStartOfDay(zoneId).toOffsetDateTime();
 
         int safePage = Math.max(0, page);
         int safeSize = Math.min(Math.max(5, size), 200);
