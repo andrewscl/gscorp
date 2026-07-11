@@ -30,7 +30,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long>{
      * Devuelve DTOs (id, name) de los proyectos asociados a un clientId y que estén activos,
      * ordenados por nombre. Ajusta nombres de columnas/relación si tu entidad tiene otra estructura.
      */
-    @Query("select new com.gscorp.dv1.projects.web.dto.ProjectSelectDto(p.id, p.name) " +
+    @Query("select new com.gscorp.dv1.admin.projects.web.dto.ProjectSelectDto(p.id, p.name) " +
            "from Project p where p.client.id = :clientId and (p.active = true or p.active is null) order by p.name")
     List<ProjectSelectDto> findDtoByClientId(@Param("clientId") Long clientId);
 
