@@ -125,7 +125,7 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               value = """
               SELECT
               sr.id                AS id,
-              sr.userId            AS userId,
+              sr.code              AS code,
               s.id                 AS siteId,
               s.name               AS siteName,
               p.id                 AS projectId,
