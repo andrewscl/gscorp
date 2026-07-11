@@ -146,11 +146,6 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               AND (:siteId IS NULL OR s.id = :siteId)
               AND (:projectId IS NULL OR p.id = :projectId)
               AND (:shiftRequestType IS NULL OR sr.type = :shiftRequestType)
-              AND (
-              (:startDate IS NULL AND :endExclusiveDate IS NULL AND sr.type = 'FIXED')
-              OR 
-              ((:startDate IS NOT NULL OR :endExclusiveDate IS NOT NULL) AND (:shiftRequestType IS NULL OR sr.type = :shiftRequestType))
-              )
               """,
               countQuery = """
               SELECT COUNT(sr.id)
@@ -163,11 +158,6 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               AND (:siteId IS NULL OR s.id = :siteId)
               AND (:projectId IS NULL OR p.id = :projectId)
               AND (:shiftRequestType IS NULL OR sr.type = :shiftRequestType)
-              AND (
-              (:startDate IS NULL AND :endExclusiveDate IS NULL AND sr.type = 'FIXED')
-              OR 
-              ((:startDate IS NOT NULL OR :endExclusiveDate IS NOT NULL) AND (:shiftRequestType IS NULL OR sr.type = :shiftRequestType))
-              )
               """
        )
        Page<ShiftRequestProjection> findPageByClientIds(
