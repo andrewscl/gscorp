@@ -13,11 +13,11 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.gscorp.dv1.admin.clients.infrastructure.Client;
+import com.gscorp.dv1.admin.companies.infrastructure.Company;
 import com.gscorp.dv1.auth.infrastructure.PasswordResetToken;
-import com.gscorp.dv1.clients.infrastructure.Client;
-import com.gscorp.dv1.companies.infrastructure.Company;
-import com.gscorp.dv1.employees.infrastructure.Employee;
 import com.gscorp.dv1.enums.UserStatus;
+import com.gscorp.dv1.hr.employees.infrastructure.Employee;
 import com.gscorp.dv1.roles.infrastructure.Role;
 
 import jakarta.persistence.CascadeType;

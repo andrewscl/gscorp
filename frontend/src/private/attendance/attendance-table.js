@@ -1,4 +1,3 @@
-import { initHeaderSync } from "../../shared/sync-header-height";
 import { navigateTo } from "../../navigation-handler";
 import { fetchWithAuth } from "../../auth";
 
@@ -50,6 +49,5 @@ async function searchAttendance() {
 
 (function init () {
   bindAttendanceTable();
-  initHeaderSync('.hs-table-header','--header-height');
 
 })();

@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.gscorp.dv1.attendance.application.AttendanceService;
-import com.gscorp.dv1.attendance.web.dto.HourlyCountDto;
+import com.gscorp.dv1.attendance.web.dto.AttendancesHourlyCountDto;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchPointDto;
 import com.gscorp.dv1.components.ZoneResolver;
-import com.gscorp.dv1.security.SecurityUser;
+import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.users.application.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -116,7 +116,7 @@ public class AttendanceSeriesController {
    * Ejemplo: GET /api/attendance/hourly?date=2025-11-14&tz=America/Santiago&action=IN
    */
   @GetMapping("/hourly-aggregated")
-  public ResponseEntity<List<HourlyCountDto>> hourly(
+  public ResponseEntity<List<AttendancesHourlyCountDto>> hourly(
       Authentication auth,
       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
       @RequestParam(required = false, defaultValue = "UTC") String tz,
@@ -139,7 +139,7 @@ public class AttendanceSeriesController {
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "action inválida. Valores aceptados: IN, OUT");
     }
 
-    List<HourlyCountDto> out = attendanceService.getAttendanceSeriesForUserByHours(
+    List<AttendancesHourlyCountDto> out = attendanceService.getAttendanceSeriesForUserByHours(
                                     externalId, date, zone, normalizedAction, siteId, projectId);
     return ResponseEntity.ok(out);
   }

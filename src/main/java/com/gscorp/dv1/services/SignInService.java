@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.gscorp.dv1.auth.AuthRequest;
 import com.gscorp.dv1.auth.AuthResponse;
-import com.gscorp.dv1.security.JwtService;
+import com.gscorp.dv1.config.security.JwtService;
 
 import lombok.RequiredArgsConstructor;
 

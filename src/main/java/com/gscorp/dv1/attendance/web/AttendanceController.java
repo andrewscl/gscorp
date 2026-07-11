@@ -18,9 +18,9 @@ import com.gscorp.dv1.attendance.application.AttendanceService;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchDto;
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
-import com.gscorp.dv1.security.SecurityUser;
-import com.gscorp.dv1.sites.application.SiteService;
-import com.gscorp.dv1.sites.web.dto.SiteDto;
+import com.gscorp.dv1.config.security.SecurityUser;
+import com.gscorp.dv1.operations.sites.application.SiteService;
+import com.gscorp.dv1.operations.sites.web.dto.SiteDto;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -61,9 +61,7 @@ public class AttendanceController {
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "20") int size
     ) {
-        if(securityUser == null) {
-                return "redirect:/login";
-        }
+        if(securityUser == null) return "redirect:/login";
         UUID externalId = securityUser.getUser().getExternalId();
 
         String cleanClientTz =
@@ -78,7 +76,8 @@ public class AttendanceController {
         Page<AttendancePunchDto> punchsPage =
             attendanceService.getAttendanceTable(
                 externalId, zoneId, from, to,
-                        null, null, null, page, size);
+                        null, null,
+                        null, page, size);
 
         model.addAttribute("punchsPage", punchsPage);
         model.addAttribute("punchs", punchsPage.getContent());
@@ -105,9 +104,7 @@ public class AttendanceController {
         @RequestParam(defaultValue = "20") int size
         ) {
 
-        if(securityUser == null) {
-                return "redirect:/login";
-        }
+        if(securityUser == null) return "redirect:/login";
         UUID externalId = securityUser.getUser().getExternalId();
 
         String cleanClientTz =

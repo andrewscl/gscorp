@@ -13,7 +13,7 @@ import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchDto;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchPointDto;
 import com.gscorp.dv1.attendance.web.dto.CreateAttendancePunchRequest;
-import com.gscorp.dv1.attendance.web.dto.HourlyCountDto;
+import com.gscorp.dv1.attendance.web.dto.AttendancesHourlyCountDto;
 import com.gscorp.dv1.attendance.web.dto.DashboardHeaderInfo;
 
 public interface AttendanceService {
@@ -34,7 +34,11 @@ public interface AttendanceService {
     long countByClientIdAndDate(Long clientId, LocalDate date);
 
 
-    List<HourlyCountDto> getHourlyCounts(LocalDate date, String tz, String action, Long userId);
+    List<AttendancesHourlyCountDto> getHourlyCounts(
+                                LocalDate date,
+                                String tz,
+                                String action,
+                                Long userId);
 
 
     long countByClientIdsAndDate(List<Long> clientIds, LocalDate date, String action, String tz);
@@ -62,7 +66,7 @@ public interface AttendanceService {
     );
 
 
-    List<HourlyCountDto> getAttendanceSeriesForUserByHours(
+    List<AttendancesHourlyCountDto> getAttendanceSeriesForUserByHours(
         UUID userExternalId,
         LocalDate date,
         ZoneId zone,
@@ -84,6 +88,8 @@ public interface AttendanceService {
         int page,
         int size
     );
+
+    String normalizeAction(String a);
 
 
 }

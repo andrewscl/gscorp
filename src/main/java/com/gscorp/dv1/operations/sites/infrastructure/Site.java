@@ -1,0 +1,89 @@
+package com.gscorp.dv1.operations.sites.infrastructure;
+
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import com.gscorp.dv1.admin.projects.infrastructure.Project;
+import com.gscorp.dv1.operations.patrol.infrastructure.patrols.Patrol;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Table(name = "sites",
+  indexes = {
+    @Index(name="ix_sites_project", columnList="project_id"),
+    @Index(name="ix_sites_name", columnList="name")
+  }
+)
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+public class Site {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
+    @Column(name = "external_id", unique=true,
+                        nullable=true, updatable=false)
+    private UUID externalId;
+
+    @ManyToOne(optional=false, fetch=FetchType.LAZY)
+    @JoinColumn(name="project_id")
+    Project project;
+
+    @Column(nullable=false, length=160)
+    String name;
+
+    @Column(length=240)
+    String address;
+
+    Double lat;
+    Double lon;
+
+    @Column(length=64)
+    String timeZone; // "America/Santiago"
+
+    @Builder.Default
+    @Column(nullable=false)
+    private Boolean active = true;
+
+    // Fechas de auditoría (requieren dependencias Hibernate)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "site", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Patrol> patrols = new HashSet<>();
+
+    @PrePersist
+    protected void onCreate() {
+        if (this.externalId == null) {
+            this.externalId = UUID.randomUUID();
+        }
+    }
+
+}

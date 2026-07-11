@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.gscorp.dv1.admin.web.dto.AdminDistributionMetricResponse;
+import com.gscorp.dv1.admin.dashboard.web.dto.AdminDistributionMetricResponse;
 import com.gscorp.dv1.users.application.UserService;
 import com.gscorp.dv1.users.application.UserStatService;
 import com.gscorp.dv1.users.infrastructure.User;

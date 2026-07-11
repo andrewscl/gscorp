@@ -1,0 +1,52 @@
+package com.gscorp.dv1.admin.clientaccounts.application;
+
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.security.core.Authentication;
+
+import com.gscorp.dv1.admin.clientaccounts.web.dto.ClientAccountDto;
+import com.gscorp.dv1.admin.clientaccounts.web.dto.CreateClientAccountRequest;
+
+public interface ClientAccountService {
+    
+    /**
+     * Devuelve ClientAccountDto para el userId indicado.
+     */
+    List<ClientAccountDto> findAccountDtosForUser(UUID userExternalId);
+
+    /**
+     * Conveniencia: resuelve el userId desde Authentication usando UserService internamente
+     * y delega a {@link #findAccountDtosForUser(Long)}.
+     */
+    List<ClientAccountDto> findAccountDtosForPrincipal(Authentication authentication);
+
+        // Crea una cuenta asociada a clientId. Valida que el client pertenezca al userId.
+    ClientAccountDto createClientAccount(
+                            CreateClientAccountRequest req, 
+                            UUID userExternalId);
+
+    // Conveniencia: resuelve userId desde Authentication y delega
+    ClientAccountDto createClientAccountForPrincipal(CreateClientAccountRequest req, Authentication authentication);
+
+    // Opcional: método que devuelve la entidad o lanza si no existe / no pertenece (útil para edit/show)
+    // ClientAccount getAccountIfOwned(Long accountId, Long userId);
+
+    ClientAccountDto getAccountDtoIfOwned(Long accountId, UUID userExternalId);
+
+    /**
+     * Obtiene las cuentas (ClientAccountDto) asociadas al client del site dado,
+     * considerando el userId para aplicar reglas de visibilidad/membership.
+     *
+     * Comportamiento:
+     * - Si siteId es null o no existe -> devuelve lista vacía.
+     * - Si userId es null -> lanza AuthenticationCredentialsNotFoundException.
+     * - Si el usuario no pertenece al client -> lanza AccessDeniedException.
+     *
+     * @param siteId id del Site
+     * @param userId id del usuario autenticado
+     * @return lista de ClientAccountDto
+     */
+    List<ClientAccountDto> getClientAccountsForSite(Long siteId, Long userId);
+
+}

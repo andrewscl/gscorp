@@ -37,4 +37,9 @@ public enum DayOfWeek {
         }
         throw new IllegalArgumentException("No enum constant for DayNumber: " + dayNumber);
     }
+
+    public static DayOfWeek fromJavaTime(java.time.DayOfWeek javaDow) {
+        if(javaDow == null) return null;
+        return fromDayNumber(javaDow.getValue());
+    }
 }

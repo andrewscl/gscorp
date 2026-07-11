@@ -9,7 +9,7 @@ public class DtoInspector {
     @PostConstruct
     public void inspect() {
         try {
-            Class<?> cls = com.gscorp.dv1.incidents.web.dto.IncidentDto.class;
+            Class<?> cls = com.gscorp.dv1.operations.incidents.web.dto.IncidentDto.class;
             System.out.println("IncidentDto class: " + cls.getName());
             System.out.println("Declared constructors:");
             Arrays.stream(cls.getConstructors()).forEach(c -> {

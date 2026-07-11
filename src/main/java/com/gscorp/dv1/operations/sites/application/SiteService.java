@@ -1,0 +1,54 @@
+package com.gscorp.dv1.operations.sites.application;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import com.gscorp.dv1.operations.sites.infrastructure.Site;
+import com.gscorp.dv1.operations.sites.web.dto.SetSiteCoordinatesDto;
+import com.gscorp.dv1.operations.sites.web.dto.SiteDto;
+import com.gscorp.dv1.operations.sites.web.dto.SiteDtoProjection;
+import com.gscorp.dv1.operations.sites.web.dto.SiteSelectDto;
+import com.gscorp.dv1.operations.sites.web.dto.UpdateLatLon;
+import com.gscorp.dv1.operations.sites.web.dto.UpdateSiteRequest;
+
+public interface SiteService {
+
+    Site saveSite (Site site);
+
+    void deleteById (Long id);
+
+    Optional<Site> findById (Long id);
+
+    Optional<SiteDto> findDtoById (Long id);
+
+    List<SiteDto> getAllSites();
+
+    List<SiteDto> getAllSitesByUser(UUID userExternalId);
+
+    Site findByIdWithProjects(Long id);
+
+    Site updateSiteLocation(Long id, UpdateLatLon updateLatLon);
+
+    SiteDto updateSite(Long id, UpdateSiteRequest request);
+
+    SetSiteCoordinatesDto setCoordinates(Long siteId, Double latitude, Double longitude);
+
+    List<SiteSelectDto> getAllSitesForClients(List<Long> clientIds);
+
+    Optional<Long> getClientIdForSite(Long siteId);
+
+    List<SiteSelectDto> findSelectDtoByProjectId(Long projectId);
+
+    List<SiteSelectDto> findByUserExternalId(UUID userExternalId);
+
+    SiteSelectDto findNearestSite(UUID externalId, double lat, double lon);
+
+    double haversineMeters(double lat1,double lon1,double lat2,double lon2);
+
+    List<SiteDtoProjection> findSiteProjectionsByClientIds(List<Long> clientIds);
+
+    List<SiteDtoProjection> findSiteProjectionsByUserExternalId(UUID userExternalId);
+
+    SiteSelectDto findSelectDtoById(Long siteId);
+}

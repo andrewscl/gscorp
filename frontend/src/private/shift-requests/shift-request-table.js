@@ -1,26 +1,25 @@
-import { initHeaderSync } from "../../shared/sync-header-height";
 import { navigateTo } from "../../navigation-handler";
 import { fetchWithAuth } from "../../auth";
 
 const qs  = (s) => document.querySelector(s);
 
-const createAttendanceRecord = (e) => {
+const createShiftRequest = (e) => {
     e.target.disabled = true;
     setTimeout(() => navigateTo('/private/shift-requests/create', true), 1000);
 }
 
-function bindAttendanceTable() {
-    const createAttendanceBtn = qs('#addShiftRequestsBtn');
-    if (createAttendanceBtn) {
-        createAttendanceBtn.addEventListener('click', createAttendanceRecord);
+function bindShiftRequestsTable() {
+    const createShiftRequestBtn = qs('#addShiftRequestsBtn');
+    if (createShiftRequestBtn) {
+        createShiftRequestBtn.addEventListener('click', createShiftRequest);
     }
-    const searchAttendanceBtn = qs('#searchShiftRequestsBtn');
-    if (searchAttendanceBtn) {
-        searchAttendanceBtn.addEventListener('click', searchAttendance);
+    const searchShiftRequestsBtn = qs('#searchShiftRequestsBtn');
+    if (searchShiftRequestsBtn) {
+        searchShiftRequestsBtn.addEventListener('click', searchShiftRequests);
     }
 }
 
-async function searchAttendance() {
+async function searchShiftRequests() {
   const from = qs('#filter-from')?.value.trim() || '';
   const to = qs('#filter-to')?.value.trim() || '';
   const siteId = qs('#filter-dept')?.value.trim() || '';
@@ -47,9 +46,7 @@ async function searchAttendance() {
 }
 
 
-
 (function init () {
-  bindAttendanceTable();
-  initHeaderSync('.hs-table-header','--header-height');
+  bindShiftRequestsTable();
 
 })();

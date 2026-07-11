@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gscorp.dv1.admin.clients.application.ClientService;
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunch;
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunchProjection;
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
@@ -18,15 +19,14 @@ import com.gscorp.dv1.attendance.infrastructure.projections.AttendancePunchShort
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchDto;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchPointDto;
 import com.gscorp.dv1.attendance.web.dto.CreateAttendancePunchRequest;
-import com.gscorp.dv1.attendance.web.dto.HourlyCountDto;
-import com.gscorp.dv1.clients.application.ClientService;
+import com.gscorp.dv1.attendance.web.dto.AttendancesHourlyCountDto;
 import com.gscorp.dv1.attendance.web.dto.DashboardHeaderInfo;
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
-import com.gscorp.dv1.employees.application.EmployeeService;
-import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
-import com.gscorp.dv1.sites.application.SiteService;
-import com.gscorp.dv1.sites.web.dto.SiteSelectDto;
+import com.gscorp.dv1.hr.employees.application.EmployeeService;
+import com.gscorp.dv1.hr.employees.web.dto.EmployeeSelectDto;
+import com.gscorp.dv1.operations.sites.application.SiteService;
+import com.gscorp.dv1.operations.sites.web.dto.SiteSelectDto;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -183,7 +183,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 
 
   @Transactional(readOnly = true)
-  public List<HourlyCountDto> getHourlyCounts(LocalDate date, String tz, String action, Long userId) {
+  public List<AttendancesHourlyCountDto> getHourlyCounts(LocalDate date, String tz, String action, Long userId) {
     // Normalizar action
     String normalizedAction = normalizeAction(action);
 
@@ -206,16 +206,16 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     // Mapear proyección a DTO
     return rows.stream()
-        .map(r -> new HourlyCountDto(r.getHour(), r.getCnt() == null ? 0L : r.getCnt()))
+        .map(r -> new AttendancesHourlyCountDto(r.getHour(), r.getCnt() == null ? 0L : r.getCnt()))
         .toList();
   }
 
-  //Helper
-  private static String normalizeAction(String a) {
-    if (a == null) return null;
-    var t = a.trim();
-    return t.isEmpty() ? null : t.toUpperCase();
-  }
+
+    public String normalizeAction(String a) {
+        if (a == null) return null;
+        var t = a.trim();
+        return t.isEmpty() ? null : t.toUpperCase();
+    }
 
 
     @Transactional(readOnly = true)
@@ -398,7 +398,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 
 
     @Transactional(readOnly = true)
-    public List<HourlyCountDto> getAttendanceSeriesForUserByHours(
+    public List<AttendancesHourlyCountDto> getAttendanceSeriesForUserByHours(
             UUID userExternalId,
             LocalDate date,
             ZoneId zone,
@@ -415,9 +415,9 @@ public class AttendanceServiceImpl implements AttendanceService {
         List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);
         if (clientIds == null || clientIds.isEmpty()) {
             // devolver 24 filas con ceros
-            List<HourlyCountDto> empty = new ArrayList<>(24);
+            List<AttendancesHourlyCountDto> empty = new ArrayList<>(24);
             for (int h = 0; h < 24; h++) {
-                empty.add(new HourlyCountDto(String.format("%02d", h), 0L));
+                empty.add(new AttendancesHourlyCountDto(String.format("%02d", h), 0L));
             }
             return empty;
         }
@@ -453,10 +453,10 @@ public class AttendanceServiceImpl implements AttendanceService {
                 ));
 
         // Construir serie con 24 puntos "00".."23"
-        List<HourlyCountDto> series = new ArrayList<>(24);
+        List<AttendancesHourlyCountDto> series = new ArrayList<>(24);
         for (int h = 0; h < 24; h++) {
             Long count = groupedByHour.getOrDefault(h, 0L);
-            series.add(new HourlyCountDto(String.format("%02d", h), count));
+            series.add(new AttendancesHourlyCountDto(String.format("%02d", h), count));
         }
 
         // Opcional: log debug con suma total para verificar

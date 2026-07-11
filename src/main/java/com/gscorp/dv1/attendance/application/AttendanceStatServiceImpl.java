@@ -7,10 +7,10 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gscorp.dv1.admin.clients.application.ClientService;
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
 import com.gscorp.dv1.attendance.infrastructure.projections.statistics.ProjectSiteAttendancesSummaryProjection;
 import com.gscorp.dv1.attendance.web.dto.statistics.ProjectSiteAttendancesSummaryDto;
-import com.gscorp.dv1.clients.application.ClientService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

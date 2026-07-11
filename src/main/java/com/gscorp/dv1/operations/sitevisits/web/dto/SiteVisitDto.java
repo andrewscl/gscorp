@@ -1,0 +1,51 @@
+package com.gscorp.dv1.operations.sitevisits.web.dto;
+
+import java.time.OffsetDateTime;
+
+import com.gscorp.dv1.hr.employees.infrastructure.Employee;
+import com.gscorp.dv1.operations.sites.infrastructure.Site;
+import com.gscorp.dv1.operations.sitevisits.infrastructure.SiteVisit;
+
+public record SiteVisitDto(
+    Long id,
+    Long employeeId,
+    String employeeName,
+    String employeeFatherSurname,
+    Long siteId,
+    String siteName,
+    OffsetDateTime visitDateTime,
+    Double latitude,
+    Double longitude,
+    String description,
+    String photoPath,
+    String videoPath,
+    String visitDateTimeFormatted
+) {
+    public static SiteVisitDto fromEntity(SiteVisit visit, String visitDateTimeFormatted) {
+        if (visit == null) return null;
+            Employee emp = visit.getEmployee();
+            Site site = visit.getSite();
+
+        return new SiteVisitDto(
+            visit.getId(),
+            emp != null ? emp.getId() : null,
+            emp != null ? emp.getName() : null,
+            emp != null ? emp.getFatherSurname() : null,
+            site != null ? site.getId() : null,
+            site != null ? site.getName() : null,
+            visit.getVisitDateTime(),
+            visit.getLatitude(),
+            visit.getLongitude(),
+            visit.getDescription(),
+            visit.getPhotoPath(),
+            visit.getVideoPath(),
+            visitDateTimeFormatted
+        );
+    }
+
+    // versión por compatibilidad que no recibe formatted
+    public static SiteVisitDto fromEntity(SiteVisit visit) {
+        return fromEntity(visit, null);
+    }
+
+}

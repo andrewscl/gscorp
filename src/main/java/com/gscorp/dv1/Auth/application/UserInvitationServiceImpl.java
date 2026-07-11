@@ -10,10 +10,10 @@ import org.thymeleaf.context.Context;
 
 import com.gscorp.dv1.auth.infrastructure.PasswordResetToken;
 import com.gscorp.dv1.auth.web.dto.UserInvitationEmailDto;
-import com.gscorp.dv1.employees.application.EmployeeService;
-import com.gscorp.dv1.employees.web.dto.EmployeeSelectDto;
 import com.gscorp.dv1.enums.AccountType;
 import com.gscorp.dv1.enums.UserStatus;
+import com.gscorp.dv1.hr.employees.application.EmployeeService;
+import com.gscorp.dv1.hr.employees.web.dto.EmployeeSelectDto;
 import com.gscorp.dv1.services.EmailTemplateUtils;
 import com.gscorp.dv1.services.GmailService;
 import com.gscorp.dv1.users.application.UserService;

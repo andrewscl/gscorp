@@ -1,0 +1,138 @@
+package com.gscorp.dv1.admin.projects.application;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
+
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.gscorp.dv1.admin.clients.infrastructure.Client;
+import com.gscorp.dv1.admin.clients.infrastructure.ClientRepository;
+import com.gscorp.dv1.admin.projects.infrastructure.Project;
+import com.gscorp.dv1.admin.projects.infrastructure.ProjectProjection;
+import com.gscorp.dv1.admin.projects.infrastructure.ProjectRepository;
+import com.gscorp.dv1.admin.projects.web.dto.ProjectDto;
+import com.gscorp.dv1.admin.projects.web.dto.ProjectSelectDto;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class ProjectServiceImpl implements ProjectService{
+    
+    private final ProjectRepository projectRepository;
+    private final ClientRepository clientRepository;
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Project> findAllWithClientsAndEmployees (){
+        return projectRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Project> findById(Long id) {
+        return projectRepository.findById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Project findByIdWithClients (Long id){
+        return projectRepository.findById(id)
+            .orElseThrow(()->
+                new IllegalArgumentException("Usuario no encontrado" + id));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Client findClientById(Long clientId) {
+        return clientRepository.findById(clientId)
+                .orElseThrow(() ->
+                    new IllegalArgumentException("Cliente no encontrado: " + clientId));
+    }
+
+    @Override
+    @Transactional
+    public Project saveProject(Project project) {
+        return projectRepository.save(project);
+    }
+
+    //Eliminar proyecto
+    @Override
+    @Transactional
+    public void deleteById(Long id) {
+        if (!projectRepository.existsById(id)) {
+            throw new IllegalArgumentException("Proyecto no encontrado");
+        }
+        try {
+            projectRepository.deleteById(id);
+        } catch (DataIntegrityViolationException ex) {
+            throw new IllegalStateException("No se puede eliminar: el proyecto tiene referencias");
+        }
+    }
+
+    @Override
+    @Transactional (readOnly = true)
+    public List<ProjectDto> findAllById(Set<Long> ids) {
+        List<Project> projects = projectRepository.findAllByIdWithEmployees(ids);
+        return projects.stream()
+                .map(ProjectDto::fromEntity)
+                .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Project> findEntitiesById(Set<Long> ids) {
+        return projectRepository.findAllByIdWithEmployees(ids);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ProjectDto> findAll() {
+        return projectRepository.findAll().stream()
+                .map(ProjectDto::fromEntity)
+                .toList();
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ProjectSelectDto> findByClientId(Long clientId) {
+        if (clientId == null) return List.of();
+        return projectRepository.findDtoByClientId(clientId);
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ProjectDto> findByUserExternalId (UUID userExternalId) {
+
+        List<ProjectProjection> projects = projectRepository.findByUserExternalId(userExternalId);
+
+        if (projects == null || projects.isEmpty()) {
+                return List.of();
+        }
+
+        List<ProjectDto> projectDtos = projects.stream()
+            .map(ProjectDto::fromProjection)
+            .toList();
+
+        return projectDtos;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ProjectSelectDto>
+                    findProjectSelectDtosByEmployeeExternalId(UUID employeeExternalId){
+        return projectRepository
+                .findProjectSelectProjectionsByEmployeeExternalId(employeeExternalId)
+                .stream()
+                .map(ProjectSelectDto::fromSelectProjection)
+                .toList();
+    }
+
+
+}

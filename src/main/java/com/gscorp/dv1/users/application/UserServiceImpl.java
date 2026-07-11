@@ -21,16 +21,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gscorp.dv1.admin.clients.infrastructure.Client;
+import com.gscorp.dv1.admin.clients.infrastructure.ClientRepository;
+import com.gscorp.dv1.admin.companies.infrastructure.Company;
+import com.gscorp.dv1.admin.companies.infrastructure.CompanyRepository;
 import com.gscorp.dv1.auth.application.PasswordResetTokenService;
 import com.gscorp.dv1.auth.infrastructure.PasswordResetToken;
-import com.gscorp.dv1.clients.infrastructure.Client;
-import com.gscorp.dv1.clients.infrastructure.ClientRepository;
-import com.gscorp.dv1.companies.infrastructure.Company;
-import com.gscorp.dv1.companies.infrastructure.CompanyRepository;
-import com.gscorp.dv1.employees.infrastructure.Employee;
-import com.gscorp.dv1.employees.infrastructure.EmployeeRepository;
 import com.gscorp.dv1.enums.AccountType;
 import com.gscorp.dv1.enums.UserStatus;
+import com.gscorp.dv1.hr.employees.infrastructure.Employee;
+import com.gscorp.dv1.hr.employees.infrastructure.EmployeeRepository;
 import com.gscorp.dv1.roles.application.RoleService;
 import com.gscorp.dv1.roles.infrastructure.Role;
 import com.gscorp.dv1.users.infrastructure.User;
@@ -266,8 +266,8 @@ public class UserServiceImpl implements UserService{
 
         try {
             return userRepo.findByExternalId(externalId)
-                    .map(User::getTimeZone)         // ajusta si tu entidad usa otro nombre
-                    .map(String::trim)
+                    .map(user -> user.getTimeZone())         // ajusta si tu entidad usa otro nombre
+                    .map(tz -> tz.trim())
                     .filter(s -> !s.isEmpty())
                     .flatMap(s -> {
                         try {

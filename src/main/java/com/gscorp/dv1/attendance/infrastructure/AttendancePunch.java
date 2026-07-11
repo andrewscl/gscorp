@@ -7,8 +7,8 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
 
-import com.gscorp.dv1.employees.infrastructure.Employee;
-import com.gscorp.dv1.sites.infrastructure.Site;
+import com.gscorp.dv1.hr.employees.infrastructure.Employee;
+import com.gscorp.dv1.operations.sites.infrastructure.Site;
 import com.gscorp.dv1.users.infrastructure.User;
 
 import jakarta.persistence.Column;

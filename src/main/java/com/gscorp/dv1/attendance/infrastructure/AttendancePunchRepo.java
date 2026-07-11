@@ -14,6 +14,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.gscorp.dv1.attendance.infrastructure.projections.AttendancePunchShortProjection;
+import com.gscorp.dv1.attendance.infrastructure.projections.statistics.AttendanceHourlyCountProjection;
 import com.gscorp.dv1.attendance.infrastructure.projections.statistics.ProjectSiteAttendancesSummaryProjection;
 
 @Repository
@@ -21,7 +22,8 @@ public interface AttendancePunchRepo extends JpaRepository <AttendancePunch, Lon
 
     Optional<AttendancePunch> findFirstByUserIdOrderByTsDesc(Long userId);
 
-    Optional<AttendancePunchShortProjection> findFirstByUserExternalIdOrderByTsDesc(UUID userExternalId);
+    Optional<AttendancePunchShortProjection>
+                            findFirstByUserExternalIdOrderByTsDesc(UUID userExternalId);
 
 
     List<AttendancePunch> findByUserIdAndTsBetweenOrderByTsAsc(
@@ -106,14 +108,10 @@ public interface AttendancePunchRepo extends JpaRepository <AttendancePunch, Lon
                                         @Param("to") OffsetDateTime to);
 
 
-    /** Proyección para conteo por hora; alias deben ser 'hour' y 'cnt' */
-    interface HourlyCount {
-        String getHour(); // "00".."23"
-        Long   getCnt();
-    }
-
     /**
-     * Native query (Postgres): genera series 0..23 y hace LEFT JOIN con conteos agregados por hora.
+     * Native query (Postgres): genera series 0..23 y
+     * hace LEFT JOIN con conteos agregados por hora.
+     * 
      * Parámetros:
      *  - :date -> LocalDate (YYYY-MM-DD)
      *  - :tz   -> zona horaria (p.ej. 'America/Santiago') usada con AT TIME ZONE
@@ -137,7 +135,7 @@ public interface AttendancePunchRepo extends JpaRepository <AttendancePunch, Lon
     ) a ON a.hr = h.hr
     ORDER BY h.hr
     """, nativeQuery = true)
-    List<HourlyCount> findHourlyCountsForRange(
+    List<AttendanceHourlyCountProjection> findHourlyCountsForRange(
         @Param("from") OffsetDateTime from,
         @Param("to") OffsetDateTime to,
         @Param("tz") String tz,
@@ -205,6 +203,7 @@ public interface AttendancePunchRepo extends JpaRepository <AttendancePunch, Lon
         @Param("projectId") Long projectId,
         @Param("action") String action
     );
+
 
     @Query("""
         SELECT 
@@ -282,6 +281,5 @@ public interface AttendancePunchRepo extends JpaRepository <AttendancePunch, Lon
         @Param("action") String action,
         Pageable pageable
     );
-
 
 }
