@@ -20,8 +20,8 @@
           </td>
         </tr>
 
-        <tr th:if="${#lists.isEmpty(shiftRequests)}">
-          <td colspan="5" class="empty">No se encontraron registros para el rango seleccionado.</td>
+        <tr th:unless="${shiftRequests != null and !shiftRequests.isEmpty()}">
+          <td colspan="100" style="text-align:center; padding: 2rem;">No hay datos disponibles</td>
         </tr>
 
       </tbody>

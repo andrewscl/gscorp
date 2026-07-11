@@ -45,7 +45,7 @@ public class ShiftRequest {
 
     @Builder.Default
     @Column(name = "external_id", unique=true,
-                        nullable=true, updatable=false)
+                        nullable=false, updatable=false)
     private UUID externalId = UUID.randomUUID();
 
     // Readable and sequential code: TR001, TR002, etc.
