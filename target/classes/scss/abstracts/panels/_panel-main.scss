@@ -1,0 +1,66 @@
+@use '../mixins' as *;
+@use '../typography' as *;
+@use '../palette' as *;
+@use '../variables' as *;
+
+@mixin panel-main () {
+        flex: $ratio-left;
+        padding: 0 2rem 1rem 2rem; ;
+        display: flex;
+        flex-direction: column;
+        border-right: 1px solid rgba($border-color, 0.5);
+        .panel-header {
+            @include montserrat-font($header-text-height, 700);
+            letter-spacing: -0.02em;
+            color: $heading-color;
+        }
+        .panel-body {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem; // Más espacio entre bloques de datos
+
+            .form-group {
+                display: flex;
+                flex-direction: column;
+                gap: 0.3rem;
+                label {
+                    @include roboto-font(0.7rem, 600); // Más pequeña y bold
+                    color: $muted-color; // Gris suave
+                    text-transform: uppercase; // Estilo "etiqueta"
+                    letter-spacing: 0.05em;
+                    margin: 0;
+                }
+
+                .form-value {
+                    @include roboto-font(0.95rem, 400); // Fuente principal
+                    color: $heading-color; // Casi negro o azul muy oscuro
+                    line-height: 1.4;
+                    border: 0.1rem solid $slate-200;
+                    padding: 0.4rem 0.75rem;
+                    border-radius: 0.5rem;
+                    // Para que los datos vacíos no rompan la estética
+                    &:empty::before {
+                        content: '—';
+                        color: #cbd5e1;
+                    }
+                }
+            }
+
+            // Fila doble para Latitud y Longitud
+            .form-row {
+                display: flex;
+                gap: 2rem;
+                width: 100%;
+
+                .form-group {
+                    flex: 1;
+                }
+            }
+            .form-separator {
+                border: 0;
+                border-top: 1px solid rgba($border-color, 0.5);
+                margin: 0.2rem 0;
+                width: 100%;
+            }
+        }
+    }

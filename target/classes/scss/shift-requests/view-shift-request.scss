@@ -5,9 +5,14 @@
 @use '../abstracts/typography' as *;
 @use '../abstracts/variables' as *;
 @use '../abstracts/mixins' as *;
+@use '../abstracts/panels/panel-main' as *;
+
 
 .view-shift-request {
-
   @include dual-panel-card();
+
+  .panel-main {
+    @include panel-main();
+  }
 
 }
