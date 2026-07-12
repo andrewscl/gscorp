@@ -3,6 +3,7 @@ package com.gscorp.dv1.operations.shiftrequests.web.dto;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.enums.ShiftRequestType;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.projections.ShiftRequestProjection;
 
@@ -15,7 +16,7 @@ public record ShiftRequestDto(
         ShiftRequestType type,
         LocalDate startDate,
         LocalDate endDate,
-        String status,
+        ShiftRequestStatus status,
         String description,
         LocalDateTime createdAt,
         Integer schedulesCount
