@@ -183,6 +183,40 @@ p {
   content: "—";
   color: #cbd5e1;
 }
+.view-shift-request .panel-main .panel-body .form-group input,
+.view-shift-request .panel-main .panel-body .form-group select,
+.view-shift-request .panel-main .panel-body .form-group span {
+  padding: 0.65rem;
+  border: 0.09rem solid #ced4da;
+  border-radius: 0.5rem;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #1f2937;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.view-shift-request .panel-main .panel-body .form-group input::placeholder,
+.view-shift-request .panel-main .panel-body .form-group select::placeholder,
+.view-shift-request .panel-main .panel-body .form-group span::placeholder {
+  color: #adb5bd;
+}
+.view-shift-request .panel-main .panel-body .form-group input:focus,
+.view-shift-request .panel-main .panel-body .form-group select:focus,
+.view-shift-request .panel-main .panel-body .form-group span:focus {
+  border-color: #4e54c8;
+  box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
+  outline: none;
+}
+.view-shift-request .panel-main .panel-body .form-group textarea {
+  resize: vertical;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #1f2937;
+  min-height: 80px;
+}
 .view-shift-request .panel-main .panel-body .form-row {
   display: flex;
   gap: 2rem;

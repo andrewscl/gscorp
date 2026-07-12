@@ -16,13 +16,15 @@
 
         <hr class="form-separator"/>
 
-        <div class="form-group">
-          <label >Código</label>
-          <span th:text="${shiftRequest.code != null ? shiftRequest.code : ''}"></span>
-        </div>
-        <div class="form-group">
-          <label >Tipo</label>
-          <span th:text="${shiftRequest.type.displayName != null ? shiftRequest.type.displayName : ''}"></span>
+        <div class="form-row">
+          <div class="form-group">
+            <label >Código</label>
+            <span th:text="${shiftRequest.code != null ? shiftRequest.code : ''}"></span>
+          </div>
+          <div class="form-group">
+            <label >Tipo</label>
+            <span th:text="${shiftRequest.type.displayName != null ? shiftRequest.type.displayName : ''}"></span>
+          </div>
         </div>
 
         <div class="form-row">
@@ -43,7 +45,7 @@
 
         <div class="form-group">
           <label>Descripción</label>
-          <textarea th:text="${shiftRequest.description != null ? shiftRequest.description : ''}"></textarea>
+          <span th:text="${shiftRequest.description != null ? shiftRequest.description : ''}"></span>
         </div>
 
       </div>
