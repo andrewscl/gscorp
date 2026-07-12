@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.enums.ShiftRequestType;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
 
@@ -15,7 +16,7 @@ public record ShiftRequestDtoWithSchedules(
     ShiftRequestType type,
     LocalDate startDate,
     LocalDate endDate,
-    String status,
+    ShiftRequestStatus status,
     String description,
     LocalDateTime createdAt,
     List<ShiftRequestScheduleDto> schedules
@@ -30,7 +31,7 @@ public record ShiftRequestDtoWithSchedules(
             sr.getType(),
             sr.getStartDate(),
             sr.getEndDate(),
-            sr.getStatus() != null ? sr.getStatus().name() : null,
+            sr.getStatus(),
             sr.getDescription(),
             sr.getCreatedAt(),
             sr.getSchedules() == null
