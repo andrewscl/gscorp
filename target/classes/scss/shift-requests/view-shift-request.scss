@@ -15,4 +15,54 @@
     @include panel-main();
   }
 
+  .panel-aside {
+
+    .table-header {
+      background-color: $background-white;
+      border-radius: $radius-lg;
+      border: 1px solid $border-color;
+      box-shadow: $shadow-sm;
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      flex-shrink: 0; // Evita que los filtros se aplasten si hay muchas filas
+      z-index: 30;
+      .title-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid $border-color;
+        padding-bottom: 0.75rem;
+        .title-left {
+          display: flex;
+          align-items: center;
+          .title-text {
+            @include montserrat-font(1.25rem, 600);
+            color: $heading-color;
+            margin: 0;
+          }
+        }
+        .count {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-width: 2.5rem;
+          padding: 0.25rem 0.6rem;
+          background: rgba($hover-color, 0.08);
+          color: $hover-color;
+          border-radius: 999px;
+          @include montserrat-font(0.85rem, 600);
+          box-shadow: 0 1px 0 rgba($slate-900 ,0.03);
+        }
+        @media (max-width: 768px) {
+          .title-left {
+            @include montserrat-font(1rem, 600);
+          }
+        }
+      }
+    }
+
+  }
+
 }
