@@ -7,7 +7,6 @@ import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -83,22 +82,16 @@ public class ShiftRequestController {
 
     @GetMapping("/show/{id}")
     public String showShiftRequest (
-                        @PathVariable Long id,
-                        Model model,
-                        Authentication authentication){
+                @PathVariable Long id,
+                Model model,
+                @AuthenticationPrincipal SecurityUser securityUser){
 
-            if(authentication == null || !authentication.isAuthenticated()) {
-                return "redirect:/login";
-            }
-            Object principal = authentication.getPrincipal();
-            if(!(principal instanceof SecurityUser)) {
-                return "redirect:/login";
-            }
-            SecurityUser securityUser = (SecurityUser) principal;
-            UUID externalId = securityUser.getUser().getExternalId();
+        if(securityUser == null) return "redirect:/login";
+        UUID externalId = securityUser.getUser().getExternalId();
 
         try {
-            ShiftRequestDtoWithSchedules shiftRequestDto = shiftRequestService.getDtoIfOwned(id, externalId);
+            ShiftRequestDtoWithSchedules shiftRequestDto =
+                            shiftRequestService.getDtoIfOwned(id, externalId);
             model.addAttribute("shiftRequest", shiftRequestDto);
             return "private/operations/shift-requests/fragments/view-shift-request";
         } catch (Exception e) {
@@ -110,17 +103,10 @@ public class ShiftRequestController {
     public String editShiftRequest (
                         @PathVariable Long id,
                         Model model,
-                        Authentication authentication){
+                        @AuthenticationPrincipal SecurityUser securityUser){
 
-            if(authentication == null || !authentication.isAuthenticated()) {
-                return "redirect:/login";
-            }
-            Object principal = authentication.getPrincipal();
-            if(!(principal instanceof SecurityUser)) {
-                return "redirect:/login";
-            }
-            SecurityUser securityUser = (SecurityUser) principal;
-            UUID externalId = securityUser.getUser().getExternalId();
+        if(securityUser == null) return "redirect:/login";
+        UUID externalId = securityUser.getUser().getExternalId();
                             
         try {
             ShiftRequestDtoWithSchedules shiftRequestDto =

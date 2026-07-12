@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.gscorp.dv1.enums.ShiftRequestType;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
 
 public record ShiftRequestDtoWithSchedules(
@@ -11,7 +12,7 @@ public record ShiftRequestDtoWithSchedules(
     String code,
     SiteDto site,
     Long clientAccountId,
-    String type,
+    ShiftRequestType type,
     LocalDate startDate,
     LocalDate endDate,
     String status,
@@ -26,7 +27,7 @@ public record ShiftRequestDtoWithSchedules(
             sr.getCode(),
             sr.getSite() == null ? null : new SiteDto(sr.getSite().getId(), sr.getSite().getName()),
             sr.getClientAccountId(),
-            sr.getType() == null ? null : sr.getType().name(),
+            sr.getType(),
             sr.getStartDate(),
             sr.getEndDate(),
             sr.getStatus() != null ? sr.getStatus().name() : null,

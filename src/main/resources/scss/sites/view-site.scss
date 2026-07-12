@@ -10,7 +10,7 @@
     $ratio-left: 1;
     $ratio-right: 1;    
 
-.dual-panel-card {
+.site-dual-panel-card {
     @include dual-panel-card();
         // Panel de Contenido (Izquierdo)
     .panel-main {

@@ -69,10 +69,7 @@ public class EmployeeController {
             @RequestParam(required = false, defaultValue = "100") int size
         ) {
 
-        if(securityUser == null) {
-                return "redirect:/login";
-        }
-
+        if(securityUser == null) return "redirect:/login";
         UUID externalId = securityUser.getUser().getExternalId();
         int safePage = Math.max(0, page);
         int safeSize = Math.min(Math.max(5, size), 200); // límites: min 5, max 200
