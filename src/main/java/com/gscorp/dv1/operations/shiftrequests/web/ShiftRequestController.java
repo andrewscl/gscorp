@@ -69,7 +69,7 @@ public class ShiftRequestController {
         model.addAttribute("sites", siteService.getAllSitesByUser(externalId));
         model.addAttribute("shiftRequestTypes", ShiftRequestType.values());
 
-        return "private/shift-requests/views/shift-request-list";
+        return "private/operations/shift-requests/views/shift-request-list";
     }
 
 
@@ -78,7 +78,7 @@ public class ShiftRequestController {
         List<SiteDto> sites = siteService.getAllSites();
             model.addAttribute("sites", sites);
             model.addAttribute("requestTypes", ShiftRequestType.values());
-        return "private/shift-requests/views/create-shift-request-view";
+        return "private/operations/shift-requests/views/create-shift-request-view";
     }
 
     @GetMapping("/show/{id}")
@@ -100,7 +100,7 @@ public class ShiftRequestController {
         try {
             ShiftRequestDtoWithSchedules shiftRequestDto = shiftRequestService.getDtoIfOwned(id, externalId);
             model.addAttribute("shiftRequest", shiftRequestDto);
-            return "private/shift-requests/views/view-shift-request-view";
+            return "private/operations/shift-requests/views/view-shift-request-view";
         } catch (Exception e) {
             return "redirect:/private/shift-requests/table-view";
         }
@@ -126,7 +126,7 @@ public class ShiftRequestController {
             ShiftRequestDtoWithSchedules shiftRequestDto =
                                 shiftRequestService.getDtoIfOwned(id, externalId);
             model.addAttribute("shiftRequest", shiftRequestDto);
-            return "private/shift-requests/views/edit-shift-request-view";
+            return "private/operations/shift-requests/views/edit-shift-request-view";
         } catch (Exception e) {
             return "redirect:/private/shift-requests/table-view";
         }
@@ -175,7 +175,7 @@ public class ShiftRequestController {
         model.addAttribute("count", shiftRequests.getTotalElements());
         model.addAttribute("fromDate", from);
         model.addAttribute("toDate",   to);
-        return "private/shift-requests/fragments/shift-request-table-rows :: rows";
+        return "private/operations/shift-requests/fragments/shift-request-table-rows :: rows";
     }
 
 
