@@ -95,6 +95,10 @@
               border-bottom: 0.125rem solid $border-color;
               color: $text-secondary-color;
               white-space: nowrap;
+              th:nth-child(1) {width: 40%;}
+              th:nth-child(3) {width: 20%;}
+              th:nth-child(2) {width: 20%;}
+              th:nth-child(4) {width: 20%;}
             }
           }
         }
@@ -102,17 +106,15 @@
           tr {
             border-bottom: 0.0625rem solid $border-color;
             transition: background .12s ease;
-            &:last-child { border-bottom: none; }
             &:hover { background-color: rgba($hover-color, 0.02); }
             td {
               padding: 0.65rem 0.85rem;
               vertical-align: middle;
               white-space: nowrap;
-              &.cell-wrap{
-                white-space: normal;
-                word-break: break-word;
-                overflow-wrap: anywhere;
-              }
+              td:nth-child(1) {width: 40%;}
+              td:nth-child(3) {width: 20%;}
+              td:nth-child(2) {width: 20%;}
+              td:nth-child(4) {width: 20%;}
             }
           }
         }
