@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.config.security.SecurityUser;
+import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.enums.ShiftRequestType;
 import com.gscorp.dv1.operations.shiftrequests.application.ShiftRequestService;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestDtoWithSchedules;
@@ -112,6 +113,7 @@ public class ShiftRequestController {
             ShiftRequestDtoWithSchedules shiftRequestDto =
                                 shiftRequestService.getDtoIfOwned(id, externalId);
             model.addAttribute("shiftRequest", shiftRequestDto);
+            model.addAttribute("shiftRequestStatuses", ShiftRequestStatus.values());
             return "private/operations/shift-requests/fragments/edit-shift-request";
         } catch (Exception e) {
             return "redirect:/private/shift-requests/table-view";

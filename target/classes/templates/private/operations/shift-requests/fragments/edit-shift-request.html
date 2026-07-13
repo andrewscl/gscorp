@@ -25,14 +25,20 @@
           </div>
           <div class="form-group">
             <label>Tipo</label>
-            <span th:text="${shiftRequest.type != null ? shiftRequest.type : ''}"></span>
+            <span th:text="${shiftRequest.type != null ? shiftRequest.type.displayName : ''}"></span>
           </div>
           <div class="form-group">
-            <label for="shiftRequestStatus">Estado</label>
-            <input id="shiftRequestStatus" name="status" type="text"
-                  th:value="${shiftRequest.status != null ? shiftRequest.status : ''}" />
+              <label>Estado</label>
+              <select th:field="${shiftRequest.status}" required>
+              <option value="">Seleccione estado</option>
+              <option th:each="b : ${shiftRequestStatuses}"
+                      th:value="${b}"
+                      th:text="${b.displayName}"></option>
+              </select>
           </div>
         </div>
+
+
 
         <div class="form-row">
           <div class="form-group">
