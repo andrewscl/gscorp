@@ -87,11 +87,11 @@
                 <td> <input type="text" class="input-dayto"
                         th:value="${s.dayTo != null ? s.dayTo : ''}" /></td>
                 <td> <input type="time" class="input-start"
-                        th:value="${s.startTime != null ? (s.startTime.length() >= 5 ? s.startTime.substring(0,5) : s.startTime) : ''}" /></td>
+                        th:value="${s.startTime != null ? #temporals.format(s.startTime, 'HH:mm') : ''}" /></td>
                 <td> <input type="time" class="input-end"
-                        th:value="${s.endTime != null ? (s.endTime.length() >= 5 ? s.endTime.substring(0,5) : s.endTime) : ''}" /></td>
+                        th:value="${s.endTime != null ? #temporals.format(s.endTime, 'HH:mm') : ''}" /></td>
                 <td> <input type="time" class="input-lunch"
-                        th:value="${s.lunchTime != null ? (s.lunchTime.length() >= 5 ? s.lunchTime.substring(0,5) : s.lunchTime) : ''}" /></td>
+                        th:value="${s.lunchTime != null ? #temporals.format(s.lunchTime, 'HH:mm') : ''}" /></td>
                 <td> <button type="button" class="vs-btn remove-schedule" title="Eliminar fila">Eliminar</button></td>
               </tr>
             </tbody>
