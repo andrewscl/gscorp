@@ -9,19 +9,15 @@
 
 
 .view-shift-request {
-  display: flex;
-  flex-direction: column;
+  @include dual-panel-card();
 
-  .panel-body {
-    @include dual-panel-card();
-
+  .panel-container {
     .panel-main {
       @include panel-main();
     }
-
     .panel-aside {
       padding: 1rem;
-      .table-header {
+      .schedules-table {
         background-color: $background-white;
         border-radius: $radius-lg;
         border: 1px solid $border-color;
@@ -65,65 +61,64 @@
             }
           }
         }
-
-      .schedules-list {
-        flex-grow: 1;
-        background: $white;
-        border-radius: $radius-lg;
-        border: 0.0625rem solid $border-color;
-        box-shadow: $shadow-sm;
-        -webkit-overflow-scrolling: touch;
-        position: relative;
-        overflow-y: auto;
-        overflow-x: hidden;
-        margin-top: 0;
-        .table {
-          width: 100%;
-          border-collapse: separate;
-          border-spacing: 0;
-          @include roboto-font(0.875rem, 500);
-          color: $text-color;
-          table-layout: auto;
-          thead {
-            tr {
-              th {
-                position: sticky;
-                top: 0;
-                z-index: 20; // Suficiente para flotar sobre los td
-                background: $slate-50; // Color sólido para que los datos no se traslapen al hacer scroll
-                text-align: left;
-                @include roboto-font(0.8rem, 600);
-                text-transform: uppercase; // Le da un toque corporativo moderno
-                letter-spacing: 0.03em;
-                padding: 1rem 1.2rem;
-                border-bottom: 0.125rem solid $border-color;
-                color: $text-secondary-color;
-                white-space: nowrap;
-                th:nth-child(1) {width: 40%;}
-                th:nth-child(3) {width: 20%;}
-                th:nth-child(2) {width: 20%;}
-                th:nth-child(4) {width: 20%;}
+        .schedules-list {
+          flex-grow: 1;
+          background: $white;
+          border-radius: $radius-lg;
+          border: 0.0625rem solid $border-color;
+          box-shadow: $shadow-sm;
+          -webkit-overflow-scrolling: touch;
+          position: relative;
+          overflow-y: auto;
+          overflow-x: hidden;
+          margin-top: 0;
+          .table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            @include roboto-font(0.875rem, 500);
+            color: $text-color;
+            table-layout: auto;
+            thead {
+              tr {
+                th {
+                  position: sticky;
+                  top: 0;
+                  z-index: 20; // Suficiente para flotar sobre los td
+                  background: $slate-50; // Color sólido para que los datos no se traslapen al hacer scroll
+                  text-align: left;
+                  @include roboto-font(0.8rem, 600);
+                  text-transform: uppercase; // Le da un toque corporativo moderno
+                  letter-spacing: 0.03em;
+                  padding: 1rem 1.2rem;
+                  border-bottom: 0.125rem solid $border-color;
+                  color: $text-secondary-color;
+                  white-space: nowrap;
+                  th:nth-child(1) {width: 40%;}
+                  th:nth-child(3) {width: 20%;}
+                  th:nth-child(2) {width: 20%;}
+                  th:nth-child(4) {width: 20%;}
+                }
               }
             }
-          }
-          tbody {
-            tr {
-              border-bottom: 0.0625rem solid $border-color;
-              transition: background .12s ease;
-              &:hover { background-color: rgba($hover-color, 0.02); }
-              td {
-                padding: 0.65rem 0.85rem;
-                vertical-align: middle;
-                white-space: nowrap;
-                td:nth-child(1) {width: 40%;}
-                td:nth-child(3) {width: 20%;}
-                td:nth-child(2) {width: 20%;}
-                td:nth-child(4) {width: 20%;}
+            tbody {
+              tr {
+                border-bottom: 0.0625rem solid $border-color;
+                transition: background .12s ease;
+                &:hover { background-color: rgba($hover-color, 0.02); }
+                td {
+                  padding: 0.65rem 0.85rem;
+                  vertical-align: middle;
+                  white-space: nowrap;
+                  td:nth-child(1) {width: 40%;}
+                  td:nth-child(3) {width: 20%;}
+                  td:nth-child(2) {width: 20%;}
+                  td:nth-child(4) {width: 20%;}
+                }
               }
             }
           }
         }
-      }
 
       }
     }

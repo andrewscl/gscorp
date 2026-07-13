@@ -92,27 +92,30 @@ p {
 }
 
 .view-shift-request {
-  display: flex;
-  flex-direction: column;
-}
-.view-shift-request .panel-body {
   background: #ffffff;
   border-radius: 0.8rem;
   border: 1px solid #e2e8f0;
   overflow: hidden;
-  display: flex;
   box-shadow: 0 0.5rem 1.1rem rgba(15, 23, 42, 0.04);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  align-items: stretch;
+  display: flex;
+  flex-direction: column;
 }
-.view-shift-request .panel-body .panel-main {
+.view-shift-request .panel-container {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+  flex-grow: 1;
+}
+.view-shift-request .panel-container .panel-main {
   flex: 1;
   padding: 0 2rem 1rem 2rem;
   display: flex;
   flex-direction: column;
   border-right: 1px solid rgba(226, 232, 240, 0.5);
 }
-.view-shift-request .panel-body .panel-aside {
+.view-shift-request .panel-container .panel-aside {
   flex: 1;
   position: relative;
   display: flex;
@@ -120,31 +123,31 @@ p {
   width: 100%;
   height: 100%;
 }
-.view-shift-request .panel-body:hover {
+.view-shift-request:hover {
   transform: translateY(-5px);
   box-shadow: 0 0.5rem 1.25rem rgba(15, 23, 42, 0.08);
 }
 @media (max-width: 992px) {
-  .view-shift-request .panel-body {
+  .view-shift-request .panel-container {
     flex-direction: column;
   }
-  .view-shift-request .panel-body .panel-main {
+  .view-shift-request .panel-container .panel-main {
     border-right: none;
     border-bottom: 1px solid #e2e8f0;
   }
-  .view-shift-request .panel-body .panel-aside {
+  .view-shift-request .panel-container .panel-aside {
     height: 350px;
     flex: none;
   }
 }
-.view-shift-request .panel-body .panel-main {
+.view-shift-request .panel-container .panel-main {
   flex: 1;
   padding: 0 2rem 1rem 2rem;
   display: flex;
   flex-direction: column;
   border-right: 1px solid rgba(226, 232, 240, 0.5);
 }
-.view-shift-request .panel-body .panel-main .panel-header {
+.view-shift-request .panel-container .panel-main .panel-header {
   font-family: "Montserrat", sans-serif;
   font-size: 1.1rem;
   font-weight: 700;
@@ -152,17 +155,17 @@ p {
   letter-spacing: -0.02em;
   color: #475569;
 }
-.view-shift-request .panel-body .panel-main .panel-body {
+.view-shift-request .panel-container .panel-main .panel-body {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
-.view-shift-request .panel-body .panel-main .panel-body .form-group {
+.view-shift-request .panel-container .panel-main .panel-body .form-group {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
 }
-.view-shift-request .panel-body .panel-main .panel-body .form-group label {
+.view-shift-request .panel-container .panel-main .panel-body .form-group label {
   font-family: "Roboto", sans-serif;
   font-size: 0.7rem;
   font-weight: 600;
@@ -172,7 +175,7 @@ p {
   letter-spacing: 0.05em;
   margin: 0;
 }
-.view-shift-request .panel-body .panel-main .panel-body .form-group .form-value {
+.view-shift-request .panel-container .panel-main .panel-body .form-group .form-value {
   font-family: "Roboto", sans-serif;
   font-size: 0.95rem;
   font-weight: 400;
@@ -183,13 +186,13 @@ p {
   padding: 0.4rem 0.75rem;
   border-radius: 0.5rem;
 }
-.view-shift-request .panel-body .panel-main .panel-body .form-group .form-value:empty::before {
+.view-shift-request .panel-container .panel-main .panel-body .form-group .form-value:empty::before {
   content: "—";
   color: #cbd5e1;
 }
-.view-shift-request .panel-body .panel-main .panel-body .form-group input,
-.view-shift-request .panel-body .panel-main .panel-body .form-group select,
-.view-shift-request .panel-body .panel-main .panel-body .form-group span {
+.view-shift-request .panel-container .panel-main .panel-body .form-group input,
+.view-shift-request .panel-container .panel-main .panel-body .form-group select,
+.view-shift-request .panel-container .panel-main .panel-body .form-group span {
   padding: 0.65rem;
   border: 0.09rem solid #ced4da;
   border-radius: 0.5rem;
@@ -200,19 +203,19 @@ p {
   color: #1f2937;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
-.view-shift-request .panel-body .panel-main .panel-body .form-group input::placeholder,
-.view-shift-request .panel-body .panel-main .panel-body .form-group select::placeholder,
-.view-shift-request .panel-body .panel-main .panel-body .form-group span::placeholder {
+.view-shift-request .panel-container .panel-main .panel-body .form-group input::placeholder,
+.view-shift-request .panel-container .panel-main .panel-body .form-group select::placeholder,
+.view-shift-request .panel-container .panel-main .panel-body .form-group span::placeholder {
   color: #adb5bd;
 }
-.view-shift-request .panel-body .panel-main .panel-body .form-group input:focus,
-.view-shift-request .panel-body .panel-main .panel-body .form-group select:focus,
-.view-shift-request .panel-body .panel-main .panel-body .form-group span:focus {
+.view-shift-request .panel-container .panel-main .panel-body .form-group input:focus,
+.view-shift-request .panel-container .panel-main .panel-body .form-group select:focus,
+.view-shift-request .panel-container .panel-main .panel-body .form-group span:focus {
   border-color: #4e54c8;
   box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
   outline: none;
 }
-.view-shift-request .panel-body .panel-main .panel-body .form-group textarea {
+.view-shift-request .panel-container .panel-main .panel-body .form-group textarea {
   resize: vertical;
   font-family: "Roboto", sans-serif;
   font-size: 0.875rem;
@@ -221,24 +224,24 @@ p {
   color: #1f2937;
   min-height: 80px;
 }
-.view-shift-request .panel-body .panel-main .panel-body .form-row {
+.view-shift-request .panel-container .panel-main .panel-body .form-row {
   display: flex;
   gap: 2rem;
   width: 100%;
 }
-.view-shift-request .panel-body .panel-main .panel-body .form-row .form-group {
+.view-shift-request .panel-container .panel-main .panel-body .form-row .form-group {
   flex: 1;
 }
-.view-shift-request .panel-body .panel-main .panel-body .form-separator {
+.view-shift-request .panel-container .panel-main .panel-body .form-separator {
   border: 0;
   border-top: 1px solid rgba(226, 232, 240, 0.5);
   margin: 0.2rem 0;
   width: 100%;
 }
-.view-shift-request .panel-body .panel-aside {
+.view-shift-request .panel-container .panel-aside {
   padding: 1rem;
 }
-.view-shift-request .panel-body .panel-aside .table-header {
+.view-shift-request .panel-container .panel-aside .schedules-table {
   background-color: #ffffff;
   border-radius: 1rem;
   border: 1px solid #e2e8f0;
@@ -250,18 +253,18 @@ p {
   flex-shrink: 0;
   z-index: 30;
 }
-.view-shift-request .panel-body .panel-aside .table-header .title-row {
+.view-shift-request .panel-container .panel-aside .schedules-table .title-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid #e2e8f0;
   padding-bottom: 0.75rem;
 }
-.view-shift-request .panel-body .panel-aside .table-header .title-row .title-left {
+.view-shift-request .panel-container .panel-aside .schedules-table .title-row .title-left {
   display: flex;
   align-items: center;
 }
-.view-shift-request .panel-body .panel-aside .table-header .title-row .title-left .title-text {
+.view-shift-request .panel-container .panel-aside .schedules-table .title-row .title-left .title-text {
   font-family: "Montserrat", sans-serif;
   font-size: 1.1rem;
   font-weight: 600;
@@ -269,7 +272,7 @@ p {
   color: #475569;
   margin: 0;
 }
-.view-shift-request .panel-body .panel-aside .table-header .title-row .count {
+.view-shift-request .panel-container .panel-aside .schedules-table .title-row .count {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -285,14 +288,14 @@ p {
   box-shadow: 0 1px 0 rgba(15, 23, 42, 0.03);
 }
 @media (max-width: 768px) {
-  .view-shift-request .panel-body .panel-aside .table-header .title-row .title-left {
+  .view-shift-request .panel-container .panel-aside .schedules-table .title-row .title-left {
     font-family: "Montserrat", sans-serif;
     font-size: 1rem;
     font-weight: 600;
     letter-spacing: 0.02em;
   }
 }
-.view-shift-request .panel-body .panel-aside .table-header .schedules-list {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list {
   flex-grow: 1;
   background: #ffffff;
   border-radius: 1rem;
@@ -304,7 +307,7 @@ p {
   overflow-x: hidden;
   margin-top: 0;
 }
-.view-shift-request .panel-body .panel-aside .table-header .schedules-list .table {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
@@ -315,7 +318,7 @@ p {
   color: #334155;
   table-layout: auto;
 }
-.view-shift-request .panel-body .panel-aside .table-header .schedules-list .table thead tr th {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th {
   position: sticky;
   top: 0;
   z-index: 20;
@@ -332,40 +335,40 @@ p {
   color: #64748b;
   white-space: nowrap;
 }
-.view-shift-request .panel-body .panel-aside .table-header .schedules-list .table thead tr th th:nth-child(1) {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th th:nth-child(1) {
   width: 40%;
 }
-.view-shift-request .panel-body .panel-aside .table-header .schedules-list .table thead tr th th:nth-child(3) {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th th:nth-child(3) {
   width: 20%;
 }
-.view-shift-request .panel-body .panel-aside .table-header .schedules-list .table thead tr th th:nth-child(2) {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th th:nth-child(2) {
   width: 20%;
 }
-.view-shift-request .panel-body .panel-aside .table-header .schedules-list .table thead tr th th:nth-child(4) {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th th:nth-child(4) {
   width: 20%;
 }
-.view-shift-request .panel-body .panel-aside .table-header .schedules-list .table tbody tr {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr {
   border-bottom: 0.0625rem solid #e2e8f0;
   transition: background 0.12s ease;
 }
-.view-shift-request .panel-body .panel-aside .table-header .schedules-list .table tbody tr:hover {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr:hover {
   background-color: rgba(59, 130, 246, 0.02);
 }
-.view-shift-request .panel-body .panel-aside .table-header .schedules-list .table tbody tr td {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td {
   padding: 0.65rem 0.85rem;
   vertical-align: middle;
   white-space: nowrap;
 }
-.view-shift-request .panel-body .panel-aside .table-header .schedules-list .table tbody tr td td:nth-child(1) {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td td:nth-child(1) {
   width: 40%;
 }
-.view-shift-request .panel-body .panel-aside .table-header .schedules-list .table tbody tr td td:nth-child(3) {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td td:nth-child(3) {
   width: 20%;
 }
-.view-shift-request .panel-body .panel-aside .table-header .schedules-list .table tbody tr td td:nth-child(2) {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td td:nth-child(2) {
   width: 20%;
 }
-.view-shift-request .panel-body .panel-aside .table-header .schedules-list .table tbody tr td td:nth-child(4) {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td td:nth-child(4) {
   width: 20%;
 }
 .view-shift-request .footer-actions {
