@@ -60,7 +60,7 @@ public class PatrolController {
         }
 
         
-        return "private/patrols/views/patrols-table-view";
+        return "private/patrols/views/patrols-list";
     }
 
     @GetMapping("/create")
