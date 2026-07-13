@@ -92,9 +92,6 @@ p {
 }
 
 .view-patrol-card {
-  display: flex;
-  width: 100%;
-  align-items: stretch;
   height: 76vh;
   max-height: 76vh;
   background: #ffffff;
