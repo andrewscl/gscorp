@@ -1,8 +1,12 @@
 import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
+import { displayAlert } from '../../shared/display-alert.js';
 
 const qs = (s) => document.querySelector(s);
 const qsa = (s) => Array.from(document.querySelectorAll(s));
+const alertSuccess = qs('.alert-success');
+const alertError = qs('.alert-error');
+const alertWarning = qs('.alert-warning');
 
 console.log("edit-shift-request.js cargado");
 
@@ -70,22 +74,6 @@ function collectSchedules() {
   return schedules;
 }
 
-function showError(msg) {
-  const errorBox = qs('#editShiftRequestError');
-  if (!errorBox) return;
-  errorBox.style.display = 'block';
-  errorBox.textContent = msg;
-  qs('#editShiftRequestOk').style.display = 'none';
-}
-
-function showOk(msg) {
-  const okBox = qs('#editShiftRequestOk');
-  if (!okBox) return;
-  okBox.style.display = 'block';
-  okBox.textContent = msg || 'Guardado';
-  qs('#editShiftRequestError').style.display = 'none';
-}
-
 function validateForm(payload) {
   if (payload.startDate && payload.endDate) {
     const sd = new Date(payload.startDate);
@@ -126,7 +114,7 @@ async function onSaveClick(e) {
 
   const vErr = validateForm(payload);
   if (vErr) {
-    showError(vErr);
+    displayAlert(alertError, "Ha habido un error al validar el formuario. " + vErr, 2000);
     return;
   }
 
@@ -145,32 +133,21 @@ async function onSaveClick(e) {
       throw new Error(txt || `Error ${res.status}`);
     }
 
-    showOk('Cambios guardados ✅');
-    // short delay then navigate back to list
-    setTimeout(() => navigateTo('/private/shift-requests/table-view'), 800);
+    displayAlert(alertSuccess, 'Cambios guardados ✅', 1000);
+    setTimeout(() => navigateTo('/private/shift-requests/table-view'), 1000);
   } catch (err) {
     console.error('save error', err);
-    showError(err.message || 'Error al guardar');
+    displayAlert(alertError, "Error al guardar. " + err.message, 2000);
   }
 }
-
 
 
 async function onDeleteShiftRequest() {
   const idEl = document.querySelector('input[name="id"]');
   const shiftRequestId = idEl ? idEl.value : null;
 
-  // Referencias a elementos para mostrar errores y mensajes
-  const errorBox = qs('#editShiftRequestError');
-  const okBox = qs('#editShiftRequestOk');
-
-  // Limpia cualquier mensaje previo en pantalla
-  if (errorBox) errorBox.style.display = 'none';
-  if (okBox) okBox.style.display = 'none';
-
-  // Validación: Verifica si se tiene el ID
   if (!shiftRequestId) {
-    showError('No se puede eliminar porque falta el ID de la solicitud.');
+    displayAlert(alertError, 'No se puede eliminar porque falta el ID de la solicitud.', 2000);
     return;
   }
 
@@ -179,53 +156,44 @@ async function onDeleteShiftRequest() {
   if (!confirmDelete) return;
 
   try {
-    // Realiza la solicitud DELETE al backend
     const url = `/api/shift-requests/${shiftRequestId}`;
     const res = await fetchWithAuth(url, { method: 'DELETE' });
 
-    // Manejo de errores en la respuesta
     if (!res.ok) {
       const errorText = await res.text().catch(() => `Error ${res.status}`);
       throw new Error(errorText);
     }
 
-    // Mostrar mensaje de éxito
-    showOk('Solicitud de turno eliminada correctamente.');
-    
-    // Redirigir al listado después de 1 segundo
+    displayAlert(alertSuccess,
+                      'Solicitud de turno eliminada correctamente ✅', 1000);
     setTimeout(() => navigateTo('/private/shift-requests/table-view'), 1000);
   } catch (err) {
     console.error('delete error', err);
-    showError(err.message || 'Error al eliminar la solicitud de turno.');
+    displayAlert(alertError,
+              'Error al eliminar la solicitud de turno ' + err.message, 2000);
   }
 }
 
 
-
 function onCancelClick(e) {
-  e.preventDefault();
-  navigateTo('/private/shift-requests/table-view');
+  displayAlert(alertWarning,
+              'La edición del requerimiento ha sido cancelada', 1500);
+  setTimeout(() => navigateTo('/private/shift-requests/table-view'), 1500);
 }
 
 
-/* --- Bindings generales --- */
 function bindAddScheduleBtn() {
   qs('#addScheduleBtn')?.addEventListener('click', () => addScheduleRow({}));
 }
-
 function bindsaveShiftRequestBtn() {
-  qs('#saveShiftRequestBtn')?.addEventListener('click', onSaveClick);
+  qs('#submit')?.addEventListener('click', onSaveClick);
 }
-
 function bindcancelEditBtn() {
-  qs('#cancelEditBtn')?.addEventListener('click', onCancelClick);
+  qs('#cancel')?.addEventListener('click', onCancelClick);
 }
-
 function binddeleteShiftRequestBtn() {
-  qs('#deleteShiftRequestBtn')?.addEventListener('click', onDeleteShiftRequest);
+  qs('#delete')?.addEventListener('click', onDeleteShiftRequest);
 }
-
-
 
 (function init() {
   bindAddScheduleBtn();
@@ -234,7 +202,6 @@ function binddeleteShiftRequestBtn() {
   binddeleteShiftRequestBtn();
 
   wireRemoveButtons();
-  // ESC shortcut to go back
   document.addEventListener('keydown', (ev) => {
     if (ev.key === 'Escape') navigateTo('/private/shift-requests/table-view');
   });

@@ -112,7 +112,7 @@ public class ShiftRequestController {
             ShiftRequestDtoWithSchedules shiftRequestDto =
                                 shiftRequestService.getDtoIfOwned(id, externalId);
             model.addAttribute("shiftRequest", shiftRequestDto);
-            return "private/operations/shift-requests/views/edit-shift-request-view";
+            return "private/operations/shift-requests/fragments/edit-shift-request";
         } catch (Exception e) {
             return "redirect:/private/shift-requests/table-view";
         }
