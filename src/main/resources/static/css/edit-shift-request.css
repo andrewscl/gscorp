@@ -190,9 +190,8 @@ p {
   content: "—";
   color: #cbd5e1;
 }
-.edit-shift-request .panel-container .panel-main .panel-body .form-group input,
-.edit-shift-request .panel-container .panel-main .panel-body .form-group select,
-.edit-shift-request .panel-container .panel-main .panel-body .form-group span {
+.edit-shift-request .panel-container .panel-main .panel-body .form-group input, .edit-shift-request .panel-container .panel-main .panel-body .form-group select,
+.edit-shift-request .panel-container .panel-main .panel-body .form-group span, .edit-shift-request .panel-container .panel-main .panel-body .form-group textarea {
   padding: 0.65rem;
   border: 0.09rem solid #ced4da;
   border-radius: 0.5rem;
@@ -203,14 +202,12 @@ p {
   color: #1f2937;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
-.edit-shift-request .panel-container .panel-main .panel-body .form-group input::placeholder,
-.edit-shift-request .panel-container .panel-main .panel-body .form-group select::placeholder,
-.edit-shift-request .panel-container .panel-main .panel-body .form-group span::placeholder {
+.edit-shift-request .panel-container .panel-main .panel-body .form-group input::placeholder, .edit-shift-request .panel-container .panel-main .panel-body .form-group select::placeholder,
+.edit-shift-request .panel-container .panel-main .panel-body .form-group span::placeholder, .edit-shift-request .panel-container .panel-main .panel-body .form-group textarea::placeholder {
   color: #adb5bd;
 }
-.edit-shift-request .panel-container .panel-main .panel-body .form-group input:focus,
-.edit-shift-request .panel-container .panel-main .panel-body .form-group select:focus,
-.edit-shift-request .panel-container .panel-main .panel-body .form-group span:focus {
+.edit-shift-request .panel-container .panel-main .panel-body .form-group input:focus, .edit-shift-request .panel-container .panel-main .panel-body .form-group select:focus,
+.edit-shift-request .panel-container .panel-main .panel-body .form-group span:focus, .edit-shift-request .panel-container .panel-main .panel-body .form-group textarea:focus {
   border-color: #4e54c8;
   box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
   outline: none;
@@ -335,22 +332,16 @@ p {
   white-space: nowrap;
 }
 .edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(1) {
-  width: 18%;
-}
-.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(2) {
-  width: 18%;
+  width: 40%;
 }
 .edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(3) {
-  width: 15%;
+  width: 20%;
+}
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(2) {
+  width: 20%;
 }
 .edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(4) {
-  width: 15%;
-}
-.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(5) {
-  width: 15%;
-}
-.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(6) {
-  width: 19%;
+  width: 20%;
 }
 .edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr {
   border-bottom: 0.0625rem solid #e2e8f0;
@@ -365,22 +356,16 @@ p {
   white-space: nowrap;
 }
 .edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(1) {
-  width: 18%;
+  width: 40%;
 }
 .edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(3) {
-  width: 18%;
+  width: 20%;
 }
 .edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(2) {
-  width: 15%;
+  width: 20%;
 }
 .edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(4) {
-  width: 15%;
-}
-.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(5) {
-  width: 15%;
-}
-.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(6) {
-  width: 19%;
+  width: 20%;
 }
 .edit-shift-request .alert-container {
   display: none;

@@ -108,14 +108,6 @@
                   padding: 0.65rem 0.85rem;
                   vertical-align: middle;
                   white-space: nowrap;
-                  input {
-                    width: 100%;
-                    box-sizing: border-box;
-                    padding: 0.35rem;
-                    border: 1px solid $border-color;
-                    border-radius: $radius-sm;
-                    font-size: 0.85rem;
-                  }
                   &:nth-child(1) {width: 40%;}
                   &:nth-child(3) {width: 20%;}
                   &:nth-child(2) {width: 20%;}

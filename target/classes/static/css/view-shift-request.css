@@ -190,9 +190,8 @@ p {
   content: "—";
   color: #cbd5e1;
 }
-.view-shift-request .panel-container .panel-main .panel-body .form-group input,
-.view-shift-request .panel-container .panel-main .panel-body .form-group select,
-.view-shift-request .panel-container .panel-main .panel-body .form-group span {
+.view-shift-request .panel-container .panel-main .panel-body .form-group input, .view-shift-request .panel-container .panel-main .panel-body .form-group select,
+.view-shift-request .panel-container .panel-main .panel-body .form-group span, .view-shift-request .panel-container .panel-main .panel-body .form-group textarea {
   padding: 0.65rem;
   border: 0.09rem solid #ced4da;
   border-radius: 0.5rem;
@@ -203,14 +202,12 @@ p {
   color: #1f2937;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
-.view-shift-request .panel-container .panel-main .panel-body .form-group input::placeholder,
-.view-shift-request .panel-container .panel-main .panel-body .form-group select::placeholder,
-.view-shift-request .panel-container .panel-main .panel-body .form-group span::placeholder {
+.view-shift-request .panel-container .panel-main .panel-body .form-group input::placeholder, .view-shift-request .panel-container .panel-main .panel-body .form-group select::placeholder,
+.view-shift-request .panel-container .panel-main .panel-body .form-group span::placeholder, .view-shift-request .panel-container .panel-main .panel-body .form-group textarea::placeholder {
   color: #adb5bd;
 }
-.view-shift-request .panel-container .panel-main .panel-body .form-group input:focus,
-.view-shift-request .panel-container .panel-main .panel-body .form-group select:focus,
-.view-shift-request .panel-container .panel-main .panel-body .form-group span:focus {
+.view-shift-request .panel-container .panel-main .panel-body .form-group input:focus, .view-shift-request .panel-container .panel-main .panel-body .form-group select:focus,
+.view-shift-request .panel-container .panel-main .panel-body .form-group span:focus, .view-shift-request .panel-container .panel-main .panel-body .form-group textarea:focus {
   border-color: #4e54c8;
   box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
   outline: none;
