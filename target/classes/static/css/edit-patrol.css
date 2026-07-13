@@ -92,11 +92,6 @@ p {
 }
 
 .edit-patrol-card {
-  display: flex;
-  width: 100%;
-  align-items: stretch;
-  height: 78vh;
-  max-height: 78vh;
   background: #ffffff;
   border-radius: 0.8rem;
   border: 1px solid #e2e8f0;
@@ -144,6 +139,10 @@ p {
     height: 350px;
     flex: none;
   }
+}
+.edit-patrol-card .panel-container {
+  height: 78vh;
+  max-height: 78vh;
 }
 .edit-patrol-card .panel-container .panel-main .panel-header {
   font-family: "Montserrat", sans-serif;
