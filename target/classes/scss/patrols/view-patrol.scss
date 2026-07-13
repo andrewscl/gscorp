@@ -5,6 +5,7 @@
 @use '../abstracts/fragment-mixins' as *;
 @use '../abstracts/buttons/btn-mixins' as *;
 @use '../abstracts/panel-cards' as *;
+@use '../abstracts/buttons/footer-buttons' as *;
 
 .view-patrol-card {
     display: flex;
@@ -286,6 +287,10 @@
                 }
             }
         }
+    }
+
+    .footer-actions {
+        @include footer();
     }
 
 
