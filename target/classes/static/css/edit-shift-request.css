@@ -335,16 +335,22 @@ p {
   white-space: nowrap;
 }
 .edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(1) {
-  width: 40%;
-}
-.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(3) {
-  width: 20%;
+  width: 18%;
 }
 .edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(2) {
-  width: 20%;
+  width: 18%;
+}
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(3) {
+  width: 15%;
 }
 .edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(4) {
-  width: 20%;
+  width: 15%;
+}
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(5) {
+  width: 15%;
+}
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(6) {
+  width: 19%;
 }
 .edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr {
   border-bottom: 0.0625rem solid #e2e8f0;
@@ -359,16 +365,22 @@ p {
   white-space: nowrap;
 }
 .edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(1) {
-  width: 40%;
+  width: 18%;
 }
 .edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(3) {
-  width: 20%;
+  width: 18%;
 }
 .edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(2) {
-  width: 20%;
+  width: 15%;
 }
 .edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(4) {
-  width: 20%;
+  width: 15%;
+}
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(5) {
+  width: 15%;
+}
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(6) {
+  width: 19%;
 }
 .edit-shift-request .alert-container {
   display: none;
