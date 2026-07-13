@@ -68,38 +68,32 @@
           </div>
         </div>
 
-        <div class="schedules-list">
-          <table class="table schedules-table">
-            <thead>
-              <tr>
-                <th>Día desde</th>
-                <th>Día hasta</th>
-                <th>Inicio</th>
-                <th>Término</th>
-                <th>Colación</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody id="schedulesTbody">
-              <tr th:each="s, iterStat : ${shiftRequest.schedules}" th:data-index="${iterStat.index}">
-                <td> <input type="text" class="input-dayfrom"
-                        th:value="${s.dayFrom != null ? s.dayFrom : ''}" /></td>
-                <td> <input type="text" class="input-dayto"
-                        th:value="${s.dayTo != null ? s.dayTo : ''}" /></td>
-                <td> <input type="time" class="input-start"
-                        th:value="${s.startTime != null ? #temporals.format(s.startTime, 'HH:mm') : ''}" /></td>
-                <td> <input type="time" class="input-end"
-                        th:value="${s.endTime != null ? #temporals.format(s.endTime, 'HH:mm') : ''}" /></td>
-                <td> <input type="time" class="input-lunch"
-                        th:value="${s.lunchTime != null ? #temporals.format(s.lunchTime, 'HH:mm') : ''}" /></td>
-                <td> <button type="button" class="vs-btn remove-schedule" title="Eliminar fila">Eliminar</button></td>
-              </tr>
-            </tbody>
-          </table>
-          <div style="margin-top:8px;">
-            <button id="addScheduleBtn" type="button" class="vs-btn">Añadir tramo</button>
+          <!-- Si no hay schedules -->
+          <div class="schedules-list" 
+                th:if="${shiftRequest.schedules == null or #lists.isEmpty(shiftRequest.schedules)}">—</div>
+          <!-- Si hay schedules, mostramos una tabla -->
+          <div class="schedules-list" 
+                th:if="${shiftRequest.schedules != null and !#lists.isEmpty(shiftRequest.schedules)}">
+            <table class="table schedules-table">
+              <thead>
+                <tr>
+                  <th>Día(s)</th>
+                  <th>Inicio</th>
+                  <th>Término</th>
+                  <th>Colación</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="s : ${shiftRequest.schedules}">
+                  <td th:text="${(s.dayFrom != null ? s.dayFrom.displayNameInSpanish : '')
+                                      + ( (s.dayTo != null && s.dayTo != s.dayFrom) ? ' - ' + s.dayTo.displayNameInSpanish : '' )}">Lunes</td>
+                  <td th:text="${s.startTime != null ? #temporals.format(s.startTime, 'HH:mm') : '—'}">08:30</td>
+                  <td th:text="${s.endTime != null ? #temporals.format(s.endTime, 'HH:mm') : '—'}">20:30</td>
+                  <td th:text="${s.lunchTime != null ? #temporals.format(s.lunchTime, 'HH:mm') : '—'}">13:30</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-        </div>
 
       </div>
     </div>
@@ -115,7 +109,6 @@
                               true, 'Eliminar')}"></div>
 
   <script type="module" src="/js/private/shift-requests/edit-shift-request.js"></script>
-
 
 </div>
 
