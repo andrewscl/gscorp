@@ -71,6 +71,7 @@ export default defineConfig({
         'private/nationalities/edit-nationality': path.resolve(__dirname, './src/private/nationalities/edit-nationality.js'),
         'private/nationalities/create-nationality': path.resolve(__dirname, './src/private/nationalities/create-nationality.js'),
 
+        'private/shift-requests/view-shift-request': path.resolve(__dirname, './src/private/shift-requests/view-shift-request.js'),
         'private/shift-requests/edit-shift-request': path.resolve(__dirname, './src/private/shift-requests/edit-shift-request.js'),
         'private/shift-requests/create-shift-request': path.resolve(__dirname, './src/private/shift-requests/create-shift-request.js'),
         'private/shift-requests/shift-request-table': path.resolve(__dirname, './src/private/shift-requests/shift-request-table.js'),
