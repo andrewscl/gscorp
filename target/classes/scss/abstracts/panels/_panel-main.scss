@@ -4,7 +4,7 @@
 @use '../variables' as *;
 
 @mixin panel-main () {
-        flex: $ratio-left;
+        flex: $ratio-left;  
         padding: 0 2rem 1rem 2rem; ;
         display: flex;
         flex-direction: column;
