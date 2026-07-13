@@ -8,11 +8,6 @@
 @use '../abstracts/buttons/footer-buttons' as *;
 
 .view-patrol-card {
-    display: flex;
-    width: 100%;
-    align-items: stretch;
-    height: 76vh;
-    max-height: 76vh;
     @include dual-panel-card(
                 $ratio-left: 4,
                 $ratio-right: 6);
