@@ -18,7 +18,7 @@
     .panel-aside {
       padding: 1rem;
       .schedules-table {
-        background-color: $background-default;
+        background-color: $background-white;
         border-radius: $radius-lg;
         border: 1px solid $border-color;
         box-shadow: $shadow-sm;
@@ -63,9 +63,6 @@
         }
         .schedules-list {
           flex-grow: 1;
-          background: $white;
-          border-radius: $radius-lg;
-          border: 0.05rem solid $border-color;
           box-shadow: $shadow-sm;
           -webkit-overflow-scrolling: touch;
           position: relative;
@@ -76,7 +73,7 @@
             width: 100%;
             border-collapse: separate;
             border-spacing: 0;
-            @include roboto-font(0.875rem, 500);
+            @include roboto-font(0.85rem, 500);
             color: $text-color;
             table-layout: auto;
             thead {
@@ -90,7 +87,7 @@
                   @include roboto-font(0.8rem, 600);
                   text-transform: uppercase; // Le da un toque corporativo moderno
                   letter-spacing: 0.03em;
-                  padding: 1rem 1.2rem;
+                  padding: 1rem 0;
                   border-bottom: 0.125rem solid $border-color;
                   color: $text-secondary-color;
                   white-space: nowrap;
@@ -107,7 +104,7 @@
                 transition: background .12s ease;
                 &:hover { background-color: rgba($hover-color, 0.02); }
                 td {
-                  padding: 0.65rem 0.85rem;
+                  padding: 0.5rem 0;
                   vertical-align: middle;
                   white-space: nowrap;
                   td:nth-child(1) {width: 40%;}

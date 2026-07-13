@@ -242,7 +242,7 @@ p {
   padding: 1rem;
 }
 .view-shift-request .panel-container .panel-aside .schedules-table {
-  background-color: #f8fafc;
+  background-color: #ffffff;
   border-radius: 1rem;
   border: 1px solid #e2e8f0;
   box-shadow: 0 0.5rem 1.1rem rgba(15, 23, 42, 0.04);
@@ -297,9 +297,6 @@ p {
 }
 .view-shift-request .panel-container .panel-aside .schedules-table .schedules-list {
   flex-grow: 1;
-  background: #ffffff;
-  border-radius: 1rem;
-  border: 0.05rem solid #e2e8f0;
   box-shadow: 0 0.5rem 1.1rem rgba(15, 23, 42, 0.04);
   -webkit-overflow-scrolling: touch;
   position: relative;
@@ -312,7 +309,7 @@ p {
   border-collapse: separate;
   border-spacing: 0;
   font-family: "Roboto", sans-serif;
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   font-weight: 500;
   letter-spacing: 0.02em;
   color: #334155;
@@ -330,7 +327,7 @@ p {
   letter-spacing: 0.02em;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  padding: 1rem 1.2rem;
+  padding: 1rem 0;
   border-bottom: 0.125rem solid #e2e8f0;
   color: #64748b;
   white-space: nowrap;
@@ -355,7 +352,7 @@ p {
   background-color: rgba(59, 130, 246, 0.02);
 }
 .view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td {
-  padding: 0.65rem 0.85rem;
+  padding: 0.5rem 0;
   vertical-align: middle;
   white-space: nowrap;
 }
