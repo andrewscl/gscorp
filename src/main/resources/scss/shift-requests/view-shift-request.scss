@@ -87,7 +87,7 @@
                   @include roboto-font(0.8rem, 600);
                   text-transform: uppercase; // Le da un toque corporativo moderno
                   letter-spacing: 0.03em;
-                  padding: 1rem 0;
+                  padding: 1rem 1.2rem;
                   border-bottom: 0.125rem solid $border-color;
                   color: $text-secondary-color;
                   white-space: nowrap;
@@ -104,7 +104,7 @@
                 transition: background .12s ease;
                 &:hover { background-color: rgba($hover-color, 0.02); }
                 td {
-                  padding: 0.5rem 0;
+                  padding: 0.65rem 0.85rem;
                   vertical-align: middle;
                   white-space: nowrap;
                   td:nth-child(1) {width: 40%;}
