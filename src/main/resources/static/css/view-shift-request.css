@@ -252,6 +252,7 @@ p {
   gap: 1rem;
   flex-shrink: 0;
   z-index: 30;
+  width: 100%;
 }
 .view-shift-request .panel-container .panel-aside .schedules-table .title-row {
   display: flex;
@@ -303,6 +304,7 @@ p {
   overflow-y: auto;
   overflow-x: hidden;
   margin-top: 0;
+  width: 100%;
 }
 .view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table {
   width: 100%;
@@ -313,7 +315,7 @@ p {
   font-weight: 500;
   letter-spacing: 0.02em;
   color: #334155;
-  table-layout: auto;
+  table-layout: fixed;
 }
 .view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th {
   position: sticky;
@@ -332,16 +334,16 @@ p {
   color: #64748b;
   white-space: nowrap;
 }
-.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th th:nth-child(1) {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(1) {
   width: 40%;
 }
-.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th th:nth-child(3) {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(3) {
   width: 20%;
 }
-.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th th:nth-child(2) {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(2) {
   width: 20%;
 }
-.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th th:nth-child(4) {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(4) {
   width: 20%;
 }
 .view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr {
@@ -356,16 +358,16 @@ p {
   vertical-align: middle;
   white-space: nowrap;
 }
-.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td td:nth-child(1) {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(1) {
   width: 40%;
 }
-.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td td:nth-child(3) {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(3) {
   width: 20%;
 }
-.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td td:nth-child(2) {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(2) {
   width: 20%;
 }
-.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td td:nth-child(4) {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(4) {
   width: 20%;
 }
 .view-shift-request .footer-actions {

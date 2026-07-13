@@ -28,6 +28,7 @@
         gap: 1rem;
         flex-shrink: 0; // Evita que los filtros se aplasten si hay muchas filas
         z-index: 30;
+        width: 100%;
         .title-row {
           display: flex;
           align-items: center;
@@ -69,13 +70,14 @@
           overflow-y: auto;
           overflow-x: hidden;
           margin-top: 0;
+          width: 100%;
           .table {
             width: 100%;
             border-collapse: separate;
             border-spacing: 0;
             @include roboto-font(0.85rem, 500);
             color: $text-color;
-            table-layout: auto;
+            table-layout: fixed;
             thead {
               tr {
                 th {
@@ -91,10 +93,10 @@
                   border-bottom: 0.125rem solid $border-color;
                   color: $text-secondary-color;
                   white-space: nowrap;
-                  th:nth-child(1) {width: 40%;}
-                  th:nth-child(3) {width: 20%;}
-                  th:nth-child(2) {width: 20%;}
-                  th:nth-child(4) {width: 20%;}
+                  &:nth-child(1) {width: 40%;}
+                  &:nth-child(3) {width: 20%;}
+                  &:nth-child(2) {width: 20%;}
+                  &:nth-child(4) {width: 20%;}
                 }
               }
             }
@@ -107,10 +109,10 @@
                   padding: 0.65rem 0.85rem;
                   vertical-align: middle;
                   white-space: nowrap;
-                  td:nth-child(1) {width: 40%;}
-                  td:nth-child(3) {width: 20%;}
-                  td:nth-child(2) {width: 20%;}
-                  td:nth-child(4) {width: 20%;}
+                  &:nth-child(1) {width: 40%;}
+                  &:nth-child(3) {width: 20%;}
+                  &:nth-child(2) {width: 20%;}
+                  &:nth-child(4) {width: 20%;}
                 }
               }
             }
