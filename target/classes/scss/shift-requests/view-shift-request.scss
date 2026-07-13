@@ -122,7 +122,10 @@
     }
 
     }
-
   }
 
+}
+
+.footer-actions {
+    @include footer();
 }
