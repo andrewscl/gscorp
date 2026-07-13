@@ -180,7 +180,7 @@ function onCancelClick(e) {
               'La edición del requerimiento ha sido cancelada', 1500);
   setTimeout(() => navigateTo('/private/shift-requests/table-view'), 1500);
 }
-
+  
 
 function bindAddScheduleBtn() {
   qs('#addScheduleBtn')?.addEventListener('click', () => addScheduleRow({}));
