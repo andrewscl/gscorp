@@ -191,7 +191,7 @@ p {
   color: #cbd5e1;
 }
 .edit-shift-request .panel-container .panel-main .panel-body .form-group input, .edit-shift-request .panel-container .panel-main .panel-body .form-group select,
-.edit-shift-request .panel-container .panel-main .panel-body .form-group span, .edit-shift-request .panel-container .panel-main .panel-body .form-group textarea {
+.edit-shift-request .panel-container .panel-main .panel-body .form-group span {
   padding: 0.65rem;
   border: 0.09rem solid #ced4da;
   border-radius: 0.5rem;
@@ -203,17 +203,19 @@ p {
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 .edit-shift-request .panel-container .panel-main .panel-body .form-group input::placeholder, .edit-shift-request .panel-container .panel-main .panel-body .form-group select::placeholder,
-.edit-shift-request .panel-container .panel-main .panel-body .form-group span::placeholder, .edit-shift-request .panel-container .panel-main .panel-body .form-group textarea::placeholder {
+.edit-shift-request .panel-container .panel-main .panel-body .form-group span::placeholder {
   color: #adb5bd;
 }
 .edit-shift-request .panel-container .panel-main .panel-body .form-group input:focus, .edit-shift-request .panel-container .panel-main .panel-body .form-group select:focus,
-.edit-shift-request .panel-container .panel-main .panel-body .form-group span:focus, .edit-shift-request .panel-container .panel-main .panel-body .form-group textarea:focus {
+.edit-shift-request .panel-container .panel-main .panel-body .form-group span:focus {
   border-color: #4e54c8;
   box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
   outline: none;
 }
 .edit-shift-request .panel-container .panel-main .panel-body .form-group textarea {
   resize: vertical;
+  border: 0.09rem solid #ced4da;
+  border-radius: 0.5rem;
   font-family: "Roboto", sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
@@ -503,6 +505,11 @@ p {
 .edit-shift-request .footer-actions .btn.btn-danger:hover {
   background-color: rgb(236.5802955665, 39.7197044335, 39.7197044335);
   transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+}
+.edit-shift-request .footer-actions .btn.btn-danger:active {
+  transform: translateY(0);
+}/*# sourceMappingURL=edit-shift-request.css.map */ translateY(-3px);
   box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
 }
 .edit-shift-request .footer-actions .btn.btn-danger:active {
