@@ -1,5 +1,5 @@
 <div th:replace="~{shared/fragments/table-component :: smart-table(
-    title='Gestión de patrullajes',
+    title='Gestión de rondas',
     count=${count},
     filters=~{::#patrolsFilters},
     actions=~{::#patrolsActions},
@@ -28,14 +28,14 @@
         </button>
     </th:block>
 
-    <th:block id="userActions">
+    <th:block id="patrolsActions">
         <button class="btn btn-primary" id="addUserBtn"
             th:if="${#authorization.expression('hasRole(''ANALYST'')')}">
         Crear Patrullaje
         </button>
     </th:block>
 
-    <tr id="userHeader">
+    <tr id="patrolsHeader">
         <th>Nombre</th>
         <th>Instalación</th>
         <th>Cobertura semanal</th>
