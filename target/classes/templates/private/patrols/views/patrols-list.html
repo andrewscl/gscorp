@@ -30,7 +30,7 @@
 
     <th:block id="patrolsActions">
         <button class="btn btn-primary" id="addUserBtn"
-            th:if="${#authorization.expression('hasRole(''ANALYST'')')}">
+            th:if="${#authorization.expression('hasRole(''ANALYST'') or hasRole(''ADMINISTRATOR'')')}">
         Crear Patrullaje
         </button>
     </th:block>
