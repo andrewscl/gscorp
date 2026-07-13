@@ -18,7 +18,7 @@
     .panel-aside {
       padding: 1rem;
       .schedules-table {
-        background-color: $background-white;
+        background-color: $background-default;
         border-radius: $radius-lg;
         border: 1px solid $border-color;
         box-shadow: $shadow-sm;
@@ -65,7 +65,7 @@
           flex-grow: 1;
           background: $white;
           border-radius: $radius-lg;
-          border: 0.0625rem solid $border-color;
+          border: 0.05rem solid $border-color;
           box-shadow: $shadow-sm;
           -webkit-overflow-scrolling: touch;
           position: relative;

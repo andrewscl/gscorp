@@ -242,7 +242,7 @@ p {
   padding: 1rem;
 }
 .view-shift-request .panel-container .panel-aside .schedules-table {
-  background-color: #ffffff;
+  background-color: #f8fafc;
   border-radius: 1rem;
   border: 1px solid #e2e8f0;
   box-shadow: 0 0.5rem 1.1rem rgba(15, 23, 42, 0.04);
@@ -299,7 +299,7 @@ p {
   flex-grow: 1;
   background: #ffffff;
   border-radius: 1rem;
-  border: 0.0625rem solid #e2e8f0;
+  border: 0.05rem solid #e2e8f0;
   box-shadow: 0 0.5rem 1.1rem rgba(15, 23, 42, 0.04);
   -webkit-overflow-scrolling: touch;
   position: relative;
