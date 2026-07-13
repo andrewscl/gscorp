@@ -92,8 +92,6 @@ p {
 }
 
 .view-patrol-card {
-  height: 76vh;
-  max-height: 76vh;
   background: #ffffff;
   border-radius: 0.8rem;
   border: 1px solid #e2e8f0;
@@ -141,6 +139,10 @@ p {
     height: 350px;
     flex: none;
   }
+}
+.view-patrol-card .panel-container {
+  height: 76vh;
+  max-height: 76vh;
 }
 .view-patrol-card .panel-container .panel-main .panel-header {
   font-family: "Montserrat", sans-serif;

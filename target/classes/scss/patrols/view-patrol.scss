@@ -8,12 +8,13 @@
 @use '../abstracts/buttons/footer-buttons' as *;
 
 .view-patrol-card {
-    height: 76vh;
-    max-height: 76vh;
+
     @include dual-panel-card(
                 $ratio-left: 4,
                 $ratio-right: 6);
     .panel-container {
+        height: 76vh;
+        max-height: 76vh;
         .panel-main{
             .panel-header {
                 @include montserrat-font($header-text-height, 700);
