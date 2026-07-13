@@ -7,7 +7,6 @@
 @use '../abstracts/mixins' as *;
 @use '../abstracts/panels/panel-main' as *;
 
-
 .view-shift-request {
   @include dual-panel-card();
 
@@ -17,6 +16,8 @@
     }
     .panel-aside {
       padding: 1rem;
+      flex: 1;
+      width: 50%;
       .schedules-table {
         background-color: $background-white;
         border-radius: $radius-lg;

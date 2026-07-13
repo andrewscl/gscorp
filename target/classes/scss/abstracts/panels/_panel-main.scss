@@ -30,7 +30,6 @@
                     letter-spacing: 0.05em;
                     margin: 0;
                 }
-
                 .form-value {
                     @include roboto-font(0.95rem, 400); // Fuente principal
                     color: $heading-color; // Casi negro o azul muy oscuro
@@ -44,7 +43,6 @@
                         color: #cbd5e1;
                     }
                 }
-
                 input, select,
                 span {
                     padding: 0.65rem;
