@@ -96,7 +96,6 @@
               </tbody>
             </table>
           </div>
-
       </div>
 
       <div class="shifts-table">
@@ -110,7 +109,7 @@
           <div class="shifts-list" 
                 th:if="${shifts == null or #lists.isEmpty(shifts)}">—</div>
           <!-- Si hay schedules, mostramos una tabla -->
-          <div class="schedules-list" 
+          <div class="shifts-list" 
                 th:if="${shifts != null and #lists.isEmpty(shifts)}">
             <table class="table shifts-table">
               <thead>
@@ -129,7 +128,6 @@
               </tbody>
             </table>
           </div>
-
       </div>
 
     </div>

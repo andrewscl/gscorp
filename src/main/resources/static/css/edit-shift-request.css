@@ -243,7 +243,7 @@ p {
   flex: 1;
   width: 50%;
 }
-.edit-shift-request .panel-container .panel-aside .schedules-table {
+.edit-shift-request .panel-container .panel-aside .schedules-table, .edit-shift-request .panel-container .panel-aside .shifts-table {
   background-color: #ffffff;
   border-radius: 1rem;
   border: 1px solid #e2e8f0;
@@ -256,18 +256,18 @@ p {
   z-index: 30;
   width: 100%;
 }
-.edit-shift-request .panel-container .panel-aside .schedules-table .title-row {
+.edit-shift-request .panel-container .panel-aside .schedules-table .title-row, .edit-shift-request .panel-container .panel-aside .shifts-table .title-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid #e2e8f0;
   padding-bottom: 0.75rem;
 }
-.edit-shift-request .panel-container .panel-aside .schedules-table .title-row .title-left {
+.edit-shift-request .panel-container .panel-aside .schedules-table .title-row .title-left, .edit-shift-request .panel-container .panel-aside .shifts-table .title-row .title-left {
   display: flex;
   align-items: center;
 }
-.edit-shift-request .panel-container .panel-aside .schedules-table .title-row .title-left .title-text {
+.edit-shift-request .panel-container .panel-aside .schedules-table .title-row .title-left .title-text, .edit-shift-request .panel-container .panel-aside .shifts-table .title-row .title-left .title-text {
   font-family: "Montserrat", sans-serif;
   font-size: 1.1rem;
   font-weight: 600;
@@ -275,13 +275,13 @@ p {
   color: #475569;
   margin: 0;
 }
-.edit-shift-request .panel-container .panel-aside .schedules-table .title-row .btn {
+.edit-shift-request .panel-container .panel-aside .schedules-table .title-row .btn, .edit-shift-request .panel-container .panel-aside .shifts-table .title-row .btn {
   font-family: "Roboto", sans-serif;
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.02em;
 }
-.edit-shift-request .panel-container .panel-aside .schedules-table .title-row .btn.btn-shifts-update {
+.edit-shift-request .panel-container .panel-aside .schedules-table .title-row .btn.btn-shifts-update, .edit-shift-request .panel-container .panel-aside .shifts-table .title-row .btn.btn-shifts-update {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -294,23 +294,23 @@ p {
   background-color: #3b82f6;
   color: #ffffff;
 }
-.edit-shift-request .panel-container .panel-aside .schedules-table .title-row .btn.btn-shifts-update:hover {
+.edit-shift-request .panel-container .panel-aside .schedules-table .title-row .btn.btn-shifts-update:hover, .edit-shift-request .panel-container .panel-aside .shifts-table .title-row .btn.btn-shifts-update:hover {
   background-color: rgb(29.8390243902, 111.4024390244, 244.6609756098);
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
 }
-.edit-shift-request .panel-container .panel-aside .schedules-table .title-row .btn.btn-shifts-update:active {
+.edit-shift-request .panel-container .panel-aside .schedules-table .title-row .btn.btn-shifts-update:active, .edit-shift-request .panel-container .panel-aside .shifts-table .title-row .btn.btn-shifts-update:active {
   transform: translateY(0);
 }
 @media (max-width: 768px) {
-  .edit-shift-request .panel-container .panel-aside .schedules-table .title-row .title-left {
+  .edit-shift-request .panel-container .panel-aside .schedules-table .title-row .title-left, .edit-shift-request .panel-container .panel-aside .shifts-table .title-row .title-left {
     font-family: "Montserrat", sans-serif;
     font-size: 1rem;
     font-weight: 600;
     letter-spacing: 0.02em;
   }
 }
-.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list {
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list, .edit-shift-request .panel-container .panel-aside .schedules-table .shifts-list, .edit-shift-request .panel-container .panel-aside .shifts-table .schedules-list, .edit-shift-request .panel-container .panel-aside .shifts-table .shifts-list {
   flex-grow: 1;
   box-shadow: 0 0.5rem 1.1rem rgba(15, 23, 42, 0.04);
   -webkit-overflow-scrolling: touch;
@@ -320,7 +320,7 @@ p {
   margin-top: 0;
   width: 100%;
 }
-.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table {
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table, .edit-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table, .edit-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table, .edit-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
@@ -331,7 +331,7 @@ p {
   color: #334155;
   table-layout: fixed;
 }
-.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th {
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th, .edit-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table thead tr th, .edit-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table thead tr th, .edit-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table thead tr th {
   position: sticky;
   top: 0;
   z-index: 20;
@@ -348,40 +348,40 @@ p {
   color: #64748b;
   white-space: nowrap;
 }
-.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(1) {
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(1), .edit-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table thead tr th:nth-child(1), .edit-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table thead tr th:nth-child(1), .edit-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table thead tr th:nth-child(1) {
   width: 40%;
 }
-.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(3) {
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(3), .edit-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table thead tr th:nth-child(3), .edit-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table thead tr th:nth-child(3), .edit-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table thead tr th:nth-child(3) {
   width: 20%;
 }
-.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(2) {
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(2), .edit-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table thead tr th:nth-child(2), .edit-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table thead tr th:nth-child(2), .edit-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table thead tr th:nth-child(2) {
   width: 20%;
 }
-.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(4) {
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(4), .edit-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table thead tr th:nth-child(4), .edit-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table thead tr th:nth-child(4), .edit-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table thead tr th:nth-child(4) {
   width: 20%;
 }
-.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr {
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr, .edit-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table tbody tr, .edit-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table tbody tr, .edit-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table tbody tr {
   border-bottom: 0.0625rem solid #e2e8f0;
   transition: background 0.12s ease;
 }
-.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr:hover {
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr:hover, .edit-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table tbody tr:hover, .edit-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table tbody tr:hover, .edit-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table tbody tr:hover {
   background-color: rgba(59, 130, 246, 0.02);
 }
-.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td {
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td, .edit-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table tbody tr td, .edit-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table tbody tr td, .edit-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table tbody tr td {
   padding: 0.65rem 0.85rem;
   vertical-align: middle;
   white-space: nowrap;
 }
-.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(1) {
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(1), .edit-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table tbody tr td:nth-child(1), .edit-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table tbody tr td:nth-child(1), .edit-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table tbody tr td:nth-child(1) {
   width: 40%;
 }
-.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(3) {
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(3), .edit-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table tbody tr td:nth-child(3), .edit-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table tbody tr td:nth-child(3), .edit-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table tbody tr td:nth-child(3) {
   width: 20%;
 }
-.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(2) {
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(2), .edit-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table tbody tr td:nth-child(2), .edit-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table tbody tr td:nth-child(2), .edit-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table tbody tr td:nth-child(2) {
   width: 20%;
 }
-.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(4) {
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(4), .edit-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table tbody tr td:nth-child(4), .edit-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table tbody tr td:nth-child(4), .edit-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table tbody tr td:nth-child(4) {
   width: 20%;
 }
 .edit-shift-request .alert-container {
