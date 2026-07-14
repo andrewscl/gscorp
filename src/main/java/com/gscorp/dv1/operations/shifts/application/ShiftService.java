@@ -3,9 +3,13 @@ package com.gscorp.dv1.operations.shifts.application;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.UUID;
+
+import org.springframework.data.domain.Page;
 
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.operations.shifts.infrastructure.Shift;
+import com.gscorp.dv1.operations.shifts.web.dto.ShiftDto;
 
 public interface ShiftService {
 
@@ -22,5 +26,8 @@ public interface ShiftService {
                         ZoneId zone);
 
     void processApprovedShiftRequests();
+
+    Page<ShiftDto> getLastFiveShiftsByShiftRequest(
+                            UUID shiftRequestExternalId);
 
 }

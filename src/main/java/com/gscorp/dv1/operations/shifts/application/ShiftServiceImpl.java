@@ -8,7 +8,11 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +25,8 @@ import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestSchedu
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.projections.ShiftRequestScheduleProjection;
 import com.gscorp.dv1.operations.shifts.infrastructure.Shift;
 import com.gscorp.dv1.operations.shifts.infrastructure.ShitfRepository;
+import com.gscorp.dv1.operations.shifts.infrastructure.projections.ShiftProjection;
+import com.gscorp.dv1.operations.shifts.web.dto.ShiftDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -132,6 +138,21 @@ public class ShiftServiceImpl implements ShiftService {
 
             generateShiftsForNext30days(request, systemUsername, siteZone);
         }
+    }
+
+
+    @Transactional(readOnly = true)
+    public Page<ShiftDto> getLastFiveShiftsByShiftRequest(
+                                    UUID shiftRequestExternalId) {
+        
+        Pageable pageable =
+                        PageRequest.of(0, 5 );
+
+        Page<ShiftProjection> projections =
+                    shiftRepository.findLastFiveByShiftRequestExternalId(
+                                            shiftRequestExternalId, pageable);
+
+        return projections.map(ShiftDto::fromProjection);
     }
 
 }

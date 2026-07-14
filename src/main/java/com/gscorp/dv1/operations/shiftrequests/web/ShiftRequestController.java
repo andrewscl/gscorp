@@ -22,6 +22,8 @@ import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.enums.ShiftRequestType;
 import com.gscorp.dv1.operations.shiftrequests.application.ShiftRequestService;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestDtoWithSchedules;
+import com.gscorp.dv1.operations.shifts.application.ShiftService;
+import com.gscorp.dv1.operations.shifts.web.dto.ShiftDto;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestDto;
 import com.gscorp.dv1.operations.sites.application.SiteService;
 import com.gscorp.dv1.operations.sites.web.dto.SiteDto;
@@ -38,6 +40,7 @@ public class ShiftRequestController {
     private final ShiftRequestService shiftRequestService;
     private final SiteService siteService;
     private final ZoneResolver zoneResolver;
+    private final ShiftService shiftService;
 
     @GetMapping("/table-view")
     public String getShiftRequestsTableView (
@@ -81,6 +84,7 @@ public class ShiftRequestController {
         return "private/operations/shift-requests/views/create-shift-request-view";
     }
 
+
     @GetMapping("/show/{shiftRequestExternalId}")
     public String showShiftRequest (
                 @PathVariable UUID shiftRequestExternalId,
@@ -101,6 +105,7 @@ public class ShiftRequestController {
         }
     }
 
+
     @GetMapping("/edit/{shiftRequestExternalId}")
     public String editShiftRequest (
                         @PathVariable UUID shiftRequestExternalId,
@@ -113,7 +118,11 @@ public class ShiftRequestController {
         try {
             ShiftRequestDtoWithSchedules shiftRequestDto =
                                 shiftRequestService.getAllowedShiftRequestByExternalId(externalId, shiftRequestExternalId);
+            Page<ShiftDto> shifts = shiftService.getLastFiveShiftsByShiftRequest(shiftRequestExternalId);
+
             model.addAttribute("shiftRequest", shiftRequestDto);
+            model.addAttribute("shiftsPage", shifts);
+            model.addAttribute("shifts", shifts.getContent());
             model.addAttribute("shiftRequestStatuses", ShiftRequestStatus.values());
             return "private/operations/shift-requests/fragments/edit-shift-request";
         } catch (Exception e) {
@@ -121,6 +130,7 @@ public class ShiftRequestController {
             return "redirect:/private/shift-requests/table-view";
         }
     }
+
 
     @GetMapping("/table-search")
     public String getShiftRequestTableSearch(

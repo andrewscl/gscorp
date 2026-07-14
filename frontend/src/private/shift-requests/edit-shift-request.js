@@ -6,11 +6,12 @@ const qs = (s) => document.querySelector(s);
 const alertSuccess = qs('.alert-success');
 const alertError = qs('.alert-error');
 const alertWarning = qs('.alert-warning');
+const clientTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+const externalId = qs('#shiftRequestExternalId')?.value;
 
 console.log("edit-shift-request.js cargado");
 
 async function onSaveClick(e) {
-  const externalId = qs('#shiftRequestExternalId')?.value;
   const startDate = qs('#shiftRequestStartDate')?.value;
   const endDate = qs('#shiftRequestEndDate')?.value;
   const status = qs('#shiftRequestStatus')?.value;
@@ -49,7 +50,7 @@ async function onSaveClick(e) {
 
 const shiftsUpdate = async () => {
   try {
-    const url = `/api/shifts/create/${payload.id}`;
+    const url = `/api/shifts/create/${externalId}/${encodeURIComponent(clientTz)}`;
     const res = await fetchWithAuth(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -62,8 +63,7 @@ const shiftsUpdate = async () => {
       throw new Error(txt || `Error ${res.status}`);
     }
 
-    displayAlert(alertSuccess, 'Cambios guardados ✅', 1000);
-    setTimeout(() => navigateTo('/private/shift-requests/table-view'), 1000);
+    displayAlert(alertSuccess, 'Turnos generados correctamente ✅', 1000);
   } catch (err) {
     console.error('save error', err);
     displayAlert(alertError, "Error al guardar. " + err.message, 2000);
