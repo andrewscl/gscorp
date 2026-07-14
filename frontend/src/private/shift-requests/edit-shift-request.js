@@ -60,16 +60,20 @@ const shiftsUpdate = async () => {
       )
     });
 
+    console.log("Estado de la respuesta del backend:", res.status);
+
     if (!res.ok) {
       let errorMsg = 'Error en el servidor';
 
       try {
-        const data = await res.json();
-        errorMsg = data.error;
+        const rawText = await res.clone().text();
+        console.log("Cuerpo del error en bruto:", rawText);
+        const data = JSON.parse(rawText);
+        errorMsg = data.error || errorMsg;
       } catch (e) {
         try {
-          const rawText = await res.text();
-          if (rawText) errorMsg = rawText;
+          const rawTextFallBack = await res.text();
+          if (rawTextFallBack) errorMsg = rawTextFallBack;
         } catch {}
       }
       throw new Error(errorMsg);
