@@ -1,6 +1,6 @@
       <th:block th:fragment="rows">
         <tr th:each="r : ${shiftRequests}" th:data-id="${r.id}">
-          <td th:text="${r.code}">TR001</td>
+          <td th:text="${r.externalId}">TR001</td>
           <td th:text="${r.siteName != null ? r.siteName : '—'}">Nombre sitio</td>
           <td th:text="${r.type != null ? r.type.displayName : '—'}">TIPO</td>
           <td th:text="${r.startDate != null ? #temporals.format(r.startDate, 'yyyy-MM-dd') : '—'}">2025-01-01</td>
