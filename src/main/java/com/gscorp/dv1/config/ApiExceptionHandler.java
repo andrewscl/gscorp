@@ -1,8 +1,10 @@
 package com.gscorp.dv1.config;
 
 import java.util.Collections;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -38,9 +40,15 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(IllegalStateException.class)
-        public ResponseEntity<?> handleIllegalState(IllegalStateException ex) {
+    public ResponseEntity<?> handleIllegalState(IllegalStateException ex) {
         log.warn("IllegalStateException: {}", ex.getMessage());
-    return ResponseEntity.badRequest().body(Collections.singletonMap("error", ex.getMessage()));
+
+        Map<String, String> errorBody = Map.of("error", ex.getMessage());
+
+        return ResponseEntity
+                    .badRequest()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(errorBody);
     }
 
 }
