@@ -19,6 +19,7 @@
       padding: 1rem;
       flex: 1;
       width: 50%;
+      gap: 0.5rem;
       .schedules-table, .shifts-table {
         background-color: $background-white;
         border-radius: $radius-lg;
@@ -65,7 +66,6 @@
         }
         .schedules-list, .shifts-list {
           flex-grow: 1;
-          box-shadow: $shadow-sm;
           -webkit-overflow-scrolling: touch;
           position: relative;
           overflow-y: auto;

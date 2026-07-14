@@ -242,6 +242,7 @@ p {
   padding: 1rem;
   flex: 1;
   width: 50%;
+  gap: 0.5rem;
 }
 .edit-shift-request .panel-container .panel-aside .schedules-table, .edit-shift-request .panel-container .panel-aside .shifts-table {
   background-color: #ffffff;
@@ -312,7 +313,6 @@ p {
 }
 .edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list, .edit-shift-request .panel-container .panel-aside .schedules-table .shifts-list, .edit-shift-request .panel-container .panel-aside .shifts-table .schedules-list, .edit-shift-request .panel-container .panel-aside .shifts-table .shifts-list {
   flex-grow: 1;
-  box-shadow: 0 0.5rem 1.1rem rgba(15, 23, 42, 0.04);
   -webkit-overflow-scrolling: touch;
   position: relative;
   overflow-y: auto;
