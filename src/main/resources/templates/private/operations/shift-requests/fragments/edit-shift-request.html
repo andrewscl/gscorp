@@ -99,16 +99,11 @@
       </div>
 
       <div class="shifts-table">
-        <div class="title-row">
-          <div class="title-left">
-            <span class="title-text">Turnos</span>
+          <div class="title-row">
+            <div class="title-left">
+              <span class="title-text">Turnos</span>
+            </div>
           </div>
-        </div>
-
-          <!-- Si no hay turnos -->
-          <div class="shifts-list" 
-                th:if="${shifts == null or #lists.isEmpty(shifts)}">—</div>
-          <!-- Si hay schedules, mostramos una tabla -->
           <div class="shifts-list" 
                 th:if="${shifts != null and #lists.isEmpty(shifts)}">
             <table class="table shifts-table">
