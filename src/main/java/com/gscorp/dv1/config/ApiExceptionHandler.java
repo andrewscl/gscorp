@@ -37,4 +37,10 @@ public class ApiExceptionHandler {
         return ResponseEntity.status(500).body(Collections.singletonMap("error", "internal_server_error"));
     }
 
+    @ExceptionHandler(IllegalStateException.class)
+        public ResponseEntity<?> handleIllegalState(IllegalStateException ex) {
+        log.warn("IllegalStateException: {}", ex.getMessage());
+    return ResponseEntity.badRequest().body(Collections.singletonMap("error", ex.getMessage()));
+    }
+
 }

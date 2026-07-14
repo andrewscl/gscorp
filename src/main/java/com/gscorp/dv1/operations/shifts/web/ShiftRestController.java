@@ -57,18 +57,9 @@ public class ShiftRestController {
                         zoneResolver.resolveZone(userExternalId, cleanClientTz);
         ZoneId zoneId = zoneResult.zoneId();
 
-        try {
-            shiftService.generateShiftsForNext30days(shiftRequest, username, zoneId);
-            return ResponseEntity.ok("Turnos generados correctamente");
-        } catch (IllegalStateException ex) {
-            log.warn("Intento inválido de generación de turnos: {}", ex.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-        } catch (Exception ex) {
-            log.error("error when create shift records for shift request: " +
-                                                        shiftRequestExternalId, ex);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                    .body("Error al generar los turnos " + ex.getMessage());
-        }
+        shiftService.generateShiftsForNext30days(shiftRequest, username, zoneId);
+
+        return ResponseEntity.ok("Turnos generados correctamente");
     }
 
 

@@ -56,15 +56,21 @@ const shiftsUpdate = async () => {
     });
 
     if (!res.ok) {
-      let txt = '';
-      try { txt = await res.text(); } catch {}
-      throw new Error(txt || `Error ${res.status}`);
+      let errorMsg = 'Error en el servidor';
+      try {
+        const data = await res.json();
+        errorMsg = data.error || errorMsg;
+      } catch (e) {
+        // Salvaguarda para fallas de red
+        try { errorMsg = await res.text(); } catch {}
+      }
+      throw new Error(errorMsg);
     }
 
     displayAlert(alertSuccess, 'Turnos generados correctamente ✅', 1000);
   } catch (err) {
     console.error('save error', err);
-    displayAlert(alertError, "Error al guardar. " + err.message, 2000);
+    displayAlert(alertError, "Error: " + err.message, 2000);
   }
 
 }
