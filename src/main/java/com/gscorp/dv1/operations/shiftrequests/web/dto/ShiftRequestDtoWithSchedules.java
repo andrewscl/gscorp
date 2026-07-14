@@ -3,6 +3,7 @@ package com.gscorp.dv1.operations.shiftrequests.web.dto;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.enums.ShiftRequestType;
@@ -10,6 +11,7 @@ import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
 
 public record ShiftRequestDtoWithSchedules(
     Long id,
+    UUID externalId,
     String code,
     SiteDto site,
     Long clientAccountId,
@@ -25,6 +27,7 @@ public record ShiftRequestDtoWithSchedules(
         if (sr == null) return null;
         return new ShiftRequestDtoWithSchedules(
             sr.getId(),
+            sr.getExternalId(),
             sr.getCode(),
             sr.getSite() == null ? null : new SiteDto(sr.getSite().getId(), sr.getSite().getName()),
             sr.getClientAccountId(),
