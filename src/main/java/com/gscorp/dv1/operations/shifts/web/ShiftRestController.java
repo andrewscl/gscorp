@@ -35,7 +35,7 @@ public class ShiftRestController {
     private final ZoneResolver zoneResolver;
 
 
-    @PostMapping("/create/{shiftRequestExternalId}/{clientTz}")
+    @PostMapping("/create/{shiftRequestExternalId}")
     public ResponseEntity<?> createShifts(
         @AuthenticationPrincipal SecurityUser securityUser,
         @PathVariable("shiftRequestExternalId") UUID shiftRequestExternalId,

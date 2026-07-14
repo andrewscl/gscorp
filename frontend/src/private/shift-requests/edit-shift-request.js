@@ -50,7 +50,7 @@ async function onSaveClick(e) {
 
 const shiftsUpdate = async () => {
   try {
-    const url = `/api/shifts/create/${externalId}?${encodeURIComponent(clientTz)}`;
+    const url = `/api/shifts/create/${externalId}?clientTz=${encodeURIComponent(clientTz)}`;
     const res = await fetchWithAuth(url, {
       method: 'POST'
     });
