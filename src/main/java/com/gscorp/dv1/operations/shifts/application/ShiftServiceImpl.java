@@ -51,6 +51,9 @@ public class ShiftServiceImpl implements ShiftService {
 
     @Transactional
     public void generateShiftsForNext30days(ShiftRequest shiftRequest, String username, ZoneId zone) {
+        if(shiftRequest.getStatus() != ShiftRequestStatus.APPROVED) {
+            throw new IllegalStateException("La solicitud debe estar aprobada para poder generar turnos.");
+        }
         LocalDate start = LocalDate.now();
         Optional <Shift> lastGeneratedShift = shiftRepository
             .findFirstByShiftRequestExternalIdOrderByShiftDateDesc(shiftRequest.getExternalId());

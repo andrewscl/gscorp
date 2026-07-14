@@ -52,9 +52,7 @@ const shiftsUpdate = async () => {
   try {
     const url = `/api/shifts/create/${externalId}/${encodeURIComponent(clientTz)}`;
     const res = await fetchWithAuth(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      method: 'POST'
     });
 
     if (!res.ok) {
