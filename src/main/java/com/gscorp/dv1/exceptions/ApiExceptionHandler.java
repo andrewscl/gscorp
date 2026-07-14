@@ -1,14 +1,14 @@
 package com.gscorp.dv1.exceptions;
 
 import java.util.Collections;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import com.gscorp.dv1.exceptions.dto.ApiErrorResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,14 +39,17 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(IllegalStateException.class)
-    public ResponseEntity<ApiErrorResponse> handleIllegalState(IllegalStateException ex) {
+    public ResponseEntity<?> handleIllegalState(IllegalStateException ex) {
         log.warn("IllegalStateException: {}", ex.getMessage());
+        Map<String, String> errorBody = Map.of("error", ex.getMessage());
+        return new ResponseEntity<>( errorBody, HttpStatus.NOT_FOUND );
+    }
 
-        ApiErrorResponse errorBody = new ApiErrorResponse(ex.getMessage());
-
-        return ResponseEntity
-                    .badRequest()
-                    .body(errorBody);
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<?> handleResourceNotFound(ResourceNotFoundException ex) {
+        log.warn("Excepción de recurso no encontrado capturada: {}", ex.getMessage());
+        Map<String, String> errorBody = Map.of("error", ex.getMessage());
+        return new ResponseEntity<>( errorBody, HttpStatus.NOT_FOUND );
     }
 
 }
