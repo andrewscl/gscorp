@@ -242,7 +242,7 @@ p {
   padding: 1rem;
   flex: 1;
   width: 50%;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 .edit-shift-request .panel-container .panel-aside .schedules-table, .edit-shift-request .panel-container .panel-aside .shifts-table {
   background-color: #ffffff;

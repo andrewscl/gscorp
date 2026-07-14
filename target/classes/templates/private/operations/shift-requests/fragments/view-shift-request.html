@@ -48,6 +48,7 @@
       </div>
 
       <div class="panel-aside">
+
         <div class="schedules-table">
           <div class="title-row">
             <div class="title-left">
@@ -60,7 +61,7 @@
           <!-- Si hay schedules, mostramos una tabla -->
           <div class="schedules-list" 
                 th:if="${shiftRequest.schedules != null and !#lists.isEmpty(shiftRequest.schedules)}">
-            <table class="table schedules-table">
+            <table class="table">
               <thead>
                 <tr>
                   <th>Día(s)</th>
@@ -80,6 +81,34 @@
               </tbody>
             </table>
           </div>
+        </div>
+
+        <div class="shifts-table">
+            <div class="title-row">
+              <div class="title-left">
+                <span class="title-text">Turnos</span>
+              </div>
+            <button id="btnShiftsUpdate" class="btn btn-shifts-update">Actualizar turnos</button>
+            </div>
+            <div class="shifts-list" 
+                  th:if="${shifts != null and #lists.isEmpty(shifts)}">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Fecha</th>
+                    <th>Inicio</th>
+                    <th>Término</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr th:each="s : ${shifts}">
+                    <td th:text="${s.shiftDate != null ? s.shiftDate : '—'}">13-07-2026</td>
+                    <td th:text="${s.startTs != null ? #temporals.format(s.startTs, 'HH:mm') : '—'}">20:30</td>
+                    <td th:text="${s.endTs != null ? #temporals.format(s.endTs, 'HH:mm') : '—'}">20:30</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
         </div>
 
       </div>

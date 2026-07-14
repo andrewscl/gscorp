@@ -18,7 +18,7 @@
       padding: 1rem;
       flex: 1;
       width: 50%;
-      .schedules-table {
+      .schedules-table, .shifts-table {
         background-color: $background-white;
         border-radius: $radius-lg;
         border: 1px solid $border-color;
@@ -63,7 +63,7 @@
             }
           }
         }
-        .schedules-list {
+        .schedules-list, .shifts-list {
           flex-grow: 1;
           box-shadow: $shadow-sm;
           -webkit-overflow-scrolling: touch;

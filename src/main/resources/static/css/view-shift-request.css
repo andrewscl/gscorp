@@ -243,7 +243,7 @@ p {
   flex: 1;
   width: 50%;
 }
-.view-shift-request .panel-container .panel-aside .schedules-table {
+.view-shift-request .panel-container .panel-aside .schedules-table, .view-shift-request .panel-container .panel-aside .shifts-table {
   background-color: #ffffff;
   border-radius: 1rem;
   border: 1px solid #e2e8f0;
@@ -256,18 +256,18 @@ p {
   z-index: 30;
   width: 100%;
 }
-.view-shift-request .panel-container .panel-aside .schedules-table .title-row {
+.view-shift-request .panel-container .panel-aside .schedules-table .title-row, .view-shift-request .panel-container .panel-aside .shifts-table .title-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid #e2e8f0;
   padding-bottom: 0.75rem;
 }
-.view-shift-request .panel-container .panel-aside .schedules-table .title-row .title-left {
+.view-shift-request .panel-container .panel-aside .schedules-table .title-row .title-left, .view-shift-request .panel-container .panel-aside .shifts-table .title-row .title-left {
   display: flex;
   align-items: center;
 }
-.view-shift-request .panel-container .panel-aside .schedules-table .title-row .title-left .title-text {
+.view-shift-request .panel-container .panel-aside .schedules-table .title-row .title-left .title-text, .view-shift-request .panel-container .panel-aside .shifts-table .title-row .title-left .title-text {
   font-family: "Montserrat", sans-serif;
   font-size: 1.1rem;
   font-weight: 600;
@@ -275,7 +275,7 @@ p {
   color: #475569;
   margin: 0;
 }
-.view-shift-request .panel-container .panel-aside .schedules-table .title-row .count {
+.view-shift-request .panel-container .panel-aside .schedules-table .title-row .count, .view-shift-request .panel-container .panel-aside .shifts-table .title-row .count {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -291,14 +291,14 @@ p {
   box-shadow: 0 1px 0 rgba(15, 23, 42, 0.03);
 }
 @media (max-width: 768px) {
-  .view-shift-request .panel-container .panel-aside .schedules-table .title-row .title-left {
+  .view-shift-request .panel-container .panel-aside .schedules-table .title-row .title-left, .view-shift-request .panel-container .panel-aside .shifts-table .title-row .title-left {
     font-family: "Montserrat", sans-serif;
     font-size: 1rem;
     font-weight: 600;
     letter-spacing: 0.02em;
   }
 }
-.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list, .view-shift-request .panel-container .panel-aside .schedules-table .shifts-list, .view-shift-request .panel-container .panel-aside .shifts-table .schedules-list, .view-shift-request .panel-container .panel-aside .shifts-table .shifts-list {
   flex-grow: 1;
   box-shadow: 0 0.5rem 1.1rem rgba(15, 23, 42, 0.04);
   -webkit-overflow-scrolling: touch;
@@ -308,7 +308,7 @@ p {
   margin-top: 0;
   width: 100%;
 }
-.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table, .view-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table, .view-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table, .view-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
@@ -319,7 +319,7 @@ p {
   color: #334155;
   table-layout: fixed;
 }
-.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th, .view-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table thead tr th, .view-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table thead tr th, .view-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table thead tr th {
   position: sticky;
   top: 0;
   z-index: 20;
@@ -336,40 +336,40 @@ p {
   color: #64748b;
   white-space: nowrap;
 }
-.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(1) {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(1), .view-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table thead tr th:nth-child(1), .view-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table thead tr th:nth-child(1), .view-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table thead tr th:nth-child(1) {
   width: 40%;
 }
-.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(3) {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(3), .view-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table thead tr th:nth-child(3), .view-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table thead tr th:nth-child(3), .view-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table thead tr th:nth-child(3) {
   width: 20%;
 }
-.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(2) {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(2), .view-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table thead tr th:nth-child(2), .view-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table thead tr th:nth-child(2), .view-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table thead tr th:nth-child(2) {
   width: 20%;
 }
-.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(4) {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(4), .view-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table thead tr th:nth-child(4), .view-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table thead tr th:nth-child(4), .view-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table thead tr th:nth-child(4) {
   width: 20%;
 }
-.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr, .view-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table tbody tr, .view-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table tbody tr, .view-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table tbody tr {
   border-bottom: 0.0625rem solid #e2e8f0;
   transition: background 0.12s ease;
 }
-.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr:hover {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr:hover, .view-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table tbody tr:hover, .view-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table tbody tr:hover, .view-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table tbody tr:hover {
   background-color: rgba(59, 130, 246, 0.02);
 }
-.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td, .view-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table tbody tr td, .view-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table tbody tr td, .view-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table tbody tr td {
   padding: 0.65rem 0.85rem;
   vertical-align: middle;
   white-space: nowrap;
 }
-.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(1) {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(1), .view-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table tbody tr td:nth-child(1), .view-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table tbody tr td:nth-child(1), .view-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table tbody tr td:nth-child(1) {
   width: 40%;
 }
-.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(3) {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(3), .view-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table tbody tr td:nth-child(3), .view-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table tbody tr td:nth-child(3), .view-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table tbody tr td:nth-child(3) {
   width: 20%;
 }
-.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(2) {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(2), .view-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table tbody tr td:nth-child(2), .view-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table tbody tr td:nth-child(2), .view-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table tbody tr td:nth-child(2) {
   width: 20%;
 }
-.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(4) {
+.view-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(4), .view-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table tbody tr td:nth-child(4), .view-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table tbody tr td:nth-child(4), .view-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table tbody tr td:nth-child(4) {
   width: 20%;
 }
 .view-shift-request .footer-actions {
