@@ -57,6 +57,10 @@ const shiftsUpdate = async () => {
 
     if (!res.ok) {
       let errorMsg = 'Error en el servidor';
+
+    // 🚀 Obtenemos el texto crudo para ver qué está viajando realmente
+    const rawText = await res.text();
+    console.log("CONTENIDO EXACTO DEL ERROR:", rawText);
       try {
         const data = await res.json();
         errorMsg = data.error || errorMsg;

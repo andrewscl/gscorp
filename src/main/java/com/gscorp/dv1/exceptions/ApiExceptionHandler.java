@@ -3,7 +3,6 @@ package com.gscorp.dv1.exceptions;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
