@@ -58,11 +58,15 @@ const shiftsUpdate = async () => {
     if (!res.ok) {
       let errorMsg = 'Error en el servidor';
       try {
-        const rawText = await res.text();
-        const data = JSON.parse(rawText);
+        const data = await res.json();
         errorMsg = data.error || errorMsg;
       } catch (e) {
-        errorMsg = `Error (${res.status})`;
+        try {
+          const rawText = await res.text();
+          console.error("El servidor no envió JSON. Envió esto:", rawText);
+        } catch (errText) {
+          errorMsg = `Error (${res.status})`;
+        }
       }
       throw new Error(errorMsg);
     }

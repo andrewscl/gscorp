@@ -1,7 +1,6 @@
-package com.gscorp.dv1.config;
+package com.gscorp.dv1.exceptions;
 
 import java.util.Collections;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.http.MediaType;
@@ -10,12 +9,13 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.gscorp.dv1.exceptions.dto.ApiErrorResponse;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestControllerAdvice
 public class ApiExceptionHandler {
-
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleValidation(MethodArgumentNotValidException ex) {
@@ -40,14 +40,13 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(IllegalStateException.class)
-    public ResponseEntity<?> handleIllegalState(IllegalStateException ex) {
+    public ResponseEntity<ApiErrorResponse> handleIllegalState(IllegalStateException ex) {
         log.warn("IllegalStateException: {}", ex.getMessage());
 
-        Map<String, String> errorBody = Map.of("error", ex.getMessage());
+        ApiErrorResponse errorBody = new ApiErrorResponse(ex.getMessage());
 
         return ResponseEntity
                     .badRequest()
-                    .contentType(MediaType.APPLICATION_JSON)
                     .body(errorBody);
     }
 
