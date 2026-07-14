@@ -609,6 +609,7 @@ p {
   bottom: 5rem;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 999;
 }
 .edit-patrol-card .alert-container .alert {
   display: flex;
