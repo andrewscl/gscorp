@@ -8,6 +8,7 @@ import java.time.format.DateTimeParseException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -39,9 +40,9 @@ import com.gscorp.dv1.operations.shiftrequests.infrastructure.projections.ShiftR
 import com.gscorp.dv1.operations.shiftrequests.web.dto.CreateShiftRequest;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestDto;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestDtoWithSchedules;
+import com.gscorp.dv1.operations.shiftrequests.web.dto.UpdateShiftRequestDto;
 import com.gscorp.dv1.operations.sites.application.SiteService;
 import com.gscorp.dv1.operations.sites.infrastructure.Site;
-import com.gscorp.dv1.operations.sites.infrastructure.SiteRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,7 +53,6 @@ import lombok.extern.slf4j.Slf4j;
 public class ShiftRequestServiceImpl implements ShiftRequestService {
 
     private final ShiftRequestRepository shiftRequestRepository;
-    private final SiteRepository siteRepository;
     private final ClientService clientService;
     private final ClientAccountService clientAccountService;
     private final SiteService siteService;
@@ -77,31 +77,31 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
 
 
     @Transactional
-    public Optional<ShiftRequestDtoWithSchedules> update(Long id, CreateShiftRequest req) {
-        ShiftRequest shiftRequest = shiftRequestRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("ShiftRequest not found"));
+    public ShiftRequestDtoWithSchedules update(
+                UUID externalId,
+                UpdateShiftRequestDto req) {
 
-        // Mapear los campos del request a la entidad
-        Site siteEntity = (req.siteId() != null) 
-            ? siteRepository.findById(req.siteId())
-                .orElseThrow(() -> new IllegalArgumentException("Site not found"))
-            : null ;
-        shiftRequest.setSite(siteEntity);
+        ShiftRequest shiftRequest =
+                        shiftRequestRepository.findByExternalId(externalId)
+            .orElseThrow(() ->
+                    new ResponseStatusException(HttpStatus.NOT_FOUND, "ShiftRequest not found"));
 
-        if(req.type() != null) {
-            shiftRequest.setType(req.type());
+        if (req.description() != null && !Objects.equals(shiftRequest.getDescription(), req.description())){
+            shiftRequest.setDescription(req.description());
         }
 
-        shiftRequest.setClientAccountId(req.accountId());
-        shiftRequest.setStartDate(req.startDate());
-        shiftRequest.setEndDate(req.endDate());
-        shiftRequest.setDescription(req.description());
+        // Validar y cambiar fechas únicamente si el usuario las modificó en el calendario
+        if (!shiftRequest.getStartDate().equals(req.startDate()) || !shiftRequest.getEndDate().equals(req.endDate())) {
+            shiftRequest.setStartDate(req.startDate());
+            shiftRequest.setEndDate(req.endDate());
+        }
 
-        //Definir status
-        shiftRequest.setStatus(ShiftRequestStatus.REQUESTED);
+        if (!shiftRequest.getStatus().equals(req.status())) {
+            shiftRequest.setStatus(req.status());
+        }
 
         ShiftRequest saved = shiftRequestRepository.save(shiftRequest);
-        return Optional.ofNullable(ShiftRequestDtoWithSchedules.fromEntity(saved));
+        return ShiftRequestDtoWithSchedules.fromEntity(saved);
     }
 
 
@@ -214,21 +214,23 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
 
 
     @Transactional(readOnly = true)
-    public ShiftRequestDtoWithSchedules getDtoIfOwned(Long shiftRequestId, UUID userExternalId) {
+    public ShiftRequestDtoWithSchedules getAllowedShiftRequestByExternalId(
+                                UUID userExternalId,
+                                UUID shiftRequestExternalId) {
 
     if (userExternalId == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
 
     List<Long> allowedClientIds = clientService.getClientIdsByUserExternalId(userExternalId);
     if (allowedClientIds == null || allowedClientIds.isEmpty()) {
-        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No autorizado para ver esta solicitud");
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Solicitud no encontrada o no autorizado.");
     }
 
-    ShiftRequest enriched = shiftRequestRepository
-            .findByIdAndSiteProjectClientIdInFetchSiteAndSchedules(shiftRequestId, allowedClientIds)
+    ShiftRequest shiftRequest = shiftRequestRepository
+            .findByExternalIdAndAllowedClientIds(shiftRequestExternalId, allowedClientIds)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Solicitud no encontrada o no autorizada"));
 
         // mapear a DTO usando el fromEntity que ya existe
-        return ShiftRequestDtoWithSchedules.fromEntity(enriched);
+        return ShiftRequestDtoWithSchedules.fromEntity(shiftRequest);
     }
 
      /**

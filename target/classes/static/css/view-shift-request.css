@@ -222,6 +222,7 @@ p {
   letter-spacing: 0.02em;
   color: #1f2937;
   min-height: 80px;
+  padding: 0.4rem 0.75rem;
 }
 .view-shift-request .panel-container .panel-main .panel-body .form-row {
   display: flex;

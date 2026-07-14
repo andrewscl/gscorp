@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.TreeMap;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -16,6 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,8 +41,10 @@ import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestSchedu
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.projections.ShiftRequestScheduleProjection;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.CreateShiftRequest;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestDtoWithSchedules;
+import com.gscorp.dv1.operations.shiftrequests.web.dto.UpdateShiftRequestDto;
 import com.gscorp.dv1.users.application.UserService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -84,16 +86,21 @@ public class ShiftRequestRestController {
 
 
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ShiftRequestDtoWithSchedules> editShiftRequest(
-        @PathVariable Long id,
-        @jakarta.validation.Valid @RequestBody CreateShiftRequest req
+    @PutMapping("/{shiftRequestExternalId}")
+    public ResponseEntity<?> updateShiftRequest(
+        @PathVariable UUID shiftRequestExternalId,
+        @Valid @RequestBody UpdateShiftRequestDto req,
+        @AuthenticationPrincipal SecurityUser securityUser
     ) {
-        Optional<ShiftRequestDtoWithSchedules> updatedDtoOpt = shiftRequestService.update(id, req);
+        if (securityUser == null) {
+            log.warn("Intento de acceso no autenticado");
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED, "Usuario no autenticado.");
+        }
+        ShiftRequestDtoWithSchedules updatedDto =
+                        shiftRequestService.update(shiftRequestExternalId, req);
 
-        return updatedDtoOpt
-            .map(ResponseEntity::ok)
-            .orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok(updatedDto);
     }
 
 

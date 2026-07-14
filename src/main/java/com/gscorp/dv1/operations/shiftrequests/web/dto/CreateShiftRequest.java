@@ -19,7 +19,8 @@ public record CreateShiftRequest(
 
     Long accountId,
 
-    @NotNull(message = "startDate es obligatorio") LocalDate startDate,
+    @NotNull(message = "startDate es obligatorio")
+    LocalDate startDate,
     LocalDate endDate,
 
     String description,

@@ -14,12 +14,17 @@ import com.gscorp.dv1.enums.ShiftRequestType;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.CreateShiftRequest;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestDto;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestDtoWithSchedules;
+import com.gscorp.dv1.operations.shiftrequests.web.dto.UpdateShiftRequestDto;
 
 public interface ShiftRequestService {
+
     List<ShiftRequestDtoWithSchedules> findAll();
+
     Optional<ShiftRequestDtoWithSchedules> findById(Long id);
-    Optional<ShiftRequestDtoWithSchedules> update(Long id, 
-            CreateShiftRequest createShiftRequestDto);
+
+    ShiftRequestDtoWithSchedules update(
+                UUID externalId, 
+                UpdateShiftRequestDto req);
 
     /**
      * Devuelve ShiftRequestDto filtrados por clientIds (los DTOs deben contener
@@ -40,10 +45,10 @@ public interface ShiftRequestService {
      */
     ShiftRequestDtoWithSchedules createShiftRequestForPrincipal(CreateShiftRequest req, Authentication authentication);
 
-    /**
-     * Devuelve el DTO si existe y pertenece a alguno de los clients del usuario.
-     */
-    ShiftRequestDtoWithSchedules getDtoIfOwned(Long shiftRequestId, UUID userExternalId);
+
+    ShiftRequestDtoWithSchedules getAllowedShiftRequestByExternalId(
+                                UUID userExternalId,
+                                UUID shiftRequestExternalId);
 
 
     List<ShiftRequestDto> findByUserIdAndDateBetween(

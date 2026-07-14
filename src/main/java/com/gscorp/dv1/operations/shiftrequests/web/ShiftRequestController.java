@@ -81,9 +81,9 @@ public class ShiftRequestController {
         return "private/operations/shift-requests/views/create-shift-request-view";
     }
 
-    @GetMapping("/show/{id}")
+    @GetMapping("/show/{shiftRequestExternalId}")
     public String showShiftRequest (
-                @PathVariable Long id,
+                @PathVariable UUID shiftRequestExternalId,
                 Model model,
                 @AuthenticationPrincipal SecurityUser securityUser){
 
@@ -92,17 +92,18 @@ public class ShiftRequestController {
 
         try {
             ShiftRequestDtoWithSchedules shiftRequestDto =
-                            shiftRequestService.getDtoIfOwned(id, externalId);
+                            shiftRequestService.getAllowedShiftRequestByExternalId(externalId, shiftRequestExternalId);
             model.addAttribute("shiftRequest", shiftRequestDto);
             return "private/operations/shift-requests/fragments/view-shift-request";
         } catch (Exception e) {
+            log.error("Error al intentar cargar la vista de visualización de la solicitud {}", shiftRequestExternalId, e);
             return "redirect:/private/shift-requests/table-view";
         }
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/edit/{shiftRequestExternalId}")
     public String editShiftRequest (
-                        @PathVariable Long id,
+                        @PathVariable UUID shiftRequestExternalId,
                         Model model,
                         @AuthenticationPrincipal SecurityUser securityUser){
 
@@ -111,11 +112,12 @@ public class ShiftRequestController {
                             
         try {
             ShiftRequestDtoWithSchedules shiftRequestDto =
-                                shiftRequestService.getDtoIfOwned(id, externalId);
+                                shiftRequestService.getAllowedShiftRequestByExternalId(externalId, shiftRequestExternalId);
             model.addAttribute("shiftRequest", shiftRequestDto);
             model.addAttribute("shiftRequestStatuses", ShiftRequestStatus.values());
             return "private/operations/shift-requests/fragments/edit-shift-request";
         } catch (Exception e) {
+            log.error("Error al intentar cargar la vista de edición de la solicitud {}", shiftRequestExternalId, e);
             return "redirect:/private/shift-requests/table-view";
         }
     }

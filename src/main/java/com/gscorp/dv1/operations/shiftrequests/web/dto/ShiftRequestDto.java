@@ -2,6 +2,7 @@ package com.gscorp.dv1.operations.shiftrequests.web.dto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.enums.ShiftRequestType;
@@ -9,6 +10,7 @@ import com.gscorp.dv1.operations.shiftrequests.infrastructure.projections.ShiftR
 
 public record ShiftRequestDto(
         Long id,
+        UUID externalId,
         String code,
         Long siteId,
         String siteName,
@@ -26,6 +28,7 @@ public record ShiftRequestDto(
             if (sr == null) return null;
             return new ShiftRequestDto(
                 sr.getId(),
+                sr.getExternalId(),
                 sr.getCode(),
                 sr.getSiteId(),
                 sr.getSiteName(),

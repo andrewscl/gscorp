@@ -8,13 +8,13 @@
 
           <td class="actions">
             <button type="button" class="btn btn-view"
-                    th:attr="data-path=@{/private/shift-requests/show/{id}(id=${r.id})}">
+                    th:attr="data-path=@{/private/shift-requests/show/{shiftRequestExternalId}(shiftRequestExternalId=${r.externalId})}">
               Ver
             </button>
 
             <button type="button" class="btn btn-edit"
-                    th:attr="data-path=@{/private/shift-requests/edit/{id}(id=${r.id})}"
-                    th:if="${#authorization.expression('hasRole(''ANALYST'') or hasRole(''ADMINISTRATOR'')')}">
+                    th:attr="data-path=@{/private/shift-requests/edit/{shiftRequestExternalId}(shiftRequestExternalId=${r.externalId})}"
+                    th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
               Editar
             </button>
           </td>

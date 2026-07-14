@@ -36,6 +36,7 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
            "order by sr.code")
        List<ShiftRequest> findBySiteClientIdInFetchSiteAndSchedules(@Param("clientIds") Collection<Long> clientIds);
 
+
     // Cargar todos (admin)
     @Query("select distinct sr " +
            "from ShiftRequest sr " +
@@ -63,6 +64,19 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
        """)
        Optional<ShiftRequest> findByIdAndSiteProjectClientIdInFetchSiteAndSchedules(@Param("id") Long id,
                                                                              @Param("clientIds") Collection<Long> clientIds);
+
+       @Query ("""
+              SELECT sr
+              FROM ShiftRequest sr
+              JOIN FETCH sr.site s
+              JOIN s.project p
+              LEFT JOIN FETCH sr.schedules sch
+              WHERE sr.externalId = :externalId
+              AND p.client.id IN :clientIds
+       """)
+       Optional<ShiftRequest> findByExternalIdAndAllowedClientIds(
+                                   @Param("externalId") UUID externalId,
+                                   @Param("clientIds") Collection<Long> clientIds);
 
 
        @Query("""
