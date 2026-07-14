@@ -8,8 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -19,6 +19,7 @@ import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestRepository;
 import com.gscorp.dv1.operations.shifts.application.ShiftService;
+import com.gscorp.dv1.operations.shifts.web.dto.CreateShift;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -39,21 +40,23 @@ public class ShiftRestController {
     public ResponseEntity<?> createShifts(
         @AuthenticationPrincipal SecurityUser securityUser,
         @PathVariable("shiftRequestExternalId") UUID shiftRequestExternalId,
-        @RequestParam("clientTz") String clientTz
+        @RequestBody CreateShift createShift
     ){
         if (securityUser == null) {
             log.warn("Intento de acceso no autenticado");
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado.");
+            throw new
+                ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado.");
         }
         String username = securityUser.getUser().getUsername();
         UUID userExternalId = securityUser.getUser().getExternalId();
         ShiftRequest shiftRequest = shiftRequestRepo.findByExternalId(shiftRequestExternalId)
                 .orElseThrow(() ->
                     new EntityNotFoundException(
-                            "No shift request found with external ID: " + shiftRequestExternalId)
+                        "No shift request found with external ID: " + shiftRequestExternalId)
                 );
         String cleanClientTz =
-            (clientTz == null || clientTz.isBlank()) ? null : clientTz.trim();
+            (createShift.clientTz() == null ||
+                        createShift.clientTz().isBlank()) ? null : createShift.clientTz().trim();
         ZoneResolutionResult zoneResult =
                         zoneResolver.resolveZone(userExternalId, cleanClientTz);
         ZoneId zoneId = zoneResult.zoneId();

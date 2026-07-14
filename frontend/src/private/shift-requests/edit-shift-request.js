@@ -50,9 +50,14 @@ async function onSaveClick(e) {
 
 const shiftsUpdate = async () => {
   try {
-    const url = `/api/shifts/create/${externalId}?clientTz=${encodeURIComponent(clientTz)}`;
+    const url = `/api/shifts/create/${externalId}`;
+
     const res = await fetchWithAuth(url, {
-      method: 'POST'
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(
+        { clientTz: clientTz}
+      )
     });
 
     if (!res.ok) {
@@ -60,7 +65,7 @@ const shiftsUpdate = async () => {
 
       try {
         const data = await res.json();
-        errorMsg = data.error || data.detail || data.title || errorMsg;
+        errorMsg = data.error;
       } catch (e) {
         try {
           const rawText = await res.text();
@@ -70,7 +75,8 @@ const shiftsUpdate = async () => {
       throw new Error(errorMsg);
     }
 
-    displayAlert(alertSuccess, 'Turnos generados correctamente ✅', 1000);
+    displayAlert(alertSuccess,
+                'Turnos generados correctamente ✅', 1000);
   } catch (err) {
     console.error('save error', err);
     displayAlert(alertError, "Error: " + err.message, 2000);

@@ -1,10 +1,8 @@
 package com.gscorp.dv1.exceptions;
 
 import java.util.Collections;
-import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -36,20 +34,6 @@ public class ApiExceptionHandler {
     public ResponseEntity<?> handleAll(Exception ex) {
         log.error("Unhandled exception", ex);
         return ResponseEntity.status(500).body(Collections.singletonMap("error", "internal_server_error"));
-    }
-
-    @ExceptionHandler(IllegalStateException.class)
-    public ResponseEntity<?> handleIllegalState(IllegalStateException ex) {
-        log.warn("IllegalStateException: {}", ex.getMessage());
-        Map<String, String> errorBody = Map.of("error", ex.getMessage());
-        return new ResponseEntity<>( errorBody, HttpStatus.NOT_FOUND );
-    }
-
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<?> handleResourceNotFound(ResourceNotFoundException ex) {
-        log.warn("Excepción de recurso no encontrado capturada: {}", ex.getMessage());
-        Map<String, String> errorBody = Map.of("error", ex.getMessage());
-        return new ResponseEntity<>( errorBody, HttpStatus.NOT_FOUND );
     }
 
 }
