@@ -50,7 +50,6 @@ public class ShiftServiceImpl implements ShiftService {
     }
 
 
-    @Transactional
     public void generateShiftsForNext30days(ShiftRequest shiftRequest, String username, ZoneId zone) {
         if(shiftRequest.getStatus() != ShiftRequestStatus.APPROVED) {
             throw new BusinessRuleException("La solicitud debe estar aprobada para poder generar turnos.");
@@ -67,11 +66,16 @@ public class ShiftServiceImpl implements ShiftService {
         List<ShiftRequestScheduleProjection> schedules =
                 shiftRequestScheduleRepository.findByShiftRequestId(shiftRequest.getId());
         if(schedules.isEmpty()) return;
-        List<Shift> shiftsToSave = new ArrayList<>();
+        executeGenerateShiftsForNext30days(shiftRequest, username, zone, start, end, schedules);
+    }
+
+    @Transactional
+    protected void executeGenerateShiftsForNext30days(
+                    ShiftRequest shiftRequest, String username, ZoneId zone, LocalDate start, LocalDate end, List<ShiftRequestScheduleProjection> schedules) {
+                List<Shift> shiftsToSave = new ArrayList<>();
         for (LocalDate date = start; !date.isAfter(end); date = date.plusDays(1)) {
             for (ShiftRequestScheduleProjection schedule : schedules) {
                 if (adheresSchedule(schedule, date)) {
-                    // Combinar la fecha del bucle con las horas del horario.
                     LocalDateTime startDateTime = date.atTime(schedule.getStartTime());
                     LocalDateTime endDateTime = date.atTime(schedule.getEndTime());
                     // Gestión de turno nocturnos
@@ -98,6 +102,8 @@ public class ShiftServiceImpl implements ShiftService {
         }
         if(!shiftsToSave.isEmpty()) shiftRepository.saveAll(shiftsToSave);
     }
+
+
 
 
     //Helper method to know if adheresSchedule is true for the given date
