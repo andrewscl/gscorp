@@ -1,6 +1,7 @@
 package com.gscorp.dv1.operations.shifts.web;
 
 import java.time.ZoneId;
+import java.util.Collections;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,6 @@ import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.enums.ShiftRequestStatus;
-import com.gscorp.dv1.exceptions.BusinessRuleException;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestRepository;
 import com.gscorp.dv1.operations.shifts.application.ShiftService;
@@ -57,8 +57,9 @@ public class ShiftRestController {
                         "No shift request found with external ID: " + shiftRequestExternalId));
 
         if(shiftRequest.getStatus() != ShiftRequestStatus.APPROVED) {
-            throw new
-                BusinessRuleException("La solicitud debe estar aprobada para poder generar turnos.");
+            return ResponseEntity
+                    .status(400)
+                    .body(Collections.singletonMap("error", "La solicitud debe estar aprobada para poder generar turnos."));
         }
 
         String cleanClientTz = (createShift.clientTz() == null ||
