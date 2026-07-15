@@ -13,9 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class ShiftAutomationScheduler {
 
-    private ShiftService shiftService;
+    private final ShiftService shiftService;
 
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 30 10 * * ?", zone = "America/Santiago")
     public void runDailyShiftProjection() {
 
         log.info("Iniciando tarea programada: Proyección de turnos a 30 días...");
