@@ -27,7 +27,8 @@ public interface ShiftService {
 
     void processApprovedShiftRequests();
 
-    Page<ShiftDto> getLastFiveShiftsByShiftRequest(
-                            UUID shiftRequestExternalId);
+    Page<ShiftDto> getLastShiftsByShiftRequest(
+                            UUID shiftRequestExternalId,
+                            int ShiftsToShow);
 
 }

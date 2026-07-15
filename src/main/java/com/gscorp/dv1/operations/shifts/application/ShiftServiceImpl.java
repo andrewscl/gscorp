@@ -141,14 +141,15 @@ public class ShiftServiceImpl implements ShiftService {
 
 
     @Transactional(readOnly = true)
-    public Page<ShiftDto> getLastFiveShiftsByShiftRequest(
-                                    UUID shiftRequestExternalId) {
+    public Page<ShiftDto> getLastShiftsByShiftRequest(
+                                    UUID shiftRequestExternalId,
+                                    int shiftsToShow) {
         
         Pageable pageable =
-                        PageRequest.of(0, 5 );
+                        PageRequest.of(0, shiftsToShow);
 
         Page<ShiftProjection> projections =
-                    shiftRepository.findLastFiveByShiftRequestExternalId(
+                    shiftRepository.findLastByShiftRequestExternalId(
                                             shiftRequestExternalId, pageable);
 
         return projections.map(ShiftDto::fromProjection);

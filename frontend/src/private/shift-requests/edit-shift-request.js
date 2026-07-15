@@ -39,7 +39,7 @@ async function onSaveClick(e) {
       } catch { throw new Error(txt || `Error ${res.status}`); }
     }
 
-    displayAlert(alertSuccess, 'Cambios guardados ✅', 1000);
+    displayAlert(alertSuccess, 'Cambios guardados', 1000);
     setTimeout(() => navigateTo('/private/shift-requests/table-view'), 1000);
   } catch (err) {
     console.error('save error', err);
@@ -64,7 +64,6 @@ const shiftsUpdate = async () => {
 
     if (!res.ok) {
       let errorMsg = 'Error en el servidor';
-
       try {
         const rawText = await res.clone().text();
         console.log("Cuerpo del error en bruto:", rawText);
@@ -80,12 +79,51 @@ const shiftsUpdate = async () => {
     }
 
     displayAlert(alertSuccess,
-                'Turnos generados correctamente ✅', 1000);
+                'Turnos generados correctamente', 1500);
+    await loadLastShiftsTable();
+
   } catch (err) {
     console.error('save error', err);
-    displayAlert(alertError, "Error: " + err.message, 2000);
+    displayAlert(alertError, err.message, 2000);
   }
+}
 
+const loadLastShiftsTable = async () => {
+    const shiftsToShow = 5;
+    try {
+        const response = await fetchWithAuth(`/api/shifts/last-shifts/${externalId}/${shiftsToShow}`, {
+          method: 'GET',
+          headers: { 'Accept': 'application/json' },
+        });
+
+        if (!response.ok) throw new Error("No se pudieron cargar los turnos");
+
+        const pageData = await response.json();
+        const shifts = pageData.content || [];
+
+        const tbody = qs('#shifts-table-body'); 
+        if (!tbody) return;
+
+        tbody.innerHTML = ''; // Limpiamos la tabla
+        if (shifts.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="4" class="text-center text-muted">Sin turnos generados</td></tr>`;
+            return;
+        }
+
+        shifts.forEach(shift => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${formatDate(shift.shiftDate)}</td>
+                <td>${formatTime(shift.startTs)}</td>
+                <td>${formatTime(shift.endTs)}</td>
+                <td>-</td>
+            `;
+            tbody.appendChild(row);
+        });
+
+    } catch (err) {
+        console.error("Error al renderizar los turnos:", err);
+    }
 }
 
 

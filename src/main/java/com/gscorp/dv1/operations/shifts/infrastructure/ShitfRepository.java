@@ -42,7 +42,7 @@ public interface ShitfRepository extends JpaRepository<Shift, Long>{
         WHERE sr.externalId = :shiftRequestExternalId
     """
     )
-    Page<ShiftProjection> findLastFiveByShiftRequestExternalId(
+    Page<ShiftProjection> findLastByShiftRequestExternalId(
                 @Param("shiftRequestExternalId") UUID shiftRequestExternalId,
                 Pageable pageable
                 );

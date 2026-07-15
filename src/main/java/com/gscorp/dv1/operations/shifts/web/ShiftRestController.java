@@ -4,9 +4,11 @@ import java.time.ZoneId;
 import java.util.Collections;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +24,7 @@ import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestRepository;
 import com.gscorp.dv1.operations.shifts.application.ShiftService;
 import com.gscorp.dv1.operations.shifts.web.dto.CreateShift;
+import com.gscorp.dv1.operations.shifts.web.dto.ShiftDto;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -79,17 +82,32 @@ public class ShiftRestController {
     ){
         if (securityUser == null) {
             log.warn("Intento de acceso no autenticado");
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado.");
+            throw new
+                ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED, "Usuario no autenticado.");
         }
 
         try {
             shiftService.processApprovedShiftRequests();
-            return ResponseEntity.ok("Proceso masivo de generación de turnos iniciado/finalizado correctamente");
+            return ResponseEntity
+                .ok("Proceso masivo de generación de turnos iniciado/finalizado correctamente");
         } catch (Exception ex) {
             log.error("Error al generar masivamente los registros de turnos", ex);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body("Error al generar los turnos masivos: " + ex.getMessage());
         }
+    }
+
+    @GetMapping("/last-shifts/{shiftRequestExternalId}/{shiftsToShow}")
+    public ResponseEntity<Page<ShiftDto>> getLastShiftsByShiftRequest(
+                @AuthenticationPrincipal SecurityUser securityUser,
+                @PathVariable("shiftRequestExternalId") UUID shiftRequestExternalId,
+                @PathVariable("shiftsToShow") int shiftsToShow
+    ){
+        Page<ShiftDto> shifts = shiftService.getLastShiftsByShiftRequest(
+                                                shiftRequestExternalId, shiftsToShow);
+
+        return ResponseEntity.ok(shifts);
     }
 
 

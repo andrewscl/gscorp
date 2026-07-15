@@ -118,7 +118,7 @@ public class ShiftRequestController {
         try {
             ShiftRequestDtoWithSchedules shiftRequestDto =
                                 shiftRequestService.getAllowedShiftRequestByExternalId(externalId, shiftRequestExternalId);
-            Page<ShiftDto> shifts = shiftService.getLastFiveShiftsByShiftRequest(shiftRequestExternalId);
+            Page<ShiftDto> shifts = shiftService.getLastShiftsByShiftRequest(shiftRequestExternalId, 5);
 
             model.addAttribute("shiftRequest", shiftRequestDto);
             model.addAttribute("shiftsPage", shifts);
