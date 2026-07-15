@@ -40,6 +40,16 @@ public class ApiExceptionHandler {
                     .body(java.util.Collections.singletonMap("error", ex.getMessage()));
     }
 
+    @ExceptionHandler(BusinessRuleException.class)
+    public ResponseEntity<?> handleBusinessRule(BusinessRuleException ex) {
+        log.warn("Regla de negocio rota: {}", ex.getMessage());
+        return ResponseEntity
+            .status(400)
+            .body(Collections.singletonMap("error", ex.getMessage()));
+    }
+
+
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleAll(Exception ex) {
         log.error("Unhandled exception", ex);

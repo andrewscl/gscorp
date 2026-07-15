@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gscorp.dv1.enums.DayOfWeek;
 import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.enums.ShiftStatus;
+import com.gscorp.dv1.exceptions.BusinessRuleException;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestRepository;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestScheduleRepository;
@@ -52,7 +53,7 @@ public class ShiftServiceImpl implements ShiftService {
     @Transactional
     public void generateShiftsForNext30days(ShiftRequest shiftRequest, String username, ZoneId zone) {
         if(shiftRequest.getStatus() != ShiftRequestStatus.APPROVED) {
-            throw new IllegalStateException("La solicitud debe estar aprobada para poder generar turnos.");
+            throw new BusinessRuleException("La solicitud debe estar aprobada para poder generar turnos.");
         }
         LocalDate start = LocalDate.now();
         Optional <Shift> lastGeneratedShift = shiftRepository
