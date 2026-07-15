@@ -127,6 +127,21 @@ const loadLastShiftsTable = async () => {
 }
 
 
+// 🚀 Convierte "2026-07-15" a "15-07-2026"
+const formatDate = (dateString) => {
+    if (!dateString) return '—';
+    const [year, month, day] = dateString.split('-');
+    return `${day}-${month}-${year}`;
+};
+
+// 🚀 Extrae la hora "HH:MM" de un formato ISO/OffsetDateTime
+const formatTime = (isoString) => {
+    if (!isoString) return '—';
+    const date = new Date(isoString);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+};
+
+
 function onCancelClick(e) {
   displayAlert(alertWarning,
               'La edición del requerimiento ha sido cancelada', 1500);
