@@ -97,6 +97,8 @@ public class ShiftRequestController {
         try {
             ShiftRequestDtoWithSchedules shiftRequestDto =
                             shiftRequestService.getAllowedShiftRequestByExternalId(externalId, shiftRequestExternalId);
+            Page<ShiftDto> shifts = shiftService.getLastShiftsByShiftRequest(shiftRequestExternalId, 3);
+            model.addAttribute("shifts", shifts.getContent());
             model.addAttribute("shiftRequest", shiftRequestDto);
             return "private/operations/shift-requests/fragments/view-shift-request";
         } catch (Exception e) {
@@ -118,7 +120,7 @@ public class ShiftRequestController {
         try {
             ShiftRequestDtoWithSchedules shiftRequestDto =
                                 shiftRequestService.getAllowedShiftRequestByExternalId(externalId, shiftRequestExternalId);
-            Page<ShiftDto> shifts = shiftService.getLastShiftsByShiftRequest(shiftRequestExternalId, 5);
+            Page<ShiftDto> shifts = shiftService.getLastShiftsByShiftRequest(shiftRequestExternalId, 3);
 
             model.addAttribute("shiftRequest", shiftRequestDto);
             model.addAttribute("shiftsPage", shifts);
