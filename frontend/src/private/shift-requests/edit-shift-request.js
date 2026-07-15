@@ -89,7 +89,7 @@ const shiftsUpdate = async () => {
 }
 
 const loadLastShiftsTable = async () => {
-    const shiftsToShow = 5;
+    const shiftsToShow = 3;
     try {
         const response = await fetchWithAuth(`/api/shifts/last-shifts/${externalId}/${shiftsToShow}`, {
           method: 'GET',
