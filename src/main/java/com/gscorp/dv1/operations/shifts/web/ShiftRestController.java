@@ -16,6 +16,8 @@ import org.springframework.web.server.ResponseStatusException;
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.config.security.SecurityUser;
+import com.gscorp.dv1.enums.ShiftRequestStatus;
+import com.gscorp.dv1.exceptions.BusinessRuleException;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestRepository;
 import com.gscorp.dv1.operations.shifts.application.ShiftService;
@@ -49,16 +51,19 @@ public class ShiftRestController {
         }
         String username = securityUser.getUser().getUsername();
         UUID userExternalId = securityUser.getUser().getExternalId();
+
         ShiftRequest shiftRequest = shiftRequestRepo.findByExternalId(shiftRequestExternalId)
-                .orElseThrow(() ->
-                    new EntityNotFoundException(
-                        "No shift request found with external ID: " + shiftRequestExternalId)
-                );
-        String cleanClientTz =
-            (createShift.clientTz() == null ||
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "No shift request found with external ID: " + shiftRequestExternalId));
+
+        if(shiftRequest.getStatus() != ShiftRequestStatus.APPROVED) {
+            throw new
+                BusinessRuleException("La solicitud debe estar aprobada para poder generar turnos.");
+        }
+
+        String cleanClientTz = (createShift.clientTz() == null ||
                         createShift.clientTz().isBlank()) ? null : createShift.clientTz().trim();
-        ZoneResolutionResult zoneResult =
-                        zoneResolver.resolveZone(userExternalId, cleanClientTz);
+        ZoneResolutionResult zoneResult = zoneResolver.resolveZone(userExternalId, cleanClientTz);
         ZoneId zoneId = zoneResult.zoneId();
 
         shiftService.generateShiftsForNext30days(shiftRequest, username, zoneId);

@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gscorp.dv1.enums.DayOfWeek;
 import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.enums.ShiftStatus;
-import com.gscorp.dv1.exceptions.BusinessRuleException;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestRepository;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestScheduleRepository;
@@ -50,10 +49,8 @@ public class ShiftServiceImpl implements ShiftService {
     }
 
 
+    @Transactional
     public void generateShiftsForNext30days(ShiftRequest shiftRequest, String username, ZoneId zone) {
-        if(shiftRequest.getStatus() != ShiftRequestStatus.APPROVED) {
-            throw new BusinessRuleException("La solicitud debe estar aprobada para poder generar turnos.");
-        }
         LocalDate start = LocalDate.now();
         Optional <Shift> lastGeneratedShift = shiftRepository
             .findFirstByShiftRequestExternalIdOrderByShiftDateDesc(shiftRequest.getExternalId());
@@ -66,16 +63,11 @@ public class ShiftServiceImpl implements ShiftService {
         List<ShiftRequestScheduleProjection> schedules =
                 shiftRequestScheduleRepository.findByShiftRequestId(shiftRequest.getId());
         if(schedules.isEmpty()) return;
-        executeGenerateShiftsForNext30days(shiftRequest, username, zone, start, end, schedules);
-    }
-
-    @Transactional
-    protected void executeGenerateShiftsForNext30days(
-                    ShiftRequest shiftRequest, String username, ZoneId zone, LocalDate start, LocalDate end, List<ShiftRequestScheduleProjection> schedules) {
-                List<Shift> shiftsToSave = new ArrayList<>();
+        List<Shift> shiftsToSave = new ArrayList<>();
         for (LocalDate date = start; !date.isAfter(end); date = date.plusDays(1)) {
             for (ShiftRequestScheduleProjection schedule : schedules) {
                 if (adheresSchedule(schedule, date)) {
+                    // Combinar la fecha del bucle con las horas del horario.
                     LocalDateTime startDateTime = date.atTime(schedule.getStartTime());
                     LocalDateTime endDateTime = date.atTime(schedule.getEndTime());
                     // Gestión de turno nocturnos
@@ -104,13 +96,10 @@ public class ShiftServiceImpl implements ShiftService {
     }
 
 
-
-
     //Helper method to know if adheresSchedule is true for the given date
     private boolean adheresSchedule(ShiftRequestScheduleProjection schedule, LocalDate date) {
         int javaDayOfWeek = date.getDayOfWeek().getValue(); //1=Monday, 7=Sunday
         DayOfWeek dayOfWeek = DayOfWeek.fromDayNumber(javaDayOfWeek);
-
         DayOfWeek from = schedule.getDayFrom();
         DayOfWeek to = schedule.getDayTo();
 
