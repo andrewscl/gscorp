@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* Verde claro */
 /* Rojo claro */
 /* Amarillo claro */
@@ -100,6 +101,7 @@ p {
   background: linear-gradient(90deg, #4e54c8, #8f94fb);
   border-top-left-radius: 0.8rem;
   border-top-right-radius: 0.8rem;
+  z-index: 10;
 }
 .private-layout .main-content .content .create-employee-transition-request {
   background: #ffffff;
@@ -149,4 +151,102 @@ p {
     height: 350px;
     flex: none;
   }
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main {
+  flex: 1;
+  padding: 0 2rem 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(226, 232, 240, 0.5);
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-header {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  letter-spacing: -0.02em;
+  color: #475569;
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-group label {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-group .form-value {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #475569;
+  line-height: 1.4;
+  border: 0.1rem solid #e2e8f0;
+  padding: 0.4rem 0.75rem;
+  border-radius: 0.5rem;
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-group .form-value:empty::before {
+  content: "—";
+  color: #cbd5e1;
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-group input, .private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-group select,
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-group span {
+  padding: 0.65rem;
+  border: 0.09rem solid #ced4da;
+  border-radius: 0.5rem;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #1f2937;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-group input::placeholder, .private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-group select::placeholder,
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-group span::placeholder {
+  color: #adb5bd;
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-group input:focus, .private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-group select:focus,
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-group span:focus {
+  border-color: #4e54c8;
+  box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
+  outline: none;
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-group textarea {
+  resize: vertical;
+  border: 0.09rem solid #ced4da;
+  border-radius: 0.5rem;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #1f2937;
+  min-height: 80px;
+  padding: 0.4rem 0.75rem;
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row .form-group {
+  flex: 1;
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-separator {
+  border: 0;
+  border-top: 1px solid rgba(226, 232, 240, 0.5);
+  margin: 0.2rem 0;
+  width: 100%;
 }/*# sourceMappingURL=create-transition-request.css.map */

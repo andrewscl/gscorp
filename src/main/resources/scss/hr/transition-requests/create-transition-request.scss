@@ -7,6 +7,7 @@
 @use '../../abstracts/variables' as *;
 @use '../../abstracts/mixins' as *;
 @use '../../abstracts/card-forms' as *;
+@use '../../abstracts/panels/panel-main' as *;
 
 .private-layout {
     .main-content{
@@ -22,8 +23,14 @@
                     background: linear-gradient(90deg, #4e54c8, #8f94fb);
                     border-top-left-radius: 0.8rem;
                     border-top-right-radius: 0.8rem;
+                    z-index: 10;
                 }
                 @include dual-panel-card();
+                .panel-container{
+                    .panel-main{
+                        @include panel-main();
+                    }
+                }
             }
         }
     }
