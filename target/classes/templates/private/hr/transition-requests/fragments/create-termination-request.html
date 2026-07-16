@@ -1,17 +1,17 @@
 <div class="create-employee-transition-request">
+    <div class="panel-container">
+        <div class="panel-main">
+            <div class="panel-header">
+                <h3>Crear solicitud de desvinculación</h3>
+            </div>
 
-    <div class="hs-form-header">
-        <h3>Crear solicitud de desvinculación</h3>
-    </div>
-
-    <div class="body">
-        <div class="form-group">
+            <div class="body">
+                <div class="form-group">
                     <label>Empleado:</label>
                     <input id="employee" required />
-        </div>
+                </div>
 
-        <div class="form-row w-custom">
-            <div class="form-group col-70">
+                <div class="form-group">
                 <label>Causa de termino:</label>
                 <select id="terminationReason" required>
                     <option value="">Seleccione causa de termino</option>
@@ -19,21 +19,24 @@
                             th:value="${tr.name()}"
                             th:text="${tr.displayName}"></option>
                 </select>
-            </div>
+                </div>
 
-            <div class="form-group col-30">
-                <label>Fecha propuesta:</label>
-                <input id="proposedExitDate" required />
+                <div class="form-group">
+                    <label>Fecha propuesta:</label>
+                    <input id="proposedExitDate" required />
+                </div>
+
+                <div class="form-group">
+                    <label>Descripción:</label>
+                    <textarea id="description"></textarea>
+                </div>
             </div>
         </div>
 
-        <div class="form-group">
-            <label>Descripción:</label>
-            <textarea id="description"></textarea>
-        </div>
-
-        <div class="form-group">
-            <input id="attachFile"/>
+        <div class="panel-aside">
+            <div class="attach-file">
+                <input id="attachFile"/>
+            </div>
         </div>
     </div>
 

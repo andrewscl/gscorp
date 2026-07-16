@@ -8,6 +8,23 @@
 @use '../../abstracts/mixins' as *;
 @use '../../abstracts/card-forms' as *;
 
-.create-employee-transition-request{
-    @include hs-form();
+.private-layout {
+    .main-content{
+        .content{
+            .create-employee-transition-request{
+                &::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 0.25rem;
+                    background: linear-gradient(90deg, #4e54c8, #8f94fb);
+                    border-top-left-radius: 0.8rem;
+                    border-top-right-radius: 0.8rem;
+                }
+                @include dual-panel-card();
+            }
+        }
+    }
 }
