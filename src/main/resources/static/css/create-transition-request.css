@@ -100,6 +100,7 @@ p {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 .private-layout .main-content .content .create-employee-transition-request::before {
   content: "";

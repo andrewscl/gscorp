@@ -99,6 +99,7 @@ p {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 .dual-panel-card::before {
   content: "";
