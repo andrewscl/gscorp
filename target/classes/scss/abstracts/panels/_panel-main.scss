@@ -68,6 +68,11 @@
                     color: $cool-gray-800;
                     min-height: 80px;
                     padding: 0.4rem 0.75rem;
+                    &:focus {
+                        border-color: #4e54c8;
+                        box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
+                        outline: none;
+                    }
                 }
             }
 
@@ -76,7 +81,6 @@
                 display: flex;
                 gap: 2rem;
                 width: 100%;
-
                 .form-group {
                     flex: 1;
                 }
