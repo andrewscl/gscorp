@@ -39,7 +39,7 @@ public class EmployeeTransitionRequestServiceImpl
 
         int safePage = Math.max(0, page);
         int safeSize = Math.min(Math.max(5, size), 200);
-        PageRequest pageable = PageRequest.of(safePage, safeSize, Sort.by(Sort.Direction.DESC, "startDate"));
+        PageRequest pageable = PageRequest.of(safePage, safeSize, Sort.by(Sort.Direction.DESC, "createdAt"));
 
         Page<EmployeeTransitionRequestProjection> projections =
                     repo.findByClientIds(clientIds, status, pageable);
