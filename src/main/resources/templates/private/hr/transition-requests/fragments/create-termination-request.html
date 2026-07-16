@@ -1,6 +1,6 @@
 <div class="create-employee-transition-request">
 
-    <div class="panel-header">
+    <div class="hs-form-header">
         <h3>Crear solicitud de desvinculación</h3>
     </div>
 
@@ -10,7 +10,8 @@
                     <input id="employee" required />
         </div>
 
-        <div class="form-group">
+        <div class="form-row w-custom">
+            <div class="form-group col-70">
                 <label>Causa de termino:</label>
                 <select id="terminationReason" required>
                     <option value="">Seleccione causa de termino</option>
@@ -18,11 +19,12 @@
                             th:value="${tr.name()}"
                             th:text="${tr.displayName}"></option>
                 </select>
-        </div>
+            </div>
 
-        <div class="form-group">
-                    <label>Fecha propuesta:</label>
-                    <input id="proposedExitDate" required />
+            <div class="form-group col-30">
+                <label>Fecha propuesta:</label>
+                <input id="proposedExitDate" required />
+            </div>
         </div>
 
         <div class="form-group">
@@ -30,7 +32,7 @@
             <textarea id="description"></textarea>
         </div>
 
-        <div class="attach-file">
+        <div class="form-group">
             <input id="attachFile"/>
         </div>
     </div>
