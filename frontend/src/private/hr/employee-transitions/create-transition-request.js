@@ -1,6 +1,6 @@
 import { navigateTo } from "../../../navigation-handler";
 import { fetchWithAuth } from "../../../auth";
-import { fetchWithAuth } from "../../../shared/dom-utils";
+import { qs } from "../../../shared/dom-utils";
 
 const cancelTransitionRequest = (btn) => {
     if (btn) btn.disabled = true;

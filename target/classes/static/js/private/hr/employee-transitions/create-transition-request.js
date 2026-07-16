@@ -1,0 +1,1 @@
+import{n}from"../../../navigation-handler.js";import{a as e}from"../../../shared/dom-utils.js";import"../../../auth.js";const i=t=>{t&&(t.disabled=!0),n("/private/employees/transition-requests/list",!0)},s=t=>{t&&(t.disabled=!0)};function c(){const t=e("#submit");t&&t.addEventListener("click",s),e("#cancel")&&searchBtn.addEventListener("click",i)}(function(){c()})();
