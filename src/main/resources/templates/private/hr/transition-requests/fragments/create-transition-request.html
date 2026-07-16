@@ -1,0 +1,51 @@
+<div class="create-employee-transition-request">
+    <div class="panel-container">
+        <div class="panel-main">
+            <div class="panel-header">
+                <h3>Crear solicitud de desvinculación</h3>
+            </div>
+
+            <div class="body">
+                <div class="form-group">
+                    <label>Empleado:</label>
+                    <input id="employee" required />
+                </div>
+
+                <div class="form-group">
+                <label>Causa de termino:</label>
+                <select id="terminationReason" required>
+                    <option value="">Seleccione causa de termino</option>
+                    <option th:each="tr : ${terminationReasons}"
+                            th:value="${tr.name()}"
+                            th:text="${tr.displayName}"></option>
+                </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Fecha propuesta:</label>
+                    <input id="proposedExitDate" required />
+                </div>
+
+                <div class="form-group">
+                    <label>Descripción:</label>
+                    <textarea id="description"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-aside">
+            <div class="attach-file">
+                <input id="attachFile"/>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
+    <div th:replace="~{shared/fragments/footer-buttons ::
+                            footer-buttons(
+                                true, 'Crear solicitud',
+                                true, 'Cancelar',
+                                false, '')}"></div>
+
+    <script type="module" src="/js/private/hr/employee-transitions/create-transition-request.js"></script>
+</div>

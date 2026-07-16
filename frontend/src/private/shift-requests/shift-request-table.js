@@ -8,17 +8,6 @@ const createShiftRequest = (e) => {
     setTimeout(() => navigateTo('/private/shift-requests/create', true), 1000);
 }
 
-function bindShiftRequestsTable() {
-    const createShiftRequestBtn = qs('#addShiftRequestsBtn');
-    if (createShiftRequestBtn) {
-        createShiftRequestBtn.addEventListener('click', createShiftRequest);
-    }
-    const searchShiftRequestsBtn = qs('#searchShiftRequestsBtn');
-    if (searchShiftRequestsBtn) {
-        searchShiftRequestsBtn.addEventListener('click', searchShiftRequests);
-    }
-}
-
 async function searchShiftRequests() {
   const from = qs('#filter-from')?.value.trim() || '';
   const to = qs('#filter-to')?.value.trim() || '';
@@ -52,6 +41,16 @@ async function searchShiftRequests() {
   }
 }
 
+function bindShiftRequestsTable() {
+    const createShiftRequestBtn = qs('#addShiftRequestsBtn');
+    if (createShiftRequestBtn) {
+        createShiftRequestBtn.addEventListener('click', createShiftRequest);
+    }
+    const searchShiftRequestsBtn = qs('#searchShiftRequestsBtn');
+    if (searchShiftRequestsBtn) {
+        searchShiftRequestsBtn.addEventListener('click', searchShiftRequests);
+    }
+}
 
 (function init () {
   bindShiftRequestsTable();

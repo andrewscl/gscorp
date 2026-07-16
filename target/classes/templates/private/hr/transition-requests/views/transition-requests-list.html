@@ -1,0 +1,53 @@
+<div th:replace="~{shared/fragments/table-component :: smart-table(
+        title='Gestión de Estado de Empleados',
+        count=${count},
+        filters=~{::#employeeTransitionRequestFilters},
+        actions=~{::#employeeTransitionRequestActions},
+        thead=~{::#employeeTransitionRequestHeader},
+        tbody=~{private/hr/transition-requests/fragments/transition-requests-table-rows :: rows},
+        customClass='employee-transition-request-list'
+    )}">
+
+        <th:block id="employeeTransitionRequestFilters">
+            <div class="filter-item">
+                <span class="filter-label">Estado</span>
+                <select id="filter-employee-status" class="filter-input" name="status">
+                    <option value="">Todos los estados</option>
+                    <option th:each="es : ${statuses}"
+                            th:value="${es}"
+                            th:text="${es.displayName}"
+                            th:selected="${es == currentStatus}"></option>
+                </select>
+            </div>
+
+            <div class="filter-item">
+                <span class="filter-label">Busqueda</span>
+                <input id="filter-q" class="filter-input" type="text" name="q"
+                            th:value="${q}" placeholder="nombre, rut, mail, o telefono..."/>
+            </div>
+
+            <div class="filter-item item-action">
+                <button class="btn btn-primary" id="searchEmployeesTransitionRequestBtn">
+                Buscar
+                </button>
+            </div>
+        </th:block>
+
+        <th:block id="employeeTransitionRequestActions">
+            <button class="btn btn-primary" id="addEmployeesTransitionRequestBtn"
+                th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'') or hasRole(''RRHH'')')}">
+            Crear Solicitud
+            </button>
+        </th:block>
+
+        <tr id="employeeTransitionRequestHeader">
+            <th>Foto</th>
+            <th>Nombre</th>
+            <th>Telefono</th>
+            <th>Estado</th>
+            <th>Actions</th>
+        </tr>
+
+</div>
+
+    <script type="module" src="/js/private/hr/employee-transitions/transition-requests-list.js"></script>

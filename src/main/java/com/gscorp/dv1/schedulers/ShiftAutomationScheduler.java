@@ -15,7 +15,7 @@ public class ShiftAutomationScheduler {
 
     private final ShiftService shiftService;
 
-    @Scheduled(cron = "0 30 10 * * ?", zone = "America/Santiago")
+    @Scheduled(cron = "0 0 0 * * ?", zone = "America/Santiago")
     public void runDailyShiftProjection() {
 
         log.info("Iniciando tarea programada: Proyección de turnos a 30 días...");

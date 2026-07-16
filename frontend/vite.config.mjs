@@ -106,7 +106,10 @@ export default defineConfig({
 
         'private/hr/hr-dashboard': path.resolve(__dirname, './src/private/hr/hr-dashboard.js'),
         'private/operations/kpi/operational-distribution-card': path.resolve(__dirname, './src/private/operations/kpi/operational-distribution-card.js'),
-        'private/admin/dashboard/admin-dashboard': path.resolve(__dirname, './src/private/admin/dashboard/admin-dashboard.js')
+        'private/admin/dashboard/admin-dashboard': path.resolve(__dirname, './src/private/admin/dashboard/admin-dashboard.js'),
+
+        'private/hr/employee-transitions/transition-requests-list': path.resolve(__dirname, './src/private/hr/employee-transitions/transition-requests-list.js'),
+        'private/hr/employee-transitions/create-transition-request': path.resolve(__dirname, './src/private/hr/employee-transitions/create-transition-request.js')
 
       },
       output: {
