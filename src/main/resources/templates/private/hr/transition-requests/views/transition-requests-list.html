@@ -1,10 +1,10 @@
 <div th:replace="~{shared/fragments/table-component :: smart-table(
-        title='Gestión de Estado de Empleados',
+        title='Gestión de desvinculaciones',
         count=${count},
         filters=~{::#employeeTransitionRequestFilters},
         actions=~{::#employeeTransitionRequestActions},
         thead=~{::#employeeTransitionRequestHeader},
-        tbody=~{private/hr/transition-requests/fragments/transition-requests-table-rows :: rows},
+        tbody=~{private/hr/transition-requests/fragments/transition-requests-rows :: rows},
         customClass='employee-transition-request-list'
     )}">
 
