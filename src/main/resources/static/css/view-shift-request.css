@@ -242,6 +242,65 @@ p {
   box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
   outline: none;
 }
+.view-shift-request .panel-container .panel-main .panel-body .file-upload-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+.view-shift-request .panel-container .panel-main .panel-body .file-upload-container .form-label {
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: #7f8c8d;
+}
+.view-shift-request .panel-container .panel-main .panel-body .file-upload-container .file-upload-input {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+.view-shift-request .panel-container .panel-main .panel-body .file-upload-container .file-upload-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  border: 2px dashed #d1d5db;
+  border-radius: 0.8rem;
+  background-color: #f9fafb;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  text-align: center;
+}
+.view-shift-request .panel-container .panel-main .panel-body .file-upload-container .file-upload-label:hover {
+  border-color: #4e54c8;
+  background-color: #f3f4f6;
+}
+.view-shift-request .panel-container .panel-main .panel-body .file-upload-container .file-upload-label .upload-icon {
+  font-size: 2rem;
+  color: #8f94fb;
+  margin-bottom: 0.5rem;
+}
+.view-shift-request .panel-container .panel-main .panel-body .file-upload-container .file-upload-label .upload-text {
+  font-size: 0.85rem;
+  color: #4b5563;
+}
+.view-shift-request .panel-container .panel-main .panel-body .file-upload-container .file-upload-label .upload-text strong {
+  color: #4e54c8;
+}
+.view-shift-request .panel-container .panel-main .panel-body .file-upload-container .file-upload-label .file-name {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: #9ca3af;
+  font-style: italic;
+}
+.view-shift-request .panel-container .panel-main .panel-body .file-upload-container .file-upload-label .file-name.file-active {
+  color: #10b981;
+  font-weight: bold;
+  font-style: normal;
+}
 .view-shift-request .panel-container .panel-main .panel-body .form-row {
   display: flex;
   gap: 2rem;
