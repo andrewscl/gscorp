@@ -18,6 +18,9 @@
                     .panel-main{
                         @include panel-main();
                     }
+                    .panel-aside{
+                        @include panel-main();
+                    }
                 }
                 .alert-container {
                     @include alert-container();
