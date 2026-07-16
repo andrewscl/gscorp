@@ -43,6 +43,7 @@ public class EmployeeTransitionRequestController {
         model.addAttribute("transitionRequestsPage", transitionRequests);
         model.addAttribute("transitionRequests", transitionRequests.getContent());
         model.addAttribute("transitionRequestStatus", EmployeeTransitionRequestStatus.values());
+        model.addAttribute("currentStatus", null);
         return "private/hr/transition-requests/views/transition-requests-list";
     }
 

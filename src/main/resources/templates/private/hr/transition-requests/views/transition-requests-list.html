@@ -13,10 +13,10 @@
                 <span class="filter-label">Estado</span>
                 <select id="filter-employee-status" class="filter-input" name="status">
                     <option value="">Todos los estados</option>
-                    <option th:each="es : ${statuses}"
-                            th:value="${es}"
-                            th:text="${es.displayName}"
-                            th:selected="${es == currentStatus}"></option>
+                    <option th:each="tr : ${terminationReasons}"
+                            th:value="${tr}"
+                            th:text="${tr.displayName}"
+                            th:selected="${tr == currentStatus}"></option>
                 </select>
             </div>
 
@@ -34,7 +34,7 @@
         </th:block>
 
         <th:block id="employeeTransitionRequestActions">
-            <button class="btn btn-primary" id="addEmployeesTransitionRequestBtn"
+            <button class="btn btn-primary" id="addTerminationRequest"
                 th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'') or hasRole(''RRHH'')')}">
             Crear Solicitud
             </button>

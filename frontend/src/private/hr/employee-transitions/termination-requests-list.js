@@ -5,7 +5,7 @@ const qs  = (s) => document.querySelector(s);
 
 const createTransitionRequest = (btn) => {
     if (btn) btn.disabled = true;
-    navigateTo('/private/employees/transition-requests/create', true);
+    navigateTo('/private/employees/transition-requests/create-termination-request', true);
 }
 
 const searchTransitionRequest = async (btn) => {
@@ -14,7 +14,7 @@ const searchTransitionRequest = async (btn) => {
 }
 
 function bindEmployeeTransitionRequestsList() {
-    const createBtn = qs('#addTransitionRequestBtn');
+    const createBtn = qs('#addTerminationRequest');
     if(createBtn) createBtn.addEventListener('click', createTransitionRequest);
 
     const searchBtn = qs('#searchShiftRequestsBtn');
