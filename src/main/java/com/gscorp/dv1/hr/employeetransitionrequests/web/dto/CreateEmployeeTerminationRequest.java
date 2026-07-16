@@ -8,7 +8,7 @@ import com.gscorp.dv1.enums.TerminationReason;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public record CreateEmployeeTransitionRequest (
+public record CreateEmployeeTerminationRequest (
     @NotNull(message = "El ID del empleado es obligatorio")
     Long employeeId,
 

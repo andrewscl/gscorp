@@ -47,7 +47,7 @@ public class EmployeeTransitionRequestController {
     }
 
 
-    @GetMapping("/transition-requests/create")
+    @GetMapping("/transition-requests/create-termination-request")
     public String getCreateEmployeeTransitionRequest(
                 Model model,
                 @AuthenticationPrincipal SecurityUser securityUser
@@ -55,7 +55,7 @@ public class EmployeeTransitionRequestController {
         if(securityUser == null) return "redirect:/login";
 
         model.addAttribute("terminationReasons", TerminationReason.values());
-        return "private/hr/transition-requests/fragments/create-transition-request";
+        return "private/hr/transition-requests/fragments/create-termination-request";
     }
 
 }
