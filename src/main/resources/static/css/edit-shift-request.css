@@ -1,0 +1,617 @@
+@charset "UTF-8";
+/* Verde claro */
+/* Rojo claro */
+/* Amarillo claro */
+/* Verde oscuro */
+/* Rojo oscuro */
+/* Amarillo oscuro */
+body {
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.5;
+}
+
+h1 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #475569;
+  line-height: 1.2;
+}
+
+h2 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #475569;
+  line-height: 1.2;
+  margin: 0 0 1rem 0;
+}
+
+h3 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #475569;
+  line-height: 1.2;
+}
+
+h4 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #475569;
+  line-height: 1.2;
+}
+
+p {
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.5;
+  margin-bottom: 0.25rem;
+}
+
+.p1 {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.55;
+  margin-bottom: 0.5rem;
+}
+
+.p2 {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+}
+
+.p3 {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.65;
+  margin-bottom: 1.5rem;
+}
+
+.edit-shift-request {
+  background: #ffffff;
+  border-radius: 0.8rem;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  box-shadow: 0 0.5rem 1.1rem rgba(15, 23, 42, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.edit-shift-request::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0.25rem;
+  background: linear-gradient(90deg, #4e54c8, #8f94fb);
+  border-top-left-radius: 0.8rem;
+  border-top-right-radius: 0.8rem;
+  z-index: 10;
+}
+.edit-shift-request .panel-container {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+  flex-grow: 1;
+}
+.edit-shift-request .panel-container .panel-main {
+  flex: 1;
+  padding: 0 2rem 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(226, 232, 240, 0.5);
+}
+.edit-shift-request .panel-container .panel-aside {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+.edit-shift-request:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0.5rem 1.25rem rgba(15, 23, 42, 0.08);
+}
+@media (max-width: 992px) {
+  .edit-shift-request .panel-container {
+    flex-direction: column;
+  }
+  .edit-shift-request .panel-container .panel-main {
+    border-right: none;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .edit-shift-request .panel-container .panel-aside {
+    height: 350px;
+    flex: none;
+  }
+}
+.edit-shift-request .panel-container .panel-main {
+  flex: 1;
+  padding: 0 2rem 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(226, 232, 240, 0.5);
+}
+.edit-shift-request .panel-container .panel-main .panel-header {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  letter-spacing: -0.02em;
+  color: #475569;
+}
+@media (max-width: 992px) {
+  .edit-shift-request .panel-container .panel-main .panel-header {
+    font-family: "Montserrat", sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    letter-spacing: -0.02em;
+    color: #475569;
+  }
+}
+.edit-shift-request .panel-container .panel-main .panel-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.edit-shift-request .panel-container .panel-main .panel-body .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.edit-shift-request .panel-container .panel-main .panel-body .form-group label {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+.edit-shift-request .panel-container .panel-main .panel-body .form-group .form-value {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #475569;
+  line-height: 1.4;
+  border: 0.1rem solid #e2e8f0;
+  padding: 0.4rem 0.75rem;
+  border-radius: 0.5rem;
+}
+.edit-shift-request .panel-container .panel-main .panel-body .form-group .form-value:empty::before {
+  content: "—";
+  color: #cbd5e1;
+}
+.edit-shift-request .panel-container .panel-main .panel-body .form-group input, .edit-shift-request .panel-container .panel-main .panel-body .form-group select,
+.edit-shift-request .panel-container .panel-main .panel-body .form-group span {
+  padding: 0.65rem;
+  border: 0.09rem solid #ced4da;
+  border-radius: 0.5rem;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #1f2937;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.edit-shift-request .panel-container .panel-main .panel-body .form-group input::placeholder, .edit-shift-request .panel-container .panel-main .panel-body .form-group select::placeholder,
+.edit-shift-request .panel-container .panel-main .panel-body .form-group span::placeholder {
+  color: #adb5bd;
+}
+.edit-shift-request .panel-container .panel-main .panel-body .form-group input:focus, .edit-shift-request .panel-container .panel-main .panel-body .form-group select:focus,
+.edit-shift-request .panel-container .panel-main .panel-body .form-group span:focus {
+  border-color: #4e54c8;
+  box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
+  outline: none;
+}
+.edit-shift-request .panel-container .panel-main .panel-body .form-group textarea {
+  resize: vertical;
+  border: 0.09rem solid #ced4da;
+  border-radius: 0.5rem;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #1f2937;
+  min-height: 80px;
+  padding: 0.4rem 0.75rem;
+}
+.edit-shift-request .panel-container .panel-main .panel-body .form-group textarea:focus {
+  border-color: #4e54c8;
+  box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
+  outline: none;
+}
+.edit-shift-request .panel-container .panel-main .panel-body .file-upload-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+.edit-shift-request .panel-container .panel-main .panel-body .file-upload-container .form-label {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #7f8c8d;
+}
+.edit-shift-request .panel-container .panel-main .panel-body .file-upload-container .file-upload-input {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+.edit-shift-request .panel-container .panel-main .panel-body .file-upload-container .file-upload-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  border: 2px dashed #d1d5db;
+  border-radius: 0.8rem;
+  background-color: #f9fafb;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  text-align: center;
+}
+.edit-shift-request .panel-container .panel-main .panel-body .file-upload-container .file-upload-label:hover {
+  border-color: #4e54c8;
+  background-color: #f3f4f6;
+}
+.edit-shift-request .panel-container .panel-main .panel-body .file-upload-container .file-upload-label .upload-icon {
+  font-size: 2rem;
+  color: #8f94fb;
+  margin-bottom: 0.5rem;
+}
+.edit-shift-request .panel-container .panel-main .panel-body .file-upload-container .file-upload-label .upload-text {
+  font-size: 0.85rem;
+  color: #4b5563;
+}
+.edit-shift-request .panel-container .panel-main .panel-body .file-upload-container .file-upload-label .upload-text strong {
+  color: #4e54c8;
+}
+.edit-shift-request .panel-container .panel-main .panel-body .file-upload-container .file-upload-label .file-name {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: #9ca3af;
+  font-style: italic;
+}
+.edit-shift-request .panel-container .panel-main .panel-body .file-upload-container .file-upload-label .file-name.file-active {
+  color: #10b981;
+  font-weight: bold;
+  font-style: normal;
+}
+.edit-shift-request .panel-container .panel-main .panel-body .form-row {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+}
+.edit-shift-request .panel-container .panel-main .panel-body .form-row .form-group {
+  flex: 1;
+}
+.edit-shift-request .panel-container .panel-main .panel-body .form-separator {
+  border: 0;
+  border-top: 1px solid rgba(226, 232, 240, 0.5);
+  margin: 0.2rem 0;
+  width: 100%;
+}
+.edit-shift-request .panel-container .panel-aside {
+  padding: 1rem;
+  flex: 1;
+  width: 50%;
+  gap: 1rem;
+}
+.edit-shift-request .panel-container .panel-aside .schedules-table, .edit-shift-request .panel-container .panel-aside .shifts-table {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 0.5rem 1.1rem rgba(15, 23, 42, 0.04);
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex-shrink: 0;
+  z-index: 30;
+  width: 100%;
+}
+.edit-shift-request .panel-container .panel-aside .schedules-table .title-row, .edit-shift-request .panel-container .panel-aside .shifts-table .title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 0.75rem;
+}
+.edit-shift-request .panel-container .panel-aside .schedules-table .title-row .title-left, .edit-shift-request .panel-container .panel-aside .shifts-table .title-row .title-left {
+  display: flex;
+  align-items: center;
+}
+.edit-shift-request .panel-container .panel-aside .schedules-table .title-row .title-left .title-text, .edit-shift-request .panel-container .panel-aside .shifts-table .title-row .title-left .title-text {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #475569;
+  margin: 0;
+}
+.edit-shift-request .panel-container .panel-aside .schedules-table .title-row .btn, .edit-shift-request .panel-container .panel-aside .shifts-table .title-row .btn {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.edit-shift-request .panel-container .panel-aside .schedules-table .title-row .btn.btn-shifts-update, .edit-shift-request .panel-container .panel-aside .shifts-table .title-row .btn.btn-shifts-update {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 1rem;
+  border-radius: 0.4rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+.edit-shift-request .panel-container .panel-aside .schedules-table .title-row .btn.btn-shifts-update:hover, .edit-shift-request .panel-container .panel-aside .shifts-table .title-row .btn.btn-shifts-update:hover {
+  background-color: rgb(29.8390243902, 111.4024390244, 244.6609756098);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+.edit-shift-request .panel-container .panel-aside .schedules-table .title-row .btn.btn-shifts-update:active, .edit-shift-request .panel-container .panel-aside .shifts-table .title-row .btn.btn-shifts-update:active {
+  transform: translateY(0);
+}
+@media (max-width: 768px) {
+  .edit-shift-request .panel-container .panel-aside .schedules-table .title-row .title-left, .edit-shift-request .panel-container .panel-aside .shifts-table .title-row .title-left {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+}
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list, .edit-shift-request .panel-container .panel-aside .schedules-table .shifts-list, .edit-shift-request .panel-container .panel-aside .shifts-table .schedules-list, .edit-shift-request .panel-container .panel-aside .shifts-table .shifts-list {
+  flex-grow: 1;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-top: 0;
+  width: 100%;
+}
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table, .edit-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table, .edit-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table, .edit-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #334155;
+  table-layout: fixed;
+}
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th, .edit-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table thead tr th, .edit-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table thead tr th, .edit-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table thead tr th {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #f8fafc;
+  text-align: left;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0.75rem 1.2rem;
+  border-bottom: 0.125rem solid #e2e8f0;
+  color: #64748b;
+  white-space: nowrap;
+}
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(1), .edit-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table thead tr th:nth-child(1), .edit-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table thead tr th:nth-child(1), .edit-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table thead tr th:nth-child(1) {
+  width: 40%;
+}
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(3), .edit-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table thead tr th:nth-child(3), .edit-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table thead tr th:nth-child(3), .edit-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table thead tr th:nth-child(3) {
+  width: 20%;
+}
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(2), .edit-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table thead tr th:nth-child(2), .edit-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table thead tr th:nth-child(2), .edit-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table thead tr th:nth-child(2) {
+  width: 20%;
+}
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table thead tr th:nth-child(4), .edit-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table thead tr th:nth-child(4), .edit-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table thead tr th:nth-child(4), .edit-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table thead tr th:nth-child(4) {
+  width: 20%;
+}
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr, .edit-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table tbody tr, .edit-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table tbody tr, .edit-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table tbody tr {
+  border-bottom: 0.0625rem solid #e2e8f0;
+  transition: background 0.12s ease;
+}
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr:hover, .edit-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table tbody tr:hover, .edit-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table tbody tr:hover, .edit-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table tbody tr:hover {
+  background-color: rgba(59, 130, 246, 0.02);
+}
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td, .edit-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table tbody tr td, .edit-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table tbody tr td, .edit-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table tbody tr td {
+  padding: 0.65rem 0.85rem;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(1), .edit-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table tbody tr td:nth-child(1), .edit-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table tbody tr td:nth-child(1), .edit-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table tbody tr td:nth-child(1) {
+  width: 40%;
+}
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(3), .edit-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table tbody tr td:nth-child(3), .edit-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table tbody tr td:nth-child(3), .edit-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table tbody tr td:nth-child(3) {
+  width: 20%;
+}
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(2), .edit-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table tbody tr td:nth-child(2), .edit-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table tbody tr td:nth-child(2), .edit-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table tbody tr td:nth-child(2) {
+  width: 20%;
+}
+.edit-shift-request .panel-container .panel-aside .schedules-table .schedules-list .table tbody tr td:nth-child(4), .edit-shift-request .panel-container .panel-aside .schedules-table .shifts-list .table tbody tr td:nth-child(4), .edit-shift-request .panel-container .panel-aside .shifts-table .schedules-list .table tbody tr td:nth-child(4), .edit-shift-request .panel-container .panel-aside .shifts-table .shifts-list .table tbody tr td:nth-child(4) {
+  width: 20%;
+}
+.edit-shift-request .alert-container {
+  display: none;
+  width: auto;
+  position: fixed;
+  bottom: 5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+}
+.edit-shift-request .alert-container .alert {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 0 1rem 0.8rem;
+  border-radius: 8px;
+  margin: 0.5rem 0;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #374151;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+  transform: translateY(1.2rem);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.edit-shift-request .alert-container .alert .alert-icon {
+  font-size: 1.5rem;
+}
+.edit-shift-request .alert-container .alert.alert-success {
+  background-color: #d1f7d6;
+  color: #256029;
+  border: 1px solid #a4e5aa;
+}
+.edit-shift-request .alert-container .alert.alert-success .alert-message {
+  vertical-align: middle;
+}
+.edit-shift-request .alert-container .alert.alert-error {
+  background-color: #fde4e4;
+  color: #a61d1d;
+  border: 1px solid #f5b3b3;
+}
+.edit-shift-request .alert-container .alert.alert-error .alert-message {
+  vertical-align: middle;
+}
+.edit-shift-request .alert-container .alert.alert-warning {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+}
+.edit-shift-request .alert-container .alert.alert-warning .alert-message {
+  vertical-align: middle;
+}
+.edit-shift-request .alert-container .alert {
+  /* Mostrar alerta */
+}
+.edit-shift-request .alert-container .alert.alert-show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.edit-shift-request .footer-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 15px;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+.edit-shift-request .footer-actions .btn {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.edit-shift-request .footer-actions .btn.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+.edit-shift-request .footer-actions .btn.btn-primary:hover {
+  background-color: rgb(29.8390243902, 111.4024390244, 244.6609756098);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+.edit-shift-request .footer-actions .btn.btn-primary:active {
+  transform: translateY(0);
+}
+.edit-shift-request .footer-actions .btn.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  background-color: #cbd5e1;
+  color: #ffffff;
+}
+.edit-shift-request .footer-actions .btn.btn-secondary:hover {
+  background-color: rgb(175.8585365854, 191.0780487805, 209.3414634146);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(203, 213, 225, 0.4);
+}
+.edit-shift-request .footer-actions .btn.btn-secondary:active {
+  transform: translateY(0);
+}
+.edit-shift-request .footer-actions .btn.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  background-color: #ef4444;
+  color: #ffffff;
+}
+.edit-shift-request .footer-actions .btn.btn-danger:hover {
+  background-color: rgb(236.5802955665, 39.7197044335, 39.7197044335);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+}
+.edit-shift-request .footer-actions .btn.btn-danger:active {
+  transform: translateY(0);
+}/*# sourceMappingURL=edit-shift-request.css.map */
