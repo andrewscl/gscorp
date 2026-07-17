@@ -174,8 +174,6 @@ p {
     font-size: 0.9rem;
     font-weight: 700;
     letter-spacing: 0.02em;
-    letter-spacing: -0.02em;
-    color: #475569;
   }
 }
 .private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body {
@@ -321,6 +319,11 @@ p {
 .private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row .form-group {
   flex: 1;
 }
+@media (max-width: 992px) {
+  .private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row {
+    flex-direction: column;
+  }
+}
 .private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-separator {
   border: 0;
   border-top: 1px solid rgba(226, 232, 240, 0.5);
@@ -350,8 +353,6 @@ p {
     font-size: 0.9rem;
     font-weight: 700;
     letter-spacing: 0.02em;
-    letter-spacing: -0.02em;
-    color: #475569;
   }
 }
 .private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body {
@@ -496,6 +497,11 @@ p {
 }
 .private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row .form-group {
   flex: 1;
+}
+@media (max-width: 992px) {
+  .private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row {
+    flex-direction: column;
+  }
 }
 .private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-separator {
   border: 0;

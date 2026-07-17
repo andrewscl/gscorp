@@ -174,8 +174,6 @@ p {
     font-size: 0.9rem;
     font-weight: 700;
     letter-spacing: 0.02em;
-    letter-spacing: -0.02em;
-    color: #475569;
   }
 }
 .view-shift-request .panel-container .panel-main .panel-body {
@@ -320,6 +318,11 @@ p {
 }
 .view-shift-request .panel-container .panel-main .panel-body .form-row .form-group {
   flex: 1;
+}
+@media (max-width: 992px) {
+  .view-shift-request .panel-container .panel-main .panel-body .form-row {
+    flex-direction: column;
+  }
 }
 .view-shift-request .panel-container .panel-main .panel-body .form-separator {
   border: 0;

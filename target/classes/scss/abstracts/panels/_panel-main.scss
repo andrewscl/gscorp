@@ -5,7 +5,7 @@
 
 @mixin panel-main () {
         flex: $ratio-left;  
-        padding: 0 2rem 1rem 2rem; ;
+        padding: 0 2rem 1rem 2rem;
         display: flex;
         flex-direction: column;
         border-right: 1px solid rgba($border-color, 0.5);
@@ -13,19 +13,14 @@
             @include montserrat-font($header-text-height, 700);
             letter-spacing: -0.02em;
             color: $heading-color;
-        }
-        @media (max-width: 992px){
-            .panel-header {
+            @media (max-width: 992px){
                 @include montserrat-font($header-text-height-mobile, 700);
-                letter-spacing: -0.02em;
-                color: $heading-color;
             }
         }
         .panel-body {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem; // Más espacio entre bloques de datos
-
+            gap: 1.5rem;
             .form-group {
                 display: flex;
                 flex-direction: column;
@@ -82,7 +77,6 @@
                     }
                 }
             }
-
             .file-upload-container {
                 display: flex;
                 flex-direction: column;
@@ -144,14 +138,15 @@
                     }
                 }
             }
-
-            // Fila doble para Latitud y Longitud
             .form-row {
                 display: flex;
                 gap: 2rem;
                 width: 100%;
                 .form-group {
                     flex: 1;
+                }
+                @media (max-width: 992px){
+                    flex-direction: column;
                 }
             }
             .form-separator {
@@ -161,4 +156,4 @@
                 width: 100%;
             }
         }
-    }
+}
