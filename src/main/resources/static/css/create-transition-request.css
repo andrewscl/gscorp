@@ -14,13 +14,16 @@ body {
   line-height: 1.5;
 }
 
+h1, h2, h3, h4 {
+  line-height: 1.2;
+  color: #475569;
+}
+
 h1 {
   font-family: "Montserrat", sans-serif;
   font-size: 2.5rem;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: #475569;
-  line-height: 1.2;
 }
 
 h2 {
@@ -28,8 +31,6 @@ h2 {
   font-size: 2rem;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: #475569;
-  line-height: 1.2;
   margin: 0 0 1rem 0;
 }
 
@@ -38,8 +39,6 @@ h3 {
   font-size: 1.5rem;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: #475569;
-  line-height: 1.2;
 }
 
 h4 {
@@ -47,10 +46,22 @@ h4 {
   font-size: 1.25rem;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: #475569;
-  line-height: 1.2;
 }
 
+@media (max-width: 992px) {
+  h1 {
+    font-size: 1.8rem;
+  }
+  h2 {
+    font-size: 1.5rem;
+  }
+  h3 {
+    font-size: 1.2rem;
+  }
+  h4 {
+    font-size: 1.05rem;
+  }
+}
 p {
   font-family: "Roboto", sans-serif;
   font-size: 1rem;
@@ -159,19 +170,6 @@ p {
   display: flex;
   flex-direction: column;
   border-right: 1px solid rgba(226, 232, 240, 0.5);
-}
-.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-header {
-  font-family: "Montserrat", sans-serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  letter-spacing: -0.02em;
-  color: #475569;
-}
-@media (max-width: 992px) {
-  .private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-header {
-    font-size: 0.9rem;
-  }
 }
 .private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body {
   display: flex;
@@ -316,6 +314,33 @@ p {
 .private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row .form-group {
   flex: 1;
 }
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row.w-custom .col-10 {
+  flex: 0 0 calc(10% - 0.9rem);
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row.w-custom .col-20 {
+  flex: 0 0 calc(20% - 0.8rem);
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row.w-custom .col-30 {
+  flex: 0 0 calc(30% - 0.7rem);
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row.w-custom .col-40 {
+  flex: 0 0 calc(40% - 0.6rem);
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row.w-custom .col-50 {
+  flex: 0 0 calc(50% - 0.5rem);
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row.w-custom .col-60 {
+  flex: 0 0 calc(60% - 0.4rem);
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row.w-custom .col-70 {
+  flex: 0 0 calc(70% - 0.3rem);
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row.w-custom .col-80 {
+  flex: 0 0 calc(80% - 0.2rem);
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row.w-custom .col-90 {
+  flex: 0 0 calc(90% - 0.1rem);
+}
 @media (max-width: 992px) {
   .private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row {
     flex-direction: column;
@@ -335,19 +360,6 @@ p {
   display: flex;
   flex-direction: column;
   border-right: 1px solid rgba(226, 232, 240, 0.5);
-}
-.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-header {
-  font-family: "Montserrat", sans-serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  letter-spacing: -0.02em;
-  color: #475569;
-}
-@media (max-width: 992px) {
-  .private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-header {
-    font-size: 0.9rem;
-  }
 }
 .private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body {
   display: flex;
@@ -491,6 +503,33 @@ p {
 }
 .private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row .form-group {
   flex: 1;
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row.w-custom .col-10 {
+  flex: 0 0 calc(10% - 0.9rem);
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row.w-custom .col-20 {
+  flex: 0 0 calc(20% - 0.8rem);
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row.w-custom .col-30 {
+  flex: 0 0 calc(30% - 0.7rem);
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row.w-custom .col-40 {
+  flex: 0 0 calc(40% - 0.6rem);
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row.w-custom .col-50 {
+  flex: 0 0 calc(50% - 0.5rem);
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row.w-custom .col-60 {
+  flex: 0 0 calc(60% - 0.4rem);
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row.w-custom .col-70 {
+  flex: 0 0 calc(70% - 0.3rem);
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row.w-custom .col-80 {
+  flex: 0 0 calc(80% - 0.2rem);
+}
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row.w-custom .col-90 {
+  flex: 0 0 calc(90% - 0.1rem);
 }
 @media (max-width: 992px) {
   .private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row {

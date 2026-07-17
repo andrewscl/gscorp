@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gscorp.dv1.config.security.SecurityUser;
+import com.gscorp.dv1.enums.EmployeeStatus;
 import com.gscorp.dv1.enums.EmployeeTransitionRequestStatus;
 import com.gscorp.dv1.enums.TerminationReason;
+import com.gscorp.dv1.hr.employees.application.EmployeeService;
 import com.gscorp.dv1.hr.employeetransitionrequests.application.EmployeeTransitionRequestService;
 import com.gscorp.dv1.hr.employeetransitionrequests.web.dto.EmployeeTransitionRequestDto;
 
@@ -24,6 +26,7 @@ import lombok.AllArgsConstructor;
 public class EmployeeTransitionRequestController {
 
     private final EmployeeTransitionRequestService employeeTransitionRequestService;
+    private final EmployeeService employeeService;
 
     @GetMapping("/transition-requests/list")
     public String getEmployeeTransitionRequestView (
@@ -56,6 +59,7 @@ public class EmployeeTransitionRequestController {
         if(securityUser == null) return "redirect:/login";
 
         model.addAttribute("terminationReasons", TerminationReason.values());
+        model.addAttribute("activeEmployees", employeeService.findByStatus(EmployeeStatus.ACTIVE));
         return "private/hr/transition-requests/fragments/create-termination-request";
     }
 

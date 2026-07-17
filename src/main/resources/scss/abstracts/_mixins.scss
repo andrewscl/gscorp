@@ -12,7 +12,7 @@
     font-family: $heading-font;
     font-size: $size;
     font-weight: $weight;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.02em; 
 }
 
 @mixin custom-hr($height: 0.15rem, $color: $cool-gray-200, $margin: 4rem, $radius: 0) {

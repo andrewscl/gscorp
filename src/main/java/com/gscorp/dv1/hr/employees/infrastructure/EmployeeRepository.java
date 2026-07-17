@@ -406,4 +406,17 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
     );
 
 
+    @Query(value = """
+        SELECT 
+            e.id AS id, 
+            e.name AS name, 
+            e.fatherSurname AS fatherSurname, 
+            e.motherSurname AS motherSurname,
+        FROM Employee e
+        WHERE e.status = :status
+        """)
+    List<EmployeeSelectProjection>
+            findByStatus(@Param("status") EmployeeStatus status);
+
+
 }

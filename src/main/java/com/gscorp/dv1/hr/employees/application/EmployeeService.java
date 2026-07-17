@@ -61,4 +61,7 @@ public interface EmployeeService {
 
     Employee validateAndAssignUser (Long employeeId, User user);
 
+    List<EmployeeSelectDto> findByStatus (
+                                EmployeeStatus status); 
+
 }

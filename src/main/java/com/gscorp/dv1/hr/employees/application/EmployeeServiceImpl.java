@@ -486,6 +486,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.save(employee);
     }
 
-
+    @Transactional(readOnly = true)
+    public List<EmployeeSelectDto> findByStatus(EmployeeStatus status) {
+        List<EmployeeSelectProjection> projections = employeeRepository.findByStatus(status);
+        return projections.stream()
+                .map(EmployeeSelectDto::fromProjection)
+                .toList();
+    }
 
 }
