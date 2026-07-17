@@ -138,15 +138,15 @@
                     flex: 1;
                 }
                 &.w-custom {
-                .col-10 { flex : 0 0 calc(10% - (1rem * 0.9)); };
-                .col-20 { flex : 0 0 calc(20% - (1rem * 0.8)); };
-                .col-30 { flex : 0 0 calc(30% - (1rem * 0.7)); };
-                .col-40 { flex : 0 0 calc(40% - (1rem * 0.6)); };
-                .col-50 { flex : 0 0 calc(50% - (1rem * 0.5)); };
-                .col-60 { flex : 0 0 calc(60% - (1rem * 0.4)); };
-                .col-70 { flex : 0 0 calc(70% - (1rem * 0.3)); };
-                .col-80 { flex : 0 0 calc(80% - (1rem * 0.2)); };
-                .col-90 { flex : 0 0 calc(90% - (1rem * 0.1)); };
+                .fx-1 { flex : 1; };
+                .fx-2 { flex : 2; };
+                .fx-3 { flex : 3; };
+                .fx-4 { flex : 4; };
+                .fx-5 { flex : 5; };
+                .fx-6 { flex : 6; };
+                .fx-7 { flex : 7; };
+                .fx-8 { flex : 8; };
+                .fx-9 { flex : 9; };
                 }
                 @media (max-width: 992px){
                     flex-direction: column;

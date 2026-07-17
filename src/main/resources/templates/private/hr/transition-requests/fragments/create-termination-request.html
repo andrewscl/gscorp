@@ -8,11 +8,16 @@
             <div class="panel-body">
                 <div class="form-group">
                     <label>Empleado:</label>
-                    <input id="employee" required />
+                    <select id="employee" required>
+                        <option value="">Seleccione un empleado</option>
+                        <option th:each="ae : ${activeEmployees}"
+                                th:value="${ae.id}"
+                                th:text="${ae.fullName}"></option>
+                    </select>
                 </div>
 
                 <div class="form-row w-custom">
-                    <div class="form-group col-70">
+                    <div class="form-group fx-7">
                     <label>Causa de termino:</label>
                     <select id="terminationReason" required>
                         <option value="">Seleccione causa de termino</option>
@@ -21,7 +26,7 @@
                                 th:text="${tr.displayName}"></option>
                     </select>
                     </div>
-                    <div class="form-group col-30">
+                    <div class="form-group fx-3">
                         <label>Fecha propuesta:</label>
                         <input type="date" id="proposedExitDate" required />
                     </div>

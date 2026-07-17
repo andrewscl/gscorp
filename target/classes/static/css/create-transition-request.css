@@ -314,32 +314,32 @@ p {
 .private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row .form-group {
   flex: 1;
 }
-.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row.w-custom .col-10 {
-  flex: 0 0 calc(10% - 0.9rem);
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row.w-custom .fx-1 {
+  flex: 1;
 }
-.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row.w-custom .col-20 {
-  flex: 0 0 calc(20% - 0.8rem);
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row.w-custom .fx-2 {
+  flex: 2;
 }
-.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row.w-custom .col-30 {
-  flex: 0 0 calc(30% - 0.7rem);
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row.w-custom .fx-3 {
+  flex: 3;
 }
-.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row.w-custom .col-40 {
-  flex: 0 0 calc(40% - 0.6rem);
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row.w-custom .fx-4 {
+  flex: 4;
 }
-.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row.w-custom .col-50 {
-  flex: 0 0 calc(50% - 0.5rem);
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row.w-custom .fx-5 {
+  flex: 5;
 }
-.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row.w-custom .col-60 {
-  flex: 0 0 calc(60% - 0.4rem);
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row.w-custom .fx-6 {
+  flex: 6;
 }
-.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row.w-custom .col-70 {
-  flex: 0 0 calc(70% - 0.3rem);
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row.w-custom .fx-7 {
+  flex: 7;
 }
-.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row.w-custom .col-80 {
-  flex: 0 0 calc(80% - 0.2rem);
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row.w-custom .fx-8 {
+  flex: 8;
 }
-.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row.w-custom .col-90 {
-  flex: 0 0 calc(90% - 0.1rem);
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row.w-custom .fx-9 {
+  flex: 9;
 }
 @media (max-width: 992px) {
   .private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body .form-row {
@@ -504,32 +504,32 @@ p {
 .private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row .form-group {
   flex: 1;
 }
-.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row.w-custom .col-10 {
-  flex: 0 0 calc(10% - 0.9rem);
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row.w-custom .fx-1 {
+  flex: 1;
 }
-.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row.w-custom .col-20 {
-  flex: 0 0 calc(20% - 0.8rem);
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row.w-custom .fx-2 {
+  flex: 2;
 }
-.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row.w-custom .col-30 {
-  flex: 0 0 calc(30% - 0.7rem);
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row.w-custom .fx-3 {
+  flex: 3;
 }
-.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row.w-custom .col-40 {
-  flex: 0 0 calc(40% - 0.6rem);
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row.w-custom .fx-4 {
+  flex: 4;
 }
-.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row.w-custom .col-50 {
-  flex: 0 0 calc(50% - 0.5rem);
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row.w-custom .fx-5 {
+  flex: 5;
 }
-.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row.w-custom .col-60 {
-  flex: 0 0 calc(60% - 0.4rem);
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row.w-custom .fx-6 {
+  flex: 6;
 }
-.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row.w-custom .col-70 {
-  flex: 0 0 calc(70% - 0.3rem);
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row.w-custom .fx-7 {
+  flex: 7;
 }
-.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row.w-custom .col-80 {
-  flex: 0 0 calc(80% - 0.2rem);
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row.w-custom .fx-8 {
+  flex: 8;
 }
-.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row.w-custom .col-90 {
-  flex: 0 0 calc(90% - 0.1rem);
+.private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row.w-custom .fx-9 {
+  flex: 9;
 }
 @media (max-width: 992px) {
   .private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body .form-row {
@@ -677,6 +677,13 @@ p {
   color: #ffffff;
 }
 .private-layout .main-content .content .create-employee-transition-request .footer-actions .btn.btn-danger:hover {
+  background-color: rgb(236.5802955665, 39.7197044335, 39.7197044335);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+}
+.private-layout .main-content .content .create-employee-transition-request .footer-actions .btn.btn-danger:active {
+  transform: translateY(0);
+}/*# sourceMappingURL=create-transition-request.css.map */transition-request .footer-actions .btn.btn-danger:hover {
   background-color: rgb(236.5802955665, 39.7197044335, 39.7197044335);
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
