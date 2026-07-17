@@ -318,6 +318,8 @@ p {
   width: 100%;
 }
 .private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside {
+  justify-content: center;
+  align-items: center;
   flex: 1;
   padding: 0 2rem 1rem 2rem;
   display: flex;

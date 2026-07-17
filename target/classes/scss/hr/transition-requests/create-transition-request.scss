@@ -19,6 +19,8 @@
                         @include panel-main();
                     }
                     .panel-aside{
+                        justify-content: center;
+                        align-items: center;
                         @include panel-main();
                     }
                 }
