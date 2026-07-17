@@ -14,6 +14,13 @@
             letter-spacing: -0.02em;
             color: $heading-color;
         }
+        @media (max-width: 992px){
+            .panel-header {
+                @include montserrat-font($header-text-height-mobile, 700);
+                letter-spacing: -0.02em;
+                color: $heading-color;
+            }
+        }
         .panel-body {
             display: flex;
             flex-direction: column;

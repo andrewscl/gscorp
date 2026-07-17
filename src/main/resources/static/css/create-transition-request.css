@@ -168,6 +168,16 @@ p {
   letter-spacing: -0.02em;
   color: #475569;
 }
+@media (max-width: 992px) {
+  .private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-header {
+    font-family: "Montserrat", sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    letter-spacing: -0.02em;
+    color: #475569;
+  }
+}
 .private-layout .main-content .content .create-employee-transition-request .panel-container .panel-main .panel-body {
   display: flex;
   flex-direction: column;
@@ -333,6 +343,16 @@ p {
   letter-spacing: 0.02em;
   letter-spacing: -0.02em;
   color: #475569;
+}
+@media (max-width: 992px) {
+  .private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-header {
+    font-family: "Montserrat", sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    letter-spacing: -0.02em;
+    color: #475569;
+  }
 }
 .private-layout .main-content .content .create-employee-transition-request .panel-container .panel-aside .panel-body {
   display: flex;
