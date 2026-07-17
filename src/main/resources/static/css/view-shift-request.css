@@ -249,8 +249,10 @@ p {
   margin-bottom: 1.5rem;
 }
 .view-shift-request .panel-container .panel-main .panel-body .file-upload-container .form-label {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.7rem;
   font-weight: 600;
-  font-size: 0.75rem;
+  letter-spacing: 0.02em;
   color: #7f8c8d;
 }
 .view-shift-request .panel-container .panel-main .panel-body .file-upload-container .file-upload-input {

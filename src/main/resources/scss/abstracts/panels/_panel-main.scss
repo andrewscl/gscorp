@@ -24,7 +24,7 @@
                 flex-direction: column;
                 gap: 0.3rem;
                 label {
-                    @include roboto-font(0.7rem, 600); // Más pequeña y bold
+                    @include roboto-font(0.7rem, 600);
                     color: $muted-color; // Gris suave
                     text-transform: uppercase; // Estilo "etiqueta"
                     letter-spacing: 0.05em;
@@ -81,13 +81,10 @@
                 flex-direction: column;
                 gap: 0.5rem;
                 margin-bottom: 1.5rem;
-
                 .form-label {
-                    font-weight: 600;
-                    font-size: 0.75rem;
-                    color: #7f8c8d; // O tu variable de color de texto secundario
+                    @include roboto-font(0.7rem, 600);
+                    color: #7f8c8d;
                 }
-
                 // 1. Ocultar el input real por completo de forma segura para la accesibilidad
                 .file-upload-input {
                     width: 0.1px;
@@ -97,7 +94,6 @@
                     position: absolute;
                     z-index: -1;
                 }
-
                 // 2. Estilizar el Label como el área interactiva
                 .file-upload-label {
                     display: flex;
