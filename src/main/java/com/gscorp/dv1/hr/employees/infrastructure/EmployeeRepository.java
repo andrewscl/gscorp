@@ -411,7 +411,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
             e.id AS id, 
             e.name AS name, 
             e.fatherSurname AS fatherSurname, 
-            e.motherSurname AS motherSurname,
+            e.motherSurname AS motherSurname
         FROM Employee e
         WHERE e.status = :status
         """)
