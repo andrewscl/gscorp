@@ -28,7 +28,7 @@ public interface HrDocumentTypeRepository
         hdt.createdBy           AS createdBy,
         hdt.updatedBy           AS updatedBy,
         hdt.createdAt           AS createdAt,
-        hdt.updatedAt           AS updatedAt,
+        hdt.updatedAt           AS updatedAt
         FROM HrDocumentType hdt
         WHERE (:status IS NULL OR hdt.status = :status)
             AND(:process IS NULL OR hdt.targetProcess = :process)
