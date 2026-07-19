@@ -21,6 +21,11 @@ public class WebConfig implements WebMvcConfigurer{
         // Administration files
         registry.addResourceHandler("/files/administration_files/**")
                 .addResourceLocations("file:///C:/gscorp_uploads/administration_files/");
+
+        // Hr Termination files
+        registry.addResourceHandler("/files/hr_termination_files/**")
+                .addResourceLocations("file:///C:/gscorp_uploads/hr_termination_files/");
+
     }
 
 }

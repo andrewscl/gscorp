@@ -80,7 +80,8 @@ public class SiteVisitServiceImpl implements SiteVisitService{
                 String originalFilename = photo.getOriginalFilename();
                 String fileExtension = "";
                 if (originalFilename != null && originalFilename.contains(".")) {
-                    fileExtension = originalFilename.substring(originalFilename.lastIndexOf('.'));
+                    fileExtension =
+                        originalFilename.substring(originalFilename.lastIndexOf('.'));
                 }
                 String storedFilename = UUID.randomUUID().toString() + fileExtension;
 

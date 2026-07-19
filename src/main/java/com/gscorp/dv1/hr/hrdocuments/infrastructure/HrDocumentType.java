@@ -6,8 +6,13 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.gscorp.dv1.enums.EmployeeStatus;
+import com.gscorp.dv1.enums.HrProcessType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
@@ -44,8 +49,13 @@ public class HrDocumentType {
     @Column(nullable = false)
     private Boolean required = true;
 
-    @Column(length = 20)
-    private String targetStatus; // El estado al que pertenece (ej: "GIVEN_NOTICE", "INACTIVE", "SETTLED")
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private EmployeeStatus status;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 30)
+    private HrProcessType targetProcess;
 
     @Column(nullable = true, updatable = false)
     private String createdBy;

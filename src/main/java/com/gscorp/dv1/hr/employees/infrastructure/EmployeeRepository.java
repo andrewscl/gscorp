@@ -414,6 +414,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
             e.motherSurname AS motherSurname
         FROM Employee e
         WHERE e.status = :status
+        ORDER BY e.fatherSurname ASC
         """)
     List<EmployeeSelectProjection>
             findByStatus(@Param("status") EmployeeStatus status);

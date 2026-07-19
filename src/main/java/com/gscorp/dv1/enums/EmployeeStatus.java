@@ -12,7 +12,6 @@ public enum EmployeeStatus {
     EmployeeStatus(String displayName) {
         this.displayName = displayName;
     }
-
     public String getDisplayName(){
         return displayName;
     }

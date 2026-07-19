@@ -1,9 +1,12 @@
 package com.gscorp.dv1.hr.employees.web.dto;
 
+import java.util.UUID;
+
 import com.gscorp.dv1.hr.employees.infrastructure.Projections.EmployeeSelectProjection;
 
 public record EmployeeSelectDto (
     Long id,
+    UUID externalId,
     String name,
     String fatherSurname,
     String motherSurname,
@@ -21,6 +24,7 @@ public record EmployeeSelectDto (
 
         return new EmployeeSelectDto(
             esp.getId(),
+            esp.getExternalId(),
             esp.getName(),
             esp.getFatherSurname(),
             esp.getMotherSurname(),

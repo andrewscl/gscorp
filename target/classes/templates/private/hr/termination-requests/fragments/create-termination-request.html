@@ -1,0 +1,78 @@
+<div class="create-employee-transition-request">
+    <div class="panel-container">
+        <div class="panel-main">
+            <div class="panel-header">
+                <h4>Crear solicitud de desvinculación</h4>
+            </div>
+
+            <div class="panel-body">
+                <div class="form-group">
+                    <label>Empleado:</label>
+                    <select id="employeeExternalId" required>
+                        <option value="">Seleccione un empleado</option>
+                        <option th:each="ae : ${activeEmployees}"
+                                th:value="${ae.externalId}"
+                                th:text="${ae.fullName}"></option>
+                    </select>
+                </div>
+
+                <div class="form-row w-custom">
+                    <div class="form-group fx-7">
+                    <label>Causa de termino:</label>
+                    <select id="terminationReason" required>
+                        <option value="">Seleccione causa de termino</option>
+                        <option th:each="tr : ${terminationReasons}"
+                                th:value="${tr.name()}"
+                                th:text="${tr.displayName}"></option>
+                    </select>
+                    </div>
+                    <div class="form-group fx-3">
+                        <label>Fecha propuesta:</label>
+                        <input type="date" id="proposedExitDate" required />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Descripción:</label>
+                    <textarea id="description"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-aside">
+            <div class="panel-body">
+                <div class="file-upload-container">
+                    <span class="form-label">DOCUMENTO DE RESPALDO:</span>
+                    <div class="form-group">
+                        <label>Tipo de documento:</label>
+                        <select id="hrDocumentExternalId" required>
+                            <option value="">Seleccione un documento</option>
+                            <option th:each="hrd : ${hrDocumentTypes}"
+                                    th:value="${hrd.externalId}"
+                                    th:text="${hrd.name}"></option>
+                        </select>
+                    </div>
+                    <!-- Input oculto -->
+                    <input type="file" id="file-upload" class="file-upload-input" accept=".pdf,.doc,.docx,.png,.jpg" />
+                    <!-- Label estilizado como "Dropzone" -->
+                    <label for="file-upload" class="file-upload-label">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <span class="upload-text">Arrastra el archivo aquí o <strong>haz clic para buscar</strong></span>
+                        <span class="file-name" id="selected-file-name">Ningún archivo seleccionado</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
+    <div th:replace="~{shared/fragments/footer-buttons ::
+                            footer-buttons(
+                                true, 'Crear solicitud',
+                                true, 'Cancelar',
+                                false, '')}"></div>
+
+    <script type="module" src="/js/private/hr/employee-transitions/create-termination-request.js"></script>
+</div>

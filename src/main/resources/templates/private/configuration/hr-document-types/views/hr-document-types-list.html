@@ -1,0 +1,52 @@
+<div th:replace="~{shared/fragments/table-component :: smart-table(
+        title='Tipos de documentos de RRHH',
+        count=${count},
+        filters=~{::#hrDocumentTypesFilters},
+        actions=~{::#hrDocumentTypesActions},
+        thead=~{::#hrDocumentTypesHeader},
+        tbody=~{private/configuration/hr-document-types/fragments/hr-document-types-rows :: rows},
+        customClass='hr-document-types-list'
+    )}">
+
+        <th:block id="hrDocumentTypesFilters">
+            <div class="filter-item">
+                <span class="filter-label">Estado</span>
+                <select id="filter-employee-status" class="filter-input" name="status">
+                    <option value="">Todos los estados</option>
+                    <option th:each="tr : ${terminationReasons}"
+                            th:value="${tr}"
+                            th:text="${tr.displayName}"
+                            th:selected="${tr == currentStatus}"></option>
+                </select>
+            </div>
+
+            <div class="filter-item">
+                <span class="filter-label">Busqueda</span>
+                <input id="filter-q" class="filter-input" type="text" name="q"
+                            th:value="${q}" placeholder="nombre, rut, mail, o telefono..."/>
+            </div>
+
+            <div class="filter-item item-action">
+                <button class="btn btn-primary" id="searchHrDocumentTypesBtn">
+                Buscar
+                </button>
+            </div>
+        </th:block>
+
+        <th:block id="hrDocumentTypesActions">
+            <button class="btn btn-primary" id="addHrDocumentTypes"
+                th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
+            Crear tipo de documento
+            </button>
+        </th:block>
+
+        <tr id="hrDocumentTypesHeader">
+            <th>Name</th>
+            <th>Status</th>
+            <th>Process</th>
+            <th>Actions</th>
+        </tr>
+
+</div>
+
+    <script type="module" src="/js/private/hr/employee-transitions/termination-requests-list.js"></script>
