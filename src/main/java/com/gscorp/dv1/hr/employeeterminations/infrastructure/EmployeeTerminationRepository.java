@@ -36,7 +36,7 @@ public interface EmployeeTerminationRepository
         e.name                  AS employeeName,
         e.fatherSurname         AS fatherSurname,
         e.rut                   AS rut
-        FROM EmployeeTransitionRequest etr
+        FROM EmployeeTermination etr
         LEFT JOIN etr.employee e
         LEFT JOIN e.projects p
         WHERE p.client.id IN :clientIds
@@ -45,7 +45,7 @@ public interface EmployeeTerminationRepository
         """,
         countQuery = """
         SELECT COUNT(etr.id)
-        FROM EmployeeTransitionRequest etr
+        FROM EmployeeTermination etr
         LEFT JOIN etr.employee e
         LEFT JOIN e.projects p
         WHERE p.client.id IN :clientIds
