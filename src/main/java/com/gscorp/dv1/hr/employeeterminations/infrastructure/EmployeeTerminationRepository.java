@@ -21,7 +21,6 @@ public interface EmployeeTerminationRepository
         SELECT
         etr.id                  AS id,
         etr.externalId          AS externalId,
-        etr.requestType         AS requestType,
         etr.terminationReason   AS terminationReason,
         etr.status              AS status,
         etr.proposedExitDate    AS proposedExitDate,
