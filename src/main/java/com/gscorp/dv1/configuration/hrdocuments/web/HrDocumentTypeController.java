@@ -3,7 +3,6 @@ package com.gscorp.dv1.configuration.hrdocuments.web;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,7 +36,7 @@ public class HrDocumentTypeController {
     ){
         if(securityUser == null) return "redirect:/login";
 
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC));
+        Pageable pageable = PageRequest.of(page, size);
 
         Page<HrDocumentTypeDto> hrDocumentTypes =
                     hrDocumentTypeService.findByStatusAndProcess(status, process, pageable);
