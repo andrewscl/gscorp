@@ -6,13 +6,13 @@
             <td class="actions">
                 <button type="button"
                         class="btn btn-view"
-                        th:attr="data-path=@{/private/termination-requests/fragments/view/{externalId}(externalId=${e.externalId()})}">
+                        th:attr="data-path=@{/private/termination-requests/fragments/view/{externalId}(externalId=${hrdt.externalId()})}">
                 Ver
                 </button>
                 <button type="button"
                         class="btn btn-edit"
                         th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'') or hasRole(''RRHH'')')}"
-                        th:attr="data-path=@{/private/termination-requests/fragments/edit/{externalId}(externalId=${e.externalId()})}">
+                        th:attr="data-path=@{/private/termination-requests/fragments/edit/{externalId}(externalId=${hrdt.externalId()})}">
                 Editar
                 </button>
             </td>

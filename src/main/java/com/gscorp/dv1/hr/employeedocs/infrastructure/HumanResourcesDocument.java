@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table (name="human_resources_documents")
+@Table (name="hr_documents")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter

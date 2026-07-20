@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table (name="human_resources_document_types")
+@Table (name="hr_document_types")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter

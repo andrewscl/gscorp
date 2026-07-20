@@ -31,7 +31,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table (name="employee_transition_requests")
+@Table (name="employee_terminations")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter
