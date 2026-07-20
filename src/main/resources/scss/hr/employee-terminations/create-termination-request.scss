@@ -23,6 +23,12 @@
                         justify-content: flex-start;
                         gap: 2rem;
                         @include panel-main();
+                        .file-upload-container{
+                            display: flex;
+                            flex-direction: column;
+                            height: 100%;
+                            gap: 1rem;
+                        }
                     }
                 }
                 .alert-container {

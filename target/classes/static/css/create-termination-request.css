@@ -543,6 +543,12 @@ p {
   margin: 0.2rem 0;
   width: 100%;
 }
+.private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside .file-upload-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 1rem;
+}
 .private-layout .main-content .content .create-employee-termination-request .alert-container {
   display: none;
   width: auto;
