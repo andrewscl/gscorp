@@ -353,8 +353,9 @@ p {
   width: 100%;
 }
 .private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside {
-  padding: 1.5rem 0 0 0;
-  gap: 1rem;
+  align-items: stretch;
+  justify-content: center;
+  gap: 2rem;
 }
 .private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside .panel-title {
   font-family: "Montserrat", sans-serif;
