@@ -294,6 +294,7 @@ p {
 .private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside {
   align-items: stretch;
   justify-content: flex-start;
+  padding: 2rem;
 }
 .private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside .panel-body {
   display: flex;
