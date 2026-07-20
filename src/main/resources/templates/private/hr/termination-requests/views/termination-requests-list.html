@@ -1,14 +1,14 @@
 <div th:replace="~{shared/fragments/table-component :: smart-table(
         title='Gestión de desvinculaciones',
         count=${count},
-        filters=~{::#employeeTransitionRequestFilters},
-        actions=~{::#employeeTransitionRequestActions},
-        thead=~{::#employeeTransitionRequestHeader},
-        tbody=~{private/hr/transition-requests/fragments/termination-requests-rows :: rows},
+        filters=~{::#employeeTerminationRequestsFilters},
+        actions=~{::#employeeTerminationRequestsActions},
+        thead=~{::#employeeTerminationRequestsHeader},
+        tbody=~{private/hr/termination-requests/fragments/termination-requests-rows :: rows},
         customClass='employee-transition-request-list'
     )}">
 
-        <th:block id="employeeTransitionRequestFilters">
+        <th:block id="employeeTerminationRequestsFilters">
             <div class="filter-item">
                 <span class="filter-label">Estado</span>
                 <select id="filter-employee-status" class="filter-input" name="status">
@@ -33,14 +33,14 @@
             </div>
         </th:block>
 
-        <th:block id="employeeTerminationActions">
+        <th:block id="employeeTerminationRequestsActions">
             <button class="btn btn-primary" id="addTerminationRequest"
                 th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'') or hasRole(''RRHH'')')}">
             Crear Solicitud
             </button>
         </th:block>
 
-        <tr id="employeeTransitionRequestHeader">
+        <tr id="employeeTerminationRequestsHeader">
             <th>Foto</th>
             <th>Nombre</th>
             <th>Telefono</th>

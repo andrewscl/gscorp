@@ -14,7 +14,6 @@ import com.gscorp.dv1.configuration.hrdocuments.web.dto.HrDocumentTypeDto;
 import com.gscorp.dv1.enums.EmployeeStatus;
 import com.gscorp.dv1.enums.EmployeeTransitionStatus;
 import com.gscorp.dv1.enums.HrProcessType;
-import com.gscorp.dv1.hr.employees.infrastructure.Employee;
 
 import lombok.AllArgsConstructor;
 
