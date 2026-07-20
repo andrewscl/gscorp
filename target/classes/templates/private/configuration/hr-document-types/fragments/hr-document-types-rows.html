@@ -1,8 +1,8 @@
 <th:block th:fragment="rows">
         <tr th:each="hrdt : ${hrDocumentTypes}">
             <td th:text="${hrdt.name}"></td>
-            <td th:text="${hrdt.status}"></td>
-            <td th:text="${hrdt.targetProcess}"></td>
+            <td th:text="${hrdt.status.displayName}"></td>
+            <td th:text="${hrdt.targetProcess.displayName}"></td>
             <td class="actions">
                 <button type="button"
                         class="btn btn-view"
