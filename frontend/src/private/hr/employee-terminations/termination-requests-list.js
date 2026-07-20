@@ -5,7 +5,7 @@ const qs  = (s) => document.querySelector(s);
 
 const createTransitionRequest = (btn) => {
     if (btn) btn.disabled = true;
-    navigateTo('/private/employees/transition-requests/create-termination-request', true);
+    navigateTo('/private/employee-terminations/create-termination', true);
 }
 
 const searchTransitionRequest = async (btn) => {
