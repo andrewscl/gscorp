@@ -13,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gscorp.dv1.admin.clients.application.ClientService;
 import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.enums.EmployeeTransitionStatus;
-import com.gscorp.dv1.hr.employeedocs.infrastructure.EmployeeDocument;
-import com.gscorp.dv1.hr.employeedocs.infrastructure.EmployeeDocumentRepository;
+import com.gscorp.dv1.hr.employeedocs.infrastructure.HumanResourcesDocument;
+import com.gscorp.dv1.hr.employeedocs.infrastructure.HumanResourcesDocumentRepository;
 import com.gscorp.dv1.hr.employees.infrastructure.Employee;
 import com.gscorp.dv1.hr.employees.infrastructure.EmployeeRepository;
 import com.gscorp.dv1.hr.employeeterminations.infrastructure.EmployeeTermination;
@@ -35,7 +35,7 @@ public class EmployeeTerminationServiceImpl
     private final EmployeeRepository employeeRepository;
     private final EmployeeTerminationRepository repo;
     private final FileStorageService fileStorageService;
-    private final EmployeeDocumentRepository employeeDocumentRepository;
+    private final HumanResourcesDocumentRepository employeeDocumentRepository;
 
     @Value("${file.hr-termmination-files-dir}")
     private String physicalTargetDir;
@@ -67,13 +67,13 @@ public class EmployeeTerminationServiceImpl
                             CreateEmployeeTermination request,
                             SecurityUser securityUser){
         Employee employeeRef = employeeRepository.getReferenceById(request.getEmployeeId());
-        EmployeeDocument supportingDocument = null;
+        HumanResourcesDocument supportingDocument = null;
         if (request.getFile() != null && !request.getFile().isEmpty()) {
             String webPrefixPath = "/files/hr_termination_files/";
             String fileUrl = fileStorageService
                             .storeFile(request.getFile(), physicalTargetDir, webPrefixPath);
-            EmployeeDocument docEntity =
-                                    EmployeeDocument.builder()
+            HumanResourcesDocument docEntity =
+                                    HumanResourcesDocument.builder()
                                         .employee(employeeRef)
                                         .hrDocumentType(request.getHrDocumentType())
                                         .fileUrl(fileUrl)

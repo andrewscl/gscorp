@@ -108,8 +108,11 @@ export default defineConfig({
         'private/operations/kpi/operational-distribution-card': path.resolve(__dirname, './src/private/operations/kpi/operational-distribution-card.js'),
         'private/admin/dashboard/admin-dashboard': path.resolve(__dirname, './src/private/admin/dashboard/admin-dashboard.js'),
 
-        'private/hr/employee-transitions/termination-requests-list': path.resolve(__dirname, './src/private/hr/employee-transitions/termination-requests-list.js'),
-        'private/hr/employee-transitions/create-termination-request': path.resolve(__dirname, './src/private/hr/employee-transitions/create-termination-request.js')
+        'private/hr/employee-terminations/termination-requests-list': path.resolve(__dirname, './src/private/hr/employee-terminations/termination-requests-list.js'),
+        'private/hr/employee-terminations/create-termination-request': path.resolve(__dirname, './src/private/hr/employee-terminations/create-termination-request.js'),
+
+        'private/configuration/hr-document-types/hr-document-types-list': path.resolve(__dirname, './src/private/configuration/hr-document-types/hr-document-types-list.js'),
+        'private/configuration/hr-document-types/create-hr-document-type': path.resolve(__dirname, './src/private/configuration/hr-document-types/create-hr-document-type.js')
 
       },
       output: {

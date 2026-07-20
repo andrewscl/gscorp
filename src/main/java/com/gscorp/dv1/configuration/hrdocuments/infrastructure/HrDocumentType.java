@@ -1,27 +1,20 @@
-package com.gscorp.dv1.hr.employeeterminations.infrastructure;
+package com.gscorp.dv1.configuration.hrdocuments.infrastructure;
 
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.gscorp.dv1.enums.EmployeeTransitionStatus;
-import com.gscorp.dv1.enums.TerminationReason;
-import com.gscorp.dv1.hr.employeedocs.infrastructure.HumanResourcesDocument;
-import com.gscorp.dv1.hr.employees.infrastructure.Employee;
+import com.gscorp.dv1.enums.EmployeeStatus;
+import com.gscorp.dv1.enums.HrProcessType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -31,15 +24,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table (name="employee_transition_requests")
+@Table (name="human_resources_document_types")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter
 @Builder
-public class EmployeeTermination {
+public class HrDocumentType {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue
     private Long id;
 
     @Builder.Default
@@ -47,31 +39,20 @@ public class EmployeeTermination {
                         nullable=false, updatable=false)
     private UUID externalId = UUID.randomUUID();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "employee_id", nullable = false)
-    private Employee employee;
+    @Column(nullable = false, length = 100)
+    private String name; // Ej: "Carta de Aviso de Término", "Acta de Devolución de Equipos"
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "employee_document_id", nullable = true)
-    private HumanResourcesDocument supportingDocument;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 30)
-    private TerminationReason terminationReason;
+    @Builder.Default
+    @Column(nullable = false)
+    private Boolean required = true;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private EmployeeTransitionStatus status;
+    private EmployeeStatus status;
 
-    @Column(nullable = false)
-    private LocalDate proposedExitDate;
-
-    @Column(length = 1000)
-    private String description;
-
-    private String resolvedBy;
-
-    private OffsetDateTime resolvedAt;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 30)
+    private HrProcessType targetProcess;
 
     @Column(nullable = true, updatable = false)
     private String createdBy;
@@ -91,5 +72,4 @@ public class EmployeeTermination {
             this.externalId = UUID.randomUUID();
         }
     }
-
 }

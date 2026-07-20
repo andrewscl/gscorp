@@ -11,7 +11,7 @@ const cancelTerminationRequest = (btn) => {
     navigateTo('/private/employees/transition-requests/list', true);
 }
 
-const createTerminationRequest = (btn) => {
+const createTerminationRequest = async (btn) => {
     if(btn) btn.disabled = true;
 
     const employeeExternalId = qs('#employeeExternalId');

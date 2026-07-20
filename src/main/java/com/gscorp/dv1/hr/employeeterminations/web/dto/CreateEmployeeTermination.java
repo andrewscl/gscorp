@@ -4,8 +4,8 @@ import java.time.LocalDate;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.gscorp.dv1.configuration.hrdocuments.infrastructure.HrDocumentType;
 import com.gscorp.dv1.enums.TerminationReason;
-import com.gscorp.dv1.hr.hrdocuments.infrastructure.HrDocumentType;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
