@@ -16,8 +16,8 @@ const createHrDocumentType = async () => {
     const createBtn = qs('#submit');
     const cancelBtn = qs('#cancel');
     const name = qs('#name')?.value?.trim() || '';
-    const employeeStatus = qs('#filter-employee-status')?.value || '';
-    const hrProcessType = qs('#filter-hr-process')?.value || '';
+    const employeeStatus = qs('#employeeStatus')?.value || '';
+    const hrProcessType = qs('#hrProcessType')?.value || '';
     if(!name || !employeeStatus || !hrProcessType) {
         displayAlert(alertError, 'Todos los campos son obligatorios.', 2000);
         return;        

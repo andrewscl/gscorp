@@ -13,7 +13,7 @@
 
             <div class="form-group">
                     <label>Proceso:</label>
-                    <select id="hrProcessTypes" required>
+                    <select id="hrProcessType" required>
                         <option value="">Seleccione un proceso</option>
                         <option th:each="hpt : ${hrProcessTypes}"
                                 th:value="${hpt}"
@@ -23,7 +23,7 @@
 
             <div class="form-group">
                     <label>Estado:</label>
-                    <select id="terminationReason" required>
+                    <select id="employeeStatus" required>
                         <option value="">Seleccione estado</option>
                         <option th:each="es : ${employeeStatuses}"
                                 th:value="${es}"
