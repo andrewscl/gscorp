@@ -245,67 +245,6 @@ p {
   box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
   outline: none;
 }
-.private-layout .main-content .content .create-employee-termination-request .panel-container .panel-main .panel-body .file-upload-container {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-}
-.private-layout .main-content .content .create-employee-termination-request .panel-container .panel-main .panel-body .file-upload-container .form-label {
-  font-family: "Roboto", sans-serif;
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: #7f8c8d;
-}
-.private-layout .main-content .content .create-employee-termination-request .panel-container .panel-main .panel-body .file-upload-container .file-upload-input {
-  width: 0.1px;
-  height: 0.1px;
-  opacity: 0;
-  overflow: hidden;
-  position: absolute;
-  z-index: -1;
-}
-.private-layout .main-content .content .create-employee-termination-request .panel-container .panel-main .panel-body .file-upload-container .file-upload-label {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
-  border: 2px dashed #d1d5db;
-  border-radius: 0.8rem;
-  background-color: #f9fafb;
-  cursor: pointer;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
-  text-align: center;
-}
-.private-layout .main-content .content .create-employee-termination-request .panel-container .panel-main .panel-body .file-upload-container .file-upload-label:hover {
-  border-color: #4e54c8;
-  background-color: #f3f4f6;
-}
-.private-layout .main-content .content .create-employee-termination-request .panel-container .panel-main .panel-body .file-upload-container .file-upload-label .upload-icon {
-  font-size: 2rem;
-  color: #8f94fb;
-  margin-bottom: 0.5rem;
-}
-.private-layout .main-content .content .create-employee-termination-request .panel-container .panel-main .panel-body .file-upload-container .file-upload-label .upload-text {
-  font-size: 0.85rem;
-  color: #4b5563;
-}
-.private-layout .main-content .content .create-employee-termination-request .panel-container .panel-main .panel-body .file-upload-container .file-upload-label .upload-text strong {
-  color: #4e54c8;
-}
-.private-layout .main-content .content .create-employee-termination-request .panel-container .panel-main .panel-body .file-upload-container .file-upload-label .file-name {
-  margin-top: 0.5rem;
-  font-size: 0.75rem;
-  color: #9ca3af;
-  font-style: italic;
-}
-.private-layout .main-content .content .create-employee-termination-request .panel-container .panel-main .panel-body .file-upload-container .file-upload-label .file-name.file-active {
-  color: #10b981;
-  font-weight: bold;
-  font-style: normal;
-}
 .private-layout .main-content .content .create-employee-termination-request .panel-container .panel-main .panel-body .form-row {
   display: flex;
   gap: 2rem;
@@ -355,17 +294,12 @@ p {
 .private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside {
   align-items: stretch;
   justify-content: flex-start;
-  gap: 2rem;
-  flex: 1;
-  padding: 0 2rem 1rem 2rem;
-  display: flex;
-  flex-direction: column;
-  border-right: 1px solid rgba(226, 232, 240, 0.5);
 }
 .private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside .panel-body {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  height: 100%;
 }
 .private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside .panel-body .form-group {
   display: flex;
@@ -381,21 +315,6 @@ p {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin: 0;
-}
-.private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside .panel-body .form-group .form-value {
-  font-family: "Roboto", sans-serif;
-  font-size: 0.95rem;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  color: #475569;
-  line-height: 1.4;
-  border: 0.1rem solid #e2e8f0;
-  padding: 0.4rem 0.75rem;
-  border-radius: 0.5rem;
-}
-.private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside .panel-body .form-group .form-value:empty::before {
-  content: "—";
-  color: #cbd5e1;
 }
 .private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside .panel-body .form-group input, .private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside .panel-body .form-group select,
 .private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside .panel-body .form-group span {
@@ -415,23 +334,6 @@ p {
 }
 .private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside .panel-body .form-group input:focus, .private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside .panel-body .form-group select:focus,
 .private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside .panel-body .form-group span:focus {
-  border-color: #4e54c8;
-  box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
-  outline: none;
-}
-.private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside .panel-body .form-group textarea {
-  resize: vertical;
-  border: 0.09rem solid #ced4da;
-  border-radius: 0.5rem;
-  font-family: "Roboto", sans-serif;
-  font-size: 0.875rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  color: #1f2937;
-  min-height: 80px;
-  padding: 0.4rem 0.75rem;
-}
-.private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside .panel-body .form-group textarea:focus {
   border-color: #4e54c8;
   box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
   outline: none;
@@ -496,58 +398,6 @@ p {
   color: #10b981;
   font-weight: bold;
   font-style: normal;
-}
-.private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside .panel-body .form-row {
-  display: flex;
-  gap: 2rem;
-  width: 100%;
-}
-.private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside .panel-body .form-row .form-group {
-  flex: 1;
-}
-.private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside .panel-body .form-row.w-custom .fx-1 {
-  flex: 1;
-}
-.private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside .panel-body .form-row.w-custom .fx-2 {
-  flex: 2;
-}
-.private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside .panel-body .form-row.w-custom .fx-3 {
-  flex: 3;
-}
-.private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside .panel-body .form-row.w-custom .fx-4 {
-  flex: 4;
-}
-.private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside .panel-body .form-row.w-custom .fx-5 {
-  flex: 5;
-}
-.private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside .panel-body .form-row.w-custom .fx-6 {
-  flex: 6;
-}
-.private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside .panel-body .form-row.w-custom .fx-7 {
-  flex: 7;
-}
-.private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside .panel-body .form-row.w-custom .fx-8 {
-  flex: 8;
-}
-.private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside .panel-body .form-row.w-custom .fx-9 {
-  flex: 9;
-}
-@media (max-width: 992px) {
-  .private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside .panel-body .form-row {
-    flex-direction: column;
-  }
-}
-.private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside .panel-body .form-separator {
-  border: 0;
-  border-top: 1px solid rgba(226, 232, 240, 0.5);
-  margin: 0.2rem 0;
-  width: 100%;
-}
-.private-layout .main-content .content .create-employee-termination-request .panel-container .panel-aside .file-upload-container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  gap: 1rem;
 }
 .private-layout .main-content .content .create-employee-termination-request .alert-container {
   display: none;

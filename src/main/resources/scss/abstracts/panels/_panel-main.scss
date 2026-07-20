@@ -69,67 +69,6 @@
                     }
                 }
             }
-            .file-upload-container {
-                display: flex;
-                flex-direction: column;
-                gap: 0.5rem;
-                margin-bottom: 1.5rem;
-                .form-label {
-                    @include roboto-font(0.7rem, 600);
-                    color: #7f8c8d;
-                }
-                // 1. Ocultar el input real por completo de forma segura para la accesibilidad
-                .file-upload-input {
-                    width: 0.1px;
-                    height: 0.1px;
-                    opacity: 0;
-                    overflow: hidden;
-                    position: absolute;
-                    z-index: -1;
-                }
-                // 2. Estilizar el Label como el área interactiva
-                .file-upload-label {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    padding: 1.5rem;
-                    border: 2px dashed #d1d5db; // Línea discontinua típica de subida de archivos
-                    border-radius: 0.8rem; // Misma redondez de tus tarjetas e inputs
-                    background-color: #f9fafb;
-                    cursor: pointer;
-                    transition: border-color 0.2s ease, background-color 0.2s ease;
-                    text-align: center;
-                    &:hover {
-                        border-color: #4e54c8; // Color principal de tu degradado superior
-                        background-color: #f3f4f6;
-                    }
-                    .upload-icon {
-                        font-size: 2rem;
-                        color: #8f94fb; // Color secundario del degradado
-                        margin-bottom: 0.5rem;
-                    }
-                    .upload-text {
-                        font-size: 0.85rem;
-                        color: #4b5563;
-                        strong {
-                            color: #4e54c8;
-                        }
-                    }
-                    // Estilo para mostrar el nombre del archivo cargado
-                    .file-name {
-                        margin-top: 0.5rem;
-                        font-size: 0.75rem;
-                        color: #9ca3af;
-                        font-style: italic;
-                        &.file-active {
-                            color: #10b981; // Verde si ya hay un archivo listo
-                            font-weight: bold;
-                            font-style: normal;
-                        }
-                    }
-                }
-            }
             .form-row {
                 display: flex;
                 gap: 2rem;
