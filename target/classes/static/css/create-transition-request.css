@@ -683,11 +683,4 @@ p {
 }
 .private-layout .main-content .content .create-employee-transition-request .footer-actions .btn.btn-danger:active {
   transform: translateY(0);
-}/*# sourceMappingURL=create-transition-request.css.map */transition-request .footer-actions .btn.btn-danger:hover {
-  background-color: rgb(236.5802955665, 39.7197044335, 39.7197044335);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
-}
-.private-layout .main-content .content .create-employee-transition-request .footer-actions .btn.btn-danger:active {
-  transform: translateY(0);
 }/*# sourceMappingURL=create-transition-request.css.map */

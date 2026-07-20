@@ -10,20 +10,25 @@
 
         <th:block id="hrDocumentTypesFilters">
             <div class="filter-item">
-                <span class="filter-label">Estado</span>
-                <select id="filter-employee-status" class="filter-input" name="status">
+                <span class="filter-label">Estado empleado</span>
+                <select id="filter-employee-status" class="filter-input">
                     <option value="">Todos los estados</option>
-                    <option th:each="tr : ${terminationReasons}"
-                            th:value="${tr}"
-                            th:text="${tr.displayName}"
-                            th:selected="${tr == currentStatus}"></option>
+                    <option th:each="es : ${employeeStatuses}"
+                            th:value="${es}"
+                            th:text="${es.displayName}"
+                            th:selected="${es == currentStatus}"></option>
                 </select>
             </div>
 
             <div class="filter-item">
-                <span class="filter-label">Busqueda</span>
-                <input id="filter-q" class="filter-input" type="text" name="q"
-                            th:value="${q}" placeholder="nombre, rut, mail, o telefono..."/>
+                <span class="filter-label">Proceso</span>
+                <select id="filter-hr-process" class="filter-input">
+                    <option value="">Todos los procesos</option>
+                    <option th:each="hpt : ${hrProcessTypes}"
+                            th:value="${hpt}"
+                            th:text="${hpt.displayName}"
+                            th:selected="${hpt == currentProcess}"></option>
+                </select>
             </div>
 
             <div class="filter-item item-action">

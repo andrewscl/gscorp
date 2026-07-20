@@ -639,9 +639,4 @@ p {
 }
 .edit-shift-request .footer-actions .btn.btn-danger:active {
   transform: translateY(0);
-}/*# sourceMappingURL=edit-shift-request.css.map */anslateY(-3px);
-  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
-}
-.edit-shift-request .footer-actions .btn.btn-danger:active {
-  transform: translateY(0);
 }/*# sourceMappingURL=edit-shift-request.css.map */

@@ -10,11 +10,10 @@ const createHrDocumentType = (btn) => {
 
 const searchHrDocumentType = async (btn) => {
     if (btn) btn.disabled = true;
-
 }
 
 function bindHrDocumentTypesList() {
-    const createBtn = qs('#addTerminationRequest');
+    const createBtn = qs('#addHrDocumentTypes');
     if(createBtn) createBtn.addEventListener('click', createHrDocumentType);
 
     const searchBtn = qs('#searchShiftRequestsBtn');

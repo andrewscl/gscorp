@@ -43,6 +43,8 @@ public class HrDocumentTypeController {
 
         model.addAttribute("hrDocumentTypesPage", hrDocumentTypes);
         model.addAttribute("hrDocumentTypes", hrDocumentTypes.getContent());
+        model.addAttribute("hrProcessTypes", HrProcessType.values());
+        model.addAttribute("employeeStatuses", EmployeeStatus.values());
         return "private/configuration/hr-document-types/views/hr-document-types-list";
     }
 
