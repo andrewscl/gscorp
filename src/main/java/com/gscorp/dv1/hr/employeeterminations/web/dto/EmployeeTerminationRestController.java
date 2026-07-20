@@ -1,4 +1,4 @@
-package com.gscorp.dv1.hr.employeeterminations.web;
+package com.gscorp.dv1.hr.employeeterminations.web.dto;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +12,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.hr.employeeterminations.application.EmployeeTerminationService;
-import com.gscorp.dv1.hr.employeeterminations.web.dto.CreateEmployeeTermination;
-import com.gscorp.dv1.hr.employeeterminations.web.dto.EmployeeTerminationDto;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +36,7 @@ public class EmployeeTerminationRestController {
         EmployeeTerminationDto saved = 
                         employeeTerminationService
                             .createEmployeeTermination(req, securityUser);
-        var location = ucb.path("api/employee-terminations/{externalId}")
+        var location = ucb.path("/api/employee-terminations/{externalId}")
                             .buildAndExpand(saved.externalId())
                             .toUri();
 

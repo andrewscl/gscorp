@@ -3,6 +3,7 @@ package com.gscorp.dv1.configuration.hrdocuments.web.dto;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+import com.gscorp.dv1.configuration.hrdocuments.infrastructure.HrDocumentType;
 import com.gscorp.dv1.configuration.hrdocuments.infrastructure.projections.HrDocumentTypeProjection;
 import com.gscorp.dv1.enums.EmployeeStatus;
 import com.gscorp.dv1.enums.HrProcessType;
@@ -34,4 +35,21 @@ public record HrDocumentTypeDto (
             p.getUpdatedAt()
         );
     }
+
+    public static HrDocumentTypeDto fromEntity(HrDocumentType e){
+        if (e == null) return null;
+        return new HrDocumentTypeDto(
+            e.getId(),
+            e.getExternalId(),
+            e.getName(),
+            e.getRequired(),
+            e.getStatus(),
+            e.getTargetProcess(),
+            e.getCreatedBy(),
+            e.getUpdatedBy(),
+            e.getCreatedAt(),
+            e.getUpdatedAt()
+        );
+    }
+
 }
