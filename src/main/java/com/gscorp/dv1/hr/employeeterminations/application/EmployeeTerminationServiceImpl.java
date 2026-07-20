@@ -41,7 +41,7 @@ public class EmployeeTerminationServiceImpl
     private String physicalTargetDir;
 
     @Transactional(readOnly = true)
-    public Page<EmployeeTerminationDto> getTransitionRequestTable(
+    public Page<EmployeeTerminationDto> getEmployeeTerminationsTable(
                 UUID userExternalId,
                 EmployeeTransitionStatus status,
                 int page,

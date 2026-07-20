@@ -1,4 +1,4 @@
-package com.gscorp.dv1.hr.employeeterminations.web.dto;
+package com.gscorp.dv1.hr.employeeterminations.web;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +12,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.hr.employeeterminations.application.EmployeeTerminationService;
+import com.gscorp.dv1.hr.employeeterminations.web.dto.CreateEmployeeTermination;
+import com.gscorp.dv1.hr.employeeterminations.web.dto.EmployeeTerminationDto;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

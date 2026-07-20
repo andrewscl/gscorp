@@ -19,8 +19,9 @@
                         @include panel-main();
                     }
                     .panel-aside{
-                        justify-content: center;
-                        align-items: center;
+                        .panel-title{
+                            @include montserrat-font(1rem, 700);
+                        }
                         @include panel-main();
                     }
                 }

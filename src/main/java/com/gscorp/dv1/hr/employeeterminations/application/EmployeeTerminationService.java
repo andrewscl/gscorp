@@ -12,7 +12,7 @@ import com.gscorp.dv1.hr.employeeterminations.web.dto.EmployeeTerminationDto;
 
 public interface EmployeeTerminationService {
 
-    Page<EmployeeTerminationDto> getTransitionRequestTable(
+    Page<EmployeeTerminationDto> getEmployeeTerminationsTable(
                                 UUID userExternalId,
                                 EmployeeTransitionStatus status,
                                 int page,
