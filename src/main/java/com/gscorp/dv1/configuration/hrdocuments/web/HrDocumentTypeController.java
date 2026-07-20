@@ -1,6 +1,9 @@
 package com.gscorp.dv1.configuration.hrdocuments.web;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +15,6 @@ import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.configuration.hrdocuments.application.HrDocumentTypeService;
 import com.gscorp.dv1.configuration.hrdocuments.web.dto.HrDocumentTypeDto;
 import com.gscorp.dv1.enums.EmployeeStatus;
-import com.gscorp.dv1.enums.EmployeeTransitionStatus;
 import com.gscorp.dv1.enums.HrProcessType;
 
 import lombok.AllArgsConstructor;
@@ -28,15 +30,17 @@ public class HrDocumentTypeController {
     public String getHrDocumentTypesList (
             Model model,
             @AuthenticationPrincipal SecurityUser securityUser,
-            @RequestParam(required = false) EmployeeTransitionStatus status,
+            @RequestParam(required = false) EmployeeStatus status,
+            @RequestParam(required = false) HrProcessType process,            
             @RequestParam(required = false, defaultValue = "0") int page,
             @RequestParam(required = false, defaultValue = "100") int size
     ){
         if(securityUser == null) return "redirect:/login";
 
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC));
+
         Page<HrDocumentTypeDto> hrDocumentTypes =
-                    hrDocumentTypeService
-                        .findByStatusAndProcess(null, null);
+                    hrDocumentTypeService.findByStatusAndProcess(status, process, pageable);
 
         model.addAttribute("hrDocumentTypesPage", hrDocumentTypes);
         model.addAttribute("hrDocumentTypes", hrDocumentTypes.getContent());
