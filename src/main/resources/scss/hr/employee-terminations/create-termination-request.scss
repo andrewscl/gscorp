@@ -20,11 +20,8 @@
                     }
                     .panel-aside{
                         align-items: stretch;
-                        justify-content: center;
+                        justify-content: flex-start;
                         gap: 2rem;
-                        .panel-title{
-                            @include montserrat-font(1rem, 700);
-                        }
                         @include panel-main();
                     }
                 }

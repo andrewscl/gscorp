@@ -40,10 +40,7 @@
         </div>
 
         <div class="panel-aside">
-            <div class="panel-body">
-                <div class="file-upload-container">
-                    <span class="panel-title">DOCUMENTO DE RESPALDO:</span>
-                    <div class="form-group">
+                <div class="form-group">
                         <label>Tipo de documento:</label>
                         <select id="hrDocumentExternalId" required>
                             <option value="">Seleccione un documento</option>
@@ -51,7 +48,9 @@
                                     th:value="${hrd.externalId}"
                                     th:text="${hrd.name}"></option>
                         </select>
-                    </div>
+                </div>
+                <div class="file-upload-container">
+                    <span class="panel-title">DOCUMENTO DE RESPALDO:</span>
                     <!-- Input oculto -->
                     <input type="file" id="file-upload" class="file-upload-input" accept=".pdf,.doc,.docx,.png,.jpg" />
                     <!-- Label estilizado como "Dropzone" -->
@@ -63,7 +62,7 @@
                         <span class="file-name" id="selected-file-name">Ningún archivo seleccionado</span>
                     </label>
                 </div>
-            </div>
+
         </div>
     </div>
 
