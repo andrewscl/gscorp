@@ -5,7 +5,7 @@ const qs  = (s) => document.querySelector(s);
 
 const createHrDocumentType = (btn) => {
     if (btn) btn.disabled = true;
-    navigateTo('/private/employees/transition-requests/create-termination-request', true);
+    navigateTo('/private/hr-document-types/create', true);
 }
 
 const searchHrDocumentType = async (btn) => {
