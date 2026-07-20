@@ -56,7 +56,7 @@ public class HrDocumentTypeController {
         if(securityUser == null) return "redirect:/login";
         model.addAttribute("employeeStatuses", EmployeeStatus.values());
         model.addAttribute("hrProcessTypes", HrProcessType.values());
-        return "private/configuration/hr-document-types/views/create-hr-document-type";
+        return "private/configuration/hr-document-types/fragments/create-hr-document-type";
     }
 
 
