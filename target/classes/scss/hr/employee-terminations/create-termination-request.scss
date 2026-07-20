@@ -19,6 +19,8 @@
                         @include panel-main();
                     }
                     .panel-aside{
+                        padding: 1.5rem 0 0 0;
+                        gap: 1rem;
                         .panel-title{
                             @include montserrat-font(1rem, 700);
                         }
