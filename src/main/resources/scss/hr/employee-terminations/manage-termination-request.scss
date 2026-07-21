@@ -20,6 +20,8 @@
                         .panel-body{
                             // --- Estilos para el Listado de Documentos ---
                             .documents-section {
+                                display: block;
+                                width: 100%;
                                 margin: 0;
                                 padding: 0;
                                 .section-title {
@@ -99,6 +101,9 @@
                             flex-direction: column;
                             gap: 1.5rem;
                             height: 100%;
+                            .panel-title{
+                                @include montserrat-font(1.1rem, 600);
+                            }
                             .form-group {
                                 display: flex;
                                 flex-direction: column;

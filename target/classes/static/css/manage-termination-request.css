@@ -14,7 +14,7 @@ body {
   line-height: 1.5;
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, h5 {
   line-height: 1.2;
   color: #475569;
 }
@@ -44,6 +44,13 @@ h3 {
 h4 {
   font-family: "Montserrat", sans-serif;
   font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+h5 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.02em;
 }
@@ -308,6 +315,8 @@ p {
   width: 100%;
 }
 .private-layout .main-content .content .manage-employee-termination-request .panel-container .panel-main .panel-body .documents-section {
+  display: block;
+  width: 100%;
   margin: 0;
   padding: 0;
 }
@@ -380,6 +389,12 @@ p {
   flex-direction: column;
   gap: 1.5rem;
   height: 100%;
+}
+.private-layout .main-content .content .manage-employee-termination-request .panel-container .panel-aside .panel-body .panel-title {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 .private-layout .main-content .content .manage-employee-termination-request .panel-container .panel-aside .panel-body .form-group {
   display: flex;

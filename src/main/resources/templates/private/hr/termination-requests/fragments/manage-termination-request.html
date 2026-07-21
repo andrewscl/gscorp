@@ -28,7 +28,7 @@
                             th:text="${terminationRequest.description}"></div>
                 </div>
                 <div class="documents-section">
-                    <h4 class="section-title">Documentos Adjuntos</h4>
+                    <h5 class="section-title">Documentos Adjuntos</h5>
                     <!-- Listado cuando existen documentos -->
                     <div th:if="${not #lists.isEmpty(terminationRequestDocuments)}" class="documents-list">
                         <div th:each="doc : ${terminationRequestDocuments}" class="document-item">
@@ -67,7 +67,8 @@
                         <input type="date" id="finalExitDate" required />
                     </div>
                 </div>
-                <span class="panel-title">Documento de respaldo:</span>
+                <hr class="form-separator" />
+                <div class="panel-title">Documento de respaldo:</div>
                 <div class="form-group">
                         <label>Tipo de documento:</label>
                         <select id="hrDocumentType" required>

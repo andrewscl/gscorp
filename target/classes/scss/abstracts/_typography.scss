@@ -8,7 +8,7 @@ body {
   line-height: 1.5;
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, h5 {
   line-height: 1.2;
   color: $heading-color;
 }
@@ -19,6 +19,7 @@ h2 { @include montserrat-font(2rem, 600);
 }
 h3 { @include montserrat-font(1.5rem, 600); }
 h4 { @include montserrat-font(1.25rem, 600); }
+h5 { @include montserrat-font(1rem, 600); }
 
 
 @media (max-width: 992px) {
