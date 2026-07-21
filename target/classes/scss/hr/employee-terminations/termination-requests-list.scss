@@ -13,6 +13,46 @@
 
                 @include hs-table();
 
+                .hs-table-container {
+                .table {
+                    thead {
+                    tr {
+                        th:nth-child(1) {width: 35%;}
+                        th:nth-child(3) {width: 20%;}
+                        th:nth-child(2) {width: 20%;}
+                        th:nth-child(4) {width: 25%;}
+                    }
+                    }
+                    tbody {
+                    tr {
+                        td:nth-child(1) { width: 35%; } 
+                        td:nth-child(2) { width: 20%; }
+                        td:nth-child(3) { width: 20%; }  
+                        td:nth-child(4) { width: 25%; }
+                    }
+                    }
+                    @media (max-width: 768px) {
+                    thead {
+                        tr {
+                        th:nth-child(2), 
+                        th:nth-child(3) {display: none;}
+                        th:nth-child(1) {width: 65%;} 
+                        th:nth-child(4) {width: 35%;}
+                        }
+                    }
+                    tbody {
+                        tr {
+                        td:nth-child(2), 
+                        td:nth-child(3) {display: none;}
+                        td:nth-child(1) {width: 65%;}
+                        td:nth-child(4) {width: 35%;}
+                        }
+                    }
+                    }
+
+                }
+                }
+
             }
         }
     }

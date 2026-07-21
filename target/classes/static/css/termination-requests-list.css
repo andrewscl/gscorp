@@ -467,4 +467,50 @@ p {
     width: 100%;
     text-align: center;
   }
+}
+.private-layout .main-content .content .hs-table.employee-termination-request-list .hs-table-container .table thead tr th:nth-child(1) {
+  width: 35%;
+}
+.private-layout .main-content .content .hs-table.employee-termination-request-list .hs-table-container .table thead tr th:nth-child(3) {
+  width: 20%;
+}
+.private-layout .main-content .content .hs-table.employee-termination-request-list .hs-table-container .table thead tr th:nth-child(2) {
+  width: 20%;
+}
+.private-layout .main-content .content .hs-table.employee-termination-request-list .hs-table-container .table thead tr th:nth-child(4) {
+  width: 25%;
+}
+.private-layout .main-content .content .hs-table.employee-termination-request-list .hs-table-container .table tbody tr td:nth-child(1) {
+  width: 35%;
+}
+.private-layout .main-content .content .hs-table.employee-termination-request-list .hs-table-container .table tbody tr td:nth-child(2) {
+  width: 20%;
+}
+.private-layout .main-content .content .hs-table.employee-termination-request-list .hs-table-container .table tbody tr td:nth-child(3) {
+  width: 20%;
+}
+.private-layout .main-content .content .hs-table.employee-termination-request-list .hs-table-container .table tbody tr td:nth-child(4) {
+  width: 25%;
+}
+@media (max-width: 768px) {
+  .private-layout .main-content .content .hs-table.employee-termination-request-list .hs-table-container .table thead tr th:nth-child(2),
+  .private-layout .main-content .content .hs-table.employee-termination-request-list .hs-table-container .table thead tr th:nth-child(3) {
+    display: none;
+  }
+  .private-layout .main-content .content .hs-table.employee-termination-request-list .hs-table-container .table thead tr th:nth-child(1) {
+    width: 65%;
+  }
+  .private-layout .main-content .content .hs-table.employee-termination-request-list .hs-table-container .table thead tr th:nth-child(4) {
+    width: 35%;
+  }
+  .private-layout .main-content .content .hs-table.employee-termination-request-list .hs-table-container .table tbody tr td:nth-child(2),
+  .private-layout .main-content .content .hs-table.employee-termination-request-list .hs-table-container .table tbody tr td:nth-child(3) {
+    display: none;
+  }
+  .private-layout .main-content .content .hs-table.employee-termination-request-list .hs-table-container .table tbody tr td:nth-child(1) {
+    width: 65%;
+  }
+  .private-layout .main-content .content .hs-table.employee-termination-request-list .hs-table-container .table tbody tr td:nth-child(4) {
+    width: 35%;
+  }
 }/*# sourceMappingURL=termination-requests-list.css.map */

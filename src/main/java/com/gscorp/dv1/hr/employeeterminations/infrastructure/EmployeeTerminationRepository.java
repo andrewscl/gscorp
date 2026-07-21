@@ -34,7 +34,7 @@ public interface EmployeeTerminationRepository
         e.id                    AS employeeId,
         e.externalId            AS employeeExternalId,
         e.name                  AS employeeName,
-        e.fatherSurname         AS fatherSurname,
+        e.fatherSurname         AS employeeFatherSurname,
         e.rut                   AS rut
         FROM EmployeeTermination etr
         LEFT JOIN etr.employee e
