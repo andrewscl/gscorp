@@ -15,8 +15,6 @@ import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.configuration.hrdocuments.infrastructure.HrDocumentType;
 import com.gscorp.dv1.configuration.hrdocuments.infrastructure.HrDocumentTypeRepository;
 import com.gscorp.dv1.enums.EmployeeTransitionStatus;
-import com.gscorp.dv1.hr.employeedocs.infrastructure.HumanResourcesDocument;
-import com.gscorp.dv1.hr.employeedocs.infrastructure.HumanResourcesDocumentRepository;
 import com.gscorp.dv1.hr.employees.infrastructure.Employee;
 import com.gscorp.dv1.hr.employees.infrastructure.EmployeeRepository;
 import com.gscorp.dv1.hr.employeeterminations.infrastructure.EmployeeTermination;
@@ -24,6 +22,8 @@ import com.gscorp.dv1.hr.employeeterminations.infrastructure.EmployeeTermination
 import com.gscorp.dv1.hr.employeeterminations.infrastructure.projections.EmployeeTerminationProjection;
 import com.gscorp.dv1.hr.employeeterminations.web.dto.CreateEmployeeTermination;
 import com.gscorp.dv1.hr.employeeterminations.web.dto.EmployeeTerminationDto;
+import com.gscorp.dv1.hr.hrdocs.infrastructure.HumanResourcesDocument;
+import com.gscorp.dv1.hr.hrdocs.infrastructure.HumanResourcesDocumentRepository;
 import com.gscorp.dv1.shared.FileStorageService;
 
 import jakarta.persistence.EntityNotFoundException;

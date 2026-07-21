@@ -29,25 +29,18 @@
                 </div>
                 <!-- Sección de Adjunto del Solicitante -->
                 <div class="form-group">
-                    <label>Archivo adjunto por el solicitante:</label>
-                    
-                    <!-- CASO 1: Sí hay un archivo adjunto -->
-                    <div th:if="${terminationRequest.attachmentName != null}" class="file-download-container">
-                        <div class="file-info">
-                            <i class="fas fa-file-alt file-icon"></i>
-                            <span class="file-name" th:text="${terminationRequest.attachmentName}">documento_solicitud.pdf</span>
-                        </div>
-                        <!-- Enlace de descarga apuntando al controlador que sirve el archivo -->
-                        <a th:href="@{/private/hr/termination-requests/download/{id}(id=${terminationRequest.externalId})}" 
-                        class="btn-download" 
-                        title="Descargar archivo">
-                            <i class="fas fa-download"></i> Descargar
-                        </a>
+                    <div th:if="${not #lists.isEmpty(terminationRequestDocuments)}">
+                        <h4>Documentos Adjuntos</h4>
+                        <ul>
+                            <li th:each="doc : ${terminationRequestDocuments}">
+                                <span th:text="${doc.hrDocumentTypeName}">Tipo de Documento</span> - 
+                                <a th:href="${doc.fileUrl}" target="_blank">Descargar Archivo</a>
+                                <small th:text="${'Subido por: ' + doc.createdBy}"></small>
+                            </li>
+                        </ul>
                     </div>
-                    <!-- CASO 2: No se adjuntó ningún archivo -->
-                    <div th:if="${terminationRequest.attachmentName == null}" class="file-empty-state">
-                        <i class="fas fa-info-circle"></i>
-                        <span>El solicitante no adjuntó documentos a esta solicitud.</span>
+                    <div th:if="${#lists.isEmpty(terminationRequestDocuments)}">
+                        <p>No hay documentos asociados a esta solicitud.</p>
                     </div>
                 </div>
             </div>

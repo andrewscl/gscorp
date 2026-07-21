@@ -11,8 +11,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.gscorp.dv1.enums.EmployeeTransitionStatus;
 import com.gscorp.dv1.enums.TerminationReason;
-import com.gscorp.dv1.hr.employeedocs.infrastructure.HumanResourcesDocument;
 import com.gscorp.dv1.hr.employees.infrastructure.Employee;
+import com.gscorp.dv1.hr.hrdocs.infrastructure.HumanResourcesDocument;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

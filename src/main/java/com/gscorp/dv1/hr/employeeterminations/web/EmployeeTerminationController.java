@@ -1,5 +1,6 @@
 package com.gscorp.dv1.hr.employeeterminations.web;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -22,6 +23,8 @@ import com.gscorp.dv1.enums.TerminationReason;
 import com.gscorp.dv1.hr.employees.application.EmployeeService;
 import com.gscorp.dv1.hr.employeeterminations.application.EmployeeTerminationService;
 import com.gscorp.dv1.hr.employeeterminations.web.dto.EmployeeTerminationDto;
+import com.gscorp.dv1.hr.hrdocs.application.HumanResourcesDocumentService;
+import com.gscorp.dv1.hr.hrdocs.web.dto.HumanResourcesDocumentDto;
 
 import lombok.AllArgsConstructor;
 
@@ -33,6 +36,7 @@ public class EmployeeTerminationController {
     private final EmployeeTerminationService employeeTerminationService;
     private final EmployeeService employeeService;
     private final HrDocumentTypeService hrDocumentTypeService;
+    private final HumanResourcesDocumentService humanResourcesDocumentService;
 
     @GetMapping("/list")
     public String getEmployeeTransitionRequestView (
@@ -90,10 +94,13 @@ public class EmployeeTerminationController {
 
         EmployeeTerminationDto employeeTerminationDto =
                 employeeTerminationService.findByExternalId(externalId);
+        List<HumanResourcesDocumentDto> documents =
+                humanResourcesDocumentService.findByEmployeeTerminationExternalId(externalId);
 
         model.addAttribute("terminationRequest",employeeTerminationDto);
         model.addAttribute("terminationReasons", TerminationReason.values());
         model.addAttribute("hrDocumentTypes", hrDocumentTypes.getContent());
+        model.addAttribute("terminationRequestDocuments", documents);
         return "private/hr/termination-requests/fragments/manage-termination-request";
     }
 

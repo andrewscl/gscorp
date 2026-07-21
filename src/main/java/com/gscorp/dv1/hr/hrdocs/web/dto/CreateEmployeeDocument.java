@@ -1,4 +1,4 @@
-package com.gscorp.dv1.hr.employeedocs.web.dto;
+package com.gscorp.dv1.hr.hrdocs.web.dto;
 
 public record CreateEmployeeDocument (
 
