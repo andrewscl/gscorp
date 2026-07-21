@@ -6,13 +6,13 @@
             <td class="actions">
                 <button type="button"
                         class="btn btn-view"
-                        th:attr="data-path=@{/private/termination-requests/fragments/view/{externalId}(externalId=${tr.externalId})}">
+                        th:attr="data-path=@{/private/employee-terminations/fragments/view/{externalId}(externalId=${tr.externalId})}">
                 Ver
                 </button>
                 <button type="button"
                         class="btn btn-edit"
                         th:if="${(#authorization.expression('hasRole(''ADMINISTRATOR'') or hasRole(''RRHH'')')) and tr.status.name() == 'PENDING'}"
-                        th:attr="data-path=@{/private/termination-requests/fragments/manage/{externalId}(externalId=${tr.externalId})}">
+                        th:attr="data-path=@{/private/employee-terminations/fragments/manage/{externalId}(externalId=${tr.externalId})}">
                 Gestionar
                 </button>
             </td>
