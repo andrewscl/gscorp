@@ -60,7 +60,6 @@ public class EmployeeTerminationController {
         return "private/hr/termination-requests/views/termination-requests-list";
     }
 
-
     @GetMapping("/create-termination")
     public String getCreateEmployeeTransitionRequest(
                 Model model,
