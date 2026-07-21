@@ -1,0 +1,227 @@
+@use '../../abstracts/panel-cards' as *;
+@use '../../abstracts/alerts' as *;
+@use '../../abstracts/buttons/footer-buttons' as *;
+@use '../../abstracts/buttons/btn-mixins' as *;
+@use '../../abstracts/palette' as *;
+@use '../../abstracts/typography' as *;
+@use '../../abstracts/variables' as *;
+@use '../../abstracts/mixins' as *;
+@use '../../abstracts/card-forms' as *;
+@use '../../abstracts/panels/panel-main' as *;
+
+.private-layout {
+    .main-content{
+        .content{
+            .manage-employee-termination-request{
+                @include dual-panel-card();
+                .panel-container{
+                    .panel-main{
+                        @include panel-main();
+                        .panel-body{
+                            // --- Estilos para el Listado de Documentos ---
+                            .documents-section {
+                                margin-top: 2rem;
+                                .section-title {
+                                    font-size: 1.35rem;
+                                    font-weight: 600;
+                                    color: $text-color;
+                                    margin-bottom: 1rem;
+                                }
+                                .documents-list {
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: 0.75rem;
+                                }
+                                .document-item {
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: space-between;
+                                    padding: 0.75rem 1rem;
+                                    background-color: #ffffff;
+                                    border: 1px solid $border-color;
+                                    border-radius: $radius;
+                                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+                                    
+                                    .document-info {
+                                        display: flex;
+                                        align-items: center;
+                                        gap: 1rem;
+                                    }
+
+                                    .document-badge {
+                                        display: inline-block;
+                                        padding: 0.4rem 0.8rem;
+                                        font-size: 0.85rem;
+                                        color: $text-color;
+                                        background-color: #ffffff;
+                                        border: 1px solid $border-color;
+                                        border-radius: 6px;
+                                    }
+
+                                    .document-meta {
+                                        font-size: 0.8rem;
+                                        color: $muted-color;
+                                    }
+
+                                    .btn-download {
+                                        font-size: 0.9rem;
+                                        color: $text-color;
+                                        text-decoration: none;
+                                        font-weight: 500;
+                                        padding: 0.5rem 1rem;
+                                        border: 1px solid transparent;
+                                        transition: all 0.2s ease;
+
+                                        &:hover {
+                                            text-decoration: underline;
+                                            color: darken($text-color, 10%);
+                                        }
+                                    }
+                                }
+                                // Caja de alerta si no hay elementos cargados
+                                .documents-empty {
+                                    padding: 1.5rem;
+                                    text-align: center;
+                                    font-size: 0.9rem;
+                                    color: $muted-color;
+                                    background-color: $background-color;
+                                    border: 1px dashed $border-color;
+                                    border-radius: $radius;
+                                }
+                            }
+                        }
+                    }
+                    .panel-aside{
+                        align-items: stretch;
+                        justify-content: flex-start;
+                        padding: 2rem;
+                        .panel-body{
+                            display: flex;
+                            flex-direction: column;
+                            gap: 1.5rem;
+                            height: 100%;
+                            .form-group {
+                                display: flex;
+                                flex-direction: column;
+                                gap: 0.3rem;
+                                label {
+                                    @include roboto-font(0.7rem, 600);
+                                    color: $muted-color; // Gris suave
+                                    text-transform: uppercase; // Estilo "etiqueta"
+                                    letter-spacing: 0.05em;
+                                    margin: 0;
+                                }
+                                input, select,
+                                span {
+                                    padding: 0.65rem;
+                                    border: 0.09rem solid #ced4da;
+                                    border-radius: 0.5rem;
+                                    @include roboto-font(0.875rem, 500);
+                                    color: $cool-gray-800;
+                                    transition: border-color 0.2s, box-shadow 0.2s;
+                                    &::placeholder {
+                                        color: #adb5bd;
+                                    }
+                                    &:focus {
+                                        border-color: #4e54c8;
+                                        box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
+                                        outline: none;
+                                    }
+                                }
+                            }
+                            .form-row {
+                                display: flex;
+                                gap: 2rem;
+                                width: 100%;
+                                .form-group {
+                                    flex: 1;
+                                }
+                                &.w-custom {
+                                .fx-1 { flex : 1; };
+                                .fx-2 { flex : 2; };
+                                .fx-3 { flex : 3; };
+                                .fx-4 { flex : 4; };
+                                .fx-5 { flex : 5; };
+                                .fx-6 { flex : 6; };
+                                .fx-7 { flex : 7; };
+                                .fx-8 { flex : 8; };
+                                .fx-9 { flex : 9; };
+                                }
+                                @media (max-width: 992px){
+                                    flex-direction: column;
+                                }
+                            }
+                            .file-upload-container {
+                                display: flex;
+                                flex-direction: column;
+                                gap: 0.5rem;
+                                margin-bottom: 1.5rem;
+                                .form-label {
+                                    @include roboto-font(0.7rem, 600);
+                                    color: #7f8c8d;
+                                }
+                                // 1. Ocultar el input real por completo de forma segura para la accesibilidad
+                                .file-upload-input {
+                                    width: 0.1px;
+                                    height: 0.1px;
+                                    opacity: 0;
+                                    overflow: hidden;
+                                    position: absolute;
+                                    z-index: -1;
+                                }
+                                // 2. Estilizar el Label como el área interactiva
+                                .file-upload-label {
+                                    display: flex;
+                                    flex-direction: column;
+                                    align-items: center;
+                                    justify-content: center;
+                                    padding: 1.5rem;
+                                    border: 2px dashed #d1d5db; // Línea discontinua típica de subida de archivos
+                                    border-radius: 0.8rem; // Misma redondez de tus tarjetas e inputs
+                                    background-color: #f9fafb;
+                                    cursor: pointer;
+                                    transition: border-color 0.2s ease, background-color 0.2s ease;
+                                    text-align: center;
+                                    &:hover {
+                                        border-color: #4e54c8; // Color principal de tu degradado superior
+                                        background-color: #f3f4f6;
+                                    }
+                                    .upload-icon {
+                                        font-size: 2rem;
+                                        color: #8f94fb; // Color secundario del degradado
+                                        margin-bottom: 0.5rem;
+                                    }
+                                    .upload-text {
+                                        font-size: 0.85rem;
+                                        color: #4b5563;
+                                        strong {
+                                            color: #4e54c8;
+                                        }
+                                    }
+                                    // Estilo para mostrar el nombre del archivo cargado
+                                    .file-name {
+                                        margin-top: 0.5rem;
+                                        font-size: 0.75rem;
+                                        color: #9ca3af;
+                                        font-style: italic;
+                                        &.file-active {
+                                            color: #10b981; // Verde si ya hay un archivo listo
+                                            font-weight: bold;
+                                            font-style: normal;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                .alert-container {
+                    @include alert-container();
+                }
+                .footer-actions {
+                    @include footer();
+                }
+            }
+        }
+    }
+}

@@ -1,4 +1,4 @@
-<div class="create-employee-termination-request">
+<div class="manage-employee-termination-request">
     <div class="panel-container">
         <div class="panel-main">
             <div class="panel-header">
@@ -27,20 +27,24 @@
                     <div class="form-control-text-block"
                             th:text="${terminationRequest.description}"></div>
                 </div>
-                <!-- Sección de Adjunto del Solicitante -->
-                <div class="form-group">
-                    <div th:if="${not #lists.isEmpty(terminationRequestDocuments)}">
-                        <h4>Documentos Adjuntos</h4>
-                        <ul>
-                            <li th:each="doc : ${terminationRequestDocuments}">
-                                <span th:text="${doc.hrDocumentTypeName}">Tipo de Documento</span> - 
-                                <a th:href="${doc.fileUrl}" target="_blank">Descargar Archivo</a>
-                                <small th:text="${'Subido por: ' + doc.createdBy}"></small>
-                            </li>
-                        </ul>
+                <div class="documents-section">
+                    <h4 class="section-title">Documentos Adjuntos</h4>
+                    <!-- Listado cuando existen documentos -->
+                    <div th:if="${not #lists.isEmpty(terminationRequestDocuments)}" class="documents-list">
+                        <div th:each="doc : ${terminationRequestDocuments}" class="document-item">
+                            <div class="document-info">
+                                <span class="document-badge" th:text="${doc.hrDocumentTypeName}">Renuncia</span>
+                                <span class="document-meta" th:text="'Subido por: ' + ${doc.createdBy}">Subido por: andrewscl</span>
+                            </div>
+                            <a th:href="${doc.fileUrl}" target="_blank" class="btn-download">
+                                Descargar Archivo
+                            </a>
+                        </div>
                     </div>
-                    <div th:if="${#lists.isEmpty(terminationRequestDocuments)}">
-                        <p>No hay documentos asociados a esta solicitud.</p>
+                    
+                    <!-- Estado vacío -->
+                    <div th:if="${#lists.isEmpty(terminationRequestDocuments)}" class="documents-empty">
+                        Ningún documento asociado a esta solicitud.
                     </div>
                 </div>
             </div>
@@ -48,7 +52,6 @@
 
         <div class="panel-aside">
             <div class="panel-body">
-                <span class="panel-title">Documento de respaldo:</span>
                 <div class="form-row w-custom">
                     <div class="form-group fx-7">
                     <label>Causa de termino:</label>
@@ -64,6 +67,7 @@
                         <input type="date" id="finalExitDate" required />
                     </div>
                 </div>
+                <span class="panel-title">Documento de respaldo:</span>
                 <div class="form-group">
                         <label>Tipo de documento:</label>
                         <select id="hrDocumentType" required>

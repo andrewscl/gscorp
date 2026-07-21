@@ -9,5 +9,4 @@ public interface HumanResourcesDocumentService {
     
     List<HumanResourcesDocumentDto> findByEmployeeTerminationExternalId(
                                                     UUID employeeTerminationExternalId);
-
 }
