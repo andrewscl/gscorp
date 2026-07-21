@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.gscorp.dv1.configuration.hrdocuments.infrastructure.HrDocumentType;
 import com.gscorp.dv1.hr.employees.infrastructure.Employee;
+import com.gscorp.dv1.hr.employeeterminations.infrastructure.EmployeeTermination;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -42,6 +43,10 @@ public class HumanResourcesDocument {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employee_termination_id", nullable = true) // Nullable porque no todos los docs son de desvinculación
+    private EmployeeTermination employeeTermination;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hrdocumenttype_id", nullable = false)

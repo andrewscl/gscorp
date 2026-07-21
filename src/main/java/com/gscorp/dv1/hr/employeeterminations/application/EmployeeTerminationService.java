@@ -22,4 +22,6 @@ public interface EmployeeTerminationService {
                                 CreateEmployeeTermination request,
                                 SecurityUser securityUser);
 
+    EmployeeTerminationDto findByExternalId(UUID externalId);
+
 }

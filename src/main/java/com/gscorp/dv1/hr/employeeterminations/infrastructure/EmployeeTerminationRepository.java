@@ -1,6 +1,8 @@
 package com.gscorp.dv1.hr.employeeterminations.infrastructure;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -56,5 +58,32 @@ public interface EmployeeTerminationRepository
         @Param("status") EmployeeTransitionStatus status,
         Pageable pageable
     );
+
+
+    @Query(value = """
+        SELECT
+        etr.id                  AS id,
+        etr.externalId          AS externalId,
+        etr.terminationReason   AS terminationReason,
+        etr.status              AS status,
+        etr.proposedExitDate    AS proposedExitDate,
+        etr.description         AS description,
+        etr.resolvedBy          AS resolvedBy,
+        etr.resolvedAt          AS resolvedAt,
+        etr.createdBy           AS createdBy,
+        etr.updatedBy           AS updatedBy,
+        etr.createdAt           AS createdAt,
+        etr.updatedAt           AS updatedAt,
+        e.id                    AS employeeId,
+        e.externalId            AS employeeExternalId,
+        e.name                  AS employeeName,
+        e.fatherSurname         AS employeeFatherSurname,
+        e.rut                   AS rut
+        FROM EmployeeTermination etr
+        LEFT JOIN etr.employee e
+        WHERE etr.externalId = :externalId
+        """)
+    Optional<EmployeeTerminationProjection> findByExternalId(
+                                        @Param("externalId") UUID externalId);
 
 }

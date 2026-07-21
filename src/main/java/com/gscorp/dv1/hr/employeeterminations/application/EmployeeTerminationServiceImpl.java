@@ -74,25 +74,9 @@ public class EmployeeTerminationServiceImpl
                 .orElseThrow(()-> new EntityNotFoundException("No se encontro el empleado"));
         HrDocumentType hrDocumentType = hrDocumentTypeRepository.findByExternalId(request.getHrDocumentType())
                 .orElseThrow(()-> new EntityNotFoundException("No se encontro el tipo de documento"));
-        HumanResourcesDocument supportingDocument = null;
-        if (request.getFile() != null && !request.getFile().isEmpty()) {
-            String webPrefixPath = "/files/hr_termination_files/";
-            String fileUrl = fileStorageService
-                            .storeFile(request.getFile(), physicalTargetDir, webPrefixPath);
-            HumanResourcesDocument docEntity =
-                                    HumanResourcesDocument.builder()
-                                        .employee(employee)
-                                        .hrDocumentType(hrDocumentType)
-                                        .fileUrl(fileUrl)
-                                        .createdBy(securityUser.getUsername())
-                                        .updatedBy(null)
-                                        .build();
-            supportingDocument = employeeDocumentRepository.save(docEntity);
-        }
         EmployeeTermination employeeTermination =
                                 EmployeeTermination.builder()
                                     .employee(employee)
-                                    .supportingDocument(supportingDocument)
                                     .terminationReason(request.getTerminationReason())
                                     .status(EmployeeTransitionStatus.PENDING)
                                     .proposedExitDate(request.getProposedExitDate())
@@ -100,9 +84,36 @@ public class EmployeeTerminationServiceImpl
                                     .resolvedBy(null)
                                     .resolvedAt(null)
                                     .createdBy(securityUser.getUsername())
-                                    .updatedAt(null)
+                                    .updatedBy(null)
                                     .build();
-        repo.save(employeeTermination);
+        employeeTermination = repo.save(employeeTermination);
+
+        if (request.getFile() != null && !request.getFile().isEmpty()) {
+            String webPrefixPath = "/files/hr_termination_files/";
+            String fileUrl = fileStorageService
+                            .storeFile(request.getFile(), physicalTargetDir, webPrefixPath);
+            HumanResourcesDocument docEntity =
+                                    HumanResourcesDocument.builder()
+                                        .employee(employee)
+                                        .employeeTermination(employeeTermination)
+                                        .hrDocumentType(hrDocumentType)
+                                        .fileUrl(fileUrl)
+                                        .createdBy(securityUser.getUsername())
+                                        .updatedBy(null)
+                                        .build();
+            employeeDocumentRepository.save(docEntity);
+            employeeTermination.getDocuments().add(docEntity);
+        }
         return EmployeeTerminationDto.fromEntity(employeeTermination);
     }
+
+    @Transactional(readOnly = true)
+    public EmployeeTerminationDto findByExternalId(UUID externalId) {
+        return repo.findByExternalId(externalId)
+                .map(EmployeeTerminationDto::fromProjection)
+                .orElseThrow(() -> new EntityNotFoundException(
+                    "No se encontró la solicitud."
+                ));
+    }
+
 }

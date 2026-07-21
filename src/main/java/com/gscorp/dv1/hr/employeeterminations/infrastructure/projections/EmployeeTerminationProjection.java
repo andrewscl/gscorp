@@ -11,8 +11,10 @@ public interface EmployeeTerminationProjection {
     Long getId();
     UUID getExternalId();
     TerminationReason getTerminationReason();
+    TerminationReason getFinalTerminationReason();
     EmployeeTransitionStatus getStatus();
     LocalDate getProposedExitDate();
+    LocalDate getFinalExitDate();
     String getDescription();
     String getResolvedBy();
     OffsetDateTime getResolvedAt();

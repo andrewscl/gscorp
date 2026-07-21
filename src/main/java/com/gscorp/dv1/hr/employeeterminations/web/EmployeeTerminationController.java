@@ -8,6 +8,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -72,6 +73,28 @@ public class EmployeeTerminationController {
         model.addAttribute("activeEmployees", employeeService.findByStatus(EmployeeStatus.ACTIVE));
         model.addAttribute("hrDocumentTypes", hrDocumentTypes.getContent());
         return "private/hr/termination-requests/fragments/create-termination-request";
+    }
+
+    @GetMapping("/manage/{externalId}")
+    public String getManageEmployeeTransitionRequest(
+                Model model,
+                @PathVariable UUID externalId,
+                @AuthenticationPrincipal SecurityUser securityUser
+    ){
+        if(securityUser == null) return "redirect:/login";
+
+        PageRequest pageable = PageRequest.of(0, 100);
+        Page<HrDocumentTypeDto> hrDocumentTypes =
+                    hrDocumentTypeService
+                        .findByStatusAndProcess(EmployeeStatus.ACTIVE, HrProcessType.TERMINATION, pageable);
+
+        EmployeeTerminationDto employeeTerminationDto =
+                employeeTerminationService.findByExternalId(externalId);
+
+        model.addAttribute("terminationRequest",employeeTerminationDto);
+        model.addAttribute("terminationReasons", TerminationReason.values());
+        model.addAttribute("hrDocumentTypes", hrDocumentTypes.getContent());
+        return "private/hr/termination-requests/fragments/manage-termination-request";
     }
 
 }

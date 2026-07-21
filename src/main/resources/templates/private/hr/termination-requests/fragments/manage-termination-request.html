@@ -1,0 +1,107 @@
+<div class="create-employee-termination-request">
+    <div class="panel-container">
+        <div class="panel-main">
+            <div class="panel-header">
+                <h4>Gestionar solicitud de desvinculación</h4>
+            </div>
+
+            <div class="panel-body">
+                <div class="form-group">
+                    <label>Empleado:</label>
+                    <span th:text="|${terminationRequest.employeeName} ${terminationRequest.employeeFatherSurname}|"></span>
+                </div>
+
+                <div class="form-row w-custom">
+                    <div class="form-group fx-7">
+                        <label>Causa de termino:</label>
+                        <span th:text="${terminationRequest.terminationReason.displayName}"></span>
+                    </div>
+                    <div class="form-group fx-3">
+                        <label>Fecha propuesta:</label>
+                        <span th:text="${terminationRequest.proposedExitDate}"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Descripción:</label>
+                    <div class="form-control-text-block"
+                            th:text="${terminationRequest.description}"></div>
+                </div>
+                <!-- Sección de Adjunto del Solicitante -->
+                <div class="form-group">
+                    <label>Archivo adjunto por el solicitante:</label>
+                    
+                    <!-- CASO 1: Sí hay un archivo adjunto -->
+                    <div th:if="${terminationRequest.attachmentName != null}" class="file-download-container">
+                        <div class="file-info">
+                            <i class="fas fa-file-alt file-icon"></i>
+                            <span class="file-name" th:text="${terminationRequest.attachmentName}">documento_solicitud.pdf</span>
+                        </div>
+                        <!-- Enlace de descarga apuntando al controlador que sirve el archivo -->
+                        <a th:href="@{/private/hr/termination-requests/download/{id}(id=${terminationRequest.externalId})}" 
+                        class="btn-download" 
+                        title="Descargar archivo">
+                            <i class="fas fa-download"></i> Descargar
+                        </a>
+                    </div>
+                    <!-- CASO 2: No se adjuntó ningún archivo -->
+                    <div th:if="${terminationRequest.attachmentName == null}" class="file-empty-state">
+                        <i class="fas fa-info-circle"></i>
+                        <span>El solicitante no adjuntó documentos a esta solicitud.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-aside">
+            <div class="panel-body">
+                <span class="panel-title">Documento de respaldo:</span>
+                <div class="form-row w-custom">
+                    <div class="form-group fx-7">
+                    <label>Causa de termino:</label>
+                    <select id="finalTerminationReason" required>
+                        <option value="">Seleccione causa de termino</option>
+                        <option th:each="tr : ${terminationReasons}"
+                                th:value="${tr.name()}"
+                                th:text="${tr.displayName}"></option>
+                    </select>
+                    </div>
+                    <div class="form-group fx-3">
+                        <label>Fecha de termino:</label>
+                        <input type="date" id="finalExitDate" required />
+                    </div>
+                </div>
+                <div class="form-group">
+                        <label>Tipo de documento:</label>
+                        <select id="hrDocumentType" required>
+                            <option value="">Seleccione un documento</option>
+                            <option th:each="hrd : ${hrDocumentTypes}"
+                                    th:value="${hrd.externalId}"
+                                    th:text="${hrd.name}"></option>
+                        </select>
+                </div>
+                <div class="file-upload-container">
+                    <!-- Input oculto -->
+                    <input type="file" id="file-upload" class="file-upload-input" accept=".pdf,.doc,.docx,.png,.jpg" />
+                    <!-- Label estilizado como "Dropzone" -->
+                    <label for="file-upload" class="file-upload-label">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <span class="upload-text">Arrastra el archivo aquí o <strong>haz clic para buscar</strong></span>
+                        <span class="file-name" id="selected-file-name">Ningún archivo seleccionado</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
+    <div th:replace="~{shared/fragments/footer-buttons ::
+                            footer-buttons(
+                                true, 'Procesar solicitud',
+                                true, 'Rechazar',
+                                false, '')}"></div>
+
+    <script type="module" src="/js/private/hr/employee-terminations/manage-termination-request.js"></script>
+</div>

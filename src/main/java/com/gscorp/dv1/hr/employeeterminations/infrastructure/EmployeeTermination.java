@@ -2,6 +2,8 @@ package com.gscorp.dv1.hr.employeeterminations.infrastructure;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -22,6 +24,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -51,13 +54,17 @@ public class EmployeeTermination {
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "employee_document_id", nullable = true)
-    private HumanResourcesDocument supportingDocument;
+    @Builder.Default
+    @OneToMany(mappedBy = "employeeTermination", fetch = FetchType.LAZY)
+    private List<HumanResourcesDocument> documents = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
     private TerminationReason terminationReason;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = true, length = 30)
+    private TerminationReason finalTerminationReason;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
@@ -65,6 +72,9 @@ public class EmployeeTermination {
 
     @Column(nullable = false)
     private LocalDate proposedExitDate;
+
+    @Column(nullable = true)
+    private LocalDate finalExitDate;
 
     @Column(length = 1000)
     private String description;
