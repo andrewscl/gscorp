@@ -224,7 +224,7 @@ p {
 }
 .view-shift-request .panel-container .panel-main .panel-body .form-group input:focus, .view-shift-request .panel-container .panel-main .panel-body .form-group select:focus,
 .view-shift-request .panel-container .panel-main .panel-body .form-group span:focus {
-  border-color: #4e54c8;
+  border-color: #3b82f6;
   box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
   outline: none;
 }
@@ -249,10 +249,10 @@ p {
   width: 100%;
   min-height: 3.375rem;
   padding: 0.75rem 1rem;
-  background-color: #f8fafc;
+  background-color: transparent;
   border: 1px solid #e2e8f0;
   border-radius: 0.7rem;
-  color: #334155;
+  color: #64748b;
   font-size: 0.95rem;
   line-height: 1.5;
   box-sizing: border-box;
