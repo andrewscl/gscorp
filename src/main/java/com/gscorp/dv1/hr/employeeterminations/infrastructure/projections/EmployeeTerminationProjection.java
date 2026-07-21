@@ -21,6 +21,7 @@ public interface EmployeeTerminationProjection {
     OffsetDateTime getCreatedAt();
     OffsetDateTime getUpdatedAt();
     Long getEmployeeId();
+    UUID getEmployeeExternalId();
     String getEmployeeName();
     String getEmployeeFatherSurname();
     String getRut();

@@ -32,6 +32,7 @@ public interface EmployeeTerminationRepository
         etr.createdAt           AS createdAt,
         etr.updatedAt           AS updatedAt,
         e.id                    AS employeeId,
+        e.externalId            AS employeeExternalId,
         e.name                  AS employeeName,
         e.fatherSurname         AS fatherSurname,
         e.rut                   AS rut
@@ -40,7 +41,6 @@ public interface EmployeeTerminationRepository
         LEFT JOIN e.projects p
         WHERE p.client.id IN :clientIds
             AND(:status IS NULL OR etr.status = :status)
-        ORDER BY etr.createdAt DESC
         """,
         countQuery = """
         SELECT COUNT(etr.id)

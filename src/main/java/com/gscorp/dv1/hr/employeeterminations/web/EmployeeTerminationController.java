@@ -29,7 +29,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class EmployeeTerminationController {
 
-    private final EmployeeTerminationService employeeTransitionRequestService;
+    private final EmployeeTerminationService employeeTerminationService;
     private final EmployeeService employeeService;
     private final HrDocumentTypeService hrDocumentTypeService;
 
@@ -44,12 +44,12 @@ public class EmployeeTerminationController {
         if(securityUser == null) return "redirect:/login";
         UUID externalId = securityUser.getUser().getExternalId();
 
-        Page<EmployeeTerminationDto> transitionRequests =
-            employeeTransitionRequestService
+        Page<EmployeeTerminationDto> terminationRequests =
+            employeeTerminationService
                 .getEmployeeTerminationsTable(externalId, status, page, size);
 
-        model.addAttribute("transitionRequestsPage", transitionRequests);
-        model.addAttribute("transitionRequests", transitionRequests.getContent());
+        model.addAttribute("terminationRequestsPage", terminationRequests);
+        model.addAttribute("terminationRequests", terminationRequests.getContent());
         model.addAttribute("transitionRequestStatus", EmployeeTransitionStatus.values());
         model.addAttribute("currentStatus", null);
         return "private/hr/termination-requests/views/termination-requests-list";

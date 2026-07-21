@@ -21,7 +21,12 @@ public record EmployeeTerminationDto (
     String createdBy,
     String updatedBy,
     OffsetDateTime createdAt,
-    OffsetDateTime updatedAt
+    OffsetDateTime updatedAt,
+    Long employeeId,
+    UUID employeeExternalId,
+    String employeeName,
+    String employeeFatherSurname,
+    String rut
 ){
     public static EmployeeTerminationDto fromProjection(EmployeeTerminationProjection p){
         if (p == null) return null;
@@ -37,7 +42,12 @@ public record EmployeeTerminationDto (
             p.getCreatedBy(),
             p.getUpdatedBy(),
             p.getCreatedAt(),
-            p.getUpdatedAt()
+            p.getUpdatedAt(),
+            p.getEmployeeId(),
+            p.getEmployeeExternalId(),
+            p.getEmployeeName(),
+            p.getEmployeeFatherSurname(),
+            p.getRut()
         );
     }
 
@@ -56,7 +66,13 @@ public record EmployeeTerminationDto (
             p.getCreatedBy(),
             p.getUpdatedBy(),
             p.getCreatedAt(),
-            p.getUpdatedAt()
+            p.getUpdatedAt(),
+            p.getEmployee().getId(),
+            p.getEmployee().getExternalId(),
+            p.getEmployee().getName(),
+            p.getEmployee().getFatherSurname(),
+            p.getEmployee().getRut()
+            
         );
     }
 
