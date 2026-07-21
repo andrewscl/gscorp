@@ -408,11 +408,14 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
 
     @Query(value = """
         SELECT 
-            e.id AS id, 
+            e.id AS id,
+            e.externalId AS externalId, 
             e.name AS name, 
             e.fatherSurname AS fatherSurname, 
-            e.motherSurname AS motherSurname
+            e.motherSurname AS motherSurname,
+            u.id AS userId
         FROM Employee e
+        LEFT JOIN e.user u
         WHERE e.status = :status
         ORDER BY e.fatherSurname ASC
         """)
