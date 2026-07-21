@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gscorp.dv1.admin.clients.application.ClientService;
 import com.gscorp.dv1.config.security.SecurityUser;
+import com.gscorp.dv1.configuration.hrdocuments.infrastructure.HrDocumentType;
+import com.gscorp.dv1.configuration.hrdocuments.infrastructure.HrDocumentTypeRepository;
 import com.gscorp.dv1.enums.EmployeeTransitionStatus;
 import com.gscorp.dv1.hr.employeedocs.infrastructure.HumanResourcesDocument;
 import com.gscorp.dv1.hr.employeedocs.infrastructure.HumanResourcesDocumentRepository;
@@ -24,6 +26,7 @@ import com.gscorp.dv1.hr.employeeterminations.web.dto.CreateEmployeeTermination;
 import com.gscorp.dv1.hr.employeeterminations.web.dto.EmployeeTerminationDto;
 import com.gscorp.dv1.shared.FileStorageService;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -36,6 +39,7 @@ public class EmployeeTerminationServiceImpl
     private final EmployeeTerminationRepository repo;
     private final FileStorageService fileStorageService;
     private final HumanResourcesDocumentRepository employeeDocumentRepository;
+    private final HrDocumentTypeRepository hrDocumentTypeRepository;
 
     @Value("${file.hr-termmination-files-dir}")
     private String physicalTargetDir;
@@ -66,7 +70,10 @@ public class EmployeeTerminationServiceImpl
     public EmployeeTerminationDto createEmployeeTermination (
                             CreateEmployeeTermination request,
                             SecurityUser securityUser){
-        Employee employeeRef = employeeRepository.getReferenceById(request.getEmployeeId());
+        Employee employee = employeeRepository.findByExternalId(request.getEmployeeId())
+                .orElseThrow(()-> new EntityNotFoundException("No se encontro el empleado"));
+        HrDocumentType hrDocumentType = hrDocumentTypeRepository.findByExternalId(request.getHrDocumentType())
+                .orElseThrow(()-> new EntityNotFoundException("No se encontro el tipo de documento"));
         HumanResourcesDocument supportingDocument = null;
         if (request.getFile() != null && !request.getFile().isEmpty()) {
             String webPrefixPath = "/files/hr_termination_files/";
@@ -74,8 +81,8 @@ public class EmployeeTerminationServiceImpl
                             .storeFile(request.getFile(), physicalTargetDir, webPrefixPath);
             HumanResourcesDocument docEntity =
                                     HumanResourcesDocument.builder()
-                                        .employee(employeeRef)
-                                        .hrDocumentType(request.getHrDocumentType())
+                                        .employee(employee)
+                                        .hrDocumentType(hrDocumentType)
                                         .fileUrl(fileUrl)
                                         .createdBy(securityUser.getUsername())
                                         .updatedBy(null)
@@ -84,7 +91,7 @@ public class EmployeeTerminationServiceImpl
         }
         EmployeeTermination employeeTermination =
                                 EmployeeTermination.builder()
-                                    .employee(employeeRef)
+                                    .employee(employee)
                                     .supportingDocument(supportingDocument)
                                     .terminationReason(request.getTerminationReason())
                                     .status(EmployeeTransitionStatus.PENDING)

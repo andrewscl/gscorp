@@ -1,10 +1,10 @@
 package com.gscorp.dv1.hr.employeeterminations.web.dto;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.gscorp.dv1.configuration.hrdocuments.infrastructure.HrDocumentType;
 import com.gscorp.dv1.enums.TerminationReason;
 
 import jakarta.validation.constraints.NotNull;
@@ -19,7 +19,7 @@ import lombok.Setter;
 public class CreateEmployeeTermination {
 
     @NotNull(message = "El ID del empleado es obligatorio")
-    private Long employeeId;
+    private UUID employeeId;
 
     @NotNull(message = "El motivo de termino es obligatorio")
     private TerminationReason terminationReason;
@@ -30,7 +30,7 @@ public class CreateEmployeeTermination {
     @Size(max = 500, message = "La justificación no puede superar los 500 caracteres")
     private String description;
 
-    private HrDocumentType hrDocumentType;
+    private UUID hrDocumentType;
 
     private MultipartFile file;
 }

@@ -44,7 +44,7 @@
                 <span class="panel-title">Documento de respaldo:</span>
                 <div class="form-group">
                         <label>Tipo de documento:</label>
-                        <select id="hrDocumentExternalId" required>
+                        <select id="hrDocumentType" required>
                             <option value="">Seleccione un documento</option>
                             <option th:each="hrd : ${hrDocumentTypes}"
                                     th:value="${hrd.externalId}"

@@ -25,6 +25,7 @@ const createTerminationRequest = async () => {
     const employeeExternalId = qs('#employeeExternalId')?.value || '';
     const terminationReason = qs('#terminationReason')?.value || '';
     const proposedExitDate = qs('#proposedExitDate')?.value || '';
+    const hrDocumentType = qs('#hrDocumentType')?.value || '';
     const description = qs('#description')?.value || '';
 
     const fileInput = qs('#file-upload');    
@@ -35,11 +36,12 @@ const createTerminationRequest = async () => {
 
     try {
         const formData = new FormData();
-        if(employeeExternalId) formData.append('employeeExternalId', employeeExternalId);
+        if(employeeExternalId) formData.append('employeeId', employeeExternalId);
         if(terminationReason) formData.append('terminationReason', terminationReason);
         if(proposedExitDate) formData.append('proposedExitDate', proposedExitDate);
         if(description) formData.append('description', description);
-        if(fileUpload) formData.append('fileUpload', fileUpload);
+        if(hrDocumentType) formData.append('hrDocumentType', hrDocumentType);
+        if(fileUpload) formData.append('file', fileUpload);
 
         const res = await fetchWithAuth('/api/employee-terminations/create', {
         method: 'POST',

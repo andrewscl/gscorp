@@ -1,1 +1,0 @@
-import{n}from"../../../navigation-handler.js";import"../../../auth.js";const c=e=>document.querySelector(e),r=e=>{e&&(e.disabled=!0),n("/private/hr-document-types/create",!0)},i=async e=>{e&&(e.disabled=!0)};function s(){const e=c("#addHrDocumentTypes");e&&e.addEventListener("click",r);const t=c("#searchShiftRequestsBtn");t&&t.addEventListener("click",i)}(function(){s()})();
