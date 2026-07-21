@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class HumanResourcesDocumentServiceImpl {
+public class HumanResourcesDocumentServiceImpl implements HumanResourcesDocumentService {
 
     private final HumanResourcesDocumentRepository humanResourcesDocumentRepository;
     
