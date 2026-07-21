@@ -77,6 +77,25 @@ const createTerminationRequest = async () => {
 
 }
 
+function listenFileUpload() {
+    const fileInput = qs('#file-upload');
+    const fileNameSpan = qs('#selected-file-name');
+
+    if (fileInput && fileNameSpan) {
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                // Cambia el texto gris por el nombre real del archivo
+                fileNameSpan.textContent = file.name;
+                fileNameSpan.style.color = "#4f46e5"; // Un toque de color azul/morado opcional para resaltar
+            } else {
+                fileNameSpan.textContent = 'Ningún archivo seleccionado';
+                fileNameSpan.style.color = "";
+            }
+        });
+    }
+}
+
 function bindFunctions() {
     const createBtn = qs('#submit');
     if(createBtn) createBtn.addEventListener('click', createTerminationRequest);
@@ -86,6 +105,6 @@ function bindFunctions() {
 }
 
 (function init () {
-  bindFunctions();
-
+    bindFunctions();
+    listenFileUpload();
 })();
