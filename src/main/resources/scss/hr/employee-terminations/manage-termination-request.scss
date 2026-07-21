@@ -16,10 +16,12 @@
                 @include dual-panel-card();
                 .panel-container{
                     .panel-main{
-                        @include panel-main();
+                        @include panel-main($text-color: $text-secondary-color);
                         .panel-body{
                             // --- Estilos para el Listado de Documentos ---
                             .documents-section {
+                                margin: 0;
+                                padding: 0;
                                 .section-title {
                                     color: $text-color;
                                     margin-bottom: 1rem;

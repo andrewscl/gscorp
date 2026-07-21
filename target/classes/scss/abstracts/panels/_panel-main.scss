@@ -3,7 +3,7 @@
 @use '../palette' as *;
 @use '../variables' as *;
 
-@mixin panel-main () {
+@mixin panel-main ($text-color: $cool-gray-800) {
         flex: $ratio-left;  
         padding: 0 2rem 1rem 2rem;
         display: flex;
@@ -19,8 +19,8 @@
                 gap: 0.3rem;
                 label {
                     @include roboto-font(0.7rem, 600);
-                    color: $muted-color; // Gris suave
-                    text-transform: uppercase; // Estilo "etiqueta"
+                    color: $muted-color;
+                    text-transform: uppercase;
                     letter-spacing: 0.05em;
                     margin: 0;
                 }
@@ -43,7 +43,7 @@
                     border: 0.09rem solid #ced4da;
                     border-radius: 0.5rem;
                     @include roboto-font(0.875rem, 500);
-                    color: $cool-gray-800;
+                    color: $text-color;
                     transition: border-color 0.2s, box-shadow 0.2s;
                     &::placeholder {
                         color: #adb5bd;
@@ -76,7 +76,7 @@
                     border: 1px solid $border-color;
                     border-radius: $radius;
                     color: $text-secondary-color;
-                    font-size: 0.95rem;
+                    @include roboto-font(0.875rem, 500);
                     line-height: 1.5;
                     box-sizing: border-box;
                     word-wrap: break-word;    // Evita que textos largos rompan la caja
