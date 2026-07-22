@@ -334,7 +334,7 @@ p {
   flex-direction: column;
   gap: 0.75rem;
   overflow-y: auto;
-  max-height: 3.75em;
+  max-height: 4em;
   padding-right: 0.4rem;
 }
 .private-layout .main-content .content .manage-employee-termination-request .panel-container .panel-main .panel-body .documents-section .documents-list .document-item {
