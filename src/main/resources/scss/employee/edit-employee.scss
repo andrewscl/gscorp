@@ -63,6 +63,17 @@
                 color: $text-secondary-color;
             }
         }
+        .create-invite-account {
+            @include roboto-font(0.875rem, 500);
+            @include btn-primary-variant (
+                $bg-color: $accent-green,
+                $color: $white,
+                $padding: 0.75rem 1.5rem,
+                $border-radius: 0.5rem
+            );
+        }
+
+
         .generic-buttons {
             margin-left: auto;
             margin-top: auto;

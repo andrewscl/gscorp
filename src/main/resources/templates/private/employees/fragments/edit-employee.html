@@ -25,10 +25,14 @@
             </div>
         </div>
 
+        <button class="create-invite-account" id="createInviteAccount">
+            Crear Usuario
+        </button>
+
         <div th:replace="~{shared/fragments/buttons :: genericButtons(
             true, 'Guardar',
             true, 'Cancelar',
-            true, 'Invitar'
+            false, ''
             )}">
         </div>
     </div>

@@ -185,6 +185,31 @@ p {
   gap: 0.25rem;
   color: #64748b;
 }
+.edit-employee .edit-employee-header .create-invite-account {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  background-color: #10b981;
+  color: #ffffff;
+}
+.edit-employee .edit-employee-header .create-invite-account:hover {
+  background-color: rgb(14.4, 166.5, 116.1);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+}
+.edit-employee .edit-employee-header .create-invite-account:active {
+  transform: translateY(0);
+}
 .edit-employee .edit-employee-header .generic-buttons {
   margin-left: auto;
   margin-top: auto;
