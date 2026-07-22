@@ -21,25 +21,25 @@ public interface EmployeeTerminationRepository
     @Query(
         value = """
         SELECT
-        etr.id                  AS id,
-        etr.externalId          AS externalId,
-        etr.terminationReason   AS terminationReason,
-        etr.finalTerminationReason AS finalTerminationReason,
-        etr.status              AS status,
-        etr.proposedExitDate    AS proposedExitDate,
-        etr.finalExitDate       AS finalExitDate,
-        etr.description         AS description,
-        etr.resolvedBy          AS resolvedBy,
-        etr.resolvedAt          AS resolvedAt,
-        etr.createdBy           AS createdBy,
-        etr.updatedBy           AS updatedBy,
-        etr.createdAt           AS createdAt,
-        etr.updatedAt           AS updatedAt,
-        e.id                    AS employeeId,
-        e.externalId            AS employeeExternalId,
-        e.name                  AS employeeName,
-        e.fatherSurname         AS employeeFatherSurname,
-        e.rut                   AS rut
+        etr.id                      AS id,
+        etr.externalId              AS externalId,
+        etr.terminationReason       AS terminationReason,
+        etr.finalTerminationReason  AS finalTerminationReason,
+        etr.status                  AS status,
+        etr.proposedExitDate        AS proposedExitDate,
+        etr.finalExitDate           AS finalExitDate,
+        etr.description             AS description,
+        etr.resolvedBy              AS resolvedBy,
+        etr.resolvedAt              AS resolvedAt,
+        etr.createdBy               AS createdBy,
+        etr.updatedBy               AS updatedBy,
+        etr.createdAt               AS createdAt,
+        etr.updatedAt               AS updatedAt,
+        e.id                        AS employeeId,
+        e.externalId                AS employeeExternalId,
+        e.name                      AS employeeName,
+        e.fatherSurname             AS employeeFatherSurname,
+        e.rut                       AS rut
         FROM EmployeeTermination etr
         LEFT JOIN etr.employee e
         LEFT JOIN e.projects p
@@ -64,23 +64,25 @@ public interface EmployeeTerminationRepository
 
     @Query(value = """
         SELECT
-        etr.id                  AS id,
-        etr.externalId          AS externalId,
-        etr.terminationReason   AS terminationReason,
-        etr.status              AS status,
-        etr.proposedExitDate    AS proposedExitDate,
-        etr.description         AS description,
-        etr.resolvedBy          AS resolvedBy,
-        etr.resolvedAt          AS resolvedAt,
-        etr.createdBy           AS createdBy,
-        etr.updatedBy           AS updatedBy,
-        etr.createdAt           AS createdAt,
-        etr.updatedAt           AS updatedAt,
-        e.id                    AS employeeId,
-        e.externalId            AS employeeExternalId,
-        e.name                  AS employeeName,
-        e.fatherSurname         AS employeeFatherSurname,
-        e.rut                   AS rut
+        etr.id                      AS id,
+        etr.externalId              AS externalId,
+        etr.terminationReason       AS terminationReason,
+        etr.finalTerminationReason  AS finalTerminationReason,
+        etr.status                  AS status,
+        etr.proposedExitDate        AS proposedExitDate,
+        etr.finalExitDate           AS finalExitDate,
+        etr.description             AS description,
+        etr.resolvedBy              AS resolvedBy,
+        etr.resolvedAt              AS resolvedAt,
+        etr.createdBy               AS createdBy,
+        etr.updatedBy               AS updatedBy,
+        etr.createdAt               AS createdAt,
+        etr.updatedAt               AS updatedAt,
+        e.id                        AS employeeId,
+        e.externalId                AS employeeExternalId,
+        e.name                      AS employeeName,
+        e.fatherSurname             AS employeeFatherSurname,
+        e.rut                       AS rut
         FROM EmployeeTermination etr
         LEFT JOIN etr.employee e
         WHERE etr.externalId = :externalId
