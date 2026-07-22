@@ -315,8 +315,6 @@ p {
   width: 100%;
 }
 .private-layout .main-content .content .manage-employee-termination-request .panel-container .panel-main .panel-body .documents-section {
-  display: block;
-  width: 100%;
   margin: 0;
   padding: 0;
 }
@@ -329,7 +327,7 @@ p {
   flex-direction: column;
   gap: 0.75rem;
 }
-.private-layout .main-content .content .manage-employee-termination-request .panel-container .panel-main .panel-body .documents-section .document-item {
+.private-layout .main-content .content .manage-employee-termination-request .panel-container .panel-main .panel-body .documents-section .documents-list .document-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -339,12 +337,12 @@ p {
   border-radius: 0.7rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
-.private-layout .main-content .content .manage-employee-termination-request .panel-container .panel-main .panel-body .documents-section .document-item .document-info {
+.private-layout .main-content .content .manage-employee-termination-request .panel-container .panel-main .panel-body .documents-section .documents-list .document-item .document-info {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
-.private-layout .main-content .content .manage-employee-termination-request .panel-container .panel-main .panel-body .documents-section .document-item .document-badge {
+.private-layout .main-content .content .manage-employee-termination-request .panel-container .panel-main .panel-body .documents-section .documents-list .document-item .document-info .document-badge {
   display: inline-block;
   padding: 0.4rem 0.8rem;
   font-size: 0.85rem;
@@ -353,11 +351,11 @@ p {
   border: 1px solid #e2e8f0;
   border-radius: 6px;
 }
-.private-layout .main-content .content .manage-employee-termination-request .panel-container .panel-main .panel-body .documents-section .document-item .document-meta {
+.private-layout .main-content .content .manage-employee-termination-request .panel-container .panel-main .panel-body .documents-section .documents-list .document-item .document-info .document-meta {
   font-size: 0.8rem;
   color: #6b7280;
 }
-.private-layout .main-content .content .manage-employee-termination-request .panel-container .panel-main .panel-body .documents-section .document-item .btn-download {
+.private-layout .main-content .content .manage-employee-termination-request .panel-container .panel-main .panel-body .documents-section .documents-list .document-item .btn-download {
   font-size: 0.9rem;
   color: #334155;
   text-decoration: none;
@@ -366,7 +364,7 @@ p {
   border: 1px solid transparent;
   transition: all 0.2s ease;
 }
-.private-layout .main-content .content .manage-employee-termination-request .panel-container .panel-main .panel-body .documents-section .document-item .btn-download:hover {
+.private-layout .main-content .content .manage-employee-termination-request .panel-container .panel-main .panel-body .documents-section .documents-list .document-item .btn-download:hover {
   text-decoration: underline;
   color: rgb(31.875, 40.625, 53.125);
 }
@@ -533,6 +531,12 @@ p {
   color: #10b981;
   font-weight: bold;
   font-style: normal;
+}
+.private-layout .main-content .content .manage-employee-termination-request .panel-container .panel-aside .panel-body .form-separator {
+  border: 0;
+  border-top: 1px solid rgba(226, 232, 240, 0.5);
+  margin: 0.2rem 0;
+  width: 100%;
 }
 .private-layout .main-content .content .manage-employee-termination-request .alert-container {
   display: none;
