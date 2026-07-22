@@ -55,6 +55,7 @@
                                             }
                                         }
                                         .btn-download {
+                                            @include roboto-font(0.875rem, 500);
                                             @include btn-primary-variant (
                                             $bg-color: $accent-blue,
                                             $color: $white,

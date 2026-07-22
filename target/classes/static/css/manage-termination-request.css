@@ -353,6 +353,10 @@ p {
   border-radius: 6px;
 }
 .private-layout .main-content .content .manage-employee-termination-request .panel-container .panel-main .panel-body .documents-section .documents-list .document-item .btn-download {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
   display: inline-flex;
   align-items: center;
   justify-content: center;
