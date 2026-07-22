@@ -24,6 +24,7 @@
                                 padding: 0;
                                 .section-title {
                                     color: $text-color;
+                                    margin-top: 0;
                                     margin-bottom: 1rem;
                                 }
                                 .documents-list {
@@ -51,10 +52,6 @@
                                                 background-color: #ffffff;
                                                 border: 1px solid $border-color;
                                                 border-radius: 6px;
-                                            }
-                                            .document-meta {
-                                                font-size: 0.8rem;
-                                                color: $muted-color;
                                             }
                                         }
                                         .btn-download {

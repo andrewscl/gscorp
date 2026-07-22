@@ -320,6 +320,7 @@ p {
 }
 .private-layout .main-content .content .manage-employee-termination-request .panel-container .panel-main .panel-body .documents-section .section-title {
   color: #334155;
+  margin-top: 0;
   margin-bottom: 1rem;
 }
 .private-layout .main-content .content .manage-employee-termination-request .panel-container .panel-main .panel-body .documents-section .documents-list {
@@ -350,10 +351,6 @@ p {
   background-color: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 6px;
-}
-.private-layout .main-content .content .manage-employee-termination-request .panel-container .panel-main .panel-body .documents-section .documents-list .document-item .document-info .document-meta {
-  font-size: 0.8rem;
-  color: #6b7280;
 }
 .private-layout .main-content .content .manage-employee-termination-request .panel-container .panel-main .panel-body .documents-section .documents-list .document-item .btn-download {
   font-size: 0.9rem;

@@ -10,7 +10,6 @@
                     <label>Empleado:</label>
                     <span th:text="|${terminationRequest.employeeName} ${terminationRequest.employeeFatherSurname}|"></span>
                 </div>
-
                 <div class="form-row w-custom">
                     <div class="form-group fx-7">
                         <label>Causa de termino:</label>
@@ -21,7 +20,6 @@
                         <span th:text="${terminationRequest.proposedExitDate}"></span>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label>Descripción:</label>
                     <div class="form-control-text-block"
@@ -34,14 +32,12 @@
                         <div th:each="doc : ${terminationRequestDocuments}" class="document-item">
                             <div class="document-info">
                                 <span class="document-badge" th:text="${doc.hrDocumentTypeName}">Renuncia</span>
-                                <span class="document-meta" th:text="'Subido por: ' + ${doc.createdBy}">Subido por: andrewscl</span>
                             </div>
                             <a th:href="${doc.fileUrl}" target="_blank" class="btn-download">
                                 Descargar Archivo
                             </a>
                         </div>
                     </div>
-                    
                     <!-- Estado vacío -->
                     <div th:if="${#lists.isEmpty(terminationRequestDocuments)}" class="documents-empty">
                         Ningún documento asociado a esta solicitud.
