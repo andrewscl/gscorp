@@ -118,7 +118,7 @@ public class EmployeeTerminationController {
 
         model.addAttribute("terminationRequest",employeeTerminationDto);
         model.addAttribute("terminationRequestDocuments", documents);
-        return "private/hr/termination-requests/fragments/manage-termination-request";
+        return "private/hr/termination-requests/fragments/view-termination-request";
     }
 
 }
