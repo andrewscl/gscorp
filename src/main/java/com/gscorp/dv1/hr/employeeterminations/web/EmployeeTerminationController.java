@@ -103,4 +103,22 @@ public class EmployeeTerminationController {
         return "private/hr/termination-requests/fragments/manage-termination-request";
     }
 
+    @GetMapping("/view/{externalId}")
+    public String getViewEmployeeTransitionRequest(
+                Model model,
+                @PathVariable UUID externalId,
+                @AuthenticationPrincipal SecurityUser securityUser
+    ){
+        if(securityUser == null) return "redirect:/login";
+
+        EmployeeTerminationDto employeeTerminationDto =
+                employeeTerminationService.findByExternalId(externalId);
+        List<HumanResourcesDocumentDto> documents =
+                humanResourcesDocumentService.findByEmployeeTerminationExternalId(externalId);
+
+        model.addAttribute("terminationRequest",employeeTerminationDto);
+        model.addAttribute("terminationRequestDocuments", documents);
+        return "private/hr/termination-requests/fragments/manage-termination-request";
+    }
+
 }

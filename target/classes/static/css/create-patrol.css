@@ -13,7 +13,7 @@ body {
   line-height: 1.5;
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, h5 {
   line-height: 1.2;
   color: #475569;
 }
@@ -43,6 +43,13 @@ h3 {
 h4 {
   font-family: "Montserrat", sans-serif;
   font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+h5 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.02em;
 }
@@ -583,9 +590,6 @@ p {
   transform: translateY(-2px);
 }
 .hs-form .patrol-form-footer .btn.btn-secondary:active {
-  background: #babec2;
-  transform: translateY(1px);
-}/*# sourceMappingURL=create-patrol.css.map */secondary:active {
   background: #babec2;
   transform: translateY(1px);
 }/*# sourceMappingURL=create-patrol.css.map */

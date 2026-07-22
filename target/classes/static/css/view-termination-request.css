@@ -1,0 +1,543 @@
+@charset "UTF-8";
+/* Verde claro */
+/* Rojo claro */
+/* Amarillo claro */
+/* Verde oscuro */
+/* Rojo oscuro */
+/* Amarillo oscuro */
+body {
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5 {
+  line-height: 1.2;
+  color: #475569;
+}
+
+h1 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+h2 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin: 0 0 1rem 0;
+}
+
+h3 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+h4 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+h5 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 992px) {
+  h1 {
+    font-size: 1.8rem;
+  }
+  h2 {
+    font-size: 1.5rem;
+  }
+  h3 {
+    font-size: 1.2rem;
+  }
+  h4 {
+    font-size: 1.05rem;
+  }
+}
+p {
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.5;
+  margin-bottom: 0.25rem;
+}
+
+.p1 {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.55;
+  margin-bottom: 0.5rem;
+}
+
+.p2 {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+}
+
+.p3 {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  line-height: 1.65;
+  margin-bottom: 1.5rem;
+}
+
+.private-layout .main-content .content .view-employee-termination-request {
+  background: #ffffff;
+  border-radius: 0.8rem;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  box-shadow: 0 0.5rem 1.1rem rgba(15, 23, 42, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.private-layout .main-content .content .view-employee-termination-request::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0.25rem;
+  background: linear-gradient(90deg, #4e54c8, #8f94fb);
+  border-top-left-radius: 0.8rem;
+  border-top-right-radius: 0.8rem;
+  z-index: 10;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+  flex-grow: 1;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main {
+  flex: 1;
+  padding: 0 2rem 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(226, 232, 240, 0.5);
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-aside {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+.private-layout .main-content .content .view-employee-termination-request:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0.5rem 1.25rem rgba(15, 23, 42, 0.08);
+}
+@media (max-width: 992px) {
+  .private-layout .main-content .content .view-employee-termination-request .panel-container {
+    flex-direction: column;
+  }
+  .private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main {
+    border-right: none;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .private-layout .main-content .content .view-employee-termination-request .panel-container .panel-aside {
+    height: 350px;
+    flex: none;
+  }
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main {
+  flex: 1;
+  padding: 0 2rem 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(226, 232, 240, 0.5);
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body .form-group label {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body .form-group .form-value {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #475569;
+  line-height: 1.4;
+  border: 0.1rem solid #e2e8f0;
+  padding: 0.4rem 0.75rem;
+  border-radius: 0.5rem;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body .form-group .form-value:empty::before {
+  content: "—";
+  color: #cbd5e1;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body .form-group input, .private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body .form-group select,
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body .form-group span {
+  padding: 0.65rem;
+  border: 0.09rem solid #ced4da;
+  border-radius: 0.5rem;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #64748b;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body .form-group input::placeholder, .private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body .form-group select::placeholder,
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body .form-group span::placeholder {
+  color: #adb5bd;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body .form-group input:focus, .private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body .form-group select:focus,
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body .form-group span:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
+  outline: none;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body .form-group textarea {
+  resize: vertical;
+  border: 0.09rem solid #ced4da;
+  border-radius: 0.5rem;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #1f2937;
+  min-height: 80px;
+  padding: 0.4rem 0.75rem;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body .form-group textarea:focus {
+  border-color: #4e54c8;
+  box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
+  outline: none;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body .form-group .form-control-text-block {
+  width: 100%;
+  min-height: 3.375rem;
+  padding: 0.75rem 1rem;
+  background-color: transparent;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.7rem;
+  color: #64748b;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+  box-sizing: border-box;
+  word-wrap: break-word;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body .form-row {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body .form-row .form-group {
+  flex: 1;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body .form-row.w-custom .fx-1 {
+  flex: 1;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body .form-row.w-custom .fx-2 {
+  flex: 2;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body .form-row.w-custom .fx-3 {
+  flex: 3;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body .form-row.w-custom .fx-4 {
+  flex: 4;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body .form-row.w-custom .fx-5 {
+  flex: 5;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body .form-row.w-custom .fx-6 {
+  flex: 6;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body .form-row.w-custom .fx-7 {
+  flex: 7;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body .form-row.w-custom .fx-8 {
+  flex: 8;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body .form-row.w-custom .fx-9 {
+  flex: 9;
+}
+@media (max-width: 992px) {
+  .private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body .form-row {
+    flex-direction: column;
+  }
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-main .panel-body .form-separator {
+  border: 0;
+  border-top: 1px solid rgba(226, 232, 240, 0.5);
+  margin: 0.2rem 0;
+  width: 100%;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-aside {
+  align-items: stretch;
+  justify-content: flex-start;
+  padding: 2rem;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-aside .documents-section {
+  margin: 0;
+  padding: 0;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-aside .documents-section .section-title {
+  color: #334155;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-aside .documents-section .section-title .document-count {
+  font-size: 0.9rem;
+  color: #64748b;
+  font-weight: 500;
+  margin-left: 4px;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-aside .documents-section .documents-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  overflow-y: auto;
+  padding-right: 0.4rem;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-aside .documents-section .documents-list .document-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.7rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-aside .documents-section .documents-list .document-item .document-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-aside .documents-section .documents-list .document-item .document-info .document-badge {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  color: #334155;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-aside .documents-section .documents-list .document-item .btn-download {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 1rem;
+  border-radius: 0.4rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-aside .documents-section .documents-list .document-item .btn-download:hover {
+  background-color: rgb(29.8390243902, 111.4024390244, 244.6609756098);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-aside .documents-section .documents-list .document-item .btn-download:active {
+  transform: translateY(0);
+}
+.private-layout .main-content .content .view-employee-termination-request .panel-container .panel-aside .documents-section .documents-empty {
+  padding: 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #6b7280;
+  background-color: #f8fafc;
+  border: 1px dashed #e2e8f0;
+  border-radius: 0.7rem;
+}
+.private-layout .main-content .content .view-employee-termination-request .alert-container {
+  display: none;
+  width: auto;
+  position: fixed;
+  bottom: 5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+}
+.private-layout .main-content .content .view-employee-termination-request .alert-container .alert {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 0 1rem 0.8rem;
+  border-radius: 8px;
+  margin: 0.5rem 0;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #374151;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+  transform: translateY(1.2rem);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.private-layout .main-content .content .view-employee-termination-request .alert-container .alert .alert-icon {
+  font-size: 1.5rem;
+}
+.private-layout .main-content .content .view-employee-termination-request .alert-container .alert.alert-success {
+  background-color: #d1f7d6;
+  color: #256029;
+  border: 1px solid #a4e5aa;
+}
+.private-layout .main-content .content .view-employee-termination-request .alert-container .alert.alert-success .alert-message {
+  vertical-align: middle;
+}
+.private-layout .main-content .content .view-employee-termination-request .alert-container .alert.alert-error {
+  background-color: #fde4e4;
+  color: #a61d1d;
+  border: 1px solid #f5b3b3;
+}
+.private-layout .main-content .content .view-employee-termination-request .alert-container .alert.alert-error .alert-message {
+  vertical-align: middle;
+}
+.private-layout .main-content .content .view-employee-termination-request .alert-container .alert.alert-warning {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+}
+.private-layout .main-content .content .view-employee-termination-request .alert-container .alert.alert-warning .alert-message {
+  vertical-align: middle;
+}
+.private-layout .main-content .content .view-employee-termination-request .alert-container .alert {
+  /* Mostrar alerta */
+}
+.private-layout .main-content .content .view-employee-termination-request .alert-container .alert.alert-show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.private-layout .main-content .content .view-employee-termination-request .footer-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 15px;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+.private-layout .main-content .content .view-employee-termination-request .footer-actions .btn {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.private-layout .main-content .content .view-employee-termination-request .footer-actions .btn.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+.private-layout .main-content .content .view-employee-termination-request .footer-actions .btn.btn-primary:hover {
+  background-color: rgb(29.8390243902, 111.4024390244, 244.6609756098);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+.private-layout .main-content .content .view-employee-termination-request .footer-actions .btn.btn-primary:active {
+  transform: translateY(0);
+}
+.private-layout .main-content .content .view-employee-termination-request .footer-actions .btn.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  background-color: #cbd5e1;
+  color: #ffffff;
+}
+.private-layout .main-content .content .view-employee-termination-request .footer-actions .btn.btn-secondary:hover {
+  background-color: rgb(175.8585365854, 191.0780487805, 209.3414634146);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(203, 213, 225, 0.4);
+}
+.private-layout .main-content .content .view-employee-termination-request .footer-actions .btn.btn-secondary:active {
+  transform: translateY(0);
+}
+.private-layout .main-content .content .view-employee-termination-request .footer-actions .btn.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  background-color: #ef4444;
+  color: #ffffff;
+}
+.private-layout .main-content .content .view-employee-termination-request .footer-actions .btn.btn-danger:hover {
+  background-color: rgb(236.5802955665, 39.7197044335, 39.7197044335);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+}
+.private-layout .main-content .content .view-employee-termination-request .footer-actions .btn.btn-danger:active {
+  transform: translateY(0);
+}/*# sourceMappingURL=view-termination-request.css.map */

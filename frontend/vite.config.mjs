@@ -111,6 +111,7 @@ export default defineConfig({
         'private/hr/employee-terminations/termination-requests-list': path.resolve(__dirname, './src/private/hr/employee-terminations/termination-requests-list.js'),
         'private/hr/employee-terminations/create-termination-request': path.resolve(__dirname, './src/private/hr/employee-terminations/create-termination-request.js'),
         'private/hr/employee-terminations/manage-termination-request': path.resolve(__dirname, './src/private/hr/employee-terminations/manage-termination-request.js'),
+        'private/hr/employee-terminations/view-termination-request': path.resolve(__dirname, './src/private/hr/employee-terminations/view-termination-request.js'),
 
         'private/configuration/hr-document-types/hr-document-types-list': path.resolve(__dirname, './src/private/configuration/hr-document-types/hr-document-types-list.js'),
         'private/configuration/hr-document-types/create-hr-document-type': path.resolve(__dirname, './src/private/configuration/hr-document-types/create-hr-document-type.js')

@@ -1,0 +1,81 @@
+<div class="view-employee-termination-request">
+    <div class="panel-container">
+        <div class="panel-main">
+            <div class="panel-header">
+                <h4>Ver solicitud de desvinculación</h4>
+            </div>
+
+            <div class="panel-body">
+                <div class="form-group">
+                    <label>Empleado:</label>
+                    <span th:text="|${terminationRequest.employeeName} ${terminationRequest.employeeFatherSurname}|"></span>
+                </div>
+                <div class="form-row w-custom">
+                    <div class="form-group fx-7">
+                        <label>Causa de termino propuesta:</label>
+                        <span th:text="${terminationRequest.terminationReason.displayName}"></span>
+                    </div>
+                    <div class="form-group fx-3">
+                        <label>Fecha propuesta:</label>
+                        <span th:text="${terminationRequest.proposedExitDate}"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Descripción:</label>
+                    <div class="form-control-text-block"
+                            th:text="${terminationRequest.description}"></div>
+                </div>
+                <div class="form-row w-custom">
+                    <div class="form-group fx-7">
+                        <label>Causa de termino final:</label>
+                        <span th:text="${terminationRequest.finalTerminationReason.displayName}"></span>
+                    </div>
+                    <div class="form-group fx-3">
+                        <label>Fecha final:</label>
+                        <span th:text="${terminationRequest.finalExitDate}"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Descripción:</label>
+                    <div class="form-control-text-block"
+                            th:text="${terminationRequest.finalDescription}"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-aside">
+                <input type="hidden" id="employeeExternalId"
+                        th:value="${terminationRequest.employeeExternalId}" />
+                <input type="hidden" id="externalId"
+                        th:value="${terminationRequest.externalId}" />
+                <div class="documents-section">
+                    <h5 class="section-title">Documentos Adjuntos
+                        <span class="document-count" th:text="${'(' + #lists.size(terminationRequestDocuments) + ')'}"> (0)</span>
+                    </h5>
+                    <!-- Listado cuando existen documentos -->
+                    <div th:if="${not #lists.isEmpty(terminationRequestDocuments)}" class="documents-list">
+                        <div th:each="doc : ${terminationRequestDocuments}" class="document-item">
+                            <div class="document-info">
+                                <span class="document-badge" th:text="${doc.hrDocumentTypeName}">Renuncia</span>
+                            </div>
+                            <a th:href="${doc.fileUrl}" target="_blank" class="btn-download">
+                                <i class="fas fa-download" style="margin-right: 8px;"></i> Descargar Archivo
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Estado vacío -->
+                    <div th:if="${#lists.isEmpty(terminationRequestDocuments)}" class="documents-empty">
+                        Ningún documento asociado a esta solicitud.
+                    </div>
+                </div>
+        </div>
+
+    <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
+    <div th:replace="~{shared/fragments/footer-buttons ::
+                            footer-buttons(
+                                false, '',
+                                true, 'Volver',
+                                false, '')}"></div>
+
+    <script type="module" src="/js/private/hr/employee-terminations/view-termination-request.js"></script>
+</div>
