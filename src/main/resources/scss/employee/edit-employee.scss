@@ -89,7 +89,7 @@
                 }
                 &.btn-danger {
                 @include btn-primary-variant (
-                        $bg-color: $accent-red,
+                        $bg-color: $accent-green,
                         $color: $white,
                         $padding: 0.75rem 1.5rem,
                         $border-radius: 0.5rem

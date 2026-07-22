@@ -250,13 +250,13 @@ p {
   cursor: pointer;
   transition: all 0.3s ease;
   text-decoration: none;
-  background-color: #ef4444;
+  background-color: #10b981;
   color: #ffffff;
 }
 .edit-employee .edit-employee-header .generic-buttons .btn.btn-danger:hover {
-  background-color: rgb(236.5802955665, 39.7197044335, 39.7197044335);
+  background-color: rgb(14.4, 166.5, 116.1);
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
 }
 .edit-employee .edit-employee-header .generic-buttons .btn.btn-danger:active {
   transform: translateY(0);
