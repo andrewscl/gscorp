@@ -50,6 +50,8 @@
 
         <div class="panel-aside">
             <div class="panel-body">
+                <input type="hidden" id="employeeExternalId"
+                        th:value="${terminationRequest.employeeExternalId}" />
                 <div class="form-row w-custom">
                     <div class="form-group fx-7">
                     <label>Causa de termino:</label>
@@ -95,7 +97,7 @@
     <div th:replace="~{shared/fragments/footer-buttons ::
                             footer-buttons(
                                 true, 'Procesar solicitud',
-                                true, 'Rechazar',
+                                true, 'Cancelar',
                                 false, '')}"></div>
 
     <script type="module" src="/js/private/hr/employee-terminations/manage-termination-request.js"></script>
