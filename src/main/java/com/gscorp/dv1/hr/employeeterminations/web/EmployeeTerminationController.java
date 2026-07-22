@@ -116,6 +116,8 @@ public class EmployeeTerminationController {
         List<HumanResourcesDocumentDto> documents =
                 humanResourcesDocumentService.findByEmployeeTerminationExternalId(externalId);
 
+        System.out.println(">>> CONTENIDO DEL DTO: " + employeeTerminationDto);
+
         model.addAttribute("terminationRequest",employeeTerminationDto);
         model.addAttribute("terminationRequestDocuments", documents);
         return "private/hr/termination-requests/fragments/view-termination-request";
