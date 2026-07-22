@@ -31,6 +31,11 @@ const createTerminationRequest = async () => {
     const fileInput = qs('#file-upload');    
     const fileUpload = fileInput?.files ? fileInput.files[0] : null;
 
+    if (!employeeExternalId || !terminationReason || !proposedExitDate || !hrDocumentType) {
+        displayAlert(alertError, 'Por favor, complete los campos minimos requeridos empleado, motivo y fecha de termino propuesta.');
+        return;
+    }
+
     if(createBtn) createBtn.disabled = true;
     if(cancelBtn) cancelBtn.disabled = true;
 

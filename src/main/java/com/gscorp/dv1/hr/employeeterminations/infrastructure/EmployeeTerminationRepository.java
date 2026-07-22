@@ -83,7 +83,9 @@ public interface EmployeeTerminationRepository
         LEFT JOIN etr.employee e
         WHERE etr.externalId = :externalId
         """)
-    Optional<EmployeeTerminationProjection> findByExternalId(
+    Optional<EmployeeTerminationProjection> findProjectionByExternalId(
                                         @Param("externalId") UUID externalId);
+
+    Optional<EmployeeTermination> findByExternalId(UUID externalId);
 
 }

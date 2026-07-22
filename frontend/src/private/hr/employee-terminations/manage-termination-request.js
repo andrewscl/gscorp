@@ -22,6 +22,7 @@ const processManageTerminationRequest = async () => {
     const createBtn = qs('#submit');
     const cancelBtn = qs('#cancel');
 
+    const externalId = qs('#externalId')?.value || '';
     const employeeExternalId = qs('#employeeExternalId')?.value || '';
     const finalTerminationReason = qs('#finalTerminationReason')?.value || '';
     const finalExitDate = qs('#finalExitDate')?.value || '';
@@ -30,7 +31,7 @@ const processManageTerminationRequest = async () => {
     const fileInput = qs('#file-upload');    
     const fileUpload = fileInput?.files ? fileInput.files[0] : null;
 
-    if (!employeeExternalId || !finalTerminationReason || !finalExitDate || !hrDocumentType || !fileUpload) {
+    if (!externalId || !employeeExternalId || !finalTerminationReason || !finalExitDate || !hrDocumentType || !fileUpload) {
         displayAlert(alertError, 'Por favor, complete todos los campos y adjunte el documento obligatorio.');
         return;
     }
@@ -40,9 +41,10 @@ const processManageTerminationRequest = async () => {
 
     try {
         const formData = new FormData();
+        if(externalId) formData.append('externalId', externalId);
         if(employeeExternalId) formData.append('employeeId', employeeExternalId);
-        if(finalTerminationReason) formData.append('terminationReason', finalTerminationReason);
-        if(finalExitDate) formData.append('proposedExitDate', finalExitDate);
+        if(finalTerminationReason) formData.append('finalTerminationReason', finalTerminationReason);
+        if(finalExitDate) formData.append('finalExitDate', finalExitDate);
         if(hrDocumentType) formData.append('hrDocumentType', hrDocumentType);
         if(fileUpload) formData.append('file', fileUpload);
 

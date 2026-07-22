@@ -14,7 +14,9 @@ import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.hr.employeeterminations.application.EmployeeTerminationService;
 import com.gscorp.dv1.hr.employeeterminations.web.dto.CreateEmployeeTermination;
 import com.gscorp.dv1.hr.employeeterminations.web.dto.EmployeeTerminationDto;
+import com.gscorp.dv1.hr.employeeterminations.web.dto.ManageEmployeeTermination;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,7 +30,7 @@ public class EmployeeTerminationRestController {
     
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<EmployeeTerminationDto> create(
-                @ModelAttribute CreateEmployeeTermination req,
+                @Valid @ModelAttribute CreateEmployeeTermination req,
                 UriComponentsBuilder ucb,
                 @AuthenticationPrincipal SecurityUser securityUser
     ){
@@ -41,7 +43,24 @@ public class EmployeeTerminationRestController {
         var location = ucb.path("/api/employee-terminations/{externalId}")
                             .buildAndExpand(saved.externalId())
                             .toUri();
+        return ResponseEntity.created(location).body(saved);
+    }
 
+    @PostMapping(value = "/manage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<EmployeeTerminationDto> manage(
+                @Valid @ModelAttribute ManageEmployeeTermination req,
+                UriComponentsBuilder ucb,
+                @AuthenticationPrincipal SecurityUser securityUser
+    ){
+        if (securityUser == null) {
+            throw new AuthenticationCredentialsNotFoundException("Usuario no autenticado");
+        }
+        EmployeeTerminationDto saved = 
+                        employeeTerminationService
+                            .manageEmployeeTermination(req, securityUser);
+        var location = ucb.path("/api/employee-terminations/{externalId}")
+                            .buildAndExpand(saved.externalId())
+                            .toUri();
         return ResponseEntity.created(location).body(saved);
     }
 

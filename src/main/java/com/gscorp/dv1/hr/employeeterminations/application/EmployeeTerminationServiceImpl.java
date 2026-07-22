@@ -14,6 +14,7 @@ import com.gscorp.dv1.admin.clients.application.ClientService;
 import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.configuration.hrdocuments.infrastructure.HrDocumentType;
 import com.gscorp.dv1.configuration.hrdocuments.infrastructure.HrDocumentTypeRepository;
+import com.gscorp.dv1.enums.EmployeeStatus;
 import com.gscorp.dv1.enums.EmployeeTransitionStatus;
 import com.gscorp.dv1.hr.employees.infrastructure.Employee;
 import com.gscorp.dv1.hr.employees.infrastructure.EmployeeRepository;
@@ -22,6 +23,7 @@ import com.gscorp.dv1.hr.employeeterminations.infrastructure.EmployeeTermination
 import com.gscorp.dv1.hr.employeeterminations.infrastructure.projections.EmployeeTerminationProjection;
 import com.gscorp.dv1.hr.employeeterminations.web.dto.CreateEmployeeTermination;
 import com.gscorp.dv1.hr.employeeterminations.web.dto.EmployeeTerminationDto;
+import com.gscorp.dv1.hr.employeeterminations.web.dto.ManageEmployeeTermination;
 import com.gscorp.dv1.hr.hrdocs.infrastructure.HumanResourcesDocument;
 import com.gscorp.dv1.hr.hrdocs.infrastructure.HumanResourcesDocumentRepository;
 import com.gscorp.dv1.shared.FileStorageService;
@@ -109,11 +111,49 @@ public class EmployeeTerminationServiceImpl
 
     @Transactional(readOnly = true)
     public EmployeeTerminationDto findByExternalId(UUID externalId) {
-        return repo.findByExternalId(externalId)
+        return repo.findProjectionByExternalId(externalId)
                 .map(EmployeeTerminationDto::fromProjection)
                 .orElseThrow(() -> new EntityNotFoundException(
                     "No se encontró la solicitud."
                 ));
+    }
+
+    @Transactional
+    public EmployeeTerminationDto manageEmployeeTermination (
+                                ManageEmployeeTermination request,
+                                SecurityUser securityUser) {
+    
+        Employee employee = employeeRepository.findByExternalId(request.getEmployeeId())
+                .orElseThrow(()-> new EntityNotFoundException("No se encontro el empleado"));
+        HrDocumentType hrDocumentType = hrDocumentTypeRepository.findByExternalId(request.getHrDocumentType())
+                .orElseThrow(()-> new EntityNotFoundException("No se encontro el tipo de documento"));
+        EmployeeTermination employeeTermination = repo.findByExternalId(request.getExternalId())
+                .orElseThrow(()-> new EntityNotFoundException("No se encontro la solicitud"));
+
+        employee.setStatus(EmployeeStatus.NOTICE_GIVEN);
+        Employee updatedEmployee = employeeRepository.save(employee);
+        employeeTermination.setFinalTerminationReason(request.getFinalTerminationReason());
+        employeeTermination.setFinalExitDate(request.getFinalExitDate());
+        employeeTermination.setStatus(EmployeeTransitionStatus.IN_PROGRESS);
+        employeeTermination.setEmployee(updatedEmployee);
+        EmployeeTermination updatedEmployeeTermination = repo.save(employeeTermination);
+        if (request.getFile() != null && !request.getFile().isEmpty()) {
+            String webPrefixPath = "/files/hr_termination_files/";
+            String fileUrl = fileStorageService
+                            .storeFile(request.getFile(), physicalTargetDir, webPrefixPath);
+            HumanResourcesDocument docEntity =
+                                    HumanResourcesDocument.builder()
+                                        .employee(employee)
+                                        .employeeTermination(updatedEmployeeTermination)
+                                        .hrDocumentType(hrDocumentType)
+                                        .fileUrl(fileUrl)
+                                        .createdBy(securityUser.getUsername())
+                                        .updatedBy(null)
+                                        .build();
+            employeeDocumentRepository.save(docEntity);
+            employeeTermination.getDocuments().add(docEntity);
+        }
+        return EmployeeTerminationDto.fromEntity(updatedEmployeeTermination);
     }
 
 }

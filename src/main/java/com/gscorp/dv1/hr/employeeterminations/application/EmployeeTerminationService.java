@@ -8,6 +8,7 @@ import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.enums.EmployeeTransitionStatus;
 import com.gscorp.dv1.hr.employeeterminations.web.dto.CreateEmployeeTermination;
 import com.gscorp.dv1.hr.employeeterminations.web.dto.EmployeeTerminationDto;
+import com.gscorp.dv1.hr.employeeterminations.web.dto.ManageEmployeeTermination;
 
 
 public interface EmployeeTerminationService {
@@ -20,6 +21,10 @@ public interface EmployeeTerminationService {
 
     EmployeeTerminationDto createEmployeeTermination (
                                 CreateEmployeeTermination request,
+                                SecurityUser securityUser);
+
+    EmployeeTerminationDto manageEmployeeTermination (
+                                ManageEmployeeTermination request,
                                 SecurityUser securityUser);
 
     EmployeeTerminationDto findByExternalId(UUID externalId);
