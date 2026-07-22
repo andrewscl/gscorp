@@ -26,11 +26,20 @@
                                     color: $text-color;
                                     margin-top: 0;
                                     margin-bottom: 1rem;
+                                    .document-count {
+                                        font-size: 0.9rem;
+                                        color: $text-secondary-color; // Un gris más suave para que sea informativo
+                                        font-weight: 500;
+                                        margin-left: 4px;
+                                    }
                                 }
                                 .documents-list {
                                     display: flex;
                                     flex-direction: column;
                                     gap: 0.75rem;
+                                    overflow-y: auto;
+                                    max-height: max-content;
+                                    padding-right: 0.4rem;
                                     .document-item {
                                         display: flex;
                                         align-items: center;

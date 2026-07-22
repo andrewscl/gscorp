@@ -12,7 +12,7 @@
                 </div>
                 <div class="form-row w-custom">
                     <div class="form-group fx-7">
-                        <label>Causa de termino:</label>
+                        <label>Causa de termino propuesta:</label>
                         <span th:text="${terminationRequest.terminationReason.displayName}"></span>
                     </div>
                     <div class="form-group fx-3">
@@ -26,7 +26,9 @@
                             th:text="${terminationRequest.description}"></div>
                 </div>
                 <div class="documents-section">
-                    <h5 class="section-title">Documentos Adjuntos</h5>
+                    <h5 class="section-title">Documentos Adjuntos
+                        <span class="document-count" th:text="${'(' + #lists.size(terminationRequestDocuments) + ')'}"> (0)</span>
+                    </h5>
                     <!-- Listado cuando existen documentos -->
                     <div th:if="${not #lists.isEmpty(terminationRequestDocuments)}" class="documents-list">
                         <div th:each="doc : ${terminationRequestDocuments}" class="document-item">
