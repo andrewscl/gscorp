@@ -353,17 +353,25 @@ p {
   border-radius: 6px;
 }
 .private-layout .main-content .content .manage-employee-termination-request .panel-container .panel-main .panel-body .documents-section .documents-list .document-item .btn-download {
-  font-size: 0.9rem;
-  color: #334155;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 1rem;
+  border-radius: 0.4rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
   text-decoration: none;
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-  border: 1px solid transparent;
-  transition: all 0.2s ease;
+  background-color: #3b82f6;
+  color: #ffffff;
 }
 .private-layout .main-content .content .manage-employee-termination-request .panel-container .panel-main .panel-body .documents-section .documents-list .document-item .btn-download:hover {
-  text-decoration: underline;
-  color: rgb(31.875, 40.625, 53.125);
+  background-color: rgb(29.8390243902, 111.4024390244, 244.6609756098);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+.private-layout .main-content .content .manage-employee-termination-request .panel-container .panel-main .panel-body .documents-section .documents-list .document-item .btn-download:active {
+  transform: translateY(0);
 }
 .private-layout .main-content .content .manage-employee-termination-request .panel-container .panel-main .panel-body .documents-section .documents-empty {
   padding: 1.5rem;
