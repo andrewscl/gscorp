@@ -386,6 +386,7 @@ p {
   height: 100%;
 }
 .private-layout .main-content .content .manage-employee-termination-request .panel-container .panel-aside .panel-body .panel-title {
+  margin: 0;
   font-family: "Montserrat", sans-serif;
   font-size: 1.1rem;
   font-weight: 600;
