@@ -87,6 +87,12 @@ export async function initShiftCoverageDonuts(
         const elDonut = document.getElementById(chartUniqueId);
         if (!elDonut) return;
 
+        const cs = getComputedStyle(elDonut);
+        if (elDonut.offsetWidth === 0 && (!cs.width || cs.width === '0px')) {
+            elDonut.style.width = '100%';    // Ajusta al contenedor
+            elDonut.style.height = '110px';  // 👈 Asigna el alto que necesite tu diseño
+        }
+
         const chart = options.mkChart(elDonut);
         if (!chart) return;
         
@@ -140,6 +146,8 @@ export async function initShiftCoverageDonuts(
                 ]
           }]
         });
+        // 🌟 OBLIGAR A RECALCULAR: Si se inicializó en 0px, esto forzará el pintado real
+        try { chart.resize(); } catch (_) {}
       });
 
     } catch (error) {
