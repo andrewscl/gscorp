@@ -10,9 +10,9 @@ type ChartController = {
 };
 
 interface HourlyCoverageData {
-  timeLabel: string; // Ej: "2026-07-23T08:00:00Z" o directamente "08:00"
+  startTs: string; // Ej: "2026-07-23T08:00:00Z" o directamente "08:00"
+  totalShifts: number;
   actualShifts: number;
-  forecastShifts: number;
 }
 
 export async function initShiftCoverageDonuts(
@@ -62,16 +62,17 @@ export async function initShiftCoverageDonuts(
         const donutCanvasNode = clone.querySelector('.hourly-donut') as HTMLElement;
 
         // Procesar la hora: si viene en formato ISO string, la convertimos. Si ya viene limpia, la usamos directo.
-        let hoursStr = item.timeLabel;
-        if (item.timeLabel.includes('T') || !isNaN(Date.parse(item.timeLabel))) {
-          const date = new Date(item.timeLabel);
-          hoursStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+        let hoursStr = item.startTs;
+        if (item.startTs && (item.startTs.includes('T') || !isNaN(Date.parse(item.startTs)))) {
+            const date = new Date(item.startTs);
+            hoursStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
         }
         
         if (titleNode) titleNode.textContent = `${hoursStr} hrs`;
         
         // Mostramos el valor real actual (o los pendientes si cambias la lógica)
-        if (valueNode) valueNode.textContent = item.actualShifts.toString();
+        // if (valueNode) valueNode.textContent = item.actualShifts.toString();
+        if (valueNode) valueNode.textContent = 'dos';
         
         // Asignar ID único para inicializar ECharts sin colisiones
         const chartUniqueId = `donut-chart-node-${index}`;
@@ -93,8 +94,8 @@ export async function initShiftCoverageDonuts(
         activeCharts.set(chartUniqueId, chart);
 
         // Lógica matemática del Donut corregida con tus propiedades
-        const hasMeta = item.forecastShifts > 0;
-        const percentage = hasMeta ? Math.round((item.actualShifts / item.forecastShifts) * 100) : 0;
+        const hasMeta = item.totalShifts > 0;
+        const percentage = hasMeta ? Math.round((2 / item.totalShifts) * 100) : 0;
         const pctForSeries = hasMeta ? Math.min(100, Math.max(0, percentage)) : 100;
 
         chart.setOption({
@@ -111,9 +112,9 @@ export async function initShiftCoverageDonuts(
               const data = Array.isArray(p) ? p[0] : p;
               if (!hasMeta) return 'Meta no definida';
               if (data.name === 'Cumplido') {
-                return `${data.marker || ''} Cubiertos: ${item.actualShifts} / ${item.forecastShifts} (${percentage}%)`;
+                return `${data.marker || ''} Cubiertos: ${2} / ${item.totalShifts} (${percentage}%)`;
               }
-              return `${data.marker || ''} Vacantes: ${Math.max(0, item.forecastShifts - item.actualShifts)}`;
+              return `${data.marker || ''} Vacantes: ${Math.max(0, item.totalShifts - 2)}`;
             }
           },
           series: [{
