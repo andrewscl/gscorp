@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.operations.shifts.infrastructure.Shift;
 import com.gscorp.dv1.operations.shifts.web.dto.ShiftDto;
+import com.gscorp.dv1.operations.shifts.web.dto.ShiftsCountLast24HoursDto;
 
 public interface ShiftService {
 
@@ -30,5 +31,8 @@ public interface ShiftService {
     Page<ShiftDto> getLastShiftsByShiftRequest(
                             UUID shiftRequestExternalId,
                             int ShiftsToShow);
+
+    List<ShiftsCountLast24HoursDto> getShiftsCountLast24Hours(
+                                                UUID userExternalId);
 
 }

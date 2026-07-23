@@ -1,0 +1,26 @@
+<!-- Contenedor principal para la fila de bloques horarios -->
+<div th:fragment="content" class="charts shifts-coverage-ingress-donut" id="shifts-coverage-ingress-donut">
+    
+    <template id="tmpl-hourly-donut-card">
+        <!-- Tarjeta individual con disposición vertical -->
+        <div class="card" data-card="hourly-shift-node">
+            
+            <!-- Contenedor del gráfico ECharts (Dona arriba) -->
+            <div class="donut-wrapper">
+                <div class="hourly-donut integrated" aria-hidden="true"></div>
+            </div>
+            
+            <!-- Bloque de textos informativos (Textos abajo) -->
+            <div class="card-info">
+                <h5 class="block-title">-:-</h5>
+                
+                <div class="card-totals" aria-live="polite">
+                    <div class="total-value">-</div>
+                    <div class="meta small muted">Meta: -</div>
+                </div>
+            </div>
+
+        </div>
+    </template>
+
+</div>

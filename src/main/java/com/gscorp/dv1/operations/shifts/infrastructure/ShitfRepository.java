@@ -13,6 +13,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.gscorp.dv1.operations.shifts.infrastructure.projections.ShiftProjection;
+import com.gscorp.dv1.operations.shifts.infrastructure.projections.ShiftsCountLast24HoursProjection;
 
 @Repository
 public interface ShitfRepository extends JpaRepository<Shift, Long>{
@@ -46,5 +47,21 @@ public interface ShitfRepository extends JpaRepository<Shift, Long>{
                 @Param("shiftRequestExternalId") UUID shiftRequestExternalId,
                 Pageable pageable
                 );
+
+    @Query( value = """
+        SELECT
+            COUNT(sh.id) AS  totalShifts,
+            date_trunc('hour', sh.start_ts) AS startTs  
+        FROM shifts sh
+        LEFT JOIN sites s ON sh.site_id = s.id
+        LEFT JOIN project p ON s.project_id = p.id
+        WHERE p.client_id IN :clientIds
+            AND sh.start_ts >= NOW() - INTERVAL '24 HOURS'
+        GROUP BY date_trunc('hour', sh.start_ts)
+        ORDER BY date_trunc('hour', sh.start_ts) ASC
+        """, nativeQuery = true)
+    List<ShiftsCountLast24HoursProjection> getShiftsCountLast24Hours (
+            @Param("clientIds") List<Long> clientIds
+    );
 
 }

@@ -3,6 +3,7 @@ import { initAttendanceHourlyChart } from '../charts/attendances/attendance-hour
 import { initAttendanceDailyChart } from '../charts/attendances/attendance-daily-chart';
 import { initVisitsDailyChart } from '../charts/site-visits/site-visit-daily-chart';
 import { initVisitHourlyChart } from '../charts/site-visits/site-visit-hourly-chart';
+import { initShiftCoverageDonuts } from '../charts/shifts/shifts-coverage-ingress-donut';
 import { fetchWithTimeout } from '../utils/api';
 
 type ChartController = {
@@ -19,7 +20,6 @@ export async function init({ container }: { container: HTMLElement }) {
   root.dataset.echartsInit = '1';
 
   const controllers: ChartController[] = [];
-
   // ResizeObserver creado antes para que registerChart pueda observar inmediatamente
   const ro = new ResizeObserver(() => {
     controllers.forEach(c => {
@@ -41,6 +41,12 @@ export async function init({ container }: { container: HTMLElement }) {
       console.error('Error initializing chart', e);
     }
   }
+  // --- Coverage ingress chart ---
+  await registerChart(initShiftCoverageDonuts, '#shifts-coverage-ingress-donut', {
+    days: 1,
+    mkChart,
+    fetchWithTimeout
+  });
 
   // --- Attendance hourly chart ---
   await registerChart(initAttendanceHourlyChart, '#chart-hourly-attendance', {

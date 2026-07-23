@@ -1,5 +1,7 @@
 <div th:fragment="content" id="client-dashboard-root" class="operational-charts" role="region" aria-label="Client dashboard">
 
+  <div th:replace="~{private/ops/dashboards/kpi/shifts-coverage-ingress-donut-chart :: content}"></div>
+
   <!-- Hourly charts (actualizado: donut integrado en la mitad superior izquierda) -->
   <div class="charts hourly" role="group" aria-label="Indicadores diarios">
     <!-- Attendance -->
@@ -114,6 +116,5 @@
 
   <!-- Script bundle -->
   <script type="module" src="/assets/private/client.js"></script>
-  
 
 </div>

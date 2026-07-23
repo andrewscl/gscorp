@@ -2,11 +2,13 @@ package com.gscorp.dv1.operations.shifts.web;
 
 import java.time.ZoneId;
 import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +27,7 @@ import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestReposi
 import com.gscorp.dv1.operations.shifts.application.ShiftService;
 import com.gscorp.dv1.operations.shifts.web.dto.CreateShift;
 import com.gscorp.dv1.operations.shifts.web.dto.ShiftDto;
+import com.gscorp.dv1.operations.shifts.web.dto.ShiftsCountLast24HoursDto;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -108,6 +111,18 @@ public class ShiftRestController {
                                                 shiftRequestExternalId, shiftsToShow);
 
         return ResponseEntity.ok(shifts);
+    }
+
+    @GetMapping("/last-24hours-shifts")
+    public ResponseEntity<List<ShiftsCountLast24HoursDto>> getShiftsCountLast24Hours (
+                @AuthenticationPrincipal SecurityUser securityUser
+    ){
+        if (securityUser == null) {
+            throw new AuthenticationCredentialsNotFoundException("Usuario no autenticado");
+        }
+        UUID externalId = securityUser.getUser().getExternalId();
+
+        return ResponseEntity.ok(shiftService.getShiftsCountLast24Hours(externalId));
     }
 
 

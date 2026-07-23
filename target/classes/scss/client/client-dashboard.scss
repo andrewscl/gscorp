@@ -1,13 +1,16 @@
 @use '../abstracts/dashboards/kpi-cards' as * ;
 @use '../abstracts/dashboards/distribution-cards' as * ;
 @use '../abstracts/dashboards/distribution-card-levels' as * ;
+@use '../abstracts/dashboards/shifts-coverage-ingress-donut' as * ;
 @use '../private/operations/dashboards/fragments/operational-charts' as * ;
 
 .clients-dashboard {
 
-    @include kpi-cards();
+    @include shifts-coverage-ingress-donut();
 
     @include operational-charts();
+
+    @include kpi-cards();
 
     @include distribution-card-levels();
 

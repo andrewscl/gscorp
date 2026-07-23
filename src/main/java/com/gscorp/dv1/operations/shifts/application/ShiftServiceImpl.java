@@ -12,10 +12,13 @@ import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
+import com.gscorp.dv1.admin.clients.application.ClientService;
 import com.gscorp.dv1.enums.DayOfWeek;
 import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.enums.ShiftStatus;
@@ -27,6 +30,7 @@ import com.gscorp.dv1.operations.shifts.infrastructure.Shift;
 import com.gscorp.dv1.operations.shifts.infrastructure.ShitfRepository;
 import com.gscorp.dv1.operations.shifts.infrastructure.projections.ShiftProjection;
 import com.gscorp.dv1.operations.shifts.web.dto.ShiftDto;
+import com.gscorp.dv1.operations.shifts.web.dto.ShiftsCountLast24HoursDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -37,6 +41,7 @@ public class ShiftServiceImpl implements ShiftService {
     private final ShitfRepository shiftRepository;
     private final ShiftRequestScheduleRepository shiftRequestScheduleRepository;
     private final ShiftRequestRepository shiftRequestRepository;
+    private final ClientService clientService;
 
     @Transactional(readOnly = true)
     public List<Shift> getShifts(Long siteId, OffsetDateTime from, OffsetDateTime to) {
@@ -144,15 +149,28 @@ public class ShiftServiceImpl implements ShiftService {
     public Page<ShiftDto> getLastShiftsByShiftRequest(
                                     UUID shiftRequestExternalId,
                                     int shiftsToShow) {
-        
         Pageable pageable =
                         PageRequest.of(0, shiftsToShow);
-
         Page<ShiftProjection> projections =
                     shiftRepository.findLastByShiftRequestExternalId(
                                             shiftRequestExternalId, pageable);
-
         return projections.map(ShiftDto::fromProjection);
     }
 
+
+    @Transactional(readOnly = true)
+    public List<ShiftsCountLast24HoursDto> getShiftsCountLast24Hours(
+                                                UUID userExternalId){
+        if (userExternalId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
+        }
+        List<Long> allowedClientIds = clientService.getClientIdsByUserExternalId(userExternalId);
+        if (allowedClientIds == null || allowedClientIds.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No autorizado para ver turnos");
+        }
+        var projections = shiftRepository.getShiftsCountLast24Hours(allowedClientIds);
+        return projections.stream()
+                    .map(ShiftsCountLast24HoursDto::fromProjection)
+                    .toList();
+    }
 }
