@@ -57,11 +57,13 @@ public interface ShitfRepository extends JpaRepository<Shift, Long>{
         LEFT JOIN s.project p
         WHERE p.client.id IN :clientIds
             AND sh.startTs >= :since
+            AND sh.startTs <= :until
         GROUP BY sh.startTs
         """)
     List<ShiftsCountLast24HoursProjection> getShiftsCountLast24Hours (
             @Param("clientIds") List<Long> clientIds,
-            @Param("since") OffsetDateTime since
+            @Param("since") OffsetDateTime since,
+            @Param("until") OffsetDateTime until
     );
 
 }
