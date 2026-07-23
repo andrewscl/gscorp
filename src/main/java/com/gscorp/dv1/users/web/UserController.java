@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +17,10 @@ import com.gscorp.dv1.admin.clients.application.ClientService;
 import com.gscorp.dv1.admin.clients.web.dto.ClientSelectDto;
 import com.gscorp.dv1.admin.companies.application.CompanyService;
 import com.gscorp.dv1.admin.companies.web.dto.CompanySelectDto;
+import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.enums.UserStatus;
 import com.gscorp.dv1.hr.employees.application.EmployeeService;
+import com.gscorp.dv1.hr.employees.web.dto.EmployeeCreateUserDto;
 import com.gscorp.dv1.hr.employees.web.dto.EmployeeSelectDto;
 import com.gscorp.dv1.roles.application.RoleService;
 import com.gscorp.dv1.roles.web.dto.RoleSelectDto;
@@ -37,7 +40,6 @@ public class UserController {
     private final ClientService clientService;
     private final RoleService roleService;
     private final EmployeeService employeeService;
-
 
     @GetMapping("/table-view")
     public String getUsersTableView(
@@ -60,7 +62,6 @@ public class UserController {
 
         return "private/users/views/users-list";
     }
-
 
     @GetMapping("/invite")
     public String getInviteUserView(Model model) {
@@ -101,7 +102,6 @@ public class UserController {
         return "private/users/views/edit-user-view";
     }
 
-
     @GetMapping("/table-search")
     public String getUserTableSearch(
         Model model,
@@ -115,17 +115,31 @@ public class UserController {
         if (userId == null) {
             return "redirect:/login";
         }
-
         Page<UserTableDto> usersPage =
                 userService.searchUsersWithEmployee(q, status, page, size);
-
         model.addAttribute("usersPage", usersPage);
         model.addAttribute("status", status);
         model.addAttribute("qVar", q);
         model.addAttribute("userStatus", UserStatus.values());
         model.addAttribute("count", usersPage.getTotalElements());
-
         return "private/users/fragments/users-table-partial :: partial";
+    }
+
+    @GetMapping("/invite-by-user/{employeeExternalId}")
+    public String getInviteUserByEmployeeExternalId(
+                    Model model,
+                    @PathVariable UUID employeeExternalId,
+                    @AuthenticationPrincipal SecurityUser securityUser) {
+        if(securityUser == null) return "redirect:/login";
+
+        EmployeeCreateUserDto selectedEmployee = employeeService.findDataForInvitation(employeeExternalId);
+
+        model.addAttribute("companies", companyService.getAllCompaniesForSelect());
+        model.addAttribute("clients", clientService.getAllClients());
+        model.addAttribute("roles", roleService.getAllRoles());
+        model.addAttribute("employees", employeeService.findAllUnassignedEmployees());
+        model.addAttribute("selectedEmployee", selectedEmployee);
+        return "private/users/views/invite-user-view";
     }
 
 }

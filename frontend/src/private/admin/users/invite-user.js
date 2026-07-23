@@ -9,22 +9,17 @@ const alertError = qs('.alert-error');
 const alertCancel = qs('.alert-warning');
 const inviteUserBtn = qs('#submit');
 
-async function onSubmitInviteUser(e) {
-  e.preventDefault();
-
-  inviteUserBtn.disabled = true;
+async function onSubmitInviteUser() {
+  const inviteUserBtn = qs('#submit');
 
   const username = qs('#inviteUsername')?.value?.trim();
   const mail = qs('#inviteMail')?.value?.trim();
-
   const companyIds = Array.from(qs('#userCompanies')?.selectedOptions || [])
                 .map(o => Number(o.value))
                 .filter(Boolean)
-
   const clientIds = Array.from(qs('#userClients')?.selectedOptions || [])
                 .map(o => Number(o.value))
                 .filter(Boolean)
-
   const employeeId = Number(qs('#inviteEmployeeId')?.value) || null;
   const roleId = Number(qs('#inviteRoleId')?.value) || null;
 
@@ -33,7 +28,7 @@ async function onSubmitInviteUser(e) {
       return;
   }
 
-  inviteUserBtn && (inviteUserBtn.disabled = true);
+  if(inviteUserBtn) inviteUserBtn.disabled = true;
 
   try {
     const res = await fetchWithAuth('/api/users/invite', {
@@ -51,15 +46,16 @@ async function onSubmitInviteUser(e) {
 
     if (!res.ok) {
       displayAlert(alertError, 'No se pudo invitar al usuario.', 1500);
-      inviteUserBtn.disabled = false;
+      if(inviteUserBtn) inviteUserBtn.disabled = false;
       return;
     }
     displayAlert(alertSuccess, 'Usuario invitado correctamente.', 1500);
     setTimeout(() => {navigateTo('/private/users/table-view');}, 900);
-    inviteUserBtn && (inviteUserBtn.disabled = false);
+    if(inviteUserBtn) inviteUserBtn.disabled = false;
   } catch (e2) {
-        console.error("el error es: ", e2);
-        displayAlert(alertError, 'Error al invitar al usuario.', 1500);
+    console.error("el error es: ", e2);
+    displayAlert(alertError, 'Error al invitar al usuario.', 1500);
+    if(inviteUserBtn) inviteUserBtn.disabled = false;
   }
 
 }

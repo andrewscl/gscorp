@@ -25,7 +25,9 @@
             </div>
         </div>
 
-        <button class="create-invite-account" id="createInviteAccount">
+        <button class="create-invite-account"
+                id="createInviteAccount"
+                th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
             Crear Usuario
         </button>
 

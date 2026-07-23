@@ -157,6 +157,21 @@ const handlePhotoFileChange = function() {
 };
 
 
+const createInviteAccount = async () => {
+    const createInviteAccountBtn = qs('#createInviteAccount');
+    if(createInviteAccountBtn) createInviteAccountBtn.disabled = true;
+
+    const employeeExternalId = qs('#employeeExternalId')?.value?.trim() || null;
+
+    if (!employeeExternalId) {
+        displayAlert(alertError, 'Se requiere el employeeId para crear el usuario.');
+        if(createInviteAccountBtn) createInviteAccountBtn.disabled = false;
+        return;
+    }
+    navigateTo(`/private/users/invite-by-user/${employeeExternalId}`);
+}
+
+
 function bindEditEmployee() {
     const submitBtn = qs('.btn-primary');
     if (submitBtn) {
@@ -175,6 +190,12 @@ function bindEditEmployee() {
     if (photoInput) {
         photoInput.addEventListener('change', handlePhotoFileChange);
     }
+
+    const createInviteAccountBtn = qs('#createInviteAccount');
+    if (createInviteAccountBtn) {
+        createInviteAccountBtn.addEventListener('click', createInviteAccount);
+    }
+
 }
 
 

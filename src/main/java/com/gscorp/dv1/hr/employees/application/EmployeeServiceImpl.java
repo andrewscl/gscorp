@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gscorp.dv1.admin.clients.application.ClientService;
+import com.gscorp.dv1.admin.clients.web.dto.ClientSelectDto;
 import com.gscorp.dv1.admin.companies.infrastructure.Company;
 import com.gscorp.dv1.admin.companies.infrastructure.CompanyRepository;
 import com.gscorp.dv1.admin.projects.application.ProjectService;
@@ -37,6 +40,7 @@ import com.gscorp.dv1.hr.employees.infrastructure.Projections.EmployeeEditProjec
 import com.gscorp.dv1.hr.employees.infrastructure.Projections.EmployeeSelectProjection;
 import com.gscorp.dv1.hr.employees.infrastructure.Projections.EmployeeTableProjection;
 import com.gscorp.dv1.hr.employees.infrastructure.Projections.EmployeeViewProjection;
+import com.gscorp.dv1.hr.employees.web.dto.EmployeeCreateUserDto;
 import com.gscorp.dv1.hr.employees.web.dto.EmployeeEditDto;
 import com.gscorp.dv1.hr.employees.web.dto.EmployeeSelectDto;
 import com.gscorp.dv1.hr.employees.web.dto.EmployeeTableDto;
@@ -492,6 +496,32 @@ public class EmployeeServiceImpl implements EmployeeService {
         return projections.stream()
                 .map(EmployeeSelectDto::fromProjection)
                 .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public EmployeeCreateUserDto findDataForInvitation(UUID externalId) {
+        Employee employee = employeeRepository.findForInvitationByExternalId(externalId)
+            .orElseThrow(() -> new EntityNotFoundException("Empleado no encontrado"));
+
+        Set<ClientSelectDto> clientDtos = employee.getProjects().stream()
+                .map(project -> project != null ? project.getClient() : null)
+                .filter(Objects::nonNull)
+                .map(client -> new ClientSelectDto(client.getId(), client.getName()))
+                .collect(Collectors.toSet());
+
+        String username =
+            ("" + employee.getName().charAt(0) + employee.getFatherSurname()).toLowerCase();
+
+        return new EmployeeCreateUserDto(
+                    employee.getId(),
+                    employee.getExternalId(),
+                    employee.getName(),
+                    employee.getFatherSurname(),
+                    employee.getMotherSurname(),
+                    username,
+                    employee.getCompany() != null ? employee.getCompany().getId() : null,
+                    clientDtos
+                    );
     }
 
 }

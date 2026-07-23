@@ -423,4 +423,15 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
             findByStatus(@Param("status") EmployeeStatus status);
 
 
+    @Query(
+        value = """
+        SELECT DISTINCT e
+        FROM Employee e
+        LEFT JOIN FETCH e.company 
+        LEFT JOIN FETCH e.projects p
+        LEFT JOIN FETCH p.client c
+        WHERE e.externalId = :externalId
+        """)
+    Optional<Employee> findForInvitationByExternalId(@Param("externalId") UUID externalId);
+
 }

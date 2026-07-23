@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 
 import com.gscorp.dv1.enums.EmployeeStatus;
 import com.gscorp.dv1.hr.employees.infrastructure.Employee;
+import com.gscorp.dv1.hr.employees.web.dto.EmployeeCreateUserDto;
 import com.gscorp.dv1.hr.employees.web.dto.EmployeeEditDto;
 import com.gscorp.dv1.hr.employees.web.dto.EmployeeSelectDto;
 import com.gscorp.dv1.hr.employees.web.dto.EmployeeTableDto;
@@ -62,6 +63,8 @@ public interface EmployeeService {
     Employee validateAndAssignUser (Long employeeId, User user);
 
     List<EmployeeSelectDto> findByStatus (
-                                EmployeeStatus status); 
+                                EmployeeStatus status);
+
+    EmployeeCreateUserDto findDataForInvitation(UUID externalId);
 
 }
