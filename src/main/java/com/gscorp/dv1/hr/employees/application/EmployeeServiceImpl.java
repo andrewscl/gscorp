@@ -518,6 +518,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                     employee.getName(),
                     employee.getFatherSurname(),
                     employee.getMotherSurname(),
+                    employee.getMail(),
                     username,
                     employee.getCompany() != null ? employee.getCompany().getId() : null,
                     clientDtos

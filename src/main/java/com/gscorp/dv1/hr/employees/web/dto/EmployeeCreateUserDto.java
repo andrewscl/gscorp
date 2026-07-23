@@ -11,6 +11,7 @@ public record EmployeeCreateUserDto (
     String name,
     String fatherSurname,
     String motherSurname,
+    String email,
     String username,
     Long companyId,
     Set<ClientSelectDto> clients
