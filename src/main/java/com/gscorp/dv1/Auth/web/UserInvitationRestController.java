@@ -52,11 +52,9 @@ public class UserInvitationRestController {
     public ResponseEntity<?> inviteUser(@RequestBody InviteUserRequest request) {
 
         try {
-
             UserInvitationEmailDto inviteData = userInvitationService.prepareInvitation(request);
 
             String subject = "Bienvenido a SESAN";
-
             // Preparar las variables del proceso
             Context context = new Context();
             context.setVariable("username", inviteData.username());
@@ -74,6 +72,8 @@ public class UserInvitationRestController {
 
             return ResponseEntity.ok("Invitación enviada correctamente");
 
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.internalServerError()
                     .body("No se pudo enviar la invitación: " + e.getMessage());

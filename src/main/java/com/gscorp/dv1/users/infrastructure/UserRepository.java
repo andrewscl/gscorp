@@ -124,4 +124,6 @@ public interface UserRepository extends JpaRepository<User, Long>{
 
     List<User> findByStatus(UserStatus status);
 
+    boolean existsByUsername (String username);
+
 }

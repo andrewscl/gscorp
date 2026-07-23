@@ -42,6 +42,10 @@ public class UserInvitationServiceImpl implements UserInvitationService {
     @Transactional
     public UserInvitationEmailDto prepareInvitation (InviteUserRequest request) {
 
+        if(userRepo.existsByUsername(request.username())) {
+            throw new IllegalArgumentException("El nombre de usuario ya está registrado en el sistema.");
+        }
+
         User user = userService.createInvitedUser(request);
 
         PasswordResetToken token = passwordResetTokenService.

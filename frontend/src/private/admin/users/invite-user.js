@@ -45,7 +45,8 @@ async function onSubmitInviteUser() {
     });
 
     if (!res.ok) {
-      displayAlert(alertError, 'No se pudo invitar al usuario.', 1500);
+      const errorMessage = await res.text();
+      displayAlert(alertError, errorMessage || 'No se pudo invitar al usuario.', 1500);
       if(inviteUserBtn) inviteUserBtn.disabled = false;
       return;
     }
