@@ -169,6 +169,21 @@ public class ShiftServiceImpl implements ShiftService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No autorizado para ver turnos");
         }
         var projections = shiftRepository.getShiftsCountLast24Hours(allowedClientIds);
+
+        System.out.println("====== PROBANDO ENDPOINT LAST 24 HOURS ======");
+        System.out.println("Cantidad de registros devueltos: " + (projections != null ? projections.size() : "NULL"));
+
+        if (projections != null) {
+            projections.forEach(row -> {
+                System.out.println("Fecha/Hora: " + row.getStartTs() + " | Turnos: " + row.getTotalShifts());
+            });
+        }
+        System.out.println("=============================================");
+
+        if (projections == null) {
+            return List.of(); 
+        }
+
         return projections.stream()
                     .map(ShiftsCountLast24HoursDto::fromProjection)
                     .toList();
