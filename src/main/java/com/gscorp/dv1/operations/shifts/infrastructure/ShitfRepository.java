@@ -50,18 +50,18 @@ public interface ShitfRepository extends JpaRepository<Shift, Long>{
 
     @Query( value = """
         SELECT
-            COUNT(sh.id) AS  totalShifts,
-            date_trunc('hour', sh.start_ts) AS startTs  
-        FROM shifts sh
-        LEFT JOIN sites s ON sh.site_id = s.id
-        LEFT JOIN project p ON s.project_id = p.id
-        WHERE p.client_id IN :clientIds
-            AND sh.start_ts >= NOW() - INTERVAL '24 HOURS'
-        GROUP BY date_trunc('hour', sh.start_ts)
-        ORDER BY date_trunc('hour', sh.start_ts) ASC
-        """, nativeQuery = true)
+            COUNT(sh.id)    AS totalShifts,
+            sh.startTs      AS startTs  
+        FROM Shift sh
+        LEFT JOIN sh.site s
+        LEFT JOIN s.project p
+        WHERE p.client.id IN :clientIds
+            AND sh.startTs >= :since
+        GROUP BY sh.startTs
+        """)
     List<ShiftsCountLast24HoursProjection> getShiftsCountLast24Hours (
-            @Param("clientIds") List<Long> clientIds
+            @Param("clientIds") List<Long> clientIds,
+            @Param("since") OffsetDateTime since
     );
 
 }
