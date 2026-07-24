@@ -62,39 +62,28 @@
                         .card-totals {
                             display: flex;
                             align-items: center;
-                            justify-content: space-between;
-                            background: rgba($slate-50, 0.5); // Un fondo sutil para enmarcar los datos
-                            border-radius: 0.5rem;
-                            padding: 0.5rem 0.75rem;
+                            justify-content: center;
+                            gap: 0.25rem;       
                             margin-top: 0.5rem;
-                            .total-item {
-                                display: flex;
-                                flex-direction: column;
-                                align-items: center;
-                                flex: 1;
-                                .total-label {
-                                    @include montserrat-font(0.675rem, 500);
-                                    color: $label-text-color;
-                                    text-transform: uppercase;
-                                    letter-spacing: 0.5px;
-                                    margin-bottom: 0.125rem;
-                                }
-                                .total-value, .meta-value {
-                                    @include montserrat-font(0.9rem, 700);
-                                    color: $heading-color;
-                                    line-height: 1;
-                                }
-                                // Si quieres que la meta se vea ligeramente más tenue que el valor real:
-                                .meta-value {
-                                    color: $input-text-color; 
-                                }
+                            padding: 0.25rem 0;
+                            // El valor actual
+                            .total-value {
+                                @include montserrat-font(0.95rem, 700);
+                                color: $heading-color;
+                                line-height: 1;
                             }
-                            // Una línea vertical elegante para separar los conceptos
-                            .total-divider {
-                                width: 1px;
-                                height: 1.5rem;
-                                background-color: lighten($border-color, 5%);
-                                margin: 0 0.5rem;
+                            // El separador "/" y la Meta
+                            .total-slash,
+                            .meta-value {
+                                @include montserrat-font(0.9rem, 500);
+                                color: $label-text-color;
+                                line-height: 1;
+                            }
+                            // La unidad corregida (Sin transformaciones raras, todo en minúscula limpia)
+                            .total-unit {
+                                @include montserrat-font(0.85rem, 500); // Mismo tamaño visual que el resto
+                                color: $label-text-color;
+                                line-height: 1;
                             }
                         }
                     }
