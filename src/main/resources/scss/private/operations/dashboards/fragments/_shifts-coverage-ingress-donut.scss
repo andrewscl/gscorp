@@ -6,10 +6,9 @@
 
 @mixin shifts-coverage-ingress-donut(){
 
-    .clients-dashboard{
-        .operational-dashboard{
+    .operational-dashboard{
 
-            .shifts-coverage-ingress-donut {
+        .shifts-coverage-ingress-donut {
                 display: flex;
                 flex-wrap: wrap; // Permite que salten de línea en pantallas ultra pequeñas
                 gap: 1.25rem;
@@ -95,9 +94,8 @@
                         }
                     }
                 }
-            }
-
         }
+
     }
 
 }
