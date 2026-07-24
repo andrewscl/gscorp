@@ -1,0 +1,105 @@
+@use "sass:color";
+@use '../../../../abstracts/palette' as *;
+@use '../../../../abstracts/variables' as *;
+@use '../../../../abstracts/mixins' as *;
+@use '../../../../abstracts/typography' as *;
+
+@mixin shifts-coverage-ingress-donut(){
+
+    .clients-dashboard{
+        .operational-dashboard{
+
+            .shifts-coverage-ingress-donut {
+                display: flex;
+                flex-wrap: wrap; // Permite que salten de línea en pantallas ultra pequeñas
+                gap: 1.25rem;
+                width: 100%;
+                margin-bottom: 1rem;
+
+                // La tarjeta individual clonada del <template>
+                .card[data-card="hourly-shift-node"] {
+                    flex: 1;
+                    min-width: 9.375rem;   // Asegura que mantenga forma de columna horizontal
+                    max-width: 13.75;   // Evita que se estiren de forma grotesca en pantallas anchas
+                    background: linear-gradient(135deg, $white 0%, $slate-50 100%);
+                    border: 1px solid $border-color;
+                    border-radius: 0.875rem;
+                    padding: 1rem;
+                    text-align: center;
+                    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                    position: relative;
+                    overflow: hidden;
+
+                    &:hover {
+                        border-color: $border-color-hover;
+                        box-shadow: 0 10px 25px rgba(59, 130, 246, 0.08);
+                        transform: translateY(-3px);
+                    }
+
+                    // Contenedor del canvas de ECharts
+                    .donut-wrapper {
+                        width: 100%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+
+                        .hourly-donut {
+                            width: 8.75rem;
+                            height: 8.75rem;
+                            margin: 0 auto;
+                        }
+                    }
+
+                    // Bloque de textos
+                    .card-info {
+                        margin-top: 0.75rem;
+
+                        .block-title {
+                            @include montserrat-font(0.825rem, 600);
+                            color: $heading-color;
+                            letter-spacing: 0.3px;
+                            margin: 0 0 0.25rem 0;
+                        }
+
+                        .card-totals {
+                            .total-value {
+                                @include montserrat-font(1.25rem, 700);
+                                color: $input-text-color;
+                                line-height: 1.2;
+                            }
+                            
+                            .meta {
+                                color: $label-text-color;
+                                .meta-value{
+                                    @include montserrat-font(1.25rem, 700);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Comportamiento responsivo para dispositivos móviles
+                @media (max-width: 480px) {
+                    gap: 0.75rem;
+                    
+                    .card[data-card="hourly-shift-node"] {
+                        min-width: 7.5rem;
+                        padding: 0.75rem;
+                        
+                        .card-info .block-title {
+                            font-size: 0.75rem;
+                        }
+                        .card-info .card-totals .total-value {
+                            font-size: 1.1rem;
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+}
+
+

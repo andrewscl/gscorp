@@ -59,6 +59,7 @@ export async function initShiftCoverageDonuts(
         // Selectores internos del fragmento según tu HTML
         const titleNode = clone.querySelector('.block-title') as HTMLElement;
         const valueNode = clone.querySelector('.total-value') as HTMLElement;
+        const metaNode = clone.querySelector('.meta-value') as HTMLElement;
         const donutCanvasNode = clone.querySelector('.hourly-donut') as HTMLElement;
 
         // Procesar la hora: si viene en formato ISO string, la convertimos. Si ya viene limpia, la usamos directo.
@@ -73,6 +74,9 @@ export async function initShiftCoverageDonuts(
         // Mostramos el valor real actual (o los pendientes si cambias la lógica)
         // if (valueNode) valueNode.textContent = item.actualShifts.toString();
         if (valueNode) valueNode.textContent = 'dos';
+        if (metaNode) {
+            metaNode.textContent = item.totalShifts.toString();
+        }
         
         // Asignar ID único para inicializar ECharts sin colisiones
         const chartUniqueId = `donut-chart-node-${index}`;

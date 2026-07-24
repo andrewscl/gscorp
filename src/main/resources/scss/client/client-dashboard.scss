@@ -1,7 +1,7 @@
 @use '../abstracts/dashboards/kpi-cards' as * ;
 @use '../abstracts/dashboards/distribution-cards' as * ;
 @use '../abstracts/dashboards/distribution-card-levels' as * ;
-@use '../abstracts/dashboards/shifts-coverage-ingress-donut' as * ;
+@use '../private/operations/dashboards/fragments/shifts-coverage-ingress-donut' as * ;
 @use '../private/operations/dashboards/fragments/operational-charts' as * ;
 
 .clients-dashboard {
