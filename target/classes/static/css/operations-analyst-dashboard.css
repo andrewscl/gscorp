@@ -650,29 +650,4 @@ p {
   border-top: 1px solid #e2e8f0;
   margin: 0.75rem 0;
   opacity: 0.4;
-}/*# sourceMappingURL=operations-analyst-dashboard.css.map */5rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-align: center;
-}
-.operations-analyst-dashboard .distribution-card .dashboard-card .card-body .stat-item-row .metric-cell-val .pill-value {
-  padding: 0.15rem 0.5rem;
-  border-radius: 0.35rem;
-  font-size: 0.8rem;
-  display: inline-block;
-  min-width: 1.75rem;
-}
-.operations-analyst-dashboard .distribution-card .dashboard-card .card-body .stat-item-row .metric-cell-val .pill-value.pill-pending {
-  background: rgba(239, 68, 68, 0.1);
-  color: #ef4444;
-}
-.operations-analyst-dashboard .distribution-card .dashboard-card .card-body .stat-item-row .metric-cell-val .pill-value.pill-ok {
-  background: #f8f9fa;
-  color: #94a3b8;
-}
-.operations-analyst-dashboard .distribution-card .dashboard-card .card-body hr {
-  border: 0;
-  border-top: 1px solid #e2e8f0;
-  margin: 0.75rem 0;
-  opacity: 0.4;
 }/*# sourceMappingURL=operations-analyst-dashboard.css.map */

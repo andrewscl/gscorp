@@ -731,30 +731,4 @@ p {
   border-top: 1px solid #e2e8f0;
   margin: 0.75rem 0;
   opacity: 0.4;
-}/*# sourceMappingURL=client-dashboard.css.map */font-family: "Montserrat", sans-serif;
-  font-size: 0.875rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-align: center;
-}
-.clients-dashboard .distribution-card .dashboard-card .card-body .stat-item-row .metric-cell-val .pill-value {
-  padding: 0.15rem 0.5rem;
-  border-radius: 0.35rem;
-  font-size: 0.8rem;
-  display: inline-block;
-  min-width: 1.75rem;
-}
-.clients-dashboard .distribution-card .dashboard-card .card-body .stat-item-row .metric-cell-val .pill-value.pill-pending {
-  background: rgba(239, 68, 68, 0.1);
-  color: #ef4444;
-}
-.clients-dashboard .distribution-card .dashboard-card .card-body .stat-item-row .metric-cell-val .pill-value.pill-ok {
-  background: #f8f9fa;
-  color: #94a3b8;
-}
-.clients-dashboard .distribution-card .dashboard-card .card-body hr {
-  border: 0;
-  border-top: 1px solid #e2e8f0;
-  margin: 0.75rem 0;
-  opacity: 0.4;
 }/*# sourceMappingURL=client-dashboard.css.map */
