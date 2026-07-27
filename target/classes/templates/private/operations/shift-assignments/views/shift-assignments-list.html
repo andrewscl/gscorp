@@ -5,7 +5,7 @@
     actions=~{::#shiftAssignmentsActions},
     thead=~{::#shiftAssignmentsHeader},
     tbody=~{private/operations/shift-assignments/fragments/shift-assignment-table-rows :: rows},
-    customClass='shift-assignments-table'
+    customClass='shift-assignments-list'
 )}">
 
     <th:block class="count" th:if="${shiftAssignmentsCount != null}"
@@ -51,11 +51,10 @@
     </th:block>
 
     <tr id="shiftAssignmentsHeader">
-        <th>Turno</th>
         <th>Sitio</th>
-        <th>Tipo</th>
-        <th>Inicio</th>
-        <th>Termino</th>
+        <th>Turno</th>
+        <th>Cobertura</th>
+        <th>Empleado</th>
         <th>Actions</th>
     </tr>
 
