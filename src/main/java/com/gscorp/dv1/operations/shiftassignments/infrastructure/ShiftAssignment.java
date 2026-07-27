@@ -3,6 +3,9 @@ package com.gscorp.dv1.operations.shiftassignments.infrastructure;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import com.gscorp.dv1.enums.ShiftAssignmentStatus;
 import com.gscorp.dv1.hr.employees.infrastructure.Employee;
 import com.gscorp.dv1.operations.shifts.infrastructure.Shift;
@@ -16,6 +19,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,10 +47,6 @@ import lombok.Setter;
         @JoinColumn(name="employee_id", nullable=false)
         private Employee employee;
 
-        // Opcional: código del empleado, si lo necesitas rápido
-        @Column(name="employee_code", length=32)
-        private String employeeCode;
-
         @Enumerated(EnumType.STRING)
         @Column(name="shift_assignment_status", length = 20)
         private ShiftAssignmentStatus status;
@@ -54,5 +54,24 @@ import lombok.Setter;
         private String note;
 
         private OffsetDateTime assignedAt;
+
+        @Column(nullable = true, updatable = false)
+        private String createdBy;
+
+        @Column(nullable = true)
+        private String updatedBy;
+
+        @CreationTimestamp
+        private OffsetDateTime createdAt;
+
+        @UpdateTimestamp
+        private OffsetDateTime updatedAt;
+
+        @PrePersist
+        protected void onCreate() {
+            if (this.externalId == null) {
+                this.externalId = UUID.randomUUID();
+            }
+        }
 
     }

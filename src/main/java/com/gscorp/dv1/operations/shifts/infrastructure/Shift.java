@@ -2,15 +2,19 @@ package com.gscorp.dv1.operations.shifts.infrastructure;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.gscorp.dv1.enums.ShiftStatus;
+import com.gscorp.dv1.operations.shiftassignments.infrastructure.ShiftAssignment;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.operations.sites.infrastructure.Site;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -22,6 +26,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -51,6 +56,10 @@ public class Shift {
     @ManyToOne(optional=false, fetch=FetchType.LAZY)
     @JoinColumn(name="site_id", nullable=false)
     Site site;
+
+    @OneToMany(mappedBy = "shift", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<ShiftAssignment> assignments = new ArrayList<>();
 
     @Column(name="shift_date", nullable=false)
     LocalDate shiftDate;

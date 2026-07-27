@@ -77,6 +77,8 @@ export default defineConfig({
         'private/shift-requests/shift-request-table': path.resolve(__dirname, './src/private/shift-requests/shift-request-table.js'),
         'private/shift-requests/shift-request-table-update': path.resolve(__dirname, './src/private/shift-requests/shift-request-table-update.js'),
 
+        'private/operations/shift-assignments/shift-assignments-list': path.resolve(__dirname, './src/private/operations/shift-assignments/shift-assignments-list.js'),
+
         'private/shifts/create-shift': path.resolve(__dirname, './src/private/shifts/create-shift.js'),
         'private/sites/set-coordinates': path.resolve(__dirname, './src/private/sites/set-coordinates.js'),
         'private/sites/sites-table': path.resolve(__dirname, './src/private/sites/sites-table.js'),
