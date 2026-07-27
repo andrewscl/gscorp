@@ -51,7 +51,7 @@ import lombok.Setter;
         @Column(name="shift_assignment_status", length = 20)
         private ShiftAssignmentStatus status;
 
-        private String note;
+        private String notes;
 
         private OffsetDateTime assignedAt;
 
