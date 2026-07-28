@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -40,6 +41,7 @@ import com.gscorp.dv1.operations.shiftrequests.application.ShiftRequestService;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestScheduleRepository;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.projections.ShiftRequestScheduleProjection;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.CreateShiftRequest;
+import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestDto;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestDtoWithSchedules;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.UpdateShiftRequestDto;
 import com.gscorp.dv1.users.application.UserService;
@@ -62,18 +64,14 @@ public class ShiftRequestRestController {
     private final ZoneResolver zoneResolver;
 
 
-
     @PostMapping("/create")
     public ResponseEntity<ShiftRequestDtoWithSchedules> createShiftRequest(
         @jakarta.validation.Valid @RequestBody CreateShiftRequest req,
         Authentication authentication,
         UriComponentsBuilder ucb) {
-
         // delega en el service que valida permisos y crea la entidad
         ShiftRequestDtoWithSchedules dto = shiftRequestService.createShiftRequestForPrincipal(req, authentication);
-
         Long id = dto != null ? dto.id() : null;
-
         if (id != null) {
             URI uri = ucb.path("/api/shift-requests/{id}").buildAndExpand(id).toUri();
             return ResponseEntity.created(uri).body(dto);
@@ -83,7 +81,6 @@ public class ShiftRequestRestController {
         }
 
     }
-
 
 
     @PutMapping("/{shiftRequestExternalId}")
@@ -99,17 +96,14 @@ public class ShiftRequestRestController {
         }
         ShiftRequestDtoWithSchedules updatedDto =
                         shiftRequestService.update(shiftRequestExternalId, req);
-
         return ResponseEntity.ok(updatedDto);
     }
-
 
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteShiftRequest(@PathVariable Long id) {
         try {
             boolean deleted = shiftRequestService.deleteShiftRequest(id);
-
             if (deleted) {
                 return ResponseEntity.noContent().build(); // Retorna 204 si se eliminó correctamente
             } else {
@@ -120,7 +114,6 @@ public class ShiftRequestRestController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "No se pudo eliminar la solicitud de turno.");
         }
     }
-
 
 
     @GetMapping("/sites/{siteId}/accounts")
@@ -137,7 +130,6 @@ public class ShiftRequestRestController {
 
         return ResponseEntity.ok(accounts);
     }
-
 
 
     @GetMapping("/forecast-series")
@@ -245,7 +237,6 @@ public class ShiftRequestRestController {
     }
 
 
-
     @GetMapping("/forecast-series/hourly")
     public ResponseEntity<List<Map<String, Object>>> getShiftRequestForecastHourly(
             Authentication authentication,
@@ -317,5 +308,17 @@ public class ShiftRequestRestController {
     }
 
 
+    @GetMapping("/sites/{siteExternalId}/requests")
+    public ResponseEntity<List<ShiftRequestDto>> getShiftRequestsByStatusAndSite(
+                    @AuthenticationPrincipal SecurityUser securityUser,
+                    @PathVariable ("siteExternalId") UUID siteExternalId
+    ) {
+        if (securityUser == null) {
+            throw new AuthenticationCredentialsNotFoundException("Usuario no autenticado");
+        }
+        List<ShiftRequestDto> requests =
+                shiftRequestService.getActiveShiftRequestsBySiteExternalId(siteExternalId);
+        return ResponseEntity.ok(requests);
+    }
 
-}   
+}

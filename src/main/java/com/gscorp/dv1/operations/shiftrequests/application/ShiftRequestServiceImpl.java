@@ -424,4 +424,13 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
         return projections.map(ShiftRequestDto::fromProjection);
     }
 
+    @Transactional(readOnly = true)
+    public List<ShiftRequestDto> getActiveShiftRequestsBySiteExternalId(UUID siteExternalId){
+        List<ShiftRequestProjection> shiftRequestProjections =
+            shiftRequestRepository.findByStatusAndSite(siteExternalId, ShiftRequestStatus.APPROVED);
+        return shiftRequestProjections.stream()
+                                        .map(ShiftRequestDto::fromProjection)
+                                        .toList();
+    }
+
 }

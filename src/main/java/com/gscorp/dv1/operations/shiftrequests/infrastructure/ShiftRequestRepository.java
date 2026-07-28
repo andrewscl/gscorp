@@ -185,4 +185,34 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               Pageable pageable
        );
 
+
+       @Query(
+              value = """
+              SELECT
+              sr.id                AS id,
+              sr.externalId        AS externalId,
+              sr.code              AS code,
+              s.id                 AS siteId,
+              s.name               AS siteName,
+              p.id                 AS projectId,
+              p.name               AS projectName,
+              sr.clientAccountId   AS clientAccountId,
+              sr.type              AS type,
+              sr.startDate         AS startDate,
+              sr.endDate           AS endDate,
+              sr.status            AS status,
+              sr.description       AS description,
+              sr.createdAt         AS createdAt
+              FROM ShiftRequest sr
+              LEFT JOIN sr.site s
+              LEFT JOIN s.project p
+              WHERE sr.site.externalId = :siteExternalId
+              AND sr.status = :status
+              """
+       )
+       List<ShiftRequestProjection> findByStatusAndSite(
+              @Param("siteExternalId") UUID siteExternalId,
+              @Param("status") ShiftRequestStatus status
+       );
+
 }

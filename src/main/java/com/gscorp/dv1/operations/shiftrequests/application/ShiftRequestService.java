@@ -60,7 +60,7 @@ public interface ShiftRequestService {
             ShiftRequestType type
     );
 
-        Page<ShiftRequestDto> getShiftRequestsTable(
+    Page<ShiftRequestDto> getShiftRequestsTable(
                     UUID userExternalId,
                     ZoneId zoneId,
                     LocalDate fromDate,
@@ -70,6 +70,8 @@ public interface ShiftRequestService {
                     ShiftRequestType type,
                     int page,
                     int size
-        );
+    );
+
+    List<ShiftRequestDto> getActiveShiftRequestsBySiteExternalId(UUID siteExternalId);
 
 }

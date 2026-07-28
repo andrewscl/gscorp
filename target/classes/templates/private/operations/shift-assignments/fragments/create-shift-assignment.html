@@ -20,9 +20,6 @@
                     <label>Turno:</label>
                     <select id="shiftRequestExternalId" required>
                         <option value="">Primero seleccione un sitio</option>
-                        <option th:each="sr : ${shiftRequests}"
-                                th:value="${sr.externalId}"
-                                th:text="${sr.code}"></option>
                     </select>
                 </div>
 
@@ -30,9 +27,6 @@
                     <label>Empleado a asignar:</label>
                     <select id="employeeExternalId" required>
                         <option value="">Primero seleccione un turno</option>
-                        <option th:each="ae : ${activeEmployees}"
-                                th:value="${ae.externalId}"
-                                th:text="${ae.fullName}"></option>
                     </select>
                 </div>
 
