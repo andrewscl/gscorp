@@ -84,7 +84,8 @@ function bindCreateShiftAssignments() {
         searchBtn.addEventListener('click', cancelShiftAssignment);
     }
     // Flujo dinamico
-    if (siteSelect) siteSelect.addEventListener('change', );
+    if (siteSelect) siteSelect.addEventListener('change', handleSiteChange);
+    if (shiftRequestSelect) shiftRequestSelect.addEventListener('change',handleShiftChange);
 }
 
 (function init () {
