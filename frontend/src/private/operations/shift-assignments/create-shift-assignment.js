@@ -16,6 +16,7 @@ async function handleSiteChange(e) {
     const shiftRequestSelect = qs('#shiftRequestExternalId');
     const employeeSelect = qs('#employeeExternalId');
     const siteExternalId = e.target.value;
+    console.log("-> Evento change disparado. Sitio seleccionado (UUID):", siteExternalId);
 
     // Resetear selectores hijos por defecto
     shiftRequestSelect.innerHTML = '<option value="">Primero seleccione un sitio</option>';
@@ -24,10 +25,15 @@ async function handleSiteChange(e) {
         employeeSelect.disabled = true;
         employeeSelect.innerHTML = '<option value="">Primero seleccione un turno</option>';
     }
-    if(!siteExternalId) return;
+    if(!siteExternalId) {
+        console.log("-> Sitio vacío seleccionado, deteniendo flujo.");
+        return;
+    }
 
     try {
-        const response = await fetchWithAuth(`/api/shift-requests/sites/${siteExternalId}/requests`, {
+        const url = `/api/shift-requests/sites/${siteExternalId}/requests`
+        console.log("-> Intentando fetch a la URL:", url);
+        const response = await fetchWithAuth(url, {
         method: 'GET',
         headers: { 'Accept': 'application/json' },
         });
@@ -37,6 +43,7 @@ async function handleSiteChange(e) {
         const shiftRequests = await response.json();
         if (shiftRequests.length === 0) {
             shiftRequestSelect.innerHTML = '<option value="">No hay turnos aprobados disponibles</option>';
+            console.log("-> La lista de turnos volvió vacía (0 elementos).");
             return;
         }
 
@@ -48,8 +55,8 @@ async function handleSiteChange(e) {
             option.textContent = sr.code;
             shiftRequestSelect.appendChild(option);
         });
-
         shiftRequestSelect.disabled = false;
+        console.log("-> Selector de turnos poblado y habilitado con éxito.");
     } catch (error) {
         console.error('Error en cascada:', error);
         displayAlert(alertError, 'Ocurrió un error al cargar los turnos del sitio', 3000);
@@ -86,10 +93,12 @@ function bindCreateShiftAssignments() {
     const siteSelect = qs('#siteExternalId');
     if (siteSelect) {
         siteSelect.addEventListener('change', handleSiteChange);
+        console.log("-> Listener 'change' vinculado con éxito a #siteExternalId");
     }
     const shiftRequestSelect = qs('#shiftRequestExternalId');
     if (shiftRequestSelect) {
         shiftRequestSelect.addEventListener('change',handleShiftChange);
+        console.log("-> Listener 'change' vinculado con éxito a #shiftRequestExternalId");
     }
 
 }
