@@ -11,11 +11,11 @@ const createShiftAssignment = () => {
     navigateTo('/private/shift-assignments/create', true);
 }
 
-async function handleSiteChange() {
+async function handleSiteChange(e) {
 
     const shiftRequestSelect = qs('#shiftRequestExternalId');
     const employeeSelect = qs('#employeeExternalId');
-    const siteExternalId = qs('#siteExternalId');
+    const siteExternalId = e.target.value;
 
     // Resetear selectores hijos por defecto
     shiftRequestSelect.innerHTML = '<option value="">Primero seleccione un sitio</option>';
@@ -58,6 +58,7 @@ async function handleSiteChange() {
 }
 
 function handleShiftChange (e) {
+    const employeeSelect = qs('#employeeExternalId');
     if(e.target.value) {
         employeeSelect.disabled = false;
         employeeSelect.innerHTML = '<option value="">Seleccione un empleado</option>';
