@@ -37,21 +37,21 @@ async function handleSiteChange(e) {
 
         const shiftRequests = await response.json();
         if (shiftRequests.length === 0) {
-            shiftSelect.innerHTML = '<option value="">No hay turnos aprobados disponibles</option>';
+            shiftRequestSelect.innerHTML = '<option value="">No hay turnos aprobados disponibles</option>';
             return;
         }
 
         // Poblar las opciones del selector de Turnos
-        shiftSelect.innerHTML = '<option value="">Seleccione un turno</option>';
+        shiftRequestSelect.innerHTML = '<option value="">Seleccione un turno</option>';
         shiftRequests.forEach(sr => {
             const option = document.createElement('option');
             option.value = sr.externalId;
             option.textContent = sr.code;
-            shiftSelect.appendChild(option);
+            shiftRequestSelect.appendChild(option);
         });
 
-        shiftSelect.disabled = false;
-    } catch {
+        shiftRequestSelect.disabled = false;
+    } catch (error) {
         console.error('Error en cascada:', error);
         displayAlert(alertError, 'Ocurrió un error al cargar los turnos del sitio', 3000);
     }
