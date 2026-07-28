@@ -15,7 +15,7 @@ async function handleSiteChange(e) {
 
     const shiftRequestSelect = qs('#shiftRequestExternalId');
     const employeeSelect = qs('#employeeExternalId');
-    const siteExternalId = e.target.value;
+    const siteExternalId = qs('#siteExternalId')?.value;
     console.log("-> Evento change disparado. Sitio seleccionado (UUID):", siteExternalId);
 
     // Resetear selectores hijos por defecto
@@ -82,13 +82,13 @@ const cancelShiftAssignment = () => {
 }
 
 function bindCreateShiftAssignments() {
-    const createBtn = qs('#createShiftAssignmentBtn');
+    const createBtn = qs('#submit');
     if (createBtn) {
         createBtn.addEventListener('click', createShiftAssignment);
     }
-    const searchBtn = qs('#cancelShiftAssignmentBtn');
-    if (searchBtn) {
-        searchBtn.addEventListener('click', cancelShiftAssignment);
+    const cancelBtn = qs('#cancel');
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', cancelShiftAssignment);
     }
     const siteSelect = qs('#siteExternalId');
     if (siteSelect) {
