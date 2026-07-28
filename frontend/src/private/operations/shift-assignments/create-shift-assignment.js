@@ -7,16 +7,15 @@ const alertSuccess = qs('.alert-success');
 const alertError = qs('.alert-error');
 const alertWarning = qs('.alert-warning');
 
-const siteSelect = qs('#siteExternalId');
-const shiftRequestSelect = qs('#shiftRequestExternalId');
-const employeeSelect = qs('#employeeExternalId');
-
 const createShiftAssignment = () => {
     navigateTo('/private/shift-assignments/create', true);
 }
 
-async function handleSiteChange(e) {
-    const siteExternalId = e.target.value;
+async function handleSiteChange() {
+
+    const shiftRequestSelect = qs('#shiftRequestExternalId');
+    const employeeSelect = qs('#employeeExternalId');
+    const siteExternalId = qs('#siteExternalId');
 
     // Resetear selectores hijos por defecto
     shiftRequestSelect.innerHTML = '<option value="">Primero seleccione un sitio</option>';
@@ -83,9 +82,15 @@ function bindCreateShiftAssignments() {
     if (searchBtn) {
         searchBtn.addEventListener('click', cancelShiftAssignment);
     }
-    // Flujo dinamico
-    if (siteSelect) siteSelect.addEventListener('change', handleSiteChange);
-    if (shiftRequestSelect) shiftRequestSelect.addEventListener('change',handleShiftChange);
+    const siteSelect = qs('#siteExternalId');
+    if (siteSelect) {
+        siteSelect.addEventListener('change', handleSiteChange);
+    }
+    const shiftRequestSelect = qs('#shiftRequestExternalId');
+    if (shiftRequestSelect) {
+        shiftRequestSelect.addEventListener('change',handleShiftChange);
+    }
+
 }
 
 (function init () {
