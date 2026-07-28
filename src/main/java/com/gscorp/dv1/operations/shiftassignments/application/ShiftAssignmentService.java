@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.data.domain.Page;
 
 import com.gscorp.dv1.enums.ShiftAssignmentStatus;
+import com.gscorp.dv1.operations.shiftassignments.web.dto.CreateShiftAssignmentRequest;
 import com.gscorp.dv1.operations.shiftassignments.web.dto.ShiftAssignmentDto;
 
 public interface ShiftAssignmentService {
@@ -15,5 +16,10 @@ public interface ShiftAssignmentService {
         int page,
         int size
     );
+
+    ShiftAssignmentDto createShiftAssignment (
+        UUID userExternalId,
+        CreateShiftAssignmentRequest request
+        );
 
 }

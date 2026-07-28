@@ -1,5 +1,6 @@
 package com.gscorp.dv1.operations.shiftassignments.web;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.operations.shiftassignments.application.ShiftAssignmentService;
 import com.gscorp.dv1.operations.shiftassignments.web.dto.ShiftAssignmentDto;
+import com.gscorp.dv1.operations.sites.application.SiteService;
+import com.gscorp.dv1.operations.sites.web.dto.SiteDtoProjection;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class ShiftAssignmentController {
 
     private final ShiftAssignmentService shiftAssignmentService;
+    private final SiteService siteService;
 
     @GetMapping("/list")
     public String getShiftAssignmentsList (
@@ -40,6 +44,21 @@ public class ShiftAssignmentController {
         model.addAttribute("shiftAssignments", shiftAssignments.getContent());
         model.addAttribute("count", shiftAssignments.getTotalElements());
         return "private/operations/shift-assignments/views/shift-assignments-list";
+    }
+
+    @GetMapping("/create")
+    public String getCreateShiftAssignmentView(
+            Model model,
+            @AuthenticationPrincipal SecurityUser securityUser
+    ){
+        if(securityUser == null) return "redirect:/login";
+        UUID externalId = securityUser.getUser().getExternalId();
+
+        List<SiteDtoProjection> sites =
+                siteService.findSiteProjectionsByUserExternalId(externalId);
+
+        model.addAttribute("sites", sites);
+        return "private/operations/shift-assignments/fragments/create-shift-assignment";
     }
 
 }

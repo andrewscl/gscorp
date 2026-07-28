@@ -7,13 +7,16 @@ import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.gscorp.dv1.admin.clients.application.ClientService;
 import com.gscorp.dv1.enums.ShiftAssignmentStatus;
 import com.gscorp.dv1.operations.shiftassignments.infrastructure.ShiftAssignmentRepository;
 import com.gscorp.dv1.operations.shiftassignments.infrastructure.projections.ShiftAssignmentProjection;
+import com.gscorp.dv1.operations.shiftassignments.web.dto.CreateShiftAssignmentRequest;
 import com.gscorp.dv1.operations.shiftassignments.web.dto.ShiftAssignmentDto;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestScheduleRepository;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.projections.ShiftRequestScheduleProjection;
@@ -73,6 +76,18 @@ public class ShiftAssignmentServiceImpl implements ShiftAssignmentService{
                             p,
                             schedulesByRequestId.getOrDefault(p.getShiftRequestId(), List.of())
                             ));
+    }
+
+    @Transactional
+    public ShiftAssignmentDto createShiftAssignment (
+            UUID userExternalId,
+            CreateShiftAssignmentRequest request
+    ){
+        if (userExternalId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
+        }
+
+        return ShiftAssignmentDto.fromProjection(null, null);
     }
 
 }
