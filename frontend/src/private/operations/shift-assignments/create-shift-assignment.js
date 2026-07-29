@@ -89,17 +89,16 @@ function bindCreateShiftAssignments() {
     if (cancelBtn) {
         cancelBtn.addEventListener('click', cancelShiftAssignment);
     }
-    const siteSelect = qs('#siteExternalId');
-    if (siteSelect) {
-        siteSelect.addEventListener('change', handleSiteChange);
-        console.log("-> Listener 'change' vinculado con éxito a #siteExternalId");
-    }
-    const shiftRequestSelect = qs('#shiftRequestExternalId');
-    if (shiftRequestSelect) {
-        shiftRequestSelect.addEventListener('change',handleShiftChange);
-        console.log("-> Listener 'change' vinculado con éxito a #shiftRequestExternalId");
-    }
 
+    document.addEventListener('change', function (e) {
+        if (e.target && e.target.id === 'siteExternalId') {
+            handleSiteChange(e);
+        }
+        if (e.target && e.target.id === 'shiftRequestExternalId') {
+            handleSiteChange(e);
+        }
+    });
+    console.log("-> Sistema reactivo activado en el DOM.");
 }
 
 (function init () {
