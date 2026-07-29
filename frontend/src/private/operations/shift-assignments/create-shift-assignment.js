@@ -11,10 +11,10 @@ const createShiftAssignment = () => {
     navigateTo('/private/shift-assignments/create', true);
 }
 
-async function handleSiteChange() {
+async function handleSiteChange(e) {
+    const siteExternalId = e.target.value;
     const shiftRequestSelect = qs('#shiftRequestExternalId');
     const employeeSelect = qs('#employeeExternalId');
-    const siteExternalId = qs('#siteExternalId')?.value;
     console.log("-> Evento change disparado. Sitio seleccionado (UUID):", siteExternalId);
 
     // Resetear selectores hijos por defecto
