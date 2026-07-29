@@ -11,8 +11,7 @@ const createShiftAssignment = () => {
     navigateTo('/private/shift-assignments/create', true);
 }
 
-async function handleSiteChange(e) {
-
+async function handleSiteChange() {
     const shiftRequestSelect = qs('#shiftRequestExternalId');
     const employeeSelect = qs('#employeeExternalId');
     const siteExternalId = qs('#siteExternalId')?.value;
