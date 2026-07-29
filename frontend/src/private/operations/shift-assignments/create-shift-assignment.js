@@ -12,9 +12,14 @@ const createShiftAssignment = () => {
 }
 
 async function handleSiteChange(e) {
+
+    console.log("-> [EVENTO DISPARADO] Target ID:", e.target ? e.target.id : 'No target', "Valor capturado:", e.target ? e.target.value : 'No value');
+
     const siteExternalId = e.target.value;
+
     const shiftRequestSelect = qs('#shiftRequestExternalId');
     const employeeSelect = qs('#employeeExternalId');
+
     console.log("-> Evento change disparado. Sitio seleccionado (UUID):", siteExternalId);
 
     // Resetear selectores hijos por defecto
@@ -95,7 +100,7 @@ function bindCreateShiftAssignments() {
             handleSiteChange(e);
         }
         if (e.target && e.target.id === 'shiftRequestExternalId') {
-            handleSiteChange(e);
+            handleShiftChange(e);
         }
     });
     console.log("-> Sistema reactivo activado en el DOM.");
