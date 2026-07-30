@@ -14,7 +14,7 @@ const createShiftAssignment = () => {
 async function handleSiteChange() {
     const shiftRequestSelect = qs('#shiftRequestExternalId');
     const employeeSelect = qs('#employeeExternalId');
-    const siteExternalId = qs('#siteExternalId')?.value;
+    const siteExternalId = qs('#siteExternalIdShiftAssignment')?.value;
 
     console.log("-> Evento change disparado. Sitio seleccionado (UUID):", siteExternalId);
 
