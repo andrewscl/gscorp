@@ -28,7 +28,7 @@ public interface ShiftRequestScheduleRepository extends JpaRepository<ShiftReque
 
     @Query("""
       SELECT sc.id                AS id,
-             sc.shiftRequest.id   AS shiftRequestId,
+             sr.id                AS shiftRequestId,
              sc.dayFrom           AS dayFrom,
              sc.dayTo             AS dayTo,
              sc.startTime         AS startTime,
