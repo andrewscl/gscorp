@@ -8,6 +8,7 @@ import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestSchedu
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.projections.ShiftRequestScheduleProjection;
 
 public record ShiftRequestScheduleDto (
+    Long shiftRequestId,
     DayOfWeek dayFrom,
     DayOfWeek dayTo,
     LocalTime startTime,
@@ -20,6 +21,7 @@ public record ShiftRequestScheduleDto (
     public static ShiftRequestScheduleDto fromEntity(ShiftRequestSchedule s) {
         if (s == null) return null;
         return new ShiftRequestScheduleDto(
+            s.getShiftRequest().getId(),
             s.getDayFrom(),
             s.getDayTo(),
             s.getStartTime(),
@@ -33,6 +35,7 @@ public record ShiftRequestScheduleDto (
     public static ShiftRequestScheduleDto fromProjection(ShiftRequestScheduleProjection sp) {
         if (sp == null) return null;
         return new ShiftRequestScheduleDto(
+            sp.getShiftRequestId(),
             sp.getDayFrom(),
             sp.getDayTo(),
             sp.getStartTime(),
