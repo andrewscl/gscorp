@@ -14,8 +14,9 @@ const createShiftAssignment = () => {
 async function handleSiteChange() {
     const shiftRequestSelect = qs('#shiftRequestExternalId');
     const employeeSelect = qs('#employeeExternalId');
-    const siteExternalId = qs('#siteExternalIdShiftAssignment')?.value;
+    const siteExternalId = qs('#siteExternalId')?.value;
 
+    console.log("-> Elemento encontrado:", qs('#siteExternalId'));
     console.log("-> Evento change disparado. Sitio seleccionado (UUID):", siteExternalId);
 
     // Resetear selectores hijos por defecto
