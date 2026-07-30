@@ -2,10 +2,12 @@ import { navigateTo } from '../../../navigation-handler.js';
 import { fetchWithAuth } from '../../../auth.js';
 import { displayAlert } from '../../../shared/display-alert.js';
 
-const qs  = (s) => document.querySelector(s);
+const qs = (s) => currentContainer ? currentContainer.querySelector(s) : document.querySelector(s);
 const alertSuccess = qs('.alert-success');
 const alertError = qs('.alert-error');
 const alertWarning = qs('.alert-warning');
+
+let currentContainer = null;
 
 const createShiftAssignment = () => {
     navigateTo('/private/shift-assignments/create', true);
@@ -13,10 +15,7 @@ const createShiftAssignment = () => {
 
 async function handleSiteChange(e) {
 
-    console.log("-> [EVENTO DISPARADO] Target ID:", e.target ? e.target.id : 'No target', "Valor capturado:", e.target ? e.target.value : 'No value');
-
     const siteExternalId = e.target.value;
-
     const shiftRequestSelect = qs('#shiftRequestExternalId');
     const employeeSelect = qs('#employeeExternalId');
 
@@ -85,7 +84,11 @@ const cancelShiftAssignment = () => {
     setTimeout(() => navigateTo('/private/shift-assignments/list'), 1500);
 }
 
-function bindCreateShiftAssignments() {
+export function init({ container }) {
+    currentContainer = container;
+
+    console.log("-> [INIT] Inicializando listeners en la vista activa...");
+
     const createBtn = qs('#submit');
     if (createBtn) {
         createBtn.addEventListener('click', createShiftAssignment);
@@ -94,19 +97,14 @@ function bindCreateShiftAssignments() {
     if (cancelBtn) {
         cancelBtn.addEventListener('click', cancelShiftAssignment);
     }
+    const siteSelect = qs('#siteExternalId');
+    if (siteSelect) {
+        siteSelect.addEventListener('change', handleSiteChange);
+        console.log("-> Listener 'change' vinculado a #siteExternalId en vista activa.");
+    }
+    const shiftRequestSelect = qs('#shiftRequestExternalId');
+    if (shiftRequestSelect) {
+        shiftRequestSelect.addEventListener('change', handleShiftChange);
+    }
 
-    document.addEventListener('change', function (e) {
-        if (e.target && e.target.id === 'siteExternalId') {
-            handleSiteChange(e);
-        }
-        if (e.target && e.target.id === 'shiftRequestExternalId') {
-            handleShiftChange(e);
-        }
-    });
-    console.log("-> Sistema reactivo activado en el DOM.");
 }
-
-(function init () {
-  bindCreateShiftAssignments();
-
-})();
