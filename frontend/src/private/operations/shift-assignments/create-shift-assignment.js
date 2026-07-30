@@ -76,16 +76,6 @@ async function handleSiteChange() {
             shiftRequestSelect.disabled = false;
         }
 
-        // Poblar las opciones del selector de Turnos
-        shiftRequestSelect.innerHTML = '<option value="">Seleccione un turno</option>';
-        shiftRequests.forEach(sr => {
-            const option = document.createElement('option');
-            option.value = sr.externalId;
-            option.textContent = sr.code;
-            shiftRequestSelect.appendChild(option);
-        });
-        shiftRequestSelect.disabled = false;
-        console.log("-> Selector de turnos poblado y habilitado con éxito.");
     } catch (error) {
         console.error('Error en cascada:', error);
         displayAlert(alertError, 'Ocurrió un error al cargar los turnos del sitio', 3000);
