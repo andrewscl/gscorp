@@ -12,11 +12,11 @@ public record ShiftRequestSelectDto (
     String code,
     LocalDate startDate,
     LocalDate endDate,
-    List<ShiftRequestScheduleDto> schedules
+    List<ShiftRequestScheduleStrDto> schedules
 ){
     public static ShiftRequestSelectDto fromProjection(
         ShiftRequestProjection pr, 
-        List<ShiftRequestScheduleDto> schedules
+        List<ShiftRequestScheduleStrDto> schedules
     ) {
         if (pr == null) return null;
         return new ShiftRequestSelectDto(

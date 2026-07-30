@@ -3,27 +3,25 @@ package com.gscorp.dv1.operations.shiftrequests.web.dto;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import com.gscorp.dv1.enums.DayOfWeek;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestSchedule;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.projections.ShiftRequestScheduleProjection;
 
-public record ShiftRequestScheduleDto (
+public record ShiftRequestScheduleStrDto (
     Long shiftRequestId,
-    DayOfWeek dayFrom,
-    DayOfWeek dayTo,
+    String dayFrom,
+    String dayTo,
     LocalTime startTime,
     LocalTime endTime,
     LocalTime lunchTime,
     LocalDate requestStartDate,
     LocalDate requestEndDate
 ){
-
-    public static ShiftRequestScheduleDto fromEntity(ShiftRequestSchedule s) {
+    public static ShiftRequestScheduleStrDto fromEntity(ShiftRequestSchedule s) {
         if (s == null) return null;
-        return new ShiftRequestScheduleDto(
+        return new ShiftRequestScheduleStrDto(
             s.getShiftRequest().getId(),
-            s.getDayFrom(),
-            s.getDayTo(),
+            s.getDayFrom().getDisplayNameInSpanish(),
+            s.getDayTo().getDisplayNameInSpanish(),
             s.getStartTime(),
             s.getEndTime(),
             s.getLunchTime(),
@@ -32,13 +30,13 @@ public record ShiftRequestScheduleDto (
         );
     }
 
-    public static ShiftRequestScheduleDto
+    public static ShiftRequestScheduleStrDto
                                 fromProjection(ShiftRequestScheduleProjection sp) {
         if (sp == null) return null;
-        return new ShiftRequestScheduleDto(
+        return new ShiftRequestScheduleStrDto(
             sp.getShiftRequestId(),
-            sp.getDayFrom(),
-            sp.getDayTo(),
+            sp.getDayFrom().getDisplayNameInSpanish(),
+            sp.getDayTo().getDisplayNameInSpanish(),
             sp.getStartTime(),
             sp.getEndTime(),
             sp.getLunchTime(),
@@ -46,5 +44,4 @@ public record ShiftRequestScheduleDto (
             sp.getRequestEndDate()
         );
     }
-    
 }

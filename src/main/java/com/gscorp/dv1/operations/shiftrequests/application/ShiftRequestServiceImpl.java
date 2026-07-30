@@ -43,7 +43,7 @@ import com.gscorp.dv1.operations.shiftrequests.infrastructure.projections.ShiftR
 import com.gscorp.dv1.operations.shiftrequests.web.dto.CreateShiftRequest;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestDto;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestDtoWithSchedules;
-import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestScheduleDto;
+import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestScheduleStrDto;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestSelectDto;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.UpdateShiftRequestDto;
 import com.gscorp.dv1.operations.sites.application.SiteService;
@@ -454,13 +454,13 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
                     .toList();
         List<ShiftRequestScheduleProjection> schedules =
             shiftRequestScheduleRepository.findByShiftRequestIds(shiftRequestIds);
-        Map<Long, List<ShiftRequestScheduleDto>> schedulesByRequestId =
+        Map<Long, List<ShiftRequestScheduleStrDto>> schedulesByRequestId =
                     schedules
                         .stream()
                         .collect(Collectors.groupingBy(
                             sp -> sp.getShiftRequestId(),
                             Collectors.mapping(
-                                sp -> ShiftRequestScheduleDto.fromProjection(sp),
+                                sp -> ShiftRequestScheduleStrDto.fromProjection(sp),
                                 Collectors.toList()
                             )
                         ));

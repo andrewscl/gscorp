@@ -16,19 +16,15 @@ public enum DayOfWeek {
         this.dayNumber = dayNumber;
         this.displayNameInSpanish = displayNameInSpanish;
     }
-
     public int getDayNumber() {
         return dayNumber;
     }
-
     public String getDisplayNameInSpanish() {
         return displayNameInSpanish;
     }
-
     public String toLowerCaseDaysOfWeek() {
         return this.name().toLowerCase();
     }
-
     public static DayOfWeek fromDayNumber(int dayNumber) {
         for (DayOfWeek day : DayOfWeek.values()) {
             if (day.getDayNumber() == dayNumber) {
@@ -37,7 +33,6 @@ public enum DayOfWeek {
         }
         throw new IllegalArgumentException("No enum constant for DayNumber: " + dayNumber);
     }
-
     public static DayOfWeek fromJavaTime(java.time.DayOfWeek javaDow) {
         if(javaDow == null) return null;
         return fromDayNumber(javaDow.getValue());
