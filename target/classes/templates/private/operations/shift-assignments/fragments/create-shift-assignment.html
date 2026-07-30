@@ -8,7 +8,7 @@
             <div class="panel-body">
                 <div class="form-group">
                     <label>Sitio:</label>
-                    <select id="siteExternalId" required>
+                    <select id="siteExternalIdShiftAssignment" required>
                         <option value="">Seleccione un sitio</option>
                         <option th:each="site : ${sites}"
                                 th:value="${site.externalId}"
