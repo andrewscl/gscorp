@@ -16,9 +16,6 @@ async function handleSiteChange() {
     const employeeSelect = qs('#employeeExternalId');
     const siteExternalId = qs('#siteExternalId')?.value;
 
-    console.log("-> Elemento encontrado:", qs('#siteExternalId'));
-    console.log("-> Evento change disparado. Sitio seleccionado (UUID):", siteExternalId);
-
     // Resetear selectores hijos por defecto
     shiftRequestSelect.innerHTML = '<option value="">Primero seleccione un sitio</option>';
     shiftRequestSelect.disabled = true;
@@ -26,14 +23,10 @@ async function handleSiteChange() {
         employeeSelect.disabled = true;
         employeeSelect.innerHTML = '<option value="">Primero seleccione un turno</option>';
     }
-    if(!siteExternalId) {
-        console.log("-> Sitio vacío seleccionado, deteniendo flujo.");
-        return;
-    }
+    if(!siteExternalId) return;
 
     try {
         const url = `/api/shift-requests/sites/${siteExternalId}/requests`
-        console.log("-> Intentando fetch a la URL:", url);
         const response = await fetchWithAuth(url, {
         method: 'GET',
         headers: { 'Accept': 'application/json' },
@@ -44,8 +37,43 @@ async function handleSiteChange() {
         const shiftRequests = await response.json();
         if (shiftRequests.length === 0) {
             shiftRequestSelect.innerHTML = '<option value="">No hay turnos aprobados disponibles</option>';
-            console.log("-> La lista de turnos volvió vacía (0 elementos).");
             return;
+        }
+
+        if (shiftRequestSelect) {
+            shiftRequestSelect.innerHTML = '<option value="">Seleccione un turno</option>';
+            
+            // 'requests' es la lista List<ShiftRequestSelectDto> que te devolvió el controlador
+            shiftRequests.forEach(sr => {
+                const option = document.createElement('option');
+                option.value = sr.externalId; // Lo que lee la máquina (el UUID)
+
+                let textoHorarios = 'Sin horario cargado';
+                
+                // Formateamos y unimos los horarios del turno
+                if (sr.schedules && sr.schedules.length > 0) {
+                    textoHorarios = sr.schedules.map(sch => {
+                        const inicio = sch.startTime ? sch.startTime.substring(0, 5) : '??:??';
+                        const fin = sch.endTime ? sch.endTime.substring(0, 5) : '??:??';
+                        const desde = sch.dayFrom ? sch.dayFrom.substring(0, 3).toUpperCase() : '';
+                        const hasta = sch.dayTo ? sch.dayTo.substring(0, 3).toUpperCase() : '';
+                        
+                        // Si el horario es del mismo día (ej: LUN a LUN)
+                        if (desde === hasta || !hasta) {
+                            return `${desde} ${inicio}-${fin}`;
+                        }
+                        // Si abarca un rango (ej: LUN a VIE)
+                        return `${desde} a ${hasta} ${inicio}-${fin}`;
+                    }).join(' | '); // Si hay más de un horario en el mismo turno, los separa con una barra
+                }
+                
+                // 🌟 Se renderiza una ÚNICA opción por turno con sus horarios al lado
+                // Ejemplo visual: "TURNO-A - [LUN a VIE 08:00-16:00]"
+                option.textContent = `${sr.code} - [${textoHorarios}]`;
+                shiftRequestSelect.appendChild(option);
+            });
+            
+            shiftRequestSelect.disabled = false;
         }
 
         // Poblar las opciones del selector de Turnos
@@ -64,6 +92,8 @@ async function handleSiteChange() {
     }
 
 }
+
+
 
 function handleShiftChange (e) {
     const employeeSelect = qs('#employeeExternalId');

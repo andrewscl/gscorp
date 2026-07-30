@@ -8,6 +8,7 @@ import java.time.format.DateTimeParseException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -36,10 +37,14 @@ import com.gscorp.dv1.enums.ShiftRequestType;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestRepository;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestSchedule;
+import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestScheduleRepository;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.projections.ShiftRequestProjection;
+import com.gscorp.dv1.operations.shiftrequests.infrastructure.projections.ShiftRequestScheduleProjection;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.CreateShiftRequest;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestDto;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestDtoWithSchedules;
+import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestScheduleDto;
+import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestSelectDto;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.UpdateShiftRequestDto;
 import com.gscorp.dv1.operations.sites.application.SiteService;
 import com.gscorp.dv1.operations.sites.infrastructure.Site;
@@ -53,6 +58,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ShiftRequestServiceImpl implements ShiftRequestService {
 
     private final ShiftRequestRepository shiftRequestRepository;
+    private final ShiftRequestScheduleRepository shiftRequestScheduleRepository; 
     private final ClientService clientService;
     private final ClientAccountService clientAccountService;
     private final SiteService siteService;
@@ -431,6 +437,39 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
         return shiftRequestProjections.stream()
                                         .map(ShiftRequestDto::fromProjection)
                                         .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<ShiftRequestSelectDto>
+                getShiftRequestsWithSchedulesBySite(UUID siteExternalId) {
+        
+        List<ShiftRequestProjection> projections =
+                    shiftRequestRepository
+                        .findByStatusAndSite(siteExternalId, ShiftRequestStatus.APPROVED);
+        if (projections.isEmpty()) return List.of();
+        List<Long> shiftRequestIds = projections.stream()
+                    .map(p -> p.getId())
+                    .filter(id -> id != null)
+                    .distinct()
+                    .toList();
+        List<ShiftRequestScheduleProjection> schedules =
+            shiftRequestScheduleRepository.findByShiftRequestIds(shiftRequestIds);
+        Map<Long, List<ShiftRequestScheduleDto>> schedulesByRequestId =
+                    schedules
+                        .stream()
+                        .collect(Collectors.groupingBy(
+                            sp -> sp.getShiftRequestId(),
+                            Collectors.mapping(
+                                sp -> ShiftRequestScheduleDto.fromProjection(sp),
+                                Collectors.toList()
+                            )
+                        ));
+        return projections.stream()
+                .map(p -> ShiftRequestSelectDto.fromProjection(
+                    p,
+                    schedulesByRequestId.getOrDefault(p.getId(), List.of())
+                ))
+                .toList();
     }
 
 }

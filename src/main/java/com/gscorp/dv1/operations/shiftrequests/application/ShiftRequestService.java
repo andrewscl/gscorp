@@ -14,6 +14,7 @@ import com.gscorp.dv1.enums.ShiftRequestType;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.CreateShiftRequest;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestDto;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestDtoWithSchedules;
+import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestSelectDto;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.UpdateShiftRequestDto;
 
 public interface ShiftRequestService {
@@ -72,6 +73,10 @@ public interface ShiftRequestService {
                     int size
     );
 
-    List<ShiftRequestDto> getActiveShiftRequestsBySiteExternalId(UUID siteExternalId);
+    List<ShiftRequestDto>
+                getActiveShiftRequestsBySiteExternalId(UUID siteExternalId);
+
+    List<ShiftRequestSelectDto>
+                getShiftRequestsWithSchedulesBySite(UUID siteExternalId);
 
 }

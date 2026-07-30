@@ -41,8 +41,8 @@ import com.gscorp.dv1.operations.shiftrequests.application.ShiftRequestService;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestScheduleRepository;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.projections.ShiftRequestScheduleProjection;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.CreateShiftRequest;
-import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestDto;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestDtoWithSchedules;
+import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestSelectDto;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.UpdateShiftRequestDto;
 import com.gscorp.dv1.users.application.UserService;
 
@@ -309,15 +309,15 @@ public class ShiftRequestRestController {
 
 
     @GetMapping("/sites/{siteExternalId}/requests")
-    public ResponseEntity<List<ShiftRequestDto>> getShiftRequestsByStatusAndSite(
+    public ResponseEntity<List<ShiftRequestSelectDto>> getShiftRequestsByStatusAndSite(
                     @AuthenticationPrincipal SecurityUser securityUser,
                     @PathVariable ("siteExternalId") UUID siteExternalId
     ) {
         if (securityUser == null) {
             throw new AuthenticationCredentialsNotFoundException("Usuario no autenticado");
         }
-        List<ShiftRequestDto> requests =
-                shiftRequestService.getActiveShiftRequestsBySiteExternalId(siteExternalId);
+        List<ShiftRequestSelectDto> requests =
+                shiftRequestService.getShiftRequestsWithSchedulesBySite(siteExternalId);
         return ResponseEntity.ok(requests);
     }
 
