@@ -81,7 +81,7 @@ const cancelShiftAssignment = () => {
     setTimeout(() => navigateTo('/private/shift-assignments/list'), 1500);
 }
 
-export function init({ container}) {
+function bindEvents () {
     const createBtn = qs('#submita');
     if (createBtn) {
         createBtn.addEventListener('click', createShiftAssignment);
@@ -98,6 +98,8 @@ export function init({ container}) {
     if (shiftRequestSelect) {
         shiftRequestSelect.addEventListener('click', handleShiftChange);
     }
-
-
 }
+
+(function init() {
+    bindEvents();
+})();
