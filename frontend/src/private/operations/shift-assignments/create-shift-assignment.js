@@ -55,8 +55,8 @@ async function handleSiteChange() {
                     textoHorarios = sr.schedules.map(sch => {
                         const inicio = sch.startTime ? sch.startTime.substring(0, 5) : '??:??';
                         const fin = sch.endTime ? sch.endTime.substring(0, 5) : '??:??';
-                        const desde = sch.dayFrom ? sch.dayFrom.substring(0, 3).toUpperCase() : '';
-                        const hasta = sch.dayTo ? sch.dayTo.substring(0, 3).toUpperCase() : '';
+                        const desde = sch.dayFrom ? sch.dayFrom.substring(0, 3) : '';
+                        const hasta = sch.dayTo ? sch.dayTo.substring(0, 3) : '';
                         
                         // Si el horario es del mismo día (ej: LUN a LUN)
                         if (desde === hasta || !hasta) {
