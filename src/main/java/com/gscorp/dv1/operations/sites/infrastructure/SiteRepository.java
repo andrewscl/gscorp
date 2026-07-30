@@ -84,12 +84,13 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
 
     @Query("""
         SELECT DISTINCT
-          s.id         AS id,
-          s.name       AS name,
-          s.address    AS address,
-          s.lat        AS lat,
-          s.lon        AS lon,
-          s.timeZone   AS timeZone
+          s.id          AS id,
+          s.externalId  AS externalId,
+          s.name        AS name,
+          s.address     AS address,
+          s.lat         AS lat,
+          s.lon         AS lon,
+          s.timeZone    AS timeZone
         FROM Site s
         JOIN s.project p
         WHERE p.client.id IN :clientIds

@@ -91,13 +91,13 @@ function bindEvents () {
     if (cancelBtn) {
         cancelBtn.addEventListener('click', cancelShiftAssignment);
     }
-    const siteSelect = qs('#submit');
+    const siteSelect = qs('#siteExternalId');
     if (siteSelect) {
-        siteSelect.addEventListener('click', handleSiteChange);
+        siteSelect.addEventListener('change', handleSiteChange);
     }
     const shiftRequestSelect = qs('#shiftRequestExternalId');
     if (shiftRequestSelect) {
-        shiftRequestSelect.addEventListener('click', handleShiftChange);
+        shiftRequestSelect.addEventListener('change', handleShiftChange);
     }
 }
 
