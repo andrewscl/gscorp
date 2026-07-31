@@ -11,6 +11,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,6 @@ public class ClientServiceImpl implements ClientService{
     private final ClientRepository clientRepo;
     private final CompanyRepository companyRepo;
 
-    @Override
     @Transactional
     public ClientDto createClient (CreateClientRequest request){
 
@@ -66,14 +66,12 @@ public class ClientServiceImpl implements ClientService{
         return ClientDto.fromEntity(savedClient);
     }
 
-    @Override
     @Transactional(readOnly = true)
     public Client findById (Long id){
         return clientRepo.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Client no encontrado"));
     }
 
-    @Override
     @Transactional(readOnly = true)
     public List<ClientDto> getAllClients (){
         return clientRepo.findAll(Sort.by("name").ascending())
@@ -90,15 +88,12 @@ public class ClientServiceImpl implements ClientService{
                     .toList();
     }
 
-    @Override
     public Client findByIdWithUsers (Long id){
         return clientRepo.findById(id)
             .orElseThrow(()->
                 new IllegalArgumentException("Usuario no encontrado" + id));
     }
 
-    //Eliminar cliente
-    @Override
     @Transactional
     public void deleteById(Long id) {
         if (!clientRepo.existsById(id)) {
@@ -112,7 +107,6 @@ public class ClientServiceImpl implements ClientService{
     }
 
 
-    @Override
     @Transactional(readOnly = true)
     @Cacheable(value = "userClientIds", key = "#userId")
     public List<Long> getClientIdsByUserExternalId(UUID userExternalId) {
@@ -122,7 +116,6 @@ public class ClientServiceImpl implements ClientService{
     }
 
 
-    @Override
     @Transactional(readOnly = true)
     public List<Long> getClientIdsForAuthentication(
             Authentication authentication
@@ -135,7 +128,7 @@ public class ClientServiceImpl implements ClientService{
         return getClientIdsByUserExternalId(externalId);
     }
 
-    @Override
+
     @Transactional(readOnly = true)
     public List<Long> resolveClientIdsOrDefault(Authentication authentication, List<Long> requestedClientIds, Long legacyClientId) {
         // legacy single id -> lista
@@ -152,7 +145,6 @@ public class ClientServiceImpl implements ClientService{
     }
 
 
-    @Override
     @Transactional
     public void ensureUserHasAccess(Authentication authentication, Collection<Long> clientIds) {
         if (clientIds == null || clientIds.isEmpty()) return;
@@ -168,7 +160,6 @@ public class ClientServiceImpl implements ClientService{
     }
 
 
-    @Override
     @Transactional(readOnly = true)
     public List<ClientDto> findDtosByUserId(Long userId) {
         if(userId == null) return Collections.emptyList();
@@ -192,7 +183,7 @@ public class ClientServiceImpl implements ClientService{
     }
 
 
-    @Override
+    @Transactional(readOnly = true)
     public List<ClientSelectDto> findClientsByUserExternalId(UUID userExternalId) {
 
         List<ClientSelectProjection> rows = clientRepo.findClientsByUserExternalId(userExternalId);
@@ -203,7 +194,7 @@ public class ClientServiceImpl implements ClientService{
         .collect(Collectors.toList());  
     }
 
-    @Override
+
     @Transactional(readOnly = true)
     public List<ClientSelectDto> getAllClientsSelectDto() {
 
@@ -215,7 +206,7 @@ public class ClientServiceImpl implements ClientService{
         .collect(Collectors.toList());  
     }
 
-    @Override
+
     @Transactional(readOnly = true)
     public List<Client> validateAndFindAllById(Set<Long> ids) {
         if(ids == null || ids.isEmpty()) {
@@ -248,7 +239,6 @@ public class ClientServiceImpl implements ClientService{
 
     @Transactional(readOnly = true)
     public ClientWithCompanyDto getClientWithCompanyByExternalId(UUID externalId) {
-
         Client client = clientRepo.findByExternalId(externalId);
         if(client == null){
             throw new EntityNotFoundException("Client not found" + externalId);
@@ -257,4 +247,19 @@ public class ClientServiceImpl implements ClientService{
     return ClientWithCompanyDto.fromEntity(client);
     }
 
+
+    @Transactional(readOnly = true)
+    public List<ClientSelectDto> getClientsByStatusAndCompanies(
+                            UUID userExternalId,
+                            UUID companyExternalId, 
+                            ClientStatus status) {
+        if (userExternalId == null) {
+            throw new AuthenticationCredentialsNotFoundException("Usuario no autenticado");
+        }
+        List<ClientSelectProjection> clientProjections =
+            clientRepo.findClientsByUserExternalId(userExternalId);
+        return clientProjections.stream()
+                    .map(ClientSelectDto::fromProjection)
+                    .toList();
+    }
 }

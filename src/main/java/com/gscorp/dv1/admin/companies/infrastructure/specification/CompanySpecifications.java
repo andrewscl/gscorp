@@ -2,6 +2,7 @@ package com.gscorp.dv1.admin.companies.infrastructure.specification;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.jpa.domain.Specification;
 
@@ -34,12 +35,12 @@ public class CompanySpecifications {
         };
     }
 
-    public static Specification<Company> belongsToUser(Long userId) {
+    public static Specification<Company> belongsToUser(UUID userExternalId) {
         return (root, query, cb) -> {
-            if (userId == null) {
+            if (userExternalId == null) {
                 return cb.conjunction(); // No filter if userId is null
             }
-            return cb.equal(root.join("users").get("id"), userId);
+            return cb.equal(root.join("users").get("externalId"), userExternalId);
         };
     }
     

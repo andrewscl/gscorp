@@ -9,11 +9,17 @@ public record ClientSelectDto (
 ) {
     public static ClientSelectDto fromEntity(Client client) {
         if (client == null) return null;
-        return new ClientSelectDto(client.getId(), client.getName());
+        return new ClientSelectDto(
+            client.getId(),
+            client.getName()
+        );
     }
 
     public static ClientSelectDto fromProjection(ClientSelectProjection p) {
         if (p == null) return null;
-        return new ClientSelectDto(p.getId(), p.getName());
+        return new ClientSelectDto(
+            p.getId(),
+            p.getName()
+        );
     }
 }

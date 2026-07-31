@@ -20,13 +20,17 @@ public interface CompanyService {
     Page<CompanyTableDto> getAllCompaniesTableForAdmin(
         int page, int size);
 
-    Page<CompanyTableDto> searchCompaniesTableByUserId(
-        Long userId, String q, CompanyStatus status, int page, int size);
+    Page<CompanyTableDto> searchCompaniesListByUserExternalId(
+        UUID userExternalId, String q, CompanyStatus status, int page, int size);
 
     CompanyDto createCompany (CreateCompanyRequest request);
 
     List<CompanySelectDto> getAllCompaniesForSelect();
     
     CompanyDto findCompanyDtoByExternalId (UUID externalId);
+
+    List<CompanyDto> findCompaniesByUserIdAndStatus (
+                        UUID userExternalId,
+                        CompanyStatus status);
 
 }

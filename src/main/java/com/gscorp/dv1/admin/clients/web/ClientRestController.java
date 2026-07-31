@@ -4,8 +4,11 @@ import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,10 +21,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gscorp.dv1.admin.clients.application.ClientService;
 import com.gscorp.dv1.admin.clients.web.dto.ClientDto;
+import com.gscorp.dv1.admin.clients.web.dto.ClientSelectDto;
 import com.gscorp.dv1.admin.clients.web.dto.CreateClientRequest;
 import com.gscorp.dv1.admin.projects.application.ProjectService;
 import com.gscorp.dv1.admin.projects.web.dto.ProjectSelectDto;
 import com.gscorp.dv1.attendance.application.AttendanceServiceImpl;
+import com.gscorp.dv1.config.security.SecurityUser;
+import com.gscorp.dv1.enums.ClientStatus;
 import com.gscorp.dv1.operations.sitevisits.application.SiteVisitService;
 
 import jakarta.validation.Valid;
@@ -81,7 +87,6 @@ public class ClientRestController {
         );
     }
 
-
     @GetMapping("/{clientId}/projects")
     public ResponseEntity<?> findProjectsByClient(@PathVariable("clientId") Long clientId) {
         try {
@@ -97,5 +102,22 @@ public class ClientRestController {
                     .body(java.util.Map.of("message", "Error interno cargando proyectos", "detail", ex.getMessage()));
         }
     }
+
+    @GetMapping("/companies/{companyExternalId}/clients")
+    public ResponseEntity<List<ClientSelectDto>> getClientsByStatusAndCompany(
+                    @AuthenticationPrincipal SecurityUser securityUser,
+                    @PathVariable ("companyExternalId") UUID companyExternalId,
+                    @RequestParam ("status") ClientStatus status  
+    ){
+        if (securityUser == null) {
+            throw new AuthenticationCredentialsNotFoundException("Usuario no autenticado");
+        }
+        UUID userExternalId = securityUser.getUser().getExternalId();
+        List<ClientSelectDto> clients =
+            clientService.getClientsByStatusAndCompanies(
+                                userExternalId, companyExternalId, status);
+        return ResponseEntity.ok(clients);
+    }
+
 
 }

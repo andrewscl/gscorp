@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.gscorp.dv1.admin.clients.web.dto.ClientDto;
+import com.gscorp.dv1.enums.ClientStatus;
 
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long>{
@@ -51,12 +52,24 @@ public interface ClientRepository extends JpaRepository<Client, Long>{
       List<ClientSelectProjection> findClientsByUserExternalId(@Param("userExternalId") UUID userExternalId);
 
 
-    @Query("SELECT c.id AS id, c.name AS name FROM Client c")
-    List<ClientSelectProjection> findAllProjections();
+      @Query("SELECT c.id AS id, c.name AS name FROM Client c")
+      List<ClientSelectProjection> findAllProjections();
 
-    Client findByExternalId (UUID externalId);
+      Client findByExternalId (UUID externalId);
 
 
-    
-    
+      @Query("""
+               SELECT
+                  c.id AS id,
+                  c.name AS name
+               FROM Client c
+               JOIN c.company cy
+               WHERE cy.user.id IN :companyIds
+                  AND c.status = :status
+            """)
+      List<ClientSelectProjection> findClientsByStatusAndCompanies(
+                     @Param("status") ClientStatus status,
+                     @Param("companyIds") List<Long> companyIds
+                     );
+
 }

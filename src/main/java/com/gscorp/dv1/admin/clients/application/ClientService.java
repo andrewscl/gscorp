@@ -12,6 +12,7 @@ import com.gscorp.dv1.admin.clients.web.dto.ClientDto;
 import com.gscorp.dv1.admin.clients.web.dto.ClientSelectDto;
 import com.gscorp.dv1.admin.clients.web.dto.ClientWithCompanyDto;
 import com.gscorp.dv1.admin.clients.web.dto.CreateClientRequest;
+import com.gscorp.dv1.enums.ClientStatus;
 
 public interface ClientService {
 
@@ -51,5 +52,10 @@ public interface ClientService {
     ClientWithCompanyDto getClientWithCompanyById(Long id);
 
     ClientWithCompanyDto getClientWithCompanyByExternalId(UUID userExternalId);
+
+    List<ClientSelectDto> getClientsByStatusAndCompanies(
+                            UUID userExternalId,
+                            UUID companyExternalId,
+                            ClientStatus status);
 
 }
