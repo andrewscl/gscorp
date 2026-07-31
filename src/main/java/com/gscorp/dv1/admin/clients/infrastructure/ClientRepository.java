@@ -64,7 +64,7 @@ public interface ClientRepository extends JpaRepository<Client, Long>{
                   c.name AS name
                FROM Client c
                JOIN c.company cy
-               WHERE cy.users.id IN :companyIds
+               WHERE cy.id IN :companyIds
                   AND c.status = :status
             """)
       List<ClientSelectProjection> findClientsByStatusAndCompanies(
