@@ -2,13 +2,10 @@
 
         <tr th:each="p : ${projects}">
           <td th:text="${p.name}"></td>
-          <td th:text="${p.client != null ? p.client.name : '—'}">—</td>
+          <td th:text="${p.client}">—</td>
           <td th:text="${p.startDate}">—</td>
           <td th:text="${p.endDate}">—</td>
-          <td>
-            <span class="tag"
-                  th:text="${p.active} ? 'Activo' : 'Inactivo'">Activo</span>
-          </td>
+          <td th:text="${p.status}">—</td>
           <td class="actions">
             <button type="button"
                     class="btn btn-view"
