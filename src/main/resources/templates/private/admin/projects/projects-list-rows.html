@@ -2,7 +2,7 @@
 
         <tr th:each="p : ${projects}">
           <td th:text="${p.name}"></td>
-          <td th:text="${p.client}">—</td>
+          <td th:text="${p.clientName}">—</td>
           <td th:text="${p.startDate}">—</td>
           <td th:text="${p.endDate}">—</td>
           <td th:text="${p.status}">—</td>
