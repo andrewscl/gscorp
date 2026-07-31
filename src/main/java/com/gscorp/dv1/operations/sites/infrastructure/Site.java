@@ -45,7 +45,7 @@ public class Site {
     Long id;
 
     @Column(name = "external_id", unique=true,
-                        nullable=true, updatable=false)
+                        nullable=false, updatable=false)
     private UUID externalId;
 
     @ManyToOne(optional=false, fetch=FetchType.LAZY)

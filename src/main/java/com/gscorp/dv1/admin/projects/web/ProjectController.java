@@ -1,5 +1,8 @@
 package com.gscorp.dv1.admin.projects.web;
 
+import java.util.UUID;
+
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gscorp.dv1.admin.projects.application.ProjectService;
+import com.gscorp.dv1.config.security.SecurityUser;
 
 import lombok.AllArgsConstructor;
 
@@ -17,11 +21,16 @@ public class ProjectController {
 
     private final ProjectService projectService;
     
-    @GetMapping("/table-view")
-    public String getProjectsTableView (Model model) {
+    @GetMapping("/list")
+    public String getProjectsTableView (
+                Model model,
+                @AuthenticationPrincipal SecurityUser securityUser
+    ) {
+        if(securityUser == null) return "redirect:/login";
+        UUID externalId = securityUser.getUser().getExternalId();
         model.addAttribute("projects",
-                    projectService.findAllWithClientsAndEmployees());
-        return "private/projects/views/projects-table-view";
+                    projectService.findByUserExternalId(externalId));
+        return "private/admin/projects/projects-list";
     }
 
     @GetMapping("/show/{id}")

@@ -1,0 +1,49 @@
+<div th:replace="~{shared/fragments/table-component :: smart-table(
+    title='Proyectos',
+    count=${count},
+    filters=~{::#projectFilters},
+    actions=~{::#projectActions},
+    thead=~{::#projectHeader},
+    tbody=~{private/admin/projects/projects-list-rows :: rows},
+    customClass='projects-list'
+)}">
+
+    <th:block class="count" th:if="${projectsCount != null}"
+        th:text="${projectsCount + ' registro' + (projectsCount == 1 ? '' : 's')}"
+        aria-live="polite" aria-atomic="true">
+    </th:block>
+
+    <th:block id="projectFilters">
+
+        <div class="filter-item">
+            <span class="filter-label">Busqueda</span>
+            <input id="filter-q" class="filter-input" type="text" name="q"
+                        th:value="${q}" placeholder="nombre del proyecto..."/>
+        </div>
+
+        <div class="filter-item item-action">
+            <button class="btn btn-primary" id="searchProjectsBtn">
+            Buscar
+            </button>
+        </div>
+    </th:block>
+
+    <th:block id="projectActions">
+        <button class="btn btn-primary" id="addprojectBtn"
+        th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
+        Crear Proyecto
+        </button>
+    </th:block>
+
+    <tr id="punchHeader">
+        <th>Proyecto</th>
+        <th>Cliente</th>
+        <th>Fecha de inicio</th>
+        <th>Fecha de termino</th>
+        <th>Estado</th>
+        <th>Actions</th>
+    </tr>
+
+</div>
+
+<script type="module" src="/js/private/admin/projects/projects-list.js"></script>

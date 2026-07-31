@@ -13,10 +13,15 @@ import com.gscorp.dv1.admin.projects.web.dto.ProjectSelectDto;
 public interface ProjectService {
     
     List<Project> findAllWithClientsAndEmployees();
+
     Optional<Project> findById (Long id);
+
     Project findByIdWithClients (Long id);
+
     Client findClientById (Long clientId);
+
     Project saveProject (Project project);
+
     void deleteById(Long id);
 
     //Para exponer a Controller

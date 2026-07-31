@@ -52,9 +52,10 @@ export default defineConfig({
         'private/sites/edit-site': path.resolve(__dirname, './src/private/sites/edit-site.js'),
         'private/sites/sites-map': path.resolve(__dirname, './src/private/sites/sites-map.js'),
 
-        'private/projects/create-project': path.resolve(__dirname, './src/private/projects/create-project.js'),
-        'private/projects/edit-project': path.resolve(__dirname, './src/private/projects/edit-project.js'),
-        'private/projects/view-project': path.resolve(__dirname, './src/private/projects/view-project.js'),
+        'private/admin/projects/create-project': path.resolve(__dirname, './src/private/admin/projects/create-project.js'),
+        'private/admin/projects/edit-project': path.resolve(__dirname, './src/private/admin/projects/edit-project.js'),
+        'private/admin/projects/view-project': path.resolve(__dirname, './src/private/admin/projects/view-project.js'),
+        'private/admin/projects/projects-list': path.resolve(__dirname, './src/private/admin/projects/projects-list.js'),
 
         'private/employees/create-employee': path.resolve(__dirname, './src/private/employees/create-employee.js'),
         'private/employees/view-employee': path.resolve(__dirname, './src/private/employees/view-employee.js'),

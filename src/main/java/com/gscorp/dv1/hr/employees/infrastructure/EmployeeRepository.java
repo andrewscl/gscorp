@@ -434,4 +434,23 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
         """)
     Optional<Employee> findForInvitationByExternalId(@Param("externalId") UUID externalId);
 
+
+    @Query(value = """
+        SELECT
+            e.id            AS  id,
+            e.externalId    AS  externalId, 
+            e.name          AS  name,
+            e.fatherSurname AS  fatherSurname, 
+            e.motherSurname AS  motherSurname,
+            u.id AS userId
+        FROM Employee e
+        JOIN e.projects p
+        JOIN e.user u
+        WHERE p.id IN :projectIds
+        AND e.status = :status
+        """)
+    List<EmployeeSelectProjection> findByStatusAndProject(
+                            @Param("projectIds") List<Long> projectIds,
+                            @Param("status") EmployeeStatus status);
+
 }

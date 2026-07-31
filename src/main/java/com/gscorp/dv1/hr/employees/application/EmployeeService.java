@@ -67,4 +67,6 @@ public interface EmployeeService {
 
     EmployeeCreateUserDto findDataForInvitation(UUID externalId);
 
+
+
 }

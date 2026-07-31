@@ -37,12 +37,10 @@ public class ProjectRestController {
         @jakarta.validation.Valid @RequestBody CreateProjectRequest req,
         UriComponentsBuilder ucb){
 
-            //Busca el cliente por ID
             Client client = projectService.findClientById(req.clientId());
             if(client == null){
                 return ResponseEntity.badRequest().build();
             }
-
             var entity = Project.builder()
                     .name(req.name().trim())
                     .description(req.description())
@@ -51,20 +49,19 @@ public class ProjectRestController {
                     .active(Boolean.TRUE.equals(req.active()))
                     .client(client)
                     .build();
-
             var saved = projectService.saveProject(entity);
             var location = ucb.path("/api/projects/{id}").buildAndExpand(saved.getId()).toUri();
-
             var dto = new ProjectDto(
                 saved.getId(),
+                saved.getExternalId(),
                 saved.getName(),
+                saved.getClient().getName(),
                 saved.getDescription(),
                 saved.getStartDate(),
                 saved.getEndDate(),
-                saved.getActive(),
-                saved.getClient() != null ? saved.getClient().getId() : null
+                saved.getStatus(),
+                saved.getActive()
             );
-
             return ResponseEntity.created(location).body(dto);
     }
 

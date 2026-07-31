@@ -73,5 +73,4 @@ import lombok.Setter;
                 this.externalId = UUID.randomUUID();
             }
         }
-
     }
