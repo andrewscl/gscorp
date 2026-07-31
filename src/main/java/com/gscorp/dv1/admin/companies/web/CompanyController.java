@@ -53,13 +53,9 @@ public class CompanyController {
     @GetMapping("/create")
     public String createCompany (
             Model model,
-            Authentication authentication) {
-
-        Long userId = userService.getUserIdFromAuthentication(authentication);
-                if (userId == null) {
-                return "redirect:/login";
-        }
-        return "private/companies/views/create-company-view";        
+        @AuthenticationPrincipal SecurityUser securityUser) {
+        if(securityUser == null) return "redirect:/login";
+        return "private/admin/companies/create-company";        
     }
 
     @GetMapping("/show/{externalId}")
