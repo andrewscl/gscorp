@@ -3,7 +3,6 @@ package com.gscorp.dv1.admin.companies.web;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +15,6 @@ import com.gscorp.dv1.admin.companies.application.CompanyService;
 import com.gscorp.dv1.admin.companies.web.dto.CompanyTableDto;
 import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.enums.CompanyStatus;
-import com.gscorp.dv1.users.application.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,7 +23,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CompanyController {
 
-    private final UserService userService;
     private final CompanyService companyService;
 
     @GetMapping

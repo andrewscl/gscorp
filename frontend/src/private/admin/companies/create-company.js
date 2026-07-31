@@ -8,8 +8,7 @@ const alertError = qs('.alert-error');
 const alertWarning = qs('.alert-warning');
 const alertInfo = qs('.alert-info');
 
-async function createCompany(e) {
-    e.preventDefault();
+async function createCompany() {
 
     const createBtn = qs('#submit');
     const cancelBtn = qs('#cancel');

@@ -29,12 +29,10 @@ public class CompanyRestController {
         UriComponentsBuilder ucb){
 
         CompanyDto newCompany = companyService.createCompany(req);
-
         URI location = ucb
                         .path("/private/companies/{externalId}")
                         .buildAndExpand(newCompany.externalId())
                         .toUri();
-
         return ResponseEntity.created(location).body(newCompany);
     }
 

@@ -52,10 +52,8 @@ public class CompanyServiceImpl implements CompanyService {
     ) {
         int safePage = Math.max(0, page);
         int safeSize = Math.min(Math.max(5, size), 200);
-
         PageRequest pg = PageRequest.of(safePage, safeSize);
         Page<CompanyProjection> projections;
-
         projections = companyRepository.findAllCompanies(pg);
         return projections.map(CompanyTableDto::fromProjection);
     }
