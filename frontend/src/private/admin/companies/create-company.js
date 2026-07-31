@@ -15,28 +15,23 @@ async function createCompany() {
     const name = qs('#name')?.value?.trim();
     const legalName = qs('#legalName')?.value?.trim();
     const taxId = qs('#taxId')?.value?.trim();
-
     if(!name || !legalName || !taxId) {
         displayAlert(alertError, 'Todos los campos son obligatorios.', 2000);
         return;        
     }
-
     const payload = {
         name,
         legalName,
         taxId
     };
-
     createBtn.disabled = true;
     cancelBtn.disabled = true;
-
     try {
         const response = await fetchWithAuth('/api/companies/create', {
             method: 'POST',
             headers: {'Content-Type':'application/json'},
             body: JSON.stringify(payload)
         });
-
         // Verificar respuesta del servidor
         if (!response.ok) {
             createBtn.disabled = false;
@@ -55,7 +50,7 @@ async function createCompany() {
         displayAlert(alertSuccess, 'La nueva empresa ha sido creada correctamente.', 2000);
 
         setTimeout(() => {
-            navigateTo('/private/companies/table-view'); // recarga el listado
+            navigateTo('/admin/companies'); // recarga el listado
         }, 2000);
 
     } catch (error) {
@@ -69,7 +64,7 @@ async function createCompany() {
 
 const cancelCreateCompany = () => {
     displayAlert(alertWarning, 'La creación de la empresa ha sido cancelada.', 2000);
-    setTimeout(() => navigateTo('/private/companies/table-view', true), 2000);
+    setTimeout(() => navigateTo('/admin/companies', true), 2000);
 }
 
 function bindEvents() {

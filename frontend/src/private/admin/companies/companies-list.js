@@ -4,11 +4,10 @@ import { fetchWithAuth } from "../../../auth.js";
 const qs  = (s) => document.querySelector(s);
 
 const createCompany = () => {
-
+    navigateTo('/private/companies/create', true);
 }
 
 async function searchCompanies () {
-    e.target.disabled = true;
     setTimeout(() => navigateTo('/private/companies/create', true), 1000);
 }
 
