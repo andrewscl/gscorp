@@ -30,9 +30,11 @@ export default defineConfig({
         'chat/chat': path.resolve(__dirname, './src/chat/chat.js'),
         'private/admin/roles/create-role': path.resolve(__dirname, './src/private/admin/roles/create-role.js'),
         'private/admin/roles/edit-role': path.resolve(__dirname, './src/private/admin/roles/edit-role.js'),
-        'private/companies/companies-table': path.resolve(__dirname, './src/private/companies/companies-table.js'),
-        'private/companies/create-company': path.resolve(__dirname, './src/private/companies/create-company.js'),
-        'private/companies/view-company': path.resolve(__dirname, './src/private/companies/view-company.js'),
+
+        'private/admin/companies/companies-table': path.resolve(__dirname, './src/private/admin/companies/companies-list.js'),
+        'private/admin/companies/create-company': path.resolve(__dirname, './src/private/admin/companies/create-company.js'),
+        'private/admin/companies/view-company': path.resolve(__dirname, './src/private/admin/companies/view-company.js'),
+
         'private/admin/users/create-user': path.resolve(__dirname, './src/private/admin/users/create-user.js'),
         'private/admin/users/edit-user': path.resolve(__dirname, './src/private/admin/users/edit-user.js'),
         'private/admin/users/users-table': path.resolve(__dirname, './src/private/admin/users/users-table.js'),

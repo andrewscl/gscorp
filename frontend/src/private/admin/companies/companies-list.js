@@ -1,6 +1,5 @@
-import { initHeaderSync } from "../../shared/sync-header-height";
-import { navigateTo } from "../../navigation-handler";
-import { fetchWithAuth } from "../../auth";
+import { navigateTo } from "../../../navigation-handler.js";
+import { fetchWithAuth } from "../../../auth.js";
 
 const qs  = (s) => document.querySelector(s);
 
@@ -27,7 +26,4 @@ function bindCompaniesTable() {
 
 (function init () {
   bindCompaniesTable();
-
-  initHeaderSync('.hs-table-header','--header-height');
-
 })();
