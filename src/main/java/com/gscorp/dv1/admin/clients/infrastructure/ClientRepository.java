@@ -65,7 +65,7 @@ public interface ClientRepository extends JpaRepository<Client, Long>{
                FROM Client c
                JOIN c.company cy
                WHERE cy.id IN :companyIds
-                  AND c.status = :status
+                  AND (c.status = :status OR :status IS NULL)
             """)
       List<ClientSelectProjection> findClientsByStatusAndCompanies(
                      @Param("status") ClientStatus status,

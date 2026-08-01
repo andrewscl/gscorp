@@ -29,7 +29,7 @@ public interface CompanyService {
     
     CompanyDto findCompanyDtoByExternalId (UUID externalId);
 
-    List<CompanyDto> findCompaniesByUserIdAndStatus (
+    List<CompanyDto> findCompaniesByUserExternalIdAndStatus (
                         UUID userExternalId,
                         CompanyStatus status);
 

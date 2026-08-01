@@ -62,7 +62,7 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
             FROM Company c
             JOIN c.users u
             WHERE u.externalId = :userExternalId
-                AND c.status = :status
+                AND (c.status = :status OR :status IS NULL)
             """
     )
     List<CompanyProjection> findCompaniesByUserIdAndStatus(
@@ -89,7 +89,7 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
             FROM Company c
             JOIN c.users u
             WHERE u.externalId = :userExternalId
-                AND c.status = :status
+                AND (c.status = :status OR :status IS NULL)
             """
     )
     Page<CompanyProjection> findCompanyPagesByUserIdAndStatus(

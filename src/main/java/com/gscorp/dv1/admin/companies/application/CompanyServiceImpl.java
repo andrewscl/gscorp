@@ -114,7 +114,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Transactional(readOnly = true)
-    public List<CompanyDto> findCompaniesByUserIdAndStatus (
+    public List<CompanyDto> findCompaniesByUserExternalIdAndStatus (
                         UUID userExternalId,
                         CompanyStatus status) {
         if (userExternalId == null) {
