@@ -4,7 +4,7 @@ import { fetchWithAuth } from "../../../auth.js";
 const qs  = (s) => document.querySelector(s);
 
 const createCompany = () => {
-    navigateTo('/private/companies/create', true);
+    navigateTo('/admin/companies/create', true);
 }
 
 async function searchCompanies () {

@@ -9,9 +9,7 @@ const alertWarning = qs('.alert-warning');
 const alertInfo = qs('.alert-info');
 
 
-async function createClient(e) {
-    e.preventDefault();
-
+async function createClient() {
     const createBtn = qs('#submit');
     const cancelBtn = qs('#cancel');
 
@@ -38,7 +36,6 @@ async function createClient(e) {
 
     createBtn.disabled = true;
     cancelBtn.disabled = true;
-
     try {
         const response = await fetchWithAuth('/api/companies/create', {
             method: 'POST',
@@ -81,6 +78,30 @@ const cancelCreateClient = () => {
     setTimeout(() => navigateTo('/private/clients/table-view', true), 2000);
 }
 
+const handleCompanyChange = async () => {
+    const nameInput = qs('#name');
+    const legalNameInput = qs('#legalName');
+    const taxIdInput = qs('#taxId');
+    const emailInput = qs('#email');
+    const phoneInput = qs('#phone');
+    const selectedCompanyId = qs('#company')?.value;
+
+    if(!selectedCompanyId) {
+        nameInput.disabled = true;
+        legalNameInput.disabled = true;
+        taxIdInput.disabled = true;
+        emailInput.disabled = true;
+        phoneInput.disabled = true;
+        return;
+    }
+
+    nameInput.disabled = false;
+    legalNameInput.disabled = false;
+    taxIdInput.disabled = false;
+    emailInput.disabled = false;
+    phoneInput.disabled = false;
+}
+
 function bindEvents() {
     const createBtn = qs('#submit');
     if(createBtn) {
@@ -89,6 +110,10 @@ function bindEvents() {
     const cancelBtn = qs('#cancel');
     if(cancelBtn) {
         cancelBtn.addEventListener('click', cancelCreateClient);
+    }
+    const companySelect = qs('#company');
+    if(companySelect) {
+        companySelect.addEventListener('change', handleCompanyChange);
     }
 }
 

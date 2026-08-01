@@ -1,7 +1,11 @@
 @use '../abstracts/card-forms' as *;
 
-.create-client-container {
-
-  @include hs-form(40rem);
-
+.private-layout{
+  .main-content{
+    .content{
+      .create-client-container {
+        @include hs-form(40rem);
+      }
+    }
+  }
 }

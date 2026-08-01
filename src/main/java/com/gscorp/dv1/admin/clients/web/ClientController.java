@@ -48,7 +48,7 @@ public class ClientController {
         return "private/clients/dashboards/templates/clients-dashboard";
     }
 
-    @GetMapping("/table-view")
+    @GetMapping
     public String getClientsTableView(Model model) {
         List<ClientWithCompanyDto> clients = clientService.getAllClientsWithCompany();
         model.addAttribute("clients", clients);

@@ -47,22 +47,15 @@ public class CompanyController {
         return "private/admin/companies/companies-list";
     }
 
-    @GetMapping("/create")
-    public String createCompany (
-            Model model,
-        @AuthenticationPrincipal SecurityUser securityUser) {
-        if(securityUser == null) return "redirect:/login";
-        return "private/admin/companies/create-company";        
-    }
-
-    @GetMapping("/show/{externalId}")
+    @GetMapping("/{externalId}")
     public String showCompany(
-                    @PathVariable UUID externalId,
-                    Model model){
-
+                @PathVariable UUID externalId,
+                Model model,
+                @AuthenticationPrincipal SecurityUser securityUser
+    ){
+        if(securityUser == null) return "redirect:/login";
         model.addAttribute("company",
                 companyService.findCompanyDtoByExternalId(externalId));
-
         return "private/companies/views/view-company-view";
     }
 
