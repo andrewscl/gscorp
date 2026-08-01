@@ -108,18 +108,18 @@ p {
   margin-bottom: 1.5rem;
 }
 
-.hs-table.clients-table .hs-table-container .table tbody tr td:nth-child(1) {
+.private-layout .main-content .content .hs-table.clients-list .hs-table-container .table tbody tr td:nth-child(1) {
   width: 20%;
 }
-.hs-table.clients-table .hs-table-container .table tbody tr td:nth-child(2) {
+.private-layout .main-content .content .hs-table.clients-list .hs-table-container .table tbody tr td:nth-child(2) {
   width: 25%;
 }
-.hs-table.clients-table .hs-table-container .table tbody tr td:nth-child(3) {
+.private-layout .main-content .content .hs-table.clients-list .hs-table-container .table tbody tr td:nth-child(3) {
   width: 20%;
 }
-.hs-table.clients-table .hs-table-container .table tbody tr td:nth-child(5) {
+.private-layout .main-content .content .hs-table.clients-list .hs-table-container .table tbody tr td:nth-child(5) {
   width: 15%;
 }
-.hs-table.clients-table .hs-table-container .table tbody tr td:nth-child(6) {
+.private-layout .main-content .content .hs-table.clients-list .hs-table-container .table tbody tr td:nth-child(6) {
   width: 20%;
 }/*# sourceMappingURL=clients-table.css.map */

@@ -39,7 +39,7 @@ public class ClientController {
         model.addAttribute("companies"
                 , companyService.getAllCompaniesForSelect());
 
-        return "private/clients/views/create-client-view";
+        return "private/clients/fragments/create-client";
     }
 
     @GetMapping("/dashboard")
