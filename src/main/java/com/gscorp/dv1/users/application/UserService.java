@@ -45,7 +45,7 @@ public interface UserService {
      */
     Optional<ZoneId> getUserZone(UUID externalId);
 
-    Optional<User> updateUser(UUID userExternalId, UserUpdateDto dto);
+    Optional<UserViewDto> updateUser(UUID userExternalId, UserUpdateDto dto);
 
     Optional<Long> findEmployeeIdByUserId(Long userId);
 

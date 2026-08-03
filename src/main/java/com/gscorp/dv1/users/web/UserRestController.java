@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.gscorp.dv1.admin.dashboard.web.dto.AdminDistributionMetricResponse;
 import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.users.application.UserService;
@@ -62,22 +61,19 @@ public class UserRestController {
     @PatchMapping("/{id}")
     public ResponseEntity<UserViewDto> patchUser(
                         @PathVariable("id") UUID userExternalId,
-                        @RequestBody JsonNode body,
+                        @RequestBody UserUpdateDto userUpdateDto,
                         @AuthenticationPrincipal SecurityUser securityUser) {
 
         if (securityUser == null) {
             throw new AuthenticationCredentialsNotFoundException("Usuario no autenticado");
         }
         if (userExternalId == null) throw new IllegalArgumentException("userId requerido");
-        if (body == null || body.isNull()) throw new IllegalArgumentException("body requerido");
+        if (userUpdateDto == null) throw new IllegalArgumentException("userUpdate requerido");
 
-        UserUpdateDto dto = UserUpdateDto.fromJson(body);
-
-        return userService.updateUser(userExternalId, dto)
-                .map(UserViewDto::from)
+        return userService.updateUser(userExternalId, userUpdateDto)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
-        }
+    }
 
     @GetMapping("/admin-dashboard-metrics")
     public AdminDistributionMetricResponse getAdminDashboardMetrics(){

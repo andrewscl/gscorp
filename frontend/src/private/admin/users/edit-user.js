@@ -9,57 +9,48 @@ const alertError = qs('.alert-error');
 const alertCancel = qs('.alert-warning');
 
 async function updateUser () {
-
   const updateBtn = qs('.btn-primary');
   const cancelBtn = qs('.btn-secondary');
   const deleteBtn = qs('.btn-danger');
   if (updateBtn) updateBtn.disabled = true;
   if (cancelBtn) cancelBtn.disabled = true;
   if (deleteBtn) deleteBtn.disabled = true;
-
-  /* definir variables */
-  const id = qs('#userId')?.value?.trim();
+  const userExternalId = qs('#userExternalId')?.value?.trim();
   const username = qs('#userUsername')?.value?.trim();
   const mail = qs('#userMail')?.value?.trim();
   const status = qs('#userStatus')?.value?.trim();
   const active = qs('#userActive')?.checked;
   const employeeId = qs('#userEmployeeId')?.value || null;
   const timeZone = qs('#userTimeZone')?.value?.trim();
-
+  const roleId = qs('#userRoleId')?.value?.trim();
   const payload = {
-    id,
     username,
     mail,
-    status,
     active,
-    roleIds: Array.from(qs('#userRoles')?.selectedOptions || [])
+    status,
+    roleId,
+    companyIds: Array.from(qs('#userCompanies')?.selectedOptions || [])
                                                       .map(o => o.value).filter(Boolean),
     clientIds: Array.from(qs('#userClients')?.selectedOptions || [])
                                                       .map(o => o.value).filter(Boolean),
     employeeId,
     timeZone
   };
-
   try {
     console.log('Payload generado:', payload);
-    const res = await fetchWithAuth(`/api/users/${id}`, {
+    const res = await fetchWithAuth(`/api/users/${userExternalId}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     });
-
     displayAlert(alertSuccess, 'Usuario actualizado correctamente', 2500);
     setTimeout(() => navigateTo('/private/users/table-view', true), 1500);
-
   } catch (err) {
-
     displayAlert(alertError, 'No se pudo guardar: ' + (err.message || err), 2500);
     if (updateBtn) updateBtn.disabled = false;
     if (cancelBtn) cancelBtn.disabled = false;
     if (deleteBtn) deleteBtn.disabled = false;
-
   }
-
 }
 
 async function deleteUser() {

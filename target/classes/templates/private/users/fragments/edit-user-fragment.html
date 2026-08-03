@@ -1,6 +1,8 @@
 <div id="editUserContainer" class="edit-user-container"
                                         th:fragment="content">
 
+    <input type="hidden" id="userExternalId" th:value="${user.externalId}"/>
+
     <div class="hs-form-header">
       <h3>Editar usuario</h3>
     </div>
@@ -8,23 +10,19 @@
     <div class="body">
 
       <div class="form-row w-custom">
-        <div class="form-group col-20">
-          <label for="userId">ID</label>
-          <input type="text" id="userId" name="id" th:value="${user.id}" readonly />
-        </div>
         <div class="form-group col-30">
-          <label for="userUsername">Username</label>
-          <input type="text" id="userUsername" name="username" th:value="${user.username}" required />
+          <label>Username</label>
+          <input type="text" id="userUsername" th:value="${user.username}" required />
         </div>
         <div class="form-group col-50">
-          <label for="userMail">Correo Electrónico</label>
-          <input type="email" id="userMail" name="mail" th:value="${user.mail}" required />
+          <label>Correo Electrónico</label>
+          <input type="email" id="userMail" th:value="${user.mail}" required />
         </div>
       </div>
 
       <div class="form-group">
-          <label for="userEmployeeId">Empleado Asociado</label>
-          <select id="userEmployeeId" name="employeeId">
+          <label >Empleado Asociado</label>
+          <select id="userEmployeeId">
             <option value="">-- ninguno --</option>
             <option th:each="employee : ${employees}"
                     th:value="${employee.id}"
@@ -37,7 +35,7 @@
       <div class="form-row w-custom">
         <div class="form-group col-50">
           <label>Empresas</label>
-          <select id="userCompanies" name="companyIds" multiple size="6">
+          <select id="userCompanies" multiple size="6">
             <option th:each="company : ${companies}" 
                     th:value="${company.id}" 
                     th:text="${company.name}" 
@@ -46,8 +44,8 @@
           </select>
         </div>
         <div class="form-group col-50">
-          <label for="userClients">Clientes</label>
-          <select id="userClients" name="clientIds" multiple size="6">
+          <label>Clientes</label>
+          <select id="userClients" multiple size="6">
             <option th:each="client : ${clients}"
                     th:value="${client.id}"
                     th:text="${client.name}"
@@ -59,14 +57,19 @@
 
       <div class="form-row w-custom">
         <div class="form-group col-50">
-          <label for="userStatus">Estado</label>
-          <span type="text" id="userStatus" name="status" th:text="${user.status.getDisplayName()}">
-          </span>
+          <label>Estado</label>
+          <select id="userStatus" multiple size="6">
+            <option th:each="userStatus : ${userStatusList}"
+                    th:value="${userStatus.id}"
+                    th:text="${userStatus.name}"
+                    th:selected="${user.statusId == userStatus.id}">
+            </option>
+          </select>
         </div>
         <div class="form-group col-50">
-          <label for="userActive">Activo</label>
+          <label >Activo</label>
           <input type="checkbox" id="userActive"
-                                      name="active" th:checked="${user.active}" />
+                                      th:checked="${user.active}" />
         </div>
       </div>
 
