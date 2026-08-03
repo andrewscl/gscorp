@@ -27,7 +27,6 @@ import com.gscorp.dv1.admin.companies.infrastructure.Company;
 import com.gscorp.dv1.admin.companies.infrastructure.CompanyRepository;
 import com.gscorp.dv1.auth.application.PasswordResetTokenService;
 import com.gscorp.dv1.auth.infrastructure.PasswordResetToken;
-import com.gscorp.dv1.enums.AccountType;
 import com.gscorp.dv1.enums.UserStatus;
 import com.gscorp.dv1.hr.employees.infrastructure.Employee;
 import com.gscorp.dv1.hr.employees.infrastructure.EmployeeRepository;
@@ -86,13 +85,10 @@ public class UserServiceImpl implements UserService{
         u.setClients(new HashSet<>());
 
         User user = userRepo.save(u);
-
-        assignMatrixAndValidate(user, req.employeeId(), req.companyIds(), req.clientIds());
-
+        assignMatrixAndValidateForCreate(user, req.employeeId(), req.companyIds(), req.clientIds());
         return user.getId();
     }
 
-    @Override
     @Transactional
     public void deleteById(Long id) {
 
@@ -109,22 +105,17 @@ public class UserServiceImpl implements UserService{
         }
     }
 
-    @Override
     @Transactional(readOnly = true)
     public List<User> findAll(){
         return userRepo.findAll();
     }
 
-    @Override
     @Transactional(readOnly = true)
     public User findById(Long id){
         return userRepo.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
     }
 
-
-
-    @Override
     @Transactional(readOnly = true)
     public UserViewDto findWithRolesAndClientsById(Long id){
         User user = userRepo.findWithRolesAndClientsById(id)
@@ -132,7 +123,6 @@ public class UserServiceImpl implements UserService{
         return UserViewDto.from(user);
     }
 
-    @Override
     @Transactional(readOnly = true)
     public UserViewDto findWithCompaniesAndClientsByExternalId(UUID externalId){
         User user = userRepo.findWithCompaniesAndClientsByExternalId(externalId)
@@ -140,13 +130,12 @@ public class UserServiceImpl implements UserService{
         return UserViewDto.from(user);  
     }
 
-    @Override
     @Transactional(readOnly = true)
     public List<User> findAllWithCompaniesAndClients(){
         return userRepo.findAllWithCompaniesAndClients();
     }
 
-    @Override
+
     @Transactional
     public User createInvitedUser(InviteUserRequest request) {
         if(request.username()==null || request.username().isBlank())
@@ -166,17 +155,14 @@ public class UserServiceImpl implements UserService{
         user.setCompanies(new HashSet<>());
         user.setClients(new HashSet<>());
 
-        assignMatrixAndValidate(user, request.employeeId(), request.companyIds(), request.clientIds());
-
+        assignMatrixAndValidateForCreate(user, request.employeeId(), request.companyIds(), request.clientIds());
         User savedUser = userRepo.save(user);
-
         passwordResetTokenService.createToken(savedUser, INVITE_TTL);
-
         return savedUser;
     }
 
 
-    @Override
+    @Transactional(readOnly = true)
     public Boolean isInvitationTokenValid(String token) {
         Optional<PasswordResetToken> tokenOpt = passwordResetTokenService.findByToken(token);
         if (tokenOpt.isEmpty()) {
@@ -185,7 +171,6 @@ public class UserServiceImpl implements UserService{
         return passwordResetTokenService.isValid(tokenOpt.get());
     }
 
-    @Override
     @Transactional
     public Boolean setPasswordFromInvitation(String token, String password){
 
@@ -209,20 +194,17 @@ public class UserServiceImpl implements UserService{
         return true;
     }
 
-    @Override
     @Transactional
     public void save(User user) {
         userRepo.save(user);
     }
 
-    @Override
     @Transactional(readOnly = true)
     public Boolean isAdmin(User user) {
         if(user == null || user.getRole() == null) return false; 
         return "ADMINISTRATOR".equalsIgnoreCase(user.getRole().getRole());
     }
 
-    @Override
     @Transactional(readOnly = true)
     public Optional<User> findByUsername(String username) {
         if (username == null || username.isBlank()) {
@@ -231,8 +213,6 @@ public class UserServiceImpl implements UserService{
         return userRepo.findByUsername(username);
     }
 
-
-    @Override
     @Transactional(readOnly = true)
     public Long getUserIdFromAuthentication(Authentication authentication) {
         String username = authentication.getName();
@@ -241,7 +221,6 @@ public class UserServiceImpl implements UserService{
         return user.getId();
     }
 
-    @Override
     @Transactional(readOnly = true)
     public boolean isAdmin(Authentication authentication) {
     Long id = getUserIdFromAuthentication(authentication);
@@ -256,7 +235,6 @@ public class UserServiceImpl implements UserService{
      * - Retorna Optional.empty() si userId es null, si no existe user o si la zona no está definida o es inválida.
      * - El resultado está cacheado por userId (cache "userZones") para reducir consultas.
      */
-    @Override
     @Transactional(readOnly = true)
     @Cacheable(value = "userZones", key = "#userId")
     public Optional<ZoneId> getUserZone(UUID externalId) {
@@ -285,14 +263,14 @@ public class UserServiceImpl implements UserService{
     }
 
 
-
-    @Override
     @Transactional
-    public Optional<User> updateUser(Long userId, UserUpdateDto dto) {
-        if (userId == null) throw new IllegalArgumentException("userId es requerido");
-        if (dto == null) throw new IllegalArgumentException("user update dto es requerido");
+    public Optional<User> updateUser(UUID userExternalId, UserUpdateDto dto) {
+        if (userExternalId == null)
+            throw new IllegalArgumentException("userExternalId es requerido");
+        if (dto == null)
+            throw new IllegalArgumentException("user update dto es requerido");
 
-        Optional<User> optUser = userRepo.findById(userId);
+        Optional<User> optUser = userRepo.findByExternalId(userExternalId);
         if (optUser.isEmpty()) return Optional.empty();
 
         User user = optUser.get();
@@ -304,76 +282,22 @@ public class UserServiceImpl implements UserService{
         if (dto.username() != null) user.setUsername(dto.username().trim());
         if (dto.mail() != null) user.setMail(dto.mail().trim());
         if (dto.active() != null) user.setActive(dto.active());
-
         if (dto.roleId() != null && !dto.roleId().equals(user.getRole().getId())) {
             Role newRole = roleService.findById(dto.roleId());
             user.setRole(newRole);
-
-        user.getCompanies().clear();
-        user.getClients().clear();
-
-        assignMatrixAndValidate(user, dto.employeeId(), dto.companyIds(), dto.clientIds());
-
-        } else {
-
-            if(dto.companyIds() != null) {
-                List<Company> companies = companyRepository.findAllById(dto.companyIds());
-                if (companies.size() != dto.companyIds().size()) {
-                    throw new EntityNotFoundException("One or more company IDs are invalid");
-                }
-                user.getCompanies().clear();
-                user.getCompanies().addAll(companies);
-            }
-            if(dto.clientIds() != null) {
-                List<Client> clients = clientRepository.findAllById(dto.clientIds());
-                if (clients.size() != dto.clientIds().size()) {
-                    throw new EntityNotFoundException("One or more company IDs are invalid");
-                }
-
-                user.getClients().clear();
-                user.getClients().addAll(clients);
-            }
-            if(dto.employeeId() != null && AccountType.COMPANY.equals(user.getRole().getAccountType())) {
-
-                //Asignar y guardar empleado
-                Employee employee = employeeRepository.findById(dto.employeeId())
-                    .orElseThrow(() -> new EntityNotFoundException("Empleado no encontrado con id: " + dto.employeeId()));
-                if (employee.getUser() != null) {
-                    throw new IllegalStateException("El empleado ya tiene un usuario asignado");
-                }
-                employee.setUser(user);
-                employeeRepository.save(employee);
-
-            }
         }
 
-        if (dto.timeZone() != null) {
-            String tz = dto.timeZone().trim();
-            if (tz.isEmpty()) {
-                user.setTimeZone(null);
-            } else {
-                try {
-                    ZoneId.of(tz); // valida
-                    user.setTimeZone(tz);
-                } catch (DateTimeException dex) {
-                    throw new IllegalArgumentException("timeZone inválida: " + tz, dex);
-                }
-            }
-        }
+        assignMatrixAndValidateForUpdate(user, dto.employeeId(), dto.companyIds(), dto.clientIds());
 
         return Optional.of(userRepo.save(user));
     }
 
-
-    @Override
     @Transactional(readOnly = true)
     public Optional<Long> findEmployeeIdByUserId(Long userId) {
         if (userId == null) return Optional.empty();
         return userRepo.findEmployeeIdByUserId(userId);
     }
 
-
-    @Override
     @Transactional(readOnly = true)
     public Page<UserTableDto> getAllUsersWithEmployee(
         int page, int size
@@ -384,14 +308,10 @@ public class UserServiceImpl implements UserService{
 
         PageRequest pg = PageRequest.of(safePage, safeSize);
         Page<UserTableProjection> projections;
-
         projections = userRepo.findAllUsersWithEmployee(pg);
-
         return projections.map(UserTableDto::fromProjection);
     }
 
-
-    @Override
     @Transactional(readOnly = true)
     public Page<UserTableDto> searchUsersWithEmployee(
         String q, UserStatus status, int page, int size
@@ -402,16 +322,12 @@ public class UserServiceImpl implements UserService{
         String safeQ = (q == null || q.trim().isEmpty()) ? null : q.trim();
 
         PageRequest pg = PageRequest.of(safePage, safeSize);
-
         Specification<User> spec = UserSpecifications.searchUsers(safeQ, status);
-
         Page<User> usersPage = userSpecRepo.findAll(spec, pg);
-
         return usersPage.map(UserTableDto::fromEntity);
     }
 
 
-    @Override
     @Transactional(readOnly = true)
     public Map<String, Long> getUsersStatistics () {
         return Map.of(
@@ -424,43 +340,38 @@ public class UserServiceImpl implements UserService{
     }
 
 
-    private void assignMatrixAndValidate(User user, Long employeeId, Set<Long> companyIds, Set<Long> clientIds){
+    private void assignMatrixAndValidateForCreate(User user, Long employeeId, Set<Long> companyIds, Set<Long> clientIds){
+
+        Set<Long> safeCompanyIds = companyIds != null ? companyIds : Set.of();
+        Set<Long> safeClientIds = clientIds != null ? clientIds : Set.of();
         switch (user.getRole().getAccountType()) {
             case HOLDING -> {
+                // Validación de consistencia: si se proporcionan IDs de empresa, deben existir todas
+                if (!safeCompanyIds.isEmpty()) {
+                    List<Company> companies = companyRepository.findAllById(safeCompanyIds);
+                    if (companies.size() != safeCompanyIds.size()) {
+                        throw new EntityNotFoundException("One or more company IDs are invalid");
+                    }
+                    user.getCompanies().addAll(companies);
+                }
+                // Gestión de empleado opcional
                 if(employeeId != null) {
-                    throw new IllegalArgumentException("The accountType HOLDING cannot be associated with an employee");
+                    Employee employee = employeeRepository.findById(employeeId)
+                        .orElseThrow(() -> new EntityNotFoundException("Empleado no encontrado con id: " + employeeId));
+                    if (employee.getUser() != null) {
+                        throw new IllegalStateException("El empleado ya tiene un usuario asignado");
+                    }
+                    user.setEmployee(employee);
+                    employee.setUser(user);
                 }
-                List<Company> companies = companyRepository.findAllById(companyIds);
-                if (companies.size() != companyIds.size()) {
-                    throw new EntityNotFoundException("One or more company IDs are invalid");
-                }
-                user.getCompanies().addAll(companies);
             }
             case COMPANY -> {
                 if(employeeId == null) {
                     throw new IllegalArgumentException("The accountType COMPANY must be associated with an employee");
                 }
-                List<Company> companies = companyRepository.findAllById(companyIds);
-                if (companies.size() != companyIds.size()) {
-                    throw new EntityNotFoundException("One or more company IDs are invalid");
-                }
-                user.getCompanies().addAll(companies);
+                if (safeCompanyIds.size() != 1)
+                    throw new IllegalArgumentException("The accountType COMPANY must be associated with exactly one company");
 
-                if (clientIds != null && !clientIds.isEmpty()) {
-                    List<Client> clients = clientRepository.findAllById(clientIds);
-                    if (clients.size() != clientIds.size()) {
-                        throw new EntityNotFoundException("One or more client IDs are invalid");
-                    }
-                    user.getClients().addAll(clients);
-                    
-                    // Mantener consistencia bidireccional en memoria
-                    for (Client client : clients) {
-                        if (client.getUsers() == null) client.setUsers(new HashSet<>());
-                        client.getUsers().add(user);
-                    }
-                }
-
-                //Asignar y guardar empleado
                 Employee employee = employeeRepository.findById(employeeId)
                     .orElseThrow(() -> new EntityNotFoundException("Empleado no encontrado con id: " + employeeId));
                 if (employee.getUser() != null) {
@@ -468,23 +379,157 @@ public class UserServiceImpl implements UserService{
                 }
                 user.setEmployee(employee);
                 employee.setUser(user);
+
+                List<Company> companies = companyRepository.findAllById(safeCompanyIds);
+                if (companies.size() != 1) {
+                    throw new EntityNotFoundException("The provided company ID is invalid");
+                }
+                user.getCompanies().addAll(companies);
+                if (!safeClientIds.isEmpty()) {
+                    List<Client> clients = clientRepository.findAllById(safeClientIds);
+                    if (clients.size() != safeClientIds.size()) {
+                        throw new EntityNotFoundException("One or more client IDs are invalid");
+                    }
+                    user.getClients().addAll(clients);
+                    // Mantener consistencia bidireccional en memoria
+                    for (Client client : clients) {
+                        if (client.getUsers() == null) client.setUsers(new HashSet<>());
+                        client.getUsers().add(user);
+                    }
+                }
             }
+
             case CLIENT -> {
                 if(employeeId != null) {
                     throw new IllegalArgumentException("The accountType CLIENT cannot be associated with an employee");
                 }
-                List<Client> clients = clientRepository.findAllById(clientIds);
-                if (clients.size() != clientIds.size()) {
-                    throw new EntityNotFoundException("One or more company IDs are invalid");
+                if (!safeClientIds.isEmpty()) {
+                    List<Client> clients = clientRepository.findAllById(safeClientIds);
+                    if (clients.size() != safeClientIds.size()) {
+                        throw new EntityNotFoundException("One or more client IDs are invalid");
+                    }
+                    user.getClients().addAll(clients);
+                    // Mantener consistencia bidireccional en memoria
+                    for (Client client : clients) {
+                        if (client.getUsers() == null) client.setUsers(new HashSet<>());
+                        client.getUsers().add(user);
+                    }
                 }
-
-                user.getClients().addAll(clients);
             }
         }
     }
 
 
-    @Override
+    private void assignMatrixAndValidateForUpdate(User user, Long employeeId, Set<Long> companyIds, Set<Long> clientIds){
+        switch (user.getRole().getAccountType()) {
+            case HOLDING -> {
+                // Validación de consistencia: si se proporcionan IDs de empresa, deben existir todas
+                if (companyIds != null && !companyIds.isEmpty()) {
+                    List<Company> companies = companyRepository.findAllById(companyIds);
+                    if (companies.size() != companyIds.size()) {
+                        throw new EntityNotFoundException("One or more company IDs are invalid");
+                    }
+                    user.getCompanies().clear();
+                    user.getCompanies().addAll(companies);
+                }
+                // Gestión de empleado opcional
+                if (user.getEmployee() == null) {
+                    if(employeeId != null) {
+                        Employee employee = employeeRepository.findById(employeeId)
+                            .orElseThrow(() -> new EntityNotFoundException("Empleado no encontrado con id: " + employeeId));
+                        if (employee.getUser() != null && !employee.getUser().getId().equals(user.getId())) {
+                            throw new IllegalStateException("El empleado ya tiene un usuario asignado");
+                        }
+                        user.setEmployee(employee);
+                        employee.setUser(user);
+                    }
+                } else {
+                    // Si ya tiene empleado asignado, no hacemos nada; se mantiene la relación existente
+                    if (employeeId != null && !employeeId.equals(user.getEmployee().getId())) {
+                        throw new IllegalArgumentException("The employee associated with this user cannot be changed");
+                    }
+                }
+            }
+            case COMPANY -> {
+                // Gestión de Empleado (Obligatorio, pero inmutable si ya existe)
+                if (user.getEmployee() == null) {
+                    if(employeeId == null) {
+                        throw new IllegalArgumentException("The accountType COMPANY must be associated with an employee");
+                    }
+                    Employee employee = employeeRepository.findById(employeeId)
+                        .orElseThrow(() -> new EntityNotFoundException("Empleado no encontrado con id: " + employeeId));
+                    if (employee.getUser() != null && !employee.getUser().getId().equals(user.getId())) {
+                        throw new IllegalStateException("El empleado ya tiene un usuario asignado");
+                    }
+                    user.setEmployee(employee);
+                    employee.setUser(user);
+                } else {
+                    if (employeeId != null && !employeeId.equals(user.getEmployee().getId())) {
+                        throw new IllegalArgumentException("The employee associated with this user cannot be changed");
+                    }
+                
+                }
+                // Actualización de Compañía: Si no se envía nada, no se toca la DB
+                if (companyIds != null && !companyIds.isEmpty()) {
+                    if (companyIds.size() != 1) {
+                        throw new IllegalArgumentException("The accountType COMPANY must be associated with exactly one company");
+                    }
+                    List<Company> companies = companyRepository.findAllById(companyIds);
+                    if (companies.size() != 1) {
+                        throw new EntityNotFoundException("The provided company ID is invalid");
+                    }
+                    user.getCompanies().clear();
+                    user.getCompanies().addAll(companies);
+                }
+                // Actualización de Clientes: Si no se envía nada, no se toca la DB
+                if (clientIds!= null && !clientIds.isEmpty()) {
+                    List<Client> clients = clientRepository.findAllById(clientIds);
+                    if (clients.size() != clientIds.size()) {
+                        throw new EntityNotFoundException("One or more client IDs are invalid");
+                    }
+
+                    user.getClients().forEach(oldClient -> {
+                        if(oldClient.getUsers() != null) oldClient.getUsers().remove(user);
+                    });
+                    
+                    user.getClients().clear();
+                    user.getClients().addAll(clients);
+                    // Mantener consistencia bidireccional en memoria
+                    for (Client client : clients) {
+                        if (client.getUsers() == null) client.setUsers(new HashSet<>());
+                        client.getUsers().add(user);
+                    }
+                }
+            }
+
+            case CLIENT -> {
+                if(employeeId != null) {
+                    throw new IllegalArgumentException("The accountType CLIENT cannot be associated with an employee");
+                }
+                if (clientIds != null && !clientIds.isEmpty()) {
+                    List<Client> clients = clientRepository.findAllById(clientIds);
+                    if (clients.size() != clientIds.size()) {
+                        throw new EntityNotFoundException("One or more client IDs are invalid");
+                    }
+                    user.getClients().forEach(oldClient -> {
+                        if(oldClient.getUsers() != null) oldClient.getUsers().remove(user);
+                    });
+                    user.getClients().clear();
+                    user.getClients().addAll(clients);
+                    // Mantener consistencia bidireccional en memoria
+                    for (Client client : clients) {
+                        if (client.getUsers() == null) client.setUsers(new HashSet<>());
+                        client.getUsers().add(user);
+                    }
+                }
+                if(!user.getCompanies().isEmpty()){
+                    user.getCompanies().clear();
+                }
+            }
+        }
+    }
+
+
     @Transactional(readOnly = true)
     public Optional<User> findByExternalId(UUID externalId) {
         return userRepo.findByExternalId(externalId);
