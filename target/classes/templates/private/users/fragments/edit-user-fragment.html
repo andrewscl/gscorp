@@ -1,91 +1,95 @@
-<div id="editUserContainer" class="edit-user-container"
-                                        th:fragment="content">
+<div class="edit-user-container">
+  <div class="panel-container">
+    <div class="panel-main">
+      <div class="panel-header">
+        <h4>Editar usuario</h4>
+      </div>
 
-    <input type="hidden" id="userExternalId" th:value="${user.externalId}"/>
+      <div class="panel-body">
+          <div class="form-group">
+            <label>Username</label>
+            <input type="text" id="userUsername" th:value="${user.username}" required />
+          </div>
 
-    <div class="hs-form-header">
-      <h3>Editar usuario</h3>
+          <div class="form-group">
+            <label>Correo Electrónico</label>
+            <input type="email" id="userMail" th:value="${user.mail}" required />
+          </div>
+
+          <div class="form-group">
+              <label >Empleado Asociado</label>
+              <select id="userEmployeeId">
+                <option value="">-- ninguno --</option>
+                <option th:each="employee : ${employees}"
+                        th:value="${employee.id}"
+                        th:text="${employee.fullName != null ? employee.fullName : 'Empleado ' + employee.id}"
+                        th:selected="${user.employeeId != null and user.employeeId == employee.id}">
+                </option>
+              </select>
+          </div>
+
+          <div class="form-row w-custom">
+            <div class="form-group fw-5">
+              <label>Estado</label>
+              <select id="userStatus" multiple size="6">
+                <option th:each="userStatus : ${userStatusList}"
+                        th:value="${userStatus.id}"
+                        th:text="${userStatus.name}"
+                        th:selected="${user.statusId == userStatus.id}">
+                </option>
+              </select>
+            </div>
+            <div class="form-group fw-5">
+              <label >Activo</label>
+              <input type="checkbox" id="userActive"
+                                          th:checked="${user.active}" />
+            </div>
+          </div>
+      </div>
     </div>
 
-    <div class="body">
+    <div class="panel-aside">
+      <div class="panel-main">
 
-      <div class="form-row w-custom">
-        <div class="form-group col-30">
-          <label>Username</label>
-          <input type="text" id="userUsername" th:value="${user.username}" required />
+        <div class="form-row w-custom">
+          <div class="form-group fw-5">
+            <label>Empresas</label>
+            <select id="userCompanies" multiple size="6">
+              <option th:each="company : ${companies}" 
+                      th:value="${company.id}" 
+                      th:text="${company.name}" 
+                      th:selected="${user.companyIds != null and user.companyIds.contains(company.id)}">
+              </option>
+            </select>
+          </div>
+          <div class="form-group fw-5">
+            <label>Clientes</label>
+            <select id="userClients" multiple size="6">
+              <option th:each="client : ${clients}"
+                      th:value="${client.id}"
+                      th:text="${client.name}"
+                      th:selected="${user.clientIds != null and user.clientIds.contains(client.id)}">
+              </option>
+            </select>
+          </div>
         </div>
-        <div class="form-group col-50">
-          <label>Correo Electrónico</label>
-          <input type="email" id="userMail" th:value="${user.mail}" required />
-        </div>
+
       </div>
-
-      <div class="form-group">
-          <label >Empleado Asociado</label>
-          <select id="userEmployeeId">
-            <option value="">-- ninguno --</option>
-            <option th:each="employee : ${employees}"
-                    th:value="${employee.id}"
-                    th:text="${employee.fullName != null ? employee.fullName : 'Empleado ' + employee.id}"
-                    th:selected="${user.employeeId != null and user.employeeId == employee.id}">
-            </option>
-          </select>
-      </div>
-
-      <div class="form-row w-custom">
-        <div class="form-group col-50">
-          <label>Empresas</label>
-          <select id="userCompanies" multiple size="6">
-            <option th:each="company : ${companies}" 
-                    th:value="${company.id}" 
-                    th:text="${company.name}" 
-                    th:selected="${user.companyIds != null and user.companyIds.contains(company.id)}">
-            </option>
-          </select>
-        </div>
-        <div class="form-group col-50">
-          <label>Clientes</label>
-          <select id="userClients" multiple size="6">
-            <option th:each="client : ${clients}"
-                    th:value="${client.id}"
-                    th:text="${client.name}"
-                    th:selected="${user.clientIds != null and user.clientIds.contains(client.id)}">
-            </option>
-          </select>
-        </div>
-      </div>
-
-      <div class="form-row w-custom">
-        <div class="form-group col-50">
-          <label>Estado</label>
-          <select id="userStatus" multiple size="6">
-            <option th:each="userStatus : ${userStatusList}"
-                    th:value="${userStatus.id}"
-                    th:text="${userStatus.name}"
-                    th:selected="${user.statusId == userStatus.id}">
-            </option>
-          </select>
-        </div>
-        <div class="form-group col-50">
-          <label >Activo</label>
-          <input type="checkbox" id="userActive"
-                                      th:checked="${user.active}" />
-        </div>
-      </div>
-
     </div>
 
-    <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
+  </div>
 
-    <div th:replace="~{shared/fragments/footer-buttons ::
+  <input type="hidden" id="userExternalId" th:value="${user.externalId}"/>
+
+  <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
+
+  <div th:replace="~{shared/fragments/footer-buttons ::
                           footer-buttons(
                                   true, 'Actualizar usuario',
                                   true, 'Cancelar',
                                   true, 'Eliminar usuario')}">
-    </div>
+  </div>
 
   <script type="module" src="/js/private/admin/users/edit-user.js"></script>
 
 </div>
-
-

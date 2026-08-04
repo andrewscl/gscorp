@@ -1,6 +1,27 @@
 @use '../abstracts/card-forms' as *;
+@use '../abstracts/panels/panel-main' as *;
+@use '../abstracts/panels/panel-aside' as *;
 
-.edit-user-container{
-  @include hs-form($max_w: 40rem);
+.private-layout {
+  .main-content {
+    .content {
+      .edit-user-container {
+        @include dual-panel-card();
+        .panel-container {
+          .panel-main {
+            @include panel-main($text-color: $text-secondary-color);
+          }
+          .panel-aside {
+            @include panel-aside();
+          }
+        }
+        .alert-container {
+          @include alert-container();
+        }
+        .footer-actions {
+          @include footer();
+        }
+      }
+    }
+  }
 }
-
