@@ -7,13 +7,14 @@
         <td th:text="${user.status.displayName}"></td>
 
         <td class="actions">
-            <button type="button" class="btn-view"
+            <button type="button" class="btn btn-view"
                         th:attr="data-path=@{/private/users/show/{externalId}(externalId=${user.externalId})}">
                 Ver
             </button>
 
-            <button type="button" class="btn-edit"
-                        th:attr="data-path=@{/private/users/edit/{externalId}(externalId=${user.externalId})}">
+            <button type="button" class="btn btn-edit"
+                        th:attr="data-path=@{/private/users/edit/{externalId}(externalId=${user.externalId})}"
+                        th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
                 Editar
             </button>
 
