@@ -98,8 +98,7 @@ public class UserController {
         model.addAttribute("clients", clients);
         model.addAttribute("employees", employees);
         model.addAttribute("userStatusList", UserStatus.values());
-
-        return "private/users/views/edit-user-view";
+        return "private/users/fragments/edit-user";
     }
 
     @GetMapping("/table-search")
