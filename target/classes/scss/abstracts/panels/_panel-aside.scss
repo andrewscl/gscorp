@@ -7,15 +7,15 @@
     align-items: stretch;
     justify-content: flex-start;
     padding: 2rem;
+    .panel-header{
+        margin: 0;
+        @include montserrat-font(1.1rem, 600);
+    }
     .panel-body{
         display: flex;
         flex-direction: column;
         gap: 1.5rem;
         height: 100%;
-        .panel-title{
-            margin: 0;
-            @include montserrat-font(1.1rem, 600);
-        }
         .form-group {
                                 display: flex;
                                 flex-direction: column;

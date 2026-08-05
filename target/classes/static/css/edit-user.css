@@ -319,18 +319,18 @@ p {
   justify-content: flex-start;
   padding: 2rem;
 }
-.private-layout .main-content .content .edit-user-container .panel-container .panel-aside .panel-body {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  height: 100%;
-}
-.private-layout .main-content .content .edit-user-container .panel-container .panel-aside .panel-body .panel-title {
+.private-layout .main-content .content .edit-user-container .panel-container .panel-aside .panel-header {
   margin: 0;
   font-family: "Montserrat", sans-serif;
   font-size: 1.1rem;
   font-weight: 600;
   letter-spacing: 0.02em;
+}
+.private-layout .main-content .content .edit-user-container .panel-container .panel-aside .panel-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  height: 100%;
 }
 .private-layout .main-content .content .edit-user-container .panel-container .panel-aside .panel-body .form-group {
   display: flex;
