@@ -150,8 +150,6 @@ p {
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
 }
 .dual-panel-card:hover {
   transform: translateY(-5px);

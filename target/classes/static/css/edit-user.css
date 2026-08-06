@@ -150,8 +150,6 @@ p {
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
 }
 .private-layout .main-content .content .edit-user-container:hover {
   transform: translateY(-5px);
@@ -311,4 +309,4 @@ p {
 }
 .private-layout .main-content .content .edit-user-container .footer-actions .btn.btn-danger:active {
   transform: translateY(0);
-}/*# sourceMappingURL=edit-user.css.map */
+}/*# sourceMappingURL=edit-user.css.map */MappingURL=edit-user.css.map */

@@ -151,8 +151,6 @@ p {
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
 }
 .private-layout .main-content .content .manage-employee-termination-request:hover {
   transform: translateY(-5px);
@@ -698,4 +696,4 @@ p {
 }
 .private-layout .main-content .content .manage-employee-termination-request .footer-actions .btn.btn-danger:active {
   transform: translateY(0);
-}/*# sourceMappingURL=manage-termination-request.css.map */
+}/*# sourceMappingURL=manage-termination-request.css.map */-termination-request.css.map */

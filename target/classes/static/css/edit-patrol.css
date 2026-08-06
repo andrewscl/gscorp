@@ -151,8 +151,6 @@ p {
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
 }
 .edit-patrol-card:hover {
   transform: translateY(-5px);
@@ -774,4 +772,4 @@ p {
 }
 .edit-patrol-card .form-footer .btn.btn-danger:active {
   transform: translateY(0);
-}/*# sourceMappingURL=edit-patrol.css.map */
+}/*# sourceMappingURL=edit-patrol.css.map */ppingURL=edit-patrol.css.map */

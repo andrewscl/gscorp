@@ -151,8 +151,6 @@ p {
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
 }
 .view-patrol-card:hover {
   transform: translateY(-5px);
@@ -618,4 +616,4 @@ p {
 }
 .view-patrol-card .footer-actions .btn.btn-danger:active {
   transform: translateY(0);
-}/*# sourceMappingURL=view-patrol.css.map */
+}/*# sourceMappingURL=view-patrol.css.map */ppingURL=view-patrol.css.map */

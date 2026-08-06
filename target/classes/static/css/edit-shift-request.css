@@ -151,8 +151,6 @@ p {
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
 }
 .edit-shift-request:hover {
   transform: translateY(-5px);
@@ -601,4 +599,4 @@ p {
 }
 .edit-shift-request .footer-actions .btn.btn-danger:active {
   transform: translateY(0);
-}/*# sourceMappingURL=edit-shift-request.css.map */
+}/*# sourceMappingURL=edit-shift-request.css.map */L=edit-shift-request.css.map */
