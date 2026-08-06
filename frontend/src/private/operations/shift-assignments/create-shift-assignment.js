@@ -11,6 +11,53 @@ const createShiftAssignment = () => {
     navigateTo('/private/shift-assignments/create', true);
 }
 
+async function handleProjectChange() {
+    const shiftRequestSelect = qs('#shiftRequestExternalId');
+    const employeeSelect = qs('#employeeExternalId');
+    const siteSelect = qs('#siteExternalId');
+    const projectExternalId = qs('#projectExternalId')?.value;
+    if (siteSelect) {
+        siteSelect.innerHTML = '<option value="">Primero seleccione un proyecto</option>';
+        siteSelect.disabled = true;
+    }
+    if (shiftRequestSelect) {
+        shiftRequestSelect.innerHTML = '<option value="">Primero seleccione un sitio</option>';
+        shiftRequestSelect.disabled = true;
+    }
+    if (employeeSelect) {
+        employeeSelect.innerHTML = '<option value="">Primero seleccione un turno</option>';
+        employeeSelect.disabled = true;
+    }
+    if(!projectExternalId) return;
+    try {
+        const url = `/api/sites/projects/${projectExternalId}/sites`
+        const response = await fetchWithAuth(url, {
+        method: 'GET',
+        headers: { 'Accept': 'application/json' },
+        });
+        if(!response) throw new Error('No se pudieron obtener los sitios del proyecto seleccionado.');
+        const sitesProject = await response.json();
+        if (sitesProject.length === 0) {
+            siteSelect.innerHTML = '<option value="">No hay sitios disponibles para el proyecto seleccionado</option>';
+            return;
+        }
+        // Construir opciones e insertarlas en el HTML
+        siteSelect.innerHTML = '<option value="">Seleccione un sitio</option>';
+        sitesProject.forEach(site => {
+            const option = document.createElement('option');
+            option.value = site.externalId;
+            option.textContent = site.name;
+            siteSelect.appendChild(option);
+        });
+        // Habilitar el selector de sitios
+        siteSelect.disabled = false;
+    } catch (error) {
+        console.error('Error en cascada:', error);
+        displayAlert(alertError, 'Ocurrió un error al cargar los sitios del proyecto', 3000);
+    }
+}
+
+
 async function handleSiteChange() {
     const shiftRequestSelect = qs('#shiftRequestExternalId');
     const employeeSelect = qs('#employeeExternalId');
@@ -83,8 +130,6 @@ async function handleSiteChange() {
 
 }
 
-
-
 function handleShiftChange (e) {
     const employeeSelect = qs('#employeeExternalId');
     if(e.target.value) {
@@ -110,6 +155,10 @@ function bindEvents () {
     const cancelBtn = qs('#cancel');
     if (cancelBtn) {
         cancelBtn.addEventListener('click', cancelShiftAssignment);
+    }
+    const projectSelect = qs('#projectExternalId');
+    if (projectSelect) {
+        projectSelect.addEventListener('change', handleProjectChange);
     }
     const siteSelect = qs('#siteExternalId');
     if (siteSelect) {

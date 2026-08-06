@@ -37,21 +37,18 @@ public class SiteServiceImpl implements SiteService{
     private final ClientService clientService;
     private final ProjectService projectService;
 
-    @Override
     @Transactional
     public Site saveSite (Site site){
         return siteRepository.save(site);
     }
 
 
-    @Override
     @Transactional(readOnly = true)
     public Optional<Site> findById(Long id){
         return siteRepository.findById(id);
     }
 
 
-    @Override
     @Transactional(readOnly = true)
     public Optional<SiteDto> findDtoById (Long id) {
         return siteRepository.findByIdWithProject(id)
@@ -59,7 +56,7 @@ public class SiteServiceImpl implements SiteService{
     }
 
 
-    @Override
+    @Transactional(readOnly = true)
     public List<SiteDto>getAllSites(){
         return siteRepository.findAllWithProjects()
                     .stream()
@@ -77,7 +74,6 @@ public class SiteServiceImpl implements SiteService{
                     .toList();
     }
 
-    @Override
     @Transactional(readOnly = true)
     public List<SiteDto> getAllSitesByUser(UUID userExternalId) {
 
@@ -92,8 +88,6 @@ public class SiteServiceImpl implements SiteService{
             .toList();
     }
 
-    //Eliminar sitio
-    @Override
     @Transactional
     public void deleteById(Long id){
         if(!siteRepository.existsById(id)){
@@ -106,7 +100,6 @@ public class SiteServiceImpl implements SiteService{
         }
     }
 
-    @Override
     @Transactional(readOnly = true)
     public Site findByIdWithProjects(Long id){
         return siteRepository.findById(id)
@@ -114,7 +107,7 @@ public class SiteServiceImpl implements SiteService{
                     new IllegalArgumentException("Cliente no encontrado" + id));
     }
 
-    @Override
+    @Transactional
     public Site updateSiteLocation(Long id, UpdateLatLon updateLatLon) {
         Site site = siteRepository.findById(id)
                 .orElseThrow(() ->
@@ -125,7 +118,6 @@ public class SiteServiceImpl implements SiteService{
         return siteRepository.save(site);
     }
 
-    @Override
     @Transactional
     public SiteDto updateSite(Long id, UpdateSiteRequest request) {
         Site site = siteRepository.findById(id)
@@ -137,13 +129,6 @@ public class SiteServiceImpl implements SiteService{
         site.setLat(request.lat());
         site.setLon(request.lon());
         site.setActive(Boolean.TRUE.equals(request.active()));
-
-
-        // Si permites cambiar el proyecto asociado:
-        // if (request.projectId() != null) {
-        //     Project project = projectRepo.findById(request.projectId()).orElse(null);
-        //     site.setProject(project);
-        // }
 
         siteRepository.save(site);
 
@@ -165,7 +150,6 @@ public class SiteServiceImpl implements SiteService{
         );
     }
 
-    @Override
     @Transactional
     public SetSiteCoordinatesDto setCoordinates(Long siteId, Double latitude, Double longitude) {
         Site site = siteRepository.findById(siteId)
@@ -176,7 +160,6 @@ public class SiteServiceImpl implements SiteService{
         return new SetSiteCoordinatesDto(site.getId(), site.getLat(), site.getLon());
     }
 
-    @Override
     @Transactional(readOnly = true)
     public List<SiteSelectDto> getAllSitesForClients(List<Long> clientIds) {
         return siteRepository.findByProject_Client_IdIn(clientIds)
@@ -186,16 +169,12 @@ public class SiteServiceImpl implements SiteService{
             .toList();
     }
 
-    // Nuevo método recomendado: devolver clientId del site (útil para validaciones rápidas)
-    @Override
     @Transactional(readOnly = true)
     public Optional<Long> getClientIdForSite(Long siteId) {
         Optional<Long> clientId = siteRepository.findClientIdBySiteId(siteId);
         return clientId;
     }
 
-
-    @Override
     @Transactional(readOnly = true)
     public List<SiteSelectDto> findSelectDtoByProjectId(Long projectId) {
         if (projectId == null) return List.of();
@@ -203,7 +182,16 @@ public class SiteServiceImpl implements SiteService{
     }
 
 
-    @Override
+    @Transactional(readOnly = true)
+    public List<SiteSelectDto> findByProjectExternalId(UUID projectExternalId) {
+        if (projectExternalId == null) return List.of();
+        List<SiteProjection> siteProjections = siteRepository.findByProjectExternalId(projectExternalId);
+        return siteProjections.stream()
+                .map(SiteSelectDto::fromProjection)
+                .toList();
+    }
+
+
     @Transactional(readOnly = true)
     public List<SiteSelectDto> findByUserExternalId(UUID userExternalId) {
 

@@ -19,10 +19,7 @@
                 <div class="form-group">
                     <label>Sitio:</label>
                     <select id="siteExternalId" required>
-                        <option value="">Seleccione un sitio</option>
-                        <option th:each="site : ${sites}"
-                                th:value="${site.externalId}"
-                                th:text="${site.name}"></option>
+                        <option value="">Primero seleccione un proyecto</option>
                     </select>
                 </div>
 

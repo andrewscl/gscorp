@@ -40,6 +40,8 @@ public interface SiteService {
 
     List<SiteSelectDto> findSelectDtoByProjectId(Long projectId);
 
+    List<SiteSelectDto> findByProjectExternalId(UUID projectExternalId);
+
     List<SiteSelectDto> findByUserExternalId(UUID userExternalId);
 
     SiteSelectDto findNearestSite(UUID externalId, double lat, double lon);
@@ -51,4 +53,6 @@ public interface SiteService {
     List<SiteDtoProjection> findSiteProjectionsByUserExternalId(UUID userExternalId);
 
     SiteSelectDto findSelectDtoById(Long siteId);
+
+
 }

@@ -3,6 +3,7 @@ package com.gscorp.dv1.operations.sites.infrastructure;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -51,6 +52,23 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
            "where s.project.id = :projectId and (s.active = true or s.active is null) " +
            "order by s.name")
     List<SiteSelectDto> findSelectDtoByProjectId(@Param("projectId") Long projectId);
+
+
+    @Query("""
+        SELECT
+            s.id          AS id,
+            s.externalId  AS externalId,
+            s.name        AS name,
+            s.address     AS address,
+            s.lat         AS lat,
+            s.lon         AS lon,
+            s.timeZone    AS timeZone
+        FROM Site s
+        JOIN s.project p
+        WHERE p.externalId IN :projectExternalId
+        ORDER BY s.name
+        """)
+    List<SiteProjection> findByProjectExternalId(@Param("projectExternalId") UUID projectExternalId);
 
 
     @Query("""

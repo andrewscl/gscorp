@@ -6,7 +6,9 @@ import java.util.TimeZone;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +31,7 @@ import com.gscorp.dv1.operations.sites.web.dto.CreateSiteRequest;
 import com.gscorp.dv1.operations.sites.web.dto.SetSiteCoordinatesDto;
 import com.gscorp.dv1.operations.sites.web.dto.SiteDto;
 import com.gscorp.dv1.operations.sites.web.dto.SiteDtoProjection;
+import com.gscorp.dv1.operations.sites.web.dto.SiteSelectDto;
 import com.gscorp.dv1.operations.sites.web.dto.UpdateLatLon;
 import com.gscorp.dv1.operations.sites.web.dto.UpdateSiteRequest;
 import com.gscorp.dv1.users.application.UserService;
@@ -173,5 +176,18 @@ public class SiteRestController {
                 }
 
                 return siteService.getAllSitesByUser(externalId);
+        }
+
+
+        @GetMapping("/projects/{projectExternalId}/sites")
+        public ResponseEntity<List<SiteSelectDto>> getSitesByProjectExternalId(
+                @AuthenticationPrincipal SecurityUser securityUser,
+                @PathVariable UUID projectExternalId
+        ) {
+                if (securityUser == null) {
+                        throw new AuthenticationCredentialsNotFoundException("Usuario no autenticado");
+                }
+                List<SiteSelectDto> sites = siteService.findByProjectExternalId(projectExternalId);
+                return ResponseEntity.ok(sites);
         }
 }
