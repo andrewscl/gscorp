@@ -47,7 +47,7 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
      *
      * Devuelve DTOs (id, name) de sites activos del proyecto.
      */
-    @Query("select new com.gscorp.dv1.operations.sites.web.dto.SiteSelectDto(s.id, s.name, s.lat, s.lon) " +
+    @Query("select new com.gscorp.dv1.operations.sites.web.dto.SiteSelectDto(s.id, s.externalId, s.name, s.lat, s.lon) " +
            "from Site s " +
            "where s.project.id = :projectId and (s.active = true or s.active is null) " +
            "order by s.name")
@@ -88,6 +88,7 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
     @Query("""
         SELECT DISTINCT
           s.id   AS id,
+          s.externalId AS externalId,
           s.name AS name,
           s.lat  AS lat,
           s.lon  AS lon
