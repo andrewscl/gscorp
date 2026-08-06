@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.gscorp.dv1.admin.projects.application.ProjectService;
+import com.gscorp.dv1.admin.projects.web.dto.ProjectDto;
 import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.operations.shiftassignments.application.ShiftAssignmentService;
 import com.gscorp.dv1.operations.shiftassignments.web.dto.ShiftAssignmentDto;
@@ -26,6 +28,7 @@ public class ShiftAssignmentController {
 
     private final ShiftAssignmentService shiftAssignmentService;
     private final SiteService siteService;
+    private final ProjectService projectService;
 
     @GetMapping("/list")
     public String getShiftAssignmentsList (
@@ -40,9 +43,12 @@ public class ShiftAssignmentController {
         Page<ShiftAssignmentDto> shiftAssignments =
                 shiftAssignmentService.getShiftAssignmentList(externalId, null, page, size);
 
+        List<ProjectDto> projects = projectService.findByUserExternalId(externalId);        
+
         model.addAttribute("shiftAssignmentsPage", shiftAssignments);
         model.addAttribute("shiftAssignments", shiftAssignments.getContent());
         model.addAttribute("count", shiftAssignments.getTotalElements());
+        model.addAttribute("projects", projects);
         return "private/operations/shift-assignments/views/shift-assignments-list";
     }
 
