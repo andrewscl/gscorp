@@ -31,7 +31,7 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
 
     List<Site> findByProject_Client_IdIn(List<Long> clientIds);
 
-    @Query("select new com.gscorp.dv1.operations.sites.web.dto.SiteSelectDto(s.id, s.name, s.lat, s.lon) " +
+    @Query("select new com.gscorp.dv1.operations.sites.web.dto.SiteSelectDto(s.id, s.externalId, s.name, s.lat, s.lon) " +
            "from Site s where s.project.client.id in :clientIds order by s.name")
     List<SiteSelectDto> findSelectDtoByClientIds(@Param("clientIds") Collection<Long> clientIds);
 
@@ -74,6 +74,7 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
     @Query("""
         SELECT DISTINCT
           s.id   AS id,
+          s.externalId AS externalId,
           s.name AS name,
           s.lat  AS lat,
           s.lon  AS lon
