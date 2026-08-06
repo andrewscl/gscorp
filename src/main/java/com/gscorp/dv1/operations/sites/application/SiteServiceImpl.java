@@ -165,7 +165,7 @@ public class SiteServiceImpl implements SiteService{
         return siteRepository.findByProject_Client_IdIn(clientIds)
             .stream()
             .map(site -> new SiteSelectDto(site.
-                                getId(), site.getName(), site.getLat(), site.getLon()))
+                                getId(), site.getExternalId(), site.getName(), site.getLat(), site.getLon()))
             .toList();
     }
 
@@ -213,7 +213,7 @@ public class SiteServiceImpl implements SiteService{
         }
 
         List<SiteSelectDto> response = sites.stream()
-            .map(s -> new SiteSelectDto(s.getId(), s.getName(), s.getLat(), s.getLon()))
+            .map(s -> new SiteSelectDto(s.getId(), s.getExternalId(), s.getName(), s.getLat(), s.getLon()))
             .toList();
         
         return response;
@@ -252,7 +252,7 @@ public class SiteServiceImpl implements SiteService{
 
         SiteSelectProjection p = nearest.get();
 
-        return new SiteSelectDto(p.getId(), p.getName(), p.getLat(), p.getLon());
+        return new SiteSelectDto(p.getId(), p.getExternalId(), p.getName(), p.getLat(), p.getLon());
     }
 
 
@@ -320,6 +320,7 @@ public class SiteServiceImpl implements SiteService{
 
         SiteSelectDto response = new SiteSelectDto(
             siteDtoProjection.id(),
+            siteDtoProjection.externalId(),
             siteDtoProjection.name(),
             siteDtoProjection.lat(),
             siteDtoProjection.lon()
