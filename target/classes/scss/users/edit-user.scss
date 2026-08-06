@@ -6,4 +6,19 @@
 @use '../abstracts/alerts' as *;
 @use '../abstracts/buttons/footer-buttons' as *;
 
+.private-layout {
+  .main-content {
+    .content {
+      .edit-user-container {
+        @include dual-panel-card();
+        .alert-container {
+          @include alert-container();
+        }
+        .footer-actions {
+          @include footer();
 
+        }
+      }
+    }
+  }
+}
