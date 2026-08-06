@@ -32,9 +32,9 @@
               <label>Estado</label>
               <select id="userStatus" multiple size="6">
                 <option th:each="userStatus : ${userStatusList}"
-                        th:value="${userStatus.id}"
+                        th:value="${userStatus}"
                         th:text="${userStatus.name}"
-                        th:selected="${user.status == userStatus.id}">
+                        th:selected="${user.status == userStatus}">
                 </option>
               </select>
             </div>
