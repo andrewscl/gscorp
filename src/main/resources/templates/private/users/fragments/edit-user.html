@@ -34,7 +34,7 @@
                 <option th:each="userStatus : ${userStatusList}"
                         th:value="${userStatus.id}"
                         th:text="${userStatus.name}"
-                        th:selected="${user.statusId == userStatus.id}">
+                        th:selected="${user.status == userStatus.id}">
                 </option>
               </select>
             </div>

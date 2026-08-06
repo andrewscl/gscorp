@@ -1,4 +1,8 @@
 @use '../abstracts/variables' as *;
+@use '../abstracts/card-forms' as *;
+@use '../abstracts/panels/panel-main' as *;
+@use '../abstracts/panels/panel-aside' as *;
+@use '../abstracts/panel-cards' as *;
 @use '../abstracts/alerts' as *;
 @use '../abstracts/buttons/footer-buttons' as *;
 
@@ -6,6 +10,7 @@
   .main-content {
     .content {
       .edit-user-container {
+        @include dual-panel-card();
         .alert-container {
           @include alert-container();
         }
