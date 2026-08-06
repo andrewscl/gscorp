@@ -43,12 +43,9 @@ public class ShiftAssignmentController {
         Page<ShiftAssignmentDto> shiftAssignments =
                 shiftAssignmentService.getShiftAssignmentList(externalId, null, page, size);
 
-        List<ProjectDto> projects = projectService.findByUserExternalId(externalId);        
-
         model.addAttribute("shiftAssignmentsPage", shiftAssignments);
         model.addAttribute("shiftAssignments", shiftAssignments.getContent());
         model.addAttribute("count", shiftAssignments.getTotalElements());
-        model.addAttribute("projects", projects);
         return "private/operations/shift-assignments/views/shift-assignments-list";
     }
 
@@ -62,8 +59,10 @@ public class ShiftAssignmentController {
 
         List<SiteDtoProjection> sites =
                 siteService.findSiteProjectionsByUserExternalId(externalId);
+        List<ProjectDto> projects = projectService.findByUserExternalId(externalId);        
 
         model.addAttribute("sites", sites);
+        model.addAttribute("projects", projects);
         return "private/operations/shift-assignments/fragments/create-shift-assignment";
     }
 
