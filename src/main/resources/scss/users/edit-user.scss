@@ -11,6 +11,14 @@
     .content {
       .edit-user-container {
         @include dual-panel-card();
+        .panel-container {
+          .panel-main {
+            @include panel-main($text-color: $text-secondary-color);
+          }
+          .panel-aside {
+            @include panel-aside();
+          }
+        }
         .alert-container {
           @include alert-container();
         }
