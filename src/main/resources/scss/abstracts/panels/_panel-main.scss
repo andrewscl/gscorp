@@ -12,7 +12,7 @@
         .panel-body {
             display: flex;
             flex-direction: column;
-            gap: 1.25rem;
+            gap: 1.15rem;
             .form-group {
                 display: flex;
                 flex-direction: column;
@@ -39,7 +39,7 @@
                 }
                 input, select,
                 span {
-                    padding: 0.65rem;
+                    padding: 0.5rem;
                     border: 0.09rem solid #ced4da;
                     border-radius: 0.5rem;
                     @include roboto-font(0.875rem, 500);
