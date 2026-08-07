@@ -73,6 +73,7 @@ export default defineConfig({
         'private/configuration/hr-document-types/create-hr-document-type': path.resolve(__dirname, './src/private/configuration/hr-document-types/create-hr-document-type.js'),
 
         'private/configuration/shift-patterns/shift-patterns-list': path.resolve(__dirname, './src/private/configuration/shift-patterns/shift-patterns-list.js'),
+        'private/configuration/shift-patterns/view-shift-pattern': path.resolve(__dirname, './src/private/configuration/shift-patterns/view-shift-pattern.js'),
         'private/configuration/shift-patterns/edit-shift-pattern': path.resolve(__dirname, './src/private/configuration/shift-patterns/edit-shift-pattern.js'),
         'private/configuration/shift-patterns/create-shift-pattern': path.resolve(__dirname, './src/private/configuration/shift-patterns/create-shift-pattern.js'),
 
