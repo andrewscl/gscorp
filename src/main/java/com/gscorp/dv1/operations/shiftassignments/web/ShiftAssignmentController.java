@@ -60,7 +60,6 @@ public class ShiftAssignmentController {
                                 siteService.findSiteProjectionsByUserExternalId(externalId));
         model.addAttribute("projects",
                                 projectService.findByUserExternalId(externalId));
-        model.addAttribute("shiftAssignment", new ShiftAssignmentDto());
         model.addAttribute("shiftPatterns", shiftPatternService.getShiftPatternsList());
         return "private/operations/shift-assignments/fragments/create-shift-assignment";
     }
