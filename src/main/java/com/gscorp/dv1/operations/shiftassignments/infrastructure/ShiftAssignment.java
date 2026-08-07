@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.gscorp.dv1.enums.ShiftAssignmentStatus;
 import com.gscorp.dv1.hr.employees.infrastructure.Employee;
+import com.gscorp.dv1.operations.shiftpatterns.infrastructure.ShiftPattern;
 import com.gscorp.dv1.operations.shifts.infrastructure.Shift;
 
 import jakarta.persistence.Column;
@@ -16,6 +17,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -32,7 +34,7 @@ import lombok.Setter;
     @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
     public class ShiftAssignment {
 
-        @Id @GeneratedValue
+        @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
 
         @Column(name = "external_id", unique=true,
@@ -47,6 +49,10 @@ import lombok.Setter;
         @JoinColumn(name="employee_id", nullable=false)
         private Employee employee;
 
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "shift_pattern_id", nullable = false)
+        private ShiftPattern shiftPattern;
+
         @Enumerated(EnumType.STRING)
         @Column(name="shift_assignment_status", length = 20)
         private ShiftAssignmentStatus status;
@@ -54,6 +60,9 @@ import lombok.Setter;
         private String notes;
 
         private OffsetDateTime assignedAt;
+
+        // Día de inicio del ciclo
+        private Integer startDay;
 
         @Column(nullable = true, updatable = false)
         private String createdBy;

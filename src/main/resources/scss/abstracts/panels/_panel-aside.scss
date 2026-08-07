@@ -17,7 +17,7 @@
         gap: 1.5rem;
         height: 100%;
         .form-group {
-                                display: flex;
+                display: flex;
                                 flex-direction: column;
                                 gap: 0.3rem;
                                 label {
@@ -43,7 +43,22 @@
                                         box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
                                         outline: none;
                                     }
-                                }
+                }
+                textarea {
+                    resize: vertical;
+                    border: 0.09rem solid #ced4da;
+                    border-radius: 0.5rem;
+                    @include roboto-font(0.875rem, 500);
+                    color: $cool-gray-800;
+                    min-height: 80px;
+                    padding: 0.4rem 0.75rem;
+                    &:focus {
+                        border-color: #4e54c8;
+                        box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
+                        outline: none;
+                    }
+                }
+
         }
         .form-row {
                                 display: flex;

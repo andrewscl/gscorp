@@ -18,7 +18,7 @@
 
                 <div class="form-group">
                     <label>Sitio:</label>
-                    <select id="siteExternalId" required>
+                    <select id="siteExternalId" required disabled>
                         <option value="">Primero seleccione un proyecto</option>
                     </select>
                 </div>
@@ -38,6 +38,23 @@
                 </div>
 
                 <div class="form-row w-custom">
+                    <select id="shiftPatternExternalId" required>
+                        <option value="">Seleccione un sistema de jornada</option>
+                        <option th:each="shiftPattern : ${shiftPatterns}"
+                                th:value="${shiftPattern.externalId}"
+                                th:text="${shiftPattern.name}"></option>
+                    </select>
+                    <div class="form-group fx-5">
+                        <label>Inicio de ciclo:</label>
+                        <input type="number" id="shiftPatternStartCycle"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-aside">
+            <div class="panel-body">
+                <div class="form-row w-custom">
                     <div class="form-group fx-5">
                         <label>Fecha inicio de asignación:</label>
                         <input type="date" id="assignmentStartDate" required />
@@ -47,16 +64,11 @@
                         <input type="date" id="assignmentEndDate"/>
                     </div>
                 </div>
-
-            </div>
-        </div>
-
-        <div class="panel-aside">
-            <div class="panel-body">
                 <div class="form-group">
                         <label>Notas / Observaciones:</label>
                         <textarea id="description"></textarea>
                 </div>
+
                 <div class="schedules-table">
                     <div class="title-row">
                         <div class="title-left">

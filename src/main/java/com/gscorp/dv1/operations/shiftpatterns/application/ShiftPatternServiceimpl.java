@@ -1,12 +1,14 @@
 package com.gscorp.dv1.operations.shiftpatterns.application;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
 import com.gscorp.dv1.operations.shiftpatterns.infrastructure.ShiftPattern;
 import com.gscorp.dv1.operations.shiftpatterns.infrastructure.ShiftPatternRepository;
+import com.gscorp.dv1.operations.shiftpatterns.web.dto.ShiftPatternDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,5 +33,12 @@ public class ShiftPatternServiceimpl implements ShiftPatternService {
     public ShiftPattern saveShiftPattern(ShiftPattern shiftPattern) {
         return shiftPatternRepository.save(shiftPattern);
     }
-    
+
+    @Override
+    public List<ShiftPatternDto> getShiftPatternsList() {
+        return shiftPatternRepository.findAll().stream()
+                .map(ShiftPatternDto::fromEntity)
+                .toList();
+    }
+
 }

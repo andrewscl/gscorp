@@ -1,6 +1,7 @@
 package com.gscorp.dv1.operations.shiftpatterns.infrastructure;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -28,6 +29,10 @@ public class ShiftPattern {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "external_id", unique=true,
+                            nullable=false, updatable=false)
+    private UUID externalId;
+
     @Column(nullable = false, unique = true)
     private String name;
 
@@ -47,9 +52,6 @@ public class ShiftPattern {
     // Estado activo/inactivo
     @Builder.Default
     private Boolean active = true;
-
-    // Día de inicio del ciclo (ejemplo)
-    private Integer startDay;
 
     // Fechas de auditoría (requieren dependencias Hibernate)
     @CreationTimestamp

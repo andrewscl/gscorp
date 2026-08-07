@@ -30,7 +30,6 @@ public class ShiftPatternRestController {
             .workDays(req.workDays())
             .restDays(req.restDays())
             .code(req.code())
-            .startDay(req.startDay())
             .build();
         var saved = shiftPatternService.saveShiftPattern(entity);
         var location = ucb.path("/api/shift-patterns/{id}").buildAndExpand(saved.getId()).toUri();
@@ -41,8 +40,8 @@ public class ShiftPatternRestController {
                             saved.getDescription(),
                             saved.getWorkDays(),
                             saved.getRestDays(),
-                            saved.getCode(),
-                            saved.getStartDay());
+                            saved.getCode()
+        );
 
         return ResponseEntity.created(location).body(dto);
     }
