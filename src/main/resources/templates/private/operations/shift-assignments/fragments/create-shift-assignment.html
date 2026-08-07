@@ -38,13 +38,16 @@
                 </div>
 
                 <div class="form-row w-custom">
-                    <select id="shiftPatternExternalId" required>
-                        <option value="">Seleccione un sistema de jornada</option>
-                        <option th:each="shiftPattern : ${shiftPatterns}"
-                                th:value="${shiftPattern.externalId}"
-                                th:text="${shiftPattern.name}"></option>
-                    </select>
-                    <div class="form-group fx-5">
+                    <div class="form-group fx-7">
+                        <label>Sistema de jornada:</label>
+                        <select id="shiftPatternExternalId" required>
+                            <option value="">Seleccione un sistema de jornada</option>
+                            <option th:each="shiftPattern : ${shiftPatterns}"
+                                    th:value="${shiftPattern.externalId}"
+                                    th:text="${shiftPattern.name}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group fx-3">
                         <label>Inicio de ciclo:</label>
                         <input type="number" id="shiftPatternStartCycle"/>
                     </div>

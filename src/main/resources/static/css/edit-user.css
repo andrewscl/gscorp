@@ -367,6 +367,23 @@ p {
   box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
   outline: none;
 }
+.private-layout .main-content .content .edit-user-container .panel-container .panel-aside .panel-body .form-group textarea {
+  resize: vertical;
+  border: 0.09rem solid #ced4da;
+  border-radius: 0.5rem;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #1f2937;
+  min-height: 80px;
+  padding: 0.4rem 0.75rem;
+}
+.private-layout .main-content .content .edit-user-container .panel-container .panel-aside .panel-body .form-group textarea:focus {
+  border-color: #4e54c8;
+  box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
+  outline: none;
+}
 .private-layout .main-content .content .edit-user-container .panel-container .panel-aside .panel-body .form-row {
   display: flex;
   gap: 2rem;
@@ -615,4 +632,4 @@ p {
 }
 .private-layout .main-content .content .edit-user-container .footer-actions .btn.btn-danger:active {
   transform: translateY(0);
-}/*# sourceMappingURL=edit-user.css.map *//
+}/*# sourceMappingURL=edit-user.css.map */
