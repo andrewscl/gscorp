@@ -1,105 +1,92 @@
 import { fetchWithAuth } from '../../../auth.js';
 import { navigateTo } from '../../../navigation-handler.js';
+import { displayAlert } from '../../../shared/display-alert.js';
 
 const qs = (s) => document.querySelector(s);
 
-/* --- Crear patrón de turno --- */
-async function onSubmitCreateShiftPattern(e) {
-  e.preventDefault();
+const alertSuccess = qs('.alert-success');
+const alertError = qs('.alert-error');
+const alertWarning = qs('.alert-warning');
 
-  const name = qs('#shiftPatternName')?.value?.trim();
-  const code = qs('#shiftPatternCode')?.value?.trim() || null;
-  const description = qs('#shiftPatternDescription')?.value?.trim() || null;
-  const workDaysStr = qs('#shiftPatternWorkDays')?.value?.trim();
-  const restDaysStr = qs('#shiftPatternRestDays')?.value?.trim();
-  const startDayStr = qs('#shiftPatternStartDay')?.value?.trim();
-  const active = !!qs('#shiftPatternActive')?.checked;
+async function onCreateShiftPattern() {
+    const createBtn = qs('#submit');
+    const cancelBtn = qs('#cancel');
 
-  const workDays = workDaysStr ? Number(workDaysStr) : null;
-  const restDays = restDaysStr ? Number(restDaysStr) : null;
-  const startDay = startDayStr ? Number(startDayStr) : null;
+    const name = qs('#shiftPatternName')?.value?.trim();
+    const code = qs('#shiftPatternCode')?.value?.trim() || null;
+    const description = qs('#shiftPatternDescription')?.value?.trim() || null;
+    const workDaysStr = qs('#shiftPatternWorkDays')?.value?.trim();
+    const restDaysStr = qs('#shiftPatternRestDays')?.value?.trim();
 
-  const err = qs('#createShiftPatternError');
-  const ok = qs('#createShiftPatternOk');
-  if (err) err.textContent = '';
-  if (ok) ok.style.display = 'none';
+    const workDays = workDaysStr ? Number(workDaysStr) : null;
+    const restDays = restDaysStr ? Number(restDaysStr) : null;
 
-  if (!name) {
-    if (err) err.textContent = 'El nombre del patrón es obligatorio.';
-    return;
-  }
-  if (!description) {
-    if (err) err.textContent = 'La descripción es obligatoria.';
-    return;
-  }
-  if (!workDays || isNaN(workDays) || workDays < 1) {
-    if (err) err.textContent = 'Los días de trabajo son obligatorios y deben ser un número mayor a 0.';
-    return;
-  }
-  if (restDays === null || isNaN(restDays) || restDays < 0) {
-    if (err) err.textContent = 'Los días de descanso son obligatorios y deben ser 0 o más.';
-    return;
-  }
-
-  // Deshabilita submit durante el POST
-  const submitBtn = e.submitter || qs('#createShiftPatternForm button[type="submit"]');
-  submitBtn && (submitBtn.disabled = true);
+    if (!name) {
+          displayAlert(alertError, 'El nombre es obligatorio.', 2000);
+          return;
+    }
+    if (!workDays || isNaN(workDays) || workDays < 1) {
+          displayAlert(alertError, 'Los días de trabajo son obligatorios y deben ser un número mayor a 0.', 2000);
+          return;
+    }
+    if (restDays === null || isNaN(restDays) || restDays < 0) {
+          displayAlert(alertError, 'Los días de descanso son obligatorios y deben ser 0 o más.', 2000);
+          return;
+    }
+    const payload = {name: name,
+                      code: name,
+                      description: description,
+                      workDays: workDays,
+                      restDays: restDays};
+    createBtn.disabled = true;
+    cancelBtn.disabled = true;
 
   try {
-    const res = await fetchWithAuth('/api/shift-patterns/create', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name,
-        code,
-        description,
-        workDays,
-        restDays,
-        startDay,
-        active
-      })
-    });
+        const res = await fetchWithAuth('/api/shift-patterns/create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
 
-    if (!res.ok) {
-      let msg = '';
-      try { msg = await res.text(); } catch {}
-      if (!msg) msg = `Error ${res.status}`;
-      throw new Error(msg);
-    }
+        if (!res || !res.ok) {
+            createBtn.disabled = false;
+            cancelBtn.disabled = false;
+            let errorMessage = 'Ocurrió un problema al enviar el formulario.';
+            if(res){
+                const contentType = res.headers.get('content-type');
+                if(contentType && contentType.includes('application/json')) {
+                    const errorData = await res.json();
+                    errorMessage = errorData.message || errorMessage;
+                }
+            }
+            displayAlert(alertError, `Error: ${errorMessage}`);
+            return;
+        }
 
-    if (ok) ok.style.display = 'block';
-    setTimeout(() => {
-      navigateTo('/private/shift-patterns/table-view');
-    }, 600);
-  } catch (e2) {
-    if (err) err.textContent = e2.message;
-  } finally {
-    submitBtn && (submitBtn.disabled = false);
+        displayAlert(alertSuccess, 'El sistema de jornada ha sido creado correctamente.', 2000);
+        setTimeout(() => {
+            navigateTo('/private/shift-patterns/list', true);
+        }, 2000);
+
+  } catch (error) {
+        console.error(`[onClickCreate] Ocurrio un problema: ${error.message}`, error);
+        displayAlert(alertError, 'Error inesperado. Intente más tarde.', 2000);
+        createBtn.disabled = false;
+        cancelBtn.disabled = false;
   }
 }
 
-/* --- Bindings --- */
-function bindCreateShiftPatternForm() {
-  qs('#createShiftPatternForm')?.addEventListener('submit', onSubmitCreateShiftPattern);
+const onCancelShiftPattern = () => {
+    navigateTo('/private/shift-patterns/list', true);
 }
 
-function bindCancelCreateShiftPattern() {
-  qs('#cancelCreateShiftPattern')?.addEventListener('click', (e) => {
-    e.preventDefault();
-    navigateTo('/private/shift-patterns/table-view');
-  });
+function bindEvents() {
+    const createBtn = qs('#submit');
+    if(createBtn) createBtn.addEventListener('click', onCreateShiftPattern);
+    const cancelBtn = qs('#cancel');
+    if(cancelBtn) cancelBtn.addEventListener('click', onCancelShiftPattern);
 }
 
-function bindCloseCreateShiftPattern() {
-  qs('#closeCreateShiftPattern')?.addEventListener('click', (e) => {
-    e.preventDefault();
-    navigateTo('/private/shift-patterns/table-view');
-  });
-}
-
-/* --- init --- */
 (function init() {
-  bindCreateShiftPatternForm();
-  bindCancelCreateShiftPattern();
-  bindCloseCreateShiftPattern();
+  bindEvents();
 })();
