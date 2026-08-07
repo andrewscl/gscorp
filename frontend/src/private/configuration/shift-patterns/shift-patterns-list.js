@@ -7,6 +7,8 @@ function createShiftPattern () {
     navigateTo('/private/shift-patterns/create', true);
 }
 
+function searchShiftPatterns () {}
+
 function bindShiftPatternList() {
     const createBtn = qs('#addShiftPatternsBtn');
     if(createBtn) createBtn.addEventListener('click', createShiftPattern);
