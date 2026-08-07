@@ -28,7 +28,7 @@ public class ShitPatternController {
     ) {
         if(securityUser == null) return "redirect:/login";
         model.addAttribute("shiftPatterns", shiftPatternService.getShiftPatternsList());
-        return "private/shift-patterns/views/shift-patterns-table-view";
+        return "private/configuration/shift-patterns/views/shift-patterns-list";
     }
 
     @GetMapping("/create")
@@ -37,7 +37,7 @@ public class ShitPatternController {
                 @AuthenticationPrincipal SecurityUser securityUser
     ) {
         if(securityUser == null) return "redirect:/login";
-        return "private/shift-patterns/views/create-shift-pattern-view";
+        return "private/configuration/shift-patterns/fragments/create-shift-pattern";
     }
 
     @GetMapping("/show/{shiftPatternExternalId}")
