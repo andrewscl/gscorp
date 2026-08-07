@@ -1,0 +1,28 @@
+<div th:fragment="contactsTable">
+    <h2>Contacto</h2>
+    <div class="contacts-table-container">
+        <table class="contacts-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>fecha</th>
+                    <th>name</th>
+                    <th>email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="contact : ${contacts}">
+                    <td th:text="${contact.id}"></td>
+                    <td th:text="${contact.createdAt}"></td>
+                    <td th:text="${contact.name}"></td>
+                    <td th:text="${contact.email}"></td>
+                    <td class="actions">
+                        <a>Ver</a>
+                        <a>Editar</a>
+                        <button>Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

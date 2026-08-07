@@ -52,7 +52,7 @@ public class ShitPatternController {
         return "private/configuration/shift-patterns/fragments/view-shift-pattern";
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/edit/{shiftPatternExternalId}")
     public String editShiftPattern(
                 @PathVariable UUID shiftPatternExternalId,
                 Model model,

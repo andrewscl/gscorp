@@ -1,0 +1,59 @@
+<section th:fragment="content" class="detail-section view-shift-pattern">
+
+  <h2>Ver Patrón de Turno</h2>
+  <p class="meta-id"><strong>ID:</strong> <span th:text="${shiftPattern.id}"></span></p>
+
+  <form id="viewShiftPatternForm" class="card form">
+
+    <div class="form-group">
+      <label for="shiftPatternName">Nombre del patrón</label>
+      <input id="shiftPatternName" name="name" type="text"
+             th:value="${shiftPattern.name}" readonly tabindex="-1" />
+    </div>
+
+    <div class="form-group">
+      <label for="shiftPatternCode">Código</label>
+      <input id="shiftPatternCode" name="code" type="text"
+             th:value="${shiftPattern.code}" readonly tabindex="-1" />
+    </div>
+
+    <div class="form-group">
+      <label for="shiftPatternDescription">Descripción</label>
+      <input id="shiftPatternDescription" name="description" type="text"
+             th:value="${shiftPattern.description}" readonly tabindex="-1" />
+    </div>
+
+    <div class="form-group">
+      <label for="shiftPatternWorkDays">Días de trabajo</label>
+      <input id="shiftPatternWorkDays" name="workDays" type="number"
+             th:value="${shiftPattern.workDays}" readonly tabindex="-1" />
+    </div>
+
+    <div class="form-group">
+      <label for="shiftPatternRestDays">Días de descanso</label>
+      <input id="shiftPatternRestDays" name="restDays" type="number"
+             th:value="${shiftPattern.restDays}" readonly tabindex="-1" />
+    </div>
+
+    <div class="form-group">
+      <label for="shiftPatternStartDay">Día de inicio</label>
+      <input id="shiftPatternStartDay" name="startDay" type="number"
+             th:value="${shiftPattern.startDay}" readonly tabindex="-1" />
+    </div>
+
+    <div class="form-group active-row">
+      <input id="shiftPatternActive" name="active" type="checkbox"
+             th:checked="${shiftPattern.active}" disabled tabindex="-1" />
+      <label for="shiftPatternActive" style="margin:0">Activo</label>
+    </div>
+
+    <div class="actions">
+      <a class="vs-btn vs-secondary" href="#"
+         data-path="/private/shift-patterns/table-view">Volver al listado</a>
+    </div>
+
+    <div id="viewShiftPatternError" class="form-error"></div>
+    <div id="viewShiftPatternOk" class="form-ok" style="display:none;">Cambios guardados ✅</div>
+  </form>
+
+</section>

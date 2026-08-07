@@ -1,0 +1,38 @@
+<div id="editUserContainer" class="edit-user-container"
+                                        th:fragment="content">
+
+    <div class="hs-form-header">
+      <h3>Ver Empresa</h3>
+    </div>
+
+    <div class="body">
+
+      <div class="form-row w-custom">
+        <div class="form-group col-20">
+            <label>ID</label>
+            <span class="form-value" th:text="${company.id}"></span>
+        </div>
+        <div class="form-group col-30">
+            <label>Empresa</label>
+            <span class="form-value" th:text="${company.name}"></span>
+        </div>
+        <div class="form-group col-50">
+          <label>Razón social</label>
+          <span class="form-value" th:text="${company.legalName}"></span>
+        </div>
+      </div>
+
+    </div>
+
+    <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
+
+    <div th:replace="~{shared/fragments/footer-buttons ::
+                          footer-buttons(
+                                  false, '',
+                                  true, 'Volver',
+                                  false, '')}">
+    </div>
+
+  <script type="module" src="/js/private/companies/view-company.js"></script>
+
+</div>

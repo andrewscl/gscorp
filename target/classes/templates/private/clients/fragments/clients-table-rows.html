@@ -1,0 +1,29 @@
+      <tbody th:fragment="rows">
+        <tr th:each="c : ${clients}">
+          <td th:text="${c.name()}"></td>
+          <td th:text="${c.legalName()}"></td>
+          <td th:text="${c.taxId()} ?: '-' ">—</td>
+
+          <td>
+            <span class="tag"
+                  th:classappend="${c.active()} ? 'tag-active' : 'tag-inactive'"
+                  th:text="${c.active()} ? 'Activo' : 'Inactivo'">Activo</span>
+          </td>
+
+          <td th:text="${c.company().name()}">—</td>
+
+          <td class="actions">
+            <button type="button"
+                    class="btn-view"
+                    th:attr="data-path=@{/private/clients/show/{externalId}(externalId=${c.externalId()})}">
+              Ver
+            </button>
+
+            <button type="button"
+                    class="btn-edit"
+                    th:attr="data-path=@{/private/clients/edit/{externalId}(externalId=${c.externalId()})}">
+              Editar
+            </button>
+          </td>
+        </tr>
+      </tbody>

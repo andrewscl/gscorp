@@ -1,0 +1,78 @@
+<div th:fragment="commerce">
+
+    <div class="commerce-image">
+        <img th:src="@{/img/commerce/commerce.jpg}">
+        <div class="overlay-content">
+                <h1>¿En qué podemos ayudarte?</h1>
+                <p class="p3">Si quieres mas información sobre nuestras soluciones
+                    completa el formulario y nos pondremos en contacto contigo.</p>
+                <button  href="#"
+                            data-path="/public/contact" 
+                                class="btn btn-primary">Contáctanos</button>
+        </div>
+    </div>
+
+    <section class="text-container-big">
+        <div class="container">
+            <h1>Servicios de comercialización</h1>
+            <p class="p3"></p>
+        </div>
+    </section>
+
+    <section class="text-image-right">
+        <div class="container">
+            <div class="text-content">
+                <p class="p2">En GSCorp, entendemos que cada empresa necesita enfocarse
+                    en lo que mejor sabe hacer. Por eso, ofrecemos servicios de
+                    outsourcing flexibles y especializados, diseñados para apoyar tus
+                    operaciones en áreas clave.</p>
+                <p class="p2">Contamos con un equipo altamente capacitado que se integra
+                    a tu estructura organizacional, aportando eficiencia, calidad y
+                    compromiso. Nuestra experiencia multisectorial nos permite adaptarnos
+                    a distintos entornos y requerimientos, brindando soluciones a medida
+                    que optimizan procesos y reducen costos operativos.
+                </p>
+            </div>
+            <div class="image-content">
+                <img th:src="@{/img/commerce/compras.jpg}">
+            </div>
+        </div>
+    </section>
+
+    <section class="text-container-medium">
+      <h2>Descubre nuestras soluciones</h2>
+    </section>
+
+    <!--columnas de servicios commerce--> 
+    <section class="servicios-commerce">
+        <div class="column">
+            <div class="media">
+                <img th:src="@{/img/commerce/b2b.jpg}">
+            </div>
+            <h4>Comercialización B2B</h4>
+            <p>Catálogo de productos para empresa, precios netos,
+                contratos marco y niveles de servicio (SLAs).</p>
+        </div>
+
+        <div class="column">
+            <div class="media">
+                <img th:src="@{/img/commerce/purchaseprocess.jpg}">
+            </div>
+            <h4>Gestión de compras</h4>
+            <p>Búsqueda y evaluación de proveedores, cotizaciones comparativas,
+                negociación y homologación.</p>
+        </div>
+
+        <div class="column">
+            <div class="media">
+                <img th:src="@{/img/commerce/comex.jpg}">
+            </div>
+            <h4>Gestión de importaciones</h4>
+            <p>Sourcing internacional, Incoterms, coordinación
+                naviera/aérea, seguros y aduana.</p>
+            <p>Gestionamos equipamiento, repuestos y productos sin oferta
+                local competitiva.</p>
+        </div>
+    </section>
+
+</div>
