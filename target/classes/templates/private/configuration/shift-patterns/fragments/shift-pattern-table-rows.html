@@ -2,7 +2,6 @@
         <tr th:each="sp : ${shiftPatterns}">
           <td th:text="${sp.name}"></td>
           <td th:text="${sp.code} ?: '—'">—</td>
-          <td th:text="${sp.description}"></td>
           <td th:text="${sp.workDays}"></td>
           <td th:text="${sp.restDays}"></td>
           <td class="actions">

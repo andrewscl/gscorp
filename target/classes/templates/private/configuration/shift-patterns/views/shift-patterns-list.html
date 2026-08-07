@@ -5,7 +5,7 @@
     actions=~{::#shiftPatternActions},
     thead=~{::#shiftPatternHeader},
     tbody=~{private/configuration/shift-patterns/fragments/shift-pattern-table-rows :: rows},
-    customClass='shift-pattern-table'
+    customClass='shift-patterns-list'
 )}">
 
     <th:block class="count" th:if="${shiftPatternsCount != null}"
@@ -53,7 +53,6 @@
     <tr id="shiftPatternHeader">
         <th>Sistema de jornada</th>
         <th>codigo</th>
-        <th>Descripción</th>
         <th>Dias de trabajo</th>
         <th>Dias de descanso</th>
         <th>Actions</th>
