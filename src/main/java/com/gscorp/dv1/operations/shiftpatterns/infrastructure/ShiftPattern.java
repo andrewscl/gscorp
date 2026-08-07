@@ -30,7 +30,7 @@ public class ShiftPattern {
     private Long id;
 
     @Column(name = "external_id", unique=true,
-                            nullable=false, updatable=false)
+                            nullable=true, updatable=false)
     private UUID externalId;
 
     @Column(nullable = false, unique = true)
