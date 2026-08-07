@@ -74,33 +74,25 @@ async function handleProjectChange() {
 
 async function handleSiteChange() {
     const shiftRequestSelect = qs('#shiftRequestExternalId');
-    const employeeSelect = qs('#employeeExternalId');
     const siteExternalId = qs('#siteExternalId')?.value;
 
     // Resetear selectores hijos por defecto
     shiftRequestSelect.innerHTML = '<option value="">Primero seleccione un sitio</option>';
     shiftRequestSelect.disabled = true;
-    if(employeeSelect) {
-        employeeSelect.disabled = true;
-        employeeSelect.innerHTML = '<option value="">Primero seleccione un turno</option>';
-    }
+    
     if(!siteExternalId) return;
-
     try {
         const url = `/api/shift-requests/sites/${siteExternalId}/requests`
         const response = await fetchWithAuth(url, {
         method: 'GET',
         headers: { 'Accept': 'application/json' },
         });
-
         if(!response) throw new Error('No se pudieron obtener los turnos del sitio seleccionado.');
-
         const shiftRequests = await response.json();
         if (shiftRequests.length === 0) {
             shiftRequestSelect.innerHTML = '<option value="">No hay turnos aprobados disponibles</option>';
             return;
         }
-
         if (shiftRequestSelect) {
             shiftRequestSelect.innerHTML = '<option value="">Seleccione un turno</option>';
             
@@ -108,9 +100,7 @@ async function handleSiteChange() {
             shiftRequests.forEach(sr => {
                 const option = document.createElement('option');
                 option.value = sr.externalId; // Lo que lee la máquina (el UUID)
-
                 let textoHorarios = 'Sin horario cargado';
-                
                 // Formateamos y unimos los horarios del turno
                 if (sr.schedules && sr.schedules.length > 0) {
                     textoHorarios = sr.schedules.map(sch => {
