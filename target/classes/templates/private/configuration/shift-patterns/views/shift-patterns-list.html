@@ -1,9 +1,9 @@
 <div th:replace="~{shared/fragments/table-component :: smart-table(
     title='Tipos de sistemas de jornada',
     count=${count},
-    filters=~{::#shiftPatternsFilters},
-    actions=~{::#shiftPatternsActions},
-    thead=~{::#shiftPatternsHeader},
+    filters=~{::#shiftPatternFilters},
+    actions=~{::#shiftPatternActions},
+    thead=~{::#shiftPatternHeader},
     tbody=~{private/configuration/shift-patterns/fragments/shift-pattern-table-rows :: rows},
     customClass='shift-pattern-table'
 )}>
@@ -13,7 +13,7 @@
         aria-live="polite" aria-atomic="true">
     </th:block>
 
-    <th:block id="shiftPatternsFilters">
+    <th:block id="shiftPatternFilters">
 
         <label class="filter-item">
             <span class="filter-label">Desde</span>
@@ -43,14 +43,14 @@
         </div>
     </th:block>
 
-    <th:block id="shiftPatternsActions">
+    <th:block id="shiftPatternActions">
         <button class="btn btn-primary" id="addShiftPatternsBtn"
         th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
         Crear registro
         </button>
     </th:block>
 
-    <tr id="shiftPatternsHeader">
+    <tr id="shiftPatternHeader">
         <th>Turno</th>
         <th>Sitio</th>
         <th>Tipo</th>
@@ -61,4 +61,4 @@
 
 </div>
 
-<script type="module" src="/js/private/shift-requests/shift-request-table.js"></script>
+<script type="module" src="/js/private/configuration/shift-patterns/shift-patterns-list.js"></script>

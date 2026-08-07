@@ -68,8 +68,14 @@ export default defineConfig({
         'private/banks/create-bank': path.resolve(__dirname, './src/private/banks/create-bank.js'),
         'private/positions/create-position': path.resolve(__dirname, './src/private/positions/create-position.js'),
         'private/positions/edit-position': path.resolve(__dirname, './src/private/positions/edit-position.js'),
-        'private/shift-patterns/edit-shift-pattern': path.resolve(__dirname, './src/private/shift-patterns/edit-shift-pattern.js'),
-        'private/shift-patterns/create-shift-pattern': path.resolve(__dirname, './src/private/shift-patterns/create-shift-pattern.js'),
+
+        'private/configuration/hr-document-types/hr-document-types-list': path.resolve(__dirname, './src/private/configuration/hr-document-types/hr-document-types-list.js'),
+        'private/configuration/hr-document-types/create-hr-document-type': path.resolve(__dirname, './src/private/configuration/hr-document-types/create-hr-document-type.js'),
+
+        'private/configuration/shift-patterns/shift-patterns-list': path.resolve(__dirname, './src/private/configuration/shift-patterns/shift-patterns-list.js'),
+        'private/configuration/shift-patterns/edit-shift-pattern': path.resolve(__dirname, './src/private/configuration/shift-patterns/edit-shift-pattern.js'),
+        'private/configuration/shift-patterns/create-shift-pattern': path.resolve(__dirname, './src/private/configuration/shift-patterns/create-shift-pattern.js'),
+
         'private/professions/create-profession': path.resolve(__dirname, './src/private/professions/create-profession.js'),
         'private/nationalities/edit-nationality': path.resolve(__dirname, './src/private/nationalities/edit-nationality.js'),
         'private/nationalities/create-nationality': path.resolve(__dirname, './src/private/nationalities/create-nationality.js'),
@@ -117,10 +123,7 @@ export default defineConfig({
         'private/hr/employee-terminations/termination-requests-list': path.resolve(__dirname, './src/private/hr/employee-terminations/termination-requests-list.js'),
         'private/hr/employee-terminations/create-termination-request': path.resolve(__dirname, './src/private/hr/employee-terminations/create-termination-request.js'),
         'private/hr/employee-terminations/manage-termination-request': path.resolve(__dirname, './src/private/hr/employee-terminations/manage-termination-request.js'),
-        'private/hr/employee-terminations/view-termination-request': path.resolve(__dirname, './src/private/hr/employee-terminations/view-termination-request.js'),
-
-        'private/configuration/hr-document-types/hr-document-types-list': path.resolve(__dirname, './src/private/configuration/hr-document-types/hr-document-types-list.js'),
-        'private/configuration/hr-document-types/create-hr-document-type': path.resolve(__dirname, './src/private/configuration/hr-document-types/create-hr-document-type.js')
+        'private/hr/employee-terminations/view-termination-request': path.resolve(__dirname, './src/private/hr/employee-terminations/view-termination-request.js')
 
       },
       output: {
