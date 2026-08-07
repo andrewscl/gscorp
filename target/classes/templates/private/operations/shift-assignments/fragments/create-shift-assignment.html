@@ -41,10 +41,7 @@
                     <div class="form-group fx-7">
                         <label>Sistema de jornada:</label>
                         <select id="shiftPatternExternalId" required>
-                            <option value="">Seleccione un sistema de jornada</option>
-                            <option th:each="shiftPattern : ${shiftPatterns}"
-                                    th:value="${shiftPattern.externalId}"
-                                    th:text="${shiftPattern.name}"></option>
+                            <option value="">Primero seleccione un turno</option>
                         </select>
                     </div>
                     <div class="form-group fx-3">

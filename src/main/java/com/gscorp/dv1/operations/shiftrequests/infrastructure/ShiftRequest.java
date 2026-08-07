@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.enums.ShiftRequestType;
+import com.gscorp.dv1.operations.shiftpatterns.infrastructure.ShiftPattern;
 import com.gscorp.dv1.operations.sites.infrastructure.Site;
 
 import jakarta.persistence.CascadeType;
@@ -62,6 +63,10 @@ public class ShiftRequest {
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
     private ShiftRequestType type;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shift_pattern_id")
+    private ShiftPattern shiftPattern;
 
     @Column(name = "start_date", nullable = false)
     private LocalDate startDate;

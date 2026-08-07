@@ -1,11 +1,15 @@
 package com.gscorp.dv1.operations.shiftpatterns.web;
 
+import java.util.UUID;
+
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.operations.shiftpatterns.application.ShiftPatternService;
 
 import lombok.AllArgsConstructor;
@@ -17,28 +21,46 @@ public class ShitPatternController {
 
     private final ShiftPatternService shiftPatternService;
 
-    @GetMapping("/table-view")
-    public String getShiftPatternsTableView(Model model) {
-        model.addAttribute("shiftPatterns", shiftPatternService.findAll());
+    @GetMapping("/list")
+    public String getShiftPatternsTableView(
+                Model model,
+                @AuthenticationPrincipal SecurityUser securityUser
+    ) {
+        if(securityUser == null) return "redirect:/login";
+        model.addAttribute("shiftPatterns", shiftPatternService.getShiftPatternsList());
         return "private/shift-patterns/views/shift-patterns-table-view";
     }
 
     @GetMapping("/create")
-    public String createShiftPattern(Model model) {
+    public String createShiftPattern(
+                Model model,
+                @AuthenticationPrincipal SecurityUser securityUser
+    ) {
+        if(securityUser == null) return "redirect:/login";
         return "private/shift-patterns/views/create-shift-pattern-view";
     }
 
-    @GetMapping("/show/{id}")
-    public String showShiftPattern(@PathVariable Long id, Model model){
-        var shiftPattern = shiftPatternService.findById(id);
-        model.addAttribute("shiftPattern", shiftPattern);
-        return "private/shift-patterns/views/view-shift-pattern-view";
+    @GetMapping("/show/{shiftPatternExternalId}")
+    public String showShiftPattern(
+                @PathVariable UUID shiftPatternExternalId,
+                Model model,
+                @AuthenticationPrincipal SecurityUser securityUser
+    ){
+        if(securityUser == null) return "redirect:/login";
+        model.addAttribute("shiftPattern",
+                    shiftPatternService.findByExternalId(shiftPatternExternalId));
+        return "private/configuration/shift-patterns/fragments/view-shift-pattern";
     }
 
     @GetMapping("/edit/{id}")
-    public String editShiftPattern(@PathVariable Long id, Model model){
-        var shiftPattern = shiftPatternService.findById(id);
-        model.addAttribute("shiftPattern", shiftPattern);
-        return "private/shift-patterns/views/edit-shift-pattern-view";
+    public String editShiftPattern(
+                @PathVariable UUID shiftPatternExternalId,
+                Model model,
+                @AuthenticationPrincipal SecurityUser securityUser
+    ){
+        if(securityUser == null) return "redirect:/login";
+        model.addAttribute("shiftPattern",
+                    shiftPatternService.findByExternalId(shiftPatternExternalId));
+        return "private/configuration/shift-patterns/fragments/edit-shift-pattern";
     }
 }

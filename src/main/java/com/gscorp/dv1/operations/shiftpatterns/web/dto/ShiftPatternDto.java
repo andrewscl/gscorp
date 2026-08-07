@@ -3,6 +3,7 @@ package com.gscorp.dv1.operations.shiftpatterns.web.dto;
 import java.util.UUID;
 
 import com.gscorp.dv1.operations.shiftpatterns.infrastructure.ShiftPattern;
+import com.gscorp.dv1.operations.shiftpatterns.infrastructure.ShiftPatternProjection;
 
 public record ShiftPatternDto (
     Long id,
@@ -25,4 +26,17 @@ public record ShiftPatternDto (
             sp.getCode()
         );
     }
+    public static ShiftPatternDto fromProjection(ShiftPatternProjection sp) {
+        if (sp == null) return null;
+        return new ShiftPatternDto(
+            sp.getId(),
+            sp.getExternalId(),
+            sp.getName(),
+            sp.getDescription(),
+            sp.getWorkDays(),
+            sp.getRestDays(),
+            sp.getCode()
+        );
+    }
+
 }
