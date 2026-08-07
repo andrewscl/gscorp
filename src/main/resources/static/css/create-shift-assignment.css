@@ -347,7 +347,7 @@ p {
 }
 .private-layout .main-content .content .create-shift-assignment .panel-container .panel-aside .panel-body .form-group input, .private-layout .main-content .content .create-shift-assignment .panel-container .panel-aside .panel-body .form-group select,
 .private-layout .main-content .content .create-shift-assignment .panel-container .panel-aside .panel-body .form-group span {
-  padding: 0.65rem;
+  padding: 0.5rem;
   border: 0.09rem solid #ced4da;
   border-radius: 0.5rem;
   font-family: "Roboto", sans-serif;
@@ -615,4 +615,4 @@ p {
 }
 .private-layout .main-content .content .create-shift-assignment .footer-actions .btn.btn-danger:active {
   transform: translateY(0);
-}/*# sourceMappingURL=create-shift-assignment.css.map */
+}/*# sourceMappingURL=create-shift-assignment.css.map *//

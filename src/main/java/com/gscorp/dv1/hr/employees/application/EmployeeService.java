@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.data.domain.Page;
 
 import com.gscorp.dv1.enums.EmployeeStatus;
+import com.gscorp.dv1.enums.ShiftAssignmentStatus;
 import com.gscorp.dv1.hr.employees.infrastructure.Employee;
 import com.gscorp.dv1.hr.employees.web.dto.EmployeeCreateUserDto;
 import com.gscorp.dv1.hr.employees.web.dto.EmployeeEditDto;
@@ -66,6 +67,11 @@ public interface EmployeeService {
                                 EmployeeStatus status);
 
     EmployeeCreateUserDto findDataForInvitation(UUID externalId);
+
+    List<EmployeeSelectDto> findByStatusAndProjectAndAssignmentStatus(
+                                EmployeeStatus status,
+                                UUID projectExternalId,
+                                ShiftAssignmentStatus shiftAssignmentStatus);
 
 
 

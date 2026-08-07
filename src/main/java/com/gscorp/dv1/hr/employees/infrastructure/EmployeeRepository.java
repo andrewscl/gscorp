@@ -13,6 +13,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.gscorp.dv1.enums.EmployeeStatus;
+import com.gscorp.dv1.enums.ShiftAssignmentStatus;
 import com.gscorp.dv1.enums.UserStatus;
 import com.gscorp.dv1.hr.employees.infrastructure.Projections.EmployeeEditProjection;
 import com.gscorp.dv1.hr.employees.infrastructure.Projections.EmployeeSelectProjection;
@@ -451,6 +452,31 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
         """)
     List<EmployeeSelectProjection> findByStatusAndProject(
                             @Param("projectIds") List<Long> projectIds,
+                            @Param("status") EmployeeStatus status);
+
+
+    @Query(value = """
+        SELECT
+            e.id            AS  id,
+            e.externalId    AS  externalId, 
+            e.name          AS  name,
+            e.fatherSurname AS  fatherSurname, 
+            e.motherSurname AS  motherSurname,
+            u.id AS userId
+        FROM Employee e
+        JOIN e.projects p
+        JOIN e.user u
+        WHERE p.externalId = :projectExternalId
+        AND e.status = :status
+        AND NOT EXISTS (
+            SELECT 1 FROM ShiftAssignment sa
+            WHERE sa.employee = e
+            AND sa.status = :shiftAssignmentStatus
+        )
+        """)
+    List<EmployeeSelectProjection> findByStatusAndProjectAndAssignmentStatus(
+                            @Param("projectExternalId") UUID projectExternalId,
+                            @Param("shiftAssignmentStatus") ShiftAssignmentStatus assignmentStatus,
                             @Param("status") EmployeeStatus status);
 
 }

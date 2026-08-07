@@ -33,6 +33,7 @@ import com.gscorp.dv1.core.positions.infrastructure.Position;
 import com.gscorp.dv1.core.professions.application.ProfessionService;
 import com.gscorp.dv1.core.professions.infrastructure.Profession;
 import com.gscorp.dv1.enums.EmployeeStatus;
+import com.gscorp.dv1.enums.ShiftAssignmentStatus;
 import com.gscorp.dv1.enums.UserStatus;
 import com.gscorp.dv1.hr.employees.infrastructure.Employee;
 import com.gscorp.dv1.hr.employees.infrastructure.EmployeeRepository;
@@ -523,6 +524,19 @@ public class EmployeeServiceImpl implements EmployeeService {
                     employee.getCompany() != null ? employee.getCompany().getId() : null,
                     clientDtos
                     );
+    }
+
+    @Transactional(readOnly = true)
+    public List<EmployeeSelectDto> findByStatusAndProjectAndAssignmentStatus(
+                                EmployeeStatus status,
+                                UUID projectExternalId,
+                                ShiftAssignmentStatus shiftAssignmentStatus){
+        List<EmployeeSelectProjection> projections = employeeRepository
+                .findByStatusAndProjectAndAssignmentStatus(
+                        projectExternalId, shiftAssignmentStatus, status);
+        return projections.stream()
+                .map(EmployeeSelectDto::fromProjection)
+                .toList();
     }
 
 }

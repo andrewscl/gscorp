@@ -16,6 +16,7 @@ async function handleProjectChange() {
     const employeeSelect = qs('#employeeExternalId');
     const siteSelect = qs('#siteExternalId');
     const projectExternalId = qs('#projectExternalId')?.value;
+
     if (siteSelect) {
         siteSelect.innerHTML = '<option value="">Primero seleccione un proyecto</option>';
         siteSelect.disabled = true;
@@ -30,30 +31,43 @@ async function handleProjectChange() {
     }
     if(!projectExternalId) return;
     try {
-        const url = `/api/sites/projects/${projectExternalId}/sites`
-        const response = await fetchWithAuth(url, {
-        method: 'GET',
-        headers: { 'Accept': 'application/json' },
-        });
-        if(!response) throw new Error('No se pudieron obtener los sitios del proyecto seleccionado.');
-        const sitesProject = await response.json();
+        const urlSites = `/api/sites/projects/${projectExternalId}/sites`;
+        const urlEmployees = `/api/employees/projects/${projectExternalId}/employees`;
+        const [siteResponse, employeeResponse] = await Promise.all([
+            fetchWithAuth(urlSites, {method: 'GET', headers: { 'Accept': 'application/json' },}),
+            fetchWithAuth(urlEmployees, {method: 'GET', headers: { 'Accept': 'application/json' },})
+        ]);
+        if(!siteResponse) throw new Error('No se pudieron obtener los sitios del proyecto seleccionado.');
+        if(!employeeResponse) throw new Error('No se pudieron obtener los empleados del proyecto seleccionado.');
+        const sitesProject = await siteResponse.json();
         if (sitesProject.length === 0) {
             siteSelect.innerHTML = '<option value="">No hay sitios disponibles para el proyecto seleccionado</option>';
-            return;
+        } else {
+            siteSelect.innerHTML = '<option value="">Seleccione un sitio</option>';
+            sitesProject.forEach(site => {
+                const option = document.createElement('option');
+                option.value = site.externalId;
+                option.textContent = site.name;
+                siteSelect.appendChild(option);
+            });
+            siteSelect.disabled = false;
         }
-        // Construir opciones e insertarlas en el HTML
-        siteSelect.innerHTML = '<option value="">Seleccione un sitio</option>';
-        sitesProject.forEach(site => {
-            const option = document.createElement('option');
-            option.value = site.externalId;
-            option.textContent = site.name;
-            siteSelect.appendChild(option);
-        });
-        // Habilitar el selector de sitios
-        siteSelect.disabled = false;
+        const employeesProject = await employeeResponse.json();
+        if (employeesProject.length === 0) {
+            employeeSelect.innerHTML = '<option value="">No hay empleados disponibles para el proyecto seleccionado</option>';
+        } else {
+            employeeSelect.innerHTML = '<option value="">Seleccione un empleado</option>';
+            employeesProject.forEach(employee => {
+                const option = document.createElement('option');
+                option.value = employee.externalId;
+                option.textContent = employee.fullName;
+                employeeSelect.appendChild(option);
+            });
+            employeeSelect.disabled = false;
+        }
     } catch (error) {
         console.error('Error en cascada:', error);
-        displayAlert(alertError, 'Ocurrió un error al cargar los sitios del proyecto', 3000);
+        displayAlert(alertError, 'Ocurrió un error al cargar los sitios y/o empleados del proyecto', 3000);
     }
 }
 

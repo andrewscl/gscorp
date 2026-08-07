@@ -52,42 +52,44 @@
         </div>
 
         <div class="panel-aside">
-            <div class="form-group">
-                    <label>Notas / Observaciones:</label>
-                    <textarea id="description"></textarea>
-            </div>
-            <div class="schedules-table">
-                <div class="title-row">
-                    <div class="title-left">
-                        <span class="title-text">Planificación proximos dias</span>
-                    </div>
+            <div class="panel-body">
+                <div class="form-group">
+                        <label>Notas / Observaciones:</label>
+                        <textarea id="description"></textarea>
                 </div>
-                <!-- Si no hay shift assignments -->
-                <div class="shifts-list" 
-                        th:if="${shifts == null or #lists.isEmpty(shifts)}">—</div>
-                <!-- Si hay assignments, mostramos una tabla -->
-                <div class="shift-assignments-list" 
-                        th:if="${shifts != null and !#lists.isEmpty(shifts)}">
-                    <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Dia</th>
-                            <th>Inicio</th>
-                            <th>Termino</th>
-                            <th>Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="s : ${shifts}">
-                            <td th:text="${s.shiftDate != null ? s.shiftDate : ''}">18-05-2026</td>
-                            <td th:text="${s.day != null ? s.day.displayNameInSpanish : ''}">Lunes</td>
-                            <td th:text="${s.startTs != null ? #temporals.format(s.startTs, 'HH:mm') : '—'}">08:30</td>
-                            <td th:text="${s.endTs != null ? #temporals.format(s.endTs, 'HH:mm') : '—'}">20:30</td>
-                            <td th:text="${s.employeeName != null ? s.employeeName : '—'}">Employee</td>
-                        </tr>
-                    </tbody>
-                    </table>
+                <div class="schedules-table">
+                    <div class="title-row">
+                        <div class="title-left">
+                            <span class="title-text">Planificación proximos dias</span>
+                        </div>
+                    </div>
+                    <!-- Si no hay shift assignments -->
+                    <div class="shifts-list" 
+                            th:if="${shifts == null or #lists.isEmpty(shifts)}">—</div>
+                    <!-- Si hay assignments, mostramos una tabla -->
+                    <div class="shift-assignments-list" 
+                            th:if="${shifts != null and !#lists.isEmpty(shifts)}">
+                        <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Dia</th>
+                                <th>Inicio</th>
+                                <th>Termino</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="s : ${shifts}">
+                                <td th:text="${s.shiftDate != null ? s.shiftDate : ''}">18-05-2026</td>
+                                <td th:text="${s.day != null ? s.day.displayNameInSpanish : ''}">Lunes</td>
+                                <td th:text="${s.startTs != null ? #temporals.format(s.startTs, 'HH:mm') : '—'}">08:30</td>
+                                <td th:text="${s.endTs != null ? #temporals.format(s.endTs, 'HH:mm') : '—'}">20:30</td>
+                                <td th:text="${s.employeeName != null ? s.employeeName : '—'}">Employee</td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
