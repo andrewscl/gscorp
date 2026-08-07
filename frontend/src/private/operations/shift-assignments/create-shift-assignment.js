@@ -146,12 +146,13 @@ async function handleSiteChange() {
 
 function handleShiftChange (e) {
     const employeeSelect = qs('#employeeExternalId');
+    if(!employeeSelect) return;
     if(e.target.value) {
         employeeSelect.disabled = false;
-        employeeSelect.innerHTML = '<option value="">Seleccione un empleado</option>';
+        employeeSelect.value = '';
     } else {
+        employeeSelect.value = '';
         employeeSelect.disabled = true;
-        employeeSelect.innerHTML = '<option value="">Primero seleccione un turno</option>';
     }
 }
 
