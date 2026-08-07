@@ -6,12 +6,12 @@
           <td th:text="${sp.restDays}"></td>
           <td class="actions">
             <button type="button"
-                    class="btn btn-link"
+                    class="btn btn-view"
                     th:attr="data-path=@{/private/shift-patterns/show/{externalId}(externalId=${sp.externalId})}">
               Ver
             </button>
             <button type="button"
-                    class="btn btn-link"
+                    class="btn btn-edit"
                     th:attr="data-path=@{/private/shift-patterns/edit/{externalId}(externalId=${sp.externalId})}">
               Editar
             </button>
