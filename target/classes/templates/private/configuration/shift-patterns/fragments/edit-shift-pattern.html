@@ -1,62 +1,50 @@
-<section th:fragment="content" class="detail-section edit-shift-pattern">
+<div class="view-shift-pattern">
 
-  <h2 th:text="${shiftPattern.id != null} ? 'Editar Patrón de Turno' : 'Nuevo Patrón de Turno'"></h2>
-  <p class="meta-id" th:if="${shiftPattern.id != null}">
-    <strong>ID:</strong> <span th:text="${shiftPattern.id}"></span>
-  </p>
+    <input type="hidden" id="patrolExternalId"
+                        th:value="${shiftPattern.externalId}" />
 
-  <form id="editShiftPatternForm" class="card form" data-path="/private/shift-patterns/update" th:object="${shiftPattern}" method="post" autocomplete="off">
-
-    <input type="hidden" th:field="*{id}" />
-
-    <div class="form-group">
-      <label for="shiftPatternName">Nombre del patrón <span style="color:#ef4444">*</span></label>
-      <input id="shiftPatternName" name="name" type="text" th:field="*{name}" maxlength="255" required autofocus placeholder="Nombre del patrón"/>
-      <div class="form-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+    <div class="hs-form-header">
+      <h4>Editar Sistema de jornada</h4>
     </div>
 
-    <div class="form-group">
-      <label for="shiftPatternCode">Código</label>
-      <input id="shiftPatternCode" name="code" type="text" th:field="*{code}" maxlength="16" placeholder="Ej: 4x2, 7x7"/>
-      <div class="form-error" th:if="${#fields.hasErrors('code')}" th:errors="*{code}"></div>
+    <div class="body">
+      <div class="form-row w-custom">
+        <div class="form-group fx-7">
+          <label>Nombre del sistema:</label>
+          <input id="shiftRequestName" type="text" th:value="${shiftPattern.name}" required>
+        </div>
+        <div class="form-group fx-3">
+          <label>Código:</label>
+          <input type="text" th:value="${shiftPattern.code}" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Descripción:</label>
+        <input id="" type="text" th:value="${shiftPattern.description}">
+      </div>
+
+      <div class="form-row w-custom">
+        <div class="form-group fx-5">
+          <label>Días de trabajo:</label>
+          <input type="number" th:text="${shiftPattern.workDays}" required>
+        </div>
+        <div class="form-group fx-5">
+          <label>Días de descanso:</label>
+          <input type="number" th:text="${shiftPattern.restDays}" required>
+        </div>
+      </div>
     </div>
 
-    <div class="form-group">
-      <label for="shiftPatternDescription">Descripción <span style="color:#ef4444">*</span></label>
-      <input id="shiftPatternDescription" name="description" type="text" th:field="*{description}" maxlength="255" required placeholder="Descripción del patrón"/>
-      <div class="form-error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+    <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
+
+    <div th:replace="~{shared/fragments/footer-buttons ::
+                          footer-buttons(
+                                  true, 'Guardar',
+                                  true, 'Volver',
+                                  false, '')}">
     </div>
 
-    <div class="form-group">
-      <label for="shiftPatternWorkDays">Días de trabajo <span style="color:#ef4444">*</span></label>
-      <input id="shiftPatternWorkDays" name="workDays" type="number" th:field="*{workDays}" min="1" required placeholder="Días de trabajo"/>
-      <div class="form-error" th:if="${#fields.hasErrors('workDays')}" th:errors="*{workDays}"></div>
-    </div>
+    <script type="module" src="/js/private/configuration/shift-patterns/edit-shift-pattern.js"></script>
 
-    <div class="form-group">
-      <label for="shiftPatternRestDays">Días de descanso <span style="color:#ef4444">*</span></label>
-      <input id="shiftPatternRestDays" name="restDays" type="number" th:field="*{restDays}" min="0" required placeholder="Días de descanso"/>
-      <div class="form-error" th:if="${#fields.hasErrors('restDays')}" th:errors="*{restDays}"></div>
-    </div>
-
-    <div class="form-group">
-      <label for="shiftPatternStartDay">Día de inicio</label>
-      <input id="shiftPatternStartDay" name="startDay" type="number" th:field="*{startDay}" min="1" max="7" placeholder="Ej: 1 = Lunes"/>
-      <div class="form-error" th:if="${#fields.hasErrors('startDay')}" th:errors="*{startDay}"></div>
-    </div>
-
-    <div class="form-group active-row">
-      <input id="shiftPatternActive" name="active" type="checkbox" th:field="*{active}" />
-      <label for="shiftPatternActive" style="margin:0">Activo</label>
-    </div>
-
-    <div class="actions">
-      <button type="submit" class="vs-btn">Guardar</button>
-      <a class="vs-btn vs-secondary" href="#" data-path="/private/shift-patterns/table-view">Cancelar</a>
-    </div>
-
-    <div id="editShiftPatternError" class="form-error"></div>
-    <div id="editShiftPatternOk" class="form-ok" style="display:none;">Cambios guardados ✅</div>
-  </form>
-
-</section>
+</div>

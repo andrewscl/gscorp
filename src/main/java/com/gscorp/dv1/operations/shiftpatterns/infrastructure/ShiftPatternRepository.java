@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ShiftPatternRepository extends JpaRepository<ShiftPattern, Long> {
 
-       Optional<ShiftPatternProjection> findByExternalId (UUID externalId);
+       Optional<ShiftPatternProjection> findProjectionByExternalId (UUID externalId);
+
+       Optional<ShiftPattern> findByExternalId (UUID externalId);
 
 }

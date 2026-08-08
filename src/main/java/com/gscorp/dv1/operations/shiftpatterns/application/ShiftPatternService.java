@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.gscorp.dv1.operations.shiftpatterns.infrastructure.ShiftPattern;
 import com.gscorp.dv1.operations.shiftpatterns.web.dto.ShiftPatternDto;
+import com.gscorp.dv1.operations.shiftpatterns.web.dto.UpdateShiftPatternRequest;
 
 public interface ShiftPatternService {
 
@@ -18,5 +19,9 @@ public interface ShiftPatternService {
     ShiftPattern saveShiftPattern(ShiftPattern shiftPattern);
 
     List<ShiftPatternDto> getShiftPatternsList();
-    
+
+    ShiftPatternDto updateShiftPattern(
+            UUID shiftPatternExternalId,
+            UpdateShiftPatternRequest updateShiftPatternRequest);
+
 }
