@@ -1,8 +1,7 @@
 package com.gscorp.dv1.operations.shiftpatterns.application;
 
 import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.List;  
 import java.util.Set;
 import java.util.UUID;
 
@@ -13,6 +12,7 @@ import com.gscorp.dv1.operations.shiftpatterns.infrastructure.ShiftPattern;
 import com.gscorp.dv1.operations.shiftpatterns.infrastructure.ShiftPatternRepository;
 import com.gscorp.dv1.operations.shiftpatterns.web.dto.ShiftPatternDto;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -29,9 +29,12 @@ public class ShiftPatternServiceimpl implements ShiftPatternService {
 
 
     @Transactional(readOnly = true)
-    public Optional<ShiftPatternDto> findByExternalId(UUID externalId) {
+    public ShiftPatternDto findByExternalId(UUID externalId) {
+
         return shiftPatternRepository.findByExternalId(externalId)
-                                .map(ShiftPatternDto::fromProjection);
+                    .map(ShiftPatternDto::fromProjection)
+                    .orElseThrow(
+                        ()-> new EntityNotFoundException("Sistema de jornada no enconrado."));
     }
 
     @Transactional(readOnly = true)

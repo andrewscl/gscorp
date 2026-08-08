@@ -1,7 +1,6 @@
 package com.gscorp.dv1.operations.shiftpatterns.application;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -12,7 +11,7 @@ public interface ShiftPatternService {
 
     ShiftPattern findById(Long id);
 
-    Optional<ShiftPatternDto> findByExternalId(UUID externalId);
+    ShiftPatternDto findByExternalId(UUID externalId);
 
     Set<ShiftPattern> findAll();
 

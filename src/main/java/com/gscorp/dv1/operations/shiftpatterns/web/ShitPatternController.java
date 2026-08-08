@@ -47,6 +47,7 @@ public class ShitPatternController {
                 @AuthenticationPrincipal SecurityUser securityUser
     ){
         if(securityUser == null) return "redirect:/login";
+        
         model.addAttribute("shiftPattern",
                     shiftPatternService.findByExternalId(shiftPatternExternalId));
         return "private/configuration/shift-patterns/fragments/view-shift-pattern";
