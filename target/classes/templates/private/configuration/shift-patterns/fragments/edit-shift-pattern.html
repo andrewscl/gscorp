@@ -21,17 +21,20 @@
 
       <div class="form-group">
         <label>Descripción:</label>
-        <input id="" type="text" th:value="${shiftPattern.description}">
+        <input id="shiftRequestDescription" type="text"
+                                th:value="${shiftPattern.description}">
       </div>
 
       <div class="form-row w-custom">
         <div class="form-group fx-5">
           <label>Días de trabajo:</label>
-          <input type="number" th:text="${shiftPattern.workDays}" required>
+          <input id="shiftRequestWorkDays" type="number"
+                                th:value="${shiftPattern.workDays}" required>
         </div>
         <div class="form-group fx-5">
           <label>Días de descanso:</label>
-          <input type="number" th:text="${shiftPattern.restDays}" required>
+          <input id="shiftRequestRestDays" type="number"
+                                th:value="${shiftPattern.restDays}" required>
         </div>
       </div>
     </div>
@@ -41,7 +44,7 @@
     <div th:replace="~{shared/fragments/footer-buttons ::
                           footer-buttons(
                                   true, 'Guardar',
-                                  true, 'Volver',
+                                  true, 'Cancelar',
                                   false, '')}">
     </div>
 
