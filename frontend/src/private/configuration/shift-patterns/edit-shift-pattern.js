@@ -8,7 +8,10 @@ const alertError = qs('.alert-error');
 const alertCancel = qs('.alert-warning');
 
 const cancelShiftPatternEdit = () => {
-    navigateTo('/private/shift-patterns/list', true);
+    displayAlert(alertSuccess, 'La edición del ShiftPattern ha sido cancelada.', 2000);
+    setTimeout(() => {
+        navigateTo('/private/shift-patterns/list');
+    }, 2000);
 }
 
 const updateShiftPattern = async () => {
