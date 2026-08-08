@@ -71,15 +71,15 @@ const deleteShiftPattern = async () => {
 }
 
 function bindEvents() {
-    const updateBtn = qs('.btn-primary');
+    const updateBtn = qs('#submit');
     if (updateBtn) {
         updateBtn.addEventListener('click', updateShiftPattern);
     }
-    const cancelBtn = qs('.btn-secondary');
+    const cancelBtn = qs('#cancel');
     if (cancelBtn) {
         cancelBtn.addEventListener('click', cancelShiftPatternEdit);
     }
-    const deleteBtn = qs('.btn-danger');
+    const deleteBtn = qs('#delete');
     if (deleteBtn) {
         deleteBtn.addEventListener('click', deleteShiftPattern);
     }
