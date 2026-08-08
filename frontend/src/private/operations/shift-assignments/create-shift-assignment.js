@@ -144,6 +144,8 @@ function handleShiftChange (e) {
         employeeSelect.value = '';
         employeeSelect.disabled = true;
     }
+
+    
 }
 
 const cancelShiftAssignment = () => {

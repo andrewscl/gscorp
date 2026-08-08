@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.enums.ShiftRequestType;
+import com.gscorp.dv1.operations.shiftpatterns.infrastructure.ShiftPattern;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.projections.ShiftRequestProjection;
 
 public record ShiftRequestDto(
@@ -14,6 +15,7 @@ public record ShiftRequestDto(
         String code,
         Long siteId,
         String siteName,
+        ShiftPattern shiftPattern,
         Long clientAccountId,
         ShiftRequestType type,
         LocalDate startDate,
@@ -32,6 +34,7 @@ public record ShiftRequestDto(
                 sr.getCode(),
                 sr.getSiteId(),
                 sr.getSiteName(),
+                sr.getShiftPattern(),
                 sr.getClientAccountId(),
                 sr.getType(),
                 sr.getStartDate(),

@@ -4,7 +4,7 @@
 
       <div class="panel-main">
         <div class="panel-header">
-          <h3>Requerimientos de Turno</h3>
+          <h4>Requerimientos de Turno</h4>
         </div>
 
         <div class="panel-body">
@@ -38,6 +38,10 @@
             <div class="form-group">
               <label>Fecha término</label>
               <span th:text="${shiftRequest.endDate != null ? #temporals.format(shiftRequest.endDate,'yyyy-MM-dd') : ''}"></span>
+            </div>
+            <div class="form-group">
+              <label>Sistema de turno</label>
+              <span th:text="${shiftRequest.shiftPattern != null ? shiftRequest.shiftPattern : '-'}"></span>
             </div>
           </div>
           <div class="form-group">
