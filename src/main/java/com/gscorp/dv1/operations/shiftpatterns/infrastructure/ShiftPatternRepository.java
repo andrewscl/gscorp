@@ -11,6 +11,7 @@ public interface ShiftPatternRepository extends JpaRepository<ShiftPattern, Long
 
        Optional<ShiftPatternProjection> findProjectionByExternalId (UUID externalId);
 
+       
        Optional<ShiftPattern> findByExternalId (UUID externalId);
 
 }

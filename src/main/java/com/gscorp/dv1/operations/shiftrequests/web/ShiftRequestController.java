@@ -102,7 +102,7 @@ public class ShiftRequestController {
             Page<ShiftDto> shifts = shiftService.getLastShiftsByShiftRequest(shiftRequestExternalId, 3);
             model.addAttribute("shifts", shifts.getContent());
             model.addAttribute("shiftRequest", shiftRequestDto);
-            return "private/operations/shift-requests/fragments/view-shift-request";
+            return "privatspe/operations/shift-requests/fragments/view-shift-request";
         } catch (Exception e) {
             log.error("Error al intentar cargar la vista de visualización de la solicitud {}", shiftRequestExternalId, e);
             return "redirect:/private/shift-requests/table-view";
