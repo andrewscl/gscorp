@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.enums.ShiftRequestType;
-import com.gscorp.dv1.operations.shiftpatterns.infrastructure.ShiftPattern;
+import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.projections.ShiftRequestProjection;
 
 public record ShiftRequestDto(
@@ -15,7 +15,7 @@ public record ShiftRequestDto(
         String code,
         Long siteId,
         String siteName,
-        ShiftPattern shiftPattern,
+        String shiftPatternName,
         Long clientAccountId,
         ShiftRequestType type,
         LocalDate startDate,
@@ -34,7 +34,7 @@ public record ShiftRequestDto(
                 sr.getCode(),
                 sr.getSiteId(),
                 sr.getSiteName(),
-                sr.getShiftPattern(),
+                sr.getShiftPatternName(),
                 sr.getClientAccountId(),
                 sr.getType(),
                 sr.getStartDate(),
@@ -43,6 +43,29 @@ public record ShiftRequestDto(
                 sr.getDescription(),
                 sr.getCreatedAt(),
                 sr.getSchedulesCount() == null ? 0 : sr.getSchedulesCount()
+            );
+        }
+
+        public static ShiftRequestDto
+                fromEntity(ShiftRequest sr) {
+            if (sr == null) return null;
+            int schedulesCount =
+                (sr.getSchedules() != null) ? sr.getSchedules().size() : 0;
+            return new ShiftRequestDto(
+                sr.getId(),
+                sr.getExternalId(),
+                sr.getCode(),
+                sr.getSite() != null ? sr.getSite().getId() : null,
+                sr.getSite() != null ? sr.getSite().getName() : null,
+                sr.getShiftPattern() != null ? sr.getShiftPattern().getName() : null,
+                sr.getClientAccountId(),
+                sr.getType(),
+                sr.getStartDate(),
+                sr.getEndDate(),
+                sr.getStatus(),
+                sr.getDescription(),
+                sr.getCreatedAt(),
+                schedulesCount
             );
         }
 
