@@ -41,7 +41,7 @@
             </div>
             <div class="form-group">
               <label>Sistema de turno</label>
-              <span th:text="${shiftRequest.shiftPattern != null ? shiftRequest.shiftPattern : '-'}"></span>
+              <span th:text="${shiftRequest.shiftPattern != null ? shiftRequest.shiftPattern.name : '-'}"></span>
             </div>
           </div>
           <div class="form-group">
