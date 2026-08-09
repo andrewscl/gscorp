@@ -20,6 +20,7 @@ import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.enums.ShiftRequestType;
+import com.gscorp.dv1.operations.shiftpatterns.application.ShiftPatternService;
 import com.gscorp.dv1.operations.shiftrequests.application.ShiftRequestService;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestDtoWithSchedules;
 import com.gscorp.dv1.operations.shifts.application.ShiftService;
@@ -41,6 +42,7 @@ public class ShiftRequestController {
     private final SiteService siteService;
     private final ZoneResolver zoneResolver;
     private final ShiftService shiftService;
+    private final ShiftPatternService shiftPatternService;
 
     @GetMapping("/table-view")
     public String getShiftRequestsTableView (
@@ -113,19 +115,17 @@ public class ShiftRequestController {
                         @PathVariable UUID shiftRequestExternalId,
                         Model model,
                         @AuthenticationPrincipal SecurityUser securityUser){
-
         if(securityUser == null) return "redirect:/login";
         UUID externalId = securityUser.getUser().getExternalId();
-                            
         try {
             ShiftRequestDtoWithSchedules shiftRequestDto =
                                 shiftRequestService.getAllowedShiftRequestByExternalId(externalId, shiftRequestExternalId);
             Page<ShiftDto> shifts = shiftService.getLastShiftsByShiftRequest(shiftRequestExternalId, 3);
-
             model.addAttribute("shiftRequest", shiftRequestDto);
             model.addAttribute("shiftsPage", shifts);
             model.addAttribute("shifts", shifts.getContent());
             model.addAttribute("shiftRequestStatuses", ShiftRequestStatus.values());
+            model.addAttribute("shiftPatterns", shiftPatternService.getShiftPatternsList());
             return "private/operations/shift-requests/fragments/edit-shift-request";
         } catch (Exception e) {
             log.error("Error al intentar cargar la vista de edición de la solicitud {}", shiftRequestExternalId, e);
