@@ -57,7 +57,7 @@
               <option th:each="sp : ${shiftPatterns}"
                       th:value="${sp.externalId}"
                       th:text="${sp.name}"
-                      th:text="${shiftRequest.shiftRequest != sp.externalId == shiftRequest.shiftRequest.externalId}">
+                      th:selected="${shiftRequest.shiftPattern != null and sp.externalId == shiftRequest.shiftRequest.externalId}">
                       </option>
               </select>
           </div>
