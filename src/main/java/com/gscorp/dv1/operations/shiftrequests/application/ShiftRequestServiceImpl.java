@@ -34,6 +34,8 @@ import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.enums.ShiftRequestType;
+import com.gscorp.dv1.operations.shiftpatterns.application.ShiftPatternService;
+import com.gscorp.dv1.operations.shiftpatterns.infrastructure.ShiftPattern;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestRepository;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestSchedule;
@@ -64,6 +66,7 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
     private final SiteService siteService;
     private final ZoneResolver zoneResolver;
     private final TransactionTemplate transactionTemplate;
+    private final ShiftPatternService shiftPatternService;
 
 
     @Transactional(readOnly = true)
@@ -86,7 +89,6 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
     public ShiftRequestDtoWithSchedules update(
                 UUID externalId,
                 UpdateShiftRequestDto req) {
-
         ShiftRequest shiftRequest =
                         shiftRequestRepository.findByExternalId(externalId)
             .orElseThrow(() ->
@@ -95,17 +97,23 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
         if (req.description() != null && !Objects.equals(shiftRequest.getDescription(), req.description())){
             shiftRequest.setDescription(req.description());
         }
-
-        // Validar y cambiar fechas únicamente si el usuario las modificó en el calendario
-        if (!shiftRequest.getStartDate().equals(req.startDate()) || !shiftRequest.getEndDate().equals(req.endDate())) {
+        if (req.startDate() != null && !Objects.equals(shiftRequest.getStartDate(), req.startDate())) {
             shiftRequest.setStartDate(req.startDate());
+        }
+        if (req.endDate() != null && !Objects.equals(shiftRequest.getEndDate(), req.endDate())) {
             shiftRequest.setEndDate(req.endDate());
         }
-
-        if (!shiftRequest.getStatus().equals(req.status())) {
+        if (shiftRequest.getStartDate().isAfter(shiftRequest.getEndDate())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La fecha de inicio no puede ser posterior a la de término");
+        }
+        if (req.status() != null && !Objects.equals(shiftRequest.getStatus(),req.status())) {
             shiftRequest.setStatus(req.status());
         }
-
+        if (req.shiftPatternExternalId() != null) {
+            ShiftPattern shiftPattern =
+                        shiftPatternService.findByExternalId(req.shiftPatternExternalId());
+            shiftRequest.setShiftPattern(shiftPattern);
+        }
         ShiftRequest saved = shiftRequestRepository.save(shiftRequest);
         return ShiftRequestDtoWithSchedules.fromEntity(saved);
     }

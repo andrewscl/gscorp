@@ -1,6 +1,7 @@
 package com.gscorp.dv1.operations.shiftrequests.web.dto;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import com.gscorp.dv1.enums.ShiftRequestStatus;
 
@@ -18,5 +19,8 @@ public record UpdateShiftRequestDto (
     LocalDate endDate,
 
     @Size(max = 500, message = "La descripción no puede superar los 500 carateres.")
-    String description
+    String description,
+
+    @NotNull(message = "El sistema de turno es requerido.")
+    UUID shiftPatternExternalId
 ){}

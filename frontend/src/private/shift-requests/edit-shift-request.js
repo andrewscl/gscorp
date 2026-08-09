@@ -16,8 +16,9 @@ async function onSaveClick(e) {
   const endDate = qs('#shiftRequestEndDate')?.value;
   const status = qs('#shiftRequestStatus')?.value;
   const description = qs('#shiftRequestDescription')?.value;
+  const shiftPatternExternalId = qs('#shiftPattern')?.value;
 
-  const payload = { startDate, endDate, status, description};
+  const payload = { startDate, endDate, status, description, shiftPatternExternalId};
 
   if (!externalId || !startDate || !endDate || !status) {
   console.log("falta información para efectuar la actualización.");

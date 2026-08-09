@@ -12,7 +12,9 @@ public interface ShiftPatternService {
 
     ShiftPattern findById(Long id);
 
-    ShiftPatternDto findByExternalId(UUID externalId);
+    ShiftPatternDto findDtoByExternalId(UUID externalId);
+
+    ShiftPattern findByExternalId(UUID externalId);
 
     Set<ShiftPattern> findAll();
 

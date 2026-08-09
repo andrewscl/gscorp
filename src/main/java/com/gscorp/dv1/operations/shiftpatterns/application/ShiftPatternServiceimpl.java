@@ -31,13 +31,21 @@ public class ShiftPatternServiceimpl implements ShiftPatternService {
 
 
     @Transactional(readOnly = true)
-    public ShiftPatternDto findByExternalId(UUID externalId) {
+    public ShiftPatternDto findDtoByExternalId(UUID externalId) {
 
         return shiftPatternRepository.findProjectionByExternalId(externalId)
                     .map(ShiftPatternDto::fromProjection)
                     .orElseThrow(
                         ()-> new EntityNotFoundException("Sistema de jornada no enconrado."));
     }
+
+    @Transactional(readOnly = true)
+    public ShiftPattern findByExternalId(UUID externalId) 
+    {
+        return shiftPatternRepository.findByExternalId(externalId).get();
+    }
+
+
 
     @Transactional(readOnly = true)
     public Set<ShiftPattern> findAll() {
