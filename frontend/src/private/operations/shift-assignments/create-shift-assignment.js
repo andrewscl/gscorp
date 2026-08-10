@@ -16,6 +16,8 @@ async function handleProjectChange() {
     const employeeSelect = qs('#employeeExternalId');
     const siteSelect = qs('#siteExternalId');
     const projectExternalId = qs('#projectExternalId')?.value;
+    const shiftPatternGroup = qs('#shiftPatternGroup');
+    const shiftPatternSpan = qs('#shiftPattern');
 
     if (siteSelect) {
         siteSelect.innerHTML = '<option value="">Primero seleccione un proyecto</option>';
@@ -24,6 +26,12 @@ async function handleProjectChange() {
     if (shiftRequestSelect) {
         shiftRequestSelect.innerHTML = '<option value="">Primero seleccione un sitio</option>';
         shiftRequestSelect.disabled = true;
+    }
+    if (shiftPatternGroup) {
+        shiftPatternGroup.style.display = 'none';
+    }
+    if (shiftPatternSpan) {
+        shiftPatternSpan.textContent = '-';
     }
     if (employeeSelect) {
         employeeSelect.innerHTML = '<option value="">Primero seleccione un turno</option>';
@@ -71,15 +79,27 @@ async function handleProjectChange() {
     }
 }
 
-
 async function handleSiteChange() {
     const shiftRequestSelect = qs('#shiftRequestExternalId');
+    const shiftPatternGroup = qs('#shiftPatternGroup');
+    const shiftPatternSpan = qs('#shiftPattern');
+    const employeeSelect = qs('#employeeExternalId');
     const siteExternalId = qs('#siteExternalId')?.value;
 
-    // Resetear selectores hijos por defecto
-    shiftRequestSelect.innerHTML = '<option value="">Primero seleccione un sitio</option>';
-    shiftRequestSelect.disabled = true;
-    
+    if (shiftRequestSelect) {
+        shiftRequestSelect.innerHTML = '<option value="">Primero seleccione un sitio</option>';
+        shiftRequestSelect.disabled = true;
+    }
+    if (shiftPatternGroup) {
+        shiftPatternGroup.style.display = 'none';
+    }
+    if (shiftPatternSpan) {
+        shiftPatternSpan.textContent = '-';
+    }
+    if (employeeSelect) {
+        employeeSelect.value = '';
+        employeeSelect.disabled = true;
+    }
     if(!siteExternalId) return;
     try {
         const url = `/api/shift-requests/sites/${siteExternalId}/requests`
@@ -176,7 +196,7 @@ async function handleShiftChange (e) {
             shiftPatternSpan.textContent = shiftRequest.shiftPatternName || '-';
         }
         if(shiftPatternGroup){
-            shiftPatternGroup.style.display = 'block';
+            shiftPatternGroup.style.display = '';
         }
         if(employeeSelect) {
             employeeSelect.disabled = false;
