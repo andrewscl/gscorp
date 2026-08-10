@@ -3,6 +3,7 @@ package com.gscorp.dv1.operations.shiftassignments.web;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -62,5 +63,19 @@ public class ShiftAssignmentController {
                                 projectService.findByUserExternalId(externalId));
         model.addAttribute("shiftPatterns", shiftPatternService.getShiftPatternsList());
         return "private/operations/shift-assignments/fragments/create-shift-assignment";
+    }
+
+
+    @GetMapping("/view/{shiftAssignmentExternalId}")
+    public String getViewShiftAssignment(
+            Model model,
+            @AuthenticationPrincipal SecurityUser securityUser,
+            @Param("shiftAssignmentExternalId") UUID shiftAssignmentExternalId
+    ){
+        if(securityUser == null) return "redirect:/login";
+        model.addAttribute("shiftAssignment",
+            shiftAssignmentService.getByExternalId(shiftAssignmentExternalId));
+
+        return "private/operations/shift-assignments/fragments/view-shift-assignment";
     }
 }

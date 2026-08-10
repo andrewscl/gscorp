@@ -128,4 +128,12 @@ public class ShiftAssignmentServiceImpl implements ShiftAssignmentService{
         return ShiftAssignmentDto.fromEntity(savedAssignment);
     }
 
+    @Transactional(readOnly = true)
+    public ShiftAssignmentDto getByExternalId(
+        UUID shiftAssignmentExternalId){
+        return shiftAssignmentRepository.findByExternalId(shiftAssignmentExternalId)
+                .map(ShiftAssignmentDto::fromEntity)
+                .orElseThrow(() -> new EntityNotFoundException("Asignación no encontrada"));
+    }
+
 }

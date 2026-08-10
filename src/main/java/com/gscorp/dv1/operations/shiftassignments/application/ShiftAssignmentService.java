@@ -23,4 +23,7 @@ public interface ShiftAssignmentService {
         CreateShiftAssignmentRequest request
         );
 
+    ShiftAssignmentDto getByExternalId(
+        UUID shiftAssignmentExternalId);
+
 }
