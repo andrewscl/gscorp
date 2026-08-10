@@ -79,7 +79,6 @@ public class ShiftRequestRestController {
             // si no tenemos id exponible, devolvemos 201 con body sin Location
             return ResponseEntity.status(HttpStatus.CREATED).body(dto);
         }
-
     }
 
 
@@ -310,8 +309,8 @@ public class ShiftRequestRestController {
 
     @GetMapping("/sites/{siteExternalId}/requests")
     public ResponseEntity<List<ShiftRequestSelectDto>> getShiftRequestsByStatusAndSite(
-                    @AuthenticationPrincipal SecurityUser securityUser,
-                    @PathVariable ("siteExternalId") UUID siteExternalId
+            @AuthenticationPrincipal SecurityUser securityUser,
+            @PathVariable ("siteExternalId") UUID siteExternalId
     ) {
         if (securityUser == null) {
             throw new AuthenticationCredentialsNotFoundException("Usuario no autenticado");
@@ -319,6 +318,25 @@ public class ShiftRequestRestController {
         List<ShiftRequestSelectDto> requests =
                 shiftRequestService.getShiftRequestsWithSchedulesBySite(siteExternalId);
         return ResponseEntity.ok(requests);
+    }
+
+    @GetMapping("/{shiftRequestExternalId}")
+    public ResponseEntity<ShiftRequestDtoWithSchedules> getShiftRequest(
+                @AuthenticationPrincipal SecurityUser securityUser,
+                @PathVariable ("shiftRequestExternalId") UUID shiftRequestExternalId
+    ){
+        if (securityUser == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED, "Usuario no autenticado.");
+        }
+        UUID userExternalId = securityUser.getUser().getExternalId();
+        if (shiftRequestExternalId == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Missing required parameter: shiftRequestExternalId");
+        }
+        return ResponseEntity.ok(
+                    shiftRequestService.getAllowedShiftRequestByExternalId(
+                                            userExternalId, shiftRequestExternalId));
     }
 
 }

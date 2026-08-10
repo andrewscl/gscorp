@@ -33,7 +33,7 @@ public interface ShiftRequestService {
      */
     List<ShiftRequestDtoWithSchedules> findByClientIds(Collection<Long> clientIds);
 
-        boolean deleteShiftRequest(Long Id);
+    boolean deleteShiftRequest(Long Id);
 
     /**
      * Crea un ShiftRequest validando que el site (y opcionalmente clientAccountId)

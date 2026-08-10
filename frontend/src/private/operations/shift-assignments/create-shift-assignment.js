@@ -134,18 +134,54 @@ async function handleSiteChange() {
 
 }
 
-function handleShiftChange (e) {
+async function handleShiftChange (e) {
+    const shiftRequestSelect = qs('#shiftRequestExternalId');
     const employeeSelect = qs('#employeeExternalId');
-    if(!employeeSelect) return;
-    if(e.target.value) {
-        employeeSelect.disabled = false;
-        employeeSelect.value = '';
-    } else {
-        employeeSelect.value = '';
-        employeeSelect.disabled = true;
-    }
+    const shiftPatternSpan = qs('#shiftPattern');
+    const shiftRequestExternalId = e.target.value;
 
-    
+    const resetUIOnError = () => {
+        if(shiftPatternSpan) shiftPatternSpan.textContent = '-';
+        if(employeeSelect) {
+            employeeSelect.value = '';
+            employeeSelect.disabled = true;
+        }
+    };
+    if (!shiftRequestExternalId) {
+        resetUIOnError();
+        return
+    }
+    try {
+        const urlShiftRequest = `/api/shift-requests/${shiftRequestExternalId}`;
+        const response = await fetchWithAuth(urlShiftRequest, { method: 'GET', headers: { 'Accept': 'application/json' },
+                                                            });
+        if (!response || !response.ok) {
+            let errorMessage = 'Ocurrió un problema al enviar el formulario.';
+            if(response){
+                const contentType = response.headers.get('content-type');
+                if(contentType && contentType.includes('application/json')) {
+                    const errorData = await response.json();
+                    errorMessage = errorData.message || errorMessage;
+                }
+            }
+            resetUIOnError();
+            displayAlert(alertError, `Error: ${errorMessage}`);
+            return;
+        }
+        const shiftRequest = await response.json();
+        
+        if (shiftPatternSpan){
+            shiftPatternSpan.textContent = shiftRequest.shiftPatternName || '-';
+        }
+        if(employeeSelect) {
+            employeeSelect.disabled = false;
+            employeeSelect.value = '';
+        }
+    } catch (error) {
+        console.error('Error en cascada:', error);
+        resetUIOnError();
+        displayAlert(alertError, 'Ocurrió un error al cargar los sitios y/o empleados del proyecto', 3000);
+    }
 }
 
 const cancelShiftAssignment = () => {
