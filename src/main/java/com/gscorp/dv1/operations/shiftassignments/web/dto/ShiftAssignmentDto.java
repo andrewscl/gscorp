@@ -39,7 +39,7 @@ public record ShiftAssignmentDto (
         return new ShiftAssignmentDto(
             p.getId(),
             p.getExternalId(),
-            p.getShiftExternalId(),
+            p.getShiftRequestExternalId(),
             p.getShiftRequestId(),
             p.getShiftRequestCode(),
             p.getSiteName(),
