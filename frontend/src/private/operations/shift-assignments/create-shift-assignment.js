@@ -136,12 +136,14 @@ async function handleSiteChange() {
 
 async function handleShiftChange (e) {
     const shiftRequestSelect = qs('#shiftRequestExternalId');
+    const shiftPatternGroup = qs('#shiftPatternGroup');
     const employeeSelect = qs('#employeeExternalId');
     const shiftPatternSpan = qs('#shiftPattern');
     const shiftRequestExternalId = e.target.value;
 
     const resetUIOnError = () => {
         if(shiftPatternSpan) shiftPatternSpan.textContent = '-';
+        if(shiftPatternGroup) shiftPatternGroup.style.display = 'none';
         if(employeeSelect) {
             employeeSelect.value = '';
             employeeSelect.disabled = true;
@@ -172,6 +174,9 @@ async function handleShiftChange (e) {
         
         if (shiftPatternSpan){
             shiftPatternSpan.textContent = shiftRequest.shiftPatternName || '-';
+        }
+        if(shiftPatternGroup){
+            shiftPatternGroup.style.display = 'block';
         }
         if(employeeSelect) {
             employeeSelect.disabled = false;
