@@ -8,7 +8,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.gscorp.dv1.enums.ShiftAssignmentStatus;
 import com.gscorp.dv1.hr.employees.infrastructure.Employee;
-import com.gscorp.dv1.operations.shiftpatterns.infrastructure.ShiftPattern;
 import com.gscorp.dv1.operations.shifts.infrastructure.Shift;
 
 import jakarta.persistence.Column;
@@ -48,10 +47,6 @@ import lombok.Setter;
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name="employee_id", nullable=false)
         private Employee employee;
-
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "shift_pattern_id", nullable = false)
-        private ShiftPattern shiftPattern;
 
         @Enumerated(EnumType.STRING)
         @Column(name="shift_assignment_status", length = 20)

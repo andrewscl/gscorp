@@ -31,7 +31,7 @@
                         </select>
                     </div>
                     <div class="form-group fx-4" id="shiftPatternGroup" style="display: none;">
-                        <label>Sistema de jornada:</label>
+                        <label>Jornada:</label>
                         <span id="shiftPattern"></span>
                     </div>
                 </div>
@@ -44,32 +44,25 @@
                 </div>
 
                 <div class="form-row w-custom">
-                    <div class="form-group fx-7">
-                        <label>Sistema de jornada:</label>
-                        <select id="shiftPatternExternalId" required>
-                            <option value="">Primero seleccione un turno</option>
-                        </select>
+                    <div class="form-group fx-4">
+                        <label>Inicio asignación:</label>
+                        <input type="date" id="assignmentStartDate" required />
                     </div>
-                    <div class="form-group fx-3">
-                        <label>Inicio de ciclo:</label>
+                    <div class="form-group fx-4">
+                        <label>Fin asignación:</label>
+                        <input type="date" id="assignmentEndDate"/>
+                    </div>
+                    <div class="form-group fx-2">
+                        <label>Inicio ciclo:</label>
                         <input type="number" id="shiftPatternStartCycle"/>
                     </div>
                 </div>
+
             </div>
         </div>
 
         <div class="panel-aside">
             <div class="panel-body">
-                <div class="form-row w-custom">
-                    <div class="form-group fx-5">
-                        <label>Fecha inicio de asignación:</label>
-                        <input type="date" id="assignmentStartDate" required />
-                    </div>
-                    <div class="form-group fx-5">
-                        <label>Fecha fin de asignación:</label>
-                        <input type="date" id="assignmentEndDate"/>
-                    </div>
-                </div>
                 <div class="form-group">
                         <label>Notas / Observaciones:</label>
                         <textarea id="description"></textarea>
