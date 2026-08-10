@@ -9,7 +9,7 @@ public interface ShiftAssignmentProjection {
     Long getId();
     UUID getExternalId();
     String getSiteName();
-    UUID getShiftExternalId();
+    UUID getShiftRequestExternalId();
     Long getShiftRequestId();
     String getShiftRequestCode();
     UUID getEmployeeExternalId();
