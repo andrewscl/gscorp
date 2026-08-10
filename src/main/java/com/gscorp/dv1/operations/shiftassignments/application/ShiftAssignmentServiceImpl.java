@@ -1,5 +1,7 @@
 package com.gscorp.dv1.operations.shiftassignments.application;
 
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -13,15 +15,23 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.gscorp.dv1.admin.clients.application.ClientService;
+import com.gscorp.dv1.components.ZoneResolver;
+import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.enums.ShiftAssignmentStatus;
+import com.gscorp.dv1.hr.employees.infrastructure.Employee;
+import com.gscorp.dv1.hr.employees.infrastructure.EmployeeRepository;
+import com.gscorp.dv1.operations.shiftassignments.infrastructure.ShiftAssignment;
 import com.gscorp.dv1.operations.shiftassignments.infrastructure.ShiftAssignmentRepository;
 import com.gscorp.dv1.operations.shiftassignments.infrastructure.projections.ShiftAssignmentProjection;
 import com.gscorp.dv1.operations.shiftassignments.web.dto.CreateShiftAssignmentRequest;
 import com.gscorp.dv1.operations.shiftassignments.web.dto.ShiftAssignmentDto;
+import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
+import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestRepository;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestScheduleRepository;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.projections.ShiftRequestScheduleProjection;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestScheduleDto;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,7 +42,10 @@ public class ShiftAssignmentServiceImpl implements ShiftAssignmentService{
 
     private final ClientService clientService;
     private final ShiftAssignmentRepository shiftAssignmentRepository;
+    private final ShiftRequestRepository shiftRequestRepository;
     private final ShiftRequestScheduleRepository shiftRequestScheduleRepository;
+    private final EmployeeRepository employeeRepository;
+    private final ZoneResolver zoneResolver;
 
     @Transactional(readOnly = true)
     public Page<ShiftAssignmentDto> getShiftAssignmentList(
@@ -81,13 +94,38 @@ public class ShiftAssignmentServiceImpl implements ShiftAssignmentService{
     @Transactional
     public ShiftAssignmentDto createShiftAssignment (
             UUID userExternalId,
+            String requestedZone,
             CreateShiftAssignmentRequest request
     ){
         if (userExternalId == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
         }
-
-        return ShiftAssignmentDto.fromProjection(null, null);
+        ZoneResolutionResult zoneResult = zoneResolver.resolveZone(userExternalId, requestedZone);
+        ZoneId targetZone = zoneResult.zoneId();
+        ShiftRequest shiftRequest =
+            shiftRequestRepository.findByExternalId(request.shiftRequestExternalId())
+                .orElseThrow(
+                    () -> new EntityNotFoundException("Requerimiento de turno no encontrado")) ;
+        Employee employee =
+            employeeRepository.findByExternalId(userExternalId)
+                .orElseThrow(
+                    () -> new EntityNotFoundException("Empleado no encontrado")) ;
+        OffsetDateTime normalizedAssignedAt = request.assignedAt()
+                                .atZoneSameInstant(targetZone).toOffsetDateTime();
+        OffsetDateTime normalizedAssignedUntil = (request.assignedUntil() != null)
+            ? request.assignedUntil().atZoneSameInstant(targetZone).toOffsetDateTime()
+            : null ;
+        ShiftAssignment shiftAssignment = ShiftAssignment.builder()
+                    .employee(employee)
+                    .shiftRequest(shiftRequest)
+                    .notes(request.notes())
+                    .status(ShiftAssignmentStatus.ASSIGNED)
+                    .assignedAt(normalizedAssignedAt)
+                    .assignedUntil(normalizedAssignedUntil)
+                    .startCycleNumber(request.startCycleNumber())
+                    .build();
+        ShiftAssignment savedAssignment = shiftAssignmentRepository.save(shiftAssignment);
+        return ShiftAssignmentDto.fromEntity(savedAssignment);
     }
 
 }

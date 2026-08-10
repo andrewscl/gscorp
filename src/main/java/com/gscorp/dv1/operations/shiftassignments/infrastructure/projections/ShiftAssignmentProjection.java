@@ -19,6 +19,8 @@ public interface ShiftAssignmentProjection {
     ShiftAssignmentStatus getStatus();
     String getNotes();
     OffsetDateTime getAssignedAt();
+    OffsetDateTime getAssignedUntil();
+    Integer getStartCycleNumber();
     String getCreatedBy();
     String getUpdatedBy();
     OffsetDateTime getCreatedAt();

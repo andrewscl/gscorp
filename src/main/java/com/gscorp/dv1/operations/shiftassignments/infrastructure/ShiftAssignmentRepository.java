@@ -30,6 +30,8 @@ public interface ShiftAssignmentRepository extends JpaRepository<ShiftAssignment
         sa.status                   AS status,
         sa.notes                    AS notes,
         sa.assignedAt               AS assignedAt,
+        sa.assignedUntil            AS assignedUntil,
+        sa.startCycleNumber         AS startCycleNumber,
         sa.createdBy                AS createdBy,
         sa.updatedBy                AS updatedBy,
         sa.createdAt                AS createdAt,

@@ -1,17 +1,19 @@
 package com.gscorp.dv1.operations.shiftassignments.web.dto;
 
 import java.time.OffsetDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 import com.gscorp.dv1.enums.ShiftAssignmentStatus;
+import com.gscorp.dv1.operations.shiftassignments.infrastructure.ShiftAssignment;
 import com.gscorp.dv1.operations.shiftassignments.infrastructure.projections.ShiftAssignmentProjection;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestScheduleDto;
 
 public record ShiftAssignmentDto (
     Long id,
     UUID externalId,
-    UUID shiftExternalId,
+    UUID shiftRequestExternalId,
     Long shiftRequestId,
     String shiftRequestCode,
     String siteName,
@@ -21,9 +23,11 @@ public record ShiftAssignmentDto (
     String employeeRut,
     ShiftAssignmentStatus status,
     String notes,
-    OffsetDateTime AssignedAt,
+    OffsetDateTime assignedAt,
+    OffsetDateTime assignedUntil,
+    Integer startCycleNumber,
     String createdBy,
-    String UpdatedBy,
+    String updatedBy,
     OffsetDateTime createdAt,
     OffsetDateTime updatedAt,
     List<ShiftRequestScheduleDto> schedules
@@ -46,11 +50,46 @@ public record ShiftAssignmentDto (
             p.getStatus(),
             p.getNotes(),
             p.getAssignedAt(),
+            p.getAssignedUntil(),
+            p.getStartCycleNumber(),
             p.getCreatedBy(),
             p.getUpdatedBy(),
             p.getCreatedAt(),
             p.getUpdatedAt(),
             schedules
         );
+    }
+
+    public static ShiftAssignmentDto fromEntity(
+                                ShiftAssignment p,
+                                List<ShiftRequestScheduleDto> schedules){
+        if(p == null) return null;
+        return new ShiftAssignmentDto(
+            p.getId(),
+            p.getExternalId(),
+            p.getShiftRequest().getExternalId(),
+            p.getShiftRequest().getId(),
+            p.getShiftRequest().getCode(),
+            p.getShiftRequest().getSite().getName(),
+            p.getEmployee().getExternalId(),
+            p.getEmployee().getName(),
+            p.getEmployee().getFatherSurname(),
+            p.getEmployee().getRut(),
+            p.getStatus(),
+            p.getNotes(),
+            p.getAssignedAt(),
+            p.getAssignedUntil(),
+            p.getStartCycleNumber(),
+            p.getCreatedBy(),
+            p.getUpdatedBy(),
+            p.getCreatedAt(),
+            p.getUpdatedAt(),
+            schedules
+        );
+    }
+
+    // Sobrecarga sin schedules si no se rqeuieren
+    public static ShiftAssignmentDto fromEntity(ShiftAssignment p) {
+        return fromEntity(p, Collections.emptyList());
     }
 }

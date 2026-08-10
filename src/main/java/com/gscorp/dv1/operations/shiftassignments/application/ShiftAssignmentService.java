@@ -19,6 +19,7 @@ public interface ShiftAssignmentService {
 
     ShiftAssignmentDto createShiftAssignment (
         UUID userExternalId,
+        String requestedZone,
         CreateShiftAssignmentRequest request
         );
 
