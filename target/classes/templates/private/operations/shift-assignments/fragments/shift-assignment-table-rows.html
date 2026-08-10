@@ -2,7 +2,7 @@
         <tr th:each="sa : ${shiftAssignments}" th:data-id="${sa.id}">
           <td th:text="${sa.siteName != null ? sa.siteName : '—'}">Nombre sitio</td>
           <td th:text="${sa.shiftRequestCode}">TR001</td>
-          <td th:text="${sa.employeeName} ' ' ${sa.fatherSurname}">TR001</td>
+          <td th:text="${sa.employeeName} + ' ' + ${sa.fatherSurname}">TR001</td>
           <td class="actions">
             <button type="button" class="btn btn-view"
                     th:attr="data-path=@{/private/operations/shift-assigments/show/{externalId}(externalId=${sa.externalId})}">
