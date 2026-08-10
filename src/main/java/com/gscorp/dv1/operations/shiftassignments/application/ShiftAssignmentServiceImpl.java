@@ -46,6 +46,7 @@ public class ShiftAssignmentServiceImpl implements ShiftAssignmentService{
     private final ShiftRequestScheduleRepository shiftRequestScheduleRepository;
     private final EmployeeRepository employeeRepository;
     private final ZoneResolver zoneResolver;
+    private final ShiftAssignmentProcessor shiftAssignmentProcessor;
 
     @Transactional(readOnly = true)
     public Page<ShiftAssignmentDto> getShiftAssignmentList(
@@ -104,16 +105,14 @@ public class ShiftAssignmentServiceImpl implements ShiftAssignmentService{
         ZoneId targetZone = zoneResult.zoneId();
         ShiftRequest shiftRequest =
             shiftRequestRepository.findByExternalId(request.shiftRequestExternalId())
-                .orElseThrow(
-                    () -> new EntityNotFoundException("Requerimiento de turno no encontrado")) ;
+                .orElseThrow(() -> new EntityNotFoundException("Requerimiento de turno no encontrado")) ;
         Employee employee =
-            employeeRepository.findByExternalId(userExternalId)
-                .orElseThrow(
-                    () -> new EntityNotFoundException("Empleado no encontrado")) ;
-        OffsetDateTime normalizedAssignedAt = request.assignedAt()
-                                .atZoneSameInstant(targetZone).toOffsetDateTime();
+            employeeRepository.findByExternalId(request.employeeExternalId())
+                .orElseThrow(() -> new EntityNotFoundException("Empleado no encontrado")) ;
+        OffsetDateTime normalizedAssignedAt = request.assignedAt().toInstant()
+                                                .atZone(targetZone).toOffsetDateTime();
         OffsetDateTime normalizedAssignedUntil = (request.assignedUntil() != null)
-            ? request.assignedUntil().atZoneSameInstant(targetZone).toOffsetDateTime()
+            ? request.assignedUntil().toInstant().atZone(targetZone).toOffsetDateTime()
             : null ;
         ShiftAssignment shiftAssignment = ShiftAssignment.builder()
                     .employee(employee)
@@ -125,6 +124,7 @@ public class ShiftAssignmentServiceImpl implements ShiftAssignmentService{
                     .startCycleNumber(request.startCycleNumber())
                     .build();
         ShiftAssignment savedAssignment = shiftAssignmentRepository.save(shiftAssignment);
+        shiftAssignmentProcessor.processShiftsForAssignment(savedAssignment, targetZone);
         return ShiftAssignmentDto.fromEntity(savedAssignment);
     }
 

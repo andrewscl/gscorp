@@ -7,8 +7,75 @@ const alertSuccess = qs('.alert-success');
 const alertError = qs('.alert-error');
 const alertWarning = qs('.alert-warning');
 
-const createShiftAssignment = () => {
-    navigateTo('/private/shift-assignments/create', true);
+const createShiftAssignment = async () => {
+    const createBtn = qs('#submit');
+    const cancelBtn = qs('#cancel');
+    const projectExternalId = qs('#projectExternalId')?.value || '';
+    const siteExternalId = qs('#siteExternalId')?.value || '';
+    const shiftRequestExternalId = qs('#shiftRequestExternalId')?.value || '';
+    const shiftPatternExternalId = qs('#shiftPattern')?.value || '';
+    const employeeExternalId = qs('#employeeExternalId')?.value || ''
+    const shiftPatternStartCycle = qs('#shiftPatternStartCycle')?.value || '';
+    const description = qs('#description')?.value || '';
+    const assignmentStartDate = qs('#assignmentStartDate')?.value || '';
+    const assignmentEndDate = qs('#assignmentEndDate')?.value || '';
+    if (!projectExternalId || !siteExternalId || 
+        !shiftRequestExternalId || !shiftPatternExternalId ||
+        !employeeExternalId || !shiftPatternStartCycle ||
+        !assignmentStartDate
+    ){
+        displayAlert(alertError, 'Por favor, complete los campos minimos requeridos.');
+        return;
+    }
+    // Convertir fechas a formato ISO-8601 válido para OffsetDateTime
+    const assignedAtIso = new Date(assignmentStartDate).toISOString();
+    const assignedUntilIso = assignmentEndDate ? new Date(assignmentEndDate).toISOString() : null;
+    const payload = {
+        siteExternalId: siteExternalId,
+        shiftRequestExternalId: shiftRequestExternalId,
+        employeeExternalId: employeeExternalId,
+        startCycleNumber: parseInt(shiftPatternStartCycle, 10),
+        notes: description,
+        assignedAt: assignedAtIso,
+        assignedUntil: assignedUntilIso
+    }
+    if(createBtn) createBtn.disabled = true;
+    if(cancelBtn) cancelBtn.disabled = true;
+
+    try {
+            const res = await fetchWithAuth('/api/shift-assignments', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-Time-Zone': Intl.DateTimeFormat().resolvedOptions().timeZone
+                },
+                body: JSON.stringify(payload)
+            });
+            if (!res || !res.ok) {
+                let errorMessage = 'Ocurrió un problema al enviar el formulario.';
+                if(res){
+                    const contentType = res.headers.get('content-type');
+                    if(contentType && contentType.includes('application/json')) {
+                        const errorData = await res.json();
+                        errorMessage = errorData.message || errorMessage;
+                    }
+                }
+                displayAlert(alertError, `Error: ${errorMessage}`);
+                if(createBtn) createBtn.disabled = false;
+                if(cancelBtn) cancelBtn.disabled = false;
+                return;
+            }
+            displayAlert(alertSuccess, 'La asignación de turno ha sido creada correctamente.', 2000);
+            setTimeout(() => {
+                navigateTo('/private/shift-patterns/list', true);
+            }, 2000);
+
+    } catch (error) {
+            console.error(`[onClickCreate] Ocurrio un problema: ${error.message}`, error);
+            displayAlert(alertError, 'Error inesperado. Intente más tarde.', 2000);
+            if(createBtn) createBtn.disabled = false;
+            if(cancelBtn) cancelBtn.disabled = false;
+    }
 }
 
 async function handleProjectChange() {
@@ -241,7 +308,7 @@ const cancelShiftAssignment = () => {
 }
 
 function bindEvents () {
-    const createBtn = qs('#submita');
+    const createBtn = qs('#submit');
     if (createBtn) {
         createBtn.addEventListener('click', createShiftAssignment);
     }

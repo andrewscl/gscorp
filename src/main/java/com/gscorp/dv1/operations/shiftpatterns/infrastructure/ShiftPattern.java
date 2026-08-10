@@ -71,6 +71,13 @@ public class ShiftPattern {
                         .boxed().toList();
     }
 
+    public Long getTotalDays() {
+        if (this.workDays == null || this.restDays == null) {
+            return 0L;
+        }
+        return this.workDays + this.restDays;
+    }
+
 }
 
 

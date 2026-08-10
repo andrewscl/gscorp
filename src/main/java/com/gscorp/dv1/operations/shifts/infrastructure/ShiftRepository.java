@@ -1,5 +1,6 @@
 package com.gscorp.dv1.operations.shifts.infrastructure;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -12,11 +13,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.operations.shifts.infrastructure.projections.ShiftProjection;
 import com.gscorp.dv1.operations.shifts.infrastructure.projections.ShiftsCountLast24HoursProjection;
 
 @Repository
-public interface ShitfRepository extends JpaRepository<Shift, Long>{
+public interface ShiftRepository extends JpaRepository<Shift, Long>{
 
     List<Shift> findBySiteIdAndStartTsBetween(
                                 Long siteId, OffsetDateTime from, OffsetDateTime to);
@@ -64,6 +66,18 @@ public interface ShitfRepository extends JpaRepository<Shift, Long>{
             @Param("clientIds") List<Long> clientIds,
             @Param("since") OffsetDateTime since,
             @Param("until") OffsetDateTime until
+    );
+
+    @Query ("""
+        SELECT s
+        FROM Shift s
+        WHERE s.shiftRequest = :shiftRequest
+        AND s.shiftDate >= :startDate
+        ORDER BY s.shiftDate ASC
+    """)
+    List<Shift> findByShiftRequestAndShiftDateGreaterThanEqual(
+                @Param("shiftRequest") ShiftRequest shiftRequest,
+                @Param("startDate") LocalDate startDate
     );
 
 }

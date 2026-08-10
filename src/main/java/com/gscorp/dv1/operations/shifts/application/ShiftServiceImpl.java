@@ -27,7 +27,7 @@ import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestReposi
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestScheduleRepository;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.projections.ShiftRequestScheduleProjection;
 import com.gscorp.dv1.operations.shifts.infrastructure.Shift;
-import com.gscorp.dv1.operations.shifts.infrastructure.ShitfRepository;
+import com.gscorp.dv1.operations.shifts.infrastructure.ShiftRepository;
 import com.gscorp.dv1.operations.shifts.infrastructure.projections.ShiftProjection;
 import com.gscorp.dv1.operations.shifts.web.dto.ShiftDto;
 import com.gscorp.dv1.operations.shifts.web.dto.ShiftsCountLast24HoursDto;
@@ -38,7 +38,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ShiftServiceImpl implements ShiftService {
 
-    private final ShitfRepository shiftRepository;
+    private final ShiftRepository shiftRepository;
     private final ShiftRequestScheduleRepository shiftRequestScheduleRepository;
     private final ShiftRequestRepository shiftRequestRepository;
     private final ClientService clientService;
