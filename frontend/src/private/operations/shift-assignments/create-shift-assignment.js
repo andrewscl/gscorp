@@ -10,19 +10,18 @@ const alertWarning = qs('.alert-warning');
 const createShiftAssignment = async () => {
     const createBtn = qs('#submit');
     const cancelBtn = qs('#cancel');
+
     const projectExternalId = qs('#projectExternalId')?.value || '';
     const siteExternalId = qs('#siteExternalId')?.value || '';
     const shiftRequestExternalId = qs('#shiftRequestExternalId')?.value || '';
-    const shiftPatternExternalId = qs('#shiftPattern')?.value || '';
     const employeeExternalId = qs('#employeeExternalId')?.value || ''
     const shiftPatternStartCycle = qs('#shiftPatternStartCycle')?.value || '';
     const description = qs('#description')?.value || '';
     const assignmentStartDate = qs('#assignmentStartDate')?.value || '';
     const assignmentEndDate = qs('#assignmentEndDate')?.value || '';
     if (!projectExternalId || !siteExternalId || 
-        !shiftRequestExternalId || !shiftPatternExternalId ||
-        !employeeExternalId || !shiftPatternStartCycle ||
-        !assignmentStartDate
+        !shiftRequestExternalId || !employeeExternalId || 
+        !shiftPatternStartCycle || !assignmentStartDate
     ){
         displayAlert(alertError, 'Por favor, complete los campos minimos requeridos.');
         return;
@@ -35,7 +34,7 @@ const createShiftAssignment = async () => {
         shiftRequestExternalId: shiftRequestExternalId,
         employeeExternalId: employeeExternalId,
         startCycleNumber: parseInt(shiftPatternStartCycle, 10),
-        notes: description,
+        notes: description.trim() || null,
         assignedAt: assignedAtIso,
         assignedUntil: assignedUntilIso
     }
