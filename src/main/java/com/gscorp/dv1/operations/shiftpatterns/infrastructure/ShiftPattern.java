@@ -1,7 +1,9 @@
 package com.gscorp.dv1.operations.shiftpatterns.infrastructure;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.LongStream;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -58,4 +60,19 @@ public class ShiftPattern {
     private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    public List<Long> getCycleDaysList() {
+        if (this.workDays == null || this.restDays == null){
+            return List.of();
+        }
+        long totalDays = this.workDays + this.restDays;
+        return LongStream
+                    .rangeClosed(1, totalDays)
+                        .boxed().toList();
+    }
+
 }
+
+
+
+

@@ -26,4 +26,5 @@ public interface ShiftPatternService {
             UUID shiftPatternExternalId,
             UpdateShiftPatternRequest updateShiftPatternRequest);
 
+
 }

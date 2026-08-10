@@ -159,6 +159,7 @@ async function handleShiftChange (e) {
     const shiftPatternGroup = qs('#shiftPatternGroup');
     const employeeSelect = qs('#employeeExternalId');
     const shiftPatternSpan = qs('#shiftPattern');
+    const cycleSelect = qs('#shiftPatternStartCycle');
     const shiftRequestExternalId = e.target.value;
 
     const resetUIOnError = () => {
@@ -167,6 +168,10 @@ async function handleShiftChange (e) {
         if(employeeSelect) {
             employeeSelect.value = '';
             employeeSelect.disabled = true;
+        }
+        if(cycleSelect){
+            cycleSelect.innerHTML = '<option value=""></option>';
+            cycleSelect.disabled = true;
         }
     };
     if (!shiftRequestExternalId) {
@@ -191,7 +196,7 @@ async function handleShiftChange (e) {
             return;
         }
         const shiftRequest = await response.json();
-        
+        updateCycleStartOptions(shiftRequest.cycleDaysList);
         if (shiftPatternSpan){
             shiftPatternSpan.textContent = shiftRequest.shiftPatternName || '-';
         }
@@ -205,7 +210,27 @@ async function handleShiftChange (e) {
     } catch (error) {
         console.error('Error en cascada:', error);
         resetUIOnError();
-        displayAlert(alertError, 'Ocurrió un error al cargar los sitios y/o empleados del proyecto', 3000);
+        displayAlert(alertError, 'Ocurrió un error al cargar la información de los requerimientos', 3000);
+    }
+}
+
+function updateCycleStartOptions(cycleDaysList) {
+    const cycleSelect = qs('#shiftPatternStartCycle');
+    if (!cycleSelect) return;
+
+    // Limpiar opciones previas
+    cycleSelect.innerHTML = '<option value="">Seleccione día</option>';
+
+    if (Array.isArray(cycleDaysList) && cycleDaysList.length > 0) {
+        cycleDaysList.forEach(day => {
+            const option = document.createElement('option');
+            option.value = day;
+            option.textContent = `Día ${day}`;
+            cycleSelect.appendChild(option);
+        });
+        cycleSelect.disabled = false;
+    } else {
+        cycleSelect.disabled = true;
     }
 }
 

@@ -16,6 +16,7 @@ public record ShiftRequestDtoWithSchedules(
     SiteDto site,
     UUID shiftPatternExternalId,
     String shiftPatternName,
+    List<Long> cycleDaysList,
     Long clientAccountId,
     ShiftRequestType type,
     LocalDate startDate,
@@ -27,6 +28,9 @@ public record ShiftRequestDtoWithSchedules(
 ) {
     public static ShiftRequestDtoWithSchedules fromEntity(ShiftRequest sr) {
         if (sr == null) return null;
+        List<Long> cycleDays = (sr.getShiftPattern() != null)
+                ? sr.getShiftPattern().getCycleDaysList()
+                : List.of();
         return new ShiftRequestDtoWithSchedules(
             sr.getId(),
             sr.getExternalId(),
@@ -34,6 +38,7 @@ public record ShiftRequestDtoWithSchedules(
             sr.getSite() == null ? null : new SiteDto(sr.getSite().getId(), sr.getSite().getName()),
             sr.getShiftPattern() != null ? sr.getShiftPattern().getExternalId() : null,
             sr.getShiftPattern() != null ? sr.getShiftPattern().getName() : null,
+            cycleDays,
             sr.getClientAccountId(),
             sr.getType(),
             sr.getStartDate(),
