@@ -1,1 +1,1 @@
-const t=n=>document.querySelector(n);function i(){const n=t("#searchShiftAssignmentsBtn");n&&n.addEventListener("click",backToShiftAssignments)}(function(){i()})();
+import{n}from"../../../navigation-handler.js";import"../../../auth.js";const i=t=>document.querySelector(t),s=()=>{n("/private/shift-assignments/list",!0)};function e(){const t=i("#cancel");t&&t.addEventListener("click",s)}(function(){e()})();

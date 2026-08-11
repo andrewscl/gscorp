@@ -3,7 +3,7 @@ import { fetchWithAuth } from "../../../auth";
 
 const qs  = (s) => document.querySelector(s);
 
-const backEvents = () => {
+const backToShiftAssignments = () => {
     navigateTo('/private/shift-assignments/list', true);
 }
 
