@@ -8,10 +8,12 @@ import com.gscorp.dv1.enums.ShiftAssignmentStatus;
 public interface ShiftAssignmentProjection {
     Long getId();
     UUID getExternalId();
+    String getProjectName();
     String getSiteName();
     UUID getShiftRequestExternalId();
     Long getShiftRequestId();
     String getShiftRequestCode();
+    String getShiftPatternName();
     UUID getEmployeeExternalId();
     String getEmployeeName();
     String getEmployeeFatherSurname();

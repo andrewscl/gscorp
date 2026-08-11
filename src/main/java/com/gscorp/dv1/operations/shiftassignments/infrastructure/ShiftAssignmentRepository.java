@@ -23,10 +23,12 @@ public interface ShiftAssignmentRepository extends JpaRepository<ShiftAssignment
         SELECT
         sa.id                       AS id,
         sa.externalId               AS externalId,
+        p.name                      AS projectName,
         s.name                      AS siteName,
         sr.externalId               AS shiftRequestExternalId,
         sr.Id                       AS shiftRequestId,
         sr.code                     AS shiftRequestCode,
+        sp.name                     AS shiftPatternName,
         e.externalId                AS employeeExternalId,
         e.name                      AS employeeName,
         e.fatherSurname             AS employeeFatherSurname,
@@ -42,6 +44,7 @@ public interface ShiftAssignmentRepository extends JpaRepository<ShiftAssignment
         sa.updatedAt                AS updatedAt
         FROM ShiftAssignment sa
         LEFT JOIN sa.shiftRequest sr
+        LEFT JOIN sr.shiftPattern sp
         LEFT JOIN sr.site s
         LEFT JOIN sa.employee e
         LEFT JOIN e.projects p
