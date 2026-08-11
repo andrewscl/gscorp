@@ -1,0 +1,47 @@
+<div th:fragment="content">
+  <div class="shifts-header">
+    <h2>Turnos</h2>
+    <button class="btn-primary" id="createShiftBtn"
+            data-path="/private/shifts/create">Crear Turno</button>
+    <button class="btn-primary" id="createShiftBulkBtn" th:if="${isAdmin}"
+            data-path="/private/shifts/create-bulk">Carga masiva de turnos</button>
+    
+  </div>
+
+  <div class="shifts-table-container">
+    <table class="shifts-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Sitio</th>
+          <th>Inicio</th>
+          <th>Término</th>
+          <th th:if="${shifts != null and #lists.size(shifts) > 0
+                        and shifts[0].plannedGuards != null}">Guardias</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="s : ${shifts}">
+          <td th:text="${s.id}"></td>
+          <td th:text="${s.site != null ? s.site.name : '—'}"></td>
+          <td th:text="${#temporals.format(s.startTs, 'yyyy-MM-dd HH:mm')}"></td>
+          <td th:text="${#temporals.format(s.endTs, 'yyyy-MM-dd HH:mm')}"></td>
+          <td th:if="${s.plannedGuards != null}" th:text="${s.plannedGuards}"></td>
+          <td class="actions">
+            <button type="button"
+                    class="btn-link"
+                    th:attr="data-path=@{/private/shifts/show/{id}(id=${s.id})}">
+              Ver
+            </button>
+            <button type="button"
+                    class="btn-link"
+                    th:attr="data-path=@{/private/shifts/edit/{id}(id=${s.id})}">
+              Editar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

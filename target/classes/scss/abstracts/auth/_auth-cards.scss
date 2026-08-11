@@ -1,0 +1,151 @@
+@use '../mixins' as *;
+@use '../buttons/btn-mixins' as *;
+@use '../typography' as *;
+@use '../palette' as *;
+@use '../variables' as *;
+@use '../alerts' as *;
+@use '../buttons/footer-buttons' as *;
+
+@mixin auth-form ($max-w: 28rem, $logo-height: 7rem){
+
+    background: $background-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    margin: 0;
+    padding: 2rem;
+    box-sizing: border-box;
+
+    .auth-form-container {
+        width: 90%;
+        max-width: $max-w;
+        margin: 0 auto;
+        background-color: $white;
+        border: 0.1rem solid $border-color;
+        border-radius: $radius;
+        box-shadow: $shadow-sm;
+        padding: 2.4rem;
+        text-align: center;
+        box-sizing: border-box;
+        transition: transform 0.2s ease-in-out, 
+                    box-shadow 0.2s ease-in-out, 
+                    border-color 0.2s ease-in-out;
+        &:hover {
+            transform: translateY(-0.25rem);
+            box-shadow: $shadow-md;
+            border-color: $border-color-hover;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            .logo {
+                height: $logo-height;
+                max-width: 22rem;
+                width: auto;
+                display: block;
+            }
+        }
+
+        .auth-form-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            .auth-form-title-text {
+                @include montserrat-font(1.45rem, 700);
+                color: $primary-color;
+            }
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            margin-top: 1rem;
+            .form-group {
+                margin-bottom: 1.25rem;
+                position: relative;
+                label {
+                    display: block;
+                    margin-bottom: 0.4rem;
+                    color: $heading-color;
+                    @include roboto-font(0.85rem, 600);
+                    text-align: left;
+                }
+                .form-control {
+                    padding: 0.75rem;
+                    border: 0.1rem solid $border-color;
+                    border-radius: $radius;
+                    background-color: $white;
+                    @include roboto-font(0.95rem, 500);
+                    color: $primary-color;
+                    width: 100%;
+                    box-sizing: border-box;
+                    transition: all 0.2s ease-in-out;
+                    &::placeholder{
+                        color: $slate-400;
+                        font-weight: 400;
+                    }
+                    &:focus {
+                        outline: none;
+                        border-color: $border-color-hover;
+                        box-shadow: 0 0 0 0.15rem rgba(
+                                            $border-color-hover, 0.15);
+                        &::placeholder{
+                            color: $slate-300;
+                            transition: color 0.2s ease;
+                        }
+                    }
+                }
+                .password-wrapper {
+                    position: relative;
+                    width: 100%;
+                    input[type="password"].form-control {
+                        padding-right: calc(#{$toggle-width} + 1rem);
+                    }
+                    .togglePassword {
+                        position: absolute;
+                        top: 50%;
+                        right: 0.4rem;
+                        transform: translateY(-50%); 
+                        width: $toggle-width;
+                        padding: $toggle-padding;
+                        border-radius: 0.4rem;
+                        border: 1px solid $border-color;
+                        background-color: $background-muted;
+                        color: $text-color;
+                        font-weight: 600;
+                        font-size: 0.8rem;
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+                        text-align: center;
+                        line-height: 1;
+                        &:hover {
+                            background-color: $border-color;
+                            color: $primary-color-strong;
+                        }
+                        &:active {
+                            transform: translateY(-10%) scale(0.96);
+                        }
+                        &:focus {
+                            outline: none;
+                        }
+                    }
+                }
+            }
+            .btn-primary {
+                margin-top: 0.5rem;
+                @include montserrat-font(1rem, 600);
+                @include btn-primary-variant (
+                    $bg-color: $accent-blue,
+                    $color: $white,
+                    $padding: 0.75rem 1.5rem,
+                    $border-radius: $radius);
+            }
+        }
+
+    }
+}

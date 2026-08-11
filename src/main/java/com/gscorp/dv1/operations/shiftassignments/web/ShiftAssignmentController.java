@@ -88,4 +88,22 @@ public class ShiftAssignmentController {
         return "private/operations/shift-assignments/fragments/view-shift-assignment";
     }
 
+    @GetMapping("/edit/{shiftAssignmentExternalId}")
+    public String getEditShiftAssignment(
+            Model model,
+            @AuthenticationPrincipal SecurityUser securityUser,
+            @PathVariable("shiftAssignmentExternalId") UUID shiftAssignmentExternalId
+    ){
+        if(securityUser == null) return "redirect:/login";
+        UUID userExternalId = securityUser.getUser().getExternalId();
+        List<ShiftDto> shifts = shiftService.getUpcomingByShiftAssignmentExternalId(
+                                                    userExternalId,
+                                                    shiftAssignmentExternalId,
+                                                    5);
+        model.addAttribute("shiftAssignment",
+            shiftAssignmentService.getByExternalId(shiftAssignmentExternalId));
+        model.addAttribute("shifts" , shifts);
+        return "private/operations/shift-assignments/fragments/edit-shift-assignment";
+    }
+
 }

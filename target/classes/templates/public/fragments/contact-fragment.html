@@ -1,0 +1,81 @@
+<!-- Fragmento: contacto-comercial-fragment.html -->
+<div th:fragment="contact" class="contact-wrapper">
+
+    <div class="overlay-text-image">
+        <img th:src="@{/img/contact/contact.jpg}" alt="Contacto Comercial">
+        <div class="overlay-text">
+            <h1 class="text">Estemos en contacto</h1>
+        </div>
+    </div>
+
+    <div class="contact-grid">
+
+        <!-- Columna izquierda: info de contacto -->
+        <div class="column column-info">
+            <p class="p3">Nuestro equipo esta preparado para atender sus inquietudes.</p>
+
+            <ul class="contact-info">
+                <li>
+                    <i class="fas fa-envelope"></i>
+                    <a class="p1" href="mailto:contacto@gscorp.cl">contacto@gscorp.cl</a>
+                </li>
+                <li>
+                    <i class="fas fa-phone-alt"></i>
+                    <a class="p1" href="tel:+56973469756">+56 9 7346 9756</a>
+                </li>
+                <li>
+                    <i class="fas fa-map-marker-alt"></i>
+                    <a class="p1">Las Condes, Santiago, Chile</a>
+                </li>
+            </ul>
+
+            <div class="contact-map">
+                <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3330.6952429214414!2d-70.59721768480057!3d-33.416924503949204!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662cf3a1efaa8b3%3A0x84e94b5e084ffcdf!2sIsidora%20Goyenechea%202925%2C%20Las%20Condes%2C%20Regi%C3%B3n%20Metropolitana%2C%20Chile!5e0!3m2!1ses-419!2scl!4v1716677782354!5m2!1ses-419!2scl"
+                width="100%"
+                height="250"
+                style="border:0; border-radius: 0.5rem;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                ></iframe>
+            </div>
+
+        </div>
+
+        <!-- Columna derecha: formulario -->
+        <div class="column column-form">
+            <p class="p3">Escribenos</p>
+            <form id="contactForm" class="contact-form">
+                <div class="form-group">
+                    <label for="name">Nombre</label>
+                    <input type="text" id="name" name="name" placeholder="Tu nombre completo" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Correo electrónico</label>
+                    <input type="email" id="email" name="email" placeholder="ejemplo@empresa.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="telefono">Telefono</label>
+                    <input type="phone" id="phone" name="phone" placeholder="9 1234 5678" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Mensaje</label>
+                    <textarea id="message" name="message" rows="5" placeholder="En que podemos ayudarte?..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Enviar mensaje</button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <script type="module" src="/js/contact.js"></script>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+
+</div>

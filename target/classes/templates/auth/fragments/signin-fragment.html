@@ -1,0 +1,40 @@
+<th:block th:fragment="signin">
+
+    <div class="signin-page">
+        <div class="auth-form-container">
+
+            <div id="logo-container" class="logo-container">
+                <img id="logo" class="logo" th:src="@{/img/logo-mail.png}"
+                                                            alt="Logo" />
+            </div>
+
+            <div class="auth-form-title">
+                <h1 class="auth-form-title-text">Iniciar Sesión</h1>
+            </div>
+
+            <form id="signinForm" class="auth-form">
+                <div class="form-group">
+                    <label for="username">Nombre de Usuario:</label>
+                    <input type="text" id="username" name="username" 
+                            placeholder="Tu nombre de usuario" 
+                                class="form-control" required autofocus />
+                </div>
+                <div class="form-group">
+                    <label for="username">Contraseña:</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="password" name="password"
+                                    placeholder="Tu contraseña" class="form-control"
+                                        required />
+                        <button type="button" id="togglePassword" class="togglePassword">Mostrar</button>
+                    </div>
+                </div>
+
+                <button type="button" id="loginBtn" class="btn btn-primary">Iniciar Sesión</button>
+            </form>
+
+        </div>
+    </div>
+
+    <script type="module" src="/js/signin.js"></script>
+
+</th:block>

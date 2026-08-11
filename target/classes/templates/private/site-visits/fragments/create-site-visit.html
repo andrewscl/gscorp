@@ -1,0 +1,51 @@
+<section th:fragment="content" class="card supervisor-visit">
+  <h3>Registro de Visita de Supervisor</h3>
+
+  <!-- Mensaje de estado y nombre del sitio más cercano -->
+  <div id="visit-status">Detectando instalación más cercana...</div>
+  <div id="visit-site-info"></div>
+
+  <form id="visit-widget"
+        data-visit-endpoint="/api/site-supervision-visits/create"
+        autocomplete="off">
+
+    <!-- Botón de registro (puedes ocultarlo dinámicamente si hace falta) -->
+    <button id="visit-mark" class="btn btn-primary" type="submit" hidden>
+      Registrar visita
+    </button>
+
+    <!-- Campo de descripción -->
+    <div class="form-group">
+      <label for="visit-description">Descripción</label>
+      <textarea id="visit-description" name="description" placeholder="Describa la visita o hallazgos..." rows="2"></textarea>
+    </div>
+
+    <!-- Contenedor para fotografía -->
+    <div class="form-group">
+      <label for="visit-photo">Fotografía (opcional)</label>
+      <input type="file" id="visit-photo" name="photo" accept="image/*" capture="environment">
+      <div id="visit-photo-preview"></div>
+    </div>
+
+    <!-- Contenedor para video -->
+    <div class="form-group">
+      <label for="visit-video">Video (opcional)</label>
+      <input type="file" id="visit-video" name="video" accept="video/*" capture="environment">
+      <div id="visit-video-preview"></div>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="modal-footer">
+      <button type="submit" class="btn-primary" id="save-visit-btn">Guardar visita</button>
+      <button type="button" class="btn-secondary" id="cancel-visit-btn">Cancelar</button>
+    </div>
+
+  </form>
+
+  <!-- Mapa de ubicación actual y del sitio -->
+  <div id="visit-map-container">
+    <div id="visit-map"></div>
+  </div>
+
+  <script type="module" th:src="@{/js/private/site-visits/create-site-visit.js}" defer></script>
+</section>
