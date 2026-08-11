@@ -79,7 +79,7 @@ public class ShiftAssignmentController {
         if(securityUser == null) return "redirect:/login";
         UUID userExternalId = securityUser.getUser().getExternalId();
         List<ShiftDto> shifts = shiftService.getUpcomingByShiftAssignmentExternalId(
-                                                    userExternalId, shiftAssignmentExternalId,14);
+                                                    userExternalId, shiftAssignmentExternalId,6);
         model.addAttribute("shiftAssignment",
             shiftAssignmentService.getByExternalId(shiftAssignmentExternalId));
         model.addAttribute("shifts" , shifts);
