@@ -32,7 +32,8 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
         s.externalId    AS  externalId,
         s.shiftDate     AS  shiftDate,
         s.startTs       AS  startTs,
-        s.endTs         AS  endTs
+        s.endTs         AS  endTs,
+        s.status        AS  status
         FROM Shift s
         JOIN s.shiftRequest sr
         WHERE sr.externalId = :shiftRequestExternalId
@@ -88,7 +89,8 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
         s.externalId    AS  externalId,
         s.shiftDate     AS  shiftDate,
         s.startTs       AS  startTs,
-        s.endTs         AS  endTs
+        s.endTs         AS  endTs,
+        s.status        AS  status
         FROM Shift s
         JOIN s.assignment sa
         WHERE sa.externalId = :shiftAssignmentExternalId

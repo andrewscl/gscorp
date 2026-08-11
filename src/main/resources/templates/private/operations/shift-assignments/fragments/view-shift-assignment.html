@@ -70,17 +70,17 @@
                     <span id="description" th:text="${shiftAssignment.notes ?: 'Sin observaciones'}"></span>
                 </div>
 
-                <div class="shifts-table">
+                <div class="view-planned-shifts-table">
                     <div class="title-row">
                         <div class="title-left">
                             <span class="title-text">Planificación próximos días</span>
                         </div>
                     </div>
                     
-                    <div class="shifts-list" 
+                    <div class="list" 
                          th:if="${shifts == null or #lists.isEmpty(shifts)}">— No hay turnos planificados —</div>
                     
-                    <div class="shifts-list" 
+                    <div class="list" 
                          th:if="${shifts != null and !#lists.isEmpty(shifts)}">
                         <table class="table">
                             <thead>
