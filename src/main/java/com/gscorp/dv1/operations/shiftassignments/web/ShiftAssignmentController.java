@@ -79,3 +79,4 @@ public class ShiftAssignmentController {
         return "private/operations/shift-assignments/fragments/view-shift-assignment";
     }
 }
+    
