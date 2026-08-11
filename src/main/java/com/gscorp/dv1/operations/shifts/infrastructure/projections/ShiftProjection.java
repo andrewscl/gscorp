@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+import com.gscorp.dv1.enums.ShiftStatus;
+
 public interface ShiftProjection {
 
     Long getId();
@@ -11,4 +13,5 @@ public interface ShiftProjection {
     LocalDate getShiftDate();
     OffsetDateTime getStartTs();
     OffsetDateTime getEndTs();
+    ShiftStatus getStatus();
 }

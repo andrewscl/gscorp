@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+import com.gscorp.dv1.enums.DayOfWeek;
+import com.gscorp.dv1.enums.ShiftStatus;
 import com.gscorp.dv1.operations.shifts.infrastructure.projections.ShiftProjection;
 
 public record ShiftDto (
@@ -11,7 +13,9 @@ public record ShiftDto (
     UUID externalId,
     LocalDate shiftDate,
     OffsetDateTime startTs,
-    OffsetDateTime endTs
+    OffsetDateTime endTs,
+    ShiftStatus status,
+    DayOfWeek day
 ){
     public static ShiftDto fromProjection(ShiftProjection sp){
         if ( sp == null) return null;
@@ -20,7 +24,11 @@ public record ShiftDto (
             sp.getExternalId(),
             sp.getShiftDate(),
             sp.getStartTs(),
-            sp.getEndTs()
+            sp.getEndTs(),
+            sp.getStatus(),
+            sp.getShiftDate() != null
+                ? DayOfWeek.fromJavaTime(sp.getShiftDate().getDayOfWeek())
+                : null
         );
     }
 }

@@ -75,7 +75,7 @@ public class Shift {
 
     @Enumerated(EnumType.STRING)
     @Column(name="shift_status")
-    private ShiftStatus shiftStatus;
+    private ShiftStatus status;
 
     @ManyToOne(optional=true, fetch=FetchType.LAZY)
     @JoinColumn(name="shift_request_id")

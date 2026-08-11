@@ -8,7 +8,7 @@ const backEvents = () => {
 }
 
 function bindEvents() {
-    const backToBtn = qs('#searchShiftAssignmentsBtn');
+    const backToBtn = qs('#cancel');
     if (backToBtn) {
         backToBtn.addEventListener('click', backToShiftAssignments);
     }

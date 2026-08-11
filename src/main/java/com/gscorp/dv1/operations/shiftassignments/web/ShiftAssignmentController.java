@@ -1,5 +1,6 @@
 package com.gscorp.dv1.operations.shiftassignments.web;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -16,6 +17,8 @@ import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.operations.shiftassignments.application.ShiftAssignmentService;
 import com.gscorp.dv1.operations.shiftassignments.web.dto.ShiftAssignmentDto;
 import com.gscorp.dv1.operations.shiftpatterns.application.ShiftPatternService;
+import com.gscorp.dv1.operations.shifts.application.ShiftService;
+import com.gscorp.dv1.operations.shifts.web.dto.ShiftDto;
 import com.gscorp.dv1.operations.sites.application.SiteService;
 
 import lombok.RequiredArgsConstructor;
@@ -29,6 +32,7 @@ public class ShiftAssignmentController {
     private final ShiftPatternService shiftPatternService;
     private final SiteService siteService;
     private final ProjectService projectService;
+    private final ShiftService shiftService;
 
     @GetMapping("/list")
     public String getShiftAssignmentsList (
@@ -73,10 +77,13 @@ public class ShiftAssignmentController {
             @PathVariable("shiftAssignmentExternalId") UUID shiftAssignmentExternalId
     ){
         if(securityUser == null) return "redirect:/login";
+        UUID userExternalId = securityUser.getUser().getExternalId();
+        List<ShiftDto> shifts = shiftService.getUpcomingByShiftAssignmentExternalId(
+                                                    userExternalId, shiftAssignmentExternalId,14);
         model.addAttribute("shiftAssignment",
             shiftAssignmentService.getByExternalId(shiftAssignmentExternalId));
-
+        model.addAttribute("shifts" , shifts);
         return "private/operations/shift-assignments/fragments/view-shift-assignment";
     }
+
 }
-    

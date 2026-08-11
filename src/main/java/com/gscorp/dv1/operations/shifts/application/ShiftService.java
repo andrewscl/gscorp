@@ -30,9 +30,14 @@ public interface ShiftService {
 
     Page<ShiftDto> getLastShiftsByShiftRequest(
                             UUID shiftRequestExternalId,
-                            int ShiftsToShow);
+                            int shiftsToShow);
 
     List<ShiftsCountLast24HoursDto> getShiftsCountLast24Hours(
                                                 UUID userExternalId);
+
+    List<ShiftDto> getUpcomingByShiftAssignmentExternalId(
+                                        UUID userExternalId,
+                                        UUID shiftAssignmentExternalId,
+                                        Integer shiftsToShow);
 
 }

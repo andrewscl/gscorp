@@ -80,4 +80,25 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
                 @Param("startDate") LocalDate startDate
     );
 
+
+    @Query(
+        value = """
+        SELECT
+        s.id            AS  id,
+        s.externalId    AS  externalId,
+        s.shiftDate     AS  shiftDate,
+        s.startTs       AS  startTs,
+        s.endTs         AS  endTs
+        FROM Shift s
+        JOIN s.assignment sa
+        WHERE sa.externalId = :shiftAssignmentExternalId
+        AND s.shiftDate >= CURRENT_DATE
+        ORDER BY s.shiftDate ASC, s.startTs ASC
+    """
+    )
+    List<ShiftProjection> findUpcomingByShiftAssignmentExternalId(
+                @Param("shiftAssignmentExternalId") UUID shiftAssignmentExternalId,
+                Pageable pageable
+    );
+
 }

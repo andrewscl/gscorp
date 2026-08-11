@@ -88,7 +88,7 @@ public class ShiftServiceImpl implements ShiftService {
                             .endTs(endOffsetDateTime)
                             .description(null)
                             .lunchTime(null)
-                            .shiftStatus(ShiftStatus.PLANNED)
+                            .status(ShiftStatus.PLANNED)
                             .shiftRequest(shiftRequest)
                             .createdBy(username)
                             .updatedBy(null)
@@ -190,4 +190,24 @@ public class ShiftServiceImpl implements ShiftService {
                     .map(ShiftsCountLast24HoursDto::fromProjection)
                     .toList();
     }
+
+    @Transactional(readOnly = true)
+    public List<ShiftDto> getUpcomingByShiftAssignmentExternalId(
+                                        UUID userExternalId,
+                                        UUID shiftAssignmentExternalId,
+                                        Integer shiftsToShow){
+        if (userExternalId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
+        }
+        int limit = (shiftsToShow != null && shiftsToShow > 0) ? shiftsToShow : 10;
+        List<ShiftProjection> projections =
+            shiftRepository
+                .findUpcomingByShiftAssignmentExternalId(
+                                        shiftAssignmentExternalId,
+                                        PageRequest.of(0, limit));
+        return projections.stream()
+                    .map(ShiftDto::fromProjection)
+                    .toList();
+    }
+
 }
