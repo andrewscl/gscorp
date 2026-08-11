@@ -47,7 +47,7 @@ public record ShiftAssignmentDto (
             p.getShiftRequestCode(),
             p.getShiftPatternName(),
             p.getEmployeeExternalId(),
-            p.getEmployeeName(),
+            p.getEmployeeName() + " " + p.getEmployeeFatherSurname(),
             p.getEmployeeRut(),
             p.getStatus(),
             p.getNotes(),

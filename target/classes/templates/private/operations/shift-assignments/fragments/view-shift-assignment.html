@@ -33,8 +33,8 @@
                 <div class="form-group">
                     <label>Empleado:</label>
                     <span id="employeeExternalId" 
-                          th:text="${shiftAssignment.employeeName != null
-                          ? (shiftAssignment.employeeName + ' ' + shiftAssignment.employeeFatherSurname) 
+                          th:text="${shiftAssignment.employeeFullName != null
+                          ? shiftAssignment.employeeFullName 
                           : '-'}"></span>
                 </div>
 
