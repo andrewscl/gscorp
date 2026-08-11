@@ -20,8 +20,7 @@ public record ShiftAssignmentDto (
     String shiftRequestCode,
     String shiftPatternName,
     UUID employeeExternalId,
-    String employeeName,
-    String employeeFatherSurname,
+    String employeeFullName,
     String employeeRut,
     ShiftAssignmentStatus status,
     String notes,
@@ -49,7 +48,6 @@ public record ShiftAssignmentDto (
             p.getShiftPatternName(),
             p.getEmployeeExternalId(),
             p.getEmployeeName(),
-            p.getEmployeeFatherSurname(),
             p.getEmployeeRut(),
             p.getStatus(),
             p.getNotes(),
@@ -68,6 +66,21 @@ public record ShiftAssignmentDto (
                                 ShiftAssignment p,
                                 List<ShiftRequestScheduleDto> schedules){
         if(p == null) return null;
+
+        UUID employeeExternalId = null;
+        String employeeRut = null;
+        String employeeFullName = null;
+        if(p.getEmployee() != null) {
+            employeeExternalId = p.getEmployee().getExternalId();
+            employeeRut = p.getEmployee().getRut();
+            String name = p.getEmployee().getName() != null 
+                        ? p.getEmployee().getName() : "-" ;
+            String surname = p.getEmployee().getFatherSurname() != null 
+                        ? p.getEmployee().getFatherSurname() : "-" ;
+            employeeFullName = (name + " " + surname).trim();
+            if(employeeFullName.isEmpty()) employeeFullName = null;
+        }
+        
         return new ShiftAssignmentDto(
             p.getId(),
             p.getExternalId(),
@@ -77,10 +90,9 @@ public record ShiftAssignmentDto (
             p.getShiftRequest().getId(),
             p.getShiftRequest().getCode(),
             p.getShiftRequest().getShiftPattern().getName(),
-            p.getEmployee().getExternalId(),
-            p.getEmployee().getName(),
-            p.getEmployee().getFatherSurname(),
-            p.getEmployee().getRut(),
+            employeeExternalId,
+            employeeFullName,
+            employeeRut,
             p.getStatus(),
             p.getNotes(),
             p.getAssignedAt(),
