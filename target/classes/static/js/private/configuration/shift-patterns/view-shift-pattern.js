@@ -1,1 +1,0 @@
-import{n}from"../../../navigation-handler.js";import"../../../auth.js";const i=t=>document.querySelector(t),e=()=>{n("/private/shift-patterns/list",!0)};function c(){const t=i("#cancel");t&&t.addEventListener("click",e)}(function(){c()})();

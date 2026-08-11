@@ -1,7 +1,0 @@
-<div th:fragment="partial">
-  <!-- incluir header-meta fragment (le pasamos las variables que use tu fragment) -->
-  <div th:replace="private/site-visits/fragments/site-visit-header-meta :: headerMeta(${fromDate}, ${toDate}, ${visitsCount})"></div>
-
-  <!-- insertar las filas (reutiliza tu fragment rows) -->
-  <div th:replace="private/site-visits/fragments/site-visit-table-rows :: rows"></div>
-</div>
