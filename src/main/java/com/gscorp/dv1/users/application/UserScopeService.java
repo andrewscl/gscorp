@@ -9,7 +9,6 @@ import com.gscorp.dv1.admin.projects.application.ProjectService;
 import com.gscorp.dv1.admin.projects.web.dto.ProjectDto;
 import com.gscorp.dv1.admin.projects.web.dto.ProjectSelectDto;
 import com.gscorp.dv1.config.security.SecurityUser;
-import com.gscorp.dv1.roles.infrastructure.Role;
 import com.gscorp.dv1.users.application.dto.ProjectScope;
 import com.gscorp.dv1.users.infrastructure.User;
 
@@ -27,15 +26,11 @@ public class UserScopeService {
 
         User user = securityUser.getUser();
         UUID userExternalId = user.getExternalId();
-        Role role = user.getRole();
-        String roleName = (role != null) ? role.getRole() : "" ;
 
-        boolean isAdmin = "ROLE_ADMINISTRATOR".equalsIgnoreCase(roleName)
-                            || "ADMINISTRATOR".equalsIgnoreCase(roleName);
+        boolean isAdmin = has(securityUser, "ROLE_ADMINISTRATOR");
         if (isAdmin) return ProjectScope.unrestricted();
 
-        boolean isClient = "ROLE_CLIENT".equalsIgnoreCase(roleName)
-                            || "CLIENT".equalsIgnoreCase(roleName);
+        boolean isClient = has(securityUser, "ROLE_CLIENT");
         if (isClient) {
             List<ProjectDto> projects =projectService.findByUserExternalId(userExternalId);
             List<Long> ids = (projects != null)
@@ -53,5 +48,10 @@ public class UserScopeService {
             return ProjectScope.restricted(ids);
         }
         return ProjectScope.restricted(List.of());
+    }
+
+    private boolean has(SecurityUser securityUser, String role) {
+        return securityUser != null && securityUser.getAuthorities().stream()
+                .anyMatch(a-> a.getAuthority().equals(role));
     }
 }
