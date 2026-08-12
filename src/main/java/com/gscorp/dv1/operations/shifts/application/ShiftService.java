@@ -47,8 +47,8 @@ public interface ShiftService {
                         SecurityUser securityUser,
                         LocalDate startDate,
                         LocalDate endDate,
-                        Long projectId,
-                        Long siteId,
+                        UUID projectId,
+                        UUID siteId,
                         ShiftStatus status,
                         int page,
                         int size);

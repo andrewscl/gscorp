@@ -127,7 +127,7 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
                 WHERE   (:ignoreProjectFilter = true OR p.id IN :projectIds)
                 AND     (:#{#startDate == null} = true OR sh.shiftDate >= :startDate)
                 AND     (:#{#endExclusiveDate == null} = true OR sh.shiftDate < :endExclusiveDate)
-                AND     (:#{#siteId == null} = true OR s.id = :siteId)
+                AND     (:#{#siteExternalId == null} = true OR s.externalId = :siteExternalId)
                 AND     (:#{#projectId == null} = true OR p.id = :projectId)
                 AND     (:#{#shiftStatus == null} = true OR sh.status = :shiftStatus)
                 """,
@@ -139,8 +139,8 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
                 WHERE   (:ignoreProjectFilter = true OR p.id IN :projectIds)
                 AND     (:#{#startDate == null} = true OR sh.shiftDate >= :startDate)
                 AND     (:#{#endExclusiveDate == null} = true OR sh.shiftDate < :endExclusiveDate)
-                AND     (:#{#siteId == null} = true OR s.id = :siteId)
-                AND     (:#{#projectId == null} = true OR p.id = :projectId)
+                AND     (:#{#siteExternalId == null} = true OR s.id = :siteExternalId)
+                AND     (:#{#projectExternalId == null} = true OR p.id = :projectExternalId)
                 AND     (:#{#shiftStatus == null} = true OR sh.status = :shiftStatus)
                 """
         )
@@ -149,8 +149,8 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
                 @Param("projectIds") List<Long> projectIds,
                 @Param("startDate") LocalDate startDate,
                 @Param("endExclusiveDate") LocalDate endExclusiveDate,
-                @Param("siteId") Long siteId,
-                @Param("projectId") Long projectId,
+                @Param("siteExternalId") UUID siteExternalId,
+                @Param("projectExternalId") UUID projectExternalId,
                 @Param("shiftStatus") ShiftStatus status,
                 Pageable pageable
         );

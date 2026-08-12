@@ -33,8 +33,8 @@ public class ShiftController {
     public String getShiftsTableView(
         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
-        @RequestParam(required = false) Long projectId,
-        @RequestParam(required = false) Long siteId,
+        @RequestParam(required = false) UUID projectId,
+        @RequestParam(required = false) UUID siteId,
         @RequestParam(required = false) ShiftStatus status,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "20") int size, // 💡 Corregido: Debe ser >= 1
@@ -66,8 +66,8 @@ public class ShiftController {
         @AuthenticationPrincipal SecurityUser securityUser,
         @RequestParam(required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
         @RequestParam(required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
-        @RequestParam(required=false) Long projectId,
-        @RequestParam(required=false) Long siteId,
+        @RequestParam(required=false) UUID projectId,
+        @RequestParam(required=false) UUID siteId,
         @RequestParam(required=false) ShiftStatus status,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "20") int size
