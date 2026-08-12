@@ -55,6 +55,8 @@ public class ShiftController {
         model.addAttribute("count", shifts.getTotalElements());
         model.addAttribute("sites", siteService
                                                         .getAllSitesByUser(userExternalId));
+        model.addAttribute("fromDate", effectiveStartDate);
+        model.addAttribute("toDate", effectiveEndDate);
         return "private/operations/shifts/views/shifts-list";
     }
 
