@@ -31,8 +31,8 @@ public class ShiftController {
 
     @GetMapping("/list")
     public String getShiftsTableView(
-        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
         @RequestParam(required = false) UUID projectExternalId,
         @RequestParam(required = false) UUID siteExternalId,
         @RequestParam(required = false) ShiftStatus status,
@@ -44,8 +44,8 @@ public class ShiftController {
         if(securityUser == null) return "redirect:/login";
         UUID userExternalId = securityUser.getUser().getExternalId();
 
-        LocalDate effectiveStartDate = (startDate != null) ? startDate : LocalDate.now();
-        LocalDate effectiveEndDate = (endDate != null) ? endDate.plusDays(1) : LocalDate.now();
+        LocalDate effectiveStartDate = (from != null) ? from : LocalDate.now();
+        LocalDate effectiveEndDate = (to != null) ? to.plusDays(1) : LocalDate.now();
 
         Page<ShiftDto> shifts = shiftService.getShiftList(
                 securityUser, effectiveStartDate, effectiveEndDate,
@@ -65,8 +65,8 @@ public class ShiftController {
     public String getShiftsListSearch(
         Model model,
         @AuthenticationPrincipal SecurityUser securityUser,
-        @RequestParam(required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-        @RequestParam(required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+        @RequestParam(required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+        @RequestParam(required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
         @RequestParam(required=false) UUID projectId,
         @RequestParam(required=false) UUID siteId,
         @RequestParam(required=false) ShiftStatus status,
@@ -74,8 +74,8 @@ public class ShiftController {
         @RequestParam(defaultValue = "20") int size
     ) {
         if(securityUser == null) return "redirect:/login";
-        LocalDate effectiveStartDate = (startDate != null) ? startDate : LocalDate.now();
-        LocalDate effectiveEndDate = (endDate != null) ? endDate : LocalDate.now();
+        LocalDate effectiveStartDate = (from != null) ? from : LocalDate.now();
+        LocalDate effectiveEndDate = (to != null) ? to : LocalDate.now();
 
         Page<ShiftDto> shifts = shiftService.getShiftList(
                         securityUser, effectiveStartDate, effectiveEndDate,
