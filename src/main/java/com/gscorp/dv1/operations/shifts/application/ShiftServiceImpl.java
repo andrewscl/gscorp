@@ -240,6 +240,8 @@ public class ShiftServiceImpl implements ShiftService {
                                     projectId,
                                     status,
                                     pageable);
+        System.out.println(projections);
+        System.out.println(projections.map(ShiftDto::fromProjection));
 
         return projections.map(ShiftDto::fromProjection);
     }
