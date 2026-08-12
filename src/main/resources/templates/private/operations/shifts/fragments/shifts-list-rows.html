@@ -1,4 +1,4 @@
-      <th:block th:fragment="rows">
+<th:block th:fragment="rows">
         <tr th:each="s : ${shifts}" th:data-id="${s.id}">
           <td th:text="${s.shiftDate ?: '—'}">10-02-2026</td>
           <td th:text="${s.siteName ?: '—'}">Nombre sitio</td>
@@ -29,4 +29,4 @@
             </td>
         </tr>
 
-      </th:block>
+</th:block>
