@@ -75,7 +75,7 @@ public class ShiftController {
     ) {
         if(securityUser == null) return "redirect:/login";
         LocalDate effectiveStartDate = (startDate != null) ? startDate : LocalDate.now();
-        LocalDate effectiveEndDate = (endDate != null) ? endDate.plusDays(1) : LocalDate.now();
+        LocalDate effectiveEndDate = (endDate != null) ? endDate : LocalDate.now();
 
         Page<ShiftDto> shifts = shiftService.getShiftList(
                         securityUser, effectiveStartDate, effectiveEndDate,
