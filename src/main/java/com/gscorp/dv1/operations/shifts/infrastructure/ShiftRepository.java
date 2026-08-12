@@ -138,10 +138,10 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
                 LEFT JOIN s.project p
                 WHERE   (:ignoreProjectFilter = true OR p.id IN :projectIds)
                 AND     (:startDate IS NULL OR sh.shiftDate >= :startDate)
-                AND     (:endExclusiveDate IS NULL = true OR sh.shiftDate < :endExclusiveDate)
-                AND     (:siteExternalId IS NULL = true OR s.externalId = :siteExternalId)
-                AND     (:projectExternalId IS NULL = true OR p.externalId = :projectExternalId)
-                AND     (:shiftStatus IS NULL = true OR sh.status = :shiftStatus)
+                AND     (:endExclusiveDate IS NULL OR sh.shiftDate < :endExclusiveDate)
+                AND     (:siteExternalId IS NULL OR s.externalId = :siteExternalId)
+                AND     (:projectExternalId IS NULL OR p.externalId = :projectExternalId)
+                AND     (:shiftStatus IS NULL OR sh.status = :shiftStatus)
                 """
         )
         Page<ShiftProjection> findPageByProjectIds(
