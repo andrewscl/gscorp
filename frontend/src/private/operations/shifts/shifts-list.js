@@ -1,5 +1,6 @@
 import { navigateTo } from "../../../navigation-handler";
 import { fetchWithAuth } from "../../../auth";
+import { displayAlert } from "../../../shared/display-alert";
 
 const qs  = (s) => document.querySelector(s);
 
