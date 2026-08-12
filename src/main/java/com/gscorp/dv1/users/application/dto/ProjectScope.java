@@ -3,7 +3,7 @@ package com.gscorp.dv1.users.application.dto;
 import java.util.List;
 
 public record ProjectScope (boolean ignoreFilter, 
-                            List<Long> projectIds
+                                        List<Long> projectIds
 ){
     public static ProjectScope unrestricted () {
         return new ProjectScope(true, List.of());
