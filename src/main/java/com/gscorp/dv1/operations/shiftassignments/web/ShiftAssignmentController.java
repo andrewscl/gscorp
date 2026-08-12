@@ -81,7 +81,8 @@ public class ShiftAssignmentController {
         List<ShiftDto> shifts = shiftService.getUpcomingByShiftAssignmentExternalId(
                                                     userExternalId,
                                                     shiftAssignmentExternalId,
-                                                    5);
+                                                    5,
+                                                    null);
         model.addAttribute("shiftAssignment",
             shiftAssignmentService.getByExternalId(shiftAssignmentExternalId));
         model.addAttribute("shifts" , shifts);
@@ -99,7 +100,8 @@ public class ShiftAssignmentController {
         List<ShiftDto> shifts = shiftService.getUpcomingByShiftAssignmentExternalId(
                                                     userExternalId,
                                                     shiftAssignmentExternalId,
-                                                    5);
+                                                    5,
+                                                    null);
         model.addAttribute("shiftAssignment",
             shiftAssignmentService.getByExternalId(shiftAssignmentExternalId));
         model.addAttribute("shifts" , shifts);

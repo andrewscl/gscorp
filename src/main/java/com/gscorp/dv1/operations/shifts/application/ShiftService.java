@@ -32,8 +32,10 @@ public interface ShiftService {
     void processApprovedShiftRequests();
 
     Page<ShiftDto> getLastShiftsByShiftRequest(
+                            UUID userExternalId,
                             UUID shiftRequestExternalId,
-                            int shiftsToShow);
+                            int shiftsToShow,
+                            String zoneIdStr);
 
     List<ShiftsCountLast24HoursDto> getShiftsCountLast24Hours(
                                                 UUID userExternalId);
@@ -41,7 +43,8 @@ public interface ShiftService {
     List<ShiftDto> getUpcomingByShiftAssignmentExternalId(
                                         UUID userExternalId,
                                         UUID shiftAssignmentExternalId,
-                                        Integer shiftsToShow);
+                                        Integer shiftsToShow,
+                                        String zoneIdStr);
 
     Page<ShiftDto> getShiftList(
                         SecurityUser securityUser,
@@ -51,6 +54,7 @@ public interface ShiftService {
                         UUID siteExternalId,
                         ShiftStatus status,
                         int page,
-                        int size);
+                        int size,
+                        String zoneIdStr);
 
 }

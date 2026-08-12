@@ -36,6 +36,7 @@ public class ShiftController {
         @RequestParam(required = false) UUID projectExternalId,
         @RequestParam(required = false) UUID siteExternalId,
         @RequestParam(required = false) ShiftStatus status,
+        @RequestParam(required=false) String zoneId,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "20") int size, // 💡 Corregido: Debe ser >= 1
         Model model,
@@ -49,7 +50,7 @@ public class ShiftController {
 
         Page<ShiftDto> shifts = shiftService.getShiftList(
                 securityUser, effectiveStartDate, effectiveEndDate,
-                                                    projectExternalId, siteExternalId, status, page, size);
+                                                    projectExternalId, siteExternalId, status, page, size, zoneId);
         model.addAttribute("shiftsPage", shifts);
         model.addAttribute("shifts", shifts.getContent());
         model.addAttribute("count", shifts.getTotalElements());
@@ -70,6 +71,7 @@ public class ShiftController {
         @RequestParam(required=false) UUID projectId,
         @RequestParam(required=false) UUID siteId,
         @RequestParam(required=false) ShiftStatus status,
+        @RequestParam(required=false) String zoneId,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "20") int size
     ) {
@@ -79,7 +81,7 @@ public class ShiftController {
 
         Page<ShiftDto> shifts = shiftService.getShiftList(
                         securityUser, effectiveStartDate, effectiveEndDate,
-                                                projectId, siteId, status, page, size);
+                                                projectId, siteId, status, page, size, zoneId);
         model.addAttribute("shiftsPage", shifts);
         model.addAttribute("shifts", shifts.getContent());
         model.addAttribute("count", shifts.getTotalElements());

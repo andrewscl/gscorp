@@ -94,12 +94,14 @@ public class ShiftRequestController {
                 @AuthenticationPrincipal SecurityUser securityUser){
 
         if(securityUser == null) return "redirect:/login";
-        UUID externalId = securityUser.getUser().getExternalId();
+        UUID userExternalId = securityUser.getUser().getExternalId();
 
         try {
             ShiftRequestDtoWithSchedules shiftRequestDto =
-                            shiftRequestService.getAllowedShiftRequestByExternalId(externalId, shiftRequestExternalId);
-            Page<ShiftDto> shifts = shiftService.getLastShiftsByShiftRequest(shiftRequestExternalId, 3);
+                shiftRequestService
+                    .getAllowedShiftRequestByExternalId(userExternalId, shiftRequestExternalId);
+            Page<ShiftDto> shifts = shiftService.getLastShiftsByShiftRequest(
+                        userExternalId, shiftRequestExternalId, 3,null);
             model.addAttribute("shifts", shifts.getContent());
             model.addAttribute("shiftRequest", shiftRequestDto);
             return "private/operations/shift-requests/fragments/view-shift-request";
@@ -119,8 +121,10 @@ public class ShiftRequestController {
         UUID externalId = securityUser.getUser().getExternalId();
         try {
             ShiftRequestDtoWithSchedules shiftRequestDto =
-                                shiftRequestService.getAllowedShiftRequestByExternalId(externalId, shiftRequestExternalId);
-            Page<ShiftDto> shifts = shiftService.getLastShiftsByShiftRequest(shiftRequestExternalId, 3);
+                                shiftRequestService
+                                    .getAllowedShiftRequestByExternalId(externalId, shiftRequestExternalId);
+            Page<ShiftDto> shifts = shiftService.getLastShiftsByShiftRequest(
+                                        externalId, shiftRequestExternalId, 3,null);
             model.addAttribute("shiftRequest", shiftRequestDto);
             model.addAttribute("shiftsPage", shifts);
             model.addAttribute("shifts", shifts.getContent());

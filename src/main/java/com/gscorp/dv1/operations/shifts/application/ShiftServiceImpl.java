@@ -20,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.gscorp.dv1.admin.clients.application.ClientService;
+import com.gscorp.dv1.components.ZoneResolver;
+import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.enums.DayOfWeek;
 import com.gscorp.dv1.enums.ShiftRequestStatus;
@@ -47,6 +49,7 @@ public class ShiftServiceImpl implements ShiftService {
     private final ShiftRequestRepository shiftRequestRepository;
     private final ClientService clientService;
     private final UserScopeService userScopeService;
+    private final ZoneResolver zoneResolver;
 
     @Transactional(readOnly = true)
     public List<Shift> getShifts(Long siteId, OffsetDateTime from, OffsetDateTime to) {
@@ -152,14 +155,19 @@ public class ShiftServiceImpl implements ShiftService {
 
     @Transactional(readOnly = true)
     public Page<ShiftDto> getLastShiftsByShiftRequest(
-                                    UUID shiftRequestExternalId,
-                                    int shiftsToShow) {
+                            UUID userExternalId,
+                            UUID shiftRequestExternalId,
+                            int shiftsToShow,
+                            String zoneIdStr) { 
+        ZoneResolutionResult zoneResult = zoneResolver.resolveZone(
+                                                userExternalId, zoneIdStr);
+        ZoneId zoneId = zoneResult.zoneId();
         Pageable pageable =
                         PageRequest.of(0, shiftsToShow);
         Page<ShiftProjection> projections =
                     shiftRepository.findLastByShiftRequestExternalId(
                                             shiftRequestExternalId, pageable);
-        return projections.map(ShiftDto::fromProjection);
+        return projections.map(sp -> ShiftDto.fromProjection(sp, zoneId));
     }
 
 
@@ -200,18 +208,22 @@ public class ShiftServiceImpl implements ShiftService {
     public List<ShiftDto> getUpcomingByShiftAssignmentExternalId(
                                         UUID userExternalId,
                                         UUID shiftAssignmentExternalId,
-                                        Integer shiftsToShow){
+                                        Integer shiftsToShow,
+                                        String zoneIdStr){
         if (userExternalId == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
         }
         int limit = (shiftsToShow != null && shiftsToShow > 0) ? shiftsToShow : 10;
+        ZoneResolutionResult zoneResult = zoneResolver.resolveZone(
+                                                userExternalId, zoneIdStr);
+        ZoneId zoneId = zoneResult.zoneId();
         List<ShiftProjection> projections =
             shiftRepository
                 .findUpcomingByShiftAssignmentExternalId(
                                         shiftAssignmentExternalId,
                                         PageRequest.of(0, limit));
         return projections.stream()
-                    .map(ShiftDto::fromProjection)
+                    .map(sp -> ShiftDto.fromProjection(sp, zoneId))
                     .toList();
     }
 
@@ -223,16 +235,21 @@ public class ShiftServiceImpl implements ShiftService {
                         UUID projectExternalId,
                         UUID siteExternalId,
                         ShiftStatus status,
-                        int page, int size){
+                        int page,
+                        int size,
+                        String zoneIdStr){
         ProjectScope scope = userScopeService.getProjectScope(securityUser);
-        if (startDate == null) startDate = LocalDate.now();
-        if (endDate == null) endDate = LocalDate.now();
-
         int safePage = Math.max(0, page);
         int safeSize = Math.min(Math.max(5, size), 200);
         Pageable pageable = PageRequest.of(safePage, safeSize, Sort.by(Sort.Direction.ASC, "startTs"));
-
         if (scope.hasNoAccess()) return Page.empty(pageable);
+
+        UUID userExternalId = securityUser.getUser().getExternalId();
+        ZoneResolutionResult zoneResult = zoneResolver.resolveZone(
+                                                userExternalId, zoneIdStr);
+        ZoneId zoneId = zoneResult.zoneId();
+        if (startDate == null) startDate = LocalDate.now(zoneId);
+        if (endDate == null) endDate = LocalDate.now(zoneId);
 
         Page<ShiftProjection> projections = shiftRepository
             .findPageByProjectIds(scope.ignoreFilter(), 
@@ -243,10 +260,7 @@ public class ShiftServiceImpl implements ShiftService {
                                     projectExternalId,
                                     status,
                                     pageable);
-        System.out.println(projections);
-        System.out.println(projections.map(ShiftDto::fromProjection));
-
-        return projections.map(ShiftDto::fromProjection);
+        return projections.map(sp -> ShiftDto.fromProjection(sp, zoneId));
     }
 
 }

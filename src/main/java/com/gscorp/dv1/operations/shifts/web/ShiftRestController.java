@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -105,10 +106,15 @@ public class ShiftRestController {
     public ResponseEntity<Page<ShiftDto>> getLastShiftsByShiftRequest(
                 @AuthenticationPrincipal SecurityUser securityUser,
                 @PathVariable("shiftRequestExternalId") UUID shiftRequestExternalId,
-                @PathVariable("shiftsToShow") int shiftsToShow
+                @PathVariable("shiftsToShow") int shiftsToShow,
+                @RequestParam(required = false) String zoneId
     ){
+        if (securityUser == null) {
+            throw new AuthenticationCredentialsNotFoundException("Usuario no autenticado");
+        }
+        UUID userExternalId = securityUser.getUser().getExternalId();
         Page<ShiftDto> shifts = shiftService.getLastShiftsByShiftRequest(
-                                                shiftRequestExternalId, shiftsToShow);
+                                userExternalId, shiftRequestExternalId, shiftsToShow, zoneId);
 
         return ResponseEntity.ok(shifts);
     }
