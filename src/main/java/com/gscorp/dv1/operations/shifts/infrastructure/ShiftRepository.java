@@ -126,7 +126,7 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
                 LEFT JOIN sa.employee e
                 WHERE   (:ignoreProjectFilter = true OR p.id IN :projectIds)
                 AND     sh.shiftDate >= :startDate
-                AND     sh.shiftDate < :endExclusiveDate
+                AND     sh.shiftDate =< :endExclusiveDate
                 AND     (:siteExternalId IS NULL OR s.externalId = :siteExternalId)
                 AND     (:projectExternalId IS NULL OR p.externalId = :projectExternalId)
                 AND     (:shiftStatus IS NULL OR sh.status = :shiftStatus)
@@ -138,7 +138,7 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
                 LEFT JOIN s.project p
                 WHERE   (:ignoreProjectFilter = true OR p.id IN :projectIds)
                 AND     sh.shiftDate >= :startDate
-                AND     sh.shiftDate < :endExclusiveDate
+                AND     sh.shiftDate =< :endExclusiveDate
                 AND     (:siteExternalId IS NULL OR s.externalId = :siteExternalId)
                 AND     (:projectExternalId IS NULL OR p.externalId = :projectExternalId)
                 AND     (:shiftStatus IS NULL OR sh.status = :shiftStatus)
