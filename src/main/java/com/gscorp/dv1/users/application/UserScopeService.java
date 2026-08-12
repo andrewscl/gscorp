@@ -28,13 +28,14 @@ public class UserScopeService {
         User user = securityUser.getUser();
         UUID userExternalId = user.getExternalId();
         Role role = user.getRole();
+        String roleName = (role != null) ? role.getRole() : "" ;
 
-        boolean isAdmin =
-            role != null && "ROLE_ADMINISTRATOR".equalsIgnoreCase(role.getRole());
+        boolean isAdmin = "ROLE_ADMINISTRATOR".equalsIgnoreCase(roleName)
+                            || "ADMINISTRATOR".equalsIgnoreCase(roleName);
         if (isAdmin) return ProjectScope.unrestricted();
 
-        boolean isClient = 
-            role != null && "ROLE_CLIENT".equalsIgnoreCase(role.getRole());
+        boolean isClient = "ROLE_CLIENT".equalsIgnoreCase(roleName)
+                            || "CLIENT".equalsIgnoreCase(roleName);
         if (isClient) {
             List<ProjectDto> projects =projectService.findByUserExternalId(userExternalId);
             List<Long> ids = (projects != null)
