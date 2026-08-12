@@ -1,8 +1,10 @@
       <th:block th:fragment="rows">
         <tr th:each="s : ${shifts}" th:data-id="${s.id}">
-          <td th:text="${s.siteName != null ? s.siteName : '—'}">Nombre sitio</td>
-          <td th:text="${s.shiftRequestCode}">TR001</td>
-          <td th:text="${s.employeeFullName}">Leonardo Olivares</td>
+          <td th:text="${s.siteName ?: '—'}">Nombre sitio</td>
+          <td th:text="${s.shiftRequestCode ?: '-'}">TR001</td>
+          <td th:text="${s.schedule ?: '-' }">20:00</td>
+          <td th:text="${s.status.displayName ?: '-' }">PLANNED</td>
+          <td th:text="${s.plannedEmployeeFullName ?: '-'}">Nombre empleado</td>
           <td class="actions">
             <button type="button" class="btn btn-view"
                     th:attr="data-path=@{/private/shifts/view/{externalId}(externalId=${s.externalId})}">
@@ -21,8 +23,8 @@
         </tr>
         <tr>
             <td colspan="100" style="display: none !important; padding: 0; border: none;">
-                <input type="hidden" id="sync-shift-request-count"
-                  th:value="${count != null ? count : (shiftsPage != null ? shiftAssignmentsPage.totalElements : 0)}" />
+                <input type="hidden" id="sync-shifts-count"
+                  th:value="${count != null ? count : (shiftsPage != null ? shiftsPage.totalElements : 0)}" />
             </td>
         </tr>
 
