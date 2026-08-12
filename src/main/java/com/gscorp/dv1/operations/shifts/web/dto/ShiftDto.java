@@ -2,6 +2,7 @@ package com.gscorp.dv1.operations.shifts.web.dto;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
@@ -24,7 +25,7 @@ public record ShiftDto (
 ){
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 
-    public static ShiftDto fromProjection(ShiftProjection sp){
+    public static ShiftDto fromProjection(ShiftProjection sp, ZoneId zoneId){
         if ( sp == null) return null;
         String name = sp.getEmployeeName();
         String surname = sp.getEmployeeFatherSurname();
@@ -33,13 +34,14 @@ public record ShiftDto (
             employeeFullName = ((name != null ? name : "") + " " + (surname != null ? surname : "" )).trim();
         }
         String schedule = "-";
-        if(sp.getStartTs() != null || sp.getEndTs() != null) {
-            schedule = sp.getStartTs().format(TIME_FORMATTER) + " - " + sp.getEndTs().format(TIME_FORMATTER);
+        if(sp.getStartTs() != null && sp.getEndTs() != null){
+            String startFormatted = sp.getStartTs().atZoneSameInstant(zoneId).format(TIME_FORMATTER);
+            String endFormatted = sp.getEndTs().atZoneSameInstant(zoneId).format(TIME_FORMATTER);
+            schedule = startFormatted + " - " + endFormatted;
         }
         DayOfWeek day = sp.getShiftDate() != null
                         ? DayOfWeek.fromJavaTime(sp.getShiftDate().getDayOfWeek())
                         : null;
-
         return new ShiftDto(
             sp.getId(),
             sp.getExternalId(),
