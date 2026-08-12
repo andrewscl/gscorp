@@ -20,7 +20,7 @@ const searchShifts = async () => {
     const from = qs('#filter-from')?.value.trim() || '';
     const to = qs('#filter-to')?.value.trim() || '';
     const siteId = qs('#filter-dept')?.value.trim() || '';
-    const url = `/private/shifts/list-search?from=${from}&to=${to}&siteId=${siteId}`;
+    const url = `/private/shifts/search?from=${from}&to=${to}&siteId=${siteId}`;
 
     try {
         const res = await fetchWithAuth(url, {credentials: 'same-origin'});
