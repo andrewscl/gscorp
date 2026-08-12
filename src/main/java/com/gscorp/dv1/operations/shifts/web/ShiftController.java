@@ -60,7 +60,7 @@ public class ShiftController {
     }
 
 
-    @GetMapping("/list-search")
+    @GetMapping("/search")
     public String getShiftsListSearch(
         Model model,
         @AuthenticationPrincipal SecurityUser securityUser,
