@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -224,7 +225,12 @@ public class ShiftServiceImpl implements ShiftService {
                         ShiftStatus status,
                         int page, int size){
         ProjectScope scope = userScopeService.getProjectScope(securityUser);
-        Pageable pageable = PageRequest.of(page, size);
+        if (startDate == null) startDate = LocalDate.now();
+        if (endDate == null) endDate = LocalDate.now();
+
+        int safePage = Math.max(0, page);
+        int safeSize = Math.min(Math.max(5, size), 200);
+        Pageable pageable = PageRequest.of(safePage, safeSize, Sort.by(Sort.Direction.ASC, "startTs"));
 
         if (scope.hasNoAccess()) return Page.empty(pageable);
         LocalDate endExclusiveDate = (endDate != null) 
