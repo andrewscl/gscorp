@@ -108,15 +108,22 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
         @Query(
                 value = """
                 SELECT
-                sh.id                AS id,
-                sh.externalId        AS externalId,
-                sh.shiftDate         AS shiftDate,
-                sh.startTs           AS startTs,
-                sh.endTs             AS endTs,
-                sh.status            AS status
+                sh.id               AS id,
+                sh.externalId       AS externalId,
+                sh.shiftDate        AS shiftDate,
+                sh.startTs          AS startTs,
+                sh.endTs            AS endTs,
+                sh.status           AS status,
+                s.name              AS siteName,
+                shr.code            AS shiftRequestCode,
+                e.name              AS employeeName,
+                e.fatherSurname     AS employeeFatherSurname
                 FROM Shift sh
                 LEFT JOIN sh.site s
                 LEFT JOIN s.project p
+                LEFT JOIN sh.shiftRequest shr
+                LEFT JOIN sh.assignment sa
+                LEFT JOIN sa.employee e
                 WHERE   (:ignoreProjectFilter = true OR p.id IN :projectIds)
                 AND     (:startDate IS NULL OR sh.shiftDate >= :startDate)
                 AND     (:endExclusiveDate IS NULL OR sh.shiftDate < :endExclusiveDate)

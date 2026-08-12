@@ -1,5 +1,5 @@
 <div th:replace="~{shared/fragments/table-component :: smart-table(
-    title='Planificación de cobertura',
+    title='Turnos',
     count=${count},
     filters=~{::#shiftsFilters},
     actions=~{::#shiftsActions},
@@ -26,16 +26,16 @@
         </div>
 
         <div class="filter-item item-action">
-            <button class="btn btn-primary" id="searchshiftAssignmentsBtn">
+            <button class="btn btn-primary" id="searchshiftsBtn">
             Buscar
             </button>
         </div>
     </th:block>
 
     <th:block id="shiftsActions">
-        <button class="btn btn-primary" id="addShiftAssignmentsBtn"
-        th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
-        Crear registro
+        <button class="btn btn-primary" id="addShiftsBtn"
+            th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
+            Crear registro
         </button>
     </th:block>
 

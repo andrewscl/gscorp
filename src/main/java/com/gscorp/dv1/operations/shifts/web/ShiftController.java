@@ -51,6 +51,7 @@ public class ShiftController {
                                     status, page, size);
         model.addAttribute("shiftsPage", shifts);
         model.addAttribute("shifts", shifts.getContent());
+        model.addAttribute("count", shifts.getTotalElements());
         return "private/operations/shifts/views/shifts-list";
     }
 

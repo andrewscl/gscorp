@@ -15,10 +15,21 @@ public record ShiftDto (
     OffsetDateTime startTs,
     OffsetDateTime endTs,
     ShiftStatus status,
-    DayOfWeek day
+    DayOfWeek day,
+    String siteName,
+    String shiftRequestCode,
+    String employeeFullName
 ){
     public static ShiftDto fromProjection(ShiftProjection sp){
         if ( sp == null) return null;
+        String name = sp.getEmployeeName();
+        String surname = sp.getEmployeeFatherSurname();
+        String employeeFullName = null;
+        if (name != null || surname != null) {
+            employeeFullName = 
+                ((name != null ? name : "") + " " + (surname != null ? surname : "" ))
+                .trim();
+        }
         return new ShiftDto(
             sp.getId(),
             sp.getExternalId(),
@@ -28,7 +39,10 @@ public record ShiftDto (
             sp.getStatus(),
             sp.getShiftDate() != null
                 ? DayOfWeek.fromJavaTime(sp.getShiftDate().getDayOfWeek())
-                : null
+                : null,
+            sp.getSiteName(),
+            sp.getShiftRequestCode(),
+            employeeFullName
         );
     }
 }

@@ -14,4 +14,9 @@ public interface ShiftProjection {
     OffsetDateTime getStartTs();
     OffsetDateTime getEndTs();
     ShiftStatus getStatus();
+    String getSiteName();
+    String getShiftRequestCode();
+    String getEmployeeName();
+    String getEmployeeFatherSurname();
+
 }
