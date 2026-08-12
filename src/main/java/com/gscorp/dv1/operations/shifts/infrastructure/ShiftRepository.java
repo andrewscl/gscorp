@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.gscorp.dv1.enums.ShiftStatus;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.operations.shifts.infrastructure.projections.ShiftProjection;
 import com.gscorp.dv1.operations.shifts.infrastructure.projections.ShiftsCountLast24HoursProjection;
@@ -102,5 +103,49 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
                 @Param("shiftAssignmentExternalId") UUID shiftAssignmentExternalId,
                 Pageable pageable
     );
+
+
+        @Query(
+                value = """
+                SELECT
+                sh.id                AS id,
+                sh.externalId        AS externalId,
+                sh.shiftDate         AS shiftDate,
+                sh.startTs           AS startTs,
+                sh.endTs             AS endTs,
+                sh.status            AS status
+                FROM Shift sh
+                LEFT JOIN sh.site s
+                LEFT JOIN s.project p
+                WHERE   (:ignoreProjectFilter = true OR p.id IN :projectIds)
+                AND     (:startDate IS NULL OR sh.shiftDate >= :startDate)
+                AND     (:endExclusiveDate IS NULL OR sh.shiftDate < :endExclusiveDate)
+                AND     (:siteId IS NULL OR s.id = :siteId)
+                AND     (:projectId IS NULL OR p.id = :projectId)
+                AND     (:shiftStatus IS NULL OR sh.status = :shiftStatus)
+                """,
+                countQuery = """
+                SELECT COUNT(sh.id)
+                FROM Shift sh
+                LEFT JOIN sh.site s
+                LEFT JOIN s.project p
+                WHERE   (:ignoreProjectFilter = true OR p.id IN :projectIds)
+                AND     (:startDate IS NULL OR sh.shiftDate >= :startDate)
+                AND     (:endExclusiveDate IS NULL OR sh.shiftDate < :endExclusiveDate)
+                AND     (:siteId IS NULL OR s.id = :siteId)
+                AND     (:projectId IS NULL OR p.id = :projectId)
+                AND     (:shiftStatus IS NULL OR sh.status = :shiftStatus)
+                """
+        )
+        Page<ShiftProjection> findPageByProjectIds(
+                @Param("ignoreProjectFilter") boolean ignoreProjectFilter,
+                @Param("projectIds") List<Long> projectIds,
+                @Param("startDate") LocalDate startDate,
+                @Param("endExclusiveDate") LocalDate endExclusiveDate,
+                @Param("siteId") Long siteId,
+                @Param("projectId") Long projectId,
+                @Param("shiftStatus") ShiftStatus status,
+                Pageable pageable
+        );
 
 }

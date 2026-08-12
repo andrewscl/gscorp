@@ -1,5 +1,6 @@
 package com.gscorp.dv1.operations.shifts.application;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.List;
@@ -7,6 +8,8 @@ import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 
+import com.gscorp.dv1.config.security.SecurityUser;
+import com.gscorp.dv1.enums.ShiftStatus;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.operations.shifts.infrastructure.Shift;
 import com.gscorp.dv1.operations.shifts.web.dto.ShiftDto;
@@ -40,4 +43,14 @@ public interface ShiftService {
                                         UUID shiftAssignmentExternalId,
                                         Integer shiftsToShow);
 
+    Page<ShiftDto> getShiftList(
+                        SecurityUser securityUser,
+                        LocalDate startDate,
+                        LocalDate endDate,
+                        Long projectId,
+                        Long siteId,
+                        ShiftStatus status,
+                        int page, int size);
+
+    
 }

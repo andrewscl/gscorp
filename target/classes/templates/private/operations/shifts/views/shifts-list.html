@@ -1,0 +1,51 @@
+<div th:replace="~{shared/fragments/table-component :: smart-table(
+    title='Planificación de cobertura',
+    count=${count},
+    filters=~{::#shiftsFilters},
+    actions=~{::#shiftsActions},
+    thead=~{::#shiftsHeader},
+    tbody=~{private/operations/shifts/fragments/shift-table-rows :: rows},
+    customClass='shifts-list'
+)}">
+
+    <th:block class="count" th:if="${shiftsCount != null}"
+        th:text="${shiftsCount + ' registro' + (shiftsCount == 1 ? '' : 's')}"
+        aria-live="polite" aria-atomic="true">
+    </th:block>
+
+    <th:block id="shiftsFilters">
+
+        <div class="filter-item">
+            <span class="filter-label">Sitios</span>
+            <select id="filter-dept" class="filter-input" name="siteId" required>
+                <option value="">Todos los sitios</option>
+                <option th:each="s : ${sites}"
+                        th:value="${s.id}"
+                        th:text="${s.name}"></option>
+            </select>
+        </div>
+
+        <div class="filter-item item-action">
+            <button class="btn btn-primary" id="searchshiftAssignmentsBtn">
+            Buscar
+            </button>
+        </div>
+    </th:block>
+
+    <th:block id="shiftsActions">
+        <button class="btn btn-primary" id="addShiftAssignmentsBtn"
+        th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
+        Crear registro
+        </button>
+    </th:block>
+
+    <tr id="shiftsHeader">
+        <th>Sitio</th>
+        <th>Turno</th>
+        <th>Cobertura</th>
+        <th>Empleado</th>
+        <th>Actions</th>
+    </tr>
+</div>
+
+<script type="module" src="/js/private/operations/shift-assignments/shift-assignments-list.js"></script>

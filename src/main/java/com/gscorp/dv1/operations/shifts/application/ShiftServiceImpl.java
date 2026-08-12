@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.gscorp.dv1.admin.clients.application.ClientService;
+import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.enums.DayOfWeek;
 import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.enums.ShiftStatus;
@@ -31,6 +32,8 @@ import com.gscorp.dv1.operations.shifts.infrastructure.ShiftRepository;
 import com.gscorp.dv1.operations.shifts.infrastructure.projections.ShiftProjection;
 import com.gscorp.dv1.operations.shifts.web.dto.ShiftDto;
 import com.gscorp.dv1.operations.shifts.web.dto.ShiftsCountLast24HoursDto;
+import com.gscorp.dv1.users.application.UserScopeService;
+import com.gscorp.dv1.users.application.dto.ProjectScope;
 
 import lombok.RequiredArgsConstructor;
 
@@ -42,6 +45,7 @@ public class ShiftServiceImpl implements ShiftService {
     private final ShiftRequestScheduleRepository shiftRequestScheduleRepository;
     private final ShiftRequestRepository shiftRequestRepository;
     private final ClientService clientService;
+    private final UserScopeService userScopeService;
 
     @Transactional(readOnly = true)
     public List<Shift> getShifts(Long siteId, OffsetDateTime from, OffsetDateTime to) {
@@ -208,6 +212,36 @@ public class ShiftServiceImpl implements ShiftService {
         return projections.stream()
                     .map(ShiftDto::fromProjection)
                     .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ShiftDto> getShiftList(
+                        SecurityUser securityUser,
+                        LocalDate startDate,
+                        LocalDate endDate,
+                        Long projectId,
+                        Long siteId,
+                        ShiftStatus status,
+                        int page, int size){
+        ProjectScope scope = userScopeService.getProjectScope(securityUser);
+        Pageable pageable = PageRequest.of(page, size);
+
+        if (scope.hasNoAccess()) return Page.empty(pageable);
+        LocalDate endExclusiveDate = (endDate != null) 
+                                    ? endDate.plusDays(1) 
+                                    : null;
+
+        Page<ShiftProjection> projections = shiftRepository
+            .findPageByProjectIds(scope.ignoreFilter(), 
+                                    scope.projectIds(), 
+                                    startDate, 
+                                    endExclusiveDate, 
+                                    siteId,
+                                    projectId,
+                                    status,
+                                    pageable);
+
+        return projections.map(ShiftDto::fromProjection);
     }
 
 }

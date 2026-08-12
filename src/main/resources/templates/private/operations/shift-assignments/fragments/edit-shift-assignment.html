@@ -3,7 +3,7 @@
 
         <div class="panel-main">
             <div class="panel-header">
-                <h4>Ver asignación de turno</h4>
+                <h4>Editar asignación de turno</h4>
             </div>
             <div class="panel-body">
                 <div class="form-group">
@@ -18,7 +18,7 @@
                 </div>
 
                 <div class="form-row w-custom">
-                    <div class="form-group fx-6">
+                    <div class="form-group fx-3">
                         <label>Turno / Requerimiento:</label>
                         <span id="shiftRequestExternalId" 
                               th:text="${shiftAssignment.shiftRequestCode ?: '-'}"></span>
@@ -27,6 +27,11 @@
                         <label>Jornada / Patrón:</label>
                         <span id="shiftPattern" 
                               th:text="${shiftAssignment.shiftPatternName ?: '-'}"></span>
+                    </div>
+                    <div class="form-group fx-3" id="shiftPatternGroup">
+                        <label>Estado:</label>
+                        <span id="shiftPatternStatus" 
+                              th:text="${shiftAssignment.status.displayName ?: '-'}"></span>
                     </div>
                 </div>
 
@@ -110,7 +115,10 @@
     </div>
 
     <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
-    <div th:replace="~{shared/fragments/footer-buttons :: footer-buttons(false, '', true, 'Volver', false, '')}"></div>
+    <div th:replace="~{shared/fragments/footer-buttons :: footer-buttons(
+                                                            false, '',
+                                                            true, 'Cancelar',
+                                                            true, 'Cerrar')}"></div>
 
     <script type="module" src="/js/private/operations/shift-assignments/edit-shift-assignment.js"></script>
 </div>

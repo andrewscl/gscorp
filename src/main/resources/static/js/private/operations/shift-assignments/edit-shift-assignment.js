@@ -1,1 +1,1 @@
-import{n}from"../../../navigation-handler.js";import"../../../auth.js";const i=t=>document.querySelector(t),s=()=>{n("/private/shift-assignments/list",!0)};function e(){const t=i("#cancel");t&&t.addEventListener("click",s)}(function(){e()})();
+import{n as i}from"../../../navigation-handler.js";import"../../../auth.js";const e=t=>document.querySelector(t),s=()=>{},c=()=>{i("/private/shift-assignments/list",!0)};function o(){const t=e("#cancel");t&&t.addEventListener("click",c);const n=e("#delete");n&&n.addEventListener("click",s)}(function(){o()})();
