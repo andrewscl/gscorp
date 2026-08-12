@@ -63,8 +63,8 @@ public class ShiftController {
     public String getShiftsListSearch(
         Model model,
         @AuthenticationPrincipal SecurityUser securityUser,
-        @RequestParam(required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
-        @RequestParam(required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
+        @RequestParam(required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+        @RequestParam(required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
         @RequestParam(required=false) UUID projectId,
         @RequestParam(required=false) UUID siteId,
         @RequestParam(required=false) ShiftStatus status,
@@ -72,14 +72,17 @@ public class ShiftController {
         @RequestParam(defaultValue = "20") int size
     ) {
         if(securityUser == null) return "redirect:/login";
+        LocalDate effectiveStartDate = (startDate != null) ? startDate : LocalDate.now();
+        LocalDate effectiveEndDate = (endDate != null) ? endDate.plusDays(1) : LocalDate.now();
 
         Page<ShiftDto> shifts = shiftService.getShiftList(
-                        securityUser, from, to, projectId, siteId, status, page, size);
+                        securityUser, effectiveStartDate, effectiveEndDate,
+                                                projectId, siteId, status, page, size);
         model.addAttribute("shiftsPage", shifts);
         model.addAttribute("shifts", shifts.getContent());
         model.addAttribute("count", shifts.getTotalElements());
-        model.addAttribute("fromDate", from);
-        model.addAttribute("toDate",   to);
+        model.addAttribute("fromDate", effectiveStartDate);
+        model.addAttribute("toDate", effectiveEndDate);
         return "private/operations/shifts/fragments/shifts-list-rows :: rows";
     }
 
