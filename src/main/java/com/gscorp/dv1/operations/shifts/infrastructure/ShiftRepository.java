@@ -124,24 +124,24 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
                 LEFT JOIN sh.shiftRequest shr
                 LEFT JOIN sh.assignment sa
                 LEFT JOIN sa.employee e
-                WHERE   (:ignoreProjectFilter = true OR p.id IN :projectIds)
-                AND     (:startDate IS NULL OR sh.shiftDate >= :startDate)
-                AND     (:endExclusiveDate IS NULL OR sh.shiftDate < :endExclusiveDate)
-                AND     (:siteId IS NULL OR s.id = :siteId)
-                AND     (:projectId IS NULL OR p.id = :projectId)
-                AND     (:shiftStatus IS NULL OR sh.status = :shiftStatus)
+                WHERE   :ignoreProjectFilter = true OR p.id IN :projectIds
+                AND     :startDate IS NULL OR sh.shiftDate >= :startDate
+                AND     :endExclusiveDate IS NULL OR sh.shiftDate < :endExclusiveDate
+                AND     :siteId IS NULL OR s.id = :siteId
+                AND     :projectId IS NULL OR p.id = :projectId
+                AND     :shiftStatus IS NULL OR sh.status = :shiftStatus
                 """,
                 countQuery = """
                 SELECT COUNT(sh.id)
                 FROM Shift sh
                 LEFT JOIN sh.site s
                 LEFT JOIN s.project p
-                WHERE   (:ignoreProjectFilter = true OR p.id IN :projectIds)
-                AND     (:startDate IS NULL OR sh.shiftDate >= :startDate)
-                AND     (:endExclusiveDate IS NULL OR sh.shiftDate < :endExclusiveDate)
-                AND     (:siteId IS NULL OR s.id = :siteId)
-                AND     (:projectId IS NULL OR p.id = :projectId)
-                AND     (:shiftStatus IS NULL OR sh.status = :shiftStatus)
+                WHERE   :ignoreProjectFilter = true OR p.id IN :projectIds
+                AND     :startDate IS NULL OR sh.shiftDate >= :startDate
+                AND     :endExclusiveDate IS NULL OR sh.shiftDate < :endExclusiveDate
+                AND     :siteId IS NULL OR s.id = :siteId
+                AND     :projectId IS NULL OR p.id = :projectId
+                AND     :shiftStatus IS NULL OR sh.status = :shiftStatus
                 """
         )
         Page<ShiftProjection> findPageByProjectIds(
