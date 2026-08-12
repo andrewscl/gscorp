@@ -35,7 +35,7 @@ async function searchAttendance() {
         const res = await fetchWithAuth(url, { credentials: 'same-origin'});
         if(!res.ok) throw new Error(`Error HTTP: ${res.status}`);
         const htmlResult = await res.text();
-        const   tBody = qs('.hs-table-container .table tbody');
+        const tBody = qs('.hs-table-container .table tbody');
         if(tBody){
           tBody.innerHTML = htmlResult;
         }
