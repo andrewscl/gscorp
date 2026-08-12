@@ -4,7 +4,7 @@
     filters=~{::#shiftsFilters},
     actions=~{::#shiftsActions},
     thead=~{::#shiftsHeader},
-    tbody=~{private/operations/shifts/fragments/shift-table-rows :: rows},
+    tbody=~{private/operations/shifts/fragments/shifts-list-rows :: rows},
     customClass='shifts-list'
 )}">
 
@@ -14,6 +14,17 @@
     </th:block>
 
     <th:block id="shiftsFilters">
+
+        <label class="filter-item">
+            <span class="filter-label">Desde</span>
+            <input id="filter-from" class="filter-input" type="date" name="from"
+                th:value="${from != null ? #temporals.format(from, 'yyyy-MM-dd') : (fromDate != null ? #temporals.format(fromDate, 'yyyy-MM-dd') : '')}" />
+        </label>
+        <label class="filter-item">
+            <span class="filter-label">Hasta</span>
+            <input id="filter-to" class="filter-input" type="date" name="to"
+                th:value="${to != null ? #temporals.format(to, 'yyyy-MM-dd') : (toDate != null ? #temporals.format(toDate, 'yyyy-MM-dd') : '')}" />
+        </label>
 
         <div class="filter-item">
             <span class="filter-label">Sitios</span>
@@ -40,13 +51,14 @@
     </th:block>
 
     <tr id="shiftsHeader">
+        <th>Fecha</th>
         <th>Sitio</th>
         <th>Turno</th>
         <th>Horario</th>
-        <th>Empleado asignado</th>
         <th>Estado</th>
+        <th>Empleado asignado</th>
         <th>Actions</th>
     </tr>
 </div>
 
-<script type="module" src="/js/private/operations/shift-assignments/shift-assignments-list.js"></script>
+<script type="module" src="/js/private/operations/shifts/shift-list.js"></script>

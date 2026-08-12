@@ -93,6 +93,8 @@ export default defineConfig({
         'private/operations/shift-assignments/edit-shift-assignment': path.resolve(__dirname, './src/private/operations/shift-assignments/edit-shift-assignment.js'),
 
         'private/shifts/create-shift': path.resolve(__dirname, './src/private/shifts/create-shift.js'),
+        'private/operations/shifts/shifts-list': path.resolve(__dirname, './src/private/operations/shifts/shifts-list.js'),
+
         'private/sites/set-coordinates': path.resolve(__dirname, './src/private/sites/set-coordinates.js'),
         'private/sites/sites-table': path.resolve(__dirname, './src/private/sites/sites-table.js'),
         'private/site-visits/view-site-visit': path.resolve(__dirname, './src/private/site-visits/view-site-visit.js'),

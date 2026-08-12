@@ -1,0 +1,1 @@
+import{n as i}from"../../../navigation-handler.js";import"../../../auth.js";const n=t=>document.querySelector(t),s=()=>{i("/private/shifts/create",!0)},c=()=>{i("/private/shifts/search",!0)};function r(){const t=n("#addShiftsBtn");t&&t.addEventListener("click",s);const e=n("#searchshiftsBtn");e&&e.addEventListener("click",c)}(function(){r()})();

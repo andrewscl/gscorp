@@ -1,6 +1,7 @@
 package com.gscorp.dv1.operations.shifts.web;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -16,6 +17,7 @@ import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.enums.ShiftStatus;
 import com.gscorp.dv1.operations.shifts.application.ShiftService;
 import com.gscorp.dv1.operations.shifts.web.dto.ShiftDto;
+import com.gscorp.dv1.operations.sites.application.SiteService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class ShiftController {
 
     private final ShiftService shiftService;
+    private final SiteService siteService;
 
     @GetMapping("/list")
     public String getShiftsTableView(
@@ -39,7 +42,7 @@ public class ShiftController {
         @AuthenticationPrincipal SecurityUser securityUser
     ) {
         if(securityUser == null) return "redirect:/login";
-
+        UUID userExternalId = securityUser.getUser().getExternalId();
         // 💡 Si el usuario no envía fechas, por defecto muestra los turnos de HOY
         LocalDate effectiveStartDate = (startDate != null) ? startDate : LocalDate.now();
         LocalDate effectiveEndDate = (endDate != null) ? endDate : LocalDate.now();
@@ -52,8 +55,38 @@ public class ShiftController {
         model.addAttribute("shiftsPage", shifts);
         model.addAttribute("shifts", shifts.getContent());
         model.addAttribute("count", shifts.getTotalElements());
+        model.addAttribute("sites", siteService.getAllSitesByUser(userExternalId));
         return "private/operations/shifts/views/shifts-list";
     }
+
+
+    @GetMapping("/list-search")
+    public String getShiftsListSearch(
+        Model model,
+        @AuthenticationPrincipal SecurityUser securityUser,
+        @RequestParam(required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+        @RequestParam(required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
+        @RequestParam(required=false) Long projectId,
+        @RequestParam(required=false) Long siteId,
+        @RequestParam(required=false) ShiftStatus status,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "20") int size
+    ) {
+        if(securityUser == null) return "redirect:/login";
+
+        Page<ShiftDto> shifts = shiftService.getShiftList(
+                                    securityUser, 
+                                    from, to,
+                                    projectId, siteId,
+                                    status, page, size);
+        model.addAttribute("shiftsPage", shifts);
+        model.addAttribute("shifts", shifts.getContent());
+        model.addAttribute("count", shifts.getTotalElements());
+        model.addAttribute("fromDate", from);
+        model.addAttribute("toDate",   to);
+        return "private/operations/shifts/fragments/shifts-list-rows";
+    }
+
 
     @GetMapping("/create")
     public String createShift(Model model) {
