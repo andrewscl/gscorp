@@ -50,7 +50,8 @@ public interface ShiftService {
                         Long projectId,
                         Long siteId,
                         ShiftStatus status,
-                        int page, int size);
+                        int page,
+                        int size);
 
     
 }
