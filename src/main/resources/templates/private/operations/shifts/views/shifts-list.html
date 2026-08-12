@@ -31,7 +31,7 @@
             <select id="filter-dept" class="filter-input" name="siteId" required>
                 <option value="">Todos los sitios</option>
                 <option th:each="s : ${sites}"
-                        th:value="${s.id}"
+                        th:value="${s.externalId}"
                         th:text="${s.name}"></option>
             </select>
         </div>
