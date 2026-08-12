@@ -3,6 +3,9 @@ import { fetchWithAuth } from "../../../auth";
 import { displayAlert } from "../../../shared/display-alert";
 
 const qs  = (s) => document.querySelector(s);
+const alertSuccess = qs('.alert-success');
+const alertError = qs('.alert-error');
+const alertWarning = qs('.alert-warning');
 
 const createShift = () => {
     navigateTo('/private/shifts/create', true);
