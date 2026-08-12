@@ -84,7 +84,7 @@ public class ShiftController {
         model.addAttribute("count", shifts.getTotalElements());
         model.addAttribute("fromDate", from);
         model.addAttribute("toDate",   to);
-        return "private/operations/shifts/fragments/shifts-list-rows";
+        return "private/operations/shifts/fragments/shifts-list-rows :: rows";
     }
 
 
