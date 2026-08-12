@@ -103,7 +103,6 @@ public class AttendanceController {
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "20") int size
         ) {
-
         if(securityUser == null) return "redirect:/login";
         UUID externalId = securityUser.getUser().getExternalId();
 

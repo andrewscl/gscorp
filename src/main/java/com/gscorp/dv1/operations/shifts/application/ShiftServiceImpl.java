@@ -233,15 +233,12 @@ public class ShiftServiceImpl implements ShiftService {
         Pageable pageable = PageRequest.of(safePage, safeSize, Sort.by(Sort.Direction.ASC, "startTs"));
 
         if (scope.hasNoAccess()) return Page.empty(pageable);
-        LocalDate endExclusiveDate = (endDate != null) 
-                                    ? endDate.plusDays(1) 
-                                    : null;
 
         Page<ShiftProjection> projections = shiftRepository
             .findPageByProjectIds(scope.ignoreFilter(), 
                                     scope.projectIds(), 
                                     startDate, 
-                                    endExclusiveDate, 
+                                    endDate, 
                                     siteId,
                                     projectId,
                                     status,

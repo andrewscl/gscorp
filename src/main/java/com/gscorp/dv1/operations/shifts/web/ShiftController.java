@@ -43,19 +43,18 @@ public class ShiftController {
     ) {
         if(securityUser == null) return "redirect:/login";
         UUID userExternalId = securityUser.getUser().getExternalId();
-        // 💡 Si el usuario no envía fechas, por defecto muestra los turnos de HOY
+
         LocalDate effectiveStartDate = (startDate != null) ? startDate : LocalDate.now();
         LocalDate effectiveEndDate = (endDate != null) ? endDate : LocalDate.now();
 
         Page<ShiftDto> shifts = shiftService.getShiftList(
-                                    securityUser, 
-                                    effectiveStartDate, effectiveEndDate,
-                                    projectId, siteId,
-                                    status, page, size);
+                securityUser, effectiveStartDate, effectiveEndDate,
+                                                    projectId, siteId, status, page, size);
         model.addAttribute("shiftsPage", shifts);
         model.addAttribute("shifts", shifts.getContent());
         model.addAttribute("count", shifts.getTotalElements());
-        model.addAttribute("sites", siteService.getAllSitesByUser(userExternalId));
+        model.addAttribute("sites", siteService
+                                                        .getAllSitesByUser(userExternalId));
         return "private/operations/shifts/views/shifts-list";
     }
 
