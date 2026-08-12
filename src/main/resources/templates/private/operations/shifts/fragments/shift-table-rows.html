@@ -5,11 +5,11 @@
           <td th:text="${s.employeeFullName}">Leonardo Olivares</td>
           <td class="actions">
             <button type="button" class="btn btn-view"
-                    th:attr="data-path=@{/private/shifts/view/{externalId}(externalId=${sa.externalId})}">
+                    th:attr="data-path=@{/private/shifts/view/{externalId}(externalId=${s.externalId})}">
               Ver
             </button>
             <button type="button" class="btn btn-edit"
-                    th:attr="data-path=@{/private/shifts/edit/{externalId}(externalId=${sa.externalId})}"
+                    th:attr="data-path=@{/private/shifts/edit/{externalId}(externalId=${s.externalId})}"
                     th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
               Editar
             </button>
