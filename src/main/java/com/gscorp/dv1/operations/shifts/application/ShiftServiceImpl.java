@@ -220,8 +220,8 @@ public class ShiftServiceImpl implements ShiftService {
                         SecurityUser securityUser,
                         LocalDate startDate,
                         LocalDate endDate,
-                        UUID projectId,
-                        UUID siteId,
+                        UUID projectExternalId,
+                        UUID siteExternalId,
                         ShiftStatus status,
                         int page, int size){
         ProjectScope scope = userScopeService.getProjectScope(securityUser);
@@ -239,8 +239,8 @@ public class ShiftServiceImpl implements ShiftService {
                                     scope.projectIds(), 
                                     startDate, 
                                     endDate, 
-                                    siteId,
-                                    projectId,
+                                    siteExternalId,
+                                    projectExternalId,
                                     status,
                                     pageable);
         System.out.println(projections);

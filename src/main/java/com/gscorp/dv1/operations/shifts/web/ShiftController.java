@@ -33,8 +33,8 @@ public class ShiftController {
     public String getShiftsTableView(
         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
-        @RequestParam(required = false) UUID projectId,
-        @RequestParam(required = false) UUID siteId,
+        @RequestParam(required = false) UUID projectExternalId,
+        @RequestParam(required = false) UUID siteExternalId,
         @RequestParam(required = false) ShiftStatus status,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "20") int size, // 💡 Corregido: Debe ser >= 1
@@ -49,7 +49,7 @@ public class ShiftController {
 
         Page<ShiftDto> shifts = shiftService.getShiftList(
                 securityUser, effectiveStartDate, effectiveEndDate,
-                                                    projectId, siteId, status, page, size);
+                                                    projectExternalId, siteExternalId, status, page, size);
         model.addAttribute("shiftsPage", shifts);
         model.addAttribute("shifts", shifts.getContent());
         model.addAttribute("count", shifts.getTotalElements());

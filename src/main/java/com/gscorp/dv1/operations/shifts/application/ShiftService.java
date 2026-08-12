@@ -47,11 +47,10 @@ public interface ShiftService {
                         SecurityUser securityUser,
                         LocalDate startDate,
                         LocalDate endDate,
-                        UUID projectId,
-                        UUID siteId,
+                        UUID projectExternalId,
+                        UUID siteExternalId,
                         ShiftStatus status,
                         int page,
                         int size);
 
-    
 }

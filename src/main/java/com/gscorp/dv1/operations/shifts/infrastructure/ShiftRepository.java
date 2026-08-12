@@ -128,7 +128,7 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
                 AND     (:#{#startDate == null} = true OR sh.shiftDate >= :startDate)
                 AND     (:#{#endExclusiveDate == null} = true OR sh.shiftDate < :endExclusiveDate)
                 AND     (:#{#siteExternalId == null} = true OR s.externalId = :siteExternalId)
-                AND     (:#{#projectId == null} = true OR p.id = :projectId)
+                AND     (:#{#projectExternalId == null} = true OR p.externalId = :projectExternalId)
                 AND     (:#{#shiftStatus == null} = true OR sh.status = :shiftStatus)
                 """,
                 countQuery = """
@@ -139,8 +139,8 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
                 WHERE   (:ignoreProjectFilter = true OR p.id IN :projectIds)
                 AND     (:#{#startDate == null} = true OR sh.shiftDate >= :startDate)
                 AND     (:#{#endExclusiveDate == null} = true OR sh.shiftDate < :endExclusiveDate)
-                AND     (:#{#siteExternalId == null} = true OR s.id = :siteExternalId)
-                AND     (:#{#projectExternalId == null} = true OR p.id = :projectExternalId)
+                AND     (:#{#siteExternalId == null} = true OR s.externalId = :siteExternalId)
+                AND     (:#{#projectExternalId == null} = true OR p.externalId = :projectExternalId)
                 AND     (:#{#shiftStatus == null} = true OR sh.status = :shiftStatus)
                 """
         )
