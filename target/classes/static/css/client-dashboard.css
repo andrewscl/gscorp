@@ -280,12 +280,12 @@ p {
   box-sizing: border-box;
   background: var(--bg-surface);
   border-radius: 0.75rem;
-  padding: 1.25rem;
+  padding: 1rem;
   box-shadow: var(--shadow-surface);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.25rem;
   transition: transform 0.16s ease, box-shadow 0.16s ease;
   border: 0.0625rem solid #f1f5f9;
 }
@@ -379,7 +379,7 @@ p {
   min-width: 0;
   box-sizing: border-box;
   position: relative;
-  min-height: 8.75rem;
+  height: 12.5rem;
   border-radius: 0.5rem;
   overflow: hidden;
 }
@@ -759,4 +759,4 @@ p {
   border-top: 1px solid #e2e8f0;
   margin: 0.75rem 0;
   opacity: 0.4;
-}/*# sourceMappingURL=client-dashboard.css.map */
+}/*# sourceMappingURL=client-dashboard.css.map */ */
