@@ -1,6 +1,7 @@
 package com.gscorp.dv1.enums;
 
 public enum ShiftStatus {
+    UNPLANNED("Por planificar"),
     PLANNED("Planificado"),
     IN_PROGRESS("En Progreso"),
     COMPLETED("Completado"),
