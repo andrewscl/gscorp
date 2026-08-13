@@ -91,7 +91,6 @@
                         transform: translateY(-0.25rem); // 4px
                         box-shadow: 0 0.75rem 1.875rem rgba(33, 41, 55, 0.08); // 12px 30px
                     }
-
                     &:focus-within {
                         outline: 0.1875rem solid rgba($accent-sky, 0.15); // 3px
                         outline-offset: 0.125rem; // 2px
@@ -153,21 +152,21 @@
                                 padding: 0.25rem 0;
                                 // El valor actual
                                 .total-value {
-                                    @include montserrat-font(0.95rem, 700);
-                                    color: $heading-color;
+                                    @include montserrat-font(0.9rem, 700);
+                                    color: $text-color;
                                     line-height: 1;
                                 }
                                 // El separador "/" y la Meta
                                 .total-slash,
                                 .meta-value {
-                                    @include montserrat-font(0.95   rem, 500);
-                                    color: $label-text-color;
+                                    @include montserrat-font(0.9rem, 700);
+                                    color: $heading-color;
                                     line-height: 1;
                                 }
                                 // La unidad corregida (Sin transformaciones raras, todo en minúscula limpia)
                                 .total-unit {
-                                    @include montserrat-font(0.85rem, 500); // Mismo tamaño visual que el resto
-                                    color: $label-text-color;
+                                    @include montserrat-font(0.9rem, 700); // Mismo tamaño visual que el resto
+                                    color: $heading-color;
                                     line-height: 1;
                                 }
                             }
@@ -210,18 +209,18 @@
 
                 // Asignación de colores específicos por tipo de Tarjeta (Uso de los acentos)
                 .card[data-card*="attendance"] {
-                    h5 { color: #{$accent-blue}; }
-                    .total-value { color: #{$accent-blue}; }
+                    h5 { color: #{$text-color}; }
+                    .total-value { color: #{$text-color}; }
                 }
                 
                 .card[data-card*="patrols"] {
-                    h5 { color: #{$accent-purple}; }
-                    .total-value { color: #{$accent-purple}; }
+                    h5 { color: #{$text-color}; }
+                    .total-value { color: #{$text-color}; }
                 }
                 
                 .card[data-card*="visits"] {
-                    h5 { color: #{$accent-orange}; }
-                    .total-value { color: #{$accent-orange}; }
+                    h5 { color: #{$text-color}; }
+                    .total-value { color: #{$text-color}; }
                 }
 
                 // Tooltips flotantes de los charts adaptados a tus grises oscuros

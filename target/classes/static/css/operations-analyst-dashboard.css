@@ -552,27 +552,27 @@ p {
 }
 .operations-analyst-dashboard .operational-dashboard .operational-charts .card .card-top.split .split-right .card-totals .total-value {
   font-family: "Montserrat", sans-serif;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 700;
   letter-spacing: 0.02em;
-  color: #475569;
+  color: #334155;
   line-height: 1;
 }
 .operations-analyst-dashboard .operational-dashboard .operational-charts .card .card-top.split .split-right .card-totals .total-slash,
 .operations-analyst-dashboard .operational-dashboard .operational-charts .card .card-top.split .split-right .card-totals .meta-value {
   font-family: "Montserrat", sans-serif;
-  font-size: 0.95 rem;
-  font-weight: 500;
+  font-size: 0.9rem;
+  font-weight: 700;
   letter-spacing: 0.02em;
-  color: #94a3b8;
+  color: #475569;
   line-height: 1;
 }
 .operations-analyst-dashboard .operational-dashboard .operational-charts .card .card-top.split .split-right .card-totals .total-unit {
   font-family: "Montserrat", sans-serif;
-  font-size: 0.85rem;
-  font-weight: 500;
+  font-size: 0.9rem;
+  font-weight: 700;
   letter-spacing: 0.02em;
-  color: #94a3b8;
+  color: #475569;
   line-height: 1;
 }
 .operations-analyst-dashboard .operational-dashboard .operational-charts .card .chart-body, .operations-analyst-dashboard .operational-dashboard .operational-charts .card div[id^=chart-] {
@@ -607,22 +607,22 @@ p {
   background: transparent;
 }
 .operations-analyst-dashboard .operational-dashboard .operational-charts .card[data-card*=attendance] h5 {
-  color: #3b82f6;
+  color: #334155;
 }
 .operations-analyst-dashboard .operational-dashboard .operational-charts .card[data-card*=attendance] .total-value {
-  color: #3b82f6;
+  color: #334155;
 }
 .operations-analyst-dashboard .operational-dashboard .operational-charts .card[data-card*=patrols] h5 {
-  color: #8b5cf6;
+  color: #334155;
 }
 .operations-analyst-dashboard .operational-dashboard .operational-charts .card[data-card*=patrols] .total-value {
-  color: #8b5cf6;
+  color: #334155;
 }
 .operations-analyst-dashboard .operational-dashboard .operational-charts .card[data-card*=visits] h5 {
-  color: #f97316;
+  color: #334155;
 }
 .operations-analyst-dashboard .operational-dashboard .operational-charts .card[data-card*=visits] .total-value {
-  color: #f97316;
+  color: #334155;
 }
 .operations-analyst-dashboard .operational-dashboard .operational-charts .inline-tooltip {
   background: rgba(15, 23, 42, 0.95);
