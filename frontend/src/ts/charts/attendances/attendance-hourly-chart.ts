@@ -33,7 +33,7 @@ function toNumber(v: any): number {
   return Number.isNaN(n) ? 0 : n;
 }
 
-const COMMON_GRID = { left: '4%', right: '4%', top: 10, bottom: 20, containLabel: true };
+const COMMON_GRID = { left: 20, right: 10, top: 10, bottom: 20, containLabel: true };
 
 function buildOption(labels: string[], valuesActual: number[], valuesForecast: (number | null)[], anyPositiveOverride?: boolean, yMax?: number) {
   const anyPositive = typeof anyPositiveOverride === 'boolean'
@@ -71,18 +71,39 @@ function buildOption(labels: string[], valuesActual: number[], valuesForecast: (
     },
 
     grid: COMMON_GRID,
-    xAxis: { type: 'category', boundaryGap: false, data: labels, axisLabel: { rotate: 0 } },
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: labels,
+      axisLine: { show: false},
+      axisTick: { show: false},
+      axisLabel: {
+        color: '#94a3b8',
+        fontSize: 10,
+        interval: 3
+        }
+    },
     yAxis: {
       type: 'value',
       min: 0,
       // usar max calculado si se entrega, sino dejar auto
-      ...(typeof yMax === 'number' ? { max: yMax } : {})
+      ...(typeof yMax === 'number' ? { max: yMax } : {}),
+      axisLabel: { 
+        color: '#94a3b8', 
+        fontSize: 10 
+      },
+      splitLine: { 
+        lineStyle: { 
+          color: '#f1f5f9',            // 👈 Líneas de guía ultra suaves y sutiles
+          type: 'dashed'               // Líneas punteadas elegantes
+        } 
+      }
     },
     series: [
       {
         name: 'Asistencias',
         type: 'line',
-        smooth: true,
+        smooth: 0.3,
         areaStyle: {},
         data: valuesActual,
         color: '#0ea5e9',
