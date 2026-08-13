@@ -33,7 +33,7 @@ function toNumber(v: any): number {
   return Number.isNaN(n) ? 0 : n;
 }
 
-const COMMON_GRID = { left: '4%', right: '4%', top: 56, bottom: 36, containLabel: true };
+const COMMON_GRID = { left: '4%', right: '4%', top: 10, bottom: 20, containLabel: true };
 
 function buildOption(labels: string[], valuesActual: number[], valuesForecast: (number | null)[], anyPositiveOverride?: boolean, yMax?: number) {
   const anyPositive = typeof anyPositiveOverride === 'boolean'
