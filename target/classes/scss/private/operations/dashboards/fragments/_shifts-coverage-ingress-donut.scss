@@ -52,7 +52,7 @@
 
                     // Bloque de textos
                     .card-info {
-                        margin-top: 0.75rem;
+                        margin-top: 0.5rem;
                         .block-title {
                             @include montserrat-font(0.825rem, 600);
                             color: $heading-color;
@@ -64,24 +64,24 @@
                             align-items: center;
                             justify-content: center;
                             gap: 0.25rem;       
-                            margin-top: 0.5rem;
+                            margin-top: 0.4rem;
                             padding: 0.25rem 0;
                             // El valor actual
                             .total-value {
-                                @include montserrat-font(0.95rem, 700);
+                                @include montserrat-font(0.825rem, 600);
                                 color: $heading-color;
                                 line-height: 1;
                             }
                             // El separador "/" y la Meta
                             .total-slash,
                             .meta-value {
-                                @include montserrat-font(0.9rem, 500);
+                                @include montserrat-font(0.825rem, 600);
                                 color: $label-text-color;
                                 line-height: 1;
                             }
                             // La unidad corregida (Sin transformaciones raras, todo en minúscula limpia)
                             .total-unit {
-                                @include montserrat-font(0.85rem, 500); // Mismo tamaño visual que el resto
+                                @include montserrat-font(0.825rem, 600); // Mismo tamaño visual que el resto
                                 color: $label-text-color;
                                 line-height: 1;
                             }

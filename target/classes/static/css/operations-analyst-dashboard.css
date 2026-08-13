@@ -147,7 +147,7 @@ p {
   margin: 0 auto;
 }
 .operations-analyst-dashboard .operational-dashboard .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info {
-  margin-top: 0.75rem;
+  margin-top: 0.5rem;
 }
 .operations-analyst-dashboard .operational-dashboard .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info .block-title {
   font-family: "Montserrat", sans-serif;
@@ -163,13 +163,13 @@ p {
   align-items: center;
   justify-content: center;
   gap: 0.25rem;
-  margin-top: 0.5rem;
+  margin-top: 0.4rem;
   padding: 0.25rem 0;
 }
 .operations-analyst-dashboard .operational-dashboard .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info .card-totals .total-value {
   font-family: "Montserrat", sans-serif;
-  font-size: 0.95rem;
-  font-weight: 700;
+  font-size: 0.825rem;
+  font-weight: 600;
   letter-spacing: 0.02em;
   color: #475569;
   line-height: 1;
@@ -177,16 +177,16 @@ p {
 .operations-analyst-dashboard .operational-dashboard .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info .card-totals .total-slash,
 .operations-analyst-dashboard .operational-dashboard .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info .card-totals .meta-value {
   font-family: "Montserrat", sans-serif;
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 0.825rem;
+  font-weight: 600;
   letter-spacing: 0.02em;
   color: #94a3b8;
   line-height: 1;
 }
 .operations-analyst-dashboard .operational-dashboard .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info .card-totals .total-unit {
   font-family: "Montserrat", sans-serif;
-  font-size: 0.85rem;
-  font-weight: 500;
+  font-size: 0.825rem;
+  font-weight: 600;
   letter-spacing: 0.02em;
   color: #94a3b8;
   line-height: 1;

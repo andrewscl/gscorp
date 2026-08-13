@@ -41,7 +41,7 @@ function buildOption(labels: string[], valuesActual: number[], valuesForecast: (
     : (valuesActual.some(v => Number(v) > 0) || valuesForecast.some(v => Number(v) > 0));
 
   return {
-    legend: { data: ['Asistencias', 'Forecast'], top: 8, left: 'center' },
+    //legend: { data: ['Asistencias', 'Forecast'], top: 8, left: 'center' },
 
     // dentro de buildOption(...) reemplaza tooltip por este objeto
     tooltip: {
