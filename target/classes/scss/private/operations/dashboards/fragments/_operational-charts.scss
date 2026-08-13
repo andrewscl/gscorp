@@ -144,29 +144,31 @@
                             gap: 0.25rem; // 4px
                             justify-content: center;
                             min-height: 4.5rem; // 72px
-
                             .card-totals {
                                 display: flex;
-                                flex-direction: column;
-                                gap: 0.125rem; // 2px
-
-                                .total-label {
-                                    font-size: 0.75rem;
-                                    color: var(--text-muted);
-                                    font-weight: 600;
-                                    text-transform: uppercase;
-                                    letter-spacing: 0.0313rem; // 0.5px
-                                }
-
+                                align-items: center;
+                                justify-content: center;
+                                gap: 0.25rem;       
+                                margin-top: 0.5rem;
+                                padding: 0.25rem 0;
+                                // El valor actual
                                 .total-value {
-                                    font-size: 1.5rem;
-                                    font-weight: 700;
-                                    color: var(--text-main);
+                                    @include montserrat-font(0.95rem, 700);
+                                    color: $heading-color;
+                                    line-height: 1;
                                 }
-
-                                .meta.small.muted {
-                                    font-size: 0.8rem;
-                                    color: var(--text-muted);
+                                // El separador "/" y la Meta
+                                .total-slash,
+                                .meta-value {
+                                    @include montserrat-font(0.95   rem, 500);
+                                    color: $label-text-color;
+                                    line-height: 1;
+                                }
+                                // La unidad corregida (Sin transformaciones raras, todo en minúscula limpia)
+                                .total-unit {
+                                    @include montserrat-font(0.85rem, 500); // Mismo tamaño visual que el resto
+                                    color: $label-text-color;
+                                    line-height: 1;
                                 }
                             }
                         }

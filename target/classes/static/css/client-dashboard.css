@@ -341,24 +341,36 @@ p {
 }
 .clients-dashboard .operational-dashboard .operational-charts .card .card-top.split .split-right .card-totals {
   display: flex;
-  flex-direction: column;
-  gap: 0.125rem;
-}
-.clients-dashboard .operational-dashboard .operational-charts .card .card-top.split .split-right .card-totals .total-label {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.0313rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+  padding: 0.25rem 0;
 }
 .clients-dashboard .operational-dashboard .operational-charts .card .card-top.split .split-right .card-totals .total-value {
-  font-size: 1.5rem;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.95rem;
   font-weight: 700;
-  color: var(--text-main);
+  letter-spacing: 0.02em;
+  color: #475569;
+  line-height: 1;
 }
-.clients-dashboard .operational-dashboard .operational-charts .card .card-top.split .split-right .card-totals .meta.small.muted {
-  font-size: 0.8rem;
-  color: var(--text-muted);
+.clients-dashboard .operational-dashboard .operational-charts .card .card-top.split .split-right .card-totals .total-slash,
+.clients-dashboard .operational-dashboard .operational-charts .card .card-top.split .split-right .card-totals .meta-value {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.95 rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #94a3b8;
+  line-height: 1;
+}
+.clients-dashboard .operational-dashboard .operational-charts .card .card-top.split .split-right .card-totals .total-unit {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #94a3b8;
+  line-height: 1;
 }
 .clients-dashboard .operational-dashboard .operational-charts .card .chart-body, .clients-dashboard .operational-dashboard .operational-charts .card div[id^=chart-] {
   display: block;
