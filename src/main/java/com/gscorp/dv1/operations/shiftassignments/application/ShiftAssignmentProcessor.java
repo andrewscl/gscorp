@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gscorp.dv1.enums.ShiftStatus;
 import com.gscorp.dv1.operations.shiftassignments.infrastructure.ShiftAssignment;
 import com.gscorp.dv1.operations.shiftassignments.infrastructure.ShiftAssignmentRepository;
 import com.gscorp.dv1.operations.shifts.infrastructure.Shift;
@@ -56,6 +57,7 @@ public class ShiftAssignmentProcessor {
                 + 1;
             if (currentCycleDay <= workDays) {
                 shift.setAssignment(assignment);
+                shift.setStatus(ShiftStatus.PLANNED);
                 assignedShifts.add(shift);
             }
         }

@@ -96,7 +96,7 @@ public class ShiftServiceImpl implements ShiftService {
                             .endTs(endOffsetDateTime)
                             .description(null)
                             .lunchTime(null)
-                            .status(ShiftStatus.PLANNED)
+                            .status(ShiftStatus.UNPLANNED)
                             .shiftRequest(shiftRequest)
                             .createdBy(username)
                             .updatedBy(null)
