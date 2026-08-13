@@ -58,6 +58,7 @@ public class ShiftController {
                                                         .getAllSitesByUser(userExternalId));
         model.addAttribute("fromDate", effectiveStartDate);
         model.addAttribute("toDate", effectiveEndDate);
+        model.addAttribute("shiftStatuses", ShiftStatus.values());
         return "private/operations/shifts/views/shifts-list";
     }
 

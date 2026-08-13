@@ -27,6 +27,16 @@
         </label>
 
         <div class="filter-item">
+            <span class="filter-label">Estado</span>
+            <select id="filter-status" class="filter-input" name="shiftStatuses" required>
+                <option value="">Todos los estados</option>
+                <option th:each="s : ${shiftStatuses}"
+                        th:value="${s}"
+                        th:text="${s.displayName}"></option>
+            </select>
+        </div>
+
+        <div class="filter-item">
             <span class="filter-label">Sitios</span>
             <select id="filter-dept" class="filter-input" name="siteId" required>
                 <option value="">Todos los sitios</option>
