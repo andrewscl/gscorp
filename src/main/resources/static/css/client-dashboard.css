@@ -337,7 +337,6 @@ p {
   flex-direction: column;
   gap: 0.25rem;
   justify-content: center;
-  min-height: 4.5rem;
 }
 .clients-dashboard .operational-dashboard .operational-charts .card .card-top.split .split-right .card-totals {
   display: flex;
@@ -349,8 +348,8 @@ p {
 }
 .clients-dashboard .operational-dashboard .operational-charts .card .card-top.split .split-right .card-totals .total-value {
   font-family: "Montserrat", sans-serif;
-  font-size: 0.9rem;
-  font-weight: 700;
+  font-size: 0.85rem;
+  font-weight: 600;
   letter-spacing: 0.02em;
   color: #334155;
   line-height: 1;
@@ -358,16 +357,16 @@ p {
 .clients-dashboard .operational-dashboard .operational-charts .card .card-top.split .split-right .card-totals .total-slash,
 .clients-dashboard .operational-dashboard .operational-charts .card .card-top.split .split-right .card-totals .meta-value {
   font-family: "Montserrat", sans-serif;
-  font-size: 0.9rem;
-  font-weight: 700;
+  font-size: 0.85rem;
+  font-weight: 600;
   letter-spacing: 0.02em;
   color: #475569;
   line-height: 1;
 }
 .clients-dashboard .operational-dashboard .operational-charts .card .card-top.split .split-right .card-totals .total-unit {
   font-family: "Montserrat", sans-serif;
-  font-size: 0.9rem;
-  font-weight: 700;
+  font-size: 0.85rem;
+  font-weight: 600;
   letter-spacing: 0.02em;
   color: #475569;
   line-height: 1;
@@ -759,4 +758,4 @@ p {
   border-top: 1px solid #e2e8f0;
   margin: 0.75rem 0;
   opacity: 0.4;
-}/*# sourceMappingURL=client-dashboard.css.map */
+}/*# sourceMappingURL=client-dashboard.css.map */ashboard.css.map */

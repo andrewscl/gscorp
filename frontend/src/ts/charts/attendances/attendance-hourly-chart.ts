@@ -114,11 +114,19 @@ function buildOption(labels: string[], valuesActual: number[], valuesForecast: (
         name: 'Forecast',
         type: 'line',
         smooth: true,
-        areaStyle: { opacity: 0.12 },
         data: valuesForecast,
-        color: '#f59e0b',
+        color: '#64748b',
         showSymbol: false,
-        lineStyle: { width: 2, type: 'dashed' }
+        lineStyle: { width: 1.5, type: [4, 4] },
+        areaStyle: {
+          color: {
+            type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
+            colorStops: [
+              { offset: 0, color: 'rgba(14, 165, 233, 0.25)' },
+              { offset: 1, color: 'rgba(14, 165, 233, 0.0)' }
+            ]
+          }
+        }
       }
     ],
     graphic: anyPositive ? { elements: [] } : undefined

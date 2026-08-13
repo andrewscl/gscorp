@@ -140,9 +140,8 @@
                             flex: 1 1 60%;
                             display: flex;
                             flex-direction: column;
-                            gap: 0.25rem; // 4px
+                            gap: 0.25rem;
                             justify-content: center;
-                            min-height: 4.5rem; // 72px
                             .card-totals {
                                 display: flex;
                                 align-items: center;
@@ -152,20 +151,20 @@
                                 padding: 0.25rem 0;
                                 // El valor actual
                                 .total-value {
-                                    @include montserrat-font(0.9rem, 700);
+                                    @include montserrat-font(0.85rem, 600);
                                     color: $text-color;
                                     line-height: 1;
                                 }
                                 // El separador "/" y la Meta
                                 .total-slash,
                                 .meta-value {
-                                    @include montserrat-font(0.9rem, 700);
+                                    @include montserrat-font(0.85rem, 600);
                                     color: $heading-color;
                                     line-height: 1;
                                 }
                                 // La unidad corregida (Sin transformaciones raras, todo en minúscula limpia)
                                 .total-unit {
-                                    @include montserrat-font(0.9rem, 700); // Mismo tamaño visual que el resto
+                                    @include montserrat-font(0.85rem, 600); // Mismo tamaño visual que el resto
                                     color: $heading-color;
                                     line-height: 1;
                                 }
