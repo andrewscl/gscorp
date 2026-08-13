@@ -1,0 +1,114 @@
+.createBank .createBankHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 1.25rem;
+}
+.createBank .createBankHeader h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+}
+.createBank .createBankHeader .modal-close {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #6b7280;
+  transition: color 0.2s;
+}
+.createBank .createBankHeader .modal-close:hover {
+  color: #111827;
+}
+.createBank .createBank-body {
+  padding: 0 0.5rem;
+}
+.createBank .createBank-body .form-group {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 1.2rem;
+}
+.createBank .createBank-body .form-group label {
+  font-size: 0.95rem;
+  color: #374151;
+  font-weight: 500;
+}
+.createBank .createBank-body .form-group input[type=text] {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 0.98rem;
+}
+.createBank .createBank-body .form-group input[type=text]:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+.createBank .createBank-body .form-group input[type=file] {
+  width: 100%;
+  font-size: 0.96rem;
+}
+.createBank .createBank-body .form-group input[type=checkbox] {
+  accent-color: #2563eb;
+  width: 1.15rem;
+  height: 1.15rem;
+}
+.createBank .createBank-body .modal-footer {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+.createBank .createBank-body .modal-footer .btn-primary,
+.createBank .createBank-body .modal-footer .btn-secondary {
+  padding: 0.5rem 1.1rem;
+  border: none;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background-color 0.2s;
+}
+.createBank .createBank-body .modal-footer .btn-primary {
+  background: #2563eb;
+  color: #fff;
+}
+.createBank .createBank-body .modal-footer .btn-primary:hover {
+  background: #1d4ed8;
+}
+.createBank .createBank-body .modal-footer .btn-secondary {
+  background: #e5e7eb;
+  color: #111827;
+}
+.createBank .createBank-body .modal-footer .btn-secondary:hover {
+  background: #d1d5db;
+}
+.createBank .createBank-body .form-error {
+  margin-top: 0.5rem;
+  color: #b91c1c;
+  font-size: 0.95rem;
+}
+.createBank .createBank-body .form-ok {
+  margin-top: 0.5rem;
+  color: #065f46;
+  font-size: 0.95rem;
+}
+
+/* Responsive for modal-body if used in a modal */
+@media (max-width: 540px) {
+  .createBank .createBank-body {
+    padding: 0;
+  }
+  .createBank .modal-footer {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .createBank .modal-footer .btn-primary, .createBank .modal-footer .btn-secondary {
+    width: 100%;
+  }
+}/*# sourceMappingURL=create-bank.css.map */
