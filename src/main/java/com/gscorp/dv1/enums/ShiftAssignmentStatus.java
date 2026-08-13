@@ -3,7 +3,9 @@ package com.gscorp.dv1.enums;
 public enum ShiftAssignmentStatus {
     ASSIGNED("Asignado"),
     ABSENT("Ausente"),
-    REPLACED("Reemplazado");
+    REPLACED("Reemplazado"),
+    CANCELLED("Cancelado"),
+    FINISHED("Finalizado");
 
     private final String displayName;
 
