@@ -98,10 +98,9 @@
 
                     h5 {
                         margin: 0;
-                        font-size: 0.95rem;
-                        font-weight: 700;
-                        color: var(--text-main);
-                        letter-spacing: -0.0125rem; // -0.2px
+                        @include montserrat-font(1rem, 600);
+                        color: $primary-color-strong;
+                        letter-spacing: -0.0125rem;
                     }
 
                     // Fila Dividida Superior (Donut + Totales)
@@ -152,20 +151,20 @@
                                 // El valor actual
                                 .total-value {
                                     @include montserrat-font(0.85rem, 600);
-                                    color: $text-color;
+                                    color: $accent-blue;
                                     line-height: 1;
                                 }
                                 // El separador "/" y la Meta
                                 .total-slash,
                                 .meta-value {
                                     @include montserrat-font(0.85rem, 600);
-                                    color: $heading-color;
+                                    color: $text-secondary-color;
                                     line-height: 1;
                                 }
                                 // La unidad corregida (Sin transformaciones raras, todo en minúscula limpia)
                                 .total-unit {
                                     @include montserrat-font(0.85rem, 600); // Mismo tamaño visual que el resto
-                                    color: $heading-color;
+                                    color: $text-secondary-color;
                                     line-height: 1;
                                 }
                             }

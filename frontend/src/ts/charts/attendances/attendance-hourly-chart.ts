@@ -86,6 +86,7 @@ function buildOption(labels: string[], valuesActual: number[], valuesForecast: (
     yAxis: {
       type: 'value',
       min: 0,
+      splitNumber: 2,
       // usar max calculado si se entrega, sino dejar auto
       ...(typeof yMax === 'number' ? { max: yMax } : {}),
       axisLabel: { 

@@ -299,9 +299,11 @@ p {
 }
 .clients-dashboard .operational-dashboard .operational-charts .card h5 {
   margin: 0;
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--text-main);
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #0f172a;
   letter-spacing: -0.0125rem;
 }
 .clients-dashboard .operational-dashboard .operational-charts .card .card-top.split {
@@ -351,7 +353,7 @@ p {
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: #334155;
+  color: #3b82f6;
   line-height: 1;
 }
 .clients-dashboard .operational-dashboard .operational-charts .card .card-top.split .split-right .card-totals .total-slash,
@@ -360,7 +362,7 @@ p {
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: #475569;
+  color: #64748b;
   line-height: 1;
 }
 .clients-dashboard .operational-dashboard .operational-charts .card .card-top.split .split-right .card-totals .total-unit {
@@ -368,7 +370,7 @@ p {
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: #475569;
+  color: #64748b;
   line-height: 1;
 }
 .clients-dashboard .operational-dashboard .operational-charts .card .chart-body, .clients-dashboard .operational-dashboard .operational-charts .card div[id^=chart-] {
@@ -758,4 +760,4 @@ p {
   border-top: 1px solid #e2e8f0;
   margin: 0.75rem 0;
   opacity: 0.4;
-}/*# sourceMappingURL=client-dashboard.css.map */ashboard.css.map */
+}/*# sourceMappingURL=client-dashboard.css.map */
