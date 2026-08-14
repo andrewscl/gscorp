@@ -30,8 +30,8 @@ const submitShiftAssignment = async () => {
         displayAlert(alertError, 'Por favor, complete la fecha y estado requeridos.', 1500);
         return;
     }
-    const isBeforeStart = (assignedAtDate && assignmentUntilDateSelect < assignedAtDate);
-    const isAfterUntil = (assignedUntilDate && assignmentUntilDateSelect > assignedUntilDate);
+    const isBeforeStart = Boolean(assignedAtDate && assignmentUntilDateSelect < assignedAtDate);
+    const isAfterUntil = Boolean(assignedUntilDate && assignmentUntilDateSelect > assignedUntilDate);
     if (isBeforeStart || isAfterUntil){
         displayAlert(alertError, 'La fecha de cierre de la asignación esta fuera del rango permitido.', 1500);
         return;
