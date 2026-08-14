@@ -77,7 +77,7 @@
             <div class="panel-body">
                 <div class="form-group">
                     <label>Estado:</label>
-                    <select id="status" name="shiftAssignmentStatus" required>
+                    <select id="shiftAssignmentStatus" required>
                         <option value="">Seleccione un estado</option>
                         <option th:each="s : ${allowedShiftStatuses}"
                                 th:value="${s}"
@@ -89,8 +89,8 @@
                     <input type="date" id="assignmentEndDate"/>
                 </div>
                 <div class="form-group">
-                        <label>Notas / Observaciones:</label>
-                        <textarea id="description"></textarea>
+                        <label>Motivo:</label>
+                        <textarea id="reason"></textarea>
                 </div>
             </div>
         </div>
