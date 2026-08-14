@@ -20,9 +20,9 @@ function bindEvents() {
     if (backToBtn) {
         backToBtn.addEventListener('click', backToShiftAssignments);
     }
-    const closeShiftAssignmentBtn = qs('#delete');
-    if (closeShiftAssignmentBtn) {
-        closeShiftAssignmentBtn.addEventListener('click', navigateToCloseShiftAssignment);
+    const submitBtn = qs('#submit');
+    if (submitBtn) {
+        submitBtn.addEventListener('click', navigateToCloseShiftAssignment);
     }
 }
 
