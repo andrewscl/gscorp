@@ -157,7 +157,7 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
                 Pageable pageable
         );
 
-        List<Shift> findByAssignmentAndShiftDateGreaterThan(
+        List<Shift> findByAssignmentAndShiftDateGreaterThanEqual(
                                             ShiftAssignment assignment,
                                             LocalDate endAssignmentDate);
 

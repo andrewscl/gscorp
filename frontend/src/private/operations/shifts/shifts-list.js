@@ -55,6 +55,63 @@ const searchShifts = async () => {
     }
 }
 
+const loadShiftRequestsBySite = async () => {
+    const siteExternalId = qs('#filter-dept')?.value.trim() || '';
+    if (!siteExternalId) {
+        filterShiftRequest.innerHTML = '<option value="">Todos los turnos</option>';
+        filterShiftRequest.disabled = true;
+        return;
+    }
+
+    const filterShiftRequest = qs('#filter-shiftRequest');
+    if (!filterShiftRequest) return;
+
+    try {
+        filterShiftRequest.innerHTML = '<option value="">Cargando turnos...</option>';
+        filterShiftRequest.disabled = true;
+        const url = `/api/shift-requests/sites/${siteExternalId}/requests`;
+        const response = await fetchWithAuth(url, {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' }
+        });
+        if (!response || !response.ok) {
+            throw new Error('No se pudieron obtener los turnos del sitio seleccionado.');
+        }
+        const shiftRequests = await response.json();
+        if (shiftRequests.length === 0) {
+            filterShiftRequest.innerHTML = '<option value="">No hay turnos disponibles</option>';
+            filterShiftRequest.disabled = true;
+            return;
+        }
+        filterShiftRequest.innerHTML = '<option value="">Todos los turnos</option>';
+        shiftRequests.forEach(sr => {
+            const option = document.createElement('option');
+            option.value = sr.externalId;
+            let textoHorarios = 'Sin horario';
+            if (sr.schedules && sr.schedules.length > 0) {
+                textoHorarios = sr.schedules.map(sch => {
+                    const inicio = sch.startTime ? sch.startTime.substring(0, 5) : '??:??';
+                    const fin = sch.endTime ? sch.endTime.substring(0, 5) : '??:??';
+                    const desde = sch.dayFrom ? sch.dayFrom.substring(0, 3) : '';
+                    const hasta = sch.dayTo ? sch.dayTo.substring(0, 3) : '';
+                    if (desde === hasta || !hasta) {
+                        return `${desde} ${inicio}-${fin}`;
+                    }
+                    return `${desde} a ${hasta} ${inicio}-${fin}`;
+                }).join(' | ');
+            }
+            option.textContent = `${sr.code} - [${textoHorarios}]`;
+            filterShiftRequest.appendChild(option);
+        });
+        filterShiftRequest.disabled = false;
+    } catch (error) {
+        console.error('Error al cargar turnos del sitio:', error);
+        filterShiftRequest.innerHTML = '<option value="">Error al cargar turnos</option>';
+        filterShiftRequest.disabled = true;
+        displayAlert(alertError, 'Ocurrió un error al cargar los turnos del sitio.', 3000);
+    }
+}
+
 function bindEvents() {
     const createBtn = qs('#addShiftsBtn');
     if (createBtn) {
@@ -63,6 +120,10 @@ function bindEvents() {
     const searchBtn = qs('#searchshiftsBtn');
     if (searchBtn) {
         searchBtn.addEventListener('click', searchShifts);
+    }
+    const siteSelect = qs('#filter-dept');
+    if (siteSelect) {
+        siteSelect.addEventListener('change', loadShiftRequestsBySite);
     }
 }
 

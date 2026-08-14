@@ -62,7 +62,7 @@ public class ShiftAssignmentLifeCycleService {
         }
         shiftAssignmentRepository.save(assignment);
         List<Shift> orphanShifts = shiftRepository
-                    .findByAssignmentAndShiftDateGreaterThan(assignment, endAssignmentDate);
+                    .findByAssignmentAndShiftDateGreaterThanEqual(assignment, endAssignmentDate);
         for (Shift shift : orphanShifts) {
             shift.setAssignment(null);
             shift.setCycleDayNumber(null);
