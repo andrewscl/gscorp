@@ -41,7 +41,7 @@ const submitShiftAssignment = async () => {
     try {
         const payload = {
             status: assignmentStatusSelect,
-            endAssignmentDate: assignmentUntilDateSelect,
+            assignmentEndDate: assignmentUntilDateSelect,
             reason: reason
         };
         const res = await fetchWithAuth(`/api/shift-assignments/close/${shiftAssignmentExternalId}`, {
