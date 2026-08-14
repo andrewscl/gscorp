@@ -21,6 +21,7 @@ const submitShiftAssignment = async () => {
     console.log('assignmentEndDate: ', assignmentEndDate);
     console.log('assignedAtDate: ', assignedAtDate);
     console.log('assignedUntilDate: ', assignedUntilDate);
+    console.log('assignmentStatus: ', assignmentStatus);
     if (!shiftAssignmentExternalId) {
         displayAlert(alertError, 'No existe shiftAssignmentExternalId.', 1500);
         return;
