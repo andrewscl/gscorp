@@ -11,7 +11,7 @@ const alertCancel = qs('.alert-warning');
 const submitShiftAssignment = async () => {
     const cancelBtn = qs('#cancel');
     const submitBtn = qs('#submit');
-    const assignmentStatusSelect = qs('#assignmentStatusSelect')?.value.trim() || '';
+    const assignmentStatusSelect = qs('#assignmentStatusSelect')?.value || '';
     const shiftAssignmentExternalId = qs('#shiftAssignmentExternalId')?.value || '';
     const assignmentUntilDateSelect = qs('#assignmentUntilDateSelect')?.value || '';
     const assignedAtDate = qs('#assignedAtDate')?.value || '';
@@ -30,8 +30,8 @@ const submitShiftAssignment = async () => {
         displayAlert(alertError, 'Por favor, complete la fecha y estado requeridos.', 1500);
         return;
     }
-    const isBeforeStart = (assignedAtDate && assignedAtDate < assignedAtDate);
-    const isAfterUntil = (assignedUntilDate && assignedAtDate > assignedUntilDate);
+    const isBeforeStart = (assignedAtDate && assignmentUntilDateSelect < assignedAtDate);
+    const isAfterUntil = (assignedUntilDate && assignmentUntilDateSelect > assignedUntilDate);
     if (isBeforeStart || isAfterUntil){
         displayAlert(alertError, 'La fecha de cierre de la asignación esta fuera del rango permitido.', 1500);
         return;
