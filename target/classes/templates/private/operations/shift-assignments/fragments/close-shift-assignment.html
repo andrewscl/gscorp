@@ -78,7 +78,7 @@
                 <div class="form-group">
                     <label>Estado:</label>
                     <select id="shiftAssignmentStatus" required>
-                        <option value="">Seleccione un estado</option>
+                        <option th:value="">Seleccione un estado</option>
                         <option th:each="s : ${allowedShiftStatuses}"
                                 th:value="${s}"
                                 th:text="${s.displayName}"></option>
