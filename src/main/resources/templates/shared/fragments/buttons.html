@@ -1,32 +1,25 @@
 <div class="generic-buttons"
         th:fragment = "generic-buttons(
-                        showAction1, action1Text,
-                        showAction2, action2Text,
-                        showAction3, action3Text,
-                        showAction4, action4Text)">
+                        showSubmit, submitText,
+                        showCancel, cancelText,
+                        showDelete, deleteText)">
         
-        <button th:if="${showAction1}" type="action1"
-                                        class="btn btn-action-1"
-                                        id="action1"
-                                        th:text="${action1Text}">
+        <button th:if="${showSubmit}" type="button"
+                                        class="btn btn-primary"
+                                        id="submit"
+                                        th:text="${submitText}">
         </button>
 
-        <button th:if="${showAction2}" type="button"
-                                        class="btn btn-action-2"
-                                        id="action2"
-                                        th:text="${action2Text}">
+        <button th:if="${showCancel}" type="button"
+                                        class="btn btn-secondary"
+                                        id="cancel"
+                                        th:text="${cancelText}">
         </button>
 
-        <button th:if="${showAction3}" type="button"
-                                        class="btn btn-cancel"
-                                        id="action3"
-                                        th:text="${action3Text}">
-        </button>
-
-        <button th:if="${showAction4}" type="button"
+        <button th:if="${showDelete}" type="button"
                                         class="btn btn-danger"
-                                        id="action4"
-                                        th:text="${action4Text}">
+                                        id="delete"
+                                        th:text="${deleteText}">
         </button>
 
 </div>
