@@ -2,6 +2,7 @@
 @use '../typography' as *;
 @use '../palette' as *;
 @use '../variables' as *;
+@use '../fields/fields' as *;
 
 @mixin panel-main ($text-color: $cool-gray-800) {
         flex: $ratio-left;  
@@ -37,37 +38,17 @@
                         color: #cbd5e1;
                     }
                 }
-                input, select,
+                input, select, textarea{
+                    @include form-field(#f0f7ff, #bfdbfe);
+                }
                 span {
-                    padding: 0.5rem;
-                    border: 0.09rem solid #ced4da;
-                    border-radius: 0.5rem;
-                    @include roboto-font(0.875rem, 500);
-                    color: $text-color;
-                    transition: border-color 0.2s, box-shadow 0.2s;
-                    &::placeholder {
-                        color: #adb5bd;
-                    }
-                    &:focus {
-                        border-color: $accent-blue;
-                        box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
-                        outline: none;
-                    }
+                    @include form-field(#f8fafc, #e2e8f0);
                 }
                 textarea {
                     resize: vertical;
-                    border: 0.09rem solid #ced4da;
-                    border-radius: 0.5rem;
-                    @include roboto-font(0.875rem, 500);
-                    color: $cool-gray-800;
                     min-height: 80px;
-                    padding: 0.4rem 0.75rem;
-                    &:focus {
-                        border-color: #4e54c8;
-                        box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
-                        outline: none;
-                    }
                 }
+
                 .form-control-text-block {
                     width: 100%;
                     min-height: 3.375rem;

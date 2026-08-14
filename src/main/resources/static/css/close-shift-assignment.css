@@ -211,44 +211,51 @@ p {
   content: "—";
   color: #cbd5e1;
 }
-.private-layout .main-content .content .close-shift-assignment .panel-container .panel-main .panel-body .form-group input, .private-layout .main-content .content .close-shift-assignment .panel-container .panel-main .panel-body .form-group select,
-.private-layout .main-content .content .close-shift-assignment .panel-container .panel-main .panel-body .form-group span {
+.private-layout .main-content .content .close-shift-assignment .panel-container .panel-main .panel-body .form-group input, .private-layout .main-content .content .close-shift-assignment .panel-container .panel-main .panel-body .form-group select, .private-layout .main-content .content .close-shift-assignment .panel-container .panel-main .panel-body .form-group textarea {
   padding: 0.5rem;
-  border: 0.09rem solid #ced4da;
+  border: 0.09rem solid #bfdbfe;
   border-radius: 0.5rem;
+  background-color: #f0f7ff;
+  color: #334155;
   font-family: "Roboto", sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
   letter-spacing: 0.02em;
-  color: #1f2937;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
-.private-layout .main-content .content .close-shift-assignment .panel-container .panel-main .panel-body .form-group input::placeholder, .private-layout .main-content .content .close-shift-assignment .panel-container .panel-main .panel-body .form-group select::placeholder,
+.private-layout .main-content .content .close-shift-assignment .panel-container .panel-main .panel-body .form-group input::placeholder, .private-layout .main-content .content .close-shift-assignment .panel-container .panel-main .panel-body .form-group select::placeholder, .private-layout .main-content .content .close-shift-assignment .panel-container .panel-main .panel-body .form-group textarea::placeholder {
+  color: #adb5bd;
+}
+.private-layout .main-content .content .close-shift-assignment .panel-container .panel-main .panel-body .form-group input:focus, .private-layout .main-content .content .close-shift-assignment .panel-container .panel-main .panel-body .form-group select:focus, .private-layout .main-content .content .close-shift-assignment .panel-container .panel-main .panel-body .form-group textarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
+  outline: none;
+  background-color: #ffffff;
+}
+.private-layout .main-content .content .close-shift-assignment .panel-container .panel-main .panel-body .form-group span {
+  padding: 0.5rem;
+  border: 0.09rem solid #e2e8f0;
+  border-radius: 0.5rem;
+  background-color: #f8fafc;
+  color: #334155;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
 .private-layout .main-content .content .close-shift-assignment .panel-container .panel-main .panel-body .form-group span::placeholder {
   color: #adb5bd;
 }
-.private-layout .main-content .content .close-shift-assignment .panel-container .panel-main .panel-body .form-group input:focus, .private-layout .main-content .content .close-shift-assignment .panel-container .panel-main .panel-body .form-group select:focus,
 .private-layout .main-content .content .close-shift-assignment .panel-container .panel-main .panel-body .form-group span:focus {
   border-color: #3b82f6;
   box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
   outline: none;
+  background-color: #ffffff;
 }
 .private-layout .main-content .content .close-shift-assignment .panel-container .panel-main .panel-body .form-group textarea {
   resize: vertical;
-  border: 0.09rem solid #ced4da;
-  border-radius: 0.5rem;
-  font-family: "Roboto", sans-serif;
-  font-size: 0.875rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  color: #1f2937;
   min-height: 80px;
-  padding: 0.4rem 0.75rem;
-}
-.private-layout .main-content .content .close-shift-assignment .panel-container .panel-main .panel-body .form-group textarea:focus {
-  border-color: #4e54c8;
-  box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
-  outline: none;
 }
 .private-layout .main-content .content .close-shift-assignment .panel-container .panel-main .panel-body .form-group .form-control-text-block {
   width: 100%;

@@ -1,9 +1,9 @@
 @use "sass:color";
-@use 'palette' as *;
-@use 'variables' as *;
-@use 'mixins' as *;
-@use 'buttons/btn-mixins' as *;
-@use 'typography' as *;
+@use '../palette' as *;
+@use '../variables' as *;
+@use '../mixins' as *;
+@use '../buttons/btn-mixins' as *;
+@use '../typography' as *;
 
 @mixin hs-table() {
     display: flex;

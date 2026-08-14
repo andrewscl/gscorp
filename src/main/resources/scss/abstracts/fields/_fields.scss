@@ -1,7 +1,7 @@
-@use 'typography' as *;
-@use 'palette' as *;
-@use 'variables' as *;
-@use 'mixins' as *;
+@use '../typography' as *;
+@use '../palette' as *;
+@use '../variables' as *;
+@use '../mixins' as *;
 
 @mixin form-group-fields (){
 
@@ -74,4 +74,26 @@
             min-height: 80px;
         }
 
+}
+
+@mixin form-field($bg-color: #ffffff, $border-color: #ced4da) {
+  padding: 0.5rem;
+  border: 0.09rem solid $border-color;
+  border-radius: 0.5rem;
+  background-color: $bg-color;
+  color: $text-color;
+  @include roboto-font(0.875rem, 500);
+  transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
+
+  &::placeholder {
+    color: #adb5bd;
+  }
+
+  // Estilos de foco solo para elementos interactivos
+  &:focus {
+    border-color: $accent-blue;
+    box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
+    outline: none;
+    background-color: #ffffff; // Si tenía un color azul tenue o amarillo, al hacer foco vuelve a blanco puro
+  }
 }
