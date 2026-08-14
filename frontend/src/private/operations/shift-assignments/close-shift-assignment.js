@@ -63,7 +63,12 @@ const submitShiftAssignment = async () => {
 }
 
 const backToShiftAssignments = () => {
-    navigateTo('/private/shift-assignments/list', true);
+    displayAlert(alertCancel, 'El cierre de la asignación ha sido cancelada.', 1500);
+    const shiftAssignmentExternalId = qs('#shiftAssignmentExternalId')?.value;
+    if(shiftAssignmentExternalId ) {
+        const url = `/private/shift-assignments/edit/${shiftAssignmentExternalId}`
+        setTimeout(()=> navigateTo(url, true), 1500);
+    }
 }
 
 function bindEvents() {
@@ -71,7 +76,7 @@ function bindEvents() {
     if (cancelBtn) {
         cancelBtn.addEventListener('click', backToShiftAssignments);
     }
-    const submitBtn = qs('#delete');
+    const submitBtn = qs('#submit');
     if (submitBtn) {
         submitBtn.addEventListener('click', submitShiftAssignment);
     }
