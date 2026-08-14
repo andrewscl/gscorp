@@ -14,13 +14,20 @@ const submitShiftAssignment = async () => {
     const assignmentStatus = qs('#shiftAssignmentStatus')?.value || '';
     const shiftAssignmentExternalId = qs('#shiftAssignmentExternalId')?.value || '';
     const assignmentEndDate = qs('#assignmentEndDate')?.value || '';
+    const assignedAtDate = qs('#assignedAtDate')?.value || '';
+    const assignedUntilDate = qs('#assignedUntilDate')?.value || '';
     const reason = qs('#reason')?.value || '';
     if (!shiftAssignmentExternalId) {
-        displayAlert(alertError, 'No existe shiftAssignmentExternalId.');
-        return;
+        displayAlert(alertError, 'No existe shiftAssignmentExternalId.', 1500);
     } 
     if (!assignmentStatus || !assignmentEndDate) {
-        displayAlert(alertError, 'Por favor, complete la fecha y estado requeridos.');
+        displayAlert(alertError, 'Por favor, complete la fecha y estado requeridos.', 1500);
+        return;
+    }
+    const isBeforeStart = (assignedAtDate && assignedAtDate < assignedAtDate);
+    const isAfterUntil = (assignedUntilDate && assignedAtDate > assignedUntilDate);
+    if (isBeforeStart || isAfterUntil){
+        displayAlert(alertError, 'La fecha de cierre de la asignación esta fuera del rango permitido.', 1500);
         return;
     }
     if(cancelBtn) cancelBtn.disabled = true;

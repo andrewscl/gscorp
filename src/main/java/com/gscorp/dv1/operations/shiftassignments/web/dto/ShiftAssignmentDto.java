@@ -1,5 +1,6 @@
 package com.gscorp.dv1.operations.shiftassignments.web.dto;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -26,6 +27,8 @@ public record ShiftAssignmentDto (
     String notes,
     OffsetDateTime assignedAt,
     OffsetDateTime assignedUntil,
+    LocalDate assignedAtDate,
+    LocalDate assignedUntilDate,
     Integer startCycleNumber,
     String createdBy,
     String updatedBy,
@@ -53,6 +56,8 @@ public record ShiftAssignmentDto (
             p.getNotes(),
             p.getAssignedAt(),
             p.getAssignedUntil(),
+            p.getAssignedAt() != null ? p.getAssignedAt().toLocalDate() : null,
+            p.getAssignedUntil() != null ? p.getAssignedUntil().toLocalDate() : null,
             p.getStartCycleNumber(),
             p.getCreatedBy(),
             p.getUpdatedBy(),
@@ -66,7 +71,6 @@ public record ShiftAssignmentDto (
                                 ShiftAssignment p,
                                 List<ShiftRequestScheduleDto> schedules){
         if(p == null) return null;
-
         UUID employeeExternalId = null;
         String employeeRut = null;
         String employeeFullName = null;
@@ -80,7 +84,6 @@ public record ShiftAssignmentDto (
             employeeFullName = (name + " " + surname).trim();
             if(employeeFullName.isEmpty()) employeeFullName = null;
         }
-        
         return new ShiftAssignmentDto(
             p.getId(),
             p.getExternalId(),
@@ -97,6 +100,8 @@ public record ShiftAssignmentDto (
             p.getNotes(),
             p.getAssignedAt(),
             p.getAssignedUntil(),
+            p.getAssignedAt() != null ? p.getAssignedAt().toLocalDate() : null,
+            p.getAssignedUntil() != null ? p.getAssignedUntil().toLocalDate() : null,
             p.getStartCycleNumber(),
             p.getCreatedBy(),
             p.getUpdatedBy(),

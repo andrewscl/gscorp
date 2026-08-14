@@ -2,6 +2,10 @@
     <div class="panel-container">
         <input type="hidden" id="shiftAssignmentExternalId"
                             th:value="${shiftAssignment.externalId}" />
+        <input type="hidden" id="assignedAtDate"
+                            th:value="${shiftAssignment.assignedAtDate}" />
+        <input type="hidden" id="assignedUntilDate"
+                            th:value="${shiftAssignment.assignedUntilDate}" />
         <div class="panel-main">
             <div class="panel-header">
                 <h4>Finalizar asignación de turno</h4>
@@ -20,7 +24,7 @@
 
                 <div class="form-row w-custom">
                     <div class="form-group fx-3">
-                        <label>Turno / Requerimiento:</label>
+                        <label>Turno:</label>
                         <span id="shiftRequestExternalId" 
                               th:text="${shiftAssignment.shiftRequestCode ?: '-'}"></span>
                     </div>
@@ -47,14 +51,14 @@
                 <div class="form-row w-custom">
                     <div class="form-group fx-4">
                         <label>Inicio asignación:</label>
-                        <span id="assignmentStartDate" 
+                        <span id="shiftAssignmentAssignedAt" 
                               th:text="${shiftAssignment.assignedAt != null 
                               ? #temporals.format(shiftAssignment.assignedAt, 'dd-MM-yyyy') 
                               : '-'}"></span>
                     </div>
                     <div class="form-group fx-4">
                         <label>Fin asignación:</label>
-                        <span id="assignmentEndDate" 
+                        <span id="assignmentUntil" 
                               th:text="${shiftAssignment.assignedUntil != null 
                               ? #temporals.format(shiftAssignment.assignedUntil, 'dd-MM-yyyy') 
                               : '-'}"></span>
