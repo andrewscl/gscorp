@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import com.gscorp.dv1.enums.ShiftAssignmentStatus;
 import com.gscorp.dv1.operations.shiftassignments.infrastructure.projections.ShiftAssignmentProjection;
+import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
 
 @Repository
 public interface ShiftAssignmentRepository extends JpaRepository<ShiftAssignment, Long> {
@@ -69,4 +70,9 @@ public interface ShiftAssignmentRepository extends JpaRepository<ShiftAssignment
     @EntityGraph(attributePaths = {
         "shiftRequest.site.project", "shiftRequest.shiftPattern", "employee"})
     Optional<ShiftAssignment> findByExternalId(UUID externalId);
+
+    List<ShiftAssignment> findByShiftRequestAndStatus(
+                                    ShiftRequest request,
+                                    ShiftAssignmentStatus status);
+
 }

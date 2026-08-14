@@ -14,6 +14,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.gscorp.dv1.enums.ShiftStatus;
+import com.gscorp.dv1.operations.shiftassignments.infrastructure.ShiftAssignment;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.operations.shifts.infrastructure.projections.ShiftProjection;
 import com.gscorp.dv1.operations.shifts.infrastructure.projections.ShiftsCountLast24HoursProjection;
@@ -144,6 +145,7 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
                 AND     (:shiftStatus IS NULL OR sh.status = :shiftStatus)
                 """
         )
+
         Page<ShiftProjection> findPageByProjectIds(
                 @Param("ignoreProjectFilter") boolean ignoreProjectFilter,
                 @Param("projectIds") List<Long> projectIds,
@@ -154,5 +156,9 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
                 @Param("shiftStatus") ShiftStatus status,
                 Pageable pageable
         );
+
+        List<Shift> findByAssignmentAndShiftDateGreaterThan(
+                                            ShiftAssignment assignment,
+                                            LocalDate endAssignmentDate);
 
 }

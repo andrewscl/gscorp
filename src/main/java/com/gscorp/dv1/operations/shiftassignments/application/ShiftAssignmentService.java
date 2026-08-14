@@ -18,12 +18,13 @@ public interface ShiftAssignmentService {
     );
 
     ShiftAssignmentDto createShiftAssignment (
-        UUID userExternalId,
-        String requestedZone,
-        CreateShiftAssignmentRequest request
-        );
+                            UUID userExternalId,
+                            String requestedZone,
+                            CreateShiftAssignmentRequest request);
 
     ShiftAssignmentDto getByExternalId(
-        UUID shiftAssignmentExternalId);
+                            UUID shiftAssignmentExternalId);
+
+    
 
 }

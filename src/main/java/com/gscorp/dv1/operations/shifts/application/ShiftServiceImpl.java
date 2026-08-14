@@ -26,6 +26,7 @@ import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.enums.DayOfWeek;
 import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.enums.ShiftStatus;
+import com.gscorp.dv1.operations.shiftassignments.application.ShiftAssignmentProcessor;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestRepository;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestScheduleRepository;
@@ -50,6 +51,7 @@ public class ShiftServiceImpl implements ShiftService {
     private final ClientService clientService;
     private final UserScopeService userScopeService;
     private final ZoneResolver zoneResolver;
+    private final ShiftAssignmentProcessor shiftAssignmentProcessor;
 
     @Transactional(readOnly = true)
     public List<Shift> getShifts(Long siteId, OffsetDateTime from, OffsetDateTime to) {
@@ -130,16 +132,12 @@ public class ShiftServiceImpl implements ShiftService {
 
     @Transactional
     public void processApprovedShiftRequests() {
-
         List<ShiftRequest> approvedRequests =
                         shiftRequestRepository.findAllByStatus(ShiftRequestStatus.APPROVED);
-
         String systemUsername = "SYSTEM_PROCESS";
         ZoneId fallbackZone = ZoneId.systemDefault();
-
         for (ShiftRequest request : approvedRequests) {
             ZoneId siteZone = fallbackZone;
-
             if(request.getSite() != null && request.getSite().getTimeZone() != null) {
                 try {
                     siteZone = ZoneId.of(request.getSite().getTimeZone());
@@ -147,8 +145,8 @@ public class ShiftServiceImpl implements ShiftService {
                     siteZone = fallbackZone;
                 }
             }
-
             generateShiftsForNext30days(request, systemUsername, siteZone);
+            shiftAssignmentProcessor.processAssignmentsForShiftRequest(request, siteZone);
         }
     }
 

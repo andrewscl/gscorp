@@ -9,9 +9,11 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gscorp.dv1.enums.ShiftAssignmentStatus;
 import com.gscorp.dv1.enums.ShiftStatus;
 import com.gscorp.dv1.operations.shiftassignments.infrastructure.ShiftAssignment;
 import com.gscorp.dv1.operations.shiftassignments.infrastructure.ShiftAssignmentRepository;
+import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.operations.shifts.infrastructure.Shift;
 import com.gscorp.dv1.operations.shifts.infrastructure.ShiftRepository;
 
@@ -58,10 +60,22 @@ public class ShiftAssignmentProcessor {
             if (currentCycleDay <= workDays) {
                 shift.setAssignment(assignment);
                 shift.setStatus(ShiftStatus.PLANNED);
+                shift.setCycleDayNumber((int) currentCycleDay);
                 assignedShifts.add(shift);
             }
         }
         shiftRepository.saveAll(assignedShifts);
     }
-    
+
+    @Transactional
+    public void processAssignmentsForShiftRequest(ShiftRequest request, ZoneId zoneId) {
+    // Busca todas las asignaciones activas vinculadas a este requerimiento de turno
+    List<ShiftAssignment> activeAssignments = shiftAssignmentRepository
+        .findByShiftRequestAndStatus(request, ShiftAssignmentStatus.ASSIGNED);
+
+    for (ShiftAssignment assignment : activeAssignments) {
+        processShiftsForAssignment(assignment, zoneId);
+    }
+}
+
 }

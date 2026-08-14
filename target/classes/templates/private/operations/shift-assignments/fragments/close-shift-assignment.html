@@ -1,9 +1,10 @@
-<div class="edit-shift-assignment">
+<div class="close-shift-assignment">
     <div class="panel-container">
-
+        <input type="hidden" id="shiftAssignmentExternalId"
+                            th:value="${shiftAssignment.externalId}" />
         <div class="panel-main">
             <div class="panel-header">
-                <h4>Editar asignación de turno</h4>
+                <h4>Finalizar asignación de turno</h4>
             </div>
             <div class="panel-body">
                 <div class="form-group">
@@ -28,9 +29,9 @@
                         <span id="shiftPattern" 
                               th:text="${shiftAssignment.shiftPatternName ?: '-'}"></span>
                     </div>
-                    <div class="form-group fx-3" id="shiftPatternGroup">
+                    <div class="form-group fx-3" id="shiftAssignmentStatusGroup">
                         <label>Estado:</label>
-                        <span id="shiftPatternStatus" 
+                        <span id="shiftAssignmentStatus"
                               th:text="${shiftAssignment.status.displayName ?: '-'}"></span>
                     </div>
                 </div>
@@ -71,55 +72,31 @@
         <div class="panel-aside">
             <div class="panel-body">
                 <div class="form-group">
-                    <label>Notas / Observaciones:</label>
-                    <span id="description" th:text="${shiftAssignment.notes ?: 'Sin observaciones'}"></span>
+                    <label>Estado:</label>
+                    <select id="status" name="shiftAssignmentStatus" required>
+                        <option value="">Seleccione un estado</option>
+                        <option th:each="s : ${allowedShiftStatuses}"
+                                th:value="${s}"
+                                th:text="${s.displayName}"></option>
+                    </select>
                 </div>
-
-                <div class="view-planned-shifts-table">
-                    <div class="title-row">
-                        <div class="title-left">
-                            <span class="title-text">Planificación próximos días</span>
-                        </div>
-                    </div>
-                    
-                    <div class="list" 
-                         th:if="${shifts == null or #lists.isEmpty(shifts)}">— No hay turnos planificados —</div>
-                    
-                    <div class="list" 
-                         th:if="${shifts != null and !#lists.isEmpty(shifts)}">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Fecha</th>
-                                    <th>Día</th>
-                                    <th>Inicio</th>
-                                    <th>Término</th>
-                                    <th>Estado</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="s : ${shifts}">
-                                    <td th:text="${s.shiftDate != null ? #temporals.format(s.shiftDate, 'dd-MM-yyyy') : '—'}">18-05-2026</td>
-                                    <td th:text="${s.day != null ? s.day.displayNameInSpanish : '—'}">Lunes</td>
-                                    <td th:text="${s.startTs != null ? #temporals.format(s.startTs, 'HH:mm') : '—'}">08:30</td>
-                                    <td th:text="${s.endTs != null ? #temporals.format(s.endTs, 'HH:mm') : '—'}">20:30</td>
-                                    <td th:text="${s.status != null ? s.status : '—'}">ASIGNADO</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="form-group fx-4">
+                    <label>Fin asignación:</label>
+                    <input type="date" id="assignmentEndDate"/>
                 </div>
-
+                <div class="form-group">
+                        <label>Notas / Observaciones:</label>
+                        <textarea id="description"></textarea>
+                </div>
             </div>
         </div>
     </div>
 
     <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
-    <div th:replace="~{shared/fragments/buttons :: footer-buttons(
+    <div th:replace="~{shared/fragments/footer-buttons :: footer-buttons(
                                                             false, '',
                                                             true, 'Cancelar',
-                                                            true, 'Finalizar'
-                                                            )}"></div>
+                                                            true, 'Finalizar')}"></div>
 
-    <script type="module" src="/js/private/operations/shift-assignments/edit-shift-assignment.js"></script>
+    <script type="module" src="/js/private/operations/shift-assignments/close-shift-assignment.js"></script>
 </div>

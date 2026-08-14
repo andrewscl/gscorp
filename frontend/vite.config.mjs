@@ -91,6 +91,7 @@ export default defineConfig({
         'private/operations/shift-assignments/create-shift-assignment': path.resolve(__dirname, './src/private/operations/shift-assignments/create-shift-assignment.js'),
         'private/operations/shift-assignments/view-shift-assignment': path.resolve(__dirname, './src/private/operations/shift-assignments/view-shift-assignment.js'),
         'private/operations/shift-assignments/edit-shift-assignment': path.resolve(__dirname, './src/private/operations/shift-assignments/edit-shift-assignment.js'),
+        'private/operations/shift-assignments/close-shift-assignment': path.resolve(__dirname, './src/private/operations/shift-assignments/close-shift-assignment.js'),
 
         'private/shifts/create-shift': path.resolve(__dirname, './src/private/shifts/create-shift.js'),
         'private/operations/shifts/shifts-list': path.resolve(__dirname, './src/private/operations/shifts/shifts-list.js'),

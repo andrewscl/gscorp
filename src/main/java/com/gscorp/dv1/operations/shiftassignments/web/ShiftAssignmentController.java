@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gscorp.dv1.admin.projects.application.ProjectService;
 import com.gscorp.dv1.config.security.SecurityUser;
+import com.gscorp.dv1.enums.ShiftAssignmentStatus;
 import com.gscorp.dv1.operations.shiftassignments.application.ShiftAssignmentService;
 import com.gscorp.dv1.operations.shiftassignments.web.dto.ShiftAssignmentDto;
 import com.gscorp.dv1.operations.shiftpatterns.application.ShiftPatternService;
@@ -106,6 +107,22 @@ public class ShiftAssignmentController {
             shiftAssignmentService.getByExternalId(shiftAssignmentExternalId));
         model.addAttribute("shifts" , shifts);
         return "private/operations/shift-assignments/fragments/edit-shift-assignment";
+    }
+
+    @GetMapping("/close/{shiftAssignmentExternalId}")
+    public String closeEditShiftAssignment(
+            Model model,
+            @AuthenticationPrincipal SecurityUser securityUser,
+            @PathVariable("shiftAssignmentExternalId") UUID shiftAssignmentExternalId
+    ){
+        if(securityUser == null) return "redirect:/login";
+        List<ShiftAssignmentStatus> allowedShiftStatuses = List.of(
+            ShiftAssignmentStatus.CANCELLED, ShiftAssignmentStatus.FINISHED
+        );
+        model.addAttribute("shiftAssignment",
+            shiftAssignmentService.getByExternalId(shiftAssignmentExternalId));
+        model.addAttribute("allowedShiftStatuses", allowedShiftStatuses);
+        return "private/operations/shift-assignments/fragments/close-shift-assignment";
     }
 
 }

@@ -3,10 +3,12 @@ import { fetchWithAuth } from "../../../auth";
 
 const qs  = (s) => document.querySelector(s);
 
-const closeShiftAssignment = () => {
-
-
-
+const navigateToCloseShiftAssignment = () => {
+    const shiftAssignmentExternalId = qs('#shiftAssignmentExternalId')?.value;
+    if(shiftAssignmentExternalId ) {
+        const url = `/private/shift-assignments/close/${shiftAssignmentExternalId}`
+        navigateTo(url, true);
+    }
 }
 
 const backToShiftAssignments = () => {
@@ -20,7 +22,7 @@ function bindEvents() {
     }
     const closeShiftAssignmentBtn = qs('#delete');
     if (closeShiftAssignmentBtn) {
-        closeShiftAssignmentBtn.addEventListener('click', closeShiftAssignment);
+        closeShiftAssignmentBtn.addEventListener('click', navigateToCloseShiftAssignment);
     }
 }
 

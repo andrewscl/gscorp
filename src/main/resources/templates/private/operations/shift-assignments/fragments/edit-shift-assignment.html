@@ -115,10 +115,11 @@
     </div>
 
     <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
-    <div th:replace="~{shared/fragments/footer-buttons :: footer-buttons(
+    <div th:replace="~{shared/fragments/buttons :: footer-buttons(
                                                             false, '',
                                                             true, 'Cancelar',
-                                                            true, 'Cerrar')}"></div>
+                                                            true, 'Finalizar'
+                                                            )}"></div>
 
     <script type="module" src="/js/private/operations/shift-assignments/edit-shift-assignment.js"></script>
 </div>

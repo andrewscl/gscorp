@@ -81,6 +81,9 @@ public class Shift {
     @JoinColumn(name="shift_request_id")
     private ShiftRequest shiftRequest;
 
+    @Column(name="cycle_day_number")
+    private Integer cycleDayNumber;
+
     @Column(nullable = false)
     private String createdBy;
 
