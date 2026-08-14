@@ -17,8 +17,13 @@ const submitShiftAssignment = async () => {
     const assignedAtDate = qs('#assignedAtDate')?.value || '';
     const assignedUntilDate = qs('#assignedUntilDate')?.value || '';
     const reason = qs('#reason')?.value || '';
+    console.log('assignmentEndDate: ', shiftAssignmentExternalId);
+    console.log('assignmentEndDate: ', assignmentEndDate);
+    console.log('assignedAtDate: ', assignedAtDate);
+    console.log('assignedUntilDate: ', assignedUntilDate);
     if (!shiftAssignmentExternalId) {
         displayAlert(alertError, 'No existe shiftAssignmentExternalId.', 1500);
+        return;
     } 
     if (!assignmentStatus || !assignmentEndDate) {
         displayAlert(alertError, 'Por favor, complete la fecha y estado requeridos.', 1500);
