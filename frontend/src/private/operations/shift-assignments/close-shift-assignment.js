@@ -65,7 +65,7 @@ const submitShiftAssignment = async () => {
         }
         displayAlert(alertSuccess, 'La asignación fue procesada correctamente.', 2000);
         setTimeout(() => {
-            navigateTo('/private/employee-terminations/list');
+            navigateTo('/private/shift-assignments/list');
         }, 2000);
     } catch (error) {
         console.error(`[onCloseShiftAssignment] Ocurrio un problema: ${error.message}`, error);

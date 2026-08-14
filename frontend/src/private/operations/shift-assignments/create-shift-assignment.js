@@ -66,7 +66,7 @@ const createShiftAssignment = async () => {
             }
             displayAlert(alertSuccess, 'La asignación de turno ha sido creada correctamente.', 2000);
             setTimeout(() => {
-                navigateTo('/private/shift-patterns/list', true);
+                navigateTo('/private/shift-assignments/list', true);
             }, 2000);
 
     } catch (error) {
