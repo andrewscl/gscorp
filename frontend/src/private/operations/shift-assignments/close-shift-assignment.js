@@ -11,22 +11,22 @@ const alertCancel = qs('.alert-warning');
 const submitShiftAssignment = async () => {
     const cancelBtn = qs('#cancel');
     const submitBtn = qs('#submit');
-    const assignmentStatus = qs('#shiftAssignmentStatus')?.value || '';
+    const assignmentStatusSelect = qs('#assignmentStatusSelect')?.value.trim() || '';
     const shiftAssignmentExternalId = qs('#shiftAssignmentExternalId')?.value || '';
-    const assignmentEndDate = qs('#assignmentEndDate')?.value || '';
+    const assignmentUntilDateSelect = qs('#assignmentUntilDateSelect')?.value || '';
     const assignedAtDate = qs('#assignedAtDate')?.value || '';
     const assignedUntilDate = qs('#assignedUntilDate')?.value || '';
     const reason = qs('#reason')?.value || '';
     console.log('assignmentEndDate: ', shiftAssignmentExternalId);
-    console.log('assignmentEndDate: ', assignmentEndDate);
+    console.log('assignmentUntilDateSelect: ', assignmentUntilDateSelect);
     console.log('assignedAtDate: ', assignedAtDate);
     console.log('assignedUntilDate: ', assignedUntilDate);
-    console.log('assignmentStatus: ', assignmentStatus);
+    console.log('assignmentStatusSelect: ', assignmentStatusSelect);
     if (!shiftAssignmentExternalId) {
         displayAlert(alertError, 'No existe shiftAssignmentExternalId.', 1500);
         return;
     } 
-    if (!assignmentStatus || !assignmentEndDate) {
+    if (!assignmentStatusSelect || !assignmentUntilDateSelect) {
         displayAlert(alertError, 'Por favor, complete la fecha y estado requeridos.', 1500);
         return;
     }
@@ -40,8 +40,8 @@ const submitShiftAssignment = async () => {
     if(submitBtn) submitBtn.disabled = true;
     try {
         const payload = {
-            status: assignmentStatus,
-            endAssignmentDate: assignmentEndDate,
+            status: assignmentStatusSelect,
+            endAssignmentDate: assignmentUntilDateSelect,
             reason: reason
         };
         const res = await fetchWithAuth(`/api/shift-assignments/close/${shiftAssignmentExternalId}`, {
