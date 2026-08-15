@@ -33,7 +33,7 @@ public class ShiftAssignmentProcessor {
     ) {
         LocalDate startDate = assignment.getAssignedAt().toLocalDate();
         List<Shift> shifts = shiftRepository
-                .findByShiftRequestAndShiftDateGreaterThanEqual(
+                .findByShiftRequestAndShiftDateGreaterThanEqualAndAssignmentIsNull(
                     assignment.getShiftRequest(), startDate);
         if (shifts.isEmpty()) return;
         LocalDate lastShiftDate = shifts.get(shifts.size() - 1).getShiftDate();
