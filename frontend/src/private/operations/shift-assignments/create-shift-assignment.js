@@ -38,7 +38,7 @@ const createShiftAssignment = async () => {
         return;
     }
     const assignedAtIso = startObj.toISOString();
-    const assignedUntilIso = endObj.toISOString() ? endObj.toISOString() : null;
+    const assignedUntilIso = endObj ? endObj.toISOString() : null;
 
     const payload = {
         siteExternalId: siteExternalId,
