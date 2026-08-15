@@ -109,10 +109,10 @@ public class ShiftAssignmentServiceImpl implements ShiftAssignmentService{
         Employee employee =
             employeeRepository.findByExternalId(request.employeeExternalId())
                 .orElseThrow(() -> new EntityNotFoundException("Empleado no encontrado")) ;
-        OffsetDateTime normalizedAssignedAt = request.assignedAt().toInstant()
-                                                .atZone(targetZone).toOffsetDateTime();
+        OffsetDateTime normalizedAssignedAt = request.assignedAt().toLocalDate()
+                                                .atStartOfDay(targetZone).toOffsetDateTime();
         OffsetDateTime normalizedAssignedUntil = (request.assignedUntil() != null)
-            ? request.assignedUntil().toInstant().atZone(targetZone).toOffsetDateTime()
+            ? request.assignedUntil().toLocalDate().atStartOfDay(targetZone).toOffsetDateTime()
             : null ;
         ShiftAssignment shiftAssignment = ShiftAssignment.builder()
                     .employee(employee)
