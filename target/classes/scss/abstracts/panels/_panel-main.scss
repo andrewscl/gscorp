@@ -26,13 +26,12 @@
                     margin: 0;
                 }
                 .form-value {
-                    @include roboto-font(0.95rem, 400); // Fuente principal
-                    color: $heading-color; // Casi negro o azul muy oscuro
+                    @include roboto-font(0.95rem, 400);
+                    color: $heading-color;
                     line-height: 1.4;
                     border: 0.1rem solid $slate-200;
                     padding: 0.4rem 0.75rem;
                     border-radius: 0.5rem;
-                    // Para que los datos vacíos no rompan la estética
                     &:empty::before {
                         content: '—';
                         color: #cbd5e1;
