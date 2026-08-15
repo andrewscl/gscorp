@@ -1,10 +1,8 @@
 package com.gscorp.dv1.enums;
 
-/**
- * Enum para tipos de solicitud. Se mantiene displayName para UI y se añade
- * soporte de deserialización tolerante con @JsonCreator para aceptar valores
- * en español/inglés y variantes.
- */
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ShiftRequestType {
     SPORADIC("Esporádico"),
     FIXED("Fijo");
@@ -18,4 +16,9 @@ public enum ShiftRequestType {
     public String getDisplayName() {
         return displayName;
     }
+
+    public String getName() {
+        return this.name();
+    }
+
 }
