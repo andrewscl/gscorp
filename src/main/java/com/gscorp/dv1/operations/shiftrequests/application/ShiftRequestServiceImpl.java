@@ -256,7 +256,7 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
         String prefix;
         switch (req.type()) {
             case FIXED -> prefix = "TF";
-            case ESPORADIC -> prefix = "TS";
+            case SPORADIC -> prefix = "TS";
             default -> prefix = "TR";
         }
 
