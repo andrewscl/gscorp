@@ -62,10 +62,8 @@ const loadShiftRequestsBySite = async () => {
         filterShiftRequest.disabled = true;
         return;
     }
-
     const filterShiftRequest = qs('#filter-shiftRequest');
     if (!filterShiftRequest) return;
-
     try {
         filterShiftRequest.innerHTML = '<option value="">Cargando turnos...</option>';
         filterShiftRequest.disabled = true;

@@ -185,18 +185,15 @@ public class ShiftServiceImpl implements ShiftService {
 
         System.out.println("====== PROBANDO ENDPOINT LAST 24 HOURS ======");
         System.out.println("Cantidad de registros devueltos: " + (projections != null ? projections.size() : "NULL"));
-
         if (projections != null) {
             projections.forEach(row -> {
                 System.out.println("Fecha/Hora: " + row.getStartTs() + " | Turnos: " + row.getTotalShifts());
             });
         }
         System.out.println("=============================================");
-
         if (projections == null) {
             return List.of(); 
         }
-
         return projections.stream()
                     .map(ShiftsCountLast24HoursDto::fromProjection)
                     .toList();
@@ -232,6 +229,7 @@ public class ShiftServiceImpl implements ShiftService {
                         LocalDate endDate,
                         UUID projectExternalId,
                         UUID siteExternalId,
+                        UUID shiftRequestExternalId,
                         ShiftStatus status,
                         int page,
                         int size,
@@ -256,6 +254,7 @@ public class ShiftServiceImpl implements ShiftService {
                                     endDate, 
                                     siteExternalId,
                                     projectExternalId,
+                                    shiftRequestExternalId,
                                     status,
                                     pageable);
         return projections.map(sp -> ShiftDto.fromProjection(sp, zoneId));

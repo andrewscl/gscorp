@@ -35,6 +35,7 @@ public class ShiftController {
         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
         @RequestParam(required = false) UUID projectExternalId,
         @RequestParam(required = false) UUID siteExternalId,
+        @RequestParam(required=false) UUID shiftRequestExternalId,
         @RequestParam(required = false) ShiftStatus status,
         @RequestParam(required=false) String zoneId,
         @RequestParam(defaultValue = "0") int page,
@@ -50,7 +51,8 @@ public class ShiftController {
 
         Page<ShiftDto> shifts = shiftService.getShiftList(
                 securityUser, effectiveStartDate, effectiveEndDate,
-                                                    projectExternalId, siteExternalId, status, page, size, zoneId);
+                    projectExternalId, siteExternalId, shiftRequestExternalId,
+                                                        status, page, size, zoneId);
         model.addAttribute("shiftsPage", shifts);
         model.addAttribute("shifts", shifts.getContent());
         model.addAttribute("count", shifts.getTotalElements());
@@ -71,6 +73,7 @@ public class ShiftController {
         @RequestParam(required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
         @RequestParam(required=false) UUID projectId,
         @RequestParam(required=false) UUID siteId,
+        @RequestParam(required=false) UUID shiftRequestExternalId,
         @RequestParam(required=false) ShiftStatus status,
         @RequestParam(required=false) String zoneId,
         @RequestParam(defaultValue = "0") int page,
@@ -81,8 +84,8 @@ public class ShiftController {
         LocalDate effectiveEndDate = (to != null) ? to : LocalDate.now();
 
         Page<ShiftDto> shifts = shiftService.getShiftList(
-                        securityUser, effectiveStartDate, effectiveEndDate,
-                                                projectId, siteId, status, page, size, zoneId);
+                securityUser, effectiveStartDate, effectiveEndDate, 
+                    projectId, siteId, shiftRequestExternalId, status, page, size, zoneId);
         model.addAttribute("shiftsPage", shifts);
         model.addAttribute("shifts", shifts.getContent());
         model.addAttribute("count", shifts.getTotalElements());

@@ -52,6 +52,7 @@ public interface ShiftService {
                         LocalDate endDate,
                         UUID projectExternalId,
                         UUID siteExternalId,
+                        UUID shiftRequestExternalId,
                         ShiftStatus status,
                         int page,
                         int size,

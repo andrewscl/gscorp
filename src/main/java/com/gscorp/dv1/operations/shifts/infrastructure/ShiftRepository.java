@@ -130,6 +130,7 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
                 AND     sh.shiftDate <= :endExclusiveDate
                 AND     (:siteExternalId IS NULL OR s.externalId = :siteExternalId)
                 AND     (:projectExternalId IS NULL OR p.externalId = :projectExternalId)
+                AND     (:shiftRequestExternalId IS NULL OR shr.externalId = :shiftRequestExternalId)
                 AND     (:shiftStatus IS NULL OR sh.status = :shiftStatus)
                 """,
                 countQuery = """
@@ -137,15 +138,16 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
                 FROM Shift sh
                 LEFT JOIN sh.site s
                 LEFT JOIN s.project p
+                LEFT JOIN sh.shiftRequest shr
                 WHERE   (:ignoreProjectFilter = true OR p.id IN :projectIds)
                 AND     sh.shiftDate >= :startDate
                 AND     sh.shiftDate <= :endExclusiveDate
                 AND     (:siteExternalId IS NULL OR s.externalId = :siteExternalId)
                 AND     (:projectExternalId IS NULL OR p.externalId = :projectExternalId)
+                AND     (:shiftRequestExternalId IS NULL OR shr.externalId = :shiftRequestExternalId)
                 AND     (:shiftStatus IS NULL OR sh.status = :shiftStatus)
                 """
         )
-
         Page<ShiftProjection> findPageByProjectIds(
                 @Param("ignoreProjectFilter") boolean ignoreProjectFilter,
                 @Param("projectIds") List<Long> projectIds,
@@ -153,12 +155,12 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
                 @Param("endExclusiveDate") LocalDate endExclusiveDate,
                 @Param("siteExternalId") UUID siteExternalId,
                 @Param("projectExternalId") UUID projectExternalId,
+                @Param("shiftRequestExternalId") UUID shiftRequestExternalId,
                 @Param("shiftStatus") ShiftStatus status,
                 Pageable pageable
         );
-
         List<Shift> findByAssignmentAndShiftDateGreaterThanEqual(
-                                            ShiftAssignment assignment,
-                                            LocalDate endAssignmentDate);
+                                                    ShiftAssignment assignment,
+                                                    LocalDate endAssignmentDate);
 
 }
