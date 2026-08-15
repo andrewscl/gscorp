@@ -159,8 +159,14 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
                 @Param("shiftStatus") ShiftStatus status,
                 Pageable pageable
         );
+
         List<Shift> findByAssignmentAndShiftDateGreaterThanEqual(
                                                     ShiftAssignment assignment,
                                                     LocalDate endAssignmentDate);
+
+        List<Shift> findByShiftRequestAndShiftDateGreaterThanEqualAndAssignmentIsNull(
+                ShiftRequest shiftRequest, 
+                LocalDate startDate
+        );
 
 }
