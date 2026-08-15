@@ -27,8 +27,19 @@ const createShiftAssignment = async () => {
         return;
     }
     // Convertir fechas a formato ISO-8601 válido para OffsetDateTime
-    const assignedAtIso = new Date(assignmentStartDate).toISOString();
-    const assignedUntilIso = assignmentEndDate ? new Date(assignmentEndDate).toISOString() : null;
+    const startObj = new Date(assignmentStartDate);
+    const endObj = assignmentEndDate ? new Date(assignmentEndDate) : null;
+    if (isNaN(startObj.getTime()) || (assignmentEndDate && isNaN(endObj.getTime()))) {
+        displayAlert(alertError, 'Por favor, ingrese fechas válidas.');
+        return;
+    }
+    if (endObj && endObj < startObj) {
+        displayAlert(alertError, 'La fecha de fin no puede ser anterior a la fecha de inicio.');
+        return;
+    }
+    const assignedAtIso = startObj.toISOString();
+    const assignedUntilIso = endObj.toISOString();
+
     const payload = {
         siteExternalId: siteExternalId,
         shiftRequestExternalId: shiftRequestExternalId,
