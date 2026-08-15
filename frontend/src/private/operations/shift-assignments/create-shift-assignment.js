@@ -273,8 +273,8 @@ async function handleShiftChange (e) {
             return;
         }
         const shiftRequest = await response.json();
-        const typeValue = shiftRequest.shiftRequestType;
-        const typeDisplay = shiftRequest.shiftRequestType.displayName;
+        const typeValue = shiftRequest.type;
+        const typeDisplay = shiftRequest.type.displayName;
         if(shiftRequestTypeSpan) shiftRequestTypeSpan.textContent = typeDisplay;
         if(shiftRequestTypeGroup) shiftRequestTypeGroup.style.display = '';
         const isSporadic = typeValue == 'SPORADIC';
