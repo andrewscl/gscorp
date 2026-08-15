@@ -6,7 +6,7 @@ package com.gscorp.dv1.enums;
  * en español/inglés y variantes.
  */
 public enum ShiftRequestType {
-    ESPORADIC("Esporádico"),
+    SPORADIC("Esporádico"),
     FIXED("Fijo");
 
     private final String displayName;

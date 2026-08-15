@@ -222,15 +222,26 @@ async function handleSiteChange() {
 
 async function handleShiftChange (e) {
     const shiftRequestSelect = qs('#shiftRequestExternalId');
+    const shiftRequestTypeGroup = qs('#shiftRequestTypeGroup');
+    const shiftRequestTypeSpan = qs('#shiftRequestType');
     const shiftPatternGroup = qs('#shiftPatternGroup');
-    const employeeSelect = qs('#employeeExternalId');
     const shiftPatternSpan = qs('#shiftPattern');
+    const employeeSelect = qs('#employeeExternalId');
+    const assignmentEndDateGroup = qs('#assignmentEndDateGroup');
+    const assignmentEndDateInput = qs('#assignmentEndDate');
     const cycleSelect = qs('#shiftPatternStartCycle');
     const shiftRequestExternalId = e.target.value;
 
     const resetUIOnError = () => {
+        if(shiftRequestTypeSpan) shiftRequestTypeSpan.textContent = '-';
+        if(shiftRequestTypeGroup) shiftRequestTypeGroup.style.display = 'none';
         if(shiftPatternSpan) shiftPatternSpan.textContent = '-';
         if(shiftPatternGroup) shiftPatternGroup.style.display = 'none';
+        if(assignmentEndDateGroup) assignmentEndDateGroup,style.display = 'none';
+        if(assignmentEndDateInput) {
+            assignmentEndDateInput.value = '';
+            assignmentEndDateInput.required = false;
+        }
         if(employeeSelect) {
             employeeSelect.value = '';
             employeeSelect.disabled = true;
@@ -262,6 +273,23 @@ async function handleShiftChange (e) {
             return;
         }
         const shiftRequest = await response.json();
+        const typeValue = shiftRequest.shiftRequestType;
+        const typeDisplay = shiftRequest.shiftRequestType.displayName;
+        if(shiftRequestTypeSpan) shiftRequestTypeSpan.textContent = typeDisplay;
+        if(shiftRequestTypeGroup) shiftRequestTypeGroup.style.display = '';
+        const isSporadic = typeValue == 'SPORADIC';
+        if(assignmentEndDateGroup) {
+            if(isSporadic) {
+                assignmentEndDateGroup.style.display = '';
+                if(assignmentEndDateInput) assignmentEndDateInput.required = true;
+            } else {
+                assignmentEndDateGroup.style.display = 'none';
+                if(assignmentEndDateInput) {
+                    assignmentEndDateInput.value = '';
+                    assignmentEndDateInput.required = false;
+                }
+            }
+        }
         updateCycleStartOptions(shiftRequest.cycleDaysList);
         if (shiftPatternSpan){
             shiftPatternSpan.textContent = shiftRequest.shiftPatternName || '-';
