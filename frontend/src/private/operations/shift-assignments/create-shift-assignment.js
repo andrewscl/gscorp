@@ -267,6 +267,10 @@ async function handleShiftChange (e) {
             assignmentEndDateInput.value = '';
             assignmentEndDateInput.required = false;
         }
+        if(assignmentStartDateInput) {
+            assignmentStartDateInput.removeAttribute('min');
+            delete assignmentStartDateInput.dataset.nextAvailableShift;
+        }
         if(employeeSelect) {
             employeeSelect.value = '';
             employeeSelect.disabled = true;
@@ -334,7 +338,7 @@ async function handleShiftChange (e) {
         // Proximo turno disponible
         const currentDateStr =
             assignmentStartDateInput?.value || new Date().toISOString().split('T')[0];
-        const urlNextShift = `/api/shifts/next-available-shift?startAssignmentDate=${currentDateStr}`;
+        const urlNextShift = `/api/shifts/next-available-shift/${shiftRequestExternalId}/shift/?startAssignmentDate=${currentDateStr}`;
         const nextShiftResponse = await fetchWithAuth(urlNextShift, { 
                                 method: 'GET', 
                                 headers: { 'Accept': 'application/json' },
