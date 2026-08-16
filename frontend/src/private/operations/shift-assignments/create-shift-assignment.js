@@ -17,8 +17,10 @@ const createShiftAssignment = async () => {
     const employeeExternalId = qs('#employeeExternalId')?.value || ''
     const shiftPatternStartCycle = qs('#shiftPatternStartCycle')?.value || '';
     const description = qs('#description')?.value || '';
-    const assignmentStartDate = qs('#assignmentStartDate')?.value || '';
+    const assignmentStartDateInput = qs('#assignmentStartDate');
+    const assignmentStartDate = assignmentStartDateInput?.value || '';
     const assignmentEndDate = qs('#assignmentEndDate')?.value || '';
+    const minAvailableShiftDateStr = assignmentStartDateInput?.dataset.nextAvailableShift;
     if (!projectExternalId || !siteExternalId || 
         !shiftRequestExternalId || !employeeExternalId || 
         !shiftPatternStartCycle || !assignmentStartDate
@@ -33,13 +35,23 @@ const createShiftAssignment = async () => {
         displayAlert(alertError, 'Por favor, ingrese fechas válidas.');
         return;
     }
+    const now = new Date();
+    const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+    if (assignmentStartDate < todayStr) {
+        displayAlert(alertError, 'La fecha de inicio no puede ser anterior a la fecha actual.');
+        return;
+    }
+    if (minAvailableShiftDateStr && assignmentStartDate < minAvailableShiftDateStr ) {
+        displayAlert(alertError, `La fecha de inicio no puede ser anterior a: ${minAvailableShiftDateStr}`);
+        return;
+    }
     if (endObj && endObj < startObj) {
         displayAlert(alertError, 'La fecha de fin no puede ser anterior a la fecha de inicio.');
         return;
     }
+
     const assignedAtIso = startObj.toISOString();
     const assignedUntilIso = endObj ? endObj.toISOString() : null;
-
     const payload = {
         siteExternalId: siteExternalId,
         shiftRequestExternalId: shiftRequestExternalId,
@@ -331,6 +343,7 @@ async function handleShiftChange (e) {
             if (nextShift && nextShift.shiftDate && assignmentStartDateInput) {
                 // Restringe el picker HTML5 para no seleccionar fechas pasadas al turno
                 assignmentStartDateInput.min = nextShift.shiftDate;
+                assignmentStartDateInput.dataset.nextAvailableShift = nextShift.shiftDate;
                 // Si no hay fecha seleccionada o la actual es anterior a la disponible, la actualiza
                 if (!assignmentStartDateInput.value || assignmentStartDateInput.value < nextShift.shiftDate) {
                     assignmentStartDateInput.value = nextShift.shiftDate;
