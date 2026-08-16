@@ -164,10 +164,18 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
                                             ShiftAssignment assignment,
                                             LocalDate queryShiftDate);
 
-    // Spring Data JPA infiere el LIMIT 1 y el ORDER BY automáticamente
-    Optional<Shift> findFirstByStatusAndShiftDateGreaterThanEqualOrderByShiftDateAscStartTsAsc(
-            ShiftStatus status, 
-            LocalDate startDate
-    );
+        @Query("""
+            SELECT s FROM Shift s 
+            WHERE s.status = :status 
+            AND s.shiftRequest.externalId = :shiftRequestId 
+            AND s.shiftDate >= :startDate 
+            ORDER BY s.shiftDate ASC, s.startTs ASC
+            LIMIT 1
+        """)
+        Optional<Shift> findNextUnplannedShift(
+                @Param("status") ShiftStatus status,
+                @Param("shiftRequestId") UUID shiftRequestId,
+                @Param("startDate") LocalDate startDate
+        );
 
 }

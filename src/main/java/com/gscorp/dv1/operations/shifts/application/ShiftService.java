@@ -62,6 +62,7 @@ public interface ShiftService {
     Optional<ShiftDto> getNextUnplannedShift (
                             SecurityUser securityUser,
                             ZoneId ZoneId,
+                            UUID shiftRequestExternalId,
                             LocalDate startAssignmentDate);
 
 }

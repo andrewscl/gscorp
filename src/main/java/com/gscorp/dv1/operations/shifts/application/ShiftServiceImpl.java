@@ -264,16 +264,19 @@ public class ShiftServiceImpl implements ShiftService {
     public Optional<ShiftDto> getNextUnplannedShift (
                                     SecurityUser securityUser,
                                     ZoneId zoneId,
+                                    UUID shiftRequestExternalId,
                                     LocalDate startAssignmentDate){
         if (securityUser == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
         }
+        LocalDate effectiveStartDate = (startAssignmentDate != null)
+                                                ? startAssignmentDate
+                                                : LocalDate.now(); 
         Optional<Shift> shiftOpt = 
             shiftRepository
-                .findFirstByStatusAndShiftDateGreaterThanEqualOrderByShiftDateAscStartTsAsc(
-                    ShiftStatus.UNPLANNED, startAssignmentDate);
+                .findNextUnplannedShift(
+                    ShiftStatus.UNPLANNED, shiftRequestExternalId, effectiveStartDate);
         return shiftOpt.map(shift -> ShiftDto.fromEntity(shift, zoneId));
     }
-
 
 }

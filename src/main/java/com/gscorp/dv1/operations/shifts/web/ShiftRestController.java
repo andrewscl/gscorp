@@ -132,9 +132,10 @@ public class ShiftRestController {
         return ResponseEntity.ok(shiftService.getShiftsCountLast24Hours(externalId));
     }
 
-    @GetMapping("/next-available-shift")
+    @GetMapping("/next-available-shift/shift-request/{shiftRequestExternalId}/shift")
     public ResponseEntity<ShiftDto> getNextUnplannedShift (
                 @AuthenticationPrincipal SecurityUser securityUser,
+                @PathVariable("shiftRequestExternalId") UUID shiftRequestExternalId,
                 @RequestParam(required = false) String clientZoneId,
                 @RequestParam(required = false) LocalDate startAssignmentDate
     ){
@@ -144,7 +145,7 @@ public class ShiftRestController {
         UUID userExternalId = securityUser.getUser().getExternalId();
         ZoneResolutionResult zoneResult = zoneResolver.resolveZone(userExternalId, clientZoneId);
         ZoneId zoneId = zoneResult.zoneId();
-        return  shiftService.getNextUnplannedShift(securityUser, zoneId, startAssignmentDate)
+        return  shiftService.getNextUnplannedShift(securityUser, zoneId, shiftRequestExternalId, startAssignmentDate)
                     .map(ResponseEntity::ok)
                     .orElseGet(() -> ResponseEntity.noContent().build());
     }
