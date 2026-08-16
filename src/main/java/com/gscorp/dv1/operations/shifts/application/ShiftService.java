@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -57,5 +58,10 @@ public interface ShiftService {
                         int page,
                         int size,
                         String zoneIdStr);
+
+    Optional<ShiftDto> getNextUnplannedShift (
+                            SecurityUser securityUser,
+                            ZoneId ZoneId,
+                            LocalDate startAssignmentDate);
 
 }

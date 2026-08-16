@@ -238,6 +238,7 @@ async function handleShiftChange (e) {
     const shiftPatternGroup = qs('#shiftPatternGroup');
     const shiftPatternSpan = qs('#shiftPattern');
     const employeeSelect = qs('#employeeExternalId');
+    const assignmentStartDateInput = qs('#assignmentStartDate')
     const assignmentEndDateGroup = qs('#assignmentEndDateGroup');
     const assignmentEndDateInput = qs('#assignmentEndDate');
     const cycleSelect = qs('#shiftPatternStartCycle');
@@ -248,7 +249,7 @@ async function handleShiftChange (e) {
         if(shiftRequestTypeGroup) shiftRequestTypeGroup.style.display = 'none';
         if(shiftPatternSpan) shiftPatternSpan.textContent = '-';
         if(shiftPatternGroup) shiftPatternGroup.style.display = 'none';
-        if(assignmentEndDateGroup) assignmentEndDateGroup,style.display = 'none';
+        if(assignmentEndDateGroup) assignmentEndDateGroup.style.display = 'none';
         if(assignmentEndDateInput) {
             assignmentEndDateInput.value = '';
             assignmentEndDateInput.required = false;
@@ -268,8 +269,10 @@ async function handleShiftChange (e) {
     }
     try {
         const urlShiftRequest = `/api/shift-requests/${shiftRequestExternalId}`;
-        const response = await fetchWithAuth(urlShiftRequest, { method: 'GET', headers: { 'Accept': 'application/json' },
-                                                            });
+        const response = await fetchWithAuth(urlShiftRequest, { 
+                                method: 'GET', 
+                                headers: { 'Accept': 'application/json' },
+                            });
         if (!response || !response.ok) {
             let errorMessage = 'Ocurrió un problema al enviar el formulario.';
             if(response){
@@ -314,6 +317,25 @@ async function handleShiftChange (e) {
         if(employeeSelect) {
             employeeSelect.disabled = false;
             employeeSelect.value = '';
+        }
+        // Proximo turno disponible
+        const currentDateStr =
+            assignmentStartDateInput?.value || new Date().toISOString.split('T')[0];
+        const urlNextShift = `api/shifts/next-available-shift?startAssignmentDate=${currentDateStr}`;
+        const nextShiftResponse = await fetchWithAuth(urlNextShift, { 
+                                method: 'GET', 
+                                headers: { 'Accept': 'application/json' },
+                            });
+        if (nextShiftResponse && nextShiftResponse.status === 200) {
+            const nextShift = await nextShiftResponse.json();
+            if (nextShift && nextShift.shiftDate && assignmentStartDateInput) {
+                // Restringe el picker HTML5 para no seleccionar fechas pasadas al turno
+                assignmentStartDateInput.min = nextShift.shiftDate;
+                // Si no hay fecha seleccionada o la actual es anterior a la disponible, la actualiza
+                if (!assignmentStartDateInput.value || assignmentStartDateInput.value < nextShift.shiftDate) {
+                    assignmentStartDateInput.value = nextShift.shiftDate;
+                }
+            }
         }
     } catch (error) {
         console.error('Error en cascada:', error);

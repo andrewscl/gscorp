@@ -260,4 +260,20 @@ public class ShiftServiceImpl implements ShiftService {
         return projections.map(sp -> ShiftDto.fromProjection(sp, zoneId));
     }
 
+    @Transactional(readOnly = true)
+    public Optional<ShiftDto> getNextUnplannedShift (
+                                    SecurityUser securityUser,
+                                    ZoneId zoneId,
+                                    LocalDate startAssignmentDate){
+        if (securityUser == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
+        }
+        Optional<Shift> shiftOpt = 
+            shiftRepository
+                .findFirstByStatusAndShiftDateGreaterThanEqualOrderByShiftDateAscStartTsAsc(
+                    ShiftStatus.UNPLANNED, startAssignmentDate);
+        return shiftOpt.map(shift -> ShiftDto.fromEntity(shift, zoneId));
+    }
+
+
 }

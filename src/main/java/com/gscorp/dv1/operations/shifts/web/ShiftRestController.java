@@ -1,5 +1,6 @@
 package com.gscorp.dv1.operations.shifts.web;
 
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
@@ -131,7 +132,21 @@ public class ShiftRestController {
         return ResponseEntity.ok(shiftService.getShiftsCountLast24Hours(externalId));
     }
 
-
-
+    @GetMapping("/next-available-shift")
+    public ResponseEntity<ShiftDto> getNextUnplannedShift (
+                @AuthenticationPrincipal SecurityUser securityUser,
+                @RequestParam(required = false) String clientZoneId,
+                @RequestParam(required = false) LocalDate startAssignmentDate
+    ){
+        if (securityUser == null) {
+            throw new AuthenticationCredentialsNotFoundException("Usuario no autenticado");
+        }
+        UUID userExternalId = securityUser.getUser().getExternalId();
+        ZoneResolutionResult zoneResult = zoneResolver.resolveZone(userExternalId, clientZoneId);
+        ZoneId zoneId = zoneResult.zoneId();
+        return  shiftService.getNextUnplannedShift(securityUser, zoneId, startAssignmentDate)
+                    .map(ResponseEntity::ok)
+                    .orElseGet(() -> ResponseEntity.noContent().build());
+    }
 
 }
