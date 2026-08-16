@@ -33,7 +33,7 @@ public class ShiftAssignmentProcessor {
     ) {
         LocalDate startDate = assignment.getAssignedAt().toLocalDate();
         List<Shift> shifts = shiftRepository
-                .findByShiftRequestAndShiftDateGreaterThanEqualAndAssignmentIsNull(
+                .findByShiftRequestAndShiftDateGreaterThanEqual(
                     assignment.getShiftRequest(), startDate);
         if (shifts.isEmpty()) return;
         LocalDate lastShiftDate = shifts.get(shifts.size() - 1).getShiftDate();
@@ -46,7 +46,7 @@ public class ShiftAssignmentProcessor {
             shiftAssignmentRepository.save(assignment);
         }
         var pattern = assignment.getShiftRequest().getShiftPattern();
-        Long totalCycleDays = pattern.getTotalDays();
+        Long totalCycleDays = pattern.getTotalDays();   
         Long workDays = pattern.getWorkDays();
         List<Shift> assignedShifts = new ArrayList<>();
         for (Shift shift : shifts) {

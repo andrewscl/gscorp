@@ -138,7 +138,6 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
                 FROM Shift sh
                 LEFT JOIN sh.site s
                 LEFT JOIN s.project p
-                LEFT JOIN sh.shiftRequest shr
                 WHERE   (:ignoreProjectFilter = true OR p.id IN :projectIds)
                 AND     sh.shiftDate >= :startDate
                 AND     sh.shiftDate <= :endExclusiveDate
@@ -161,12 +160,7 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
         );
 
         List<Shift> findByAssignmentAndShiftDateGreaterThanEqual(
-                                                    ShiftAssignment assignment,
-                                                    LocalDate endAssignmentDate);
-
-        List<Shift> findByShiftRequestAndShiftDateGreaterThanEqualAndAssignmentIsNull(
-                ShiftRequest shiftRequest, 
-                LocalDate startDate
-        );
+                                            ShiftAssignment assignment,
+                                            LocalDate queryShiftDate);
 
 }
