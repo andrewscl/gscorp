@@ -21,6 +21,7 @@ const createShiftAssignment = async () => {
     const assignmentStartDate = assignmentStartDateInput?.value || '';
     const assignmentEndDate = qs('#assignmentEndDate')?.value || '';
     const minAvailableShiftDateStr = assignmentStartDateInput?.dataset.nextAvailableShift;
+    console.log(`[onClickCreate] minAvailableShiftDateStr: ${minAvailableShiftDateStr}`);
     if (!projectExternalId || !siteExternalId || 
         !shiftRequestExternalId || !employeeExternalId || 
         !shiftPatternStartCycle || !assignmentStartDate
@@ -333,7 +334,7 @@ async function handleShiftChange (e) {
         // Proximo turno disponible
         const currentDateStr =
             assignmentStartDateInput?.value || new Date().toISOString().split('T')[0];
-        const urlNextShift = `api/shifts/next-available-shift?startAssignmentDate=${currentDateStr}`;
+        const urlNextShift = `/api/shifts/next-available-shift?startAssignmentDate=${currentDateStr}`;
         const nextShiftResponse = await fetchWithAuth(urlNextShift, { 
                                 method: 'GET', 
                                 headers: { 'Accept': 'application/json' },
