@@ -43,7 +43,7 @@
                 <label >Role</label>
                 <select id="userRoleId">
                   <option value="">-- ninguno --</option>
-                  <option th:each="roleItem : ${employees}"
+                  <option th:each="roleItem : ${roles}"
                           th:value="${roleItem.id}"
                           th:text="${roleItem.role != null ? roleItem.role : '-'}"
                           th:selected="${user.role != null and user.role.id == roleItem.id}">
