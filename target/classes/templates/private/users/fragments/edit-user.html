@@ -29,7 +29,7 @@
               </select>
           </div>
           <div class="form-row w-custom">
-            <div class="form-group fw-4">
+            <div class="form-group fw-5">
               <label>Estado</label>
               <select id="userStatus" multiple size="6">
                 <option th:each="userStatus : ${userStatusList}"
@@ -39,12 +39,25 @@
                 </option>
               </select>
             </div>
-            <div class="form-group fw-2">
-              <label >Activo</label>
-              <input type="checkbox" id="userActive"
-                                          th:checked="${user.active}" />
+            <div class="form-group fw-5">
+                <label >Role</label>
+                <select id="userRoleId">
+                  <option value="">-- ninguno --</option>
+                  <option th:each="roleItem : ${employees}"
+                          th:value="${roleItem.id}"
+                          th:text="${roleItem.role != null ? roleItem.role : '-'}"
+                          th:selected="${user.role != null and user.role.id == roleItem.id}">
+                  </option>
+                </select>
             </div>
           </div>
+
+          <div class="form-group">
+            <label >Activo</label>
+            <input type="checkbox" id="userActive"
+                                          th:checked="${user.active}" />
+          </div>
+
       </div>
     </div>
 
