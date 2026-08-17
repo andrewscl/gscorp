@@ -334,7 +334,7 @@ async function handleShiftChange (e) {
         // Proximo turno disponible
         const currentDateStr =
             assignmentStartDateInput?.value || new Date().toISOString().split('T')[0];
-        const urlNextShift = `/api/shifts/next-available-shift/${shiftRequestExternalId}/shift?startAssignmentDate=${currentDateStr}`;
+        const urlNextShift = `/api/shifts/next-available-shift/shift-request/${shiftRequestExternalId}/shift?startAssignmentDate=${currentDateStr}`;
         const nextShiftResponse = await fetchWithAuth(urlNextShift, { 
                                 method: 'GET', 
                                 headers: { 'Accept': 'application/json' },

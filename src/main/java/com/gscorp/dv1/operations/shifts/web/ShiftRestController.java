@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
@@ -137,7 +138,8 @@ public class ShiftRestController {
                 @AuthenticationPrincipal SecurityUser securityUser,
                 @PathVariable("shiftRequestExternalId") UUID shiftRequestExternalId,
                 @RequestParam(required = false) String clientZoneId,
-                @RequestParam(required = false) LocalDate startAssignmentDate
+                @RequestParam(required = false)
+                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startAssignmentDate
     ){
         if (securityUser == null) {
             throw new AuthenticationCredentialsNotFoundException("Usuario no autenticado");
