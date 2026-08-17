@@ -34,7 +34,7 @@
 
     <th:block id="shiftAssignmentsActions">
         <button class="btn btn-primary" id="addShiftAssignmentsBtn"
-        th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
+        th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'') or hasRole(''ANALYST'')')}">
         Crear registro
         </button>
     </th:block>

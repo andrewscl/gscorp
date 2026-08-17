@@ -116,6 +116,45 @@ export function valuesForLabels(labels: string[], map: Map<string, number>): num
   return labels.map(l => map.has(l) ? map.get(l)! : 0);
 }
 
+/**
+ * Modelo genérico para cualquier entidad con métrica de avance/cobertura
+ * (Sitios, Guardias, Unidades, Tipos de Turno, etc.)
+ */
+export interface MetricCoverageItem {
+  label: string;          // Nombre a desplegar en el eje (ej: "CD Starken")
+  actual: number;         // Valor cubierto / realizado
+  total: number;          // Valor meta / requerido
+  percentage?: number;    // Porcentaje opcional (se calcula si no viene)
+}
 
+/**
+ * Representación estricta de fila para Dataset de ECharts
+ * [cobertura, asignados, requeridos, sitio]
+ */
+export type CoverageDatasetRow = [number, number, number, string];
 
+/**
+ * Convierte una lista de `MetricCoverageItem` al formato `dataset.source` de ECharts.
+ * Ordena de menor a mayor automáticamente para que en el eje Y vertical
+ * la barra de mayor cumplimiento quede arriba.
+ */
+export function mapToCoverageDataset(items: MetricCoverageItem[]): (string[] | CoverageDatasetRow)[] {
+  if (!Array.isArray(items)) return [['cobertura', 'asignados', 'requeridos', 'sitio']];
+
+  const header = ['cobertura', 'asignados', 'requeridos', 'sitio'];
+
+  // 1. Tipamos explícitamente el retorno de la función map: : CoverageDatasetRow
+  const rows: CoverageDatasetRow[] = items
+    .map((item): CoverageDatasetRow => {
+      const actual = Number.isFinite(item.actual) ? item.actual : 0;
+      const total = Number.isFinite(item.total) ? item.total : 0;
+      const hasTotal = total > 0;
+
+      const pct = item.percentage ?? (hasTotal ? Math.round((actual / total) * 100) : 0);
+      return [pct, actual, total, item.label || 'Sin Nombre'];
+    })
+    .sort((a, b) => a[0] - b[0]); // Ahora TS reconoce a[0] y b[0] como `number` sin errores
+
+  return [header, ...rows];
+}
 
