@@ -79,6 +79,19 @@
           </div>
         </div>
 
+        <div class="form-row w-custom">
+          <div class="form-group fw-5">
+            <label>Proyectos</label>
+            <select id="userProjects" multiple size="6">
+              <option th:each="project : ${projects}" 
+                      th:value="${project.id}" 
+                      th:text="${project.name}" 
+                      th:selected="${user.companyIds != null and user.companyIds.contains(company.id)}">
+              </option>
+            </select>
+          </div>
+        </div>
+
       </div>
     </div>
 

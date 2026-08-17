@@ -108,7 +108,7 @@ public class ClientServiceImpl implements ClientService{
 
 
     @Transactional(readOnly = true)
-    @Cacheable(value = "userClientIds", key = "#userId")
+    @Cacheable(value = "userClientIds", key = "#userExternalId")
     public List<Long> getClientIdsByUserExternalId(UUID userExternalId) {
         if(userExternalId == null) return Collections.emptyList();
         List<Long> ids = clientRepo.findClientIdsByUserExternalId(userExternalId);

@@ -27,7 +27,8 @@ public interface ClientRepository extends JpaRepository<Client, Long>{
          JOIN c.users u
          WHERE u.externalId = :userExternalId          
           """)
-    List<Long> findClientIdsByUserExternalId(UUID userExternalId);
+    List<Long> findClientIdsByUserExternalId(
+                              @Param("userExternalId") UUID userExternalId);
 
     /* -------- Opción C: devolver DTOs directamente (mejor rendimiento si sólo necesitas campos) --------
        Requiere constructor público en ClientDto con la firma usada abajo.
