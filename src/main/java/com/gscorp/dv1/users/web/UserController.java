@@ -82,7 +82,7 @@ public class UserController {
         model.addAttribute("companies", companies);
         model.addAttribute("clients", clients);
         model.addAttribute("employees", employees);
-        return "private/users/views/view-user-view";
+        return "private/users/fragments/view-user";
     }
 
     @GetMapping("/edit/{externalId}")
