@@ -193,7 +193,7 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
             FROM Shift sh
             LEFT JOIN sh.site s
             LEFT JOIN sh.shiftRequest sr
-            LEFT JOIN sh.shiftRequest.employee e
+            LEFT JOIN sh.shiftAssignment.employee e
             WHERE (:status IS NULL OR sh.status = :status)
                 AND sr.externalId = :shiftRequestExternalId
                 AND sh.shiftDate >= :sinceDate
