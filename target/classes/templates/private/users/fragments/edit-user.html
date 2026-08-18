@@ -5,13 +5,11 @@
         <h4>Editar usuario</h4>
       </div>
       <div class="panel-body">
-
           <div class="form-row w-custom">
             <div class="form-group fw-3">
               <label>Username</label>
               <input type="text" id="userUsername" th:value="${user.username}" required />
             </div>
-
             <div class="form-group fw-7">
               <label>Correo Electrónico</label>
               <input type="email" id="userMail" th:value="${user.mail}" required />
@@ -45,28 +43,24 @@
                   <option value="">-- ninguno --</option>
                   <option th:each="roleItem : ${roles}"
                           th:value="${roleItem.id}"
-                          th:text="${roleItem.role != null ? roleItem.role : '-'}"
-                          th:selected="${user.role != null and user.role.id == roleItem.id}">
+                          th:text="${roleItem.role}"
+                          th:selected="${user.roleId == roleItem.id}">
                   </option>
                 </select>
             </div>
           </div>
-
           <div class="form-group">
             <label >Activo</label>
             <input type="checkbox" id="userActive"
                                           th:checked="${user.active}" />
           </div>
-
       </div>
     </div>
-
     <div class="panel-aside">
       <div class="panel-header">
         <h4>Permisos y Asignaciones del Usuario</h4>
       </div>
       <div class="panel-body">
-
         <div class="form-row w-custom">
           <div class="form-group fw-5">
             <label>Empresas</label>
@@ -89,23 +83,16 @@
             </select>
           </div>
         </div>
-
       </div>
     </div>
-
   </div>
-
   <input type="hidden" id="userExternalId" th:value="${user.externalId}"/>
-
   <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
-
   <div th:replace="~{shared/fragments/footer-buttons ::
                           footer-buttons(
                                   true, 'Actualizar usuario',
                                   true, 'Cancelar',
                                   true, 'Eliminar usuario')}">
   </div>
-
   <script type="module" src="/js/private/admin/users/edit-user.js"></script>
-
 </div>
