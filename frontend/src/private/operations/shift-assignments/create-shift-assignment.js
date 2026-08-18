@@ -353,7 +353,7 @@ async function handleShiftChange (e) {
         }
         // Proximos turnos del ShiftRequest
         const shifts = [];
-        const urlNextShifts = `/api/shifts/next-shifts/shift-request/${shiftRequestExternalId}/shift?queryDate=${currentDateStr}`;
+        const urlNextShifts = `/api/shifts/next-shifts/shift-request/${shiftRequestExternalId}/shift`;
         const nextShiftsResponse = await fetchWithAuth(urlNextShifts, {
                                 method: 'GET',
                                 headers: {'accept': 'application/json'},
