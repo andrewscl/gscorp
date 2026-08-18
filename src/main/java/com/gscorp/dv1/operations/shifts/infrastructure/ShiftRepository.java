@@ -179,11 +179,25 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
         );
 
         @Query("""
-            SELECT s FROM Shift s 
-            WHERE (:status IS NULL OR s.status = :status)
-                AND s.shiftRequest.externalId = :shiftRequestExternalId
-                AND s.shiftDate >= :sinceDate
-            ORDER BY s.shiftDate ASC, s.startTs ASC
+            SELECT
+                sh.id                       AS  id,
+                sh.externalId               AS  externalId,
+                sh.shiftDate                AS  shiftDate,
+                sh.startTs                  AS  startTs,
+                sh.endTs                    AS  endTs,
+                sh.status                   AS  status,
+                s.name                      AS  siteName,
+                sr.code                     AS  shiftRequestCode,
+                e.name                      AS  employeeName,
+                e.fatherSurname             AS  employeeFatherSurname
+            FROM Shift sh
+            LEFT JOIN sh.site s
+            LEFT JOIN sh.shiftRequest sr
+            LEFT JOIN sh.employee e
+            WHERE (:status IS NULL OR sh.status = :status)
+                AND sr.externalId = :shiftRequestExternalId
+                AND sh.shiftDate >= :sinceDate
+            ORDER BY sh.shiftDate ASC, sh.startTs ASC
         """)
         List<ShiftProjection> findUpcomingShiftsByShiftRequest(
                 @Param("status") ShiftStatus status,
