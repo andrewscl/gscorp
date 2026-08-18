@@ -10,6 +10,7 @@
 @use '../../../abstracts/card-forms' as *;
 @use '../../../abstracts/panels/panel-main' as *;
 @use '../../../abstracts/panels/panel-aside' as *;
+@use '../../../abstracts/tables/tables' as *;
 
 .private-layout{
     .main-content{
@@ -22,6 +23,11 @@
                     }
                     .panel-aside{
                         @include panel-aside();
+                        .panel-body{
+                            .next-shifts-table{
+                                @include table-1();
+                            }
+                        }
                     }
                 }
                 .alert-container {

@@ -202,7 +202,8 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
         List<ShiftProjection> findUpcomingShiftsByShiftRequest(
                 @Param("status") ShiftStatus status,
                 @Param("shiftRequestExternalId") UUID shiftRequestExternalId,
-                @Param("sinceDate") LocalDate sinceDate
+                @Param("sinceDate") LocalDate sinceDate,
+                Pageable pageable
         );
 
 }

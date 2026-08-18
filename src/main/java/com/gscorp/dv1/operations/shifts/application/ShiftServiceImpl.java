@@ -279,11 +279,14 @@ public class ShiftServiceImpl implements ShiftService {
     public List<ShiftDto> getUpComingShiftsByShiftRequest(
                             ZoneId zoneId,
                             UUID shiftRequestExternalId,
-                            LocalDate queryDate){
+                            LocalDate queryDate,
+                            int limit
+                        ){
+        Pageable pageable = PageRequest.of(0, limit);
         LocalDate effectiveDate = (queryDate != null) ? queryDate : LocalDate.now();
         List<ShiftProjection> shifts = shiftRepository
-                    .findUpcomingShiftsByShiftRequest(
-                        null, shiftRequestExternalId, effectiveDate);
+            .findUpcomingShiftsByShiftRequest(
+                null, shiftRequestExternalId, effectiveDate, pageable);
         return shifts.stream()
                 .map(shift -> ShiftDto.fromProjection(shift, zoneId))
                 .toList();

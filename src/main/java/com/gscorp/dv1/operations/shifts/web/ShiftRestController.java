@@ -159,7 +159,8 @@ public class ShiftRestController {
                 @PathVariable("shiftRequestExternalId") UUID shiftRequestExternalId,
                 @RequestParam(required = false) String clientZoneId,
                 @RequestParam(required = false)
-                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate queryDate
+                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate queryDate,
+                @RequestParam(defaultValue = "5") int limit
     ){
         if (securityUser == null) {
             throw new AuthenticationCredentialsNotFoundException("Usuario no autenticado");
@@ -167,7 +168,7 @@ public class ShiftRestController {
         UUID userExternalId = securityUser.getUser().getExternalId();
         ZoneResolutionResult zoneResult = zoneResolver.resolveZone(userExternalId, clientZoneId);
         ZoneId zoneId = zoneResult.zoneId();
-        List<ShiftDto> shifts = shiftService.getUpComingShiftsByShiftRequest(zoneId, shiftRequestExternalId, queryDate);
+        List<ShiftDto> shifts = shiftService.getUpComingShiftsByShiftRequest(zoneId, shiftRequestExternalId, queryDate, limit);
         return ResponseEntity.ok(shifts);
     }
 

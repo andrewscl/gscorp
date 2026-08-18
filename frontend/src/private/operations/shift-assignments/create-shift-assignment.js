@@ -371,7 +371,6 @@ async function handleShiftChange (e) {
                                     <td>${shift.shiftDate || '-'}</td>
                                     <td>${shift.dayOfWeek || '-'}</td>
                                     <td>${shift.employeeName || 'Sin asignar'}</td>
-                                    <td>${shift.schedule || '-'}</td>
                                     <td><span class="badge">${shift.status || '-'}</span></td>
                                 `;
                     tbody.appendChild(tr);

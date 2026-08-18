@@ -67,7 +67,9 @@ public interface ShiftService {
     List<ShiftDto> getUpComingShiftsByShiftRequest(
                             ZoneId zoneId,
                             UUID shiftRequestExternalId,
-                            LocalDate queryDate);
+                            LocalDate queryDate,
+                            int limit
+                        );
 
     
 
