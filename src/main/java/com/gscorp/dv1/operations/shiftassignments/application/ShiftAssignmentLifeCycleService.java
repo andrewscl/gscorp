@@ -53,7 +53,7 @@ public class ShiftAssignmentLifeCycleService {
         }
         ZoneResolutionResult zoneResult = zoneResolver.resolveZone(userExternalId, zoneId);
         ZoneId targetZone = zoneResult.zoneId();
-        OffsetDateTime endAssignmentDateOffset = endAssignmentDate.atTime(LocalTime.MAX).atZone(targetZone).toOffsetDateTime();
+        OffsetDateTime endAssignmentDateOffset = endAssignmentDate.atTime(LocalTime.of(23, 59,59)).atZone(targetZone).toOffsetDateTime();
         assignment.setStatus(status);
         assignment.setAssignedUntil(endAssignmentDateOffset);
         if (reason != null && !reason.isBlank()) {
