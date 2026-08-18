@@ -30,8 +30,8 @@ public class UserScopeService {
         boolean isAdmin = has(securityUser, "ROLE_ADMINISTRATOR");
         if (isAdmin) return ProjectScope.unrestricted();
 
-        boolean isClient = has(securityUser, "ROLE_CLIENT");
-        if (isClient) {
+        boolean isUserLevelScoped = has(securityUser, "ROLE_CLIENT") || has(securityUser, "ROLE_ANALYST");
+        if (isUserLevelScoped) {
             List<ProjectDto> projects =projectService.findByUserExternalId(userExternalId);
             List<Long> ids = (projects != null)
                             ? projects.stream().map(dto -> dto.id()).toList()

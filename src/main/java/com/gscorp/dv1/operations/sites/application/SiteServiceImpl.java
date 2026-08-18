@@ -76,12 +76,10 @@ public class SiteServiceImpl implements SiteService{
 
     @Transactional(readOnly = true)
     public List<SiteDto> getAllSitesByUser(UUID userExternalId) {
-
         List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);
         if(clientIds == null || clientIds.isEmpty()) {
             return Collections.emptyList();
             }
-
         return siteRepository.findByProject_Client_IdIn(clientIds)
             .stream()
             .map(SiteDto::fromEntity)
