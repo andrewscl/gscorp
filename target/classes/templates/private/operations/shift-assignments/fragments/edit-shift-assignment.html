@@ -32,8 +32,9 @@
                     </div>
                     <div class="form-group fx-3" id="shiftPatternGroup">
                         <label>Estado:</label>
-                        <span id="shiftPatternStatus" 
-                              th:text="${shiftAssignment.status.displayName ?: '-'}"></span>
+                        <span id="shiftAssignmentStatus"
+                            th:data-status="${shiftAssignment.status.name()}"
+                            th:text="${shiftAssignment.status.displayName ?: '-'}"></span>
                     </div>
                 </div>
 
