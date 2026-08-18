@@ -178,4 +178,17 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
                 @Param("startDate") LocalDate startDate
         );
 
+        @Query("""
+            SELECT s FROM Shift s 
+            WHERE (:status IS NULL OR s.status = :status)
+                AND s.shiftRequest.externalId = :shiftRequestExternalId
+                AND s.shiftDate >= :sinceDate
+            ORDER BY s.shiftDate ASC, s.startTs ASC
+        """)
+        List<ShiftProjection> findUpcomingShiftsByShiftRequest(
+                @Param("status") ShiftStatus status,
+                @Param("shiftRequestExternalId") UUID shiftRequestExternalId,
+                @Param("sinceDate") LocalDate sinceDate
+        );
+
 }

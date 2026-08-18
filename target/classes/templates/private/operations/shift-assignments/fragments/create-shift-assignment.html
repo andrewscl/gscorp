@@ -75,37 +75,29 @@
                     <label>Notas / Observaciones:</label>
                     <textarea id="description"></textarea>
                 </div>
-                <div class="schedules-table">
+                <div class="shifts-table">
                     <div class="title-row">
                         <div class="title-left">
-                            <span class="title-text">Planificación proximos dias</span>
+                            <span class="title-text">Turnos de los proximos dias</span>
                         </div>
                     </div>
-                    <!-- Si no hay shift assignments -->
-                    <div class="shifts-list" 
-                            th:if="${shifts == null or #lists.isEmpty(shifts)}">—</div>
-                    <!-- Si hay assignments, mostramos una tabla -->
-                    <div class="shift-assignments-list" 
-                            th:if="${shifts != null and !#lists.isEmpty(shifts)}">
+                    <div id="no-next-shifts-msg" class="no-next-shifts-msg" style="display: none; padding: 10px; color: #666;">
+                        No hay turnos planificados para los próximos días.
+                    </div>
+                    <div id="next-shifts-container" class="next-shifts-container" style="display: none;">
                         <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Fecha</th>
-                                <th>Dia</th>
-                                <th>Inicio</th>
-                                <th>Termino</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="s : ${shifts}">
-                                <td th:text="${s.shiftDate != null ? s.shiftDate : ''}">18-05-2026</td>
-                                <td th:text="${s.day != null ? s.day.displayNameInSpanish : ''}">Lunes</td>
-                                <td th:text="${s.startTs != null ? #temporals.format(s.startTs, 'HH:mm') : '—'}">08:30</td>
-                                <td th:text="${s.endTs != null ? #temporals.format(s.endTs, 'HH:mm') : '—'}">20:30</td>
-                                <td th:text="${s.employeeName != null ? s.employeeName : '—'}">Employee</td>
-                            </tr>
-                        </tbody>
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Dia</th>
+                                    <th>Empleado planificado</th>
+                                    <th>Horario</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody id="next-shifts-body">
+                                
+                            </tbody>
                         </table>
                     </div>
                 </div>

@@ -147,9 +147,28 @@ public class ShiftRestController {
         UUID userExternalId = securityUser.getUser().getExternalId();
         ZoneResolutionResult zoneResult = zoneResolver.resolveZone(userExternalId, clientZoneId);
         ZoneId zoneId = zoneResult.zoneId();
-        return  shiftService.getNextUnplannedShift(securityUser, zoneId, shiftRequestExternalId, startAssignmentDate)
+        return  shiftService.getNextUnplannedShift(zoneId, shiftRequestExternalId, startAssignmentDate)
                     .map(ResponseEntity::ok)
                     .orElseGet(() -> ResponseEntity.noContent().build());
+    }
+
+
+    @GetMapping("/next-shifts/shift-request/{shiftRequestExternalId}/shift")
+    public ResponseEntity<List<ShiftDto>> getUpComingShiftsByShiftRequest (
+                @AuthenticationPrincipal SecurityUser securityUser,
+                @PathVariable("shiftRequestExternalId") UUID shiftRequestExternalId,
+                @RequestParam(required = false) String clientZoneId,
+                @RequestParam(required = false)
+                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate queryDate
+    ){
+        if (securityUser == null) {
+            throw new AuthenticationCredentialsNotFoundException("Usuario no autenticado");
+        }
+        UUID userExternalId = securityUser.getUser().getExternalId();
+        ZoneResolutionResult zoneResult = zoneResolver.resolveZone(userExternalId, clientZoneId);
+        ZoneId zoneId = zoneResult.zoneId();
+        List<ShiftDto> shifts = shiftService.getUpComingShiftsByShiftRequest(zoneId, shiftRequestExternalId, queryDate);
+        return ResponseEntity.ok(shifts);
     }
 
 }

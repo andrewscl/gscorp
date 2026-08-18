@@ -59,10 +59,16 @@ public interface ShiftService {
                         int size,
                         String zoneIdStr);
 
-    Optional<ShiftDto> getNextUnplannedShift (
-                            SecurityUser securityUser,
-                            ZoneId ZoneId,
+    Optional<ShiftDto> getNextUnplannedShift(
+                            ZoneId zoneId,
                             UUID shiftRequestExternalId,
                             LocalDate startAssignmentDate);
+
+    List<ShiftDto> getUpComingShiftsByShiftRequest(
+                            ZoneId zoneId,
+                            UUID shiftRequestExternalId,
+                            LocalDate localDate);
+
+    
 
 }

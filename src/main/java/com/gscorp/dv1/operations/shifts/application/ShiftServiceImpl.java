@@ -262,21 +262,29 @@ public class ShiftServiceImpl implements ShiftService {
 
     @Transactional(readOnly = true)
     public Optional<ShiftDto> getNextUnplannedShift (
-                                    SecurityUser securityUser,
                                     ZoneId zoneId,
                                     UUID shiftRequestExternalId,
                                     LocalDate startAssignmentDate){
-        if (securityUser == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
-        }
         LocalDate effectiveStartDate = (startAssignmentDate != null)
-                                                ? startAssignmentDate
-                                                : LocalDate.now(); 
-        Optional<Shift> shiftOpt = 
-            shiftRepository
-                .findNextUnplannedShift(
-                    ShiftStatus.UNPLANNED, shiftRequestExternalId, effectiveStartDate);
+                                            ? startAssignmentDate
+                                            : LocalDate.now(); 
+        Optional<Shift> shiftOpt = shiftRepository.findNextUnplannedShift(
+                    ShiftStatus.UNPLANNED,
+                    shiftRequestExternalId,
+                    effectiveStartDate);
         return shiftOpt.map(shift -> ShiftDto.fromEntity(shift, zoneId));
     }
 
+    @Transactional(readOnly = true)
+    public List<ShiftDto> getUpcomingShiftsByShiftRequest(
+                            ZoneId zoneId,
+                            UUID shiftRequestExternalId,
+                            LocalDate localDate){
+        List<ShiftProjection> shifts = shiftRepository
+                    .findUpcomingShiftsByShiftRequest(
+                            null, shiftRequestExternalId, localDate);
+        return shifts.stream()
+                .map(shift -> ShiftDto.fromProjection(shift, zoneId))
+                .toList();
+    }
 }

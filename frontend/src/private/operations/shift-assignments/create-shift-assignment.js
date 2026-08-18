@@ -351,6 +351,39 @@ async function handleShiftChange (e) {
                 }
             }
         }
+        // Proximos turnos del ShiftRequest
+        const shifts = [];
+        const urlNextShifts = `/api/shifts/next-shifts/shift-request/${shiftRequestExternalId}/shift?queryDate=${currentDateStr}`;
+        const nextShiftsResponse = await fetchWithAuth(urlNextShifts, {
+                                method: 'GET',
+                                headers: {'accept': 'application/json'},
+        });
+        if (nextShiftsResponse && nextShiftResponse.status === 200){
+            const nextShifts = await nextShiftsResponse.json();
+            const tbody = qs('#next-shifts-body');
+            const container = qs('#next-shifts-container');
+            const emptyMsg = qs('#no-next-shifts-msg');
+            tbody.innerHTML = '';
+            if (Array.isArray(nextShifts) && nextShifts.length > 0) {
+                nextShifts.forEach(shift => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                                    <td>${shift.shiftDate || '-'}</td>
+                                    <td>${shift.dayOfWeek || '-'}</td>
+                                    <td>${shift.employeeName || 'Sin asignar'}</td>
+                                    <td>${shift.schedule || '-'}</td>
+                                    <td><span class="badge">${shift.status || '-'}</span></td>
+                                `;
+                    tbody.appendChild(tr);
+                });
+                container.style.display = 'block';
+                emptyMsg.style.display = 'none'
+            } else {
+                container.style.display = 'none';
+                emptyMsg.style.display = 'block'
+            }
+        }
+        
     } catch (error) {
         console.error('Error en cascada:', error);
         resetUIOnError();
