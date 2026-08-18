@@ -276,13 +276,12 @@ public class ShiftServiceImpl implements ShiftService {
     }
 
     @Transactional(readOnly = true)
-    public List<ShiftDto> getUpcomingShiftsByShiftRequest(
+    public List<ShiftDto> getUpComingShiftsByShiftRequest(
                             ZoneId zoneId,
                             UUID shiftRequestExternalId,
                             LocalDate localDate){
         List<ShiftProjection> shifts = shiftRepository
-                    .findUpcomingShiftsByShiftRequest(
-                            null, shiftRequestExternalId, localDate);
+                    .findUpcomingShiftsByShiftRequest(null, shiftRequestExternalId, localDate);
         return shifts.stream()
                 .map(shift -> ShiftDto.fromProjection(shift, zoneId))
                 .toList();
