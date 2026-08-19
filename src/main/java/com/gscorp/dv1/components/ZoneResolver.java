@@ -59,8 +59,7 @@ public class ZoneResolver {
         }
 
         // 3) fallback final: system default
-        ZoneId defaultZone = ZoneId.of("America/Santiago");
-        return new ZoneResolutionResult(defaultZone, ZoneResolutionResult.SOURCE_SYSTEM);
+        return new ZoneResolutionResult(ZoneId.systemDefault(), ZoneResolutionResult.SOURCE_SYSTEM);
     }
 
     /** Convierte LocalDate -> OffsetDateTime al inicio del día en la zona dada. */
