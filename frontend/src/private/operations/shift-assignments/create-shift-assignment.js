@@ -369,8 +369,8 @@ async function handleShiftChange (e) {
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
                                     <td>${shift.shiftDate || '-'}</td>
-                                    <td>${shift.employeeName || 'Sin asignar'}</td>
-                                    <td><span class="badge">${shift.status.displayName || '-'}</span></td>
+                                    <td>${shift.employeeName || '-'}</td>
+                                    <td><span class="badge">${shift.statusDisplayName || '-'}</span></td>
                                 `;
                     tbody.appendChild(tr);
                 });

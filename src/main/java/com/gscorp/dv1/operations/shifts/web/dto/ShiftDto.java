@@ -89,4 +89,8 @@ public record ShiftDto (
         return startFormatted + " - " + endFormatted;
     }
 
+    public String getStatusDisplayName() {
+        return (status != null) ? status.getDisplayName() : null; 
+    }
+
 }
