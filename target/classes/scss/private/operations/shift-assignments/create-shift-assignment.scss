@@ -30,16 +30,16 @@
                                     .table{
                                         thead{
                                             tr{
-                                                th:nth-child(1) { width: 20%; }
-                                                th:nth-child(2) { width: 60%; }
-                                                th:nth-child(3) { width: 20%; }
+                                                th:nth-child(1) { width: 30%; }
+                                                th:nth-child(2) { width: 40%; }
+                                                th:nth-child(3) { width: 30%; }
                                             }
                                         }
                                         tbody{
                                             tr{
-                                                td:nth-child(1) { width: 20%; }
-                                                td:nth-child(2) { width: 60%; }
-                                                td:nth-child(3) { width: 20%; }
+                                                td:nth-child(1) { width: 30%; }
+                                                td:nth-child(2) { width: 40%; }
+                                                td:nth-child(3) { width: 30%; }
                                             }
                                         }
                                     }
