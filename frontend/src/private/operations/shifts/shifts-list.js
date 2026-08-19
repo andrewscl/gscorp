@@ -13,9 +13,7 @@ const createShift = () => {
 
 const searchShifts = async () => {
     const createBtn = qs('#addShiftsBtn');
-    const cancelBtn = qs('#cancel');
     if(createBtn) createBtn.disabled = true;
-    if(cancelBtn) cancelBtn.disabled = true;
 
     const from = qs('#filter-from')?.value.trim() || '';
     const to = qs('#filter-to')?.value.trim() || '';
@@ -28,7 +26,6 @@ const searchShifts = async () => {
         const res = await fetchWithAuth(url, {credentials: 'same-origin'});
         if (!res || !res.ok) {
             if(createBtn) createBtn.disabled = false;
-            if(cancelBtn) cancelBtn.disabled = false;
             let errorMessage = 'Ocurrió un problema al enviar el formulario.';
                 if(res){
                     const contentType = res.headers.get('content-type');
@@ -39,7 +36,7 @@ const searchShifts = async () => {
                 }
                 displayAlert(alertError, `Error: ${errorMessage}`);
                 return;
-            }
+        }
         const htmlResult = await res.text();
         const tBody = qs('.hs-table-container .table tbody');
         if(tBody){

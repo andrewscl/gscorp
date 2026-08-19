@@ -57,6 +57,30 @@ public class ShiftAssignmentController {
         return "private/operations/shift-assignments/views/shift-assignments-list";
     }
 
+
+    @GetMapping("/search")
+    public String getShiftAssignment(
+            Model model,
+            @AuthenticationPrincipal SecurityUser securityUser,
+            @RequestParam(required=false) UUID siteId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(required = false) String requestedZone
+    ){
+        if(securityUser == null) return "redirect:/login";
+        UUID externalId = securityUser.getUser().getExternalId();
+
+        Page<ShiftAssignmentDto> shiftAssignments =
+                shiftAssignmentService
+                    .getShiftAssignmentList(externalId, null, page, size, requestedZone);
+        model.addAttribute("shiftAssignmentsPage", shiftAssignments);
+        model.addAttribute("shiftAssignments", shiftAssignments.getContent());
+        model.addAttribute("count", shiftAssignments.getTotalElements());
+        return "private/operations/shift-assignments/views/shift-assignments-list-rows :: rows";
+    }
+
+
+
     @GetMapping("/create")
     public String getCreateShiftAssignmentView(
             Model model,
