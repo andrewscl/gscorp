@@ -90,7 +90,11 @@ public record ShiftDto (
     }
 
     public String getStatusDisplayName() {
-        return (status != null) ? status.getDisplayName() : null; 
+        return (status != null) ?status.getDisplayName() : null; 
+    }
+
+    public String getDayDisplayName(){
+        return (day != null) ? day.getDisplayNameInSpanish() : null;
     }
 
 }
