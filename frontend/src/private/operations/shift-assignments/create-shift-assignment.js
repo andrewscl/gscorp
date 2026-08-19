@@ -370,7 +370,7 @@ async function handleShiftChange (e) {
                     tr.innerHTML = `
                                     <td>${shift.shiftDate || '-'}</td>
                                     <td>${shift.dayDisplayName || '-'}</td>
-                                    <td>${shift.employeeName || 'Por asignar'}</td>
+                                    <td>${shift.plannedEmployeeFullName || 'Por asignar'}</td>
                                 `;
                     tbody.appendChild(tr);
                 });
