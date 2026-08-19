@@ -47,11 +47,13 @@ public class ShiftAssignmentController {
         UUID externalId = securityUser.getUser().getExternalId();
 
         Page<ShiftAssignmentDto> shiftAssignments =
-                shiftAssignmentService.getShiftAssignmentList(externalId, null, page, size, requestedZone);
+                shiftAssignmentService
+                    .getShiftAssignmentList(externalId, null, page, size, requestedZone);
 
         model.addAttribute("shiftAssignmentsPage", shiftAssignments);
         model.addAttribute("shiftAssignments", shiftAssignments.getContent());
         model.addAttribute("count", shiftAssignments.getTotalElements());
+        model.addAttribute("sites", siteService.findByUserExternalId(externalId));
         return "private/operations/shift-assignments/views/shift-assignments-list";
     }
 
