@@ -568,8 +568,6 @@ p {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #e2e8f0;
-  padding-bottom: 0.75rem;
 }
 .private-layout .main-content .content .edit-shift-assignment .panel-container .panel-aside .view-planned-shifts-table .title-row .title-left {
   display: flex;
@@ -577,7 +575,7 @@ p {
 }
 .private-layout .main-content .content .edit-shift-assignment .panel-container .panel-aside .view-planned-shifts-table .title-row .title-left .title-text {
   font-family: "Montserrat", sans-serif;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   color: #475569;
@@ -797,4 +795,5 @@ p {
 }
 .private-layout .main-content .content .edit-shift-assignment .footer-actions .btn.btn-danger:active {
   transform: translateY(0);
+}/*# sourceMappingURL=edit-shift-assignment.css.map */slateY(0);
 }/*# sourceMappingURL=edit-shift-assignment.css.map */
