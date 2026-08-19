@@ -2,6 +2,7 @@ package com.gscorp.dv1.operations.shiftassignments.web.dto;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -38,8 +39,16 @@ public record ShiftAssignmentDto (
 ){
     public static ShiftAssignmentDto fromProjection(
                                 ShiftAssignmentProjection p,
-                                List<ShiftRequestScheduleDto> schedules){
+                                List<ShiftRequestScheduleDto> schedules,
+                                ZoneId targetZone
+                            ){
         if(p == null) return null;
+        LocalDate assignedAtDate = p.getAssignedAt() != null
+            ? p.getAssignedAt().atZoneSameInstant(targetZone).toLocalDate()
+            : null;
+        LocalDate assignedUntilDate = p.getAssignedUntil() != null
+            ? p.getAssignedUntil().atZoneSameInstant(targetZone).toLocalDate()
+            : null;
         return new ShiftAssignmentDto(
             p.getId(),
             p.getExternalId(),
@@ -56,8 +65,8 @@ public record ShiftAssignmentDto (
             p.getNotes(),
             p.getAssignedAt(),
             p.getAssignedUntil(),
-            p.getAssignedAt() != null ? p.getAssignedAt().toLocalDate() : null,
-            p.getAssignedUntil() != null ? p.getAssignedUntil().toLocalDate() : null,
+            assignedAtDate,
+            assignedUntilDate,
             p.getStartCycleNumber(),
             p.getCreatedBy(),
             p.getUpdatedBy(),
@@ -69,7 +78,8 @@ public record ShiftAssignmentDto (
 
     public static ShiftAssignmentDto fromEntity(
                                 ShiftAssignment p,
-                                List<ShiftRequestScheduleDto> schedules){
+                                List<ShiftRequestScheduleDto> schedules,
+                                ZoneId targetZone){
         if(p == null) return null;
         UUID employeeExternalId = null;
         String employeeRut = null;
@@ -84,6 +94,12 @@ public record ShiftAssignmentDto (
             employeeFullName = (name + " " + surname).trim();
             if(employeeFullName.isEmpty()) employeeFullName = null;
         }
+        LocalDate assignedAtDate = p.getAssignedAt() != null
+            ? p.getAssignedAt().atZoneSameInstant(targetZone).toLocalDate()
+            : null;
+        LocalDate assignedUntilDate = p.getAssignedUntil() != null
+            ? p.getAssignedUntil().atZoneSameInstant(targetZone).toLocalDate()
+            : null;
         return new ShiftAssignmentDto(
             p.getId(),
             p.getExternalId(),
@@ -100,8 +116,8 @@ public record ShiftAssignmentDto (
             p.getNotes(),
             p.getAssignedAt(),
             p.getAssignedUntil(),
-            p.getAssignedAt() != null ? p.getAssignedAt().toLocalDate() : null,
-            p.getAssignedUntil() != null ? p.getAssignedUntil().toLocalDate() : null,
+            assignedAtDate,
+            assignedUntilDate,
             p.getStartCycleNumber(),
             p.getCreatedBy(),
             p.getUpdatedBy(),
@@ -111,8 +127,13 @@ public record ShiftAssignmentDto (
         );
     }
 
-    // Sobrecarga sin schedules si no se rqeuieren
-    public static ShiftAssignmentDto fromEntity(ShiftAssignment p) {
-        return fromEntity(p, Collections.emptyList());
+    // Sobrecarga sin schedules si no se requieren
+    public static ShiftAssignmentDto fromEntity(ShiftAssignment p, ZoneId targetZone) {
+        return fromEntity(p, Collections.emptyList(), targetZone);
+    }
+
+    // Sobrecarga sin schedules si no se requieren
+    public static ShiftAssignmentDto fromProjection(ShiftAssignmentProjection p, ZoneId targetZone) {
+        return fromProjection(p, Collections.emptyList(), targetZone);
     }
 }

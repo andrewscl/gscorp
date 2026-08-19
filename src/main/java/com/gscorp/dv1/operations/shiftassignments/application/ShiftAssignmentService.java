@@ -14,7 +14,8 @@ public interface ShiftAssignmentService {
         UUID userExternalId,
         ShiftAssignmentStatus status,
         int page,
-        int size
+        int size,
+        String requetedZone
     );
 
     ShiftAssignmentDto createShiftAssignment (
@@ -23,8 +24,9 @@ public interface ShiftAssignmentService {
                             CreateShiftAssignmentRequest request);
 
     ShiftAssignmentDto getByExternalId(
-                            UUID shiftAssignmentExternalId);
-
-    
+                            UUID userExternalId,
+                            UUID shiftAssignmentExternalId,
+                            String requestedZone
+                        );
 
 }

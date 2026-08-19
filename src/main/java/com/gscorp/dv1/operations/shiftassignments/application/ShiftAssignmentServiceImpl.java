@@ -53,8 +53,14 @@ public class ShiftAssignmentServiceImpl implements ShiftAssignmentService{
             UUID userExternalId,
             ShiftAssignmentStatus status,
             int page,
-            int size
+            int size,
+            String requestedZone
     ){
+        if (userExternalId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
+        }
+        ZoneResolutionResult zoneResult = zoneResolver.resolveZone(userExternalId, requestedZone);
+        ZoneId targetZone = zoneResult.zoneId();
         List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);
         if (clientIds == null || clientIds.isEmpty()) {
             log.debug("No clientIds for user {} -> returning zero series for {}..{}", userExternalId);
@@ -88,7 +94,8 @@ public class ShiftAssignmentServiceImpl implements ShiftAssignmentService{
         return projections.map(
                     p -> ShiftAssignmentDto.fromProjection(
                             p,
-                            schedulesByRequestId.getOrDefault(p.getShiftRequestId(), List.of())
+                            schedulesByRequestId.getOrDefault(p.getShiftRequestId(), List.of()),
+                            targetZone
                             ));
     }
 
@@ -125,14 +132,22 @@ public class ShiftAssignmentServiceImpl implements ShiftAssignmentService{
                     .build();
         ShiftAssignment savedAssignment = shiftAssignmentRepository.save(shiftAssignment);
         shiftAssignmentProcessor.processShiftsForAssignment(savedAssignment, targetZone);
-        return ShiftAssignmentDto.fromEntity(savedAssignment);
+        return ShiftAssignmentDto.fromEntity(savedAssignment, targetZone);
     }
 
     @Transactional(readOnly = true)
     public ShiftAssignmentDto getByExternalId(
-        UUID shiftAssignmentExternalId){
+        UUID userExternalId,
+        UUID shiftAssignmentExternalId,
+        String requestedZone
+    ){
+        if (shiftAssignmentExternalId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
+        }
+        ZoneResolutionResult zoneResult = zoneResolver.resolveZone(userExternalId, requestedZone);
+        ZoneId targetZone = zoneResult.zoneId();
         return shiftAssignmentRepository.findByExternalId(shiftAssignmentExternalId)
-                .map(ShiftAssignmentDto::fromEntity)
+                .map(entity -> ShiftAssignmentDto.fromEntity(entity, targetZone))
                 .orElseThrow(() -> new EntityNotFoundException("Asignación no encontrada"));
     }
 

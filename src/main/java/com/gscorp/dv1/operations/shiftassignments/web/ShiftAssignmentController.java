@@ -40,13 +40,14 @@ public class ShiftAssignmentController {
             Model model,
             @AuthenticationPrincipal SecurityUser securityUser,
             @RequestParam(required = false, defaultValue = "0") int page,
-            @RequestParam(required = false, defaultValue = "100") int size
+            @RequestParam(required = false, defaultValue = "100") int size,
+            @RequestParam(required = false) String requestedZone
     ){
         if(securityUser == null) return "redirect:/login";
         UUID externalId = securityUser.getUser().getExternalId();
 
         Page<ShiftAssignmentDto> shiftAssignments =
-                shiftAssignmentService.getShiftAssignmentList(externalId, null, page, size);
+                shiftAssignmentService.getShiftAssignmentList(externalId, null, page, size, requestedZone);
 
         model.addAttribute("shiftAssignmentsPage", shiftAssignments);
         model.addAttribute("shiftAssignments", shiftAssignments.getContent());
@@ -75,7 +76,8 @@ public class ShiftAssignmentController {
     public String getViewShiftAssignment(
             Model model,
             @AuthenticationPrincipal SecurityUser securityUser,
-            @PathVariable("shiftAssignmentExternalId") UUID shiftAssignmentExternalId
+            @PathVariable("shiftAssignmentExternalId") UUID shiftAssignmentExternalId,
+            @RequestParam(required = false) String requestedZone
     ){
         if(securityUser == null) return "redirect:/login";
         UUID userExternalId = securityUser.getUser().getExternalId();
@@ -85,7 +87,7 @@ public class ShiftAssignmentController {
                                                     5,
                                                     null);
         model.addAttribute("shiftAssignment",
-            shiftAssignmentService.getByExternalId(shiftAssignmentExternalId));
+            shiftAssignmentService.getByExternalId(userExternalId, shiftAssignmentExternalId, requestedZone));
         model.addAttribute("shifts" , shifts);
         return "private/operations/shift-assignments/fragments/view-shift-assignment";
     }
@@ -94,7 +96,8 @@ public class ShiftAssignmentController {
     public String getEditShiftAssignment(
             Model model,
             @AuthenticationPrincipal SecurityUser securityUser,
-            @PathVariable("shiftAssignmentExternalId") UUID shiftAssignmentExternalId
+            @PathVariable("shiftAssignmentExternalId") UUID shiftAssignmentExternalId,
+            @RequestParam(required = false) String requestedZone
     ){
         if(securityUser == null) return "redirect:/login";
         UUID userExternalId = securityUser.getUser().getExternalId();
@@ -104,7 +107,7 @@ public class ShiftAssignmentController {
                                                     5,
                                                     null);
         model.addAttribute("shiftAssignment",
-            shiftAssignmentService.getByExternalId(shiftAssignmentExternalId));
+            shiftAssignmentService.getByExternalId(userExternalId, shiftAssignmentExternalId, requestedZone));
         model.addAttribute("shifts" , shifts);
         return "private/operations/shift-assignments/fragments/edit-shift-assignment";
     }
@@ -113,14 +116,16 @@ public class ShiftAssignmentController {
     public String closeEditShiftAssignment(
             Model model,
             @AuthenticationPrincipal SecurityUser securityUser,
-            @PathVariable("shiftAssignmentExternalId") UUID shiftAssignmentExternalId
+            @PathVariable("shiftAssignmentExternalId") UUID shiftAssignmentExternalId,
+            @RequestParam(required = false) String requestedZone
     ){
         if(securityUser == null) return "redirect:/login";
+        UUID userExternalId = securityUser.getUser().getExternalId();
         List<ShiftAssignmentStatus> allowedShiftStatuses = List.of(
             ShiftAssignmentStatus.CANCELLED, ShiftAssignmentStatus.FINISHED
         );
         model.addAttribute("shiftAssignment",
-            shiftAssignmentService.getByExternalId(shiftAssignmentExternalId));
+            shiftAssignmentService.getByExternalId(userExternalId, shiftAssignmentExternalId, requestedZone));
         model.addAttribute("allowedShiftStatuses", allowedShiftStatuses);
         return "private/operations/shift-assignments/fragments/close-shift-assignment";
     }

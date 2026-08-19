@@ -79,7 +79,7 @@ public class ShiftAssignmentRestController {
                         userName, 
                         request.reason(),
                         requestedZone);
-        ShiftAssignmentDto shiftAssignment = shiftAssignmentService.getByExternalId(shiftAssignmentExternalId);
+        ShiftAssignmentDto shiftAssignment = shiftAssignmentService.getByExternalId(userExternalId, shiftAssignmentExternalId, requestedZone);
         return ResponseEntity.ok(shiftAssignment);
     }
 
