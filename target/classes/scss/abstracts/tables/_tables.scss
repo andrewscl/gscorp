@@ -79,10 +79,6 @@
                     border-bottom: 0.125rem solid $border-color;
                     color: $text-secondary-color;
                     white-space: nowrap;
-                    &:nth-child(1) {width: 40%;}
-                    &:nth-child(3) {width: 20%;}
-                    &:nth-child(2) {width: 20%;}
-                    &:nth-child(4) {width: 20%;}
                     }
                 }
                 }
@@ -95,10 +91,6 @@
                     padding: 0.55rem 0.85rem;
                     vertical-align: middle;
                     white-space: nowrap;
-                    &:nth-child(1) {width: 40%;}
-                    &:nth-child(3) {width: 20%;}
-                    &:nth-child(2) {width: 20%;}
-                    &:nth-child(4) {width: 20%;}
                     }
                 }
                 }

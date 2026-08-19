@@ -644,18 +644,6 @@ p {
   color: #64748b;
   white-space: nowrap;
 }
-.private-layout .main-content .content .view-shift-assignment .panel-container .panel-aside .view-planned-shifts-table .list .table thead tr th:nth-child(1) {
-  width: 40%;
-}
-.private-layout .main-content .content .view-shift-assignment .panel-container .panel-aside .view-planned-shifts-table .list .table thead tr th:nth-child(3) {
-  width: 20%;
-}
-.private-layout .main-content .content .view-shift-assignment .panel-container .panel-aside .view-planned-shifts-table .list .table thead tr th:nth-child(2) {
-  width: 20%;
-}
-.private-layout .main-content .content .view-shift-assignment .panel-container .panel-aside .view-planned-shifts-table .list .table thead tr th:nth-child(4) {
-  width: 20%;
-}
 .private-layout .main-content .content .view-shift-assignment .panel-container .panel-aside .view-planned-shifts-table .list .table tbody tr {
   border-bottom: 0.0625rem solid #e2e8f0;
   transition: background 0.12s ease;
@@ -667,18 +655,6 @@ p {
   padding: 0.55rem 0.85rem;
   vertical-align: middle;
   white-space: nowrap;
-}
-.private-layout .main-content .content .view-shift-assignment .panel-container .panel-aside .view-planned-shifts-table .list .table tbody tr td:nth-child(1) {
-  width: 40%;
-}
-.private-layout .main-content .content .view-shift-assignment .panel-container .panel-aside .view-planned-shifts-table .list .table tbody tr td:nth-child(3) {
-  width: 20%;
-}
-.private-layout .main-content .content .view-shift-assignment .panel-container .panel-aside .view-planned-shifts-table .list .table tbody tr td:nth-child(2) {
-  width: 20%;
-}
-.private-layout .main-content .content .view-shift-assignment .panel-container .panel-aside .view-planned-shifts-table .list .table tbody tr td:nth-child(4) {
-  width: 20%;
 }
 .private-layout .main-content .content .view-shift-assignment .alert-container {
   display: none;
