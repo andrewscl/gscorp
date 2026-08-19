@@ -656,6 +656,24 @@ p {
   vertical-align: middle;
   white-space: nowrap;
 }
+.private-layout .main-content .content .create-shift-assignment .panel-container .panel-aside .panel-body .next-shifts-table .list .table thead tr th:nth-child(1) {
+  width: 20%;
+}
+.private-layout .main-content .content .create-shift-assignment .panel-container .panel-aside .panel-body .next-shifts-table .list .table thead tr th:nth-child(2) {
+  width: 60%;
+}
+.private-layout .main-content .content .create-shift-assignment .panel-container .panel-aside .panel-body .next-shifts-table .list .table thead tr th:nth-child(3) {
+  width: 20%;
+}
+.private-layout .main-content .content .create-shift-assignment .panel-container .panel-aside .panel-body .next-shifts-table .list .table tbody tr td:nth-child(1) {
+  width: 20%;
+}
+.private-layout .main-content .content .create-shift-assignment .panel-container .panel-aside .panel-body .next-shifts-table .list .table tbody tr td:nth-child(2) {
+  width: 60%;
+}
+.private-layout .main-content .content .create-shift-assignment .panel-container .panel-aside .panel-body .next-shifts-table .list .table tbody tr td:nth-child(3) {
+  width: 20%;
+}
 .private-layout .main-content .content .create-shift-assignment .alert-container {
   display: none;
   width: auto;

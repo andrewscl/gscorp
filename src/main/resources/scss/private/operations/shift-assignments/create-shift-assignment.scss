@@ -26,6 +26,24 @@
                         .panel-body{
                             .next-shifts-table{
                                 @include table-1();
+                                .list{
+                                    .table{
+                                        thead{
+                                            tr{
+                                                th:nth-child(1) { width: 20%; }
+                                                th:nth-child(2) { width: 60%; }
+                                                th:nth-child(3) { width: 20%; }
+                                            }
+                                        }
+                                        tbody{
+                                            tr{
+                                                td:nth-child(1) { width: 20%; }
+                                                td:nth-child(2) { width: 60%; }
+                                                td:nth-child(3) { width: 20%; }
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
