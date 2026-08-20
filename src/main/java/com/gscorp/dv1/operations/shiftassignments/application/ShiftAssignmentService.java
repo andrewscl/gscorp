@@ -10,8 +10,9 @@ import com.gscorp.dv1.operations.shiftassignments.web.dto.ShiftAssignmentDto;
 
 public interface ShiftAssignmentService {
 
-    Page<ShiftAssignmentDto> getShiftAssignmentList(
+    Page<ShiftAssignmentDto> getShiftAssignmentsList(
         UUID userExternalId,
+        UUID siteExternalId,
         ShiftAssignmentStatus status,
         int page,
         int size,

@@ -11,8 +11,8 @@ const searchShiftAssignments = async () => {
     const createBtn = qs('#addShiftAssignmentsBtn')
     if(createBtn) createBtn.disabled = true;
 
-    const siteId = qs('#filter-dept')?.value.trim() || '';
-    const url = `/private/shifts/search?from=${from}&to=${to}&siteId=${siteId}&status=${status}&shiftRequestExternalId=${shiftRequestExternalId}`;
+    const siteExternalId = qs('#filter-dept')?.value.trim() || '';
+    const url = `/private/shift-assignments/search?siteExternalId=${siteExternalId}&status=${status}`;
 
     try {
         const res = await fetchWithAuth(url, {
@@ -45,10 +45,8 @@ const searchShiftAssignments = async () => {
             headerCountSpan.textContent = `${newCount} registro${newCount === 1 ? '' : 's'}`;
         }
     } catch (err) {
-        console.log("No se pudo procesar la busqueda de asignaciones de turno.", err);
+        console.error("No se pudo procesar la busqueda de asignaciones de turno.", err);
     }
-
-    navigateTo('/private/shift-assignments/search', true);
 }
 
 function bindShiftAssignmentsList() {

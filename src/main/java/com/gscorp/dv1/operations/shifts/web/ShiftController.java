@@ -50,7 +50,7 @@ public class ShiftController {
         LocalDate effectiveEndDate = (to != null) ? to.plusDays(1) : LocalDate.now();
 
         Page<ShiftDto> shifts = shiftService.getShiftList(
-                securityUser, effectiveStartDate, effectiveEndDate,
+                userExternalId, effectiveStartDate, effectiveEndDate,
                     projectExternalId, siteExternalId, shiftRequestExternalId,
                                                         status, page, size, zoneId);
         model.addAttribute("shiftsPage", shifts);
@@ -80,11 +80,12 @@ public class ShiftController {
         @RequestParam(defaultValue = "20") int size
     ) {
         if(securityUser == null) return "redirect:/login";
+        UUID userExternalId = securityUser.getUser().getExternalId();
         LocalDate effectiveStartDate = (from != null) ? from : LocalDate.now();
         LocalDate effectiveEndDate = (to != null) ? to : LocalDate.now();
 
         Page<ShiftDto> shifts = shiftService.getShiftList(
-                securityUser, effectiveStartDate, effectiveEndDate, 
+                userExternalId, effectiveStartDate, effectiveEndDate, 
                     projectId, siteId, shiftRequestExternalId, status, page, size, zoneId);
         model.addAttribute("shiftsPage", shifts);
         model.addAttribute("shifts", shifts.getContent());

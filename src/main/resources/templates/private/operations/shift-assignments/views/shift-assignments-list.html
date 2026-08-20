@@ -14,13 +14,22 @@
     </th:block>
 
     <th:block id="shiftAssignmentsFilters">
+        <div class="filter-item">
+            <span class="filter-label">Estado</span>
+            <select id="filter-dept" class="filter-input" required>
+                <option value="">Todos los estados</option>
+                <option th:each="s : ${ShiftAssignmentStatuses}"
+                        th:value="${s}"
+                        th:text="${s.displayName}"></option>
+            </select>
+        </div>
 
         <div class="filter-item">
             <span class="filter-label">Sitios</span>
-            <select id="filter-dept" class="filter-input" name="siteId" required>
+            <select id="filter-dept" class="filter-input" required>
                 <option value="">Todos los sitios</option>
                 <option th:each="s : ${sites}"
-                        th:value="${s.id}"
+                        th:value="${s.externalId}"
                         th:text="${s.name}"></option>
             </select>
         </div>

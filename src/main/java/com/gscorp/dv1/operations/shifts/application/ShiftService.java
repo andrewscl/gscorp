@@ -9,7 +9,6 @@ import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 
-import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.enums.ShiftStatus;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.operations.shifts.infrastructure.Shift;
@@ -48,7 +47,7 @@ public interface ShiftService {
                                         String zoneIdStr);
 
     Page<ShiftDto> getShiftList(
-                        SecurityUser securityUser,
+                        UUID userExternalId,
                         LocalDate startDate,
                         LocalDate endDate,
                         UUID projectExternalId,

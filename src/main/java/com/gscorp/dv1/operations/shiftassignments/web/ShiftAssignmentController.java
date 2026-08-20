@@ -45,15 +45,14 @@ public class ShiftAssignmentController {
     ){
         if(securityUser == null) return "redirect:/login";
         UUID externalId = securityUser.getUser().getExternalId();
-
         Page<ShiftAssignmentDto> shiftAssignments =
                 shiftAssignmentService
-                    .getShiftAssignmentList(externalId, null, page, size, requestedZone);
-
+                    .getShiftAssignmentsList(externalId, null, null, page, size, requestedZone);
         model.addAttribute("shiftAssignmentsPage", shiftAssignments);
         model.addAttribute("shiftAssignments", shiftAssignments.getContent());
         model.addAttribute("count", shiftAssignments.getTotalElements());
         model.addAttribute("sites", siteService.findByUserExternalId(externalId));
+        model.addAttribute("shiftAssignmentStatuses", ShiftAssignmentStatus.values());
         return "private/operations/shift-assignments/views/shift-assignments-list";
     }
 
@@ -62,17 +61,18 @@ public class ShiftAssignmentController {
     public String getShiftAssignment(
             Model model,
             @AuthenticationPrincipal SecurityUser securityUser,
-            @RequestParam(required=false) UUID siteId,
+            @RequestParam(required=false) UUID siteExternalId,
+            @RequestParam(required=false) ShiftAssignmentStatus shiftAssignmentStatus,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size,
             @RequestParam(required = false) String requestedZone
     ){
         if(securityUser == null) return "redirect:/login";
         UUID externalId = securityUser.getUser().getExternalId();
-
         Page<ShiftAssignmentDto> shiftAssignments =
                 shiftAssignmentService
-                    .getShiftAssignmentList(externalId, null, page, size, requestedZone);
+                    .getShiftAssignmentsList(
+                        externalId, siteExternalId, shiftAssignmentStatus, page, size, requestedZone);
         model.addAttribute("shiftAssignmentsPage", shiftAssignments);
         model.addAttribute("shiftAssignments", shiftAssignments.getContent());
         model.addAttribute("count", shiftAssignments.getTotalElements());

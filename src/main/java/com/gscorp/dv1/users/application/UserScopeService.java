@@ -3,6 +3,8 @@ package com.gscorp.dv1.users.application;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.gscorp.dv1.admin.projects.application.ProjectService;
@@ -20,9 +22,11 @@ public class UserScopeService {
     
     private final ProjectService projectService;
 
-    public ProjectScope getProjectScope(
-                                SecurityUser securityUser) {
-        if (securityUser == null) return ProjectScope.restricted(List.of());
+    public ProjectScope getProjectScope() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !(auth.getPrincipal() instanceof SecurityUser securityUser)){
+            return ProjectScope.restricted(List.of());
+        }
 
         User user = securityUser.getUser();
         UUID userExternalId = user.getExternalId();

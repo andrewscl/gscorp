@@ -22,7 +22,6 @@ import org.springframework.web.server.ResponseStatusException;
 import com.gscorp.dv1.admin.clients.application.ClientService;
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
-import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.enums.DayOfWeek;
 import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.enums.ShiftStatus;
@@ -224,7 +223,7 @@ public class ShiftServiceImpl implements ShiftService {
 
     @Transactional(readOnly = true)
     public Page<ShiftDto> getShiftList(
-                        SecurityUser securityUser,
+                        UUID userExternalId,
                         LocalDate startDate,
                         LocalDate endDate,
                         UUID projectExternalId,
@@ -234,13 +233,12 @@ public class ShiftServiceImpl implements ShiftService {
                         int page,
                         int size,
                         String zoneIdStr){
-        ProjectScope scope = userScopeService.getProjectScope(securityUser);
+        ProjectScope scope = userScopeService.getProjectScope();
         int safePage = Math.max(0, page);
         int safeSize = Math.min(Math.max(5, size), 200);
         Pageable pageable = PageRequest.of(safePage, safeSize, Sort.by(Sort.Direction.ASC, "startTs"));
         if (scope.hasNoAccess()) return Page.empty(pageable);
 
-        UUID userExternalId = securityUser.getUser().getExternalId();
         ZoneResolutionResult zoneResult = zoneResolver.resolveZone(
                                                 userExternalId, zoneIdStr);
         ZoneId zoneId = zoneResult.zoneId();

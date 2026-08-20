@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.gscorp.dv1.admin.clients.application.ClientService;
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.enums.ShiftAssignmentStatus;
@@ -30,6 +29,8 @@ import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestReposi
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestScheduleRepository;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.projections.ShiftRequestScheduleProjection;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestScheduleDto;
+import com.gscorp.dv1.users.application.UserScopeService;
+import com.gscorp.dv1.users.application.dto.ProjectScope;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -40,17 +41,18 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class ShiftAssignmentServiceImpl implements ShiftAssignmentService{
 
-    private final ClientService clientService;
     private final ShiftAssignmentRepository shiftAssignmentRepository;
     private final ShiftRequestRepository shiftRequestRepository;
     private final ShiftRequestScheduleRepository shiftRequestScheduleRepository;
     private final EmployeeRepository employeeRepository;
     private final ZoneResolver zoneResolver;
     private final ShiftAssignmentProcessor shiftAssignmentProcessor;
+    private final UserScopeService userScopeService;
 
     @Transactional(readOnly = true)
-    public Page<ShiftAssignmentDto> getShiftAssignmentList(
+    public Page<ShiftAssignmentDto> getShiftAssignmentsList(
             UUID userExternalId,
+            UUID siteExternalId,
             ShiftAssignmentStatus status,
             int page,
             int size,
@@ -59,20 +61,17 @@ public class ShiftAssignmentServiceImpl implements ShiftAssignmentService{
         if (userExternalId == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
         }
+        ProjectScope scope = userScopeService.getProjectScope();
         ZoneResolutionResult zoneResult = zoneResolver.resolveZone(userExternalId, requestedZone);
         ZoneId targetZone = zoneResult.zoneId();
-        List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);
-        if (clientIds == null || clientIds.isEmpty()) {
-            log.debug("No clientIds for user {} -> returning zero series for {}..{}", userExternalId);
-            return Page.empty();
-        }
         int safePage = Math.max(0, page);
         int safeSize = Math.min(Math.max(5, size), 200);
         PageRequest pageable = PageRequest.of(safePage, safeSize);        
 
         Page<ShiftAssignmentProjection> projections =
-                shiftAssignmentRepository.findByClientIds(
-                    clientIds, status, pageable);
+            shiftAssignmentRepository.findPageByProjectIds(
+                scope.ignoreFilter(), scope.projectIds(), siteExternalId, status, pageable);
+
         if (projections.isEmpty()) return Page.empty();
         List<Long> shiftRequestIds = projections.getContent().stream()
                     .map(p -> p.getShiftRequestId())
