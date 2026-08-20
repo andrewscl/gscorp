@@ -76,7 +76,7 @@ public class ShiftAssignmentController {
         model.addAttribute("shiftAssignmentsPage", shiftAssignments);
         model.addAttribute("shiftAssignments", shiftAssignments.getContent());
         model.addAttribute("count", shiftAssignments.getTotalElements());
-        return "private/operations/shift-assignments/views/shift-assignments-list-rows :: rows";
+        return "private/operations/shift-assignments/fragments/shift-assignments-list-rows :: rows";
     }
 
 
