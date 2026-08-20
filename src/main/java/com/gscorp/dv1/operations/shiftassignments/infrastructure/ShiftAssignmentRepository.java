@@ -71,20 +71,9 @@ public interface ShiftAssignmentRepository extends JpaRepository<ShiftAssignment
         "shiftRequest.site.project", "shiftRequest.shiftPattern", "employee"})
     Optional<ShiftAssignment> findByExternalId(UUID externalId);
 
-    @Query("""
-        SELECT
-        FROM ShiftAssignment sa
-        LEFT JOIN sa.shiftRequest sr
-        LEFT JOIN sr.site s
-        WHERE s.externalId = :
-    """)
-    Page<ShiftAssignment> findByProjectIds(
-                UUID externalId);
-
     List<ShiftAssignment> findByShiftRequestAndStatus(
                                     ShiftRequest request,
                                     ShiftAssignmentStatus status);
-
 
     @Query(
         value = """
