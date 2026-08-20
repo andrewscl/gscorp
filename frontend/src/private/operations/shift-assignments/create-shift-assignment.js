@@ -247,7 +247,7 @@ async function handleShiftChange (e) {
     const shiftPatternGroup = qs('#shiftPatternGroup');
     const shiftPatternSpan = qs('#shiftPattern');
     const employeeSelect = qs('#employeeExternalId');
-    const assignmentStartDateInput = qs('#assignmentStartDate')
+    const assignmentStartDateInput = qs('#assignmentStartDate');
     const assignmentEndDateGroup = qs('#assignmentEndDateGroup');
     const assignmentEndDateInput = qs('#assignmentEndDate');
     const cycleSelect = qs('#shiftPatternStartCycle');

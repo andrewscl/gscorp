@@ -265,7 +265,7 @@ public class ShiftServiceImpl implements ShiftService {
                                     LocalDate startAssignmentDate){
         LocalDate effectiveStartDate = (startAssignmentDate != null)
                                             ? startAssignmentDate
-                                            : LocalDate.now(); 
+                                            : LocalDate.now(zoneId); 
         Optional<Shift> shiftOpt = shiftRepository.findNextUnplannedShift(
                     ShiftStatus.UNPLANNED,
                     shiftRequestExternalId,

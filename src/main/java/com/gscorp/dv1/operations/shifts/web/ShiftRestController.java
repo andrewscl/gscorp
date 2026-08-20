@@ -129,7 +129,6 @@ public class ShiftRestController {
             throw new AuthenticationCredentialsNotFoundException("Usuario no autenticado");
         }
         UUID externalId = securityUser.getUser().getExternalId();
-
         return ResponseEntity.ok(shiftService.getShiftsCountLast24Hours(externalId));
     }
 
