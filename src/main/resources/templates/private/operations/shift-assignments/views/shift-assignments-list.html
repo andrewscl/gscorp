@@ -18,7 +18,7 @@
             <span class="filter-label">Estado</span>
             <select id="filter-status" class="filter-input" required>
                 <option value="">Todos los estados</option>
-                <option th:each="s : ${ShiftAssignmentStatuses}"
+                <option th:each="s : ${shiftAssignmentStatuses}"
                         th:value="${s}"
                         th:text="${s.displayName}"></option>
             </select>
@@ -35,7 +35,7 @@
         </div>
 
         <div class="filter-item item-action">
-            <button class="btn btn-primary" id="searchshiftAssignmentsBtn">
+            <button class="btn btn-primary" id="searchShiftAssignmentsBtn">
             Buscar
             </button>
         </div>
