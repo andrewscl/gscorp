@@ -15,6 +15,7 @@
 .private-layout{
     .main-content{
         .content{
+
             .create-shift-assignment{
                 @include dual-panel-card();
                 .panel-container{
