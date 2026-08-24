@@ -46,3 +46,19 @@ export async function fetchWithTimeout(
     }
 }
 
+// Helper genérico que procesa el JSON y maneja errores HTTP
+export async function fetchJson<T>(
+  input: RequestInfo | URL,
+  init: RequestInit = {},
+  timeoutMs = 15000
+): Promise<T> {
+/* Indica que al resolverse la promesa, la función entregará
+un dato estructurado del tipo T*/
+  const res = await fetchWithTimeout(input, init, timeoutMs, true);
+  if(!res.ok){
+    const errorText = await res.text().catch(() => '');
+    throw new Error(`HTTP ${res.status} [${res.statusText}]: ${errorText}`)
+  }
+  return res.json() as Promise<T>;
+}
+

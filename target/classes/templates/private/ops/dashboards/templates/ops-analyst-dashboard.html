@@ -1,9 +1,8 @@
-<div class="operations-analyst-dashboard">
+<div id="ops-dashboard-root" class="operations-analyst-dashboard">
 
-        <div th:replace="~{private/ops/dashboards/kpi/operational-charts :: content}"></div>
-
-        <div th:replace="~{private/ops/dashboards/kpi/operational-security-line-card :: content}"></div>
-
-        <div th:replace="~{private/ops/dashboards/kpi/operational-distribution-card :: content}"></div>
+        <div th:replace="~{private/ops/dashboards/kpi/site-shifts-chart :: content}"></div>
 
 </div>
+
+<script type="module" src="/assets/private/ops-dashboard.js"></script>
+

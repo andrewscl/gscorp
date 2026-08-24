@@ -7,7 +7,7 @@ public record ProjectSiteAttendancesSummaryDto (
     String projectName,
     Long siteId,
     String siteName,
-    Long AttendanceCount
+    Long attendanceCount
 ){
     public static ProjectSiteAttendancesSummaryDto fromProjection(
                             ProjectSiteAttendancesSummaryProjection p){

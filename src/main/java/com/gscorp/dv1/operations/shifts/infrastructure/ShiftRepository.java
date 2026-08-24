@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import com.gscorp.dv1.enums.ShiftStatus;
 import com.gscorp.dv1.operations.shiftassignments.infrastructure.ShiftAssignment;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
+import com.gscorp.dv1.operations.shifts.infrastructure.projections.ProjectSiteShiftsSummaryProjection;
 import com.gscorp.dv1.operations.shifts.infrastructure.projections.ShiftProjection;
 import com.gscorp.dv1.operations.shifts.infrastructure.projections.ShiftsCountLast24HoursProjection;
 
@@ -204,6 +205,50 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
                 @Param("shiftRequestExternalId") UUID shiftRequestExternalId,
                 @Param("sinceDate") LocalDate sinceDate,
                 Pageable pageable
+        );
+
+
+        @Query("""
+            SELECT
+                p.externalId        AS projectExternalId,
+                p.name              AS projectName,
+                s.externalId        AS siteExternalId,
+                s.name              AS siteName,
+                COUNT(sh.id) AS shifts,              
+                SUM(CASE WHEN sh.status <> 'CANCELLED' THEN 1 ELSE 0 END) AS validShifts,
+                SUM(CASE WHEN sh.status IN ('IN_PROGRESS', 'COMPLETED') THEN 1 ELSE 0 END) AS coveredShifts,
+                SUM(CASE WHEN sh.status = 'UNCOVERED' THEN 1 ELSE 0 END) AS uncoveredShifts,
+                COALESCE (
+                    (SUM(CASE WHEN sh.status IN ('IN_PROGRESS', 'COMPLETED') THEN 1.0 ELSE 0.0 END) /
+                            NULLIF(SUM(CASE WHEN sh.status <> 'CANCELLED' THEN 1.0 ELSE 0.0 END), 0) )
+                , 0.0 ) * 100.0 AS coveredPercentage,
+                COALESCE (
+                    (SUM(CASE WHEN sh.status = 'UNCOVERED' THEN 1.0 ELSE 0.0 END) /
+                            NULLIF(SUM(CASE WHEN sh.status <> 'CANCELLED' THEN 1.0 ELSE 0.0 END), 0) )
+                , 0.0 ) * 100.0 AS uncoveredPercentage
+            FROM Shift sh
+            LEFT JOIN sh.site s
+            LEFT JOIN s.project p
+            LEFT JOIN sh.shiftRequest shr
+            WHERE   (:ignoreProjectFilter = true OR p.id IN :projectIds)
+                AND     sh.startTs >= :fromTs
+                AND     sh.startTs <= :toTs
+                AND     (:siteExternalId IS NULL OR s.externalId = :siteExternalId)
+                AND     (:projectExternalId IS NULL OR p.externalId = :projectExternalId)
+                AND     (:shiftRequestExternalId IS NULL OR shr.externalId = :shiftRequestExternalId)
+                AND     (:shiftStatus IS NULL OR sh.status = :shiftStatus)
+            GROUP BY p.externalId, p.name, s.externalId, s.name
+            ORDER BY p.name ASC, s.name ASC
+            """)
+        List<ProjectSiteShiftsSummaryProjection> findProjectSiteShiftsLast24HoursSummaryByProjectIds(
+                @Param("ignoreProjectFilter") boolean ignoreProjectFilter,
+                @Param("projectIds") List<Long> projectIds,
+                @Param("fromTs") OffsetDateTime fromTs,
+                @Param("toTs") OffsetDateTime toTs,
+                @Param("siteExternalId") UUID siteExternalId,
+                @Param("projectExternalId") UUID projectExternalId,
+                @Param("shiftRequestExternalId") UUID shiftRequestExternalId,
+                @Param("shiftStatus") ShiftStatus status
         );
 
 }

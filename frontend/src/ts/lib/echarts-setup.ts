@@ -42,3 +42,5 @@ export function disposeChart(el: HTMLElement | null) {
 }
 
 export { echarts };
+
+export type EChartsInstance = ReturnType<typeof echarts.init>;

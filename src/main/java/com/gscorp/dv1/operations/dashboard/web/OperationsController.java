@@ -34,6 +34,11 @@ public class OperationsController {
         return "private/ops/dashboards/templates/ops-analyst-dashboard";
     }
 
+    @GetMapping("/ops-dashboard")
+    public String getOpsDashboardView(Model model) {
+        return "private/ops/dashboards/templates/ops-dashboard";
+    }
+
     @GetMapping("/dashboards/security-operator")
     public String getPrivateDashboardView (
             Model model,

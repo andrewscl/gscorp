@@ -129,16 +129,13 @@ public class AttendanceSeriesController {
     Object principal = auth.getPrincipal();
     SecurityUser securityUser = (SecurityUser) principal;
     UUID externalId = securityUser.getUser().getExternalId();
-
     // Resolver zona con ZoneResolver (requested tz -> user preference -> system default)
     var zr = zoneResolver.resolveZone(externalId, tz);
     ZoneId zone = zr.zoneId();
-
     String normalizedAction = normalizeAction(action);
       if (action != null && normalizedAction == null) {
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "action inválida. Valores aceptados: IN, OUT");
     }
-
     List<AttendancesHourlyCountDto> out = attendanceService.getAttendanceSeriesForUserByHours(
                                     externalId, date, zone, normalizedAction, siteId, projectId);
     return ResponseEntity.ok(out);
