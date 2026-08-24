@@ -1,0 +1,16 @@
+@use '../fragments/site-shift-chart' as * ;
+
+.private-layout{
+    .main-content{
+        .content{
+            .ops-dashboard-root{
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+                width: 100%;
+                padding: 1rem;
+                @include site-shifts-chart-style();
+            }
+        }
+    }
+}

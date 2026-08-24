@@ -1,0 +1,60 @@
+@use "sass:color";
+@use '../../../../abstracts/palette' as *;
+@use '../../../../abstracts/variables' as *;
+@use '../../../../abstracts/mixins' as *;
+@use '../../../../abstracts/typography' as *;
+
+@mixin site-shifts-chart-style() {
+        // Contenedor principal del componente de cobertura
+        .site-shifts-chart {
+            width: 100%;
+            background: linear-gradient(135deg, $white 0%, $slate-50 100%);
+            border: 1px solid $border-color;
+            border-radius: 0.875rem;
+            padding: 1.25rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            // Efecto Hover alineado con las tarjetas del dashboard
+            &:hover {
+                border-color: $border-color-hover;
+                box-shadow: 0 10px 25px rgba(59, 130, 246, 0.08);
+                transform: translateY(-2px);
+            }
+            
+            // Título o cabecera interna si la utilizas
+            .chart-header {
+                margin-bottom: 1rem;
+                .chart-title {
+                    @include montserrat-font(0.875rem, 600);
+                    color: $heading-color;
+                    letter-spacing: 0.3px;
+                    margin: 0;
+                }
+            }
+            // Contenedor wrapper
+            .site-shifts-chart-container {
+                width: 100%;
+                position: relative;
+
+                // Lienzo donde ECharts renderiza las barras
+                #site-coverage-bar-chart {
+                    width: 100%;
+                    height: 350px; // Altura requerida para gráfico de barras
+                    min-height: 280px;
+                }
+            }
+        }
+        // Ajustes responsivos
+        @media (max-width: 480px) {
+            .site-shifts-chart {
+                padding: 0.875rem;
+                border-radius: 0.75rem;
+                .site-shifts-chart-container #site-coverage-bar-chart {
+                    height: 280px;
+                }
+            }
+        }
+
+}
