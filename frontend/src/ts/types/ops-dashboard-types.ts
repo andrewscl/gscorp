@@ -1,7 +1,7 @@
 export interface OperationsDashboardResponse {
   projectSiteShiftsSummary: ProjectSiteShiftRequestsSummaryDto[];
   projectSiteAttendancesSummary: ProjectSiteAttendancesSummaryDto[];
-  projectSiteShiftsCoverageSummary: ProjectSiteShiftsSummaryDto[];
+  projectSiteShiftsCoverageSummaryDto: ProjectSiteShiftsSummaryDto[];
 }
 
 export interface ProjectSiteShiftRequestsSummaryDto {

@@ -55,7 +55,7 @@ export async function init({ container }: { container: HTMLElement }) {
     await registerChart(
         initSiteCoverageBarChart, 
         '#site-coverage-bar-chart',
-        (metrics) => metrics.projectSiteShiftsCoverageSummary
+        (metrics) => metrics.projectSiteShiftsCoverageSummaryDto
     );
 
     // =========================================================================
