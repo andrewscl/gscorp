@@ -1,0 +1,30 @@
+<div th:fragment="content" class="distribution-card" id="distributionCards">
+
+    <div class="dashboard-card">
+        <header class="card-header">
+            <div class="title-group">
+                <h4 class="card-title">Estado de Usuarios</h4>
+            </div>
+            <div class="icon-wrapper">
+                <i class="bi bi-building-check"></i>
+            </div>
+        </header>
+
+        <div class="card-body">
+            <div class="table-header-row">
+                <span class="header-label">Empresa</span>
+                <span class="header-label">Invitado</span>
+                <span class="header-label">Activo</span>
+                <span class="header-label">Expirado</span>
+            </div>
+
+            <div id="staffUserStatusContainer" class="staff-user-status-container">
+                <div class="text-muted text-center py-3">Cargando datos operativos...</div>
+            </div>
+
+        </div>
+    </div>
+
+        <script type="module" src="/js/private/operations/kpi/operational-distribution-card.js"></script>
+
+</div>

@@ -1,0 +1,108 @@
+<div th:fragment="content">
+  <div class="forecast-header">
+    <h2>
+      <!-- Icono tabla (forecast) -->
+      <svg class="icon icon-table" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <rect x="2" y="4" width="20" height="16" rx="2" fill="#eef2ff" stroke="#6366f1" stroke-width="1"/>
+        <path d="M6 12h12M6 8h12M6 16h8" stroke="#4f46e5" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      Forecasts
+    </h2>
+
+    <div class="filters-row" role="toolbar" aria-label="Filtros de forecasts">
+      <!-- form GET para filtrar en el servidor -->
+      <form th:action="@{/private/forecast/table-view}" method="get" style="display:flex;gap:0.6rem;align-items:center;">
+        <label class="filter-item">
+          <span class="filter-label">Sitio</span>
+          <select id="filter-site" class="filter-input" name="siteName">
+            <option value="" th:text="'Todos'"></option>
+            <option th:each="s : ${siteNames}"
+                    th:value="${s}"
+                    th:text="${s}"
+                    th:selected="${s == siteName}"></option>
+          </select>
+        </label>
+
+        <label class="filter-item">
+          <span class="filter-label">Métrica</span>
+          <select id="filter-metric" class="filter-input" name="metric">
+            <option value="" th:text="'Todas'"></option>
+            <option th:each="m : ${metrics}"
+                    th:value="${m.name()}"
+                    th:text="${m.displayName != null ? m.displayName : m.name()}"
+                    th:selected="${m.name() == metric}"></option>
+          </select>
+        </label>
+
+        <button type="submit" id="applyFiltersBtn" class="btn btn-secondary" aria-label="Aplicar filtros">Aplicar</button>
+
+        <div class="filters-actions">
+          <button id="createForecastBtn" class="btn btn-primary"
+                  th:attr="data-path=@{/private/forecast/create}" aria-label="Nuevo forecast">
+            <!-- icono + -->
+            <svg class="icon icon-plus" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+              <circle cx="8" cy="8" r="7" fill="#dbeafe" stroke="#1e3a8a" stroke-width="1"/>
+              <path d="M8 5v6M5 8h6" stroke="#1e3a8a" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            Nuevo Forecast
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="forecast-table-container">
+    <table class="forecasts-table" role="table" aria-label="Tabla de forecasts">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Proyecto</th>
+          <th>Sitio</th>
+          <th>Métrica</th>
+          <th>Periodicidad</th>
+          <th>Periodo inicio</th>
+          <th>Periodo fin</th>
+          <th>Valor</th>
+          <th>Activo</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="r : ${forecastRecords}">
+          <td th:text="${r.id}">-</td>
+          <td th:text="${r.projectName != null ? r.projectName : (r.projectId != null ? r.projectId : '—')}">—</td>
+          <td th:text="${r.siteName != null ? r.siteName : (r.siteId != null ? r.siteId : '—')}">—</td>
+          <td th:text="${r.forecastMetric?.displayName ?: '—'}">—</td>
+          <td th:text="${r.periodicity?.displayName ?: '—'}">—</td>
+          <td th:text="${r.periodStart != null ? #temporals.format(r.periodStart, 'yyyy-MM-dd HH:mm') : '—'}">—</td>
+          <td th:text="${r.periodEnd != null ? #temporals.format(r.periodEnd, 'yyyy-MM-dd HH:mm') : '—'}">—</td>
+          <td th:text="${r.value != null ? r.value : '—'}">—</td>
+          <td>
+            <span class="tag" th:classappend="${r.isActive} ? ' active' : ' inactive'">
+              <span th:if="${r.isActive}">Activo</span>
+              <span th:if="${!r.isActive}">Inactivo</span>
+            </span>
+          </td>
+          <td class="actions">
+            <button type="button" class="btn-link action-btn" title="Ver"
+                    th:attr="data-path=@{/private/forecast/show/{id}(id=${r.id})}">
+              <span aria-hidden="true">Ver</span>
+            </button>
+
+            <button type="button" class="btn-link action-btn"
+                    th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}"
+                    th:attr="data-path=@{/private/forecast/edit/{id}(id=${r.id})}" title="Editar">
+              Editar
+            </button>
+          </td>
+        </tr>
+
+        <tr th:if="${#lists.isEmpty(forecastRecords)}">
+          <td colspan="11" class="empty">No se encontraron registros para el rango seleccionado.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script th:src="@{/private/forecast/forecast-table.js}" defer></script>
+</div>

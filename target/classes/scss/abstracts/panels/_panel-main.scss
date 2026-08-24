@@ -1,0 +1,94 @@
+@use '../mixins' as *;
+@use '../typography' as *;
+@use '../palette' as *;
+@use '../variables' as *;
+@use '../fields/fields' as *;
+
+@mixin panel-main ($text-color: $cool-gray-800) {
+        flex: $ratio-left;  
+        padding: 0 2rem 1rem 2rem;
+        display: flex;
+        flex-direction: column;
+        border-right: 1px solid rgba($border-color, 0.5);
+        .panel-body {
+            display: flex;
+            flex-direction: column;
+            gap: 1.15rem;
+            .form-group {
+                display: flex;
+                flex-direction: column;
+                gap: 0.3rem;
+                label {
+                    @include roboto-font(0.7rem, 600);
+                    color: $muted-color;
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+                    margin: 0;
+                }
+                .form-value {
+                    @include roboto-font(0.95rem, 400);
+                    color: $heading-color;
+                    line-height: 1.4;
+                    border: 0.1rem solid $slate-200;
+                    padding: 0.4rem 0.75rem;
+                    border-radius: 0.5rem;
+                    &:empty::before {
+                        content: '—';
+                        color: #cbd5e1;
+                    }
+                }
+                input, select, textarea{
+                    @include form-field(#f0f7ff, #bfdbfe);
+                }
+                span {
+                    @include form-field(#f8fafc, #e2e8f0);
+                }
+                textarea {
+                    resize: vertical;
+                    min-height: 80px;
+                }
+
+                .form-control-text-block {
+                    width: 100%;
+                    min-height: 3.375rem;
+                    padding: 0.75rem 1rem;
+                    background-color: transparent;
+                    border: 1px solid $border-color;
+                    border-radius: $radius;
+                    color: $text-secondary-color;
+                    @include roboto-font(0.875rem, 500);
+                    line-height: 1.5;
+                    box-sizing: border-box;
+                    word-wrap: break-word;    // Evita que textos largos rompan la caja
+                }
+            }
+            .form-row {
+                display: flex;
+                gap: 2rem;
+                width: 100%;
+                .form-group {
+                    flex: 1;
+                }
+                &.w-custom {
+                .fx-1 { flex : 1; };
+                .fx-2 { flex : 2; };
+                .fx-3 { flex : 3; };
+                .fx-4 { flex : 4; };
+                .fx-5 { flex : 5; };
+                .fx-6 { flex : 6; };
+                .fx-7 { flex : 7; };
+                .fx-8 { flex : 8; };
+                .fx-9 { flex : 9; };
+                }
+                @media (max-width: 992px){
+                    flex-direction: column;
+                }
+            }
+            .form-separator {
+                border: 0;
+                border-top: 1px solid rgba($border-color, 0.5);
+                margin: 0.2rem 0;
+                width: 100%;
+            }
+        }
+}

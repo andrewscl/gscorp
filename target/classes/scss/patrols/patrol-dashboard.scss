@@ -1,0 +1,190 @@
+@use '../abstracts/palette' as * ;
+@use '../abstracts/variables' as * ;
+@use '../abstracts/mixins' as * ;
+@use '../abstracts/alerts' as * ;
+
+    .patrol-dashboard-card {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+        background-color: #f9fafb;
+        min-height: 100vh;
+        padding-bottom: 2rem;
+
+        .alert-container {
+                @include alert-container();
+        }
+
+        // Estilos del Mapa
+        .patrol-dashboard-map {
+            background: white;
+            padding: 1rem;
+            border-radius: $radius;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+
+            #lblSiteName {
+                @include montserrat-font(1.1rem, 700);
+                color: #1f2937;
+                margin-bottom: 0.75rem;
+            }
+            .content{
+                &#map {
+                    margin: 0;
+                    width: 100%;
+                    height: 42vh;
+                    min-height: 16rem;
+                    max-height: 24rem;
+                    border-radius: $radius-md;
+                    overflow: hidden;
+                }
+            }
+        }
+
+        // Estructura de Secciones
+        .patrol-section {
+            margin-bottom: 1.5rem;
+
+            &__header {
+                margin-bottom: 0.8rem;
+                padding: 0 0.25rem;
+                display: flex;
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+            &__subtitle {
+                font-size: 0.7rem;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                color: #6b7280;
+                font-weight: 600;
+                display: block;
+            }
+            &__title {
+                @include montserrat-font(1rem, 700);
+                color: #1f2937;
+                margin: 0;
+            }
+        }
+
+        .patrol-grid {
+            display: grid;
+            grid-template-columns: 1fr; // Una por fila en móvil da espacio para info detallada
+            gap: 0.75rem;
+
+            .patrol-card-item {
+                background: white;
+                border: 1px solid #e5e7eb;
+                border-radius: $radius;
+                padding: 1rem;
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                text-decoration: none;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.01);
+                transition: transform 0.15s;
+                cursor: pointer;
+                &:active {
+                    transform: scale(0.97);
+                    background-color: #f3f4f6;
+                }
+
+                &.is-locked {
+                    opacity: 0.5;                // Las hace ver "grisáceas" o inactivas
+                    pointer-events: none;        // Deshabilita por completo cualquier click del touch del móvil
+                    background-color: #f9fafb;   // Un fondo un poco más oscuro
+                    border-style: dashed;        // Borde discontinuo para denotar que no está disponible
+                    box-shadow: none;
+                    cursor: not-allowed;
+                    pointer-events: none;
+                    &:active {
+                        transform: none;         // Evita que haga el efecto de hundirse al tocarla
+                    }
+                    .time-tag {
+                        background: #e5e7eb;     // Cambia el tag del tiempo azul a gris
+                        color: #6b7280;
+                    }
+                }
+
+                &__icon-box {
+                    width: 44px;
+                    height: 44px;
+                    border-radius: 10px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 1.3rem;
+                    flex-shrink: 0;
+
+                    // Colores temáticos por tipo de tarjeta
+                    &.is-scheduled { background: #eff6ff; color: #2563eb; }
+                    &.is-free { background: #f5f3ff; color: #7c3aed; }
+                    &.is-success { background: #f0fdf4; color: #16a34a;}
+                    &.is-danger { background: #fef2f2; color: #dc2626;}
+                }
+
+                &__body {
+                    flex: 1;
+                    
+                    .card-main-info {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        
+                        .time-tag {
+                            @include montserrat-font(0.85rem, 700);
+                            color: #2563eb;
+                            background: #e0f2fe;
+                            padding: 0.1rem 0.4rem;
+                            border-radius: 4px;
+                        }
+                    }
+
+                    h5 {
+                        @include montserrat-font(0.95rem, 600);
+                        color: #1f2937;
+                        margin: 0;
+                    }
+                    p {
+                        margin: 0.2rem 0 0 0;
+                        font-size: 0.75rem;
+                        color: #6b7280;
+                    }
+                }
+
+                &__arrow {
+                    color: #9ca3af;
+                    font-size: 1rem;
+                }
+            }
+        }
+
+        // Placeholder de carga
+        .patrol-loader-placeholder {
+            text-align: center;
+            padding: 1.5rem;
+            background: #ffffff;
+            border: 1px dashed #d1d5db;
+            border-radius: $radius;
+            display: flex;
+            justify-content: center;
+        }
+
+        // Footer de navegación
+        .patrol-dashboard-footer-actions {
+            margin-top: auto;
+            padding: 0 0.5rem;
+            .btn-back {
+                width: 100%;
+                background: transparent;
+                border: 1px solid #d1d5db;
+                color: #4b5563;
+                padding: 0.75rem;
+                border-radius: $radius;
+                @include montserrat-font(0.9rem, 600);
+                cursor: pointer;
+                
+                &:active { background: #f3f4f6; }
+            }
+        }
+    }
