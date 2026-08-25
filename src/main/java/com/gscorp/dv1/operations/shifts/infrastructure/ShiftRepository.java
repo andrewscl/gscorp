@@ -68,7 +68,7 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
         FROM Shift sh
         LEFT JOIN sh.site s
         LEFT JOIN s.project p
-        WHERE (ignoreProjectFilter = true OR p.id IN :projectIds)
+        WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
             AND sh.startTs >= :since
             AND sh.startTs <= :until
         GROUP BY sh.startTs
