@@ -55,8 +55,7 @@ export async function init({ container }: { container: HTMLElement }) {
     await registerChart(
         initSiteCoverageBarChart, 
         '#site-coverage-bar-chart',
-        (metrics) => metrics.projectSiteShiftsCoverageSummaryDto
-    );
+        (metrics) => metrics.projectSiteShiftsSummary);
 
     // =========================================================================
     // 4. PETICIÓN ÚNICA Y DISTRIBUCIÓN

@@ -8,7 +8,8 @@ import com.gscorp.dv1.operations.shifts.web.dto.statistics.ProjectSiteShiftsSumm
 
 public record OperationsDashboardResponse (
 
-    List<ProjectSiteShiftRequestsSummaryDto> projectSiteShiftsSummary,
+    List<ProjectSiteShiftRequestsSummaryDto> projectSiteShiftRequestsSummary,
     List<ProjectSiteAttendancesSummaryDto> projectSiteAttendancesSummary,
-    List<ProjectSiteShiftsSummaryDto> projectSiteShiftsSummaryDto
+    List<ProjectSiteShiftsSummaryDto> projectSiteShiftsSummary
 ){}
+
