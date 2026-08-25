@@ -87,9 +87,8 @@ export async function initShiftCoverageDonuts(
         // Guardamos la instancia en el mapa
         activeCharts.set(chartUniqueId, chart);
 
-        // Lógica matemática del Donut corregida con tus propiedades
         const hasMeta = item.totalShifts > 0;
-        const percentage = hasMeta ? Math.round((2 / item.totalShifts) * 100) : 0;
+        const percentage = hasMeta ? Math.round((item.inProgressShifts / item.totalShifts) * 100) : 0;
         const pctForSeries = hasMeta ? Math.min(100, Math.max(0, percentage)) : 100;
 
         chart.setOption({
