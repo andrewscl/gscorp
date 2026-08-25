@@ -15,8 +15,12 @@ export async function initSiteCoverageBarChart(
     if(!chart) return null;
     // 3. Definir la función render interna.
     const render = (data?: ProjectSiteShiftsSummaryDto[]) => {
+        console.log('[SiteCoverageChart] Datos recibidos en render:', data);
         try {
-            if (!data) return;
+            if (!data) {
+                console.warn('[SiteCoverageChart] El arreglo viene undefined o vacío');
+                return;
+            }
             // Transformación DTO a las opciones del grafico.
             const metrics = data.map(mapSiteCoverageDtoToMetricCoverage);
             const option = createCoverageBarOption(metrics);
