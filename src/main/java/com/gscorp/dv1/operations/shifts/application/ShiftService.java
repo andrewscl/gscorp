@@ -13,7 +13,6 @@ import com.gscorp.dv1.enums.ShiftStatus;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.operations.shifts.infrastructure.Shift;
 import com.gscorp.dv1.operations.shifts.web.dto.ShiftDto;
-import com.gscorp.dv1.operations.shifts.web.dto.ShiftsCountLast24HoursDto;
 
 public interface ShiftService {
 
@@ -36,9 +35,6 @@ public interface ShiftService {
                             UUID shiftRequestExternalId,
                             int shiftsToShow,
                             String zoneIdStr);
-
-    List<ShiftsCountLast24HoursDto> getShiftsCountLast24Hours(
-                                                UUID userExternalId);
 
     List<ShiftDto> getUpcomingByShiftAssignmentExternalId(
                                         UUID userExternalId,

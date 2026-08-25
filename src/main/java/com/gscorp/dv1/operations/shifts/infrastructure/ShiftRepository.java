@@ -57,17 +57,25 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
     @Query( value = """
         SELECT
             COUNT(sh.id)    AS totalShifts,
-            sh.startTs      AS startTs  
+            COUNT(CASE WHEN sh.status = 'UNPLANNED' THEN 1 END) AS unplannedShifts,
+            COUNT(CASE WHEN sh.status = 'PLANNED' THEN 1 END) AS plannedShifts,
+            COUNT(CASE WHEN sh.status = 'IN_PROGRESS' THEN 1 END) AS inProgressShifts,
+            COUNT(CASE WHEN sh.status = 'COMPLETED' THEN 1 END) AS completedShifts,
+            COUNT(CASE WHEN sh.status = 'CANCELLED' THEN 1 END) AS cancelledShifts,
+            COUNT(CASE WHEN sh.status = 'PENDING' THEN 1 END) AS pendingShifts,
+            COUNT(CASE WHEN sh.status = 'UNCOVERED' THEN    1 END) AS uncoveredShifts,
+            sh.startTs      AS startTs
         FROM Shift sh
         LEFT JOIN sh.site s
         LEFT JOIN s.project p
-        WHERE p.client.id IN :clientIds
+        WHERE (ignoreProjectFilter = true OR p.id IN :projectIds)
             AND sh.startTs >= :since
             AND sh.startTs <= :until
         GROUP BY sh.startTs
         """)
     List<ShiftsCountLast24HoursProjection> getShiftsCountLast24Hours (
-            @Param("clientIds") List<Long> clientIds,
+            @Param("ignoreProjectFilter") boolean ignoreProjectFilter,
+            @Param("projectIds") List<Long> projectIds,
             @Param("since") OffsetDateTime since,
             @Param("until") OffsetDateTime until
     );

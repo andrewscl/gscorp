@@ -17,6 +17,7 @@ export interface ChartController <TData = any>{
    */
   destroy?: () => void;
   stop?: () => void;
+  resize?: () => void;
   /**
    * Referencias directas al motor gráfico y al contenedor DOM
    */

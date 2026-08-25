@@ -1,32 +1,26 @@
-import { mkChart, echarts } from '../../lib/echarts-setup';
-import { fetchWithTimeout } from '../../utils/api';
+import { EChartsInstance } from '../../lib/echarts-setup';
 import { safeSetNoData } from '../../utils/chart-uiutils';
-
-type ChartController = {
-  render?: () => Promise<void> | void;
-  destroy?: () => void;
-  chart?: any;
-  container?: HTMLElement | null;
-};
-
-interface HourlyCoverageData {
-  startTs: string; // Ej: "2026-07-23T08:00:00Z" o directamente "08:00"
-  totalShifts: number;
-  actualShifts: number;
-}
+import type { ChartController } from '../../types/chart-types';
+import type { ShiftsCountLast24HoursDto } from '../../types/ops-dashboard-types';
+import type { EChartsType } from 'echarts/core';
 
 export async function initShiftCoverageDonuts(
   selector: string,
-  options: { mkChart: typeof mkChart; fetchWithTimeout: typeof fetchWithTimeout }
-): Promise<ChartController> {
+  options: { mkChart: (el: HTMLElement) => EChartsType | null }
+): Promise<ChartController<ShiftsCountLast24HoursDto[]> | null> {
   
   const gridContainer = document.querySelector(selector) as HTMLElement | null;
-  const activeCharts = new Map<string, echarts.ECharts>();
+  if (!gridContainer) return null;
 
-  async function render() {
+  const activeCharts = new Map<string, EChartsInstance>();
+
+  function render(dataList?: ShiftsCountLast24HoursDto[]) {
     if (!gridContainer) return;
-
-    // Buscar el template inerte en el documento
+    // 2. Validación de datos recibidos desde el orquestador.
+    if (!dataList || dataList.length === 0) {
+      safeSetNoData(null, gridContainer, 'Sin datos de cobertura disponible');
+      return;
+    }
     const template = document.getElementById('tmpl-hourly-donut-card') as HTMLTemplateElement | null;
     if (!template) {
       console.error('No se encontró el template #tmpl-hourly-donut-card');
@@ -34,16 +28,6 @@ export async function initShiftCoverageDonuts(
     }
 
     try {
-      const response = await options.fetchWithTimeout(
-        '/api/shifts/last-24hours-shifts', 
-        { method: 'GET' }, 
-        15000, 
-        true
-      );
-
-      if (!response.ok) throw new Error('HTTP Error');
-      const dataList: HourlyCoverageData[] = await response.json();
-
       // 1. Limpieza total de instancias de ECharts previas para evitar fugas de memoria
       activeCharts.forEach(chart => chart.dispose());
       activeCharts.clear();
@@ -174,8 +158,9 @@ export async function initShiftCoverageDonuts(
     render,
     destroy,
     container: gridContainer,
-    chart: {
-      resize: () => activeCharts.forEach(chart => chart.resize())
-    }
-  };
+    chart: null,
+    resize() {
+      activeCharts.forEach(chart => chart.resize());
+      }
+    };
 }

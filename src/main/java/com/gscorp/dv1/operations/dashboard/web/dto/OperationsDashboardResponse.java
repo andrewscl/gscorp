@@ -4,12 +4,14 @@ import java.util.List;
 
 import com.gscorp.dv1.attendance.web.dto.statistics.ProjectSiteAttendancesSummaryDto;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.statistics.ProjectSiteShiftRequestsSummaryDto;
+import com.gscorp.dv1.operations.shifts.web.dto.ShiftsCountLast24HoursDto;
 import com.gscorp.dv1.operations.shifts.web.dto.statistics.ProjectSiteShiftsSummaryDto;
 
 public record OperationsDashboardResponse (
 
     List<ProjectSiteShiftRequestsSummaryDto> projectSiteShiftRequestsSummary,
     List<ProjectSiteAttendancesSummaryDto> projectSiteAttendancesSummary,
-    List<ProjectSiteShiftsSummaryDto> projectSiteShiftsSummary
+    List<ProjectSiteShiftsSummaryDto> projectSiteShiftsSummary,
+    List<ShiftsCountLast24HoursDto> shiftsCountLast24Hours
 ){}
 

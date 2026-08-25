@@ -1,13 +1,13 @@
-import type { SitesCoverageDto } from "../types/api-types";
+import type { ProjectSiteShiftsSummaryDto } from "../types/ops-dashboard-types";
 import type { MetricCoverageItem } from "../utils/chart-utils";
 
 
-export function mapSiteCoverageDtoToMetricCoverage(dto: SitesCoverageDto)
+export function mapSiteCoverageDtoToMetricCoverage(dto: ProjectSiteShiftsSummaryDto)
                                                             : MetricCoverageItem {
         return {
             label: dto.siteName,
             actual: dto.coveredShifts,
-            total: dto.requiredShifts,
-            percentage: dto.coveragePercentage
+            total: dto.shifts,
+            percentage: dto.coveredPercentage
         };
-    }
+}

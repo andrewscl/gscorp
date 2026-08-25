@@ -28,6 +28,7 @@ import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestRepository;
 import com.gscorp.dv1.operations.shifts.application.ShiftService;
+import com.gscorp.dv1.operations.shifts.application.ShiftStatService;
 import com.gscorp.dv1.operations.shifts.web.dto.CreateShift;
 import com.gscorp.dv1.operations.shifts.web.dto.ShiftDto;
 import com.gscorp.dv1.operations.shifts.web.dto.ShiftsCountLast24HoursDto;
@@ -45,6 +46,7 @@ public class ShiftRestController {
     private final ShiftService shiftService;
     private final ShiftRequestRepository shiftRequestRepo;
     private final ZoneResolver zoneResolver;
+    private final ShiftStatService shiftStatService;
 
 
     @PostMapping("/create/{shiftRequestExternalId}")
@@ -129,7 +131,7 @@ public class ShiftRestController {
             throw new AuthenticationCredentialsNotFoundException("Usuario no autenticado");
         }
         UUID externalId = securityUser.getUser().getExternalId();
-        return ResponseEntity.ok(shiftService.getShiftsCountLast24Hours(externalId));
+        return ResponseEntity.ok(shiftStatService.getShiftsCountLast24Hours(externalId));
     }
 
     @GetMapping("/next-available-shift/shift-request/{shiftRequestExternalId}/shift")

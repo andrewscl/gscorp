@@ -1,7 +1,9 @@
 import { ChartController } from "../types/chart-types";
 import { initSiteCoverageBarChart } from "../charts/site-coverage/site-coverage-bar-chart";
+import { initShiftCoverageDonuts } from "../charts/shifts/shifts-coverage-ingress-donut";
 import { OpsDashboardService } from "../services/ops-dashboard-service";
 import { OperationsDashboardResponse } from "../types/ops-dashboard-types";
+import { mkChart } from "../lib/echarts-setup";
 
 export async function init({ container }: { container: HTMLElement }) {
     const root = (container.querySelector('#ops-dashboard-root') as HTMLElement)
@@ -29,16 +31,17 @@ export async function init({ container }: { container: HTMLElement }) {
      * Helper para registrar un módulo de gráfico y definir qué lista del DTO consume
      */
     async function registerChart<TData>(
-        initFn: (selector: string) => Promise<ChartController | null> | ChartController | null,
+        initFn: (
+            selector: string,
+            options: { mkChart: typeof mkChart }
+        ) => Promise<ChartController<TData> | null> | ChartController<TData> | null,
         selector: string,
         extractData: (res: OperationsDashboardResponse) => TData
     ) {
         try {
-            const ctrl = await initFn(selector);
+            const ctrl = await initFn(selector, { mkChart });
             if (!ctrl) return;
-
             registeredCharts.push({ ctrl, extractData });
-
             if (ctrl.container) {
                 ro.observe(ctrl.container);
             }
@@ -56,6 +59,12 @@ export async function init({ container }: { container: HTMLElement }) {
         initSiteCoverageBarChart, 
         '#site-coverage-bar-chart',
         (metrics) => metrics.projectSiteShiftsSummary);
+    // Gráfico de Donuts por hora de ingreso () 
+    await registerChart(
+        initShiftCoverageDonuts,
+        '#shifts-coverage-ingress-donut',
+        (metrics) => metrics.shiftsCountLast24Hours
+    );
 
     // =========================================================================
     // 4. PETICIÓN ÚNICA Y DISTRIBUCIÓN

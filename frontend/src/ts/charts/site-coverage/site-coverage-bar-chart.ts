@@ -33,12 +33,12 @@ export async function initSiteCoverageBarChart(
     };
     // Mostrar spinner inicial hasta que el orquestador envíe la data
     chart.showLoading({ text: 'Cargando datos...' });
-
     // 4. Retornar el contrato ChartController para el dashboard
     return {
         render,
         chart,
         container,
-        destroy: () => chart?.dispose()
+        destroy: () => chart?.dispose(),
+        resize: () => chart?.resize()
     };
 }

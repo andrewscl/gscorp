@@ -2,8 +2,8 @@ export interface OperationsDashboardResponse {
     projectSiteShiftRequestsSummary: ProjectSiteShiftRequestsSummaryDto[];
     projectSiteAttendancesSummary: ProjectSiteAttendancesSummaryDto[];
     projectSiteShiftsSummary: ProjectSiteShiftsSummaryDto[];
+    shiftsCountLast24Hours: ShiftsCountLast24HoursDto[];
 }
-
 export interface ProjectSiteShiftRequestsSummaryDto {
     projectId: number;
     projectName: string;
@@ -11,7 +11,6 @@ export interface ProjectSiteShiftRequestsSummaryDto {
     siteName: string;
     totalShiftsToday: number;
 }
-
 export interface ProjectSiteAttendancesSummaryDto {
     projectId: number; 
     projectName: string;
@@ -19,7 +18,6 @@ export interface ProjectSiteAttendancesSummaryDto {
     siteName: string;
     attendanceCount: number;
 }
-
 export interface ProjectSiteShiftsSummaryDto {
     projectExternalId: string;
     projectName: string;
@@ -32,10 +30,14 @@ export interface ProjectSiteShiftsSummaryDto {
     coveredPercentage: number;
     uncoveredPercentage: number;
 }
-
-
-
-
-
-
-
+export interface ShiftsCountLast24HoursDto {
+    totalShifts: number;
+    unplannedShifts: number;
+    plannedShifts: number;
+    inProgressShifts: number;
+    completedShifts: number;
+    cancelledShifts: number;
+    pendingShifts: number;
+    uncoveredShifts: number;
+    startTs: string;
+}

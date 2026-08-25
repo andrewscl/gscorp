@@ -42,7 +42,8 @@ public class OperationsRestController {
                 attendanceStatService
                     .getProjectSiteAttendancesTodaySummaryByUserExternalId(userExternalId),
                 shiftStatService
-                    .getLast24hoursProjectSiteShiftsSummary(userExternalId, zoneIdStr)
+                    .getLast24hoursProjectSiteShiftsSummary(userExternalId, zoneIdStr),
+                shiftStatService.getShiftsCountLast24Hours(userExternalId)
             );
         return metrics;
     }

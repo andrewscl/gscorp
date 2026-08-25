@@ -14,6 +14,7 @@ import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.operations.shifts.infrastructure.ShiftRepository;
 import com.gscorp.dv1.operations.shifts.infrastructure.projections.ProjectSiteShiftsSummaryProjection;
+import com.gscorp.dv1.operations.shifts.web.dto.ShiftsCountLast24HoursDto;
 import com.gscorp.dv1.operations.shifts.web.dto.statistics.ProjectSiteShiftsSummaryDto;
 import com.gscorp.dv1.users.application.UserScopeService;
 import com.gscorp.dv1.users.application.dto.ProjectScope;
@@ -51,6 +52,32 @@ public class ShiftStatServiceImpl implements ShiftStatService {
                                 null);
         return projections.stream()
                     .map(ProjectSiteShiftsSummaryDto::fromProjection)
+                    .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<ShiftsCountLast24HoursDto> getShiftsCountLast24Hours(
+                                                UUID userExternalId){
+        if (userExternalId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
+        }
+        ProjectScope scope = userScopeService.getProjectScope();
+        OffsetDateTime since = OffsetDateTime.now().minusHours(24);
+        OffsetDateTime until = OffsetDateTime.now();
+        var projections = shiftRepository.getShiftsCountLast24Hours(scope.ignoreFilter(), scope.projectIds(), since, until);
+        System.out.println("====== PROBANDO ENDPOINT LAST 24 HOURS ======");
+        System.out.println("Cantidad de registros devueltos: " + (projections != null ? projections.size() : "NULL"));
+        if (projections != null) {
+            projections.forEach(row -> {
+                System.out.println("Fecha/Hora: " + row.getStartTs() + " | Turnos: " + row.getTotalShifts());
+            });
+        }
+        System.out.println("=============================================");
+        if (projections == null) {
+            return List.of(); 
+        }
+        return projections.stream()
+                    .map(ShiftsCountLast24HoursDto::fromProjection)
                     .toList();
     }
 }
