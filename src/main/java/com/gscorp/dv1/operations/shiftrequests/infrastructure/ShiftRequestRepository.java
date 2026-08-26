@@ -247,7 +247,7 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               FROM ShiftRequest sr
               LEFT JOIN sr.site s
               LEFT JOIN s.project p
-              WHERE p.client.id IN :clientIds
+              WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
               AND sr.startDate >= COALESCE(:startDate, sr.startDate)
               AND sr.startDate <  COALESCE(:endExclusiveDate, sr.startDate) 
               AND (:siteId IS NULL OR s.id = :siteId)
@@ -259,7 +259,7 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               FROM ShiftRequest sr
               LEFT JOIN sr.site s
               LEFT JOIN s.project p
-              WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds
+              WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
               AND sr.startDate >= COALESCE(:startDate, sr.startDate)
               AND sr.startDate <  COALESCE(:endExclusiveDate, sr.startDate) 
               AND (:siteId IS NULL OR s.id = :siteId)
