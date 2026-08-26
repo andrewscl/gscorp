@@ -24,6 +24,5 @@ public interface ShiftRequestProjection {
     ShiftRequestStatus getStatus();
     String getDescription();
     LocalDateTime getCreatedAt();
-    Integer getSchedulesCount();
 
 }
