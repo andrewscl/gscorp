@@ -419,22 +419,19 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
         }
         ProjectScope scope = userScopeService.getProjectScope();
-        LocalDate today = LocalDate.now(zoneId);
-        if (toDate == null) toDate = today;
-        if (fromDate == null) fromDate = toDate.minusYears(1);
-
-        OffsetDateTime start = fromDate.atStartOfDay(zoneId).toOffsetDateTime();
-        OffsetDateTime endExclusive = toDate.plusDays(1).atStartOfDay(zoneId).toOffsetDateTime();
-
+        OffsetDateTime start = (fromDate != null) 
+        ? fromDate.atStartOfDay(zoneId).toOffsetDateTime()
+        : null;
+        OffsetDateTime endExclusive = (toDate != null)
+        ? toDate.plusDays(1).atStartOfDay(zoneId).toOffsetDateTime()
+        : null;
         int safePage = Math.max(0, page);
         int safeSize = Math.min(Math.max(5, size), 200);
         PageRequest pageable = PageRequest.of(safePage, safeSize, Sort.by(Sort.Direction.DESC, "startDate"));
-
         Page<ShiftRequestProjection> projections =
                     shiftRequestRepository.findPageByProjectIds(
                             scope.ignoreFilter(), scope.projectIds(), start, endExclusive,
                             siteId, projectId, type, pageable);
-
         return projections.map(ShiftRequestDto::fromProjection);
     }
 
