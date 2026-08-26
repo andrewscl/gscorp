@@ -1,9 +1,9 @@
       <th:block th:fragment="rows">
         <tr th:each="r : ${shiftRequests}" th:data-id="${r.id}">
           <td th:text="${r.code}">TR001</td>
-          <td th:text="${r.siteName != null ? r.siteName : '—'}">Nombre sitio</td>
-          <td th:text="${r.type != null ? r.type.displayName : '—'}">Tipo</td>
-          <td th:text="${r.shiftPatternName != null ? r.type.shiftPatternName : '—'}">Jornada</td>
+          <td th:text="${r.siteName ?: '—'}">Nombre sitio</td>
+          <td th:text="${r.type ?: '—'}">Tipo</td>
+          <td th:text="${r.shiftPatternName ?: '—'}">Jornada</td>
           <td th:text="${r.startDate != null ? #temporals.format(r.startDate, 'yyyy-MM-dd') : '—'}">2025-01-01</td>
           <td th:text="${r.endDate != null ? #temporals.format(r.endDate, 'yyyy-MM-dd') : '—'}">2025-12-31</td>
 
@@ -21,7 +21,7 @@
           </td>
         </tr>
 
-        <tr th:unless="${shiftRequests != null and !shiftRequests.isEmpty()}">
+        <tr th:unless="${shiftRequests != null or !shiftRequests.isEmpty()}">
           <td colspan="100" style="text-align:center; padding: 2rem;">No hay datos disponibles</td>
         </tr>
         <tr>
