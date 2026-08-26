@@ -108,7 +108,7 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               AND s.id = COALESCE(:siteId, s.id)
               AND r.type = COALESCE(:type, r.type)
        GROUP BY
-       r.id, r.externalId, r.code, s.id, s.name, r.shifPattern.name,
+       r.id, r.externalId, r.code, s.id, s.name, r.shiftPattern.name,
        p.id, p.name, r.clientAccountId, r.type, r.startDate, r.endDate,
        r.status, r.description, r.createdAt
        ORDER BY r.startDate DESC
