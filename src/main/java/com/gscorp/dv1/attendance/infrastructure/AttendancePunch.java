@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
 
 import com.gscorp.dv1.hr.employees.infrastructure.Employee;
+import com.gscorp.dv1.operations.shifts.infrastructure.Shift;
 import com.gscorp.dv1.operations.sites.infrastructure.Site;
 import com.gscorp.dv1.users.infrastructure.User;
 
@@ -57,6 +58,13 @@ public class AttendancePunch {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User user;
+
+    @Column(name = "shift_id")
+    private Long shiftId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shift_id", insertable = false, updatable = false)
+    private Shift shift;
 
     @Column(name="ts", nullable=false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
     OffsetDateTime ts;

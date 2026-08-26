@@ -57,11 +57,9 @@ export async function initShiftCoverageDonuts(
         
         // Mostramos el valor real actual (o los pendientes si cambias la lógica)
         // if (valueNode) valueNode.textContent = item.actualShifts.toString();
-        if (valueNode) valueNode.textContent = 'dos';
-        if (metaNode) {
-            metaNode.textContent = item.totalShifts.toString();
-        }
-        
+        if (valueNode) valueNode.textContent = item.inProgressShifts.toString();
+        if (metaNode) metaNode.textContent = item.totalShifts.toString();
+
         // Asignar ID único para inicializar ECharts sin colisiones
         const chartUniqueId = `donut-chart-node-${index}`;
         if (donutCanvasNode) {

@@ -59,7 +59,6 @@ public class ShiftServiceImpl implements ShiftService {
         return shiftRepository.save(shift);
     }
 
-
     @Transactional
     public void generateShiftsForNext30days(ShiftRequest shiftRequest, String username, ZoneId zone) {
         LocalDate start = LocalDate.now();
@@ -106,7 +105,6 @@ public class ShiftServiceImpl implements ShiftService {
         if(!shiftsToSave.isEmpty()) shiftRepository.saveAll(shiftsToSave);
     }
 
-
     //Helper method to know if adheresSchedule is true for the given date
     private boolean adheresSchedule(ShiftRequestScheduleProjection schedule, LocalDate date) {
         int javaDayOfWeek = date.getDayOfWeek().getValue(); //1=Monday, 7=Sunday
@@ -124,7 +122,6 @@ public class ShiftServiceImpl implements ShiftService {
         || dayOfWeek.getDayNumber() <= to.getDayNumber();
 
     }
-
 
     @Transactional
     public void processApprovedShiftRequests() {
@@ -146,7 +143,6 @@ public class ShiftServiceImpl implements ShiftService {
         }
     }
 
-
     @Transactional(readOnly = true)
     public Page<ShiftDto> getLastShiftsByShiftRequest(
                             UUID userExternalId,
@@ -163,7 +159,6 @@ public class ShiftServiceImpl implements ShiftService {
                                             shiftRequestExternalId, pageable);
         return projections.map(sp -> ShiftDto.fromProjection(sp, zoneId));
     }
-
 
     @Transactional(readOnly = true)
     public List<ShiftDto> getUpcomingByShiftAssignmentExternalId(
@@ -255,5 +250,48 @@ public class ShiftServiceImpl implements ShiftService {
         return shifts.stream()
                 .map(shift -> ShiftDto.fromProjection(shift, zoneId))
                 .toList();
+    }
+
+    @Transactional
+    public Shift assignAndStartShift(UUID userExternalId, OffsetDateTime punchTs){
+        if (userExternalId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
+        }
+        if (punchTs == null) {
+            throw new IllegalArgumentException("El timestamp de marcación es obligatorio");
+        }
+        // Verificar si ya tiene un turno activo
+        Optional<Shift> activeShiftOpt = shiftRepository.findActiveShiftToAssign(userExternalId);
+        if(activeShiftOpt.isPresent()) return activeShiftOpt.get();
+        // Definir ventana de marcación.
+        OffsetDateTime startWindow = punchTs.minusHours(2);
+        OffsetDateTime endWindow = punchTs.plusHours(2);
+        Optional<Shift> shiftOpt = shiftRepository.findFirstShiftToAssign(
+                                            userExternalId, startWindow, endWindow);
+        if (shiftOpt.isPresent()){
+            Shift shift = shiftOpt.get();
+            shift.setStatus(ShiftStatus.IN_PROGRESS);
+            shift.setStartExecutionTs(punchTs);
+            return shiftRepository.save(shift);
+        }
+        return null;
+    }
+
+    @Transactional
+    public Shift completeShift (UUID userExternalId, OffsetDateTime punchTs){
+        if (userExternalId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
+        }
+        if (punchTs == null) {
+            throw new IllegalArgumentException("El timestamp de marcación es obligatorio");
+        }
+        Optional<Shift> activeShiftOpt = shiftRepository.findActiveShiftToAssign(userExternalId);
+        if(activeShiftOpt.isPresent()){
+            Shift shift = activeShiftOpt.get();
+            shift.setStatus(ShiftStatus.COMPLETED);
+            shift.setEndExecutionTs(punchTs);
+            return shiftRepository.save(shift);
+        }
+        return null;
     }
 }

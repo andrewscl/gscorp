@@ -66,6 +66,14 @@ public interface ShiftService {
                             int limit
                         );
 
-    
+    Shift assignAndStartShift(
+                        UUID userExternalId,
+                        OffsetDateTime punchTs
+    );
+
+    Shift completeShift(
+                        UUID userExternalId,
+                        OffsetDateTime punchTs
+    );
 
 }

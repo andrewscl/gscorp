@@ -67,6 +67,12 @@ public class Shift {
     @Column(name="end_ts",   nullable=false)
     private OffsetDateTime endTs;
 
+    @Column(name = "start_execution_ts", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private OffsetDateTime startExecutionTs;
+
+    @Column(name = "end_execution_ts", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private OffsetDateTime endExecutionTs;
+
     @Column(name="description", length=500)
     private String description;
 

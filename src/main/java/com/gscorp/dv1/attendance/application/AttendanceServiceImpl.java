@@ -8,8 +8,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.gscorp.dv1.admin.clients.application.ClientService;
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunch;
@@ -25,6 +27,9 @@ import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.hr.employees.application.EmployeeService;
 import com.gscorp.dv1.hr.employees.web.dto.EmployeeSelectDto;
+import com.gscorp.dv1.operations.shifts.application.ShiftService;
+import com.gscorp.dv1.operations.shifts.infrastructure.Shift;
+import com.gscorp.dv1.operations.shifts.infrastructure.ShiftRepository;
 import com.gscorp.dv1.operations.sites.application.SiteService;
 import com.gscorp.dv1.operations.sites.web.dto.SiteSelectDto;
 
@@ -51,113 +56,134 @@ public class AttendanceServiceImpl implements AttendanceService {
   private final EmployeeService employeeService;
   private final ZoneResolver zoneResolver;
   private final ClientService clientService;
+  private final ShiftRepository shiftRepository;
+  private final ShiftService shiftService;
 
   private static final double MAX_DIST_METERS = 250.0;
   private static final DateTimeFormatter TS_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 
-  @Transactional
-  public AttendancePunchDto createPunch(
-      CreateAttendancePunchRequest req, UUID userExternalId
-    ) {
+    @Transactional
+    public AttendancePunchDto createPunch(
+        CreateAttendancePunchRequest req, UUID userExternalId
+        ) {
+        ZoneResolutionResult zoneResult = zoneResolver.
+                                            resolveZone(userExternalId, req.getClientTimezone());
+        ZoneId zone = zoneResult.zoneId();
+        var now  = OffsetDateTime.now(zone);
+        // anti doble-click: buscar última marcación del usuario
+        Optional<AttendancePunchShortProjection> lastOpt = repo.findFirstByUserExternalIdOrderByTsDesc(userExternalId);
+        if(lastOpt.isPresent()) {
+            AttendancePunchShortProjection last = lastOpt.get();
+            long secondsSinceLastPunch = Duration.between(last.getTs(), now).getSeconds();
+            if(Math.abs(secondsSinceLastPunch) < 30) {
+                throw new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS,
+                    "Debes esperar al menos 30 segundos entre marcaciones."
+                );
+            }
+        }
+        Double lat = req.getLat();
+        Double lon = req.getLon();
+        Double acc = req.getAccuracy();
+        if (lat == null || lon == null) {
+            throw new IllegalArgumentException("lat/lon son obligatorios para crear una marcación");
+        }
+        // Busca el site más cercano a la marcación
+        SiteSelectDto nearestSite = siteService.findNearestSite(userExternalId, lat, lon);
+        if (nearestSite == null)
+                    throw new IllegalStateException("No hay sitios registrados");
+        double siteLat = nearestSite.lat();
+        double siteLon = nearestSite.lon();
+        // Obtener empleado asociado al userId
+        EmployeeSelectDto employee = employeeService.findEmployeeByUserExternalId(userExternalId);
+        if (employee == null) {
+            throw new IllegalStateException("El usuario no tiene un empleado asociado");
+        }
+        String ip = req.getIp();
+        String ua = req.getDeviceInfo();
+        double dist = siteService.haversineMeters(lat, lon, siteLat, siteLon);
+        boolean ok  = dist <= MAX_DIST_METERS;
+        // Buscar si existe un turno activo cubierto por el usuario
+        Optional<Shift> activeShiftOpt = shiftRepository.findActiveShiftToAssign(userExternalId);
+        String nextAction;
+        if(activeShiftOpt.isPresent()){
+            nextAction = "OUT";
+        } else {
+            OffsetDateTime startWindow = now.minusHours(2);
+            OffsetDateTime endWindow = now.plusHours(2);
+            Optional<Shift> plannedShiftOpt = shiftRepository.findFirstShiftToAssign(
+                                                    userExternalId, startWindow, endWindow);
+            if(plannedShiftOpt.isEmpty()){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "No tienes un turno activo ni un turno pendiente por iniciar en este horario."
+                );
+            }
+            nextAction = "IN";
+        }
+        AttendancePunch entity = AttendancePunch.builder()
+            .siteId(nearestSite.id())
+            .employeeId(employee.id())
+            .userId(employee.userId())
+            .clientTs(req.getClientTs())
+            .lat(lat)
+            .lon(lon)
+            .accuracyM(acc)
+            .action(nextAction)
+            .locationOk(ok)
+            .distanceM(dist)
+            .ip(ip)
+            .deviceInfo(ua)
+            .clientTimezone(req.getClientTimezone())
+            .build();
+        // Persistir entidad y manejar posibles violaciones de integridad/concurrencia
+        AttendancePunch persisted;
+        try {
+            persisted = repo.save(entity);
+            // flush opcional si quieres asegurar que constraints sean validados ahora: repo.flush();
+        } catch (DataIntegrityViolationException ex) {
+            // Capturar race-conditions (por ejemplo si employee fue asociado por otro hilo) y volver a informar
+            throw new IllegalStateException("No se pudo crear la marcación por conflicto de integridad", ex);
+        }
+        // Determinar el timestamp oficial
+        OffsetDateTime punchTs = persisted.getTs() != null ? persisted.getTs() : now;
+        // Delegar actualización del estado del turno a ShiftService
+        Shift targetShift;
+        if("IN".equalsIgnoreCase(nextAction)){
+            targetShift = shiftService.assignAndStartShift(userExternalId, punchTs);
+        } else {
+            targetShift = shiftService.completeShift(userExternalId, punchTs);
+        }
+        if(targetShift != null){
+            persisted.setShiftId(targetShift.getId());
+        }
+        //Formatear ts para la respuesta (user ts persistido para consistencia)
+        OffsetDateTime ts = persisted.getTs() != null ? persisted.getTs() : now;
+        String tsFormatted = ts.format(TS_FMT);
+        AttendancePunchDto response  = new AttendancePunchDto(
+            persisted.getId(),
+            persisted.getUserId(),
+            employee.id(),
+            employee.name(),
+            employee.fatherSurname(),
+            persisted.getSiteId(),
+            nearestSite.name(),
+            ts,
+            persisted.getLat(),
+            persisted.getLon(),
+            persisted.getAccuracyM(),
+            persisted.getAction(),
+            persisted.getLocationOk(),
+            persisted.getDistanceM(),
+            persisted.getDeviceInfo(),
+            persisted.getIp(),
+            persisted.getTimezoneSource(),
+            persisted.getCreatedAt(),
+            persisted.getUpdatedAt(),
+            tsFormatted
+        );
 
-      // anti doble-click: buscar última marcación del usuario
-      Optional<AttendancePunchShortProjection> lastOpt = repo.findFirstByUserExternalIdOrderByTsDesc(userExternalId);
-      AttendancePunchShortProjection last = lastOpt.orElse(null);
-
-      //Resolver zona para ahora()
-      ZoneResolutionResult zoneResult = zoneResolver.
-                                          resolveZone(userExternalId, req.getClientTimezone());
-      ZoneId zone = zoneResult.zoneId();
-      var now  = OffsetDateTime.now(zone);
-
-      // determinar lat/lon/accuracy desde request y validar que existan
-      Double lat = req.getLat();
-      Double lon = req.getLon();
-      Double acc = req.getAccuracy();
-
-      if (lat == null || lon == null) {
-        throw new IllegalArgumentException("lat/lon son obligatorios para crear una marcación");
-      }
-
-      // Busca el site más cercano a la marcación
-      SiteSelectDto nearestSite = siteService.findNearestSite(userExternalId, lat, lon);
-      if (nearestSite == null)
-                throw new IllegalStateException("No hay sitios registrados");
-
-      double siteLat = nearestSite.lat();
-      double siteLon = nearestSite.lon();
-
-      // Obtener empleado asociado al userId
-      EmployeeSelectDto employee = employeeService.findEmployeeByUserExternalId(userExternalId);
-      if (employee == null) {
-        throw new IllegalStateException("El usuario no tiene un empleado asociado");
-      }
-
-      String ip = req.getIp();
-      String ua = req.getDeviceInfo();
-
-      double dist = siteService.haversineMeters(lat, lon, siteLat, siteLon);
-      boolean ok  = dist <= MAX_DIST_METERS;
-
-      String nextAction =
-              (last == null || "OUT".equalsIgnoreCase(last.getAction())) ? "IN" : "OUT";
-
-      AttendancePunch entity = AttendancePunch.builder()
-          .siteId(nearestSite.id())
-          .employeeId(employee.id())
-          .userId(employee.userId())
-          .clientTs(req.getClientTs())
-          .lat(lat)
-          .lon(lon)
-          .accuracyM(acc)
-          .action(nextAction)
-          .locationOk(ok)
-          .distanceM(dist)
-          .ip(ip)
-          .deviceInfo(ua)
-          .clientTimezone(req.getClientTimezone())
-          .build();
-
-      // Persistir entidad y manejar posibles violaciones de integridad/concurrencia
-      AttendancePunch persisted;
-      try {
-          persisted = repo.save(entity);
-          // flush opcional si quieres asegurar que constraints sean validados ahora: repo.flush();
-      } catch (DataIntegrityViolationException ex) {
-          // Capturar race-conditions (por ejemplo si employee fue asociado por otro hilo) y volver a informar
-          throw new IllegalStateException("No se pudo crear la marcación por conflicto de integridad", ex);
-      }
-
-      //Formatear ts para la respuesta (user ts persistido para consistencia)
-      OffsetDateTime ts = persisted.getTs() != null ? persisted.getTs() : now;
-      String tsFormatted = ts.format(TS_FMT);
-
-      AttendancePunchDto response  = new AttendancePunchDto(
-          persisted.getId(),
-          persisted.getUserId(),
-          employee.id(),
-          employee.name(),
-          employee.fatherSurname(),
-          persisted.getSiteId(),
-          nearestSite.name(),
-          ts,
-          persisted.getLat(),
-          persisted.getLon(),
-          persisted.getAccuracyM(),
-          persisted.getAction(),
-          persisted.getLocationOk(),
-          persisted.getDistanceM(),
-          persisted.getDeviceInfo(),
-          persisted.getIp(),
-          persisted.getTimezoneSource(),
-          persisted.getCreatedAt(),
-          persisted.getUpdatedAt(),
-          tsFormatted
-      );
-
-    return response;
-  }
+        return response;
+    }
 
 
 

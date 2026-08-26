@@ -259,4 +259,36 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
                 @Param("shiftStatus") ShiftStatus status
         );
 
+        @Query("""
+            SELECT s
+            FROM Shift s
+            JOIN s.assignment sa
+            JOIN sa.employee e
+            JOIN e.user u
+            WHERE u.externalId = :userExternalId
+            AND s.startTs <= :endWindow
+            AND s.startTs >= :startWindow
+            AND s.status IN ('PLANNED', 'UNCOVERED')
+            ORDER BY s.startTs ASC
+        """)
+        Optional<Shift> findFirstShiftToAssign(
+                @Param("userExternalId") UUID userExternalId,
+                @Param("startWindow") OffsetDateTime startWindow,
+                @Param("endWindow") OffsetDateTime endWindow
+        );
+
+        @Query("""
+            SELECT s
+            FROM Shift s
+            JOIN s.assignment sa
+            JOIN sa.employee e
+            JOIN e.user u
+            WHERE u.externalId = :userExternalId
+            AND s.status IN ('IN_PROGRESS')
+            ORDER BY s.startTs DESC
+        """)
+        Optional<Shift> findActiveShiftToAssign(
+                @Param("userExternalId") UUID userExternalId
+        );
+
 }
