@@ -50,6 +50,8 @@ import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestSelectDto;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.UpdateShiftRequestDto;
 import com.gscorp.dv1.operations.sites.application.SiteService;
 import com.gscorp.dv1.operations.sites.infrastructure.Site;
+import com.gscorp.dv1.users.application.UserScopeService;
+import com.gscorp.dv1.users.application.dto.ProjectScope;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -67,6 +69,7 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
     private final ZoneResolver zoneResolver;
     private final TransactionTemplate transactionTemplate;
     private final ShiftPatternService shiftPatternService;
+    private final UserScopeService userScopeService;
 
 
     @Transactional(readOnly = true)
@@ -412,13 +415,10 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
                     int page,
                     int size
                     ) {
-
-        List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);
-        if (clientIds == null || clientIds.isEmpty()) {
-            log.debug("No clientIds for user {} -> returning zero series for {}..{}", userExternalId, fromDate, toDate);
-            return Page.empty();
+        if (userExternalId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
         }
-
+        ProjectScope scope = userScopeService.getProjectScope();
         LocalDate today = LocalDate.now(zoneId);
         if (toDate == null) toDate = today;
         if (fromDate == null) fromDate = toDate.minusYears(1);
@@ -431,8 +431,8 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
         PageRequest pageable = PageRequest.of(safePage, safeSize, Sort.by(Sort.Direction.DESC, "startDate"));
 
         Page<ShiftRequestProjection> projections =
-                    shiftRequestRepository.findPageByClientIds(
-                            clientIds, start, endExclusive,
+                    shiftRequestRepository.findPageByProjectIds(
+                            scope.ignoreFilter(), scope.projectIds(), start, endExclusive,
                             siteId, projectId, type, pageable);
 
         return projections.map(ShiftRequestDto::fromProjection);

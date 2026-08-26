@@ -225,4 +225,57 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               @Param("status") ShiftRequestStatus status
        );
 
+       @Query(
+              value = """
+              SELECT
+              sr.id                AS id,
+              sr.externalId        AS externalId,
+              sr.code              AS code,
+              s.id                 AS siteId,
+              s.name               AS siteName,
+              sr.shiftPattern.name AS shiftPatternName,
+              p.id                 AS projectId,
+              p.name               AS projectName,
+              sr.clientAccountId   AS clientAccountId,
+              sr.type              AS type,
+              sr.startDate         AS startDate,
+              sr.endDate           AS endDate,
+              sr.status            AS status,
+              sr.description       AS description,
+              sr.createdAt         AS createdAt,
+              SIZE(sr.schedules)   AS schedulesCount
+              FROM ShiftRequest sr
+              LEFT JOIN sr.site s
+              LEFT JOIN s.project p
+              WHERE p.client.id IN :clientIds
+              AND sr.startDate >= COALESCE(:startDate, sr.startDate)
+              AND sr.startDate <  COALESCE(:endExclusiveDate, sr.startDate) 
+              AND (:siteId IS NULL OR s.id = :siteId)
+              AND (:projectId IS NULL OR p.id = :projectId)
+              AND (:shiftRequestType IS NULL OR sr.type = :shiftRequestType)
+              """,
+              countQuery = """
+              SELECT COUNT(sr.id)
+              FROM ShiftRequest sr
+              LEFT JOIN sr.site s
+              LEFT JOIN s.project p
+              WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds
+              AND sr.startDate >= COALESCE(:startDate, sr.startDate)
+              AND sr.startDate <  COALESCE(:endExclusiveDate, sr.startDate) 
+              AND (:siteId IS NULL OR s.id = :siteId)
+              AND (:projectId IS NULL OR p.id = :projectId)
+              AND (:shiftRequestType IS NULL OR sr.type = :shiftRequestType)
+              """
+       )
+       Page<ShiftRequestProjection> findPageByProjectIds(
+              @Param("ignoreProjectFilter") boolean ignoreProjectFilter, 
+              @Param("projectIds") List<Long> projectIds,
+              @Param("startDate") OffsetDateTime startDate,
+              @Param("endExclusiveDate") OffsetDateTime endExclusiveDate,
+              @Param("siteId") Long siteId,
+              @Param("projectId") Long projectId,
+              @Param("shiftRequestType") ShiftRequestType shiftRequestType,
+              Pageable pageable
+       );
+
 }

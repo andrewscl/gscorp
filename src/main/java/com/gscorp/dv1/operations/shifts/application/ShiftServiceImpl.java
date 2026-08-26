@@ -195,6 +195,9 @@ public class ShiftServiceImpl implements ShiftService {
                         int page,
                         int size,
                         String zoneIdStr){
+        if (userExternalId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
+        }
         ProjectScope scope = userScopeService.getProjectScope();
         int safePage = Math.max(0, page);
         int safeSize = Math.min(Math.max(5, size), 200);
