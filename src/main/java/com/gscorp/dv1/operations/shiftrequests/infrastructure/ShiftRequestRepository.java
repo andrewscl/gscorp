@@ -158,8 +158,7 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               sr.endDate           AS endDate,
               sr.status            AS status,
               sr.description       AS description,
-              sr.createdAt         AS createdAt,
-              SIZE(sr.schedules)   AS schedulesCount
+              sr.createdAt         AS createdAt
               FROM ShiftRequest sr
               LEFT JOIN sr.site s
               LEFT JOIN s.project p
@@ -211,8 +210,7 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               sr.endDate           AS endDate,
               sr.status            AS status,
               sr.description       AS description,
-              sr.createdAt         AS createdAt,
-              SIZE(sr.schedules)   AS schedulesCount
+              sr.createdAt         AS createdAt
               FROM ShiftRequest sr
               LEFT JOIN sr.site s
               LEFT JOIN s.project p
@@ -228,22 +226,21 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
        @Query(
               value = """
               SELECT
-              sr.id                AS id,
-              sr.externalId        AS externalId,
-              sr.code              AS code,
-              s.id                 AS siteId,
-              s.name               AS siteName,
-              sr.shiftPattern.name AS shiftPatternName,
-              p.id                 AS projectId,
-              p.name               AS projectName,
-              sr.clientAccountId   AS clientAccountId,
-              sr.type              AS type,
-              sr.startDate         AS startDate,
-              sr.endDate           AS endDate,
-              sr.status            AS status,
-              sr.description       AS description,
-              sr.createdAt         AS createdAt,
-              SIZE(sr.schedules)   AS schedulesCount
+                     sr.id                AS id,
+                     sr.externalId        AS externalId,
+                     sr.code              AS code,
+                     s.id                 AS siteId,
+                     s.name               AS siteName,
+                     sr.shiftPattern.name AS shiftPatternName,
+                     p.id                 AS projectId,
+                     p.name               AS projectName,
+                     sr.clientAccountId   AS clientAccountId,
+                     sr.type              AS type,
+                     sr.startDate         AS startDate,
+                     sr.endDate           AS endDate,
+                     sr.status            AS status,
+                     sr.description       AS description,
+                     sr.createdAt         AS createdAt
               FROM ShiftRequest sr
               LEFT JOIN sr.site s
               LEFT JOIN s.project p
