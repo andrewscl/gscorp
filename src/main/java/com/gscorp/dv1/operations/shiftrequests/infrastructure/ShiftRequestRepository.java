@@ -83,11 +83,11 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
        @Query("""
        SELECT
               r.id                 AS id,
-              r.externalId         AS shiftRequestExternalId
+              r.externalId         AS externalId,
               r.code               AS code,
               s.id                 AS siteId,
               s.name               AS siteName,
-              r.shifPattern.name   AS shiftPatternName,
+              r.shiftPattern.name   AS shiftPatternName,
               p.id                 AS projectId,
               p.name               AS projectName,
               r.clientAccountId    AS clientAccountId,
@@ -108,9 +108,10 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               AND s.id = COALESCE(:siteId, s.id)
               AND r.type = COALESCE(:type, r.type)
        GROUP BY
-       r.id, r.code, s.id, s.name, r.shifPattern.name, r.clientAccountId,
-       p.id, p.namr, r.type, r.startDate, r.endDate, r.status,
-       r.description, r.createdAt ORDER BY r.startDate DESC
+       r.id, r.externalId, r.code, s.id, s.name, r.shifPattern.name,
+       p.id, p.name, r.clientAccountId, r.type, r.startDate, r.endDate,
+       r.status, r.description, r.createdAt
+       ORDER BY r.startDate DESC
        """)
        List<ShiftRequestProjection> findProjectionByUserAndDateBetween(
        @Param("clientIds") List<Long> clientIds,
