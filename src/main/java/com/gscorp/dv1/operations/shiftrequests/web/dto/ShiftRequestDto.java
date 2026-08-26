@@ -22,7 +22,8 @@ public record ShiftRequestDto(
         LocalDate endDate,
         ShiftRequestStatus status,
         String description,
-        LocalDateTime createdAt
+        LocalDateTime createdAt,
+        Integer schedulesCount
     ) {
         public static ShiftRequestDto
                 fromProjection(ShiftRequestProjection sr) {
@@ -40,13 +41,16 @@ public record ShiftRequestDto(
                 sr.getEndDate(),
                 sr.getStatus(),
                 sr.getDescription(),
-                sr.getCreatedAt()
+                sr.getCreatedAt(),
+                sr.getSchedulesCount() == null ? 0 : sr.getSchedulesCount()
             );
         }
 
         public static ShiftRequestDto
                 fromEntity(ShiftRequest sr) {
             if (sr == null) return null;
+            int schedulesCount =
+                (sr.getSchedules() != null) ? sr.getSchedules().size() : 0;
             return new ShiftRequestDto(
                 sr.getId(),
                 sr.getExternalId(),
@@ -60,7 +64,8 @@ public record ShiftRequestDto(
                 sr.getEndDate(),
                 sr.getStatus(),
                 sr.getDescription(),
-                sr.getCreatedAt()
+                sr.getCreatedAt(),
+                schedulesCount
             );
         }
 
