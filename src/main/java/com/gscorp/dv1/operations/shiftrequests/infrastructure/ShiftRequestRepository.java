@@ -248,8 +248,8 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               LEFT JOIN sr.site s
               LEFT JOIN s.project p
               WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
-              AND (cast(:startDate as String) IS NULL OR sr.startDate >= COALESCE(:startDate, sr.startDate)
-              AND (cast(:endExclusiveDate as String) IS NULL OR sr.startDate <  COALESCE(:endExclusiveDate, sr.startDate) 
+              AND (startDate IS NULL OR sr.startDate >= COALESCE(:startDate, sr.startDate)
+              AND (endExclusiveDate IS NULL OR sr.startDate <  COALESCE(:endExclusiveDate, sr.startDate) 
               AND (:siteId IS NULL OR s.id = :siteId)
               AND (:projectId IS NULL OR p.id = :projectId)
               AND (:shiftRequestType IS NULL OR sr.type = :shiftRequestType)
@@ -260,8 +260,8 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               LEFT JOIN sr.site s
               LEFT JOIN s.project p
               WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
-              AND (cast(:startDate as String) IS NULL OR sr.startDate >= COALESCE(:startDate, sr.startDate)
-              AND (cast(:endExclusiveDate as String) IS NULL OR sr.startDate <  COALESCE(:endExclusiveDate, sr.startDate) 
+              AND (:startDate IS NULL OR sr.startDate >= COALESCE(:startDate, sr.startDate)
+              AND (endExclusiveDate IS NULL OR sr.startDate <  COALESCE(:endExclusiveDate, sr.startDate) 
               AND (:siteId IS NULL OR s.id = :siteId)
               AND (:projectId IS NULL OR p.id = :projectId)
               AND (:shiftRequestType IS NULL OR sr.type = :shiftRequestType)
