@@ -82,18 +82,22 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
 
        @Query("""
        SELECT
-              r.id                                  AS id,
-              r.code                                AS code,
-              s.id                                  AS siteId,
-              s.name                                AS siteName,
-              r.clientAccountId                     AS clientAccountId,
-              r.type                                AS type,
-              r.startDate                           AS startDate,
-              r.endDate                             AS endDate,
-              r.status                              AS status,
-              r.description                         AS description,
-              r.createdAt                           AS createdAt,
-       COUNT(sc.id)                          AS schedulesCount
+              r.id                 AS id,
+              r.externalId         AS shiftRequestExternalId
+              r.code               AS code,
+              s.id                 AS siteId,
+              s.name               AS siteName,
+              r.shifPattern.name   AS shiftPatternName,
+              p.id                 AS projectId,
+              p.name               AS projectName,
+              r.clientAccountId    AS clientAccountId,
+              r.type               AS type,
+              r.startDate          AS startDate,
+              r.endDate            AS endDate,
+              r.status             AS status,
+              r.description        AS description,
+              r.createdAt          AS createdAt,
+              COUNT(sc.id)         AS schedulesCount
        FROM ShiftRequest r
        JOIN r.site s
        JOIN s.project p
@@ -144,6 +148,7 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               sr.code              AS code,
               s.id                 AS siteId,
               s.name               AS siteName,
+              s.shiftPattern.name  AS shiftPatternName,
               p.id                 AS projectId,
               p.name               AS projectName,
               sr.clientAccountId   AS clientAccountId,
@@ -152,7 +157,8 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               sr.endDate           AS endDate,
               sr.status            AS status,
               sr.description       AS description,
-              sr.createdAt         AS createdAt
+              sr.createdAt         AS createdAt,
+              SIZE(sr.schedules)   AS schedulesCount
               FROM ShiftRequest sr
               LEFT JOIN sr.site s
               LEFT JOIN s.project p
@@ -195,6 +201,7 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               sr.code              AS code,
               s.id                 AS siteId,
               s.name               AS siteName,
+              sr.shiftPattern.name AS shiftPatternName,
               p.id                 AS projectId,
               p.name               AS projectName,
               sr.clientAccountId   AS clientAccountId,
@@ -203,7 +210,8 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               sr.endDate           AS endDate,
               sr.status            AS status,
               sr.description       AS description,
-              sr.createdAt         AS createdAt
+              sr.createdAt         AS createdAt,
+              SIZE(sr.schedules)   AS schedulesCount
               FROM ShiftRequest sr
               LEFT JOIN sr.site s
               LEFT JOIN s.project p

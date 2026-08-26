@@ -15,6 +15,8 @@ public interface ShiftRequestProjection {
     Long getSiteId();
     String getSiteName();
     String getShiftPatternName();
+    Long projectId();
+    String projectName();
     Long getClientAccountId();
     ShiftRequestType getType();
     LocalDate getStartDate();
