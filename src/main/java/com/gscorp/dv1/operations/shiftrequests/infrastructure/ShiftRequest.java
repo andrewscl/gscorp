@@ -10,6 +10,7 @@ import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.enums.ShiftRequestType;
 import com.gscorp.dv1.operations.shiftpatterns.infrastructure.ShiftPattern;
 import com.gscorp.dv1.operations.sites.infrastructure.Site;
+import com.gscorp.dv1.operations.sitezones.infrastructure.SiteZone;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -67,6 +68,10 @@ public class ShiftRequest {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shift_pattern_id")
     private ShiftPattern shiftPattern;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "site_zone_id")
+    private SiteZone siteZone;
 
     @Column(name = "start_date", nullable = false)
     private LocalDate startDate;

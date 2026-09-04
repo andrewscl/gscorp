@@ -1,7 +1,9 @@
 package com.gscorp.dv1.operations.sites.infrastructure;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -10,6 +12,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.gscorp.dv1.admin.projects.infrastructure.Project;
 import com.gscorp.dv1.operations.patrol.infrastructure.patrols.Patrol;
+import com.gscorp.dv1.operations.sitezones.infrastructure.SiteZone;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -51,6 +54,11 @@ public class Site {
     @ManyToOne(optional=false, fetch=FetchType.LAZY)
     @JoinColumn(name="project_id")
     Project project;
+
+    @Builder.Default
+    @OneToMany (mappedBy = "site", cascade = CascadeType.ALL,
+                            orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<SiteZone> siteZones = new ArrayList<>();
 
     @Column(nullable=false, length=160)
     String name;
