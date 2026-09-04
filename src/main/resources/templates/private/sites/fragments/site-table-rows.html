@@ -1,11 +1,9 @@
 <th:block th:fragment="rows">
 
     <tr th:each="s : ${sites}">
-        <td th:text="${s.id}"></td>
         <td th:text="${s.name}"></td>
         <td th:text="${s.address}">—</td>
         <td th:text="${s.projectName != null ? s.projectName : '—'}">—</td>
-        <td th:text="${s.timeZone}">—</td>
         <td>
             <span class="tag"
                   th:text="${s.active} ? 'Activo' : 'Inactivo'">Activo</span>
