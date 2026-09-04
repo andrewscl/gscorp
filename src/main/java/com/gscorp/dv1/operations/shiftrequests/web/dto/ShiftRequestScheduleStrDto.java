@@ -44,4 +44,15 @@ public record ShiftRequestScheduleStrDto (
             sp.getRequestEndDate()
         );
     }
+
+    public String toDisplayString() {
+        String days = dayFrom.equalsIgnoreCase(dayTo)
+            ? dayFrom
+            : dayFrom + " - " + dayTo;
+        String hours = (startTime != null && endTime != null)
+            ? String.format("%s - %s", startTime, endTime)
+            : "";
+        return days + " (" + hours + ") ";
+    }
+
 }

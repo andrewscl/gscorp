@@ -61,7 +61,7 @@ public interface ShiftRequestService {
             ShiftRequestType type
     );
 
-    Page<ShiftRequestDto> getShiftRequestsTable(
+    Page<ShiftRequestSelectDto> getShiftRequestsTable(
                     UUID userExternalId,
                     ZoneId zoneId,
                     LocalDate fromDate,

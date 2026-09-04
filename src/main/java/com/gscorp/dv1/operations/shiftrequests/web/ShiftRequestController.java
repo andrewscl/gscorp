@@ -23,9 +23,9 @@ import com.gscorp.dv1.enums.ShiftRequestType;
 import com.gscorp.dv1.operations.shiftpatterns.application.ShiftPatternService;
 import com.gscorp.dv1.operations.shiftrequests.application.ShiftRequestService;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestDtoWithSchedules;
+import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestSelectDto;
 import com.gscorp.dv1.operations.shifts.application.ShiftService;
 import com.gscorp.dv1.operations.shifts.web.dto.ShiftDto;
-import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestDto;
 import com.gscorp.dv1.operations.sites.application.SiteService;
 import com.gscorp.dv1.operations.sites.web.dto.SiteDto;
 
@@ -62,7 +62,7 @@ public class ShiftRequestController {
                         zoneResolver.resolveZone(externalId, cleanClientTz);
         ZoneId zoneId = zoneResult.zoneId();
 
-        Page<ShiftRequestDto> shiftRequests =
+        Page<ShiftRequestSelectDto> shiftRequests =
                 shiftRequestService.getShiftRequestsTable(
                             externalId, zoneId,
                             null, null, null, null,
@@ -170,7 +170,7 @@ public class ShiftRequestController {
             to = tmp;
         }
 
-        Page<ShiftRequestDto> shiftRequests =
+        Page<ShiftRequestSelectDto> shiftRequests =
                 shiftRequestService.getShiftRequestsTable(
                             externalId, zoneId,
                             from, to, siteId, projectId,

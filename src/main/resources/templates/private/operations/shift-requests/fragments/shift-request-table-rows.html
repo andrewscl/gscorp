@@ -2,8 +2,9 @@
         <tr th:each="r : ${shiftRequests}" th:data-id="${r.id}">
           <td th:text="${r.code}">TR001</td>
           <td th:text="${r.siteName ?: '—'}">Nombre sitio</td>
-          <td th:text="${r.type ?: '—'}">Tipo</td>
+          <td th:text="${r.type.displayName ?: '—'}">Tipo</td>
           <td th:text="${r.shiftPatternName ?: '—'}">Jornada</td>
+          <td th:utext="${r.formattedSchedules}">Lunes a Viernes (08:00 - 16:00)</td>
           <td th:text="${r.startDate != null ? #temporals.format(r.startDate, 'yyyy-MM-dd') : '—'}">2025-01-01</td>
           <td th:text="${r.endDate != null ? #temporals.format(r.endDate, 'yyyy-MM-dd') : '—'}">2025-12-31</td>
 

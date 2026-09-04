@@ -404,7 +404,7 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
 
 
     @Transactional(readOnly = true)
-    public Page<ShiftRequestDto> getShiftRequestsTable(
+    public Page<ShiftRequestSelectDto> getShiftRequestsTable(
                     UUID userExternalId,
                     ZoneId zoneId,
                     LocalDate fromDate,
@@ -428,11 +428,39 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
         int safePage = Math.max(0, page);
         int safeSize = Math.min(Math.max(5, size), 200);
         PageRequest pageable = PageRequest.of(safePage, safeSize, Sort.by(Sort.Direction.DESC, "startDate"));
-        Page<ShiftRequestProjection> projections =
-                    shiftRequestRepository.findPageByProjectIds(
-                            scope.ignoreFilter(), scope.projectIds(), start, endExclusive,
-                            siteId, projectId, type, pageable);
-        return projections.map(ShiftRequestDto::fromProjection);
+        Page<ShiftRequestProjection> projections = shiftRequestRepository.findPageByProjectIds(
+                            scope.ignoreFilter(),
+                            scope.projectIds(),
+                            start,
+                            endExclusive,
+                            siteId,
+                            projectId,
+                            type,
+                            pageable);
+        if (projections.isEmpty()) {
+            return Page.empty(pageable);
+        }
+        List<Long> shiftRequestIds = projections.stream()
+                    .map(p -> p.getId())
+                    .filter(id -> id != null)
+                    .distinct()
+                    .toList();
+        List<ShiftRequestScheduleProjection> schedules =
+            shiftRequestScheduleRepository.findByShiftRequestIds(shiftRequestIds);
+        Map<Long, List<ShiftRequestScheduleStrDto>> schedulesByRequestId =
+                    schedules
+                        .stream()
+                        .collect(Collectors.groupingBy(
+                            sp -> sp.getShiftRequestId(),
+                            Collectors.mapping(
+                                sp -> ShiftRequestScheduleStrDto.fromProjection(sp),
+                                Collectors.toList()
+                            )
+                        ));
+        return projections.map(p -> ShiftRequestSelectDto.fromProjection(
+                        p,
+                        schedulesByRequestId.getOrDefault(p.getId(), List.of())
+                ));
     }
 
     @Transactional(readOnly = true)
