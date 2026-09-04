@@ -1,6 +1,5 @@
-<section th:fragment="content">
-
-  <div class="dual-panel-card">
+<div class="create-site">
+  <div class="panel-container">
 
     <div class="panel-main">
       <div class="panel-header">
@@ -60,11 +59,12 @@
         <div class="content" id="map"></div>
       </div>
     </div>
+
   </div>
 
-    <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
+  <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
 
-    <div th:replace="~{shared/fragments/footer-buttons ::
+  <div th:replace="~{shared/fragments/footer-buttons ::
                         footer-buttons(
                             true, 'Crear sitio',
                             true, 'Cancelar',
@@ -72,4 +72,4 @@
       
   <script type="module" src="/js/private/sites/create-site.js"></script>
 
-</section>
+</div>

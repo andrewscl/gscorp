@@ -64,7 +64,7 @@ public class SiteController {
         model.addAttribute("projects", projectService.findAllWithClientsAndEmployees());
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
         model.addAttribute("googlemapid", googleMapId);
-        return "private/sites/views/create-site-view";
+        return "private/sites/fragments/create-site";
     }
 
     @GetMapping("/show/{id}")
