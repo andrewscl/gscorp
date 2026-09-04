@@ -11,12 +11,12 @@
 
         <td class="actions">
             <button type="button"
-                    class="btn-view"
+                    class="btn btn-view"
                     th:attr="data-path=@{/private/sites/show/{id}(id=${s.id})}">
               Ver
             </button>
             <button type="button"
-                    class="btn-edit"
+                    class="btn btn-edit"
                     th:attr="data-path=@{/private/sites/edit/{id}(id=${s.id})}"
                     th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
               Editar
