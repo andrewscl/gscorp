@@ -1,21 +1,20 @@
-@use '../../../abstracts/panel-cards' as *;
-@use '../../../abstracts/alerts' as *;
-@use '../../../abstracts/buttons/footer-buttons' as *;
-@use '../../../abstracts/buttons/btn-mixins' as *;
-@use '../../../abstracts/buttons/generic-buttons' as *;
-@use '../../../abstracts/palette' as *;
-@use '../../../abstracts/typography' as *;
-@use '../../../abstracts/variables' as *;
-@use '../../../abstracts/mixins' as *;
-@use '../../../abstracts/card-forms' as *;
-@use '../../../abstracts/panels/panel-main' as *;
-@use '../../../abstracts/panels/panel-aside' as *;
-@use '../../../abstracts/tables/tables' as *;
+@use '../abstracts/panel-cards' as *;
+@use '../abstracts/alerts' as *;
+@use '../abstracts/buttons/footer-buttons' as *;
+@use '../abstracts/buttons/btn-mixins' as *;
+@use '../abstracts/buttons/generic-buttons' as *;
+@use '../abstracts/palette' as *;
+@use '../abstracts/typography' as *;
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+@use '../abstracts/card-forms' as *;
+@use '../abstracts/panels/panel-main' as *;
+@use '../abstracts/panels/panel-aside' as *;
+@use '../abstracts/tables/tables' as *;
 
 .private-layout{
     .main-content{
         .content{
-
             .create-site{
                 @include dual-panel-card();
                 .panel-container{
@@ -23,28 +22,28 @@
                         @include panel-main();
                     }
                     .panel-aside{
-                        @include panel-aside();
-                        .panel-body{
-                            .next-shifts-table{
-                                @include table-1();
-                                .list{
-                                    .table{
-                                        thead{
-                                            tr{
-                                                th:nth-child(1) { width: 30%; }
-                                                th:nth-child(2) { width: 40%; }
-                                                th:nth-child(3) { width: 30%; }
-                                            }
-                                        }
-                                        tbody{
-                                            tr{
-                                                td:nth-child(1) { width: 30%; }
-                                                td:nth-child(2) { width: 40%; }
-                                                td:nth-child(3) { width: 30%; }
-                                            }
-                                        }
-                                    }
-                                }
+                        background: $background-color;
+                        width: 100%;
+                        height: 100%;
+                        .panel-aside-content {
+                            flex: 1;
+                            display: flex;
+                            flex-direction: column;
+                            width: 100%;
+                            h3{
+                                text-align: center;
+                                margin: 0;
+                                padding: 0.6rem 0;
+                                @include montserrat-font($size: 1rem, $weight: 600);
+                                color: $white;
+                                background-color: $background-dark-color;
+                            }
+                            .content{
+                                min-height: 70vh;
+                                border-radius: 0 0 0.8rem 0;
+                                margin: 0;
+                                padding: 0;
+                                overflow: hidden;
                             }
                         }
                     }
