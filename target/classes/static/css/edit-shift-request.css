@@ -179,7 +179,7 @@ p {
 .edit-shift-request .panel-container .panel-main .panel-body {
   display: flex;
   flex-direction: column;
-  gap: 1.15rem;
+  gap: 1rem;
 }
 .edit-shift-request .panel-container .panel-main .panel-body .form-group {
   display: flex;
@@ -316,7 +316,7 @@ p {
 .edit-shift-request .panel-container .panel-main .panel-body .form-separator {
   border: 0;
   border-top: 1px solid rgba(226, 232, 240, 0.5);
-  margin: 0.2rem 0;
+  margin: 0;
   width: 100%;
 }
 .edit-shift-request .panel-container .panel-aside {
@@ -606,4 +606,4 @@ p {
 }
 .edit-shift-request .footer-actions .btn.btn-danger:active {
   transform: translateY(0);
-}/*# sourceMappingURL=edit-shift-request.css.map */
+}/*# sourceMappingURL=edit-shift-request.css.map */.map */

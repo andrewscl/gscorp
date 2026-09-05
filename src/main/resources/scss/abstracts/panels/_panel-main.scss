@@ -13,7 +13,7 @@
         .panel-body {
             display: flex;
             flex-direction: column;
-            gap: 1.15rem;
+            gap: 1rem;
             .form-group {
                 display: flex;
                 flex-direction: column;
@@ -87,7 +87,7 @@
             .form-separator {
                 border: 0;
                 border-top: 1px solid rgba($border-color, 0.5);
-                margin: 0.2rem 0;
+                margin: 0;
                 width: 100%;
             }
         }
