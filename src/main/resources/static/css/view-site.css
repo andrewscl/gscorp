@@ -170,7 +170,7 @@ p {
   }
 }
 .site-dual-panel-card .panel-container .panel-main {
-  flex: 1.5;
+  flex: 1.75;
   padding: 0 2rem 1rem 2rem;
   display: flex;
   flex-direction: column;

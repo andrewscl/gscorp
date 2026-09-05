@@ -18,14 +18,16 @@
             <input type="hidden" name="projectId"
               th:value="${site.project != null ? site.project.id : ''}" />
           </div>
+
           <hr class="form-separator" />
-          <div class="form-row">
-            <div class="form-group">
+
+          <div class="form-row w-custom">
+            <div class="form-group fx-3">
                 <label>Nombre</label>
                 <span class="form-value"
                                 th:text="${site.name}"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group fx-7">
               <label>Dirección</label>
               <span class="form-value" th:text="${site.address}"></span>
             </div>
