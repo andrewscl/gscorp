@@ -73,7 +73,7 @@ public class SiteController {
         model.addAttribute("site", site);
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
         model.addAttribute("googlemapid", googleMapId);
-        return "private/sites/views/view-site-view";
+        return "private/sites/fragments/view-site";
     }
 
     @GetMapping("/edit/{id}")
