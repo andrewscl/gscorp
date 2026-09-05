@@ -187,7 +187,7 @@ p {
 .site-dual-panel-card .panel-container .panel-main .panel-body {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 .site-dual-panel-card .panel-container .panel-main .panel-body .form-group {
   display: flex;
