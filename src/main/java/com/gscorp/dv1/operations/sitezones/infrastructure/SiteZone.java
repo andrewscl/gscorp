@@ -6,10 +6,13 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.gscorp.dv1.enums.SiteZoneStatus;
 import com.gscorp.dv1.operations.sites.infrastructure.Site;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -52,6 +55,10 @@ public class SiteZone {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "site_id")
     private Site site;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", length = 20)
+    private SiteZoneStatus status;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
