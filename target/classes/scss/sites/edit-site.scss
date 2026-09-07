@@ -56,7 +56,7 @@ $ratio-right: 1;
           .alert-container {
               @include alert-container();
           }
-          .hs-footer-actions {
+          .footer-actions {
               @include footer();
           }
       }
