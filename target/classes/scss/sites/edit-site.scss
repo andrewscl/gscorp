@@ -2,14 +2,13 @@
 @use '../abstracts/variables' as *;
 @use '../abstracts/palette' as *;
 @use '../abstracts/typography' as *;
-@use '../abstracts/fragment-mixins' as *;
 @use '../abstracts/panel-cards' as *;
 @use '../abstracts/alerts' as *;
 @use '../abstracts/buttons/footer-buttons' as *;
 @use '../abstracts/tables/tables' as *;
 @use '../abstracts/panels/panel-main' as *;
 
-$ratio-left: 1;
+$ratio-left: 1.75;
 $ratio-right: 1;
 
 .private-layout{
