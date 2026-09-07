@@ -422,6 +422,37 @@ p {
   vertical-align: middle;
   white-space: nowrap;
 }
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .site-zones-table .actions-right {
+  justify-content: center;
+  align-self: center;
+}
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .site-zones-table .actions-right .create-zone-btn {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .site-zones-table .actions-right .create-zone-btn.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 1rem;
+  border-radius: 0.4rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  background-color: #64748b;
+  color: #ffffff;
+}
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .site-zones-table .actions-right .create-zone-btn.btn-primary:hover {
+  background-color: rgb(90, 104.4, 125.1);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(100, 116, 139, 0.4);
+}
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .site-zones-table .actions-right .create-zone-btn.btn-primary:active {
+  transform: translateY(0);
+}
 .private-layout .main-content .content .edit-site-panel-card .panel-container .panel-aside {
   background: #f8fafc;
   width: 100%;
