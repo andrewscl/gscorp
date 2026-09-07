@@ -24,7 +24,7 @@ $ratio-right: 1;
               .panel-body{
                 .site-zones-table{
                   @include table-1();
-                  .actions-right{
+                  .item-actions{
                     justify-content: center;
                     align-self: center;
                     .create-zone-btn {

@@ -422,11 +422,11 @@ p {
   vertical-align: middle;
   white-space: nowrap;
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .site-zones-table .actions-right {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .site-zones-table .item-actions {
   justify-content: center;
   align-self: center;
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .site-zones-table .actions-right .create-zone-btn {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .site-zones-table .item-actions .create-zone-btn {
   font-family: "Roboto", sans-serif;
   font-size: 0.85rem;
   font-weight: 600;
@@ -443,12 +443,12 @@ p {
   background-color: #64748b;
   color: #ffffff;
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .site-zones-table .actions-right .create-zone-btn:hover {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .site-zones-table .item-actions .create-zone-btn:hover {
   background-color: rgb(90, 104.4, 125.1);
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(100, 116, 139, 0.4);
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .site-zones-table .actions-right .create-zone-btn:active {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .site-zones-table .item-actions .create-zone-btn:active {
   transform: translateY(0);
 }
 .private-layout .main-content .content .edit-site-panel-card .panel-container .panel-aside {
