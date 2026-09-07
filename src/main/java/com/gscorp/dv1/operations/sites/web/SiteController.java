@@ -32,26 +32,20 @@ public class SiteController {
     public String getSitesTableView(
                     Model model,
                     Authentication authentication) {
-
         Long userId = userService.getUserIdFromAuthentication(authentication);
                 if (userId == null) {
-                // no autenticado: redirigir al login o devolver error según tu política
+                // no autenticado: redirigir al login o devolver error
                 return "redirect:/login";
         }
-
         if(authentication == null || !authentication.isAuthenticated()) {
                 return "redirect:/login";
         }
-
         Object principal = authentication.getPrincipal();
         if(!(principal instanceof SecurityUser)) {
                 return "redirect:/login";
         }
-
         SecurityUser securityUser = (SecurityUser) principal;
-
         UUID externalId = securityUser.getUser().getExternalId();
-
         model.addAttribute("sites",
                                             siteService.getAllSitesByUser(externalId));
         model.addAttribute("projects",
@@ -82,7 +76,7 @@ public class SiteController {
         model.addAttribute("site", site);
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
         model.addAttribute("googlemapid", googleMapId);
-        return "private/sites/views/edit-site-view";
+        return "private/sites/fragments/edit-site";
     }
 
     @GetMapping("/set-coordinates")

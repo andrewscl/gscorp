@@ -6,56 +6,63 @@
 @use '../abstracts/variables' as *;
 @use '../abstracts/mixins' as *;
 @use '../abstracts/panels/panel-main' as *;
+@use '../abstracts/tables/tables' as *;
 
     $ratio-left: 1.75;
     $ratio-right: 1;
 
-.site-dual-panel-card {
-    @include dual-panel-card();
+.private-layout{
+    .main-content{
+        .content{
 
-    .panel-container{
-        .panel-main {
-            @include panel-main();
-        }
-        .panel-aside {
-            flex: $ratio-right;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            background: $background-color;
-            width: 100%;
-            height: 100%;
-
-            .panel-aside-content {
-                flex: 1;
-                display: flex;
-                flex-direction: column;
-                width: 100%;
-                h3{
-                    text-align: center;
-                    margin: 0;
-                    padding: 0.6rem 0;
-                    @include montserrat-font($size: 1rem, $weight: 600);
-                    color: $white;
-                    background-color: $background-dark-color;
+            .site-dual-panel-card {
+                @include dual-panel-card();
+                .panel-container{
+                    .panel-main {
+                        @include panel-main();
+                        .panel-body{
+                            .site-zones-table{
+                                @include table-1();
+                            }
+                        }
+                    }
+                    .panel-aside {
+                        background: $background-color;
+                        width: 100%;
+                        height: 100%;
+                        .panel-aside-content {
+                            flex: 1;
+                            display: flex;
+                            flex-direction: column;
+                            width: 100%;
+                            h3{
+                                text-align: center;
+                                margin: 0;
+                                padding: 0.6rem 0;
+                                @include montserrat-font($size: 1rem, $weight: 600);
+                                color: $white;
+                                background-color: $background-dark-color;
+                            }
+                            .content{
+                                min-height: 70vh;
+                                border-radius: 0 0 0.8rem 0;
+                                margin: 0;
+                                padding: 0;
+                                overflow: hidden;
+                            }
+                        }
+                    }
                 }
-                .content{
-                    min-height: 70vh;
-                    border-radius: 0 0 0.8rem 0;
-                    margin: 0;
-                    padding: 0;
-                    overflow: hidden;
+                .alert-container {
+                    @include alert-container();
+                }
+                .footer-actions {
+                    @include footer();
                 }
             }
+
         }
     }
-    .alert-container {
-        @include alert-container();
-    }
-    .footer-actions {
-        @include footer();
-    }
-
 }
 
 

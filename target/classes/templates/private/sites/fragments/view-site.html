@@ -19,7 +19,7 @@
               th:value="${site.project != null ? site.project.id : ''}" />
           </div>
 
-          <hr class="form-separator" />
+          <hr class="form-separator"/>
 
           <div class="form-row w-custom">
             <div class="form-group fx-3">
@@ -33,17 +33,24 @@
             </div>
           </div>
 
-          <div class="site-zone-list">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Zonas del Sitio</th>
-                  <th>Estado</th>
-                </tr>
-              </thead>
-              <tbody id="site-zone-tbody">
-              </tbody>
-            </table>
+          <div class="site-zones-table">
+            <div class="title-row">
+              <div class="title-left">
+                <span class="title-text">Zonas</span>
+              </div>
+            </div>
+            <div class="site-zones-list">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Zona</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody id="site-zone-tbody">
+                </tbody>
+              </table>
+            </div>
           </div>
 
         </div>
