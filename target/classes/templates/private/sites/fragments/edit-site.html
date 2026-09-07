@@ -23,12 +23,12 @@
           <div class="form-group fx-3">
             <label>Nombre</label>
             <input id="siteName" name="name" type="text"
-                  th:value="${site.name}" required />
+                  th:value="${site.name}" required/>
           </div>
           <div class="form-group fx-7">
-            <label">Dirección</label>
+            <label>Dirección</label>
             <input id="siteAddress" name="address" type="text"
-                  th:value="${site.address}" placeholder="Calle 123, Comuna" />
+                  th:value="${site.address}" placeholder="Calle 123, Comuna"/>
           </div>
         </div>
 
@@ -41,7 +41,7 @@
               Ver mapa
               </button>
             </div>
-            <div class="site-zones-list">
+            <div class="list">
               <table class="table">
                 <thead>
                   <tr>
@@ -75,4 +75,4 @@
                             true, 'Eliminar sitio')}"></div>
 </div>
 
-  <script type="module" src="/js/private/sites/edit-site.js"></script>
+<script type="module" src="/js/private/sites/edit-site.js"></script>
