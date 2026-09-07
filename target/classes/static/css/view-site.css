@@ -445,7 +445,7 @@ p {
   background-color: #1e293b;
 }
 .private-layout .main-content .content .site-dual-panel-card .panel-container .panel-aside .panel-aside-content .content {
-  min-height: 70vh;
+  min-height: 60vh;
   border-radius: 0 0 0.8rem 0;
   margin: 0;
   padding: 0;
