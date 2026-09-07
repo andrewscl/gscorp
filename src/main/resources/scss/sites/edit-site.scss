@@ -27,8 +27,33 @@ $ratio-right: 1;
                 }
               }
             }
+            .panel-aside {
+              background: $background-color;
+              width: 100%;
+              height: 100%;
+                .panel-aside-content {
+                            flex: 1;
+                            display: flex;
+                            flex-direction: column;
+                            width: 100%;
+                            h3{
+                                text-align: center;
+                                margin: 0;
+                                padding: 0.6rem 0;
+                                @include montserrat-font($size: 1rem, $weight: 600);
+                                color: $white;
+                                background-color: $background-dark-color;
+                            }
+                            .content{
+                                min-height: 60vh;
+                                border-radius: 0 0 0.8rem 0;
+                                margin: 0;
+                                padding: 0;
+                                overflow: hidden;
+                            }
+              }
+            }
           }
-
       }
       .alert-container {
           @include alert-container();
