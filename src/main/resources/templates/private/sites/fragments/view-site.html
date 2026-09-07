@@ -1,7 +1,5 @@
-<section th:fragment="content">
+<div class="site-dual-panel-card">
   <input type="hidden" id="siteId" th:value="${site.id}" />
-
-  <div class="site-dual-panel-card">
 
     <div class="panel-container">
       <div class="panel-main">
@@ -72,9 +70,6 @@
                                 true, 'Volver',
                                 false, 'null')}"></div>
 
-  </div>
+</div>
 
-  <script type="module" src="/js/private/sites/view-site.js"></script>
-
-
-</section>
+<script type="module" src="/js/private/sites/view-site.js"></script>
