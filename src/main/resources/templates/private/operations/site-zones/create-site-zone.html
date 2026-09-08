@@ -1,6 +1,6 @@
 <div id="createSiteZone" class="create-site-zone-container">
   <input type="hidden" id="siteExternalId"
-                        th:value="${siteExternalId}"/>
+                        th:value="${site.externalId}"/>
 
   <div class="hs-form-header">
     <h4>Crear nueva zona</h4>
@@ -10,7 +10,7 @@
     <div class="form-group">
       <label>Instalación:</label>
         <span id="siteName" 
-              th:text="${site.siteName ?: '-'}"></span>
+              th:text="${site.name ?: '-'}"></span>
     </div>
 
     <div class="form-row">
