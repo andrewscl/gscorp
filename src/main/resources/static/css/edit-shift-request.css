@@ -255,7 +255,7 @@ p {
 }
 .edit-shift-request .panel-container .panel-main .panel-body .form-group textarea {
   resize: vertical;
-  min-height: 80px;
+  min-height: 2.5rem;
 }
 .edit-shift-request .panel-container .panel-main .panel-body .form-group .form-control-text-block {
   width: 100%;

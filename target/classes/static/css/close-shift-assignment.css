@@ -255,7 +255,7 @@ p {
 }
 .private-layout .main-content .content .close-shift-assignment .panel-container .panel-main .panel-body .form-group textarea {
   resize: vertical;
-  min-height: 80px;
+  min-height: 2.5rem;
 }
 .private-layout .main-content .content .close-shift-assignment .panel-container .panel-main .panel-body .form-group .form-control-text-block {
   width: 100%;

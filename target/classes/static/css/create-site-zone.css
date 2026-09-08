@@ -199,39 +199,51 @@ p {
 .create-site-zone .body .form-group .tag-container .tag:hover {
   background-color: #cbd5e1;
 }
-.create-site-zone .body .form-group input,
-.create-site-zone .body .form-group select,
-.create-site-zone .body .form-group span {
-  padding: 0.65rem;
-  border: 0.09rem solid #ced4da;
+.create-site-zone .body .form-group input, .create-site-zone .body .form-group select, .create-site-zone .body .form-group textarea {
+  padding: 0.5rem;
+  border: 0.09rem solid #bfdbfe;
   border-radius: 0.5rem;
+  background-color: #f0f7ff;
+  color: #334155;
   font-family: "Roboto", sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
   letter-spacing: 0.02em;
-  color: #1f2937;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
-.create-site-zone .body .form-group input::placeholder,
-.create-site-zone .body .form-group select::placeholder,
+.create-site-zone .body .form-group input::placeholder, .create-site-zone .body .form-group select::placeholder, .create-site-zone .body .form-group textarea::placeholder {
+  color: #adb5bd;
+}
+.create-site-zone .body .form-group input:focus, .create-site-zone .body .form-group select:focus, .create-site-zone .body .form-group textarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
+  outline: none;
+  background-color: #ffffff;
+}
+.create-site-zone .body .form-group span {
+  padding: 0.5rem;
+  border: 0.09rem solid #e2e8f0;
+  border-radius: 0.5rem;
+  background-color: #f8fafc;
+  color: #334155;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
 .create-site-zone .body .form-group span::placeholder {
   color: #adb5bd;
 }
-.create-site-zone .body .form-group input:focus,
-.create-site-zone .body .form-group select:focus,
 .create-site-zone .body .form-group span:focus {
-  border-color: #4e54c8;
+  border-color: #3b82f6;
   box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
   outline: none;
+  background-color: #ffffff;
 }
 .create-site-zone .body .form-group textarea {
   resize: vertical;
-  font-family: "Roboto", sans-serif;
-  font-size: 0.875rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  color: #1f2937;
-  min-height: 80px;
+  min-height: 2.5rem;
 }
 .create-site-zone .body .form-row {
   display: flex;
