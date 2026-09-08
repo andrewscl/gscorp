@@ -28,12 +28,11 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
 
 
     @Query("""
-        SELECT DISTINCT
+        SELECT s
         FROM Site s
         JOIN s.project p
         WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
         AND (:externalId = s.externalId)
-        ORDER BY s.name
         """)
     Optional<Site> findByExternalId(
         @Param("ignoreProjectFilter") boolean ignoreProjectFilter,
