@@ -1,0 +1,5 @@
+@use '../abstracts/card-forms' as *;
+
+.create-site-zone {
+    @include hs-form(36rem);
+}
