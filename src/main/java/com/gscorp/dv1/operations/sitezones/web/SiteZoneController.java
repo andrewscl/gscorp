@@ -13,7 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.operations.sites.application.SiteService;
-import com.gscorp.dv1.operations.sites.web.dto.SiteDtoProjection;
+import com.gscorp.dv1.operations.sites.web.dto.SiteDto;
 import com.gscorp.dv1.users.application.UserScopeService;
 import com.gscorp.dv1.users.application.dto.ProjectScope;
 
@@ -36,7 +36,7 @@ public class SiteZoneController {
         if(securityUser == null) return "redirect:/login";
         if(siteExternalId == null) return "redirect:/private/sites/table-view";
         ProjectScope scope = userScopeService.getProjectScope();
-        SiteDtoProjection siteDto = siteService.findDtoByExternalId(
+        SiteDto siteDto = siteService.findDtoByExternalId(
             scope.ignoreFilter(), scope.projectIds(), siteExternalId)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Site not found or access denied"));
         model.addAttribute("site", siteDto);
