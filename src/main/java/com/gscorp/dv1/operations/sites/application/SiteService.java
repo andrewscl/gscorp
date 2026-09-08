@@ -54,5 +54,9 @@ public interface SiteService {
 
     SiteSelectDto findSelectDtoById(Long siteId);
 
+    Optional<SiteDtoProjection> findByExternalId(
+                    boolean ignoreProjectFilter,
+                    List<Long> projectIds,
+                    UUID externalId);
 
 }

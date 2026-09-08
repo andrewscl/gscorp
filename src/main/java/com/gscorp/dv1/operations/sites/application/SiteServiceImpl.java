@@ -309,13 +309,11 @@ public class SiteServiceImpl implements SiteService{
     @Override
     @Transactional(readOnly = true)
     public SiteSelectDto findSelectDtoById(Long siteId) {
-
         SiteDtoProjection siteDtoProjection =
                 siteRepository.findProjectionById(siteId)
                 .orElseThrow(() ->
                     new ResourceNotFoundException("Site no encontrado con ID: " + siteId)
                 );
-
         SiteSelectDto response = new SiteSelectDto(
             siteDtoProjection.id(),
             siteDtoProjection.externalId(),
@@ -323,8 +321,17 @@ public class SiteServiceImpl implements SiteService{
             siteDtoProjection.lat(),
             siteDtoProjection.lon()
         );
-
         return response;
+    }
+
+    @Transactional (readOnly = true)
+    public Optional<SiteDtoProjection> findByExternalId(
+                    boolean ignoreProjectFilter,
+                    List<Long> projectIds,
+                    UUID externalId) {
+        if(externalId == null) return Optional.empty();
+        return siteRepository.findByExternalId(ignoreProjectFilter, projectIds, externalId)
+                .map(SiteDtoProjection::fromProjection);
     }
 
 

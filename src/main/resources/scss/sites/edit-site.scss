@@ -30,7 +30,7 @@ $ratio-right: 1;
                     .create-zone-btn {
                       @include roboto-font(0.85rem, 600);
                       @include btn-primary-variant (
-                      $bg-color: $btn-secondary-bg,
+                      $bg-color: $btn-primary-bg,
                       $color: $white,
                       $padding: 0.4rem 1rem,
                       $border-radius: 0.4rem

@@ -54,6 +54,8 @@ export default defineConfig({
         'private/sites/edit-site': path.resolve(__dirname, './src/private/sites/edit-site.js'),
         'private/sites/sites-map': path.resolve(__dirname, './src/private/sites/sites-map.js'),
 
+        'private/operations/site-zones/create-site-zone': path.resolve(__dirname, './src/private/operations/site-zones/create-site-zone.js'),
+
         'private/admin/projects/create-project': path.resolve(__dirname, './src/private/admin/projects/create-project.js'),
         'private/admin/projects/edit-project': path.resolve(__dirname, './src/private/admin/projects/edit-project.js'),
         'private/admin/projects/view-project': path.resolve(__dirname, './src/private/admin/projects/view-project.js'),

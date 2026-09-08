@@ -1,12 +1,10 @@
 import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
 import { displayAlert } from '../../shared/display-alert.js';
-import { addAdvancedMarker } from '../../shared/maps/advanced-marker.js';
 import { enableMarkerDrag } from '../../shared/maps/enable-marker-drag.js';
 import { startViewMap } from './view-site.js';
 
 const qs  = (s) => document.querySelector(s);
-const qa  = (s) => document.querySelectorAll(s);
 const alertSuccess = qs('.alert-success');
 const alertError = qs('.alert-error');
 const alertCancel = qs('.alert-warning');
@@ -143,6 +141,15 @@ const cancelEditSite = () => {
     setTimeout(() => navigateTo('/private/sites/table-view', true), 2000);
 }
 
+const createZone = () => {
+    const siteExternalId = qs('#siteExternalId')?.value || '';
+    if (!siteExternalId){
+        displayAlert(alertError, 'No existe un external ID válido para el sitio.');
+        return;
+    }
+    navigateTo(`/private/site-zones/${siteExternalId}/zones/new`);
+}
+
 function bindEditSite() {
     const updateBtn = qs('.btn-primary');
     if (updateBtn) {
@@ -155,6 +162,10 @@ function bindEditSite() {
     const deleteBtn = qs('.btn-danger');
     if (deleteBtn) {
         deleteBtn.addEventListener('click', deleteSite);
+    }
+    const createZoneBtn = qs('#createZoneBtn');
+    if (createZoneBtn) {
+        createZoneBtn.addEventListener('click', createZone);
     }
 }
 
@@ -178,9 +189,6 @@ function startEditMap() {
 
 /* --- init --- */
 (function init() {
-
   bindEditSite();
-  
   startEditMap();
-
 })();

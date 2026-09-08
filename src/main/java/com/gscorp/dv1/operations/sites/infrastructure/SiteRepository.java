@@ -124,4 +124,25 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
 
     Optional<SiteDtoProjection> findProjectionById(Long id);
 
+    @Query("""
+        SELECT DISTINCT
+          s.id          AS id,
+          s.externalId  AS externalId,
+          s.name        AS name,
+          s.address     AS address,
+          s.lat         AS lat,
+          s.lon         AS lon,
+          s.timeZone    AS timeZone
+        FROM Site s
+        JOIN s.project p
+        WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
+        AND (:externalId = s.externalId)
+        ORDER BY s.name
+        """)
+    Optional<SiteProjection> findByExternalId(
+        @Param("ignoreProjectFilter") boolean ignoreProjectFilter,
+        @Param("projectIds") List<Long> projectIds,
+        @Param("externalId") UUID externalId
+    );
+
 }
