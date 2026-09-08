@@ -9,6 +9,14 @@ $header-text-height-mobile: 0.9rem;
 $primary-font: 'Roboto', sans-serif;
 $heading-font: 'Montserrat', sans-serif;
 
+// Fondos y bordes para inputs activos/interactivos (Tonalidad Azul)
+$form-field-active-bg: #f0f7ff;
+$form-field-active-border: #bfdbfe;
+
+// Fondos y bordes para inputs deshabilitados/lectura (Tonalidad Neutra/Slate)
+$form-field-disabled-bg: #f8fafc;
+$form-field-disabled-border: #e2e8f0;
+
 // Colores
 $text-color: $slate-700;
 $text-secondary-color: $slate-500;

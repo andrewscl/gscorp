@@ -38,14 +38,14 @@
                     }
                 }
                 input, select, textarea{
-                    @include form-field(#f0f7ff, #bfdbfe);
+                    @include form-field($form-field-active-bg, $form-field-active-border);
                 }
                 span {
-                    @include form-field(#f8fafc, #e2e8f0);
+                    @include form-field($form-field-disabled-bg, $form-field-disabled-border);
                 }
                 textarea {
                     resize: vertical;
-                    min-height: 80px;
+                    min-height: 2.5rem;
                 }
 
                 .form-control-text-block {
