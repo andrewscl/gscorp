@@ -59,7 +59,7 @@ public interface SiteService {
 
     SiteSelectDto findSelectDtoById(Long siteId);
 
-    Optional<SiteDtoProjection> findDtoByExternalId(
+    Optional<SiteDto> findDtoByExternalId(
                     boolean ignoreProjectFilter,
                     List<Long> projectIds,
                     UUID externalId);

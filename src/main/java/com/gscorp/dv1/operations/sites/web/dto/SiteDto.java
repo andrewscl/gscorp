@@ -3,6 +3,7 @@ package com.gscorp.dv1.operations.sites.web.dto;
 import java.util.UUID;
 
 import com.gscorp.dv1.operations.sites.infrastructure.Site;
+import com.gscorp.dv1.operations.sites.infrastructure.SiteProjection;
 
 public record SiteDto (
     Long id,
@@ -17,9 +18,7 @@ public record SiteDto (
     Boolean active
 ) {
     public static SiteDto fromEntity ( Site site){
-
         if(site == null) return null;
-
         return new SiteDto(
             site.getId(),
             site.getExternalId(),
@@ -31,6 +30,21 @@ public record SiteDto (
             site.getLat(),
             site.getLon(),
             site.getActive()
+        );
+    }
+    public static SiteDto fromProjection (SiteProjection s){
+        if(s == null) return null;
+        return new SiteDto(
+            s.getId(),
+            s.getExternalId(),
+            s.getProjectId(),
+            s.getProjectName(),
+            s.getName(),
+            s.getAddress(),
+            s.getTimeZone(),
+            s.getLat(),
+            s.getLon(),
+            s.getActive()
         );
     }
 }

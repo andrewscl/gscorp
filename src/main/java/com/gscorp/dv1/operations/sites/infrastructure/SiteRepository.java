@@ -147,7 +147,10 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
           s.address     AS address,
           s.lat         AS lat,
           s.lon         AS lon,
-          s.timeZone    AS timeZone
+          s.timeZone    AS timeZone,
+          p.id          AS projectId,
+          p.name        AS projectName,
+          s.active      AS active
         FROM Site s
         JOIN s.project p
         WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)

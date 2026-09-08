@@ -2,16 +2,19 @@ package com.gscorp.dv1.operations.sites.web;
 
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.gscorp.dv1.admin.projects.application.ProjectService;
 import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.operations.sites.application.SiteService;
+import com.gscorp.dv1.operations.sites.web.dto.SiteDto;
 import com.gscorp.dv1.users.application.UserScopeService;
 import com.gscorp.dv1.users.application.dto.ProjectScope;
 
@@ -65,10 +68,12 @@ public class SiteController {
                     @AuthenticationPrincipal SecurityUser securityUser,                    
                     Model model){
         ProjectScope scope = userScopeService.getProjectScope();
-        var site = siteService.findByExternalId(
+        var siteOpt = siteService.findDtoByExternalId(
                                 scope.ignoreFilter(),
                                 scope.projectIds(),
                                 siteExternalId);
+        SiteDto site = siteOpt.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                    "El sitio no existe o no tienes acceso"));
         model.addAttribute("site", site);
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
         model.addAttribute("googlemapid", googleMapId);

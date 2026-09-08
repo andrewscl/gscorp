@@ -13,9 +13,9 @@
         <div class="form-group">
           <label>Proyecto</label>
           <span class="readonly-field"
-            th:text="${site.project != null ? site.project.name : '—'}"></span>
+            th:text="${site.projectName != null ? site.projectName : '—'}"></span>
           <input type="hidden" name="projectId"
-            th:value="${site.project != null ? site.project.id : ''}" />
+            th:value="${site.projectId != null ? site.projectId : ''}" />
         </div>
 
         <hr class="form-separator"/>

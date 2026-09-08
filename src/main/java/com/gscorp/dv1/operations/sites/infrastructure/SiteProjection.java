@@ -11,5 +11,7 @@ public interface SiteProjection {
     Double getLat();
     Double getLon();
     String getTimeZone();
-
+    Long getProjectId();
+    String getProjectName();
+    Boolean getActive();
 }

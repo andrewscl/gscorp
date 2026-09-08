@@ -336,13 +336,13 @@ public class SiteServiceImpl implements SiteService{
     }
 
     @Transactional (readOnly = true)
-    public Optional<SiteDtoProjection> findDtoByExternalId(
+    public Optional<SiteDto> findDtoByExternalId(
                     boolean ignoreProjectFilter,
                     List<Long> projectIds,
                     UUID externalId) {
         if(externalId == null) return Optional.empty();
         return siteRepository.findProjectionByExternalId(ignoreProjectFilter, projectIds, externalId)
-                .map(SiteDtoProjection::fromProjection);
+                .map(SiteDto::fromProjection);
     }
 
 
