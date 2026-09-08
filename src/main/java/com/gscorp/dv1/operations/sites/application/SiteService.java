@@ -20,6 +20,11 @@ public interface SiteService {
 
     Optional<Site> findById (Long id);
 
+    Optional<Site> findByExternalId (
+                    boolean ignoreProjectFilter,
+                    List<Long> projectsIds,
+                    UUID externalId);
+
     Optional<SiteDto> findDtoById (Long id);
 
     List<SiteDto> getAllSites();
@@ -54,7 +59,7 @@ public interface SiteService {
 
     SiteSelectDto findSelectDtoById(Long siteId);
 
-    Optional<SiteDtoProjection> findByExternalId(
+    Optional<SiteDtoProjection> findDtoByExternalId(
                     boolean ignoreProjectFilter,
                     List<Long> projectIds,
                     UUID externalId);

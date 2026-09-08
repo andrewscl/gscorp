@@ -42,10 +42,33 @@ public class SiteServiceImpl implements SiteService{
         return siteRepository.save(site);
     }
 
+    @Transactional
+    public void deleteById(Long id){
+        if(!siteRepository.existsById(id)){
+            throw new IllegalArgumentException("Site no encontrado");
+        }
+        try{
+            siteRepository.deleteById(id);
+        } catch (DataIntegrityViolationException e){
+            throw new IllegalArgumentException("No se puede eliminar el sitio");
+        }
+    }
+
 
     @Transactional(readOnly = true)
     public Optional<Site> findById(Long id){
         return siteRepository.findById(id);
+    }
+
+    @Transactional (readOnly = true)
+    public Optional<Site> findByExternalId(
+                            boolean ignoreProjectFilter,
+                            List<Long> projectIds,
+                            UUID externalId){
+        return siteRepository.findByExternalId(
+                                ignoreProjectFilter,
+                                projectIds,
+                                externalId);
     }
 
 
@@ -84,18 +107,6 @@ public class SiteServiceImpl implements SiteService{
             .stream()
             .map(SiteDto::fromEntity)
             .toList();
-    }
-
-    @Transactional
-    public void deleteById(Long id){
-        if(!siteRepository.existsById(id)){
-            throw new IllegalArgumentException("Site no encontrado");
-        }
-        try{
-            siteRepository.deleteById(id);
-        } catch (DataIntegrityViolationException e){
-            throw new IllegalArgumentException("No se puede eliminar el sitio");
-        }
     }
 
     @Transactional(readOnly = true)
@@ -325,12 +336,12 @@ public class SiteServiceImpl implements SiteService{
     }
 
     @Transactional (readOnly = true)
-    public Optional<SiteDtoProjection> findByExternalId(
+    public Optional<SiteDtoProjection> findDtoByExternalId(
                     boolean ignoreProjectFilter,
                     List<Long> projectIds,
                     UUID externalId) {
         if(externalId == null) return Optional.empty();
-        return siteRepository.findByExternalId(ignoreProjectFilter, projectIds, externalId)
+        return siteRepository.findProjectionByExternalId(ignoreProjectFilter, projectIds, externalId)
                 .map(SiteDtoProjection::fromProjection);
     }
 

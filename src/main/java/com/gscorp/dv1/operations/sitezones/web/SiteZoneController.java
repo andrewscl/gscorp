@@ -36,7 +36,7 @@ public class SiteZoneController {
         if(securityUser == null) return "redirect:/login";
         if(siteExternalId == null) return "redirect:/private/sites/table-view";
         ProjectScope scope = userScopeService.getProjectScope();
-        SiteDtoProjection siteDto = siteService.findByExternalId(
+        SiteDtoProjection siteDto = siteService.findDtoByExternalId(
             scope.ignoreFilter(), scope.projectIds(), siteExternalId)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Site not found or access denied"));
         model.addAttribute("site", siteDto);

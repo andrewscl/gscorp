@@ -2,7 +2,7 @@ package com.gscorp.dv1.operations.sites.web;
 
 import java.util.UUID;
 
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.gscorp.dv1.admin.projects.application.ProjectService;
 import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.operations.sites.application.SiteService;
-import com.gscorp.dv1.users.application.UserService;
+import com.gscorp.dv1.users.application.UserScopeService;
+import com.gscorp.dv1.users.application.dto.ProjectScope;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,7 +24,7 @@ public class SiteController {
 
     private final SiteService siteService;
     private final ProjectService projectService;
-    private final UserService userService;
+    private final UserScopeService userScopeService;
 
     private String googleCloudApiKey = System.getenv("GOOGLE_CLOUD_API_KEY");
     private String googleMapId = System.getenv("GOOGLE_MAP_ID");
@@ -31,20 +32,8 @@ public class SiteController {
     @GetMapping("/table-view")
     public String getSitesTableView(
                     Model model,
-                    Authentication authentication) {
-        Long userId = userService.getUserIdFromAuthentication(authentication);
-                if (userId == null) {
-                // no autenticado: redirigir al login o devolver error
-                return "redirect:/login";
-        }
-        if(authentication == null || !authentication.isAuthenticated()) {
-                return "redirect:/login";
-        }
-        Object principal = authentication.getPrincipal();
-        if(!(principal instanceof SecurityUser)) {
-                return "redirect:/login";
-        }
-        SecurityUser securityUser = (SecurityUser) principal;
+                    @AuthenticationPrincipal SecurityUser securityUser) {
+        if(securityUser == null) return "redirect:/login";
         UUID externalId = securityUser.getUser().getExternalId();
         model.addAttribute("sites",
                                             siteService.getAllSitesByUser(externalId));
@@ -70,9 +59,16 @@ public class SiteController {
         return "private/sites/fragments/view-site";
     }
 
-    @GetMapping("/edit/{id}")
-    public String editSite (@PathVariable Long id, Model model){
-        var site = siteService.findByIdWithProjects(id);
+    @GetMapping("/edit/{siteExternalId}")
+    public String editSite (
+                    @PathVariable UUID siteExternalId,
+                    @AuthenticationPrincipal SecurityUser securityUser,                    
+                    Model model){
+        ProjectScope scope = userScopeService.getProjectScope();
+        var site = siteService.findByExternalId(
+                                scope.ignoreFilter(),
+                                scope.projectIds(),
+                                siteExternalId);
         model.addAttribute("site", site);
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
         model.addAttribute("googlemapid", googleMapId);

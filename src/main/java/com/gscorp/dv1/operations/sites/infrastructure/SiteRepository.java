@@ -26,6 +26,22 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
     @EntityGraph(attributePaths = "project")
     Optional<Site> findById(Long id);
 
+
+    @Query("""
+        SELECT DISTINCT
+        FROM Site s
+        JOIN s.project p
+        WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
+        AND (:externalId = s.externalId)
+        ORDER BY s.name
+        """)
+    Optional<Site> findByExternalId(
+        @Param("ignoreProjectFilter") boolean ignoreProjectFilter,
+        @Param("projectIds") List<Long> projectIds,
+        @Param("externalId") UUID externalId
+    );
+
+
     @Query("SELECT s FROM Site s JOIN FETCH s.project WHERE s.id = :id")
     Optional<Site> findByIdWithProject(Long id);
 
@@ -139,7 +155,7 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
         AND (:externalId = s.externalId)
         ORDER BY s.name
         """)
-    Optional<SiteProjection> findByExternalId(
+    Optional<SiteProjection> findProjectionByExternalId(
         @Param("ignoreProjectFilter") boolean ignoreProjectFilter,
         @Param("projectIds") List<Long> projectIds,
         @Param("externalId") UUID externalId
