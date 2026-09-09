@@ -185,7 +185,7 @@ const updateSiteZones = async () => {
           const tr = document.createElement('tr');
           tr.innerHTML = `
                           <td>${siteZone.name || '-'}</td>
-                          <td>${siteZone.status || '-'}</td>
+                          <td>${siteZone.status.displayName || '-'}</td>
                         `;
           tbody.appendChild(tr);
           });

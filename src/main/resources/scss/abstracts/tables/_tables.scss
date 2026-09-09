@@ -8,10 +8,10 @@
             border-radius: $radius-lg;
             border: 1px solid $border-color;
             box-shadow: $shadow-sm;
-            padding: 1rem;
+            padding: 0.75rem;
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.5rem;
             flex-shrink: 0; // Evita que los filtros se aplasten si hay muchas filas
             z-index: 30;
             width: 100%;
@@ -55,44 +55,44 @@
             overflow-x: hidden;
             margin-top: 0;
             width: 100%;
-            .table {
-                width: 100%;
-                border-collapse: separate;
-                border-spacing: 0;
-                @include roboto-font(0.85rem, 500);
-                color: $text-color;
-                table-layout: fixed;
-                thead {
-                tr {
-                    th {
-                    position: sticky;
-                    top: 0;
-                    z-index: 20; // Suficiente para flotar sobre los td
-                    background: $slate-50; // Color sólido para que los datos no se traslapen al hacer scroll
-                    text-align: left;
-                    @include roboto-font(0.8rem, 600);
-                    text-transform: uppercase; // Le da un toque corporativo moderno
-                    letter-spacing: 0.03em;
-                    padding: 0.6rem 0.85rem;
-                    border-bottom: 0.125rem solid $border-color;
-                    color: $text-secondary-color;
-                    white-space: nowrap;
+                .table {
+                    width: 100%;
+                    border-collapse: separate;
+                    border-spacing: 0;
+                    @include roboto-font(0.85rem, 500);
+                    color: $text-color;
+                    table-layout: fixed;
+                    thead {
+                    tr {
+                        th {
+                        position: sticky;
+                        top: 0;
+                        z-index: 20; // Suficiente para flotar sobre los td
+                        background: $slate-50; // Color sólido para que los datos no se traslapen al hacer scroll
+                        text-align: left;
+                        @include roboto-font(0.8rem, 600);
+                        text-transform: uppercase; // Le da un toque corporativo moderno
+                        letter-spacing: 0.03em;
+                        padding: 0.4rem 0.85rem;
+                        border-bottom: 0.125rem solid $border-color;
+                        color: $text-secondary-color;
+                        white-space: nowrap;
+                        }
+                    }
+                    }
+                    tbody {
+                    tr {
+                        border-bottom: 0.0625rem solid $border-color;
+                        transition: background .12s ease;
+                        &:hover { background-color: rgba($hover-color, 0.02); }
+                        td {
+                        padding: 0.5rem 0.85rem;
+                        vertical-align: middle;
+                        white-space: nowrap;
+                        }
+                    }
                     }
                 }
-                }
-                tbody {
-                tr {
-                    border-bottom: 0.0625rem solid $border-color;
-                    transition: background .12s ease;
-                    &:hover { background-color: rgba($hover-color, 0.02); }
-                    td {
-                    padding: 0.5rem 0.85rem;
-                    vertical-align: middle;
-                    white-space: nowrap;
-                    }
-                }
-                }
-            }
             }
 
         }
