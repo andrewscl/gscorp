@@ -188,7 +188,8 @@ const updateSiteZones = async () => {
                           <td>${siteZone.status.displayName || '-'}</td>
                           <td>
                             <button type="button"
-                                    class="delete-site-zone-btn"
+                                    class="btn btn-danger"
+                                    id="delete-site-zone-btn"
                                     data-id="${siteZone.externalId}">
                               Eliminar Zona
                             </button>
@@ -218,7 +219,7 @@ const deleteSiteZone = async (siteZoneExternalId) => {
     const cancelBtn = qs('.btn-secondary');
     const deleteBtn = qs('.btn-danger');
     const createZoneBtn = qs('#createZoneBtn');
-    const deleteSiteZoneBtn = qs('.delete-site-zone-btn')
+    const deleteSiteZoneBtn = qs('#delete-site-zone-btn')
     setButtonsDisabled(true);
     try {
       const res = await fetchWithAuth(`/api/site-zones/${siteZoneExternalId}`, { 
@@ -273,7 +274,7 @@ function bindEditSite() {
     if (createZoneBtn) {
         createZoneBtn.addEventListener('click', createZone);
     }
-    const deleteSiteZoneBtn = qs('.delete-site-zone-btn')
+    const deleteSiteZoneBtn = qs('#delete-site-zone-btn')
     if (deleteSiteZoneBtn) {
       deleteSiteZoneBtn.addEventListener('click', deleteSiteZone);
     }
