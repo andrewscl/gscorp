@@ -605,8 +605,9 @@ p {
   }
 }
 .private-layout .main-content .content .view-shift-assignment .panel-container .panel-aside .view-planned-shifts-table .empty-msg {
+  margin: 0;
   font-family: "Roboto", sans-serif;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.02em;
 }

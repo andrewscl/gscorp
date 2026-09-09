@@ -373,8 +373,9 @@ p {
   }
 }
 .private-layout .main-content .content .view-site-panel-card .panel-container .panel-main .panel-body .site-zones-table .empty-msg {
+  margin: 0;
   font-family: "Roboto", sans-serif;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.02em;
 }

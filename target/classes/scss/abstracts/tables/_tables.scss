@@ -47,7 +47,8 @@
                 }
             }
             .empty-msg{
-                @include roboto-font(0.8rem, 600);
+                margin: 0;
+                @include roboto-font(0.85rem, 600);
             }
             .list {
             flex-grow: 1;

@@ -3,6 +3,7 @@ package com.gscorp.dv1.operations.sitezones.application;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,6 +84,28 @@ public class SiteZoneServiceImpl implements SiteZoneService {
                                     .build();
         SiteZone savedSiteZone = siteZoneRepository.save(siteZone);
         return SiteZoneDto.fromEntity(savedSiteZone);
+    }
+
+    @Transactional
+    public void delete (UUID userExternalId, UUID siteZoneExternalId) {
+        if (userExternalId == null) {
+            throw new IllegalArgumentException("Usuario no autenticado");
+        }
+        if(siteZoneExternalId == null) {
+            throw new IllegalArgumentException("El siteZoneExternalId es requerido");
+        }
+        ProjectScope scope = userScopeService.getProjectScope();
+        SiteZone siteZone = siteZoneRepository.findByExternalId(
+                                            scope.ignoreFilter(),
+                                            scope.projectIds(),
+                                            siteZoneExternalId
+            ).orElseThrow(() -> new EntityNotFoundException(
+                "La zonano existe o no tienes acceso."));
+        try {
+            siteZoneRepository.delete(siteZone);
+        } catch (DataIntegrityViolationException e){
+            throw new IllegalArgumentException("No se puede eliminar la zona.");
+        }
     }
 
 

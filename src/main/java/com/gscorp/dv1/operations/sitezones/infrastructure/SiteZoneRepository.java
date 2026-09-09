@@ -1,6 +1,7 @@
 package com.gscorp.dv1.operations.sitezones.infrastructure;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -37,6 +38,21 @@ public interface SiteZoneRepository
     );
 
     boolean existsBySiteIdAndNameIgnoreCase(Long siteId, String name);
+
+    @Query(
+        value = """
+        SELECT sz
+        FROM SiteZone sz
+        JOIN sz.site s
+        JOIN s.project p
+        WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
+        AND (sz.externalId = :siteZoneExternalId)
+    """)
+    Optional<SiteZone> findByExternalId(
+        @Param("ignoreProjectFilter") boolean ignoreProjectFilter,
+        @Param("projectIds") List<Long> projectIds,
+        @Param("siteZoneExternalId") UUID siteZoneExternalId
+    );
 
 
 }

@@ -18,6 +18,7 @@ public interface SiteZoneService {
                         UUID userExternalId,
                         CreateSiteZoneRequest request);
 
-
+    void delete (UUID userExternalId,
+                    UUID siteZoneExternalId);
 
 }
