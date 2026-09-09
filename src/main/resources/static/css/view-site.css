@@ -439,7 +439,7 @@ p {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 1.5rem;
+  padding: 0.4rem 1.5rem;
   border-radius: 0.5rem;
   border: none;
   cursor: pointer;
@@ -460,7 +460,7 @@ p {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 1.5rem;
+  padding: 0.4rem 1.5rem;
   border-radius: 0.5rem;
   border: none;
   cursor: pointer;
@@ -481,7 +481,7 @@ p {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 1.5rem;
+  padding: 0.4rem 1.5rem;
   border-radius: 0.5rem;
   border: none;
   cursor: pointer;
@@ -668,4 +668,4 @@ p {
 }
 .private-layout .main-content .content .view-site-panel-card .footer-actions .btn.btn-danger:active {
   transform: translateY(0);
-}/*# sourceMappingURL=view-site.css.map */
+}/*# sourceMappingURL=view-site.css.map */ */

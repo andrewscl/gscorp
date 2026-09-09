@@ -22,19 +22,23 @@ $ratio-right: 1;
             .panel-main{
               @include panel-main();
               .panel-body{
-                .site-zones-table{
-                  @include table-1();
-                  .item-actions{
-                    justify-content: center;
-                    align-self: center;
-                    .create-zone-btn {
-                      @include roboto-font(0.85rem, 600);
-                      @include btn-primary-variant (
-                      $bg-color: $btn-primary-bg,
-                      $color: $white,
-                      $padding: 0.4rem 1rem,
-                      $border-radius: 0.4rem
-                      );
+                .form-row{
+                  .form-group{
+                    .site-zones-table{
+                        @include table-1();
+                        .item-actions{
+                          justify-content: center;
+                          align-self: center;
+                          .create-zone-btn {
+                            @include roboto-font(0.85rem, 600);
+                            @include btn-primary-variant (
+                            $bg-color: $btn-primary-bg,
+                            $color: $white,
+                            $padding: 0.4rem 1rem,
+                            $border-radius: 0.4rem
+                            );
+                          }
+                        }
                     }
                   }
                 }
