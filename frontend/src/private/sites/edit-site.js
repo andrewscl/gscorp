@@ -150,6 +150,58 @@ const createZone = () => {
     navigateTo(`/private/site-zones/${siteExternalId}/zones/new`);
 }
 
+const updateSiteZones = async () => {
+    const siteExternalId = qs('#siteExternalId')?.value || '';
+    if (!siteExternalId){
+        displayAlert(alertError, 'No existe un external ID válido para el sitio.');
+        return;
+    }
+    try {
+      const url = `/api/v1/site-zones/list?siteExternalId=${encodeURIComponent(siteExternalId)}`;
+      const res = await fetchWithAuth(url, {
+        method: 'GET',
+        headers: {'Accept': 'application/json'},
+      });
+      if (!res || !res.ok) {
+        let errorMessage = 'Ocurrió un problema al conseguir las siteZones.';
+        if (res){
+          const contentType = res.headers.get('content-type');
+          if (contentType && contentType.includes('application/json')) {
+            const errorData = await res.json();
+            errorMessage = errorData.message || errorMessage;
+          }
+        }
+        displayAlert(alertError, `Error: ${errorMessage}`);
+        return;
+      }
+      const siteZones = await res.json();
+      const tbody = qs('#site-zones-body');
+      const container = qs('#site-zones-container');
+      const emptyMsg = qs('#no-site-zones-msg');
+      tbody.innerHTML = '';
+      if (Array.isArray(siteZones) && siteZones.length > 0) {
+        if(tbody){
+          siteZones.forEach(siteZone => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+                          <td>${siteZone.name || '-'}</td>
+                          <td>${siteZone.status || '-'}</td>
+                        `;
+          tbody.appendChild(tr);
+          });
+        }
+        if(container) container.style.display = 'block';
+        if(emptyMsg) emptyMsg.style.display = 'none'
+      } else {
+        if(container) container.style.display = 'none';
+        if(emptyMsg) emptyMsg.style.display = 'block'
+      }
+    } catch (error) {
+        console.error('Error al actualizar zonas del sitio: ', error);
+        displayAlert(alertError, 'Ocurrió un error al cargar las zonas del sitio', 3000);
+    }
+}
+
 function bindEditSite() {
     const updateBtn = qs('.btn-primary');
     if (updateBtn) {
@@ -191,4 +243,5 @@ function startEditMap() {
 (function init() {
   bindEditSite();
   startEditMap();
+  updateSiteZones();
 })();

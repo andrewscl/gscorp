@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
-@EnableJpaAuditing
+@EnableJpaAuditing(auditorAwareRef = "auditorProvider")
 public class SecurityConfig {
 
     private final UserDetailsServiceImpl userDetailsServiceImpl;

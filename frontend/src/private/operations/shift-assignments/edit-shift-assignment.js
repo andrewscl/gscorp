@@ -20,6 +20,8 @@ const navigateToCloseShiftAssignment = () => {
     }
 }
 
+
+
 const backToShiftAssignments = () => {
     navigateTo('/private/shift-assignments/list', true);
 }

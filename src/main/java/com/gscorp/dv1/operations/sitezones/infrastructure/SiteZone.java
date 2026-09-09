@@ -3,14 +3,18 @@ package com.gscorp.dv1.operations.sitezones.infrastructure;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import com.gscorp.dv1.enums.SiteZoneStatus;
 import com.gscorp.dv1.operations.sites.infrastructure.Site;
 
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
@@ -29,6 +33,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "site_zones")
+@EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -60,17 +65,19 @@ public class SiteZone {
     @Column(name = "status", length = 20)
     private SiteZoneStatus status;
 
-    @CreationTimestamp
+    @CreatedDate 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @UpdateTimestamp
+    @LastModifiedDate 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @CreatedBy 
     @Column(name = "created_by", updatable = false)
     private String createdBy;
 
+    @LastModifiedBy 
     @Column(name = "updated_by")
     private String updatedBy;
 

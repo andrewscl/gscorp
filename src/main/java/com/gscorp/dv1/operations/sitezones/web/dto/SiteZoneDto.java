@@ -3,6 +3,7 @@ package com.gscorp.dv1.operations.sitezones.web.dto;
 import java.util.UUID;
 
 import com.gscorp.dv1.enums.SiteZoneStatus;
+import com.gscorp.dv1.operations.sitezones.infrastructure.SiteZone;
 import com.gscorp.dv1.operations.sitezones.infrastructure.projections.SiteZoneProjection;
 
 public record SiteZoneDto (
@@ -11,7 +12,7 @@ public record SiteZoneDto (
     String name,
     SiteZoneStatus status
 ){
-    public SiteZoneDto fromProjection(SiteZoneProjection projection) {
+    public static SiteZoneDto fromProjection(SiteZoneProjection projection) {
         if (projection == null) return null;
         return new SiteZoneDto(
             projection.getId(),
@@ -19,6 +20,14 @@ public record SiteZoneDto (
             projection.getName(),
             projection.getStatus()
         );
-
+    }
+    public static SiteZoneDto fromEntity(SiteZone entity) {
+        if (entity == null) return null;
+        return new SiteZoneDto(
+            entity.getId(),
+            entity.getExternalId(),
+            entity.getName(),
+            entity.getStatus()
+        );
     }
 }

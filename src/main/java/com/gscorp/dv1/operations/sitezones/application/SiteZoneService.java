@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.gscorp.dv1.enums.SiteZoneStatus;
+import com.gscorp.dv1.operations.sitezones.web.dto.CreateSiteZoneRequest;
 import com.gscorp.dv1.operations.sitezones.web.dto.SiteZoneDto;
 
 public interface SiteZoneService {
@@ -12,5 +13,11 @@ public interface SiteZoneService {
                             UUID userExternalId,
                             UUID siteId,
                             SiteZoneStatus status);
+
+    SiteZoneDto createSiteZone (
+                        UUID userExternalId,
+                        CreateSiteZoneRequest request);
+
+
 
 }

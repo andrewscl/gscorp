@@ -36,5 +36,8 @@ public interface SiteZoneRepository
         @Param("status") SiteZoneStatus status
     );
 
+    boolean existsBySiteIdAndNameIgnoreCase(Long siteId, String name);
+
+
 }
 
