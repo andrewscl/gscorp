@@ -156,15 +156,8 @@ public class SiteRestController {
                 return ResponseEntity.ok(siteProjections);
         }
 
-        @GetMapping("/{id}")
-        public ResponseEntity<SiteDto> getSiteById(@PathVariable Long id) {
-                return siteService.findDtoById(id)
-                        .map(ResponseEntity::ok)
-                        .orElse(ResponseEntity.notFound().build());
-        }
-
-        @GetMapping("/externalId/{externalId}")
-        public ResponseEntity<SiteDto> getSiteByExternalId(
+        @GetMapping("/{externalId}")
+        public ResponseEntity<SiteDto> getSiteById(
                                 @AuthenticationPrincipal SecurityUser securityUser,
                                 @PathVariable UUID externalId) {
                 ProjectScope scope = userScopeService.getProjectScope();
