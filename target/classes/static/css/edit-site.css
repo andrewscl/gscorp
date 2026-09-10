@@ -319,6 +319,9 @@ p {
   margin: 0;
   width: 100%;
 }
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row {
+  border-bottom: 0.125rem solid #e2e8f0;
+}
 .private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table {
   background-color: #ffffff;
   border-radius: 1rem;
@@ -370,7 +373,7 @@ p {
 }
 .private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .title-row .item-actions .create-zone-btn {
   font-family: "Roboto", sans-serif;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   display: inline-flex;
@@ -441,7 +444,7 @@ p {
   letter-spacing: 0.02em;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  padding: 0.4rem 0.85rem;
+  padding: 0.4rem 0.5rem;
   border-bottom: 0.125rem solid #e2e8f0;
   color: #64748b;
   white-space: nowrap;
@@ -454,13 +457,13 @@ p {
   background-color: rgba(59, 130, 246, 0.02);
 }
 .private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .list .table tbody tr td {
-  padding: 0.5rem 0.85rem;
+  padding: 0.4rem 0.5rem;
   vertical-align: middle;
   white-space: nowrap;
 }
 .private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .list .table tbody tr td .btn {
   font-family: "Roboto", sans-serif;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   font-weight: 500;
   letter-spacing: 0.02em;
 }
@@ -468,7 +471,7 @@ p {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.4rem 1.5rem;
+  padding: 0.4rem 0.75rem;
   border-radius: 0.5rem;
   border: none;
   cursor: pointer;
@@ -489,7 +492,7 @@ p {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.4rem 1.5rem;
+  padding: 0.4rem 0.75rem;
   border-radius: 0.5rem;
   border: none;
   cursor: pointer;
@@ -510,7 +513,7 @@ p {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.4rem 1.5rem;
+  padding: 0.4rem 0.75rem;
   border-radius: 0.5rem;
   border: none;
   cursor: pointer;

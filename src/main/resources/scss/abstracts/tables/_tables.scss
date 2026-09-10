@@ -45,7 +45,7 @@
                     justify-content: center;
                     align-self: center;
                     .create-zone-btn {
-                        @include roboto-font(0.75rem, 600);
+                        @include roboto-font(0.85rem, 600);
                         @include btn-primary-variant (
                             $bg-color: $btn-primary-bg,
                             $color: $white,
@@ -91,7 +91,7 @@
                         @include roboto-font(0.8rem, 600);
                         text-transform: uppercase; // Le da un toque corporativo moderno
                         letter-spacing: 0.03em;
-                        padding: 0.4rem 0.85rem;
+                        padding: 0.4rem 0.5rem;
                         border-bottom: 0.125rem solid $border-color;
                         color: $text-secondary-color;
                         white-space: nowrap;
@@ -104,16 +104,16 @@
                         transition: background .12s ease;
                         &:hover { background-color: rgba($hover-color, 0.02); }
                         td {
-                        padding: 0.5rem 0.85rem;
+                        padding: 0.4rem 0.5rem;
                         vertical-align: middle;
                         white-space: nowrap;
                             .btn {
-                                @include roboto-font(0.875rem, 500);
+                                @include roboto-font(0.8rem, 500);
                                 &.btn-primary {
                                 @include btn-primary-variant (
                                         $bg-color: $accent-blue,
                                         $color: $white,
-                                        $padding: 0.4rem 1.5rem,
+                                        $padding: 0.4rem 0.75rem,
                                         $border-radius: 0.5rem
                                     );
                                 }
@@ -121,7 +121,7 @@
                                 @include btn-primary-variant (
                                         $bg-color: $secondary-color,
                                         $color: $white,
-                                        $padding: 0.4rem 1.5rem,
+                                        $padding: 0.4rem 0.75rem,
                                         $border-radius: 0.5rem
                                     );
                                 }
@@ -129,7 +129,7 @@
                                 @include btn-primary-variant (
                                         $bg-color: $accent-red,
                                         $color: $white,
-                                        $padding: 0.4rem 1.5rem,
+                                        $padding: 0.4rem 0.75rem,
                                         $border-radius: 0.5rem
                                     );
                                 }
