@@ -41,6 +41,19 @@
                     @include montserrat-font(0.85rem, 600);
                     box-shadow: 0 1px 0 rgba($slate-900 ,0.03);
                 }
+                .item-actions{
+                    justify-content: center;
+                    align-self: center;
+                    .create-zone-btn {
+                        @include roboto-font(0.75rem, 600);
+                        @include btn-primary-variant (
+                            $bg-color: $btn-primary-bg,
+                            $color: $white,
+                            $padding: 0.4rem 0.75rem,
+                            $border-radius: 0.4rem
+                        );
+                    }
+                }
                 @media (max-width: 768px) {
                     .title-left {
                     @include montserrat-font(1rem, 600);

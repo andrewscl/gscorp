@@ -364,6 +364,35 @@ p {
   letter-spacing: 0.02em;
   box-shadow: 0 1px 0 rgba(15, 23, 42, 0.03);
 }
+.private-layout .main-content .content .view-site-panel-card .panel-container .panel-main .panel-body .site-zones-table .title-row .item-actions {
+  justify-content: center;
+  align-self: center;
+}
+.private-layout .main-content .content .view-site-panel-card .panel-container .panel-main .panel-body .site-zones-table .title-row .item-actions .create-zone-btn {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 0.75rem;
+  border-radius: 0.4rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+.private-layout .main-content .content .view-site-panel-card .panel-container .panel-main .panel-body .site-zones-table .title-row .item-actions .create-zone-btn:hover {
+  background-color: rgb(29.8390243902, 111.4024390244, 244.6609756098);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+.private-layout .main-content .content .view-site-panel-card .panel-container .panel-main .panel-body .site-zones-table .title-row .item-actions .create-zone-btn:active {
+  transform: translateY(0);
+}
 @media (max-width: 768px) {
   .private-layout .main-content .content .view-site-panel-card .panel-container .panel-main .panel-body .site-zones-table .title-row .title-left {
     font-family: "Montserrat", sans-serif;
