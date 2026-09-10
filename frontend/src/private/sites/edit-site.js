@@ -232,19 +232,20 @@ function bindEditSite() {
 
 function startEditMap() {
   startViewMap().then(async (result) => {
-    if (result) {
-      const { map, siteData, initialMarker } = result;
+    if (!result) return;
+      const { map, siteData, initialMarker, hasValidCoords } = result;
       enableMarkerDrag(initialMarker, (coords) => {
         const position = initialMarker.position;
-
-        // extraer coordenadas
         const newLat = position.lat;
         const newLon = position.lng;
-        // actualizar inputs
         qs('#siteLat').value = newLat;
         qs('#siteLon').value = newLon;
       });
-    }
+      if (!hasValidCoords){
+        const pos = initialMarker.position;
+        qs('#siteLat').value = pos.lat;
+        qs('#siteLon').value = pos.lon;
+      }
   });
 }
 
