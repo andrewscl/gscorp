@@ -319,7 +319,7 @@ p {
   margin: 0;
   width: 100%;
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-group .site-zones-table {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table {
   background-color: #ffffff;
   border-radius: 1rem;
   border: 1px solid #e2e8f0;
@@ -332,16 +332,16 @@ p {
   z-index: 30;
   width: 100%;
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-group .site-zones-table .title-row {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .title-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-group .site-zones-table .title-row .title-left {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .title-row .title-left {
   display: flex;
   align-items: center;
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-group .site-zones-table .title-row .title-left .title-text {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .title-row .title-left .title-text {
   font-family: "Montserrat", sans-serif;
   font-size: 1rem;
   font-weight: 600;
@@ -349,7 +349,7 @@ p {
   color: #475569;
   margin: 0;
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-group .site-zones-table .title-row .count {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .title-row .count {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -365,21 +365,21 @@ p {
   box-shadow: 0 1px 0 rgba(15, 23, 42, 0.03);
 }
 @media (max-width: 768px) {
-  .private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-group .site-zones-table .title-row .title-left {
+  .private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .title-row .title-left {
     font-family: "Montserrat", sans-serif;
     font-size: 1rem;
     font-weight: 600;
     letter-spacing: 0.02em;
   }
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-group .site-zones-table .empty-msg {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .empty-msg {
   margin: 0;
   font-family: "Roboto", sans-serif;
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.02em;
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-group .site-zones-table .list {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .list {
   flex-grow: 1;
   box-shadow: 0 0.5rem 1.1rem rgba(15, 23, 42, 0.04);
   -webkit-overflow-scrolling: touch;
@@ -389,7 +389,7 @@ p {
   margin-top: 0;
   width: 100%;
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-group .site-zones-table .list .table {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .list .table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
@@ -400,7 +400,7 @@ p {
   color: #334155;
   table-layout: fixed;
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-group .site-zones-table .list .table thead tr th {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .list .table thead tr th {
   position: sticky;
   top: 0;
   z-index: 20;
@@ -417,25 +417,25 @@ p {
   color: #64748b;
   white-space: nowrap;
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-group .site-zones-table .list .table tbody tr {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .list .table tbody tr {
   border-bottom: 0.0625rem solid #e2e8f0;
   transition: background 0.12s ease;
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-group .site-zones-table .list .table tbody tr:hover {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .list .table tbody tr:hover {
   background-color: rgba(59, 130, 246, 0.02);
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-group .site-zones-table .list .table tbody tr td {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .list .table tbody tr td {
   padding: 0.5rem 0.85rem;
   vertical-align: middle;
   white-space: nowrap;
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-group .site-zones-table .list .table tbody tr td .btn {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .list .table tbody tr td .btn {
   font-family: "Roboto", sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
   letter-spacing: 0.02em;
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-group .site-zones-table .list .table tbody tr td .btn.btn-primary {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .list .table tbody tr td .btn.btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -448,15 +448,15 @@ p {
   background-color: #3b82f6;
   color: #ffffff;
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-group .site-zones-table .list .table tbody tr td .btn.btn-primary:hover {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .list .table tbody tr td .btn.btn-primary:hover {
   background-color: rgb(29.8390243902, 111.4024390244, 244.6609756098);
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-group .site-zones-table .list .table tbody tr td .btn.btn-primary:active {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .list .table tbody tr td .btn.btn-primary:active {
   transform: translateY(0);
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-group .site-zones-table .list .table tbody tr td .btn.btn-secondary {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .list .table tbody tr td .btn.btn-secondary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -469,15 +469,15 @@ p {
   background-color: #cbd5e1;
   color: #ffffff;
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-group .site-zones-table .list .table tbody tr td .btn.btn-secondary:hover {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .list .table tbody tr td .btn.btn-secondary:hover {
   background-color: rgb(175.8585365854, 191.0780487805, 209.3414634146);
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(203, 213, 225, 0.4);
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-group .site-zones-table .list .table tbody tr td .btn.btn-secondary:active {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .list .table tbody tr td .btn.btn-secondary:active {
   transform: translateY(0);
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-group .site-zones-table .list .table tbody tr td .btn.btn-danger {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .list .table tbody tr td .btn.btn-danger {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -490,19 +490,19 @@ p {
   background-color: #ef4444;
   color: #ffffff;
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-group .site-zones-table .list .table tbody tr td .btn.btn-danger:hover {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .list .table tbody tr td .btn.btn-danger:hover {
   background-color: rgb(236.5802955665, 39.7197044335, 39.7197044335);
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-group .site-zones-table .list .table tbody tr td .btn.btn-danger:active {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .list .table tbody tr td .btn.btn-danger:active {
   transform: translateY(0);
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-group .site-zones-table .item-actions {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .item-actions {
   justify-content: center;
   align-self: center;
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-group .site-zones-table .item-actions .create-zone-btn {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .item-actions .create-zone-btn {
   font-family: "Roboto", sans-serif;
   font-size: 0.85rem;
   font-weight: 600;
@@ -519,12 +519,12 @@ p {
   background-color: #3b82f6;
   color: #ffffff;
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-group .site-zones-table .item-actions .create-zone-btn:hover {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .item-actions .create-zone-btn:hover {
   background-color: rgb(29.8390243902, 111.4024390244, 244.6609756098);
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-group .site-zones-table .item-actions .create-zone-btn:active {
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .item-actions .create-zone-btn:active {
   transform: translateY(0);
 }
 .private-layout .main-content .content .edit-site-panel-card .panel-container .panel-aside {

@@ -23,7 +23,7 @@ $ratio-right: 1;
               @include panel-main();
               .panel-body{
                 .form-row{
-                  .form-group{
+                  .form-column{
                     .site-zones-table{
                         @include table-1();
                         .item-actions{
