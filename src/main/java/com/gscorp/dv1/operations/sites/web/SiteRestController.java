@@ -34,7 +34,9 @@ import com.gscorp.dv1.operations.sites.web.dto.SiteDtoProjection;
 import com.gscorp.dv1.operations.sites.web.dto.SiteSelectDto;
 import com.gscorp.dv1.operations.sites.web.dto.UpdateLatLon;
 import com.gscorp.dv1.operations.sites.web.dto.UpdateSiteRequest;
+import com.gscorp.dv1.users.application.UserScopeService;
 import com.gscorp.dv1.users.application.UserService;
+import com.gscorp.dv1.users.application.dto.ProjectScope;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -48,6 +50,7 @@ public class SiteRestController {
     private final ProjectService projectService;
     private final UserService userService;
     private final ClientService clientService;
+    private final UserScopeService userScopeService;
 
     @PostMapping("/create")
     public ResponseEntity <SiteDto> createSite(
@@ -160,11 +163,23 @@ public class SiteRestController {
                         .orElse(ResponseEntity.notFound().build());
         }
 
+        @GetMapping("/externalId/{externalId}")
+        public ResponseEntity<SiteDto> getSiteByExternalId(
+                                @AuthenticationPrincipal SecurityUser securityUser,
+                                @PathVariable UUID externalId) {
+                ProjectScope scope = userScopeService.getProjectScope();
+                return siteService.findDtoByExternalId(
+                                scope.ignoreFilter(),
+                                scope.projectIds(),
+                                externalId)
+                        .map(ResponseEntity::ok)
+                        .orElse(ResponseEntity.notFound().build());
+        }
+
         @GetMapping("/user-sites")
         @ResponseBody
         public List<SiteDto> getAllSitesByUser(
                                 Authentication authentication) {
-
                 Object principal = authentication.getPrincipal();
                 SecurityUser securityUser = (SecurityUser) principal;
                 UUID externalId = securityUser.getUser().getExternalId();
@@ -190,4 +205,6 @@ public class SiteRestController {
                 List<SiteSelectDto> sites = siteService.findByProjectExternalId(projectExternalId);
                 return ResponseEntity.ok(sites);
         }
+
+
 }

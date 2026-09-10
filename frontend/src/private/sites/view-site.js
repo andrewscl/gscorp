@@ -22,7 +22,7 @@ export const startViewMap = async () => {
       mapTypeId: 'hybrid',
       zoom: 10,
     });
-    const response = await fetchWithAuth(`/api/sites/${siteExternalId}`, {
+    const response = await fetchWithAuth(`/api/sites/externalId/${siteExternalId}`, {
       method: 'GET',
       headers: { 'Accept': 'application/json' },
     });
