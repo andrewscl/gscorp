@@ -17,7 +17,7 @@ export const startViewMap = async () => {
   try {
     console.log('Loading Google Maps API...');
     await loadGoogleMapsAPI(apiKey);
-    const DEFAULT_CENTER = { lat: -33.4489, lng: -70.6693 };
+
     const map = await initMap('map', {
       mapTypeId: 'hybrid',
       zoom: 10,
@@ -28,17 +28,12 @@ export const startViewMap = async () => {
     });
     const siteData = await response.json();
     console.log('Site data:', siteData);
-    const rawLat = parseFloat(siteData.lat);
-    const rawLon = parseFloat(siteData.lon);
-    const hasValidCoords = !isNaN(rawLat) && !isNaN(rawLon);
-    const lat = hasValidCoords ? rawLat : DEFAULT_CENTER.lat;
-    const lon = hasValidCoords ? rawLon : DEFAULT_CENTER.lon;
-    const initialMarker = await addAdvancedMarker(map, siteData.name, lat, lon);
+    const initialMarker = await addAdvancedMarker(map, siteData.name, siteData.lat, siteData.lon);
     const bounds = new google.maps.LatLngBounds();
     bounds.extend({ lat: parseFloat(siteData.lat), lng: parseFloat(siteData.lon) });
     map.fitBounds(bounds);
     map.setZoom(15);
-    return { map, siteData, initialMarker, hasValidCoords };
+    return { map, siteData, initialMarker };
   } catch (error) {
     console.error('[site-map.js] Error al cargar la API de Google Maps:'
                                                                     , error);

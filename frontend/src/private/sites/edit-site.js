@@ -233,7 +233,7 @@ function bindEditSite() {
 function startEditMap() {
   startViewMap().then(async (result) => {
     if (!result) return;
-      const { map, siteData, initialMarker, hasValidCoords } = result;
+      const { map, siteData, initialMarker } = result;
       enableMarkerDrag(initialMarker, (coords) => {
         const position = initialMarker.position;
         const newLat = position.lat;
