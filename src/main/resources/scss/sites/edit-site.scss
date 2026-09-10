@@ -26,9 +26,6 @@ $ratio-right: 1;
                   .form-column{
                     .site-zones-table{
                         @include table-1();
-                        .title-row{
-                          border-bottom: 0.1rem solid $border-color;
-                        }
                     }
                   }
                 }

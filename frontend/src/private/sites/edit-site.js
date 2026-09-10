@@ -188,8 +188,8 @@ const updateSiteZones = async () => {
                           <td>${siteZone.status.displayName || '-'}</td>
                           <td>
                             <button type="button"
-                                    class="btn btn-danger"
-                                    id="delete-site-zone-btn"
+                                    class="btn btn-secondary"
+                                    id="view-zone-btn"
                                     data-id="${siteZone.externalId}">
                               Eliminar Zona
                             </button>
@@ -211,52 +211,6 @@ const updateSiteZones = async () => {
     }
 }
 
-const deleteSiteZone = async (siteZoneExternalId) => {
-    if (!siteZoneExternalId) return;
-    const ok = window.confirm('¿Eliminar esta zona? Esta acción no se puede deshacer.');
-    if (!ok) return;
-    const updateBtn = qs('.btn-primary');
-    const cancelBtn = qs('.btn-secondary');
-    const deleteBtn = qs('.btn-danger');
-    const createZoneBtn = qs('#createZoneBtn');
-    const deleteSiteZoneBtn = qs('#delete-site-zone-btn')
-    setButtonsDisabled(true);
-    try {
-      const res = await fetchWithAuth(`/api/site-zones/${siteZoneExternalId}`, { 
-        method: 'DELETE'
-      });
-      if (!res || !res.ok) {
-        let errorMessage = 'Ocurrió un problema al intentar eliiminar el siteZone.';
-        if (res){
-          const contentType = res.headers.get('content-type');
-          if (contentType && contentType.includes('application/json')) {
-            const errorData = await res.json();
-            errorMessage = errorData.message || errorMessage;
-          }
-        }
-        displayAlert(alertError, `Error: ${errorMessage}`);
-        return;
-      }
-      displayAlert(alertSuccess, 'La zona fue eliminada correctamente.', 2500);
-      if (typeof updateSiteZones === 'function') {
-        await updateSiteZones();
-      }
-    } catch (err) {
-      displayAlert(alertError, 'No se pudo eliminar: ' + (err.message || err), 2500);
-    } finally {
-      setButtonsDisabled(false);
-    }
-    function setButtonsDisabled (disabled) {
-        if (updateBtn) updateBtn.disabled = disabled;
-        if (cancelBtn) cancelBtn.disabled = disabled;
-        if (deleteBtn) deleteBtn.disabled = disabled;
-        if (createZoneBtn) createZoneBtn.disabled = disabled;
-        if (deleteSiteZoneBtn) deleteSiteZoneBtn.disabled = disabled;
-    }
-}
-
-
-
 function bindEditSite() {
     const updateBtn = qs('.btn-primary');
     if (updateBtn) {
@@ -273,10 +227,6 @@ function bindEditSite() {
     const createZoneBtn = qs('#createZoneBtn');
     if (createZoneBtn) {
         createZoneBtn.addEventListener('click', createZone);
-    }
-    const deleteSiteZoneBtn = qs('#delete-site-zone-btn')
-    if (deleteSiteZoneBtn) {
-      deleteSiteZoneBtn.addEventListener('click', deleteSiteZone);
     }
 }
 
