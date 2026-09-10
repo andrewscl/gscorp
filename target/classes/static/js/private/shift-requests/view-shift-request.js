@@ -1,0 +1,1 @@
+import{n as e}from"../../navigation-handler.js";import"../../auth.js";const i=t=>document.querySelector(t),n=t=>{t.target.disabled=!0,setTimeout(()=>e("/private/shift-requests/table-view",!0),1e3)};function s(){const t=i(".btn-secondary");t&&t.addEventListener("click",n)}(async function(){s(),console.log("Initializing view shift-requests page...")})();

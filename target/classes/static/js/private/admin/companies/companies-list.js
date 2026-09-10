@@ -1,0 +1,1 @@
+import{n as a}from"../../../navigation-handler.js";import"../../../auth.js";const t=e=>document.querySelector(e),i=()=>{a("/admin/companies/create",!0)};async function o(){setTimeout(()=>a("/private/companies/create",!0),1e3)}function c(){const e=t("#addCompaniesBtn"),n=t("#searchCompaniesBtn");e&&e.addEventListener("click",i),n&&n.addEventListener("click",o)}(function(){c()})();
