@@ -319,9 +319,6 @@ p {
   margin: 0;
   width: 100%;
 }
-.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row {
-  border-bottom: 0.125rem solid #e2e8f0;
-}
 .private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table {
   background-color: #ffffff;
   border-radius: 1rem;
@@ -529,6 +526,9 @@ p {
 }
 .private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .list .table tbody tr td .btn.btn-danger:active {
   transform: translateY(0);
+}
+.private-layout .main-content .content .edit-site-panel-card .panel-container .panel-main .panel-body .form-row .form-column .site-zones-table .title-row {
+  border-bottom: 0.1rem solid #e2e8f0;
 }
 .private-layout .main-content .content .edit-site-panel-card .panel-container .panel-aside {
   background: #f8fafc;
