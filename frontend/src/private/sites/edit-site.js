@@ -10,7 +10,7 @@ const alertError = qs('.alert-error');
 const alertCancel = qs('.alert-warning');
 
 async function deleteSite () {
-  const ok = window.confirm('¿Eliminar este usuario? Esta acción no se puede deshacer.');
+  const ok = window.confirm('¿Eliminar este sitio? Esta acción no se puede deshacer.');
   if (!ok) return;
 
   if (deleteBtn) deleteBtn.disabled = true;
