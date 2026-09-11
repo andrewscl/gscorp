@@ -129,10 +129,16 @@ public class SiteServiceImpl implements SiteService{
     }
 
     @Transactional
-    public SiteDto updateSite(Long id, UpdateSiteRequest request) {
-        Site site = siteRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("No existe el sitio con id " + id));
-
+    public SiteDto updateSite(
+                    boolean ignoreProjectFilter,
+                    List<Long> projectIds,
+                    UUID externalId,
+                    UpdateSiteRequest request) {
+        Site site = siteRepository.findByExternalId(
+                                    ignoreProjectFilter,
+                                    projectIds,
+                                    externalId)
+            .orElseThrow(() -> new RuntimeException("No existe el sitio con id " + externalId));
         site.setName(request.name());
         site.setAddress(request.address());
         site.setTimeZone(request.timeZone());
@@ -140,13 +146,10 @@ public class SiteServiceImpl implements SiteService{
         site.setLon(request.lon());
         site.setStatus(request.status());
         site.setActive(Boolean.TRUE.equals(request.active()));
-
         siteRepository.save(site);
-
         // Forzar inicialización mientras la sesión está activa
         Long projectId = site.getProject() != null ? site.getProject().getId() : null;
         String projectName = site.getProject() != null ? site.getProject().getName() : null;
-
         return new SiteDto(
             site.getId(),
             site.getExternalId(),

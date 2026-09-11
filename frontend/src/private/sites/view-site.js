@@ -49,7 +49,7 @@ export const startViewMap = async () => {
 const loadSiteZones = async () => {
   const siteExternalId = qs('#siteExternalId').value;
   try{
-    const response = await fetchWithAuth(`/api/site-zones/list?siteExternalId=${siteExternalId}`, {
+    const response = await fetchWithAuth(`/api/v1/site-zones/list?siteExternalId=${siteExternalId}`, {
       method: 'GET',
       headers: { 'Accept': 'application/json' },
     });

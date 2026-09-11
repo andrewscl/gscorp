@@ -1,0 +1,1 @@
+import{n as r}from"../../../navigation-handler.js";import"../../../auth.js";const c=t=>document.querySelector(t),n=()=>{r("/private/projects/create",!0)},o=()=>{r("/private/projects/search",!0)};function s(){const t=c("#addprojectsBtn");t&&t.addEventListener("click",n);const e=c("#searchProjectsBtn");e&&e.addEventListener("click",o)}(function(){s()})();

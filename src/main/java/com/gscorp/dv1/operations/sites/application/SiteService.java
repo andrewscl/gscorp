@@ -35,7 +35,11 @@ public interface SiteService {
 
     Site updateSiteLocation(Long id, UpdateLatLon updateLatLon);
 
-    SiteDto updateSite(Long id, UpdateSiteRequest request);
+    SiteDto updateSite(
+                    boolean ignoreProjectFilter,
+                    List<Long> projectIds,
+                    UUID externalId,
+                    UpdateSiteRequest request);
 
     SetSiteCoordinatesDto setCoordinates(Long siteId, Double latitude, Double longitude);
 

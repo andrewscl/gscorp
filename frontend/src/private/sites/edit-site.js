@@ -39,7 +39,7 @@ async function updateSite() {
     if (updateBtn) updateBtn.disabled = true;
     if (cancelBtn) cancelBtn.disabled = true;
     if (deleteBtn) deleteBtn.disabled = true;
-    const id = qs('#siteId')?.value?.trim();
+    const externalId = qs('#siteExternalId')?.value?.trim();
     const siteName = qs('#siteName')?.value?.trim();
     const siteAddress = qs('#siteAddress')?.value?.trim();
     const siteLat = qs('#siteLat')?.value?.trim();
@@ -57,7 +57,7 @@ async function updateSite() {
       active: siteActive
     };
     try {
-      const res = await fetchWithAuth(`/api/sites/update/${id}`, {
+      const res = await fetchWithAuth(`/api/sites/${externalId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

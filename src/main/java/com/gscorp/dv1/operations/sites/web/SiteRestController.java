@@ -118,20 +118,21 @@ public class SiteRestController {
                 return ResponseEntity.ok(updateLocation);
         }
 
-        @PutMapping("/update/{id}")
+        @PutMapping("/{externalId}")
         public ResponseEntity<?> updateSite(
-                @PathVariable Long id,
-                @RequestBody UpdateSiteRequest in
+                @AuthenticationPrincipal SecurityUser securityUser,
+                @PathVariable UUID externalId,
+                @Valid @RequestBody UpdateSiteRequest request
                 ) {
-                try {
-                        SiteDto updated = siteService.updateSite(id, in);
-                        return ResponseEntity.ok(updated);
-                } catch (Exception e) {
-                        e.printStackTrace();
-                        return ResponseEntity
-                                .badRequest()
-                                        .body("No se pudo guardar el sitio: " + e.getMessage());
+                if (securityUser == null) {
+                        throw new AuthenticationCredentialsNotFoundException("Usuario no autenticado");
                 }
+                ProjectScope scope = userScopeService.getProjectScope();
+                SiteDto updated = siteService.updateSite(scope.ignoreFilter(),
+                                                                scope.projectIds(),
+                                                                externalId,
+                                                                request);
+                return ResponseEntity.ok(updated);
         }
 
         @PostMapping("/set-coordinates")
