@@ -2,6 +2,7 @@ package com.gscorp.dv1.operations.sites.web.dto;
 
 import java.util.UUID;
 
+import com.gscorp.dv1.enums.SiteStatus;
 import com.gscorp.dv1.operations.sites.infrastructure.Site;
 import com.gscorp.dv1.operations.sites.infrastructure.SiteProjection;
 
@@ -15,6 +16,7 @@ public record SiteDto (
     String timeZone,
     Double lat,
     Double lon,
+    SiteStatus status,
     Boolean active
 ) {
     public static SiteDto fromEntity ( Site site){
@@ -29,6 +31,7 @@ public record SiteDto (
             site.getTimeZone(),
             site.getLat(),
             site.getLon(),
+            site.getStatus(),
             site.getActive()
         );
     }
@@ -44,6 +47,7 @@ public record SiteDto (
             s.getTimeZone(),
             s.getLat(),
             s.getLon(),
+            s.getStatus(),
             s.getActive()
         );
     }

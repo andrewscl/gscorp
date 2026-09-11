@@ -13,6 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.gscorp.dv1.admin.projects.application.ProjectService;
 import com.gscorp.dv1.config.security.SecurityUser;
+import com.gscorp.dv1.enums.SiteStatus;
 import com.gscorp.dv1.operations.sites.application.SiteService;
 import com.gscorp.dv1.operations.sites.web.dto.SiteDto;
 import com.gscorp.dv1.users.application.UserScopeService;
@@ -77,6 +78,7 @@ public class SiteController {
         model.addAttribute("site", site);
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
         model.addAttribute("googlemapid", googleMapId);
+        model.addAttribute("siteStatusList", SiteStatus.values());
         return "private/sites/fragments/edit-site";
     }
 

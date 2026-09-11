@@ -11,12 +11,15 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.gscorp.dv1.admin.projects.infrastructure.Project;
+import com.gscorp.dv1.enums.SiteStatus;
 import com.gscorp.dv1.operations.patrol.infrastructure.patrols.Patrol;
 import com.gscorp.dv1.operations.sitezones.infrastructure.SiteZone;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -71,6 +74,10 @@ public class Site {
 
     @Column(length=64)
     String timeZone; // "America/Santiago"
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", length = 30)
+    private SiteStatus status;
 
     @Builder.Default
     @Column(nullable=false)

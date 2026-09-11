@@ -60,6 +60,21 @@
             </div>
           </div>
           <div class="form-column fx-4">
+            <div class="form-group">
+              <label >Activo</label>
+              <input type="checkbox" id="userActive"
+                                            th:checked="${site.active}" />
+            </div>
+            <div class="form-group">
+              <label>Estado</label>
+              <select id="siteStatus" multiple size="6">
+                <option th:each="siteStatus : ${siteStatusList}"
+                        th:value="${userStatus}"
+                        th:text="${siteStatus.name}"
+                        th:selected="${site.status == siteStatus}">
+                </option>
+              </select>
+            </div>
           </div>
         </div>
 

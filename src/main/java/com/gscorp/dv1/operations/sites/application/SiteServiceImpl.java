@@ -93,6 +93,7 @@ public class SiteServiceImpl implements SiteService{
                                     r.getTimeZone(),
                                     r.getLat(),
                                     r.getLon(),
+                                    r.getStatus(),
                                     r.getActive()))
                     .toList();
     }
@@ -155,6 +156,7 @@ public class SiteServiceImpl implements SiteService{
             site.getTimeZone(),
             site.getLat(),
             site.getLon(),
+            site.getStatus(),
             site.getActive()
         );
     }

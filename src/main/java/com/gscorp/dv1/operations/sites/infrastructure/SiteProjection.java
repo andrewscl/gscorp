@@ -2,6 +2,8 @@ package com.gscorp.dv1.operations.sites.infrastructure;
 
 import java.util.UUID;
 
+import com.gscorp.dv1.enums.SiteStatus;
+
 public interface SiteProjection {
 
     Long getId();
@@ -13,5 +15,6 @@ public interface SiteProjection {
     String getTimeZone();
     Long getProjectId();
     String getProjectName();
+    SiteStatus getStatus();
     Boolean getActive();
 }

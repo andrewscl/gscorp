@@ -97,6 +97,7 @@ public class SiteRestController {
                 saved.getTimeZone(),
                 saved.getLat(),
                 saved.getLon(),
+                saved.getStatus(),
                 saved.getActive());
         return ResponseEntity.created(location).body(dto);
 
