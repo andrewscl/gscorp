@@ -138,6 +138,7 @@ public class SiteServiceImpl implements SiteService{
         site.setTimeZone(request.timeZone());
         site.setLat(request.lat());
         site.setLon(request.lon());
+        site.setStatus(request.status());
         site.setActive(Boolean.TRUE.equals(request.active()));
 
         siteRepository.save(site);
