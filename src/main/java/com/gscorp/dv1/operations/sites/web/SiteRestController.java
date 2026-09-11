@@ -128,6 +128,7 @@ public class SiteRestController {
                         throw new AuthenticationCredentialsNotFoundException("Usuario no autenticado");
                 }
                 ProjectScope scope = userScopeService.getProjectScope();
+                System.out.println(request);
                 SiteDto updated = siteService.updateSite(scope.ignoreFilter(),
                                                                 scope.projectIds(),
                                                                 externalId,

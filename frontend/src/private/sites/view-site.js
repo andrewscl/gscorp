@@ -57,7 +57,7 @@ const loadSiteZones = async () => {
       throw new Error(`Error al obtener las zonas del sitio: ${response.status}`);
     }
     const siteZones = await response.json();
-    const siteZoneList = qs('#site-zone-tbody');
+    const siteZoneList = qs('#site-zone-body');
     if (!siteZoneList) {
       console.error('[view-site.js] Elemento no encontrado para listar zonas del sitio.');
       return;

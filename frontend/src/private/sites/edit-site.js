@@ -142,7 +142,6 @@ const updateSiteZones = async () => {
         }
         if(container) container.style.display = 'block';
         if(emptyMsg) emptyMsg.style.display = 'none'
-        bindEditSite();
       } else {
         if(container) container.style.display = 'none';
         if(emptyMsg) emptyMsg.style.display = 'block'
