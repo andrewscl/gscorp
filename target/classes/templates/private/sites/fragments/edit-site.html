@@ -67,10 +67,11 @@
             </div>
             <div class="form-group">
               <label>Estado</label>
-              <select id="siteStatus" multiple size="6">
+              <select id="siteStatus">
+                <option value="">Seleccione estado</option>
                 <option th:each="siteStatus : ${siteStatusList}"
                         th:value="${userStatus}"
-                        th:text="${siteStatus.name}"
+                        th:text="${siteStatus.displayName}"
                         th:selected="${site.status == siteStatus}">
                 </option>
               </select>
