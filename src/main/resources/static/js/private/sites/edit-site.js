@@ -6,7 +6,7 @@ import{f}from"../../auth.js";import{n as m}from"../../navigation-handler.js";imp
                                     class="btn btn-secondary"
                                     id="view-zone-btn"
                                     data-id="${n.externalId}">
-                              Eliminar Zona
+                              Ver
                             </button>
                           <td>
                         `,l.appendChild(c)}),o&&(o.style.display="block"),r&&(r.style.display="none"),v()):(o&&(o.style.display="none"),r&&(r.style.display="block"))}catch(i){console.error("Error al actualizar zonas del sitio: ",i),d(p,"Ocurrió un error al cargar las zonas del sitio",3e3)}};function v(){const e=t(".btn-primary");e&&e.addEventListener("click",k);const i=t(".btn-secondary");i&&i.addEventListener("click",x);const s=t(".btn-danger");s&&s.addEventListener("click",T);const a=t("#createZoneBtn");a&&a.addEventListener("click",z)}function I(){g().then(async e=>{if(!e)return;const{map:i,siteData:s,initialMarker:a,hasValidCoords:l}=e;if(w(a,o=>{const r=a.position,n=r.lat,c=r.lng;t("#siteLat").value=n,t("#siteLon").value=c}),!l){const o=a.position;t("#siteLat").value=o.lat,t("#siteLon").value=o.lon}})}(function(){v(),I(),B()})();

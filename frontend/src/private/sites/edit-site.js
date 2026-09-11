@@ -129,7 +129,7 @@ const updateSiteZones = async () => {
                                     class="btn btn-secondary"
                                     id="view-zone-btn"
                                     data-id="${siteZone.externalId}">
-                              Eliminar Zona
+                              Ver
                             </button>
                           <td>
                         `;
