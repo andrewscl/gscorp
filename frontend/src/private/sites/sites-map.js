@@ -47,11 +47,9 @@ const initMap = async () => {
     console.warn('[initMap] Contenedor #site-map no encontrado en el DOM.');
     return;
   }
-
   try {
     // Importar las bibliotecas necesarias usando el enfoque moderno de Google
     const { Map } = await google.maps.importLibrary("maps");
-
     // Crear e inicializar el mapa
     const map = new Map(mapContainer, {
       center: { lat: -33.4489, lng: -70.6693 },
@@ -60,12 +58,9 @@ const initMap = async () => {
       disableDefaultUI: true, // Desactiva los controles predeterminados
     });
     console.log('[initMap] Mapa inicializado.');
-
     window.mapInstance = map; // Guardar la instancia del mapa globalmente
-
     // Obtener y añadir los sitios al mapa
     await fetchSites();
-
   } catch (error) {
     console.error('[initMap] Error al inicializar el mapa:', error);
   }
@@ -171,18 +166,11 @@ async function addSitesToMapAndSelect(sites) {
 
 /* --- init --- */
 (async function init() {
-
   console.log('[init] IIFE iniciado');
-
   const apiKey = googleMapsConfig.apiKey;
-
   try {
-    //Cargar y esperar Google Maps API
     await loadGoogleMapsAPI(apiKey);
-
-    // Inicializar el mapa
     initMap();
-
   } catch (error) {
     console.error('[site-map.js] Error al cargar la API de Google Maps:', error);
   }

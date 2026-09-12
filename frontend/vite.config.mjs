@@ -50,9 +50,12 @@ export default defineConfig({
         'private/clients/clients-table': path.resolve(__dirname, './src/private/clients/clients-table.js'),
 
         'private/sites/create-site': path.resolve(__dirname, './src/private/sites/create-site.js'),
-        'private/sites/view-site': path.resolve(__dirname, './src/private/sites/view-site.js'),
         'private/sites/edit-site': path.resolve(__dirname, './src/private/sites/edit-site.js'),
+        'private/sites/set-coordinates': path.resolve(__dirname, './src/private/sites/set-coordinates.js'),
         'private/sites/sites-map': path.resolve(__dirname, './src/private/sites/sites-map.js'),
+        'private/sites/sites-table': path.resolve(__dirname, './src/private/sites/sites-table.js'),
+        'private/sites/start-sites-map': path.resolve(__dirname, './src/private/sites/start-sites-map.js'),
+        'private/sites/view-site': path.resolve(__dirname, './src/private/sites/view-site.js'),
 
         'private/operations/site-zones/create-site-zone': path.resolve(__dirname, './src/private/operations/site-zones/create-site-zone.js'),
 
@@ -98,8 +101,6 @@ export default defineConfig({
         'private/shifts/create-shift': path.resolve(__dirname, './src/private/shifts/create-shift.js'),
         'private/operations/shifts/shifts-list': path.resolve(__dirname, './src/private/operations/shifts/shifts-list.js'),
 
-        'private/sites/set-coordinates': path.resolve(__dirname, './src/private/sites/set-coordinates.js'),
-        'private/sites/sites-table': path.resolve(__dirname, './src/private/sites/sites-table.js'),
         'private/site-visits/view-site-visit': path.resolve(__dirname, './src/private/site-visits/view-site-visit.js'),
         'private/site-visits/create-site-visit': path.resolve(__dirname, './src/private/site-visits/create-site-visit.js'),
         'private/site-visits/edit-site-visit': path.resolve(__dirname, './src/private/site-visits/edit-site-visit.js'),
