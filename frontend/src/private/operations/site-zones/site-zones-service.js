@@ -1,5 +1,7 @@
 import { fetchWithAuth } from "../../../auth";
 
+const qs = (s) => document.querySelector(s);
+
 export async function fetchSiteZones(siteExternalId){
     if(!siteExternalId) return [];
     const url = `/api/v1/site-zones/list?siteExternalId=${encodeURIComponent(siteExternalId)}`;
