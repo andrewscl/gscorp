@@ -1,6 +1,8 @@
 <div class="view-site-panel-card">
   <input type="hidden" id="siteId" th:value="${site.id}" />
   <input type="hidden" id="siteExternalId" th:value="${site.externalId}" />
+  <input type="hidden" id="siteLat" th:value="${site.lat}" />
+  <input type="hidden" id="siteLon" th:value="${site.lon}" />
 
     <div class="panel-container">
       <div class="panel-main">
@@ -21,36 +23,60 @@
           <hr class="form-separator"/>
 
           <div class="form-row w-custom">
-            <div class="form-group fx-3">
+            <div class="form-group fx-4">
               <label>Nombre</label>
               <span class="form-value"
                             th:text="${site.name}"></span>
             </div>
-            <div class="form-group fx-7">
+            <div class="form-group fx-6">
               <label>Dirección</label>
               <span class="form-value" th:text="${site.address}"></span>
             </div>
           </div>
 
-          <div class="site-zones-table">
-            <div class="title-row">
-              <div class="title-left">
-                <span class="title-text">Zonas</span>
-              </div>
-            </div>
-            <div class="list">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Zona</th>
-                    <th>Estado</th>
-                  </tr>
-                </thead>
-                <tbody id="site-zones-body">
-                </tbody>
-              </table>
+        <div class="form-row w-custom">
+          <div class="form-column fx-6">
+            <div class="site-zones-table">
+                <div class="title-row">
+                  <div class="title-left">
+                    <span class="title-text">Zonas</span>
+                  </div>
+                  <div class="item-actions">
+                    <button class="create-zone-btn" id="createZoneBtn">
+                    Crear Zona
+                    </button>
+                  </div>
+                </div>
+                <div id="no-site-zones-msg" class="empty-msg" style="display: none; padding: 10px; color: #666;">
+                      No hay zonas en el sitio.
+                </div>
+                <div id="site-zones-container" class="list">
+                  <table class="table">
+                    <tbody id="site-zones-body">
+                    </tbody>
+                  </table>
+                </div>
             </div>
           </div>
+          <div class="form-column fx-4">
+            <div class="form-group">
+              <label >Activo</label>
+              <input type="checkbox" id="siteActive"
+                                            th:checked="${site.active}" />
+            </div>
+            <div class="form-group">
+              <label>Estado</label>
+              <select id="siteStatus">
+                <option value="">Seleccione estado</option>
+                <option th:each="st : ${siteStatusList}"
+                        th:value="${st}"
+                        th:text="${st.displayName}"
+                        th:selected="${site.status == st}">
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
 
         </div>
       </div>

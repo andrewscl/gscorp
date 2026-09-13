@@ -38,9 +38,9 @@ public class SiteController {
                     Model model,
                     @AuthenticationPrincipal SecurityUser securityUser) {
         if(securityUser == null) return "redirect:/login";
-        UUID externalId = securityUser.getUser().getExternalId();
+        UUID userExternalId = securityUser.getUser().getExternalId();
         model.addAttribute("sites",
-                                            siteService.getAllSitesByUser(externalId));
+                                            siteService.getAllSitesByUser(userExternalId));
         model.addAttribute("projects",
                         projectService.findAllWithClientsAndEmployees());
         return "private/sites/views/sites-list";
@@ -54,32 +54,30 @@ public class SiteController {
         return "private/sites/fragments/create-site";
     }
 
-    @GetMapping("/show/{id}")
-    public String showSite (@PathVariable Long id, Model model){
-        var site = siteService.findByIdWithProjects(id);
-        model.addAttribute("site", site);
-        model.addAttribute("googlecloudapikey", googleCloudApiKey);
-        model.addAttribute("googlemapid", googleMapId);
+    @GetMapping("/show/{externalId}")
+    public String showSite (@PathVariable UUID externalId, Model model){
+        populateSiteModel(externalId, model);
         return "private/sites/fragments/view-site";
     }
 
-    @GetMapping("/edit/{siteExternalId}")
-    public String editSite (
-                    @PathVariable UUID siteExternalId,
-                    @AuthenticationPrincipal SecurityUser securityUser,                    
-                    Model model){
+    @GetMapping("/edit/{externalId}")
+    public String editSite ( @PathVariable UUID externalId, Model model){
+        populateSiteModel(externalId, model);
+        return "private/sites/fragments/edit-site";
+    }
+
+    private void populateSiteModel ( UUID externalId, Model model) {
         ProjectScope scope = userScopeService.getProjectScope();
         var siteOpt = siteService.findDtoByExternalId(
                                 scope.ignoreFilter(),
                                 scope.projectIds(),
-                                siteExternalId);
+                                externalId);
         SiteDto site = siteOpt.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                                     "El sitio no existe o no tienes acceso"));
         model.addAttribute("site", site);
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
         model.addAttribute("googlemapid", googleMapId);
         model.addAttribute("siteStatusList", SiteStatus.values());
-        return "private/sites/fragments/edit-site";
     }
 
     @GetMapping("/set-coordinates")

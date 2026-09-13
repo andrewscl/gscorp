@@ -1,1 +1,0 @@
-import{n as i}from"../../../navigation-handler.js";import"../../../auth.js";const e=t=>document.querySelector(t);function r(){i("/private/shift-patterns/create",!0)}function a(){}function c(){const t=e("#addShiftPatternsBtn");t&&t.addEventListener("click",r);const n=e("#searchShiftPatternsBtn");n&&n.addEventListener("click",a)}(function(){c()})();
