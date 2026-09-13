@@ -46,7 +46,8 @@ async function updateSite() {
     const latStr = qs('#siteLat')?.value?.trim();
     const lonStr = qs('#siteLon')?.value?.trim();
     const siteTimeZone = qs('#siteTZ')?.value?.trim();
-    const siteStatus = qs('#siteStatus')?.value;
+    const rawStatus = qs('#siteStatus')?.value;
+    const siteStatus = rawStatus && rawStatus.trim() != '' ? rawStatus : null;
     const siteActive = qs('#siteActive')?.checked;
     const siteLat = latStr ? Number(latStr) : null;
     const siteLon = lonStr ? Number(lonStr) : null;

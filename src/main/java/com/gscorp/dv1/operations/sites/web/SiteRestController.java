@@ -52,8 +52,8 @@ public class SiteRestController {
     private final ClientService clientService;
     private final UserScopeService userScopeService;
 
-    @PostMapping("/create")
-    public ResponseEntity <SiteDto> createSite(
+        @PostMapping("/create")
+        public ResponseEntity <SiteDto> createSite(
         @Valid @RequestBody CreateSiteRequest req,
         UriComponentsBuilder ucb){
         
