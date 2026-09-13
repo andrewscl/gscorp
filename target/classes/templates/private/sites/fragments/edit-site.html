@@ -69,10 +69,10 @@
               <label>Estado</label>
               <select id="siteStatus">
                 <option value="">Seleccione estado</option>
-                <option th:each="siteStatus : ${siteStatusList}"
-                        th:value="${siteStatus}"
-                        th:text="${siteStatus.displayName}"
-                        th:selected="${site.status == siteStatus}">
+                <option th:each="st : ${siteStatusList}"
+                        th:value="${st}"
+                        th:text="${st.displayName}"
+                        th:selected="${site.status == st}">
                 </option>
               </select>
             </div>
