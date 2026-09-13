@@ -150,6 +150,7 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
           s.timeZone    AS timeZone,
           p.id          AS projectId,
           p.name        AS projectName,
+          s.status      AS status,
           s.active      AS active
         FROM Site s
         JOIN s.project p
