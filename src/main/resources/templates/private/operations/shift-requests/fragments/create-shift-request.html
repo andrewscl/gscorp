@@ -6,7 +6,7 @@
       </div>
       <div class="panel-body">
           <div class="form-group">
-            <label>Sitio</label>
+            <label>Sitio:</label>
             <select id="shiftRequestSite" name="siteId" required>
               <option value="">Seleccione sitio</option>
               <option th:each="s : ${sites}"
@@ -15,11 +15,28 @@
             </select>
           </div>
           <div class="form-group">
-            <label>Cuenta / Cliente final (opcional)</label>
-            <select id="shiftRequestAccount" name="accountId">
-              <option value="">Seleccione cuenta</option>
-              <option th:each="a : ${accounts}" th:value="${a.id}" th:text="${a.name}"></option>
+            <label>Zona:</label>
+            <select id="siteZoneExternalId" required disabled>
+               <option value="">Primero seleccione un proyecto</option>
             </select>
+          </div>
+          <div class="form-row w-custom">
+            <div class="form-group fx-4">
+              <label>Tipo de servicio</label>
+              <select id="shiftRequestServiceType" name="type" required>
+                <option value="">Seleccione tipo de servicio</option>
+                <option th:each="t : ${requestTypes}"
+                        th:value="${t.name()}"
+                        th:text="${t.displayName}"></option>
+              </select>
+            </div>
+            <div class="form-group fx-6">
+              <label>Cuenta (opcional)</label>
+              <select id="shiftRequestAccount" name="accountId">
+                <option value="">Seleccione cuenta</option>
+                <option th:each="a : ${accounts}" th:value="${a.id}" th:text="${a.name}"></option>
+              </select>
+            </div>
           </div>
           <div class="form-row">
               <div class="form-group date-field input-with-icon">
@@ -46,15 +63,6 @@
                   </button>
                 </div>
               </div>
-          </div>
-          <div class="form-group">
-            <label>Tipo de servicio</label>
-            <select id="shiftRequestServiceType" name="type" required>
-              <option value="">Seleccione tipo de servicio</option>
-              <option th:each="t : ${requestTypes}"
-                      th:value="${t.name()}"
-                      th:text="${t.displayName}"></option>
-            </select>
           </div>
           <div class="form-group">
             <label>Descripción</label>
