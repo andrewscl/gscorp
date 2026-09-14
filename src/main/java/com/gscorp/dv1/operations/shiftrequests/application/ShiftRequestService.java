@@ -24,6 +24,8 @@ public interface ShiftRequestService {
     Optional<ShiftRequestDtoWithSchedules> findById(Long id);
 
     ShiftRequestDtoWithSchedules update(
+                boolean ignoreProjectFilter,
+                List<Long> projectIds,
                 UUID externalId, 
                 UpdateShiftRequestDto req);
 
@@ -47,8 +49,9 @@ public interface ShiftRequestService {
     ShiftRequestDtoWithSchedules createShiftRequestForPrincipal(CreateShiftRequest req, Authentication authentication);
 
 
-    ShiftRequestDtoWithSchedules getAllowedShiftRequestByExternalId(
-                                UUID userExternalId,
+    ShiftRequestDtoWithSchedules findByExternalId(
+                                boolean ignoreProjectFilter,
+                                List<Long> projectIds,
                                 UUID shiftRequestExternalId);
 
 

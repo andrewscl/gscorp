@@ -28,6 +28,8 @@ import com.gscorp.dv1.operations.shifts.application.ShiftService;
 import com.gscorp.dv1.operations.shifts.web.dto.ShiftDto;
 import com.gscorp.dv1.operations.sites.application.SiteService;
 import com.gscorp.dv1.operations.sites.web.dto.SiteDto;
+import com.gscorp.dv1.users.application.UserScopeService;
+import com.gscorp.dv1.users.application.dto.ProjectScope;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +45,7 @@ public class ShiftRequestController {
     private final ZoneResolver zoneResolver;
     private final ShiftService shiftService;
     private final ShiftPatternService shiftPatternService;
+    private final UserScopeService userScopeService;
 
     @GetMapping("/table-view")
     public String getShiftRequestsTableView (
@@ -83,58 +86,41 @@ public class ShiftRequestController {
         List<SiteDto> sites = siteService.getAllSites();
             model.addAttribute("sites", sites);
             model.addAttribute("requestTypes", ShiftRequestType.values());
-        return "private/operations/shift-requests/views/create-shift-request-view";
+        return "private/operations/shift-requests/fragments/create-shift-request";
     }
 
 
-    @GetMapping("/show/{shiftRequestExternalId}")
+    @GetMapping("/show/{externalId}")
     public String showShiftRequest (
-                @PathVariable UUID shiftRequestExternalId,
-                Model model,
-                @AuthenticationPrincipal SecurityUser securityUser){
-
-        if(securityUser == null) return "redirect:/login";
-        UUID userExternalId = securityUser.getUser().getExternalId();
-
-        try {
-            ShiftRequestDtoWithSchedules shiftRequestDto =
-                shiftRequestService
-                    .getAllowedShiftRequestByExternalId(userExternalId, shiftRequestExternalId);
-            Page<ShiftDto> shifts = shiftService.getLastShiftsByShiftRequest(
-                        userExternalId, shiftRequestExternalId, 3,null);
-            model.addAttribute("shifts", shifts.getContent());
-            model.addAttribute("shiftRequest", shiftRequestDto);
-            return "private/operations/shift-requests/fragments/view-shift-request";
-        } catch (Exception e) {
-            log.error("Error al intentar cargar la vista de visualización de la solicitud {}", shiftRequestExternalId, e);
-            return "redirect:/private/shift-requests/table-view";
-        }
-    }
-
-
-    @GetMapping("/edit/{shiftRequestExternalId}")
-    public String editShiftRequest (
-                        @PathVariable UUID shiftRequestExternalId,
+                        @PathVariable UUID externalId,
                         Model model,
                         @AuthenticationPrincipal SecurityUser securityUser){
-        if(securityUser == null) return "redirect:/login";
-        UUID externalId = securityUser.getUser().getExternalId();
-        try {
-            ShiftRequestDtoWithSchedules shiftRequestDto =
-                                shiftRequestService
-                                    .getAllowedShiftRequestByExternalId(externalId, shiftRequestExternalId);
-            Page<ShiftDto> shifts = shiftService.getLastShiftsByShiftRequest(
-                                        externalId, shiftRequestExternalId, 3,null);
-            model.addAttribute("shiftRequest", shiftRequestDto);
-            model.addAttribute("shiftsPage", shifts);
-            model.addAttribute("shifts", shifts.getContent());
-            model.addAttribute("shiftRequestStatuses", ShiftRequestStatus.values());
-            model.addAttribute("shiftPatterns", shiftPatternService.getShiftPatternsList());
-            return "private/operations/shift-requests/fragments/edit-shift-request";
-        } catch (Exception e) {
-            log.error("Error al intentar cargar la vista de edición de la solicitud {}", shiftRequestExternalId, e);
-            return "redirect:/private/shift-requests/table-view";
-        }
+        populateShiftRequestModel(externalId, securityUser, model);
+        return "private/operations/shift-requests/fragments/view-shift-request";
+    }
+
+    @GetMapping("/edit/{externalId}")
+    public String editShiftRequest (
+                        @PathVariable UUID externalId,
+                        Model model,
+                        @AuthenticationPrincipal SecurityUser securityUser){
+        populateShiftRequestModel(externalId, securityUser, model);
+        return "private/operations/shift-requests/fragments/edit-shift-request";
+    }
+
+    private void populateShiftRequestModel (
+            UUID externalId, SecurityUser securityUser, Model model) {
+        ProjectScope scope = userScopeService.getProjectScope();
+        UUID userExternalId = securityUser.getUser().getExternalId();
+        ShiftRequestDtoWithSchedules shiftRequestDto = shiftRequestService
+                .findByExternalId(scope.ignoreFilter(), scope.projectIds(), externalId);
+        Page<ShiftDto> shifts = shiftService.getLastShiftsByShiftRequest(
+                                    userExternalId, externalId, 0, null);
+        model.addAttribute("shiftRequest", shiftRequestDto);
+        model.addAttribute("shiftsPage", shifts);
+        model.addAttribute("shifts", shifts.getContent());
+        model.addAttribute("shiftRequestStatuses", ShiftRequestStatus.values());
+        model.addAttribute("shiftPatterns", shiftPatternService.getShiftPatternsList());
     }
 
 

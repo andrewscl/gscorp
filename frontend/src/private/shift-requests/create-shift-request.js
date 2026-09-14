@@ -1,5 +1,6 @@
 import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
+import { displayAlert } from '../../shared/display-alert.js';
 
 const qs = (s, root = document) => root.querySelector(s);
 const qsAll = (s, root = document) => Array.from((root || document).querySelectorAll(s));
@@ -44,29 +45,29 @@ function validateNoOverlap(schedules) {
   return null;
 }
 
-/* --- Submit: se mantiene la serialización de schedules igual --- */
-async function onSubmitCreateShiftRequest(e) {
-  e.preventDefault();
-
+async function createShiftRequest() {
+  const createBtn = qs('#submit');
+  const cancelBtn = qs('#cancel');
   const siteIdRaw = qs('#shiftRequestSite')?.value;
   const accountIdRaw = qs('#shiftRequestAccount')?.value;
   const type = qs('#shiftRequestServiceType')?.value;
   const startDate = qs('#shiftRequestStartDate')?.value;
   const endDate = qs('#shiftRequestEndDate')?.value || null;
   const description = qs('#shiftRequestDescription')?.value?.trim() || null;
-
   const siteId = siteIdRaw ? parseInt(siteIdRaw, 10) : null;
   const accountId = accountIdRaw ? parseInt(accountIdRaw, 10) : null;
-
-  const err = qs('#createShiftRequestError');
-  const ok = qs('#createShiftRequestOk');
-  if (err) err.textContent = '';
-  if (ok) ok.style.display = 'none';
-
-  if (!siteId)    { if (err) err.textContent = 'Debe seleccionar un sitio.'; return; }
-  if (!type) { if (err) err.textContent = 'Debe seleccionar el tipo de servicio.'; return; }
-  if (!startDate) { if (err) err.textContent = 'La fecha de inicio es obligatoria.'; return; }
-
+  if (!siteId) {
+    displayAlert(alertError, 'Debe seleccionar un sitio.');
+    return;
+  }
+  if (!type) {
+    displayAlert(alertError, 'Debe seleccionar el tipo de servicio.');
+    return;
+  }
+  if (!startDate) {
+    displayAlert(alertError, 'La fecha de inicio es obligatoria.');
+    return;
+  }
   // --- Obtención de tramos ---
   const schedules = [];
   qsAll('.day-range-block').forEach((block, idx) => {
@@ -78,20 +79,20 @@ async function onSubmitCreateShiftRequest(e) {
       schedules.push({ dayFrom: from, dayTo: to, startTime, endTime });
   });
   if (schedules.length === 0) {
-    if (err) err.textContent = 'Debe ingresar al menos un tramo de horario.';
+    displayAlert(alertError, 'Debe ingresar al menos un tramo de horario.');
     return;
   }
-
   // --- Validación de solapamiento ---
   const overlap = validateNoOverlap(schedules);
   if (overlap) {
-    if (err) err.textContent = `Solapamiento de días entre "${overlap[0].dayFrom} a ${overlap[0].dayTo}" y "${overlap[1].dayFrom} a ${overlap[1].dayTo}". Ajuste los tramos para que no se crucen.`;
+    displayAlert(alertError, `Solapamiento de días entre "${overlap[0].dayFrom}
+                              a ${overlap[0].dayTo}" y "${overlap[1].dayFrom}
+                              a ${overlap[1].dayTo}".
+                              Ajuste los tramos para que no se crucen.`);
     return;
   }
-
-  const submitBtn = e.submitter || qs('#createShiftRequestForm button[type="submit"]');
-  submitBtn && (submitBtn.disabled = true);
-
+  if (createBtn) createBtn.disabled = true;
+  if (cancelBtn) cancelBtn.disabled = true;
   try {
     const res = await fetchWithAuth('/api/shift-requests/create', {
       method: 'POST',
@@ -100,19 +101,28 @@ async function onSubmitCreateShiftRequest(e) {
         siteId, type, clientAccountId: accountId, startDate, endDate, description, schedules
       })
     });
-
-    if (!res.ok) {
-      let msg = '';
-      try { msg = await res.text(); } catch {}
-      if (!msg) msg = `Error ${res.status}`;
-      throw new Error(msg);
+    if (!res || !res.ok) {
+      let errorMessage = 'Ocurrió un problema al enviar el formulario.';
+      if(res){
+        const contentType = res.headers.get('content-type');
+        if(contentType && contentType.includes('application/json')) {
+          const errorData = await res.json();
+          errorMessage = errorData.message || errorMessage;
+        }
+      }
+      displayAlert(alertError, `Error: ${errorMessage}`);
+      if(createBtn) createBtn.disabled = false;
+      if(cancelBtn) cancelBtn.disabled = false;
+      return;
     }
-    if (ok) ok.style.display = 'block';
-    setTimeout(() => { navigateTo('/private/shift-requests/table-view'); }, 600);
-  } catch (e2) {
-    if (err) err.textContent = e2.message;
-  } finally {
-    submitBtn && (submitBtn.disabled = false);
+    displayAlert(alertSuccess, 'La asignación de turno ha sido creada correctamente.', 2000);
+    setTimeout(() => {
+          navigateTo('/private/shift-assignments/list', true); }, 2000);
+  } catch (error) {
+    console.error(`[onClickCreate] Ocurrio un problema: ${error.message}`, error);
+    displayAlert(alertError, 'Error inesperado. Intente más tarde.', 2000);
+    if(createBtn) createBtn.disabled = false;
+    if(cancelBtn) cancelBtn.disabled = false;
   }
 }
 
@@ -238,27 +248,24 @@ function initFlatpickr() {
   });
 }
 
-/* --- Bindings generales --- */
-function bindCreateShiftRequestForm() {
-  qs('#createShiftRequestForm')?.addEventListener('submit', onSubmitCreateShiftRequest);
-}
-function bindCancelCreateShiftRequest() {
-  qs('#cancelCreateShiftRequest')?.addEventListener('click', (e) => {
-    e.preventDefault();
-    navigateTo('/private/shift-requests/table-view');
-  });
-}
-function bindCloseCreateShiftRequest() {
-  qs('#closeCreateShiftRequest')?.addEventListener('click', (e) => {
-    e.preventDefault();
-    navigateTo('/private/shift-requests/table-view');
-  });
+const cancelShiftRequest = () => {
+    displayAlert(alertWarning,
+                'La solicitud de turno ha sido cancelada', 1500);
+    setTimeout(() => navigateTo('/private/shift-requests/table-view'), 1500);
 }
 
+function bindEvents () {
+  const createBtn = qs('#submit');
+  if (createBtn) {
+    createBtn.addEventListener('click', createShiftRequest);
+  }
+  const cancelBtn = qs('#cancel');
+  if (cancelBtn) {
+    cancelBtn.addEventListener('click', cancelShiftRequest);
+  }
+}
 
 // --- Cargar ClientAccounts al cambiar de Site ---
-// pega esto en create-shift-request.js
-
 const _accountsCache = new Map(); // siteId -> accounts array
 
 async function populateAccountsSelect(selectEl, accounts, preserveValue) {
@@ -285,31 +292,25 @@ async function populateAccountsSelect(selectEl, accounts, preserveValue) {
 async function loadAccountsForSite(siteId) {
   const accountSelect = qs('#shiftRequestAccount');
   if (!accountSelect) return;
-
   // preserve current selection (if any)
   const prev = accountSelect.value || '';
-
   // empty / loading state
   accountSelect.disabled = true;
   accountSelect.innerHTML = '<option value="">Cargando cuentas...</option>';
-
   if (!siteId) {
     accountSelect.innerHTML = '<option value="">Seleccione cuenta</option>';
     accountSelect.disabled = true;
     return;
   }
-
   // cache hit
   if (_accountsCache.has(siteId)) {
     populateAccountsSelect(accountSelect, _accountsCache.get(siteId), prev);
     return;
   }
-
   try {
     // Ajusta la URL si tu endpoint es distinto (p.ej. /api/sites/{siteId}/accounts)
     const url = `/api/shift-requests/sites/${siteId}/accounts`;
     const resp = await fetchWithAuth(url, { method: 'GET' });
-
     if (resp.status === 401) {
       accountSelect.innerHTML = '<option value="">No autenticado</option>';
       return;
@@ -322,7 +323,6 @@ async function loadAccountsForSite(siteId) {
       accountSelect.innerHTML = '<option value="">Error cargando cuentas</option>';
       return;
     }
-
     const accounts = await resp.json(); // [{id,name,...}, ...]
     // cachear (si quieres invalidar al crear cuentas, limpia _accountsCache)
     _accountsCache.set(siteId, accounts);
@@ -348,13 +348,8 @@ function bindSiteChangeLoader() {
   if (siteSelect.value) loadAccountsForSite(siteSelect.value);
 }
 
-// Llamar bindSiteChangeLoader() desde init()
-
-/* --- init --- */
 (function init() {
-  bindCreateShiftRequestForm();
-  bindCancelCreateShiftRequest();
-  bindCloseCreateShiftRequest();
+  bindEvents();
   bindDayRangeAdder();
   bindIconPickers();
   bindSiteChangeLoader();

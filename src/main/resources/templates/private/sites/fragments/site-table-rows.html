@@ -4,14 +4,11 @@
         <td th:text="${s.name}"></td>
         <td th:text="${s.address}">—</td>
         <td th:text="${s.projectName != null ? s.projectName : '—'}">—</td>
-        <td>
-            <span class="tag"
-                  th:text="${s.active} ? 'Activo' : 'Inactivo'">Activo</span>
-        </td>
+        <td th:text="${s.status != null ? s.status.displayName : '—'}">—</td>
         <td class="actions">
             <button type="button"
                     class="btn btn-view"
-                    th:attr="data-path=@{/private/sites/show/{id}(id=${s.id})}">
+                    th:attr="data-path=@{/private/sites/show/{externalId}(externalId=${s.externalId})}">
               Ver
             </button>
             <button type="button"

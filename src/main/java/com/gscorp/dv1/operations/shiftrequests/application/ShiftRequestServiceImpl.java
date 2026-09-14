@@ -90,13 +90,17 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
 
     @Transactional
     public ShiftRequestDtoWithSchedules update(
+                boolean ignoreProjectFilter,
+                List<Long> projectIds,
                 UUID externalId,
                 UpdateShiftRequestDto req) {
         ShiftRequest shiftRequest =
-                        shiftRequestRepository.findByExternalId(externalId)
+                        shiftRequestRepository.findByExternalId(
+                                ignoreProjectFilter,
+                                projectIds,
+                                externalId)
             .orElseThrow(() ->
                     new ResponseStatusException(HttpStatus.NOT_FOUND, "ShiftRequest not found"));
-
         if (req.description() != null && !Objects.equals(shiftRequest.getDescription(), req.description())){
             shiftRequest.setDescription(req.description());
         }
@@ -231,22 +235,14 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
 
 
     @Transactional(readOnly = true)
-    public ShiftRequestDtoWithSchedules getAllowedShiftRequestByExternalId(
-                                UUID userExternalId,
-                                UUID shiftRequestExternalId) {
-
-    if (userExternalId == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
-
-    List<Long> allowedClientIds = clientService.getClientIdsByUserExternalId(userExternalId);
-    if (allowedClientIds == null || allowedClientIds.isEmpty()) {
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Solicitud no encontrada o no autorizado.");
-    }
-
-    ShiftRequest shiftRequest = shiftRequestRepository
-            .findByExternalIdAndAllowedClientIds(shiftRequestExternalId, allowedClientIds)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Solicitud no encontrada o no autorizada"));
-
-        // mapear a DTO usando el fromEntity que ya existe
+    public ShiftRequestDtoWithSchedules findByExternalId(
+                                boolean ignoreProjectFilter,
+                                List<Long> projectIds,
+                                UUID externalId) {
+        ShiftRequest shiftRequest = shiftRequestRepository
+            .findByExternalId(ignoreProjectFilter, projectIds, externalId)
+                .orElseThrow(() ->
+                    new ResponseStatusException(HttpStatus.NOT_FOUND, "ShiftRequest not found"));
         return ShiftRequestDtoWithSchedules.fromEntity(shiftRequest);
     }
 

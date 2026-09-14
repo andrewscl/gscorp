@@ -125,10 +125,16 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
        @Query ("""
               SELECT sr
               FROM ShiftRequest sr
-              WHERE sr.externalId = :externalId
+              JOIN sr.site s
+              JOIN s.project p
+              WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
+              AND (sr.externalId = :externalId)
        """)
        Optional<ShiftRequest> findByExternalId (
-                                   @Param("externalId") UUID externalId);
+              @Param("ignoreProjectFilter") boolean ignoreProjectFilter,
+              @Param("projectIds") List<Long> projectIds,
+              @Param("externalId") UUID externalId
+       );
 
 
        @Query ("""

@@ -1,0 +1,1 @@
+import{n as i}from"../../../navigation-handler.js";import{a as t}from"../../../shared/dom-utils.js";import"../../../auth.js";const e=()=>{i("/private/employee-terminations/list")};function o(){const n=t("#cancel");n&&n.addEventListener("click",e)}(function(){o()})();

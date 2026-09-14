@@ -44,7 +44,9 @@ import com.gscorp.dv1.operations.shiftrequests.web.dto.CreateShiftRequest;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestDtoWithSchedules;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestSelectDto;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.UpdateShiftRequestDto;
+import com.gscorp.dv1.users.application.UserScopeService;
 import com.gscorp.dv1.users.application.UserService;
+import com.gscorp.dv1.users.application.dto.ProjectScope;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -62,6 +64,7 @@ public class ShiftRequestRestController {
     private final UserService userService;
     private final ClientAccountService clientAccountService;
     private final ZoneResolver zoneResolver;
+    private final UserScopeService userScopeService;
 
 
     @PostMapping("/create")
@@ -82,19 +85,22 @@ public class ShiftRequestRestController {
     }
 
 
-    @PutMapping("/{shiftRequestExternalId}")
+    @PutMapping("/{externalId}")
     public ResponseEntity<?> updateShiftRequest(
-        @PathVariable UUID shiftRequestExternalId,
+        @PathVariable UUID externalId,
         @Valid @RequestBody UpdateShiftRequestDto req,
         @AuthenticationPrincipal SecurityUser securityUser
     ) {
         if (securityUser == null) {
-            log.warn("Intento de acceso no autenticado");
-            throw new ResponseStatusException(
-                    HttpStatus.UNAUTHORIZED, "Usuario no autenticado.");
+            throw new AuthenticationCredentialsNotFoundException("Usuario no autenticado");
         }
+        ProjectScope scope = userScopeService.getProjectScope();
         ShiftRequestDtoWithSchedules updatedDto =
-                        shiftRequestService.update(shiftRequestExternalId, req);
+                        shiftRequestService.update(
+                                scope.ignoreFilter(),
+                                scope.projectIds(),
+                                externalId,
+                                req);
         return ResponseEntity.ok(updatedDto);
     }
 
