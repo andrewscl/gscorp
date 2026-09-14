@@ -328,21 +328,13 @@ public class ShiftRequestRestController {
 
     @GetMapping("/{shiftRequestExternalId}")
     public ResponseEntity<ShiftRequestDtoWithSchedules> getShiftRequest(
-                @AuthenticationPrincipal SecurityUser securityUser,
-                @PathVariable ("shiftRequestExternalId") UUID shiftRequestExternalId
-    ){
-        if (securityUser == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.UNAUTHORIZED, "Usuario no autenticado.");
-        }
-        UUID userExternalId = securityUser.getUser().getExternalId();
-        if (shiftRequestExternalId == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "Missing required parameter: shiftRequestExternalId");
-        }
+                @PathVariable ("shiftRequestExternalId") UUID shiftRequestExternalId ){
+        ProjectScope scope = userScopeService.getProjectScope();
         return ResponseEntity.ok(
-                    shiftRequestService.getAllowedShiftRequestByExternalId(
-                                            userExternalId, shiftRequestExternalId));
+                    shiftRequestService.findByExternalId(
+                        scope.ignoreFilter(),
+                        scope.projectIds(),
+                        shiftRequestExternalId));
     }
 
 }

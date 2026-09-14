@@ -32,6 +32,8 @@ import com.gscorp.dv1.operations.shifts.application.ShiftStatService;
 import com.gscorp.dv1.operations.shifts.web.dto.CreateShift;
 import com.gscorp.dv1.operations.shifts.web.dto.ShiftDto;
 import com.gscorp.dv1.operations.shifts.web.dto.ShiftsCountLast24HoursDto;
+import com.gscorp.dv1.users.application.UserScopeService;
+import com.gscorp.dv1.users.application.dto.ProjectScope;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +49,7 @@ public class ShiftRestController {
     private final ShiftRequestRepository shiftRequestRepo;
     private final ZoneResolver zoneResolver;
     private final ShiftStatService shiftStatService;
-
+    private final UserScopeService userScopeService;
 
     @PostMapping("/create/{shiftRequestExternalId}")
     public ResponseEntity<?> createShifts(
@@ -55,31 +57,23 @@ public class ShiftRestController {
         @PathVariable("shiftRequestExternalId") UUID shiftRequestExternalId,
         @RequestBody CreateShift createShift
     ){
-        if (securityUser == null) {
-            log.warn("Intento de acceso no autenticado");
-            throw new
-                ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado.");
-        }
+        ProjectScope scope = userScopeService.getProjectScope();
         String username = securityUser.getUser().getUsername();
         UUID userExternalId = securityUser.getUser().getExternalId();
-
-        ShiftRequest shiftRequest = shiftRequestRepo.findByExternalId(shiftRequestExternalId)
+        ShiftRequest shiftRequest = shiftRequestRepo.findByExternalId(
+                            scope.ignoreFilter(), scope.projectIds(), shiftRequestExternalId)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "No shift request found with external ID: " + shiftRequestExternalId));
-
         if(shiftRequest.getStatus() != ShiftRequestStatus.APPROVED) {
             return ResponseEntity
                     .status(400)
                     .body(Collections.singletonMap("error", "La solicitud debe estar aprobada para poder generar turnos."));
         }
-
         String cleanClientTz = (createShift.clientTz() == null ||
                         createShift.clientTz().isBlank()) ? null : createShift.clientTz().trim();
         ZoneResolutionResult zoneResult = zoneResolver.resolveZone(userExternalId, cleanClientTz);
         ZoneId zoneId = zoneResult.zoneId();
-
         shiftService.generateShiftsForNext30days(shiftRequest, username, zoneId);
-
         return ResponseEntity.ok("Turnos generados correctamente");
     }
 

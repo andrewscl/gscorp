@@ -109,8 +109,10 @@ public class ShiftAssignmentServiceImpl implements ShiftAssignmentService{
         }
         ZoneResolutionResult zoneResult = zoneResolver.resolveZone(userExternalId, requestedZone);
         ZoneId targetZone = zoneResult.zoneId();
+        ProjectScope scope = userScopeService.getProjectScope();
         ShiftRequest shiftRequest =
-            shiftRequestRepository.findByExternalId(request.shiftRequestExternalId())
+            shiftRequestRepository.findByExternalId(
+                    scope.ignoreFilter(), scope.projectIds(), request.shiftRequestExternalId())
                 .orElseThrow(() -> new EntityNotFoundException("Requerimiento de turno no encontrado")) ;
         Employee employee =
             employeeRepository.findByExternalId(request.employeeExternalId())

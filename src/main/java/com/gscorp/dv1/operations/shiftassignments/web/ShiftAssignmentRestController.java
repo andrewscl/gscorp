@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gscorp.dv1.config.security.SecurityUser;
@@ -34,7 +33,7 @@ public class ShiftAssignmentRestController {
 
     private final ShiftAssignmentService shiftAssignmentService;
     private final ShiftAssignmentLifeCycleService shiftAssignmentLifeCycleService;
-    
+
     @PostMapping
     public ResponseEntity<ShiftAssignmentDto> createShiftAssignment (
             @Valid @RequestBody CreateShiftAssignmentRequest request,
@@ -42,15 +41,10 @@ public class ShiftAssignmentRestController {
             @AuthenticationPrincipal SecurityUser securityUser,
             UriComponentsBuilder ucb
     ){
-        if (securityUser == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.UNAUTHORIZED, "Usuario no autenticado.");
-        }
         UUID userExternalId = securityUser.getUser().getExternalId();
         ShiftAssignmentDto saved = 
                 shiftAssignmentService.createShiftAssignment(
                     userExternalId, requestedZone, request);
-
         var location = ucb.path("/api/shift-assignments/{externalId}")
                             .buildAndExpand(saved.externalId())
                             .toUri();
