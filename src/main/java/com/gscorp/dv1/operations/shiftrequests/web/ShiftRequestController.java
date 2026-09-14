@@ -115,7 +115,7 @@ public class ShiftRequestController {
         ShiftRequestDtoWithSchedules shiftRequestDto = shiftRequestService
                 .findByExternalId(scope.ignoreFilter(), scope.projectIds(), externalId);
         Page<ShiftDto> shifts = shiftService.getLastShiftsByShiftRequest(
-                                    userExternalId, externalId, 0, null);
+                                    userExternalId, externalId, 4, null);
         model.addAttribute("shiftRequest", shiftRequestDto);
         model.addAttribute("shiftsPage", shifts);
         model.addAttribute("shifts", shifts.getContent());
