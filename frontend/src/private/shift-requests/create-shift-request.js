@@ -152,7 +152,7 @@ function addDayRangeBlock(prefill) {
       </select>
     </div>
 
-    <div class="form-group>
+    <div class="form-group">
       <label>Hora inicio</label>
       <div class="time-field">
         <input type="time" name="schedules[${idx}][startTime]" value="${(prefill && prefill.startTime)||''}" required />
@@ -160,12 +160,11 @@ function addDayRangeBlock(prefill) {
       </div>
     </div>
 
-    <div class="form-group>
+    <div class="form-group">
       <label>Hora término</label>
       <div class="time-field">
         <input type="time" name="schedules[${idx}][endTime]" value="${(prefill && prefill.endTime)||''}" required />
         <span class="time-icon"></span>
-        </button>
       </div>
     </div>
     <div class="form-group">

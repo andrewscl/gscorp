@@ -62,7 +62,10 @@
                     @include form-field($form-field-active-bg, $form-field-active-border);
                 }
                 .time-field {
-                    input {
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    input[type="time"] {
                         width: 100%;
                         padding-right: 2rem;
                         @include form-field($form-field-active-bg, $form-field-active-border);

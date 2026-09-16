@@ -16,7 +16,7 @@ import{f as R}from"../../auth.js";import{n as L}from"../../navigation-handler.js
       </select>
     </div>
 
-    <div class="form-group>
+    <div class="form-group">
       <label>Hora inicio</label>
       <div class="time-field">
         <input type="time" name="schedules[${n}][startTime]" value="" required />
@@ -24,12 +24,11 @@ import{f as R}from"../../auth.js";import{n as L}from"../../navigation-handler.js
       </div>
     </div>
 
-    <div class="form-group>
+    <div class="form-group">
       <label>Hora término</label>
       <div class="time-field">
         <input type="time" name="schedules[${n}][endTime]" value="" required />
         <span class="time-icon"></span>
-        </button>
       </div>
     </div>
     <div class="form-group">

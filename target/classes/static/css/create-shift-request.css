@@ -422,6 +422,11 @@ p {
   outline: none;
   background-color: #ffffff;
 }
+.private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group .time-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
 .private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group .time-field input[type=time] {
   width: 100%;
   padding-right: 2rem;
