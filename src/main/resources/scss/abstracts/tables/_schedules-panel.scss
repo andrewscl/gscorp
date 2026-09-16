@@ -12,7 +12,7 @@
     position: relative;
     width: 100%;
     overflow: hidden;
-    background-color: $background-default;
+    background-color: $background-white;
     gap: 1rem;
     .schedules-panel-header {
         display: flex;
@@ -31,7 +31,7 @@
             justify-content: center;
             align-self: center;
             .create-schedule-btn {
-                @include roboto-font(0.85rem, 600);
+                @include roboto-font(0.85rem, 500);
                 @include btn-primary-variant (
                     $bg-color: $btn-primary-bg,
                     $color: $white,
@@ -65,6 +65,7 @@
                     position: relative;
                     display: flex;
                     align-items: center;
+                    width: 5rem;
                     input[type="time"] {
                         width: 100%;
                         padding-right: 2rem;
@@ -92,6 +93,15 @@
                         background-size: contain;
                         background-repeat: no-repeat;
                     }
+                }
+                .create-schedule-btn {
+                    @include roboto-font(0.75rem, 500);
+                    @include btn-primary-variant (
+                        $bg-color: $accent-red,
+                        $color: $white,
+                        $padding: 0.2rem 0.5rem,
+                        $border-radius: 0.4rem
+                    );
                 }
             }
         }
