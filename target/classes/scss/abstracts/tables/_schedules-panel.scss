@@ -65,6 +65,7 @@
                     input[type="time"] {
                         width: 100%;
                         padding-right: 2rem;
+                        @include form-field($form-field-active-bg, $form-field-active-border);
                         &::-webkit-calendar-picker-indicator {
                             background: transparent;
                             bottom: 0;
