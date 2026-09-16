@@ -422,7 +422,7 @@ p {
   outline: none;
   background-color: #ffffff;
 }
-.private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group .time-field input[type=time] {
+.private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group .time-field input {
   width: 100%;
   padding-right: 2rem;
   padding: 0.5rem;
@@ -436,16 +436,16 @@ p {
   letter-spacing: 0.02em;
   transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
-.private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group .time-field input[type=time]::placeholder {
+.private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group .time-field input::placeholder {
   color: #adb5bd;
 }
-.private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group .time-field input[type=time]:focus {
+.private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group .time-field input:focus {
   border-color: #3b82f6;
   box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
   outline: none;
   background-color: #ffffff;
 }
-.private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group .time-field input[type=time]::-webkit-calendar-picker-indicator {
+.private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group .time-field input::-webkit-calendar-picker-indicator {
   background: transparent;
   bottom: 0;
   color: transparent;
@@ -608,4 +608,4 @@ p {
 }
 .private-layout .main-content .content .create-shift-request .footer-actions .btn.btn-danger:active {
   transform: translateY(0);
-}/*# sourceMappingURL=create-shift-request.css.map */
+}/*# sourceMappingURL=create-shift-request.css.map */ceMappingURL=create-shift-request.css.map */
