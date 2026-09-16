@@ -323,7 +323,7 @@ p {
   background: #f8fafc;
   width: 100%;
   height: 100%;
-  padding: 1rem;
+  padding: 2rem 1rem;
 }
 .private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel {
   display: flex;
@@ -400,6 +400,27 @@ p {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin: 0;
+}
+.private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group select {
+  padding: 0.5rem;
+  border: 0.09rem solid #bfdbfe;
+  border-radius: 0.5rem;
+  background-color: #f0f7ff;
+  color: #334155;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+.private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group select::placeholder {
+  color: #adb5bd;
+}
+.private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
+  outline: none;
+  background-color: #ffffff;
 }
 .private-layout .main-content .content .create-shift-request .alert-container {
   display: none;

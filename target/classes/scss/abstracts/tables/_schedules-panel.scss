@@ -1,9 +1,10 @@
-@use "sass:color";
-@use '../palette' as *;
-@use '../variables' as *;
-@use '../mixins' as *;
+@use "sass:color" ;
+@use '../palette' as * ;
+@use '../variables' as * ;
+@use '../mixins' as * ;
 @use '../buttons/btn-mixins' as *;
-@use '../typography' as *;
+@use '../typography' as * ;
+@use '../fields/fields' as * ;
 
 @mixin schedules-panel () {
     display: flex;
@@ -56,6 +57,9 @@
                     text-transform: uppercase;
                     letter-spacing: 0.05em;
                     margin: 0;
+                }
+                select {
+                    @include form-field($form-field-active-bg, $form-field-active-border);
                 }
             }
         }
