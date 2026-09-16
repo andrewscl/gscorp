@@ -156,11 +156,7 @@ function addDayRangeBlock(prefill) {
       <label>Hora inicio</label>
       <div class="input-icon-wrap">
         <input type="time" name="schedules[${idx}][startTime]" value="${(prefill && prefill.startTime)||''}" required />
-        <button type="button" class="icon-btn clock-btn" aria-label="Abrir selector hora">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.4"/>
-            <path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-          </svg>
+        <button type="button" class="icon-clock-btn" aria-label="Abrir selector hora">
         </button>
       </div>
     </div>
@@ -169,15 +165,10 @@ function addDayRangeBlock(prefill) {
       <label>Hora término</label>
       <div class="input-icon-wrap">
         <input type="time" name="schedules[${idx}][endTime]" value="${(prefill && prefill.endTime)||''}" required />
-        <button type="button" class="icon-btn clock-btn" aria-label="Abrir selector hora">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.4"/>
-            <path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-          </svg>
+        <button type="button" class="icon-clock-btn" aria-label="Abrir selector hora">
         </button>
       </div>
     </div>
-
     <div class="form-group">
       <button type="button" class="btn-mini btn-danger remove-day-range">Quitar</button>
     </div>
