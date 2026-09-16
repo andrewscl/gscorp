@@ -43,6 +43,7 @@
     .schedules-list {
         .day-range-block{
             display: flex;
+            flex-wrap: wrap;
         }
     }
 
