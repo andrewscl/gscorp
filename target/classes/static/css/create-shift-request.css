@@ -401,7 +401,7 @@ p {
   letter-spacing: 0.05em;
   margin: 0;
 }
-.private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group select, .private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group input {
+.private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group select {
   padding: 0.5rem;
   border: 0.09rem solid #bfdbfe;
   border-radius: 0.5rem;
@@ -413,16 +413,20 @@ p {
   letter-spacing: 0.02em;
   transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
-.private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group select::placeholder, .private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group input::placeholder {
+.private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group select::placeholder {
   color: #adb5bd;
 }
-.private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group select:focus, .private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group input:focus {
+.private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group select:focus {
   border-color: #3b82f6;
   box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
   outline: none;
   background-color: #ffffff;
 }
-.private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group select::-webkit-calendar-picker-indicator, .private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group input::-webkit-calendar-picker-indicator {
+.private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group .time-field input[type=time] {
+  width: 100%;
+  padding-right: 2rem;
+}
+.private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group .time-field input[type=time]::-webkit-calendar-picker-indicator {
   background: transparent;
   bottom: 0;
   color: transparent;
@@ -433,6 +437,16 @@ p {
   right: 0;
   top: 0;
   width: auto;
+}
+.private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group .time-field .time-icon {
+  position: absolute;
+  right: 0.625rem;
+  width: 1rem;
+  height: 1rem;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236c757d' stroke-width='2'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpolyline points='12 7 12 12 15 15'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 .private-layout .main-content .content .create-shift-request .alert-container {
   display: none;
