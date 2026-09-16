@@ -1,0 +1,43 @@
+@use "sass:color";
+@use '../palette' as *;
+@use '../variables' as *;
+@use '../mixins' as *;
+@use '../buttons/btn-mixins' as *;
+@use '../typography' as *;
+
+@mixin schedules-panel () {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: $background-default;
+    gap: 1rem;
+    .schedules-panel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .title {
+            display: flex;
+            align-items: center;
+            .title-text {
+            @include montserrat-font(1rem, 600);
+            color: $heading-color;
+            margin: 0;
+            }
+        }
+        .actions{
+            justify-content: center;
+            align-self: center;
+            .create-schedule-btn {
+                @include roboto-font(0.85rem, 600);
+                @include btn-primary-variant (
+                    $bg-color: $btn-primary-bg,
+                    $color: $white,
+                    $padding: 0.4rem 0.75rem,
+                    $border-radius: 0.4rem
+                );
+            }
+        }
+    }
+}
