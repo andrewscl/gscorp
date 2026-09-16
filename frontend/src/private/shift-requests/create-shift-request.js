@@ -161,7 +161,7 @@ function addDayRangeBlock(prefill) {
     </div>
 
     <div class="form-group">
-      <label>Hora término</label>
+      <label>Hora fin</label>
       <div class="time-field">
         <input type="time" name="schedules[${idx}][endTime]" value="${(prefill && prefill.endTime)||''}" required />
         <span class="time-icon"></span>

@@ -472,6 +472,15 @@ p {
   background-size: contain;
   background-repeat: no-repeat;
 }
+.private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedule-help-text {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #6b7280;
+  margin-top: 0.5rem;
+  line-height: 1.4;
+}
 .private-layout .main-content .content .create-shift-request .alert-container {
   display: none;
   width: auto;
