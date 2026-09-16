@@ -25,7 +25,7 @@ import{f as R}from"../../auth.js";import{n as L}from"../../navigation-handler.js
     </div>
 
     <div class="form-group">
-      <label>Hora término</label>
+      <label>Hora fin</label>
       <div class="time-field">
         <input type="time" name="schedules[${n}][endTime]" value="" required />
         <span class="time-icon"></span>
