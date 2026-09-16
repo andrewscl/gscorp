@@ -323,6 +323,7 @@ p {
   background: #f8fafc;
   width: 100%;
   height: 100%;
+  padding: 1rem;
 }
 .private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel {
   display: flex;
@@ -378,6 +379,9 @@ p {
 }
 .private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-panel-header .actions .create-schedule-btn:active {
   transform: translateY(0);
+}
+.private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block {
+  display: flex;
 }
 .private-layout .main-content .content .create-shift-request .alert-container {
   display: none;
