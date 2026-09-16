@@ -386,6 +386,21 @@ p {
   gap: 0.75rem;
   align-items: flex-end;
 }
+.private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group label {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
 .private-layout .main-content .content .create-shift-request .alert-container {
   display: none;
   width: auto;
