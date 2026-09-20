@@ -176,7 +176,7 @@ function addDayRangeBlock(prefill) {
     </div>
   `;
   // bind remove + reindex
-  block.querySelector('remove-schedule-btn').addEventListener('click', () => {
+  block.querySelector('.remove-schedule-btn').addEventListener('click', () => {
     block.remove();
     reindexBlocks(shiftDayRanges);
     // if none left, ensure at least one block remains
