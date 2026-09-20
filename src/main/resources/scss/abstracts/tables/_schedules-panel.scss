@@ -96,7 +96,7 @@
                         background-repeat: no-repeat;
                     }
                 }
-                .create-schedule-btn {
+                .remove-schedule-btn {
                     @include roboto-font(0.75rem, 500);
                     @include btn-primary-variant (
                         $bg-color: $accent-red,
