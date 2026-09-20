@@ -277,7 +277,7 @@ p {
   position: relative;
   display: flex;
   align-items: center;
-  width: 5rem;
+  width: 10rem;
 }
 .private-layout .main-content .content .view-site-panel-card .panel-container .panel-main .panel-body .form-group .date-field input[type=date] {
   width: 100%;

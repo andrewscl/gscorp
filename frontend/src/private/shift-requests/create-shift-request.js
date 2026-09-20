@@ -168,7 +168,7 @@ function addDayRangeBlock(prefill) {
       </div>
     </div>
     <div class="form-group">
-      <button type="button" class="btn-mini btn-danger remove-day-range">Quitar</button>
+      <button type="button" class="remove-schedule-btn">Quitar</button>
     </div>
   `;
   // bind remove + reindex
