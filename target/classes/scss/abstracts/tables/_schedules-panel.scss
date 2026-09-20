@@ -108,5 +108,10 @@
             }
         }
     }
-
+    .schedule-help-text{
+        @include roboto-font(0.75rem, 400);
+        color: $muted-color;
+        margin-top: 0.5rem;
+        line-height: 1.4;
+    }
 }

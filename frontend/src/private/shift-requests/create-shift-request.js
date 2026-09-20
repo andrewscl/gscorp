@@ -5,6 +5,8 @@ import { displayAlert } from '../../shared/display-alert.js';
 const qs = (s, root = document) => root.querySelector(s);
 const qsAll = (s, root = document) => Array.from((root || document).querySelectorAll(s));
 
+const alertWarning = qs('.alert-warning'); 
+
 const DAY_INDEX = {
   "Lunes": 0, "Martes": 1, "Miércoles": 2, "Jueves": 3,
   "Viernes": 4, "Sábado": 5, "Domingo": 6
@@ -252,6 +254,7 @@ function bindEvents () {
   if (cancelBtn) {
     cancelBtn.addEventListener('click', cancelShiftRequest);
   }
+  
 }
 
 // --- Cargar ClientAccounts al cambiar de Site ---

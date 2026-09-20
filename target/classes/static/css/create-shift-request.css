@@ -551,6 +551,15 @@ p {
 .private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group .remove-schedule-btn:active {
   transform: translateY(0);
 }
+.private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedule-help-text {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #6b7280;
+  margin-top: 0.5rem;
+  line-height: 1.4;
+}
 .private-layout .main-content .content .create-shift-request .alert-container {
   display: none;
   width: auto;
@@ -692,4 +701,4 @@ p {
 }
 .private-layout .main-content .content .create-shift-request .footer-actions .btn.btn-danger:active {
   transform: translateY(0);
-}/*# sourceMappingURL=create-shift-request.css.map *//
+}/*# sourceMappingURL=create-shift-request.css.map */
