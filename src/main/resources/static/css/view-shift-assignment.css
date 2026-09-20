@@ -277,7 +277,7 @@ p {
   position: relative;
   display: flex;
   align-items: center;
-  width: 10rem;
+  width: 8rem;
 }
 .private-layout .main-content .content .view-shift-assignment .panel-container .panel-main .panel-body .form-group .date-field input[type=date] {
   width: 100%;
@@ -951,4 +951,4 @@ p {
 }
 .private-layout .main-content .content .view-shift-assignment .footer-actions .btn.btn-danger:active {
   transform: translateY(0);
-}/*# sourceMappingURL=view-shift-assignment.css.map */
+}/*# sourceMappingURL=view-shift-assignment.css.map *//
