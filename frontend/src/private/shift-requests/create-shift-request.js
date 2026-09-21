@@ -207,7 +207,7 @@ function bindEvents () {
     addDayRangeBtn.addEventListener('click', () => addDayRangeBlock());
     if (!shiftDayRanges.querySelector('.day-range-block')) addDayRangeBlock();
   }
-  const projectSelect = qs('#projectExtenalId');
+  const projectSelect = qs('#projectExternalId');
   if (projectSelect) {
     projectSelect.addEventListener('change', handleProjectChange);
   }
