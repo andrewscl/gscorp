@@ -442,6 +442,7 @@ p {
 .private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 0.3rem;
 }
 .private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block .form-group label {

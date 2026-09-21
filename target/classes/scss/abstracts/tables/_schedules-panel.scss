@@ -52,6 +52,7 @@
             .form-group {
                 display: flex;
                 flex-direction: column;
+                align-items: center;
                 gap: 0.3rem;
                 label {
                     @include roboto-font(0.7rem, 600);
