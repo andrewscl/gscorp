@@ -215,7 +215,7 @@ function bindEvents () {
 
 async function handleProjectChange () {
   const projectExternalId = qs('projectExternalId')?.value;
-  const siteSelect = qs('siteExternalId');
+  const siteSelect = qs('shiftRequestSite');
   if(!projectExternalId) return;
   
   const urlSites = `/api/sites/projects/${projectExternalId}/sites`;
