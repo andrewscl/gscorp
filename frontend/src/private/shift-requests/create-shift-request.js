@@ -208,11 +208,11 @@ function bindEvents () {
   }
   const projectSelect = qs('#projectExternalId');
   if (projectSelect) {
-    projectSelect.addEventListener('change', handleProjectChange());
+    projectSelect.addEventListener('change', handleProjectChange);
   }
   const siteSelect = qs('#siteExternalId');
   if (siteSelect)
-    siteSelect.addEventListener('change', handleSiteChange());
+    siteSelect.addEventListener('change', handleSiteChange);
 }
 
 async function handleProjectChange () {
