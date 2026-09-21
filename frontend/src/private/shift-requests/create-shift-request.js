@@ -182,63 +182,8 @@ function addDayRangeBlock(prefill) {
     // if none left, ensure at least one block remains
     if (!shiftDayRanges.querySelector('.day-range-block')) addDayRangeBlock();
   });
-
   shiftDayRanges.appendChild(block);
   reindexBlocks(shiftDayRanges);
-
-  // Si flatpickr está presente, inicializar pickers en los inputs nuevos (opcional)
-  if (typeof flatpickr !== 'undefined') {
-    flatpickr(block.querySelectorAll("input[type='time']"), {
-      enableTime: true, noCalendar: true, dateFormat: "H:i", time_24hr: true
-    });
-  }
-}
-
-/* --- Bind para añadir tramos de horario --- */
-function bindDayRangeAdder() {
-  const shiftDayRanges = qs('#shiftDayRanges');
-  const addDayRangeBtn = qs('#addDayRange');
-  if (shiftDayRanges && addDayRangeBtn) {
-    addDayRangeBtn.addEventListener('click', () => addDayRangeBlock());
-    if (!shiftDayRanges.querySelector('.day-range-block')) addDayRangeBlock();
-  }
-}
-
-/* --- Fallback: abrir picker nativo (focus + showPicker si está disponible) --- */
-function bindIconPickers() {
-  document.addEventListener('click', (e) => {
-    const btn = e.target.closest('.calendar-btn, .clock-btn, .icon-btn');
-    if (!btn) return;
-    const wrap = btn.closest('.input-icon-wrap');
-    if (!wrap) return;
-    const input = wrap.querySelector('input');
-    if (!input) return;
-    input.focus();
-    if (typeof input.showPicker === 'function') {
-      try { input.showPicker(); } catch (err) { /* ignore */ }
-    }
-  });
-}
-
-/* --- Flatpickr initializer (call after DOM ready and after adding blocks) --- */
-function initFlatpickr() {
-  if (typeof flatpickr === 'undefined') return;
-  // date inputs (if any in template are type="date")
-  flatpickr("input[type='date']", {
-    locale: "es",
-    altInput: true,
-    altFormat: "d-m-Y",
-    dateFormat: "Y-m-d",
-    allowInput: true,
-    clickOpens: true
-  });
-  // time inputs (fallback for browsers without native showPicker or for consistent UI)
-  flatpickr("input[type='time']", {
-    enableTime: true,
-    noCalendar: true,
-    dateFormat: "H:i",
-    time_24hr: true
-  });
 }
 
 const cancelShiftRequest = () => {
@@ -256,9 +201,46 @@ function bindEvents () {
   if (cancelBtn) {
     cancelBtn.addEventListener('click', cancelShiftRequest);
   }
-
+  const shiftDayRanges = qs('#shiftDayRanges');
+  const addDayRangeBtn = qs('#addDayRange');
+  if (shiftDayRanges && addDayRangeBtn) {
+    addDayRangeBtn.addEventListener('click', () => addDayRangeBlock());
+    if (!shiftDayRanges.querySelector('.day-range-block')) addDayRangeBlock();
+  }
+  const projectSelect = qs('projectExtenalId');
+  if (projectSelect) {
+    projectSelect.addEventListener('change', handleProjectChange);
+  }
 }
 
+async function handleProjectChange () {
+  const projectExternalId = qs('projectExternalId')?.value;
+  const siteSelect = qs('siteExternalId');
+  if(!projectExternalId) return;
+  
+  const urlSites = `/api/sites/projects/${projectExternalId}/sites`;
+  const res = fetchWithAuth(urlSites, {
+                        method: GET,
+                        headers: {
+                        'Accept': 'application/json'
+                        }
+  });
+  if(!res) throw new Error('No se pudieron obtener los sitios del proyecto seleccionado.');
+  const sitesProject = await res.json();
+  if(sitesProject.length === 0){
+    siteSelect.innerHTML = '<option value="">No hay sitios disponibles para el proyecto seleccionado</option>';
+  } else {
+    siteSelect.innerHTML = '<option value="">Seleccione un sitio</option>';
+    sitesProject.forEach(site => {
+      const option = document.createElement('option');
+      option.value = site.externalId;
+      option.textContent = site.name;
+      siteSelect.appendChild(option);
+    });
+    siteSelect.disabled = false;
+  }
+
+}
 // --- Cargar ClientAccounts al cambiar de Site ---
 const _accountsCache = new Map(); // siteId -> accounts array
 
@@ -344,9 +326,5 @@ function bindSiteChangeLoader() {
 
 (function init() {
   bindEvents();
-  bindDayRangeAdder();
-  bindIconPickers();
   bindSiteChangeLoader();
-  // init flatpickr if present
-  initFlatpickr();
 })();
