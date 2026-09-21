@@ -207,15 +207,15 @@ function bindEvents () {
     addDayRangeBtn.addEventListener('click', () => addDayRangeBlock());
     if (!shiftDayRanges.querySelector('.day-range-block')) addDayRangeBlock();
   }
-  const projectSelect = qs('projectExtenalId');
+  const projectSelect = qs('#projectExtenalId');
   if (projectSelect) {
     projectSelect.addEventListener('change', handleProjectChange);
   }
 }
 
 async function handleProjectChange () {
-  const projectExternalId = qs('projectExternalId')?.value;
-  const siteSelect = qs('shiftRequestSite');
+  const projectExternalId = qs('#projectExternalId')?.value;
+  const siteSelect = qs('#shiftRequestSite');
   if(!projectExternalId) return;
   
   const urlSites = `/api/sites/projects/${projectExternalId}/sites`;
