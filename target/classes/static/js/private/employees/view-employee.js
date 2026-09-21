@@ -1,0 +1,1 @@
+import{n as t}from"../../navigation-handler.js";import{i}from"../../shared/tabs-handler.js";import"../../auth.js";import"../../shared/dom-utils.js";const n=e=>document.querySelector(e),o=()=>{setTimeout(()=>t("/private/employees/table-view",!0),1e3)};function c(){const e=n(".btn-secondary");e&&e.addEventListener("click",o)}(async function(){i(),c()})();
