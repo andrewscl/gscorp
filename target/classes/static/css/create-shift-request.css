@@ -433,6 +433,10 @@ p {
 .private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-panel-header .actions .create-schedule-btn:active {
   transform: translateY(0);
 }
+.private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list {
+  display: flex;
+  gap: 0.5rem;
+}
 .private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block {
   display: flex;
   flex-wrap: wrap;

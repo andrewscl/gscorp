@@ -44,6 +44,8 @@
         }
     }
     .schedules-list {
+        display: flex;
+        gap: 0.5rem;
         .day-range-block{
             display: flex;
             flex-wrap: wrap;

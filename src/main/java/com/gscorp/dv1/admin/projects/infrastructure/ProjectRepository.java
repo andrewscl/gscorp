@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import com.gscorp.dv1.admin.projects.infrastructure.projections.ProjectProjection;
 import com.gscorp.dv1.admin.projects.infrastructure.projections.ProjectSelectProjection;
 import com.gscorp.dv1.admin.projects.web.dto.ProjectSelectDto;
+import com.gscorp.dv1.enums.ProjectStatus;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long>{
@@ -81,6 +82,31 @@ public interface ProjectRepository extends JpaRepository<Project, Long>{
     """)
     List<ProjectProjection> findByUserExternalId(@Param("userExternalId") UUID userExternalId);
 
-    
+    @Query("""
+        SELECT
+            p.id            AS  id,
+            p.externalId    AS  externalId,
+            p.name          AS  name,
+            c.id            AS  clientId,
+            c.name          AS  clientName,
+            p.description   AS  description,
+            p.startDate     AS  startDate,
+            p.endDate       AS  endDate,
+            p.status        AS  status,
+            p.active        AS  active,
+            p.createdAt     AS  createdAt,
+            p.updatedAt     AS  updatedAt,
+            p.createdBy     AS  createdBy,
+            p.updatedBy     AS  updatedBy
+        FROM Project p
+        JOIN p.client c
+        WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
+        AND (:status IS NULL OR p.status = :status)
+        """)
+    List<ProjectProjection> findByProjectIds(
+        @Param("ignoreProjectFilter") boolean ignoreProjectFilter,
+        @Param("projectIds") List<Long> projectIds,
+        @Param("status") ProjectStatus status
+    );
 
 }

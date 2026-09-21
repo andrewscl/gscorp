@@ -2,7 +2,6 @@ package com.gscorp.dv1.operations.shiftrequests.web;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.gscorp.dv1.admin.projects.application.ProjectService;
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.config.security.SecurityUser;
@@ -27,7 +27,6 @@ import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestSelectDto;
 import com.gscorp.dv1.operations.shifts.application.ShiftService;
 import com.gscorp.dv1.operations.shifts.web.dto.ShiftDto;
 import com.gscorp.dv1.operations.sites.application.SiteService;
-import com.gscorp.dv1.operations.sites.web.dto.SiteDto;
 import com.gscorp.dv1.users.application.UserScopeService;
 import com.gscorp.dv1.users.application.dto.ProjectScope;
 
@@ -46,6 +45,7 @@ public class ShiftRequestController {
     private final ShiftService shiftService;
     private final ShiftPatternService shiftPatternService;
     private final UserScopeService userScopeService;
+    private final ProjectService projectService;
 
     @GetMapping("/table-view")
     public String getShiftRequestsTableView (
@@ -82,10 +82,14 @@ public class ShiftRequestController {
 
 
     @GetMapping("/create")
-    public String getCreateShiftRequestView(Model model) {
-        List<SiteDto> sites = siteService.getAllSites();
-            model.addAttribute("sites", sites);
-            model.addAttribute("requestTypes", ShiftRequestType.values());
+    public String getCreateShiftRequestView(
+            Model model,
+            @AuthenticationPrincipal SecurityUser securityUser) {
+        if(securityUser == null) return "redirect:/login";
+        ProjectScope scope = userScopeService.getProjectScope();
+        model.addAttribute(projectService.findByProjectIds(
+                                scope.ignoreFilter(), scope.projectIds(), null));
+        model.addAttribute("requestTypes", ShiftRequestType.values());
         return "private/operations/shift-requests/fragments/create-shift-request";
     }
 

@@ -6,6 +6,15 @@
       </div>
       <div class="panel-body">
           <div class="form-group">
+            <label>Proyecto:</label>
+            <select id="projectExternalId" required>
+              <option value="">Seleccione un proyecto</option>
+              <option th:each="project : ${projects}"
+                      th:value="${project.externalId}"
+                      th:text="${project.name}"></option>
+            </select>
+          </div>
+          <div class="form-group">
             <label>Sitio:</label>
             <select id="shiftRequestSite" name="siteId" required>
               <option value="">Seleccione sitio</option>

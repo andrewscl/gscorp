@@ -19,6 +19,7 @@ import com.gscorp.dv1.admin.projects.infrastructure.ProjectRepository;
 import com.gscorp.dv1.admin.projects.infrastructure.projections.ProjectProjection;
 import com.gscorp.dv1.admin.projects.web.dto.ProjectDto;
 import com.gscorp.dv1.admin.projects.web.dto.ProjectSelectDto;
+import com.gscorp.dv1.enums.ProjectStatus;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -128,7 +129,18 @@ public class ProjectServiceImpl implements ProjectService{
                 .toList();
     }
 
-
+    @Transactional(readOnly = true)
+    public List<ProjectDto> findByProjectIds(
+                boolean ignoreProjectFilter,
+                List<Long> projectIds,
+                ProjectStatus status
+    ){
+        List<ProjectProjection> projections =
+                projectRepository.findByProjectIds(ignoreProjectFilter, projectIds, status);
+        return projections.stream()
+                .map(ProjectDto::fromProjection)
+                .toList();
+    }
 
 
 }

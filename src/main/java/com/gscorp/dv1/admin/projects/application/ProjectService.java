@@ -9,6 +9,7 @@ import com.gscorp.dv1.admin.clients.infrastructure.Client;
 import com.gscorp.dv1.admin.projects.infrastructure.Project;
 import com.gscorp.dv1.admin.projects.web.dto.ProjectDto;
 import com.gscorp.dv1.admin.projects.web.dto.ProjectSelectDto;
+import com.gscorp.dv1.enums.ProjectStatus;
 
 public interface ProjectService {
     
@@ -38,5 +39,11 @@ public interface ProjectService {
 
     List<ProjectSelectDto>
             findProjectSelectDtosByEmployeeExternalId(UUID externalId);
+
+    List<ProjectDto> findByProjectIds(
+                boolean ignoreProjectFilter,
+                List<Long> projectIds,
+                ProjectStatus status
+            );
 
 }
