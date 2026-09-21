@@ -52,15 +52,14 @@ function validateNoOverlap(schedules) {
 async function createShiftRequest() {
   const createBtn = qs('#submit');
   const cancelBtn = qs('#cancel');
-  const siteIdRaw = qs('#shiftRequestSite')?.value;
+  const siteExternalId = qs('#siteExternalId')?.value || '';
   const accountIdRaw = qs('#shiftRequestAccount')?.value;
   const type = qs('#shiftRequestServiceType')?.value;
   const startDate = qs('#shiftRequestStartDate')?.value;
   const endDate = qs('#shiftRequestEndDate')?.value || null;
   const description = qs('#shiftRequestDescription')?.value?.trim() || null;
-  const siteId = siteIdRaw ? parseInt(siteIdRaw, 10) : null;
   const accountId = accountIdRaw ? parseInt(accountIdRaw, 10) : null;
-  if (!siteId) {
+  if (!siteExternalId) {
     displayAlert(alertError, 'Debe seleccionar un sitio.');
     return;
   }
@@ -209,11 +208,11 @@ function bindEvents () {
   }
   const projectSelect = qs('#projectExternalId');
   if (projectSelect) {
-    projectSelect.addEventListener('change', handleProjectChange);
+    projectSelect.addEventListener('change', handleProjectChange());
   }
-  const siteSelect = qs('#shiftRequestSite');
+  const siteSelect = qs('#siteExternalId');
   if (siteSelect)
-    siteSelect.addEventListener('change', handleSiteChange(siteId));
+    siteSelect.addEventListener('change', handleSiteChange());
 }
 
 async function handleProjectChange () {
@@ -317,21 +316,6 @@ async function handleSiteChange() {
   }
 }
 
-function bindSiteChangeLoader() {
-  const siteSelect = qs('#shiftRequestSite');
-  if (!siteSelect) return;
-
-  siteSelect.addEventListener('change', (e) => {
-    const siteId = e.target.value || null;
-    // si quieres debounce, añádelo aquí
-    loadAccountsForSite(siteId);
-  });
-
-  // si hay site ya seleccionado (edición), cargar al inicializar
-  if (siteSelect.value) loadAccountsForSite(siteSelect.value);
-}
-
 (function init() {
   bindEvents();
-  bindSiteChangeLoader();
 })();
