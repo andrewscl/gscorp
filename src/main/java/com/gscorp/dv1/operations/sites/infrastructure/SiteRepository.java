@@ -82,10 +82,14 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
             s.timeZone    AS timeZone
         FROM Site s
         JOIN s.project p
-        WHERE p.externalId IN :projectExternalId
+        WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
+        AND (p.externalId IN :projectExternalId)
         ORDER BY s.name
         """)
-    List<SiteProjection> findByProjectExternalId(@Param("projectExternalId") UUID projectExternalId);
+    List<SiteProjection> findByProjectExternalId(
+            @Param("ignoreProjectFilter") boolean ignoreProjectFilter,
+            @Param("projectIds") List<Long> projectIds,
+            @Param("projectExternalId") UUID projectExternalId);
 
 
     @Query("""

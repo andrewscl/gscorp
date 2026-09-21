@@ -36,7 +36,7 @@ public class SiteZoneServiceImpl implements SiteZoneService {
     @Transactional(readOnly = true)
     public List<SiteZoneDto> getSiteZones(
                                 UUID userExternalId,
-                                UUID siteId,
+                                UUID siteExternalId,
                                 SiteZoneStatus status) {
         if (userExternalId == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
@@ -46,7 +46,7 @@ public class SiteZoneServiceImpl implements SiteZoneService {
             siteZoneRepository.findByProjectIds(
                                 scope.ignoreFilter(),
                                 scope.projectIds(),
-                                siteId,
+                                siteExternalId,
                                 status
                                 );
         return projections.stream()

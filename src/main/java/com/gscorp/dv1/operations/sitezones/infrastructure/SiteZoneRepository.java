@@ -54,6 +54,5 @@ public interface SiteZoneRepository
         @Param("siteZoneExternalId") UUID siteZoneExternalId
     );
 
-
 }
 

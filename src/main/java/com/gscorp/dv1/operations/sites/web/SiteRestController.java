@@ -6,7 +6,6 @@ import java.util.TimeZone;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -124,11 +123,7 @@ public class SiteRestController {
                 @PathVariable UUID externalId,
                 @Valid @RequestBody UpdateSiteRequest request
                 ) {
-                if (securityUser == null) {
-                        throw new AuthenticationCredentialsNotFoundException("Usuario no autenticado");
-                }
                 ProjectScope scope = userScopeService.getProjectScope();
-                System.out.println(request);
                 SiteDto updated = siteService.updateSite(scope.ignoreFilter(),
                                                                 scope.projectIds(),
                                                                 externalId,
@@ -179,13 +174,11 @@ public class SiteRestController {
                 Object principal = authentication.getPrincipal();
                 SecurityUser securityUser = (SecurityUser) principal;
                 UUID externalId = securityUser.getUser().getExternalId();
-
                 Long userId = userService.getUserIdFromAuthentication(authentication);
                         if (userId == null) {
                         // no autenticado: redirigir al login o devolver error según tu política
                         return Collections.emptyList();
                 }
-
                 return siteService.getAllSitesByUser(externalId);
         }
 
@@ -195,10 +188,11 @@ public class SiteRestController {
                 @AuthenticationPrincipal SecurityUser securityUser,
                 @PathVariable UUID projectExternalId
         ) {
-                if (securityUser == null) {
-                        throw new AuthenticationCredentialsNotFoundException("Usuario no autenticado");
-                }
-                List<SiteSelectDto> sites = siteService.findByProjectExternalId(projectExternalId);
+                ProjectScope scope = userScopeService.getProjectScope();
+                List<SiteSelectDto> sites = siteService.findByProjectExternalId(
+                                                scope.ignoreFilter(),
+                                                scope.projectIds(),
+                                                projectExternalId);
                 return ResponseEntity.ok(sites);
         }
 

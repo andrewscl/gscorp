@@ -49,7 +49,10 @@ public interface SiteService {
 
     List<SiteSelectDto> findSelectDtoByProjectId(Long projectId);
 
-    List<SiteSelectDto> findByProjectExternalId(UUID projectExternalId);
+    List<SiteSelectDto> findByProjectExternalId(
+                    boolean ignoreProjectFilter,
+                    List<Long> projectIds,
+                    UUID projectExternalId);
 
     List<SiteSelectDto> findByUserExternalId(UUID userExternalId);
 

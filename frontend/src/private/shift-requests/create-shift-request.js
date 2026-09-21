@@ -211,13 +211,15 @@ function bindEvents () {
   if (projectSelect) {
     projectSelect.addEventListener('change', handleProjectChange);
   }
+  const siteSelect = qs('#shiftRequestSite');
+  if (siteSelect)
+    siteSelect.addEventListener('change', handleSiteChange(siteId));
 }
 
 async function handleProjectChange () {
   const projectExternalId = qs('#projectExternalId')?.value;
-  const siteSelect = qs('#shiftRequestSite');
+  const siteSelect = qs('#siteExternalId');
   if(!projectExternalId) return;
-  
   const urlSites = `/api/sites/projects/${projectExternalId}/sites`;
   const res = await fetchWithAuth(urlSites, {
                         method: 'GET',
@@ -239,25 +241,26 @@ async function handleProjectChange () {
     });
     siteSelect.disabled = false;
   }
-
 }
-// --- Cargar ClientAccounts al cambiar de Site ---
-const _accountsCache = new Map(); // siteId -> accounts array
 
-async function populateAccountsSelect(selectEl, accounts, preserveValue) {
-  selectEl.innerHTML = '<option value="">Seleccione cuenta</option>';
-  if (!accounts || accounts.length === 0) {
-    selectEl.innerHTML = '<option value="">No hay cuentas asociadas</option>';
+function populateSelect({selectEl, items, defaultLabel, emptyLabel, valueKey = 'externalId', preserveValue=''}) {
+  if(!selectEl) return;
+  // 1.- Caso sin items o arreglo vacio
+  if(!items || items.length === 0){
+    selectEl.innerHTML = `<option value="">${emptyLabel}</option>`;
     selectEl.disabled = true;
     return;
   }
-  accounts.forEach(a => {
+  // 2.- Opción por defecto
+  selectEl.innerHTML = `<option value="">${defaultLabel}</option>`;
+  // 3.- Renderizar las opciones
+  items.forEach(item => {
     const opt = document.createElement('option');
-    opt.value = a.id;
-    opt.textContent = a.name;
+    opt.value = item[valueKey] || item.id || '';
+    opt.textContent = item.name || '';
     selectEl.appendChild(opt);
   });
-  // si el valor previo sigue disponible, restaurarlo; si no, deja en default
+  // 4.- Preservar el valor seleccionado si aun existe
   if (preserveValue) {
     const stillThere = Array.from(selectEl.options).some(o => o.value === String(preserveValue));
     if (stillThere) selectEl.value = String(preserveValue);
@@ -265,48 +268,52 @@ async function populateAccountsSelect(selectEl, accounts, preserveValue) {
   selectEl.disabled = false;
 }
 
-async function loadAccountsForSite(siteId) {
+async function handleSiteChange() {
   const accountSelect = qs('#shiftRequestAccount');
-  if (!accountSelect) return;
-  // preserve current selection (if any)
-  const prev = accountSelect.value || '';
-  // empty / loading state
-  accountSelect.disabled = true;
-  accountSelect.innerHTML = '<option value="">Cargando cuentas...</option>';
-  if (!siteId) {
-    accountSelect.innerHTML = '<option value="">Seleccione cuenta</option>';
-    accountSelect.disabled = true;
+  const siteZoneSelect = qs('#siteZoneExternalId');
+  const siteExternalId = qs('#siteExternalId')?.value;
+  if (!accountSelect || !siteZoneSelect) return;
+  if (!siteExternalId){
+    populateSelect({selectEl: accountSelect, items: [], emptyLabel: 'Primero seleccione un sitio.'});
+    populateSelect({selectEl: siteZoneSelect, items: [], emptyLabel: 'Primero seleccione un sitio.'});
     return;
   }
-  // cache hit
-  if (_accountsCache.has(siteId)) {
-    populateAccountsSelect(accountSelect, _accountsCache.get(siteId), prev);
-    return;
-  }
+  //Guardar selecciones
+  const prevAccount = accountSelect.value || '';
+  const prevSiteZone = siteZoneSelect.value || '';
   try {
-    // Ajusta la URL si tu endpoint es distinto (p.ej. /api/sites/{siteId}/accounts)
-    const url = `/api/shift-requests/sites/${siteId}/accounts`;
-    const resp = await fetchWithAuth(url, { method: 'GET' });
-    if (resp.status === 401) {
-      accountSelect.innerHTML = '<option value="">No autenticado</option>';
-      return;
-    }
-    if (resp.status === 403) {
-      accountSelect.innerHTML = '<option value="">Sin acceso a las cuentas</option>';
-      return;
-    }
-    if (!resp.ok) {
-      accountSelect.innerHTML = '<option value="">Error cargando cuentas</option>';
-      return;
-    }
-    const accounts = await resp.json(); // [{id,name,...}, ...]
-    // cachear (si quieres invalidar al crear cuentas, limpia _accountsCache)
-    _accountsCache.set(siteId, accounts);
-    populateAccountsSelect(accountSelect, accounts, prev);
+    const urlSiteAccounts = `/api/shift-requests/sites/${siteExternalId}/accounts`;
+    const urlSiteZones = `/api/v1/site-zones/site/${siteExternalId}/site-zones`;
+    const [siteAccountsResponse, siteZonesResponse] = await Promise.all([
+      fetchWithAuth(urlSiteAccounts, {method: 'GET', headers: { 'Accept': 'application/json' },}),
+      fetchWithAuth(urlSiteZones, {method: 'GET', headers: { 'Accept': 'application/json' },})
+    ]);
+    if(!siteAccountsResponse) throw new Error('No se pudieron obtener las cuentas del proyecto seleccionado.');
+    if(!siteZonesResponse) throw new Error('No se pudieron obtener las zonas del sitio seleccionado.');
+    const accounts = (siteAccountsResponse && siteAccountsResponse.ok)
+                          ? await siteAccountsResponse.json() : [];
+    const siteZones = (siteZonesResponse && siteZonesResponse.ok)
+                          ? await siteZonesResponse.json() : [];
+    populateSelect({
+      selectEl: accountSelect, 
+      items: accounts,
+      defaultLabel: 'Seleccione una cuenta (opcional)',
+      emptyLabel: 'Sin cuentas asociadas',
+      valueKey: 'externalId',
+      preserveValue: prevAccount
+    });
+    populateSelect({
+      selectEl: siteZoneSelect, 
+      items: siteZones,
+      defaultLabel: 'Seleccione una zona',
+      emptyLabel: 'El sitio no tiene zonas creadas (Requerido)',
+      valueKey: 'externalId',
+      preserveValue: prevSiteZone
+    });
   } catch (err) {
-    console.error('Error cargando accounts:', err);
-    accountSelect.innerHTML = '<option value="">Error cargando cuentas</option>';
-    accountSelect.disabled = true;
+    console.error('Error en HandleSiteChange:', err);
+    populateSelect({selectEl: accountSelect, items: [], emptyLabel: 'Error al cargar las cuentas.'});
+    populateSelect({selectEl: siteZoneSelect, items: [], emptyLabel: 'Error al cargar las zonas.'});
   }
 }
 

@@ -198,9 +198,13 @@ public class SiteServiceImpl implements SiteService{
 
 
     @Transactional(readOnly = true)
-    public List<SiteSelectDto> findByProjectExternalId(UUID projectExternalId) {
+    public List<SiteSelectDto> findByProjectExternalId(
+                    boolean ignoreProjectFilter,
+                    List<Long> projectIds,
+                    UUID projectExternalId) {
         if (projectExternalId == null) return List.of();
-        List<SiteProjection> siteProjections = siteRepository.findByProjectExternalId(projectExternalId);
+        List<SiteProjection> siteProjections = siteRepository
+                        .findByProjectExternalId(ignoreProjectFilter, projectIds,projectExternalId);
         return siteProjections.stream()
                 .map(SiteSelectDto::fromProjection)
                 .toList();
