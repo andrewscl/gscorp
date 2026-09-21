@@ -87,7 +87,7 @@ public class ShiftRequestController {
             @AuthenticationPrincipal SecurityUser securityUser) {
         if(securityUser == null) return "redirect:/login";
         ProjectScope scope = userScopeService.getProjectScope();
-        model.addAttribute(projectService.findByProjectIds(
+        model.addAttribute("projects", projectService.findByProjectIds(
                                 scope.ignoreFilter(), scope.projectIds(), null));
         model.addAttribute("requestTypes", ShiftRequestType.values());
         return "private/operations/shift-requests/fragments/create-shift-request";
