@@ -219,31 +219,30 @@ async function handleProjectChange () {
   const accountSelect = qs('#shiftRequestAccount');
   const projectExternalId = qs('#projectExternalId')?.value;
   const siteSelect = qs('#siteExternalId');
-  if(!projectExternalId) return;
+  if(!projectExternalId) {
+      populateSelect({selectEl: siteSelect, items: [], emptyLabel: 'Primero seleccione un proyecto.'});
+      populateSelect({selectEl: accountSelect, items: [], emptyLabel: 'Primero seleccione un sitio.'});
+    return;
+  }
+  const prevSite = siteSelect?.value || '';
   try{
     const urlSites = `/api/sites/projects/${projectExternalId}/sites`;
     const res = await fetchWithAuth(urlSites, {
                           method: 'GET',
-                          headers: {
-                          'Accept': 'application/json'
-                          }
+                          headers: {'Accept': 'application/json'}
     });
-    if(!res) throw new Error('No se pudieron obtener los sitios del proyecto seleccionado.');
+    if(!res || !res.ok) throw new Error('No se pudieron obtener los sitios del proyecto seleccionado.');
     const sitesProject = await res.json();
-    if(sitesProject.length === 0){
-      populateSelect({selectEl: siteSelect, items: [], emptyLabel: 'Primero seleccione un proyecto.'});
-    } else {
-      populateSelect({
-        selectEl: siteSelect, 
-        items: sitesProject,
-        defaultLabel: 'Seleccione un proyecto',
-        emptyLabel: 'Sin sitios asociados',
-        valueKey: 'externalId',
-        preserveValue: prevAccount
-      });
-      populateSelect({selectEl: accountSelect, items: [], emptyLabel: 'Primero seleccione un sitio.'});
-      siteSelect.disabled = false;
-    }
+    populateSelect({
+      selectEl: siteSelect, 
+      items: sitesProject,
+      defaultLabel: 'Seleccione un sitio',
+      emptyLabel: 'Sin sitios asociados',
+      valueKey: 'externalId',
+      preserveValue: prevSite
+    });
+    populateSelect({selectEl: accountSelect, items: [], emptyLabel: 'Primero seleccione un sitio.'});
+    siteSelect.disabled = false;
   } catch (err){
     console.error('Error en HandleProjectChange:', err);
     populateSelect({selectEl: siteSelect, items: [], emptyLabel: 'Error al cargar los sitios.'});
