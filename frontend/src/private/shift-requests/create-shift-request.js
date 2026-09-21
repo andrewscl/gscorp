@@ -219,7 +219,7 @@ async function handleProjectChange () {
   if(!projectExternalId) return;
   
   const urlSites = `/api/sites/projects/${projectExternalId}/sites`;
-  const res = fetchWithAuth(urlSites, {
+  const res = await fetchWithAuth(urlSites, {
                         method: GET,
                         headers: {
                         'Accept': 'application/json'
