@@ -1,0 +1,121 @@
+.createNationality {
+  background: #f8fafc;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(30, 41, 59, 0.09);
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 0;
+}
+.createNationality .createNationalityHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #e2e8f0;
+  border-radius: 12px 12px 0 0;
+  padding: 1rem 1.2rem;
+}
+.createNationality .createNationalityHeader h3 {
+  font-size: 1.2rem;
+  color: #1e293b;
+  font-weight: 700;
+  margin: 0;
+}
+.createNationality .createNationalityHeader .modal-close {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #64748b;
+  cursor: pointer;
+  padding: 0 0.2rem;
+  transition: color 0.13s;
+}
+.createNationality .createNationalityHeader .modal-close:hover {
+  color: #e11d48;
+}
+.createNationality .createNationality-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  padding: 1.3rem 1.2rem 1.2rem 1.2rem;
+}
+.createNationality .createNationality-body .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.createNationality .createNationality-body .form-group label {
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 0.1rem;
+}
+.createNationality .createNationality-body .form-group input[type=text] {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 1rem;
+  padding: 0.55rem 0.95rem;
+  color: #334155;
+  outline: none;
+  transition: border 0.18s;
+}
+.createNationality .createNationality-body .form-group input[type=text]:focus {
+  border-color: #4177f6;
+}
+.createNationality .createNationality-body .modal-footer {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 0.8rem;
+}
+.createNationality .createNationality-body .modal-footer .btn-primary {
+  background: #4177f6;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  transition: background 0.13s;
+}
+.createNationality .createNationality-body .modal-footer .btn-primary:hover {
+  background: #275bca;
+}
+.createNationality .createNationality-body .modal-footer .btn-secondary {
+  background: #e2e8f0;
+  color: #334155;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  transition: background 0.13s;
+}
+.createNationality .createNationality-body .modal-footer .btn-secondary:hover {
+  background: #cbd5e1;
+}
+.createNationality .createNationality-body .form-error {
+  color: #ef4444;
+  font-size: 0.97rem;
+  margin-top: 0.6rem;
+  display: none;
+}
+.createNationality .createNationality-body .form-ok {
+  color: #22c55e;
+  font-size: 0.97rem;
+  margin-top: 0.6rem;
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .createNationality {
+    max-width: 99vw;
+  }
+  .createNationality .createNationality-body {
+    padding: 0.9rem 0.5rem 0.9rem 0.5rem;
+  }
+  .createNationality .createNationalityHeader {
+    padding: 0.8rem 0.5rem;
+  }
+}/*# sourceMappingURL=create-nationality.css.map */
