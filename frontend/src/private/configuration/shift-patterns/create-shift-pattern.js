@@ -34,14 +34,14 @@ async function onCreateShiftPattern() {
           return;
     }
     const payload = {name: name,
-                      code: name,
+                      code: code,
                       description: description,
                       workDays: workDays,
                       restDays: restDays};
     createBtn.disabled = true;
     cancelBtn.disabled = true;
 
-  try {
+    try {
         const res = await fetchWithAuth('/api/shift-patterns/create', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -68,12 +68,12 @@ async function onCreateShiftPattern() {
             navigateTo('/private/shift-patterns/list', true);
         }, 2000);
 
-  } catch (error) {
+    } catch (error) {
         console.error(`[onClickCreate] Ocurrio un problema: ${error.message}`, error);
         displayAlert(alertError, 'Error inesperado. Intente más tarde.', 2000);
         createBtn.disabled = false;
         cancelBtn.disabled = false;
-  }
+    }
 }
 
 const onCancelShiftPattern = () => {
