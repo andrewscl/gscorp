@@ -6,6 +6,9 @@ const qs = (s) => document.querySelector(s);
 const alertSuccess = qs('.alert-success');
 const alertError = qs('.alert-error');
 const alertWarning = qs('.alert-warning');
+const createBtn = qs('#submit');
+const cancelBtn = qs('#cancel');
+const deleteBtn = qs('#delete');
 const clientTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
 const externalId = qs('#shiftRequestExternalId')?.value;
 
@@ -60,9 +63,7 @@ const shiftsUpdate = async () => {
         { clientTz: clientTz}
       )
     });
-
     console.log("Estado de la respuesta del backend:", res.status);
-
     if (!res.ok) {
       let errorMsg = 'Error en el servidor';
       try {
@@ -149,24 +150,67 @@ function onCancelClick(e) {
   setTimeout(() => navigateTo('/private/shift-requests/table-view'), 1500);
 }
 
+async function onDeleteClick(){
+  if (!externalId) {
+  console.log("falta información para efectuar la actualización.");
+  return;
+  }
+  const ok = window.confirm('¿Deseas eliminar esta solicitud de turno? Esta acción no se puede deshacer.')
+  if (!ok) return;
+  setButtonsDisabled(true);
+  try {
+    const url = `/api/shift-requests/${externalId}`
+    const res = await fetchWithAuth(url, { method: 'DELETE' });
+    if (!res || !res.ok) {
+      let errorMessage = 'Ocurrió un problema al enviar el formulario.';
+      if(res){
+        const contentType = res.headers.get('content-type');
+        if(contentType && contentType.includes('application/json')) {
+          const errorData = await res.json();
+          errorMessage = errorData.message || errorMessage;
+        }
+      }
+      displayAlert(alertError, `Error: ${errorMessage}`);
+      return;
+    }
+    displayAlert(alertSuccess, 'La solicitud de turno ha sido eliminada correctamente.', 2000);
+    setTimeout(() => {
+        navigateTo('/private/shift-requests/table-view', true); }, 2000);
+  } catch (error) {
+    console.error(`[onClickCreate] Ocurrio un problema: ${error.message}`, error);
+    displayAlert(alertError, 'Error inesperado. Intente más tarde.', 2000);
+  } finally {
+    setButtonsDisabled(false);
+  }
+
+  function setButtonsDisabled(disabled){
+    if(createBtn) createBtn.disabled = disabled;
+    if(cancelBtn) cancelBtn.disabled = disabled;
+    if(deleteBtn) deleteBtn.disabled = disabled;
+  }
+}
+
 
 function bindEditShiftRequest() {
     const saveBtn = qs('#submit');
     if (saveBtn) {
-        saveBtn.addEventListener('click', onSaveClick);
+      saveBtn.addEventListener('click', onSaveClick);
     }
     const shiftsUpdateBtn = qs('#btnShiftsUpdate');
     if (shiftsUpdateBtn) {
-        shiftsUpdateBtn.addEventListener('click', shiftsUpdate);
+      shiftsUpdateBtn.addEventListener('click', shiftsUpdate);
     }
     const cancelBtn = qs('#cancel');
     if (cancelBtn) {
-        cancelBtn.addEventListener('click', onCancelClick);
+      cancelBtn.addEventListener('click', onCancelClick);
+    }
+    const deleteBtn = qs('#delete');
+    if (deleteBtn) {
+      deleteBtn.addEventListener('click', onDeleteClick);
     }
 }
 
 
 (function init() {
   bindEditShiftRequest();
-
 })();
