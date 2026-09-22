@@ -53,7 +53,7 @@ async function createShiftRequest() {
   const createBtn = qs('#submit');
   const cancelBtn = qs('#cancel');
   const siteExternalId = qs('#siteExternalId')?.value || '';
-  const siteZoneExternalId = qs('siteZoneExternalId')?.value || '';
+  const siteZoneExternalId = qs('#siteZoneExternalId')?.value || '';
   const accountIdRaw = qs('#shiftRequestAccount')?.value;
   const type = qs('#shiftRequestServiceType')?.value;
   const startDate = qs('#shiftRequestStartDate')?.value;
