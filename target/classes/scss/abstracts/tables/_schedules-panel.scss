@@ -45,6 +45,7 @@
     }
     .schedules-list {
         display: flex;
+        flex-direction: column;
         gap: 0.5rem;
         .day-range-block{
             display: flex;
