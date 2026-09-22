@@ -13,6 +13,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,9 +32,10 @@ public class ShiftPattern {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Builder.Default
     @Column(name = "external_id", unique=true,
                             nullable=true, updatable=false)
-    private UUID externalId;
+    private UUID externalId = UUID.randomUUID();
 
     @Column(nullable = false, unique = true)
     private String name;
@@ -76,6 +78,13 @@ public class ShiftPattern {
             return 0L;
         }
         return this.workDays + this.restDays;
+    }
+
+    @PrePersist
+    protected void onCreate(){
+        if(this.externalId == null) {
+            this.externalId = UUID.randomUUID();
+        }
     }
 
 }

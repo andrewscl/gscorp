@@ -43,7 +43,6 @@ public class ShiftPatternRestController {
             .build();
         var saved = shiftPatternService.saveShiftPattern(entity);
         var location = ucb.path("/api/shift-patterns/{id}").buildAndExpand(saved.getId()).toUri();
-
         var dto = new ShiftPatternDto(
                             saved.getId(),
                             saved.getExternalId(),
@@ -53,7 +52,6 @@ public class ShiftPatternRestController {
                             saved.getRestDays(),
                             saved.getCode()
         );
-
         return ResponseEntity.created(location).body(dto);
     }
 
