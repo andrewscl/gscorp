@@ -1,0 +1,51 @@
+<section th:fragment="content" class="detail-section edit-nationality">
+  <h2>Editar Nacionalidad</h2>
+
+  <form id="editNationalityForm" class="card form">
+    <p class="meta-id"><strong>ID:</strong> <span th:text="${nationality.id}"></span></p>
+
+    <div class="form-group">
+      <label for="nationalityName">Nombre de la nacionalidad</label>
+      <input id="nationalityName" name="name" type="text"
+             th:value="${nationality.name}" required maxlength="255" />
+    </div>
+
+    <div class="form-group">
+      <label for="nationalityIsoCode">Código ISO</label>
+      <input id="nationalityIsoCode" name="isoCode" type="text"
+             th:value="${nationality.isoCode}" maxlength="3" />
+    </div>
+
+    <div class="form-group">
+      <label for="nationalityCreatedAt">Fecha de creación</label>
+      <input id="nationalityCreatedAt" name="createdAt" type="text"
+             th:value="${#temporals.format(nationality.createdAt, 'yyyy-MM-dd HH:mm')}" readonly tabindex="-1" />
+    </div>
+
+    <div class="form-group">
+      <label for="nationalityUpdatedAt">Última actualización</label>
+      <input id="nationalityUpdatedAt" name="updatedAt" type="text"
+             th:value="${#temporals.format(nationality.updatedAt, 'yyyy-MM-dd HH:mm')}" readonly tabindex="-1" />
+    </div>
+
+    <div class="actions">
+      <a class="vs-btn vs-secondary"
+         href="#" data-path="/private/nationalities/table-view">
+        Volver al listado
+      </a>
+
+      <button type="submit" class="vs-btn vs-primary">
+        Guardar cambios
+      </button>
+      <button type="button" class="vs-btn vs-danger"
+              id="deleteNationalityBtn" th:attr="data-id=${nationality.id}">
+        Eliminar nacionalidad
+      </button>
+    </div>
+
+    <div id="editNationalityError" class="form-error"></div>
+    <div id="editNationalityOk" class="form-ok" style="display:none;">Cambios guardados ✅</div>
+  </form>
+
+  <script type="module" src="/js/private/nationalities/edit-nationality.js"></script>
+</section>

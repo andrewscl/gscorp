@@ -1,0 +1,52 @@
+@use 'palette' as *;
+
+@mixin mega-menu-white (){
+  background-color: $white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+@mixin mega-menu-glass (){
+  background-color: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+@mixin mega-menu-accent-blue (){
+  background-color: $background-accent-blue;
+  box-shadow: 0 4px 12px rgba($accent-blue, 0.1);
+}
+
+@mixin mega-menu-dark (){
+  background-color: $slate-900;
+  color: $white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+
+@mixin mega-menu-stone (){
+  background-color: $stone-100;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+@mixin mega-menu-glass-light (){
+  background-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+@mixin mega-menu-white-elevated (){
+  background-color: $white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-bottom: 4px solid $accent-blue;
+  border-radius: 0 0 8px 8px;
+}
+
+@mixin mega-menu-corporate {
+  background-color: $stone-50;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+
+}
+
+
+

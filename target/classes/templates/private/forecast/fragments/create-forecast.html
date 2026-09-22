@@ -1,0 +1,144 @@
+<section th:fragment="content" class="card forecast-creation">
+  <h3>Crear Forecast</h3>
+
+  <!-- Mensajes de estado -->
+  <div id="forecast-status" aria-live="polite">Complete los campos para crear un forecast</div>
+
+  <form id="forecast-form"
+        data-forecast-endpoint="/api/forecasts"
+        autocomplete="off">
+
+    <!-- Compact layout: selects encadenados (client -> project -> site) -->
+    <div class="row compact">
+      <label for="forecast-client">Cliente
+        <select id="forecast-client" name="clientId" required>
+          <option value="">-- seleccionar --</option>
+          <option th:each="c : ${clients}" th:value="${c.id}" th:text="${c.name}"
+                  th:selected="${prefill != null and prefill.clientId != null and prefill.clientId == c.id}">
+          </option>
+        </select>
+      </label>
+
+      <label for="forecast-project">Proyecto
+        <select id="forecast-project" name="projectId" required
+                th:disabled="${projects == null or #lists.isEmpty(projects)}">
+          <option value="">-- seleccionar --</option>
+          <option th:each="p : ${projects}" th:value="${p.id}" th:text="${p.name}"
+                  th:selected="${prefill != null and prefill.projectId != null and prefill.projectId == p.id}">
+          </option>
+        </select>
+      </label>
+
+      <label for="forecast-site">Sitio
+        <select id="forecast-site" name="siteId" th:disabled="${sites == null or #lists.isEmpty(sites)}">
+          <option value="">-- (opcional) --</option>
+          <option th:each="s : ${sites}" th:value="${s.id}" th:text="${s.name}"
+                  th:selected="${prefill != null and prefill.siteId != null and prefill.siteId == s.id}">
+          </option>
+        </select>
+      </label>
+    </div>
+
+    <!-- Fila compacta de categoría / periodicidad / metrica -->
+    <div class="row compact">
+
+      <label for="forecast-metric">Métrica
+        <select id="forecast-metric" name="forecastMetric" required>
+          <option value="">-- seleccionar --</option>
+          <option th:each="m : ${forecastMetrics}"
+                  th:value="${m.name()}"
+                  th:text="${m.displayName != null ? m.displayName : m.name()}"
+                  th:selected="${prefill != null and prefill.forecastMetric != null and prefill.forecastMetric == m.name()}">
+          </option>
+        </select>
+      </label>
+
+      <label for="forecast-periodicity">Periodicidad
+        <select id="forecast-periodicity" name="periodicity" required>
+          <option value="">-- seleccionar --</option>
+          <option th:each="p : ${periodicities}" th:value="${p.name()}"
+                  th:text="${p.displayName != null ? p.displayName : p.name()}"
+                  th:selected="${prefill != null and prefill.periodicity != null and prefill.periodicity == p.name()}">
+          </option>
+        </select>
+      </label>
+
+      <div id="forecast-scope" class="scope-hint" aria-hidden="true"></div>
+    </div>
+
+    <!-- Fechas, valor y campos horarios en la misma fila -->
+    <div class="row compact date-value-row">
+      <label for="forecast-start">Desde
+        <input id="forecast-start" name="periodStart" type="date" required />
+      </label>
+
+      <label for="forecast-end">Hasta
+        <input id="forecast-end" name="periodEnd" type="date" />
+      </label>
+
+      <label for="forecast-value">Valor
+        <input id="forecast-value" name="value" type="number" step="0.001" inputmode="decimal" required />
+      </label>
+
+      <!-- Hour fields para periodicidad HOURLY: solo .hour-fields (NO .row .compact) -->
+      <div class="hour-fields" aria-hidden="true" hidden>
+        <label for="forecast-start-hour">Desde hora
+          <input id="forecast-start-hour" name="periodStartHour" type="number" min="0" max="23" step="1" />
+        </label>
+
+        <label for="forecast-end-hour">Hasta hora
+          <input id="forecast-end-hour" name="periodEndHour" type="number" min="0" max="23" step="1" />
+        </label>
+
+        <div class="hint">Usar solo para periodicidad Horaria</div>
+      </div>
+    </div>
+
+    <!-- Units / Confidence / Zone / Version: misma fila, sin hacks visuales -->
+    <div class="row compact units-row">
+
+      <label for="forecast-units">Unidades
+        <select id="forecast-units" name="units">
+          <option value="">-- seleccionar --</option>
+          <option th:each="u : ${unitsList}"
+                  th:value="${u.name()}"
+                  th:text="${u.displayName != null ? u.displayName : u.name()}"
+                  th:selected="${prefill != null and prefill.units != null and (prefill.units instanceof T(com.gscorp.dv1.enums.Units) ? prefill.units.name() : prefill.units) == u.name()}">
+          </option>
+        </select>
+      </label>
+
+      <label for="forecast-confidence">Confianza (%)
+        <input id="forecast-confidence" name="confidence" type="number" step="0.1" min="0" max="100"
+               placeholder="95" th:value="${prefill != null and prefill.confidence != null ? prefill.confidence : ''}" />
+      </label>
+
+      <label for="forecast-tz" class="tz-label">Zona (IANA)
+        <input id="forecast-tz" name="tz" type="text" placeholder="Europe/Madrid" th:value="${zone}" />
+      </label>
+
+      <input id="forecast-version" name="forecastVersion" type="hidden" value="1" />
+    </div>
+
+    <!-- Nota breve -->
+    <div class="form-group compact">
+      <label for="forecast-note">Nota (opcional)
+        <textarea id="forecast-note" name="note" rows="3" placeholder="Observación corta..."></textarea>
+      </label>
+    </div>
+
+    <!-- Acciones compactas -->
+    <div class="modal-footer compact">
+      <button type="submit" class="btn btn-primary" id="forecast-save">Guardar</button>
+      <button type="button" class="btn btn-secondary" id="forecast-cancel">Cancelar</button>
+    </div>
+
+  </form>
+
+  <!-- Resumen compacto (preview) -->
+  <div id="forecast-preview" aria-live="polite" class="compact-preview" hidden>
+    <strong>Preview:</strong> <span id="forecast-preview-text"></span>
+  </div>
+
+  <script type="module" th:src="@{/js/private/forecast/create-forecast.js}" defer></script>
+</section>

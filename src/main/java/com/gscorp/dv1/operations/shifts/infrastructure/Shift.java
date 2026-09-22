@@ -30,7 +30,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity 
+@Entity
 @Table(name="shifts",
   indexes = {
     @Index(name="ix_shifts_site", columnList="site_id"),

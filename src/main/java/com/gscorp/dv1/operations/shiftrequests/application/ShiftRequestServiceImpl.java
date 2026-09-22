@@ -20,7 +20,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -31,7 +30,6 @@ import com.gscorp.dv1.admin.clientaccounts.web.dto.ClientAccountDto;
 import com.gscorp.dv1.admin.clients.application.ClientService;
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
-import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.enums.ShiftRequestType;
 import com.gscorp.dv1.operations.shiftpatterns.application.ShiftPatternService;
@@ -140,64 +138,44 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
 
 
     @Transactional
-    public boolean deleteShiftRequest(Long id) {
-        try{
-            Optional<ShiftRequest> shiftRequestOpt = shiftRequestRepository.findById(id);
-            if(shiftRequestOpt.isPresent()){
-                shiftRequestRepository.delete(shiftRequestOpt.get());
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception e){
-            log.error("Error deleting ShiftRequest with id {}: {}", id, e.getMessage(), e);
-            return false;
-        }
+    public void deleteShiftRequest(
+                        boolean ignoreProjectFilter,
+                        List<Long> projectIds,
+                        UUID externalId) {
+        ShiftRequest shiftRequest = shiftRequestRepository
+            .findByExternalId(ignoreProjectFilter, projectIds, externalId)
+                .orElseThrow(() ->
+                    new ResponseStatusException(HttpStatus.NOT_FOUND, "ShiftRequest not found"));
+            shiftRequestRepository.delete(shiftRequest);
     }
 
 
     @Transactional
-    public ShiftRequestDtoWithSchedules createShiftRequest(CreateShiftRequest req, UUID userExternalId) {
+    public ShiftRequestDtoWithSchedules createShiftRequest(
+                CreateShiftRequest req,
+                UUID userExternalId) {
         if (userExternalId == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
         }
-
-        List<Long> allowedClientIds = clientService.getClientIdsByUserExternalId(userExternalId);
-        if (allowedClientIds == null || allowedClientIds.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No autorizado para crear solicitudes de turno");
-        }
-
-        // Validaciones básicas de request
         if (req.type() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tipo de solicitud es obligatorio");
         }
         if (req.startDate() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Fecha de inicio es obligatoria");
         }
-        // si endDate es null, lo normalizamos a startDate
         LocalDate start = req.startDate();
         LocalDate end = req.endDate() != null ? req.endDate() : start;
         if (end.isBefore(start)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La fecha de fin no puede ser anterior a la fecha de inicio");
         }
-
-        // Obtener clientId asociado al site
-        Long siteId = req.siteId();
-        if (siteId == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "siteId es obligatorio");
+        UUID siteExternalId = req.siteExternalId();
+        if (siteExternalId == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "siteExternalId es obligatorio");
         }
-
-        Long siteClientId = siteService.getClientIdForSite(siteId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Site no encontrado"));
-
-        if (!allowedClientIds.contains(siteClientId)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No autorizado para usar ese sitio");
-        }
-
-        // cargar la entidad Site
-        Site site = siteService.findById(siteId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Site no encontrado"));
-
+        ProjectScope scope = userScopeService.getProjectScope();
+        Site site = siteService.findByExternalId(
+                        scope.ignoreFilter(), scope.projectIds(), siteExternalId)
+                            .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Site no encontrado"));
         // validar accountId si se envía
         Long accountId = req.accountId();
         if (accountId != null) {
@@ -205,32 +183,12 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
             if (acctDto == null) {
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Cuenta no autorizada");
             }
-            Long acctClientId = acctDto.clientId();
-            if (acctClientId != null && !acctClientId.equals(siteClientId)) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La cuenta de cliente no pertenece al mismo cliente que el sitio");
-            }
         }
-
         // Delegar a helper que hace la persistencia con reintentos por colisiones de código
         ShiftRequest saved = buildAndSaveShiftRequestWithRetries(req, site, start, end);
-
         ShiftRequest enriched = shiftRequestRepository.findByIdWithSiteAndSchedules(saved.getId())
                 .orElse(saved);
-
         return ShiftRequestDtoWithSchedules.fromEntity(enriched);
-    }
-
-
-    @Transactional
-    public ShiftRequestDtoWithSchedules createShiftRequestForPrincipal(
-                                    CreateShiftRequest req,
-                                    Authentication authentication) {
-
-                        Object principal = authentication.getPrincipal();
-                        SecurityUser securityUser = (SecurityUser) principal;
-                        UUID externalId = securityUser.getUser().getExternalId();
-
-        return createShiftRequest(req, externalId);
     }
 
 
@@ -258,13 +216,11 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
             case SPORADIC -> prefix = "TS";
             default -> prefix = "TR";
         }
-
         // extrae last code de forma segura (limit 1)
         String lastCode = shiftRequestRepository
                 .findFirstBySiteIdAndCodeStartingWithOrderByCodeDesc(site.getId(), prefix)
                 .map(shiftRequest -> shiftRequest.getCode())
                 .orElse(null);
-
         int nextCorrelative = 1;
         if (lastCode != null && lastCode.startsWith(prefix)) {
             try {
@@ -274,7 +230,6 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
             }
         }
         String code = prefix + String.format("%04d", nextCorrelative);
-
         ShiftRequest entity = ShiftRequest.builder()
                 .code(code)
                 .site(site)
@@ -285,7 +240,6 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
                 .status(ShiftRequestStatus.REQUESTED)
                 .description(req.description())
                 .build();
-
         // mapear schedules si vienen
         if (req.schedules() != null && !req.schedules().isEmpty()) {
             try {
@@ -304,14 +258,12 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Formato de hora inválido en schedules: " + dtpe.getMessage(), dtpe);
             }
         }
-
         return shiftRequestRepository.save(entity);
     }
 
 
     private ShiftRequest buildAndSaveShiftRequestWithRetries(CreateShiftRequest req, Site site, LocalDate start, LocalDate end) {
         final int MAX_ATTEMPTS = 3;
-
         for (int attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
             try {
                 //Ejecutar el intento dentro de su propia transacción

@@ -1,0 +1,26 @@
+<div th:fragment="content" class="createNationality">
+
+  <div class="createNationalityHeader">
+    <h3>Crear nacionalidad</h3>
+    <button type="button" class="modal-close" id="closeCreateNationality">&times;</button>
+  </div>
+
+  <form id="createNationalityForm" class="createNationality-body">
+    <div class="form-group">
+      <label for="nationalityName">Nombre</label>
+      <input type="text" id="nationalityName" name="name" placeholder="Nombre de la nacionalidad" required maxlength="255" />
+    </div>
+    <div class="form-group">
+      <label for="nationalityIsoCode">Código ISO</label>
+      <input type="text" id="nationalityIsoCode" name="isoCode" placeholder="Código ISO (ej: CHL, ARG)" maxlength="3" />
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn-primary">Crear</button>
+      <button type="button" class="btn-secondary" id="cancelCreateNationality">Cancelar</button>
+    </div>
+    <div class="form-error" id="createNationalityError"></div>
+    <div class="form-ok" id="createNationalityOk" style="display:none;">Nacionalidad creada ✅</div>
+  </form>
+
+  <script type="module" src="/js/private/nationalities/create-nationality.js"></script>
+</div>

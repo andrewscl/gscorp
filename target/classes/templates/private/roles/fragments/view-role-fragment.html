@@ -1,0 +1,19 @@
+<section th:fragment="content" class="detail-section">
+    <h2>Rol</h2>
+
+    <p><strong>ID:</strong> <span th:text="${role.id}"></span></p>
+    <p><strong>Nombre:</strong> <span th:text="${role.role}"></span></p>
+
+    <div>
+        <strong>Usuarios asignados:</strong>
+        <ul>
+            <li th:each="u : ${role.users}">
+                <span th:text="${u.username}">username</span>
+            </li>
+        </ul>
+        <em th:if="${#lists.isEmpty(role.users)}">Ningún usuario asociado</em>
+    </div>
+
+    <a href="#" data-path="/private/admin/roles">Volver al listado</a>
+    
+</section>

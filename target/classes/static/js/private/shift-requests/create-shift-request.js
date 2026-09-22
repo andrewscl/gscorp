@@ -1,0 +1,37 @@
+import{f as b}from"../../auth.js";import{n as j}from"../../navigation-handler.js";import{d}from"../../shared/display-alert.js";import"../../shared/dom-utils.js";const s=(e,t=document)=>t.querySelector(e),g=(e,t=document)=>Array.from((t||document).querySelectorAll(e)),A=s(".alert-warning"),m=s(".alert-error"),I=s(".alert-success"),S={Lunes:0,Martes:1,Miércoles:2,Jueves:3,Viernes:4,Sábado:5,Domingo:6},$=Object.keys(S);function D(e=document.querySelector("#shiftDayRanges")){g(".day-range-block",e).forEach((o,r)=>{g("input, select, textarea",o).forEach(n=>{const a=n.getAttribute("name");if(!a)return;const i=a.replace(/schedules\[\d+\]/,`schedules[${r}]`);n.setAttribute("name",i)})})}function R(e){const t=e.map(o=>{let r=S[o.dayFrom],n=S[o.dayTo];return r>n&&(n+=7),{from:r,to:n,orig:o}});for(let o=0;o<t.length;o++)for(let r=o+1;r<t.length;r++){const n=t[o],a=t[r];for(let i=n.from;i<=n.to;i++)for(let c=a.from;c<=a.to;c++)if(i%7===c%7)return[n.orig,a.orig]}return null}async function x(){const e=s("#submit"),t=s("#cancel"),o=s("#siteExternalId")?.value||"",r=s("#shiftRequestAccount")?.value,n=s("#shiftRequestServiceType")?.value,a=s("#shiftRequestStartDate")?.value,i=s("#shiftRequestEndDate")?.value||null,c=s("#shiftRequestDescription")?.value?.trim()||null,f=r?parseInt(r,10):null;if(!o){d(m,"Debe seleccionar un sitio.");return}if(!n){d(m,"Debe seleccionar el tipo de servicio.");return}if(!a){d(m,"La fecha de inicio es obligatoria.");return}const y=[];if(g(".day-range-block").forEach((l,v)=>{const h=l.querySelector(".dayFrom")?.value,E=l.querySelector(".dayTo")?.value,T=l.querySelector('input[name$="[startTime]"]')?.value,L=l.querySelector('input[name$="[endTime]"]')?.value;h&&E&&T&&L&&y.push({dayFrom:h,dayTo:E,startTime:T,endTime:L})}),y.length===0){d(m,"Debe ingresar al menos un tramo de horario.");return}const p=R(y);if(p){d(m,`Solapamiento de días entre "${p[0].dayFrom}
+                              a ${p[0].dayTo}" y "${p[1].dayFrom}
+                              a ${p[1].dayTo}".
+                              Ajuste los tramos para que no se crucen.`);return}e&&(e.disabled=!0),t&&(t.disabled=!0);try{const l=await b("/api/shift-requests/create",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({siteId,type:n,clientAccountId:f,startDate:a,endDate:i,description:c,schedules:y})});if(!l||!l.ok){let v="Ocurrió un problema al enviar el formulario.";if(l){const h=l.headers.get("content-type");h&&h.includes("application/json")&&(v=(await l.json()).message||v)}d(m,`Error: ${v}`),e&&(e.disabled=!1),t&&(t.disabled=!1);return}d(I,"La asignación de turno ha sido creada correctamente.",2e3),setTimeout(()=>{j("/private/shift-assignments/list",!0)},2e3)}catch(l){console.error(`[onClickCreate] Ocurrio un problema: ${l.message}`,l),d(m,"Error inesperado. Intente más tarde.",2e3),e&&(e.disabled=!1),t&&(t.disabled=!1)}}function q(e){const t=s("#shiftDayRanges"),o=g(".day-range-block").length,r=$.map(i=>`<option value="${i}">${i}</option>`).join(""),n=$.map(i=>`<option value="${i}">${i}</option>`).join(""),a=document.createElement("div");a.className="day-range-block",a.innerHTML=`
+    <div class="form-group">
+      <label>Día desde</label>
+      <select name="schedules[${o}][dayFrom]" class="dayFrom" required>
+        <option value="">Desde</option>${r}
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Día hasta</label>
+      <select name="schedules[${o}][dayTo]" class="dayTo" required>
+        <option value="">Hasta</option>${n}
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Hora inicio</label>
+      <div class="time-field">
+        <input type="time" name="schedules[${o}][startTime]" value="" required />
+        <span class="time-icon"></span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Hora fin</label>
+      <div class="time-field">
+        <input type="time" name="schedules[${o}][endTime]" value="" required />
+        <span class="time-icon"></span>
+      </div>
+    </div>
+    <div class="form-group">
+      <button type="button" class="remove-schedule-btn">Quitar</button>
+    </div>
+  `,a.querySelector(".remove-schedule-btn").addEventListener("click",()=>{a.remove(),D(t),t.querySelector(".day-range-block")||q()}),t.appendChild(a),D(t)}const k=()=>{d(A,"La solicitud de turno ha sido cancelada",1500),setTimeout(()=>j("/private/shift-requests/table-view"),1500)};function w(){const e=s("#submit");e&&e.addEventListener("click",x);const t=s("#cancel");t&&t.addEventListener("click",k);const o=s("#shiftDayRanges"),r=s("#addDayRange");o&&r&&(r.addEventListener("click",()=>q()),o.querySelector(".day-range-block")||q());const n=s("#projectExternalId");n&&n.addEventListener("change",P);const a=s("#siteExternalId");a&&a.addEventListener("change",C)}async function P(){const e=s("#shiftRequestAccount"),t=s("#projectExternalId")?.value,o=s("#siteExternalId");if(!t){u({selectEl:o,items:[],emptyLabel:"Primero seleccione un proyecto."}),u({selectEl:e,items:[],emptyLabel:"Primero seleccione un sitio."});return}const r=o?.value||"";try{const n=`/api/sites/projects/${t}/sites`,a=await b(n,{method:"GET",headers:{Accept:"application/json"}});if(!a||!a.ok)throw new Error("No se pudieron obtener los sitios del proyecto seleccionado.");const i=await a.json();u({selectEl:o,items:i,defaultLabel:"Seleccione un sitio",emptyLabel:"Sin sitios asociados",valueKey:"externalId",preserveValue:r}),u({selectEl:e,items:[],emptyLabel:"Primero seleccione un sitio."}),o.disabled=!1}catch(n){console.error("Error en HandleProjectChange:",n),u({selectEl:o,items:[],emptyLabel:"Error al cargar los sitios."}),u({selectEl:e,items:[],emptyLabel:"Primero seleccione un sitio."})}}function u({selectEl:e,items:t,defaultLabel:o,emptyLabel:r,valueKey:n="externalId",preserveValue:a=""}){if(e){if(!t||t.length===0){e.innerHTML=`<option value="">${r}</option>`,e.disabled=!0;return}e.innerHTML=`<option value="">${o}</option>`,t.forEach(i=>{const c=document.createElement("option");c.value=i[n]||i.id||"",c.textContent=i.name||"",e.appendChild(c)}),a&&Array.from(e.options).some(c=>c.value===String(a))&&(e.value=String(a)),e.disabled=!1}}async function C(){const e=s("#shiftRequestAccount"),t=s("#siteZoneExternalId"),o=s("#siteExternalId")?.value;if(!e||!t)return;if(!o){u({selectEl:e,items:[],emptyLabel:"Primero seleccione un sitio."}),u({selectEl:t,items:[],emptyLabel:"Primero seleccione un sitio."});return}const r=e.value||"",n=t.value||"";try{const a=`/api/shift-requests/sites/${o}/accounts`,i=`/api/v1/site-zones/site/${o}/site-zones`,[c,f]=await Promise.all([b(a,{method:"GET",headers:{Accept:"application/json"}}),b(i,{method:"GET",headers:{Accept:"application/json"}})]);if(!c)throw new Error("No se pudieron obtener las cuentas del proyecto seleccionado.");if(!f)throw new Error("No se pudieron obtener las zonas del sitio seleccionado.");const y=c&&c.ok?await c.json():[],p=f&&f.ok?await f.json():[];u({selectEl:e,items:y,defaultLabel:"Seleccione una cuenta (opcional)",emptyLabel:"Sin cuentas asociadas",valueKey:"externalId",preserveValue:r}),u({selectEl:t,items:p,defaultLabel:"Seleccione una zona",emptyLabel:"El sitio no tiene zonas creadas (Requerido)",valueKey:"externalId",preserveValue:n})}catch(a){console.error("Error en HandleSiteChange:",a),u({selectEl:e,items:[],emptyLabel:"Error al cargar las cuentas."}),u({selectEl:t,items:[],emptyLabel:"Error al cargar las zonas."})}}(function(){w()})();

@@ -9,6 +9,7 @@ import java.util.UUID;
 import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.enums.ShiftRequestType;
 import com.gscorp.dv1.operations.shiftpatterns.infrastructure.ShiftPattern;
+import com.gscorp.dv1.operations.shifts.infrastructure.Shift;
 import com.gscorp.dv1.operations.sites.infrastructure.Site;
 import com.gscorp.dv1.operations.sitezones.infrastructure.SiteZone;
 
@@ -72,6 +73,10 @@ public class ShiftRequest {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "site_zone_id")
     private SiteZone siteZone;
+
+    @OneToMany(mappedBy = "shiftRequest", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<Shift> shifts = new ArrayList<>();
 
     @Column(name = "start_date", nullable = false)
     private LocalDate startDate;

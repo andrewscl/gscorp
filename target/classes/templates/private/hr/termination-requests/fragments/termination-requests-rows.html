@@ -1,0 +1,29 @@
+<th:block th:fragment="rows">
+        <tr th:each="tr : ${terminationRequests}">
+            <td th:text="${tr.employeeName != null} ? |${tr.employeeName} ${tr.employeeFatherSurname}| : '—'"></td>
+            <td th:text="${tr.rut != null ? tr.rut : '—'}">+56 9 1234 5678</td>
+            <td th:text="${tr.status.displayName}">Activo</td>
+            <td class="actions">
+                <button type="button"
+                        class="btn btn-view"
+                        th:attr="data-path=@{/private/employee-terminations/view/{externalId}(externalId=${tr.externalId})}">
+                Ver
+                </button>
+                <button type="button"
+                        class="btn btn-edit"
+                        th:if="${(#authorization.expression('hasRole(''ADMINISTRATOR'') or hasRole(''RRHH'')')) and tr.status.name() == 'PENDING'}"
+                        th:attr="data-path=@{/private/employee-terminations/manage/{externalId}(externalId=${tr.externalId})}">
+                Gestionar
+                </button>
+            </td>
+        </tr>
+        <tr th:unless="${terminationRequests != null and !terminationRequests.isEmpty()}">
+            <td colspan="100" style="text-align:center; padding: 2rem;">No hay datos disponibles</td>
+        </tr>
+        <tr>
+            <td colspan="100" style="display: none !important; padding: 0; border: none;">
+                <input type="hidden" id="sync-terminationRequests-count" th:value="${count != null ? count : (terminationRequestsPage != null ? terminationRequestsPage.totalElements : 0)}" />
+            </td>
+        </tr>
+
+</th:block>

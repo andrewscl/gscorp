@@ -1,0 +1,50 @@
+<div th:fragment="content">
+  <div class="professions-header">
+    <h2>Profesiones</h2>
+    <button class="btn-primary" id="createProfessionBtn"
+            data-path="/private/professions/create">Crear Profesión</button>
+  </div>
+
+  <div class="professions-table-container">
+    <table class="professions-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Código</th>
+          <th>Categoría</th>
+          <th>Nivel</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="p : ${professions}">
+          <td th:text="${p.id}"></td>
+          <td th:text="${p.name}"></td>
+          <td th:if="${p.description != null}" th:text="${p.description}"></td>
+          <td th:if="${p.code != null}" th:text="${p.code}"></td>
+          <td th:if="${p.category != null}" th:text="${p.category}"></td>
+          <td th:if="${p.level != null}" th:text="${p.level}"></td>
+          <td th:if="${p.active != null}">
+            <span class="tag"
+                  th:text="${p.active} ? 'Activo' : 'Inactivo'">Activo</span>
+          </td>
+          <td class="actions">
+            <button type="button"
+                    class="btn-link"
+                    th:attr="data-path=@{/private/professions/show/{id}(id=${p.id})}">
+              Ver
+            </button>
+            <button type="button"
+                    class="btn-link"
+                    th:attr="data-path=@{/private/professions/edit/{id}(id=${p.id})}">
+              Editar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

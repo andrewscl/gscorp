@@ -8,7 +8,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
-import org.springframework.security.core.Authentication;
 
 import com.gscorp.dv1.enums.ShiftRequestType;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.CreateShiftRequest;
@@ -35,19 +34,18 @@ public interface ShiftRequestService {
      */
     List<ShiftRequestDtoWithSchedules> findByClientIds(Collection<Long> clientIds);
 
-    boolean deleteShiftRequest(Long Id);
+    void deleteShiftRequest(
+                boolean ignoreProjectFilter,
+                List<Long> projectIds,
+                UUID externalId);
 
     /**
      * Crea un ShiftRequest validando que el site (y opcionalmente clientAccountId)
      * pertenezcan a uno de los clients del usuario (userId).
      */
-    ShiftRequestDtoWithSchedules createShiftRequest(CreateShiftRequest req, UUID userEmployeeId);
-
-    /**
-     * Conveniencia: resuelve userId desde Authentication y delega.
-     */
-    ShiftRequestDtoWithSchedules createShiftRequestForPrincipal(CreateShiftRequest req, Authentication authentication);
-
+    ShiftRequestDtoWithSchedules createShiftRequest(
+                                CreateShiftRequest req,
+                                UUID userExternalId);
 
     ShiftRequestDtoWithSchedules findByExternalId(
                                 boolean ignoreProjectFilter,

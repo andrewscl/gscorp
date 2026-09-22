@@ -1,0 +1,70 @@
+<th:block th:fragment="tabLaboral">
+        <div class="panel-tab">
+
+            <div class="panel-tab-column">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Empresa:</label>
+                        <span th:text="${employee.company}"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Cargo:</label>
+                        <span th:text="${employee.position}"></span>
+                    </div>
+
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Estado:</label>
+                        <span th:text="${employee.status.displayName}"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha de Inicio:</label>
+                        <span th:text="${employee.hireDate}"></span>
+                    </div>
+                    <div class="form-group" th:if="${employee.exitDate != null}">
+                        <label>Fecha de Termino:</label>
+                        <span th:text="${employee.exitDate}"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Tipo de Contrato:</label>
+                        <span th:text="${employee.contractType.displayName}"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Proyectos Asignados</label>
+                        <span th:each="ep : ${employeeProjects}"
+                                    class="badge"
+                                    th:text="${ep.name}">
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-tab-column">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Horario:</label>
+                        <span th:text="${employee.workSchedule.displayName}"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Sistema de Turno:</label>
+                        <span th:text="${employee.shiftSystem.displayName}"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Patron de turno:</label>
+                        <span th:text="${employee.shiftPattern}"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Profesiones:</label>
+                    <span th:each="ep : ${employeeProfessions}"
+                            class="badge"   
+                            th:text="${ep.name}">
+                    </span>
+                </div>
+            </div>
+
+    </div>
+</th:block>

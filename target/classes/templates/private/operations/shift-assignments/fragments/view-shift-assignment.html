@@ -1,0 +1,121 @@
+<div class="view-shift-assignment">
+    <div class="panel-container">
+
+        <div class="panel-main">
+            <div class="panel-header">
+                <h4>Ver asignación de turno</h4>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label>Proyecto:</label>
+                    <span id="projectExternalId" 
+                          th:text="${shiftAssignment.projectName ?: '-'}"></span>
+                </div>
+                <div class="form-group">
+                    <label>Sitio:</label>
+                    <span id="siteExternalId" 
+                          th:text="${shiftAssignment.siteName ?: '-'}"></span>
+                </div>
+
+                <div class="form-row w-custom">
+                    <div class="form-group fx-3">
+                        <label>Turno:</label>
+                        <span id="shiftRequestExternalId" 
+                              th:text="${shiftAssignment.shiftRequestCode ?: '-'}"></span>
+                    </div>
+                    <div class="form-group fx-4" id="shiftPatternGroup">
+                        <label>Jornada / Patrón:</label>
+                        <span id="shiftPattern" 
+                              th:text="${shiftAssignment.shiftPatternName ?: '-'}"></span>
+                    </div>
+                    <div class="form-group fx-3" id="shiftPatternGroup">
+                        <label>Estado:</label>
+                        <span id="shiftAssignmentStatus" 
+                              th:text="${shiftAssignment.status.displayName ?: '-'}"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Empleado:</label>
+                    <span id="employeeExternalId" 
+                          th:text="${shiftAssignment.employeeFullName != null
+                          ? shiftAssignment.employeeFullName 
+                          : '-'}"></span>
+                </div>
+
+                <div class="form-row w-custom">
+                    <div class="form-group fx-4">
+                        <label>Inicio asignación:</label>
+                        <span id="assignmentStartDate" 
+                              th:text="${shiftAssignment.assignedAtDate != null 
+                              ? #temporals.format(shiftAssignment.assignedAtDate, 'dd-MM-yyyy') 
+                              : '-'}"></span>
+                    </div>
+                    <div class="form-group fx-4">
+                        <label>Fin asignación:</label>
+                        <span id="assignmentEndDate" 
+                              th:text="${shiftAssignment.assignedUntilDate != null 
+                              ? #temporals.format(shiftAssignment.assignedUntilDate, 'dd-MM-yyyy') 
+                              : '-'}"></span>
+                    </div>
+                    <div class="form-group fx-2">
+                        <label>Inicio ciclo:</label>
+                        <span id="shiftPatternStartCycle" 
+                              th:text="${shiftAssignment.startCycleNumber ?: '-'}"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="panel-aside">
+            <div class="panel-body">
+                <div class="form-group">
+                    <label>Notas / Observaciones:</label>
+                    <span id="description" th:text="${shiftAssignment.notes ?: 'Sin observaciones'}"></span>
+                </div>
+
+                <div class="view-planned-shifts-table">
+                    <div class="title-row">
+                        <div class="title-left">
+                            <span class="title-text">Planificación próximos días</span>
+                        </div>
+                    </div>
+                    
+                    <div class="list" 
+                         th:if="${shifts == null or #lists.isEmpty(shifts)}">— No hay turnos planificados —</div>
+                    
+                    <div class="list" 
+                         th:if="${shifts != null and !#lists.isEmpty(shifts)}">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Día</th>
+                                    <th>Inicio</th>
+                                    <th>Término</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="s : ${shifts}">
+                                    <td th:text="${s.shiftDate != null ? #temporals.format(s.shiftDate, 'dd-MM-yyyy') : '—'}">18-05-2026</td>
+                                    <td th:text="${s.day != null ? s.day.displayNameInSpanish : '—'}">Lunes</td>
+                                    <td th:text="${s.startTs != null ? #temporals.format(s.startTs, 'HH:mm') : '—'}">08:30</td>
+                                    <td th:text="${s.endTs != null ? #temporals.format(s.endTs, 'HH:mm') : '—'}">20:30</td>
+                                    <td th:text="${s.status != null ? s.statusDisplayName : '—'}">ASIGNADO</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
+    <div th:replace="~{shared/fragments/footer-buttons :: footer-buttons(false, '', true, 'Volver', false, '')}"></div>
+
+    <script type="module" src="/js/private/operations/shift-assignments/view-shift-assignment.js"></script>
+</div>

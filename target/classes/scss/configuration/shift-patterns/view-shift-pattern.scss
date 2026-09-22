@@ -1,0 +1,8 @@
+@use '../../abstracts/card-forms' as *;
+@use '../../abstracts/alerts' as *;
+@use '../../abstracts/buttons/footer-buttons' as *;
+@use '../../abstracts/panels/panel-main' as *;
+
+.view-shift-pattern {
+  @include hs-form();
+}

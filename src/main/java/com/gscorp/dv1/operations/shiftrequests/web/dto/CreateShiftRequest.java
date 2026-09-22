@@ -2,6 +2,7 @@ package com.gscorp.dv1.operations.shiftrequests.web.dto;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 import com.gscorp.dv1.enums.ShiftRequestType;
 
@@ -12,7 +13,9 @@ import jakarta.validation.constraints.Size;
 public record CreateShiftRequest(
 
     @NotNull(message = "siteId es obligatorio")
-    Long siteId,
+    UUID siteExternalId,
+
+    UUID siteZoneExternalId,
 
     @NotNull(message = "type es obligatorio")
     ShiftRequestType type,

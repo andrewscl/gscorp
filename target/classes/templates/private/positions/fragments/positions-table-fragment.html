@@ -1,0 +1,52 @@
+<div th:fragment="content">
+  <div class="positions-header">
+    <h2>Cargos</h2>
+    <button class="btn-primary" id="createPositionBtn"
+            data-path="/private/positions/create">Crear Cargo</button>
+  </div>
+
+  <div class="positions-table-container">
+    <table class="positions-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th th:if="${positions != null and #lists.size(positions) > 0
+                and positions[0].description != null}">Descripción</th>
+          <th th:if="${positions != null and #lists.size(positions) > 0
+                and positions[0].code != null}">Código</th>
+          <th th:if="${positions != null and #lists.size(positions) > 0
+                and positions[0].level != null}">Nivel</th>
+          <th th:if="${positions != null and #lists.size(positions) > 0
+                and positions[0].active != null}">Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="p : ${positions}">
+          <td th:text="${p.id}"></td>
+          <td th:text="${p.name}"></td>
+          <td th:if="${p.description != null}" th:text="${p.description}"></td>
+          <td th:if="${p.code != null}" th:text="${p.code}"></td>
+          <td th:if="${p.level != null}" th:text="${p.level}"></td>
+          <td th:if="${p.active != null}">
+            <span class="tag"
+                  th:text="${p.active} ? 'Activo' : 'Inactivo'">Activo</span>
+          </td>
+          <td class="actions">
+            <button type="button"
+                    class="btn-link"
+                    th:attr="data-path=@{/private/positions/show/{id}(id=${p.id})}">
+              Ver
+            </button>
+            <button type="button"
+                    class="btn-link"
+                    th:attr="data-path=@{/private/positions/edit/{id}(id=${p.id})}">
+              Editar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

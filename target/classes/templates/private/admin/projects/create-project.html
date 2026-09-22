@@ -1,0 +1,61 @@
+<div id="createProjectContainer" class="create-project-container"
+                                            th:fragment="content">
+
+    <div class="hs-form-header">
+        <h4>Crear Proyecto</h4>
+    </div>
+
+    <div class="body" id="createProjectForm">
+
+        <div class="form-group">
+            <label>Empresa</label>
+            <select id="company" required>
+                <option value="">Selecciona una empresa:</option>
+                <option th:each="company : ${companies}" 
+                        th:value="${company.externalId()}"
+                        th:text="${company.name()}">
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Cliente</label>
+            <select id="client" required>
+                <option value="">Primero seleccione una empresa</option>
+            </select>
+        </div>
+
+        <div class="form-group col-40">
+          <label>Proyecto</label>
+          <input type="text" placeholder="Nombre del proyecto" required />
+        </div>
+
+        <div class="form-row w-custom">
+            <div class="form-group fx-5">
+                <label>Fecha de inicio:</label>
+                <input type="date" id="startDate" required />
+            </div>
+            <div class="form-group fx-5">
+                <label>Fecha de termino:</label>
+                <input type="date" id="endDate"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Descripción:</label>
+            <textarea id="description"></textarea>
+        </div>
+
+    </div>
+
+    <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
+
+    <div th:replace="~{shared/fragments/footer-buttons ::
+                          footer-buttons(
+                              true, 'Crear proyecto',
+                              true, 'Cancelar',
+                              false, '')}"></div>
+
+    <script type="module" src="/js/private/admin/projects/create-project.js"></script>
+
+</div>

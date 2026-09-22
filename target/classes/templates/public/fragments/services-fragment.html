@@ -1,0 +1,83 @@
+<div th:fragment="services">
+
+    <div class="services-image">
+        <img th:src="@{/img/services/services.jpg}">
+            <h1>¿En qué podemos ayudarte?</h1>
+            <p class="p3">Si quieres mas información sobre nuestras soluciones,
+                escribenos y nos pondremos en contacto contigo.</p>
+            <button  href="#"
+                        data-path="/public/contact" 
+                            class="btn btn-primary">Contáctanos</button>
+    </div>
+
+    <section class="text-container-big">
+        <div class="container">
+            <h1>Servicios</h1>
+            <p class="p3">¿Estás buscando una soluciones a tu medida?</p>
+        </div>
+    </section>
+
+    <section class="text-image-right">
+        <div class="container">
+            <div class="text-content">
+                <p class="p2">Integramos equipos y herramientas bajo estándares
+                    internacionales, con trazabilidad y mejora continua.</p>
+                <p class="p2">Garantizamos continuidad operativa y resultados
+                    medibles, unimos talento y tecnologia para liberar tu tiempo
+                    y potenciar el core de tu negocio.
+                </p>
+            </div>
+            <div class="image-content">
+                <img th:src="@{/img/services/services 2.jpg}">
+            </div>
+        </div>
+    </section>
+
+    <section class="text-container-medium">
+      <h2>Descubre nuestras soluciones</h2>
+    </section>
+
+    <!-- columnas de servicios --> 
+    <section class="servicios">
+        <div class="column">
+            <div class="media">
+                <img th:src="@{/img/services/private security.jpg}">
+            </div>
+            <h4 href="#" data-path="/public/security">Seguridad Privada</h4>
+            <p>Nuestros Guardias de Seguridad son el eje central de
+                nuestras soluciones de seguridad.</p>
+            <p>Apostamos por la formación y especialización y proporcionamos
+                herramientas digitales que aumentan la eficacia y la
+                transparencia de los servicios.
+            </p>
+        </div>
+
+        <div class="column">
+            <div class="media">
+                <img th:src="@{/img/services/clean.jpg}">
+            </div>
+            <h4 href="#" data-path="/public/clean">Aseo y Mantención</h4>
+            <p>Realizamos con un levantamiento técnico del sitio para definir
+                frecuencias, rutas de aseo y matrices de criticidad por zonas.
+                Con eso construimos un plan de trabajo que prioriza áreas de alto
+                tránsito y riesgos, garantizando continuidad operativa sin
+                interrumpir tu negocio.</p>
+        </div>
+
+        <div class="column">
+            <div class="media">
+                <img th:src="@{/img/services/outsourcing.jpg}">
+            </div>
+            <h4 href="#" data-path="/public/outsourcing">Outsourcing</h4>
+            <p>Ofrecemos un servicio integral de Recursos Humanos que cubre
+                el ciclo completo: atracción y selección por competencias,
+                evaluaciones psicolaborales, verificación de antecedentes y
+                onboarding estructurado.</p>
+            <p>Operamos con SLAs y KPIs (tiempo de cobertura, rotación, ausentismo,
+                cumplimiento de dotación) para asegurar continuidad operativa en
+                turnos y cobertura 24/7, incluyendo servicios transitorios y
+                reemplazos para peaks o contingencias.</p>
+        </div>
+    </section>
+
+</div>

@@ -1,0 +1,7 @@
+@use '../../abstracts/card-forms' as *;
+
+.create-hr-document-type {
+
+  @include hs-form(40rem);
+
+}
