@@ -53,6 +53,7 @@ async function createShiftRequest() {
   const createBtn = qs('#submit');
   const cancelBtn = qs('#cancel');
   const siteExternalId = qs('#siteExternalId')?.value || '';
+  const siteZoneExternalId = qs('siteZoneExternalId')?.value || '';
   const accountIdRaw = qs('#shiftRequestAccount')?.value;
   const type = qs('#shiftRequestServiceType')?.value;
   const startDate = qs('#shiftRequestStartDate')?.value;
@@ -61,6 +62,10 @@ async function createShiftRequest() {
   const accountId = accountIdRaw ? parseInt(accountIdRaw, 10) : null;
   if (!siteExternalId) {
     displayAlert(alertError, 'Debe seleccionar un sitio.');
+    return;
+  }
+  if (!siteZoneExternalId) {
+    displayAlert(alertError, 'Debe seleccionar una zona.');
     return;
   }
   if (!type) {
@@ -96,13 +101,21 @@ async function createShiftRequest() {
   }
   if (createBtn) createBtn.disabled = true;
   if (cancelBtn) cancelBtn.disabled = true;
+  const payload = {
+    siteExternalId: siteZoneExternalId,
+    siteZoneExternalId: siteZoneExternalId,
+    type: type,
+    clientAccountId: accountId,
+    startDate: startDate,
+    endDate: endDate,
+    description: description,
+    schedules
+  };
   try {
     const res = await fetchWithAuth('/api/shift-requests/create', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        siteId, type, clientAccountId: accountId, startDate, endDate, description, schedules
-      })
+      body: JSON.stringify(payload)
     });
     if (!res || !res.ok) {
       let errorMessage = 'Ocurrió un problema al enviar el formulario.';
@@ -119,8 +132,7 @@ async function createShiftRequest() {
       return;
     }
     displayAlert(alertSuccess, 'La asignación de turno ha sido creada correctamente.', 2000);
-    setTimeout(() => {
-          navigateTo('/private/shift-assignments/list', true); }, 2000);
+    setTimeout(() => { navigateTo('/private/shift-assignments/list', true); }, 2000);
   } catch (error) {
     console.error(`[onClickCreate] Ocurrio un problema: ${error.message}`, error);
     displayAlert(alertError, 'Error inesperado. Intente más tarde.', 2000);
