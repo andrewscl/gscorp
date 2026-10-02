@@ -129,35 +129,27 @@ public class ShiftRequestController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
             LocalDate to,
             @RequestParam(required = false) String clientTz,
-            @RequestParam(required = false) Long siteId,
+            @RequestParam(required = false) UUID siteExternalId,
             @RequestParam(required = false) Long projectId,
             @RequestParam(required = false) ShiftRequestType type,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "100") int size
     ) {
-
-        if(securityUser == null) return "redirect:/login";
         UUID externalId = securityUser.getUser().getExternalId();
-
-        String cleanClientTz =
-            (clientTz == null || clientTz.isBlank()) ? null : clientTz.trim();
-        ZoneResolutionResult zoneResult =
-                        zoneResolver.resolveZone(externalId, cleanClientTz);
+        String cleanClientTz = (clientTz == null || clientTz.isBlank()) ? null : clientTz.trim();
+        ZoneResolutionResult zoneResult = zoneResolver.resolveZone(externalId, cleanClientTz);
         ZoneId zoneId = zoneResult.zoneId();
-
         if (from != null && to != null && from.isAfter(to)) {
             log.debug("from > to en request; intercambiando valores: from={}, to={}", from, to);
             LocalDate tmp = from;
             from = to;
             to = tmp;
         }
-
         Page<ShiftRequestSelectDto> shiftRequests =
                 shiftRequestService.getShiftRequestsTable(
                             externalId, zoneId,
-                            from, to, siteId, projectId,
+                            from, to, siteExternalId, projectId,
                             type, page, size);
-
         model.addAttribute("shiftRequestsPage", shiftRequests);
         model.addAttribute("shiftRequests", shiftRequests.getContent());
         model.addAttribute("count", shiftRequests.getTotalElements());

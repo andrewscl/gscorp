@@ -14,6 +14,7 @@ public interface ShiftRequestProjection {
     UUID getExternalId();
     String getCode();
     Long getSiteId();
+    UUID getSiteExternalId();
     String getSiteName();
     String getShiftPatternName();
     Long projectId();

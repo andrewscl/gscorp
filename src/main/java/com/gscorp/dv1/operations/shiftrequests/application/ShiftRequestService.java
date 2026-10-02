@@ -61,7 +61,7 @@ public interface ShiftRequestService {
                     ZoneId zoneId,
                     LocalDate fromDate,
                     LocalDate toDate,
-                    Long siteId,
+                    UUID siteExternalId,
                     Long projectId,
                     ShiftRequestType type,
                     int page,

@@ -239,6 +239,7 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
                      sr.externalId        AS externalId,
                      sr.code              AS code,
                      s.id                 AS siteId,
+                     s.externalId         AS siteExternalId,
                      s.name               AS siteName,
                      sp.name              AS shiftPatternName,
                      p.id                 AS projectId,
@@ -258,7 +259,7 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
               AND (:startDate IS NULL OR sr.startDate >= :startDate)
               AND (:endExclusiveDate IS NULL OR sr.startDate < :endExclusiveDate) 
-              AND (:siteId IS NULL OR s.id = :siteId)
+              AND (:siteExternalId IS NULL OR s.externalId = :siteExternalId)
               AND (:projectId IS NULL OR p.id = :projectId)
               AND (:shiftRequestType IS NULL OR sr.type = :shiftRequestType)
               """,
@@ -270,7 +271,7 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
               AND (:startDate IS NULL OR sr.startDate >= :startDate)
               AND (:endExclusiveDate IS NULL OR sr.startDate < :endExclusiveDate) 
-              AND (:siteId IS NULL OR s.id = :siteId)
+              AND (:siteExternalId IS NULL OR s.externalid = :siteExternalId)
               AND (:projectId IS NULL OR p.id = :projectId)
               AND (:shiftRequestType IS NULL OR sr.type = :shiftRequestType)
               """
@@ -280,7 +281,7 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               @Param("projectIds") List<Long> projectIds,
               @Param("startDate") OffsetDateTime startDate,
               @Param("endExclusiveDate") OffsetDateTime endExclusiveDate,
-              @Param("siteId") Long siteId,
+              @Param("siteExternalId") UUID siteExternalId,
               @Param("projectId") Long projectId,
               @Param("shiftRequestType") ShiftRequestType shiftRequestType,
               Pageable pageable
