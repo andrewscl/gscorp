@@ -71,10 +71,6 @@ public class ShiftRequestController {
         model.addAttribute("count", shiftRequests.getTotalElements());
         model.addAttribute("sites", siteService.getAllSitesByUser(externalId));
         model.addAttribute("shiftRequestTypes", ShiftRequestType.values());
-        System.out.println("=== DEBUG MODEL ===");
-        System.out.println("Total Elementos Count: " + shiftRequests.getTotalElements());
-        System.out.println("Lista shiftRequests (getContent): " + shiftRequests.getContent());
-        System.out.println("===================");
         return "private/operations/shift-requests/views/shift-request-list";
     }
 
@@ -133,7 +129,7 @@ public class ShiftRequestController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
             LocalDate to,
             @RequestParam(required = false) String clientTz,
-            @RequestParam(required = false) UUID siteExternalId,
+            @RequestParam(required = false) Long siteId,
             @RequestParam(required = false) Long projectId,
             @RequestParam(required = false) ShiftRequestType type,
             @RequestParam(defaultValue = "0") int page,
@@ -152,7 +148,7 @@ public class ShiftRequestController {
         Page<ShiftRequestSelectDto> shiftRequests =
                 shiftRequestService.getShiftRequestsTable(
                             externalId, zoneId,
-                            from, to, siteExternalId, projectId,
+                            from, to, siteId, projectId,
                             type, page, size);
         model.addAttribute("shiftRequestsPage", shiftRequests);
         model.addAttribute("shiftRequests", shiftRequests.getContent());

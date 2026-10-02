@@ -313,7 +313,7 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
                     ZoneId zoneId,
                     LocalDate fromDate,
                     LocalDate toDate,
-                    UUID siteExternalId,
+                    Long siteId,
                     Long projectId,
                     ShiftRequestType type,
                     int page,
@@ -337,7 +337,7 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
                             scope.projectIds(),
                             start,
                             endExclusive,
-                            siteExternalId,
+                            siteId,
                             projectId,
                             type,
                             pageable);
