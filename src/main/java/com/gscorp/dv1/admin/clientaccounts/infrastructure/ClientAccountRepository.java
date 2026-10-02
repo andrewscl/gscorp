@@ -31,7 +31,7 @@ public interface ClientAccountRepository extends JpaRepository<ClientAccount, Lo
         SELECT ca
         FROM ClientAccount ca
         JOIN ca.project p
-        JOIN p.site s
+        JOIN p.sites s
         WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
         AND (s.externalId = :siteExternalId)
     """)
@@ -46,7 +46,7 @@ public interface ClientAccountRepository extends JpaRepository<ClientAccount, Lo
         SELECT ca
         FROM ClientAccount ca
         JOIN ca.project p
-        JOIN p.site s
+        JOIN p.sites s
         WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
     """)
     List<ClientAccount> findClientAccountsByUser(
