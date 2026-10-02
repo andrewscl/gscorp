@@ -71,6 +71,10 @@ public class ShiftRequestController {
         model.addAttribute("count", shiftRequests.getTotalElements());
         model.addAttribute("sites", siteService.getAllSitesByUser(externalId));
         model.addAttribute("shiftRequestTypes", ShiftRequestType.values());
+        System.out.println("=== DEBUG MODEL ===");
+        System.out.println("Total Elementos Count: " + shiftRequests.getTotalElements());
+        System.out.println("Lista shiftRequests (getContent): " + shiftRequests.getContent());
+        System.out.println("===================");
         return "private/operations/shift-requests/views/shift-request-list";
     }
 
