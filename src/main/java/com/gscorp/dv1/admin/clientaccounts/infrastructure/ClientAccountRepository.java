@@ -1,20 +1,57 @@
 package com.gscorp.dv1.admin.clientaccounts.infrastructure;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.gscorp.dv1.admin.clientaccounts.web.dto.ClientAccountDto;
-
 @Repository
 public interface ClientAccountRepository extends JpaRepository<ClientAccount, Long> {
-    
-    @Query("select new com.gscorp.dv1.admin.clientaccounts.web.dto.ClientAccountDto(ca.id, ca.name, ca.client.id, ca.client.name, ca.notes) " +
-        "from ClientAccount ca where ca.client.id in :clientIds order by ca.name")
-    List<ClientAccountDto> findDtoByClientIds(@Param("clientIds") Collection<Long> clientIds);
+
+    @Query(
+        value = """
+        SELECT ca
+        FROM ClientAccount ca
+        JOIN ca.project p
+        WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
+        AND (ca.externalId = :externalId)
+    """)
+    Optional<ClientAccount> findByExternalId(
+            @Param("ignoreProjectFilter") boolean ignoreProjectFilter,
+            @Param("projectIds") List<Long> projectIds,
+            @Param("externalId") UUID externalId
+    );
+
+    @Query(
+        value = """
+        SELECT ca
+        FROM ClientAccount ca
+        JOIN ca.project p
+        JOIN p.site s
+        WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
+        AND (s.externalId = :siteExternalId)
+    """)
+    List<ClientAccount> findClientAccountsBySite(
+            @Param("ignoreProjectFilter") boolean ignoreProjectFilter,
+            @Param("projectIds") List<Long> projectIds,
+            @Param("siteExternalId") UUID siteExternalId
+    );
+
+    @Query(
+        value = """
+        SELECT ca
+        FROM ClientAccount ca
+        JOIN ca.project p
+        JOIN p.site s
+        WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
+    """)
+    List<ClientAccount> findClientAccountsByUser(
+            @Param("ignoreProjectFilter") boolean ignoreProjectFilter,
+            @Param("projectIds") List<Long> projectIds
+    );
 
 }

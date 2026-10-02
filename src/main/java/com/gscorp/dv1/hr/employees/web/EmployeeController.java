@@ -41,7 +41,9 @@ import com.gscorp.dv1.hr.employees.application.EmployeeTabsServiceImpl;
 import com.gscorp.dv1.hr.employees.web.dto.EmployeeTableDto;
 import com.gscorp.dv1.hr.employees.web.dto.EmployeeViewDto;
 import com.gscorp.dv1.operations.shiftpatterns.application.ShiftPatternService;
+import com.gscorp.dv1.users.application.UserScopeService;
 import com.gscorp.dv1.users.application.UserService;
+import com.gscorp.dv1.users.application.dto.ProjectScope;
 
 import lombok.AllArgsConstructor;
 
@@ -60,6 +62,7 @@ public class EmployeeController {
     private PositionService positionService;
     private EmployeeTabsServiceImpl employeeTabsService;
     private CompanyService companyService;
+    private UserScopeService userScopeService;
 
     @GetMapping("/table-view")
     public String getEmployeesTableView (
@@ -69,15 +72,12 @@ public class EmployeeController {
             @RequestParam(required = false, defaultValue = "100") int size
         ) {
 
-        if(securityUser == null) return "redirect:/login";
         UUID externalId = securityUser.getUser().getExternalId();
         int safePage = Math.max(0, page);
         int safeSize = Math.min(Math.max(5, size), 200); // límites: min 5, max 200
-
         Page<EmployeeTableDto> employeesPage =
                         employeeService.getEmployeeTable(
                                 externalId, null, null, null, safePage, safeSize);
-
         model.addAttribute("employeesPage", employeesPage);          // Page completo
         model.addAttribute("employees", employeesPage.getContent()); // Lista para iterar
         model.addAttribute("q", null);
@@ -122,18 +122,11 @@ public class EmployeeController {
             Model model,
             Authentication authentication
         ){
-
-        Long userId = userService.getUserIdFromAuthentication(authentication);
-        if (userId == null) {
-            return "redirect:/login";
-        }
-
         EmployeeViewDto employee =
                 employeeService.findByExternalIdViewEmployee(externalId);
         if (employee == null) {
             return "redirect:/private/employees";
         }
-
         model.addAttribute("employee", employee);
         model.addAttribute("employeeTabs", employeeTabsService.getTabs());
         model.addAttribute("employeeProfessions",
@@ -147,30 +140,27 @@ public class EmployeeController {
     public String editEmployee(
                     @PathVariable UUID externalId,
                     Model model,
-                    Authentication authentication
+                    @AuthenticationPrincipal SecurityUser securityUser
                     ){
-
-        List<ProjectDto> projects = projectService.findByUserExternalId(externalId);
+        ProjectScope scope = userScopeService.getProjectScope();
+        List<ProjectDto> projects = projectService.findByUserScope(
+                                                        scope.ignoreFilter(),
+                                                        scope.projectIds(),
+                                                        null);
         List<ProfessionSelectDto> professions = professionService.findProfessionSelectDtosByEmployeeId(externalId);
-
         var employee = employeeService.findByExternalIdEditEmployee(externalId);
-        
-
         List<Long> projectIds = projects
                                     .stream()
                                     .map(p -> p.id())
                                     .toList();
-
         List<Long> professionIds = professions
                                     .stream()
                                     .map(p -> p.id())
                                     .toList();
-
         model.addAttribute("employeeProfessions",
                     professionService.findProfessionSelectDtosByEmployeeId(externalId));
         model.addAttribute("employeeProjects",
                     projectService.findProjectSelectDtosByEmployeeExternalId(externalId));
-
         model.addAttribute("employee", employee);
         model.addAttribute("employeeTabs", employeeTabsService.getEditTabs());
         model.addAttribute("genders", Gender.values());
@@ -207,17 +197,10 @@ public class EmployeeController {
             @RequestParam(required = false, defaultValue = "0") int page,
             @RequestParam(required = false, defaultValue = "100") int size
         ) {
-
-        if(securityUser == null) {
-                return "redirect:/login";
-        }
-
         UUID externalId = securityUser.getUser().getExternalId();
-
         Page<EmployeeTableDto> employeesPage =
                         employeeService.getEmployeeTable(
                                 externalId, q, status, userStatus, page, size);
-
         model.addAttribute("employeesPage", employeesPage);
         model.addAttribute("employees", employeesPage.getContent());
         model.addAttribute("count", employeesPage.getTotalElements());

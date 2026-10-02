@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -18,7 +19,9 @@ import com.gscorp.dv1.attendance.web.dto.statistics.AttendanceDistributionMetric
 import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.operations.sites.application.SiteService;
 import com.gscorp.dv1.operations.sites.web.dto.SiteDto;
+import com.gscorp.dv1.users.application.UserScopeService;
 import com.gscorp.dv1.users.application.UserService;
+import com.gscorp.dv1.users.application.dto.ProjectScope;
 
 import java.net.URI;
 import java.util.List;
@@ -35,39 +38,32 @@ public class AttendanceRestController {
   private final UserService userService;
   private final AttendanceService attendanceService;
   private final AttendanceStatService attendanceStatService;
-
+  private final UserScopeService userScopeService;
 
   //Registrar asistencia
   @PostMapping("/punch")
   public ResponseEntity<?> punch(
               @RequestBody CreateAttendancePunchRequest in,
-              Authentication authentication,
+              @AuthenticationPrincipal SecurityUser securityUser,
               UriComponentsBuilder ucb,
               @RequestHeader(value="User-Agent", required=false) String ua,
               @RequestHeader(value="X-Forwarded-For", required=false) String xff,
               @RequestHeader(value="CF-Connecting-IP", required=false) String cfIp,
               @RequestHeader(value="X-Real-IP", required=false) String xri) {
 
-      Long userId = userService.getUserIdFromAuthentication(authentication);
-            if (userId == null) {
-              // no autenticado: redirigir al login o devolver error según tu política
-              return ResponseEntity.status(401).build();
-      }
-
-      Object principal = authentication.getPrincipal();
-      SecurityUser securityUser = (SecurityUser) principal;
-      UUID externalId = securityUser.getUser().getExternalId();
-
+      UUID userExternalId = securityUser.getUser().getExternalId();
+      ProjectScope scope = userScopeService.getProjectScope();
       String ip = firstNonBlank(cfIp, xff, xri, "0.0.0.0");
       if (in.getIp() == null) in.setIp(ip);
       if (in.getDeviceInfo() == null) in.setDeviceInfo(ua);
-
-      AttendancePunchDto saved = attendanceService.createPunch(in, externalId);
-
+      AttendancePunchDto saved = attendanceService.createPunch(
+                                                scope.ignoreFilter(),
+                                                scope.projectIds(),
+                                                userExternalId,
+                                                in);
       URI location = ucb.path("/api/attendance/punch/{id}")
           .buildAndExpand(saved.id())
           .toUri();
-
       return ResponseEntity.created(location).body(saved);
   }
 

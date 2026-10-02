@@ -112,15 +112,12 @@ public class ShiftRequestRestController {
     }
 
 
-    @GetMapping("/sites/{siteId}/accounts")
+    @GetMapping("/sites/{siteExternalId}/accounts")
     public ResponseEntity<List<ClientAccountDto>> getClientAccountsForSite(
-                @PathVariable ("siteId") Long siteId,
-                Authentication authentication ) {
-        Long userId = userService.getUserIdFromAuthentication(authentication);
-        if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-        List<ClientAccountDto> accounts = clientAccountService.getClientAccountsForSite(siteId, userId);
+                @PathVariable ("siteExternalId") UUID siteExternalId) {
+        ProjectScope scope = userScopeService.getProjectScope();
+        List<ClientAccountDto> accounts = clientAccountService.getClientAccountsBySite(
+                                scope.ignoreFilter(), scope.projectIds(), siteExternalId);
         return ResponseEntity.ok(accounts);
     }
 
@@ -303,7 +300,6 @@ public class ShiftRequestRestController {
 
     @GetMapping("/sites/{siteExternalId}/requests")
     public ResponseEntity<List<ShiftRequestSelectDto>> getShiftRequestsByStatusAndSite(
-            @AuthenticationPrincipal SecurityUser securityUser,
             @PathVariable ("siteExternalId") UUID siteExternalId
     ) {
         List<ShiftRequestSelectDto> requests =
@@ -315,11 +311,10 @@ public class ShiftRequestRestController {
     public ResponseEntity<ShiftRequestDtoWithSchedules> getShiftRequest(
                 @PathVariable ("shiftRequestExternalId") UUID shiftRequestExternalId ){
         ProjectScope scope = userScopeService.getProjectScope();
-        return ResponseEntity.ok(
-                    shiftRequestService.findByExternalId(
-                        scope.ignoreFilter(),
-                        scope.projectIds(),
-                        shiftRequestExternalId));
+        return ResponseEntity.ok(shiftRequestService.findByExternalId(
+                                    scope.ignoreFilter(),
+                                    scope.projectIds(),
+                                    shiftRequestExternalId));
     }
 
 }

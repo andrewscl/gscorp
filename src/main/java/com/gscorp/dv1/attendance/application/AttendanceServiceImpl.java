@@ -31,7 +31,9 @@ import com.gscorp.dv1.operations.shifts.application.ShiftService;
 import com.gscorp.dv1.operations.shifts.infrastructure.Shift;
 import com.gscorp.dv1.operations.shifts.infrastructure.ShiftRepository;
 import com.gscorp.dv1.operations.sites.application.SiteService;
-import com.gscorp.dv1.operations.sites.web.dto.SiteSelectDto;
+import com.gscorp.dv1.operations.sites.web.dto.SiteDto;
+import com.gscorp.dv1.users.application.UserScopeService;
+import com.gscorp.dv1.users.application.dto.ProjectScope;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -51,22 +53,27 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AttendanceServiceImpl implements AttendanceService {
 
-  private final AttendancePunchRepo repo;
-  private final SiteService siteService;
-  private final EmployeeService employeeService;
-  private final ZoneResolver zoneResolver;
-  private final ClientService clientService;
-  private final ShiftRepository shiftRepository;
-  private final ShiftService shiftService;
+    private final AttendancePunchRepo repo;
+    private final SiteService siteService;
+    private final EmployeeService employeeService;
+    private final ZoneResolver zoneResolver;
+    private final ClientService clientService;
+    private final ShiftRepository shiftRepository;
+    private final ShiftService shiftService;
+    private final UserScopeService userScopeService;
 
-  private static final double MAX_DIST_METERS = 250.0;
-  private static final DateTimeFormatter TS_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    private static final double MAX_DIST_METERS = 250.0;
+    private static final DateTimeFormatter TS_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 
     @Transactional
     public AttendancePunchDto createPunch(
-        CreateAttendancePunchRequest req, UUID userExternalId
+                                boolean ignoreProjectFilter,
+                                List<Long> projectIds,
+                                UUID userExternalId,
+                                CreateAttendancePunchRequest req
         ) {
+        ProjectScope scope = userScopeService.getProjectScope();
         ZoneResolutionResult zoneResult = zoneResolver.
                                             resolveZone(userExternalId, req.getClientTimezone());
         ZoneId zone = zoneResult.zoneId();
@@ -89,7 +96,8 @@ public class AttendanceServiceImpl implements AttendanceService {
             throw new IllegalArgumentException("lat/lon son obligatorios para crear una marcación");
         }
         // Busca el site más cercano a la marcación
-        SiteSelectDto nearestSite = siteService.findNearestSite(userExternalId, lat, lon);
+        SiteDto nearestSite = siteService.findNearestSite(
+                                            scope.ignoreFilter(), scope.projectIds(), lat, lon);
         if (nearestSite == null)
                     throw new IllegalStateException("No hay sitios registrados");
         double siteLat = nearestSite.lat();

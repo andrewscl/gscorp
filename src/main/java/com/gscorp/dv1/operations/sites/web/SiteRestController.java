@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.gscorp.dv1.admin.clients.application.ClientService;
-import com.gscorp.dv1.admin.clients.web.dto.ClientSelectDto;
 import com.gscorp.dv1.admin.projects.application.ProjectService;
 import com.gscorp.dv1.admin.projects.infrastructure.Project;
 import com.gscorp.dv1.config.security.SecurityUser;
@@ -29,8 +27,6 @@ import com.gscorp.dv1.operations.sites.infrastructure.Site;
 import com.gscorp.dv1.operations.sites.web.dto.CreateSiteRequest;
 import com.gscorp.dv1.operations.sites.web.dto.SetSiteCoordinatesDto;
 import com.gscorp.dv1.operations.sites.web.dto.SiteDto;
-import com.gscorp.dv1.operations.sites.web.dto.SiteDtoProjection;
-import com.gscorp.dv1.operations.sites.web.dto.SiteSelectDto;
 import com.gscorp.dv1.operations.sites.web.dto.UpdateLatLon;
 import com.gscorp.dv1.operations.sites.web.dto.UpdateSiteRequest;
 import com.gscorp.dv1.users.application.UserScopeService;
@@ -48,7 +44,6 @@ public class SiteRestController {
     private final SiteService siteService;
     private final ProjectService projectService;
     private final UserService userService;
-    private final ClientService clientService;
     private final UserScopeService userScopeService;
 
         @PostMapping("/create")
@@ -138,25 +133,16 @@ public class SiteRestController {
         }
 
         @GetMapping("/projections-by-user")
-        public ResponseEntity<List<SiteDtoProjection>> getSiteProjectionsByUser(
-                Authentication authentication
-        ) {
-                Object principal = authentication.getPrincipal();
-                SecurityUser securityUser = (SecurityUser) principal;
-                UUID externalId = securityUser.getUser().getExternalId();
-
-                List<ClientSelectDto> clientDtos = clientService.findClientsByUserExternalId(externalId);
-
-                List<SiteDtoProjection> siteProjections = siteService.findSiteProjectionsByClientIds(clientDtos.stream()
-                        .map(dto -> dto.id())
-                        .toList());
-
-                return ResponseEntity.ok(siteProjections);
+        public ResponseEntity<List<SiteDto>> getSiteDtosByUser() {
+                ProjectScope scope = userScopeService.getProjectScope();
+                List<SiteDto> sites = siteService.findByUserScope(
+                                scope.ignoreFilter(),
+                                scope.projectIds());
+                return ResponseEntity.ok(sites);
         }
 
         @GetMapping("/{externalId}")
         public ResponseEntity<SiteDto> getSiteById(
-                                @AuthenticationPrincipal SecurityUser securityUser,
                                 @PathVariable UUID externalId) {
                 ProjectScope scope = userScopeService.getProjectScope();
                 return siteService.findDtoByExternalId(
@@ -184,12 +170,12 @@ public class SiteRestController {
 
 
         @GetMapping("/projects/{projectExternalId}/sites")
-        public ResponseEntity<List<SiteSelectDto>> getSitesByProjectExternalId(
+        public ResponseEntity<List<SiteDto>> getSitesByProjectExternalId(
                 @AuthenticationPrincipal SecurityUser securityUser,
                 @PathVariable UUID projectExternalId
         ) {
                 ProjectScope scope = userScopeService.getProjectScope();
-                List<SiteSelectDto> sites = siteService.findByProjectExternalId(
+                List<SiteDto> sites = siteService.findDtosByProjectExternalId(
                                                 scope.ignoreFilter(),
                                                 scope.projectIds(),
                                                 projectExternalId);

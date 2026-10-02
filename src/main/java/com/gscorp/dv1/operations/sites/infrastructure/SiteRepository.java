@@ -11,8 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.gscorp.dv1.operations.sites.web.dto.SiteDtoProjection;
-import com.gscorp.dv1.operations.sites.web.dto.SiteSelectDto;
+import com.gscorp.dv1.operations.sites.web.dto.SiteDto;
 
 @Repository
 public interface SiteRepository extends JpaRepository<Site, Long>{
@@ -50,25 +49,18 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
 
     @Query("select new com.gscorp.dv1.operations.sites.web.dto.SiteSelectDto(s.id, s.externalId, s.name, s.lat, s.lon) " +
            "from Site s where s.project.client.id in :clientIds order by s.name")
-    List<SiteSelectDto> findSelectDtoByClientIds(@Param("clientIds") Collection<Long> clientIds);
+    List<SiteDto> findSelectDtoByClientIds(@Param("clientIds") Collection<Long> clientIds);
 
     // Devuelve solo el client id asociado al site (puede ser vacío si no existe la relación)
     @Query("select s.project.client.id from Site s where s.id = :id")
     Optional<Long> findClientIdBySiteId(@Param("id") Long id);
 
 
-        /**
-     * Ajusta la JPQL según la estructura de tu entidad Site:
-     * - Si Site tiene una relación `project` (ManyToOne) usa p.project.id = :projectId
-     * - Si usa projectId como campo directo, usa s.projectId = :projectId
-     *
-     * Devuelve DTOs (id, name) de sites activos del proyecto.
-     */
     @Query("select new com.gscorp.dv1.operations.sites.web.dto.SiteSelectDto(s.id, s.externalId, s.name, s.lat, s.lon) " +
            "from Site s " +
            "where s.project.id = :projectId and (s.active = true or s.active is null) " +
            "order by s.name")
-    List<SiteSelectDto> findSelectDtoByProjectId(@Param("projectId") Long projectId);
+    List<SiteDto> findDtoByProjectId(@Param("projectId") Long projectId);
 
 
     @Query("""
@@ -86,7 +78,7 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
         AND (p.externalId IN :projectExternalId)
         ORDER BY s.name
         """)
-    List<SiteProjection> findByProjectExternalId(
+    List<SiteProjection> findProjectionsByProjectExternalId(
             @Param("ignoreProjectFilter") boolean ignoreProjectFilter,
             @Param("projectIds") List<Long> projectIds,
             @Param("projectExternalId") UUID projectExternalId);
@@ -104,7 +96,7 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
         WHERE p.client.id IN :clientIds
         ORDER BY s.name
         """)
-    List<SiteSelectProjection> findByClientIds(@Param("clientIds") List<Long> clientIds);
+    List<SiteProjection> findByClientIds(@Param("clientIds") List<Long> clientIds);
 
 
     @Query("""
@@ -119,7 +111,7 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
         WHERE p.id IN :projectIds
         ORDER BY s.name
         """)
-    List<SiteSelectProjection> findByProjectIds(@Param("projectIds") List<Long> projectIds);
+    List<SiteProjection> findByProjectIds(@Param("projectIds") List<Long> projectIds);
 
 
 
@@ -141,7 +133,30 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
         @Param("clientIds") List<Long> clientIds
     );
 
-    Optional<SiteDtoProjection> findProjectionById(Long id);
+    Optional<SiteProjection> findProjectionById(Long id);
+
+    @Query("""
+        SELECT DISTINCT
+          s.id          AS id,
+          s.externalId  AS externalId,
+          s.name        AS name,
+          s.address     AS address,
+          s.lat         AS lat,
+          s.lon         AS lon,
+          s.timeZone    AS timeZone,
+          p.id          AS projectId,
+          p.name        AS projectName,
+          s.status      AS status,
+          s.active      AS active
+        FROM Site s
+        JOIN s.project p
+        WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
+        ORDER BY s.name
+        """)
+    Optional<SiteProjection> findByUserScope(
+        @Param("ignoreProjectFilter") boolean ignoreProjectFilter,
+        @Param("projectIds") List<Long> projectIds
+    );
 
     @Query("""
         SELECT DISTINCT

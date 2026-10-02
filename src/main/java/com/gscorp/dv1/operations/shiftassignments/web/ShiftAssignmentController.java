@@ -21,6 +21,8 @@ import com.gscorp.dv1.operations.shiftpatterns.application.ShiftPatternService;
 import com.gscorp.dv1.operations.shifts.application.ShiftService;
 import com.gscorp.dv1.operations.shifts.web.dto.ShiftDto;
 import com.gscorp.dv1.operations.sites.application.SiteService;
+import com.gscorp.dv1.users.application.UserScopeService;
+import com.gscorp.dv1.users.application.dto.ProjectScope;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,6 +36,7 @@ public class ShiftAssignmentController {
     private final SiteService siteService;
     private final ProjectService projectService;
     private final ShiftService shiftService;
+    private final UserScopeService userScopeService;
 
     @GetMapping("/list")
     public String getShiftAssignmentsList (
@@ -43,6 +46,7 @@ public class ShiftAssignmentController {
             @RequestParam(required = false, defaultValue = "100") int size,
             @RequestParam(required = false) String requestedZone
     ){
+        ProjectScope scope = userScopeService.getProjectScope();
         if(securityUser == null) return "redirect:/login";
         UUID externalId = securityUser.getUser().getExternalId();
         Page<ShiftAssignmentDto> shiftAssignments =
@@ -51,7 +55,7 @@ public class ShiftAssignmentController {
         model.addAttribute("shiftAssignmentsPage", shiftAssignments);
         model.addAttribute("shiftAssignments", shiftAssignments.getContent());
         model.addAttribute("count", shiftAssignments.getTotalElements());
-        model.addAttribute("sites", siteService.findByUserExternalId(externalId));
+        model.addAttribute("sites", siteService.findByUserScope(scope.ignoreFilter(), scope.projectIds()));
         model.addAttribute("shiftAssignmentStatuses", ShiftAssignmentStatus.values());
         return "private/operations/shift-assignments/views/shift-assignments-list";
     }
@@ -82,18 +86,17 @@ public class ShiftAssignmentController {
 
 
     @GetMapping("/create")
-    public String getCreateShiftAssignmentView(
-            Model model,
-            @AuthenticationPrincipal SecurityUser securityUser
-    ){
-        if(securityUser == null) return "redirect:/login";
-        UUID externalId = securityUser.getUser().getExternalId();
-
+    public String getCreateShiftAssignmentView(Model model){
+        ProjectScope scope = userScopeService.getProjectScope();
         model.addAttribute("sites",
-                                siteService.findSiteProjectionsByUserExternalId(externalId));
+                            siteService.findByUserScope(
+                                scope.ignoreFilter(), scope.projectIds()
+                            ));
         model.addAttribute("projects",
-                                projectService.findByUserExternalId(externalId));
-        model.addAttribute("shiftPatterns", shiftPatternService.getShiftPatternsList());
+                                projectService.findByUserScope(
+                                    scope.ignoreFilter(), scope.projectIds(), null));
+        model.addAttribute("shiftPatterns", 
+                                shiftPatternService.getShiftPatternsList());
         return "private/operations/shift-assignments/fragments/create-shift-assignment";
     }
 

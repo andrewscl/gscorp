@@ -1,12 +1,14 @@
 package com.gscorp.dv1.admin.clientaccounts.web.dto;
 
+import java.util.UUID;
+
 import com.gscorp.dv1.admin.clientaccounts.infrastructure.ClientAccount;
 
 public record ClientAccountDto (
     Long id,
+    UUID externalId,
     String name,
-    Long clientId,
-    String clientName,
+    String projectName,
     String notes
 ){
 
@@ -14,9 +16,9 @@ public record ClientAccountDto (
         if (ca == null) return null;
         return new ClientAccountDto(
             ca.getId(),
+            ca.getExternalId(),
             ca.getName(),
-            ca.getClient() != null ? ca.getClient().getId() : null,
-            ca.getClient() != null ? ca.getClient().getName() : null,
+            ca.getProject() != null ? ca.getProject().getName() : null,
             ca.getNotes()
         );
     }

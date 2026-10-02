@@ -436,7 +436,7 @@ p {
 .private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 .private-layout .main-content .content .create-shift-request .panel-container .panel-aside .schedules-panel .schedules-list .day-range-block {
   display: flex;
@@ -707,4 +707,4 @@ p {
 }
 .private-layout .main-content .content .create-shift-request .footer-actions .btn.btn-danger:active {
   transform: translateY(0);
-}/*# sourceMappingURL=create-shift-request.css.map */
+}/*# sourceMappingURL=create-shift-request.css.map */*/

@@ -1,6 +1,12 @@
 package com.gscorp.dv1.admin.clientaccounts.infrastructure;
 
-import com.gscorp.dv1.admin.clients.infrastructure.Client;
+import java.time.OffsetDateTime;
+import java.util.UUID;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import com.gscorp.dv1.admin.projects.infrastructure.Project;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,6 +16,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,8 +31,14 @@ import lombok.Setter;
 @Table(name="client_accounts")
 public class ClientAccount {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Builder.Default
+    @Column(name = "external_id", unique=true,
+                            nullable=false, updatable=false)
+    private UUID externalId = UUID.randomUUID();
 
     @Column(nullable=false, length=160)
     private String name;
@@ -34,7 +47,26 @@ public class ClientAccount {
     private String notes;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "client_id", nullable = false)
-    private Client client;
+    @JoinColumn(name = "project_id", nullable = false)
+    private Project project;
+
+    @Column(nullable = true, updatable = false)
+    private String createdBy;
+
+    @Column(nullable = true)
+    private String updatedBy;
+
+    @CreationTimestamp
+    private OffsetDateTime createdAt;
+
+    @UpdateTimestamp
+    private OffsetDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        if (this.externalId == null) {
+            this.externalId = UUID.randomUUID();
+        }
+    }
 
 }

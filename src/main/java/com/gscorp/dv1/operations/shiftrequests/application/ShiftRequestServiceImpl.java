@@ -25,8 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.gscorp.dv1.admin.clientaccounts.application.ClientAccountService;
-import com.gscorp.dv1.admin.clientaccounts.web.dto.ClientAccountDto;
 import com.gscorp.dv1.admin.clients.application.ClientService;
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
@@ -62,7 +60,6 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
     private final ShiftRequestRepository shiftRequestRepository;
     private final ShiftRequestScheduleRepository shiftRequestScheduleRepository; 
     private final ClientService clientService;
-    private final ClientAccountService clientAccountService;
     private final SiteService siteService;
     private final ZoneResolver zoneResolver;
     private final TransactionTemplate transactionTemplate;
@@ -92,12 +89,9 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
                 List<Long> projectIds,
                 UUID externalId,
                 UpdateShiftRequestDto req) {
-        ShiftRequest shiftRequest =
-                        shiftRequestRepository.findByExternalId(
-                                ignoreProjectFilter,
-                                projectIds,
-                                externalId)
-            .orElseThrow(() ->
+        ShiftRequest shiftRequest = shiftRequestRepository.findByExternalId(
+                                        ignoreProjectFilter, projectIds, externalId)
+                .orElseThrow(() ->
                     new ResponseStatusException(HttpStatus.NOT_FOUND, "ShiftRequest not found"));
         if (req.description() != null && !Objects.equals(shiftRequest.getDescription(), req.description())){
             shiftRequest.setDescription(req.description());
@@ -129,7 +123,6 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
         if (clientIds == null || clientIds.isEmpty()) {
             return Collections.emptyList();
         }
-
         List<ShiftRequest> entities = shiftRequestRepository.findBySiteClientIdInFetchSiteAndSchedules(clientIds);
         return entities.stream()
                 .map(ShiftRequestDtoWithSchedules::fromEntity)
@@ -154,36 +147,16 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
     public ShiftRequestDtoWithSchedules createShiftRequest(
                 CreateShiftRequest req,
                 UUID userExternalId) {
-        if (userExternalId == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
-        }
-        if (req.type() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tipo de solicitud es obligatorio");
-        }
-        if (req.startDate() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Fecha de inicio es obligatoria");
-        }
         LocalDate start = req.startDate();
         LocalDate end = req.endDate() != null ? req.endDate() : start;
         if (end.isBefore(start)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La fecha de fin no puede ser anterior a la fecha de inicio");
         }
         UUID siteExternalId = req.siteExternalId();
-        if (siteExternalId == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "siteExternalId es obligatorio");
-        }
         ProjectScope scope = userScopeService.getProjectScope();
         Site site = siteService.findByExternalId(
                         scope.ignoreFilter(), scope.projectIds(), siteExternalId)
                             .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Site no encontrado"));
-        // validar accountId si se envía
-        Long accountId = req.accountId();
-        if (accountId != null) {
-            ClientAccountDto acctDto = clientAccountService.getAccountDtoIfOwned(accountId, userExternalId);
-            if (acctDto == null) {
-                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Cuenta no autorizada");
-            }
-        }
         // Delegar a helper que hace la persistencia con reintentos por colisiones de código
         ShiftRequest saved = buildAndSaveShiftRequestWithRetries(req, site, start, end);
         ShiftRequest enriched = shiftRequestRepository.findByIdWithSiteAndSchedules(saved.getId())
@@ -191,23 +164,6 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
         return ShiftRequestDtoWithSchedules.fromEntity(enriched);
     }
 
-
-    @Transactional(readOnly = true)
-    public ShiftRequestDtoWithSchedules findByExternalId(
-                                boolean ignoreProjectFilter,
-                                List<Long> projectIds,
-                                UUID externalId) {
-        ShiftRequest shiftRequest = shiftRequestRepository
-            .findByExternalId(ignoreProjectFilter, projectIds, externalId)
-                .orElseThrow(() ->
-                    new ResponseStatusException(HttpStatus.NOT_FOUND, "ShiftRequest not found"));
-        return ShiftRequestDtoWithSchedules.fromEntity(shiftRequest);
-    }
-
-     /**
-     * Construye y persiste la entidad ShiftRequest (incluye mapeo de schedules).
-     * No realiza validaciones de permisos; se asume que el caller ya las hizo si aplica.
-     */
     private ShiftRequest buildAndSaveShiftRequest(CreateShiftRequest req, Site site, LocalDate start, LocalDate end) {
         // Determinar prefijo según el enum RequestType
         String prefix;
@@ -423,7 +379,6 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
     @Transactional(readOnly = true)
     public List<ShiftRequestSelectDto>
                 getShiftRequestsWithSchedulesBySite(UUID siteExternalId) {
-        
         List<ShiftRequestProjection> projections =
                     shiftRequestRepository
                         .findByStatusAndSite(siteExternalId, ShiftRequestStatus.APPROVED);
@@ -451,6 +406,19 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
                     schedulesByRequestId.getOrDefault(p.getId(), List.of())
                 ))
                 .toList();
+    }
+
+
+    @Transactional(readOnly = true)
+    public ShiftRequestDtoWithSchedules findByExternalId(
+                                boolean ignoreProjectFilter,
+                                List<Long> projectIds,
+                                UUID externalId) {
+        ShiftRequest shiftRequest = shiftRequestRepository
+            .findByExternalId(ignoreProjectFilter, projectIds, externalId)
+                .orElseThrow(() ->
+                    new ResponseStatusException(HttpStatus.NOT_FOUND, "ShiftRequest not found"));
+        return ShiftRequestDtoWithSchedules.fromEntity(shiftRequest);
     }
 
 

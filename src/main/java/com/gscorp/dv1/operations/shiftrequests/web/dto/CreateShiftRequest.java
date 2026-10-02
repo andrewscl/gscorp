@@ -12,7 +12,7 @@ import jakarta.validation.constraints.Size;
 
 public record CreateShiftRequest(
 
-    @NotNull(message = "siteId es obligatorio")
+    @NotNull(message = "siteExternalId es obligatorio")
     UUID siteExternalId,
 
     UUID siteZoneExternalId,

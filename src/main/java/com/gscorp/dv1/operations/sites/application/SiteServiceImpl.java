@@ -11,17 +11,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gscorp.dv1.admin.clients.application.ClientService;
-import com.gscorp.dv1.admin.projects.application.ProjectService;
-import com.gscorp.dv1.admin.projects.web.dto.ProjectDto;
 import com.gscorp.dv1.exceptions.ResourceNotFoundException;
 import com.gscorp.dv1.operations.sites.infrastructure.Site;
 import com.gscorp.dv1.operations.sites.infrastructure.SiteProjection;
 import com.gscorp.dv1.operations.sites.infrastructure.SiteRepository;
-import com.gscorp.dv1.operations.sites.infrastructure.SiteSelectProjection;
 import com.gscorp.dv1.operations.sites.web.dto.SetSiteCoordinatesDto;
 import com.gscorp.dv1.operations.sites.web.dto.SiteDto;
-import com.gscorp.dv1.operations.sites.web.dto.SiteDtoProjection;
-import com.gscorp.dv1.operations.sites.web.dto.SiteSelectDto;
 import com.gscorp.dv1.operations.sites.web.dto.UpdateLatLon;
 import com.gscorp.dv1.operations.sites.web.dto.UpdateSiteRequest;
 
@@ -35,7 +30,6 @@ public class SiteServiceImpl implements SiteService{
 
     private final SiteRepository siteRepository;
     private final ClientService clientService;
-    private final ProjectService projectService;
 
     @Transactional
     public Site saveSite (Site site){
@@ -54,7 +48,6 @@ public class SiteServiceImpl implements SiteService{
         }
     }
 
-
     @Transactional(readOnly = true)
     public Optional<Site> findById(Long id){
         return siteRepository.findById(id);
@@ -71,16 +64,8 @@ public class SiteServiceImpl implements SiteService{
                                 externalId);
     }
 
-
     @Transactional(readOnly = true)
-    public Optional<SiteDto> findDtoById (Long id) {
-        return siteRepository.findByIdWithProject(id)
-                            .map(site -> SiteDto.fromEntity(site));
-    }
-
-
-    @Transactional(readOnly = true)
-    public List<SiteDto>getAllSites(){
+    public List<SiteDto> getAllSites(){
         return siteRepository.findAllWithProjects()
                     .stream()
                     .map(r-> new SiteDto(
@@ -176,11 +161,10 @@ public class SiteServiceImpl implements SiteService{
     }
 
     @Transactional(readOnly = true)
-    public List<SiteSelectDto> getAllSitesForClients(List<Long> clientIds) {
+    public List<SiteDto> getAllSitesForClients(List<Long> clientIds) {
         return siteRepository.findByProject_Client_IdIn(clientIds)
             .stream()
-            .map(site -> new SiteSelectDto(site.
-                                getId(), site.getExternalId(), site.getName(), site.getLat(), site.getLon()))
+            .map(SiteDto::fromEntity)
             .toList();
     }
 
@@ -191,89 +175,48 @@ public class SiteServiceImpl implements SiteService{
     }
 
     @Transactional(readOnly = true)
-    public List<SiteSelectDto> findSelectDtoByProjectId(Long projectId) {
+    public List<SiteDto> findDtosByProjectId(Long projectId) {
         if (projectId == null) return List.of();
-        return siteRepository.findSelectDtoByProjectId(projectId);
+        return siteRepository.findDtoByProjectId(projectId);
     }
 
 
     @Transactional(readOnly = true)
-    public List<SiteSelectDto> findByProjectExternalId(
-                    boolean ignoreProjectFilter,
-                    List<Long> projectIds,
-                    UUID projectExternalId) {
-        if (projectExternalId == null) return List.of();
-        List<SiteProjection> siteProjections = siteRepository
-                        .findByProjectExternalId(ignoreProjectFilter, projectIds,projectExternalId);
-        return siteProjections.stream()
-                .map(SiteSelectDto::fromProjection)
-                .toList();
-    }
-
-
-    @Transactional(readOnly = true)
-    public List<SiteSelectDto> findByUserExternalId(UUID userExternalId) {
-
-        if(userExternalId == null) {
-            return Collections.emptyList();
-        }
-
-        List<Long> projectIds = projectService.findByUserExternalId(userExternalId)
-                                .stream()
-                                .map(project -> project.id())
-                                .toList();
-        if(projectIds == null || projectIds.isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        List<SiteSelectProjection> sites = siteRepository.findByProjectIds(projectIds);
-        if(sites == null || sites.isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        List<SiteSelectDto> response = sites.stream()
-            .map(s -> new SiteSelectDto(s.getId(), s.getExternalId(), s.getName(), s.getLat(), s.getLon()))
-            .toList();
-        
-        return response;
+    public List<SiteDto> findByUserScope(
+                                    boolean ignoreProjectFilter,
+                                    List<Long> projectIds) {
+        return siteRepository.findByUserScope(
+                                    ignoreProjectFilter,
+                                    projectIds)
+                                    .stream()
+                                    .map(SiteDto::fromProjection)
+                                    .toList();
     }
 
 
     @Override
     @Transactional(readOnly = true)
-    public SiteSelectDto findNearestSite(UUID externalId, double lat, double lon) {
-
-        List<ProjectDto> projects = projectService.findByUserExternalId(externalId);
-        if (projects == null || projects.isEmpty()) {
-            return null;
-        }
-
-        List<Long> projectIds = projects.stream()
-                                .map(project -> project.id())
-                                .toList();
-
-        List<SiteSelectProjection> sites = siteRepository.findByProjectIds(projectIds);
-        log.debug("findNearestSite: sites fetched={}, for userId={}", sites == null ? 0 : sites.size(), externalId);
+    public SiteDto findNearestSite(
+                        boolean ignoreProjectFilter,
+                        List<Long> projectIds,
+                        double lat,
+                        double lon) {
+        if (projectIds == null || projectIds.isEmpty()) return null;
+        List<SiteProjection> sites = siteRepository.findByProjectIds(projectIds);
         if(sites == null || sites.isEmpty()) {
             return null;
         }
-
         // Filtrar sites que tengan lat/lon válidos para evitar NPE en la comparación
-        Optional<SiteSelectProjection> nearest = sites.stream()
+        Optional<SiteProjection> nearest = sites.stream()
             .filter(s -> s.getLat() != null && s.getLon() != null)
             .min(Comparator.comparingDouble(
                         s -> haversineMeters(lat, lon, s.getLat(), s.getLon())));
-
         if (nearest.isEmpty()) {
-                log.debug("findNearestSite: after filtering, no sites with lat/lon for projectIds {}", projectIds);
             return null;
         }
-
-        SiteSelectProjection p = nearest.get();
-
-        return new SiteSelectDto(p.getId(), p.getExternalId(), p.getName(), p.getLat(), p.getLon());
+        SiteProjection p = nearest.get();
+        return SiteDto.fromProjection(p);
     }
-
 
     /** Utilidad geodésica */
     @Override
@@ -289,60 +232,43 @@ public class SiteServiceImpl implements SiteService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<SiteDtoProjection> findSiteProjectionsByClientIds(List<Long> clientIds) {
-
+    public List<SiteDto> findSiteProjectionsByClientIds(List<Long> clientIds) {
         if (clientIds == null || clientIds.isEmpty()) {
             return Collections.emptyList();
         }
-
         List<SiteProjection>  siteProjections = siteRepository.findSiteProjectionsByClientIds(clientIds);
-
-        // Mapea cada SiteProjection a SiteDtoProjection usando el método fromEntity
-        List<SiteDtoProjection> dtolist = siteProjections.stream()
-            .map(SiteDtoProjection::fromProjection) // Convierte cada proyección usando el método
-            .toList(); // Convierte el stream en una lista
-        
+        List<SiteDto> dtolist = siteProjections.stream()
+            .map(SiteDto::fromProjection)
+            .toList();
         return dtolist;
-
     }
 
 
     @Override
     @Transactional(readOnly = true)
-    public List<SiteDtoProjection> findSiteProjectionsByUserExternalId(UUID userExternalId) {
-
+    public List<SiteDto> findDtoByUserExternalId(UUID userExternalId) {
         List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);
         if (clientIds == null || clientIds.isEmpty()) {
             throw new IllegalArgumentException(
                 "User with ID " + userExternalId + " is not associated with any clients."
             );
         }
-
         List<SiteProjection> siteProjections = siteRepository.findSiteProjectionsByClientIds(clientIds);
-
-        List<SiteDtoProjection> dtolist = siteProjections.stream()
-            .map(SiteDtoProjection::fromProjection)
+        List<SiteDto> dtolist = siteProjections.stream()
+            .map(SiteDto::fromProjection)
             .toList();
-
         return dtolist;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public SiteSelectDto findSelectDtoById(Long siteId) {
-        SiteDtoProjection siteDtoProjection =
+    public SiteDto findDtoById(Long siteId) {
+        SiteProjection siteDtoProjection =
                 siteRepository.findProjectionById(siteId)
                 .orElseThrow(() ->
                     new ResourceNotFoundException("Site no encontrado con ID: " + siteId)
                 );
-        SiteSelectDto response = new SiteSelectDto(
-            siteDtoProjection.id(),
-            siteDtoProjection.externalId(),
-            siteDtoProjection.name(),
-            siteDtoProjection.lat(),
-            siteDtoProjection.lon()
-        );
-        return response;
+        return SiteDto.fromProjection(siteDtoProjection);
     }
 
     @Transactional (readOnly = true)
@@ -355,5 +281,17 @@ public class SiteServiceImpl implements SiteService{
                 .map(SiteDto::fromProjection);
     }
 
+    @Transactional (readOnly = true)
+    public List<SiteDto> findDtosByProjectExternalId(
+                    boolean ignoreProjectFilter,
+                    List<Long> projectIds,
+                    UUID projectExternalId) {
+        if(projectExternalId == null) return Collections.emptyList();
+        return siteRepository.findProjectionsByProjectExternalId(
+                                        ignoreProjectFilter, projectIds, projectExternalId)
+                                        .stream()
+                                        .map(SiteDto::fromProjection)
+                                        .toList();
+    }
 
 }

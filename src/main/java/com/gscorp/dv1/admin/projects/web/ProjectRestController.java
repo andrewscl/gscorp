@@ -18,7 +18,7 @@ import com.gscorp.dv1.admin.projects.infrastructure.Project;
 import com.gscorp.dv1.admin.projects.web.dto.CreateProjectRequest;
 import com.gscorp.dv1.admin.projects.web.dto.ProjectDto;
 import com.gscorp.dv1.operations.sites.application.SiteService;
-import com.gscorp.dv1.operations.sites.web.dto.SiteSelectDto;
+import com.gscorp.dv1.operations.sites.web.dto.SiteDto;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -74,18 +74,8 @@ public class ProjectRestController {
 
     @GetMapping("/{projectId}/sites")
     public ResponseEntity<?> findSitesByProject(@PathVariable("projectId") Long projectId) {
-        try {
-            log.debug("GET /api/projects/{}/sites", projectId);
-            if (projectId == null) {
-                return ResponseEntity.badRequest().body(java.util.Map.of("message", "projectId requerido"));
-            }
-            List<SiteSelectDto> sites = siteService.findSelectDtoByProjectId(projectId);
+            List<SiteDto> sites = siteService.findDtosByProjectId(projectId);
             return ResponseEntity.ok(sites);
-        } catch (Exception ex) {
-            log.error("Error fetching sites for project {}: {}", projectId, ex.getMessage(), ex);
-            return ResponseEntity.status(500)
-                    .body(java.util.Map.of("message", "Error interno cargando sites", "detail", ex.getMessage()));
-        }
     }
 
 }

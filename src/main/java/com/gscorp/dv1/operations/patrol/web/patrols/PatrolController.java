@@ -21,8 +21,10 @@ import com.gscorp.dv1.operations.patrol.application.patrols.PatrolService;
 import com.gscorp.dv1.operations.patrol.web.checkpoints.dto.PatrolCheckpointDto;
 import com.gscorp.dv1.operations.patrol.web.patrols.dto.PatrolDto;
 import com.gscorp.dv1.operations.sites.application.SiteService;
-import com.gscorp.dv1.operations.sites.web.dto.SiteDtoProjection;
+import com.gscorp.dv1.operations.sites.web.dto.SiteDto;
+import com.gscorp.dv1.users.application.UserScopeService;
 import com.gscorp.dv1.users.application.UserService;
+import com.gscorp.dv1.users.application.dto.ProjectScope;
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,6 +38,7 @@ public class PatrolController {
     private final SiteService siteService;
     private final PatrolCheckpointService PatrolCheckpointService;
     private final ObjectMapper objectMapper;
+    private final UserScopeService userScopeService;
 
     private String googleCloudApiKey = System.getenv("GOOGLE_CLOUD_API_KEY");
     private String googleMapId = System.getenv("GOOGLE_MAP_ID");
@@ -44,13 +47,10 @@ public class PatrolController {
     public String getPatrolsTableView(
                     Model model,
                     @AuthenticationPrincipal SecurityUser securityUser) {
-
         if(securityUser == null) {
                 return "redirect:/login";
         }
-
         UUID externalId = securityUser.getUser().getExternalId();
-
         List<PatrolDto> patrols = patrolService.getPatrolsByUserExternalUserId(externalId);
         if(patrols == null || patrols.isEmpty()) {
             model.addAttribute("infoMessage", 
@@ -65,25 +65,11 @@ public class PatrolController {
 
     @GetMapping("/create")
     public String getCreatePatrolForm (
-                    Model model,
-                    Authentication authentication) {
-
-            if(authentication == null || !authentication.isAuthenticated()) {
-                return "redirect:/login";
-            }
-
-            Object principal = authentication.getPrincipal();
-            if(!(principal instanceof SecurityUser)) {
-                return "redirect:/login";
-            }
-
-            SecurityUser securityUser = (SecurityUser) principal;
-
-            UUID externalId = securityUser.getUser().getExternalId();
-
-        List<SiteDtoProjection> sites = siteService
-                            .findSiteProjectionsByUserExternalId(externalId);
-
+                    Model model) {
+        ProjectScope scope = userScopeService.getProjectScope();
+        List<SiteDto> sites = siteService.findByUserScope(
+                                    scope.ignoreFilter(),
+                                    scope.projectIds());
         model.addAttribute("DayOfWeek", DayOfWeek.values());
         model.addAttribute("siteList", sites);
         return "private/patrols/views/create-patrol-view";

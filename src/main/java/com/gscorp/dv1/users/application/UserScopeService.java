@@ -36,7 +36,7 @@ public class UserScopeService {
 
         boolean isUserLevelScoped = has(securityUser, "ROLE_CLIENT") || has(securityUser, "ROLE_ANALYST");
         if (isUserLevelScoped) {
-            List<ProjectDto> projects =projectService.findByUserExternalId(userExternalId);
+            List<ProjectDto> projects =projectService.findProjectDtosByUserExternalId(userExternalId);
             List<Long> ids = (projects != null)
                             ? projects.stream().map(dto -> dto.id()).toList()
                             : List.of();

@@ -14,6 +14,7 @@ import com.gscorp.dv1.admin.clients.infrastructure.Client;
 import com.gscorp.dv1.enums.ProjectStatus;
 import com.gscorp.dv1.hr.employees.infrastructure.Employee;
 import com.gscorp.dv1.operations.sites.infrastructure.Site;
+import com.gscorp.dv1.admin.clientaccounts.infrastructure.ClientAccount;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -61,6 +62,10 @@ public class Project {
     @Builder.Default
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Site> sites = new HashSet<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<ClientAccount> clientAccounts = new HashSet<>();
 
     // Relación inversa del ManyToMany definido en User.roles
     @Builder.Default

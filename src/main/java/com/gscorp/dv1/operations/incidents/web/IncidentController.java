@@ -17,8 +17,10 @@ import com.gscorp.dv1.enums.Priority;
 import com.gscorp.dv1.operations.incidents.application.IncidentService;
 import com.gscorp.dv1.operations.incidents.web.dto.IncidentDto;
 import com.gscorp.dv1.operations.sites.application.SiteService;
-import com.gscorp.dv1.operations.sites.web.dto.SiteSelectDto;
+import com.gscorp.dv1.operations.sites.web.dto.SiteDto;
+import com.gscorp.dv1.users.application.UserScopeService;
 import com.gscorp.dv1.users.application.UserService;
+import com.gscorp.dv1.users.application.dto.ProjectScope;
 
 import lombok.AllArgsConstructor;
 
@@ -31,53 +33,35 @@ public class IncidentController {
     private final SiteService siteService;
     private final UserService userService;
     private final ClientService clientService;
+    private final UserScopeService userScopeService;
 
     @GetMapping("/table-view")
     public String getIncidentsTableView(
                             Model model, 
                             Authentication authentication) {
-
         Long userId = userService.getUserIdFromAuthentication(authentication);
-
             Object principal = authentication.getPrincipal();
             if(!(principal instanceof SecurityUser)) {
                 return "redirect:/login";
             }
-
             SecurityUser securityUser = (SecurityUser) principal;
-
             UUID externalId = securityUser.getUser().getExternalId();
-
         List<Long> clientIds = clientService.getClientIdsByUserExternalId(externalId);
-
         //Si no tiene clientes asociados, retornar vista vacia
         List<IncidentDto> incidents = clientIds == null || clientIds.isEmpty()
                                         ? List.of()
                                         : incidentService.findIncidentsForUser(userId);
-
         model.addAttribute("incidents", incidents);
         return "private/incidents/views/incidents-table-view";
     }
 
-
-
     @GetMapping("/create")
     public String createIncident(
-                        Model model,
-                        Authentication authentication) {
-
-            Object principal = authentication.getPrincipal();
-            if(!(principal instanceof SecurityUser)) {
-                return "redirect:/login";
-            }
-
-            SecurityUser securityUser = (SecurityUser) principal;
-
-            UUID externalId = securityUser.getUser().getExternalId();
-
-        List<Long> clientIds = clientService.getClientIdsByUserExternalId(externalId);
-        List<SiteSelectDto> sites = siteService.getAllSitesForClients(clientIds);
-
+                        Model model) {
+        ProjectScope scope = userScopeService.getProjectScope();
+        List<SiteDto> sites = siteService.findByUserScope(
+                                                scope.ignoreFilter(),
+                                                scope.projectIds());
         model.addAttribute("sites", sites);
         model.addAttribute("incidentTypes", IncidentType.values());
         model.addAttribute("priorities", Priority.values());

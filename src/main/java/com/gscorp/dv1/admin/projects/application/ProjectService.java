@@ -17,6 +17,12 @@ public interface ProjectService {
 
     Optional<Project> findById (Long id);
 
+    Optional<Project> findByExternalId (
+                boolean ignoreProjectFilter,
+                List<Long> projectIds,
+                UUID externalId
+    );
+
     Project findByIdWithClients (Long id);
 
     Client findClientById (Long clientId);
@@ -35,15 +41,13 @@ public interface ProjectService {
 
     List<ProjectSelectDto> findByClientId(Long clientId);
 
-    List<ProjectDto> findByUserExternalId(UUID userExternalId);
+    List<ProjectDto> findByUserScope(
+        boolean ignoreProjectFilter, List<Long> projectIds, ProjectStatus status);
 
     List<ProjectSelectDto>
             findProjectSelectDtosByEmployeeExternalId(UUID externalId);
 
-    List<ProjectDto> findByProjectIds(
-                boolean ignoreProjectFilter,
-                List<Long> projectIds,
-                ProjectStatus status
-            );
+    List<ProjectDto>
+            findProjectDtosByUserExternalId(UUID externalId);
 
 }

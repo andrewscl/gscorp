@@ -47,12 +47,6 @@ public interface ShiftRequestService {
                                 CreateShiftRequest req,
                                 UUID userExternalId);
 
-    ShiftRequestDtoWithSchedules findByExternalId(
-                                boolean ignoreProjectFilter,
-                                List<Long> projectIds,
-                                UUID shiftRequestExternalId);
-
-
     List<ShiftRequestDto> findByUserIdAndDateBetween(
             UUID userExternalId,
             LocalDate fromDate,
@@ -79,5 +73,10 @@ public interface ShiftRequestService {
 
     List<ShiftRequestSelectDto>
                 getShiftRequestsWithSchedulesBySite(UUID siteExternalId);
+
+    ShiftRequestDtoWithSchedules findByExternalId(
+                                boolean ignoreProjectFilter,
+                                List<Long> projectIds,
+                                UUID shiftRequestExternalId);
 
 }

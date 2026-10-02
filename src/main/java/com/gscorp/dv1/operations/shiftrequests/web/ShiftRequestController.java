@@ -70,7 +70,6 @@ public class ShiftRequestController {
                             externalId, zoneId,
                             null, null, null, null,
                             ShiftRequestType.FIXED, page, size);
-
         model.addAttribute("shiftRequestsPage", shiftRequests);
         model.addAttribute("shiftRequests", shiftRequests.getContent());
         model.addAttribute("count", shiftRequests.getTotalElements());
@@ -83,11 +82,9 @@ public class ShiftRequestController {
 
     @GetMapping("/create")
     public String getCreateShiftRequestView(
-            Model model,
-            @AuthenticationPrincipal SecurityUser securityUser) {
-        if(securityUser == null) return "redirect:/login";
+            Model model) {
         ProjectScope scope = userScopeService.getProjectScope();
-        model.addAttribute("projects", projectService.findByProjectIds(
+        model.addAttribute("projects", projectService.findByUserScope(
                                 scope.ignoreFilter(), scope.projectIds(), null));
         model.addAttribute("requestTypes", ShiftRequestType.values());
         return "private/operations/shift-requests/fragments/create-shift-request";

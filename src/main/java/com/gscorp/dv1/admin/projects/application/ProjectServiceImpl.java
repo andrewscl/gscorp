@@ -6,12 +6,9 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
-import com.gscorp.dv1.admin.clients.application.ClientService;
 import com.gscorp.dv1.admin.clients.infrastructure.Client;
 import com.gscorp.dv1.admin.clients.infrastructure.ClientRepository;
 import com.gscorp.dv1.admin.projects.infrastructure.Project;
@@ -31,7 +28,6 @@ public class ProjectServiceImpl implements ProjectService{
     
     private final ProjectRepository projectRepository;
     private final ClientRepository clientRepository;
-    private final ClientService clientService;
 
     @Transactional(readOnly = true)
     public List<Project> findAllWithClientsAndEmployees (){
@@ -41,6 +37,15 @@ public class ProjectServiceImpl implements ProjectService{
     @Transactional(readOnly = true)
     public Optional<Project> findById(Long id) {
         return projectRepository.findById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Project> findByExternalId (
+                boolean ignoreProjectFilter,
+                List<Long> projectIds,
+                UUID externalId
+    ){
+        return projectRepository.findByExternalId(ignoreProjectFilter, projectIds, externalId);
     }
 
     @Transactional(readOnly = true)
@@ -101,19 +106,14 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Transactional(readOnly = true)
-    public List<ProjectDto> findByUserExternalId (UUID userExternalId) {
-        if (userExternalId == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
-        }
-        List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);
-        if (clientIds == null || clientIds.isEmpty()) {
-            log.debug("No clientIds for user {} -> returning zero series for {}..{}", userExternalId);
-            return List.of();
-        }
-        List<ProjectProjection> projections = projectRepository.findByClientIds(clientIds);
-        if (projections == null || projections.isEmpty()) {
-                return List.of();
-        }
+    public List<ProjectDto> findByUserScope (
+                    boolean ignoreProjectFilter,
+                    List<Long> projectIds,
+                    ProjectStatus status) {
+        List<ProjectProjection> projections = 
+                    projectRepository
+                        .findByUserScope(
+                                ignoreProjectFilter, projectIds, status);
         return projections.stream()
                 .map(ProjectDto::fromProjection)
                 .toList();
@@ -130,17 +130,12 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Transactional(readOnly = true)
-    public List<ProjectDto> findByProjectIds(
-                boolean ignoreProjectFilter,
-                List<Long> projectIds,
-                ProjectStatus status
-    ){
-        List<ProjectProjection> projections =
-                projectRepository.findByProjectIds(ignoreProjectFilter, projectIds, status);
-        return projections.stream()
+    public List<ProjectDto>
+                    findProjectDtosByUserExternalId(UUID userExternalId){
+        return projectRepository.findByUserExternalId(userExternalId)
+                .stream()
                 .map(ProjectDto::fromProjection)
                 .toList();
     }
-
 
 }

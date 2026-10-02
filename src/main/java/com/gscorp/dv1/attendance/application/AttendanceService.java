@@ -18,21 +18,19 @@ import com.gscorp.dv1.attendance.web.dto.DashboardHeaderInfo;
 
 public interface AttendanceService {
 
-
     AttendancePunchDto createPunch (
-        CreateAttendancePunchRequest req, UUID userExternalId
+                                boolean ignoreProjectFilter,
+                                List<Long> projectIds,
+                                UUID userExternalId,
+                                CreateAttendancePunchRequest req
     );
 
-
     Optional<AttendancePunch> lastPunch(Long userId);
-
 
     List<AttendancePunchRepo.DayCount> seriesByUser(
                     Long userId, LocalDate from, LocalDate to, String action);
 
-
     long countByClientIdAndDate(Long clientId, LocalDate date);
-
 
     List<AttendancesHourlyCountDto> getHourlyCounts(
                                 LocalDate date,
@@ -40,9 +38,7 @@ public interface AttendanceService {
                                 String action,
                                 Long userId);
 
-
     long countByClientIdsAndDate(List<Long> clientIds, LocalDate date, String action, String tz);
-
 
     List<AttendancePunchDto> findByUserAndDateBetween(
         UUID userExternalId,
@@ -54,7 +50,6 @@ public interface AttendanceService {
         String action
     );
 
-
     List<AttendancePunchPointDto> getAttendanceSeriesForUserByDates(
         UUID userExternalId,
         LocalDate fromDate,
@@ -64,7 +59,6 @@ public interface AttendanceService {
         Long siteId,
         Long projectId
     );
-
 
     List<AttendancesHourlyCountDto> getAttendanceSeriesForUserByHours(
         UUID userExternalId,
@@ -90,6 +84,5 @@ public interface AttendanceService {
     );
 
     String normalizeAction(String a);
-
 
 }
