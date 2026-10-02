@@ -137,7 +137,7 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
         WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
         ORDER BY s.name
         """)
-    Optional<SiteProjection> findByUserScope(
+    List<SiteProjection> findByUserScope(
         @Param("ignoreProjectFilter") boolean ignoreProjectFilter,
         @Param("projectIds") List<Long> projectIds
     );

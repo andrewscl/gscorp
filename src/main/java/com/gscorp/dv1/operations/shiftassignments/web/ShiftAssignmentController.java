@@ -47,7 +47,6 @@ public class ShiftAssignmentController {
             @RequestParam(required = false) String requestedZone
     ){
         ProjectScope scope = userScopeService.getProjectScope();
-        if(securityUser == null) return "redirect:/login";
         UUID externalId = securityUser.getUser().getExternalId();
         Page<ShiftAssignmentDto> shiftAssignments =
                 shiftAssignmentService
