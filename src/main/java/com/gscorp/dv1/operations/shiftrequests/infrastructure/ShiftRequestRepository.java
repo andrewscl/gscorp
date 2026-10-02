@@ -271,7 +271,7 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
               AND (:startDate IS NULL OR sr.startDate >= :startDate)
               AND (:endExclusiveDate IS NULL OR sr.startDate < :endExclusiveDate) 
-              AND (:siteExternalId IS NULL OR s.externalid = :siteExternalId)
+              AND (:siteExternalId IS NULL OR s.externalId = :siteExternalId)
               AND (:projectId IS NULL OR p.id = :projectId)
               AND (:shiftRequestType IS NULL OR sr.type = :shiftRequestType)
               """
