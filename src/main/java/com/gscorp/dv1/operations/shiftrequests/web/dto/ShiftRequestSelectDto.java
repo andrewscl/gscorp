@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.enums.ShiftRequestType;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.projections.ShiftRequestProjection;
+import com.gscorp.dv1.operations.sitezones.infrastructure.SiteZone;
 
 public record ShiftRequestSelectDto (
     Long id,
@@ -19,6 +20,7 @@ public record ShiftRequestSelectDto (
     String shiftPatternName,
     Long clientAccountId,
     ShiftRequestType type,
+    SiteZone siteZone,
     LocalDate startDate,
     LocalDate endDate,
     ShiftRequestStatus status,
@@ -40,6 +42,7 @@ public record ShiftRequestSelectDto (
             pr.getShiftPatternName(),
             pr.getClientAccountId(),
             pr.getType(),
+            pr.getSiteZone(),
             pr.getStartDate(),
             pr.getEndDate(),
             pr.getStatus(),

@@ -1,5 +1,6 @@
 import { navigateTo } from "../../navigation-handler";
 import { fetchWithAuth } from "../../auth";
+import { populateSelect } from "../../shared/insert-select";
 
 const qs  = (s) => document.querySelector(s);
 
@@ -41,6 +42,33 @@ async function searchShiftRequests() {
   }
 }
 
+async function handleSiteChange() {
+  const siteFilterSelect = qs('#siteFilter');
+  const siteExternalId = siteFilterSelect?.value;
+  const siteZoneFilterSelect = qs('#siteZoneFilter');
+  if (!siteExternalId) {
+      populateSelect({selectEl: siteZoneFilterSelect, items: [], emptyLabel: 'Primero seleccione un sitio.'});
+      return;
+  }
+  try {
+    const url = `/api/v1/site-zones/site/${siteExternalId}/site-zones`;
+    const res = await fetchWithAuth(url, {
+                          method: 'GET',
+                          headers: {'Accept': 'application/json'}
+    });
+    if(!res || !res.ok) throw new Error('No se pudieron obtener las zonas del sitio seleccionado.');
+    const siteZones = await res.json();
+    populateSelect({
+      selectEl: siteZoneFilterSelect,
+      items: siteZones,
+      defaultLevel: 'Seleccione una ubicación',
+      emptyLabel: 'Sin ubicaciones asociadas.'});
+    } catch (err){
+    console.error('Error en HandleSiteChange:', err);
+    populateSelect({selectEl: siteFilterSelect, items: [], emptyLabel: 'Error al cargar las ubicaciones.'});
+    }
+}
+
 function bindShiftRequestsTable() {
     const createShiftRequestBtn = qs('#addShiftRequestsBtn');
     if (createShiftRequestBtn) {
@@ -49,6 +77,10 @@ function bindShiftRequestsTable() {
     const searchShiftRequestsBtn = qs('#searchShiftRequestsBtn');
     if (searchShiftRequestsBtn) {
         searchShiftRequestsBtn.addEventListener('click', searchShiftRequests);
+    }
+    const siteFilterSelect = qs('#siteFilter');
+    if (siteFilterSelect) {
+        siteFilterSelect.addEventListener('change', handleSiteChange);
     }
 }
 

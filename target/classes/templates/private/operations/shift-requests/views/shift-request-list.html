@@ -28,11 +28,21 @@
 
         <div class="filter-item">
             <span class="filter-label">Sitios</span>
-            <select id="filter-dept" class="filter-input" name="siteId" required>
+            <select id="siteFilter" class="filter-input" name="siteId" required>
                 <option value="">Todos los sitios</option>
                 <option th:each="s : ${sites}"
                         th:value="${s.id}"
                         th:text="${s.name}"></option>
+            </select>
+        </div>
+
+        <div class="filter-item">
+            <span class="filter-label">Ubicación</span>
+            <select id="siteZoneFilter" class="filter-input" name="siteZoneExternalId" required>
+                <option value="">Todos las ubicaciones</option>
+                <option th:each="sz : ${siteZones}"
+                        th:value="${sz.externalId}"
+                        th:text="${sz.name}"></option>
             </select>
         </div>
 

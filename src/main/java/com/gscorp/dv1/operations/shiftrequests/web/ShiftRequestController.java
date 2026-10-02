@@ -55,16 +55,12 @@ public class ShiftRequestController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "100") int size
         ){ 
-
-        if(securityUser == null) return "redirect:/login";
         UUID externalId = securityUser.getUser().getExternalId();
-
         String cleanClientTz =
             (clientTz == null || clientTz.isBlank()) ? null : clientTz.trim();
         ZoneResolutionResult zoneResult =
                         zoneResolver.resolveZone(externalId, cleanClientTz);
         ZoneId zoneId = zoneResult.zoneId();
-
         Page<ShiftRequestSelectDto> shiftRequests =
                 shiftRequestService.getShiftRequestsTable(
                             externalId, zoneId,
@@ -75,7 +71,6 @@ public class ShiftRequestController {
         model.addAttribute("count", shiftRequests.getTotalElements());
         model.addAttribute("sites", siteService.getAllSitesByUser(externalId));
         model.addAttribute("shiftRequestTypes", ShiftRequestType.values());
-
         return "private/operations/shift-requests/views/shift-request-list";
     }
 
