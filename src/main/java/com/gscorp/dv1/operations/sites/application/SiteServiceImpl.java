@@ -175,13 +175,6 @@ public class SiteServiceImpl implements SiteService{
     }
 
     @Transactional(readOnly = true)
-    public List<SiteDto> findDtosByProjectId(Long projectId) {
-        if (projectId == null) return List.of();
-        return siteRepository.findDtoByProjectId(projectId);
-    }
-
-
-    @Transactional(readOnly = true)
     public List<SiteDto> findByUserScope(
                                     boolean ignoreProjectFilter,
                                     List<Long> projectIds) {

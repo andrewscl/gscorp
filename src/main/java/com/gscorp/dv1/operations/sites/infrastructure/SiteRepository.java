@@ -1,6 +1,5 @@
 package com.gscorp.dv1.operations.sites.infrastructure;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -10,8 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import com.gscorp.dv1.operations.sites.web.dto.SiteDto;
 
 @Repository
 public interface SiteRepository extends JpaRepository<Site, Long>{
@@ -46,22 +43,9 @@ public interface SiteRepository extends JpaRepository<Site, Long>{
     List<Site> findByProject_Client_IdIn(List<Long> clientIds);
 
 
-
-    @Query("select new com.gscorp.dv1.operations.sites.web.dto.SiteSelectDto(s.id, s.externalId, s.name, s.lat, s.lon) " +
-           "from Site s where s.project.client.id in :clientIds order by s.name")
-    List<SiteDto> findSelectDtoByClientIds(@Param("clientIds") Collection<Long> clientIds);
-
     // Devuelve solo el client id asociado al site (puede ser vacío si no existe la relación)
     @Query("select s.project.client.id from Site s where s.id = :id")
     Optional<Long> findClientIdBySiteId(@Param("id") Long id);
-
-
-    @Query("select new com.gscorp.dv1.operations.sites.web.dto.SiteSelectDto(s.id, s.externalId, s.name, s.lat, s.lon) " +
-           "from Site s " +
-           "where s.project.id = :projectId and (s.active = true or s.active is null) " +
-           "order by s.name")
-    List<SiteDto> findDtoByProjectId(@Param("projectId") Long projectId);
-
 
     @Query("""
         SELECT

@@ -43,8 +43,6 @@ public interface SiteService {
 
     Optional<Long> getClientIdForSite(Long siteId);
 
-    List<SiteDto> findDtosByProjectId(Long projectId);
-
     List<SiteDto> findByUserScope(boolean ignoreProjectFilter,
                                 List<Long> projectIds);
 
