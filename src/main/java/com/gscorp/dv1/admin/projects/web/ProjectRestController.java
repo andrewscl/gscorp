@@ -1,6 +1,7 @@
 package com.gscorp.dv1.admin.projects.web;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -65,6 +66,7 @@ public class ProjectRestController {
             return ResponseEntity.created(location).body(dto);
     }
 
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProject(@PathVariable Long id){
             projectService.deleteById(id);
@@ -72,9 +74,9 @@ public class ProjectRestController {
     }
 
 
-    @GetMapping("/{projectId}/sites")
-    public ResponseEntity<?> findSitesByProject(@PathVariable("projectId") Long projectId) {
-            List<SiteDto> sites = siteService.findDtosByProjectId(projectId);
+    @GetMapping("/{projectExternalId}/sites")
+    public ResponseEntity<?> findSitesByProject(@PathVariable("projectExternalId") UUID projectExternalId) {
+            List<SiteDto> sites = siteService.findDtoByUserExternalId(null);
             return ResponseEntity.ok(sites);
     }
 
