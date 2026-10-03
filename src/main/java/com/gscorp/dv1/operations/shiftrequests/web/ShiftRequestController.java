@@ -54,7 +54,8 @@ public class ShiftRequestController {
             @RequestParam(required = false) String clientTz,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "100") int size
-        ){ 
+        ){
+        ProjectScope scope = userScopeService.getProjectScope();
         UUID externalId = securityUser.getUser().getExternalId();
         String cleanClientTz =
             (clientTz == null || clientTz.isBlank()) ? null : clientTz.trim();
@@ -63,9 +64,17 @@ public class ShiftRequestController {
         ZoneId zoneId = zoneResult.zoneId();
         Page<ShiftRequestSelectDto> shiftRequests =
                 shiftRequestService.getShiftRequestsTable(
-                            externalId, zoneId,
-                            null, null, null, null,
-                            ShiftRequestType.FIXED, page, size);
+                            externalId,
+                            scope.ignoreFilter(),
+                            scope.projectIds(),
+                            zoneId,
+                            null,
+                            null,
+                            null,
+                            null,
+                            ShiftRequestType.FIXED,
+                            page,
+                            size);
         model.addAttribute("shiftRequestsPage", shiftRequests);
         model.addAttribute("shiftRequests", shiftRequests.getContent());
         model.addAttribute("count", shiftRequests.getTotalElements());
@@ -139,6 +148,7 @@ public class ShiftRequestController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "100") int size
     ) {
+        ProjectScope scope = userScopeService.getProjectScope();
         UUID externalId = securityUser.getUser().getExternalId();
         String cleanClientTz = (clientTz == null || clientTz.isBlank()) ? null : clientTz.trim();
         ZoneResolutionResult zoneResult = zoneResolver.resolveZone(externalId, cleanClientTz);
@@ -151,9 +161,17 @@ public class ShiftRequestController {
         }
         Page<ShiftRequestSelectDto> shiftRequests =
                 shiftRequestService.getShiftRequestsTable(
-                            externalId, zoneId,
-                            from, to, siteId, projectId,
-                            type, page, size);
+                            externalId,
+                            scope.ignoreFilter(),
+                            scope.projectIds(),
+                            zoneId,
+                            from,
+                            to,
+                            siteId,
+                            projectId,
+                            type,
+                            page,
+                            size);
         model.addAttribute("shiftRequestsPage", shiftRequests);
         model.addAttribute("shiftRequests", shiftRequests.getContent());
         model.addAttribute("count", shiftRequests.getTotalElements());

@@ -58,6 +58,8 @@ public interface ShiftRequestService {
 
     Page<ShiftRequestSelectDto> getShiftRequestsTable(
                     UUID userExternalId,
+                    boolean ignoreProjectFilter,
+                    List<Long> projectIds,
                     ZoneId zoneId,
                     LocalDate fromDate,
                     LocalDate toDate,

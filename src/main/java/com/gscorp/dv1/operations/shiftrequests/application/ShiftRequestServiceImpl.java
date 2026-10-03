@@ -310,6 +310,8 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
     @Transactional(readOnly = true)
     public Page<ShiftRequestSelectDto> getShiftRequestsTable(
                     UUID userExternalId,
+                    boolean ignoreProjectFilter,
+                    List<Long> projectIds,
                     ZoneId zoneId,
                     LocalDate fromDate,
                     LocalDate toDate,
@@ -319,7 +321,6 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
                     int page,
                     int size
                     ) {
-        ProjectScope scope = userScopeService.getProjectScope();
         OffsetDateTime start = (fromDate != null) 
         ? fromDate.atStartOfDay(zoneId).toOffsetDateTime()
         : null;
@@ -330,8 +331,8 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
         int safeSize = Math.min(Math.max(5, size), 200);
         PageRequest pageable = PageRequest.of(safePage, safeSize, Sort.by(Sort.Direction.DESC, "startDate"));
         Page<ShiftRequestProjection> projections = shiftRequestRepository.findPageByProjectIds(
-                            scope.ignoreFilter(),
-                            scope.projectIds(),
+                            ignoreProjectFilter,
+                            projectIds,
                             start,
                             endExclusive,
                             siteId,
@@ -352,9 +353,9 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
                     .toList();
         List<ShiftRequestScheduleProjection> schedules =
             shiftRequestScheduleRepository.findByShiftRequestIds(shiftRequestIds);
-        System.out.println("=== SHIFT REQUEST SERVICE ===");
+        System.out.println("=== SHIFT REQUEST SCHEDULES SERVICE ===");
         System.out.println("Total Elementos Count: " + schedules.size());
-        System.out.println("Lista shiftRequests (getContent): " + schedules);
+        System.out.println("Lista shiftSchedules: " + schedules);
         System.out.println("===================");
         Map<Long, List<ShiftRequestScheduleStrDto>> schedulesByRequestId =
                     schedules
