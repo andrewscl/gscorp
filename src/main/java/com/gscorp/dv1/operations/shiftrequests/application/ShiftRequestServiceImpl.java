@@ -319,9 +319,6 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
                     int page,
                     int size
                     ) {
-        if (userExternalId == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
-        }
         ProjectScope scope = userScopeService.getProjectScope();
         OffsetDateTime start = (fromDate != null) 
         ? fromDate.atStartOfDay(zoneId).toOffsetDateTime()
@@ -341,6 +338,10 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
                             projectId,
                             type,
                             pageable);
+        System.out.println("=== SHIFT REQUEST SERVICE ===");
+        System.out.println("Total Elementos Count: " + projections.getTotalElements());
+        System.out.println("Lista shiftRequests (getContent): " + projections.getContent());
+        System.out.println("===================");
         if (projections.isEmpty()) {
             return Page.empty(pageable);
         }
@@ -351,6 +352,10 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
                     .toList();
         List<ShiftRequestScheduleProjection> schedules =
             shiftRequestScheduleRepository.findByShiftRequestIds(shiftRequestIds);
+        System.out.println("=== SHIFT REQUEST SERVICE ===");
+        System.out.println("Total Elementos Count: " + schedules.size());
+        System.out.println("Lista shiftRequests (getContent): " + schedules);
+        System.out.println("===================");
         Map<Long, List<ShiftRequestScheduleStrDto>> schedulesByRequestId =
                     schedules
                         .stream()

@@ -87,7 +87,7 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               r.code               AS code,
               s.id                 AS siteId,
               s.name               AS siteName,
-              r.shiftPattern.name   AS shiftPatternName,
+              r.shiftPattern.name  AS shiftPatternName,
               p.id                 AS projectId,
               p.name               AS projectName,
               r.clientAccountId    AS clientAccountId,
