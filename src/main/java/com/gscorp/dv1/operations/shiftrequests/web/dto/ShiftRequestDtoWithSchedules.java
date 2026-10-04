@@ -8,6 +8,7 @@ import java.util.UUID;
 import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.enums.ShiftRequestType;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
+import com.gscorp.dv1.operations.sitezones.infrastructure.SiteZone;
 
 public record ShiftRequestDtoWithSchedules(
     Long id,
@@ -19,6 +20,7 @@ public record ShiftRequestDtoWithSchedules(
     List<Long> cycleDaysList,
     Long clientAccountId,
     ShiftRequestType type,
+    SiteZone siteZone,
     LocalDate startDate,
     LocalDate endDate,
     ShiftRequestStatus status,
@@ -41,6 +43,7 @@ public record ShiftRequestDtoWithSchedules(
             cycleDays,
             sr.getClientAccountId(),
             sr.getType(),
+            sr.getSiteZone(),
             sr.getStartDate(),
             sr.getEndDate(),
             sr.getStatus(),
