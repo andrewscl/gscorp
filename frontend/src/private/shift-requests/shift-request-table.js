@@ -61,7 +61,7 @@ async function handleSiteChange() {
     populateSelect({
       selectEl: siteZoneFilterSelect,
       items: siteZones,
-      defaultLevel: 'Seleccione una ubicación',
+      defaultLabel: 'Seleccione una ubicación',
       emptyLabel: 'Sin ubicaciones asociadas.'});
     } catch (err){
     console.error('Error en HandleSiteChange:', err);
