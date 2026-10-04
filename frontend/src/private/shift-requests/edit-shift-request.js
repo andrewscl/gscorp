@@ -1,6 +1,7 @@
 import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
 import { displayAlert } from '../../shared/display-alert.js';
+import { populateSelect } from '../../shared/insert-select.js';
 
 const qs = (s) => document.querySelector(s);
 const alertSuccess = qs('.alert-success');
@@ -190,6 +191,35 @@ async function onDeleteClick(){
   }
 }
 
+async function handleSiteZoneChange() {
+  const siteZoneSelect = qs('#siteZoneExternalId');
+  const selectedZoneExternalId = siteZoneSelect?.value;
+  if (!selectedZoneExternalId) {
+    populateSelect({
+      selectEl: siteZoneSelect,
+      items: [],
+      emptyLabel: 'Primero seleccione un sitio.'});
+    return;
+  }
+  try {
+    const url = `/api/v1/site-zones/site/${siteExternalId}/site-zones`;
+    const res = await fetchWithAuth(url, {
+      method: 'GET',
+      headers: {'Accept': 'application/json'}
+    });
+    if(!res || !res.ok) throw new Error('No se pudieron obtener las zonas del sitio seleccionado.');
+    const siteZones = await res.json();
+    populateSelect({
+      selectEl: siteZoneSelect,
+      items: siteZones,
+      defaultLabel: 'Seleccione una ubicación',
+      emptyLabel: 'Sin ubicaciones asociadas.'});
+  } catch (err) {
+    console.error('Error en HandleSiteChange:', err);
+    populateSelect({selectEl: siteZoneSelect, items: [], emptyLabel: 'Error al cargar las ubicaciones.'});
+  }
+}
+
 
 function bindEditShiftRequest() {
     const saveBtn = qs('#submit');
@@ -208,6 +238,11 @@ function bindEditShiftRequest() {
     if (deleteBtn) {
       deleteBtn.addEventListener('click', onDeleteClick);
     }
+    const siteZoneSelect = qs('#siteZoneExternalId');
+    if (siteZoneSelect) {
+      siteZoneSelect.addEventListener('change', handleSiteZoneChange);
+    }
+
 }
 
 
