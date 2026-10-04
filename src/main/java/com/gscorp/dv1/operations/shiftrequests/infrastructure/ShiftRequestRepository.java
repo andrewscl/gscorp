@@ -256,24 +256,7 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               LEFT JOIN sr.shiftPattern sp
               LEFT JOIN sr.site s
               LEFT JOIN s.project p
-              WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
-              AND (:startDate IS NULL OR sr.startDate >= :startDate)
-              AND (:endExclusiveDate IS NULL OR sr.startDate < :endExclusiveDate) 
-              AND (:siteId IS NULL OR s.id = :siteId)
-              AND (:projectId IS NULL OR p.id = :projectId)
-              AND (:shiftRequestType IS NULL OR sr.type = :shiftRequestType)
-              """,
-              countQuery = """
-              SELECT COUNT(sr.id)
-              FROM ShiftRequest sr
-              LEFT JOIN sr.site s
-              LEFT JOIN s.project p
-              WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
-              AND (:startDate IS NULL OR sr.startDate >= :startDate)
-              AND (:endExclusiveDate IS NULL OR sr.startDate < :endExclusiveDate) 
-              AND (:siteId IS NULL OR s.id = :siteId)
-              AND (:projectId IS NULL OR p.id = :projectId)
-              AND (:shiftRequestType IS NULL OR sr.type = :shiftRequestType)
+              WHERE 1 = 1
               """
        )
        Page<ShiftRequestProjection> findPageByProjectIds(
