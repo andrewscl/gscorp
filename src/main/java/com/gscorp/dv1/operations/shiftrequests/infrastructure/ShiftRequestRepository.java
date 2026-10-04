@@ -246,7 +246,7 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
                      p.name               AS projectName,
                      sr.clientAccountId   AS clientAccountId,
                      sr.type              AS type,
-                     sr.siteZone          AS siteZone,
+                     sz                   AS siteZone,
                      sr.startDate         AS startDate,
                      sr.endDate           AS endDate,
                      sr.status            AS status,
@@ -255,8 +255,26 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               FROM ShiftRequest sr
               LEFT JOIN sr.shiftPattern sp
               LEFT JOIN sr.site s
+              LEFT JOIN sr.siteZone sz
               LEFT JOIN s.project p
-              WHERE 1 = 1
+              WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
+              AND (:startDate IS NULL OR sr.startDate >= :startDate)
+              AND (:endExclusiveDate IS NULL OR sr.startDate < :endExclusiveDate) 
+              AND (:siteId IS NULL OR s.id = :siteId)
+              AND (:projectId IS NULL OR p.id = :projectId)
+              AND (:shiftRequestType IS NULL OR sr.type = :shiftRequestType)
+              """,
+              countQuery = """
+              SELECT COUNT(sr.id)
+              FROM ShiftRequest sr
+              LEFT JOIN sr.site s
+              LEFT JOIN s.project p
+              WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
+              AND (:startDate IS NULL OR sr.startDate >= :startDate)
+              AND (:endExclusiveDate IS NULL OR sr.startDate < :endExclusiveDate) 
+              AND (:siteId IS NULL OR s.id = :siteId)
+              AND (:projectId IS NULL OR p.id = :projectId)
+              AND (:shiftRequestType IS NULL OR sr.type = :shiftRequestType)
               """
        )
        Page<ShiftRequestProjection> findPageByProjectIds(
