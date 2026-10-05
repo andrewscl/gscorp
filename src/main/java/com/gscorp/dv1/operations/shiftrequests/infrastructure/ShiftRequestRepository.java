@@ -273,9 +273,10 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               AND (:shiftRequestType IS NULL OR sr.type = :shiftRequestType)
               """,
               countQuery = """
-              SELECT COUNT(sr.id)
+              SELECT COUNT(DISTINCT sr.id)
               FROM ShiftRequest sr
               LEFT JOIN sr.site s
+              LEFT JOIN sr.siteZone sz
               LEFT JOIN s.project p
               WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
               AND (:startDate IS NULL OR sr.startDate >= :startDate)
