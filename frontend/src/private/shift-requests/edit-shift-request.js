@@ -6,7 +6,7 @@ const qs = (s) => document.querySelector(s);
 const alertSuccess = qs('.alert-success');
 const alertError = qs('.alert-error');
 const alertWarning = qs('.alert-warning');
-const createBtn = qs('#submit');
+const saveBtn = qs('#submit');
 const cancelBtn = qs('#cancel');
 const deleteBtn = qs('#delete');
 const clientTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -14,7 +14,7 @@ const externalId = qs('#shiftRequestExternalId')?.value;
 
 console.log("edit-shift-request.js cargado");
 
-async function onSaveClick(e) {
+async function onSaveClick() {
   const startDate = qs('#shiftRequestStartDate')?.value;
   const endDate = qs('#shiftRequestEndDate')?.value;
   const status = qs('#shiftRequestStatus')?.value;
@@ -31,6 +31,7 @@ async function onSaveClick(e) {
   console.log("falta información para efectuar la actualización.");
   return;
   }
+  setButtonsDisabled(true);
   try {
     const url = `/api/shift-requests/${externalId}`;
     const res = await fetchWithAuth(url, {
@@ -38,21 +39,28 @@ async function onSaveClick(e) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
-    if (!res.ok) {
-      let txt = '';
-      try {
-        txt = await res.text();
-      } catch { throw new Error(txt || `Error ${res.status}`); }
+    if (!res || !res.ok) {
+      let errorMessage = 'Ocurrió un problema al enviar el formulario.';
+      if(res){
+        const contentType = res.headers.get('content-type');
+        if(contentType && contentType.includes('application/json')) {
+          const errorData = await res.json();
+          errorMessage = errorData.message || errorMessage;
+        }
+      }
+      displayAlert(alertError, `Error: ${errorMessage}`);
+      setButtonsDisabled(false);
+      return;
     }
-
     displayAlert(alertSuccess, 'Cambios guardados', 1000);
+    setButtonsDisabled(false);
     setTimeout(() => navigateTo('/private/shift-requests/table-view'), 1000);
   } catch (err) {
     console.error('save error', err);
+    setButtonsDisabled(false);
     displayAlert(alertError, "Error al guardar. " + err.message, 2000);
   }
 }
-
 
 const shiftsUpdate = async () => {
   try {
@@ -130,7 +138,6 @@ const loadLastShiftsTable = async () => {
     }
 }
 
-
 // 🚀 Convierte "2026-07-15" a "15-07-2026"
 const formatDate = (dateString) => {
     if (!dateString) return '—';
@@ -184,11 +191,12 @@ async function onDeleteClick(){
     setButtonsDisabled(false);
   }
 
-  function setButtonsDisabled(disabled){
-    if(createBtn) createBtn.disabled = disabled;
+}
+
+function setButtonsDisabled(disabled){
+    if(saveBtn) saveBtn.disabled = disabled;
     if(cancelBtn) cancelBtn.disabled = disabled;
     if(deleteBtn) deleteBtn.disabled = disabled;
-  }
 }
 
 function bindEditShiftRequest() {
