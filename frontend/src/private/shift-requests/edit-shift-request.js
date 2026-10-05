@@ -193,12 +193,7 @@ async function onDeleteClick(){
 async function populateSiteZones() {
   const siteZoneSelect = qs('#siteZoneExternalId');
   const siteExternalId = qs('#siteExternalId')?.value;
-  const selectedZoneExternalId = siteZoneSelect?.value;
-  if (!selectedZoneExternalId || !siteExternalId) {
-    populateSelect({
-      selectEl: siteZoneSelect,
-      items: [],
-      emptyLabel: 'Primero seleccione un sitio.'});
+  if (!siteZoneSelect || !siteExternalId) {
     return;
   }
   try {
