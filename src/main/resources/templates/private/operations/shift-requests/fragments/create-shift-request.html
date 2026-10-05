@@ -54,9 +54,8 @@
                   <option value="">Seleccione sistema de turno</option>
                   <option th:each="sp : ${shiftPatterns}"
                           th:value="${sp.externalId}"
-                          th:text="${sp.name}"
-                          th:selected="${shiftRequest.shiftPatternExternalId != null and sp.externalId == shiftRequest.shiftPatternExternalId}">
-                          </option>
+                          th:text="${sp.name}">
+                  </option>
                   </select>
               </div>
               <div class="form-group fx-3">
