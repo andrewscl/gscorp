@@ -111,7 +111,7 @@ async function createShiftRequest() {
     siteZoneExternalId: siteZoneExternalId,
     shiftPatternExternalId: shiftPatternExternalId,
     type: type,
-    clientAccountId: accountId,
+    accountId: accountId,
     startDate: startDate,
     endDate: endDate,
     description: description,
