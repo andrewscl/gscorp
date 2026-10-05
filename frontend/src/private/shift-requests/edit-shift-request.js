@@ -21,14 +21,16 @@ async function onSaveClick(e) {
   const status = qs('#shiftRequestStatus')?.value;
   const description = qs('#shiftRequestDescription')?.value;
   const shiftPatternExternalId = qs('#shiftPattern')?.value;
-
-  const payload = { startDate, endDate, status, description, shiftPatternExternalId};
-
+  const siteZoneExternalId = qs('#siteZoneExternalId')?.value;
+  const payload = { startDate,
+                    endDate,
+                    status,
+                    description,
+                    shiftPatternExternalId};
   if (!externalId || !startDate || !endDate || !status) {
   console.log("falta información para efectuar la actualización.");
   return;
   }
-
   try {
     const url = `/api/shift-requests/${externalId}`;
     const res = await fetchWithAuth(url, {
@@ -36,7 +38,6 @@ async function onSaveClick(e) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
-
     if (!res.ok) {
       let txt = '';
       try {
@@ -238,5 +239,4 @@ function bindEditShiftRequest() {
 
 (async function init() {
   bindEditShiftRequest();
-  await populateSiteZones();
 })();

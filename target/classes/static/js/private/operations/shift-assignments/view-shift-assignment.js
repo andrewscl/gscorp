@@ -1,1 +1,0 @@
-import{n}from"../../../navigation-handler.js";import"../../../auth.js";const i=t=>document.querySelector(t),s=()=>{n("/private/shift-assignments/list",!0)};function e(){const t=i("#cancel");t&&t.addEventListener("click",s)}(function(){e()})();

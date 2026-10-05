@@ -1,1 +1,0 @@
-import{n as o}from"../../../navigation-handler.js";import"../../../auth.js";const n=t=>document.querySelector(t);async function r(){const t=n("#btn-control-rondas");t.disabled=!0,setTimeout(()=>o("/private/patrols/patrol-dashboard",!0),1e3)}function a(){n("#btn-control-rondas")?.addEventListener("click",r)}(function(){a()})();

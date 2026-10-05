@@ -11,7 +11,7 @@ public interface SiteZoneService {
     
     List<SiteZoneDto> getSiteZones(
                             UUID userExternalId,
-                            UUID siteId,
+                            UUID siteExternalId,
                             SiteZoneStatus status);
 
     SiteZoneDto createSiteZone (

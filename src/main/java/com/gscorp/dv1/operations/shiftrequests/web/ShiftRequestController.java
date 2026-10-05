@@ -27,6 +27,7 @@ import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestSelectDto;
 import com.gscorp.dv1.operations.shifts.application.ShiftService;
 import com.gscorp.dv1.operations.shifts.web.dto.ShiftDto;
 import com.gscorp.dv1.operations.sites.application.SiteService;
+import com.gscorp.dv1.operations.sitezones.application.SiteZoneService;
 import com.gscorp.dv1.users.application.UserScopeService;
 import com.gscorp.dv1.users.application.dto.ProjectScope;
 
@@ -46,6 +47,7 @@ public class ShiftRequestController {
     private final ShiftPatternService shiftPatternService;
     private final UserScopeService userScopeService;
     private final ProjectService projectService;
+    private final SiteZoneService siteZoneService;
 
     @GetMapping("/table-view")
     public String getShiftRequestsTableView (
@@ -119,6 +121,7 @@ public class ShiftRequestController {
         UUID userExternalId = securityUser.getUser().getExternalId();
         ShiftRequestDtoWithSchedules shiftRequestDto = shiftRequestService
                 .findByExternalId(scope.ignoreFilter(), scope.projectIds(), externalId);
+        UUID siteExternalId = shiftRequestDto.siteExternalId();
         Page<ShiftDto> shifts = shiftService.getLastShiftsByShiftRequest(
                                     userExternalId, externalId, 4, null);
         model.addAttribute("shiftRequest", shiftRequestDto);
@@ -126,6 +129,8 @@ public class ShiftRequestController {
         model.addAttribute("shifts", shifts.getContent());
         model.addAttribute("shiftRequestStatuses", ShiftRequestStatus.values());
         model.addAttribute("shiftPatterns", shiftPatternService.getShiftPatternsList());
+        model.addAttribute("siteZones", siteZoneService.getSiteZones(
+                                                            userExternalId, siteExternalId, null));
     }
 
 

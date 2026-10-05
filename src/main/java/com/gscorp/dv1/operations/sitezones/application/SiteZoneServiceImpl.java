@@ -4,10 +4,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.gscorp.dv1.enums.SiteZoneStatus;
 import com.gscorp.dv1.operations.sites.application.SiteService;
@@ -38,9 +36,6 @@ public class SiteZoneServiceImpl implements SiteZoneService {
                                 UUID userExternalId,
                                 UUID siteExternalId,
                                 SiteZoneStatus status) {
-        if (userExternalId == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no autenticado");
-        }
         ProjectScope scope = userScopeService.getProjectScope();
         List<SiteZoneProjection> projections = 
             siteZoneRepository.findByProjectIds(

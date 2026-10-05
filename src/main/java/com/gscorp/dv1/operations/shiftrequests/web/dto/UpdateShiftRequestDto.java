@@ -22,5 +22,8 @@ public record UpdateShiftRequestDto (
     String description,
 
     @NotNull(message = "El sistema de turno es requerido.")
-    UUID shiftPatternExternalId
+    UUID shiftPatternExternalId,
+
+    @NotNull(message = "La zona del sitio es requerida.")
+    UUID siteZoneExternalId
 ){}

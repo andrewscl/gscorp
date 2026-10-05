@@ -94,11 +94,11 @@ public class ShiftRequestRestController {
     ) {
         ProjectScope scope = userScopeService.getProjectScope();
         ShiftRequestDtoWithSchedules updatedDto =
-                        shiftRequestService.update(
-                                scope.ignoreFilter(),
-                                scope.projectIds(),
-                                externalId,
-                                req);
+                                        shiftRequestService.update(
+                                                scope.ignoreFilter(),
+                                                scope.projectIds(),
+                                                externalId,
+                                                req);
         return ResponseEntity.ok(updatedDto);
     }
 
