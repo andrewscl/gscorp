@@ -74,6 +74,7 @@ public class ShiftRequestController {
                             null,
                             null,
                             null,
+                            null,
                             ShiftRequestType.FIXED,
                             page,
                             size);
@@ -143,7 +144,8 @@ public class ShiftRequestController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
             LocalDate to,
             @RequestParam(required = false) String clientTz,
-            @RequestParam(required = false) Long siteId,
+            @RequestParam(required = false) UUID siteExternalId,
+            @RequestParam(required = false) UUID siteZoneExternalId,
             @RequestParam(required = false) Long projectId,
             @RequestParam(required = false) ShiftRequestType type,
             @RequestParam(defaultValue = "0") int page,
@@ -168,7 +170,8 @@ public class ShiftRequestController {
                             zoneId,
                             from,
                             to,
-                            siteId,
+                            siteExternalId,
+                            siteZoneExternalId,
                             projectId,
                             type,
                             page,

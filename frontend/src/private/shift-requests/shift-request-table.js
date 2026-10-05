@@ -12,7 +12,8 @@ const createShiftRequest = (e) => {
 async function searchShiftRequests() {
   const from = qs('#filter-from')?.value.trim() || '';
   const to = qs('#filter-to')?.value.trim() || '';
-  const siteId = qs('#filter-dept')?.value.trim() || '';
+  const siteExternalId = qs('#siteFilter')?.value.trim() || '';
+  const siteZoneExternalId = qs('#siteZoneFilter')?.value.trim() || '';
 
   let clientTz = '';
   try{
@@ -20,7 +21,7 @@ async function searchShiftRequests() {
   } catch (e) {
     clientTz = '';
   }
-  const url = `/private/shift-requests/table-search?from=${from}&to=${to}&siteId=${siteId}&clientTz=${clientTz}`;
+  const url = `/private/shift-requests/table-search?from=${from}&to=${to}&siteExternalId=${siteExternalId}&siteZoneExternalId=${siteZoneExternalId}&clientTz=${clientTz}`;
   try {
         const res = await fetchWithAuth(url, { credentials: 'same-origin'});
         if(!res.ok) throw new Error(`Error HTTP: ${res.status}`);
