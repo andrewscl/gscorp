@@ -21,7 +21,7 @@
 
         <div class="form-group fx-6">
           <label>Zona:</label>
-          <select id="siteZoneExternalId" th:field="${shiftRequest.siteZone.externalId}" name="siteZoneExternalId">
+          <select id="siteZoneExternalId" th:field="${shiftRequest.siteZoneExternalId}" name="siteZoneExternalId">
             <option value="">Seleccione una zona</option>
             <option th:each="sz : ${siteZones}"
                     th:value="${sz.externalId}"
