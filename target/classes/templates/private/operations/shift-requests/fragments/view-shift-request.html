@@ -13,6 +13,11 @@
             <span class="readonly-field"
                   th:text="${shiftRequest.site != null ? shiftRequest.site.name : '—'}">—</span>
           </div>
+          <div class="form-group">
+            <label>Zona</label>
+            <span class="readonly-field"
+                  th:text="${shiftRequest.siteZoneName != null ? shiftRequest.siteZoneName : '—'}">—</span>
+          </div>
 
           <hr class="form-separator"/>
 
@@ -88,13 +93,6 @@
             </div>
             <div class="shifts-list">
               <table class="table">
-                <thead>
-                  <tr>
-                    <th>Fecha</th>
-                    <th>Inicio</th>
-                    <th>Término</th>
-                  </tr>
-                </thead>
                 <tbody>
                   <tr th:each="s : ${shifts}">
                     <td th:text="${s.shiftDate != null ? s.shiftDate : '—'}">13-07-2026</td>
