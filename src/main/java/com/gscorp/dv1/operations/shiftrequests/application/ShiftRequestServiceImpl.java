@@ -104,6 +104,8 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
         }
         shiftRequest.setShiftPattern(shiftPatternService.findByExternalId(req.shiftPatternExternalId()));
         shiftRequest.setSiteZone(siteZoneService.findByExternalId(req.siteZoneExternalId()));
+        System.out.println("=== SHIFT REQUEST UPDATE ===");
+        System.out.println("siteZoneExternalId: " + req.siteZoneExternalId());
         ShiftRequest saved = shiftRequestRepository.save(shiftRequest);
         return ShiftRequestDtoWithSchedules.fromEntity(saved);
     }
@@ -330,10 +332,6 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
                             projectId,
                             type,
                             pageable);
-        System.out.println("=== SHIFT REQUEST SERVICE ===");
-        System.out.println("Total Elementos Count: " + projections.getTotalElements());
-        System.out.println("Lista shiftRequests (getContent): " + projections.getContent());
-        System.out.println("===================");
         if (projections.isEmpty()) {
             return Page.empty(pageable);
         }
@@ -344,10 +342,6 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
                     .toList();
         List<ShiftRequestScheduleProjection> schedules =
             shiftRequestScheduleRepository.findByShiftRequestIds(shiftRequestIds);
-        System.out.println("=== SHIFT REQUEST SCHEDULES SERVICE ===");
-        System.out.println("Total Elementos Count: " + schedules.size());
-        System.out.println("Lista shiftSchedules: " + schedules);
-        System.out.println("===================");
         Map<Long, List<ShiftRequestScheduleStrDto>> schedulesByRequestId =
                     schedules
                         .stream()
