@@ -54,7 +54,7 @@ async function createShiftRequest() {
   const cancelBtn = qs('#cancel');
   const siteExternalId = qs('#siteExternalId')?.value || '';
   const siteZoneExternalId = qs('#siteZoneExternalId')?.value || '';
-  const shiftPatternExternalId = qs('#shiftRequestExternalId')?.value || '';
+  const shiftPatternExternalId = qs('#shiftPatternExternalId')?.value || '';
   const accountIdRaw = qs('#shiftRequestAccount')?.value;
   const type = qs('#shiftRequestServiceType')?.value;
   const startDate = qs('#shiftRequestStartDate')?.value;
@@ -107,7 +107,7 @@ async function createShiftRequest() {
   if (createBtn) createBtn.disabled = true;
   if (cancelBtn) cancelBtn.disabled = true;
   const payload = {
-    siteExternalId: siteZoneExternalId,
+    siteExternalId: siteExternalId,
     siteZoneExternalId: siteZoneExternalId,
     shiftPatternExternalId: shiftPatternExternalId,
     type: type,
