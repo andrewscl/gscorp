@@ -54,6 +54,7 @@ async function createShiftRequest() {
   const cancelBtn = qs('#cancel');
   const siteExternalId = qs('#siteExternalId')?.value || '';
   const siteZoneExternalId = qs('#siteZoneExternalId')?.value || '';
+  const shiftPatternExternalId = qs('#shiftRequestExternalId')?.value || '';
   const accountIdRaw = qs('#shiftRequestAccount')?.value;
   const type = qs('#shiftRequestServiceType')?.value;
   const startDate = qs('#shiftRequestStartDate')?.value;
@@ -66,6 +67,10 @@ async function createShiftRequest() {
   }
   if (!siteZoneExternalId) {
     displayAlert(alertError, 'Debe seleccionar una zona.');
+    return;
+  }
+  if (!shiftPatternExternalId) {
+    displayAlert(alertError, 'Debe seleccionar un sistema de turno.');
     return;
   }
   if (!type) {
@@ -104,6 +109,7 @@ async function createShiftRequest() {
   const payload = {
     siteExternalId: siteZoneExternalId,
     siteZoneExternalId: siteZoneExternalId,
+    shiftPatternExternalId: shiftPatternExternalId,
     type: type,
     clientAccountId: accountId,
     startDate: startDate,

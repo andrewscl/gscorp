@@ -15,7 +15,11 @@ public record CreateShiftRequest(
     @NotNull(message = "siteExternalId es obligatorio")
     UUID siteExternalId,
 
+    @NotNull(message = "siteZoneExternalId es obligatorio")
     UUID siteZoneExternalId,
+
+    @NotNull(message = "shiftPatternExternalId es obligatorio")
+    UUID shiftPatternExternalId,
 
     @NotNull(message = "type es obligatorio")
     ShiftRequestType type,

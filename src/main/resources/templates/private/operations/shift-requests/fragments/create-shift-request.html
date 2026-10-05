@@ -50,7 +50,7 @@
           <div class="form-row w-custom">
               <div class="form-group fx-4">
                   <label>Sistema de turno</label>
-                  <select id="shiftPattern" name="shiftPatternExternalId" required>
+                  <select id="shiftRequestExternalId" name="shiftPatternExternalId" required>
                   <option value="">Seleccione sistema de turno</option>
                   <option th:each="sp : ${shiftPatterns}"
                           th:value="${sp.externalId}"
