@@ -21,11 +21,13 @@
 
         <div class="form-group fx-6">
           <label>Zona:</label>
-          <select id="siteZoneExternalId" th:field="${shiftRequest.siteZoneExternalId}" name="siteZoneExternalId">
+          <select id="siteZoneExternalId" name="siteZoneExternalId">
             <option value="">Seleccione una zona</option>
             <option th:each="sz : ${siteZones}"
                     th:value="${sz.externalId}"
-                    th:text="${sz.name}"></option>
+                    th:text="${sz.name}"
+                    th:selected="${shiftRequest.siteZoneExternalId != null and sz.externalId == shiftRequest.siteZoneExternalId}">
+            </option>
           </select>
         </div>
         <hr class="form-separator" />

@@ -1,7 +1,6 @@
 import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
 import { displayAlert } from '../../shared/display-alert.js';
-import { populateSelect } from '../../shared/insert-select.js';
 
 const qs = (s) => document.querySelector(s);
 const alertSuccess = qs('.alert-success');
@@ -26,7 +25,8 @@ async function onSaveClick(e) {
                     endDate,
                     status,
                     description,
-                    shiftPatternExternalId};
+                    shiftPatternExternalId,
+                    siteZoneExternalId};
   if (!externalId || !startDate || !endDate || !status) {
   console.log("falta información para efectuar la actualización.");
   return;
@@ -190,32 +190,6 @@ async function onDeleteClick(){
     if(deleteBtn) deleteBtn.disabled = disabled;
   }
 }
-
-async function populateSiteZones() {
-  const siteZoneSelect = qs('#siteZoneExternalId');
-  const siteExternalId = qs('#siteExternalId')?.value;
-  if (!siteZoneSelect || !siteExternalId) {
-    return;
-  }
-  try {
-    const url = `/api/v1/site-zones/site/${siteExternalId}/site-zones`;
-    const res = await fetchWithAuth(url, {
-      method: 'GET',
-      headers: {'Accept': 'application/json'}
-    });
-    if(!res || !res.ok) throw new Error('No se pudieron obtener las zonas del sitio seleccionado.');
-    const siteZones = await res.json();
-    populateSelect({
-      selectEl: siteZoneSelect,
-      items: siteZones,
-      defaultLabel: 'Seleccione una ubicación',
-      emptyLabel: 'Sin ubicaciones asociadas.'});
-  } catch (err) {
-    console.error('Error en HandleSiteChange:', err);
-    populateSelect({selectEl: siteZoneSelect, items: [], emptyLabel: 'Error al cargar las ubicaciones.'});
-  }
-}
-
 
 function bindEditShiftRequest() {
     const saveBtn = qs('#submit');

@@ -103,5 +103,17 @@ public class SiteZoneServiceImpl implements SiteZoneService {
         }
     }
 
+    @Transactional(readOnly = true)
+    public SiteZone findByExternalId(UUID siteZoneExternalId) {
+        ProjectScope scope = userScopeService.getProjectScope();
+        return siteZoneRepository.findByExternalId(
+                    scope.ignoreFilter(),
+                    scope.projectIds(),
+                    siteZoneExternalId
+                )
+                .orElseThrow(() -> new EntityNotFoundException(
+                    "La zona no existe o no tienes acceso."));
+    }
+
 
 }

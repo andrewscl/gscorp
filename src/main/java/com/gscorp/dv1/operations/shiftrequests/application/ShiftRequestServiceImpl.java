@@ -31,7 +31,6 @@ import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.enums.ShiftRequestType;
 import com.gscorp.dv1.operations.shiftpatterns.application.ShiftPatternService;
-import com.gscorp.dv1.operations.shiftpatterns.infrastructure.ShiftPattern;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestRepository;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestSchedule;
@@ -46,6 +45,7 @@ import com.gscorp.dv1.operations.shiftrequests.web.dto.ShiftRequestSelectDto;
 import com.gscorp.dv1.operations.shiftrequests.web.dto.UpdateShiftRequestDto;
 import com.gscorp.dv1.operations.sites.application.SiteService;
 import com.gscorp.dv1.operations.sites.infrastructure.Site;
+import com.gscorp.dv1.operations.sitezones.application.SiteZoneService;
 import com.gscorp.dv1.users.application.UserScopeService;
 import com.gscorp.dv1.users.application.dto.ProjectScope;
 
@@ -61,6 +61,7 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
     private final ShiftRequestScheduleRepository shiftRequestScheduleRepository; 
     private final ClientService clientService;
     private final SiteService siteService;
+    private final SiteZoneService siteZoneService;
     private final ZoneResolver zoneResolver;
     private final TransactionTemplate transactionTemplate;
     private final ShiftPatternService shiftPatternService;
@@ -96,23 +97,13 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
         if (req.description() != null && !Objects.equals(shiftRequest.getDescription(), req.description())){
             shiftRequest.setDescription(req.description());
         }
-        if (req.startDate() != null && !Objects.equals(shiftRequest.getStartDate(), req.startDate())) {
-            shiftRequest.setStartDate(req.startDate());
-        }
-        if (req.endDate() != null && !Objects.equals(shiftRequest.getEndDate(), req.endDate())) {
-            shiftRequest.setEndDate(req.endDate());
-        }
+        shiftRequest.setStartDate(req.startDate());
+        shiftRequest.setEndDate(req.endDate());
         if (shiftRequest.getStartDate().isAfter(shiftRequest.getEndDate())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La fecha de inicio no puede ser posterior a la de término");
         }
-        if (req.status() != null && !Objects.equals(shiftRequest.getStatus(),req.status())) {
-            shiftRequest.setStatus(req.status());
-        }
-        if (req.shiftPatternExternalId() != null) {
-            ShiftPattern shiftPattern =
-                        shiftPatternService.findByExternalId(req.shiftPatternExternalId());
-            shiftRequest.setShiftPattern(shiftPattern);
-        }
+        shiftRequest.setShiftPattern(shiftPatternService.findByExternalId(req.shiftPatternExternalId()));
+        shiftRequest.setSiteZone(siteZoneService.findByExternalId(req.siteZoneExternalId()));
         ShiftRequest saved = shiftRequestRepository.save(shiftRequest);
         return ShiftRequestDtoWithSchedules.fromEntity(saved);
     }
