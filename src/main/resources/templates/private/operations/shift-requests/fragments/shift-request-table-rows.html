@@ -5,7 +5,7 @@
           <td th:text="${r.type.displayName ?: '—'}">Tipo</td>
           <td th:text="${r.shiftPatternName ?: '—'}">Jornada</td>
           <td th:utext="${r.formattedSchedules}">Lunes a Viernes (08:00 - 16:00)</td>
-          <td th:text="${r.siteZone ?: '—'}">Salida de Vehiculos</td>
+          <td th:text="${r.siteZone.name ?: '—'}">Salida de Vehiculos</td>
 
           <td class="actions">
             <button type="button" class="btn btn-view"

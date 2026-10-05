@@ -92,7 +92,8 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               p.name               AS projectName,
               r.clientAccountId    AS clientAccountId,
               r.type               AS type,
-              r.siteZone           AS siteZone,
+              sz.externalId        AS siteZoneExternalId,
+              sz.name              AS siteZoneName,
               r.startDate          AS startDate,
               r.endDate            AS endDate,
               r.status             AS status,
@@ -101,6 +102,7 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               COUNT(sc.id)         AS schedulesCount
        FROM ShiftRequest r
        JOIN r.site s
+       JOIN r.siteZone sz
        JOIN s.project p
        LEFT JOIN r.schedules sc
        WHERE p.client.id IN :clientIds
@@ -161,7 +163,8 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               p.name               AS projectName,
               sr.clientAccountId   AS clientAccountId,
               sr.type              AS type,
-              sr.siteZone          AS siteZone,
+              sz.externalId        AS siteZoneExternalId,
+              sz.name              AS siteZoneName,
               sr.startDate         AS startDate,
               sr.endDate           AS endDate,
               sr.status            AS status,
@@ -169,6 +172,7 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               sr.createdAt         AS createdAt
               FROM ShiftRequest sr
               LEFT JOIN sr.site s
+              LEFT JOIN sr.siteZone sz
               LEFT JOIN s.project p
               WHERE p.client.id IN :clientIds
               AND sr.startDate >= COALESCE(:startDate, sr.startDate)
@@ -214,7 +218,8 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               p.name               AS projectName,
               sr.clientAccountId   AS clientAccountId,
               sr.type              AS type,
-              sr.siteZone          AS siteZone,
+              sz.externalId        AS siteZoneExternalId,
+              sz.name              AS siteZoneName,
               sr.startDate         AS startDate,
               sr.endDate           AS endDate,
               sr.status            AS status,
@@ -222,6 +227,7 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
               sr.createdAt         AS createdAt
               FROM ShiftRequest sr
               LEFT JOIN sr.site s
+              LEFT JOIN sr.siteZone sz
               LEFT JOIN s.project p
               WHERE sr.site.externalId = :siteExternalId
               AND sr.status = :status
@@ -246,7 +252,8 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
                      p.name               AS projectName,
                      sr.clientAccountId   AS clientAccountId,
                      sr.type              AS type,
-                     sz                   AS siteZone,
+                     sz.externalId        AS siteZoneExternalId,
+                     sz.name              AS siteZoneName,
                      sr.startDate         AS startDate,
                      sr.endDate           AS endDate,
                      sr.status            AS status,

@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.enums.ShiftRequestType;
-import com.gscorp.dv1.operations.sitezones.infrastructure.SiteZone;
 
 public interface ShiftRequestProjection {
     
@@ -21,7 +20,8 @@ public interface ShiftRequestProjection {
     String projectName();
     Long getClientAccountId();
     ShiftRequestType getType();
-    SiteZone getSiteZone();
+    UUID getSiteZoneExternalId();
+    String getSiteZoneName();
     LocalDate getStartDate();
     LocalDate getEndDate();
     ShiftRequestStatus getStatus();
