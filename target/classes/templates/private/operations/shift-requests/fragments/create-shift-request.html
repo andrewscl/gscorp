@@ -47,15 +47,26 @@
               </select>
             </div>
           </div>
-          <div class="form-row">
-              <div class="form-group">
+          <div class="form-row w-custom">
+              <div class="form-group fx-4">
+                  <label>Sistema de turno</label>
+                  <select id="shiftPattern" name="shiftPatternExternalId" required>
+                  <option value="">Seleccione sistema de turno</option>
+                  <option th:each="sp : ${shiftPatterns}"
+                          th:value="${sp.externalId}"
+                          th:text="${sp.name}"
+                          th:selected="${shiftRequest.shiftPatternExternalId != null and sp.externalId == shiftRequest.shiftPatternExternalId}">
+                          </option>
+                  </select>
+              </div>
+              <div class="form-group fx-3">
                 <label>Fecha inicio</label>
                 <div class="date-field">
                   <input class="input--date" type="date" id="shiftRequestStartDate" name="startDate" required aria-label="Fecha inicio" />
                   <span class="calendar-icon"></span>
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group fx-3">
                 <label>Fecha término</label>
                 <div class="date-field">
                   <input class="input--date" type="date" id="shiftRequestEndDate" name="endDate" aria-label="Fecha término" />
@@ -69,6 +80,7 @@
           </div>
       </div>
     </div>
+
     <div class="panel-aside">
         <div class="schedules-panel">
           <div class="schedules-panel-header">

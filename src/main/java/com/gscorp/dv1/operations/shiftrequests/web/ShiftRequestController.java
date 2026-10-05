@@ -94,6 +94,7 @@ public class ShiftRequestController {
         model.addAttribute("projects", projectService.findByUserScope(
                                 scope.ignoreFilter(), scope.projectIds(), null));
         model.addAttribute("requestTypes", ShiftRequestType.values());
+        model.addAttribute("shiftPatterns", shiftPatternService.getShiftPatternsList());
         return "private/operations/shift-requests/fragments/create-shift-request";
     }
 
