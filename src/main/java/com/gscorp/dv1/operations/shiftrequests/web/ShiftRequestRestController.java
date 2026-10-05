@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -90,11 +91,20 @@ public class ShiftRequestRestController {
     public ResponseEntity<?> updateShiftRequest(
         @PathVariable UUID externalId,
         @Valid @RequestBody UpdateShiftRequestDto req,
-        @AuthenticationPrincipal SecurityUser securityUser
+        @AuthenticationPrincipal SecurityUser securityUser,
+        BindingResult bindingResult
     ) {
+        if(bindingResult.hasErrors()) {
+            System.out.println("=== BINDING RESULT ERRORS ===");
+            bindingResult.getAllErrors().forEach(error -> System.out.println("- " + error.getDefaultMessage()));
+            return ResponseEntity.badRequest().body(bindingResult.getFieldError());
+        }
+        System.out.println("=== REQUEST RECIBIDO ===");
+        System.out.println("siteZoneExternalId: " + req.siteZoneExternalId());
+        System.out.println("shiftPatternExternalId: " + req.shiftPatternExternalId());
         ProjectScope scope = userScopeService.getProjectScope();
         ShiftRequestDtoWithSchedules updatedDto =
-                                        shiftRequestService.update(
+                                        shiftRequestService.update( 
                                                 scope.ignoreFilter(),
                                                 scope.projectIds(),
                                                 externalId,
