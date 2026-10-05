@@ -144,7 +144,6 @@ const formatTime = (isoString) => {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
 };
 
-
 function onCancelClick(e) {
   displayAlert(alertWarning,
               'La edición del requerimiento ha sido cancelada', 1500);
@@ -193,8 +192,9 @@ async function onDeleteClick(){
 
 async function handleSiteZoneChange() {
   const siteZoneSelect = qs('#siteZoneExternalId');
+  const siteExternalId = qs('#siteExternalId')?.value;
   const selectedZoneExternalId = siteZoneSelect?.value;
-  if (!selectedZoneExternalId) {
+  if (!selectedZoneExternalId || !siteExternalId) {
     populateSelect({
       selectEl: siteZoneSelect,
       items: [],

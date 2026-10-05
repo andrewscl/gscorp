@@ -5,6 +5,8 @@
     <div class="panel-main">
     <input type="hidden" id="shiftRequestExternalId"
                         th:value="${shiftRequest.externalId}" />
+    <input type="hidden" id="siteExternalId"
+                        th:value="${shiftRequest.siteExternalId}" />
 
       <div class="panel-header">
         <h4>Editar Solicitud de Turno</h4>
@@ -19,7 +21,7 @@
 
         <div class="form-group fx-6">
           <label>Zona:</label>
-          <select id="siteZoneExternalId" name="siteZoneExternalId" required disabled>
+          <select id="siteZoneExternalId" name="siteZoneExternalId">
             <option value="">Seleccione una zona</option>
           </select>
         </div>
