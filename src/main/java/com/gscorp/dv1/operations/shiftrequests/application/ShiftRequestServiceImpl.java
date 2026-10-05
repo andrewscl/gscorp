@@ -31,6 +31,7 @@ import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.enums.ShiftRequestType;
 import com.gscorp.dv1.operations.shiftpatterns.application.ShiftPatternService;
+import com.gscorp.dv1.operations.shiftpatterns.infrastructure.ShiftPattern;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequest;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestRepository;
 import com.gscorp.dv1.operations.shiftrequests.infrastructure.ShiftRequestSchedule;
@@ -152,13 +153,19 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
                         scope.ignoreFilter(), scope.projectIds(), siteExternalId)
                             .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Site no encontrado"));
         SiteZone siteZone = siteZoneService.findByExternalId(req.siteZoneExternalId());
-        ShiftRequest saved = buildAndSaveShiftRequestWithRetries(req, site, siteZone, start, end);
+        ShiftPattern shiftPattern = shiftPatternService.findByExternalId(req.shiftPatternExternalId());
+        ShiftRequest saved = buildAndSaveShiftRequestWithRetries(req, site, siteZone, shiftPattern, start, end);
         ShiftRequest enriched = shiftRequestRepository.findByIdWithSiteAndSchedules(saved.getId())
                 .orElse(saved);
         return ShiftRequestDtoWithSchedules.fromEntity(enriched);
     }
 
-    private ShiftRequest buildAndSaveShiftRequest(CreateShiftRequest req, Site site, SiteZone siteZone, LocalDate start, LocalDate end) {
+    private ShiftRequest buildAndSaveShiftRequest(CreateShiftRequest req,
+                                                    Site site,
+                                                    SiteZone siteZone,
+                                                    ShiftPattern shiftPattern,
+                                                    LocalDate start,
+                                                    LocalDate end) {
         // Determinar prefijo según el enum RequestType
         String prefix;
         switch (req.type()) {
@@ -185,7 +192,7 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
                 .site(site)
                 .clientAccountId(req.accountId())
                 .type(req.type())
-                .shiftPattern(null)
+                .shiftPattern(shiftPattern)
                 .siteZone(siteZone)
                 .startDate(start)
                 .endDate(end)
@@ -214,13 +221,18 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
     }
 
 
-    private ShiftRequest buildAndSaveShiftRequestWithRetries(CreateShiftRequest req, Site site, SiteZone siteZone, LocalDate start, LocalDate end) {
+    private ShiftRequest buildAndSaveShiftRequestWithRetries(CreateShiftRequest req,
+                                                                Site site,
+                                                                SiteZone siteZone,
+                                                                ShiftPattern shiftPattern,
+                                                                LocalDate start,
+                                                                LocalDate end) {
         final int MAX_ATTEMPTS = 3;
         for (int attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
             try {
                 //Ejecutar el intento dentro de su propia transacción
                 return transactionTemplate.execute(status -> {
-                    return buildAndSaveShiftRequest(req, site, siteZone, start, end);
+                    return buildAndSaveShiftRequest(req, site, siteZone, shiftPattern, start, end);
                 });
             } catch (DataIntegrityViolationException dive) {
                 if (attempt == MAX_ATTEMPTS) {
