@@ -28,15 +28,6 @@
                     th:text="${sz.name}"></option>
           </select>
         </div>
-
-              <label>Estado</label>
-              <select id="shiftRequestStatus" th:field="${shiftRequest.status}" required>
-              <option value="">Seleccione estado</option>
-              <option th:each="b : ${shiftRequestStatuses}"
-                      th:value="${b}"
-                      th:text="${b.displayName}"></option>
-              </select>
-
         <hr class="form-separator" />
 
         <div class="form-row">
