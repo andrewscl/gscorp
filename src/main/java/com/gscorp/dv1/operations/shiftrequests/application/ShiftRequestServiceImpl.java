@@ -152,7 +152,6 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
                         scope.ignoreFilter(), scope.projectIds(), siteExternalId)
                             .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Site no encontrado"));
         SiteZone siteZone = siteZoneService.findByExternalId(req.siteZoneExternalId());
-        // Delegar a helper que hace la persistencia con reintentos por colisiones de código
         ShiftRequest saved = buildAndSaveShiftRequestWithRetries(req, site, siteZone, start, end);
         ShiftRequest enriched = shiftRequestRepository.findByIdWithSiteAndSchedules(saved.getId())
                 .orElse(saved);
