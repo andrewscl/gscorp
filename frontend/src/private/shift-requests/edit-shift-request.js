@@ -190,7 +190,7 @@ async function onDeleteClick(){
   }
 }
 
-async function handleSiteZoneChange() {
+async function populateSiteZones() {
   const siteZoneSelect = qs('#siteZoneExternalId');
   const siteExternalId = qs('#siteExternalId')?.value;
   const selectedZoneExternalId = siteZoneSelect?.value;
@@ -238,14 +238,10 @@ function bindEditShiftRequest() {
     if (deleteBtn) {
       deleteBtn.addEventListener('click', onDeleteClick);
     }
-    const siteZoneSelect = qs('#siteZoneExternalId');
-    if (siteZoneSelect) {
-      siteZoneSelect.addEventListener('change', handleSiteZoneChange);
-    }
-
 }
 
 
-(function init() {
+(async function init() {
   bindEditShiftRequest();
+  await populateSiteZones();
 })();
