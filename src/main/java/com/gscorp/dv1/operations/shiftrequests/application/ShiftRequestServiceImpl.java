@@ -142,6 +142,12 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
     public ShiftRequestDtoWithSchedules createShiftRequest(
                 CreateShiftRequest req,
                 UUID userExternalId) {
+
+        System.out.println("=== CREATE SHIFT REQUEST ===");
+        System.out.println("req: " + req);
+
+        try{
+
         LocalDate start = req.startDate();
         LocalDate end = req.endDate() != null ? req.endDate() : start;
         if (end.isBefore(start)) {
@@ -153,11 +159,20 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
                         scope.ignoreFilter(), scope.projectIds(), siteExternalId)
                             .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Site no encontrado"));
         SiteZone siteZone = siteZoneService.findByExternalId(req.siteZoneExternalId());
+        System.out.println("Buscando siteZone: " + req.siteZoneExternalId());
         ShiftPattern shiftPattern = shiftPatternService.findByExternalId(req.shiftPatternExternalId());
+        System.out.println("Buscando shiftPattern: " + req.shiftPatternExternalId());
         ShiftRequest saved = buildAndSaveShiftRequestWithRetries(req, site, siteZone, shiftPattern, start, end);
         ShiftRequest enriched = shiftRequestRepository.findByIdWithSiteAndSchedules(saved.getId())
                 .orElse(saved);
+        System.out.println("=== CREATE SHIFT REQUEST SUCCESS ===");
+        System.out.println("enriched: " + enriched);
         return ShiftRequestDtoWithSchedules.fromEntity(enriched);
+
+        } catch (Exception e) {
+            log.error("Error creating shift request: {}", e.getMessage(), e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al crear la solicitud de turno: " + e.getMessage(), e);
+        }
     }
 
     private ShiftRequest buildAndSaveShiftRequest(CreateShiftRequest req,
