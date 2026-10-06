@@ -137,8 +137,8 @@ async function createShiftRequest() {
       if(cancelBtn) cancelBtn.disabled = false;
       return;
     }
-    displayAlert(alertSuccess, 'La asignación de turno ha sido creada correctamente.', 2000);
-    setTimeout(() => { navigateTo('/private/shift-assignments/list', true); }, 2000);
+    displayAlert(alertSuccess, 'La solicitud de turno ha sido creada correctamente.', 2000);
+    setTimeout(() => { navigateTo('/private/shift-requests/table-view', true); }, 2000);
   } catch (error) {
     console.error(`[onClickCreate] Ocurrio un problema: ${error.message}`, error);
     displayAlert(alertError, 'Error inesperado. Intente más tarde.', 2000);
