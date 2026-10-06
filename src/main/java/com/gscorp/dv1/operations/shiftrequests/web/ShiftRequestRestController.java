@@ -69,12 +69,19 @@ public class ShiftRequestRestController {
 
     @PostMapping("/create")
     public ResponseEntity<ShiftRequestDtoWithSchedules> createShiftRequest(
-        @Valid @RequestBody CreateShiftRequest req,
-        @AuthenticationPrincipal SecurityUser securityUser,
-        UriComponentsBuilder ucb) {
+            @Valid @RequestBody CreateShiftRequest req,
+            @AuthenticationPrincipal SecurityUser securityUser,
+            UriComponentsBuilder ucb) {
+        System.out.println("=== CONTROLLER: createShiftRequest ===");
+        System.out.println("req recibido: " + req);
+        System.out.println("securityUser: " + securityUser);
+
+        try {
+
         UUID userExternalId = securityUser.getUser().getExternalId();
         ShiftRequestDtoWithSchedules dto = shiftRequestService
                                                 .createShiftRequest(req, userExternalId);
+        System.out.println("DTO: " + dto);
         UUID externalId = dto != null ? dto.externalId() : null;
         if (externalId != null) {
             URI uri = ucb.path("/api/shift-requests/{externalId}")
@@ -83,6 +90,13 @@ public class ShiftRequestRestController {
             return ResponseEntity.created(uri).body(dto);
         } else {
             return ResponseEntity.status(HttpStatus.CREATED).body(dto);
+        }
+
+        } catch (Exception e) {
+            System.out.println("=== ERROR CREATING SHIFT REQUEST ===");
+            log.error("Error creating shift request: {}", e.getMessage(), e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al crear la solicitud de turno: " + e.getMessage(), e);
+
         }
     }
 
