@@ -1,5 +1,7 @@
 package com.gscorp.dv1.admin.clients.web.dto;
 
+import java.util.UUID;
+
 import com.gscorp.dv1.enums.ClientStatus;
 
 public record CreateClientRequest (
@@ -10,5 +12,5 @@ public record CreateClientRequest (
     String email,
     String phone,
     ClientStatus status,
-    Long companyId
+    UUID companyExternalId
 ){}

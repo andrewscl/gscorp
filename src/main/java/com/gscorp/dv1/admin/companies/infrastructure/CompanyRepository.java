@@ -1,6 +1,7 @@
 package com.gscorp.dv1.admin.companies.infrastructure;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -97,5 +98,7 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
                     @Param("status") CompanyStatus status,
                     Pageable pageable
     );
+
+    Optional<Company> findByExternalId(UUID externalId);
 
 }

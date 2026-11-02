@@ -48,7 +48,9 @@ public class ClientServiceImpl implements ClientService{
         String currentUser = (authentication != null) ?
                                         authentication.getName() : "SYSTEM";
 
-        Company company = companyRepo.getReferenceById(request.companyId());
+        Company company = companyRepo.findByExternalId(request.companyExternalId())
+                        .orElseThrow(() -> new EntityNotFoundException(
+                            "Company not found: " + request.companyExternalId()));
 
         Client client = Client.builder()
                             .name(request.name())

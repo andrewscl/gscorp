@@ -1,0 +1,1 @@
+import{n as i}from"../../navigation-handler.js";import"../../auth.js";const n=t=>document.querySelector(t),c=()=>{i("/private/clients/create",!0)};async function s(){setTimeout(()=>i("/private/companies/create",!0),1e3)}function a(){const t=n("#addClientsBtn");t&&t.addEventListener("click",c);const e=n("#searchClientsBtn");e&&e.addEventListener("click",s)}(function(){a()})();
