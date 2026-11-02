@@ -142,7 +142,7 @@ async function defineCurrentPosition() {
         await startViewMap(nearestSite);
         }
 
-        setTimeout(() => navigateTo('/private/operations/dashboards/security-operator'), 1500);
+        setTimeout(() => navigateTo('/private/operations/dashboards/security-operator'), 3000);
       } else {
         displayAlert(alertError, 'No se encontró ningún sitio cercano.', 5000);
       }
