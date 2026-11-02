@@ -114,10 +114,8 @@ async function defineCurrentPosition() {
   displayAlert(alertInfo, 'Detectando el sitio mas cercano...', 3000);
 
   try {
-      const pos = await new Promise((resolve, reject) =>
-        navigator.geolocation.getCurrentPosition(resolve, reject,
-                                    { enableHighAccuracy: true, timeout: 15000 })
-      );
+      const pos = await getCurrentPosition();
+      console.log('[attendance] GPS precision:', pos.coords.accuracy);
       if (!sitesList.length) {
         displayAlert(alertError, 'No hay sitios configurados.', 3000);
         return;
@@ -127,21 +125,16 @@ async function defineCurrentPosition() {
       if (nearestSite && nearestSite.distance <= MAX_DISTANCE_GEOFENCE) {
         displayAlert(alertSuccess, `Estás en el sitio "${nearestSite.name}".
                                           Puedes marcar asistencia aquí.`, 3000);
-
       if(nearestSite){
         await startViewMap(nearestSite);
       }
-
       await syncAttendanceButtons();
-
       } else if (nearestSite) {
         displayAlert(alertInfo, `El sitio más cercano es "${nearestSite.name}" a
             ${nearestSite.distance.toFixed(1)} metros. Acércate para marcar.`, 5000);
-
         if(nearestSite){
         await startViewMap(nearestSite);
         }
-
         setTimeout(() => navigateTo('/private/operations/dashboards/security-operator'), 3000);
       } else {
         displayAlert(alertError, 'No se encontró ningún sitio cercano.', 5000);
