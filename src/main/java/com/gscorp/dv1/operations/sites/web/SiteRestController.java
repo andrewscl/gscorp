@@ -154,11 +154,12 @@ public class SiteRestController {
         public List<SiteDto> getAllSitesByUser(
                 @AuthenticationPrincipal SecurityUser securityUser
         ) {
-                ProjectScope scope = userScopeService.getProjectScope();
-                return siteService.findByUserScope(
-                        scope.ignoreFilter(),
-                        scope.projectIds());
+                UUID externalId = securityUser.getUser().getExternalId();
+                return siteService.getAllSitesByUser(externalId);
         }
+
+
+
 
         @GetMapping("/projects/{projectExternalId}/sites")
         public ResponseEntity<List<SiteDto>> getSitesByProjectExternalId(
