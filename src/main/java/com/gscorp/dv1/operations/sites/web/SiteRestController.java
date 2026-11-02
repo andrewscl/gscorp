@@ -1,12 +1,10 @@
 package com.gscorp.dv1.operations.sites.web;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +28,6 @@ import com.gscorp.dv1.operations.sites.web.dto.SiteDto;
 import com.gscorp.dv1.operations.sites.web.dto.UpdateLatLon;
 import com.gscorp.dv1.operations.sites.web.dto.UpdateSiteRequest;
 import com.gscorp.dv1.users.application.UserScopeService;
-import com.gscorp.dv1.users.application.UserService;
 import com.gscorp.dv1.users.application.dto.ProjectScope;
 
 import jakarta.validation.Valid;
@@ -43,7 +40,6 @@ public class SiteRestController {
 
     private final SiteService siteService;
     private final ProjectService projectService;
-    private final UserService userService;
     private final UserScopeService userScopeService;
 
         @PostMapping("/create")
@@ -156,18 +152,13 @@ public class SiteRestController {
         @GetMapping("/user-sites")
         @ResponseBody
         public List<SiteDto> getAllSitesByUser(
-                                Authentication authentication) {
-                Object principal = authentication.getPrincipal();
-                SecurityUser securityUser = (SecurityUser) principal;
-                UUID externalId = securityUser.getUser().getExternalId();
-                Long userId = userService.getUserIdFromAuthentication(authentication);
-                        if (userId == null) {
-                        // no autenticado: redirigir al login o devolver error según tu política
-                        return Collections.emptyList();
-                }
-                return siteService.getAllSitesByUser(externalId);
+                @AuthenticationPrincipal SecurityUser securityUser
+        ) {
+                ProjectScope scope = userScopeService.getProjectScope();
+                return siteService.findByUserScope(
+                        scope.ignoreFilter(),
+                        scope.projectIds());
         }
-
 
         @GetMapping("/projects/{projectExternalId}/sites")
         public ResponseEntity<List<SiteDto>> getSitesByProjectExternalId(
