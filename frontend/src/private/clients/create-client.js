@@ -18,7 +18,7 @@ async function createClient() {
     const taxId = qs('#taxId')?.value?.trim();
     const email = qs('#email')?.value?.trim();
     const phone = qs('#phone')?.value?.trim();
-    const company = qs('#phone')?.value?.trim();
+    const company = qs('#company')?.value?.trim();
 
     if(!name || !legalName || !taxId || !company) {
         displayAlert(alertError, 'Los campos obligatorios deben ser completados.', 2000);
@@ -37,7 +37,7 @@ async function createClient() {
     createBtn.disabled = true;
     cancelBtn.disabled = true;
     try {
-        const response = await fetchWithAuth('/api/companies/create', {
+        const response = await fetchWithAuth('/api/clients/create', {
             method: 'POST',
             headers: {'Content-Type':'application/json'},
             body: JSON.stringify(payload)
