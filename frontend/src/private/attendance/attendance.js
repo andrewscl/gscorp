@@ -162,7 +162,7 @@ async function punch(kind) {
     const endpoint = actionWidget?.dataset.punchEndpoint || '/api/attendance/punch';
     try {
       setButtonsState(false, false);
-      displayAlert(alertInfo, 'Obteniendo ubicación...', 3000);
+      displayAlert(alertInfo, 'Obteniendo ubicación precisa, espera unos segundos...', 5000);
       const pos = await getCurrentPosition();
       const nearestSite = getNearestSite(pos.coords.latitude, pos.coords.longitude, sitesList);
       console.log('[attendance] nearestSite:', nearestSite);
@@ -289,11 +289,69 @@ function getNearestSite(userLat, userLon, sites) {
   return nearest;
 }
 
-const getCurrentPosition = () => new Promise((resolve, reject) => {
-  if (!navigator.geolocation) return reject(new Error('Geolocalización no soportada'));
-  navigator.geolocation.getCurrentPosition(
-    (p) => resolve(p),
-    (e) => reject(new Error(e.message || 'No se pudo obtener ubicación')),
-    { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+const getCurrentPosition = ({
+  targetAccuracy = 20, // metros
+  maxAccuracy = 35, // metros
+  waitMs = 20000, // 20 segundos
+} = {} ) => new Promise((resolve, reject) => {
+  if (!navigator.geolocation){
+    reject(new Error('Geolocalización no soportada'));
+    return;
+  }
+
+  let watchId = null;
+  let timerId = null;
+  let bestPosition = null;
+  let finished = false;
+
+  const finish = (callback, value) => {
+    if(finished) return;
+    finished = true;
+    if(watchId !== null) {
+      navigator.geolocation.clearWatch(watchId);
+    }
+    if(timerId !== null) {
+      clearTimeout(timerId);
+    }
+    callback(value);
+  };
+  watchId = navigator.geolocation.watchPosition(
+    (position) => {
+      if(
+        !bestPosition ||
+        position.coords.accuracy < bestPosition.coords.accuracy
+      ) {
+        bestPosition = position;
+        console.log('[attendance] New best position:', position.coords.accuracy);
+      }
+      if(position.coords.accuracy <= targetAccuracy) {
+        finish(resolve, position);
+      }
+    },
+    (error) => {
+      finish(
+        reject, new Error(error.message || 'No se pudo obtener ubicación')
+      );
+    },
+    {
+      enableHighAccuracy: true,
+      timeout: waitMs + 5000, // 5 segundos extra para el timeout
+      maximumAge: 0
+    }
   );
+  timerId = setTimeout(() => {
+    if(!bestPosition) {
+      finish(reject, new Error('No se pudo obtener ubicación'));
+      return;
+    }
+    if(bestPosition.coords.accuracy > maxAccuracy) {
+      finish(reject, new Error(
+            `Ubicación imprecisa (±${Math.round(bestPosition.coords.accuracy)} m). ` +
+            'Activa la ubicación precisa y vuelve a intentar en un lugar abierto.'
+          )
+        );
+        return;
+    }
+    finish(resolve, bestPosition);
+  }, waitMs);
 });
