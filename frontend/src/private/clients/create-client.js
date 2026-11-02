@@ -18,9 +18,9 @@ async function createClient() {
     const taxId = qs('#taxId')?.value?.trim();
     const email = qs('#email')?.value?.trim();
     const phone = qs('#phone')?.value?.trim();
-    const company = qs('#company')?.value?.trim();
+    const companyExternalId = qs('#company')?.value?.trim();
 
-    if(!name || !legalName || !taxId || !company) {
+    if(!name || !legalName || !taxId || !companyExternalId) {
         displayAlert(alertError, 'Los campos obligatorios deben ser completados.', 2000);
         return;        
     }
@@ -31,7 +31,7 @@ async function createClient() {
         taxId,
         email,
         phone,
-        company
+        companyExternalId
     };
 
     createBtn.disabled = true;
