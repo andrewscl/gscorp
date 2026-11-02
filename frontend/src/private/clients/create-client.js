@@ -61,7 +61,7 @@ async function createClient() {
         displayAlert(alertSuccess, 'El nuevo cliente ha sido creado correctamente.', 2000);
 
         setTimeout(() => {
-            navigateTo('/private/clients/table-view'); // recarga el listado
+            navigateTo('/private/clients'); // recarga el listado
         }, 2000);
 
     } catch (error) {
