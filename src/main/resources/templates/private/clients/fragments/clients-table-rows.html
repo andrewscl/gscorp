@@ -14,13 +14,13 @@
 
           <td class="actions">
             <button type="button"
-                    class="btn-view"
+                    class="btn btn-view"
                     th:attr="data-path=@{/private/clients/show/{externalId}(externalId=${c.externalId()})}">
               Ver
             </button>
 
             <button type="button"
-                    class="btn-edit"
+                    class="btn btn-edit"
                     th:attr="data-path=@{/private/clients/edit/{externalId}(externalId=${c.externalId()})}">
               Editar
             </button>

@@ -75,7 +75,7 @@ async function createClient() {
 
 const cancelCreateClient = () => {
     displayAlert(alertWarning, 'La creación del cliente ha sido cancelada.', 2000);
-    setTimeout(() => navigateTo('/private/clients/table-view', true), 2000);
+    setTimeout(() => navigateTo('/private/clients', true), 2000);
 }
 
 const handleCompanyChange = async () => {
