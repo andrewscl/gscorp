@@ -136,7 +136,7 @@ async function defineCurrentPosition() {
 
       } else if (nearestSite) {
         displayAlert(alertInfo, `El sitio más cercano es "${nearestSite.name}" a
-            ${nearestSite.distance.toFixed(1)} metros. Acércate para marcar.`, 3000);
+            ${nearestSite.distance.toFixed(1)} metros. Acércate para marcar.`, 5000);
 
         if(nearestSite){
         await startViewMap(nearestSite);
