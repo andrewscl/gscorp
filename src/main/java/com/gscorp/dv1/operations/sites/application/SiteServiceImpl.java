@@ -196,8 +196,9 @@ public class SiteServiceImpl implements SiteService{
                         List<Long> projectIds,
                         double lat,
                         double lon) {
-        if (projectIds == null || projectIds.isEmpty()) return null;
-        List<SiteProjection> sites = siteRepository.findByProjectIds(projectIds);
+        List<SiteProjection> sites = siteRepository.findByUserScope(
+                        ignoreProjectFilter,
+                        projectIds);
         if(sites == null || sites.isEmpty()) {
             return null;
         }
