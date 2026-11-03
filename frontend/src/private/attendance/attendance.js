@@ -165,12 +165,6 @@ async function punch(kind) {
       displayAlert(alertInfo, 'Obteniendo ubicación precisa, espera unos segundos...', 5000);
       const pos = await getCurrentPosition();
       const nearestSite = getNearestSite(pos.coords.latitude, pos.coords.longitude, sitesList);
-      console.log('[attendance] nearestSite:', nearestSite);
-      console.log('[attendance] nearestSite.distance:', nearestSite ? nearestSite.distance : 'N/A');
-      console.log('[attendance] pos.coords.accuracy:', pos.coords.accuracy);
-      console.log('[attendance] MAX_DISTANCE_GEOFENCE:', MAX_DISTANCE_GEOFENCE);
-      console.log('[attendance] pos.coords.latitude:', pos.coords.latitude);
-      console.log('[attendance] pos.coords.longitude:', pos.coords.longitude);
       if (!nearestSite || nearestSite.distance > MAX_DISTANCE_GEOFENCE) {
         displayAlert(alertWarning,
                 `No puede marcar asistencia: está a ${nearestSite ? nearestSite.distance.toFixed(1) :

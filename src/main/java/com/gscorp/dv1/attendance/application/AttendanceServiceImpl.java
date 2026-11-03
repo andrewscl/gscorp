@@ -102,6 +102,7 @@ public class AttendanceServiceImpl implements AttendanceService {
                     throw new IllegalStateException("No hay sitios registrados");
         double siteLat = nearestSite.lat();
         double siteLon = nearestSite.lon();
+        
         // Obtener empleado asociado al userId
         EmployeeSelectDto employee = employeeService.findEmployeeByUserExternalId(userExternalId);
         if (employee == null) {

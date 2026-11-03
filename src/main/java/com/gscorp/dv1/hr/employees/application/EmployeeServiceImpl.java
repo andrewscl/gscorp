@@ -309,7 +309,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         UserStatus userStatusEnum = null;
         boolean showNotInvited = false;
-
         if (userStatusStr != null && !userStatusStr.isBlank()) {
             if ("NOT_INVITED".equals(userStatusStr)) {
                 showNotInvited = true;
@@ -317,26 +316,20 @@ public class EmployeeServiceImpl implements EmployeeService {
                 userStatusEnum = UserStatus.valueOf(userStatusStr);
             }
         }
-
         // Normalizar page/size (Spring Data usa 0-based)
         int safePage = Math.max(0, page);
         int safeSize = Math.min(Math.max(5, size), 200); // límites: min 5, max 200
-
         String cleanQ = (q == null || q.trim().isEmpty()) ? null : q.trim();
         String repoQ = (cleanQ != null) ? "%" + cleanQ.toLowerCase() + "%" : null;
-
         // Resolver clientes asociados al usuario
         List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);
         if (clientIds == null || clientIds.isEmpty()) {
         return Page.empty();
         }
-
         PageRequest pg = PageRequest.of(safePage, safeSize);
-
         Page<EmployeeTableProjection> projectionPage =
                     employeeRepository
                         .findTableRowsForClientIds(clientIds, repoQ, status, userStatusEnum, showNotInvited, pg);
-
         return projectionPage.map(EmployeeTableDto::fromProjection);
     }
 
@@ -538,5 +531,38 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .map(EmployeeSelectDto::fromProjection)
                 .toList();
     }
+
+
+    @Transactional(readOnly = true)
+    public Page<EmployeeTableDto> getPagesByScope(
+                boolean ignoreProjectFilter,
+                List<Long> projectIds,
+                String q,
+                EmployeeStatus status,
+                String userStatusStr,
+                int page,
+                int size) {
+        UserStatus userStatusEnum = null;
+        boolean showNotInvited = false;
+        if (userStatusStr != null && !userStatusStr.isBlank()) {
+            if ("NOT_INVITED".equals(userStatusStr)) {
+                showNotInvited = true;
+            } else {
+                userStatusEnum = UserStatus.valueOf(userStatusStr);
+            }
+        }
+        // Normalizar page/size (Spring Data usa 0-based)
+        int safePage = Math.max(0, page);
+        int safeSize = Math.min(Math.max(5, size), 200); // límites: min 5, max 200
+        String cleanQ = (q == null || q.trim().isEmpty()) ? null : q.trim();
+        String repoQ = (cleanQ != null) ? "%" + cleanQ.toLowerCase() + "%" : null;
+        PageRequest pg = PageRequest.of(safePage, safeSize);
+        Page<EmployeeTableProjection> projectionPage =
+                    employeeRepository
+                        .findPagesByScope(
+                            ignoreProjectFilter, projectIds, repoQ, status, userStatusEnum, showNotInvited, pg);
+        return projectionPage.map(EmployeeTableDto::fromProjection);
+    }
+
 
 }

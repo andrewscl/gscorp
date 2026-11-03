@@ -27,13 +27,10 @@ public class UserScopeService {
         if (auth == null || !(auth.getPrincipal() instanceof SecurityUser securityUser)){
             return ProjectScope.restricted(List.of());
         }
-
         User user = securityUser.getUser();
         UUID userExternalId = user.getExternalId();
-
         boolean isAdmin = has(securityUser, "ROLE_ADMINISTRATOR");
         if (isAdmin) return ProjectScope.unrestricted();
-
         boolean isUserLevelScoped = has(securityUser, "ROLE_CLIENT") || has(securityUser, "ROLE_ANALYST");
         if (isUserLevelScoped) {
             List<ProjectDto> projects =projectService.findProjectDtosByUserExternalId(userExternalId);

@@ -479,4 +479,79 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
                             @Param("shiftAssignmentStatus") ShiftAssignmentStatus assignmentStatus,
                             @Param("status") EmployeeStatus status);
 
+
+    @Query(
+      value = """
+        SELECT DISTINCT
+          e.id            AS id,
+          e.externalId    AS externalId,
+          e.photoUrl      AS photoUrl,
+          e.name          AS name,
+          e.fatherSurname AS fatherSurname,
+          e.motherSurname AS motherSurname,
+          e.rut           AS rut,
+          e.mail          AS mail,
+          e.phone         AS phone,
+          pos.name        AS positionName,
+          e.status        AS status,
+          e.hireDate      AS hireDate,
+          e.createdAt     AS createdAt,
+          usr.username    AS username,
+          usr.mail        AS userMail,
+          usr.phone       AS userPhone,
+          usr.status      AS userStatus
+        FROM Employee e
+        LEFT JOIN e.position pos
+        LEFT JOIN e.user usr
+        JOIN e.projects proj
+        WHERE (:ignoreProjectFilter = true OR proj.id IN :projectIds)
+          AND (
+            :q IS NULL OR
+            LOWER(COALESCE(e.name, ''))       LIKE :q OR
+            LOWER(COALESCE(e.fatherSurname, '')) LIKE :q OR
+            LOWER(COALESCE(e.motherSurname, '')) LIKE :q OR
+            LOWER(COALESCE(e.rut, ''))        LIKE :q OR
+            LOWER(COALESCE(e.mail, ''))       LIKE :q OR
+            LOWER(COALESCE(e.phone, ''))      LIKE :q
+          )
+          AND (:status IS NULL OR e.status = :status)
+          AND (
+            (:showNotInvited = true AND usr IS NULL) OR
+            (:showNotInvited = false AND (:userStatus IS NULL OR usr.status = :userStatus))
+          )
+        ORDER BY e.name ASC
+        """,
+      countQuery = """
+        SELECT COUNT(DISTINCT e.id)
+        FROM Employee e
+        LEFT JOIN e.user usr
+        JOIN e.projects proj
+        JOIN proj.client p
+        WHERE (:ignoreProjectFilter = true OR proj.id IN :projectIds)
+          AND (
+            :q IS NULL OR
+            LOWER(COALESCE(e.name, ''))       LIKE :q OR
+            LOWER(COALESCE(e.fatherSurname, '')) LIKE :q OR
+            LOWER(COALESCE(e.motherSurname, '')) LIKE :q OR
+            LOWER(COALESCE(e.rut, ''))        LIKE :q OR
+            LOWER(COALESCE(e.mail, ''))       LIKE :q OR
+            LOWER(COALESCE(e.phone, ''))      LIKE :q
+          )
+          AND (:status IS NULL OR e.status = :status)
+          AND (
+            (:showNotInvited = true AND usr IS NULL) OR
+            (:showNotInvited = false AND (:userStatus IS NULL OR usr.status = :userStatus))
+          )
+        """
+    )
+    Page<EmployeeTableProjection> findPagesByScope(
+        @Param("ignoreProjectFilter") boolean ignoreProjectFilter,
+        @Param("projectIds") List<Long> projectIds,
+        @Param("q") String q,
+        @Param("status") EmployeeStatus status,
+        @Param("userStatus") UserStatus userStatus,
+        @Param("showNotInvited") boolean showNotInvited,
+        Pageable pageable
+    );
+
 }

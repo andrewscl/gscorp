@@ -56,11 +56,13 @@ public class AttendanceRestController {
       String ip = firstNonBlank(cfIp, xff, xri, "0.0.0.0");
       if (in.getIp() == null) in.setIp(ip);
       if (in.getDeviceInfo() == null) in.setDeviceInfo(ua);
+      System.out.println("CreateAttendancePunchRequest: " + in);
       AttendancePunchDto saved = attendanceService.createPunch(
                                                 scope.ignoreFilter(),
                                                 scope.projectIds(),
                                                 userExternalId,
                                                 in);
+      System.out.println("Saved AttendancePunchDto: " + saved);
       URI location = ucb.path("/api/attendance/punch/{id}")
           .buildAndExpand(saved.id())
           .toUri();
