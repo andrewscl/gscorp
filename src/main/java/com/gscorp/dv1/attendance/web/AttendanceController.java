@@ -37,17 +37,8 @@ public class AttendanceController {
     private final ZoneResolver zoneResolver;
 
     @GetMapping("/attdc-view")
-    public String getAttendanceView (
-            Model model,
-        @AuthenticationPrincipal SecurityUser securityUser){
-
-        if(securityUser == null) {
-                return "redirect:/login";
-        }
-        UUID externalId = securityUser.getUser().getExternalId();
-
-        List<SiteDto> sites = siteService.getAllSitesByUser(externalId);
-
+    public String getAttendanceView (Model model){
+        List<SiteDto> sites = siteService.findByUserScope();
         model.addAttribute("sites", sites);
         return "private/attendance/views/attendance-view";
     }
@@ -82,7 +73,7 @@ public class AttendanceController {
         model.addAttribute("punchsPage", punchsPage);
         model.addAttribute("punchs", punchsPage.getContent());
         model.addAttribute("count", punchsPage.getTotalElements());
-        model.addAttribute("sites", siteService.getAllSitesByUser(externalId));
+        model.addAttribute("sites", siteService.findByUserScope());
         model.addAttribute("googlecloudapikey", googleCloudApiKey);
         model.addAttribute("fromDate", from);
         model.addAttribute("toDate", to);

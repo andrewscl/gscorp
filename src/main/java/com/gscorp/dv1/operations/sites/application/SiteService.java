@@ -43,8 +43,7 @@ public interface SiteService {
 
     Optional<Long> getClientIdForSite(Long siteId);
 
-    List<SiteDto> findByUserScope(boolean ignoreProjectFilter,
-                                List<Long> projectIds);
+    List<SiteDto> findByUserScope();
 
     SiteDto findNearestSite(boolean ignoreProjectFilter,
                             List<Long> projectIds,

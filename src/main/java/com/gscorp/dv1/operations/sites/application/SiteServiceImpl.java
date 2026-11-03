@@ -19,6 +19,8 @@ import com.gscorp.dv1.operations.sites.web.dto.SetSiteCoordinatesDto;
 import com.gscorp.dv1.operations.sites.web.dto.SiteDto;
 import com.gscorp.dv1.operations.sites.web.dto.UpdateLatLon;
 import com.gscorp.dv1.operations.sites.web.dto.UpdateSiteRequest;
+import com.gscorp.dv1.users.application.UserScopeService;
+import com.gscorp.dv1.users.application.dto.ProjectScope;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +32,7 @@ public class SiteServiceImpl implements SiteService{
 
     private final SiteRepository siteRepository;
     private final ClientService clientService;
+    private final UserScopeService userScopeService;
 
     @Transactional
     public Site saveSite (Site site){
@@ -177,12 +180,11 @@ public class SiteServiceImpl implements SiteService{
     }
 
     @Transactional(readOnly = true)
-    public List<SiteDto> findByUserScope(
-                                    boolean ignoreProjectFilter,
-                                    List<Long> projectIds) {
+    public List<SiteDto> findByUserScope() {
+        ProjectScope scope = userScopeService.getProjectScope();
         return siteRepository.findByUserScope(
-                                    ignoreProjectFilter,
-                                    projectIds)
+                                    scope.ignoreFilter(),
+                                    scope.projectIds())
                                     .stream()
                                     .map(SiteDto::fromProjection)
                                     .toList();
