@@ -130,10 +130,7 @@ public class SiteRestController {
 
         @GetMapping("/projections-by-user")
         public ResponseEntity<List<SiteDto>> getSiteDtosByUser() {
-                ProjectScope scope = userScopeService.getProjectScope();
-                List<SiteDto> sites = siteService.findByUserScope(
-                                scope.ignoreFilter(),
-                                scope.projectIds());
+                List<SiteDto> sites = siteService.findByUserScope();
                 return ResponseEntity.ok(sites);
         }
 
@@ -152,13 +149,8 @@ public class SiteRestController {
         @GetMapping("/user-sites")
         @ResponseBody
         public List<SiteDto> getAllSitesByUser() {
-                ProjectScope scope = userScopeService.getProjectScope();
-                return siteService.findByUserScope(
-                                scope.ignoreFilter(),
-                                scope.projectIds());
+                return siteService.findByUserScope();
         }
-
-
 
 
         @GetMapping("/projects/{projectExternalId}/sites")
