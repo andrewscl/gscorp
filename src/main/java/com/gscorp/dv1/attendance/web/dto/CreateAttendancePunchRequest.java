@@ -10,7 +10,6 @@ public class CreateAttendancePunchRequest {
   private Double lat;
   private Double lon;
   private Double accuracy;
-  private Boolean locationOk;
   private String deviceInfo;
   private String ip;
   private String clientTimezone;

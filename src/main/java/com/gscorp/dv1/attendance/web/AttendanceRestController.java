@@ -54,8 +54,8 @@ public class AttendanceRestController {
       UUID userExternalId = securityUser.getUser().getExternalId();
       ProjectScope scope = userScopeService.getProjectScope();
       String ip = firstNonBlank(cfIp, xff, xri, "0.0.0.0");
-      if (in.getIp() == null) in.setIp(ip);
       if (in.getDeviceInfo() == null) in.setDeviceInfo(ua);
+      if (in.getIp() == null) in.setIp(ip);
       System.out.println("CreateAttendancePunchRequest: " + in);
       AttendancePunchDto saved = attendanceService.createPunch(
                                                 scope.ignoreFilter(),

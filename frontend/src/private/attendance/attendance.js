@@ -157,7 +157,6 @@ async function loadSites() {
 }
 
 async function punch(kind) {
-    const action = (String(kind).toUpperCase() === 'OUT') ? 'OUT' : 'IN';
     const actionWidget = qs('#att-widget');
     const endpoint = actionWidget?.dataset.punchEndpoint || '/api/attendance/punch';
     try {
@@ -175,11 +174,11 @@ async function punch(kind) {
         displayAlert(alertInfo, `Marcando asistencia en el sitio: ${nearestSite.name}`, 3000);
       }
       const payload = {
-        action, // "IN" | "OUT"
+        clientTs: new Date().toISOString(),
         lat: pos.coords.latitude,
         lon: pos.coords.longitude,
         accuracy: pos.coords.accuracy,
-        siteId: nearestSite.id
+        clientTimeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
       };
       displayAlert(alertInfo, 'Registrando asistencia...', 3000);
       // Timeout de red (20s)
@@ -210,7 +209,7 @@ async function punch(kind) {
         throw new Error(reason);
       }
       const hora = resData.ts ? new Date(resData.ts).toLocaleTimeString('es-CL', { hour12: false }) : '';
-      const distancia = typeof resData.distanceMeters === 'number' ? `${resData.distanceMeters} metros` : '';
+      const distancia = typeof resData.distanceM === 'number' ? `${resData.distanceM} metros` : '';
       displayAlert(alertSuccess, `Marcación registrada correctamente${hora ? ' a las ' + hora :
                                           ''}${distancia ? ' a ' + distancia : ''}. ✅`, 3000);
       setTimeout(() => navigateTo('/private/employees/dashboard'), 1500);
