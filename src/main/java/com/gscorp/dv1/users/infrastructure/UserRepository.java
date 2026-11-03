@@ -126,6 +126,12 @@ public interface UserRepository extends JpaRepository<User, Long>{
 
     boolean existsByUsername (String username);
 
-    
+    @Query("""
+        select u from User u
+        left join fetch u.role
+        left join fetch u.employee
+        where u.username = :username
+        """)
+    Optional<User> findByUsernameWithEmployee(@Param("username") String username);
 
 }
