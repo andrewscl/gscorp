@@ -8,7 +8,7 @@ import { displayAlert } from '../../shared/display-alert.js';
 let googleMapInstance = null;
 let userMarkerInstance = null;
 let sitesList = [];
-const MAX_DISTANCE_GEOFENCE = 35;
+const MAX_DISTANCE_GEOFENCE = 500;
 
 const qs  = (s) => document.querySelector(s);
 const alertSuccess = qs('.alert-success');
