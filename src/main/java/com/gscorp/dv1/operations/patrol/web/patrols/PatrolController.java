@@ -22,9 +22,7 @@ import com.gscorp.dv1.operations.patrol.web.checkpoints.dto.PatrolCheckpointDto;
 import com.gscorp.dv1.operations.patrol.web.patrols.dto.PatrolDto;
 import com.gscorp.dv1.operations.sites.application.SiteService;
 import com.gscorp.dv1.operations.sites.web.dto.SiteDto;
-import com.gscorp.dv1.users.application.UserScopeService;
 import com.gscorp.dv1.users.application.UserService;
-import com.gscorp.dv1.users.application.dto.ProjectScope;
 
 import lombok.RequiredArgsConstructor;
 
@@ -38,7 +36,7 @@ public class PatrolController {
     private final SiteService siteService;
     private final PatrolCheckpointService PatrolCheckpointService;
     private final ObjectMapper objectMapper;
-    private final UserScopeService userScopeService;
+
 
     private String googleCloudApiKey = System.getenv("GOOGLE_CLOUD_API_KEY");
     private String googleMapId = System.getenv("GOOGLE_MAP_ID");
@@ -66,10 +64,7 @@ public class PatrolController {
     @GetMapping("/create")
     public String getCreatePatrolForm (
                     Model model) {
-        ProjectScope scope = userScopeService.getProjectScope();
-        List<SiteDto> sites = siteService.findByUserScope(
-                                    scope.ignoreFilter(),
-                                    scope.projectIds());
+        List<SiteDto> sites = siteService.findByUserScope();
         model.addAttribute("DayOfWeek", DayOfWeek.values());
         model.addAttribute("siteList", sites);
         return "private/patrols/views/create-patrol-view";

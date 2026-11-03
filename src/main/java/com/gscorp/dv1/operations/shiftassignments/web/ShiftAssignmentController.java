@@ -46,7 +46,6 @@ public class ShiftAssignmentController {
             @RequestParam(required = false, defaultValue = "100") int size,
             @RequestParam(required = false) String requestedZone
     ){
-        ProjectScope scope = userScopeService.getProjectScope();
         UUID externalId = securityUser.getUser().getExternalId();
         Page<ShiftAssignmentDto> shiftAssignments =
                 shiftAssignmentService
@@ -54,7 +53,7 @@ public class ShiftAssignmentController {
         model.addAttribute("shiftAssignmentsPage", shiftAssignments);
         model.addAttribute("shiftAssignments", shiftAssignments.getContent());
         model.addAttribute("count", shiftAssignments.getTotalElements());
-        model.addAttribute("sites", siteService.findByUserScope(scope.ignoreFilter(), scope.projectIds()));
+        model.addAttribute("sites", siteService.findByUserScope());
         model.addAttribute("shiftAssignmentStatuses", ShiftAssignmentStatus.values());
         return "private/operations/shift-assignments/views/shift-assignments-list";
     }
@@ -88,9 +87,7 @@ public class ShiftAssignmentController {
     public String getCreateShiftAssignmentView(Model model){
         ProjectScope scope = userScopeService.getProjectScope();
         model.addAttribute("sites",
-                            siteService.findByUserScope(
-                                scope.ignoreFilter(), scope.projectIds()
-                            ));
+                            siteService.findByUserScope());
         model.addAttribute("projects",
                                 projectService.findByUserScope(
                                     scope.ignoreFilter(), scope.projectIds(), null));

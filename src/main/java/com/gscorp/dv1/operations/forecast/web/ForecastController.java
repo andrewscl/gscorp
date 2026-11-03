@@ -24,9 +24,7 @@ import com.gscorp.dv1.operations.forecast.web.dto.ForecastFormPayload;
 import com.gscorp.dv1.operations.forecast.web.dto.ForecastTableRowDto;
 import com.gscorp.dv1.operations.sites.application.SiteService;
 import com.gscorp.dv1.operations.sites.web.dto.SiteDto;
-import com.gscorp.dv1.users.application.UserScopeService;
 import com.gscorp.dv1.users.application.UserService;
-import com.gscorp.dv1.users.application.dto.ProjectScope;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +39,6 @@ public class ForecastController {
     private final UserService userService;
     private final ZoneResolver zoneResolver;
     private final SiteService siteService;
-    private final UserScopeService userScopeService;
 
     @GetMapping("/table-view")
     public String getForecastTableView(
@@ -54,10 +51,7 @@ public class ForecastController {
         UUID userExternalId = securityUser.getUser().getExternalId();
         ZoneResolutionResult zr = zoneResolver.resolveZone(userExternalId, zone);
         ZoneId zoneId = zr.zoneId();
-        ProjectScope scope = userScopeService.getProjectScope();
-        List<SiteDto> siteNames = siteService.findByUserScope(
-                                        scope.ignoreFilter(),
-                                        scope.projectIds());
+        List<SiteDto> siteNames = siteService.findByUserScope();
         List<ForecastMetric> metrics = List.of(ForecastMetric.values());
         // Llamada al service pasando ZoneId validado
         List<ForecastTableRowDto> rows = forecastService

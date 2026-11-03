@@ -18,9 +18,7 @@ import com.gscorp.dv1.operations.incidents.application.IncidentService;
 import com.gscorp.dv1.operations.incidents.web.dto.IncidentDto;
 import com.gscorp.dv1.operations.sites.application.SiteService;
 import com.gscorp.dv1.operations.sites.web.dto.SiteDto;
-import com.gscorp.dv1.users.application.UserScopeService;
 import com.gscorp.dv1.users.application.UserService;
-import com.gscorp.dv1.users.application.dto.ProjectScope;
 
 import lombok.AllArgsConstructor;
 
@@ -33,7 +31,6 @@ public class IncidentController {
     private final SiteService siteService;
     private final UserService userService;
     private final ClientService clientService;
-    private final UserScopeService userScopeService;
 
     @GetMapping("/table-view")
     public String getIncidentsTableView(
@@ -58,10 +55,7 @@ public class IncidentController {
     @GetMapping("/create")
     public String createIncident(
                         Model model) {
-        ProjectScope scope = userScopeService.getProjectScope();
-        List<SiteDto> sites = siteService.findByUserScope(
-                                                scope.ignoreFilter(),
-                                                scope.projectIds());
+        List<SiteDto> sites = siteService.findByUserScope();
         model.addAttribute("sites", sites);
         model.addAttribute("incidentTypes", IncidentType.values());
         model.addAttribute("priorities", Priority.values());
