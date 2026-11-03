@@ -283,9 +283,9 @@ function getNearestSite(userLat, userLon, sites) {
 }
 
 const getCurrentPosition = ({
-  targetAccuracy = 20, // metros
-  maxAccuracy = 35, // metros
-  waitMs = 20000, // 20 segundos
+  targetAccuracy = 5000, // metros
+  maxAccuracy = MAX_DISTANCE_GEOFENCE, // metros
+  waitMs = 5000, // 20 segundos
 } = {} ) => new Promise((resolve, reject) => {
   if (!navigator.geolocation){
     reject(new Error('Geolocalización no soportada'));
