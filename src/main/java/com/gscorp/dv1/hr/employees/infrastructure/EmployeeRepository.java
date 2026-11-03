@@ -503,7 +503,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
         FROM Employee e
         LEFT JOIN e.position pos
         LEFT JOIN e.user usr
-        JOIN e.projects proj
+        LEFT JOIN e.projects proj
         WHERE (:ignoreProjectFilter = true OR proj.id IN :projectIds)
           AND (
             :q IS NULL OR
@@ -525,8 +525,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
         SELECT COUNT(DISTINCT e.id)
         FROM Employee e
         LEFT JOIN e.user usr
-        JOIN e.projects proj
-        JOIN proj.client p
+        LEFT JOIN e.projects proj
         WHERE (:ignoreProjectFilter = true OR proj.id IN :projectIds)
           AND (
             :q IS NULL OR

@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.gscorp.dv1.admin.clients.application.ClientService;
 import com.gscorp.dv1.admin.clients.web.dto.ClientSelectDto;
 import com.gscorp.dv1.admin.companies.infrastructure.Company;
 import com.gscorp.dv1.admin.companies.infrastructure.CompanyRepository;
@@ -50,6 +49,8 @@ import com.gscorp.dv1.hr.employees.web.dto.request.CreateEmployeeRequest;
 import com.gscorp.dv1.hr.employees.web.dto.request.UpdateEmployeeRequest;
 import com.gscorp.dv1.operations.shiftpatterns.application.ShiftPatternService;
 import com.gscorp.dv1.operations.shiftpatterns.infrastructure.ShiftPattern;
+import com.gscorp.dv1.users.application.UserScopeService;
+import com.gscorp.dv1.users.application.dto.ProjectScope;
 import com.gscorp.dv1.users.infrastructure.User;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -66,8 +67,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final ProfessionService professionService;
     private final PositionService positionService;
     private final ShiftPatternService shiftPatternService;
-    private final ClientService clientService;
     private final CompanyRepository companyRepo;
+    private final UserScopeService userScopeService;
 
     @Value("${file.upload-dir}")
     private String uploadDir;
@@ -299,14 +300,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     @Transactional(readOnly = true)
-    public Page<EmployeeTableDto> getEmployeeTable(
-                UUID userExternalId,
+    public Page<EmployeeTableDto> getEmployeePages(
                 String q,
                 EmployeeStatus status,
                 String userStatusStr,
                 int page,
                 int size) {
-
+        ProjectScope scope = userScopeService.getProjectScope();
         UserStatus userStatusEnum = null;
         boolean showNotInvited = false;
         if (userStatusStr != null && !userStatusStr.isBlank()) {
@@ -321,15 +321,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         int safeSize = Math.min(Math.max(5, size), 200); // límites: min 5, max 200
         String cleanQ = (q == null || q.trim().isEmpty()) ? null : q.trim();
         String repoQ = (cleanQ != null) ? "%" + cleanQ.toLowerCase() + "%" : null;
-        // Resolver clientes asociados al usuario
-        List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);
-        if (clientIds == null || clientIds.isEmpty()) {
-        return Page.empty();
-        }
         PageRequest pg = PageRequest.of(safePage, safeSize);
         Page<EmployeeTableProjection> projectionPage =
                     employeeRepository
-                        .findTableRowsForClientIds(clientIds, repoQ, status, userStatusEnum, showNotInvited, pg);
+                        .findPagesByScope(scope.ignoreFilter(), scope.projectIds(), repoQ, status, userStatusEnum, showNotInvited, pg);
         return projectionPage.map(EmployeeTableDto::fromProjection);
     }
 
@@ -531,38 +526,5 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .map(EmployeeSelectDto::fromProjection)
                 .toList();
     }
-
-
-    @Transactional(readOnly = true)
-    public Page<EmployeeTableDto> getPagesByScope(
-                boolean ignoreProjectFilter,
-                List<Long> projectIds,
-                String q,
-                EmployeeStatus status,
-                String userStatusStr,
-                int page,
-                int size) {
-        UserStatus userStatusEnum = null;
-        boolean showNotInvited = false;
-        if (userStatusStr != null && !userStatusStr.isBlank()) {
-            if ("NOT_INVITED".equals(userStatusStr)) {
-                showNotInvited = true;
-            } else {
-                userStatusEnum = UserStatus.valueOf(userStatusStr);
-            }
-        }
-        // Normalizar page/size (Spring Data usa 0-based)
-        int safePage = Math.max(0, page);
-        int safeSize = Math.min(Math.max(5, size), 200); // límites: min 5, max 200
-        String cleanQ = (q == null || q.trim().isEmpty()) ? null : q.trim();
-        String repoQ = (cleanQ != null) ? "%" + cleanQ.toLowerCase() + "%" : null;
-        PageRequest pg = PageRequest.of(safePage, safeSize);
-        Page<EmployeeTableProjection> projectionPage =
-                    employeeRepository
-                        .findPagesByScope(
-                            ignoreProjectFilter, projectIds, repoQ, status, userStatusEnum, showNotInvited, pg);
-        return projectionPage.map(EmployeeTableDto::fromProjection);
-    }
-
 
 }

@@ -48,8 +48,7 @@ public interface EmployeeService {
 
     List<EmployeeSelectDto> getAllEmployeesSelectDto();
 
-    Page<EmployeeTableDto> getEmployeeTable(
-                UUID userExternalId,
+    Page<EmployeeTableDto> getEmployeePages(
                 String q,
                 EmployeeStatus status,
                 String userStatusStr,

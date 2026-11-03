@@ -67,17 +67,15 @@ public class EmployeeController {
     @GetMapping("/table-view")
     public String getEmployeesTableView (
             Model model,
-            @AuthenticationPrincipal SecurityUser securityUser,
             @RequestParam(required = false, defaultValue = "0") int page,
             @RequestParam(required = false, defaultValue = "100") int size
         ) {
 
-        UUID externalId = securityUser.getUser().getExternalId();
         int safePage = Math.max(0, page);
         int safeSize = Math.min(Math.max(5, size), 200); // límites: min 5, max 200
         Page<EmployeeTableDto> employeesPage =
-                        employeeService.getEmployeeTable(
-                                externalId, null, null, null, safePage, safeSize);
+                        employeeService.getEmployeePages(
+                                null, null, null, safePage, safeSize);
         model.addAttribute("employeesPage", employeesPage);          // Page completo
         model.addAttribute("employees", employeesPage.getContent()); // Lista para iterar
         model.addAttribute("q", null);
@@ -190,22 +188,19 @@ public class EmployeeController {
     @GetMapping("/table-search")
     public String getEmployeesTableSearch (
             Model model,
-            @AuthenticationPrincipal SecurityUser securityUser,
             String q,
             EmployeeStatus status,
             String userStatus,
             @RequestParam(required = false, defaultValue = "0") int page,
             @RequestParam(required = false, defaultValue = "100") int size
         ) {
-        UUID externalId = securityUser.getUser().getExternalId();
         Page<EmployeeTableDto> employeesPage =
-                        employeeService.getEmployeeTable(
-                                externalId, q, status, userStatus, page, size);
+                        employeeService.getEmployeePages(q, status, userStatus, page, size);
         model.addAttribute("employeesPage", employeesPage);
         model.addAttribute("employees", employeesPage.getContent());
         model.addAttribute("count", employeesPage.getTotalElements());
-        model.addAttribute("q", null);
-        model.addAttribute("currentStatus", null);
+        model.addAttribute("q", q);
+        model.addAttribute("currentStatus", status);
         model.addAttribute("statuses", EmployeeStatus.values());
         model.addAttribute("userStatuses", UserStatus.values());    
         return "private/employees/fragments/employees-table-rows :: rows";
