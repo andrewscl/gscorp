@@ -39,6 +39,7 @@ public class AttendanceController {
     @GetMapping("/attdc-view")
     public String getAttendanceView (Model model){
         List<SiteDto> sites = siteService.findByUserScope();
+        System.out.println("Sites: " + sites);
         model.addAttribute("sites", sites);
         return "private/attendance/views/attendance-view";
     }
