@@ -157,10 +157,13 @@ async function createShiftRequest() {
 function addDayRangeBlock(prefill) {
   const shiftDayRanges = qs('#shiftDayRanges');
   const idx = qsAll('.day-range-block').length;
-  const daysOptions = DAYS.map(d =>
-    `<option value="${d}"${prefill && prefill.dayFrom === d ? ' selected' : ''}>${d}</option>` ).join('');
-  const daysOptionsTo = DAYS.map(d =>
-    `<option value="${d}"${prefill && prefill.dayTo === d ? ' selected' : ''}>${d}</option>` ).join('');
+  const buildOptions = selected => DAYS.map(d => 
+    `<option value="${d.value}"${selected === d.value ? ' selected' : ''}>${d.label}</option>`
+  ).join('');
+  
+  const daysOptions = buildOptions(prefill?.dayFrom);
+  const daysOptionsTo = buildOptions(prefill?.dayTo);
+
   const block = document.createElement('div');
   // leave only 'day-range-block' so its own CSS grid applies cleanly
   block.className = 'day-range-block';
