@@ -213,7 +213,7 @@ async function punch(kind) {
       const distancia = typeof resData.distanceM === 'number' ? `${resData.distanceM} metros` : '';
       displayAlert(alertSuccess, `Marcación registrada correctamente${hora ? ' a las ' + hora :
                                           ''}${distancia ? ' a ' + distancia : ''}. ✅`, 3000);
-      setTimeout(() => navigateTo('/private/employees/dashboard'), 1500);
+      setTimeout(() => navigateTo('/private/operations/dashboards/security-operator'), 1500);
     } catch (e) {
       displayAlert(alertError, 'Error en marcación: ' + (e?.message || 'desconocido'), 3000);
       await syncAttendanceButtons();
