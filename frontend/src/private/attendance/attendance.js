@@ -178,7 +178,8 @@ async function punch(kind) {
         lat: pos.coords.latitude,
         lon: pos.coords.longitude,
         accuracy: pos.coords.accuracy,
-        clientTimeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+        clientTimeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        action: kind
       };
       displayAlert(alertInfo, 'Registrando asistencia...', 3000);
       // Timeout de red (20s)
