@@ -69,7 +69,6 @@ public class ShiftRequestRestController {
     private final ZoneResolver zoneResolver;
     private final UserScopeService userScopeService;
 
-
     @PostMapping("/create")
     public ResponseEntity<ShiftRequestDtoWithSchedules> createShiftRequest(
             @Valid @RequestBody CreateShiftRequest req,
@@ -120,7 +119,6 @@ public class ShiftRequestRestController {
         return ResponseEntity.badRequest()
             .body(Map.of("message", "JSON inválido: " + e.getMostSpecificCause().getMessage()));
     }
-
 
     @PutMapping("/{externalId}")
     public ResponseEntity<?> updateShiftRequest(

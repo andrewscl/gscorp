@@ -21,9 +21,9 @@ async function onSaveClick() {
   const description = qs('#shiftRequestDescription')?.value;
   const shiftPatternExternalId = qs('#shiftPattern')?.value;
   const siteZoneExternalId = qs('#siteZoneExternalId')?.value;
-  const payload = { startDate,
+  const payload = { status,
+                    startDate,
                     endDate,
-                    status,
                     description,
                     shiftPatternExternalId,
                     siteZoneExternalId};

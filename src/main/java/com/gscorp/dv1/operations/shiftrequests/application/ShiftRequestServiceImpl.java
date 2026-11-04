@@ -104,6 +104,7 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
         if (shiftRequest.getStartDate().isAfter(shiftRequest.getEndDate())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La fecha de inicio no puede ser posterior a la de término");
         }
+        shiftRequest.setStatus(req.status());
         shiftRequest.setShiftPattern(shiftPatternService.findByExternalId(req.shiftPatternExternalId()));
         shiftRequest.setSiteZone(siteZoneService.findByExternalId(req.siteZoneExternalId()));
         System.out.println("=== SHIFT REQUEST UPDATE ===");
