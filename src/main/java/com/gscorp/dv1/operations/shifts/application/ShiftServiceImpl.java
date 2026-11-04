@@ -266,11 +266,8 @@ public class ShiftServiceImpl implements ShiftService {
         // Verificar si ya tiene un turno activo
         Optional<Shift> activeShiftOpt = shiftRepository.findActiveShiftToAssign(userExternalId);
         if(activeShiftOpt.isPresent()) return activeShiftOpt.get();
-        // Definir ventana de marcación.
-        OffsetDateTime startWindow = punchTs.minusHours(2);
-        OffsetDateTime endWindow = punchTs.plusHours(2);
         Optional<Shift> shiftOpt = shiftRepository.findFirstShiftToAssign(
-                                            userExternalId, startWindow, endWindow);
+                                            userExternalId, punchTs);
         if (shiftOpt.isPresent()){
             Shift shift = shiftOpt.get();
             shift.setStatus(ShiftStatus.IN_PROGRESS);

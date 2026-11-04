@@ -93,15 +93,12 @@ public class AttendanceServiceImpl implements AttendanceService {
         if (lat == null || lon == null) {
             throw new IllegalArgumentException("lat/lon son obligatorios para crear una marcación");
         }
-        // Busca el site más cercano a la marcación
         SiteDto nearestSite = siteService.findNearestSite(
                                             scope.ignoreFilter(), scope.projectIds(), lat, lon);
         if (nearestSite == null)
                     throw new IllegalStateException("No hay sitios registrados");
         double siteLat = nearestSite.lat();
         double siteLon = nearestSite.lon();
-        
-        // Obtener empleado asociado al userId
         EmployeeSelectDto employee = employeeService.findEmployeeByUserExternalId(userExternalId);
         if (employee == null) {
             throw new IllegalStateException("El usuario no tiene un empleado asociado");
@@ -116,11 +113,8 @@ public class AttendanceServiceImpl implements AttendanceService {
         if(activeShiftOpt.isPresent()){
             nextAction = "OUT";
         } else {
-            OffsetDateTime startWindow = now.minusHours(2);
-            OffsetDateTime endWindow = now.plusHours(2);
             Optional<Shift> plannedShiftOpt = shiftRepository.findFirstShiftToAssign(
-                                                    userExternalId, startWindow, endWindow);
-            System.out.println("Planned shift window: " + startWindow + " - " + endWindow);
+                                                    userExternalId, req.getClientTs());
             System.out.println("Planned shift: " + plannedShiftOpt.orElse(null));
             if(plannedShiftOpt.isEmpty()){
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,

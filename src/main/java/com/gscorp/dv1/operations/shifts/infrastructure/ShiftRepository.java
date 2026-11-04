@@ -266,15 +266,14 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
             JOIN sa.employee e
             JOIN e.user u
             WHERE u.externalId = :userExternalId
-            AND s.startTs <= :endWindow
-            AND s.startTs >= :startWindow
+            AND s.startTs <= :punchTs
+            AND s.endTs >= :punchTs
             AND s.status IN ('PLANNED', 'UNCOVERED')
             ORDER BY s.startTs ASC
         """)
         Optional<Shift> findFirstShiftToAssign(
                 @Param("userExternalId") UUID userExternalId,
-                @Param("startWindow") OffsetDateTime startWindow,
-                @Param("endWindow") OffsetDateTime endWindow
+                @Param("punchTs") OffsetDateTime punchTs
         );
 
         @Query("""
