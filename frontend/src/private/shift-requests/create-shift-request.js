@@ -9,11 +9,17 @@ const alertWarning = qs('.alert-warning');
 const alertError = qs('.alert-error');
 const alertSuccess = qs('.alert-success');
 
-const DAY_INDEX = {
-  "Lunes": 0, "Martes": 1, "Miércoles": 2, "Jueves": 3,
-  "Viernes": 4, "Sábado": 5, "Domingo": 6
-};
-const DAYS = Object.keys(DAY_INDEX);
+const DAYS = [
+  { value: 'MONDAY', label: 'Lunes' },
+  { value: 'TUESDAY', label: 'Martes' },
+  { value: 'WEDNESDAY', label: 'Miércoles' },
+  { value: 'THURSDAY', label: 'Jueves' },
+  { value: 'FRIDAY', label: 'Viernes' },
+  { value: 'SATURDAY', label: 'Sábado' },
+  { value: 'SUNDAY', label: 'Domingo' }
+];
+
+const DAY_INDEX = Object.fromEntries(DAYS.map((d, i) => [d.value, i]));
 
 /* --- Util: reindexa los name="schedules[N][...]" después de eliminaciones --- */
 function reindexBlocks(container = document.querySelector('#shiftDayRanges')) {

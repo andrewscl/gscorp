@@ -68,8 +68,6 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Transactional
     public AttendancePunchDto createPunch(
-                                boolean ignoreProjectFilter,
-                                List<Long> projectIds,
                                 UUID userExternalId,
                                 CreateAttendancePunchRequest req
         ) {

@@ -19,8 +19,6 @@ import com.gscorp.dv1.attendance.web.dto.DashboardHeaderInfo;
 public interface AttendanceService {
 
     AttendancePunchDto createPunch (
-                                boolean ignoreProjectFilter,
-                                List<Long> projectIds,
                                 UUID userExternalId,
                                 CreateAttendancePunchRequest req
     );

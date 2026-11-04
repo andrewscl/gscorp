@@ -19,9 +19,7 @@ import com.gscorp.dv1.attendance.web.dto.statistics.AttendanceDistributionMetric
 import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.operations.sites.application.SiteService;
 import com.gscorp.dv1.operations.sites.web.dto.SiteDto;
-import com.gscorp.dv1.users.application.UserScopeService;
 import com.gscorp.dv1.users.application.UserService;
-import com.gscorp.dv1.users.application.dto.ProjectScope;
 
 import java.net.URI;
 import java.util.List;
@@ -38,7 +36,6 @@ public class AttendanceRestController {
   private final UserService userService;
   private final AttendanceService attendanceService;
   private final AttendanceStatService attendanceStatService;
-  private final UserScopeService userScopeService;
 
   //Registrar asistencia
   @PostMapping("/punch")
@@ -52,14 +49,11 @@ public class AttendanceRestController {
               @RequestHeader(value="X-Real-IP", required=false) String xri) {
 
       UUID userExternalId = securityUser.getUser().getExternalId();
-      ProjectScope scope = userScopeService.getProjectScope();
       String ip = firstNonBlank(cfIp, xff, xri, "0.0.0.0");
       if (in.getDeviceInfo() == null) in.setDeviceInfo(ua);
       if (in.getIp() == null) in.setIp(ip);
       System.out.println("CreateAttendancePunchRequest: " + in);
       AttendancePunchDto saved = attendanceService.createPunch(
-                                                scope.ignoreFilter(),
-                                                scope.projectIds(),
                                                 userExternalId,
                                                 in);
       System.out.println("Saved AttendancePunchDto: " + saved);
