@@ -120,6 +120,8 @@ public class AttendanceServiceImpl implements AttendanceService {
             OffsetDateTime endWindow = now.plusHours(2);
             Optional<Shift> plannedShiftOpt = shiftRepository.findFirstShiftToAssign(
                                                     userExternalId, startWindow, endWindow);
+            System.out.println("Planned shift window: " + startWindow + " - " + endWindow);
+            System.out.println("Planned shift: " + plannedShiftOpt.orElse(null));
             if(plannedShiftOpt.isEmpty()){
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "No tienes un turno activo ni un turno pendiente por iniciar en este horario."
