@@ -182,6 +182,15 @@ public class SiteServiceImpl implements SiteService{
     @Transactional(readOnly = true)
     public List<SiteDto> findByUserScope() {
         ProjectScope scope = userScopeService.getProjectScope();
+
+        List<SiteProjection> projections = siteRepository.findByUserScope(
+                                    scope.ignoreFilter(),
+                                    scope.projectIds());
+        System.out.println(projections);
+        List<SiteDto> sites = projections.stream()
+                                    .map(SiteDto::fromProjection)
+                                    .toList();
+        System.out.println(sites);
         return siteRepository.findByUserScope(
                                     scope.ignoreFilter(),
                                     scope.projectIds())
