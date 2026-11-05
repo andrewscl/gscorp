@@ -38,6 +38,10 @@ export interface ShiftsCountLast24HoursDto {
     completedShifts: number;
     cancelledShifts: number;
     pendingShifts: number;
+    coveredShifts: number;
     uncoveredShifts: number;
+    validShifts: number;
+    coveredPct: number;
+    uncoveredPct: number;
     startTs: string;
 }

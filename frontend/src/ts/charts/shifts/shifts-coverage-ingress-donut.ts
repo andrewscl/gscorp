@@ -40,7 +40,6 @@ export async function initShiftCoverageDonuts(
       dataList.forEach((item, index) => {
         const clone = template.content.cloneNode(true) as DocumentFragment;
         
-        // Selectores internos del fragmento según tu HTML
         const titleNode = clone.querySelector('.block-title') as HTMLElement;
         const valueNode = clone.querySelector('.total-value') as HTMLElement;
         const metaNode = clone.querySelector('.meta-value') as HTMLElement;
@@ -54,11 +53,17 @@ export async function initShiftCoverageDonuts(
         }
         
         if (titleNode) titleNode.textContent = `${hoursStr} hrs`;
-        
-        // Mostramos el valor real actual (o los pendientes si cambias la lógica)
-        // if (valueNode) valueNode.textContent = item.actualShifts.toString();
-        if (valueNode) valueNode.textContent = item.inProgressShifts.toString();
-        if (metaNode) metaNode.textContent = item.totalShifts.toString();
+
+        const coveredShifts = item.coveredShifts ?? 0;
+        const uncoveredShifts = item.uncoveredShifts ?? 0;
+        const validShifts = item.validShifts ?? 0;
+
+        if (valueNode) valueNode.textContent = String(coveredShifts);
+        if (metaNode) metaNode.textContent = `${validShifts} turnos válidos`;
+
+        const hasShifts = validShifts > 0;
+        const coveredPct = item.coveredPct ?? 0;
+        const uncoveredPct = item.uncoveredPct ?? 0;
 
         // Asignar ID único para inicializar ECharts sin colisiones
         const chartUniqueId = `donut-chart-node-${index}`;
@@ -85,10 +90,6 @@ export async function initShiftCoverageDonuts(
         // Guardamos la instancia en el mapa
         activeCharts.set(chartUniqueId, chart);
 
-        const hasMeta = item.totalShifts > 0;
-        const percentage = hasMeta ? Math.round((item.inProgressShifts / item.totalShifts) * 100) : 0;
-        const pctForSeries = hasMeta ? Math.min(100, Math.max(0, percentage)) : 100;
-
         chart.setOption({
           tooltip: {
             trigger: 'item',
@@ -101,11 +102,11 @@ export async function initShiftCoverageDonuts(
             },
             formatter: (p: any) => {
               const data = Array.isArray(p) ? p[0] : p;
-              if (!hasMeta) return 'Meta no definida';
-              if (data.name === 'Cumplido') {
-                return `${data.marker || ''} Cubiertos: ${2} / ${item.totalShifts} (${percentage}%)`;
+              if (!hasShifts) return 'Sin turnos válidos';
+              if (data.name === 'Cubiertos') {
+                return `${data.marker || ''} Cubiertos: ${coveredShifts} / ${validShifts} (${coveredPct}%)`;
               }
-              return `${data.marker || ''} Vacantes: ${Math.max(0, item.totalShifts - 2)}`;
+              return `${data.marker || ''} Sin cubrir: ${uncoveredShifts} / ${validShifts} (${uncoveredPct}%)`;
             }
           },
           series: [{
@@ -117,17 +118,17 @@ export async function initShiftCoverageDonuts(
             label: {
               show: true,
               position: 'center',
-              formatter: hasMeta ? `${percentage}%` : '—',
+              formatter: hasShifts ? `${coveredPct}%` : '—',
               fontSize: 15,
               fontWeight: 700,
               color: '#485572'
             },
             labelLine: { show: false },
-            data: !hasMeta
+            data: !hasShifts
               ? [{ value: 1, name: 'Sin meta', itemStyle: { color: '#E5E7EB' } }]
               : [
-                  { value: pctForSeries, name: 'Cumplido', itemStyle: { color: '#10B981' } },
-                  { value: 100 - pctForSeries, name: 'Pendiente', itemStyle: { color: '#E5E7EB' } }
+                  { value: coveredShifts, name: 'Cubiertos', itemStyle: { color: '#10B981' } },
+                  { value: uncoveredShifts, name: 'Sin cubrir', itemStyle: { color: '#E5E7EB' } }
                 ]
           }]
         });
