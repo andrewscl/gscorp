@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -288,6 +289,20 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
         """)
         Optional<Shift> findActiveShiftToAssign(
                 @Param("userExternalId") UUID userExternalId
+        );
+
+        @Modifying(clearAutomatically = true, flushAutomatically = true)
+        @Query("""
+            UPDATE Shift sh
+                SET sh.status = 'UNCOVERED',
+                    sh.updatedBy = 'SYSTEM',
+                    sh.updatedAt = :now
+            WHERE (sh.status IN ('UNPLANNED') OR sh.status IN ('PLANNED'))
+                AND sh.startTs < :now
+                AND sh.startExecutionTs IS NULL
+        """)
+        int markUncoveredShiftState(
+                @Param("now") OffsetDateTime now
         );
 
 }

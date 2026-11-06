@@ -59,7 +59,7 @@ export async function initShiftCoverageDonuts(
         const validShifts = item.validShifts ?? 0;
 
         if (valueNode) valueNode.textContent = String(coveredShifts);
-        if (metaNode) metaNode.textContent = `${validShifts} turnos válidos`;
+        if (metaNode) metaNode.textContent = `${validShifts}`;
 
         const hasShifts = validShifts > 0;
         const coveredPct = item.coveredPct ?? 0;

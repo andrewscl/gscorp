@@ -294,4 +294,10 @@ public class ShiftServiceImpl implements ShiftService {
         }
         return null;
     }
+
+    @Transactional
+    public int markUncoveredShiftState(){
+        return shiftRepository.markUncoveredShiftState(OffsetDateTime.now());
+    }
+
 }

@@ -76,4 +76,6 @@ public interface ShiftService {
                         OffsetDateTime punchTs
     );
 
+    int markUncoveredShiftState();
+
 }

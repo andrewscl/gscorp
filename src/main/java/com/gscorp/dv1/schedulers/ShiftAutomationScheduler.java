@@ -26,4 +26,9 @@ public class ShiftAutomationScheduler {
 
     }
 
+    @Scheduled(cron = "0 * * * * ?", zone = "America/Santiago")
+    public void updateUncoveredShiftState() {
+        shiftService.markUncoveredShiftState();
+    }
+
 }
