@@ -54,7 +54,9 @@ public record EmployeeEditDto (
     Long positionId,
     String position,
     String company,
-    EmployeeStatus status
+    EmployeeStatus status,
+    String username,
+    String userStatus
 ) {
     public static EmployeeEditDto fromProjection(EmployeeEditProjection p) {
         return new EmployeeEditDto(
@@ -92,7 +94,9 @@ public record EmployeeEditDto (
             p.getPositionId(),
             p.getPosition(),
             p.getCompany(),
-            p.getStatus()
+            p.getStatus(),
+            p.getUsername(),
+            p.getUserStatus()
         );
     }
 }
