@@ -248,7 +248,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
               c.name AS company,
               e.status AS status,
               u.username AS username,
-              u.userStatus AS userStatus
+              u.status AS userStatus
         FROM Employee e
             JOIN e.nationality n
             JOIN e.professions p
