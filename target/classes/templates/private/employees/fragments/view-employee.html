@@ -26,7 +26,7 @@
                                     employee.motherSurname}"></span>
                 <span th:text="${employee.position}"></span>
                 <span th:text="${employee.mail + ' | ' + employee.phone}"></span>
-                <span th:text="${employee.username + ' | ' + employee.userStatus}"></span>
+                <span th:text="${employee.username + ' | ' + employee.userStatus.displayName}"></span>
             </div>
         </div>
 

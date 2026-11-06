@@ -15,6 +15,7 @@ import com.gscorp.dv1.enums.PensionEntity;
 import com.gscorp.dv1.enums.PrevitionalSystem;
 import com.gscorp.dv1.enums.ShiftSystem;
 import com.gscorp.dv1.enums.StudyLevel;
+import com.gscorp.dv1.enums.UserStatus;
 import com.gscorp.dv1.enums.WorkSchedule;
 
 public interface EmployeeViewProjection {
@@ -54,5 +55,5 @@ public interface EmployeeViewProjection {
     String getCompany();
     EmployeeStatus getStatus();
     String getUsername();
-    String getUserStatus();
+    UserStatus getUserStatus();
 }

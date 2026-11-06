@@ -14,6 +14,7 @@ import com.gscorp.dv1.enums.PensionEntity;
 import com.gscorp.dv1.enums.PrevitionalSystem;
 import com.gscorp.dv1.enums.ShiftSystem;
 import com.gscorp.dv1.enums.StudyLevel;
+import com.gscorp.dv1.enums.UserStatus;
 import com.gscorp.dv1.enums.WorkSchedule;
 import com.gscorp.dv1.hr.employees.infrastructure.Projections.EmployeeViewProjection;
 
@@ -53,7 +54,7 @@ public record EmployeeViewDto (
     String company,
     EmployeeStatus status,
     String username,
-    String userStatus
+    UserStatus userStatus
 ) {
     public static EmployeeViewDto
             fromProjection(EmployeeViewProjection p) {
