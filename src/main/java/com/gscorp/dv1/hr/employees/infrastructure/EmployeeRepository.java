@@ -195,14 +195,17 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
               pos.id AS positionId,
               pos.name AS position,
               c.name AS company,
-              e.status AS status
+              e.status AS status,
+              u.username AS username,
+              u.status AS userStatus
         FROM Employee e
-        JOIN e.nationality n
-        JOIN e.professions p
-        JOIN e.bank b
-        JOIN e.shiftPattern s
-        JOIN e.position pos
-        JOIN e.company c
+            JOIN e.nationality n
+            JOIN e.professions p
+            JOIN e.bank b
+            JOIN e.shiftPattern s
+            JOIN e.position pos
+            JOIN e.company c
+            JOIN e.user u
         WHERE e.externalId = :externalId
     """)
     Optional<EmployeeEditProjection> findEmployeeEditProjectionByExternalId(UUID externalId);
@@ -243,14 +246,17 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
               s.name AS shiftPattern,
               pos.name AS position,
               c.name AS company,
-              e.status AS status
+              e.status AS status,
+              u.username AS username,
+              u.status AS userStatus
         FROM Employee e
-        JOIN e.nationality n
-        JOIN e.professions p
-        JOIN e.bank b
-        JOIN e.shiftPattern s
-        JOIN e.position pos
-        JOIN e.company c
+            JOIN e.nationality n
+            JOIN e.professions p
+            JOIN e.bank b
+            JOIN e.shiftPattern s
+            JOIN e.position pos
+            JOIN e.company c
+            JOIN e.user u
         WHERE e.externalId = :externalId
     """)
     Optional<EmployeeViewProjection> findEmployeeViewProjectionByExternalId(UUID externalId);

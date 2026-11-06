@@ -53,4 +53,6 @@ public interface EmployeeViewProjection {
     String getPosition();
     String getCompany();
     EmployeeStatus getStatus();
+    String getUsername();
+    String getUserStatus();
 }
