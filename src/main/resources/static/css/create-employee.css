@@ -200,6 +200,15 @@ p {
   gap: 0.25rem;
   color: #64748b;
 }
+.create-employee .create-employee-header .create-header-text .form-group {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
 .create-employee .create-employee-header .generic-buttons {
   margin-left: auto;
   margin-top: auto;
