@@ -128,10 +128,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     public Employee createEmployeeFromRequest(CreateEmployeeRequest req) {
         
-        Company companyReference = null;
-        if (req.getCompanyId() != null) {
+        Company company = null;
+        if (req.getCompanyExternalId() != null) {
             // 🟢 No hace un SELECT a la base de datos. Crea un proxy ligero con el ID.
-            companyReference = companyRepo.getReferenceById(req.getCompanyId());
+            company = companyRepo.findByExternalId(req.getCompanyExternalId())
+                .orElseThrow(() ->
+                    new IllegalArgumentException("Company not found with external id: " + req.getCompanyExternalId()));
         }
 
         Set<Project> projects =
@@ -223,7 +225,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .birthDate(req.getBirthDate())
                 .address(req.getAddress())
                 .projects(projects)
-                .company(companyReference)
+                .company(company)
                 .active(true)
                 .status(EmployeeStatus.ACTIVE)
                 .build();
@@ -237,7 +239,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         return employeeRepository.save(savedEmployee);
-
     }
 
 

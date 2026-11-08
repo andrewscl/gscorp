@@ -2,6 +2,7 @@ import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
 import { initTabPanels } from '../../shared/tabs-handler.js';
 import { displayAlert } from '../../shared/display-alert.js';
+import { populateSelect } from '../../shared/insert-select.js';
 
 console.log('create-employee.js cargado');
 
@@ -52,7 +53,7 @@ async function onCreateEmployee(e) {
   const address              = qs('#employeeAddress')?.value?.trim() || null;
   const hireDate             = qs('#employeeHireDate')?.value || null;
   const birthDate            = qs('#employeeBirthDate')?.value || null;
-  const companyId            = qs('#companyId')?.value?.trim() || null;
+  const companyId            = qs('#companyExternalId')?.value?.trim() || null;
 
   // Proyectos asociados (select múltiple)
   let projectIds = [];
@@ -201,6 +202,41 @@ const handlePhotoFileChange = function() {
     }
 };
 
+const handleCompanyChange = async () => {
+  const companyExternalId = qs('#companyExternalId')?.value;
+  const projectsSelect = qs('#employeeProjects');
+  const projectExternalId = qs('#employeeProjects')?.value;
+  if (!companyExternalId) {
+    populateSelect({
+      selectEl: projectsSelect,
+      items: [],
+      emptyLabel: 'Primero seleccione una empresa.'
+    });
+    return;
+  }
+  const prevProject = projectExternalId || '';
+  try {
+    const urlProjects = `/api/projects/company/${companyExternalId}/projects`;
+    const res = await fetchWithAuth(urlProjects, {
+                          method: 'GET',
+                          headers: {'Accept': 'application/json'}
+    });
+    if(!res || !res.ok) throw new Error('No se pudieron obtener los proyectos de la empresa seleccionada.');
+    const projects = await res.json();
+    populateSelect({
+      selectEl: projectsSelect,
+      items: projects,
+      defaultLabel: 'Seleccione un proyecto',
+      emptyLabel: 'Sin proyectos asociados',
+      valueKey: 'externalId',
+      preserveValue: prevProject
+    });
+  } catch (err) {
+    console.error('Error en HandleCompanyChange:', err);
+    populateSelect({selectEl: projectsSelect, items: [], emptyLabel: 'Error al cargar los proyectos.'});
+  }
+}
+
 function bindCreateEmployee() {
     const submitBtn = qs('.btn-primary');
     if (submitBtn) {
@@ -218,6 +254,10 @@ function bindCreateEmployee() {
     const photoInput = qs('#employeePhotoInput');
     if (photoInput) {
         photoInput.addEventListener('change', handlePhotoFileChange);
+    }
+    const companySelect = qs('#companyExternalId');
+    if (companySelect) {
+        companySelect.addEventListener('change', handleCompanyChange);
     }
 }
 

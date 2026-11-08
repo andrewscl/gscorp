@@ -252,7 +252,7 @@ async function handleProjectChange () {
     return;
   }
   const prevSite = siteSelect?.value || '';
-  try{
+  try {
     const urlSites = `/api/sites/projects/${projectExternalId}/sites`;
     const res = await fetchWithAuth(urlSites, {
                           method: 'GET',

@@ -32,15 +32,6 @@
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label>Proyectos asociados</label>
-                        <select id="employeeProjects" name="projectIds" multiple aria-readonly="true">
-                        <option th:each="p : ${projects}" 
-                                th:value="${p.id}" 
-                                th:text="${p.name}"></option>
-                        </select>
-                    </div>
-
                 </div>
             </div>
 

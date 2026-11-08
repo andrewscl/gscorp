@@ -3,6 +3,7 @@ package com.gscorp.dv1.hr.employees.web.dto.request;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -101,6 +102,6 @@ public class CreateEmployeeRequest {
 
         private Set<Long> projectIds = new HashSet<>();
 
-        private Long companyId;
+        private UUID companyExternalId;
 
 }

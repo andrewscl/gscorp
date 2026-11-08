@@ -60,7 +60,6 @@ public class EmployeeRestController {
     }
 
 
-
     @PatchMapping(path = "/update/{externalId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> patchEmployee(
             @PathVariable("externalId") UUID externalId,

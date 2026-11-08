@@ -138,4 +138,12 @@ public class ProjectServiceImpl implements ProjectService{
                 .toList();
     }
 
+    @Transactional(readOnly = true)
+    public List<ProjectDto> findDtosByCompanyExternalId(UUID companyExternalId) {
+        return projectRepository.findByCompanyExternalId(companyExternalId)
+                .stream()
+                .map(ProjectDto::fromProjection)
+                .toList();
+    }
+
 }

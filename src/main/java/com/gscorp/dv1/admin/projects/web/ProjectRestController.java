@@ -76,8 +76,14 @@ public class ProjectRestController {
 
     @GetMapping("/{projectExternalId}/sites")
     public ResponseEntity<?> findSitesByProject(@PathVariable("projectExternalId") UUID projectExternalId) {
-            List<SiteDto> sites = siteService.findDtoByUserExternalId(null);
-            return ResponseEntity.ok(sites);
+        List<SiteDto> sites = siteService.findDtoByUserExternalId(null);
+        return ResponseEntity.ok(sites);
+    }
+
+    @GetMapping("/{companyExternalId}/projects")
+    public ResponseEntity<List<ProjectDto>> findByCompany(@PathVariable("companyExternalId") UUID companyExternalId){
+        List<ProjectDto> projects = projectService.findDtosByCompanyExternalId(companyExternalId);
+        return ResponseEntity.ok(projects);
     }
 
 }

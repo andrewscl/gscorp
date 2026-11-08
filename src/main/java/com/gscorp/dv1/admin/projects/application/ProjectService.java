@@ -50,4 +50,6 @@ public interface ProjectService {
     List<ProjectDto>
             findProjectDtosByUserExternalId(UUID externalId);
 
+    List<ProjectDto> findDtosByCompanyExternalId(UUID companyExternalId);
+
 }

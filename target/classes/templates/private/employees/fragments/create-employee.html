@@ -21,11 +21,19 @@
             </div>
             <div class="form-group">
                 <label>Empresa: </label>
-                <select id="companyId" name="companyId">
+                <select id="companyExternalId" name="companyId">
                 <option value="">Seleccione empresa</option>
                 <option th:each="c : ${companies}" 
-                        th:value="${c.id}" 
+                        th:value="${c.externalId}" 
                         th:text="${c.name}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Proyectos asociados</label>
+                <select id="employeeProjects" name="projectIds" multiple aria-readonly="true">
+                <option th:each="p : ${projects}" 
+                        th:value="${p.externalId}" 
+                        th:text="${p.name}"></option>
                 </select>
             </div>
         </div>

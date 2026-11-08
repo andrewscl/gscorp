@@ -88,7 +88,6 @@ public class EmployeeController {
 
     @GetMapping("/create")
     public String getCreateEmployeeView (Model model) {
-
         model.addAttribute("employeeTabs", employeeTabsService.getCreateTabs());
         model.addAttribute("genders", Gender.values());
         model.addAttribute("nationalities", nationalityService.findAll());
@@ -107,10 +106,8 @@ public class EmployeeController {
         model.addAttribute("shiftSystems", ShiftSystem.values());
         model.addAttribute("shiftPatterns", shiftPatternService.findAll());
         model.addAttribute("positions", positionService.findAll());
-        model.addAttribute("projects", projectService.findAll());
         model.addAttribute("users", userService.findAll());
         model.addAttribute("companies", companyService.getAllCompaniesForSelect());
-
         return "private/employees/views/create-employee-view";
     }
 
