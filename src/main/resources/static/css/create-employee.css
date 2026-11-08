@@ -201,13 +201,38 @@ p {
   color: #64748b;
 }
 .create-employee .create-employee-header .create-header-text .form-group {
-  font-family: "Montserrat", sans-serif;
-  font-size: 0.9rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
+.create-employee .create-employee-header .create-header-text .form-group label {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #374151;
+  padding-left: 0.65rem;
+}
+.create-employee .create-employee-header .create-header-text .form-group input, .create-employee .create-employee-header .create-header-text .form-group select, .create-employee .create-employee-header .create-header-text .form-group textarea {
+  padding: 0.5rem;
+  border: 0.09rem solid #bfdbfe;
+  border-radius: 0.5rem;
+  background-color: #f0f7ff;
+  color: #334155;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+.create-employee .create-employee-header .create-header-text .form-group input::placeholder, .create-employee .create-employee-header .create-header-text .form-group select::placeholder, .create-employee .create-employee-header .create-header-text .form-group textarea::placeholder {
+  color: #adb5bd;
+}
+.create-employee .create-employee-header .create-header-text .form-group input:focus, .create-employee .create-employee-header .create-header-text .form-group select:focus, .create-employee .create-employee-header .create-header-text .form-group textarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.2);
+  outline: none;
+  background-color: #ffffff;
 }
 .create-employee .create-employee-header .generic-buttons {
   margin-left: auto;
