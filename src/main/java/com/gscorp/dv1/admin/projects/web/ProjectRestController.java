@@ -80,7 +80,7 @@ public class ProjectRestController {
         return ResponseEntity.ok(sites);
     }
 
-    @GetMapping("/{companyExternalId}/projects")
+    @GetMapping("/company/{companyExternalId}/projects")
     public ResponseEntity<List<ProjectDto>> findByCompany(@PathVariable("companyExternalId") UUID companyExternalId){
         List<ProjectDto> projects = projectService.findDtosByCompanyExternalId(companyExternalId);
         return ResponseEntity.ok(projects);

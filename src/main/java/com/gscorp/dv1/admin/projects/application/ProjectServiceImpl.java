@@ -17,6 +17,8 @@ import com.gscorp.dv1.admin.projects.infrastructure.projections.ProjectProjectio
 import com.gscorp.dv1.admin.projects.web.dto.ProjectDto;
 import com.gscorp.dv1.admin.projects.web.dto.ProjectSelectDto;
 import com.gscorp.dv1.enums.ProjectStatus;
+import com.gscorp.dv1.users.application.UserScopeService;
+import com.gscorp.dv1.users.application.dto.ProjectScope;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,7 @@ public class ProjectServiceImpl implements ProjectService{
     
     private final ProjectRepository projectRepository;
     private final ClientRepository clientRepository;
+    private final UserScopeService userScopeService;
 
     @Transactional(readOnly = true)
     public List<Project> findAllWithClientsAndEmployees (){
@@ -140,7 +143,11 @@ public class ProjectServiceImpl implements ProjectService{
 
     @Transactional(readOnly = true)
     public List<ProjectDto> findDtosByCompanyExternalId(UUID companyExternalId) {
-        return projectRepository.findByCompanyExternalId(companyExternalId)
+        ProjectScope scope = userScopeService.getProjectScope();
+        return projectRepository.findByCompanyExternalId(
+                                        scope.ignoreFilter(),
+                                        scope.projectIds(),
+                                        companyExternalId)
                 .stream()
                 .map(ProjectDto::fromProjection)
                 .toList();

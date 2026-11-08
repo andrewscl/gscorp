@@ -142,7 +142,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long>{
             p.externalId    AS  externalId,
             p.name          AS  name,
             c.id            AS  clientId,
-            c.externalId    AS  companyExternalId,
+            co.externalId   AS  companyExternalId,
             c.name          AS  clientName,
             p.description   AS  description,
             p.startDate     AS  startDate,
@@ -154,10 +154,14 @@ public interface ProjectRepository extends JpaRepository<Project, Long>{
             p.createdBy     AS  createdBy,
             p.updatedBy     AS  updatedBy
         FROM Project p
-        JOIN p.company c
-        WHERE (c.externalId = :companyExternalId)
+            JOIN p.client c
+            JOIN c.company co
+        WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
+        AND (co.externalId = :companyExternalId)
         """)
     List<ProjectProjection> findByCompanyExternalId(
-                            @Param("companyExternalId") UUID companyExternalId);
+                @Param("ignoreProjectFilter") boolean ignoreProjectFilter,
+                @Param("projectIds") List<Long> projectIds,
+                @Param("companyExternalId") UUID companyExternalId);
 
 }
