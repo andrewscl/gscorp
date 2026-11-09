@@ -6,8 +6,9 @@ import java.util.UUID;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.gscorp.dv1.admin.projects.application.ProjectService;
+import com.gscorp.dv1.admin.projects.infrastructure.ProjectRepository;
 import com.gscorp.dv1.admin.projects.web.dto.ProjectDto;
 import com.gscorp.dv1.admin.projects.web.dto.ProjectSelectDto;
 import com.gscorp.dv1.config.security.SecurityUser;
@@ -20,20 +21,30 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserScopeService {
     
-    private final ProjectService projectService;
+    private final ProjectRepository projectRepository;
 
+    @Transactional(readOnly = true)
     public ProjectScope getProjectScope() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
         if (auth == null || !(auth.getPrincipal() instanceof SecurityUser securityUser)){
             return ProjectScope.restricted(List.of());
         }
+
         User user = securityUser.getUser();
         UUID userExternalId = user.getExternalId();
-        boolean isAdmin = has(securityUser, "ROLE_ADMINISTRATOR");
-        if (isAdmin) return ProjectScope.unrestricted();
+
+        if (has(securityUser, "ROLE_ADMINISTRATOR")) {
+            return ProjectScope.unrestricted();
+        }
+
         boolean isUserLevelScoped = has(securityUser, "ROLE_CLIENT") || has(securityUser, "ROLE_ANALYST");
         if (isUserLevelScoped) {
-            List<ProjectDto> projects =projectService.findProjectDtosByUserExternalId(userExternalId);
+            // List<ProjectDto> projects = projectService.findProjectDtosByUserExternalId(userExternalId);
+            List<ProjectDto> projects = projectRepository.findByUserExternalId(userExternalId)
+                                                        .stream()
+                                                        .map(ProjectDto::fromProjection)
+                                                        .toList();
             List<Long> ids = (projects != null)
                             ? projects.stream().map(dto -> dto.id()).toList()
                             : List.of();
@@ -41,8 +52,11 @@ public class UserScopeService {
         }
         if (user.getEmployee() != null && user.getEmployee().getExternalId() != null){
             UUID employeeExternalId = user.getEmployee().getExternalId();
-            List<ProjectSelectDto> projects = 
-                        projectService.findProjectSelectDtosByEmployeeExternalId(employeeExternalId);
+            List<ProjectSelectDto> projects =
+                        projectRepository.findProjectSelectProjectionsByEmployeeExternalId(employeeExternalId)
+                                                        .stream()
+                                                        .map(ProjectSelectDto::fromSelectProjection)
+                                                        .toList();
             List<Long> ids = (projects != null)
                             ? projects.stream().map(dto -> dto.id()).toList()
                             : List.of();
