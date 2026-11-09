@@ -13,8 +13,6 @@ public interface ClientAccountService {
                                 List<Long> projectIds);
 
     ClientAccountDto createClientAccount(
-                                boolean ignoreProjectFilter,
-                                List<Long> projectIds,
                                 CreateClientAccountRequest req, 
                                 UUID userExternalId);
 

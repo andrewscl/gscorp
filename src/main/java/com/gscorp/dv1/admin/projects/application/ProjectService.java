@@ -17,11 +17,9 @@ public interface ProjectService {
 
     Optional<Project> findById (Long id);
 
-    Optional<Project> findByExternalId (
-                boolean ignoreProjectFilter,
-                List<Long> projectIds,
-                UUID externalId
-    );
+    Optional<Project> findByExternalId (UUID externalId);
+
+    ProjectDto getProjectDtoByExternalId(UUID externalId);
 
     Project findByIdWithClients (Long id);
 
@@ -51,5 +49,7 @@ public interface ProjectService {
             findProjectDtosByUserExternalId(UUID externalId);
 
     List<ProjectDto> findDtosByCompanyExternalId(UUID companyExternalId);
+
+
 
 }

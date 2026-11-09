@@ -19,7 +19,7 @@ public class ProjectController {
 
     private final ProjectService projectService;
     private final UserScopeService userScopeService;
-    
+
     @GetMapping("/list")
     public String getProjectsTableView (
                 Model model) {
@@ -33,15 +33,15 @@ public class ProjectController {
         return "private/admin/projects/projects-list";
     }
 
-    @GetMapping("/show/{id}")
-    public String showProject (@PathVariable Long id, Model model){
+    @GetMapping("/show/{externalId}")
+    public String showProject (@PathVariable("externalId") Long id, Model model){
         var project = projectService.findByIdWithClients(id);
         model.addAttribute("project", project);
         return "private/projects/views/view-project-view";
     }
 
-    @GetMapping("/edit/{id}")
-    public String editProject (@PathVariable Long id, Model model){
+    @GetMapping("/edit/{externalId}")
+    public String editProject (@PathVariable("externalId") Long id, Model model){
         var project = projectService.findByIdWithClients(id);
         model.addAttribute("project", project);
         return "private/projects/views/edit-project-view";

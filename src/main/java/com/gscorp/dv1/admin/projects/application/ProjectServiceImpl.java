@@ -43,13 +43,24 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Transactional(readOnly = true)
-    public Optional<Project> findByExternalId (
-                boolean ignoreProjectFilter,
-                List<Long> projectIds,
-                UUID externalId
+    public Optional<Project> findByExternalId (UUID externalId
     ){
-        return projectRepository.findByExternalId(ignoreProjectFilter, projectIds, externalId);
+        ProjectScope scope = userScopeService.getProjectScope();
+        return projectRepository.findByExternalId(
+                        scope.ignoreFilter(), scope.projectIds(), externalId);
     }
+
+    @Transactional(readOnly = true)
+    public ProjectDto getProjectDtoByExternalId(UUID externalId) {
+        ProjectScope scope = userScopeService.getProjectScope();
+        return projectRepository.findProjectionByExternalId(
+            scope.ignoreFilter(), scope.projectIds(), externalId)
+            .stream()
+            .findFirst()
+            .map(ProjectDto::fromProjection)
+            .orElseThrow(() -> new IllegalArgumentException("Proyecto no encontrado: " + externalId));
+    }
+
 
     @Transactional(readOnly = true)
     public Project findByIdWithClients (Long id){

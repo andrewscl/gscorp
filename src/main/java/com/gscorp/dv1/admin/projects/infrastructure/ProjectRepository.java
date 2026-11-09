@@ -164,4 +164,33 @@ public interface ProjectRepository extends JpaRepository<Project, Long>{
                 @Param("projectIds") List<Long> projectIds,
                 @Param("companyExternalId") UUID companyExternalId);
 
+
+    @Query("""
+        SELECT
+            p.id            AS  id,
+            p.externalId    AS  externalId,
+            p.name          AS  name,
+            c.id            AS  clientId,
+            co.externalId   AS  companyExternalId,
+            c.name          AS  clientName,
+            p.description   AS  description,
+            p.startDate     AS  startDate,
+            p.endDate       AS  endDate,
+            p.status        AS  status,
+            p.active        AS  active,
+            p.createdAt     AS  createdAt,
+            p.updatedAt     AS  updatedAt,
+            p.createdBy     AS  createdBy,
+            p.updatedBy     AS  updatedBy
+        FROM Project p
+            JOIN p.client c
+            JOIN c.company co
+        WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
+        AND (p.externalId = :externalId)
+        """)
+    List<ProjectProjection> findProjectionByExternalId(
+                @Param("ignoreProjectFilter") boolean ignoreProjectFilter,
+                @Param("projectIds") List<Long> projectIds,
+                @Param("externalId") UUID externalId);
+
 }

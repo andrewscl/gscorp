@@ -41,11 +41,9 @@ public class ClientAccountServiceImpl implements ClientAccountService {
     @Override
     @Transactional
     public ClientAccountDto createClientAccount(
-                                boolean ignoreProjectFilter,
-                                List<Long> projectIds,
                                 CreateClientAccountRequest req,
                                 UUID projectExternalId) {
-        Project project = projectService.findByExternalId(ignoreProjectFilter, projectIds, projectExternalId)
+        Project project = projectService.findByExternalId(projectExternalId)
             .orElseThrow(() -> new EntityNotFoundException("El proyecto no existe o no existe acceso"));
         String name = req.name().trim();
         ClientAccount entity = ClientAccount.builder()
