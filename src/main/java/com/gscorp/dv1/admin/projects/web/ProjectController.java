@@ -1,5 +1,7 @@
 package com.gscorp.dv1.admin.projects.web;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,15 +36,15 @@ public class ProjectController {
     }
 
     @GetMapping("/show/{externalId}")
-    public String showProject (@PathVariable("externalId") Long id, Model model){
-        var project = projectService.findByIdWithClients(id);
+    public String showProject (@PathVariable("externalId") UUID externalId, Model model){
+        var project = projectService.getProjectDtoByExternalId(externalId);
         model.addAttribute("project", project);
         return "private/projects/views/view-project-view";
     }
 
     @GetMapping("/edit/{externalId}")
-    public String editProject (@PathVariable("externalId") Long id, Model model){
-        var project = projectService.findByIdWithClients(id);
+    public String editProject (@PathVariable("externalId") UUID externalId, Model model){
+        var project = projectService.getProjectDtoByExternalId(externalId);
         model.addAttribute("project", project);
         return "private/projects/views/edit-project-view";
     }
