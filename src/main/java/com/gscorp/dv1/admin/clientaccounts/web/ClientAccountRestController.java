@@ -1,4 +1,4 @@
-package com.gscorp.dv1.admin.clients;
+package com.gscorp.dv1.admin.clientaccounts.web;
 
 import java.net.URI;
 import java.util.List;
@@ -36,9 +36,8 @@ public class ClientAccountRestController {
                                         @Valid @RequestBody CreateClientAccountRequest req,
                                         @RequestParam UUID projectExternalId,
                                         UriComponentsBuilder ucb){
-        ProjectScope scope = userScopeService.getProjectScope();
         ClientAccountDto created = clientAccountService.createClientAccount(
-                                    scope.ignoreFilter(), scope.projectIds(), req, projectExternalId);
+                                                            req, projectExternalId);
         URI location = ucb.path("/{externalId}")
             .buildAndExpand(created.externalId())
             .toUri();
