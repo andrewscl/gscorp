@@ -49,14 +49,18 @@
         </div>
       </div>
     </div>
+
+    <div class="panel-aside"></div>
   </div>
 
+  <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
+  <div th:replace="~{shared/fragments/footer-buttons :: footer-buttons(
+                                                            true, 'Guardar',
+                                                            true, 'Cancelar',
+                                                            false, ''
+                                                            )}"></div>
 
 
-
-
-
-
-  <script type="module" src="/js/private/projects/edit-project.js"></script>
+  <script type="module" src="/js/private/admin/projects/edit-project.js"></script>
 
 </div>
