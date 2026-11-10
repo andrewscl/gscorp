@@ -101,4 +101,24 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 
     Optional<Company> findByExternalId(UUID externalId);
 
+    @Query(
+        value = """
+            SELECT DISTINCT
+                c.id AS id,
+                c.externalId AS externalId,
+                c.name AS name,
+                c.legalName AS legalName,
+                c.taxId AS taxId,
+                c.status AS status
+            FROM Company c
+            JOIN c.clients cl
+            JOIN cl.projects p
+            WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
+            """
+    )
+    List<CompanyProjection> findCompaniesByUserScope(
+                    @Param("ignoreProjectFilter") boolean ignoreProjectFilter,
+                    @Param("projectIds") List<Long> projectIds
+    );
+
 }

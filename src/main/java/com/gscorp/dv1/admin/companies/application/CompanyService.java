@@ -33,4 +33,6 @@ public interface CompanyService {
                         UUID userExternalId,
                         CompanyStatus status);
 
+    List<CompanyDto> getCompaniesByUserScope ();
+
 }

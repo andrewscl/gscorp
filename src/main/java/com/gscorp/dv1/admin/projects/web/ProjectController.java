@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.gscorp.dv1.admin.companies.application.CompanyService;
 import com.gscorp.dv1.admin.projects.application.ProjectService;
 import com.gscorp.dv1.users.application.UserScopeService;
 import com.gscorp.dv1.users.application.dto.ProjectScope;
@@ -21,9 +22,11 @@ public class ProjectController {
 
     private final ProjectService projectService;
     private final UserScopeService userScopeService;
+    private final CompanyService companyService;
 
     @GetMapping("/create")
     public String createProject(Model model) {
+        model.addAttribute("companies", companyService.getCompaniesByUserScope());
         return "private/admin/projects/create-project";
     }
 

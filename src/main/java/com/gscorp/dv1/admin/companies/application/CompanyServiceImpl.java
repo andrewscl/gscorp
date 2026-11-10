@@ -23,6 +23,8 @@ import com.gscorp.dv1.admin.companies.web.dto.CompanySelectDto;
 import com.gscorp.dv1.admin.companies.web.dto.CompanyTableDto;
 import com.gscorp.dv1.admin.companies.web.dto.CreateCompanyRequest;
 import com.gscorp.dv1.enums.CompanyStatus;
+import com.gscorp.dv1.users.application.UserScopeService;
+import com.gscorp.dv1.users.application.dto.ProjectScope;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +35,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     private final CompanyRepository companyRepository;
     private final CompanySpecRepository companySpecRepo;
+    private final UserScopeService userScopeService;
 
     @Transactional(readOnly = true)
     public List<Company> validateAndFindAllById(Set<Long> ids) {
@@ -122,6 +125,18 @@ public class CompanyServiceImpl implements CompanyService {
         }
         List<CompanyProjection> projections =
                 companyRepository.findCompaniesByUserIdAndStatus(userExternalId, status);
+        return projections.stream()
+                    .map(CompanyDto::fromProjection)
+                    .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<CompanyDto> getCompaniesByUserScope (){
+        ProjectScope scope = userScopeService.getProjectScope();
+        List<CompanyProjection> projections = companyRepository.findCompaniesByUserScope(
+            scope.ignoreFilter(),
+            scope.projectIds()
+        );
         return projections.stream()
                     .map(CompanyDto::fromProjection)
                     .toList();
