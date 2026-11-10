@@ -66,7 +66,7 @@ const cancelCreateProject = () => {
 function bindEvents () {
     const createBtn = qs('#submit');
     if (createBtn) {
-        createBtn.addEventListener('click', createShiftAssignment);
+        createBtn.addEventListener('click', createProject);
     }
     const cancelBtn = qs('#cancel');
     if (cancelBtn) {
