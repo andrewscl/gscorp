@@ -12,7 +12,7 @@ const searchProjects = () => {
 }
 
 function bindEvents() {
-    const createBtn = qs('#addprojectsBtn');
+    const createBtn = qs('#addprojectBtn');
     if (createBtn) {
         createBtn.addEventListener('click', createProject);
     }
