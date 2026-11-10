@@ -112,7 +112,7 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
                 c.status AS status
             FROM Project p
             JOIN p.client cl
-            JOIN cl.company c   
+            JOIN cl.company c
             WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
             """
     )

@@ -30,7 +30,6 @@ public class ClientController {
     public String createClient(
             @AuthenticationPrincipal SecurityUser securityUser,
             Model model) {
-        if(securityUser == null) return "redirect:/login";
         UUID userExternalId = securityUser.getUser().getExternalId();
         model.addAttribute("companies", companyService
                     .findCompaniesByUserExternalIdAndStatus(userExternalId, CompanyStatus.ACTIVE));
