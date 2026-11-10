@@ -39,14 +39,14 @@ public class ProjectController {
     public String showProject (@PathVariable("externalId") UUID externalId, Model model){
         var project = projectService.getProjectDtoByExternalId(externalId);
         model.addAttribute("project", project);
-        return "private/projects/view-project";
+        return "private/admin/projects/view-project";
     }
 
     @GetMapping("/edit/{externalId}")
     public String editProject (@PathVariable("externalId") UUID externalId, Model model){
         var project = projectService.getProjectDtoByExternalId(externalId);
         model.addAttribute("project", project);
-        return "private/projects/edit-project";
+        return "private/admin/projects/edit-project";
     }
 
 }
