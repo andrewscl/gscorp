@@ -3,6 +3,13 @@
 @use '../../abstracts/palette' as *;
 @use '../../abstracts/typography' as *;
 @use '../../abstracts/fragment-mixins' as *;
+@use '../../abstracts/panel-cards' as *;
+@use '../../abstracts/panels/panel-main' as *;
+@use '../../abstracts/alerts' as *;
+@use '../../abstracts/buttons/footer-buttons' as *;
+
+
+
 
 
 .private-layout {
@@ -10,9 +17,19 @@
     .content {
 
       .edit-project-container {
-        @include hs-form($max_w: 50rem);
+        @include dual-panel-card();
+        .panel-container {
+          .panel-main {
+            @include panel-main();
+          }
+        }
+        .alert-container {
+          @include alert-container();
+        }
+        .footer-actions {
+          @include footer();
+        }
       }
-
     }
   }
 }

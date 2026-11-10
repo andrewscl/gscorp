@@ -1,48 +1,59 @@
 <div id="editProjectContainer" class="edit-project-container">
 
-  <div class="hs-form-header">
-    <h3>Editar Proyecto</h3>
+  <div class="panel-container">
+    <div class="panel-main">
+
+      <div class="panel-header">
+        <h4>Editar Proyecto</h4>
+      </div>
+
+      <div class="panel-body">
+        <div class="form-group">
+          <label>Cliente</label>
+          <span class="readonly-field"
+            th:text="${project.clientName != null ? project.clientName : '—'}"></span>
+          <small>Un proyecto pertenece a un único cliente.</small>
+        </div>
+
+        <hr class="form-separator"/>
+
+        <div class="form-group">
+          <label>Nombre</label>
+          <input id="projectName" type="text"
+                th:value="${project.name}" required />
+        </div>
+
+        <div class="form-group">
+          <label>Descripción</label>
+          <input id="projectDescription" type="text"
+                th:value="${project.description}" placeholder="Descripción del proyecto"/>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Fecha inicio</label>
+            <input id="projectStartDate" type="date"
+                  th:value="${project.startDate}" required/>
+          </div>
+          <div class="form-group">
+            <label>Fecha término</label>
+            <input id="projectEndDate" type="date"
+                  th:value="${project.endDate}"/>
+          </div>
+        </div>
+
+        <div class="form-group active-row">
+          <input id="projectActive" type="checkbox"
+                th:checked="${project.active}"/>
+          <label style="margin:0">Activo</label>
+        </div>
+      </div>
+    </div>
   </div>
 
-    <div class="form-group">
-      <label>Cliente</label>
-      <span class="readonly-field"
-        th:text="${clientName != null ? clientName : '—'}"></span>
-      <small>Un proyecto pertenece a un único cliente.</small>
-    </div>
 
-    <hr class="form-separator"/>
 
-    <div class="form-group">
-      <label>Nombre</label>
-      <input id="projectName" type="text"
-             th:value="${name}" required />
-    </div>
 
-    <div class="form-group">
-      <label>Descripción</label>
-      <input id="projectDescription" type="text"
-             th:value="${description}" placeholder="Descripción del proyecto"/>
-    </div>
-
-    <div class="form-row">
-      <div class="form-group">
-        <label>Fecha inicio</label>
-        <input id="projectStartDate" type="date"
-               th:value="${startDate}" required/>
-      </div>
-      <div class="form-group">
-        <label>Fecha término</label>
-        <input id="projectEndDate" type="date"
-               th:value="${endDate}"/>
-      </div>
-    </div>
-
-    <div class="form-group active-row">
-      <input id="projectActive" type="checkbox"
-             th:checked="${active}"/>
-      <label style="margin:0">Activo</label>
-    </div>
 
 
 
