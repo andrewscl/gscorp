@@ -1,7 +1,7 @@
 <th:block th:fragment="rows">
         <tr th:each="role : ${roles}">
-          <td th:text="${role.id}"></td>
-          <td th:text="${role.role}"></td>
+          <td th:text="${role.name}"></td>
+          <td th:text="${role.accountType.displayName}"></td>
           <td class="actions">
             <button type="button"
                     class="btn-link"
