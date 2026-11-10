@@ -1,0 +1,45 @@
+<div th:replace="~{shared/fragments/table-component :: smart-table(
+    title='Gestión de Roles',
+    count=${count},
+    filters=~{::#roleFilters},
+    actions=~{::#roleActions},
+    thead=~{::#roleHeader},
+    tbody=~{private/roles/fragments/roles-table-rows :: rows},
+    customClass='roles-table'
+)}">
+
+    <th:block id="roleFilters">
+        <div class="filter-item">
+        </div>
+
+        <div class="filter-item">
+            <span class="filter-label">Busqueda</span>
+            <input id="filter-q" class="filter-input" type="text"
+                        placeholder="Buscar rol o tipo de cuenta..."/>
+        </div>
+
+        <div class="filter-item item-action">
+            <button class="btn btn-primary" id="searchRoleBtn">
+            Buscar
+            </button>
+        </div>
+
+    </th:block>
+
+    <th:block id="roleActions">
+        <button class="btn btn-primary" id="addRoleBtn"
+            th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
+        Crear Rol
+        </button>
+    </th:block>
+
+    <tr id="roleHeader">
+        <th>Role</th>
+        <th>Tipo de cuenta</th>
+    </tr>
+
+</div>
+
+    <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
+
+<script type="module" src="/js/private/admin/roles/create-role.js"></script>

@@ -20,20 +20,11 @@ public class AdminController {
     @Autowired
     private ContactRepository contactRepository;
 
-    @Autowired
-    private RoleRepository roleRepository;
-
     @GetMapping("/dashboard")
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     public String getPrivateDashboardView(
             Model model) {
         return "private/admin/dashboards/templates/admin-dashboard-view";
-    }
-
-    @GetMapping("/roles")
-    public String getRolesTableView(Model model) {
-        model.addAttribute("roles", roleRepository.findAll());
-        return "private/roles/views/roles-table-view";
     }
 
     @GetMapping("/contacts")

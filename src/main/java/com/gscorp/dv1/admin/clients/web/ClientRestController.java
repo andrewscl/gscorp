@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -109,9 +108,6 @@ public class ClientRestController {
                     @PathVariable ("companyExternalId") UUID companyExternalId,
                     @RequestParam ("status") ClientStatus status  
     ){
-        if (securityUser == null) {
-            throw new AuthenticationCredentialsNotFoundException("Usuario no autenticado");
-        }
         UUID userExternalId = securityUser.getUser().getExternalId();
         List<ClientSelectDto> clients =
             clientService.getClientsByStatusAndCompanies(

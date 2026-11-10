@@ -19,8 +19,12 @@ public class RoleController {
 
     private final RoleService roleService;
 
-    
-    
+    @GetMapping("/list")
+    public String getRolesTableView(Model model) {
+        model.addAttribute("roles", roleService.getAllRoles());
+        return "private/roles/fragments/roles-list";
+    }
+
     @GetMapping("/create")
     public String createRoleView() {
         return "private/admin/views/create-role-view";

@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,9 +63,6 @@ public class UserRestController {
                         @RequestBody UserUpdateDto userUpdateDto,
                         @AuthenticationPrincipal SecurityUser securityUser) {
 
-        if (securityUser == null) {
-            throw new AuthenticationCredentialsNotFoundException("Usuario no autenticado");
-        }
         if (userExternalId == null) throw new IllegalArgumentException("userId requerido");
         if (userUpdateDto == null) throw new IllegalArgumentException("userUpdate requerido");
 
