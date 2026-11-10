@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gscorp.dv1.communications.contacts.infrastructure.ContactRepository;
-import com.gscorp.dv1.roles.infrastructure.RoleRepository;
 
 import lombok.AllArgsConstructor;
 

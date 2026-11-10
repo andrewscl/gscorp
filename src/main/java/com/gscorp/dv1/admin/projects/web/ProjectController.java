@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.gscorp.dv1.admin.companies.application.CompanyService;
 import com.gscorp.dv1.admin.projects.application.ProjectService;
 import com.gscorp.dv1.config.security.SecurityUser;
-import com.gscorp.dv1.enums.CompanyStatus;
 import com.gscorp.dv1.users.application.UserScopeService;
 import com.gscorp.dv1.users.application.dto.ProjectScope;
 
@@ -31,10 +30,8 @@ public class ProjectController {
     public String createProject(
             Model model,
             @AuthenticationPrincipal SecurityUser securityUser) {
-        UUID userExternalId = securityUser.getUser().getExternalId();
-        model.addAttribute("companies", companyService
-                    .findCompaniesByUserExternalIdAndStatus(
-                                userExternalId, CompanyStatus.ACTIVE));
+        model.addAttribute("companies", 
+                            companyService.findCompaniesForCompanyCreation(securityUser));
         return "private/admin/projects/create-project";
     }
 

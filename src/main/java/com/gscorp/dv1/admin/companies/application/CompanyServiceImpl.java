@@ -22,6 +22,7 @@ import com.gscorp.dv1.admin.companies.web.dto.CompanyDto;
 import com.gscorp.dv1.admin.companies.web.dto.CompanySelectDto;
 import com.gscorp.dv1.admin.companies.web.dto.CompanyTableDto;
 import com.gscorp.dv1.admin.companies.web.dto.CreateCompanyRequest;
+import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.enums.CompanyStatus;
 import com.gscorp.dv1.users.application.UserScopeService;
 import com.gscorp.dv1.users.application.dto.ProjectScope;
@@ -124,7 +125,7 @@ public class CompanyServiceImpl implements CompanyService {
             throw new IllegalArgumentException("User ID cannot be null");
         }
         List<CompanyProjection> projections =
-                companyRepository.findCompaniesByUserIdAndStatus(userExternalId, status);
+                companyRepository.findCompaniesByUserExternalIdAndStatus(userExternalId, status);
         return projections.stream()
                     .map(CompanyDto::fromProjection)
                     .toList();
@@ -137,6 +138,24 @@ public class CompanyServiceImpl implements CompanyService {
             scope.ignoreFilter(),
             scope.projectIds()
         );
+        return projections.stream()
+                    .map(CompanyDto::fromProjection)
+                    .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<CompanyDto> findCompaniesForCompanyCreation(
+        SecurityUser securityUser
+    ) {
+        if ( securityUser.getUser().getRole() == null) {
+            throw new IllegalStateException("User role cannot be null");
+        }
+        boolean isAdmin = securityUser.getAuthorities().stream()
+            .anyMatch(authority -> "ROLE_ADMINISTRATOR".equals(authority.getAuthority()));
+        List<CompanyProjection> projections = isAdmin
+            ? companyRepository.findByStatus(CompanyStatus.ACTIVE)
+            : companyRepository.findCompaniesByUserExternalIdAndStatus(
+                securityUser.getUser().getExternalId(), CompanyStatus.ACTIVE);
         return projections.stream()
                     .map(CompanyDto::fromProjection)
                     .toList();

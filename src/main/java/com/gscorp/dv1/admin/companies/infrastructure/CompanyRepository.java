@@ -44,6 +44,23 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
                 c.taxId AS taxId,
                 c.status AS status
             FROM Company c
+            WHERE c.status = :status
+            """
+    )
+    List<CompanyProjection> findByStatus(
+        @Param("status") CompanyStatus status
+    );
+
+    @Query(
+        value = """
+            SELECT
+                c.id AS id,
+                c.externalId AS externalId,
+                c.name AS name,
+                c.legalName AS legalName,
+                c.taxId AS taxId,
+                c.status AS status
+            FROM Company c
             WHERE c.externalId = :externalId
             """
     )
@@ -66,7 +83,7 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
                 AND (c.status = :status OR :status IS NULL)
             """
     )
-    List<CompanyProjection> findCompaniesByUserIdAndStatus(
+    List<CompanyProjection> findCompaniesByUserExternalIdAndStatus(
                     @Param("userExternalId") UUID userExternalId,
                     @Param("status") CompanyStatus status
     );

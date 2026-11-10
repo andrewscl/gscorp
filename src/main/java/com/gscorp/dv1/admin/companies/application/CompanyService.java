@@ -11,6 +11,7 @@ import com.gscorp.dv1.admin.companies.web.dto.CompanyDto;
 import com.gscorp.dv1.admin.companies.web.dto.CompanySelectDto;
 import com.gscorp.dv1.admin.companies.web.dto.CompanyTableDto;
 import com.gscorp.dv1.admin.companies.web.dto.CreateCompanyRequest;
+import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.enums.CompanyStatus;
 
 public interface CompanyService {
@@ -34,5 +35,9 @@ public interface CompanyService {
                         CompanyStatus status);
 
     List<CompanyDto> getCompaniesByUserScope ();
+
+    List<CompanyDto> findCompaniesForCompanyCreation(
+        SecurityUser securityUser
+    );
 
 }
