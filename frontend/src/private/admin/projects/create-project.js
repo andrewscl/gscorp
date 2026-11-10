@@ -11,13 +11,48 @@ const createProject = () => {
 }
 
 async function handleCompanyChange () {
-  const companyExternalId = qs('#company')?.value;
-  const clientSelect = qs('#company');
+    const companyExternalId = qs('#company')?.value;
+    const clientSelect = qs('#client');
 
-    clientSelect.innerHTML = '<option value="">Primero seleccione una empresa</option>';
-    clientSelect.disabled = true;
-    if (!companyExternalId) return;
+    if (clientSelect) {
+        clientSelect.innerHTML = '<option value="">Primero seleccione una empresa</option>';
+        clientSelect.disabled = true;
+    }
 
+    try {
+            const urlClients = `/api/clients/company/${companyExternalId}/clients?status=ACTIVE`;
+            const response = await fetchWithAuth(urlClients, {
+                method: 'GET',
+                headers: { 'Accept': 'application/json' },
+            });
+            if (!response || !response.ok) {
+                let errorMessage = 'Ocurrió un problema al obtener los clientes para la empresa seleccionada.';
+                if(response){
+                    const contentType = response.headers.get('content-type');
+                    if(contentType && contentType.includes('application/json')) {
+                        const errorData = await response.json();
+                        errorMessage = errorData.message || errorMessage;
+                    }
+                }
+                displayAlert(alertError, `Error: ${errorMessage}`);
+                return;
+            }
+            const clientsData = await response.json();
+            if (clientSelect) {
+                clientSelect.innerHTML = '<option value="">Seleccione un cliente</option>';
+                clientsData.forEach(client => {
+                    const option = document.createElement('option');
+                    option.value = client.externalId;
+                    option.textContent = client.name;
+                    clientSelect.appendChild(option);
+                });
+                clientSelect.disabled = false;
+            }
+    } catch (error) {
+        console.error('Error en cascada:', error);
+        resetUIOnError();
+        displayAlert(alertError, 'Ocurrió un error al cargar los clientes', 3000);
+    }
 
 
 }

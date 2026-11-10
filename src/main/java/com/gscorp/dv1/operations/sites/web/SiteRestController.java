@@ -153,7 +153,7 @@ public class SiteRestController {
         }
 
 
-        @GetMapping("/projects/{projectExternalId}/sites")
+        @GetMapping("/project/{projectExternalId}/sites")
         public ResponseEntity<List<SiteDto>> getSitesByProjectExternalId(
                 @AuthenticationPrincipal SecurityUser securityUser,
                 @PathVariable UUID projectExternalId

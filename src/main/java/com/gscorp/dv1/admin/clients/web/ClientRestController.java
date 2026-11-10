@@ -103,7 +103,7 @@ public class ClientRestController {
         }
     }
 
-    @GetMapping("/companies/{companyExternalId}/clients")
+    @GetMapping("/company/{companyExternalId}/clients")
     public ResponseEntity<List<ClientSelectDto>> getClientsByStatusAndCompany(
                     @AuthenticationPrincipal SecurityUser securityUser,
                     @PathVariable ("companyExternalId") UUID companyExternalId,

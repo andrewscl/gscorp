@@ -32,7 +32,8 @@ public class ClientController {
             Model model) {
         UUID userExternalId = securityUser.getUser().getExternalId();
         model.addAttribute("companies", companyService
-                    .findCompaniesByUserExternalIdAndStatus(userExternalId, CompanyStatus.ACTIVE));
+                    .findCompaniesByUserExternalIdAndStatus(
+                                userExternalId, CompanyStatus.ACTIVE));
         return "private/clients/fragments/create-client";
     }
 
