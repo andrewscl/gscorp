@@ -87,8 +87,7 @@ public class RoleServiceimpl implements RoleService{
 
     @Override
     @Transactional
-    public RoleDto findByExternalId(String externalIdStr) {
-        UUID externalId = UUID.fromString(externalIdStr);
+    public RoleDto findByExternalId(UUID externalId) {
         Role role = roleRepository.findByExternalId(externalId)
                 .orElseThrow(() ->
                     new EntityNotFoundException(

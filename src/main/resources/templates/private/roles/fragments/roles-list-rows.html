@@ -4,13 +4,13 @@
           <td th:text="${role.accountType.displayName}"></td>
           <td class="actions">
             <button type="button"
-                    class="btn-link"
-                    th:attr="data-path=@{/private/roles/show/{id}(id=${role.id})}">
+                    class="btn btn-view"
+                    th:attr="data-path=@{/private/roles/show/{externalId}(externalId=${role.externalId})}">
               Ver
             </button>
 
             <button type="button"
-                    class="btn-link"
+                    class="btn btn-edit"
                     th:attr="data-path=@{/private/roles/edit/{externalId}(externalId=${role.externalId})}">
               Editar
             </button>

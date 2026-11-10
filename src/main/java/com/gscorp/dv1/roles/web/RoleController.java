@@ -1,5 +1,7 @@
 package com.gscorp.dv1.roles.web;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,15 +32,15 @@ public class RoleController {
         return "private/admin/views/create-role-view";
     }
 
-    @GetMapping("/show/{id}")
-    public String showRole(@PathVariable Long id, Model model){
-        var role = roleService.findWithUsersById(id);
+    @GetMapping("/show/{externalId}")
+    public String showRole(@PathVariable UUID externalId, Model model){
+        var role = roleService.findByExternalId(externalId);
         model.addAttribute("role", role);
         return "private/roles/views/view-role-view";
     }
 
     @GetMapping("/edit/{externalId}")
-    public String editRole(@PathVariable String externalId, Model model){
+    public String editRole(@PathVariable UUID externalId, Model model){
         RoleDto role = roleService.findByExternalId(externalId);
         model.addAttribute("accountTypes", AccountType.values());
         model.addAttribute("role", role);
