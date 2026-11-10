@@ -22,6 +22,11 @@ public class ProjectController {
     private final ProjectService projectService;
     private final UserScopeService userScopeService;
 
+    @GetMapping("/create")
+    public String createProject(Model model) {
+        return "private/admin/projects/create-project";
+    }
+
     @GetMapping("/list")
     public String getProjectsTableView (
                 Model model) {
