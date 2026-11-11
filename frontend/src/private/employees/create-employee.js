@@ -209,7 +209,7 @@ const handleCompanyChange = async () => {
 
   if (!companyExternalId) {
     populateCheckboxes({
-      containerEl: projectsSelect,
+      containerEl: projectsContainer,
       items: [],
       emptyLabel: 'Primero seleccione una empresa.'
     });
@@ -230,7 +230,7 @@ const handleCompanyChange = async () => {
     if(!res || !res.ok) throw new Error('No se pudieron obtener los proyectos de la empresa seleccionada.');
     const projects = await res.json();
     populateCheckboxes({
-      containerEl: projectsSelect,
+      containerEl: projectsContainer,
       items: projects,
       emptyLabel: 'Sin proyectos asociados',
       valueKey: 'externalId',
@@ -240,7 +240,7 @@ const handleCompanyChange = async () => {
   } catch (err) {
     console.error('Error en HandleCompanyChange:', err);
     populateCheckboxes({
-        containerEl: projectsSelect,
+        containerEl: projectsContainer,
         items: [],
         emptyLabel: 'Error al cargar los proyectos.'});
   }
