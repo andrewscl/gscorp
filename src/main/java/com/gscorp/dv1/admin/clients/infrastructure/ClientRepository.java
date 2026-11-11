@@ -10,6 +10,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.gscorp.dv1.admin.clients.infrastructure.projections.ClientProjection;
+import com.gscorp.dv1.admin.clients.infrastructure.projections.ClientSelectProjection;
 import com.gscorp.dv1.admin.clients.web.dto.ClientDto;
 import com.gscorp.dv1.enums.ClientStatus;
 
@@ -71,6 +73,51 @@ public interface ClientRepository extends JpaRepository<Client, Long>{
       List<ClientSelectProjection> findClientsByStatusAndCompanies(
                      @Param("status") ClientStatus status,
                      @Param("companyIds") List<Long> companyIds
+                     );
+
+      @Query("""
+               SELECT
+                  c.id AS id,
+                  c.externalId AS externalId,
+                  c.name AS name,
+                  c.legalName AS legalName,
+                  c.taxId AS taxId,
+                  c.contactEmail AS contactEmail,
+                  c.status AS status,
+                  c.active AS active
+               FROM Client c
+               JOIN c.company cy
+               WHERE cy.externalId = :companyExternalId
+                  AND (c.status = :status OR :status IS NULL)
+            """)
+      List<ClientProjection> findClientsByCompanyAndStatus(
+                     @Param("companyExternalId") UUID companyExternalId,
+                     @Param("status") ClientStatus status
+                     );
+
+      @Query("""
+               SELECT
+                  c.id AS id,
+                  c.externalId AS externalId,
+                  c.name AS name,
+                  c.legalName AS legalName,
+                  c.taxId AS taxId,
+                  c.contactEmail AS contactEmail,
+                  c.status AS status,
+                  c.active AS active
+               FROM Client c
+               JOIN c.company cy
+               JOIN c.users u
+               JOIN cy.users us
+               WHERE cy.externalId = :companyExternalId
+                  AND (c.status = :status OR :status IS NULL)
+                  AND (u.externalId = :userExternalId)
+                  AND (us.externalId = :userExternalId)
+            """)
+      List<ClientProjection> findClientsByCompanyAndStatusAndUserExternalId(
+                     @Param("companyExternalId") UUID companyExternalId,
+                     @Param("status") ClientStatus status,
+                     @Param("userExternalId") UUID userExternalId
                      );
 
 }

@@ -1,4 +1,4 @@
-package com.gscorp.dv1.admin.clients.infrastructure;
+package com.gscorp.dv1.admin.clients.infrastructure.projections;
 
 public interface ClientSelectProjection {
     Long getId();

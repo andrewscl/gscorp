@@ -31,7 +31,7 @@ public class ProjectController {
             Model model,
             @AuthenticationPrincipal SecurityUser securityUser) {
         model.addAttribute("companies", 
-                            companyService.findCompaniesForCompanyCreation(securityUser));
+                            companyService.getCompanies(securityUser));
         return "private/admin/projects/create-project";
     }
 

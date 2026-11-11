@@ -20,7 +20,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.gscorp.dv1.admin.clients.application.ClientService;
 import com.gscorp.dv1.admin.clients.web.dto.ClientDto;
-import com.gscorp.dv1.admin.clients.web.dto.ClientSelectDto;
 import com.gscorp.dv1.admin.clients.web.dto.CreateClientRequest;
 import com.gscorp.dv1.admin.projects.application.ProjectService;
 import com.gscorp.dv1.admin.projects.web.dto.ProjectSelectDto;
@@ -103,15 +102,13 @@ public class ClientRestController {
     }
 
     @GetMapping("/company/{companyExternalId}/clients")
-    public ResponseEntity<List<ClientSelectDto>> getClientsByStatusAndCompany(
+    public ResponseEntity<List<ClientDto>> getActiveClientsByCompany(
                     @AuthenticationPrincipal SecurityUser securityUser,
-                    @PathVariable ("companyExternalId") UUID companyExternalId,
-                    @RequestParam ("status") ClientStatus status  
+                    @PathVariable ("companyExternalId") UUID companyExternalId  
     ){
-        UUID userExternalId = securityUser.getUser().getExternalId();
-        List<ClientSelectDto> clients =
-            clientService.getClientsByStatusAndCompanies(
-                                userExternalId, companyExternalId, status);
+        List<ClientDto> clients =
+            clientService.getClientsByCompanyAndStatus(
+                                securityUser, companyExternalId, ClientStatus.ACTIVE);
         return ResponseEntity.ok(clients);
     }
 

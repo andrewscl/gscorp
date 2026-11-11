@@ -144,14 +144,12 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Transactional(readOnly = true)
-    public List<CompanyDto> findCompaniesForCompanyCreation(
-        SecurityUser securityUser
+    public List<CompanyDto> getCompanies(SecurityUser securityUser
     ) {
         if ( securityUser.getUser().getRole() == null) {
             throw new IllegalStateException("User role cannot be null");
         }
-        boolean isAdmin = securityUser.getAuthorities().stream()
-            .anyMatch(authority -> "ROLE_ADMINISTRATOR".equals(authority.getAuthority()));
+        boolean isAdmin = securityUser.isAdministrator();
         List<CompanyProjection> projections = isAdmin
             ? companyRepository.findByStatus(CompanyStatus.ACTIVE)
             : companyRepository.findCompaniesByUserExternalIdAndStatus(

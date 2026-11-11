@@ -1,7 +1,7 @@
 package com.gscorp.dv1.admin.clients.web.dto;
 
 import com.gscorp.dv1.admin.clients.infrastructure.Client;
-import com.gscorp.dv1.admin.clients.infrastructure.ClientSelectProjection;
+import com.gscorp.dv1.admin.clients.infrastructure.projections.ClientSelectProjection;
 
 public record ClientSelectDto (
     Long id,

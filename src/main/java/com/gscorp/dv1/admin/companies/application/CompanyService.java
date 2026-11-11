@@ -36,8 +36,6 @@ public interface CompanyService {
 
     List<CompanyDto> getCompaniesByUserScope ();
 
-    List<CompanyDto> findCompaniesForCompanyCreation(
-        SecurityUser securityUser
-    );
+    List<CompanyDto> getCompanies(SecurityUser securityUser);
 
 }

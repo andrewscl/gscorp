@@ -11,7 +11,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gscorp.dv1.admin.clients.infrastructure.Client;
 import com.gscorp.dv1.admin.clients.infrastructure.ClientRepository;
-import com.gscorp.dv1.admin.clients.infrastructure.ClientSelectProjection;
+import com.gscorp.dv1.admin.clients.infrastructure.projections.ClientProjection;
+import com.gscorp.dv1.admin.clients.infrastructure.projections.ClientSelectProjection;
 import com.gscorp.dv1.admin.clients.web.dto.ClientDto;
 import com.gscorp.dv1.admin.clients.web.dto.ClientSelectDto;
 import com.gscorp.dv1.admin.clients.web.dto.ClientWithCompanyDto;
@@ -251,17 +251,21 @@ public class ClientServiceImpl implements ClientService{
 
 
     @Transactional(readOnly = true)
-    public List<ClientSelectDto> getClientsByStatusAndCompanies(
-                            UUID userExternalId,
-                            UUID companyExternalId, 
-                            ClientStatus status) {
-        if (userExternalId == null) {
-            throw new AuthenticationCredentialsNotFoundException("Usuario no autenticado");
+    public List<ClientDto> getClientsByCompanyAndStatus(
+                                    SecurityUser securityUser,
+                                    UUID companyExternalId,
+                                    ClientStatus status
+            ) {
+        if ( securityUser.getUser().getRole() == null) {
+            throw new IllegalStateException("User role cannot be null");
         }
-        List<ClientSelectProjection> clientProjections =
-            clientRepo.findClientsByUserExternalId(userExternalId);
-        return clientProjections.stream()
-                    .map(ClientSelectDto::fromProjection)
+        boolean isAdmin = securityUser.isAdministrator();
+        List<ClientProjection> projections = isAdmin
+            ? clientRepo.findClientsByCompanyAndStatus(companyExternalId, status)
+            : clientRepo.findClientsByCompanyAndStatusAndUserExternalId(
+                companyExternalId, status, securityUser.getUser().getExternalId());
+        return projections.stream()
+                    .map(ClientDto::fromProjection)
                     .toList();
     }
 }

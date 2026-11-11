@@ -3,6 +3,7 @@ package com.gscorp.dv1.admin.clients.web.dto;
 import java.util.UUID;
 
 import com.gscorp.dv1.admin.clients.infrastructure.Client;
+import com.gscorp.dv1.admin.clients.infrastructure.projections.ClientProjection;
 import com.gscorp.dv1.enums.ClientStatus;
 
 public record ClientDto (
@@ -19,7 +20,6 @@ public record ClientDto (
 
         public static ClientDto fromEntity (Client client) {
             if (client == null) return null;
-
             return new ClientDto(
                 client.getId(),
                 client.getExternalId(),
@@ -30,7 +30,20 @@ public record ClientDto (
                 client.getStatus(),
                 client.getActive()
             );
+        }
 
+        public static ClientDto fromProjection(ClientProjection p) {
+            if (p == null) return null;
+            return new ClientDto(
+                p.getId(),
+                p.getExternalId(),
+                p.getName(),
+                p.getLegalName(),
+                p.getTaxId(),
+                p.getContactEmail(),
+                p.getStatus(),
+                p.getActive()
+            );
         }
 
 }
