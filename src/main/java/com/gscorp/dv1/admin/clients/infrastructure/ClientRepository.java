@@ -58,7 +58,7 @@ public interface ClientRepository extends JpaRepository<Client, Long>{
       @Query("SELECT c.id AS id, c.name AS name FROM Client c")
       List<ClientSelectProjection> findAllProjections();
 
-      Client findByExternalId (UUID externalId);
+      Optional<Client> findByExternalId (UUID externalId);
 
 
       @Query("""

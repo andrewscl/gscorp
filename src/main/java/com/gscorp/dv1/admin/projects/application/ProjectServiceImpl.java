@@ -6,6 +6,8 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +16,7 @@ import com.gscorp.dv1.admin.clients.infrastructure.ClientRepository;
 import com.gscorp.dv1.admin.projects.infrastructure.Project;
 import com.gscorp.dv1.admin.projects.infrastructure.ProjectRepository;
 import com.gscorp.dv1.admin.projects.infrastructure.projections.ProjectProjection;
+import com.gscorp.dv1.admin.projects.web.dto.CreateProjectRequest;
 import com.gscorp.dv1.admin.projects.web.dto.ProjectDto;
 import com.gscorp.dv1.admin.projects.web.dto.ProjectSelectDto;
 import com.gscorp.dv1.enums.ProjectStatus;
@@ -79,6 +82,29 @@ public class ProjectServiceImpl implements ProjectService{
     @Transactional
     public Project saveProject(Project project) {
         return projectRepository.save(project);
+    }
+
+    @Transactional
+    public ProjectDto createProject(CreateProjectRequest req) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+
+        Client client = clientRepository.findByExternalId(req.clientExternalId())
+                .orElseThrow(() ->
+                    new IllegalArgumentException("Cliente no encontrado: " + req.clientExternalId()));
+
+        Project project = new Project();
+        project.setClient(client);
+        project.setName(req.name());
+        project.setStartDate(req.startDate());
+        project.setEndDate(req.endDate());
+        project.setDescription(req.description());
+        project.setCreatedBy(username);
+        project.setStatus(ProjectStatus.ACTIVE);
+
+        project = projectRepository.save(project);
+        return ProjectDto.fromEntity(project);
     }
 
     @Transactional

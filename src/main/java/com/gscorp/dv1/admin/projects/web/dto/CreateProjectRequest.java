@@ -1,12 +1,12 @@
 package com.gscorp.dv1.admin.projects.web.dto;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 public record CreateProjectRequest (
+    UUID clientExternalId,
     String name,
-    String description,
     LocalDate startDate,
     LocalDate endDate,
-    Boolean active,
-    Long clientId
+    String description
 ){}

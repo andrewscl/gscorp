@@ -7,7 +7,62 @@ const alertSuccess = qs('.alert-success');
 const alertError = qs('.alert-error');
 const alertWarning = qs('.alert-warning');
 
-const createProject = () => {
+const createProject = async () => {
+    const createBtn = qs('#submit');
+    const cancelBtn = qs('#cancel');
+
+    const companyExternalId = qs('#company')?.value;
+    const clientExternalId = qs('#client')?.value;
+    const name = qs('#name')?.value;
+    const startDate = qs('#startDate')?.value;
+    const endDate = qs('#endDate')?.value;
+    const description = qs('#description')?.value;
+
+    if (!companyExternalId || !clientExternalId || !name || !startDate) {
+        displayAlert(alertError, 'Por favor complete todos los campos obligatorios', 3000);
+        return;
+    }
+
+    const payload = {
+        companyExternalId,
+        clientExternalId,
+        name,
+        startDate,
+        endDate,
+        description
+    };
+
+    createBtn.disabled = true;
+    cancelBtn.disabled = true;
+
+    try {
+        const response = await fetchWithAuth('/api/projects', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        if (!response || !response.ok) {
+            let errorMessage = 'Ocurrió un problema al crear el proyecto.';
+            if (response) {
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    const errorData = await response.json();
+                    errorMessage = errorData.message || errorMessage;
+                }
+            }
+            displayAlert(alertError, `Error: ${errorMessage}`);
+            return;
+        }
+        const projectData = await response.json();
+        displayAlert(alertSuccess, 'Proyecto creado exitosamente', 3000);
+        setTimeout(() => navigateTo(`/private/projects/${projectData.externalId}`), 3000);
+    } catch (error) {
+        console.error('Error al crear el proyecto:', error);
+        displayAlert(alertError, 'Ocurrió un error al crear el proyecto', 3000);
+    } finally {
+        createBtn.disabled = false;
+        cancelBtn.disabled = false;
+    }
 }
 
 async function handleCompanyChange () {
@@ -53,12 +108,9 @@ async function handleCompanyChange () {
             clientSelect.disabled = false;
         }
     } catch (error) {
-        console.error('Error en cascada:', error);
-        clientSelect.innerHTML = '<option value="">Primero seleccione una empresa</option>';
-        displayAlert(alertError, 'Ocurrió un error al cargar los clientes', 3000);
+        console.error('Error al obtener los clientes:', error);
+        displayAlert(alertError, 'Ocurrió un error al obtener los clientes', 3000);
     }
-
-
 }
 
 const cancelCreateProject = () => {
