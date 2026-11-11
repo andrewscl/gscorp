@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.gscorp.dv1.admin.clients.web.dto.ClientSelectDto;
 import com.gscorp.dv1.admin.companies.infrastructure.Company;
-import com.gscorp.dv1.admin.companies.infrastructure.CompanyRepository;
+import com.gscorp.dv1.admin.companies.infrastructure.specification.CompanyRepository;
 import com.gscorp.dv1.admin.projects.application.ProjectService;
 import com.gscorp.dv1.admin.projects.infrastructure.Project;
 import com.gscorp.dv1.core.bank.application.BankService;

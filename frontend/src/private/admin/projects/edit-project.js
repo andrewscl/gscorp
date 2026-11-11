@@ -1,47 +1,22 @@
-// /js/private/projects/edit-project.js
+import { navigateTo } from '../../../navigation-handler.js';
+import { fetchWithAuth } from '../../../auth.js';
+import { displayAlert } from '../../../shared/display-alert.js';
 
-document.addEventListener('DOMContentLoaded', () => {
-  const form = document.getElementById('editProjectForm');
-  const errorDiv = document.getElementById('editProjectError');
-  const okDiv = document.getElementById('editProjectOk');
-  const cancelBtn = document.querySelector('.vs-btn.vs-secondary[data-path]');
+const qs  = (s) => document.querySelector(s);
+const alertSuccess = qs('.alert-success');
+const alertError = qs('.alert-error');
+const alertWarning = qs('.alert-warning');
 
-  // Helper to clear messages
-  const clearMessages = () => {
-    errorDiv.textContent = '';
-    okDiv.style.display = 'none';
-  };
+const updateProject = async () => {
 
-  // Cancel button: go back to table view
-  if (cancelBtn) {
-    cancelBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      window.location.href = cancelBtn.getAttribute('data-path');
-    });
-  }
+  
 
-  // Form submission
-  if (form) {
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      clearMessages();
 
-      // Gather form data
-      const id = document.querySelector('.meta-id span')?.textContent?.trim();
-      const name = form.projectName.value.trim();
-      const description = form.projectDescription.value.trim();
-      const clientId = form.projectClient.value;
-      const startDate = form.projectStartDate.value;
-      const endDate = form.projectEndDate.value;
-      const active = form.projectActive.checked;
-
-      // Basic validation
       if (!name || !clientId || !startDate) {
-        errorDiv.textContent = "Nombre, cliente y fecha inicio son obligatorios.";
+        displayAlert(alertError, "Nombre, cliente y fecha inicio son obligatorios.", 2500);
         return;
       }
 
-      // Build payload
       const payload = {
         id,
         name,
@@ -52,9 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
         active
       };
 
-      // Send the request (assume REST API endpoint, e.g. /api/projects/edit/{id})
       try {
-        const response = await fetch(`/api/projects/edit/${id}`, {
+        const response = await fetchWithAuth(`/api/projects/edit/${id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -63,20 +37,49 @@ document.addEventListener('DOMContentLoaded', () => {
           body: JSON.stringify(payload)
         });
 
-        if (response.ok) {
-          okDiv.style.display = '';
-          okDiv.textContent = 'Cambios guardados ✅';
-          // Optionally redirect after a delay
-          setTimeout(() => {
-            window.location.href = '/private/projects/table-view';
-          }, 1000);
-        } else {
-          const data = await response.json().catch(() => ({}));
-          errorDiv.textContent = data.message || "Error al guardar los cambios.";
+        if (!response || !response.ok) {
+            let errorMessage = 'Ocurrió un problema al enviar el formulario.';
+            if(response){
+                const contentType = response.headers.get('content-type');
+                if(contentType && contentType.includes('application/json')) {
+                    const errorData = await response.json();
+                    errorMessage = errorData.message || errorMessage;
+                }
+            }
+            displayAlert(alertError, `Error: ${errorMessage}`);
+            return;
         }
+
+        displayAlert(alertSuccess, "Proyecto actualizado correctamente.", 2500);
+        setTimeout(() => navigateTo('/private/projects/list', true), 2000);
+
       } catch (err) {
-        errorDiv.textContent = "No se pudo conectar con el servidor.";
+        displayAlert(alertError, "No se pudo conectar con el servidor.", 2500);
+        return;
       }
-    });
+
+}
+
+const cancelEditProject = () => {
+    displayAlert(alertWarning, 'La edición del Proyecto a sido cancelada.', 2500);
+    setTimeout(() => navigateTo('/private/projects/list', true), 2000);
+}
+
+
+function bindEvents () {
+
+  const updateBtn = qs('.btn-primary');
+  if (updateBtn) {
+    updateBtn.addEventListener('click', updateProject);
   }
-});
+  const cancelBtn = qs('.btn-secondary');
+  if (cancelBtn) {
+    cancelBtn.addEventListener('click', cancelEditProject);
+  }
+
+}
+
+
+(function init() {
+  bindEvents();
+})();

@@ -1,4 +1,4 @@
-package com.gscorp.dv1.admin.companies.infrastructure;
+package com.gscorp.dv1.admin.companies.infrastructure.specification;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.gscorp.dv1.admin.companies.infrastructure.Company;
 import com.gscorp.dv1.admin.companies.infrastructure.projections.CompanyProjection;
 import com.gscorp.dv1.enums.CompanyStatus;
 

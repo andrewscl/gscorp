@@ -67,16 +67,9 @@
             }
         }
         .create-header-text {
-            .edit-header-text-title {
+            .create-header-text-title {
                 @include montserrat-font(1.1rem, 700);
                 color: $primary-color;
-            }
-            .create-header-text-info {
-                @include montserrat-font(1rem, 500);
-                display: flex;
-                flex-direction: column;
-                gap: 0.25rem;
-                color: $text-secondary-color;
             }
             .form-group {
                 display: flex;
@@ -87,8 +80,37 @@
                     color: $cool-gray-700;
                     padding-left: 0.65rem;
                 }
-                input, select, textarea {
+                input:not([type="checkbox"]):not([type="radio"]),
+                select,
+                textarea {
                     @include form-field($form-field-active-bg, $form-field-active-border);
+                }
+                .checkbox-group-container {
+                    max-height: 120px;
+                    overflow-y: auto;
+                    border: 1px solid #cbd5e1;
+                    border-radius: 6px;
+                    padding: 8px 12px;
+                    background-color: #ffffff;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 6px;
+                    .checkbox-item {
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        font-size: 0.9rem;
+                        cursor: pointer;
+                        label {
+                            padding-left: 0;
+                            cursor: pointer;
+                        }
+                        input[type="checkbox"] {
+                            cursor: pointer;
+                            accent-color: #2563eb;
+                        }
+                    }
+
                 }
             }
         }

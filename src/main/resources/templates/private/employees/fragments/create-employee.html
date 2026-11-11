@@ -17,7 +17,7 @@
 
         <div class="create-header-text">
             <div class="create-header-text-title">
-                <h3>Nueva Ficha de Contratación</h3>
+                <h4>Nueva Ficha de Contratación</h4>
             </div>
             <div class="form-group">
                 <label>Empresa: </label>
@@ -30,11 +30,15 @@
             </div>
             <div class="form-group">
                 <label>Proyectos asociados</label>
-                <select id="employeeProjects" name="projectIds" multiple aria-readonly="true">
-                <option th:each="p : ${projects}" 
-                        th:value="${p.externalId}" 
-                        th:text="${p.name}"></option>
-                </select>
+                <div class="checkbox-group-container">
+                    <div th:each="p : ${projects}" class="checkbox-item">
+                        <input type="checkbox" 
+                                name="projectIds" 
+                                th:id="${'project_' + p.externalId}" 
+                                th:value="${p.externalId}" />
+                        <label th:for="${'project_' + p.externalId}" th:text="${p.name}"></label>
+                    </div>
+                </div>
             </div>
         </div>
 

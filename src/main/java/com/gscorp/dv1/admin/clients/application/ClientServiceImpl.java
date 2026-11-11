@@ -25,7 +25,7 @@ import com.gscorp.dv1.admin.clients.web.dto.ClientSelectDto;
 import com.gscorp.dv1.admin.clients.web.dto.ClientWithCompanyDto;
 import com.gscorp.dv1.admin.clients.web.dto.CreateClientRequest;
 import com.gscorp.dv1.admin.companies.infrastructure.Company;
-import com.gscorp.dv1.admin.companies.infrastructure.CompanyRepository;
+import com.gscorp.dv1.admin.companies.infrastructure.specification.CompanyRepository;
 import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.enums.ClientStatus;
 

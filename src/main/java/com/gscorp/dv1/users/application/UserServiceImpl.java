@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gscorp.dv1.admin.clients.infrastructure.Client;
 import com.gscorp.dv1.admin.clients.infrastructure.ClientRepository;
 import com.gscorp.dv1.admin.companies.infrastructure.Company;
-import com.gscorp.dv1.admin.companies.infrastructure.CompanyRepository;
+import com.gscorp.dv1.admin.companies.infrastructure.specification.CompanyRepository;
 import com.gscorp.dv1.auth.application.PasswordResetTokenService;
 import com.gscorp.dv1.auth.infrastructure.PasswordResetToken;
 import com.gscorp.dv1.enums.UserStatus;

@@ -10,8 +10,8 @@
       <div class="panel-body">
         <div class="form-group">
           <label>Cliente</label>
-          <span class="readonly-field"
-            th:text="${project.clientName != null ? project.clientName : '—'}"></span>
+          <input id="client"
+            th:text="${project.clientName != null ? project.clientName : '—'}"></input>
           <small>Un proyecto pertenece a un único cliente.</small>
         </div>
 

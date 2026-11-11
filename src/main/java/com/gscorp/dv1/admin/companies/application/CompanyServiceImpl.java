@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gscorp.dv1.admin.companies.infrastructure.Company;
-import com.gscorp.dv1.admin.companies.infrastructure.CompanyRepository;
 import com.gscorp.dv1.admin.companies.infrastructure.CompanySpecRepository;
 import com.gscorp.dv1.admin.companies.infrastructure.projections.CompanyProjection;
+import com.gscorp.dv1.admin.companies.infrastructure.specification.CompanyRepository;
 import com.gscorp.dv1.admin.companies.infrastructure.specification.CompanySpecifications;
 import com.gscorp.dv1.admin.companies.web.dto.CompanyDto;
 import com.gscorp.dv1.admin.companies.web.dto.CompanySelectDto;
