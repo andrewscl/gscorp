@@ -2,8 +2,7 @@ import { fetchWithAuth } from '../../auth.js';
 import { navigateTo } from '../../navigation-handler.js';
 import { initTabPanels } from '../../shared/tabs-handler.js';
 import { displayAlert } from '../../shared/display-alert.js';
-import { populateSelect } from '../../shared/insert-select.js';
-
+import { populateCheckboxes } from '../../shared/insert-checkbox.js';
 console.log('create-employee.js cargado');
 
 const qs  = (s) => document.querySelector(s);
@@ -204,17 +203,24 @@ const handlePhotoFileChange = function() {
 
 const handleCompanyChange = async () => {
   const companyExternalId = qs('#companyExternalId')?.value;
-  const projectsSelect = qs('#employeeProjects');
+  const projectsContainer = qs('.checkbox-group-container');
+
   const projectExternalId = qs('#employeeProjects')?.value;
+
   if (!companyExternalId) {
-    populateSelect({
-      selectEl: projectsSelect,
+    populateCheckboxes({
+      containerEl: projectsSelect,
       items: [],
       emptyLabel: 'Primero seleccione una empresa.'
     });
     return;
   }
-  const prevProject = projectExternalId || '';
+
+  // 2. Capturar todos los checkboxes actualmente seleccionados (Array de UUIDs)
+  const prevSelectedProjects = Array.from(
+    document.querySelectorAll('input[name="projectIds"]:checked')
+  ).map(cb => cb.value);
+
   try {
     const urlProjects = `/api/projects/company/${companyExternalId}/projects`;
     const res = await fetchWithAuth(urlProjects, {
@@ -223,17 +229,20 @@ const handleCompanyChange = async () => {
     });
     if(!res || !res.ok) throw new Error('No se pudieron obtener los proyectos de la empresa seleccionada.');
     const projects = await res.json();
-    populateSelect({
-      selectEl: projectsSelect,
+    populateCheckboxes({
+      containerEl: projectsSelect,
       items: projects,
-      defaultLabel: 'Seleccione un proyecto',
       emptyLabel: 'Sin proyectos asociados',
       valueKey: 'externalId',
-      preserveValue: prevProject
+      inputName: 'projectIds',
+      preservedValues: prevSelectedProjects
     });
   } catch (err) {
     console.error('Error en HandleCompanyChange:', err);
-    populateSelect({selectEl: projectsSelect, items: [], emptyLabel: 'Error al cargar los proyectos.'});
+    populateCheckboxes({
+        containerEl: projectsSelect,
+        items: [],
+        emptyLabel: 'Error al cargar los proyectos.'});
   }
 }
 

@@ -13,11 +13,14 @@ export default defineConfig({
         'shared/display-alert': path.resolve(__dirname, './src/shared/display-alert.js'),
         'shared/dom-utils': path.resolve(__dirname, './src/shared/dom-utils.js'),
         'shared/insert-select': path.resolve(__dirname, './src/shared/insert-select.js'),
+        'shared/insert-checkbox': path.resolve(__dirname, './src/shared/insert-checkbox.js'),
+
         'shared/maps/googlemaps-loader': path.resolve(__dirname, './src/shared/maps/googlemaps-loader.js'),
         'shared/maps/init-map': path.resolve(__dirname, './src/shared/maps/init-map.js'),
         'shared/maps/map-utils': path.resolve(__dirname, './src/shared/maps/map-utils.js'),
         'shared/maps/advanced-marker': path.resolve(__dirname, './src/shared/maps/advanced-marker.js'),
         'shared/maps/enable-marker-drag': path.resolve(__dirname, './src/shared/maps/enable-marker-drag.js'),
+
         'auth': path.resolve(__dirname, './src/auth.js'),
         'auth/define-password': path.resolve(__dirname, './src/auth/define-password.js'),
         'contact': path.resolve(__dirname, './src/contact.js'),
