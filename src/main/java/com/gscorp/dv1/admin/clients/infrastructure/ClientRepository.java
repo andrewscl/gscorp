@@ -138,7 +138,6 @@ public interface ClientRepository extends JpaRepository<Client, Long>{
                   c.status AS status,
                   c.active AS active
                FROM Client c
-               JOIN c.users u
             """)
       List<ClientProjection> findAllProjections();
 
