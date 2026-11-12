@@ -41,7 +41,7 @@
                 <div class="checkbox-group-container">
                     <div th:each="p : ${projects}" class="checkbox-item">
                         <input type="checkbox" 
-                                name="projectIds" 
+                                name="projectExternalIds" 
                                 th:id="${'project_' + p.externalId}" 
                                 th:value="${p.externalId}" />
                         <label th:for="${'project_' + p.externalId}" th:text="${p.name}"></label>

@@ -193,4 +193,8 @@ public interface ProjectRepository extends JpaRepository<Project, Long>{
                 @Param("projectIds") List<Long> projectIds,
                 @Param("externalId") UUID externalId);
 
+        
+    Set<Project> findAllByExternalIdIn(
+                @Param("externalIds") Set<UUID> externalIds);
+
 }

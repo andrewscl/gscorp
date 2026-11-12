@@ -67,7 +67,7 @@ public class Project {
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<ClientAccount> clientAccounts = new HashSet<>();
 
-    // Relación inversa del ManyToMany definido en User.roles
+    // Relación inversa del ManyToMany definido en Employee.projects
     @Builder.Default
     @ManyToMany(mappedBy = "projects", fetch = FetchType.LAZY)
     @ToString.Exclude

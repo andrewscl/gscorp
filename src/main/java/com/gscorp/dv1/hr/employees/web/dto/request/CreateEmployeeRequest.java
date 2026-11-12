@@ -100,7 +100,7 @@ public class CreateEmployeeRequest {
 
         private String address;
 
-        private Set<Long> projectIds = new HashSet<>();
+        private Set<UUID> projectExternalIds = new HashSet<>();
 
         private UUID companyExternalId;
 

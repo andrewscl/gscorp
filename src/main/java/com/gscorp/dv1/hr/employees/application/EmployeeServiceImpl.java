@@ -23,6 +23,7 @@ import com.gscorp.dv1.admin.companies.infrastructure.Company;
 import com.gscorp.dv1.admin.companies.infrastructure.specification.CompanyRepository;
 import com.gscorp.dv1.admin.projects.application.ProjectService;
 import com.gscorp.dv1.admin.projects.infrastructure.Project;
+import com.gscorp.dv1.admin.projects.infrastructure.ProjectRepository;
 import com.gscorp.dv1.core.bank.application.BankService;
 import com.gscorp.dv1.core.bank.infrastructure.Bank;
 import com.gscorp.dv1.core.nationalities.application.NationalityService;
@@ -62,6 +63,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     
     private final EmployeeRepository employeeRepository;
     private final ProjectService projectService;
+    private final ProjectRepository projectRepository;
     private final BankService bankService;
     private final NationalityService nationalityService;
     private final ProfessionService professionService;
@@ -137,8 +139,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         Set<Project> projects =
-            (req.getProjectIds() != null && !req.getProjectIds().isEmpty())
-            ? new HashSet<>(projectService.findEntitiesById(req.getProjectIds()))
+        (req.getProjectExternalIds() != null && !req.getProjectExternalIds().isEmpty())
+            ? new HashSet<>(projectRepository.findAllByExternalIdIn(req.getProjectExternalIds()))
             : Set.of();
             
         
@@ -230,15 +232,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .status(EmployeeStatus.ACTIVE)
                 .build();
 
-        Employee savedEmployee = employeeRepository.save(entity);
-
-        //Asignar los proyectos el empleado (relacion inversa)
-        for (Project p : projects) {
-            System.out.println("Project: " + p.getId());
-            p.getEmployees().add(savedEmployee);
-        }
-
-        return employeeRepository.save(savedEmployee);
+        return employeeRepository.save(entity);
     }
 
 

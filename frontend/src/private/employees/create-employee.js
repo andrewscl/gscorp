@@ -55,11 +55,10 @@ async function onCreateEmployee(e) {
   const companyId            = qs('#companyExternalId')?.value?.trim() || null;
 
   // Proyectos asociados (select múltiple)
-  let projectIds = [];
-  const projectsSelect = qs('#employeeProjects');
-  if (projectsSelect) {
-    projectIds = Array.from(projectsSelect.selectedOptions).map(opt => opt.value).filter(Boolean);
-  }
+  let projectExternalIds = [];
+  projectExternalIds = Array.from(
+      document.querySelectorAll('input[name="projectExternalIds"]:checked')
+    ).map(opt => opt.value).filter(Boolean);
 
   // Fotografía
   const photoInput = qs('#employeePhotoInput');
@@ -204,8 +203,6 @@ const handlePhotoFileChange = function() {
 const handleCompanyChange = async () => {
   const companyExternalId = qs('#companyExternalId')?.value;
   const projectsContainer = qs('.checkbox-group-container');
-
-  const projectExternalId = qs('#employeeProjects')?.value;
 
   if (!companyExternalId) {
     populateCheckboxes({
