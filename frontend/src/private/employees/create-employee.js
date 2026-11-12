@@ -105,7 +105,7 @@ async function onCreateEmployee(e) {
 
   // Validaciones lógicas específicas de negocio (Ejemplo: Proyectos asignados)
   if (projectIds.length === 0) {
-    displayAlert(alertWarning, 'Debe asignar al menos un Proyecto al empleado.', 4000);
+    displayAlert(alertError, 'Debe asignar al menos un Proyecto al empleado.', 4000);
     if (submitBtn) submitBtn.disabled = false;
     return;
   }
