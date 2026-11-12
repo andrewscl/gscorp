@@ -18,6 +18,12 @@
         <div class="create-header-text">
             <div class="create-header-text-title">
                 <h4>Nueva Ficha de Contratación</h4>
+                <div class="actions">
+                    <button class="btn btn-primary" id="addemployeeBtn"
+                    th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'') or hasRole(''RRHH'')')}">
+                    Crear Proyecto
+                    </button>
+                </div>
             </div>
             <div class="form-group">
                 <label>Empresa: </label>
@@ -42,12 +48,6 @@
             </div>
         </div>
 
-        <div th:replace="~{shared/fragments/footer-buttons :: footer-buttons(
-            true, 'Crear empleado',
-            true, 'Cancelar',
-            false, ''
-            )}">
-        </div>
     </div>
 
     <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>

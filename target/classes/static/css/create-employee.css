@@ -194,6 +194,61 @@ p {
   font-weight: 700;
   letter-spacing: 0.02em;
   color: #1e293b;
+  display: flex;
+}
+.create-employee .create-employee-header .create-header-text .create-header-text-title .actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-left: auto;
+}
+.create-employee .create-employee-header .create-header-text .create-header-text-title .actions .btn {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.create-employee .create-employee-header .create-header-text .create-header-text-title .actions .btn.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 1rem;
+  border-radius: 0.4rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+.create-employee .create-employee-header .create-header-text .create-header-text-title .actions .btn.btn-primary:hover {
+  background-color: rgb(29.8390243902, 111.4024390244, 244.6609756098);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+.create-employee .create-employee-header .create-header-text .create-header-text-title .actions .btn.btn-primary:active {
+  transform: translateY(0);
+}
+.create-employee .create-employee-header .create-header-text .create-header-text-title .actions .btn.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 1rem;
+  border-radius: 0.4rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  background-color: #64748b;
+  color: #ffffff;
+}
+.create-employee .create-employee-header .create-header-text .create-header-text-title .actions .btn.btn-secondary:hover {
+  background-color: rgb(90, 104.4, 125.1);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(100, 116, 139, 0.4);
+}
+.create-employee .create-employee-header .create-header-text .create-header-text-title .actions .btn.btn-secondary:active {
+  transform: translateY(0);
 }
 .create-employee .create-employee-header .create-header-text .form-group {
   display: flex;

@@ -73,6 +73,32 @@
             .create-header-text-title {
                 @include montserrat-font(1.1rem, 700);
                 color: $primary-color;
+                display: flex;
+                .actions{
+                    display: flex;
+                    gap: 0.75rem;
+                    align-items: center;
+                    margin-left: auto;
+                    .btn {
+                    @include roboto-font(0.85rem, 600);
+                    &.btn-primary {
+                        @include btn-primary-variant (
+                        $bg-color: $accent-blue,
+                        $color: $white,
+                        $padding: 0.4rem 1rem,
+                        $border-radius: 0.4rem
+                        );
+                    }
+                    &.btn-secondary {
+                        @include btn-primary-variant (
+                        $bg-color: $btn-secondary-bg,
+                        $color: $white,
+                        $padding: 0.4rem 1rem,
+                        $border-radius: 0.4rem
+                        );
+                    }
+                    }
+                }
             }
             .form-group {
                 display: flex;
