@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gscorp.dv1.admin.clients.application.ClientService;
-import com.gscorp.dv1.admin.clients.web.dto.ClientSelectDto;
+import com.gscorp.dv1.admin.clients.web.dto.ClientDto;
 import com.gscorp.dv1.admin.projects.application.ProjectService;
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
@@ -206,9 +206,10 @@ public List<ForecastPointDto> getForecastSeriesForUserByDates(
 
     @Override
     @Transactional(readOnly = true)
-    public ForecastFormPayload prepareCreateForecastForm(UUID externalId) {
+    public ForecastFormPayload prepareCreateForecastForm(
+                                    SecurityUser securityUser) {
 
-        if (externalId == null) {
+        if (securityUser == null || securityUser.getUser() == null) {
             // política: devolver payload vacío (el controller puede redireccionar a login)
             ForecastFormPrefill emptyPrefill = new ForecastFormPrefill(
                 null, null, null,
@@ -226,13 +227,13 @@ public List<ForecastPointDto> getForecastSeriesForUserByDates(
             return new ForecastFormPayload(emptyPrefill, Collections.emptyList());
         }
 
-        List<ClientSelectDto> clients = Collections.emptyList();
+        List<ClientDto> clients = Collections.emptyList();
         try {
-            clients = clientService.findClientsByUserExternalId(externalId);
+            clients = clientService.getClients(securityUser);
             if(clients == null) clients = Collections.emptyList();
         } catch (Exception ex) {
             // loguear y continuar con lista vacía
-            log.error("Error al obtener clients para userId {}: {}", externalId, ex.getMessage(), ex);
+            log.error("Error al obtener clients para userId {}: {}", securityUser.getUser().getExternalId() , ex.getMessage(), ex);
             clients = Collections.emptyList();
         }
 

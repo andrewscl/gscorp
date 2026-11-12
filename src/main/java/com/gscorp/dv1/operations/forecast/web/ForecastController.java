@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +23,6 @@ import com.gscorp.dv1.operations.forecast.web.dto.ForecastFormPayload;
 import com.gscorp.dv1.operations.forecast.web.dto.ForecastTableRowDto;
 import com.gscorp.dv1.operations.sites.application.SiteService;
 import com.gscorp.dv1.operations.sites.web.dto.SiteDto;
-import com.gscorp.dv1.users.application.UserService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +34,6 @@ import lombok.extern.slf4j.Slf4j;
 public class ForecastController {
 
     private final ForecastService forecastService;
-    private final UserService userService;
     private final ZoneResolver zoneResolver;
     private final SiteService siteService;
 
@@ -70,49 +67,28 @@ public class ForecastController {
     }
 
 
-
-    // Método para mostrar el formulario de creación de Forecast
     @GetMapping("/create")
-    public String getForecastCreateForm(Model model, Authentication authentication) {
-
-        Long userId = userService.getUserIdFromAuthentication(authentication);
-        if (userId == null) {
-            // según tu política puede ser redirect a login o acceso denegado
-            return "redirect:/login";
-        }
-
-        if(authentication == null || !authentication.isAuthenticated()) {
-                return "redirect:/login";
-        }
-
-        Object principal = authentication.getPrincipal();
-        if(!(principal instanceof SecurityUser)) {
-            return "redirect:/login";
-        }
-
-        SecurityUser securityUser = (SecurityUser) principal;
-
-        UUID externalId = securityUser.getUser().getExternalId();
+    public String getForecastCreateForm(
+                    @AuthenticationPrincipal SecurityUser securityUser,
+                    Model model) {
 
         ForecastFormPayload formPayload;
         try {
             // Service recibe userId y parámetros opcionales (mejor para test)
-            formPayload = forecastService.prepareCreateForecastForm(externalId);
+            formPayload = forecastService.prepareCreateForecastForm(securityUser);
         } catch (Exception ex) {
-            log.error("Error preparando formulario createForecast para user {}: {}", userId, ex.getMessage(), ex);
+            log.error("Error preparando formulario createForecast para user {}: {}", securityUser.getUser(), ex.getMessage(), ex);
             model.addAttribute("error", "No se pudo preparar el formulario.");
             model.addAttribute("prefill", null);
             model.addAttribute("clients", Collections.emptyList());
             return "private/forecast/views/create-forecast-view";
         }
 
-    // Protección: formPayload puede ser null sin lanzar excepción; extraemos prefill de forma segura
-    var prefill = formPayload != null ? formPayload.prefill() : null;
+        var prefill = formPayload != null ? formPayload.prefill() : null;
 
         String requested = formPayload != null && formPayload.prefill() != null ? formPayload.prefill().tz() : null;
-        ZoneResolutionResult zr = zoneResolver.resolveZone(externalId, requested);
+        ZoneResolutionResult zr = zoneResolver.resolveZone(securityUser.getUser().getExternalId(), requested);
 
-        // Añadir datos al modelo para que la vista los muestre
         model.addAttribute("prefill", prefill);
         model.addAttribute("periodicities", Periodicity.values());
         model.addAttribute("forecastMetrics", ForecastMetric.values());

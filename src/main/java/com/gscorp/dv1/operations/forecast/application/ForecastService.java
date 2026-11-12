@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.security.core.Authentication;
+import com.gscorp.dv1.config.security.SecurityUser;
 
 import com.gscorp.dv1.enums.ForecastMetric;
 import com.gscorp.dv1.operations.forecast.web.dto.ForecastCreateDto;
@@ -29,7 +30,7 @@ public interface ForecastService {
     List<ForecastTableRowDto> findRowsFilteredForUser(UUID externalId, String siteName, String metric, ZoneId zone);
 
 
-    ForecastFormPayload prepareCreateForecastForm(UUID externalId);
+    ForecastFormPayload prepareCreateForecastForm(SecurityUser securityUser);
 
 
     ForecastRecordDto createForecast (
