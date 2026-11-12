@@ -144,7 +144,7 @@ async function onCreateEmployee(e) {
     if (address) formData.append('address', address);
     if (hireDate) formData.append('hireDate', hireDate);
     if (birthDate) formData.append('birthDate', birthDate);
-    if (companyId) formData.append('companyId', companyId);
+    if (companyId) formData.append('companyExternalId', companyId);
 
     // Proyectos asociados (MULTI)
     projectExternalIds.forEach(id => formData.append('projectExternalIds', id));
