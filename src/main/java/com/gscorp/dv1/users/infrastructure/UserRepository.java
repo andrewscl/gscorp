@@ -38,7 +38,7 @@ public interface UserRepository extends JpaRepository<User, Long>{
         SELECT u 
         FROM User u 
         LEFT JOIN FETCH u.companies 
-        LEFT JOIN FETCH u.clients 
+        LEFT JOIN FETCH u.clients
         WHERE u.externalId = :externalId
     """)
     Optional<User> findWithCompaniesAndClientsByExternalId(@Param("externalId") UUID externalId);
