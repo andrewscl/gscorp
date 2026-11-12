@@ -38,7 +38,7 @@ public class UserScopeService {
             return ProjectScope.unrestricted();
         }
 
-        boolean isUserLevelScoped = has(securityUser, "ROLE_CLIENT") || has(securityUser, "ROLE_ANALYST") || has(securityUser, "RRHH");
+        boolean isUserLevelScoped = has(securityUser, "ROLE_CLIENT") || has(securityUser, "ROLE_ANALYST") || has(securityUser, "ROLE_RRHH");
         if (isUserLevelScoped) {
             // List<ProjectDto> projects = projectService.findProjectDtosByUserExternalId(userExternalId);
             List<ProjectDto> projects = projectRepository.findByUserExternalId(userExternalId)
