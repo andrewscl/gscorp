@@ -292,6 +292,10 @@ p {
   outline: none;
   background-color: #ffffff;
 }
+.create-employee .create-employee-header .create-header-text .form-group #companyExternalId {
+  width: 100%;
+  max-width: 20rem;
+}
 .create-employee .create-employee-header .create-header-text .form-group .checkbox-group-container {
   display: flex;
   flex-direction: row;

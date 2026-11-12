@@ -116,6 +116,10 @@
                 textarea {
                     @include form-field($form-field-active-bg, $form-field-active-border);
                 }
+                #companyExternalId {
+                    width: 100%;
+                    max-width: 20rem;
+                }
                 .checkbox-group-container {
                     display: flex;
                     flex-direction: row;
