@@ -104,7 +104,7 @@ async function onCreateEmployee(e) {
   }
 
   // Validaciones lógicas específicas de negocio (Ejemplo: Proyectos asignados)
-  if (projectIds.length === 0) {
+  if (projectExternalIds.length === 0) {
     displayAlert(alertError, 'Debe asignar al menos un Proyecto al empleado.', 4000);
     if (submitBtn) submitBtn.disabled = false;
     return;
@@ -147,7 +147,7 @@ async function onCreateEmployee(e) {
     if (companyId) formData.append('companyId', companyId);
 
     // Proyectos asociados (MULTI)
-    projectIds.forEach(id => formData.append('projectIds', id));
+    projectExternalIds.forEach(id => formData.append('projectIds', id));
 
     if (photo) formData.append('photo', photo);
 
