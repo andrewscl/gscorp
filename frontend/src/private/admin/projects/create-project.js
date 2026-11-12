@@ -55,7 +55,7 @@ const createProject = async () => {
         }
         const projectData = await response.json();
         displayAlert(alertSuccess, 'Proyecto creado exitosamente', 3000);
-        setTimeout(() => navigateTo(`/private/projects/${projectData.externalId}`), 3000);
+        setTimeout(() => navigateTo('/private/projects/list'), 3000);
     } catch (error) {
         console.error('Error al crear el proyecto:', error);
         displayAlert(alertError, 'Ocurrió un error al crear el proyecto', 3000);
