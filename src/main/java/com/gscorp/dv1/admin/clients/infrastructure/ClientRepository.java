@@ -47,16 +47,22 @@ public interface ClientRepository extends JpaRepository<Client, Long>{
       @Query("""
                SELECT
                   c.id AS id,
-                  c.name AS name
+                  c.externalId AS externalId,
+                  c.name AS name,
+                  c.legalName AS legalName,
+                  c.taxId AS taxId,
+                  c.contactEmail AS contactEmail,
+                  c.status AS status,
+                  c.active AS active
                FROM Client c
                JOIN c.users u
                WHERE u.externalId = :userExternalId          
             """)
-      List<ClientSelectProjection> findClientsByUserExternalId(@Param("userExternalId") UUID userExternalId);
+      List<ClientProjection> findClientsByUserExternalId(@Param("userExternalId") UUID userExternalId);
 
 
       @Query("SELECT c.id AS id, c.name AS name FROM Client c")
-      List<ClientSelectProjection> findAllProjections();
+      List<ClientSelectProjection> findAllSelectProjections();
 
       Optional<Client> findByExternalId (UUID externalId);
 
@@ -118,6 +124,38 @@ public interface ClientRepository extends JpaRepository<Client, Long>{
                      @Param("companyExternalId") UUID companyExternalId,
                      @Param("status") ClientStatus status,
                      @Param("userExternalId") UUID userExternalId
+                     );
+
+      @Query("""
+               SELECT
+                  c.id AS id,
+                  c.externalId AS externalId,
+                  c.name AS name,
+                  c.legalName AS legalName,
+                  c.taxId AS taxId,
+                  c.contactEmail AS contactEmail,
+                  c.status AS status,
+                  c.active AS active
+               FROM Client c
+               JOIN c.users u
+            """)
+      List<ClientProjection> findAllProjections();
+
+      @Query("""
+               SELECT
+                  c.id AS id,
+                  c.externalId AS externalId,
+                  c.name AS name,
+                  c.legalName AS legalName,
+                  c.taxId AS taxId,
+                  c.contactEmail AS contactEmail,
+                  c.status AS status,
+                  c.active AS active
+               FROM Client c
+               WHERE c.externalId = :externalId
+            """)
+      Optional<ClientProjection> findProjectionByExternalId(
+                     @Param("externalId") UUID externalId
                      );
 
 }

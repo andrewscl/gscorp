@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import com.gscorp.dv1.admin.clients.infrastructure.Client;
 import com.gscorp.dv1.admin.projects.infrastructure.Project;
+import com.gscorp.dv1.admin.projects.web.dto.CreateProjectRequest;
 import com.gscorp.dv1.admin.projects.web.dto.ProjectDto;
 import com.gscorp.dv1.admin.projects.web.dto.ProjectSelectDto;
 import com.gscorp.dv1.enums.ProjectStatus;
@@ -26,6 +27,8 @@ public interface ProjectService {
     Client findClientById (Long clientId);
 
     Project saveProject (Project project);
+
+    ProjectDto createProject(CreateProjectRequest req);
 
     void deleteById(Long id);
 

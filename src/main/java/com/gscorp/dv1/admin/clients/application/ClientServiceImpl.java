@@ -22,7 +22,6 @@ import com.gscorp.dv1.admin.clients.infrastructure.projections.ClientProjection;
 import com.gscorp.dv1.admin.clients.infrastructure.projections.ClientSelectProjection;
 import com.gscorp.dv1.admin.clients.web.dto.ClientDto;
 import com.gscorp.dv1.admin.clients.web.dto.ClientSelectDto;
-import com.gscorp.dv1.admin.clients.web.dto.ClientWithCompanyDto;
 import com.gscorp.dv1.admin.clients.web.dto.CreateClientRequest;
 import com.gscorp.dv1.admin.companies.infrastructure.Company;
 import com.gscorp.dv1.admin.companies.infrastructure.specification.CompanyRepository;
@@ -186,22 +185,24 @@ public class ClientServiceImpl implements ClientService{
 
 
     @Transactional(readOnly = true)
-    public List<ClientSelectDto> findClientsByUserExternalId(UUID userExternalId) {
-
-        List<ClientSelectProjection> rows = clientRepo.findClientsByUserExternalId(userExternalId);
-
-        return rows
-        .stream()
-        .map(ClientSelectDto::fromProjection)
-        .collect(Collectors.toList());  
+    public List<ClientDto> getClients(SecurityUser securityUser) {
+        if ( securityUser.getUser().getRole() == null) {
+            throw new IllegalStateException("User role cannot be null");
+        }
+        boolean isAdmin = securityUser.isAdministrator();
+        List<ClientProjection> projections = isAdmin
+            ? clientRepo.findAllProjections()
+            : clientRepo.findClientsByUserExternalId(
+                                securityUser.getUser().getExternalId());
+        return projections.stream()
+                    .map(ClientDto::fromProjection)
+                    .toList();
     }
 
 
     @Transactional(readOnly = true)
     public List<ClientSelectDto> getAllClientsSelectDto() {
-
-        List<ClientSelectProjection> rows = clientRepo.findAllProjections();
-
+        List<ClientSelectProjection> rows = clientRepo.findAllSelectProjections();
         return rows
         .stream()
         .map(ClientSelectDto::fromProjection)
@@ -214,39 +215,11 @@ public class ClientServiceImpl implements ClientService{
         if(ids == null || ids.isEmpty()) {
             return Collections.emptyList();
         }
-
         List<Client> clients = clientRepo.findAllById(ids);
-
         if (clients.size() != ids.size()) {
             throw new IllegalArgumentException("Some client IDs are invalid");
         }
-
         return clients;
-    }
-
-
-    @Transactional(readOnly = true)
-    public List<ClientWithCompanyDto> getAllClientsWithCompany() {
-        return clientRepo.findAll().stream()
-            .map(ClientWithCompanyDto::fromEntity)
-            .toList();
-    }
-
-    @Transactional(readOnly = true)
-    public ClientWithCompanyDto getClientWithCompanyById(Long id) {
-        return clientRepo.findById(id)
-            .map(ClientWithCompanyDto::fromEntity)
-            .orElseThrow(() -> new EntityNotFoundException("Client no encontrado: " + id));
-    }
-
-    @Transactional(readOnly = true)
-    public ClientWithCompanyDto getClientWithCompanyByExternalId(UUID externalId) {
-        Client client = clientRepo.findByExternalId(externalId);
-        if(client == null){
-            throw new EntityNotFoundException("Client not found" + externalId);
-        }
-        
-    return ClientWithCompanyDto.fromEntity(client);
     }
 
 
@@ -268,4 +241,13 @@ public class ClientServiceImpl implements ClientService{
                     .map(ClientDto::fromProjection)
                     .toList();
     }
+
+    @Transactional(readOnly = true)
+    public ClientDto getClientByExternalId(UUID externalId) {
+        return clientRepo.findProjectionByExternalId(externalId)
+                         .map(ClientDto::fromProjection)
+                         .orElseThrow(() -> new IllegalArgumentException("Client not found"));
+    }
+
+
 }

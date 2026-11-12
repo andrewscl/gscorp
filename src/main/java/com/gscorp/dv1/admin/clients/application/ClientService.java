@@ -10,7 +10,6 @@ import org.springframework.security.core.Authentication;
 import com.gscorp.dv1.admin.clients.infrastructure.Client;
 import com.gscorp.dv1.admin.clients.web.dto.ClientDto;
 import com.gscorp.dv1.admin.clients.web.dto.ClientSelectDto;
-import com.gscorp.dv1.admin.clients.web.dto.ClientWithCompanyDto;
 import com.gscorp.dv1.admin.clients.web.dto.CreateClientRequest;
 import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.enums.ClientStatus;
@@ -42,22 +41,18 @@ public interface ClientService {
 
     List<ClientDto> findDtosByUserId(Long userId);
 
-    List<ClientSelectDto> findClientsByUserExternalId(UUID userExternalId);
+    List<ClientDto> getClients(SecurityUser securityUser);
 
     List<ClientSelectDto> getAllClientsSelectDto();
 
     List<Client> validateAndFindAllById(Set<Long> ids);
-
-    List<ClientWithCompanyDto> getAllClientsWithCompany();
-
-    ClientWithCompanyDto getClientWithCompanyById(Long id);
-
-    ClientWithCompanyDto getClientWithCompanyByExternalId(UUID userExternalId);
 
     List<ClientDto> getClientsByCompanyAndStatus(
                             SecurityUser securityUser,
                             UUID companyExternalId,
                             ClientStatus status
                         );
+
+    ClientDto getClientByExternalId(UUID externalId);
 
 }

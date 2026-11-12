@@ -9,7 +9,7 @@ import com.gscorp.dv1.enums.ProjectStatus;
 
 public record ProjectDto (
     Long id,
-    UUID externalId,
+    UUID externalId,    
     String name,
     String clientName,
     String description,

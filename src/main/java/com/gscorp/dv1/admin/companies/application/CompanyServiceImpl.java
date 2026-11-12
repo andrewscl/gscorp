@@ -144,8 +144,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Transactional(readOnly = true)
-    public List<CompanyDto> getCompanies(SecurityUser securityUser
-    ) {
+    public List<CompanyDto> getCompanies(SecurityUser securityUser) {
         if ( securityUser.getUser().getRole() == null) {
             throw new IllegalStateException("User role cannot be null");
         }

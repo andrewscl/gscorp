@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gscorp.dv1.admin.clients.application.ClientService;
-import com.gscorp.dv1.admin.clients.web.dto.ClientWithCompanyDto;
+import com.gscorp.dv1.admin.clients.web.dto.ClientDto;
 import com.gscorp.dv1.admin.companies.application.CompanyService;
 import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.enums.CompanyStatus;
@@ -44,23 +44,24 @@ public class ClientController {
     }
 
     @GetMapping
-    public String getClientsTableView(Model model) {
-        List<ClientWithCompanyDto> clients = clientService.getAllClientsWithCompany();
+    public String getClientsTableView(
+            @AuthenticationPrincipal SecurityUser securityUser,
+            Model model
+        ) {
+        List<ClientDto> clients = clientService.getClients(securityUser);
         model.addAttribute("clients", clients);
         return "private/clients/views/clients-list";
     }
 
     @GetMapping("/show/{externalId}")
     public String showClient(@PathVariable UUID externalId, Model model){
-        model.addAttribute("client",
-            clientService.getClientWithCompanyByExternalId(externalId));
+        model.addAttribute("client", clientService.getClientByExternalId(externalId));
         return "private/clients/views/view-client-view";
     }
 
     @GetMapping("/edit/{externalId}")
     public String editClient(@PathVariable UUID externalId, Model model){
-        model.addAttribute("client",
-            clientService.getClientWithCompanyByExternalId(externalId));
+        model.addAttribute("client", clientService.getClientByExternalId(externalId));
         return "private/clients/views/edit-client-view";
     }
 
