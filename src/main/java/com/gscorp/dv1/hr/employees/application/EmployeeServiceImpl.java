@@ -2,6 +2,8 @@ package com.gscorp.dv1.hr.employees.application;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import org.springframework.http.HttpStatus;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -17,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.gscorp.dv1.admin.clients.web.dto.ClientSelectDto;
 import com.gscorp.dv1.admin.companies.infrastructure.Company;
@@ -138,6 +141,31 @@ public class EmployeeServiceImpl implements EmployeeService {
             company = companyRepo.findByExternalId(req.getCompanyExternalId())
                 .orElseThrow(() ->
                     new IllegalArgumentException("Company not found with external id: " + req.getCompanyExternalId()));
+        }
+
+        String normalizedRut = req.getRut()
+            .replace(".", "")
+            .replace("-", "")
+            .replace(" ", "")
+            .toUpperCase();
+
+        if (normalizedRut.isEmpty()) {
+            throw new IllegalArgumentException("RUT cannot be empty");
+        }
+
+        boolean exists = employeeRepository.existsConflictingEmployment(
+            company,
+            normalizedRut,
+            Set.of(EmployeeStatus.HIRED, EmployeeStatus.ACTIVE, EmployeeStatus.NOTICE_GIVEN),
+            Set.of(EmployeeStatus.INACTIVE, EmployeeStatus.SETTLED),
+            LocalDate.now()
+        );
+
+        if (exists) {
+            throw new ResponseStatusException(
+                HttpStatus.CONFLICT,
+                "El rut ya tiene una contratación activa o desvinculación con menos de 30 dias en esta empresa"
+            );
         }
 
         Set<Project> projects =

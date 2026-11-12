@@ -1,7 +1,9 @@
 package com.gscorp.dv1.hr.employees.infrastructure;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -12,6 +14,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.gscorp.dv1.admin.companies.infrastructure.Company;
 import com.gscorp.dv1.enums.EmployeeStatus;
 import com.gscorp.dv1.enums.ShiftAssignmentStatus;
 import com.gscorp.dv1.enums.UserStatus;
@@ -558,5 +561,29 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
         @Param("showNotInvited") boolean showNotInvited,
         Pageable pageable
     );
+
+
+    @Query("""
+        SELECT CASE WHEN COUNT(e) > 0 THEN true ELSE false END
+        FROM Employee e
+        WHERE e.company = :company
+        AND UPPER(REPLACE(REPLACE(REPLACE(e.rut, '.', ''), '-', ''), ' ', '')) = :rut
+        AND (
+            e.status IS NULL
+            OR e.status IN :ongoingStatuses
+            OR (
+                e.status IN :endedStatuses
+                AND (e.exitDate IS NULL OR e.exitDate > :cutoffDate)
+            )
+        )
+        """)
+    boolean existsConflictingEmployment(
+        @Param("company") Company company,
+        @Param("rut") String rut,
+        @Param("ongoingStatuses") Set<EmployeeStatus> ongoingStatuses,
+        @Param("endedStatuses") Set<EmployeeStatus> endedStatuses,
+        @Param("cutoffDate") LocalDate cutoffDate
+    );
+
 
 }
