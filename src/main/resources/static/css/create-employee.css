@@ -198,7 +198,7 @@ p {
 .create-employee .create-employee-header .create-header-text .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.25rem;
 }
 .create-employee .create-employee-header .create-header-text .form-group label {
   font-family: "Roboto", sans-serif;
