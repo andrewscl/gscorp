@@ -208,7 +208,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
             JOIN e.shiftPattern s
             JOIN e.position pos
             JOIN e.company c
-            JOIN e.user u
+            LEFT JOIN e.user u
         WHERE e.externalId = :externalId
     """)
     Optional<EmployeeEditProjection> findEmployeeEditProjectionByExternalId(UUID externalId);
@@ -259,7 +259,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
             JOIN e.shiftPattern s
             JOIN e.position pos
             JOIN e.company c
-            JOIN e.user u
+            LEFT JOIN e.user u
         WHERE e.externalId = :externalId
     """)
     Optional<EmployeeViewProjection> findEmployeeViewProjectionByExternalId(UUID externalId);
