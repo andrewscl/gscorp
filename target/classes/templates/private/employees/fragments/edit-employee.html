@@ -22,7 +22,10 @@
                                     employee.motherSurname}"></span>
                 <span th:text="${employee.position}"></span>
                 <span th:text="${employee.mail + ' | ' + employee.phone}"></span>
-                <span th:text="${employee.username + ' | ' + employee.userStatus.displayName}"></span>
+                <span th:if="${employee.userStatus != null}"
+                    th:text="${employee.username != null ? employee.username + ' | ' + employee.userStatus.displayName : employee.userStatus.displayName}">
+                </span>
+                <span th:unless="${employee.userStatus != null}">Sin Invitar</span>
             </div>
         </div>
 
