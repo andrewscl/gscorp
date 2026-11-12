@@ -25,7 +25,6 @@ import com.gscorp.dv1.enums.EmployeeStatus;
 import com.gscorp.dv1.enums.ShiftAssignmentStatus;
 import com.gscorp.dv1.hr.employees.application.EmployeeService;
 import com.gscorp.dv1.hr.employees.application.EmployeeStatService;
-import com.gscorp.dv1.hr.employees.infrastructure.Employee;
 import com.gscorp.dv1.hr.employees.web.dto.EmployeeDto;
 import com.gscorp.dv1.hr.employees.web.dto.EmployeeSelectDto;
 import com.gscorp.dv1.hr.employees.web.dto.EmployeeViewDto;
@@ -51,12 +50,12 @@ public class EmployeeRestController {
         @Valid @ModelAttribute CreateEmployeeRequest req,
         UriComponentsBuilder ucb
     ) {
-        Employee saved = employeeService.
+        var result = employeeService.
                                 createEmployeeFromRequest(req);
         var location = ucb.path("/api/employees/{externalId}")
-                            .buildAndExpand(saved.getExternalId()).toUri();
-        EmployeeDto dto = EmployeeDto.fromEntity(saved);
-        return ResponseEntity.created(location).body(dto);
+                            .buildAndExpand(result.externalId())
+                            .toUri();
+        return ResponseEntity.created(location).body(result.employee());
     }
 
 

@@ -15,6 +15,7 @@ import com.gscorp.dv1.hr.employees.web.dto.EmployeeSelectDto;
 import com.gscorp.dv1.hr.employees.web.dto.EmployeeTableDto;
 import com.gscorp.dv1.hr.employees.web.dto.EmployeeViewDto;
 import com.gscorp.dv1.hr.employees.web.dto.request.CreateEmployeeRequest;
+import com.gscorp.dv1.hr.employees.web.dto.request.EmployeeCreationResult;
 import com.gscorp.dv1.hr.employees.web.dto.request.UpdateEmployeeRequest;
 import com.gscorp.dv1.users.infrastructure.User;
 
@@ -34,7 +35,7 @@ public interface EmployeeService {
     
     Optional<Employee> findByUsername(String username);
 
-    Employee createEmployeeFromRequest(CreateEmployeeRequest req);
+    EmployeeCreationResult createEmployeeFromRequest(CreateEmployeeRequest req);
 
     List<Employee> findAllWithProjects();
 
@@ -71,7 +72,6 @@ public interface EmployeeService {
                                 EmployeeStatus status,
                                 UUID projectExternalId,
                                 ShiftAssignmentStatus shiftAssignmentStatus);
-
 
 
 }

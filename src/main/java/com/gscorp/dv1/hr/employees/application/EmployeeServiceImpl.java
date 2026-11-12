@@ -42,11 +42,13 @@ import com.gscorp.dv1.hr.employees.infrastructure.Projections.EmployeeSelectProj
 import com.gscorp.dv1.hr.employees.infrastructure.Projections.EmployeeTableProjection;
 import com.gscorp.dv1.hr.employees.infrastructure.Projections.EmployeeViewProjection;
 import com.gscorp.dv1.hr.employees.web.dto.EmployeeCreateUserDto;
+import com.gscorp.dv1.hr.employees.web.dto.EmployeeDto;
 import com.gscorp.dv1.hr.employees.web.dto.EmployeeEditDto;
 import com.gscorp.dv1.hr.employees.web.dto.EmployeeSelectDto;
 import com.gscorp.dv1.hr.employees.web.dto.EmployeeTableDto;
 import com.gscorp.dv1.hr.employees.web.dto.EmployeeViewDto;
 import com.gscorp.dv1.hr.employees.web.dto.request.CreateEmployeeRequest;
+import com.gscorp.dv1.hr.employees.web.dto.request.EmployeeCreationResult;
 import com.gscorp.dv1.hr.employees.web.dto.request.UpdateEmployeeRequest;
 import com.gscorp.dv1.operations.shiftpatterns.application.ShiftPatternService;
 import com.gscorp.dv1.operations.shiftpatterns.infrastructure.ShiftPattern;
@@ -128,7 +130,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     @Transactional
-    public Employee createEmployeeFromRequest(CreateEmployeeRequest req) {
+    public EmployeeCreationResult createEmployeeFromRequest(CreateEmployeeRequest req) {
         
         Company company = null;
         if (req.getCompanyExternalId() != null) {
@@ -232,7 +234,12 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .status(EmployeeStatus.ACTIVE)
                 .build();
 
-        return employeeRepository.save(entity);
+        Employee saved = employeeRepository.save(entity);
+
+        return new EmployeeCreationResult(
+            saved.getExternalId(),
+            EmployeeDto.fromEntity(saved)
+        );
     }
 
 
