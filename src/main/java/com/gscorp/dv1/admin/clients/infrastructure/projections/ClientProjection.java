@@ -14,4 +14,5 @@ public interface ClientProjection {
     String getContactEmail();
     ClientStatus getStatus();
     Boolean getActive();
+    String getCompanyName();
 }

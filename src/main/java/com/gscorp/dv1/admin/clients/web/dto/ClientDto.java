@@ -15,7 +15,8 @@ public record ClientDto (
     String taxId,
     String contactEmail,
     ClientStatus status,
-    Boolean active)
+    Boolean active,
+    String companyName)
     {
 
         public static ClientDto fromEntity (Client client) {
@@ -28,7 +29,8 @@ public record ClientDto (
                 client.getTaxId(),
                 client.getContactEmail(),
                 client.getStatus(),
-                client.getActive()
+                client.getActive(),
+                client.getCompany().getName()
             );
         }
 
@@ -42,7 +44,8 @@ public record ClientDto (
                 p.getTaxId(),
                 p.getContactEmail(),
                 p.getStatus(),
-                p.getActive()
+                p.getActive(),
+                p.getCompanyName()
             );
         }
 

@@ -110,7 +110,8 @@ public interface ClientRepository extends JpaRepository<Client, Long>{
                   c.taxId AS taxId,
                   c.contactEmail AS contactEmail,
                   c.status AS status,
-                  c.active AS active
+                  c.active AS active,
+                  cy.name AS companyName
                FROM Client c
                JOIN c.company cy
                JOIN c.users u

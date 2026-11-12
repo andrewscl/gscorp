@@ -85,7 +85,8 @@ public class ClientServiceImpl implements ClientService{
                                     c.getTaxId(),
                                     c.getContactEmail(),
                                     c.getStatus(),
-                                    c.getActive()))
+                                    c.getActive(),
+                                    c.getCompany().getName()))
                     .toList();
     }
 
@@ -177,7 +178,9 @@ public class ClientServiceImpl implements ClientService{
                                 c.taxId(),
                                 c.contactEmail(),
                                 c.status(),
-                                c.active())
+                                c.active(),
+                                c.companyName()
+                                )
                 )
 
                 .collect(Collectors.toList());
