@@ -36,7 +36,7 @@ const createProject = async () => {
     cancelBtn.disabled = true;
 
     try {
-        const response = await fetchWithAuth('/api/projects', {
+        const response = await fetchWithAuth('/api/projects/create', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
