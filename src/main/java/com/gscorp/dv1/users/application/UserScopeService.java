@@ -38,10 +38,9 @@ public class UserScopeService {
             return ProjectScope.unrestricted();
         }
 
-        boolean isUserLevelScoped = has(securityUser, "ROLE_CLIENT") || has(securityUser, "ROLE_ANALYST") || has(securityUser, "ROLE_RRHH");
+        boolean isUserLevelScoped = has(securityUser, "ROLE_CLIENT");
         if (isUserLevelScoped) {
-            // List<ProjectDto> projects = projectService.findProjectDtosByUserExternalId(userExternalId);
-            List<ProjectDto> projects = projectRepository.findByUserExternalId(userExternalId)
+            List<ProjectDto> projects = projectRepository.findByUserExternalIdAndClient(userExternalId)
                                                         .stream()
                                                         .map(ProjectDto::fromProjection)
                                                         .toList();
@@ -50,6 +49,19 @@ public class UserScopeService {
                             : List.of();
             return ProjectScope.restricted(ids);
         }
+
+        boolean isManagerLevelScoped = has(securityUser, "ROLE_ANALYST") || has(securityUser, "ROLE_RRHH");
+        if (isManagerLevelScoped) {
+            List<ProjectDto> projects = projectRepository.findByUserExternalIdAndCompany(userExternalId)
+                                                        .stream()
+                                                        .map(ProjectDto::fromProjection)
+                                                        .toList();
+            List<Long> ids = (projects != null)
+                            ? projects.stream().map(dto -> dto.id()).toList()
+                            : List.of();
+            return ProjectScope.restricted(ids);
+        }
+
         if (user.getEmployee() != null && user.getEmployee().getExternalId() != null){
             UUID employeeExternalId = user.getEmployee().getExternalId();
             List<ProjectSelectDto> projects =

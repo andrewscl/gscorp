@@ -132,8 +132,37 @@ public interface ProjectRepository extends JpaRepository<Project, Long>{
         JOIN c.users u
         WHERE (u.externalId = :userExternalId)
         """)
-    List<ProjectProjection> findByUserExternalId(
+    List<ProjectProjection> findByUserExternalIdAndClient(
                             @Param("userExternalId") UUID userExternalId);
+
+    @Query("""
+        SELECT
+            p.id            AS  id,
+            p.externalId    AS  externalId,
+            p.name          AS  name,
+            c.id            AS  clientId,
+            c.name          AS  clientName,
+            p.description   AS  description,
+            p.startDate     AS  startDate,
+            p.endDate       AS  endDate,
+            p.status        AS  status,
+            p.active        AS  active,
+            p.createdAt     AS  createdAt,
+            p.updatedAt     AS  updatedAt,
+            p.createdBy     AS  createdBy,
+            p.updatedBy     AS  updatedBy
+        FROM Project p
+        JOIN p.client c
+        JOIN c.company co
+        JOIN co.users u
+        WHERE (u.externalId = :userExternalId)
+        """)
+    List<ProjectProjection> findByUserExternalIdAndCompany(
+                            @Param("userExternalId") UUID userExternalId);
+
+
+
+
 
 
     @Query("""
