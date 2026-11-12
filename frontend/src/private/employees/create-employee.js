@@ -147,7 +147,7 @@ async function onCreateEmployee(e) {
     if (companyId) formData.append('companyId', companyId);
 
     // Proyectos asociados (MULTI)
-    projectExternalIds.forEach(id => formData.append('projectIds', id));
+    projectExternalIds.forEach(id => formData.append('projectExternalIds', id));
 
     if (photo) formData.append('photo', photo);
 
@@ -215,7 +215,7 @@ const handleCompanyChange = async () => {
 
   // 2. Capturar todos los checkboxes actualmente seleccionados (Array de UUIDs)
   const prevSelectedProjects = Array.from(
-    document.querySelectorAll('input[name="projectIds"]:checked')
+    document.querySelectorAll('input[name="projectExternalIds"]:checked')
   ).map(cb => cb.value);
 
   try {
@@ -231,7 +231,7 @@ const handleCompanyChange = async () => {
       items: projects,
       emptyLabel: 'Sin proyectos asociados',
       valueKey: 'externalId',
-      inputName: 'projectIds',
+      inputName: 'projectExternalIds',
       preservedValues: prevSelectedProjects
     });
   } catch (err) {
