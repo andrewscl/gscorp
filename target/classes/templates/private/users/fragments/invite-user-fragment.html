@@ -24,7 +24,7 @@
     </div>
 
     <div class="form-group">
-      <label for="inviteEmployeeId">Asignar a empleado:</label>
+      <label>Asignar a empleado:</label>
       <select name="inviteEmployeeId" id="inviteEmployeeId" th:disabled="${selectedEmployee != null}">
         <option value="" disabled selected>Seleccione un empleado...</option>
         <th:block th:each="emp : ${employees}">
@@ -37,8 +37,8 @@
 
     <div class="form-row w-custom">
       <div class="form-group col-50">
-        <label for="userCompanies">Empresas</label>
-        <select id="userCompanies" name="companyIds" multiple size="6">
+        <label>Empresas</label>
+        <select id="userCompanies" name="companyIds" multiple size="6" th:disabled="${selectedEmployee != null}">
           <option th:each="company : ${companies}"
                   th:value="${company.id}"
                   th:text="${company.name}"
@@ -47,8 +47,8 @@
         </select>
       </div>
       <div class="form-group col-50">
-        <label for="userClients">Clientes</label>
-        <select id="userClients" name="clientIds" multiple size="6">
+        <label>Clientes</label>
+        <select id="userClients" name="clientIds" multiple size="6" th:disabled="${selectedEmployee != null}">
           <option th:each="client : ${clients}"
                   th:value="${client.id}"
                   th:text="${client.name}"
@@ -60,11 +60,12 @@
 
     <div class="form-group">
       <label for="inviteRoleId">Asignar role:</label>
-      <select name="inviteRoleId" id="inviteRoleId">
+      <select name="inviteRoleId" id="inviteRoleId" th:disabled="${selectedEmployee != null}">
         <option value="" disabled selected>Seleccione un role...</option>
         <th:block th:each="role : ${roles}">
           <option th:value="${role.id}"
-                  th:text="${role.name}"></option>
+                  th:text="${role.name}"
+                  th:selected="${selectedEmployee != null && role.name == 'EMPLOYEE'}"></option>
         </th:block>
       </select>
     </div>
