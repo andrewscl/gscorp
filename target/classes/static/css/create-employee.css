@@ -305,8 +305,6 @@ p {
   max-height: 110px;
   overflow-y: auto;
   padding: 8px 10px;
-  background-color: #f0f7ff;
-  border: 1px solid #bfdbfe;
   border-radius: 8px;
 }
 .create-employee .create-employee-header .create-header-text .form-group .checkbox-group-container .checkbox-item {
