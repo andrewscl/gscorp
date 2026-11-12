@@ -172,7 +172,7 @@ public class ProjectServiceImpl implements ProjectService{
     @Transactional(readOnly = true)
     public List<ProjectDto>
                     findProjectDtosByUserExternalId(UUID userExternalId){
-        return projectRepository.findByUserExternalId(userExternalId)
+        return projectRepository.findByUserExternalIdAndClient(userExternalId)
                 .stream()
                 .map(ProjectDto::fromProjection)
                 .toList();
