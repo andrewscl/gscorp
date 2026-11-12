@@ -9,9 +9,7 @@
                     <circle cx="12" cy="7" r="4" />
                 </svg>
             </div>
-
             <input type="file" id="employeePhotoInput" name="photoFile" accept="image/*" style="display: none;" />
-            
             <button type="button" class="btn-change-photo" id="changePhotoBtn">Subir foto</button>
         </div>
 
@@ -19,9 +17,13 @@
             <div class="create-header-text-title">
                 <h4>Nueva Ficha de Contratación</h4>
                 <div class="actions">
-                    <button class="btn btn-primary" id="addemployeeBtn"
+                    <button class="btn btn-primary" id="addEmployeeBtn"
                     th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'') or hasRole(''RRHH'')')}">
-                    Crear Proyecto
+                    Crear Empleado
+                    </button>
+                    <button class="btn btn-secondary" id="cancelEmployeeBtn"
+                    th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'') or hasRole(''RRHH'')')}">
+                    Cancelar
                     </button>
                 </div>
             </div>
