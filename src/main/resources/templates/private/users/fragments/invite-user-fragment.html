@@ -5,18 +5,25 @@
     <h3>Invitar nuevo usuario</h3>
   </div>
 
+  <div id="inviteContext"
+      th:attr="data-has-selected-employee=${selectedEmployee != null}">
+  </div>
+  <div id="employeeExternalId"
+      th:attr="data-employee-external-id=${selectedEmployee != null ? selectedEmployee.externalId : ''}">
+  </div>
+
   <div class="body" id="inviteUserForm">
 
     <div class="form-row w-custom">
       <div class="form-group col-40">
-        <label for="inviteUsername">Nombre de usuario:</label>
+        <label>Nombre de usuario:</label>
         <input type="text" id="inviteUsername"
                 th:value="${selectedEmployee != null ? selectedEmployee.username : ''}"
                 th:disabled="${selectedEmployee != null}" required />
       </div>
 
       <div class="form-group col-60">
-        <label for="inviteMail">Email:</label>
+        <label>Email:</label>
         <input type="email" id="inviteMail"
                 th:value="${selectedEmployee != null ? selectedEmployee.email : ''}"
                 th:disabled="${selectedEmployee != null}" required />
