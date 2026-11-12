@@ -183,6 +183,11 @@ p {
 .create-employee .create-employee-header .create-header-foto .btn-change-photo:active {
   transform: translateY(0);
 }
+.create-employee .create-employee-header .create-header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
 .create-employee .create-employee-header .create-header-text .create-header-text-title {
   font-family: "Montserrat", sans-serif;
   font-size: 1.1rem;
@@ -231,30 +236,55 @@ p {
   background-color: #ffffff;
 }
 .create-employee .create-employee-header .create-header-text .form-group .checkbox-group-container {
-  max-height: 120px;
-  overflow-y: auto;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  padding: 8px 12px;
-  background-color: #ffffff;
   display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.create-employee .create-employee-header .create-header-text .form-group .checkbox-group-container .checkbox-item {
-  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
   gap: 8px;
-  font-size: 0.9rem;
+  max-height: 110px;
+  overflow-y: auto;
+  padding: 8px 10px;
+  background-color: #f0f7ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+}
+.create-employee .create-employee-header .create-header-text .form-group .checkbox-group-container .checkbox-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  transition: all 0.15s ease;
   cursor: pointer;
+}
+.create-employee .create-employee-header .create-header-text .form-group .checkbox-group-container .checkbox-item:hover {
+  border-color: #94a3b8;
+  background-color: #f8fafc;
+}
+.create-employee .create-employee-header .create-header-text .form-group .checkbox-group-container .checkbox-item:has(input:checked) {
+  border-color: #2563eb;
+  background-color: #eff6ff;
+}
+.create-employee .create-employee-header .create-header-text .form-group .checkbox-group-container .checkbox-item:has(input:checked) label {
+  color: #1d4ed8;
+  font-weight: 500;
 }
 .create-employee .create-employee-header .create-header-text .form-group .checkbox-group-container .checkbox-item label {
   padding-left: 0;
+  margin: 0;
   cursor: pointer;
+  white-space: nowrap;
 }
 .create-employee .create-employee-header .create-header-text .form-group .checkbox-group-container .checkbox-item input[type=checkbox] {
   cursor: pointer;
   accent-color: #2563eb;
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  flex-shrink: 0;
 }
 .create-employee .create-employee-header .generic-buttons {
   margin-left: auto;
