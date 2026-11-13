@@ -120,6 +120,7 @@ p {
   box-sizing: border-box;
 }
 .signin-page .auth-form-container {
+  position: relative;
   width: 90%;
   max-width: 28rem;
   margin: 0 auto;
@@ -136,6 +137,20 @@ p {
   transform: translateY(-0.25rem);
   box-shadow: 0 0.5rem 1.25rem rgba(15, 23, 42, 0.08);
   border-color: #cbd5e1;
+}
+.signin-page .auth-form-container .close-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  border: 0;
+  background: transparent;
+  color: #64748b;
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.signin-page .auth-form-container .close-button:hover, .signin-page .auth-form-container .close-button:focus-visible {
+  color: #1e293b;
 }
 .signin-page .auth-form-container .logo-container {
   display: flex;
@@ -283,4 +298,4 @@ p {
 }
 .signin-page .auth-form-container .auth-form .btn-primary:active {
   transform: translateY(0);
-}/*# sourceMappingURL=signup.css.map */=signup.css.map */
+}/*# sourceMappingURL=signup.css.map */

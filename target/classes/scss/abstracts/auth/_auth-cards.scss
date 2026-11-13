@@ -19,6 +19,7 @@
     box-sizing: border-box;
 
     .auth-form-container {
+        position: relative;
         width: 90%;
         max-width: $max-w;
         margin: 0 auto;
@@ -36,6 +37,22 @@
             transform: translateY(-0.25rem);
             box-shadow: $shadow-md;
             border-color: $border-color-hover;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            border: 0;
+            background: transparent;
+            color: #64748b;
+            font-size: 1.75rem;
+            line-height: 1;
+            cursor: pointer;
+            &:hover,
+            &:focus-visible {
+                color: #1e293b;
+            }
         }
 
         .logo-container {
@@ -58,6 +75,7 @@
                 @include montserrat-font(1.45rem, 700);
                 color: $primary-color;
             }
+
         }
 
         .auth-form {
