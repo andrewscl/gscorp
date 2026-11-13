@@ -43,7 +43,7 @@ function hideAndShowPassword() {
 }
 
 function forgotPassword() {
-    navigateTo('/auth/forgot-password', true);
+    navigateTo('/auth/forgot-password');
 }
 
 
