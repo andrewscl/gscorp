@@ -43,7 +43,7 @@ function hideAndShowPassword() {
 }
 
 function forgotPassword() {
-    navigateTo('/private/shift-requests/table-view', true);
+    navigateTo('/auth/forgot-password', true);
 }
 
 
