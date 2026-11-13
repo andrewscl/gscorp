@@ -153,8 +153,9 @@ public class UserServiceImpl implements UserService{
         user.setCompanies(new HashSet<>());
         user.setClients(new HashSet<>());
 
-        assignMatrixAndValidateForCreate(user, request.employeeId(), request.companyIds(), request.clientIds());
         User savedUser = userRepo.save(user);
+        assignMatrixAndValidateForCreate(user, request.employeeId(), request.companyIds(), request.clientIds());
+
         return savedUser;
     }
 
