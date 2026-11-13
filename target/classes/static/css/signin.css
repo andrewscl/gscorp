@@ -165,6 +165,9 @@ p {
   display: block;
 }
 .signin-page .auth-form-container .auth-form-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   text-align: center;
   margin-bottom: 1.5rem;
 }
@@ -174,6 +177,15 @@ p {
   font-weight: 700;
   letter-spacing: 0.02em;
   color: #1e293b;
+  margin: 0;
+}
+.signin-page .auth-form-container .auth-form-title .auth-form-text {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #334155;
+  margin: 0;
 }
 .signin-page .auth-form-container .auth-form {
   display: flex;
