@@ -247,7 +247,7 @@ p {
   text-align: right;
 }
 .signin-page .auth-form-container .auth-form .forgot-pass-container a {
-  color: #0f172a;
+  color: #3b82f6;
   font-family: "Montserrat", sans-serif;
   font-size: 0.9rem;
   font-weight: 600;
@@ -257,7 +257,6 @@ p {
 .signin-page .auth-form-container .auth-form .forgot-pass-container a:hover {
   cursor: pointer;
   text-decoration: underline;
-  color: #3b82f6;
 }
 .signin-page .auth-form-container .auth-form .btn-primary {
   margin-top: 0.5rem;
@@ -284,4 +283,4 @@ p {
 }
 .signin-page .auth-form-container .auth-form .btn-primary:active {
   transform: translateY(0);
-}/*# sourceMappingURL=signup.css.map */ap */
+}/*# sourceMappingURL=signup.css.map */=signup.css.map */
