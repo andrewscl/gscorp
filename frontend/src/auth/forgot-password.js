@@ -16,15 +16,6 @@ function bindForgotPasswordForm() {
     if (processBtn) {
         processBtn.addEventListener('click', processForgotPassword);
     }
-    const cancelBtn = qs('.btn-secondary');
-    if (cancelBtn) {
-        cancelBtn.addEventListener('click', cancelForgotPassword);
-    }
-}
-
-const cancelForgotPassword = () => {
-    displayAlert(alertCancel, 'La recuperación de contraseña ha sido cancelada.', 2500);
-    setTimeout(() => navigateTo('/auth/signin', true), 2000);
 }
 
 const processForgotPassword = async () => {
