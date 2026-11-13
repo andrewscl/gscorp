@@ -12,7 +12,7 @@
                 <h1 class="auth-form-title-text">Iniciar Sesión</h1>
             </div>
 
-            <form id="signinForm" class="auth-form">
+            <div id="signinForm" class="auth-form">
                 <div class="form-group">
                     <label for="username">Nombre de Usuario:</label>
                     <input type="text" id="username" name="username" 
@@ -20,7 +20,7 @@
                                 class="form-control" required autofocus />
                 </div>
                 <div class="form-group">
-                    <label for="username">Contraseña:</label>
+                    <label for="password">Contraseña:</label>
                     <div class="password-wrapper">
                         <input type="password" id="password" name="password"
                                     placeholder="Tu contraseña" class="form-control"
@@ -29,8 +29,10 @@
                     </div>
                 </div>
 
+                <div class="forgot-pass" id="forgotPass">¿Olvidaste tu contraseña?</div>
+
                 <button type="button" id="loginBtn" class="btn btn-primary">Iniciar Sesión</button>
-            </form>
+            </div>
 
         </div>
     </div>

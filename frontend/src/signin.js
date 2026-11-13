@@ -1,15 +1,35 @@
 import {navigateTo} from './navigation-handler.js'
 
-console.log("signin.js cargado correctamente");
+async function login(){
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
 
-// Enfocar el primer campo (nombre de usuario) al cargar la página
-function setupSigninForm() {
-    const usernameInput = document.getElementById('username');
-    if (usernameInput) {
-        usernameInput.focus();
+    try {
+
+        const response = await fetch("/auth/signin", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({username, password})
+        });
+        if(!response.ok) {
+            const message = await response.text();
+            throw new Error(message || "Credenciales invalidas");
+        }
+        const data  = await response.json();
+        const token = data.token;
+        localStorage.setItem("jwt", token);
+        await navigateTo('/private');
+
+    } catch (error) {
+        alert("Error al iniciar sesión: " + error.message);
     }
+}
 
-    // Funcionalidad para mostrar/ocultar contraseña (opcional)
+const qs = (s) => document.querySelector(s);
+
+function hideAndShowPassword() {
     const passwordInput = document.getElementById('password');
     const togglePasswordButton = document.getElementById('togglePassword'); // Añadir botón en HTML
 
@@ -20,50 +40,31 @@ function setupSigninForm() {
             this.textContent = type === 'password' ? 'Mostrar' : 'Ocultar'; // Cambia el texto del botón
         });
     }
+}
 
-    const loginBtn = document.getElementById("loginBtn");
-    if(loginBtn) {
-        loginBtn.addEventListener("click", (e) => {
-            e.preventDefault();
-            login();
-        });
+function forgotPassword() {
+    navigateTo('/private/shift-requests/table-view', true);
+}
+
+
+function bindEvents() {
+    const loginBtn = qs('#loginBtn');
+    if (loginBtn) {
+        loginBtn.addEventListener('click', login);
+    }
+    const usernameInput = qs('#username');
+    if (usernameInput) {
+        usernameInput.focus();
+    }
+    const forgotPasswordLink = qs('#forgotPass');
+    if (forgotPasswordLink) {
+        forgotPasswordLink.addEventListener('click', forgotPassword);
     }
 }
 
-setupSigninForm();
+(function init(){
+    bindEvents();
+    hideAndShowPassword();
+})();
 
-//Login y manejo del token JWT:
-async function login(){
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
 
-    try {
-        /*Para realizar la solicitud fetch, se envía una solicitud POST
-        a /auth/signin con los datos de inicio de sesión
-        (usuario y contraseña) en formato JSON.*/
-        const response = await fetch("/auth/signin", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({username, password})
-        });
-
-        if(!response.ok) {
-            const message = await response.text();
-            throw new Error(message || "Credenciales invalidas");
-        }
-
-        const data  = await response.json();
-        const token = data.token;
-
-        //Guardar el token en local storage
-        localStorage.setItem("jwt", token);
-
-        // carga el shell privado
-        await navigateTo('/private');
-
-    } catch (error) {
-        alert("Error al iniciar sesión: " + error.message);
-    }
-}
