@@ -32,8 +32,8 @@ public class AuthController {
     }
 
     @GetMapping("/forgot-password")
-    public String showForgotPasswordForm (Model model, HttpServletRequest req) {
-        return render("auth/views/forgot-password-view", model, req);
+    public String showForgotPasswordForm (Model model) {
+        return "auth/fragments/forgot-password";
     }
 
     @GetMapping("/define-password")
