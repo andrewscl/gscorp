@@ -1,7 +1,6 @@
 package com.gscorp.dv1.users.application;
 
 import java.time.DateTimeException;
-import java.time.Duration;
 import java.time.ZoneId;
 import java.util.HashSet;
 import java.util.List;
@@ -61,8 +60,6 @@ public class UserServiceImpl implements UserService{
     private final RoleService roleService;
     private final PasswordEncoder encoder;
     private final PasswordResetTokenService passwordResetTokenService;
-
-    private static final Duration INVITE_TTL = Duration.ofDays(7);
 
     @Transactional
     public Long createUser (CreateUserRequest req){
@@ -158,7 +155,6 @@ public class UserServiceImpl implements UserService{
 
         assignMatrixAndValidateForCreate(user, request.employeeId(), request.companyIds(), request.clientIds());
         User savedUser = userRepo.save(user);
-        passwordResetTokenService.createToken(savedUser, INVITE_TTL);
         return savedUser;
     }
 
