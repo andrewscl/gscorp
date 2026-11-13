@@ -1,4 +1,3 @@
-import { fetchWithAuth } from '../auth.js';
 import { navigateTo } from '../navigation-handler.js';
 import { displayAlert } from '../shared/display-alert.js';
 
@@ -29,5 +28,5 @@ const cancelForgotPassword = () => {
 }
 
 const processForgotPassword = async () => {
-
+    const processBtn = qs('.btn-primary');
 }
