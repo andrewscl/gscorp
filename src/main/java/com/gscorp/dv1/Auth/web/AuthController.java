@@ -31,6 +31,11 @@ public class AuthController {
         return render("auth/views/signin-view", model, req);
     }
 
+    @GetMapping("/forgot-password")
+    public String showForgotPasswordForm (Model model, HttpServletRequest req) {
+        return render("auth/fragments/forgot-password", model, req);
+    }
+
     @GetMapping("/define-password")
     public String showDefinePasswordForm (@RequestParam("token") String token,
                         Model model, HttpServletRequest req) {

@@ -136,6 +136,17 @@
                     }
                 }
             }
+            .forgot-pass-container {
+                margin-top: 1rem;
+                text-align: right;
+                a {
+                    color: $primary-color-strong;
+                    text-decoration: none;
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
             .btn-primary {
                 margin-top: 0.5rem;
                 @include montserrat-font(1rem, 600);

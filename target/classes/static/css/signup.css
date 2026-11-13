@@ -242,6 +242,17 @@ p {
 .signin-page .auth-form-container .auth-form .form-group .password-wrapper .togglePassword:focus {
   outline: none;
 }
+.signin-page .auth-form-container .auth-form .forgot-pass-container {
+  margin-top: 1rem;
+  text-align: right;
+}
+.signin-page .auth-form-container .auth-form .forgot-pass-container a {
+  color: #0f172a;
+  text-decoration: none;
+}
+.signin-page .auth-form-container .auth-form .forgot-pass-container a:hover {
+  text-decoration: underline;
+}
 .signin-page .auth-form-container .auth-form .btn-primary {
   margin-top: 0.5rem;
   font-family: "Montserrat", sans-serif;
@@ -267,4 +278,4 @@ p {
 }
 .signin-page .auth-form-container .auth-form .btn-primary:active {
   transform: translateY(0);
-}/*# sourceMappingURL=signup.css.map */
+}/*# sourceMappingURL=signup.css.map *//
