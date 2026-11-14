@@ -1,6 +1,7 @@
 package com.gscorp.dv1.hr.employees.web.dto;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import com.gscorp.dv1.enums.BankAccountType;
 import com.gscorp.dv1.enums.ContractType;
@@ -21,6 +22,7 @@ import com.gscorp.dv1.hr.employees.infrastructure.Projections.EmployeeViewProjec
 public record EmployeeViewDto (
 
     Long id,
+    UUID externalId,
     String name,
     String fatherSurname,
     String motherSurname,
@@ -60,6 +62,7 @@ public record EmployeeViewDto (
             fromProjection(EmployeeViewProjection p) {
         return new EmployeeViewDto(
             p.getId(),
+            p.getExternalId(),
             p.getName(),
             p.getFatherSurname(),
             p.getMotherSurname(),
