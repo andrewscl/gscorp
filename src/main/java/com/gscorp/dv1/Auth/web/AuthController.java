@@ -36,40 +36,34 @@ public class AuthController {
         return "auth/fragments/forgot-password";
     }
 
-    @GetMapping("/define-password")
-    public String showDefinePasswordForm (@RequestParam("token") String token,
-                        Model model, HttpServletRequest req) {
 
-        // 1. Buscar el token
+    @GetMapping("/define-password")
+    public String showDefinePasswordForm (
+                    @RequestParam("token") String token,
+                    Model model,
+                    HttpServletRequest req) {
+
         Optional<PasswordResetToken> opt = passwordResetTokenService.findByToken(token);
 
-        System.out.println("TOKEN RECIBIDO: " + token);
-        System.out.println("TOKEN ENCONTRADO: " + opt);
-        if (opt.isPresent()) {
-            System.out.println("TOKEN EXPIRADO: " + opt.get().isExpired());
-            System.out.println("TOKEN USADO: " + opt.get().isUsed());
-        }
-
-        // 2. Validar usando el service
-        if (opt.isEmpty() || !passwordResetTokenService.isValid(opt.get())) {
+        if (opt.isEmpty() || !passwordResetTokenService.isValid(opt.get()) || opt.get().getPurpose() == null) {
             model.addAttribute("error", "El enlace es inválido o ha expirado.");
             return render("auth/views/invalid-token-view", model, req);
         }
 
         model.addAttribute("token", token);
-        return render("auth/views/define-password-view", model, req);
+
+        return switch (opt.get().getPurpose()) {
+                case INVITATION -> render("auth/views/define-password-view", model, req);
+                case PASSWORD_RECOVERY -> render("auth/views/recover-password-view", model, req);
+        };
     }
 
-    // ==== helper: decide layout + view (deep link) vs solo view (SPA) ====
-    private String render(String view, Model model, HttpServletRequest req){
-        // si el SPA hace fetch con este header, devuelve solo el view
 
+    private String render(String view, Model model, HttpServletRequest req){
         if("1".equals(req.getHeader("X-Fragment-Request"))
             || "1".equals(req.getParameter("fragment"))){
             return view;
         }
-
-        // Deep Link / F5: devuelve el layout e inserta el view
         model.addAttribute("auth", view);
         return "auth/layouts/auth-layout";
     }

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gscorp.dv1.auth.infrastructure.PasswordResetToken;
 import com.gscorp.dv1.auth.infrastructure.PasswordResetTokenRepository;
+import com.gscorp.dv1.enums.TokenPurpose;
 import com.gscorp.dv1.users.infrastructure.User;
 
 import lombok.RequiredArgsConstructor;
@@ -22,11 +23,11 @@ public class PasswordResetTokenServiceImpl implements PasswordResetTokenService 
 
     @Override
     @Transactional
-    public PasswordResetToken createToken(User user, Duration duration) {
+    public PasswordResetToken createToken(User user, Duration duration, TokenPurpose purpose) {
         String token = UUID.randomUUID().toString();
         LocalDateTime expiry = LocalDateTime.now().plus(duration);
 
-        PasswordResetToken prt = new PasswordResetToken(token, user, expiry);
+        PasswordResetToken prt = new PasswordResetToken(token, user, expiry, purpose);
         return tokenRepo.save(prt);
     }
 

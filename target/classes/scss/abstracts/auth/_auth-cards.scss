@@ -81,7 +81,7 @@
                 line-height: 1.5;
             }
             .auth-form-text {
-                @include roboto-font(1rem, 400);
+                @include roboto-font(0.9rem, 400);
                 color: $heading-color;
                 margin: 0;
             }
@@ -187,5 +187,9 @@
             }
         }
 
+    }
+
+    .alert-container {
+        @include alert-container();
     }
 }

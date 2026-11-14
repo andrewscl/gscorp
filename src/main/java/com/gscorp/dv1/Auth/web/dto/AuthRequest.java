@@ -1,4 +1,4 @@
-package com.gscorp.dv1.auth;
+package com.gscorp.dv1.auth.web.dto;
 
 import lombok.Data;
 

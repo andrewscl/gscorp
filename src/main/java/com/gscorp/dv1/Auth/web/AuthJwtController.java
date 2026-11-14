@@ -1,4 +1,4 @@
-package com.gscorp.dv1.auth;
+package com.gscorp.dv1.auth.web;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gscorp.dv1.auth.web.dto.AuthRequest;
+import com.gscorp.dv1.auth.web.dto.AuthResponse;
 import com.gscorp.dv1.services.SignInService;
 import com.gscorp.dv1.services.SignUpService;
 import com.gscorp.dv1.users.infrastructure.User;
@@ -43,4 +45,5 @@ public class AuthJwtController {
                             + e.getMessage());
         }
     }
+
 }

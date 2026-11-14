@@ -24,6 +24,7 @@ export default defineConfig({
         'auth': path.resolve(__dirname, './src/auth.js'),
         'auth/define-password': path.resolve(__dirname, './src/auth/define-password.js'),
         'auth/forgot-password': path.resolve(__dirname, './src/auth/forgot-password.js'),
+        'auth/recovery-password': path.resolve(__dirname, './src/auth/recovery-password.js'),
 
         'contact': path.resolve(__dirname, './src/contact.js'),
         'init-router': path.resolve(__dirname, './src/init-router.js'),

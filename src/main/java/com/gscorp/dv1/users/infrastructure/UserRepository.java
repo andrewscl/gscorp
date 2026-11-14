@@ -134,4 +134,18 @@ public interface UserRepository extends JpaRepository<User, Long>{
         """)
     Optional<User> findByUsernameWithEmployee(@Param("username") String username);
 
+
+    @Query("""
+        SELECT u 
+        FROM User u
+        WHERE u.status = :status
+            AND u.active = true
+            AND ( LOWER(u.username) = LOWER(:identifier)
+                OR LOWER(u.mail) = LOWER(:identifier) )
+    """)
+    List<User> findByUsernameOrEmail(
+        @Param("identifier") String identifier,
+        @Param("status") UserStatus status
+    );
+
 }

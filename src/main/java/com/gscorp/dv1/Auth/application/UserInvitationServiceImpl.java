@@ -9,6 +9,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import com.gscorp.dv1.auth.infrastructure.PasswordResetToken;
+import com.gscorp.dv1.enums.TokenPurpose;
 import com.gscorp.dv1.auth.web.dto.UserInvitationEmailDto;
 import com.gscorp.dv1.enums.AccountType;
 import com.gscorp.dv1.enums.UserStatus;
@@ -49,7 +50,7 @@ public class UserInvitationServiceImpl implements UserInvitationService {
         User user = userService.createInvitedUser(request);
 
         PasswordResetToken token = passwordResetTokenService.
-                                            createToken(user, INVITE_TTL);
+                                            createToken(user, INVITE_TTL, TokenPurpose.INVITATION);
 
         String displayName = user.getUsername();
 
@@ -83,7 +84,7 @@ public class UserInvitationServiceImpl implements UserInvitationService {
                 EmployeeSelectDto employee =
                     employeeService.findEmployeeByUserId(user.getId());
                 passwordResetTokenService.deleteByUserId(user.getId());
-                PasswordResetToken token = passwordResetTokenService.createToken(user, INVITE_TTL);
+                PasswordResetToken token = passwordResetTokenService.createToken(user, INVITE_TTL, TokenPurpose.INVITATION);
 
                 String subject = "Bienvenido a SESAN";
                 Context context = new Context();

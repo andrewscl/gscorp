@@ -18,6 +18,7 @@ import com.gscorp.dv1.auth.application.PasswordResetTokenService;
 import com.gscorp.dv1.auth.application.UserInvitationService;
 import com.gscorp.dv1.auth.infrastructure.PasswordResetToken;
 import com.gscorp.dv1.auth.web.dto.UserInvitationEmailDto;
+import com.gscorp.dv1.enums.TokenPurpose;
 import com.gscorp.dv1.enums.UserStatus;
 import com.gscorp.dv1.exceptions.ResourceNotFoundException;
 import com.gscorp.dv1.hr.employees.application.EmployeeService;
@@ -97,7 +98,7 @@ public class UserInvitationRestController {
 
         passwordResetTokenService.deleteByUserId(user.getId());
 
-        PasswordResetToken token = passwordResetTokenService.createToken(user, INVITE_TTL);
+        PasswordResetToken token = passwordResetTokenService.createToken(user, INVITE_TTL, TokenPurpose.INVITATION);
 
         String subject = "Bienvenido a SESAN";
 

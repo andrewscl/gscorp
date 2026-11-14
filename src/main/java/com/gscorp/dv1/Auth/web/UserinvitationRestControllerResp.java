@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gscorp.dv1.auth.application.PasswordResetTokenService;
 import com.gscorp.dv1.auth.infrastructure.PasswordResetToken;
+import com.gscorp.dv1.enums.TokenPurpose;
 import com.gscorp.dv1.services.GmailService;
 import com.gscorp.dv1.users.application.UserService;
 import com.gscorp.dv1.users.infrastructure.User;
@@ -36,7 +37,7 @@ public class UserinvitationRestControllerResp {
         User user = userService.createInvitedUser(request);
         // Crear el token de invitación (válido por 24 horas)
         PasswordResetToken token = passwordResetTokenService.
-                                            createToken(user, INVITE_TTL);
+                                            createToken(user, INVITE_TTL, TokenPurpose.INVITATION);
         // Enviar el correo de invitación con diseño mejorado y logo
         String subject = "Bienvenido a SESAN";
         String htmlBody = """
