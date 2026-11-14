@@ -73,7 +73,7 @@ public class PasswordRecoveryServiceImpl implements PasswordRecoveryService {
         context.setVariable("name", dto.displayName());
         String cssPath = "static/css/email-recovery.css";
         String htmlBody =
-                templateEngine.process("auth/fragments/email-recovery", context);
+                templateEngine.process("auth/fragments/emails/email-recovery", context);
         String finalHtmlBody =
                 EmailTemplateUtils.buildStyledEmail(htmlBody, cssPath);
         try {
