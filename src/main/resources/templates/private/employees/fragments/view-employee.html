@@ -1,5 +1,9 @@
 <div class="view-employee" th:fragment="content">
 
+    <input type="hidden" id="employeeExternalId" th:value="${employee.externalId}">
+    <input type="hidden" id="employeeId" th:value="${employee.id}">
+    <input type="hidden" id="employeePositionId" th:value="${employee.positionId}">
+
     <div class="view-employee-header">
 
         <div class="ve-header-foto">
@@ -33,6 +37,19 @@
             </div>
         </div>
 
+        <button class="create-invite-account"
+                id="createInviteAccount"
+                th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'') OR hasRole(''RRHH'')') and
+                        #strings.isEmpty(employee.username)}">
+            Crear Usuario
+        </button>
+        <button class="resend-invite-account"
+                id="resendInviteAccount"
+                th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'') OR hasRole(''RRHH'')') and
+                        !#strings.isEmpty(employee.username)}">
+            Reenviar Invitación
+        </button>
+
         <div th:replace="~{shared/fragments/buttons :: generic-buttons(
             false, '',
             true, 'Volver',
@@ -41,6 +58,8 @@
         </div>
 
     </div>
+
+    <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
 
     <div th:replace="~{shared/fragments/panels/tab-panel-card :: tabPanelCard(
         title='Empleado',

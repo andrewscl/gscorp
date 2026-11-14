@@ -148,4 +148,14 @@ public interface UserRepository extends JpaRepository<User, Long>{
         @Param("status") UserStatus status
     );
 
+    @Query("""
+        SELECT u 
+        FROM User u
+            JOIN u.employee e
+        WHERE e.externalId = :externalId
+    """)
+    Optional<User> findByEmployeeExternalId(
+        @Param("externalId") UUID externalId
+    );
+
 }

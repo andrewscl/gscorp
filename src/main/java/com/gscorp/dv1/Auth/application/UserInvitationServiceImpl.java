@@ -2,6 +2,8 @@ package com.gscorp.dv1.auth.application;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,21 +48,16 @@ public class UserInvitationServiceImpl implements UserInvitationService {
         if(userRepo.existsByUsername(request.username())) {
             throw new IllegalArgumentException("El nombre de usuario ya está registrado en el sistema.");
         }
-
         User user = userService.createInvitedUser(request);
-
         PasswordResetToken token = passwordResetTokenService.
                                             createToken(user, INVITE_TTL, TokenPurpose.INVITATION);
-
         String displayName = user.getUsername();
-
         if (user.getRole().getAccountType() == AccountType.COMPANY && request.employeeId() != null) {
             EmployeeSelectDto employee = employeeService.findEmployeeSelectDtoById(request.employeeId());
             if (employee != null) {
                 displayName = employee.name();
             }
         }
-
         return new UserInvitationEmailDto(
             user.getMail(),
             user.getUsername(),
@@ -105,6 +102,56 @@ public class UserInvitationServiceImpl implements UserInvitationService {
         }
         return String.format("Se reenviaron %d invitaciones de un total de %d usuarios con invitaciones expiradas."
                                                                                 , successCount, expiredInvitedUsers.size());
+    }
+
+
+    @Override
+    @Transactional
+    public Optional<UserInvitationEmailDto> prepareResendInvitationByEmployeeId(UUID employeeExternalId) {
+        if (employeeExternalId == null) {
+            throw new IllegalArgumentException("El ID externo del empleado no puede ser nulo.");
+        }
+        User user = userRepo.findByEmployeeExternalId(employeeExternalId)
+            .orElseThrow(
+                () -> new IllegalArgumentException("No se encontró un usuario para" + 
+                                    "el empleado con ID externo: " + employeeExternalId));
+
+        PasswordResetToken token = passwordResetTokenService.createToken(user, INVITE_TTL, TokenPurpose.INVITATION);
+
+        String displayName = user.getEmployee() != null 
+                                ? user.getEmployee().getName()
+                                : user.getUsername();
+
+        return Optional.of(new UserInvitationEmailDto(
+                user.getMail(),
+                user.getUsername(),
+                displayName,
+                token.getToken()
+        ));
+    }
+
+    @Override
+    public void executeResendInvitation (UserInvitationEmailDto dto) {
+        if (dto == null || dto.email() == null || dto.email().isBlank() ||
+                            dto.username() == null || dto.username().isBlank()) {
+            throw new IllegalArgumentException("Username or email cannot be null or empty for invitation resend");
+        }
+        Context context = new Context();
+        context.setVariable("username", dto.username());
+        context.setVariable("token", dto.token());
+        context.setVariable("name", dto.displayName());
+        String cssPath = "static/css/email-resend-invitation.css";
+        String htmlBody =
+                templateEngine.process("auth/fragments/email-invitation", context);
+        String finalHtmlBody =
+                EmailTemplateUtils.buildStyledEmail(htmlBody, cssPath);
+        try {
+            gmailService.sendMail(dto.email(), "Reenvío de invitación", finalHtmlBody);
+        } catch (Exception e) {
+            log.error("Failed to send invitation email to {}", dto.email(), e);
+            throw new IllegalStateException("Failed to send invitation email", e);
+        }
+
     }
 
 }

@@ -1,5 +1,7 @@
 package com.gscorp.dv1.auth.web;
 
+import com.gscorp.dv1.auth.web.dto.ResendInvitationRequest;
+
 import java.time.Duration;
 import java.util.UUID;
 
@@ -100,8 +102,6 @@ public class UserInvitationRestController {
 
         PasswordResetToken token = passwordResetTokenService.createToken(user, INVITE_TTL, TokenPurpose.INVITATION);
 
-        String subject = "Bienvenido a SESAN";
-
         try {
             // Preparar las variables del proceso
             Context context = new Context();
@@ -116,7 +116,7 @@ public class UserInvitationRestController {
             String finalHtmlBody =
                 EmailTemplateUtils.buildStyledEmail(htmlBody, cssPath);
 
-            gmailService.sendMail(user.getMail(), subject, finalHtmlBody);
+            gmailService.sendMail(user.getMail(), "Bienvenido a SESAN", finalHtmlBody);
 
             return ResponseEntity.ok("Invitación enviada correctamente");
 
@@ -132,6 +132,26 @@ public class UserInvitationRestController {
         String message = userInvitationService.resendMassiveExpiredInvitations();
         return ResponseEntity.ok(message);
     }
+
+    @PostMapping("/resend-employee-invite")
+    public ResponseEntity<String> resendInvitationByEmployeeId(
+        @RequestBody ResendInvitationRequest request) {
+
+        var result = userInvitationService.prepareResendInvitationByEmployeeId(request.employeeExternalId());
+        if (result.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        try {
+            userInvitationService.executeResendInvitation(result.get());
+            return ResponseEntity.ok("Invitación reenviada correctamente");
+        } catch (IllegalStateException e) {
+            log.error("Error al reenviar la invitación: {}", e.getMessage());
+            return ResponseEntity.internalServerError()
+                    .body("No se pudo reenviar la invitación: " + e.getMessage());
+        }
+
+    }
+
 
 
 }
