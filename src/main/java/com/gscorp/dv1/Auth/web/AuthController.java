@@ -54,7 +54,7 @@ public class AuthController {
 
         return switch (opt.get().getPurpose()) {
                 case INVITATION -> render("auth/views/define-password-view", model, req);
-                case PASSWORD_RECOVERY -> render("auth/views/recover-password-view", model, req);
+                case PASSWORD_RECOVERY -> render("auth/fragments/recover-password", model, req);
         };
     }
 
