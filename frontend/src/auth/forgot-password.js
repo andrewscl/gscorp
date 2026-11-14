@@ -1,6 +1,5 @@
 import { navigateTo } from '../navigation-handler.js';
 import { displayAlert } from '../shared/display-alert.js';
-import { fetchWithAuth } from '../auth.js';
 
 const qs = (s) => document.querySelector(s);
 
@@ -38,7 +37,7 @@ const processForgotPassword = async () => {
 
     try {
         const url = '/auth/forgot-password';
-        const response = await fetchWithAuth(url, {
+        const response = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ usernameOrEmail })
