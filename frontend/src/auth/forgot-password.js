@@ -1,15 +1,12 @@
 import { navigateTo } from '../navigation-handler.js';
 import { displayAlert } from '../shared/display-alert.js';
+import { fetchWithAuth } from '../auth.js';
 
 const qs = (s) => document.querySelector(s);
 
 const alertSuccess = qs('.alert-success');
 const alertError = qs('.alert-error');
 const alertCancel = qs('.alert-warning');
-
-(function init() {
-  bindForgotPasswordForm();
-})();
 
 function bindForgotPasswordForm() {
     const processBtn = qs('#forgotPasswordBtn');
@@ -58,3 +55,7 @@ const processForgotPassword = async () => {
         cancelBtn.disabled = false;
     }
 }
+
+(function init() {
+  bindForgotPasswordForm();
+})();
