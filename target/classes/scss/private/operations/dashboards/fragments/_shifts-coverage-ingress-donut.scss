@@ -11,7 +11,7 @@
         flex-direction: column;
 
         .chart-section-title {
-            @include montserrat-font(1.2rem, 600);
+            @include montserrat-font(0.875rem, 600);
             color: $heading-color;
             line-height: 1.2;
             margin: 0 0 1rem;
