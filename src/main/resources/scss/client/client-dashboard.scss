@@ -1,17 +1,18 @@
-@use '../abstracts/dashboards/kpi-cards' as * ;
-@use '../abstracts/dashboards/distribution-cards' as * ;
-@use '../abstracts/dashboards/distribution-card-levels' as * ;
 @use '../private/operations/dashboards/fragments/shifts-coverage-ingress-donut' as * ;
-@use '../private/operations/dashboards/fragments/operational-charts' as * ;
+@use '../private/operations/dashboards/fragments/site-shift-chart' as *;
 
-.clients-dashboard {
-
-    @include shifts-coverage-ingress-donut();
-
-    @include operational-charts();
-
-    @include kpi-cards();
-
-    @include distribution-card-levels();
-
+.private-layout{
+    .main-content{
+        .content{
+            .client-dashboard{
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+                width: 100%;
+                padding: 1rem;
+                @include site-shifts-chart-style();
+                @include shifts-coverage-ingress-donut();
+            }
+        }
+    }
 }
