@@ -132,7 +132,9 @@ p {
 .operations-analyst-dashboard .shift-coverage-ingress-donut-wrapper .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] {
   flex: 1;
   min-width: 9.375rem;
-  max-width: 13.75;
+  max-width: 13.75rem;
+  min-height: 12rem;
+  box-sizing: border-box;
   background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
   border: 1px solid #e2e8f0;
   border-radius: 0.875rem;
