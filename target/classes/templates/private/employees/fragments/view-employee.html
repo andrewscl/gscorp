@@ -37,13 +37,13 @@
             </div>
         </div>
 
-        <button class="create-invite-account"
+        <button class="create-accounts"
                 id="createInviteAccount"
                 th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'') OR hasRole(''RRHH'')') and
                         #strings.isEmpty(employee.username)}">
             Crear Usuario
         </button>
-        <button class="resend-invite-account"
+        <button class="create-accounts"
                 id="resendInviteAccount"
                 th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'') OR hasRole(''RRHH'')') and
                         !#strings.isEmpty(employee.username)}">
