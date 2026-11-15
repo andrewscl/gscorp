@@ -11,6 +11,7 @@
             color: $heading-color;
             line-height: 1.2;
             margin: 0 0 1rem;
+            grid-column: 1 / -1;
         }
 
         .shifts-coverage-ingress-donut {
