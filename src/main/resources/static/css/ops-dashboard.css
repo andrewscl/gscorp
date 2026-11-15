@@ -161,23 +161,27 @@ p {
     height: 280px;
   }
 }
-.private-layout .main-content .content .ops-dashboard-root .chart-section-title {
+.private-layout .main-content .content .ops-dashboard-root .shift-coverage-ingress-donut-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.private-layout .main-content .content .ops-dashboard-root .shift-coverage-ingress-donut-wrapper .chart-section-title {
   font-family: "Montserrat", sans-serif;
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   color: #475569;
   line-height: 1.2;
   margin: 0 0 1rem;
 }
-.private-layout .main-content .content .ops-dashboard-root .shifts-coverage-ingress-donut {
+.private-layout .main-content .content .ops-dashboard-root .shift-coverage-ingress-donut-wrapper .shifts-coverage-ingress-donut {
   display: flex;
   flex-wrap: wrap;
   gap: 1.25rem;
   width: 100%;
   margin-bottom: 1rem;
 }
-.private-layout .main-content .content .ops-dashboard-root .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] {
+.private-layout .main-content .content .ops-dashboard-root .shift-coverage-ingress-donut-wrapper .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] {
   flex: 1;
   min-width: 9.375rem;
   max-width: 13.75;
@@ -191,26 +195,26 @@ p {
   position: relative;
   overflow: hidden;
 }
-.private-layout .main-content .content .ops-dashboard-root .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node]:hover {
+.private-layout .main-content .content .ops-dashboard-root .shift-coverage-ingress-donut-wrapper .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node]:hover {
   border-color: #cbd5e1;
   box-shadow: 0 10px 25px rgba(59, 130, 246, 0.08);
   transform: translateY(-3px);
 }
-.private-layout .main-content .content .ops-dashboard-root .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .donut-wrapper {
+.private-layout .main-content .content .ops-dashboard-root .shift-coverage-ingress-donut-wrapper .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .donut-wrapper {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.private-layout .main-content .content .ops-dashboard-root .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .donut-wrapper .hourly-donut {
+.private-layout .main-content .content .ops-dashboard-root .shift-coverage-ingress-donut-wrapper .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .donut-wrapper .hourly-donut {
   width: 8.75rem;
   height: 8.75rem;
   margin: 0 auto;
 }
-.private-layout .main-content .content .ops-dashboard-root .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info {
+.private-layout .main-content .content .ops-dashboard-root .shift-coverage-ingress-donut-wrapper .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info {
   margin-top: 0.5rem;
 }
-.private-layout .main-content .content .ops-dashboard-root .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info .block-title {
+.private-layout .main-content .content .ops-dashboard-root .shift-coverage-ingress-donut-wrapper .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info .block-title {
   font-family: "Montserrat", sans-serif;
   font-size: 0.825rem;
   font-weight: 600;
@@ -219,7 +223,7 @@ p {
   letter-spacing: 0.3px;
   margin: 0 0 0.25rem 0;
 }
-.private-layout .main-content .content .ops-dashboard-root .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info .card-totals {
+.private-layout .main-content .content .ops-dashboard-root .shift-coverage-ingress-donut-wrapper .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info .card-totals {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -227,7 +231,7 @@ p {
   margin-top: 0.4rem;
   padding: 0.25rem 0;
 }
-.private-layout .main-content .content .ops-dashboard-root .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info .card-totals .total-value {
+.private-layout .main-content .content .ops-dashboard-root .shift-coverage-ingress-donut-wrapper .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info .card-totals .total-value {
   font-family: "Montserrat", sans-serif;
   font-size: 0.825rem;
   font-weight: 600;
@@ -235,8 +239,8 @@ p {
   color: #475569;
   line-height: 1;
 }
-.private-layout .main-content .content .ops-dashboard-root .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info .card-totals .total-slash,
-.private-layout .main-content .content .ops-dashboard-root .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info .card-totals .meta-value {
+.private-layout .main-content .content .ops-dashboard-root .shift-coverage-ingress-donut-wrapper .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info .card-totals .total-slash,
+.private-layout .main-content .content .ops-dashboard-root .shift-coverage-ingress-donut-wrapper .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info .card-totals .meta-value {
   font-family: "Montserrat", sans-serif;
   font-size: 0.825rem;
   font-weight: 600;
@@ -244,7 +248,7 @@ p {
   color: #94a3b8;
   line-height: 1;
 }
-.private-layout .main-content .content .ops-dashboard-root .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info .card-totals .total-unit {
+.private-layout .main-content .content .ops-dashboard-root .shift-coverage-ingress-donut-wrapper .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info .card-totals .total-unit {
   font-family: "Montserrat", sans-serif;
   font-size: 0.825rem;
   font-weight: 600;
@@ -253,17 +257,17 @@ p {
   line-height: 1;
 }
 @media (max-width: 480px) {
-  .private-layout .main-content .content .ops-dashboard-root .shifts-coverage-ingress-donut {
+  .private-layout .main-content .content .ops-dashboard-root .shift-coverage-ingress-donut-wrapper .shifts-coverage-ingress-donut {
     gap: 0.75rem;
   }
-  .private-layout .main-content .content .ops-dashboard-root .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] {
+  .private-layout .main-content .content .ops-dashboard-root .shift-coverage-ingress-donut-wrapper .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] {
     min-width: 7.5rem;
     padding: 0.75rem;
   }
-  .private-layout .main-content .content .ops-dashboard-root .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info .block-title {
+  .private-layout .main-content .content .ops-dashboard-root .shift-coverage-ingress-donut-wrapper .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info .block-title {
     font-size: 0.75rem;
   }
-  .private-layout .main-content .content .ops-dashboard-root .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info .card-totals .total-value {
+  .private-layout .main-content .content .ops-dashboard-root .shift-coverage-ingress-donut-wrapper .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info .card-totals .total-value {
     font-size: 1.1rem;
   }
-}/*# sourceMappingURL=ops-dashboard.css.map */-dashboard.css.map */
+}/*# sourceMappingURL=ops-dashboard.css.map */
