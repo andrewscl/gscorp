@@ -6,6 +6,13 @@
 
 @mixin shifts-coverage-ingress-donut(){
 
+        .chart-section-title {
+            @include montserrat-font(1.25rem, 600);
+            color: $heading-color;
+            line-height: 1.2;
+            margin: 0 0 1rem;
+        }
+
         .shifts-coverage-ingress-donut {
                 display: flex;
                 flex-wrap: wrap; // Permite que salten de línea en pantallas ultra pequeñas

@@ -109,6 +109,15 @@ p {
   margin-bottom: 1.5rem;
 }
 
+.operations-analyst-dashboard .chart-section-title {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #475569;
+  line-height: 1.2;
+  margin: 0 0 1rem;
+}
 .operations-analyst-dashboard .shifts-coverage-ingress-donut {
   display: flex;
   flex-wrap: wrap;
