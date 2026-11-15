@@ -247,6 +247,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
               e.workSchedule AS workSchedule,
               e.shiftSystem AS shiftSystem,
               s.name AS shiftPattern,
+              pos.id AS positionId,
               pos.name AS position,
               c.name AS company,
               e.status AS status,

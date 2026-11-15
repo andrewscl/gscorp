@@ -51,6 +51,7 @@ public interface EmployeeViewProjection {
     WorkSchedule getWorkSchedule();
     ShiftSystem getShiftSystem();
     String getShiftPattern();
+    Long getPositionId();
     String getPosition();
     String getCompany();
     EmployeeStatus getStatus();
