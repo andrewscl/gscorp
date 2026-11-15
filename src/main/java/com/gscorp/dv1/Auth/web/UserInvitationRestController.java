@@ -23,8 +23,6 @@ import com.gscorp.dv1.auth.web.dto.UserInvitationEmailDto;
 import com.gscorp.dv1.enums.TokenPurpose;
 import com.gscorp.dv1.enums.UserStatus;
 import com.gscorp.dv1.exceptions.ResourceNotFoundException;
-import com.gscorp.dv1.hr.employees.application.EmployeeService;
-import com.gscorp.dv1.hr.employees.web.dto.EmployeeSelectDto;
 import com.gscorp.dv1.services.EmailTemplateUtils;
 import com.gscorp.dv1.services.GmailService;
 import com.gscorp.dv1.users.application.UserService;
@@ -43,7 +41,6 @@ public class UserInvitationRestController {
     private final UserService userService;
     private final GmailService gmailService;
     private final PasswordResetTokenService passwordResetTokenService;
-    private final EmployeeService employeeService;
     private final UserInvitationService userInvitationService;
 
     @Autowired
@@ -95,9 +92,6 @@ public class UserInvitationRestController {
         user.setStatus(UserStatus.INVITED);
         userService.save(user);
 
-        EmployeeSelectDto employee =
-                    employeeService.findEmployeeByUserId(user.getId());
-
         passwordResetTokenService.deleteByUserId(user.getId());
 
         PasswordResetToken token = passwordResetTokenService.createToken(user, INVITE_TTL, TokenPurpose.INVITATION);
@@ -107,7 +101,9 @@ public class UserInvitationRestController {
             Context context = new Context();
             context.setVariable("username", user.getUsername());
             context.setVariable("token", token.getToken());
-            context.setVariable("name", employee.name());
+            context.setVariable("name", user.getEmployee() != null
+                                            ? user.getEmployee().getName()
+                                            : user.getUsername());
 
             String cssPath = "static/css/email-user-invite.css";
             String htmlBody =
