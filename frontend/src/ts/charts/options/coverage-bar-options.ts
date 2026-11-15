@@ -38,8 +38,8 @@ export function createCoverageBarOption(
     grid: {
       left: '3%',
       right: '3%',
-      bottom: '8%',
-      top: '8%',
+      bottom: '6%',
+      top: '6%',
       containLabel: true
     },
     xAxis: {
