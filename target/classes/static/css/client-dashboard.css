@@ -149,7 +149,7 @@ p {
 }
 .private-layout .main-content .content .client-dashboard .site-shifts-chart .site-shifts-chart-container #site-coverage-bar-chart {
   width: 100%;
-  height: 20rem;
+  height: 18rem;
   min-height: 17rem;
 }
 @media (max-width: 480px) {

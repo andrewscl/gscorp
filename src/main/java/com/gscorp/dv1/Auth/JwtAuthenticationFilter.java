@@ -29,7 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
     @Override
     protected void doFilterInternal 
                     (@NonNull HttpServletRequest request,
-                        @NonNull HttpServletResponse reponse,
+                        @NonNull HttpServletResponse response,
                         @NonNull FilterChain filterChain)
                             throws ServletException, IOException {
 
@@ -41,7 +41,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
             path.startsWith("/favicon.ico/") ||
             path.startsWith("/webjars/") ||
             path.startsWith("/icons/") ||
-
             //ignorar endpoints publicos
             path.equals("/auth/define-password") ||
             path.equals("/auth/set-password") ||
@@ -49,27 +48,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
             path.startsWith("/public/")
 
            ) {
-            filterChain.doFilter(request, reponse);
+            filterChain.doFilter(request, response);
             return;
            }
 
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String username;
-
-        System.out.println("Solicitud entrante: " + request.getRequestURI());
-        //System.out.println("Authorization header: " + authHeader);
-        
-
         if (authHeader == null || !authHeader.startsWith("Bearer ")){
-            System.out.println("No se encontrol un token valid en el header.");
-            filterChain.doFilter(request, reponse);
+            filterChain.doFilter(request, response);
             return;
         }
 
         jwt = authHeader.substring(7);
-        username = jwtService.extractUsername(jwt);
-        System.out.println("Usuario extraido del JWT: " + username);
+
+        try {
+            username = jwtService.extractUsername(jwt);
+        } catch (io.jsonwebtoken.JwtException | IllegalArgumentException e) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
 
         if(username != null &&
                 SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -90,6 +88,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
                 System.out.println("El token no es valido para el usuario");
             }
         }
-        filterChain.doFilter(request, reponse);
+        filterChain.doFilter(request, response);
     }
 }
