@@ -128,11 +128,13 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
                 s.name              AS siteName,
                 shr.code            AS shiftRequestCode,
                 e.name              AS employeeName,
-                e.fatherSurname     AS employeeFatherSurname
+                e.fatherSurname     AS employeeFatherSurname,
+                sz.name             AS siteZoneName
                 FROM Shift sh
                 LEFT JOIN sh.site s
                 LEFT JOIN s.project p
                 LEFT JOIN sh.shiftRequest shr
+                LEFT JOIN shr.siteZone sz
                 LEFT JOIN sh.assignment sa
                 LEFT JOIN sa.employee e
                 WHERE   (:ignoreProjectFilter = true OR p.id IN :projectIds)

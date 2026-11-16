@@ -18,5 +18,5 @@ public interface ShiftProjection {
     String getShiftRequestCode();
     String getEmployeeName();
     String getEmployeeFatherSurname();
-
+    String getSiteZoneName();
 }

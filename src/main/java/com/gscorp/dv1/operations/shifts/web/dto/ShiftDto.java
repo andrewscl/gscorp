@@ -23,7 +23,8 @@ public record ShiftDto (
     DayOfWeek day,
     String siteName,
     String shiftRequestCode,
-    String plannedEmployeeFullName
+    String plannedEmployeeFullName,
+    String siteZoneName
 ){
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 
@@ -44,7 +45,8 @@ public record ShiftDto (
                     day,
                     sp.getSiteName(),
                     sp.getShiftRequestCode(),
-                    formatFullName(sp.getEmployeeName(), sp.getEmployeeFatherSurname())
+                    formatFullName(sp.getEmployeeName(), sp.getEmployeeFatherSurname()),
+                    sp.getSiteZoneName()
         );
     }
 
@@ -72,7 +74,8 @@ public record ShiftDto (
                     day,
                     siteName,
                     requestCode,
-                    formatFullName(employeeName, employeeSurname)
+                    formatFullName(employeeName, employeeSurname),
+                    shift.getShiftRequest().getSiteZone() != null ? shift.getShiftRequest().getSiteZone().getName() : null
         );
     }
 
