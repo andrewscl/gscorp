@@ -83,4 +83,15 @@ public interface AttendanceService {
 
     String normalizeAction(String a);
 
+
+    Page<AttendancePunchDto> getByUserExternalIdAndDateBetween(
+        UUID userExternalId,
+        LocalDate fromDate,
+        LocalDate toDate,
+        ZoneId zoneId,
+        int page,
+        int size
+    );
+
+
 }

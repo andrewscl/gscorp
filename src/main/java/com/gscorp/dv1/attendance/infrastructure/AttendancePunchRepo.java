@@ -282,4 +282,53 @@ public interface AttendancePunchRepo extends JpaRepository <AttendancePunch, Lon
         Pageable pageable
     );
 
+
+    @Query(
+        value = """
+        SELECT
+          ap.id            AS id,
+          ap.userId        AS userId,
+          s.id             AS siteId,
+          s.name           AS siteName,
+          ap.ts            AS ts,
+          ap.lat           AS lat,
+          ap.lon           AS lon,
+          ap.accuracyM     AS accuracyM,
+          ap.action        AS action,
+          ap.locationOk    AS locationOk,
+          ap.distanceM     AS distanceM,
+          ap.deviceInfo    AS deviceInfo,
+          ap.ip            AS ip,
+          e.id             AS employeeId,
+          e.name           AS employeeName,
+          e.fatherSurname  AS employeeFatherSurname,
+          ap.clientTimezone AS clientTimezone,
+          ap.timezoneSource AS timezoneSource,
+          ap.createdAt     AS createdAt,
+          ap.updatedAt     AS updatedAt
+        FROM AttendancePunch ap
+        LEFT JOIN ap.site s
+        LEFT JOIN ap.user u
+        LEFT JOIN u.employee e
+        WHERE u.externalId = :userExternalId
+            AND ap.ts >= :start
+            AND ap.ts <  :endExclusive
+        """,
+        countQuery = """
+        SELECT COUNT(ap.id)
+        FROM AttendancePunch ap
+        LEFT JOIN ap.site s
+        LEFT JOIN ap.user u
+        WHERE u.externalId = :userExternalId
+            AND ap.ts >= :start
+            AND ap.ts <  :endExclusive
+        """
+    )
+    Page<AttendancePunchProjection> getByUserExternalIdAndDateBetween (
+        @Param("userExternalId") UUID userExternalId,
+        @Param("start") OffsetDateTime start,
+        @Param("endExclusive") OffsetDateTime endExclusive,
+        Pageable pageable
+    );
+
 }

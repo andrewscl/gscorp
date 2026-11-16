@@ -620,4 +620,23 @@ public class AttendanceServiceImpl implements AttendanceService {
         });
     }
 
+    @Transactional(readOnly = true)
+    public Page<AttendancePunchDto> getByUserExternalIdAndDateBetween(
+            UUID userExternalId,
+            LocalDate fromDate,
+            LocalDate toDate,
+            ZoneId zoneId,
+            int page,
+            int size) {
+
+        LocalDate today = LocalDate.now(zoneId);
+        if (toDate == null) toDate = today;
+        if (fromDate == null) fromDate = toDate.minusDays(1);
+
+        OffsetDateTime start = fromDate.atStartOfDay(zoneId).toOffsetDateTime();
+        OffsetDateTime endExclusive = toDate.plusDays(1).atStartOfDay(zoneId).toOffsetDateTime();
+
+        return Page.empty();
+    }
+
 }

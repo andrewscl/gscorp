@@ -253,7 +253,7 @@ async function handleProjectChange () {
   }
   const prevSite = siteSelect?.value || '';
   try {
-    const urlSites = `/api/sites/projects/${projectExternalId}/sites`;
+    const urlSites = `/api/sites/project/${projectExternalId}/sites`;
     const res = await fetchWithAuth(urlSites, {
                           method: 'GET',
                           headers: {'Accept': 'application/json'}
