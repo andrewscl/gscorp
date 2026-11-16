@@ -279,7 +279,6 @@ public class AttendanceServiceImpl implements AttendanceService {
               Long projectId,
               String action) {
 
-        // Normalizar action (IN/OUT)
         String normalizedAction = (action == null) ? null : action.trim().toUpperCase();
 
         List<Long> clientIds = clientService.getClientIdsByUserExternalId(userExternalId);

@@ -122,5 +122,12 @@ public class AttendanceController {
         return "private/attendance/fragments/attendance-table-rows :: rows";
     }
 
+    @GetMapping("/employee-list")
+    public String getEmployeeListView (
+        Model model
+    ) {
+        
+        return "private/attendance/fragments/attendance-employee-list";
+    }
 
 }

@@ -8,7 +8,7 @@ import { displayAlert } from '../../shared/display-alert.js';
 let googleMapInstance = null;
 let userMarkerInstance = null;
 let sitesList = [];
-const MAX_DISTANCE_GEOFENCE = 500;
+const MAX_DISTANCE_GEOFENCE = 100;
 
 const qs  = (s) => document.querySelector(s);
 const alertSuccess = qs('.alert-success');
@@ -251,8 +251,16 @@ function setButtonsState(inStatus, outStatus) {
 function bindEvents() {
     const btnIn = qs('#att-in');
     const btnOut = qs('#att-out');
-    if(btnIn){btnIn.addEventListener('click', () => punch('IN'));}
-    if(btnOut){btnOut.addEventListener('click', () => punch('OUT'));}
+    if (btnIn) {
+      btnIn.addEventListener('click', () => punch('IN'));
+    }
+    if (btnOut) {
+      btnOut.addEventListener('click', () => {
+        if (!window.confirm('¿Está seguro que desea marcar la salida?')) {
+          punch('OUT');
+        }
+      }); 
+    }
 }
 
 //Funciones de utilidad operativa
@@ -284,9 +292,9 @@ function getNearestSite(userLat, userLon, sites) {
 }
 
 const getCurrentPosition = ({
-  targetAccuracy = 5000, // metros
-  maxAccuracy = MAX_DISTANCE_GEOFENCE, // metros
-  waitMs = 5000, // 20 segundos
+  targetAccuracy = 100,
+  maxAccuracy = MAX_DISTANCE_GEOFENCE,
+  waitMs = 5000,
 } = {} ) => new Promise((resolve, reject) => {
   if (!navigator.geolocation){
     reject(new Error('Geolocalización no soportada'));
