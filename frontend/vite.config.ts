@@ -10,6 +10,7 @@ export default defineConfig({
         'private/client-dashboard': 'src/ts/dashboards/client-dashboard.ts',
         'private/admin': 'src/ts/dashboards/admin-dashboard.ts',
         'private/ops-dashboard': 'src/ts/dashboards/ops-dashboard.ts',
+        'private/ops-supervision-dashboard': 'src/ts/dashboards/ops-supervision-dashboard.ts'
       },
       output: {
         entryFileNames: '[name].js',                    // Resultado: private/dashboard.js, private/client.js
