@@ -324,7 +324,7 @@ public interface AttendancePunchRepo extends JpaRepository <AttendancePunch, Lon
             AND ap.ts <  :endExclusive
         """
     )
-    Page<AttendancePunchProjection> getByUserExternalIdAndDateBetween (
+    Page<AttendancePunchProjection> findByUserExternalIdAndDateBetween (
         @Param("userExternalId") UUID userExternalId,
         @Param("start") OffsetDateTime start,
         @Param("endExclusive") OffsetDateTime endExclusive,

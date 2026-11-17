@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gscorp.dv1.attendance.application.AttendanceService;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchDto;
+import com.gscorp.dv1.attendance.web.dto.AttendanceSearchResult;
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
 import com.gscorp.dv1.config.security.SecurityUser;
@@ -124,9 +125,28 @@ public class AttendanceController {
 
     @GetMapping("/employee-list")
     public String getEmployeeListView (
-        Model model
+        Model model,
+        @AuthenticationPrincipal SecurityUser securityUser,
+        @RequestParam(required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+        @RequestParam(required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
+        @RequestParam(required=false) String clientTz,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "20") int size
     ) {
-        
+        AttendanceSearchResult attendanceSearchResult =
+            attendanceService.getByUserExternalIdAndDateBetween(
+                securityUser.getUser().getExternalId(),
+                from,
+                to,
+                clientTz,
+                page,
+                size
+            );
+        model.addAttribute("punchsPage", attendanceSearchResult.punchsPage());
+        model.addAttribute("punchs", attendanceSearchResult.punchsPage().getContent());
+        model.addAttribute("count", attendanceSearchResult.punchsPage().getTotalElements());
+        model.addAttribute("fromDate", attendanceSearchResult.from());
+        model.addAttribute("toDate", attendanceSearchResult.to());
         return "private/attendance/fragments/attendance-employee-list";
     }
 

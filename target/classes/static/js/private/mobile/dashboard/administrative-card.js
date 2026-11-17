@@ -1,0 +1,1 @@
+import{n as s}from"../../../navigation-handler.js";import"../../../auth.js";const n=t=>document.querySelector(t),c=()=>{const t=n(".btn-scan");t&&t.addEventListener("click",scanBtnExecute)},i=()=>{const t=n(".btn-rrhh-history");t&&(t=!0,s("/private/attendance/employee-list"))},e=n(".btn-rrhh-history");e&&e.addEventListener("click",i);(function(){c()})();

@@ -20,6 +20,7 @@ import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
 import com.gscorp.dv1.attendance.infrastructure.projections.AttendancePunchShortProjection;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchDto;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchPointDto;
+import com.gscorp.dv1.attendance.web.dto.AttendanceSearchResult;
 import com.gscorp.dv1.attendance.web.dto.CreateAttendancePunchRequest;
 import com.gscorp.dv1.attendance.web.dto.AttendancesHourlyCountDto;
 import com.gscorp.dv1.attendance.web.dto.DashboardHeaderInfo;
@@ -621,22 +622,67 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Transactional(readOnly = true)
-    public Page<AttendancePunchDto> getByUserExternalIdAndDateBetween(
+    public AttendanceSearchResult getByUserExternalIdAndDateBetween(
             UUID userExternalId,
             LocalDate fromDate,
             LocalDate toDate,
-            ZoneId zoneId,
+            String clientTz,
             int page,
             int size) {
+
+        String cleanClientTz =
+            (clientTz == null || clientTz.isBlank()) ? null : clientTz.trim();
+        ZoneResolutionResult zoneResult =
+                        zoneResolver.resolveZone(userExternalId, cleanClientTz);
+        ZoneId zoneId = zoneResult.zoneId();
 
         LocalDate today = LocalDate.now(zoneId);
         if (toDate == null) toDate = today;
         if (fromDate == null) fromDate = toDate.minusDays(1);
 
-        OffsetDateTime start = fromDate.atStartOfDay(zoneId).toOffsetDateTime();
-        OffsetDateTime endExclusive = toDate.plusDays(1).atStartOfDay(zoneId).toOffsetDateTime();
+        if (fromDate.isAfter(toDate)) {
+            LocalDate tmp = fromDate;
+            fromDate = toDate;
+            toDate = tmp;
+        }
 
-        return Page.empty();
+        OffsetDateTime start = fromDate.atStartOfDay(zoneId).toOffsetDateTime();
+        OffsetDateTime endExclusive =
+            toDate.plusDays(1).atStartOfDay(zoneId).toOffsetDateTime();
+
+        int safePage = Math.max(0, page);
+        int safeSize = Math.min(Math.max(5, size), 200);
+        Pageable pageable = PageRequest.of(
+            safePage, safeSize, Sort.by(Sort.Direction.DESC, "ts"));
+
+        Page<AttendancePunchProjection> projections =
+                repo.findByUserExternalIdAndDateBetween(
+                    userExternalId,
+                    start,
+                    endExclusive,
+                    pageable
+            );
+        Page<AttendancePunchDto> result = projections.map(p -> {
+            ZoneId displayZone = zoneId;
+            String tzFromRow = p.getClientTimezone();
+            if(tzFromRow != null && !tzFromRow.isBlank()) {
+                try{
+                    displayZone = ZoneId.of(tzFromRow.trim());
+                } catch (DateTimeException ex) {
+                    log.debug("Invalid clientTimezone '{}' in row id={} - using resolved zone {}", 
+                            tzFromRow, p.getId(), zoneId);
+                }
+            }
+            String formatted = null;
+            OffsetDateTime dbOffsetTime = p.getTs();
+            if (dbOffsetTime != null) {
+                ZonedDateTime localTime = dbOffsetTime.atZoneSameInstant(displayZone);
+                formatted = localTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            }
+            return AttendancePunchDto.fromProjection(p, formatted);
+        });
+
+        return new AttendanceSearchResult(result, fromDate, toDate);
     }
 
 }

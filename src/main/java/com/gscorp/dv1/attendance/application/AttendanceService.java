@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunch;
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
+import com.gscorp.dv1.attendance.web.dto.AttendanceSearchResult;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchDto;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchPointDto;
 import com.gscorp.dv1.attendance.web.dto.CreateAttendancePunchRequest;
@@ -84,11 +85,11 @@ public interface AttendanceService {
     String normalizeAction(String a);
 
 
-    Page<AttendancePunchDto> getByUserExternalIdAndDateBetween(
+    AttendanceSearchResult getByUserExternalIdAndDateBetween(
         UUID userExternalId,
         LocalDate fromDate,
         LocalDate toDate,
-        ZoneId zoneId,
+        String clientTz,
         int page,
         int size
     );

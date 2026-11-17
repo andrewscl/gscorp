@@ -131,6 +131,7 @@ export default defineConfig({
         'private/mobile/dashboard/attendance-card': path.resolve(__dirname, './src/private/mobile/dashboard/attendance-card.js'),
         'private/mobile/dashboard/operational-card': path.resolve(__dirname, './src/private/mobile/dashboard/operational-card.js'),
         'private/mobile/ops/patrol-exe/patrol-execution': path.resolve(__dirname, './src/private/mobile/ops/patrol-exe/patrol-execution.js'),
+        'private/mobile/dashboard/administrative-card': path.resolve(__dirname, './src/private/mobile/dashboard/administrative-card.js'),
 
         'private/hr/hr-dashboard': path.resolve(__dirname, './src/private/hr/hr-dashboard.js'),
         'private/operations/kpi/operational-distribution-card': path.resolve(__dirname, './src/private/operations/kpi/operational-distribution-card.js'),
