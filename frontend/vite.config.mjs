@@ -47,8 +47,11 @@ export default defineConfig({
         'private/admin/users/users-table': path.resolve(__dirname, './src/private/admin/users/users-table.js'),
         'private/admin/users/invite-user': path.resolve(__dirname, './src/private/admin/users/invite-user.js'),
         'private/admin/users/view-user': path.resolve(__dirname, './src/private/admin/users/view-user.js'),
+
         'private/attendance/attendance': path.resolve(__dirname, './src/private/attendance/attendance.js'),
         'private/attendance/attendance-table': path.resolve(__dirname, './src/private/attendance/attendance-table.js'),
+        'private/attendance/employee-attendances-list': path.resolve(__dirname, './src/private/attendance/employee-attendances-list.js'),
+
         'private/menu/private-menu': path.resolve(__dirname, './src/private/menu/private-menu.js'),
 
         'private/clients/create-client': path.resolve(__dirname, './src/private/clients/create-client.js'),
@@ -106,6 +109,9 @@ export default defineConfig({
         'private/operations/shift-assignments/close-shift-assignment': path.resolve(__dirname, './src/private/operations/shift-assignments/close-shift-assignment.js'),
 
         'private/shifts/create-shift': path.resolve(__dirname, './src/private/shifts/create-shift.js'),
+        'private/operations/shifts/employee-shifts-list': path.resolve(__dirname, './src/private/operations/shifts/employee-shifts-list.js'),
+
+
         'private/operations/shifts/shifts-list': path.resolve(__dirname, './src/private/operations/shifts/shifts-list.js'),
 
         'private/site-visits/view-site-visit': path.resolve(__dirname, './src/private/site-visits/view-site-visit.js'),

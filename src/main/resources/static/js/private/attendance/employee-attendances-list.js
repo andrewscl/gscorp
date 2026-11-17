@@ -1,0 +1,1 @@
+import{n as e}from"../../navigation-handler.js";import"../../auth.js";const n=t=>document.querySelector(t),c=()=>{const t=n("#backAttendanceBtn");t&&(t.disabled=!0,e("/private/attendance/employee-attendances-list"))},a=()=>{const t=n("#backAttendanceBtn");t&&t.addEventListener("click",c)};(function(){a()})();
