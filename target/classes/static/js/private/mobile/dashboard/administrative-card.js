@@ -1,1 +1,0 @@
-import{n as r}from"../../../navigation-handler.js";import"../../../auth.js";const n=t=>document.querySelector(t),s=()=>{const t=n("#btn-rrhh-history");t&&t.addEventListener("click",i)},i=()=>{const t=n("#btn-rrhh-history");t&&(t.disabled=!0,r("/private/attendance/employee-list"))},e=n("#btn-rrhh-history");e&&e.addEventListener("click",i);(function(){s()})();

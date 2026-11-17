@@ -307,4 +307,29 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
                 @Param("now") OffsetDateTime now
         );
 
+
+        @Query(
+            value = """
+            SELECT
+            s.id            AS  id,
+            s.externalId    AS  externalId,
+            s.shiftDate     AS  shiftDate,
+            s.startTs       AS  startTs,
+            s.endTs         AS  endTs,
+            s.status        AS  status
+            FROM Shift s
+            JOIN s.assignment sa
+            WHERE sa.employee.externalId = :employeeExternalId
+            AND s.startTs >= :now
+            AND s.status IN :statuses
+            ORDER BY s.startTs ASC
+        """
+        )
+        List<ShiftProjection> findUpcomingByEmployeeExternalId(
+                    @Param("employeeExternalId") UUID employeeExternalId,
+                    @Param("now") OffsetDateTime now,
+                    @Param("statuses") List<ShiftStatus> statuses,
+                    Pageable pageable
+        );
+
 }

@@ -1,6 +1,7 @@
 package com.gscorp.dv1.operations.shifts.web;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -102,14 +103,27 @@ public class ShiftController {
 
     @GetMapping("/show/{id}")
     public String showShift(@PathVariable Long id, Model model) {
-
         return "private/shifts/views/view-shift-view";
     }
 
     @GetMapping("/edit/{id}")
     public String editShift(@PathVariable Long id, Model model) {
-
         return "private/shifts/views/edit-shift-view";
+    }
+
+    @GetMapping("/upcoming")
+    public String getUpcomingShiftsForEmployee(
+        Model model,
+        @AuthenticationPrincipal SecurityUser securityUser,
+        @RequestParam(required=false) Integer shiftsToShow,
+        @RequestParam(required=false) String zoneId
+    ) {
+        if(securityUser == null) return "redirect:/login";
+        List<ShiftDto> shifts = shiftService.getUpcomingShiftsForEmployee(
+            securityUser, shiftsToShow, zoneId
+        );
+        model.addAttribute("shifts", shifts);
+        return "private/operations/shifts/fragments/employee-upcoming-shifts";
     }
 
 }

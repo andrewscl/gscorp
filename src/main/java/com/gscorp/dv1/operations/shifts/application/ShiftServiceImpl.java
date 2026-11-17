@@ -21,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
+import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.enums.DayOfWeek;
 import com.gscorp.dv1.enums.ShiftRequestStatus;
 import com.gscorp.dv1.enums.ShiftStatus;
@@ -298,6 +299,32 @@ public class ShiftServiceImpl implements ShiftService {
     @Transactional
     public int markUncoveredShiftState(){
         return shiftRepository.markUncoveredShiftState(OffsetDateTime.now());
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<ShiftDto> getUpcomingShiftsForEmployee(
+        SecurityUser securityUser,
+        Integer shiftsToShow,
+        String zoneIdStr
+    ){
+        UUID userExternalId = securityUser.getUser().getExternalId();
+        UUID employeeExternalId = securityUser.getUser().getEmployee().getExternalId();
+        int limit = (shiftsToShow != null && shiftsToShow > 0) 
+            ? Math.min(shiftsToShow, 200)
+            : 10;
+        ZoneResolutionResult zoneResult = zoneResolver.resolveZone(
+                                                userExternalId, zoneIdStr);
+        ZoneId zoneId = zoneResult.zoneId();
+        List<ShiftProjection> shifts = shiftRepository.findUpcomingByEmployeeExternalId(
+            employeeExternalId,
+            OffsetDateTime.now(zoneId),
+            List.of(ShiftStatus.PLANNED, ShiftStatus.UNPLANNED),
+            PageRequest.of(0, limit)
+        );
+        return shifts.stream()
+                .map(shift -> ShiftDto.fromProjection(shift, zoneId))
+                .toList();
     }
 
 }
