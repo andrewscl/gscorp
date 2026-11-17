@@ -12,7 +12,7 @@
             </button>
             <button type="button" class="btn btn-edit"
                     th:attr="data-path=@{/private/shift-assignments/edit/{externalId}(externalId=${sa.externalId})}"
-                    th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'')')}">
+                    th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'') OR hasRole(''ANALYST'')')}">
               Editar
             </button>
           </td>
