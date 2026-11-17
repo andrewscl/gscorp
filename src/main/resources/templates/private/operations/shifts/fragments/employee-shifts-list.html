@@ -2,7 +2,7 @@
     title='Turnos',
     count=${count},
     filters=~{::#shiftsFilters},
-    actions=~{::#shiftsActions},
+    actions=~{::#employeeShiftsActions},
     thead=~{::#shiftsHeader},
     tbody=~{private/operations/shifts/fragments/employee-shifts-list-rows :: rows},
     customClass='employee-shifts-list'
@@ -25,6 +25,8 @@
             <input id="filter-to" class="filter-input" type="date" name="to"
                 th:value="${to != null ? #temporals.format(to, 'yyyy-MM-dd') : (toDate != null ? #temporals.format(toDate, 'yyyy-MM-dd') : '')}" />
         </label>
+
+        <th:block id="employeeShiftsActions"></th:block>
 
         <div class="filter-item item-action">
             <button class="btn btn-primary" id="searchshiftsBtn">
