@@ -123,7 +123,7 @@ public class ShiftController {
             securityUser, shiftsToShow, zoneId
         );
         model.addAttribute("shifts", shifts);
-        return "private/operations/shifts/fragments/employee-upcoming-shifts";
+        return "private/operations/shifts/fragments/employee-shifts-list";
     }
 
 }
