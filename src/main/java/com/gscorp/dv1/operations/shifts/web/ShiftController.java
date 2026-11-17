@@ -111,7 +111,7 @@ public class ShiftController {
         return "private/shifts/views/edit-shift-view";
     }
 
-    @GetMapping("/upcoming")
+    @GetMapping("/employee-upcoming")
     public String getUpcomingShiftsForEmployee(
         Model model,
         @AuthenticationPrincipal SecurityUser securityUser,

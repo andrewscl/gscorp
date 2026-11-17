@@ -3,7 +3,7 @@ import { navigateTo } from '../../../navigation-handler.js';
 
 const qs  = (s) => document.querySelector(s);
 
-const HumanResourcesHistory = () => {
+const AttendancesHistory = () => {
     const attendanceHistoryBtn  = qs('#btn-rrhh-history');
     if (attendanceHistoryBtn) {
         attendanceHistoryBtn.disabled = true;
@@ -11,22 +11,22 @@ const HumanResourcesHistory = () => {
     }
 };
 
-const HumanResourcesSchedule = () => {
+const EmployeeSchedule = () => {
     const shiftScheduleBtn  = qs('#btn-rrhh-schedule');
     if (shiftScheduleBtn) {
         shiftScheduleBtn.disabled = true;
-        navigateTo('/private/operations/shifts/views/employee-shifts-list');
+        navigateTo('/private/shifts/employee-upcoming');
     }
 };
 
 const bindEvents = () => {
     const attendanceHistoryBtn = qs('#btn-rrhh-history');
     if (attendanceHistoryBtn) {
-        attendanceHistoryBtn.addEventListener('click', HumanResourcesHistory);
+        attendanceHistoryBtn.addEventListener('click', AttendancesHistory);
     }
     const shiftScheduleBtn = qs('#btn-rrhh-schedule');
     if (shiftScheduleBtn) {
-        shiftScheduleBtn.addEventListener('click', HumanResourcesSchedule);
+        shiftScheduleBtn.addEventListener('click', EmployeeSchedule);
     }
 }
 
