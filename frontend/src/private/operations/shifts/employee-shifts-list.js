@@ -2,18 +2,18 @@ import { navigateTo } from '../../../navigation-handler.js';
 
 const qs = (s) => document.querySelector(s);
 
-const backToUpcomingShifts = () => {
-    const backshiftsBtn  = qs('#backshiftsBtn');
-    if (backshiftsBtn) {
-        backshiftsBtn.disabled = true;
-        navigateTo('/private/shifts/employee-upcoming');
+const backToDashboard = () => {
+    const backToDashboardBtn  = qs('#backToDashboardBtn');
+    if (backToDashboardBtn) {
+        backToDashboardBtn.disabled = true;
+        navigateTo('/private/operations/dashboards/security-operator');
     }
 }
 
 const bindEvents = () => {
-    const backshiftsBtn = qs('#backshiftsBtn');
-    if (backshiftsBtn) {
-        backshiftsBtn.addEventListener('click', backToUpcomingShifts);
+    const backToDashboardBtn = qs('#backToDashboardBtn');
+    if (backToDashboardBtn) {
+        backToDashboardBtn.addEventListener('click', backToDashboard);
     }
 }
 
