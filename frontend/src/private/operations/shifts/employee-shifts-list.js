@@ -6,9 +6,9 @@ const backToEmployeeShiftsList = () => {
     const backshiftsBtn  = qs('#backshiftsBtn');
     if (backshiftsBtn) {
         backshiftsBtn.disabled = true;
-        navigateTo('/private/operations/shifts/employee-shifts-list');
+        navigateTo('/private/shifts/employee-upcoming');
     }
-};
+}
 
 const bindEvents = () => {
     const backshiftsBtn = qs('#backshiftsBtn');

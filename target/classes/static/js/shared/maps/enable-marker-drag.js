@@ -1,1 +1,0 @@
-const r=(o,e)=>{o.gmpDraggable=!0,o.addListener("dragend",()=>{const n=o.position;e&&typeof e=="function"?e(n):console.warn("No se proporcionó una función válida para el movimiento del marcador.")})};export{r as e};
