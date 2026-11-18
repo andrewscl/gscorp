@@ -317,7 +317,7 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
             s.startTs       AS  startTs,
             s.endTs         AS  endTs,
             s.status        AS  status,
-            site.siteName   AS  siteName,
+            site.name       AS  siteName,
             sr.code         AS code,
             e.name          AS  employeeName,
             e.fatherSurname AS  employeeFatherSurname,
