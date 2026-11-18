@@ -7,6 +7,7 @@ console.log('Employee attendances list script loaded');
 const backToEmployeeAttendancesList = () => {
     const backAttendanceBtn  = qs('#backAttendanceBtn');
     if (backAttendanceBtn) {
+        console.log('Navigating back to employee attendances list');
         backAttendanceBtn.disabled = true;
         navigateTo('/private/attendance/employee-attendances-list');
     }
