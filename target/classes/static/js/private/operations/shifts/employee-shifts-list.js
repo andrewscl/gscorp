@@ -1,0 +1,1 @@
+import{n}from"../../../navigation-handler.js";import"../../../auth.js";const i=t=>document.querySelector(t),s=()=>{const t=i("#backshiftsBtn");t&&(t.disabled=!0,n("/private/shifts/employee-upcoming"))},c=()=>{const t=i("#backshiftsBtn");t&&t.addEventListener("click",s)};(function(){c()})();
