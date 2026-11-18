@@ -2,6 +2,8 @@ import { navigateTo } from '../../navigation-handler.js';
 
 const qs = (s) => document.querySelector(s);
 
+console.log('Employee attendances list script loaded');
+
 const backToEmployeeAttendancesList = () => {
     const backAttendanceBtn  = qs('#backAttendanceBtn');
     if (backAttendanceBtn) {
