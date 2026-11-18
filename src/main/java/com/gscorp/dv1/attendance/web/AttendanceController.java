@@ -123,7 +123,7 @@ public class AttendanceController {
         return "private/attendance/fragments/attendance-table-rows :: rows";
     }
 
-    @GetMapping("/employee-list")
+    @GetMapping("/employee-attendances-list")
     public String getEmployeeListView (
         Model model,
         @AuthenticationPrincipal SecurityUser securityUser,
@@ -147,7 +147,7 @@ public class AttendanceController {
         model.addAttribute("count", attendanceSearchResult.punchsPage().getTotalElements());
         model.addAttribute("fromDate", attendanceSearchResult.from());
         model.addAttribute("toDate", attendanceSearchResult.to());
-        return "private/attendance/fragments/attendance-employee-list";
+        return "private/attendance/fragments/employee-attendances-list";
     }
 
 }
