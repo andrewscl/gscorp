@@ -7,7 +7,7 @@ const AttendancesHistory = () => {
     const attendanceHistoryBtn  = qs('#btn-rrhh-history');
     if (attendanceHistoryBtn) {
         attendanceHistoryBtn.disabled = true;
-        navigateTo('/private/attendance/employee-list');
+        navigateTo('/private/attendance/employee-attendances-list');
     }
 };
 
