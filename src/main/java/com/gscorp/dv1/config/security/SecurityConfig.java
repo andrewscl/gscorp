@@ -48,6 +48,13 @@ public class SecurityConfig {
 
         http.exceptionHandling(exception -> exception
             .authenticationEntryPoint((request, response, authException) -> {
+                String accept = request.getHeader("Accept");
+                boolean isHtml = accept != null && accept.contains("text/html");
+                boolean isAjax = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
+                if (isHtml && !isAjax) {
+                    response.sendRedirect("/auth/login");
+                    return;
+                }
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.setContentType("application/json");
                 response.getWriter().write("{\"error\": \"Expired session\"}");
