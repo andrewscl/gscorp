@@ -26,16 +26,16 @@
                 th:value="${to != null ? #temporals.format(to, 'yyyy-MM-dd') : (toDate != null ? #temporals.format(toDate, 'yyyy-MM-dd') : '')}" />
         </label>
 
-        <th:block id="employeeAttendancesActions"></th:block>
-
         <div class="filter-item item-action">
             <button class="btn btn-primary" id="searchAttendanceBtn">
             Buscar
-            </button>
-            <button class="btn btn-secondary" id="backAttendanceBtn">
+            </button>        </div>
+    </th:block>
+
+    <th:block id="employeeAttendancesActions">
+            <button class="btn btn-secondary" id="backToDashboardBtn">
             Volver
             </button>
-        </div>
     </th:block>
 
     <tr id="punchHeader">

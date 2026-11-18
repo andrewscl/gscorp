@@ -10,6 +10,7 @@
         <span class="count" th:if="${count != null}" 
               th:text="${count != null} ? (${count} + ' registro' + (${count} == 1 ? '' : 's')) : '0 registros'">0 Registros</span>
       </div>
+
       <div class="hs-filters-actions-row">
         <div class="filter-group">
           <th:block th:replace="${filters}"></th:block>
@@ -19,6 +20,7 @@
           <th:block th:replace="${actions}"></th:block>
         </div>
       </div>
+
     </div>
 
   <div class="hs-table-container">

@@ -2,21 +2,18 @@ import { navigateTo } from '../../navigation-handler.js';
 
 const qs = (s) => document.querySelector(s);
 
-console.log('Employee attendances list script loaded');
-
-const backToEmployeeAttendancesList = () => {
-    const backAttendanceBtn  = qs('#backAttendanceBtn');
+const backToDashboard = () => {
+    const backAttendanceBtn  = qs('#backToDashboardBtn');
     if (backAttendanceBtn) {
-        console.log('Navigating back to employee attendances list');
         backAttendanceBtn.disabled = true;
-        navigateTo('/private/attendance/employee-attendances-list');
+        navigateTo('/private/operations/dashboards/security-operator');
     }
 };
 
 const bindEvents = () => {
-    const backAttendanceBtn = qs('#backAttendanceBtn');
+    const backAttendanceBtn = qs('#backToDashboardBtn');
     if (backAttendanceBtn) {
-        backAttendanceBtn.addEventListener('click', backToEmployeeAttendancesList);
+        backAttendanceBtn.addEventListener('click', backToDashboard);
     }
 }
 
