@@ -316,9 +316,18 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
             s.shiftDate     AS  shiftDate,
             s.startTs       AS  startTs,
             s.endTs         AS  endTs,
-            s.status        AS  status
+            s.status        AS  status,
+            site.siteName   AS  siteName,
+            sr.code         AS code,
+            e.name          AS  employeeName,
+            e.fatherSurname AS  employeeFatherSurname,
+            sz.name         AS  siteZoneName
             FROM Shift s
             JOIN s.assignment sa
+            JOIN sa.shiftRequest sr
+            JOIN sa.employee e
+            JOIN s.site site
+            JOIN site.siteZones sz
             WHERE sa.employee.externalId = :employeeExternalId
             AND s.startTs >= :now
             AND s.status IN :statuses
