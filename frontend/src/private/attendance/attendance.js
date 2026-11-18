@@ -256,9 +256,7 @@ function bindEvents() {
     }
     if (btnOut) {
       btnOut.addEventListener('click', () => {
-        if (!window.confirm('¿Está seguro que desea marcar la salida?')) {
           punch('OUT');
-        }
       }); 
     }
 }
