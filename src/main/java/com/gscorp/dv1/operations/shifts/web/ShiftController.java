@@ -122,6 +122,7 @@ public class ShiftController {
         List<ShiftDto> shifts = shiftService.getUpcomingShiftsForEmployee(
             securityUser, shiftsToShow, zoneId
         );
+        System.out.println("Upcoming shifts: " + shifts);
         model.addAttribute("shifts", shifts);
         return "private/operations/shifts/fragments/employee-shifts-list";
     }

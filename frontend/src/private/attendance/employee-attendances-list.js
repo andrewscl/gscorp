@@ -8,7 +8,7 @@ const backToDashboard = () => {
         backAttendanceBtn.disabled = true;
         navigateTo('/private/operations/dashboards/security-operator');
     }
-};
+}
 
 const bindEvents = () => {
     const backAttendanceBtn = qs('#backToDashboardBtn');
