@@ -54,6 +54,7 @@ public interface EmployeeEditProjection {
     Long getPositionId();
     String getPosition();
     String getCompany();
+    UUID getCompanyExternalId();
     EmployeeStatus getStatus();
     String getUsername();
     UserStatus getUserStatus();

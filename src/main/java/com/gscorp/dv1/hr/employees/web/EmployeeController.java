@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.gscorp.dv1.admin.companies.application.CompanyService;
 import com.gscorp.dv1.admin.projects.application.ProjectService;
 import com.gscorp.dv1.admin.projects.web.dto.ProjectDto;
+import com.gscorp.dv1.admin.projects.web.dto.ProjectSelectDto;
 import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.core.bank.application.BankService;
 import com.gscorp.dv1.core.nationalities.application.NationalityService;
@@ -41,9 +42,7 @@ import com.gscorp.dv1.hr.employees.application.EmployeeTabsServiceImpl;
 import com.gscorp.dv1.hr.employees.web.dto.EmployeeTableDto;
 import com.gscorp.dv1.hr.employees.web.dto.EmployeeViewDto;
 import com.gscorp.dv1.operations.shiftpatterns.application.ShiftPatternService;
-import com.gscorp.dv1.users.application.UserScopeService;
 import com.gscorp.dv1.users.application.UserService;
-import com.gscorp.dv1.users.application.dto.ProjectScope;
 
 import lombok.AllArgsConstructor;
 
@@ -62,7 +61,6 @@ public class EmployeeController {
     private PositionService positionService;
     private EmployeeTabsServiceImpl employeeTabsService;
     private CompanyService companyService;
-    private UserScopeService userScopeService;
 
     @GetMapping("/table-view")
     public String getEmployeesTableView (
@@ -137,17 +135,18 @@ public class EmployeeController {
                     Model model,
                     @AuthenticationPrincipal SecurityUser securityUser
                     ){
-        ProjectScope scope = userScopeService.getProjectScope();
-        List<ProjectDto> projects = projectService.findByUserScope(
-                                                        scope.ignoreFilter(),
-                                                        scope.projectIds(),
-                                                        null);
         List<ProfessionSelectDto> professions = professionService.findProfessionSelectDtosByEmployeeId(externalId);
         var employee = employeeService.findByExternalIdEditEmployee(externalId);
-        List<Long> projectIds = projects
+        List<ProjectDto> projects = projectService.findDtosByCompanyExternalId(employee.companyExternalId());
+        List<UUID> projectExternalIds = projects
                                     .stream()
-                                    .map(p -> p.id())
+                                    .map(p -> p.externalId())
                                     .toList();
+        List<ProjectSelectDto> projectSelectDtos = projectService.findProjectSelectDtosByEmployeeExternalId(employee.externalId());
+        List<UUID> projectSelectExternalIds = projectSelectDtos
+                                                .stream()
+                                                .map(p -> p.externalId())
+                                                .toList();
         List<Long> professionIds = professions
                                     .stream()
                                     .map(p -> p.id())
@@ -175,8 +174,9 @@ public class EmployeeController {
         model.addAttribute("shiftSystems", ShiftSystem.values());
         model.addAttribute("shiftPatterns", shiftPatternService.findAll());
         model.addAttribute("positions", positionService.findAll());
-        model.addAttribute("projects", projectService.findAll());
-        model.addAttribute("projectIds", projectIds);
+        model.addAttribute("projects", projects);
+        model.addAttribute("projectExternalIds", projectExternalIds);
+        model.addAttribute("projectSelectExternalIds", projectSelectExternalIds);
         model.addAttribute("professionIds", professionIds);
         return "private/employees/fragments/edit-employee";
     }

@@ -14,18 +14,29 @@
         </div>
         <div class="edit-header-text">
             <div class="edit-header-text-title">
-                <h3>Editar empleado</h3>
+                <h4>Editar empleado</h4>
             </div>
             <div class="edit-header-text-info">
                 <span th:text="${employee.name + ' ' +
                                     employee.fatherSurname + ' ' +
                                     employee.motherSurname}"></span>
-                <span th:text="${employee.position}"></span>
-                <span th:text="${employee.mail + ' | ' + employee.phone}"></span>
                 <span th:if="${employee.userStatus != null}"
                     th:text="${employee.username != null ? employee.username + ' | ' + employee.userStatus.displayName : employee.userStatus.displayName}">
                 </span>
                 <span th:unless="${employee.userStatus != null}">Sin Invitar</span>
+            </div>
+            <div class="form-group">
+                <label>Proyectos asociados</label>
+                <div class="checkbox-group-container">
+                    <div th:each="p : ${projects}" class="checkbox-item">
+                        <input type="checkbox" 
+                                name="projectExternalIds" 
+                                th:id="${'project_' + p.externalId}" 
+                                th:value="${p.externalId}"
+                                th:checked="${projectSelectExternalIds.contains(p.externalId)}"/>
+                        <label th:for="${'project_' + p.externalId}" th:text="${p.name}"></label>
+                    </div>
+                </div>
             </div>
         </div>
 

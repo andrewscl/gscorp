@@ -55,6 +55,7 @@ public record EmployeeEditDto (
     Long positionId,
     String position,
     String company,
+    UUID companyExternalId,
     EmployeeStatus status,
     String username,
     UserStatus userStatus
@@ -95,6 +96,7 @@ public record EmployeeEditDto (
             p.getPositionId(),
             p.getPosition(),
             p.getCompany(),
+            p.getCompanyExternalId(),
             p.getStatus(),
             p.getUsername(),
             p.getUserStatus()
