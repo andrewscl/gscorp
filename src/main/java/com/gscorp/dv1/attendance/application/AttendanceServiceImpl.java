@@ -19,13 +19,15 @@ import com.gscorp.dv1.attendance.infrastructure.AttendancePunchProjection;
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
 import com.gscorp.dv1.attendance.infrastructure.projections.AttendancePunchShortProjection;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchDto;
-import com.gscorp.dv1.attendance.web.dto.AttendancePunchPointDto;
 import com.gscorp.dv1.attendance.web.dto.AttendanceSearchResult;
 import com.gscorp.dv1.attendance.web.dto.CreateAttendancePunchRequest;
-import com.gscorp.dv1.attendance.web.dto.AttendancesHourlyCountDto;
-import com.gscorp.dv1.attendance.web.dto.DashboardHeaderInfo;
+import com.gscorp.dv1.attendance.web.dto.dashboard.AttendanceCardState;
+import com.gscorp.dv1.attendance.web.dto.dashboard.DashboardHeaderInfo;
+import com.gscorp.dv1.attendance.web.dto.statistics.AttendancePunchPointDto;
+import com.gscorp.dv1.attendance.web.dto.statistics.AttendancesHourlyCountDto;
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.components.dto.ZoneResolutionResult;
+import com.gscorp.dv1.enums.AttendanceCardStatus;
 import com.gscorp.dv1.hr.employees.application.EmployeeService;
 import com.gscorp.dv1.hr.employees.web.dto.EmployeeSelectDto;
 import com.gscorp.dv1.operations.shifts.application.ShiftService;
@@ -681,8 +683,41 @@ public class AttendanceServiceImpl implements AttendanceService {
             }
             return AttendancePunchDto.fromProjection(p, formatted);
         });
-
         return new AttendanceSearchResult(result, fromDate, toDate);
+    }
+
+    @Transactional(readOnly = true)
+    public AttendanceCardState getAttendanceCardState(
+                                UUID userExternalId,
+                                OffsetDateTime clientTs,
+                                String tz) {
+        Optional<Shift> active = shiftRepository.findActiveShiftToAssign(userExternalId);
+        if (active.isPresent()) {
+            return new AttendanceCardState (
+                AttendanceCardStatus.IN_PROGRESS,
+                "Registrar salida",
+                "Turno en curso",
+                null
+            );
+        }
+
+        Optional<Shift> planned = shiftRepository.findFirstShiftToAssign(
+                                                    userExternalId, clientTs);
+        if (planned.isPresent()) {
+            return new AttendanceCardState (
+                AttendanceCardStatus.CHECK_IN,
+                "Registrar entrada",
+                "Turno no iniciado",
+                null
+            );
+        }
+
+        return new AttendanceCardState (
+            AttendanceCardStatus.NO_SHIFT,
+            "No hay turno",
+            "No hay turno asignado",
+            null
+        );
     }
 
 }

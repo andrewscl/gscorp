@@ -52,7 +52,7 @@ public class SecurityConfig {
                 boolean isHtml = accept != null && accept.contains("text/html");
                 boolean isAjax = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
                 if (isHtml && !isAjax) {
-                    response.sendRedirect("/auth/login");
+                    response.sendRedirect("/auth/signin");
                     return;
                 }
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

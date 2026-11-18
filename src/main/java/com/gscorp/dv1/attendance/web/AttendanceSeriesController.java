@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.gscorp.dv1.attendance.application.AttendanceService;
-import com.gscorp.dv1.attendance.web.dto.AttendancesHourlyCountDto;
-import com.gscorp.dv1.attendance.web.dto.AttendancePunchPointDto;
+import com.gscorp.dv1.attendance.web.dto.statistics.AttendancePunchPointDto;
+import com.gscorp.dv1.attendance.web.dto.statistics.AttendancesHourlyCountDto;
 import com.gscorp.dv1.components.ZoneResolver;
 import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.users.application.UserService;

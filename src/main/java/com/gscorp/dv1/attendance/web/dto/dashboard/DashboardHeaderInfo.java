@@ -1,4 +1,4 @@
-package com.gscorp.dv1.attendance.web.dto;
+package com.gscorp.dv1.attendance.web.dto.dashboard;
 
 public record DashboardHeaderInfo (
     String greeting,

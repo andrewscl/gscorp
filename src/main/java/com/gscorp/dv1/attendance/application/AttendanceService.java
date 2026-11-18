@@ -1,6 +1,7 @@
 package com.gscorp.dv1.attendance.application;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
@@ -12,10 +13,11 @@ import com.gscorp.dv1.attendance.infrastructure.AttendancePunch;
 import com.gscorp.dv1.attendance.infrastructure.AttendancePunchRepo;
 import com.gscorp.dv1.attendance.web.dto.AttendanceSearchResult;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchDto;
-import com.gscorp.dv1.attendance.web.dto.AttendancePunchPointDto;
 import com.gscorp.dv1.attendance.web.dto.CreateAttendancePunchRequest;
-import com.gscorp.dv1.attendance.web.dto.AttendancesHourlyCountDto;
-import com.gscorp.dv1.attendance.web.dto.DashboardHeaderInfo;
+import com.gscorp.dv1.attendance.web.dto.dashboard.AttendanceCardState;
+import com.gscorp.dv1.attendance.web.dto.dashboard.DashboardHeaderInfo;
+import com.gscorp.dv1.attendance.web.dto.statistics.AttendancePunchPointDto;
+import com.gscorp.dv1.attendance.web.dto.statistics.AttendancesHourlyCountDto;
 
 public interface AttendanceService {
 
@@ -94,5 +96,9 @@ public interface AttendanceService {
         int size
     );
 
+    AttendanceCardState getAttendanceCardState(
+                                UUID userExternalId,
+                                OffsetDateTime clientTs,
+                                String tz);
 
 }

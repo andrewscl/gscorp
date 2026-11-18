@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gscorp.dv1.attendance.application.AttendanceService;
-import com.gscorp.dv1.attendance.web.dto.DashboardHeaderInfo;
+import com.gscorp.dv1.attendance.web.dto.dashboard.DashboardHeaderInfo;
 import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.hr.employees.application.EmployeeService;
 import com.gscorp.dv1.users.application.UserService;
@@ -66,5 +66,7 @@ public class OperationsController {
             model.addAttribute("message", dashboardHeaderInfo.message());
         return "private/ops/dashboards/templates/ops-operator-dashboard";
     }
+
+    
 
 }
