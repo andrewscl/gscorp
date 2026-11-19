@@ -21,9 +21,9 @@ export async function initShiftCoverageIngressDonuts(
       safeSetNoData(null, gridContainer, 'Sin datos de cobertura disponible');
       return;
     }
-    const template = document.getElementById('tmpl-hourly-donut-card') as HTMLTemplateElement | null;
+    const template = document.getElementById('shifts-coverage-ingress-donut-card') as HTMLTemplateElement | null;
     if (!template) {
-      console.error('No se encontró el template #tmpl-hourly-donut-card');
+      console.error('No se encontró el template #shifts-coverage-ingress-donut-card');
       return;
     }
 
