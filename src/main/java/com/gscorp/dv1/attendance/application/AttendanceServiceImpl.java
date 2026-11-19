@@ -652,23 +652,23 @@ public class AttendanceServiceImpl implements AttendanceService {
         if (active.isPresent()) {
             return new AttendanceCardState (
                 AttendanceCardStatus.IN_PROGRESS,
-                "Registrar salida",
-                "Turno en curso",
-                null
+                "Registrar salida", "Turno en curso", null
             );
         }
-
-        Optional<Shift> planned = shiftRepository.findFirstShiftToAssign(
-                                                    userExternalId, clientTs);
+        Optional<Shift> planned = shiftRepository.findFirstShiftToAssign(userExternalId, clientTs);
         if (planned.isPresent()) {
+            Shift shift = planned.get();
+            ZoneId zoneId = zoneResolver.resolveZone(userExternalId, tz).zoneId();
+            String startTime = shift.getStartTs()
+                                    .atZoneSameInstant(zoneId)
+                                    .format(DateTimeFormatter.ofPattern("HH:mm"));
+            String statusText = clientTs.isBefore(shift.getStartTs()) 
+                                    ? "Proximo tunro inicia a las " + startTime
+                                    : "Entrada pendiente, el turno comenzo a las " + startTime;
             return new AttendanceCardState (
                 AttendanceCardStatus.CHECK_IN,
-                "Registrar entrada",
-                "Turno no iniciado",
-                null
-            );
+                "Registrar entrada", statusText, null);
         }
-
         return new AttendanceCardState (
             AttendanceCardStatus.NO_SHIFT,
             "No hay turno",
