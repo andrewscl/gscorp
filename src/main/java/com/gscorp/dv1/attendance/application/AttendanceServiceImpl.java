@@ -647,15 +647,29 @@ public class AttendanceServiceImpl implements AttendanceService {
     public AttendanceCardState getAttendanceCardState(
                                 UUID userExternalId,
                                 String tz) {
+        ZoneId zoneId = zoneResolver.resolveZone(userExternalId, tz).zoneId();
+        OffsetDateTime now = OffsetDateTime.now(zoneId);
+        String lastPunchText = repo.findFirstByUserExternalIdOrderByTsDesc(userExternalId)
+                .map(punch -> {
+                    String date = punch.getTs()
+                        .atZoneSameInstant(zoneId)
+                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                    String action = switch (punch.getAction()) {
+                        case "IN" -> "Entrada";
+                        case "OUT" -> "Salida";
+                        default -> "Acción desconocida";
+                    };
+                    return "Último marcaje: " + date + " (" + action + ")";
+                })
+                .orElse("Sin marcaciones registradas.");
+
         Optional<Shift> active = shiftRepository.findActiveShiftToAssign(userExternalId);
         if (active.isPresent()) {
             return new AttendanceCardState (
                 AttendanceCardStatus.IN_PROGRESS,
-                "Registrar salida", "Turno en curso", null
+                "Registrar salida", "Turno en curso", lastPunchText
             );
         }
-        ZoneId zoneId = zoneResolver.resolveZone(userExternalId, tz).zoneId();
-        OffsetDateTime now = OffsetDateTime.now(zoneId);
         Optional<Shift> planned = shiftRepository.findFirstShiftToAssign(userExternalId, now);
         if (planned.isPresent()) {
             Shift shift = planned.get();
@@ -667,13 +681,10 @@ public class AttendanceServiceImpl implements AttendanceService {
                                     : "Entrada pendiente: el turno comenzó a las " + startTime;
             return new AttendanceCardState (
                 AttendanceCardStatus.CHECK_IN,
-                "Registrar entrada", statusText, null);
+                "Registrar entrada", statusText, lastPunchText);
         }
         return new AttendanceCardState (
-            AttendanceCardStatus.NO_SHIFT,
-            "No hay turno",
-            "No hay turno asignado",
-            null
+            AttendanceCardStatus.NO_SHIFT, "No hay turno", "No hay turno asignado", lastPunchText
         );
     }
 
