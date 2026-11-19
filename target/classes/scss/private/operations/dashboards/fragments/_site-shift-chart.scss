@@ -41,8 +41,8 @@
                 // Lienzo donde ECharts renderiza las barras
                 #site-coverage-bar-chart {
                     width: 100%;
-                    height: 16rem;
-                    min-height: 15rem;
+                    height: 14rem;
+                    min-height: 13rem;
                 }
             }
         }
@@ -52,7 +52,7 @@
                 padding: 0.875rem;
                 border-radius: 0.75rem;
                 .site-shifts-chart-container #site-coverage-bar-chart {
-                    height: 16rem;
+                    height: 14rem;
                 }
             }
         }
