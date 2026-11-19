@@ -1,1 +1,0 @@
-import{n as t}from"../../../navigation-handler.js";import"../../../auth.js";const a=o=>document.querySelector(o),n=()=>{const o=a("#backToDashboardBtn");o&&(o.disabled=!0,t("/private/operations/dashboards/security-operator"))},s=()=>{const o=a("#backToDashboardBtn");o&&o.addEventListener("click",n)};(function(){s()})();
