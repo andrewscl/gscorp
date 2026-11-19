@@ -281,11 +281,11 @@ p {
     height: 17rem;
   }
 }
-.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-chart-wrapper {
+.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper {
   display: flex;
   flex-direction: column;
 }
-.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-chart-wrapper .chart-section-title {
+.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .chart-section-title {
   font-family: "Montserrat", sans-serif;
   font-size: 0.875rem;
   font-weight: 600;
@@ -294,30 +294,30 @@ p {
   line-height: 1.2;
   margin: 0 0 1rem;
 }
-.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-chart-wrapper .shifts-coverage-donut-chart-container {
+.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .shifts-coverage-donut-container {
   display: flex;
   flex-wrap: wrap;
   gap: 1.25rem;
   width: 100%;
   margin-bottom: 1rem;
 }
-.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-chart-wrapper .shifts-coverage-donut-chart-container .shifts-coverage-donut-chart {
+.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .shifts-coverage-donut-container .shifts-coverage-donut-chart {
   flex: 1;
   min-width: 9.375rem;
   min-height: 10rem;
 }
 @media (max-width: 480px) {
-  .private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-chart-wrapper .shifts-coverage-donut-chart-container {
+  .private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .shifts-coverage-donut-container {
     gap: 0.75rem;
   }
-  .private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-chart-wrapper .shifts-coverage-donut-chart-container .card[data-card=hourly-shift-node] {
+  .private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .shifts-coverage-donut-container .card[data-card=hourly-shift-node] {
     min-width: 7.5rem;
     padding: 0.75rem;
   }
-  .private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-chart-wrapper .shifts-coverage-donut-chart-container .card[data-card=hourly-shift-node] .card-info .block-title {
+  .private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .shifts-coverage-donut-container .card[data-card=hourly-shift-node] .card-info .block-title {
     font-size: 0.75rem;
   }
-  .private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-chart-wrapper .shifts-coverage-donut-chart-container .card[data-card=hourly-shift-node] .card-info .card-totals .total-value {
+  .private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .shifts-coverage-donut-container .card[data-card=hourly-shift-node] .card-info .card-totals .total-value {
     font-size: 1.1rem;
   }
 }/*# sourceMappingURL=ops-dashboard.css.map */

@@ -6,7 +6,7 @@
 
 @mixin shifts-coverage-donut(){
 
-    .shifts-coverage-donut-chart-wrapper {
+    .shifts-coverage-donut-wrapper {
         display: flex;
         flex-direction: column;
 
@@ -17,7 +17,7 @@
             margin: 0 0 1rem;
         }
 
-        .shifts-coverage-donut-chart-container {
+        .shifts-coverage-donut-container {
                 display: flex;
                 flex-wrap: wrap; // Permite que salten de línea en pantallas ultra pequeñas
                 gap: 1.25rem;
