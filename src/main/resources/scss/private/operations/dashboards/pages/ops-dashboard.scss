@@ -1,5 +1,6 @@
 @use '../fragments/site-shift-chart' as * ;
 @use '../fragments/shifts-coverage-ingress-donut' as *;
+@use '../fragments/shifts-coverage-donut' as *;
 
 .private-layout{
     .main-content{
@@ -10,8 +11,13 @@
                 gap: 1.5rem;
                 width: 100%;
                 padding: 1rem;
-                @include site-shifts-chart-style();
                 @include shifts-coverage-ingress-donut();
+                .kpis-line{
+                    display: flex;
+                    gap: 1.5rem;
+                    @include site-shifts-chart-style();
+                    @include shifts-coverage-donut();
+                }
             }
         }
     }

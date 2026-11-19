@@ -4,7 +4,7 @@ import type { ChartController } from '../../types/chart-types';
 import type { ShiftsCountLast24HoursDto } from '../../types/ops-dashboard-types';
 import type { EChartsType } from 'echarts/core';
 
-export async function initShiftCoverageDonuts(
+export async function initShiftCoverageIngressDonuts(
   selector: string,
   options: { mkChart: (el: HTMLElement) => EChartsType | null }
 ): Promise<ChartController<ShiftsCountLast24HoursDto[]> | null> {

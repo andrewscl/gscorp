@@ -1,6 +1,7 @@
 import { ChartController } from "../types/chart-types";
 import { initSiteCoverageBarChart } from "../charts/site-coverage/site-coverage-bar-chart";
-import { initShiftCoverageDonuts } from "../charts/shifts/shifts-coverage-ingress-donut";
+import { initShiftCoverageIngressDonuts } from "../charts/shifts/shifts-coverage-ingress-donut";
+import { initShiftsCoverageDonut } from "../charts/shifts/shifts-coverage-donut";
 import { OpsDashboardService } from "../services/ops-dashboard-service";
 import { OperationsDashboardResponse } from "../types/ops-dashboard-types";
 import { mkChart } from "../lib/echarts-setup";
@@ -90,7 +91,9 @@ export async function init({ container }: { container: HTMLElement }) {
         await Promise.all([
             registerChart(initSiteCoverageBarChart, '#site-coverage-bar-chart',
                 (metrics) => metrics.projectSiteShiftsSummary),
-            registerChart(initShiftCoverageDonuts, '#shifts-coverage-ingress-donut',
+            registerChart(initShiftCoverageIngressDonuts, '#shifts-coverage-ingress-donut',
+                (metrics) => metrics.shiftsCountLast24Hours),
+            registerChart(initShiftsCoverageDonut, '#shifts-coverage-donut-chart',
                 (metrics) => metrics.shiftsCountLast24Hours),
         ]);
 

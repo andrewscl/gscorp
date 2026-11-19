@@ -1,0 +1,49 @@
+@use "sass:color";
+@use '../../../../abstracts/palette' as *;
+@use '../../../../abstracts/variables' as *;
+@use '../../../../abstracts/mixins' as *;
+@use '../../../../abstracts/typography' as *;
+
+@mixin shifts-coverage-donut(){
+
+    .shifts-coverage-donut-chart-wrapper {
+        display: flex;
+        flex-direction: column;
+
+        .chart-section-title {
+            @include montserrat-font(0.875rem, 600);
+            color: $heading-color;
+            line-height: 1.2;
+            margin: 0 0 1rem;
+        }
+
+        .shifts-coverage-donut-chart-container {
+                display: flex;
+                flex-wrap: wrap; // Permite que salten de línea en pantallas ultra pequeñas
+                gap: 1.25rem;
+                width: 100%;
+                margin-bottom: 1rem;
+                .shifts-coverage-donut-chart {
+                    flex: 1;
+                    min-width: 9.375rem;
+                    min-height: 10rem;
+                }
+                @media (max-width: 480px) {
+                    gap: 0.75rem;
+                    .card[data-card="hourly-shift-node"] {
+                        min-width: 7.5rem;
+                        padding: 0.75rem;
+                        
+                        .card-info .block-title {
+                            font-size: 0.75rem;
+                        }
+                        .card-info .card-totals .total-value {
+                            font-size: 1.1rem;
+                        }
+                    }
+                }
+        }
+    }
+}
+
+

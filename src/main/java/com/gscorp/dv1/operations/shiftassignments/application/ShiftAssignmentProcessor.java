@@ -1,6 +1,7 @@
 package com.gscorp.dv1.operations.shiftassignments.application;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -49,8 +50,19 @@ public class ShiftAssignmentProcessor {
         Long totalCycleDays = pattern.getTotalDays();   
         Long workDays = pattern.getWorkDays();
         List<Shift> assignedShifts = new ArrayList<>();
+        OffsetDateTime now = OffsetDateTime.now(zoneId);
         for (Shift shift : shifts) {
             if (shift.getShiftDate().isAfter(endDate)) break;
+            // Solo actualizar turnos futuros
+            if (!shift.getEndTs().isAfter(now)) continue;
+            // No reiniciar turnos que tuvieron marcaciones.
+            if (shift.getStartExecutionTs() != null
+                    || shift.getEndExecutionTs() != null
+                    || shift.getStatus() == ShiftStatus.IN_PROGRESS
+                    || shift.getStatus() == ShiftStatus.COMPLETED
+                    || shift.getStatus() == ShiftStatus.CANCELLED) continue;
+            ShiftAssignment shiftAssignment = shift.getAssignment();
+            if (shiftAssignment != null && !shiftAssignment.getId().equals(assignment.getId())) continue;
             long daysElapsed = ChronoUnit.DAYS.between(
                     startDate, shift.getShiftDate());
             long currentCycleDay =

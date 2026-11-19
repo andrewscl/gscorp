@@ -2,7 +2,10 @@
 
         <div th:replace="~{private/ops/dashboards/kpi/shifts-coverage-ingress-donut-chart :: content}"></div>
 
-        <div th:replace="~{private/ops/dashboards/kpi/site-shifts-chart :: content}"></div>
+        <div class="kpis-line">
+                <div th:replace="~{private/ops/dashboards/kpi/shifts-coverage-donut-chart :: content}"></div>
+                <div th:replace="~{private/ops/dashboards/kpi/site-shifts-chart :: content}"></div>
+        </div>
 
 </div>
 
