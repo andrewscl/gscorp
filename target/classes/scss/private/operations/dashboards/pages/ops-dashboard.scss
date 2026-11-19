@@ -11,12 +11,17 @@
                 gap: 1.5rem;
                 width: 100%;
                 padding: 1rem;
-                @include shifts-coverage-ingress-donut();
-                .kpis-line{
+                .dashboard-period{
                     display: flex;
+                    flex-direction: column;
                     gap: 1.5rem;
-                    @include site-shifts-chart-style();
-                    @include shifts-coverage-donut();
+                    @include shifts-coverage-ingress-donut();
+                    .kpis-line{
+                        display: flex;
+                        gap: 1.5rem;
+                        @include site-shifts-chart-style();
+                        @include shifts-coverage-donut();
+                    }
                 }
             }
         }
