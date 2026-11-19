@@ -8,7 +8,7 @@ import { displayAlert } from '../../shared/display-alert.js';
 let googleMapInstance = null;
 let userMarkerInstance = null;
 let sitesList = [];
-const MAX_DISTANCE_GEOFENCE = 100;
+const MAX_DISTANCE_GEOFENCE = 50;
 
 const qs  = (s) => document.querySelector(s);
 const alertSuccess = qs('.alert-success');
@@ -284,7 +284,7 @@ function getNearestSite(userLat, userLon, sites) {
 }
 
 const getCurrentPosition = ({
-  targetAccuracy = 100,
+  targetAccuracy = 50,
   maxAccuracy = MAX_DISTANCE_GEOFENCE,
   waitMs = 5000,
 } = {} ) => new Promise((resolve, reject) => {
