@@ -62,6 +62,52 @@
                 gap: 0.25rem;
                 color: $text-secondary-color;
             }
+            .form-group {
+                .checkbox-group-container {
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                    align-items: center;
+                    gap: 8px;
+                    max-height: 110px;
+                    overflow-y: auto;
+                    .checkbox-item {
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 6px;
+                        padding: 5px 12px;
+                        font-size: 0.85rem;
+                        transition: all 0.15s ease;
+                        cursor: pointer;
+                        &:hover {
+                            border-color: #94a3b8;
+                            background-color: #f8fafc;
+                        }
+                        &:has(input:checked) {
+                            border-color: #2563eb;
+                            background-color: #eff6ff;
+                            label {
+                                color: #1d4ed8;
+                                font-weight: 500;
+                            }
+                        }
+                        label {
+                            padding-left: 0;
+                            margin: 0;
+                            cursor: pointer;
+                            white-space: nowrap;
+                        }
+                        input[type="checkbox"] {
+                            cursor: pointer;
+                            accent-color: #2563eb;
+                            width: 15px;
+                            height: 15px;
+                            margin: 0;
+                            flex-shrink: 0;
+                        }
+                    }
+                }
+            }
         }
         .create-invite-account {
             @include roboto-font(0.875rem, 500);
