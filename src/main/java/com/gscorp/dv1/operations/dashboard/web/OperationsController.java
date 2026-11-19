@@ -1,7 +1,6 @@
 package com.gscorp.dv1.operations.dashboard.web;
 
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -58,7 +57,7 @@ public class OperationsController {
                 .ofPattern("EEEE, dd 'de' MMMM", new Locale("es", "ES")));
 
         DashboardHeaderInfo header = attendanceService.getDashboardHeader(externalId, tz);
-        AttendanceCardState card = attendanceService.getAttendanceCardState(externalId, OffsetDateTime.now(zoneId), tz);
+        AttendanceCardState card = attendanceService.getAttendanceCardState(externalId, tz);
         System.out.println("Dashboard Header Info: " + header);
         System.out.println("Attendance Card State: " + card);
 

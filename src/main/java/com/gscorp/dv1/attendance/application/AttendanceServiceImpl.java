@@ -115,7 +115,7 @@ public class AttendanceServiceImpl implements AttendanceService {
             nextAction = "OUT";
         } else {
             Optional<Shift> plannedShiftOpt = shiftRepository.findFirstShiftToAssign(
-                                                    userExternalId, req.getClientTs());
+                                                    userExternalId, now);
             System.out.println("Planned shift: " + plannedShiftOpt.orElse(null));
             if(plannedShiftOpt.isEmpty()){
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
@@ -646,7 +646,6 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Transactional(readOnly = true)
     public AttendanceCardState getAttendanceCardState(
                                 UUID userExternalId,
-                                OffsetDateTime clientTs,
                                 String tz) {
         Optional<Shift> active = shiftRepository.findActiveShiftToAssign(userExternalId);
         if (active.isPresent()) {
@@ -655,16 +654,17 @@ public class AttendanceServiceImpl implements AttendanceService {
                 "Registrar salida", "Turno en curso", null
             );
         }
-        Optional<Shift> planned = shiftRepository.findFirstShiftToAssign(userExternalId, clientTs);
+        ZoneId zoneId = zoneResolver.resolveZone(userExternalId, tz).zoneId();
+        OffsetDateTime now = OffsetDateTime.now(zoneId);
+        Optional<Shift> planned = shiftRepository.findFirstShiftToAssign(userExternalId, now);
         if (planned.isPresent()) {
             Shift shift = planned.get();
-            ZoneId zoneId = zoneResolver.resolveZone(userExternalId, tz).zoneId();
             String startTime = shift.getStartTs()
                                     .atZoneSameInstant(zoneId)
                                     .format(DateTimeFormatter.ofPattern("HH:mm"));
-            String statusText = clientTs.isBefore(shift.getStartTs()) 
-                                    ? "Proximo tunro inicia a las " + startTime
-                                    : "Entrada pendiente, el turno comenzo a las " + startTime;
+            String statusText = now.isBefore(shift.getStartTs()) 
+                                    ? "Próximo turno inicia a las " + startTime
+                                    : "Entrada pendiente: el turno comenzó a las " + startTime;
             return new AttendanceCardState (
                 AttendanceCardStatus.CHECK_IN,
                 "Registrar entrada", statusText, null);

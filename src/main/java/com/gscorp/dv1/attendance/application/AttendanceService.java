@@ -1,7 +1,6 @@
 package com.gscorp.dv1.attendance.application;
 
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
@@ -98,7 +97,6 @@ public interface AttendanceService {
 
     AttendanceCardState getAttendanceCardState(
                                 UUID userExternalId,
-                                OffsetDateTime clientTs,
                                 String tz);
 
 }

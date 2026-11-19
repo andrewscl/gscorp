@@ -79,28 +79,23 @@ async function initComponent() {
 
 async function syncAttendanceButtons() {
   try {
-    const res = await fetchWithAuth('/api/attendance/last-punch');
-    if (!res) throw new Error ('No se pudo obtener el ultimo estado.');
-    const lastPunch = await res.json();
-
-    console.log('[DEBUG] lastPunch:', lastPunch);
-    console.log('[DEBUG] lastPunch.action:', lastPunch.action);
-
-    const action = lastPunch?.action ? String(lastPunch.action).toUpperCase() : 'OUT';
-    console.log('[DEBUG] action:', action);
-
-    if (action === 'IN') {
-      // Está marcado IN → mostrar botón de SALIDA
-      console.log('[DEBUG] Showing OUT button (user is IN)');
-      setButtonsState(null, true);
-
-    } else {
-      // Está marcado OUT o sin registros → mostrar botón de ENTRADA
-      console.log('[DEBUG] Showing IN button (user is OUT or no records)');
-      setButtonsState(true, null);
+    const res = await fetchWithAuth('/api/attendance/attendance-card-state');
+    if (!res?.ok) throw new Error ('No se pudo obtener el estado del turno.');
+    const card = await res.json();
+    switch (card.status) {
+      case 'CHECK_IN':
+        setButtonsState(true, false);
+        break;
+      case 'IN_PROGRESS':
+        setButtonsState(false, true);
+        break;
+      case 'NO_SHIFT':
+      case 'COMPLETED':
+        setButtonsState(false, false);
+        break;
     }
   } catch (e) {
-    console.error('[Attendance] Error al consigurar los botones');
+    console.error('[attendance] syncAttendanceButtons failed', e);
     displayAlert(alertError, 'Error al sincronizar el estado del usuario', 4000);
     setButtonsState(false, false);
   }
@@ -178,8 +173,7 @@ async function punch(kind) {
         lat: pos.coords.latitude,
         lon: pos.coords.longitude,
         accuracy: pos.coords.accuracy,
-        clientTimeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        action: kind
+        clientTimeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
       };
       displayAlert(alertInfo, 'Registrando asistencia...', 3000);
       // Timeout de red (20s)

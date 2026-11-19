@@ -15,6 +15,7 @@ import com.gscorp.dv1.attendance.application.AttendanceService;
 import com.gscorp.dv1.attendance.application.AttendanceStatService;
 import com.gscorp.dv1.attendance.web.dto.AttendancePunchDto;
 import com.gscorp.dv1.attendance.web.dto.CreateAttendancePunchRequest;
+import com.gscorp.dv1.attendance.web.dto.dashboard.AttendanceCardState;
 import com.gscorp.dv1.attendance.web.dto.statistics.AttendanceDistributionMetricResponse;
 import com.gscorp.dv1.config.security.SecurityUser;
 import com.gscorp.dv1.operations.sites.application.SiteService;
@@ -122,5 +123,15 @@ public class AttendanceRestController {
 
         return metrics;
   }
+
+  @GetMapping("/attendance-card-state")
+  public AttendanceCardState getAttendanceCardState(
+              @AuthenticationPrincipal SecurityUser securityUser) {
+              
+      return attendanceService.getAttendanceCardState(
+                                  securityUser.getUser().getExternalId(),
+                                  securityUser.getUser().getTimeZone());
+  }
+
 
 }

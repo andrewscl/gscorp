@@ -14,5 +14,4 @@ public class CreateAttendancePunchRequest {
   private String ip;
   private String clientTimezone;
   private String timezoneSource;
-  private String action;
 }
