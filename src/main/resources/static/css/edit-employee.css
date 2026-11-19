@@ -174,6 +174,9 @@ p {
   flex-direction: column;
   justify-content: space-between;
 }
+.edit-employee .edit-employee-header .edit-header-text .edit-header-text-title h4 {
+  margin: 0;
+}
 .edit-employee .edit-employee-header .edit-header-text .edit-header-text-title {
   font-family: "Montserrat", sans-serif;
   font-size: 1.1rem;

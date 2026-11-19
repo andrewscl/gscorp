@@ -56,6 +56,9 @@
             flex-direction: column;
             justify-content: space-between;
             .edit-header-text-title {
+                h4 {
+                    margin: 0;
+                }
                 @include montserrat-font(1.1rem, 700);
                 color: $primary-color;
             }
