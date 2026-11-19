@@ -1,8 +1,12 @@
 package com.gscorp.dv1.hr.employees.web.dto.request;
 
 import java.time.LocalDate;
-import java.util.HashSet;
+import jakarta.validation.constraints.Email;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
+import java.util.HashSet;
+import java.util.UUID;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,7 +23,6 @@ import com.gscorp.dv1.enums.ShiftSystem;
 import com.gscorp.dv1.enums.StudyLevel;
 import com.gscorp.dv1.enums.WorkSchedule;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.PastOrPresent;
@@ -99,6 +102,6 @@ public class UpdateEmployeeRequest {
 
         private String address;
 
-        private Set<Long> projectIds = new HashSet<>();
+        private List<UUID> projectExternalIds = new ArrayList<>();
 
 }

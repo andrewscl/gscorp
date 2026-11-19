@@ -54,14 +54,10 @@ async function onSubmitEdit(e) {
   const birthDate           = qs('#employeeBirthDate')?.value || null;
   const exitDate            = qs('#employeeExitDate')?.value || null;
 
-  // Proyectos asociados (select múltiple)
-  let projectIds = [];
-  const projectsSelect = qs('#employeeProjects');
-  if (projectsSelect) {
-    projectIds = Array.from(projectsSelect.selectedOptions).map(opt => opt.value).filter(Boolean);
-  }
+  const projectExternalIds = Array.from(
+    document.querySelectorAll('input[name="projectExternalIds"]:checked')
+  ).map(input => input.value);
 
-  // Fotografía
   const photoInput = qs('#employeePhotoInput');
   let photo = null;
   if (photoInput && photoInput.files && photoInput.files[0]) {
@@ -106,7 +102,9 @@ async function onSubmitEdit(e) {
     if (exitDate) formData.append('exitDate', exitDate);
 
     // Proyectos asociados (MULTI)
-    projectIds.forEach(id => formData.append('projectIds', id));
+    projectExternalIds.forEach(
+        id => formData.append('projectExternalIds', id)
+    );
 
     // Ajusta el endpoint si en tu backend usas otro
     const res = await fetchWithAuth(`/api/employees/update/${externalId}`, {

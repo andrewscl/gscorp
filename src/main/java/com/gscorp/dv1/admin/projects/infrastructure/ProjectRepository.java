@@ -100,6 +100,20 @@ public interface ProjectRepository extends JpaRepository<Project, Long>{
         @Param("status") ProjectStatus status
     );
 
+
+    @Query("""
+        SELECT p
+        FROM Project p
+        WHERE (:ignoreProjectFilter = true OR p.id IN :projectIds)
+        AND (p.externalId IN :selectedExternalIds)
+        """)
+    List<Project> findAllByExternalIdIn(
+        @Param("ignoreProjectFilter") boolean ignoreProjectFilter,
+        @Param("projectIds") List<Long> projectIds,
+        @Param("selectedExternalIds") List<UUID> selectedExternalIds
+    );
+
+
     @Query("""
         SELECT p
         FROM Project p

@@ -362,18 +362,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     public Optional<EmployeeViewDto> updateEmployee(
                                         UUID externalId, UpdateEmployeeRequest req) {
-        
         if (externalId == null) {
             throw new IllegalArgumentException("El ID del empleado es requerido para la actualización.");
         }
-
-        // Cargar la entidad existente
+        ProjectScope scope = userScopeService.getProjectScope();
         Employee entity = employeeRepository.findByExternalId(externalId)
             .orElseThrow(
                 () -> new
                     EntityNotFoundException("No se encontró el empleado con ID: " + externalId));
 
-        // Inicializar relaciones perezosas (lazy)
         Hibernate.initialize(entity.getNationality());
         Hibernate.initialize(entity.getBank());
         Hibernate.initialize(entity.getShiftPattern());
@@ -382,7 +379,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         Hibernate.initialize(entity.getProfessions());
         Hibernate.initialize(entity.getUser());
 
-        // Actualizar los valores del empleado existente
         entity.setName(req.getName().trim());
         entity.setFatherSurname(req.getFatherSurname());
         entity.setMotherSurname(req.getMotherSurname());
@@ -391,18 +387,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         entity.setPhone(req.getPhone());
         entity.setSecondaryPhone(req.getSecondaryPhone());
         entity.setGender(req.getGender());
-        
-        // Actualización de relaciones con entidades externas
         entity.setNationality(req.getNationalityId() != null ? nationalityService.findById(req.getNationalityId()) : null);
 
-        // Actualizar profesiones
         if (req.getProfessionIds() != null) {
             Set<Profession> newProfessions = new HashSet<>(professionService.findAllById(req.getProfessionIds()));
-
-            //Quitar profesiones que ya no están
             entity.getProfessions().removeIf(profession -> !newProfessions.contains(profession));
-
-            //Agregar nuevas relaciones
             for (Profession newProfession : newProfessions) {
                 if (!entity.getProfessions().contains(newProfession)) {
                     entity.getProfessions().add(newProfession);
@@ -413,7 +402,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         entity.setBank(req.getBankId() != null ? bankService.findById(req.getBankId()) : null);
         entity.setPosition(req.getPositionId() != null ? positionService.findById(req.getPositionId()) : null);
         entity.setShiftPattern(req.getShiftPatternId() != null ? shiftPatternService.findById(req.getShiftPatternId()) : null);
-
         entity.setMaritalStatus(req.getMaritalStatus());
         entity.setStudyLevel(req.getStudyLevel());
         entity.setPrevitionalSystem(req.getPrevitionalSystem());
@@ -431,10 +419,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         entity.setAddress(req.getAddress());
         entity.setActive(true);
 
-
         String photoUrl = null;
         try {
-            //Fotografias
             MultipartFile photo = req.getPhoto();
             if(photo != null && !photo.isEmpty()) {
                 // Generar el nombre del archivo
@@ -444,40 +430,45 @@ public class EmployeeServiceImpl implements EmployeeService {
                     fileExtension = originalFilename.substring(originalFilename.lastIndexOf('.'));
                 }
                 String storedFilename = UUID.randomUUID().toString() + fileExtension;
-
-                //Directorio fisico donde se guardara el archivo
                 File dest = new File(uploadDir, "photos");
                 if(!dest.exists()) dest.mkdirs();
                 File storedFile = new File(dest, storedFilename);
                 photo.transferTo(storedFile);
                 photoUrl = "/files/employee_photos/photos/" + storedFilename;
             }
-
         } catch (IOException e) {
             throw new RuntimeException("Error al guardar los archivos multimedia", e);
         }
 
-        //Actualiza la fotografia solo si se envio una nueva
         if(photoUrl != null){
         entity.setPhotoUrl(photoUrl);
         }
 
-        // Actualizar projects
-        if (req.getProjectIds() != null) {
-            Set<Project> newProjects = new HashSet<>(projectService.findEntitiesById(req.getProjectIds()));
-
-            //Quitar proyectos que ya no están
-            entity.getProjects().removeIf(project -> !newProjects.contains(project));
-
-            //Agregar nuevas relaciones
-            for (Project newProject : newProjects) {
-                if (!entity.getProjects().contains(newProject)) {
-                    entity.getProjects().add(newProject);
-                }
-            }
+        List<UUID> selectedProjectExternalIds = req.getProjectExternalIds();
+        Set<UUID> allowedProjectExternalIds = projectService
+                                .findDtosByCompanyExternalId(entity.getCompany().getExternalId())
+                                .stream()
+                                .map(p -> Objects.requireNonNull(p, "Project cannot be null").externalId())
+                                .collect(Collectors.toSet());
+        if (!allowedProjectExternalIds.containsAll(selectedProjectExternalIds)) {
+            throw new IllegalArgumentException("Algunos proyectos seleccionados no son válidos para la empresa del empleado");
+        }
+        List<Project> selectedProjects = projectRepository.findAllByExternalIdIn(
+                                            scope.ignoreFilter(),
+                                            scope.projectIds(),
+                                            selectedProjectExternalIds);
+        if (selectedProjects.size() != selectedProjectExternalIds.size()) {
+            throw new IllegalArgumentException("Algunos proyectos seleccionados no existen");
         }
 
-        // Guardar cambios en la base de datos
+        // Quitar proyectos visibles que fueron desmarcados
+        entity.getProjects().removeIf(project -> 
+                    allowedProjectExternalIds.contains(project.getExternalId())
+                    && !selectedProjectExternalIds.contains(project.getExternalId())
+        );
+
+        entity.getProjects().addAll(selectedProjects);
+
         Employee updatedEmployee = employeeRepository.save(entity);
 
         Optional<EmployeeViewProjection> projectionOpt = employeeRepository
