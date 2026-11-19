@@ -149,8 +149,8 @@ p {
 }
 .private-layout .main-content .content .client-dashboard .site-shifts-chart .site-shifts-chart-container #site-coverage-bar-chart {
   width: 100%;
-  height: 18rem;
-  min-height: 17rem;
+  height: 16rem;
+  min-height: 15rem;
 }
 @media (max-width: 480px) {
   .private-layout .main-content .content .client-dashboard .site-shifts-chart {
@@ -158,7 +158,7 @@ p {
     border-radius: 0.75rem;
   }
   .private-layout .main-content .content .client-dashboard .site-shifts-chart .site-shifts-chart-container #site-coverage-bar-chart {
-    height: 17rem;
+    height: 16rem;
   }
 }
 .private-layout .main-content .content .client-dashboard .shift-coverage-ingress-donut-wrapper {

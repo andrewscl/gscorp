@@ -1,3 +1,5 @@
+@use '../../../../abstracts/variables' as *;
+@use '../../../../abstracts/mixins' as *;
 @use '../fragments/site-shift-chart' as * ;
 @use '../fragments/shifts-coverage-ingress-donut' as *;
 @use '../fragments/shifts-coverage-donut' as *;
@@ -11,10 +13,17 @@
                 gap: 1.5rem;
                 width: 100%;
                 padding: 1rem;
+
                 .dashboard-period{
                     display: flex;
                     flex-direction: column;
                     gap: 1.5rem;
+                    .chart-section-title {
+                        @include montserrat-font(1.1rem, 600);
+                        color: $heading-color;
+                        line-height: 1.2;
+                        margin: 0 0 1rem;
+                    }
                     @include shifts-coverage-ingress-donut();
                     .kpis-line{
                         display: flex;
