@@ -1,0 +1,36 @@
+<section th:fragment="content" 
+            class="attendance-card"
+            th:classappend="${attendanceCardState == null
+                ? ' state--loading'
+                : (attendanceCardState.status.name() == 'IN_PROGRESS'
+                    ? ' state--checkout'
+                    : (attendanceCardState.status.name() == 'CHECK_IN'
+                        ? ' state--checkin'
+                        : ' state--idle'))}">
+
+    <div class="attendance-card__status">
+        <span class="status-dot"></span>
+        <span class="status-text" th:text="${message != null ? message : 'Turno no iniciado'}">Cargando estado...</span>
+    </div>
+
+    <div class="attendance-card__time">
+        <span class="current-time" id="card-hours-mins">00:00</span>
+        <span class="current-seconds" id="card-seconds">:00</span>
+    </div>
+
+    <button class="attendance-card__btn" id="attendance-card-btn"
+            type="button"
+            th:disabled="${attendanceCardState == null
+                            || attendanceCardState.status.name() == 'NO_SHIFT'
+                            || attendanceCardState.status.name() == 'COMPLETED'}">
+        <span class="btn-icon">⏱️</span>
+        <span class="btn-text" th:text="${nextAction}">Cargando...</span>
+    </button>
+
+    <div class="attendance-card__footer">
+        <p th:text="${lastPunchText != null ? lastPunchText : 'Información no disponible'}">Cargando...</p>
+    </div>
+
+  <script type="module" src="/js/private/mobile/dashboard/attendance-card.js"></script>
+
+</section>

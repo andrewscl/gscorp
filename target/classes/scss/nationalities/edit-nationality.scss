@@ -1,0 +1,122 @@
+.edit-nationality {
+  background: #f8fafc;
+  padding: 2rem 0;
+
+  h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 1.5rem;
+  }
+
+  .meta-id {
+    font-size: 1rem;
+    color: #64748b;
+    margin-bottom: 1.2rem;
+    strong {
+      color: #334155;
+    }
+  }
+
+  .card.form {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(30,41,59,0.08);
+    padding: 2rem 2.5rem 1.5rem 2.5rem;
+    max-width: 460px;
+    margin: 0 auto 1.5rem auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+
+    label {
+      font-size: .98rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: .1rem;
+    }
+    input[type="text"], input[type="number"] {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 1rem;
+      padding: .55rem .95rem;
+      color: #334155;
+      outline: none;
+      transition: border .18s;
+    }
+    input[readonly] {
+      color: #64748b;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      cursor: not-allowed;
+    }
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1.2rem;
+
+    .vs-btn {
+      padding: .6rem 1.2rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      background: #4177f6;
+      color: #fff;
+      border: none;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background .14s;
+      &.vs-secondary {
+        background: #e2e8f0;
+        color: #334155;
+        &:hover {
+          background: #cbd5e1;
+        }
+      }
+      &.vs-danger {
+        background: #ef4444;
+        color: #fff;
+        &:hover {
+          background: #991b1b;
+        }
+      }
+      &:hover:not(.vs-secondary):not(.vs-danger) {
+        background: #275bca;
+      }
+    }
+  }
+
+  .form-error {
+    color: #ef4444;
+    font-size: .98rem;
+    margin-top: .5rem;
+    display: none;
+  }
+
+  .form-ok {
+    color: #22c55e;
+    font-size: .98rem;
+    margin-top: .5rem;
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .edit-nationality {
+    padding: 1rem 0;
+    .card.form {
+      padding: 1rem .7rem 1rem .7rem;
+      max-width: 99vw;
+    }
+  }
+}

@@ -1,0 +1,52 @@
+<section th:fragment="content" class="detail-section edit-position">
+
+  <h2 th:text="${position.id != null} ? 'Editar Cargo' : 'Nuevo Cargo'"></h2>
+  <p class="meta-id" th:if="${position.id != null}">
+    <strong>ID:</strong> <span th:text="${position.id}"></span>
+  </p>
+
+  <form id="editPositionForm" class="card form" data-path="/private/positions/update" th:object="${position}" method="post" autocomplete="off">
+
+    <input type="hidden" th:field="*{id}" />
+
+    <div class="form-group">
+      <label for="positionName">Nombre del cargo <span style="color:#ef4444">*</span></label>
+      <input id="positionName" name="name" type="text" th:field="*{name}" maxlength="255" required autofocus placeholder="Nombre del cargo"/>
+      <div class="form-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+    </div>
+
+    <div class="form-group">
+      <label for="positionDescription">Descripción</label>
+      <input id="positionDescription" name="description" type="text" th:field="*{description}" maxlength="300" placeholder="Descripción del cargo" />
+      <div class="form-error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+    </div>
+
+    <div class="form-group">
+      <label for="positionCode">Código</label>
+      <input id="positionCode" name="code" type="text" th:field="*{code}" maxlength="64" placeholder="Código único" />
+      <div class="form-error" th:if="${#fields.hasErrors('code')}" th:errors="*{code}"></div>
+    </div>
+
+    <div class="form-group">
+      <label for="positionLevel">Nivel</label>
+      <input id="positionLevel" name="level" type="number" th:field="*{level}" min="0" placeholder="Nivel jerárquico (opcional)" />
+      <div class="form-error" th:if="${#fields.hasErrors('level')}" th:errors="*{level}"></div>
+    </div>
+
+    <div class="form-group active-row">
+      <input id="positionActive" name="active" type="checkbox" th:field="*{active}" />
+      <label for="positionActive" style="margin:0">Activo</label>
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="vs-btn">Guardar</button>
+      <a class="vs-btn vs-secondary" href="#" data-path="/private/positions/table-view">Cancelar</a>
+    </div>
+
+    <div id="editPositionError" class="form-error"></div>
+    <div id="editPositionOk" class="form-ok" style="display:none;">Cambios guardados ✅</div>
+  </form>
+
+  <script type="module" src="/js/private/positions/edit-position.js"></script>
+
+</section>

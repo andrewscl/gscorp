@@ -40,11 +40,9 @@ import com.gscorp.dv1.users.application.dto.ProjectScope;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -499,58 +497,17 @@ public class AttendanceServiceImpl implements AttendanceService {
 
 
     @Transactional(readOnly = true)
-    public DashboardHeaderInfo getDashboardHeader (UUID userExternalId) {
+    public DashboardHeaderInfo getDashboardHeader (UUID userExternalId, String tz) {
+        ZoneId zoneId = zoneResolver.resolveZone(userExternalId, tz).zoneId();
+        int hour = LocalDateTime.now(zoneId).getHour();
 
-        int hour = LocalDateTime.now().getHour();
-        String greeting = hour < 12 ? "Buenos días" : hour < 18 ? "Buenas tardes" : "Buenas noches";
+        String greeting = hour < 12
+            ? "Buenos días"
+            : hour < 18 ? "Buenas tardes" : "Buenas noches";
+
         String emoji = hour < 12 ? "🌅" : hour < 18 ? "☀️" : "🌙";
 
-        Optional<AttendancePunchShortProjection> lastAttendancePunchOpt = repo.findFirstByUserExternalIdOrderByTsDesc(userExternalId);
-
-        if(lastAttendancePunchOpt.isEmpty()) {
-            String initialMessage =
-                hour < 12 ? "Recuerda marcar tu entrada de hoy." : "¿Ya marcaste tu entrada?";
-            return new
-                DashboardHeaderInfo(
-                    greeting,
-                    emoji,
-                    initialMessage, "Sin marcajes registrados.", "Registrar entrada");
-        }
-
-        AttendancePunchShortProjection punch = lastAttendancePunchOpt.get();
-
-        ZoneResolutionResult zoneResult = zoneResolver.resolveZone(
-            userExternalId, punch.getClientTimezone());
-        ZoneId zoneId = zoneResult.zoneId();
-
-        LocalDateTime punchLocalTime = punch.getTs().atZoneSameInstant(zoneId).toLocalDateTime();
-        LocalDateTime nowLocalTime = LocalDateTime.now(zoneId);
-
-        DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern("EEEE dd", new Locale("es", "ES"));
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-        String actionText = punch.getAction().equals("IN") ? "Entrada" : "Salida";
-
-        String lastPunchText = String.format("Último marcaje: %s, %s hrs (%s)",
-                                    punchLocalTime.format(dayFormatter),
-                                    punchLocalTime.format(timeFormatter),
-                                    actionText);
-
-        boolean isSameDay = punchLocalTime.toLocalDate().isEqual(nowLocalTime.toLocalDate());
-        boolean isRecentThreshold = ChronoUnit.HOURS.between(punchLocalTime, nowLocalTime) < 14;
-        boolean isPunchValidForToday = isSameDay || ("IN".equals(punch.getAction()) && isRecentThreshold );
-
-        String nextAction;
-        String message;
-
-        if (!isPunchValidForToday) {
-            nextAction = "Registrar entrada";
-            message = hour < 12 ? "Recuerda marcar tu entrada de hoy." : "¿Ya marcaste tu entrada?";
-        } else {
-            nextAction = "Registar entrada";
-            message = hour < 12 ? "Recuerda marcar tu entrada de hoy." : "¿Ya marcaste tu entrada?";
-        }
-
-        return new DashboardHeaderInfo(greeting, emoji, message, lastPunchText, nextAction);
+        return new DashboardHeaderInfo( greeting, emoji );
     }
 
 

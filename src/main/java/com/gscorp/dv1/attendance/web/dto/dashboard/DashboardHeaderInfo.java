@@ -2,8 +2,5 @@ package com.gscorp.dv1.attendance.web.dto.dashboard;
 
 public record DashboardHeaderInfo (
     String greeting,
-    String emoji,
-    String message,
-    String lastPunchText,
-    String nextAction
+    String emoji
 ){}

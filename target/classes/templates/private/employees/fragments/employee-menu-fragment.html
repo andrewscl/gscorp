@@ -1,0 +1,38 @@
+<section th:fragment="sidebar">
+    <div id="logo-container" class="logo-container">
+        <img id="logo" class="logo" th:src="@{/img/logo_sin_nombre.png}" alt="Logo" />
+    </div>
+    <nav class="menu">
+        <a class="menu-item">Inicio</a>
+        <details class="menu-group">
+            <summary class="menu-item">Asistencia</summary>
+            <div class="submenu">
+                <a class="submenu-item">Control de Asistencia</a>
+            </div>
+        </details>
+        <details class="menu-group">
+            <summary class="menu-item">Información</summary>
+            <div class="submenu">
+                <a class="submenu-item">Remuneraciones</a>
+                <a class="submenu-item">Solicitudes</a>
+            </div>
+        </details>
+        <a class="menu-item" href="#"
+                    data-path="/public/home">SESAN</a>
+    </nav>
+    <button class="toggle-sidebar" id="toggleSidebar">☰</button>
+</section>
+
+<th:block th:fragment="topbar">
+        <div class="topbar-left">
+            <div id="logo-container" class="logo-container">
+                <img id="logo" class="logo" th:src="@{/img/logo_sin_nombre.png}" alt="Logo" />
+            </div>
+            <h1 class="title">Operaciones</h1>
+        </div>
+        <div class="topbar-right">
+            <button class="topbar-burger" id="topbarToggleSidebar"
+                        aria-label="Abrir menú"
+                            aria-expanded="false">☰</button>
+        </div>
+</th:block>

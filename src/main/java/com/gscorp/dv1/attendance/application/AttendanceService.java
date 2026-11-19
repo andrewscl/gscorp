@@ -70,7 +70,7 @@ public interface AttendanceService {
         Long projectId
     );
 
-    DashboardHeaderInfo getDashboardHeader (UUID userExternalId);
+    DashboardHeaderInfo getDashboardHeader (UUID userExternalId, String tz);
 
     Page<AttendancePunchDto> getAttendanceTable(
         UUID userExternalId,

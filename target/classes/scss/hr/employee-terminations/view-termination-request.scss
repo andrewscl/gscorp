@@ -1,0 +1,101 @@
+@use '../../abstracts/panel-cards' as *;
+@use '../../abstracts/alerts' as *;
+@use '../../abstracts/buttons/footer-buttons' as *;
+@use '../../abstracts/buttons/btn-mixins' as *;
+@use '../../abstracts/palette' as *;
+@use '../../abstracts/typography' as *;
+@use '../../abstracts/variables' as *;
+@use '../../abstracts/mixins' as *;
+@use '../../abstracts/card-forms' as *;
+@use '../../abstracts/panels/panel-main' as *;
+
+.private-layout {
+    .main-content{
+        .content{
+            .view-employee-termination-request{
+                @include dual-panel-card();
+                .panel-container{
+                    .panel-main{
+                        @include panel-main($text-color: $text-secondary-color);
+                    }
+                    .panel-aside{
+                        align-items: stretch;
+                        justify-content: flex-start;
+                        padding: 2rem;
+                            // --- Estilos para el Listado de Documentos ---
+                            .documents-section {
+                                margin: 0;
+                                padding: 0;
+                                .section-title {
+                                    color: $text-color;
+                                    margin-top: 0;
+                                    margin-bottom: 1rem;
+                                    .document-count {
+                                        font-size: 0.9rem;
+                                        color: $text-secondary-color; // Un gris más suave para que sea informativo
+                                        font-weight: 500;
+                                        margin-left: 4px;
+                                    }
+                                }
+                                .documents-list {
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: 0.75rem;
+                                    overflow-y: auto;
+                                    padding-right: 0.4rem;
+                                    .document-item {
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: space-between;
+                                        padding: 0.75rem 1rem;
+                                        background-color: #ffffff;
+                                        border: 1px solid $border-color;
+                                        border-radius: $radius;
+                                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+                                        .document-info {
+                                            display: flex;
+                                            align-items: center;
+                                            gap: 1rem;
+                                            .document-badge {
+                                                display: inline-block;
+                                                padding: 0.4rem 0.8rem;
+                                                font-size: 0.85rem;
+                                                color: $text-color;
+                                                background-color: #ffffff;
+                                                border: 1px solid $border-color;
+                                                border-radius: 6px;
+                                            }
+                                        }
+                                        .btn-download {
+                                            @include roboto-font(0.875rem, 500);
+                                            @include btn-primary-variant (
+                                            $bg-color: $accent-blue,
+                                            $color: $white,
+                                            $padding: 0.4rem 1rem,
+                                            $border-radius: 0.4rem
+                                            );
+                                        }
+                                    }
+                                }
+                                .documents-empty {
+                                    padding: 1.5rem;
+                                    text-align: center;
+                                    font-size: 0.9rem;
+                                    color: $muted-color;
+                                    background-color: $background-color;
+                                    border: 1px dashed $border-color;
+                                    border-radius: $radius;
+                                }
+                            }
+                    }
+                }
+                .alert-container {
+                    @include alert-container();
+                }
+                .footer-actions {
+                    @include footer();
+                }
+            }
+        }
+    }
+}

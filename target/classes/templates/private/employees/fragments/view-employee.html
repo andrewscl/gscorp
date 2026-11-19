@@ -1,0 +1,73 @@
+<div class="view-employee" th:fragment="content">
+
+    <input type="hidden" id="employeeExternalId" th:value="${employee.externalId}">
+    <input type="hidden" id="employeeId" th:value="${employee.id}">
+    <input type="hidden" id="employeePositionId" th:value="${employee.positionId}">
+
+    <div class="view-employee-header">
+
+        <div class="ve-header-foto">
+            <div class="employeePhotoPreview" id="employeePhotoPreview">
+                <img th:if="${employee.photoUrl != null}" 
+                    th:src="${employee.photoUrl}" 
+                    alt="Foto del empleado">
+                
+                <svg th:unless="${employee.photoUrl != null}" 
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                </svg>
+            </div>
+        </div>
+
+        <div class="ve-header-text">
+            <div class="ve-header-text-title">
+                <h3>Ver empleado</h3>
+            </div>
+            <div class="ve-header-text-info">
+                <span th:text="${employee.name + ' ' +
+                                    employee.fatherSurname + ' ' +
+                                    employee.motherSurname}"></span>
+                <span th:text="${employee.position}"></span>
+                <span th:text="${employee.mail + ' | ' + employee.phone}"></span>
+                <span th:if="${employee.userStatus != null}"
+                    th:text="${employee.username != null ? employee.username + ' | ' + employee.userStatus.displayName : employee.userStatus.displayName}">
+                </span>
+                <span th:unless="${employee.userStatus != null}">Sin Invitar</span>
+            </div>
+        </div>
+
+        <button class="create-accounts"
+                id="createInviteAccount"
+                th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'') OR hasRole(''RRHH'')') and
+                        #strings.isEmpty(employee.username)}">
+            Crear Usuario
+        </button>
+        <button class="create-accounts"
+                id="resendInviteAccount"
+                th:if="${#authorization.expression('hasRole(''ADMINISTRATOR'') OR hasRole(''RRHH'')') and
+                        !#strings.isEmpty(employee.username)}">
+            Reenviar Invitación
+        </button>
+
+        <div th:replace="~{shared/fragments/buttons :: generic-buttons(
+            false, '',
+            true, 'Volver',
+            false, ''
+            )}">
+        </div>
+
+    </div>
+
+    <div th:replace="~{shared/fragments/form-alerts :: form-alerts}"></div>
+
+    <div th:replace="~{shared/fragments/panels/tab-panel-card :: tabPanelCard(
+        title='Empleado',
+        tabs=${employeeTabs},
+        customClass='employee-tabs'
+        )}">
+    </div>
+
+</div>
+
+<script type="module" src="/js/private/employees/view-employee.js"></script>
