@@ -61,7 +61,9 @@ import com.gscorp.dv1.users.infrastructure.User;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
@@ -443,7 +445,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         if(photoUrl != null){
         entity.setPhotoUrl(photoUrl);
         }
-
+        log.debug(req.getProjectExternalIds().toString());
         List<UUID> selectedProjectExternalIds = req.getProjectExternalIds();
         Set<UUID> allowedProjectExternalIds = projectService
                                 .findDtosByCompanyExternalId(entity.getCompany().getExternalId())

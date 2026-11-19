@@ -105,6 +105,7 @@ async function onSubmitEdit(e) {
     projectExternalIds.forEach(
         id => formData.append('projectExternalIds', id)
     );
+    console.log('Project External IDs:', formData.getAll('projectExternalIds'));
 
     // Ajusta el endpoint si en tu backend usas otro
     const res = await fetchWithAuth(`/api/employees/update/${externalId}`, {
