@@ -59,6 +59,8 @@ public class OperationsController {
 
         DashboardHeaderInfo header = attendanceService.getDashboardHeader(externalId, tz);
         AttendanceCardState card = attendanceService.getAttendanceCardState(externalId, OffsetDateTime.now(zoneId), tz);
+        System.out.println("Dashboard Header Info: " + header);
+        System.out.println("Attendance Card State: " + card);
 
             model.addAttribute("employee", employee);
             model.addAttribute("currentDate", formattedDate);
