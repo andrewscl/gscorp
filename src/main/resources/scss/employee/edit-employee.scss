@@ -51,6 +51,10 @@
             }
         }
         .edit-header-text {
+            align-self: stretch;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             .edit-header-text-title {
                 @include montserrat-font(1.1rem, 700);
                 color: $primary-color;

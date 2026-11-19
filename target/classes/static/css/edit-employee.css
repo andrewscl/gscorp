@@ -168,6 +168,12 @@ p {
 .edit-employee .edit-employee-header .edit-header-foto .btn-change-photo:active {
   transform: translateY(0);
 }
+.edit-employee .edit-employee-header .edit-header-text {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 .edit-employee .edit-employee-header .edit-header-text .edit-header-text-title {
   font-family: "Montserrat", sans-serif;
   font-size: 1.1rem;
