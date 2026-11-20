@@ -117,12 +117,7 @@ p {
 }
 .private-layout .main-content .content .client-dashboard .site-shifts-chart {
   width: 100%;
-  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-  border: 1px solid #e2e8f0;
-  border-radius: 0.875rem;
-  padding: 0 1rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0;
   position: relative;
   overflow: hidden;
 }
@@ -269,6 +264,9 @@ p {
     font-size: 0.75rem;
   }
   .private-layout .main-content .content .client-dashboard .shift-coverage-ingress-donut-wrapper .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info .card-totals .total-value {
+    font-size: 1.1rem;
+  }
+}/*# sourceMappingURL=client-dashboard.css.map */totals .total-value {
     font-size: 1.1rem;
   }
 }/*# sourceMappingURL=client-dashboard.css.map */

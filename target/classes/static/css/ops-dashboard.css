@@ -251,12 +251,7 @@ p {
 }
 .private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .site-shifts-chart {
   width: 100%;
-  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-  border: 1px solid #e2e8f0;
-  border-radius: 0.875rem;
-  padding: 0 1rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0;
   position: relative;
   overflow: hidden;
 }
@@ -327,7 +322,7 @@ p {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 1rem;
+  margin-top: 0.25rem;
 }
 .private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .card-info .card-totals {
   display: flex;
@@ -344,6 +339,9 @@ p {
 .private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .card-info .card-totals .total-unit {
   font-family: "Montserrat", sans-serif;
   font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}/*# sourceMappingURL=ops-dashboard.css.map */5rem;
   font-weight: 400;
   letter-spacing: 0.02em;
 }/*# sourceMappingURL=ops-dashboard.css.map */
