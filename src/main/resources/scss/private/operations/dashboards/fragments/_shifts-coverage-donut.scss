@@ -19,28 +19,15 @@
 
         .shifts-coverage-donut-container {
                 display: flex;
-                flex-wrap: wrap; // Permite que salten de línea en pantallas ultra pequeñas
-                gap: 1.25rem;
+                flex-direction: column;
+                align-items: center;
                 width: 100%;
-                margin-bottom: 1rem;
                 .shifts-coverage-donut-chart {
-                    flex: 1;
-                    min-width: 9.375rem;
-                    min-height: 10rem;
+                    width: 100%;
+                    height: 14rem;
                 }
                 @media (max-width: 480px) {
                     gap: 0.75rem;
-                    .card[data-card="hourly-shift-node"] {
-                        min-width: 7.5rem;
-                        padding: 0.75rem;
-                        
-                        .card-info .block-title {
-                            font-size: 0.75rem;
-                        }
-                        .card-info .card-totals .total-value {
-                            font-size: 1.1rem;
-                        }
-                    }
                 }
         }
     }
