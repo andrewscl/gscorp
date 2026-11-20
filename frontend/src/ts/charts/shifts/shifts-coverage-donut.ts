@@ -40,6 +40,13 @@ export async function initShiftsCoverageDonut(
       return;
     }
 
+    const wrapper = container.closest('.shifts-coverage-donut-wrapper');
+    const totalNode = wrapper?.querySelector('.total-value');
+    const metaNode = wrapper?.querySelector('.meta-value');
+
+    if (totalNode) totalNode.textContent = String(covered);
+    if (metaNode) metaNode.textContent = String(total);
+
     const uncovered = total - covered;
     const percentage = (covered / total * 100).toFixed(1);
 
@@ -52,8 +59,8 @@ export async function initShiftsCoverageDonut(
         label: {
           show: true,
           position: 'center',
-          formatter: `${percentage}%\n${covered} / ${total}`,
-          fontSize: 16,
+          formatter: `${percentage}%`,
+          fontSize: 20,
           fontWeight: 700
         },
         labelLine: { show: false },
