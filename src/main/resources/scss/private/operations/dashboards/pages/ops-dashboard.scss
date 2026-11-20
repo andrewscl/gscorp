@@ -13,6 +13,7 @@
                 flex-direction: column;
                 gap: 1.5rem;
                 width: 100%;
+                padding: 1.5rem;
                 .dashboard-period {
                     display: flex;
                     flex-direction: column;
@@ -23,7 +24,7 @@
                     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
                     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                     .dashboard-section-title {
-                        @include montserrat-font(0.95rem, 600);
+                        @include montserrat-font(0.9rem, 600);
                         color: $heading-color;
                         line-height: 1.2;
                         margin: 0 0 1rem;
