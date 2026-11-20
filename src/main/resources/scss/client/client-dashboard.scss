@@ -1,5 +1,9 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+@use '../abstracts/palette' as *;
 @use '../private/operations/dashboards/fragments/shifts-coverage-ingress-donut' as * ;
 @use '../private/operations/dashboards/fragments/site-shift-chart' as *;
+@use '../private/operations/dashboards/fragments/shifts-coverage-donut' as *;
 
 .private-layout{
     .main-content{
@@ -9,9 +13,34 @@
                 flex-direction: column;
                 gap: 1.5rem;
                 width: 100%;
-                padding: 1rem;
-                @include site-shifts-chart-style();
-                @include shifts-coverage-ingress-donut();
+                .dashboard-period {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1rem;
+                    padding: 1.5rem;
+                    background: linear-gradient(135deg, $white 0%, $slate-50 100%);
+                    border: 1px solid $border-color;
+                    border-radius: 0.875rem;
+                    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                    .dashboard-section-title {
+                        @include montserrat-font(1rem, 600);
+                        color: $heading-color;
+                        line-height: 1.2;
+                        margin: 0 0 1rem;
+                    }
+                    .kpis-line {
+                        display: grid;
+                        grid-template-columns: minmax(11rem, 1fr) minmax(0, 2fr);
+                        gap: 1.5rem;
+                        @media (max-width: 768px) {
+                            grid-template-columns: 1fr;
+                        }
+                        @include site-shifts-chart-style();
+                        @include shifts-coverage-donut();
+                    }
+                    @include shifts-coverage-ingress-donut();
+                }
             }
         }
     }
