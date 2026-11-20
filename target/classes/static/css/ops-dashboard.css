@@ -117,7 +117,7 @@ p {
 .private-layout .main-content .content .ops-dashboard-root .dashboard-period {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 .private-layout .main-content .content .ops-dashboard-root .dashboard-period .dashboard-section-title {
   font-family: "Montserrat", sans-serif;
@@ -127,6 +127,99 @@ p {
   color: #475569;
   line-height: 1.2;
   margin: 0 0 1rem;
+}
+.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line {
+  display: grid;
+  grid-template-columns: minmax(11rem, 1fr) minmax(0, 2fr);
+  gap: 1.5rem;
+}
+@media (max-width: 768px) {
+  .private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line {
+    grid-template-columns: 1fr;
+  }
+}
+.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .site-shifts-chart {
+  width: 100%;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .site-shifts-chart:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.08);
+  transform: translateY(-2px);
+}
+.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .site-shifts-chart .chart-header {
+  margin-bottom: 1rem;
+}
+.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .site-shifts-chart .chart-header .chart-title {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #475569;
+  letter-spacing: 0.3px;
+  margin: 0;
+}
+.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .site-shifts-chart .site-shifts-chart-container {
+  width: 100%;
+  position: relative;
+}
+.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .site-shifts-chart .site-shifts-chart-container #site-coverage-bar-chart {
+  width: 100%;
+  height: 14rem;
+  min-height: 13rem;
+}
+@media (max-width: 480px) {
+  .private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .site-shifts-chart {
+    padding: 0.875rem;
+    border-radius: 0.75rem;
+  }
+  .private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .site-shifts-chart .site-shifts-chart-container #site-coverage-bar-chart {
+    height: 14rem;
+  }
+}
+.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .shifts-coverage-donut-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .shifts-coverage-donut-container .shifts-coverage-donut-chart {
+  width: 100%;
+  height: 12rem;
+}
+@media (max-width: 30rem) {
+  .private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .shifts-coverage-donut-container {
+    gap: 0.75rem;
+  }
+}
+.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .card-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .card-info .card-totals {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .card-info .card-totals .total-value,
+.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .card-info .card-totals .meta-value {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .card-info .card-totals .total-unit {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
 }
 .private-layout .main-content .content .ops-dashboard-root .dashboard-period .shift-coverage-ingress-donut-wrapper {
   display: flex;
@@ -238,110 +331,10 @@ p {
   .private-layout .main-content .content .ops-dashboard-root .dashboard-period .shift-coverage-ingress-donut-wrapper .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info .card-totals .total-value {
     font-size: 1.1rem;
   }
-}
-.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line {
-  display: grid;
-  grid-template-columns: minmax(11rem, 1fr) minmax(0, 2fr);
-  gap: 1.5rem;
-}
-@media (max-width: 768px) {
-  .private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line {
-    grid-template-columns: 1fr;
+}/*# sourceMappingURL=ops-dashboard.css.map */ock-title {
+    font-size: 0.75rem;
   }
-}
-.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .site-shifts-chart {
-  width: 100%;
-  padding: 0;
-  position: relative;
-  overflow: hidden;
-}
-.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .site-shifts-chart:hover {
-  border-color: #cbd5e1;
-  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.08);
-  transform: translateY(-2px);
-}
-.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .site-shifts-chart .chart-header {
-  margin-bottom: 1rem;
-}
-.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .site-shifts-chart .chart-header .chart-title {
-  font-family: "Montserrat", sans-serif;
-  font-size: 0.875rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: #475569;
-  letter-spacing: 0.3px;
-  margin: 0;
-}
-.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .site-shifts-chart .site-shifts-chart-container {
-  width: 100%;
-  position: relative;
-}
-.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .site-shifts-chart .site-shifts-chart-container #site-coverage-bar-chart {
-  width: 100%;
-  height: 14rem;
-  min-height: 13rem;
-}
-@media (max-width: 480px) {
-  .private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .site-shifts-chart {
-    padding: 0.875rem;
-    border-radius: 0.75rem;
+  .private-layout .main-content .content .ops-dashboard-root .dashboard-period .shift-coverage-ingress-donut-wrapper .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info .card-totals .total-value {
+    font-size: 1.1rem;
   }
-  .private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .site-shifts-chart .site-shifts-chart-container #site-coverage-bar-chart {
-    height: 14rem;
-  }
-}
-.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper {
-  display: flex;
-  flex-direction: column;
-}
-.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .chart-section-title {
-  font-family: "Montserrat", sans-serif;
-  font-size: 0.875rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: #475569;
-  line-height: 1.2;
-  margin: 0 0 1rem;
-}
-.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .shifts-coverage-donut-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .shifts-coverage-donut-container .shifts-coverage-donut-chart {
-  width: 100%;
-  height: 14rem;
-}
-@media (max-width: 480px) {
-  .private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .shifts-coverage-donut-container {
-    gap: 0.75rem;
-  }
-}
-.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .card-info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 0.25rem;
-}
-.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .card-info .card-totals {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .card-info .card-totals .total-value,
-.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .card-info .card-totals .meta-value {
-  font-family: "Montserrat", sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .card-info .card-totals .total-unit {
-  font-family: "Montserrat", sans-serif;
-  font-size: 0.875rem;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-}/*# sourceMappingURL=ops-dashboard.css.map */5rem;
-  font-weight: 400;
-  letter-spacing: 0.02em;
 }/*# sourceMappingURL=ops-dashboard.css.map */
