@@ -12,22 +12,24 @@
                 flex-direction: column;
                 gap: 1.5rem;
                 width: 100%;
-                padding: 1rem;
-
                 .dashboard-period{
                     display: flex;
                     flex-direction: column;
                     gap: 1.5rem;
                     .dashboard-section-title {
-                        @include montserrat-font(1.1rem, 600);
+                        @include montserrat-font(1rem, 600);
                         color: $heading-color;
                         line-height: 1.2;
                         margin: 0 0 1rem;
                     }
                     @include shifts-coverage-ingress-donut();
                     .kpis-line{
-                        display: flex;
+                        display: grid;
+                        grid-template-columns: minmax(11rem, 1fr) minmax(0, 2fr);
                         gap: 1.5rem;
+                        @media (max-width: 768px) {
+                            grid-template-columns: 1fr;
+                        }
                         @include site-shifts-chart-style();
                         @include shifts-coverage-donut();
                     }

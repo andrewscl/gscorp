@@ -113,7 +113,6 @@ p {
   flex-direction: column;
   gap: 1.5rem;
   width: 100%;
-  padding: 1rem;
 }
 .private-layout .main-content .content .ops-dashboard-root .dashboard-period {
   display: flex;
@@ -122,7 +121,7 @@ p {
 }
 .private-layout .main-content .content .ops-dashboard-root .dashboard-period .dashboard-section-title {
   font-family: "Montserrat", sans-serif;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   color: #475569;
@@ -241,15 +240,21 @@ p {
   }
 }
 .private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(11rem, 1fr) minmax(0, 2fr);
   gap: 1.5rem;
+}
+@media (max-width: 768px) {
+  .private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line {
+    grid-template-columns: 1fr;
+  }
 }
 .private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .site-shifts-chart {
   width: 100%;
   background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
   border: 1px solid #e2e8f0;
   border-radius: 0.875rem;
-  padding: 1rem;
+  padding: 0 1rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
