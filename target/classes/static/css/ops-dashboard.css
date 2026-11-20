@@ -322,14 +322,28 @@ p {
   .private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .shifts-coverage-donut-container {
     gap: 0.75rem;
   }
-}/*# sourceMappingURL=ops-dashboard.css.map */out .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .shifts-coverage-donut-container .card[data-card=hourly-shift-node] {
-    min-width: 7.5rem;
-    padding: 0.75rem;
-  }
-  .private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .shifts-coverage-donut-container .card[data-card=hourly-shift-node] .card-info .block-title {
-    font-size: 0.75rem;
-  }
-  .private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .shifts-coverage-donut-container .card[data-card=hourly-shift-node] .card-info .card-totals .total-value {
-    font-size: 1.1rem;
-  }
+}
+.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .card-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+}
+.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .card-info .card-totals {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .card-info .card-totals .total-value,
+.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .card-info .card-totals .meta-value {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.private-layout .main-content .content .ops-dashboard-root .dashboard-period .kpis-line .shifts-coverage-donut-wrapper .card-info .card-totals .total-unit {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
 }/*# sourceMappingURL=ops-dashboard.css.map */
