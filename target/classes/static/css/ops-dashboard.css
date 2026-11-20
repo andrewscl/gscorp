@@ -113,12 +113,12 @@ p {
   flex-direction: column;
   gap: 1.5rem;
   width: 100%;
-  padding: 1.5rem;
 }
 .private-layout .main-content .content .ops-dashboard-root .dashboard-period {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  padding: 1.5rem;
   background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
   border: 1px solid #e2e8f0;
   border-radius: 0.875rem;
@@ -127,7 +127,7 @@ p {
 }
 .private-layout .main-content .content .ops-dashboard-root .dashboard-period .dashboard-section-title {
   font-family: "Montserrat", sans-serif;
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   color: #475569;
