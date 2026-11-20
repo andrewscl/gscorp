@@ -118,10 +118,15 @@ p {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 0.875rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .private-layout .main-content .content .ops-dashboard-root .dashboard-period .dashboard-section-title {
   font-family: "Montserrat", sans-serif;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   color: #475569;
@@ -326,12 +331,6 @@ p {
     padding: 0.75rem;
   }
   .private-layout .main-content .content .ops-dashboard-root .dashboard-period .shift-coverage-ingress-donut-wrapper .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info .block-title {
-    font-size: 0.75rem;
-  }
-  .private-layout .main-content .content .ops-dashboard-root .dashboard-period .shift-coverage-ingress-donut-wrapper .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info .card-totals .total-value {
-    font-size: 1.1rem;
-  }
-}/*# sourceMappingURL=ops-dashboard.css.map */ock-title {
     font-size: 0.75rem;
   }
   .private-layout .main-content .content .ops-dashboard-root .dashboard-period .shift-coverage-ingress-donut-wrapper .shifts-coverage-ingress-donut .card[data-card=hourly-shift-node] .card-info .card-totals .total-value {

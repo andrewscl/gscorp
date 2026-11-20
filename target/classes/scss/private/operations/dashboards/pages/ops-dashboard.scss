@@ -1,28 +1,34 @@
 @use '../../../../abstracts/variables' as *;
 @use '../../../../abstracts/mixins' as *;
+@use '../../../../abstracts/palette' as *;
 @use '../fragments/site-shift-chart' as * ;
 @use '../fragments/shifts-coverage-ingress-donut' as *;
 @use '../fragments/shifts-coverage-donut' as *;
 
-.private-layout{
-    .main-content{
-        .content{
-            .ops-dashboard-root{
+.private-layout {
+    .main-content {
+        .content {
+            .ops-dashboard-root {
                 display: flex;
                 flex-direction: column;
                 gap: 1.5rem;
                 width: 100%;
-                .dashboard-period{
+                .dashboard-period {
                     display: flex;
                     flex-direction: column;
                     gap: 1rem;
+                    background: linear-gradient(135deg, $white 0%, $slate-50 100%);
+                    border: 1px solid $border-color;
+                    border-radius: 0.875rem;
+                    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                     .dashboard-section-title {
-                        @include montserrat-font(1rem, 600);
+                        @include montserrat-font(0.95rem, 600);
                         color: $heading-color;
                         line-height: 1.2;
                         margin: 0 0 1rem;
                     }
-                    .kpis-line{
+                    .kpis-line {
                         display: grid;
                         grid-template-columns: minmax(11rem, 1fr) minmax(0, 2fr);
                         gap: 1.5rem;
