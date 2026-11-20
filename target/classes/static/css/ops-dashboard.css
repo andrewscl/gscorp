@@ -113,6 +113,7 @@ p {
   flex-direction: column;
   gap: 1.5rem;
   width: 100%;
+  padding: 1.5rem;
 }
 .private-layout .main-content .content .ops-dashboard-root .dashboard-period {
   display: flex;
@@ -126,7 +127,7 @@ p {
 }
 .private-layout .main-content .content .ops-dashboard-root .dashboard-period .dashboard-section-title {
   font-family: "Montserrat", sans-serif;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   color: #475569;
